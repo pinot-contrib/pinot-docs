@@ -30,7 +30,7 @@
     </tr>
     <tr>
       <td style="text-align:left">Weibo</td>
-      <td style="text-align:left">Video Analytics</td>
+      <td style="text-align:left">CDN &amp; Video related Data Analytics</td>
     </tr>
     <tr>
       <td style="text-align:left">Factual</td>

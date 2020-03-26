@@ -72,10 +72,10 @@
 ## PLUGINS
 
 * [Plugin Architecture](plugins/plugin-architecture.md)
-* [pinot-input-format](plugins/pinot-input-format.md)
-* [pinot-file-system](plugins/pinot-file-system.md)
-* [pinot-batch-ingestion](plugins/pinot-batch-ingestion.md)
-* [pinot-stream-ingestion](plugins/pinot-stream-ingestion.md)
+* [Pinot Input Format](plugins/pinot-input-format.md)
+* [Pinot File System](plugins/pinot-file-system.md)
+* [Pinot Batch Ingestion](plugins/pinot-batch-ingestion.md)
+* [Pinot Stream Ingestion](plugins/pinot-stream-ingestion.md)
 
 ## How To
 
