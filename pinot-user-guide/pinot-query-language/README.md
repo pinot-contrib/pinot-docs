@@ -313,7 +313,7 @@ SELECT MAX(DIV(foo, bar) FROM myTable
 </table>## Differences with SQL
 
 {% hint style="info" %}
-These differences only apply to the PQL endpoint. They do not hold true for the standard-SQL endpoint, which is the recommended endpoint. More information about the two types of endpoints in [Querying Pinot](querying-pinot-using-standard-sql.md#rest-api-on-the-broker)
+These differences only apply to the PQL endpoint. They do not hold true for the standard-SQL endpoint, which is the recommended endpoint. More information about the two types of endpoints in [Querying Pinot](../querying-pinot-using-standard-sql.md#rest-api-on-the-broker)
 {% endhint %}
 
 * `TOP` works like `LIMIT` for truncation in group by queries
