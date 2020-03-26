@@ -204,3 +204,11 @@ $ git push origin <your issue branch>
 * When you have addressed all comments and have an approved PR, one of the committers can merge your PR.
 * After your change is merged, check to see if any documentation needs to be updated. If so, create a PR for documentation.
 
+### Update Documentation
+
+Usually for new features, functionalities, API changes, documentation update is required to keep users up to date and keep track of our development.
+
+Please follow this link to [Update Document](update-document.md) accordingly.
+
+
+
