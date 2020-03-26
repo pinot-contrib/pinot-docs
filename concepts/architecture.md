@@ -193,8 +193,9 @@ In _Batch mode_, Data is ingested into _Pinot_ via _Ingestion Job_. _Ingestion J
 
 ![](../.gitbook/assets/real-time-flow.svg)
 
-* Stream data -&gt; Controller creates a new consuming segment in zookeeper -&gt; Helix notifies server to start consumption -&gt;  Servers starts consuming -&gt; Broker detects new consuming and includes it in the list of segments to query. 
-* Server detects the segment completion thresholds is reached and informs the controller. Controller checks with all replicas and picks a winner to commit the segment. Winner commits the segment and uploads it to deep storage and segment moves from consuming state to online state. Controller creates a new segment in consuming state
+At table creation, the _Controller_ creates a new entry in _Zookeeper_ for the consuming segment. _Helix_ notices the new segment and notifies the _Realtime server_, which start consuming data from the streaming source. The _Broker_, which watches for changes, detects the new segments and adds them to the list of segments to query.
+
+Whenever the segment is complete \(i.e. full\), the _Realtime server_ notifies the _Controller_, which checks with all replicas and picks a winner to commit the segment. The winner commits the segment and uploads it to the _Segment store_, updating the state of the segment from "consuming" to "online". Then the _Controller_ prepares a new segment in "consuming" state.
 
 
 
