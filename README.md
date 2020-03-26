@@ -33,8 +33,11 @@ Pinot works very well for querying time series data with lots of Dimensions and 
 
 ```text
 SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
-  WHERE ((daysSinceEpoch >= 17849 AND daysSinceEpoch <= 17856)) AND accountId IN (123456789)
-  GROUP BY daysSinceEpoch TOP 100
+  WHERE 
+       ((daysSinceEpoch >= 17849 AND daysSinceEpoch <= 17856)) AND 
+       accountId IN (123456789)
+  GROUP BY 
+       daysSinceEpoch TOP 100
 ```
 
 ## Who uses Pinot?
