@@ -38,6 +38,7 @@
   * [Setup cluster](operating-pinot/setup-cluster.md)
   * [Setup table](operating-pinot/setup-table.md)
   * [Setup ingestion](operating-pinot/setup-ingestion.md)
+  * [Access Control](operating-pinot/access-control.md)
   * [Monitoring](operating-pinot/monitoring.md)
   * [Tuning](operating-pinot/tuning/README.md)
     * [Realtime](operating-pinot/tuning/realtime.md)

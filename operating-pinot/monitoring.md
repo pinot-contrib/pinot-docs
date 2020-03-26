@@ -19,7 +19,7 @@ You would have to design your own systems to view and monitor these metrics. A l
 
 ### JMX to Prometheus
 
-Pinot publishes metrics to JMX, those metrics could be exposed to Prometheus through tooling like [jmx\_reporter](https://github.com/prometheus/jmx_exporter).
+Metrics published to JMX could also be exposed to Prometheus through tooling like [jmx\_reporter](https://github.com/prometheus/jmx_exporter).
 
 To run as a javaagent, [download jmx\_prometheus\_javaagent jar](https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar) and [pinot.yml](https://raw.githubusercontent.com/fx19880617/jmx_exporter/master/example_configs/pinot.yml) run:
 
