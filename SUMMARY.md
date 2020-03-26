@@ -81,6 +81,7 @@
 ## How To
 
 * [AWS Lambda/EC2 to send events to a Kafka running in AWS EKS](how-to/non-eks-to-eks.md)
+* [Batch Data Ingestion In Practice](how-to/batch-data-ingestion-in-practice.md)
 
 ## POWERED BY PINOT <a id="powered-by-pinot-1"></a>
 
