@@ -29,7 +29,7 @@
   * [Querying Pinot](pinot-user-guide/querying-pinot-using-standard-sql.md)
   * [Response Format](pinot-user-guide/response-format.md)
   * [Pinot Query Language](pinot-user-guide/pinot-query-language/README.md)
-    * [How to handle Unique Counting](pinot-user-guide/pinot-query-language/how-to-handle-unique-counting.md)
+    * [Unique Counting](pinot-user-guide/pinot-query-language/how-to-handle-unique-counting.md)
   * [Pinot Rest Admin Interface](pinot-user-guide/pinot-rest-admin-interface.md)
   * [Pinot Clients](pinot-user-guide/pinot-clients/README.md)
     * [Java](pinot-user-guide/pinot-clients/java.md)

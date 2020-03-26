@@ -1,4 +1,4 @@
-# How to handle Unique Counting
+# Unique Counting
 
 Unique counting is a classic problem. Pinot solves it with multiple ways to trade-off between accuracy and latency.
 
