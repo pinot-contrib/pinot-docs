@@ -10,7 +10,7 @@ description: >-
 
 Before upgrading from one version to another one, please read the release notes as there may be some incompatibilities between versions.
 
-## 0.3.0 \(WIP\)
+## 0.3.0 \(March 2020\)
 
 {% page-ref page="0.3.0.md" %}
 
