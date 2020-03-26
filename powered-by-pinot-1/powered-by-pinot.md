@@ -30,16 +30,14 @@
     </tr>
     <tr>
       <td style="text-align:left">Weibo</td>
-      <td style="text-align:left">CDN &amp; Video related Data Analytics</td>
+      <td style="text-align:left">Weibo uses Pinot for realtime analytics on CDN &amp; Weibo Video data
+        to make business decisions, optimize service performance and improve user
+        experience.</td>
     </tr>
     <tr>
       <td style="text-align:left">Factual</td>
       <td style="text-align:left">Insight Product - <a href="https://www.factual.com/products/insights/">https://www.factual.com/products/insights/</a>
       </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
     </tr>
   </tbody>
 </table>#### LinkedIn
