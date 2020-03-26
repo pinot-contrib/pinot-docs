@@ -2,21 +2,23 @@
 
 Pinot provides a web-based management console and a command-line utility \(`pinot-admin.sh`\) in order to help provision and manage pinot clusters.
 
-## Pinot Management Console
+## Pinot Admin UI
 
-The web based management console allows operations on tables, tenants, segments and schemas. You can access the console via `http://controller-host:port/help`. The console also allows you to enter queries for interactive debugging. Here are some screen-shots from the console.
+The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, tenants management, instances management, schema and table management, data segments management. You can access the console via `http://<controller-host>:<port>/help`. 
 
-![pinot-console](https://pinot.readthedocs.io/en/latest/_images/pinot-console.png)
+Here are some screen-shots from the console.
+
+![Pinot Controller Console](../.gitbook/assets/image%20%287%29.png)
 
 Listing all the schemas in the Pinot cluster:
 
-![list-schemas](https://pinot.readthedocs.io/en/latest/_images/list-schemas.png)
+![List all schema names](../.gitbook/assets/image%20%289%29.png)
 
 Rebalancing segments of a table:
 
 ![rebalance-table](https://pinot.readthedocs.io/en/latest/_images/rebalance-table.png)
 
-#### Command line utility \(pinot-admin.sh\)
+#### Command line Utility \(pinot-admin.sh\)
 
 The command line utility \(`pinot-admin.sh`\) locates at the bin directory in Pinot binary package.
 
