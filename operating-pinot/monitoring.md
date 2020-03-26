@@ -1,5 +1,22 @@
 # Monitoring
 
+### Metrics
+
+Pinot uses [yammer MetricsRegistry](https://metrics.dropwizard.io/4.0.0/) to collect metrics within our application components. These metrics can be published to a metrics server with the help of [MetricsRegistryRegistrationListener](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/MetricsRegistryRegistrationListener.java) interface. By default, metrics are published to JMX using the [JmxReporterMetricsRegistryRegistrationListener](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/JmxReporterMetricsRegistryRegistrationListener.java).
+
+You can write a listener to publish metrics to another metrics server by implementing the `MetricsRegistryRegistrationListener` interface. This listener can be injected into the controller by setting the fully qualified name of the class in the controller configs for the property `pinot.controller.metrics.metricsRegistryRegistrationListeners`.
+
+You would have to design your own systems to view and monitor these metrics. A list of all the metrics published for each component can be found in:
+
+* [ControllerMeter](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerMeter.java)
+* [ControllerGauge](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
+* [BrokerMeter](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
+* [BrokerGauge](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerGauge.java)
+* [ServerMeter](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerMeter.java)
+* [ServerGauge](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerGauge.java)
+* [MinionMeter](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/MinionMeter.java)
+* [MinionGauge](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/MinionGauge.java)
+
 ### JMX to Prometheus
 
 Pinot publishes metrics to JMX, those metrics could be exposed to Prometheus through tooling like [jmx\_reporter](https://github.com/prometheus/jmx_exporter).
