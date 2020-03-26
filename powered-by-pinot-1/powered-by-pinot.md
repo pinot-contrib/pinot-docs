@@ -21,8 +21,8 @@
     </tr>
     <tr>
       <td style="text-align:left">Uber</td>
-      <td style="text-align:left">Pinot powers many internal and external site facing analytics applications
-        like Uber Eats Restaurant Analytics.</td>
+      <td style="text-align:left">Pinot powers many internal and external dashboards as well as external
+        site facing analytics applications like <a href="https://eng.uber.com/restaurant-manager/">UberEats Restaurant Analytics</a>.</td>
     </tr>
     <tr>
       <td style="text-align:left">Microsoft</td>
@@ -40,25 +40,5 @@
       </td>
     </tr>
   </tbody>
-</table>#### LinkedIn
-
-LinkedIn uses Apache Pinot \(incubating\), for delivering fast analytics.
-
-#### Uber
-
-Uber uses Apache Pinot \(incubating\)
-
-#### Microsoft
-
-Microsoft uses Apache Pinot \(incubating\)
-
-#### Weibo
-
-Weibo uses Apache Pinot \(incubating\)
-
-#### Factual
-
-Factual uses Apache Pinot \(incubating\)
-
-### Companies using Thirdeye
+</table>
 
