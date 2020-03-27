@@ -4,7 +4,7 @@
 
 Pinot is a realtime distributed OLAP datastore, which is used at LinkedIn to deliver scalable real time analytics with low latency. It can ingest data from offline data sources \(such as Hadoop and flat files\) as well as streaming events \(such as Kafka\). Pinot is designed to scale horizontally, so that it can scale to larger data sets and higher query rates as needed.
 
-![](.gitbook/assets/pinot-introduction-1.svg)
+![](.gitbook/assets/pinot-introduction-2.svg)
 
 ## Features of Pinot
 
@@ -19,6 +19,18 @@ Pinot is a realtime distributed OLAP datastore, which is used at LinkedIn to del
 ## When should I use it?
 
 Pinot is designed to answer OLAP queries with low latency. It is suited in contexts where fast analytics, such as aggregations, are needed on immutable data, possibly, with real-time data ingestion.
+
+**User facing Analytics Products**
+
+Pinot was originally built at LinkedIn to power rich interactive real-time analytic applications such as [Who Viewed Profile](https://www.linkedin.com/me/profile-views/urn:li:wvmp:summary/),  [Company Analytics](https://www.linkedin.com/company/linkedin/insights/),  [Talent Insights](https://business.linkedin.com/talent-solutions/talent-insights), and many more. [UberEats Restaurant Manager](https://eng.uber.com/restaurant-manager/) is another example of a customer facing Analytics App. At LinkedIn, Pinot powers 50+ user facing products, ingesting _**millions of events per se**_c and serving **100k+ queries per second** at millisecond latency.
+
+**Realtime Dashboard for Business Metrics**
+
+Pinot can be also be used to perform typical analytical operations such as **slice** and **dice**, **drill down**, **roll up**, and pivot on large scale multi-dimensional data. For instance, at LinkedIn,  Pinot powers dashboards for thousands of Business Metrics. One can connect various BI tools such Superset, Tableau, PowerBI to visualize data in Pinot. See [Superset](integrations/superset.md) for instructions to connect Pinot with Superset.
+
+**Anomaly Detection** 
+
+Along with visualizing data in Pinot, one can run Machine Learning Algorithms to detect Anomalies on the data stored in Pinot. See [ThirdEye](integrations/thirdeye.md) for more information on how to use Pinot for Anomaly Detection and Root Cause Analysis.
 
 ## When should I not use it?
 
