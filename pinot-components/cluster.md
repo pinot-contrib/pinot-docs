@@ -82,7 +82,7 @@ Download Pinot Distribution using instructions in [Download](https://apache-pino
 ### 1. Start Zookeeper
 
 ```text
-bin/pinot-admin.sh StartZookeeper
+bin/pinot-admin.sh StartZookeeper -zkPort 2181
 ```
 
 ### 2. Start Zooinspector

@@ -30,7 +30,9 @@ docker run \
 {% tab title="Launcher Scripts" %}
 ```text
 bin/pinot-admin.sh StartController \
-    -zkAddress localhost:2181
+  -zkAddress localhost:2181 \
+  -clusterName PinotCluster \
+  -controllerPort 9000
 ```
 {% endtab %}
 {% endtabs %}

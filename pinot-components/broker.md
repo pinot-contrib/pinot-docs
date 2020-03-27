@@ -34,7 +34,9 @@ docker run \
 {% tab title="Launcher Script" %}
 ```
 bin/pinot-admin.sh StartBroker \
-    -zkAddress localhost:2181
+  -zkAddress localhost:2181 \
+  -clusterName PinotCluster \
+  -brokerPort 7000
 ```
 {% endtab %}
 {% endtabs %}
