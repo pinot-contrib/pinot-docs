@@ -19,7 +19,11 @@ Install Java 8 or higher.
 PINOT_VERSION=0.3.0
 ```
 
-### Build
+### Build from source or Download the distribution
+
+{% tabs %}
+{% tab title="Build from source " %}
+
 
 Follow these steps to checkout code from [Github](https://github.com/apache/incubator-pinot) and build Pinot locally
 
@@ -40,8 +44,10 @@ mvn install package -DskipTests -Pbin-dist
 # navigate to directory containing the setup scripts
 cd pinot-distribution/target/apache-pinot-incubating-$PINOT_VERSION-bin/apache-pinot-incubating-$PINOT_VERSION-bin
 ```
+{% endtab %}
 
-### Download
+{% tab title="Download the release" %}
+
 
 Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command 
 
@@ -58,6 +64,8 @@ tar -zxvf apache-pinot-incubating-$PINOT_VERSION-bin.tar.gz
 # navigate to directory containing the launcher scripts
 cd apache-pinot-incubating-$PINOT_VERSION-bin
 ```
+{% endtab %}
+{% endtabs %}
 
 {% hint style="info" %}
 If you want to run Pinot using a Docker image instead, head over to [Running Pinot in Docker](running-pinot-in-docker.md)
