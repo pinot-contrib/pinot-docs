@@ -70,7 +70,6 @@
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)
 * [Presto](integrations/presto.md)
-* [PowerBI](integrations/powerbi.md)
 
 ## PLUGINS
 
