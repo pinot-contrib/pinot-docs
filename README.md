@@ -26,7 +26,7 @@ Pinot was originally built at LinkedIn to power rich interactive real-time analy
 
 **Realtime Dashboard for Business Metrics**
 
-Pinot can be also be used to perform typical analytical operations such as **slice** and **dice**, **drill down**, **roll up**, and pivot on large scale multi-dimensional data. For instance, at LinkedIn,  Pinot powers dashboards for thousands of Business Metrics. One can connect various BI tools such Superset, Tableau, PowerBI to visualize data in Pinot. See [Superset](integrations/superset.md) for instructions to connect Pinot with Superset.
+Pinot can be also be used to perform typical analytical operations such as **slice** and **dice**, **drill down**, **roll up**, and pivot on large scale multi-dimensional data. For instance, at LinkedIn,  Pinot powers dashboards for thousands of Business Metrics. One can connect various BI tools such Superset, Tableau, PowerBI to visualize data in Pinot. Instructions to connect Pinot with Superset can found [here](integrations/superset.md).
 
 **Anomaly Detection** 
 
