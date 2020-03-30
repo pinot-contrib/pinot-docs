@@ -2,10 +2,7 @@
 
 ## PQL
 
-PQL is a derivative of SQL derivative that supports selection, projection, aggregation, grouping aggregation. There is no support for Joins or Subqueries. Specifically, for Pinot:
-
-* Aggregations are computed in parallel
-* Results of aggregations with large amounts of group keys \(&gt;1M\) are approximated
+PQL is a derivative of SQL derivative that supports selection, projection, aggregation, grouping aggregation. There is no support for Joins or Subqueries.
 
 ## PQL Limitations
 
