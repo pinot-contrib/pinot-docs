@@ -4,6 +4,12 @@ description: Pinot Quickstart local
 
 # Running Pinot locally
 
+## Video Tutorial
+
+Here's a video tutorial for setting up a Pinot cluster: [How to Setup a Pinot Cluster](https://www.youtube.com/watch?v=cNnwMF0pOJ8).
+
+Alternately, you can follow the step by step guid below.
+
 ## Getting Pinot
 
 First, let's get Pinot. You can either build it, or download it
