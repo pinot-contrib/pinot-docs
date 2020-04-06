@@ -220,7 +220,7 @@ After job finished, segments are stored in `examples/batch/airlineStats/segments
 Below example is running in a spark local mode. You can download spark distribution and start it by running:
 
 ```text
-wget https://downloads.apache.org/spark/spark-2.4.5/spark-2.4.5-bin-hadoop2.7.tg
+wget https://downloads.apache.org/spark/spark-2.4.5/spark-2.4.5-bin-hadoop2.7.tgz
 tar xvf spark-2.4.5-bin-hadoop2.7.tgz
 cd spark-2.4.5-bin-hadoop2.7
 ./bin/spark-shell --master 'local[2]'
