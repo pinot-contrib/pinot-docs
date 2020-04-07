@@ -139,14 +139,14 @@ Follow instruction in [Getting Pinot](./) to get Pinot
 ```text
 cd apache-pinot-incubating-${PINOT_VERSION}-bin
 bin/pinot-admin.sh StartZookeeper \
-  -zkPort 2181
+  -zkPort 2191
 ```
 
 ### 2. Start Pinot Controller
 
 ```text
 bin/pinot-admin.sh StartController \
-    -zkAddress localhost:2181 \
+    -zkAddress localhost:2191 \
     -controllerPort 9000
 ```
 
@@ -154,22 +154,22 @@ bin/pinot-admin.sh StartController \
 
 ```text
 bin/pinot-admin.sh StartBroker \
-    -zkAddress localhost:2181
+    -zkAddress localhost:2191
 ```
 
 ### 4. Start Pinot Server
 
 ```text
 bin/pinot-admin.sh StartServer \
-    -zkAddress localhost:2181
+    -zkAddress localhost:2191
 ```
 
 ### 5. Start Kafka
 
 ```text
 bin/pinot-admin.sh  StartKafka \ 
-  -zkAddress=localhost:2181/kafka \
-  -port 9092
+  -zkAddress=localhost:2191/kafka \
+  -port 19092
 ```
 
 Now all Pinot related components are started as an empty cluster.
