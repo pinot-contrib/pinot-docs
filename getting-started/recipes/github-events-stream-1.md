@@ -1,10 +1,10 @@
 ---
 description: >-
   Steps for setting up a Pinot cluster and a realtime table which consumes from
-  the Github events stream.
+  the GitHub events stream.
 ---
 
-# Github Events Stream
+# GitHub Events Stream
 
 ## Pull Request Merged Events Stream
 
@@ -21,9 +21,9 @@ In this recipe, we will
    d. Start server
 
 2. Set up a Kafka cluster
-3. Create a topic - pullRequestMergedEvents
+3. Create a Kafka topic - pullRequestMergedEvents
 4. Create a realtime table - pullRequestMergedEvents and a schema
-5. Start a task which reads from Github events API and publishes events about merged pull requests to the topic.
+5. Start a task which reads from [GitHub events API ](https://developer.github.com/v3/activity/events/)and publishes events about merged pull requests to the topic.
 6. Query the realtime data
 
 ## Steps
@@ -300,7 +300,7 @@ Start streaming GitHub events into the Kafka topic
 {% hint style="info" %}
 **Prerequisites**
 
-Generate a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) on Github.
+Generate a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) on GitHub.
 {% endhint %}
 
 ```text
@@ -322,7 +322,7 @@ For a single command to setup all the above steps
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-github-events-quick-start \
-    -d ${PINOT_IMAGE} StreamGithubEvents \
+    -d ${PINOT_IMAGE} StreamGitHubEvents \
     -personalAccessToken <your_github_personal_access_token> 
 ```
 {% endtab %}
@@ -582,7 +582,7 @@ Start streaming GitHub events into the Kafka topic
 {% hint style="info" %}
 **Prerequisites**
 
-Generate a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) on Github.
+Generate a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) on GitHub.
 {% endhint %}
 
 ```text
