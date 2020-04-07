@@ -588,7 +588,7 @@ $ cd kubernetes/helm
 $ kubectl apply -f pinot-github-realtime-events.yml
 ```
 
-### Query
+## Query
 
 Head over to the [Query Console](http://localhost:9000/query) to checkout the data!
 
