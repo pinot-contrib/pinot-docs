@@ -571,8 +571,9 @@ Add the table and schema using the command
 
 ```
 $ bin/pinot-admin.sh AddTable \
-  -tableConfigFile <path_to_configs>/examples/stream/githubEvents/pullRequestMergedEvents_realtime_table_config.json \
-  -schemaFile <path_to_configs>/examples/stream/githubEvents/pullRequestMergedEvents_schema.json -exec
+  -tableConfigFile $PATH_TO_CONFIGS/examples/stream/githubEvents/pullRequestMergedEvents_realtime_table_config.json \
+  -schemaFile $PATH_TO_CONFIGS/examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
+  -exec
 ```
 
 ### Publish events
@@ -590,15 +591,15 @@ $ bin/pinot-admin.sh StreamGitHubEvents \
   -topic pullRequestMergedEvents \
   -personalAccessToken <your_github_personal_access_token> \
   -kafkaBrokerList localhost:19092 \
-  -schemaFile <path_to_configs>/examples/stream/githubEvents/pullRequestMergedEvents_schema.json
+  -schemaFile $PATH_TO_CONFIGS/examples/stream/githubEvents/pullRequestMergedEvents_schema.json
 ```
 
 ## Short Version
 
 For a single command to setup all the above steps
 
-```text
-bin/pinot-admin.sh GithubEventsQuickStart \
+```bash
+$ bin/pinot-admin.sh GitHubEventsQuickStart \
   -personalAccessToken <your_github_personal_access_token>
 ```
 {% endtab %}
