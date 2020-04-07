@@ -4,7 +4,7 @@ description: >-
   the Github events stream.
 ---
 
-# Github Events Stream
+# Github Events Stream \(Old\)
 
 ## Pull Request Merged Events Stream
 
