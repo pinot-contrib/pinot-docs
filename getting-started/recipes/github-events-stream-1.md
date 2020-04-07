@@ -42,6 +42,8 @@ export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
 
+## Long Version
+
 ### Set up the Pinot cluster
 
 Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/getting-started/advanced-pinot-setup#start-pinot-components-using-docker) to setup the Pinot cluster with the components:
@@ -305,11 +307,23 @@ Generate a [personal access token](https://help.github.com/en/github/authenticat
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-github-events-into-kafka \
-    -d apachepinot/pinot:stream_github_events_demo StreamGithubEvents \
-    -schemaFile /tmp/githubEvents/schema.json \
+    -d ${PINOT_IMAGE} StreamGitHubEvents \
+    -schemaFile /examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
     -topic pullRequestMergedEvents \
     -personalAccessToken <your_github_personal_access_token> \
     -kafkaBrokerList kafka:9092 \
+```
+
+## Short Version
+
+For a single command to setup all the above steps
+
+```text
+docker run --rm -ti \
+    --network=pinot-demo \
+    --name pinot-github-events-quick-start \
+    -d ${PINOT_IMAGE} StreamGithubEvents \
+    -personalAccessToken <your_github_personal_access_token> 
 ```
 {% endtab %}
 
@@ -317,6 +331,8 @@ docker run --rm -ti \
 ### Get Pinot
 
 Follow instructions in [Build from source](https://docs.pinot.apache.org/getting-started/running-pinot-locally#build-from-source-or-download-the-distribution) to get the latest Pinot code
+
+## Long Version
 
 ### Set up the Pinot cluster
 
@@ -575,6 +591,15 @@ $ bin/pinot-admin.sh StreamGitHubEvents \
   -personalAccessToken <your_github_personal_access_token> \
   -kafkaBrokerList localhost:19092 \
   -schemaFile <path_to_configs>/examples/stream/githubEvents/pullRequestMergedEvents_schema.json
+```
+
+## Short Version
+
+For a single command to setup all the above steps
+
+```text
+bin/pinot-admin.sh GithubEventsQuickStart \
+  -personalAccessToken <your_github_personal_access_token>
 ```
 {% endtab %}
 {% endtabs %}
