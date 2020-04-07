@@ -229,7 +229,7 @@ The schema is present at `examples/stream/githubEvents/pullRequestMergedEvents_s
 The table config is present at `examples/stream/githubEvents/docker/pullRequestMergedEvents_realtime_table_config.json` and is also pasted below.
 
 {% hint style="info" %}
-Note  
+**Note**  
 If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster. 
 {% endhint %}
 
@@ -305,7 +305,7 @@ Generate a [personal access token](https://help.github.com/en/github/authenticat
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-github-events-into-kafka \
-    apachepinot/pinot:stream_github_events_demo StreamGithubEvents \
+    -d apachepinot/pinot:stream_github_events_demo StreamGithubEvents \
     -schemaFile /tmp/githubEvents/schema.json \
     -topic pullRequestMergedEvents \
     -personalAccessToken <your_github_personal_access_token> \

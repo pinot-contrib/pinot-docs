@@ -35,7 +35,7 @@ docker network create -d bridge pinot-demo
 Start Zookeeper in daemon.
 
 ```text
-docker run \
+docker run --rm -ti \
     --network=pinot-demo \
     --name  pinot-zookeeper \
     --restart always \
@@ -46,7 +46,7 @@ docker run \
 Start  [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
 
 ```text
-docker run \
+docker run --rm -ti \
 	--network pinot-demo --name=zkui \
 	-p 9090:9090 \
 	-e ZK_SERVER=pinot-zookeeper:2181 \
@@ -58,7 +58,7 @@ docker run \
 Start Pinot Controller in daemon and connect to Zookeeper.
 
 ```text
-docker run \
+docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-controller \
     -p 9000:9000 \
@@ -71,7 +71,7 @@ docker run \
 Start Pinot Broker in daemon and connect to Zookeeper.
 
 ```text
-docker run \
+docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-broker \
     -d ${PINOT_IMAGE} StartBroker \
@@ -84,7 +84,7 @@ Start Pinot Server in daemon and connect to Zookeeper.
 
 ```text
 export PINOT_IMAGE=apachepinot/pinot:0.3.0-SNAPSHOT
-docker run \
+docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-server \
     -d ${PINOT_IMAGE} StartServer \
@@ -96,7 +96,7 @@ docker run \
 Optionally, you can also start Kafka for setting up realtime streams. This brings up the Kafka broker on port 9092.
 
 ```
-docker run \
+docker run --rm -ti \
 	--network pinot-demo --name=kafka \
 	-e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
 	-e KAFKA_BROKER_ID=0 \
