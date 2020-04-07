@@ -17,7 +17,6 @@
   * [Stream sample data](getting-started/pushing-your-streaming-data-to-pinot.md)
   * [Advanced Pinot Setup](getting-started/advanced-pinot-setup.md)
   * [Recipes](getting-started/recipes/README.md)
-    * [Github Events Stream \(Old\)](getting-started/recipes/github-events-stream.md)
     * [Github Events Stream](getting-started/recipes/github-events-stream-1.md)
 * [Pinot Components](pinot-components/README.md)
   * [Cluster](pinot-components/cluster.md)
