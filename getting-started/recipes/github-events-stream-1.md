@@ -60,10 +60,10 @@ Create a Kafka topic called `pullRequestMergedEvents` for the demo.
 
 ```bash
 docker exec \
-  -t kafka \                                
-  /opt/kafka/bin/kafka-topics.sh \                             
-  --zookeeper pinot-zookeeper:2181/kafka \   
-  --partitions=1 --replication-factor=1 \    
+  -t kafka \
+  /opt/kafka/bin/kafka-topics.sh \
+  --zookeeper pinot-zookeeper:2181/kafka \
+  --partitions=1 --replication-factor=1 \
   --create --topic pullRequestMergedEvents
 ```
 
@@ -278,18 +278,18 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
 
 Add the table and schema using the following command
 
-```text
-docker run --rm -ti \
-    --network=pinot-demo \    
-    --name pinot-github-events-demo-table-creation \
+```bash
+$ docker run \
+    --network=pinot-demo \
+    --name pinot-streaming-table-creation \
     ${PINOT_IMAGE} AddTable \
-    -schemaFile /examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
-    -tableConfigFile /examples/stream/githubEvents/docker/pullRequestMergedEvents_realtime_table_config.json \                         
+    -schemaFile examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
+    -tableConfigFile examples/stream/githubEvents/docker/pullRequestMergedEvents_realtime_table_config.json \
     -controllerHost pinot-controller \
     -controllerPort 9000 \
     -exec
-Executing command: AddTable -tableConfigFile /tmp/githubEvents/table.json -schemaFile /tmp/githubEvents/schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
-Sending request: http://pinot-controller:9000/schemas to controller: b6d0f2bd26a3, version: Unknown
+Executing command: AddTable -tableConfigFile examples/stream/githubEvents/docker/pullRequestMergedEvents_realtime_table_config.json -schemaFile examples/stream/githubEvents/pullRequestMergedEvents_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
+Sending request: http://pinot-controller:9000/schemas to controller: 20c241022a96, version: Unknown
 {"status":"Table pullRequestMergedEvents_REALTIME succesfully added"}
 ```
 
@@ -303,26 +303,26 @@ Start streaming GitHub events into the Kafka topic
 Generate a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) on GitHub.
 {% endhint %}
 
-```text
-docker run --rm -ti \
+```bash
+$ docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-github-events-into-kafka \
     -d ${PINOT_IMAGE} StreamGitHubEvents \
-    -schemaFile /examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
+    -schemaFile examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
     -topic pullRequestMergedEvents \
     -personalAccessToken <your_github_personal_access_token> \
-    -kafkaBrokerList kafka:9092 \
+    -kafkaBrokerList kafka:9092
 ```
 
 ## Short Version
 
-For a single command to setup all the above steps
+For a single command to setup all the above steps, use the following command. Make sure to stop any previous running Pinot services.
 
-```text
-docker run --rm -ti \
+```bash
+$ docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-github-events-quick-start \
-    -d ${PINOT_IMAGE} StreamGitHubEvents \
+     ${PINOT_IMAGE} GitHubEventsQuickStart \
     -personalAccessToken <your_github_personal_access_token> 
 ```
 {% endtab %}

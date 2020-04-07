@@ -35,7 +35,7 @@ docker network create -d bridge pinot-demo
 Start Zookeeper in daemon.
 
 ```text
-docker run --rm -ti \
+docker run \
     --network=pinot-demo \
     --name  pinot-zookeeper \
     --restart always \
@@ -52,6 +52,8 @@ docker run --rm -ti \
 	-e ZK_SERVER=pinot-zookeeper:2181 \
 	-d qnib/plain-zkui:latest
 ```
+
+Alternately, you can use [Zooinspector](https://github.com/zzhang5/zooinspector).
 
 ### 2. Start Pinot Controller
 
@@ -83,7 +85,6 @@ docker run --rm -ti \
 Start Pinot Server in daemon and connect to Zookeeper.
 
 ```text
-export PINOT_IMAGE=apachepinot/pinot:0.3.0-SNAPSHOT
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-server \
@@ -141,6 +142,8 @@ cd apache-pinot-incubating-${PINOT_VERSION}-bin
 bin/pinot-admin.sh StartZookeeper \
   -zkPort 2191
 ```
+
+You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse the Zookeeper instance.
 
 ### 2. Start Pinot Controller
 
