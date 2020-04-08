@@ -622,9 +622,17 @@ Head over to the [Query Console](http://localhost:9000/query) to checkout the da
 
 ### Visualizing on SuperSet
 
+You can use SuperSet to visualize this data. Some of the interesting insights we captures were
 
+#### Most Active organizations during the lockdown
 
+![](../../.gitbook/assets/screen-shot-2020-04-08-at-9.28.57-am.png)
 
+Repositories by number of commits in the Apache organization
+
+![](../../.gitbook/assets/screen-shot-2020-04-08-at-9.29.12-am.png)
+
+To integrate with SuperSet you can check out the [SuperSet Integrations](../../integrations/superset.md) page.
 
 
 
