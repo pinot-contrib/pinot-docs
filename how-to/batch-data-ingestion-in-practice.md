@@ -226,6 +226,8 @@ cd spark-2.4.5-bin-hadoop2.7
 ./bin/spark-shell --master 'local[2]'
 ```
 
+Build latest Pinot Distribution following this [Wiki](https://docs.pinot.apache.org/getting-started/running-pinot-locally#build-from-source-or-download-the-distribution).
+
 Below command shows how to use spark-submit command to submit a spark job using `pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`.
 
 Sample Spark ingestion job spec yaml, \(also located at `examples/batch/airlineStats/sparkIngestionJobSpec.yaml`\):
@@ -294,7 +296,7 @@ pinotFSSpecs:
     #   org.apache.pinot.spi.filesystem.LocalPinotFS is used for local filesystem
     #   org.apache.pinot.plugin.filesystem.AzurePinotFS is used for Azure Data Lake
     #   org.apache.pinot.plugin.filesystem.HadoopPinotFS is used for HDFS
-    className: org.apache.pinot.spi.filesystem.LocalPinotFS
+    className: org.apache.pinot.plugin.filesystem.HadoopPinotFS
 
 # recordReaderSpec: defines all record reader
 recordReaderSpec:
@@ -367,7 +369,7 @@ pushJobSpec:
 Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
 ```text
-export PINOT_VERSION=0.3.0
+export PINOT_VERSION=0.4.0-SNAPSHOT
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-incubating-${PINOT_VERSION}-bin/apache-pinot-incubating-${PINOT_VERSION}-bin
 ./bin/spark-submit \
   --class org.apache.pinot.spi.ingestion.batch.IngestionJobLauncher \
@@ -449,7 +451,7 @@ pinotFSSpecs:
     #   org.apache.pinot.spi.filesystem.LocalPinotFS is used for local filesystem
     #   org.apache.pinot.plugin.filesystem.AzurePinotFS is used for Azure Data Lake
     #   org.apache.pinot.plugin.filesystem.HadoopPinotFS is used for HDFS
-    className: org.apache.pinot.spi.filesystem.LocalPinotFS
+    className: org.apache.pinot.plugin.filesystem.HadoopPinotFS
 
 # recordReaderSpec: defines all record reader
 recordReaderSpec:
@@ -522,7 +524,7 @@ pushJobSpec:
 Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
 ```text
-export PINOT_VERSION=0.3.0
+export PINOT_VERSION=0.4.0-SNAPSHOT
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-incubating-${PINOT_VERSION}-bin/apache-pinot-incubating-${PINOT_VERSION}-bin
 export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
 hadoop jar  \
