@@ -379,10 +379,25 @@ pushJobSpec:
 
 Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
+{% hint style="info" %}
+Please ensure you set
+
+* `spark.driver.extraJavaOptions =>`
+
+  `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins`
+
+Or put all the required plugins jars to CLASSPATH, then set `-Dplugins.dir=${CLASSPATH}`
+
+* `spark.driver.extraClassPath =>`
+
+  `pinot-all-${PINOT_VERSION}-jar-with-depdencies.jar`
+{% endhint %}
+
 ```text
 export PINOT_VERSION=0.4.0-SNAPSHOT
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-incubating-${PINOT_VERSION}-bin/apache-pinot-incubating-${PINOT_VERSION}-bin
-./bin/spark-submit \
+cd ${PINOT_DISTRIBUTION_DIR}
+${SPARK_HOME}/bin/spark-submit \
   --class org.apache.pinot.spi.ingestion.batch.IngestionJobLauncher \
   --master "local[2]" \
   --deploy-mode client \
