@@ -149,6 +149,17 @@ tableSpec:
   # The real table config is the object under the field 'OFFLINE'.
   tableConfigURI: 'http://localhost:9000/tables/airlineStats'
 
+# segmentNameGeneratorSpec: defines how to init a SegmentNameGenerator.
+segmentNameGeneratorSpec:
+
+  # type: Current supported type is 'simple' and 'normalizedDate'.
+  type: normalizedDate
+
+  # configs: Configs to init SegmentNameGenerator.
+  configs:
+    segment.name.prefix: 'airlineStats_batch'
+    exclude.sequence.id: true
+
 # pinotClusterSpecs: defines the Pinot Cluster Access Point.
 pinotClusterSpecs:
   - # controllerURI: used to fetch table/schema information and data push.
@@ -182,37 +193,37 @@ bin/pinot-ingestion-job.sh examples/batch/airlineStats/ingestionJobSpec.yaml
 After job finished, segments are stored in `examples/batch/airlineStats/segments` following same layout of input directory layout.
 
 ```text
-/var/pinot/airlineStats/segments/2014/01/01/airlineStats_OFFLINE_16071_16071_21.tar.gz
-/var/pinot/airlineStats/segments/2014/01/02/airlineStats_OFFLINE_16072_16072_3.tar.gz
-/var/pinot/airlineStats/segments/2014/01/03/airlineStats_OFFLINE_16073_16073_0.tar.gz
-/var/pinot/airlineStats/segments/2014/01/04/airlineStats_OFFLINE_16074_16074_1.tar.gz
-/var/pinot/airlineStats/segments/2014/01/05/airlineStats_OFFLINE_16075_16075_2.tar.gz
-/var/pinot/airlineStats/segments/2014/01/06/airlineStats_OFFLINE_16076_16076_22.tar.gz
-/var/pinot/airlineStats/segments/2014/01/07/airlineStats_OFFLINE_16077_16077_16.tar.gz
-/var/pinot/airlineStats/segments/2014/01/08/airlineStats_OFFLINE_16078_16078_20.tar.gz
-/var/pinot/airlineStats/segments/2014/01/09/airlineStats_OFFLINE_16079_16079_17.tar.gz
-/var/pinot/airlineStats/segments/2014/01/10/airlineStats_OFFLINE_16080_16080_12.tar.gz
-/var/pinot/airlineStats/segments/2014/01/11/airlineStats_OFFLINE_16081_16081_7.tar.gz
-/var/pinot/airlineStats/segments/2014/01/12/airlineStats_OFFLINE_16082_16082_26.tar.gz
-/var/pinot/airlineStats/segments/2014/01/13/airlineStats_OFFLINE_16083_16083_27.tar.gz
-/var/pinot/airlineStats/segments/2014/01/14/airlineStats_OFFLINE_16084_16084_28.tar.gz
-/var/pinot/airlineStats/segments/2014/01/15/airlineStats_OFFLINE_16085_16085_25.tar.gz
-/var/pinot/airlineStats/segments/2014/01/16/airlineStats_OFFLINE_16086_16086_9.tar.gz
-/var/pinot/airlineStats/segments/2014/01/17/airlineStats_OFFLINE_16087_16087_11.tar.gz
-/var/pinot/airlineStats/segments/2014/01/18/airlineStats_OFFLINE_16088_16088_5.tar.gz
-/var/pinot/airlineStats/segments/2014/01/19/airlineStats_OFFLINE_16089_16089_13.tar.gz
-/var/pinot/airlineStats/segments/2014/01/20/airlineStats_OFFLINE_16090_16090_4.tar.gz
-/var/pinot/airlineStats/segments/2014/01/21/airlineStats_OFFLINE_16091_16091_15.tar.gz
-/var/pinot/airlineStats/segments/2014/01/22/airlineStats_OFFLINE_16092_16092_29.tar.gz
-/var/pinot/airlineStats/segments/2014/01/23/airlineStats_OFFLINE_16093_16093_24.tar.gz
-/var/pinot/airlineStats/segments/2014/01/24/airlineStats_OFFLINE_16094_16094_23.tar.gz
-/var/pinot/airlineStats/segments/2014/01/25/airlineStats_OFFLINE_16095_16095_30.tar.gz
-/var/pinot/airlineStats/segments/2014/01/26/airlineStats_OFFLINE_16096_16096_14.tar.gz
-/var/pinot/airlineStats/segments/2014/01/27/airlineStats_OFFLINE_16097_16097_6.tar.gz
-/var/pinot/airlineStats/segments/2014/01/28/airlineStats_OFFLINE_16098_16098_10.tar.gz
-/var/pinot/airlineStats/segments/2014/01/29/airlineStats_OFFLINE_16099_16099_8.tar.gz
-/var/pinot/airlineStats/segments/2014/01/30/airlineStats_OFFLINE_16100_16100_19.tar.gz
-/var/pinot/airlineStats/segments/2014/01/31/airlineStats_OFFLINE_16101_16101_18.tar.gz
+/var/pinot/airlineStats/segments/2014/01/01/airlineStats_batch_2014-01-01_2014-01-01.tar.gz
+/var/pinot/airlineStats/segments/2014/01/02/airlineStats_batch_2014-01-02_2014-01-02.tar.gz
+/var/pinot/airlineStats/segments/2014/01/03/airlineStats_batch_2014-01-03_2014-01-03.tar.gz
+/var/pinot/airlineStats/segments/2014/01/04/airlineStats_batch_2014-01-04_2014-01-04.tar.gz
+/var/pinot/airlineStats/segments/2014/01/05/airlineStats_batch_2014-01-05_2014-01-05.tar.gz
+/var/pinot/airlineStats/segments/2014/01/06/airlineStats_batch_2014-01-06_2014-01-06.tar.gz
+/var/pinot/airlineStats/segments/2014/01/07/airlineStats_batch_2014-01-07_2014-01-07.tar.gz
+/var/pinot/airlineStats/segments/2014/01/08/airlineStats_batch_2014-01-08_2014-01-08.tar.gz
+/var/pinot/airlineStats/segments/2014/01/09/airlineStats_batch_2014-01-09_2014-01-09.tar.gz
+/var/pinot/airlineStats/segments/2014/01/10/airlineStats_batch_2014-01-10_2014-01-10.tar.gz
+/var/pinot/airlineStats/segments/2014/01/11/airlineStats_batch_2014-01-11_2014-01-11.tar.gz
+/var/pinot/airlineStats/segments/2014/01/12/airlineStats_batch_2014-01-12_2014-01-12.tar.gz
+/var/pinot/airlineStats/segments/2014/01/13/airlineStats_batch_2014-01-13_2014-01-13.tar.gz
+/var/pinot/airlineStats/segments/2014/01/14/airlineStats_batch_2014-01-14_2014-01-14.tar.gz
+/var/pinot/airlineStats/segments/2014/01/15/airlineStats_batch_2014-01-15_2014-01-15.tar.gz
+/var/pinot/airlineStats/segments/2014/01/16/airlineStats_batch_2014-01-16_2014-01-16.tar.gz
+/var/pinot/airlineStats/segments/2014/01/17/airlineStats_batch_2014-01-17_2014-01-17.tar.gz
+/var/pinot/airlineStats/segments/2014/01/18/airlineStats_batch_2014-01-18_2014-01-18.tar.gz
+/var/pinot/airlineStats/segments/2014/01/19/airlineStats_batch_2014-01-19_2014-01-19.tar.gz
+/var/pinot/airlineStats/segments/2014/01/20/airlineStats_batch_2014-01-20_2014-01-20.tar.gz
+/var/pinot/airlineStats/segments/2014/01/21/airlineStats_batch_2014-01-21_2014-01-21.tar.gz
+/var/pinot/airlineStats/segments/2014/01/22/airlineStats_batch_2014-01-22_2014-01-22.tar.gz
+/var/pinot/airlineStats/segments/2014/01/23/airlineStats_batch_2014-01-23_2014-01-23.tar.gz
+/var/pinot/airlineStats/segments/2014/01/24/airlineStats_batch_2014-01-24_2014-01-24.tar.gz
+/var/pinot/airlineStats/segments/2014/01/25/airlineStats_batch_2014-01-25_2014-01-25.tar.gz
+/var/pinot/airlineStats/segments/2014/01/26/airlineStats_batch_2014-01-26_2014-01-26.tar.gz
+/var/pinot/airlineStats/segments/2014/01/27/airlineStats_batch_2014-01-27_2014-01-27.tar.gz
+/var/pinot/airlineStats/segments/2014/01/28/airlineStats_batch_2014-01-28_2014-01-28.tar.gz
+/var/pinot/airlineStats/segments/2014/01/29/airlineStats_batch_2014-01-29_2014-01-29.tar.gz
+/var/pinot/airlineStats/segments/2014/01/30/airlineStats_batch_2014-01-30_2014-01-30.tar.gz
+/var/pinot/airlineStats/segments/2014/01/31/airlineStats_batch_2014-01-31_2014-01-31.tar.gz
 ```
 
 ### Executing the job using Spark
