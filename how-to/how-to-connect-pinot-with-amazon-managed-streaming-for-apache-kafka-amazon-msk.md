@@ -112,7 +112,11 @@ Created topic "pullRequestMergedEventsAwsMskDemo".
 
 Once topic is created, we can start a simple application to produce to it.
 
-You can download below yaml file and replace the `${ZOOKEEPER_CONNECT_STRING}` with your MSK Zookeeper String and `${BROKER_LIST_STRING}` with MSK **Plaintext** Broker String in the deployment.
+You can download below yaml file, then replace:
+
+* `${ZOOKEEPER_CONNECT_STRING}` -&gt;  MSK Zookeeper String
+* `${BROKER_LIST_STRING}` -&gt;  MSK **Plaintext** Broker String in the deployment
+* `${github-events-aws-msk-demo.yaml}` -&gt; A personal Github Personal Access Token generated from [here](https://github.com/settings/tokens).
 
 {% file src="../.gitbook/assets/github-events-aws-msk-demo.yaml" caption="github-events-aws-msk-demo.yaml" %}
 
