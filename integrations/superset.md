@@ -28,7 +28,7 @@ docker exec \
 
 Output:
 
-![Superset Admin Command line Output](../.gitbook/assets/image%20%283%29.png)
+![Superset Admin Command line Output](../.gitbook/assets/image%20%288%29.png)
 
 2.2. \(First time\) DB upgrade and Initialize Superset 
 

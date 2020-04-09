@@ -66,7 +66,7 @@ docker logs pinot-quickstart -f
 
 Your cluster is ready once you saw the cluster setup completion messages and some sample queries shown up like below:
 
-![Cluster Setup Completion Example ](../.gitbook/assets/image.png)
+![Cluster Setup Completion Example ](../.gitbook/assets/image%20%281%29.png)
 
 You can head over to  [Exploring Pinot](exploring-pinot.md) to check out the data in the `baseballStats` table.
 
