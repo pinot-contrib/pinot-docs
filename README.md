@@ -13,7 +13,7 @@ Pinot is a real-time distributed OLAP datastore, built to deliver scalable real 
 ## Features of Pinot
 
 * A column-oriented database with various compression schemes such as Run Length, Fixed Bit Length
-* Plugable indexing technologies - Sorted Index, Bitmap Index, Inverted Index
+* Pluggable indexing technologies - Sorted Index, Bitmap Index, Inverted Index
 * Ability to optimize query/execution plan based on query and segment metadata
 * Near real time ingestion from streams and batch ingestion from Hadoop
 * SQL-like language that supports selection, aggregation, filtering, group by, order by, distinct queries on data

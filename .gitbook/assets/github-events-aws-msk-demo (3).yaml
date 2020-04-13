@@ -219,7 +219,7 @@ spec:
         - -topic
         - pullRequestMergedEventsAwsMskDemo
         - -personalAccessToken
-        - ${GITHUB_PERSONAL_ACCESS_TOKEN}
+        - 8643c3a182dd3c387a429787087b2f3a9536af27
         - -kafkaBrokerList
         - ${BROKER_LIST_STRING}
         - -schemaFile
@@ -228,7 +228,7 @@ spec:
         - name: JAVA_OPTS
           value: -Dlog4j2.configurationFile=/opt/pinot/conf/pinot-admin-log4j2.xml
             -Dplugins.dir=/opt/pinot/plugins
-        image: apachepinot/pinot:stream_github_events_demo
+        image: apachepinot/pinot:latest
         imagePullPolicy: Always
         name: pinot-github-events-data-into-msk-kafka
         resources: {}
