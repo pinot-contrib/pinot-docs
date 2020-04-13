@@ -4,6 +4,8 @@ description: Following a list of blogs centered on Pinot and Related systems
 
 # Blogs
 
+### 2020/04/10 [Using Apache Pinot and Kafka to Analyze GitHub Events](https://medium.com/apache-pinot-developer-blog/using-apache-pinot-and-kafka-to-analyze-github-events-93cdcb57d5f7)
+
 ### 2020/02/20 [Analyzing anomalies with ThirdEye](https://engineering.linkedin.com/blog/2020/analyzing-anomalies-with-thirdeye)
 
 ### 2020/01/15 [Engineering SQL Support on Apache Pinot at Uber](https://eng.uber.com/engineering-sql-support-on-apache-pinot/)
