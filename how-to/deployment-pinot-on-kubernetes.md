@@ -64,7 +64,7 @@ resources:
     memory: 10G
 ```
 
-For JVM, we still limit the size of heap, so that the rest of the container could be leveraged by the off-heap operations.
+For JVM, limit `-Xmx` to not exceed 50% container memory limit, so that the rest of the container could be leveraged by the off-heap operations.
 
 ```text
 jvmOpts: "-Xms1G -Xmx4G"
