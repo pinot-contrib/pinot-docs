@@ -20,8 +20,6 @@ Note:
 
 Below is a sample screenshot to create an Amazon MSK cluster.
 
-
-
 ![Sample MSK Creation Snapshot](../.gitbook/assets/screencapture-us-west-2-console-aws-amazon-msk-home-2020-04-08-14_05_31-edit.png)
 
 After click on Create button, you can take a coffee break and come back.
