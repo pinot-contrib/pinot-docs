@@ -1,4 +1,4 @@
-# Deployment Pinot on Kubernetes
+# FAQ: Pinot Deployment using Kubernetes
 
 Pinot community has provided Helm based [Kubernetes deployment template](../getting-started/kubernetes-quickstart.md).
 
@@ -69,4 +69,14 @@ For JVM, limit `-Xmx` to not exceed 50% container memory limit, so that the rest
 ```text
 jvmOpts: "-Xms1G -Xmx4G"
 ```
+
+## Deep storage
+
+Pinot uses remote storage as deep storage to backup segments.
+
+Default deployment creates a mount disk\(e.g Amazon EBS\) as deep storage in controller.
+
+You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link](../plugins/pinot-file-system.md).
+
+
 

@@ -85,7 +85,7 @@
 * [AWS Lambda/EC2 to send events to a Kafka running in AWS EKS](how-to/non-eks-to-eks.md)
 * [Batch Data Ingestion In Practice](how-to/batch-data-ingestion-in-practice.md)
 * [How to Connect Pinot with Amazon Managed Streaming for Apache Kafka \(Amazon MSK\)](how-to/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
-* [Deployment Pinot on Kubernetes](how-to/deployment-pinot-on-kubernetes.md)
+* [FAQ: Pinot Deployment using Kubernetes](how-to/deployment-pinot-on-kubernetes.md)
 
 ## POWERED BY PINOT <a id="powered-by-pinot-1"></a>
 
