@@ -18,9 +18,9 @@ Note:
 2. Under **Encryption** section, choose**`Both TLS encrypted and plaintext traffic allowed`** 
 {% endhint %}
 
-Below is a sample screenshot to create an Amazon MSK cluster.
+Below is a sample screenshot to create an Amazon MSK cluster. 
 
-![Sample MSK Creation Snapshot](../.gitbook/assets/screencapture-us-west-2-console-aws-amazon-msk-home-2020-04-08-14_05_31-edit.png)
+                                                           ![](../.gitbook/assets/snapshot-msk.png)
 
 After click on Create button, you can take a coffee break and come back.
 
