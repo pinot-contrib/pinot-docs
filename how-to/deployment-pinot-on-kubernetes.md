@@ -1,4 +1,4 @@
-# FAQ: Pinot Deployment using Kubernetes
+# Pinot Deployment using Kubernetes
 
 Pinot community has provided Helm based [Kubernetes deployment template](../getting-started/kubernetes-quickstart.md).
 
