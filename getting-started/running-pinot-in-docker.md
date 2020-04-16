@@ -1,5 +1,5 @@
 ---
-description: Pinot Quickstart in Docker
+description: Pinot quick start in Docker
 ---
 
 # Running Pinot in Docker
@@ -9,7 +9,7 @@ description: Pinot Quickstart in Docker
 
 Install [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 
-You can also try [Kubernetes Quickstart](kubernetes-quickstart.md) if you already have a local [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) cluster installed or [docker kubernetes ](https://www.docker.com/products/kubernetes)setup.
+You can also try [Kubernetes quick start](kubernetes-quickstart.md) if you already have a local [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) cluster installed or [Docker Kubernetes](https://www.docker.com/products/kubernetes) setup.
 {% endhint %}
 
 Create an isolated bridge network in docker
@@ -18,28 +18,32 @@ Create an isolated bridge network in docker
 docker network create -d bridge pinot-demo
 ```
 
-We'll be running a docker image `apachepinot/pinot:latest` to run a quick start, which does the following:
+We'll be using our docker image `apachepinot/pinot:latest` to run this quick start, which does the following:
 
-1. Sets up the Pinot cluster `QuickStartCluster`
-2. Creates a sample table and loads sample data
+* Sets up the Pinot cluster
+* Creates a sample table and loads sample data
 
-There's 3 types of quick start
+There are 3 types of quick start examples.
 
-### Batch
+* Batch example
+* Streaming example
+* Hybrid example
 
-This demo
+## Batch example
 
-1. Starts Pinot deployment by starting: 
-   1. Apache Zookeeper
-   2. Pinot Controller
-   3. Pinot Broker
-   4. Pinot Server
-2. Creates a demo table:
-   * baseballStats
-3. Launches a standalone data ingestion job
-   * build one Pinot segment for a given csv data file for table **baseballStats**
-   * push built segment to Pinot controller
-4. Issues sample queries to Pinot
+In this example we demonstrate how to do batch processing with Pinot.
+
+* Starts Pinot deployment by starting
+  * Apache Zookeeper
+  * Pinot Controller
+  * Pinot Broker
+  * Pinot Server
+* Creates a demo table
+  * `baseballStats`
+* Launches a standalone data ingestion job
+  * Builds one Pinot segment for a given CSV data file for table `baseballStats`
+  * Pushes the built segment to the Pinot controller
+* Issues sample queries to Pinot
 
 ```bash
 docker run \
@@ -50,7 +54,7 @@ docker run \
     -type batch
 ```
 
-Once docker container is running, you can view the logs by
+Once the Docker container is running, you can view the logs by running the following command.
 
 ```text
 docker logs pinot-quickstart -f
@@ -58,32 +62,37 @@ docker logs pinot-quickstart -f
 
 That's it! We've spun up a Pinot cluster. 
 
-It may take a while for all Pinot components to start and for the sample data to be loaded. Use the below command to check the container logs
+{% hint style="info" %}
+It may take a while for all the Pinot components to start and for the sample data to be loaded. 
+
+Use the below command to check the status in the container logs.
+{% endhint %}
 
 ```text
 docker logs pinot-quickstart -f
 ```
 
-Your cluster is ready once you saw the cluster setup completion messages and some sample queries shown up like below:
+Your cluster is ready once you see the cluster setup completion messages and sample queries, as demonstrated below.
 
 ![Cluster Setup Completion Example ](../.gitbook/assets/image%20%281%29.png)
 
-You can head over to  [Exploring Pinot](exploring-pinot.md) to check out the data in the `baseballStats` table.
+You can head over to [Exploring Pinot](exploring-pinot.md) to check out the data in the `baseballStats` table.
 
-### Streaming
+## Streaming example
 
-This demo
+In this example we demonstrate how to do stream processing with Pinot.
 
-1. Starts Pinot deployment by starting: 
-   * Apache Kafka
-   * Apache Zookeeper
-   * Pinot Controller
-   * Pinot Broker
-   * Pinot Server
-2. Creates a demo table:
-   * meetupRsvp
-3. Launches a **meetup** stream and publish data to a Kafka: **meetupRSVPEvents** to be subscribed by Pinot
-4. Issues sample queries to Pinot
+* Starts Pinot deployment by starting
+  * Apache Kafka
+  * Apache Zookeeper
+  * Pinot Controller
+  * Pinot Broker
+  * Pinot Server
+* Creates a demo table
+  * `meetupRsvp`
+* Launches a `meetup` ****stream
+* Publishes data to a Kafka topic `meetupRSVPEvents` to be subscribed to by Pinot
+* Issues sample queries to Pinot
 
 ```bash
 # stop previous container, if any, or use different network
@@ -97,23 +106,24 @@ docker run \
 
 Once the cluster is up, you can head over to  [Exploring Pinot](exploring-pinot.md) to check out the data in the `meetupRSVPEvents` table.
 
-### Hybrid
+## Hybrid example
 
-This demo
+In this example we demonstrate how to do hybrid stream and batch processing with Pinot.
 
-1. Starts Pinot deployment by starting: 
+1. Starts Pinot deployment by starting
    * Apache Kafka
    * Apache Zookeeper
    * Pinot Controller
    * Pinot Broker
    * Pinot Server
-2. Creates a demo table:
-   * airlineStats
-3. Launches a standalone data ingestion job:
-   * build Pinot segments under a given directory of Avro files for table **airlineStats**
-   * push built segments to Pinot controller
-4. Launches a ****stream of flights stats and publish data to a Kafka topic **airlineStatsEvents** to be subscribed by Pinot
-5. Issues sample queries to Pinot 
+2. Creates a demo table
+   * `airlineStats`
+3. Launches a standalone data ingestion job
+   * Builds Pinot segments under a given directory of Avro files for table `airlineStats`
+   * Pushes built segments to Pinot controller
+4. Launches a ****stream of flights stats
+5. Publishes data to a Kafka topic `airlineStatsEvents` to be subscribed to by Pinot
+6. Issues sample queries to Pinot 
 
 ```bash
 # stop previous container, if any, or use different network
