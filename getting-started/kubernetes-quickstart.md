@@ -12,7 +12,7 @@ This quick start assumes the existence of a Kubernetes cluster. Please follow th
 * [Enable Kubernetes on Docker-Desktop](https://docs.docker.com/docker-for-mac/kubernetes/)
 * [Install Minikube for local setup](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 * [Setup a Kubernetes Cluster using Amazon Elastic Kubernetes Service \(Amazon EKS\)](quickstart/aws-quickstart.md)
-* [Setup a Kubernetes Cluster using Google Kubernetes Engine\(GKE\)](quickstart/gcp-quickstart.md)
+* [Setup a Kubernetes Cluster using Google Kubernetes Engine \(GKE\)](quickstart/gcp-quickstart.md)
 * [Setup a Kubernetes Cluster using Azure Kubernetes Service \(AKS\)](quickstart/azure-quickstart.md)
 {% endhint %}
 
