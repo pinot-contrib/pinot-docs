@@ -4,8 +4,9 @@ description: Pinot quick start in Kubernetes
 
 # Running Pinot in Kubernetes
 
-## 1. Prerequisite
+## 1. Prerequisites
 
+{% hint style="info" %}
 This quick start assumes the existence of a Kubernetes cluster. Please follow the links below to setup your Kubernetes cluster.
 
 * [Enable Kubernetes on Docker-Desktop](https://docs.docker.com/docker-for-mac/kubernetes/)
@@ -13,6 +14,7 @@ This quick start assumes the existence of a Kubernetes cluster. Please follow th
 * [Setup a Kubernetes Cluster using Amazon Elastic Kubernetes Service \(Amazon EKS\)](quickstart/aws-quickstart.md)
 * [Setup a Kubernetes Cluster using Google Kubernetes Engine\(GKE\)](quickstart/gcp-quickstart.md)
 * [Setup a Kubernetes Cluster using Azure Kubernetes Service \(AKS\)](quickstart/azure-quickstart.md)
+{% endhint %}
 
 ## 2. Setting up a Pinot cluster in Kubernetes
 
