@@ -20,7 +20,7 @@ This quick start assumes the existence of a Kubernetes cluster. Please follow th
 
 Before continuing, please make sure that you've downloaded Apache Pinot. The scripts for the setup in this guide can be found in our open source project on GitHub.
 
-This scripts can be found in the Pinot source at `./incubator-pinot/kubernetes/helm`
+The scripts can be found in the Pinot source at `./incubator-pinot/kubernetes/helm`
 
 {% tabs %}
 {% tab title="Git clone project source" %}
