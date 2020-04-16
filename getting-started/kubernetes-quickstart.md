@@ -25,7 +25,7 @@ This scripts can be found in the Pinot source at `./incubator-pinot/kubernetes/h
 ```bash
 # checkout pinot
 git clone https://github.com/apache/incubator-pinot.git
-cd incubator-pinot
+cd incubator-pinot/kubernetes/helm
 ```
 {% endtab %}
 {% endtabs %}
