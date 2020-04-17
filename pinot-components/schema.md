@@ -216,8 +216,124 @@ Apart from these, there's some advanced fields. These are common to all field sp
 | field name | description |
 | :--- | :--- |
 | maxLength | Max length of this column |
-| transformFunction | \[WIP\] Transform function to generate this column. Can be based on other columns |
+| transformFunction | Transform function to generate this column. See section below. |
 | virtualColumnProvider | Column value provider |
+
+## Transform Functions
+
+Transform functions can be defined on columns in the schema. The syntax for this is
+
+```javascript
+FunctionType({function}, argument1, argument2...argumentN)
+```
+
+where,  
+**function** - the function to execute  
+**arguments** - the arguments this function needs. These are columns from the data source.
+
+{% hint style="warning" %}
+**Note**
+
+Currently, the arguments must be from the source data. They cannot be columns from the Pinot schema which have been created through transformations.
+{% endhint %}
+
+Currently, we have support for function type Groovy
+
+```javascript
+Groovy({groovy script}, argument1, argument2...argumentN)
+```
+
+Here's some examples of commonly needed functions. Any valid Groovy expression can be used.
+
+#### String concatenation
+
+Concat `firstName` and `lasName` to get `fullName`
+
+```javascript
+{
+      "name": "fullName",
+      "dataType": "STRING",
+      "transformFunction": "Groovy({firstName+' '+lastName}, firstName, lastName)"
+}
+```
+
+#### Find element in an array
+
+Find max value in array `bids`
+
+```javascript
+{
+      "name": "maxBid",
+      "dataType": "INT",
+      "transformFunction": "Groovy({bids.max{ it.toBigDecimal() }}, bids)"
+}
+```
+
+#### Time transformation
+
+Convert `timestamp` from `MILLISECONDS` to `HOURS`
+
+```javascript
+"timeFieldSpec": {
+    "incomingGranularitySpec": {
+      "name": "hoursSinceEpoch",
+      "dataType": "LONG",
+      "timeFormat" : "EPOCH",
+      "timeType": "HOURS"
+    },
+    "transformFunction": "Groovy({timestamp/(1000*60*60)}, timestamp)"
+  }
+```
+
+#### Column name change
+
+Simply change name of the column from `user_id` to `userId`
+
+```javascript
+{
+      "name": "userId",
+      "dataType": "LONG",
+      "transformFunction": "Groovy({user_id}, user_id)"
+}
+```
+
+#### Ternary operation
+
+If `eventType` is `IMPRESSION` set `impression` to `1`. Similar for `CLICK`.
+
+```javascript
+{
+    "name": "impressions",
+    "dataType": "LONG",
+    "transformFunction": "Groovy({eventType == 'IMPRESSION' ? 1: 0}, eventType)"
+},
+{
+    "name": "clicks",
+    "dataType": "LONG",
+    "transformFunction": "Groovy({eventType == 'CLICK' ? 1: 0}, eventType)"
+}
+```
+
+#### AVRO Map 
+
+Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintain the mapping.  
+1\) The keys of the map as `map_keys`  
+2\) The values of the map as `map_values`
+
+```javascript
+{
+      "name": "map2_keys",
+      "dataType": "STRING",
+      "singleValueField": false,
+      "transformFunction": "Groovy({map2.sort()*.key}, map2)"
+},
+{
+      "name": "map2_values",
+      "dataType": "INT",
+      "singleValueField": false,
+      "transformFunction": "Groovy({map2.sort()*.value}, map2)"
+}
+```
 
 ## Creating a Schema
 
