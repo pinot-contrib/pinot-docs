@@ -104,7 +104,7 @@ Here's the table config for the sample CSV file. You can use this as a reference
   },
   "tableIndexConfig" : {
     "invertedIndexColumns" : [],
-    "loadMode"  : "HEAP"
+    "loadMode"  : "MMAP"
   },
   "tenants" : {
     "broker":"DefaultTenant",
