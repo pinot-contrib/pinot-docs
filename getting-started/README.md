@@ -4,6 +4,8 @@ description: Everything you will need to get started with Pinot
 
 # Getting started
 
+{% embed url="https://www.youtube.com/watch?v=cNnwMF0pOJ8" caption="Pinot Getting Started" %}
+
 You can start Pinot based on your own environments
 
 * On the ground
