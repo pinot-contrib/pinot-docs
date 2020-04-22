@@ -6,6 +6,10 @@ description: Everything you will need to get started with Pinot
 
 {% embed url="https://www.youtube.com/watch?v=cNnwMF0pOJ8" caption="Pinot Getting Started" %}
 
+All the commands used in this video tutorial can be found in: [https://github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial)
+
+Alternately, you can follow the quick start guides as found below.
+
 You can start Pinot based on your own environments
 
 * On the ground
