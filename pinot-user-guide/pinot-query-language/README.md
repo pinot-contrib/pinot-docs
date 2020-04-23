@@ -1,3 +1,7 @@
+---
+description: Learn how to query Pinot using PQL
+---
+
 # Pinot Query Language
 
 ## PQL
