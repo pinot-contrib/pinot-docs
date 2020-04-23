@@ -12,26 +12,26 @@ PQL is only a derivative of SQL, and it does not support Joins nor Subqueries. I
 
 The Pinot Query Language \(PQL\) is very similar to standard SQL:
 
-```text
+```sql
 SELECT COUNT(*) FROM myTable
 ```
 
 ### Aggregation
 
-```text
+```sql
 SELECT COUNT(*), MAX(foo), SUM(bar) FROM myTable
 ```
 
 ### Grouping on Aggregation
 
-```text
+```sql
 SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM myTable
   GROUP BY bar, baz LIMIT 50
 ```
 
 ### Ordering on Aggregation
 
-```text
+```sql
 SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM myTable
   GROUP BY bar, baz 
   ORDER BY bar, MAX(foo) DESC LIMIT 50
@@ -39,7 +39,7 @@ SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM myTable
 
 ### Filtering
 
-```text
+```sql
 SELECT COUNT(*) FROM myTable
   WHERE foo = 'foo'
   AND bar BETWEEN 1 AND 20
@@ -48,7 +48,7 @@ SELECT COUNT(*) FROM myTable
 
 ### Selection \(Projection\)
 
-```text
+```sql
 SELECT * FROM myTable
   WHERE quux < 5
   LIMIT 50
@@ -56,7 +56,7 @@ SELECT * FROM myTable
 
 ### Ordering on Selection
 
-```text
+```sql
 SELECT foo, bar FROM myTable
   WHERE baz > 20
   ORDER BY bar DESC
@@ -67,7 +67,7 @@ SELECT foo, bar FROM myTable
 
 Note: results might not be consistent if column ordered by has same value in multiple rows.
 
-```text
+```sql
 SELECT foo, bar FROM myTable
   WHERE baz > 20
   ORDER BY bar DESC
@@ -78,7 +78,7 @@ SELECT foo, bar FROM myTable
 
 To count rows where the column `airlineName` starts with `U`
 
-```text
+```sql
 SELECT count(*) FROM SomeTable
   WHERE regexp_like(airlineName, '^U.*')
   GROUP BY airlineName TOP 10
@@ -88,7 +88,7 @@ SELECT count(*) FROM SomeTable
 
 As of now, functions have to be implemented within Pinot. Injecting functions is not allowed yet. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://apache-pinot.gitbook.io/apache-pinot-cookbook/pinot-user-guide/pinot-query-language#transform-function-in-aggregation-and-grouping)
 
-```text
+```sql
 SELECT count(*) FROM myTable
   GROUP BY timeConvert(timeColumnName, 'SECONDS', 'DAYS')
 ```
@@ -99,7 +99,7 @@ Pinot supports queries on BYTES column using HEX string. The query response also
 
 E.g. the query below fetches all the rows for a given UID.
 
-```text
+```sql
 SELECT * FROM myTable
   WHERE UID = "c8b3bce0b378fc5ce8067fc271a34892"
 ```
@@ -110,7 +110,7 @@ SELECT * FROM myTable
 
 The select statement is as follows
 
-```text
+```sql
 SELECT <outputColumn> (, outputColumn, outputColumn,...)
   FROM <tableName>
   (WHERE ... | GROUP BY ... | ORDER BY ... | TOP ... | LIMIT ...)
@@ -175,7 +175,7 @@ The `LIMIT n` clause causes the selection results to contain at most ‘n’ res
 
 In aggregation and grouping, each column can be transformed from one or multiple columns. For example, the following query will calculate the maximum value of column `foo` divided by column `bar` grouping on the column `time` converted from time unit `MILLISECONDS` to `SECONDS`:
 
-```text
+```sql
 SELECT MAX(DIV(foo, bar) FROM myTable
   GROUP BY TIMECONVERT(time, 'MILLISECONDS', 'SECONDS')
 ```
@@ -314,52 +314,50 @@ These differences only apply to the PQL endpoint. They do not hold true for the 
 {% endhint %}
 
 * `TOP` works like `LIMIT` for truncation in group by queries
-* No need to select the columns to group with.  
-  The following two queries are both supported in PQL, where the non-aggregation columns are ignored.
+* No need to select the columns to group with. The following two queries are both supported in PQL, where the non-aggregation columns are ignored.
 
-  ```text
-  SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM mytable
-    GROUP BY bar, baz
-    TOP 50
+```sql
+SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM mytable
+  GROUP BY bar, baz
+  TOP 50
 
-  SELECT bar, baz, MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM mytable
-    GROUP BY bar, baz
-    TOP 50
-  ```
+SELECT bar, baz, MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM mytable
+  GROUP BY bar, baz
+  TOP 50
+```
 
-* The results will always order by the aggregated value \(descending\).  
-  The results for query
+* The results will always order by the aggregated value \(descending\). The results for query
 
-  ```text
-  SELECT MIN(foo), MAX(foo) FROM myTable
-    GROUP BY bar
-    TOP 50
-  ```
+```sql
+SELECT MIN(foo), MAX(foo) FROM myTable
+  GROUP BY bar
+  TOP 50
+```
 
-  will be the same as the combining results from the following queries
+will be the same as the combining results from the following queries
 
-  ```text
-  SELECT MIN(foo) FROM myTable
-    GROUP BY bar
-    TOP 50
-  SELECT MAX(foo) FROM myTable
-    GROUP BY bar
-    TOP 50
-  ```
+```sql
+SELECT MIN(foo) FROM myTable
+  GROUP BY bar
+  TOP 50
+SELECT MAX(foo) FROM myTable
+  GROUP BY bar
+  TOP 50
+```
 
-  where we don’t put the results for the same group together.
+where we don’t put the results for the same group together.
 
 * No support for ORDER BY in aggregation group by. However, ORDER BY support was added recently and is available in the standard-SQL endpoint. It can be used in the PQL endpoint by passing `queryOptions` into the payload as follows
 
-  ```text
-  {
-    "pql" : "SELECT SUM(foo), SUM(bar) from myTable GROUP BY moo ORDER BY SUM(bar) ASC, moo DESC TOP 10",
-    "queryOptions" : "groupByMode=sql;responseFormat=sql"
-  }
-  ```
+```javascript
+{
+  "pql" : "SELECT SUM(foo), SUM(bar) from myTable GROUP BY moo ORDER BY SUM(bar) ASC, moo DESC TOP 10",
+  "queryOptions" : "groupByMode=sql;responseFormat=sql"
+}
+```
 
-  where,
+where,
 
-  * `groupByMode=sql` - standard sql way of execution group by, hence accepting order by
-  * `responseFormat=sql` - standard sql way of displaying results, in a tabular manner
+* `groupByMode=sql` - standard sql way of execution group by, hence accepting order by
+* `responseFormat=sql` - standard sql way of displaying results, in a tabular manner
 
