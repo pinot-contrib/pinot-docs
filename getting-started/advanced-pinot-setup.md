@@ -32,7 +32,7 @@ docker network create -d bridge pinot-demo
 
 ### 1. Start Zookeeper
 
-Start Zookeeper in daemon.
+Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper is the central metadata store for Pinot and should be set up with replication for production use. See [https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html\#sc\_RunningReplicatedZooKeeper](https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html#sc_RunningReplicatedZooKeeper) for more information.
 
 ```text
 docker run \

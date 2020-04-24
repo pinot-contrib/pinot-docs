@@ -55,7 +55,7 @@
   * [Contribution Guidelines](developers-and-contributors/contribution-guidelines.md)
   * [Code Setup](developers-and-contributors/code-setup.md)
   * [Code Modules and Organization](developers-and-contributors/code-modules-and-organization.md)
-  * [Update Document](developers-and-contributors/update-document.md)
+  * [Update Documentation](developers-and-contributors/update-document.md)
 * [Releases](releases/README.md)
   * [0.3.0](releases/0.3.0.md)
   * [0.2.0](releases/0.2.0.md)

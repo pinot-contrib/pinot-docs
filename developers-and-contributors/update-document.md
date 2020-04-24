@@ -1,4 +1,4 @@
-# Update Document
+# Update Documentation
 
 Pinot documentation is powered by Gitbook, and a bi-directional Github integration is set up to back up all the changes. 
 
