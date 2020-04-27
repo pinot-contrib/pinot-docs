@@ -8,7 +8,7 @@ description: This page talks about support for text search functionality in Pino
 
 Pinot supports super fast query processing through its indexes on non-BLOB like columns. Queries with exact match filters are run efficiently through a combination of dictionary encoding, inverted index and sorted index. An example:
 
-```text
+```sql
 SELECT COUNT(*) FROM Foo WHERE STRING_COL = "ABCDCD" AND INT_COL > 2000
 ```
 
@@ -18,7 +18,7 @@ For arbitrary text data which falls into the BLOB/CLOB territory, we need more t
 
 In version 0.3.0, we added support for text indexes to efficiently do arbitrary search on STRING columns where each column value is a large BLOB of text. This can be achieved by using the new built-in function TEXT\_MATCH.
 
-```
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH (<column_name>, <search_expression)
 ```
 
@@ -60,19 +60,19 @@ Few examples of search queries on this data:
 
 **Count the number of GET requests.**
 
-```text
+```sql
 SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(ACCESS_LOG_COL, 'GET')
 ```
 
 **Count the number of POST requests that have administrator in the URL \(administrator/index\)**
 
-```text
+```sql
 SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(ACCESS_LOG_COL, 'post AND administrator AND index')
 ```
 
 **Count the number of POST requests that have a particular URL and handled by Firefox browser**
 
-```text
+```sql
 SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(ACCESS_LOG_COL, 'post AND administrator AND index AND firefox')
 ```
 
@@ -103,13 +103,13 @@ Few examples of search queries on this data:
 
 **Count the number of candidates that have "machine learning" and "gpu processing"** - a phrase search \(more on this further in the document\) where we are looking for exact match of phrases "machine learning" and "gpu processing" not necessarily in the same order in original data.
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"gpu processing\"')
 ```
 
 **Count the number of candidates that have "distributed systems" and either 'Java' or 'C++'** - a combination of searching for exact phrase "distributed systems" along with other terms.
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" AND (Java C++)')
 ```
 
@@ -117,7 +117,7 @@ SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"distributed syste
 
 Consider a snippet from a log file containing SQL queries handled by a database. Each line \(query\) in the file represents a column value in QUERY\_LOG\_COL column in Pinot table.
 
-```text
+```sql
 SELECT count(dimensionCol2) FROM FOO WHERE dimensionCol1 = 18616904 AND timestamp BETWEEN 1560988800000 AND 1568764800000 GROUP BY dimensionCol3 TOP 2500
 SELECT count(dimensionCol2) FROM FOO WHERE dimensionCol1 = 18616904 AND timestamp BETWEEN 1560988800000 AND 1568764800000 GROUP BY dimensionCol3 TOP 2500
 SELECT count(dimensionCol2) FROM FOO WHERE dimensionCol1 = 18616904 AND timestamp BETWEEN 1545436800000 AND 1553212800000 GROUP BY dimensionCol3 TOP 2500
@@ -136,19 +136,19 @@ Few examples of search queries on this data:
 
 **Count the number of queries that have GROUP BY**
 
-```text
+```sql
 SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(QUERY_LOG_COL, '\"group by\"')
 ```
 
 **Count the number of queries that have the SELECT count... pattern**
 
-```text
+```sql
 SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(QUERY_LOG_COL, '\"select count\"')
 ```
 
 **Count the number of queries that use BETWEEN filter on timestamp column along with GROUP BY**
 
-```text
+```sql
 SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(QUERY_LOG_COL, '\"timestamp between\" AND \"group by\"')
 ```
 
@@ -176,7 +176,7 @@ Similar to other indexes, users can enable text index on a column through table 
 
 **IMPORTANT:** This mechanism of using "fieldConfigList" is currently ONLY used for text indexes. Our plan is to migrate all other indexes to this model. We are going to do that in upcoming releases and accordingly user documentation and new guidelines will be published. So **please continue** to specify other index info in table config as you have done till now and use the **"fieldConfigList" only for text indexes**. 
 
-```text
+```javascript
 "fieldConfigList":[
   {
      "name":"text_col_1",
@@ -199,7 +199,7 @@ Similar to other indexes, users can enable text index on a column through table 
 
 Also, since we haven't yet removed the old way of specifying the index info, each column that text index is enabled on should also be specified in noDictionaryColumns in tableIndexConfig
 
-```text
+```javascript
 "tableIndexConfig": {
    "noDictionaryColumns": [
      "text_col_1",
@@ -238,21 +238,21 @@ TEXT\_MATCH\(text\_column\_name, search\_expression\)
 
 We can use TEXT\_MATCH function as part of our queries in the WHERE clause. Examples:
 
-```text
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(...)
 SELECT * FROM Foo WHERE TEXT_MATCH(...)
 ```
 
 We can also use the TEXT\_MATCH filter clause with other filter operators. For example:
 
-```text
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(...) AND some_other_column_1 > 20000
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(...) AND some_other_column_1 > 20000 AND some_other_column_2 < 100000
 ```
 
 Combining multiple TEXT\_MATCH filter clauses
 
-```text
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(text_col_1, ....) AND TEXT_MATCH(text_col_2, ...)
 ```
 
@@ -295,7 +295,7 @@ Database engine, OLAP systems, OLTP transaction processing at large scale, concu
 
 **Example 1 -** Search in SKILL\_COL column to look for documents where each matching document MUST contain phrase "distributed systems" as is
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Distributed systems\"') 
 ```
 
@@ -328,7 +328,7 @@ Distributed data processing, systems design experience
 
 **Example 2 -** Search in SKILL\_COL column to look for documents where each matching document MUST contain phrase "query processing" as is
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"query processing\"') 
 ```
 
@@ -347,7 +347,7 @@ Term queries are used to search for individual terms
 
 As mentioned earlier, the search expression is always within single quotes. However, since this is a term query, we don't have to use double quotes within single quotes.
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, 'Java')
 ```
 
@@ -357,7 +357,7 @@ Boolean operators AND, OR are supported and we can use them to build a composite
 
 **Example 4 -** Search in SKILL\_COL column to look for documents where each matching document MUST contain phrases "distributed systems" and "tensor flow". This combines two phrases using AND boolean operator
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"Tensor Flow\"')
 ```
 
@@ -371,7 +371,7 @@ CUDA, GPU processing, Tensor flow, Pandas, Python, Jupyter notebook, spark, Mach
 
 **Example 5 -** Search in SKILL\_COL column to look for documents where each document MUST contain phrase "machine learning" and term 'gpu' and term 'python'. This combines a phrase and two terms using boolean operator
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND gpu AND python')
 ```
 
@@ -395,7 +395,7 @@ Use of OR operator is implicit. In other words, if phrase\(s\) and term\(s\) are
 * term 'java' OR
 * term 'C++'.
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" Java C++')
 ```
 
@@ -408,7 +408,7 @@ We can also do grouping using parentheses:
 
 In the below query, we group terms Java and C++ without any operator which implies the use of OR. The root operator AND is used to combine this with phrase "distributed systems"
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" AND (Java C++)')
 ```
 
@@ -418,7 +418,7 @@ Prefix searches can also be done in the context of a single term. We can't use p
 
 **Example 8 -** Search in SKILL\_COL column to look for documents where each document MUST contain text like stream, streaming, streams etc
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, 'stream*')
 ```
 
@@ -441,7 +441,7 @@ Consider server log as an example and we want to look for exceptions. A regex qu
 
 Syntax of a regex query is slightly different from queries mentioned earlier. The regular expression is written between a pair of forward slashes \(/\). 
 
-```text
+```sql
 SELECT SKILLS_COL FROM MyTable WHERE text_match(SKILLS_COL, '/.*Exception/')
 ```
 
@@ -455,19 +455,19 @@ The key thing to remember is that phrases should be used when the order of terms
 
 An example would be phrase "machine learning". 
 
-```text
+```sql
 TEXT_MATCH(column, '\"machine learning\"')
 ```
 
 However, if we are searching for documents matching Java and C++ terms, using phrase query "Java C++" will actually result in in partial results \(could be empty too\) since now we are relying the on the user specifying these skills in the exact same order \(adjacent to each other\) in the resume text.
 
-```text
+```sql
 TEXT_MATCH(column, '\"Java C++\"')
 ```
 
 Term query using boolean AND operator is more appropriate for such cases
 
-```text
+```sql
 TEXT_MATCH(column, 'Java AND C++')
 ```
 
