@@ -181,12 +181,12 @@ Similar to other indexes, users can enable text index on a column through table 
   {
      "name":"text_col_1",
      "encodingType":"RAW",
-     "indexType":"TEXT",
+     "indexType":"TEXT"
   },
   {
      "name":"text_col_2",
      "encodingType":"RAW",
-     "indexType":"TEXT",
+     "indexType":"TEXT"
   }
 ]
 ```
