@@ -88,7 +88,7 @@ for (int i = 0; i < resultSet.getRowCount(); ++i) {
 {% hint style="warning" %}
 Note
 
-The examples for the sections below this note, are for querying the PQL endpoint, which is deprecated and will be deleted soon. For more information about the 2 endpoints, visit [Querying Pinot](../querying-pinot-using-standard-sql.md).
+The examples for the sections below this note, are for querying the PQL endpoint, which is deprecated and will be deleted soon. For more information about the 2 endpoints, visit [Querying Pinot](../api/querying-pinot-using-standard-sql/).
 {% endhint %}
 
 If queryFormat `pql` is used in the `Request`,  there are some differences in how the results can be accessed, depending on the query. 

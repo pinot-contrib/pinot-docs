@@ -28,15 +28,6 @@
   * [Table](pinot-components/table.md)
   * [Schema](pinot-components/schema.md)
   * [Segment](pinot-components/segment.md)
-* [User Guide](pinot-user-guide/README.md)
-  * [Querying Pinot](pinot-user-guide/querying-pinot-using-standard-sql.md)
-  * [Response Format](pinot-user-guide/response-format.md)
-  * [Pinot Query Language](pinot-user-guide/pinot-query-language/README.md)
-    * [Unique Counting](pinot-user-guide/pinot-query-language/how-to-handle-unique-counting.md)
-  * [Pinot Rest Admin Interface](pinot-user-guide/pinot-rest-admin-interface.md)
-  * [Pinot Clients](pinot-user-guide/pinot-clients/README.md)
-    * [Java](pinot-user-guide/pinot-clients/java.md)
-    * [Golang](pinot-user-guide/pinot-clients/golang.md)
 * [Manage & Operate](operating-pinot/README.md)
   * [Setup cluster](operating-pinot/setup-cluster.md)
   * [Setup table](operating-pinot/setup-table.md)
@@ -60,6 +51,19 @@
   * [0.3.0](releases/0.3.0.md)
   * [0.2.0](releases/0.2.0.md)
   * [0.1.0](releases/1.0.md)
+
+## User Guide
+
+* [Query](user-guide/user-guide-query/README.md)
+  * [Pinot Query Language \(PQL\)](user-guide/user-guide-query/pinot-query-language/README.md)
+    * [Unique Counting](user-guide/user-guide-query/pinot-query-language/how-to-handle-unique-counting.md)
+* [API](user-guide/api/README.md)
+  * [Querying Pinot](user-guide/api/querying-pinot-using-standard-sql/README.md)
+    * [Response Format](user-guide/api/querying-pinot-using-standard-sql/response-format.md)
+  * [Pinot Rest Admin Interface](user-guide/api/pinot-rest-admin-interface.md)
+* [Clients](user-guide/clients/README.md)
+  * [Java](user-guide/clients/java.md)
+  * [Golang](user-guide/clients/golang.md)
 
 ## Pinot Features <a id="pinot-features-1"></a>
 

@@ -40,11 +40,11 @@ $ curl -H "Content-Type: application/json" -X POST \
 
 Query Console can be used for running ad-hoc queries \(checkbox available to query the PQL endpoint\). The Query Console can be accessed by entering the `<controller host>:<controller port>` in your browser
 
-![Pinot Query Console](../.gitbook/assets/image%20%2811%29.png)
+![Pinot Query Console](../../../.gitbook/assets/image%20%2811%29.png)
 
 ### pinot-admin
 
-You can also query using the `pinot-admin` scripts. Make sure you follow instructions in [Getting Pinot](../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
+You can also query using the `pinot-admin` scripts. Make sure you follow instructions in [Getting Pinot](../../../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
 
 ```bash
 cd incubator-pinot/pinot-tools/target/pinot-tools-pkg 
@@ -62,5 +62,5 @@ Here's a list of the clients available to query Pinot from your application
 
 1. [Java Client](https://apache-pinot.gitbook.io/apache-pinot-cookbook/pinot-user-guide/pinot-clients/java)
 2. Coming soon - JDBC client
-3. [Golang Client](pinot-clients/golang.md#pinot-client-go)
+3. [Golang Client](../../clients/golang.md#pinot-client-go)
 
