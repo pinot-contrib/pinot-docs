@@ -7,6 +7,8 @@ description: >-
 
 # Pinot Overview
 
+![Pinot System Architecture Diagram](../.gitbook/assets/pinot-system-architecture.png)
+
 ### Concepts
 
 Key components of Pinot are described in the Concept section. A basic understanding of these components is advised to both users and, in particular, developers.
