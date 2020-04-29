@@ -50,6 +50,10 @@ mvn install package -DskipTests -Pbin-dist
 # navigate to directory containing the setup scripts
 cd pinot-distribution/target/apache-pinot-incubating-$PINOT_VERSION-bin/apache-pinot-incubating-$PINOT_VERSION-bin
 ```
+
+{% hint style="info" %}
+Note that Pinot scripts is located under **pinot-distribution/targets** not **targets** directory under root.
+{% endhint %}
 {% endtab %}
 
 {% tab title="Download the release" %}
