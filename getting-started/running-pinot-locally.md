@@ -52,7 +52,7 @@ cd pinot-distribution/target/apache-pinot-incubating-$PINOT_VERSION-bin/apache-p
 ```
 
 {% hint style="info" %}
-Note that Pinot scripts is located under **pinot-distribution/targets** not **targets** directory under root.
+Note that Pinot scripts is located under **pinot-distribution/target** not **target** directory under root.
 {% endhint %}
 {% endtab %}
 
