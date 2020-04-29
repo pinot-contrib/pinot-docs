@@ -7,7 +7,7 @@ description: >-
 
 # Pinot Overview
 
-![Pinot System Architecture Diagram](../.gitbook/assets/pinot-system-architecture.png)
+![](../.gitbook/assets/pinot-architecture-2.png)
 
 ### Concepts
 
