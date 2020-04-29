@@ -39,6 +39,7 @@
     * [Routing](operating-pinot/tuning/routing.md)
 * [Developers and Contributors](developers-and-contributors/README.md)
   * [Extending Pinot](developers-and-contributors/extending-pinot/README.md)
+    * [Custom Aggregation Function](developers-and-contributors/extending-pinot/custom-aggregation-function.md)
     * [Pluggable Streams](developers-and-contributors/extending-pinot/pluggable-streams.md)
     * [Pluggable Storage](developers-and-contributors/extending-pinot/pluggable-storage.md)
     * [Record Reader](developers-and-contributors/extending-pinot/record-reader.md)
