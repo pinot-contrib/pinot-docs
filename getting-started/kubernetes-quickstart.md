@@ -42,13 +42,13 @@ helm dependency update
 
 * For Helm **v2.12.1**
 
-If cluster is just initialized, ensure Helm is initialized by running:
+If your Kubernetes cluster is recently provisioned, ensure Helm is initialized by running:
 
 ```text
 helm init --service-account tiller
 ```
 
-Then deploy Pinot cluster by:
+Then deploy a new HA Pinot cluster using the following command:
 
 ```text
 helm install --namespace "pinot-quickstart" --name "pinot" .
@@ -63,7 +63,7 @@ helm install -n pinot-quickstart pinot .
 
 ### **2.3 Troubleshooting \(For helm v2.12.1\)**
 
-* Error: Please run below command if encountering issue:
+* Error: Please run the below command if encountering the following issue:
 
 ```text
 Error: could not find tiller.
