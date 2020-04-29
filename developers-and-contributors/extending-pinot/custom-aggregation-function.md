@@ -1,4 +1,4 @@
-# Custom Aggregation Function
+# Writing Custom Aggregation Function
 
 Pinot has many inbuilt Aggregation Functions such as MIN, MAX, SUM, AVG etc. See  [PQL](../../user-guide/user-guide-query/pinot-query-language/) page for the list of aggregation functions. 
 
