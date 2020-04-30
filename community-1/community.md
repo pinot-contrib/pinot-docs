@@ -16,7 +16,7 @@ For general questions and announcement:
 
 ## Github
 
-Star us at [apache/incubator-pinot](https://github.com/apache/incubator-pinot) to follow Pinot development, ask questions, raise issues, or contribute pull requests. Please see [Developers and Contributors](../developers-and-contributors/) section if you're interested in development.
+Star us at [apache/incubator-pinot](https://github.com/apache/incubator-pinot) to follow Pinot development, ask questions, raise issues, or contribute pull requests. Please see [Developers and Contributors](../developers/developers-and-contributors/) section if you're interested in development.
 
 ## Slack Channel
 
