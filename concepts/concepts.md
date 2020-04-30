@@ -24,7 +24,7 @@ As opposed to RDBMS schemas, multiple tables can be created in Pinot \(real-time
 
 **Segment**  
   
-****Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as **segments** \(this is similar to shards/partitions in HA relational databases\). Segments can also be seen as time-based partitions. 
+****Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](https://docs.pinot.apache.org/pinot-components/segment) ****\(this is similar to shards/partitions in HA relational databases\). Segments can also be seen as time-based partitions. 
 
 **Tenant**  
   
