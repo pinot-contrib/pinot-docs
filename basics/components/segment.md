@@ -8,7 +8,7 @@ Columns may be **single or multi-valued.** Column types may be **STRING, INT, LO
 
 Pinot uses **dictionary encoding** to store values as a dictionary ID. Columns may be configured to be “no-dictionary” column in which case raw values are stored. Dictionary IDs are encoded using minimum number of bits for efficient storage \(_e.g._ a column with cardinality of 3 will use only 2 bits for each dictionary ID\).
 
-There is a **forward index** built for each column and compressed appropriately for efficient memory use. In addition, optional i**nverted indices** can be configured for any set of columns. Inverted indices, while take up more storage, offer better query performance. Specialized indexes like **Star-Tree index** is also supported. Check out [Indexing](../features/indexing.md) for more details.
+There is a **forward index** built for each column and compressed appropriately for efficient memory use. In addition, optional i**nverted indices** can be configured for any set of columns. Inverted indices, while take up more storage, offer better query performance. Specialized indexes like **Star-Tree index** is also supported. Check out [Indexing](../../features/indexing.md) for more details.
 
 ## Creating a segment
 

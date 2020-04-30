@@ -64,7 +64,7 @@ If you followed the [Batch upload sample data](pushing-your-data-to-pinot.md), y
 
 ## Creating a table config
 
-If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you learnt how to push an offline table and schema. Similar to the offline table config, we will create a realtime table config for the sample. Here's the realtime table config for the transcript table. For a more detailed overview about table, checkout [Table](../../reference/components/table.md).
+If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you learnt how to push an offline table and schema. Similar to the offline table config, we will create a realtime table config for the sample. Here's the realtime table config for the transcript table. For a more detailed overview about table, checkout [Table](../components/table.md).
 
 {% code title="/tmp/pinot-quick-start/transcript-table-realtime.json" %}
 ```css

@@ -28,7 +28,7 @@ studentID,firstName,lastName,gender,subject,score,timestamp
 
 ### Creating a schema
 
-Schema is used to define the columns and data types of the Pinot table. A detailed overview of the schema can be found in [Schema](../../reference/components/schema.md).
+Schema is used to define the columns and data types of the Pinot table. A detailed overview of the schema can be found in [Schema](../components/schema.md).
 
 Briefly, we categorize our columns into 3 types
 
@@ -88,7 +88,7 @@ Once you have identified the dimensions, metrics and time columns, create a sche
 
 ### Creating a table config
 
-A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../../reference/components/table.md). 
+A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table.md). 
 
 Here's the table config for the sample CSV file. You can use this as a reference to build your own table config. Simply edit the tableName and schemaName.
 
@@ -158,7 +158,7 @@ Check out the table config and schema in the [Rest API](http://localhost:9000/he
 
 ### Creating a segment
 
-A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../../reference/components/segment.md). 
+A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../components/segment.md). 
 
 To generate a segment, we need to first create a job spec yaml file. JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. You can just copy over this job spec file. If you're using your own data, be sure to 1\) replace `transcript` with your table name 2\) set the right `recordReaderSpec`
 
