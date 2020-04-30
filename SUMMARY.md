@@ -38,7 +38,7 @@
 * [Recipes](recipes/README.md)
   * [GitHub Events Stream](recipes/github-events-stream.md)
 
-## Users
+## For Users <a id="users"></a>
 
 * [Query](users/user-guide-query/README.md)
   * [Pinot Query Language \(PQL\)](users/user-guide-query/pinot-query-language/README.md)
@@ -51,7 +51,7 @@
   * [Java](users/clients/java.md)
   * [Golang](users/clients/golang.md)
 
-## Developers
+## For Developers <a id="developers"></a>
 
 * [Basics](developers/developers-and-contributors/README.md)
   * [Extending Pinot](developers/developers-and-contributors/extending-pinot/README.md)
@@ -88,7 +88,7 @@
       * [Amazon Kinesis](developers/tutorials/pinot-connectors/streaming/kinesis.md)
       * [Google Pub/Sub](developers/tutorials/pinot-connectors/streaming/google-pub-sub.md)
 
-## Operators
+## For Operators <a id="operators"></a>
 
 * [Basics](operators/operating-pinot/README.md)
   * [Setup cluster](operators/operating-pinot/setup-cluster.md)
