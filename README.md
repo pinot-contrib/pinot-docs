@@ -10,7 +10,41 @@ Pinot is a real-time distributed OLAP datastore, built to deliver scalable real 
 
 ![A modern OLAP platform for event-driven data warehousing](.gitbook/assets/pinot-overview-graphic.png)
 
-## Who uses Pinot in production?
+## Learning Pinot
+
+Our documentation is structured to let you quickly get to the content you need and is organized around the different concerns of users, operators, and developers. If you're new to Pinot and want to learn things by example, please take a look at our _getting started_ section.
+
+{% page-ref page="basics/getting-started/" %}
+
+For a high-level overview that explains how Pinot works, please take a look at our basic concepts section.
+
+{% page-ref page="basics/concepts.md" %}
+
+To understand the distributed systems architecture that explains Pinot's operating model, please take a look at our basic architecture section.
+
+{% page-ref page="basics/architecture.md" %}
+
+## FAQs
+
+This section focuses on answering the most frequently asked questions for people exploring the newly evolving category of distributed OLAP engines. Pinot was created by authors at both Uber and LinkedIn and has been hardened and battle tested at the very highest of load and scale.
+
+### Is Pinot a data warehouse or a database?
+
+While Pinot doesn't match the typical mold of a database product, it is best understood based on your role as either an analyst, data scientist, or application developer.
+
+#### Enterprise business intelligence
+
+For analysts and data scientists, Pinot is best viewed as a highly-scalable data platform for business intelligence. In this view, Pinot converges big data platforms with the traditional role of a data warehouse, making it a suitable replacement for analysis and reporting.
+
+#### Enterprise application development
+
+For application developers, Pinot is best viewed as an immutable aggregate store that sources events from streaming data sources, such as Kafka, and makes it available for query using SQL. 
+
+As is the case with a microservice architecture, data encapsulation ends up requiring each application to provision its own data store, as opposed to sharing one OLTP database for reads and writes. In this case, it becomes difficult to query the complete view of a domain because it becomes stored in many different databases. This is costly in terms of performance, since it requires joins across multiple microservices that expose their data over HTTP under a REST API. To prevent this, Pinot can be used to aggregate all of the data across a microservice architecture into one easily queryable view of the domain.
+
+Pinot [tenants](reference/components/tenant.md) prevent any possibility of sharing ownership of database tables across microservice teams. Developers can create their own query models of data from multiple systems of record depending on their use case and needs. As with all aggregate stores, query models are eventually consistent and immutable.
+
+### **Who uses Pinot in production?**
 
 <table>
   <thead>
@@ -52,7 +86,7 @@ Pinot is a real-time distributed OLAP datastore, built to deliver scalable real 
       </td>
     </tr>
   </tbody>
-</table>## Features of Pinot
+</table>### Features of Pinot
 
 * A column-oriented database with various compression schemes such as Run Length, Fixed Bit Length
 * Pluggable indexing technologies - Sorted Index, Bitmap Index, Inverted Index
@@ -62,7 +96,7 @@ Pinot is a real-time distributed OLAP datastore, built to deliver scalable real 
 * Support for multi-valued fields
 * Horizontally scalable and fault-tolerant
 
-## When should I use it?
+### When should I use it?
 
 Pinot is designed to execute OLAP queries with low latency. It is suited in contexts where fast analytics, such as aggregations, are needed on immutable data, possibly, with real-time data ingestion.
 
@@ -80,16 +114,9 @@ Instructions to connect Pinot with Superset can found [here](integrations/supers
 
 In addition to visualizing data in Pinot, one can run Machine Learning Algorithms to detect Anomalies on the data stored in Pinot. See [ThirdEye](integrations/thirdeye.md) for more information on how to use Pinot for Anomaly Detection and Root Cause Analysis.
 
-## When should I not use it?
+### Query example
 
-Pinot is not a replacement for your database, nor a search engine. It addresses fast analytics on immutable data and it not designed to perform data updates or deletions. Joins are currently not supported, but this problem can be overcome by using PrestoDB for querying Pinot \([https://prestodb.io/](https://prestodb.io/)\).  
-  
-For more information about PrestoDB connector for Pinot see [https://github.com/apache/incubator-pinot/tree/master/kubernetes/examples/helm\#access-pinot-using-presto](https://github.com/apache/incubator-pinot/tree/master/kubernetes/examples/helm#access-pinot-using-presto)  
-introduced in [https://github.com/prestodb/presto/pull/13504](https://github.com/prestodb/presto/pull/13504)
-
-## Quick example
-
-Pinot works very well for querying time series data with many dimensions and metrics. Filters and aggregations are both easy and fast.
+Pinot works very well for querying time series data with many dimensions and metrics over a vast unbounded space of records that scales linearly on a per node basis. Filters and aggregations are both easy and fast.
 
 ```sql
 SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
@@ -100,23 +127,7 @@ SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
        daysSinceEpoch TOP 100
 ```
 
-## Learning Pinot
-
-Our documentation is structured to let you quickly get to the content you need and is organized around the different concerns of users, operators, and developers. If you're new to Pinot and want to learn things by example, please take a look at our _getting started_ section.
-
-{% page-ref page="basics/getting-started/" %}
-
-For a high-level overview that explains how Pinot works, please take a look at our basic concepts section.
-
-{% page-ref page="basics/concepts.md" %}
-
-To understand the distributed systems architecture that explains Pinot's operating model, please take a look at our basic architecture section.
-
-{% page-ref page="basics/architecture.md" %}
-
-
-
-## Installation
+### Installation
 
 Pinot may be deployed to and operated on a cloud provider or a local or virtual machine. You may get started either with a bare-metal installation or a Kubernetes one \(either locally or in the cloud\). To get immediately started with Pinot, check out these quick-start guides. 
 
