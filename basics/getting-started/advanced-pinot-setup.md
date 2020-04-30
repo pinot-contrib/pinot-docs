@@ -179,5 +179,5 @@ Now all Pinot related components are started as an empty cluster.
 {% endtab %}
 {% endtabs %}
 
-Now it's time to start adding data to the cluster. Check out some of the [Recipes](recipes/) or follow the [Batch upload sample data](pushing-your-data-to-pinot.md) and [Stream sample data](pushing-your-streaming-data-to-pinot.md) for instructions on loading your own data.
+Now it's time to start adding data to the cluster. Check out some of the [Recipes](../../recipes/) or follow the [Batch upload sample data](pushing-your-data-to-pinot.md) and [Stream sample data](pushing-your-streaming-data-to-pinot.md) for instructions on loading your own data.
 

@@ -28,8 +28,6 @@
   * [Batch upload sample data](basics/getting-started/pushing-your-data-to-pinot.md)
   * [Stream sample data](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
   * [Advanced Pinot Setup](basics/getting-started/advanced-pinot-setup.md)
-  * [Recipes](basics/getting-started/recipes/README.md)
-    * [GitHub Events Stream](basics/getting-started/recipes/github-events-stream.md)
 * [Features](features/README.md)
   * [Text Search Support](features/text-search-support.md)
   * [Indexing](features/indexing.md)
@@ -37,6 +35,8 @@
   * [0.3.0](releases/0.3.0.md)
   * [0.2.0](releases/0.2.0.md)
   * [0.1.0](releases/1.0.md)
+* [Recipes](recipes/README.md)
+  * [GitHub Events Stream](recipes/github-events-stream.md)
 
 ## Users
 
