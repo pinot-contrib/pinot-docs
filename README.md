@@ -8,7 +8,7 @@ description: A simple introduction to Apache Pinot
 
 Pinot is a real-time distributed OLAP datastore, built to deliver scalable real time analytics with low latency. It can ingest data from batch data sources \(such as Hadoop HDFS, Amazon S3, Azure ADLS, Google Cloud Storage\) as well as stream data sources \(such as Apache Kafka\). Pinot is designed to scale horizontally, so that it can scale to larger data sets and higher query rates as needed.
 
-![](.gitbook/assets/pinot-introduction-2.svg)
+![A modern OLAP platform for event-driven data warehousing](.gitbook/assets/pinot-overview-graphic.png)
 
 ## Who uses Pinot in production?
 
@@ -100,17 +100,21 @@ SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
        daysSinceEpoch TOP 100
 ```
 
-## Who uses Pinot?
+## Learning Pinot
 
-Pinot powers several big players, including LinkedIn, Uber, Factual, Weibo, Slack and more.
-
-## Tutorial
-
-If you want to learn how to run Pinot, start here:
+Our documentation is structured to let you quickly get to the content you need and is organized around the different concerns of users, operators, and developers. If you're new to Pinot and want to learn things by example, please take a look at our _getting started_ section.
 
 {% page-ref page="basics/getting-started/" %}
 
-If you prefer some concepts and tutorials first:
+For a high-level overview that explains how Pinot works, please take a look at our basic concepts section.
+
+{% page-ref page="basics/concepts.md" %}
+
+To understand the distributed systems architecture that explains Pinot's operating model, please take a look at our basic architecture section.
+
+{% page-ref page="basics/architecture.md" %}
+
+
 
 ## Installation
 
