@@ -18,17 +18,22 @@ In order to understand the concepts, let's start with how data is stored in Pino
 
 **Table**
 
-Similar to traditional databases, Pinot has the concept of a **table**—a logical abstraction to refer to a collection of related data. It consists of columns and rows \(documents\). Typically, a table is associated with a [schema](https://docs.pinot.apache.org/pinot-components/schema) which defines the columns in a table as well as their data types.
+Similar to traditional databases, Pinot has the concept of a [**table**](https://docs.pinot.apache.org/pinot-components/table)—a logical abstraction to refer to a collection of related data. As is the case with RDBMS, a table is a construct that consists of columns and rows \(documents\) that are queried using SQL. Typically, a table is associated with a [schema](https://docs.pinot.apache.org/pinot-components/schema) which defines the columns in a table as well as their data types. 
+
+As opposed to RDBMS schemas, multiple tables can be created in Pinot \(real-time or batch\) that inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, and/or replication.
 
 **Segment**  
-Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, the entire data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as **segments** \(this is similar to shards/partitions in HA relational databases\). Segments can also be seen as time-based partitions. 
+  
+****Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, the entire data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as **segments** \(this is similar to shards/partitions in HA relational databases\). Segments can also be seen as time-based partitions. 
 
 **Tenant**  
+  
 In order to support multi-tenancy, Pinot has first class support for tenants. A table is associated with a [tenant](https://docs.pinot.apache.org/pinot-components/tenant). This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different application development teams or business units to not share tables or schemas while reaping all the benefits of a scalable fault-tolerant data store used by many teams but operated as a single cluster. 
 
 By default, all tables belong to a default tenant named "default". The concept of tenants is very important, as it satisfies the architectural principle of a "database per service/application" without having to operate many independent data stores. Further, tenants will schedule resources so that segments \(shards\) are restrict a table's data to reside only a specified set of node. Similar to the kind of isolation that is ubiquitously used in Linux containers, compute resources in Pinot can be scheduled to prevent resource contention between tenants.
 
 **Cluster**  
+  
 Logically, a [cluster](https://docs.pinot.apache.org/pinot-components/cluster) is simply a group of tenants. As with the classical definition of a cluster, it is also a grouping of a set of compute nodes. Typically, there is only one cluster per environment/data center. There is no needed to create multiple clusters since Pinot supports the concept of tenants. At LinkedIn, the largest Pinot cluster consists of 1000+ nodes distributed across a data center. The number of nodes in a cluster can be added in a way that will linearly increase performance and availability of queries. The number of nodes and the compute resources per node will reliably predict the QPS for a Pinot cluster, and as such, capacity planning can be easily achieved using SLAs that assert performance expectations for end-user applications. 
 
 {% hint style="info" %}
