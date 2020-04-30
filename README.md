@@ -8,6 +8,10 @@ description: A simple introduction to Apache Pinot
 
 Pinot is a real-time distributed OLAP datastore, built to deliver scalable real time analytics with low latency. It can ingest data from batch data sources \(such as Hadoop HDFS, Amazon S3, Azure ADLS, Google Cloud Storage\) as well as stream data sources \(such as Apache Kafka\). Pinot is designed to scale horizontally, so that it can scale to larger data sets and higher query rates as needed.
 
+{% hint style="info" %}
+Join us in our Slack channel for questions, troubleshooting, and feedback. We'd love to hear from you. [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot)
+{% endhint %}
+
 ![A modern OLAP platform for event-driven data warehousing](.gitbook/assets/pinot-overview-graphic.png)
 
 ## Learning Pinot
