@@ -1,5 +1,5 @@
 ---
-description: A simple introduction to Apache Pinot
+description: 'Introduction to Apache Pinot, a real-time distributed OLAP datastore.'
 ---
 
 # Introduction
