@@ -28,7 +28,7 @@ Pinot has a distributed systems architecture that scales horizontally. Pinot exp
 
 ### **Tenant**
 
-In order to support multi-tenancy, Pinot has first class support for tenants. A table is associated with a [tenant](https://docs.pinot.apache.org/pinot-components/tenant). This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications will never have to operate an indepenent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster. 
+In order to support multi-tenancy, Pinot has first class support for tenants. A table is associated with a [tenant](https://docs.pinot.apache.org/pinot-components/tenant). This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications will never have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster. 
 
 By default, all tables belong to a default tenant named "default". The concept of tenants is very important, as it satisfies the architectural principle of a "database per service/application" without having to operate many independent data stores. Further, tenants will schedule resources so that segments \(shards\) are able to restrict a table's data to reside only on a specified set of nodes. Similar to the kind of isolation that is ubiquitously used in Linux containers, compute resources in Pinot can be scheduled to prevent resource contention between tenants.
 
@@ -76,10 +76,4 @@ A real-time and offline server have very different resource usage requirements, 
 ### Pinot Minion
 
 Pinot minion is an optional component that can be used to run background tasks such as "purge" for GDPR \(General Data Protection Regulation\). As Pinot is an immutable aggregate store, records containing sensitive private data need to be purged on a request-by-request basis. Minion provides a solution for this purpose that complies with GDPR while optimizing Pinot segments and building additional indices that guarantees performance in the presence of the possibility of data deletion. One can also write a custom task that runs on a periodic basis. While it's possible to perform these tasks on the Pinot servers directly, having a separate process \(Minion\) lessens the overall degradation of query latency as segments are impacted by mutable writes.
-
-
-
-
-
-
 

@@ -12,7 +12,7 @@ This page will introduce you to the guiding principles behind the design of Apac
 It's recommended that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
 {% endhint %}
 
-## Guiding Design Principles
+## Guiding design principles
 
 Pinot was designed by engineers at LinkedIn and Uber to scale query performance based on the number of nodes in a cluster. As you add more nodes, query performance will always improve based on the expected query volume per second quota. To achieve horizontal scalability to an unbounded number of nodes and data storage, without performance degradation, the following guiding design principles were established.
 
@@ -22,7 +22,7 @@ Pinot was designed by engineers at LinkedIn and Uber to scale query performance 
 * **Immutable data**: Pinot assumes that all data stored is immutable. For GDPR compliance, we provide an add-on solution for purging data while maintaining performance guarantees.
 * **Dynamic configuration changes**: Operations such as adding new tables, expanding a cluster, ingesting data, modifying indexing config, and re-balancing must be performed without impacting query availability or performance.
 
-## Core Components
+## Core components
 
 As described in the [concepts](concepts.md), Pinot has multiple distributed system components:[ Controller](components/controller.md), [Broker](components/broker.md), [Server](components/server.md), and [Minion](components/minion.md). 
 
@@ -106,11 +106,13 @@ Helix agents use Zookeeper to store and update configurations, as well as for di
 
 ### Controller
 
-Pinot's controller acts as the driver of the cluster's overall state and health. Because of its role as a Helix participant and spectator, which drives the state of other components, it is the first component that is typically started after Zookeeper. Two parameters are required for starting a controller: Zookeeper address and cluster name. The controller will automatically create a cluster via Helix if it does not yet exist. 
+Pinot's [controller](components/controller.md) acts as the driver of the cluster's overall state and health. Because of its role as a Helix participant and spectator, which drives the state of other components, it is the first component that is typically started after Zookeeper. Two parameters are required for starting a controller: Zookeeper address and cluster name. The controller will automatically create a cluster via Helix if it does not yet exist. 
 
 #### Fault tolerance
 
-To achieve fault tolerance, one can start multiple controllers \(typically 3\) and one of them will act as a leader. If the leader crashes or dies, another leader is automatically elected. Leader election is achieved using Apache Helix. Having at-least one controller is required to perform any DDL equivalent operation on the cluster, such as adding a table or a segment. The controller does not interfere with query execution. Query execution is not impacted even when all controllers nodes are offline. If all controller nodes are offline, the state of the cluster will stay as it was when the last leader went down. When a new leader comes online, a cluster resumes re-balancing activity and can accept new tables or segments.
+To achieve fault tolerance, one can start multiple controllers \(typically three\) and one of them will act as a leader. If the leader crashes or dies, another leader is automatically elected. Leader election is achieved using Apache Helix. Having at-least one controller is required to perform any DDL equivalent operation on the cluster, such as adding a table or a segment. 
+
+The controller does not interfere with query execution. Query execution is not impacted even when all controllers nodes are offline. If all controller nodes are offline, the state of the cluster will stay as it was when the last leader went down. When a new leader comes online, a cluster resumes re-balancing activity and can accept new tables or segments.
 
 #### Controller REST interface
 
@@ -206,10 +208,10 @@ Broker instances scale horizontally without an upper bound. In a majority of cas
 
 ### Server
 
-Servers host segments and does most of the heavy lifting during query processing. Though the architecture shows that there are two kinds of servers, real-time and offline, a server does not really know if its going to be a real-time server or an offline server. The responsibility of a server depends on the [table](components/table.md) assignment strategy. 
+[Servers](components/server.md) host [segments](components/segment.md) and do most of the heavy lifting during query processing. Though the architecture shows that there are two kinds of servers, real-time and offline, a server does not really know if it's going to be a real-time server or an offline server. The responsibility of a server depends on the [table](components/table.md) assignment strategy. 
 
 {% hint style="info" %}
-In theory, a server can host both real-time segments and offline segments. However, in practice, we use different types of machine SKU's for real-time servers and offline servers. The advantage of separating real-time servers and offline servers is to allow each to scale independently.
+In theory, a server can host both real-time segments and offline segments. However, in practice, we use different types of machine SKUs for real-time servers and offline servers. The advantage of separating real-time servers and offline servers is to allow each to scale independently.
 {% endhint %}
 
 **Offline servers**
@@ -255,7 +257,7 @@ At table creation, a controller creates a new entry in Zookeeper for the consumi
 
 Whenever the segment is complete \(i.e. full\), the _real-time server_ notifies the Controller, which checks with all replicas and picks a winner to commit the segment to. The winner commits the segment and uploads it to the cluster's segment store, updating the state of the segment from "consuming" to "online". The controller then prepares a new segment in a "consuming" state.
 
-## Query Overview
+## Query overview
 
 Queries are received by brokers—which checks the request against the segment-to-server routing table—scattering the request between real-time and offline servers.
 
