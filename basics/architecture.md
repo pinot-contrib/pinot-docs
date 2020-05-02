@@ -119,7 +119,7 @@ The controller does not interfere with query execution. Query execution is not i
 The [controller](components/controller.md) provides a REST interface to perform CRUD operations on all logical storage resources \(servers, brokers, tables, and segments\).
 
 {% hint style="info" %}
-See [Pinot Data Explorer](getting-started/exploring-pinot.md) for more information on the web-based admin tool.
+See [Pinot Data Explorer](../features/exploring-pinot.md) for more information on the web-based admin tool.
 {% endhint %}
 
 ### Broker

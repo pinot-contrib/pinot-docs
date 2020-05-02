@@ -1,8 +1,10 @@
 ---
-description: Run Pinot on GCP
+description: >-
+  This starter provides a quick start for running Pinot on Google Cloud Platform
+  (GCP)
 ---
 
-# GCP Quickstart
+# Running on GCP
 
 This document provides the basic instruction to set up a Kubernetes Cluster on [Google Kubernetes Engine\(GKE\)](https://cloud.google.com/kubernetes-engine)
 

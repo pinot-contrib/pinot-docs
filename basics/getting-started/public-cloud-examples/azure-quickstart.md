@@ -1,8 +1,8 @@
 ---
-description: Run Pinot on Azure
+description: This starter guide provides a quick start for running Pinot on Microsoft Azure
 ---
 
-# Azure Quickstart
+# Running on Azure
 
 This document provides the basic instruction to set up a Kubernetes Cluster on [Azure Kubernetes Service \(AKS\)](https://azure.microsoft.com/en-us/services/kubernetes-service/)
 

@@ -1,5 +1,5 @@
 ---
-description: Pinot quick start in Docker
+description: This quick start guide will show you how to run a Pinot cluster using Docker.
 ---
 
 # Running Pinot in Docker
@@ -76,7 +76,7 @@ Your cluster is ready once you see the cluster setup completion messages and sam
 
 ![Cluster Setup Completion Example ](../../.gitbook/assets/image%20%281%29.png)
 
-You can head over to [Exploring Pinot](exploring-pinot.md) to check out the data in the `baseballStats` table.
+You can head over to [Exploring Pinot](../../features/exploring-pinot.md) to check out the data in the `baseballStats` table.
 
 ## Streaming example
 
@@ -104,7 +104,7 @@ docker run \
     -type stream
 ```
 
-Once the cluster is up, you can head over to  [Exploring Pinot](exploring-pinot.md) to check out the data in the `meetupRSVPEvents` table.
+Once the cluster is up, you can head over to  [Exploring Pinot](../../features/exploring-pinot.md) to check out the data in the `meetupRSVPEvents` table.
 
 ## Hybrid example
 
@@ -135,5 +135,5 @@ docker run \
     -type hybrid
 ```
 
-Once the cluster is up, you can head over to  [Exploring Pinot](exploring-pinot.md) to check out the data in the `airlineStats` table.
+Once the cluster is up, you can head over to  [Exploring Pinot](../../features/exploring-pinot.md) to check out the data in the `airlineStats` table.
 

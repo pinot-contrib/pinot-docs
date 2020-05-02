@@ -2,7 +2,7 @@
 description: Step-by-step guide on pushing your own data into the Pinot cluster
 ---
 
-# Batch upload sample data
+# Batch import example
 
 So far, we setup our cluster, ran some queries, explored the admin endpoints. Now, it's time to get our own data into Pinot
 

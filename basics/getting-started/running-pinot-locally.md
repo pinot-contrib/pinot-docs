@@ -1,23 +1,19 @@
 ---
-description: Pinot Quickstart local
+description: >-
+  This quick start guide will help you bootstrap a Pinot cluster on your local
+  machine.
 ---
 
 # Running Pinot locally
 
-## Video Tutorial
+## Download Apache Pinot
 
-Here's a video tutorial for setting up a Pinot cluster: [How to Setup a Pinot Cluster](https://www.youtube.com/watch?v=cNnwMF0pOJ8).
-
-Alternately, you can follow the step by step guid below.
-
-## Getting Pinot
-
-First, let's get Pinot. You can either build it, or download it
+First, let's download the Pinot distribution for this tutorial. You can either build the distribution from source or download a packaged release.
 
 {% hint style="info" %}
  **Prerequisites** 
 
-Install Java 8 or higher.
+Install JDK8 or higher.
 {% endhint %}
 
 ```bash
@@ -25,7 +21,7 @@ Install Java 8 or higher.
 PINOT_VERSION=0.3.0
 ```
 
-### Build from source or Download the distribution
+### Build from source or download the distribution
 
 {% tabs %}
 {% tab title="Build from source " %}
@@ -77,11 +73,7 @@ cd apache-pinot-incubating-$PINOT_VERSION-bin
 {% endtab %}
 {% endtabs %}
 
-{% hint style="info" %}
-If you want to run Pinot using a Docker image instead, head over to [Running Pinot in Docker](running-pinot-in-docker.md)
-{% endhint %}
-
-## Setting up a Pinot Cluster
+## Setting up a Pinot cluster
 
 We'll be using a quick-start script, which does the following:
 
@@ -98,7 +90,7 @@ Batch quick start creates the pinot cluster, creates an offline table `baseballS
 bin/quick-start-batch.sh
 ```
 
-That's it! We've spun up a Pinot cluster. You can continue playing with other types of quick start, or simply head on to [Pinot Data Explorer](exploring-pinot.md) to check out the data in the `baseballStats` table.
+That's it! We've spun up a Pinot cluster. You can continue playing with other types of quick start, or simply head on to [Pinot Data Explorer](../../features/exploring-pinot.md) to check out the data in the `baseballStats` table.
 
 ### Streaming
 
@@ -109,7 +101,7 @@ Streaming quick start sets up a Kafka cluster and pushes sample data to a Kafka 
 bin/quick-start-streaming.sh
 ```
 
-We now have a Pinot cluster with a realtime table! You can head over to  [Pinot Data Explorer](exploring-pinot.md) to check out the data in the `meetupRSVP` table.
+We now have a Pinot cluster with a realtime table! You can head over to  [Pinot Data Explorer](../../features/exploring-pinot.md) to check out the data in the `meetupRSVP` table.
 
 ### Hybrid
 
@@ -120,5 +112,5 @@ Hybrid quick start sets up a Kafka cluster and pushes sample data to a Kafka top
 bin/quick-start-hybrid.sh
 ```
 
-Let's head over to [Pinot Data Explorer](exploring-pinot.md) to check out the data we pushed to the `airlineStats` table.
+Let's head over to [Pinot Data Explorer](../../features/exploring-pinot.md) to check out the data we pushed to the `airlineStats` table.
 

@@ -1,8 +1,8 @@
 ---
-description: Setup Pinot by starting each component individually
+description: This quick start guide will show you how to set up a Pinot cluster manually.
 ---
 
-# Advanced Pinot Setup
+# Manual cluster setup
 
 ## Start Pinot components \(scripts or docker images\)
 

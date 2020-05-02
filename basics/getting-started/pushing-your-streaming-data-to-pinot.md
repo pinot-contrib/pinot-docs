@@ -2,7 +2,7 @@
 description: The Docker instructions on this page are still WIP
 ---
 
-# Stream sample data
+# Stream ingestion example
 
 So far, we setup our cluster, ran some queries on the demo tables and explored the admin endpoints. We also uploaded some sample batch data for transcript table. 
 

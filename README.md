@@ -139,7 +139,5 @@ Pinot may be deployed to and operated on a cloud provider or a local or virtual 
 
 {% page-ref page="basics/getting-started/running-pinot-in-docker.md" %}
 
-{% page-ref page="basics/getting-started/quickstart/" %}
-
 
 

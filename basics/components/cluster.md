@@ -115,7 +115,7 @@ To start other components to join the cluster
 2. [Start Broker](broker.md#starting-a-broker)
 3. [Start Server](server.md#starting-a-server)
 
-Explore your cluster via [Pinot Data Explorer](../getting-started/exploring-pinot.md)
+Explore your cluster via [Pinot Data Explorer](../../features/exploring-pinot.md)
 
 
 

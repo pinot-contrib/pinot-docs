@@ -1,8 +1,10 @@
 ---
-description: Run Pinot on AWS
+description: >-
+  This guide provides a quick start for running Pinot on Amazon Web Services
+  (AWS).
 ---
 
-# AWS Quickstart
+# Running on AWS
 
 This document provides the basic instruction to set up a Kubernetes Cluster on [Amazon Elastic Kubernetes Service \(Amazon EKS\)](https://aws.amazon.com/eks/)
 
