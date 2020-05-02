@@ -255,5 +255,5 @@ Whenever the segment is complete \(i.e. full\), the _real-time server_ notifies 
 
 ![Pinot Query Overview](../.gitbook/assets/pinot-query-overview.svg)
 
-Queries are received by brokers—which checks the request against the segment-to-server routing table—scattering the request between real-time and offline server. The two tables process the request by filtering and aggregating the queried data which is then returned back to the broker. Finally, the broker gathers together all of the pieces of the query response and responds back to the client with the result.
+Queries are received by brokers—which checks the request against the segment-to-server routing table—scattering the request between real-time and offline servers. The two tables process the request by filtering and aggregating the queried data, which is then returned back to the broker. Finally, the broker gathers together all of the pieces of the query response and responds back to the client with the result.
 
