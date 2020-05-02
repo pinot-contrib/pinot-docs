@@ -139,7 +139,7 @@ Pinot may be deployed to and operated on a cloud provider or a local or virtual 
 
 {% page-ref page="basics/getting-started/advanced-pinot-setup.md" %}
 
-To get immediately get started with Pinot, check out these quick start guides for bootstrapping a Pinot cluster using Kubernetes or Docker.
+To get immediately started with Pinot, check out these quick start guides for bootstrapping a Pinot cluster using Docker or Kubernetes.
 
 {% page-ref page="basics/getting-started/running-pinot-in-docker.md" %}
 
