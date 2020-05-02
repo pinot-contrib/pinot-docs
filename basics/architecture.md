@@ -110,11 +110,15 @@ Pinot's controller acts as the driver of the cluster's overall state and health.
 
 #### Fault tolerance
 
-To achieve fault tolerance, one can start multiple controllers \(typically 3\) and one of them will act as a leader. If the leader crashes or dies, another leader is automatically elected. Leader election is achieved using Apache Helix. Having at-least one controller is required to perform any DDL equivalent operation on the cluster, such as adding a table or a segment. The controller does not interfere with query execution. Query execution is not impacted even when all controllers nodes are offline. If all controller nodes are offline, the state of the cluster will stay as it was when the last leader went down. When a new leader comes online, a cluster resumes rebalancing activity and can accept new tables or segments.
+To achieve fault tolerance, one can start multiple controllers \(typically 3\) and one of them will act as a leader. If the leader crashes or dies, another leader is automatically elected. Leader election is achieved using Apache Helix. Having at-least one controller is required to perform any DDL equivalent operation on the cluster, such as adding a table or a segment. The controller does not interfere with query execution. Query execution is not impacted even when all controllers nodes are offline. If all controller nodes are offline, the state of the cluster will stay as it was when the last leader went down. When a new leader comes online, a cluster resumes re-balancing activity and can accept new tables or segments.
 
-#### Controller Rest Interface
+#### Controller REST interface
 
-Controller provides a REST interface to perform CRUD operations on all logical storage resources \(Servers, Brokers, Tables, Segments\). See [Pinot Data Explorer](getting-started/exploring-pinot.md) for more information on the web-based admin tool.
+The [controller](components/controller.md) provides a REST interface to perform CRUD operations on all logical storage resources \(servers, brokers, tables, and segments\).
+
+{% hint style="info" %}
+See [Pinot Data Explorer](getting-started/exploring-pinot.md) for more information on the web-based admin tool.
+{% endhint %}
 
 ### Broker
 
@@ -253,7 +257,9 @@ Whenever the segment is complete \(i.e. full\), the _real-time server_ notifies 
 
 ## Query Overview
 
-![Pinot Query Overview](../.gitbook/assets/pinot-query-overview.svg)
+Queries are received by brokers—which checks the request against the segment-to-server routing table—scattering the request between real-time and offline servers.
 
-Queries are received by brokers—which checks the request against the segment-to-server routing table—scattering the request between real-time and offline servers. The two tables process the request by filtering and aggregating the queried data, which is then returned back to the broker. Finally, the broker gathers together all of the pieces of the query response and responds back to the client with the result.
+![Pinot query overview](../.gitbook/assets/pinot-query-overview.svg)
+
+The two tables then process the request by filtering and aggregating the queried data, which is then returned back to the broker. Finally, the broker gathers together all of the pieces of the query response and responds back to the client with the result.
 
