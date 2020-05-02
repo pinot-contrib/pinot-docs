@@ -28,7 +28,7 @@
   * [Batch upload sample data](basics/getting-started/pushing-your-data-to-pinot.md)
   * [Stream sample data](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
   * [Advanced Pinot Setup](basics/getting-started/advanced-pinot-setup.md)
-* [Features](features/README.md)
+* [Feature guides](features/README.md)
   * [Text search support](features/text-search-support.md)
   * [Indexing](features/indexing.md)
 * [Releases](releases/README.md)
