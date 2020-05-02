@@ -32,7 +32,7 @@ Pinot uses [Apache Helix](http://helix.apache.org/) for cluster management. Heli
 
 ### Apache Helix and Zookeeper
 
-All Pinot Servers and Brokers are managed by Apache Helix. Apache Helix is a generic cluster management framework to manage partitions and replicas in a distributed system. It's helpful to think of Helix as an event-driven discovery service with push and pull notifications that drives the state of a cluster to an ideal configuration. A finite-state machine maintains a contract of stateful operations that drives the health of the cluster towards its optimal configuration. Query load is optimized as Helix updates routing configurations between nodes based on where data is stored in the cluster.
+All Pinot [servers](components/server.md) and [brokers](components/broker.md) are managed by Helix. Helix is a generic cluster management framework to manage partitions and replicas in a distributed system. It's helpful to think of Helix as an event-driven discovery service with push and pull notifications that drives the state of a cluster to an ideal configuration. A finite-state machine maintains a contract of stateful operations that drives the health of the cluster towards its optimal configuration. Query load is optimized as Helix updates routing configurations between nodes based on where data is stored in the cluster.
 
 Helix divides nodes into three logical components based on their responsibilities:
 
