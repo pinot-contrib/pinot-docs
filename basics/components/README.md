@@ -6,7 +6,7 @@ description: Learn about the different components and logical abstractions
 
 This section is a reference for the definition of major components and logical abstractions used in Pinot. Please visit the [Basic Concepts](../concepts.md) section to get a general overview that ties together all of the reference material in this section.
 
-![](../../.gitbook/assets/pinot-architecture-2.png)
+![](../../.gitbook/assets/pinot-system-architecture.png)
 
 ### Operator reference
 
