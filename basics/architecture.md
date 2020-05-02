@@ -4,11 +4,11 @@ description: Learn about the distributed systems architecture of Pinot
 
 # Architecture
 
+This guide will walk you through the guiding principles behind the design of Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale linearly based on the number of nodes in a cluster.
+
 {% hint style="info" %}
 It's recommended that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
 {% endhint %}
-
-This guide will walk you through the guiding principles behind the design of Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale linearly based on the number of nodes in a cluster.
 
 ## Guiding Design Principles
 
@@ -16,7 +16,7 @@ Pinot was designed by engineers at LinkedIn and Uber to scale query performance 
 
 * **Highly available**: Pinot is built to serve low latency analytical queries for customer facing applications. By design, there is no single point of failure in Pinot. The system continues to serve queries when a node goes down.
 * **Horizontally scalable**: Ability to scale by adding new nodes as a workload changes.
-* **Latency vs Storage:**  Pinot is built to provide low latency even at high-throughput. Features such as segment assignment strategy, routing strategy, star-tree indexing were developed to achieve this. 
+* **Latency vs Storage:** Pinot is built to provide low latency even at high-throughput. Features such as segment assignment strategy, routing strategy, star-tree indexing were developed to achieve this. 
 * **Immutable data**: Pinot assumes that all data stored is immutable. For GDPR compliance, we provide an add-on solution for purging data while maintaining performance guarantees.
 * **Dynamic configuration changes**: Operations such as adding new tables, expanding a cluster, ingesting data, modifying indexing config, and re-balancing must be performed without impacting query availability or performance.
 
@@ -104,7 +104,7 @@ Helix agents use Zookeeper to store and update configurations, as well as for di
 
 ### Controller
 
-Pinot's controller acts as the driver of the cluster's overall state and health. Because of its role as a Helix participant and spectator, which drives the state of other components, it is the first component that is typically started after Zookeeper. Two parameters are required for starting a controller:  Zookeeper URI and cluster name. The controller will automatically create a cluster via Helix if it does not yet exist. 
+Pinot's controller acts as the driver of the cluster's overall state and health. Because of its role as a Helix participant and spectator, which drives the state of other components, it is the first component that is typically started after Zookeeper. Two parameters are required for starting a controller: Zookeeper address and cluster name. The controller will automatically create a cluster via Helix if it does not yet exist. 
 
 #### Fault tolerance
 
@@ -131,7 +131,7 @@ At the start, a broker registers as a **Helix Participant** and awaits notificat
 Irrespective of the kind of notification, the key responsibility of a broker is to maintain the query routing table. The query routing table is simply a mapping between segments and the servers that a segment resides on. Typically, a segment resides on more than one server. The broker computes multiple routing tables depending on the configured routing strategy for a table. The default strategy is to balance the query load across all available servers. 
 
 {% hint style="info" %}
-There are advanced routing strategies available such as ReplicaAware routing,  partition-based routing, and minimal server selection routing. These strategies are meant for special or generic cases that are meant to serve very high throughput queries. 
+There are advanced routing strategies available such as ReplicaAware routing, partition-based routing, and minimal server selection routing. These strategies are meant for special or generic cases that are meant to serve very high throughput queries. 
 {% endhint %}
 
 ```javascript
@@ -222,9 +222,9 @@ Real-time servers are different from the offline servers. Real-time [server](com
 
 ### Table 
 
-Creation of a table in Pinot is as simple as running couple of rest api calls. Within Pinot a logical table is modeled as two physical tables - offline and realtime.  The main reason for this is that they follow different state model.
+Creation of a table in Pinot is as simple as running couple of rest api calls. Within Pinot a logical table is modeled as two physical tables - offline and realtime. The main reason for this is that they follow different state model.
 
-The realtime and offline tables can potentially have different configurations - indexing, stream config. This also allows users to use  different machine types for realtime and offline nodes. For instance, offline servers might use machines with larger capacity where realtime servers might need higher memory and high compute servers. They also scale differently. Realtime has a smaller retention period and scales based on the ingestion rate where as offline data has larger retention and  scale based on data size.
+The realtime and offline tables can potentially have different configurations - indexing, stream config. This also allows users to use different machine types for realtime and offline nodes. For instance, offline servers might use machines with larger capacity where realtime servers might need higher memory and high compute servers. They also scale differently. Realtime has a smaller retention period and scales based on the ingestion rate where as offline data has larger retention and scale based on data size.
 
 Few things to keep in mind 
 
