@@ -29,7 +29,7 @@
   * [Stream sample data](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
   * [Advanced Pinot Setup](basics/getting-started/advanced-pinot-setup.md)
 * [Features](features/README.md)
-  * [Text Search Support](features/text-search-support.md)
+  * [Text search support](features/text-search-support.md)
   * [Indexing](features/indexing.md)
 * [Releases](releases/README.md)
   * [0.3.0](releases/0.3.0.md)

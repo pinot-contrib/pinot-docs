@@ -2,7 +2,7 @@
 description: This page talks about support for text search functionality in Pinot.
 ---
 
-# Text Search Support
+# Text search support
 
 ## Why do we need text search?
 
