@@ -137,7 +137,7 @@ SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
 
 Pinot may be deployed to and operated on a cloud provider or a local or virtual machine. You may get started either with a bare-metal installation or a Kubernetes one \(either locally or in the cloud\).
 
-{% page-ref page="basics/getting-started/" %}
+{% page-ref page="basics/getting-started/advanced-pinot-setup.md" %}
 
 To get immediately get started with Pinot, check out these quick start guides for bootstrapping a Pinot cluster using Kubernetes or Docker.
 
