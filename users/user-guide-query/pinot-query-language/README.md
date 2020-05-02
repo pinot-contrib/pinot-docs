@@ -122,6 +122,20 @@ SELECT <outputColumn> (, outputColumn, outputColumn,...)
 
 `outputColumn` can be `*` to project all columns, columns \(`foo`, `bar`, `baz`\) or aggregation functions like \(`MIN(foo)`, `MAX(bar)`, `AVG(baz)`\).
 
+
+
+### Filter Functions on Single Value/Multi-value 
+
+* `EQUALS`
+* `IN`
+* `NOT IN`
+* `GT`
+* `LT`
+* `BETWEEN`
+* `REGEXP_LIKE`
+
+For Multi-Valued columns, EQUALS is similar to CONTAINS. 
+
 ### Supported aggregations on single-value columns
 
 * `COUNT`
