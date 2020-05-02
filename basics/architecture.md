@@ -4,19 +4,27 @@ description: Learn about the distributed systems architecture of Pinot
 
 # Architecture
 
-![Pinot Architecture](../.gitbook/assets/pinot-architecture-1.svg)
+{% hint style="info" %}
+It's recommended that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
+{% endhint %}
 
-This page assumes that the reader has read the Pinot [Concepts](concepts.md) 
+This guide will walk you through the guiding principles behind the design of Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale linearly based on the number of nodes in a cluster.
 
-Guiding design principles behind Pinot project
+## Guiding Design Principles
 
-* **Highly available**: Pinot is built to  serve low latency analytical queries for customer facing  applications. By design, there is no single point of failure in Pinot i.e. the system continues to serve queries when a node goes down.
-* **Horizontally scalable**: Ability to scale by adding new nodes as workload changes.
-* **Latency vs Storage:**  Pinot is built to provide low latency even at high throughput. Lot of features such as segment assignment strategy, routing strategy, star-tree index were developed to achieve this. 
-* **Immutable data**: Pinot assumes the data is immutable. There is an ongoing effort to support mutation.
-* **Dynamic configuration changes**:  Operations such as adding new table, expanding cluster, ingesting data, modifying indexing config, rebalancing etc must be performed without impacting the end-users.
+Pinot was designed by engineers at LinkedIn and Uber to scale query performance based on the number of nodes in a cluster. As you add more nodes, query performance will always improve based on the expected query volume per second quota. To achieve horizontal scalability to an unbounded number of nodes and data storage, without performance degradation, the following guiding design principles were established.
 
-## Core Components
+* **Highly available**: Pinot is built to serve low latency analytical queries for customer facing applications. By design, there is no single point of failure in Pinot. The system continues to serve queries when a node goes down.
+* **Horizontally scalable**: Ability to scale by adding new nodes as a workload changes.
+* **Latency vs Storage:**  Pinot is built to provide low latency even at high-throughput. Features such as segment assignment strategy, routing strategy, star-tree indexing were developed to achieve this. 
+* **Immutable data**: Pinot assumes that all data stored is immutable. For GDPR compliance, we provide an add-on solution for purging data while maintaining performance guarantees.
+* **Dynamic configuration changes**:  Operations such as adding new tables, expanding a cluster, ingesting data, modifying indexing config, and rebalancing must be performed without impacting query availability or performance.
+
+![](../.gitbook/assets/pinot-architecture-1.svg)
+
+
+
+### Core Components
 
 As described in the concepts, Pinot has multiple components - Controller, Broker, Server, Minion. Pinot uses Apache Helix for cluster management. Helix is embedded within the Pinot components and uses Zookeeper for coordination and maintaining the cluster state. 
 
