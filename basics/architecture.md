@@ -1,10 +1,12 @@
 ---
-description: Learn about the distributed systems architecture of Pinot
+description: >-
+  This page covers everything you need to know about how queries are computed in
+  Pinot's distributed systems architecture.
 ---
 
 # Architecture
 
-This guide will walk you through the guiding principles behind the design of Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale linearly based on the number of nodes in a cluster.
+This page will introduce you to the guiding principles behind the design of Apache Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale the performance of queries linearly based on the number of nodes in a cluster. You'll also be introduced to the two different types of tables used to ingest and query data in offline \(batch\) or real-time \(stream\) mode.
 
 {% hint style="info" %}
 It's recommended that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
@@ -218,47 +220,40 @@ Real-time servers are different from the offline servers. Real-time [server](com
 
 [Minion](components/minion.md) is an optional component and is not required to get started with Pinot. Minion is used for purging data from a Pinot cluster \(for reasons such as GDPR compliance in the UK\).
 
-## Data Ingestion Overview
+## Data ingestion overview
 
-### Table 
+Within Pinot, a logical [table](components/table.md) is modeled as one of two types of physical tables: _offline_ or _real-time_. The reason for having two types of tables is because each one follows a different state model.
 
-Creation of a table in Pinot is as simple as running couple of rest api calls. Within Pinot a logical table is modeled as two physical tables - offline and realtime. The main reason for this is that they follow different state model.
+A real-time and offline table provide different configuration options for indexing and, in the case of real-time, the connector properties for the stream data source \(i.e. Kafka\). Table types also allow users to use different containers for real-time and offline [server](components/server.md) nodes. For instance, offline servers might use virtual machines with larger storage capacity where real-time servers might need higher system memory and/or more CPU cores.
 
-The realtime and offline tables can potentially have different configurations - indexing, stream config. This also allows users to use different machine types for realtime and offline nodes. For instance, offline servers might use machines with larger capacity where realtime servers might need higher memory and high compute servers. They also scale differently. Realtime has a smaller retention period and scales based on the ingestion rate where as offline data has larger retention and scale based on data size.
+The two types of tables also scale differently.
 
-Few things to keep in mind 
+* **Real-time** tables have a smaller retention period and scales query performance based on the ingestion rate.
+* **Offline** tables have larger retention and scales performance based on the size of stored data.
 
-1. There are two types of tables - realtime and offline. For example, myTable\_REALTIME represent the realtime table and myTable\_OFFLINE represents the offline table. 
-2. Realtime table and offline table must have the same schema.
-3. The configuration can be different for real-time and offline. For e.g. one might chose to have star-tree for offline tables but realtime might chose not to.
+There are a few things to keep in mind when configuring the different types of tables for your workloads. When ingesting data from the same source, you can have two tables that ingest the same data that are configured differently for real-time and offline queries. Even though the two tables have the same data, performance will scale differently for queries based on your requirements. In this scenario, real-time and offline tables must share the same [schema](components/schema.md).
 
-State Model
+{% hint style="info" %}
+Tables for real-time and offline can be configured differently depending on usage requirements. For example, you can choose to enable star-tree indexing for an offline table, while the real-time table with the same schema may not need it.
+{% endhint %}
 
 ### Batch data flow 
 
 ![](../.gitbook/assets/offlineserver-4.jpg)
 
-In _Batch mode_, Data is ingested into _Pinot_ via _Ingestion Job_. _Ingestion Job_ transforms the _raw data_ into _segments_. Once _segments_ are generated, the _Ingestion Job_ stores them into the _Segment store_ \(a.k.a. Deep store\) and notifies the _Controller_, which updates _Helix Idealstate_ in the _Zookeeper_. _Helix_ notifies the _Offline server_ of the new _segments_. The _Offline server_ downloads and loads the newly created _segments_ from the _Segment store_. The _Broker_, which watches for changes, detects the new _segments_ and adds them to the list of _segments_ to query.
+In _batch mode_, data is ingested into Pinot via an [ingestion job](../plugins/pinot-batch-ingestion.md). An ingestion job transforms a raw data source \(such as a CSV file\) into [segments](components/segment.md). Once segments are generated for the imported data, an ingestion job stores them into the cluster's segment store \(a.k.a deep store\) and notifies the [controller](components/controller.md). The notification is processed and the result is that the Helix agent on the controller updates the ideal state configuration in Zookeeper. Helix will then notify the offline [server](components/server.md) that there are new segments available. In response to the notification from the controller, the offline server downloads the newly created segments directly from the cluster's segment store. The cluster's broker, which watches for state changes in Helix, detects the new segments and adds them to the list of segments to query \(segment-to-server routing table\).
 
-### Realtime data flow 
+### Real-time data flow
+
+At table creation, a controller creates a new entry in Zookeeper for the consuming segment. Helix notices the new segment and notifies the _real-time server_, which start consuming data from the streaming source. The broker, which watches for changes, detects the new segments and adds them to the list of segments to query \(segment-to-server routing table\).
 
 ![](../.gitbook/assets/real-time-flow.svg)
 
-At table creation, the _Controller_ creates a new entry in _Zookeeper_ for the consuming segment. _Helix_ notices the new segment and notifies the _Realtime server_, which start consuming data from the streaming source. The _Broker_, which watches for changes, detects the new segments and adds them to the list of segments to query.
-
-Whenever the segment is complete \(i.e. full\), the _Realtime server_ notifies the _Controller_, which checks with all replicas and picks a winner to commit the segment. The winner commits the segment and uploads it to the _Segment store_, updating the state of the segment from "consuming" to "online". Then the _Controller_ prepares a new segment in "consuming" state.
-
-
+Whenever the segment is complete \(i.e. full\), the _real-time server_ notifies the Controller, which checks with all replicas and picks a winner to commit the segment to. The winner commits the segment and uploads it to the cluster's segment store, updating the state of the segment from "consuming" to "online". The controller then prepares a new segment in a "consuming" state.
 
 ## Query Overview
 
 ![Pinot Query Overview](../.gitbook/assets/pinot-query-overview.svg)
 
-
-
-Queries are received by Brokers, which check the request against the routing table, scatter the request between realtime and offline server. These two process the request, by filtering and aggregating the data, which is sent to the Broker. Finally, the Broker gathers together all the pieces of responses and responds back to the client.
-
-All the servers \(Broker, realtime and offline\) are coordinated by an Apache Helix instance.
-
- 
+Queries are received by brokers—which checks the request against the segment-to-server routing table—scattering the request between real-time and offline server. The two tables process the request by filtering and aggregating the queried data which is then returned back to the broker. Finally, the broker gathers together all of the pieces of the query response and responds back to the client with the result.
 
