@@ -8,7 +8,7 @@ description: >-
 
 Pinot is designed to deliver low latency queries on large datasets. In order to achieve this performance, Pinot stores data in a columnar format and adds additional indices to perform fast filtering, aggregation and group by.
 
-Raw data is broken into small data chunks and each chunk is converted into a unit known as a [segment](https://docs.pinot.apache.org/pinot-components/segment). One or more segments together form a [table](https://docs.pinot.apache.org/pinot-components/table), which is the logical container for querying Pinot using [SQL/PQL](https://docs.pinot.apache.org/user-guide/user-guide-query/pinot-query-language).
+Raw data is broken into small data shards and each shard is converted into a unit known as a [segment](https://docs.pinot.apache.org/pinot-components/segment). One or more segments together form a [table](https://docs.pinot.apache.org/pinot-components/table), which is the logical container for querying Pinot using [SQL/PQL](https://docs.pinot.apache.org/user-guide/user-guide-query/pinot-query-language).
 
 ## Pinot Storage Model
 
@@ -18,7 +18,7 @@ Pinot uses a variety of terms which can refer to either abstractions that model 
 
 ### **Table**
 
-Similar to traditional databases, Pinot has the concept of a [**table**](https://docs.pinot.apache.org/pinot-components/table)—a logical abstraction to refer to a collection of related data. As is the case with RDBMS, a table is a construct that consists of columns and rows \(documents\) that are queried using SQL. Typically, a table is associated with a [schema](https://docs.pinot.apache.org/pinot-components/schema) which defines the columns in a table as well as their data types. 
+Similar to traditional databases, Pinot has the concept of a [**table**](https://docs.pinot.apache.org/pinot-components/table)—a logical abstraction to refer to a collection of related data. As is the case with RDBMS, a table is a construct that consists of columns and rows \(documents\) that are queried using SQL. A table is associated with a [schema](https://docs.pinot.apache.org/pinot-components/schema) which defines the columns in a table as well as their data types. 
 
 As opposed to RDBMS schemas, multiple tables can be created in Pinot \(real-time or batch\) that inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, and/or replication.
 
