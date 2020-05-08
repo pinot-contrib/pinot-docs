@@ -154,6 +154,80 @@ bin/pinot-admin.sh StartServer \
 {% endtab %}
 {% endtabs %}
 
+## Start Pinot Using Config  Files
+
+Often times we need to customized the setup of Pinot Components. Hence user can compile a config file and use it to start Pinot Components.
+
+Below are the examples config files and sample command to start Pinot.
+
+### Pinot Controller
+
+Below is a sample `pinot-controller.conf` used in HelmChart setup.
+
+```text
+controller.helix.cluster.name=pinot-quickstart
+controller.port=9000
+controller.vip.host=pinot-controller
+controller.vip.port=9000
+controller.data.dir=/var/pinot/controller/data
+controller.zk.str=pinot-zookeeper:2181
+pinot.set.instance.id.to.hostname=true
+```
+
+In order to run Pinot Controller, the command is:
+
+```text
+bin/pinot-admin.sh StartController -configFileName config/pinot-controller.conf
+```
+
+### Pinot Broker
+
+Below is a sample `pinot-broker.conf` used in HelmChart setup.
+
+```text
+pinot.broker.client.queryPort=8099
+pinot.broker.routing.table.builder.class=random
+pinot.set.instance.id.to.hostname=true
+```
+
+In order to run Pinot Broker, the command is:
+
+```text
+bin/pinot-admin.sh StartBroker -clusterName pinot-quickstart -zkAddress pinot-zookeeper:2181 -configFileName config/pinot-broker.conf
+```
+
+### Pinot Server
+
+Below is a sample `pinot-server.conf` used in HelmChart setup.
+
+```text
+pinot.server.netty.port=8098
+pinot.server.adminapi.port=8097
+pinot.server.instance.dataDir=/var/pinot/server/data/index
+pinot.server.instance.segmentTarDir=/var/pinot/server/data/segment
+pinot.set.instance.id.to.hostname=true
+```
+
+In order to run Pinot Server, the command is:
+
+```text
+bin/pinot-admin.sh StartServer -clusterName pinot-quickstart -zkAddress pinot-zookeeper:2181 -configFileName config/pinot-server.conf
+```
+
+## Configure Broker
+
+Below are some outstanding configurations you can set in Pinot Broker:
+
+| Config Name | Description | Default Value |
+| :--- | :--- | :--- |
+| instanceId | Unique id to register Pinot Broker in the cluster. | BROKER\_${BROKER\_HOST}\_${pinot.broker.client.queryPort} |
+| pinot.set.instance.id.to.hostname | When enabled, use server hostname to set ${BROKER\_HOST} in above config, else use IP address. | false |
+| pinot.broker.client.queryPort | Port to query Pinot Broker | 8099 |
+| pinot.broker.timeoutMs | Timeout for Broker Query in Milliseconds | 10000 |
+| pinot.broker.enable.query.limit.override | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back. | false |
+| pinot.broker.query.response.limit | When config **pinot.broker.enable.query.limit.override** is enabled, reset limit for selection query if it exceeds this value. | 2147483647 |
+| pinot.broker.startup.minResourcePercent | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources \(tables\) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve | 100.0 |
+
 ## Create and Configure table
 
 A TABLE in regular database world is represented as &lt;TABLE&gt;\_OFFLINE and/or &lt;TABLE&gt;\_REALTIME in Pinot depending on the ingestion mode \(batch, real-time, hybrid\)
