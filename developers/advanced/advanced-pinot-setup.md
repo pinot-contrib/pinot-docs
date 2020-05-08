@@ -228,6 +228,22 @@ Below are some outstanding configurations you can set in Pinot Broker:
 | pinot.broker.query.response.limit | When config **pinot.broker.enable.query.limit.override** is enabled, reset limit for selection query if it exceeds this value. | 2147483647 |
 | pinot.broker.startup.minResourcePercent | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources \(tables\) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve | 100.0 |
 
+## Configure Server
+
+Below are some outstanding configurations you can set in Pinot Server:
+
+| Config Name | Description | Default Value |
+| :--- | :--- | :--- |
+| instanceId | Unique id to register Pinot Server in the cluster. | Server\_${SERVER\_HOST}\_${pinot.server.netty.port} |
+| pinot.set.instance.id.to.hostname | When enabled, use server hostname to set ${SERVER\_HOST} in above config, else use IP address. | false |
+| pinot.server.netty.port | Port to query Pinot Server | 8098 |
+| pinot.server.adminapi.port | Port for Pinot Server Admin UI | 8097 |
+| pinot.server.instance.dataDir | Directory to hold all the data | ${java.io.tmpDir}/PinotServer/index |
+| pinot.server.instance.segmentTarDir | Directory to hold temporary segments downloaded from Controller or Deep Store | ${java.io.tmpDir}/PinotServer/segmentTar |
+| pinot.server.query.executor.timeout | Timeout for Server to process Query in Milliseconds | 15000 |
+
+
+
 ## Create and Configure table
 
 A TABLE in regular database world is represented as &lt;TABLE&gt;\_OFFLINE and/or &lt;TABLE&gt;\_REALTIME in Pinot depending on the ingestion mode \(batch, real-time, hybrid\)
