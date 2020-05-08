@@ -214,6 +214,22 @@ In order to run Pinot Server, the command is:
 bin/pinot-admin.sh StartServer -clusterName pinot-quickstart -zkAddress pinot-zookeeper:2181 -configFileName config/pinot-server.conf
 ```
 
+## Configure Controller
+
+Below are some outstanding configurations you can set in Pinot Controller:
+
+| Config Name | Description | Default Value |
+| :--- | :--- | :--- |
+| controller.helix.cluster.name | Pinot Cluster name | PinotCluster |
+| controller.host | Pinot Controller Host | Required if config **pinot.set.instance.id.to.hostname** is false. |
+| pinot.set.instance.id.to.hostname | When enabled, use server hostname to infer **controller.host** | false |
+| controller.port | Pinot Controller Port | 9000 |
+| controller.vip.host | The VIP hostname used to set the download URL for segments | ${controller.host} |
+| controller.vip.port | The VIP port used to set the download URL for segments | ${controller.port} |
+| controller.data.dir | Directory to host segment data  | ${java.io.tmpdir}/PinotController |
+| controller.zk.str | Zookeeper URL | localhost:2181 |
+| cluster.tenant.isolation.enable | Enable Tenant Isolation, default is single tenant cluster | true |
+
 ## Configure Broker
 
 Below are some outstanding configurations you can set in Pinot Broker:
