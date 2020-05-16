@@ -16,7 +16,7 @@ Once the table is configured, we can load some data. Loading data involves gener
 
 ### Load Data in Batch
 
-**Prerequisites**
+#### **Prerequisites**
 
 1. [Setup a cluster](cluster.md#setup-a-pinot-cluster) 
 2. [Create broker and server tenants](tenant.md#creating-a-tenant)
@@ -374,7 +374,39 @@ bin/pinot-admin.sh LaunchDataIngestionJob \
 {% endtab %}
 {% endtabs %}
 
-Alternately, you can separately create and then push, by changing the jobType to `SegmentCreation` or `SegmenTarPush .`
+Alternately, you can separately create and then push, by changing the jobType to `SegmentCreation` or `SegmenTarPush`.
+
+#### Templating Ingestion Job Spec
+
+Ingestion job spec supports templating with Groovy Syntax. 
+
+This would be convenient for users to generate one ingestion job template file and schedule it in a daily basis with extra parameters updated daily.
+
+E.g. users can set `inputDirURI` with parameters to indicate date, so that ingestion job only process the data for a particular date.
+
+Below is an example to specify the date templating for input and output path.
+
+```yaml
+inputDirURI: 'examples/batch/airlineStats/rawdata/${year}/${month}/${day}'
+outputDirURI: 'examples/batch/airlineStats/segments/${year}/${month}/${day}'
+```
+
+Then specify the value of `${year}, ${month}, ${day}` when kicking off the ingestion job with arguments: `-values $param=value1 $param2=value2`...
+
+{% tabs %}
+{% tab title="Docker" %}
+```text
+docker run \
+    --network=pinot-demo \
+    --name pinot-data-ingestion-job \
+    ${PINOT_IMAGE} LaunchDataIngestionJob \
+    -jobSpecFile examples/docker/ingestion-job-specs/airlineStats.yaml
+    -values year=2014 month=01 day=03
+```
+{% endtab %}
+{% endtabs %}
+
+This ingestion job only generates segment for date `2014-01-03`
 
 ### Load Data in Streaming
 
