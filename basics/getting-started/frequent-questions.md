@@ -27,7 +27,3 @@ For example, consider we have 6 partitions, 2 replicas, and 4 servers.
 
 As you can see, the set \(S0, S2\) contains r1 of every partition, and \(s1, S3\) contains r2 of every partition. The query will only be routed to one of the sets, and not span every server.
 
-{% hint style="info" %}
-If the partitions of the stream increase, and this math is not adjusted, you will lose replica groups.
-{% endhint %}
-
