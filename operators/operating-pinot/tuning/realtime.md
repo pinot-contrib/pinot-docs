@@ -26,11 +26,11 @@ The recommended way to do this is to use the `realtime.segment.flush.desired.siz
 
 ### Moving completed segments to different hosts
 
-This feature is avaialble only if the consumption type is `LowLevel`.
+This feature is available only if the consumption type is `LowLevel`.
 
-The structure of the consuming segments and the completed segments are very different. The memory, CPU, I/O and GC characteristics could be very different while processing queries on these segments. Therefore it may be useful to move the completed segments onto differnt set of hosts in some use cases.
+The structure of the consuming segments and the completed segments are very different. The memory, CPU, I/O and GC characteristics could be very different while processing queries on these segments. Therefore it may be useful to move the completed segments onto different set of hosts in some use cases.
 
-You can host completed segments on a different set of hosts using the `tagOverrideConfig` as described in [Table Config](https://pinot.readthedocs.io/en/latest/tableconfig_schema.html#table-config-section). Pinot will automatically move them once the consuming segments are completed.
+You can host completed segments on a different set of hosts using the `tagOverrideConfig` as described in [Table Config](https://docs.pinot.apache.org/basics/components/table#tenants). Pinot will automatically move them once the consuming segments are completed.
 
 ### Controlling segment build vs segment download on Realtime servers
 
