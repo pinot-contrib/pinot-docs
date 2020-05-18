@@ -17,6 +17,7 @@
   * [Schema](basics/components/schema.md)
   * [Segment](basics/components/segment.md)
 * [Getting started](basics/getting-started/README.md)
+  * [Frequent questions](basics/getting-started/frequent-questions.md)
   * [Running Pinot locally](basics/getting-started/running-pinot-locally.md)
   * [Running Pinot in Docker](basics/getting-started/running-pinot-in-docker.md)
   * [Running Pinot in Kubernetes](basics/getting-started/kubernetes-quickstart.md)
