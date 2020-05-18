@@ -12,7 +12,7 @@ This is a list of frequent questions most often asked in our troubleshooting cha
 
 ### Do replica groups work for real-time? <a id="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3"></a>
 
-Yes, replica groups work implicitly for realtime. There is no config needed. All you have to do is ensure \(numberOfPartitions \* numberOfReplicas\) % numServers == 0. The partitions get uniformly sprayed across the servers, creating replica groups.  
+Yes, replica groups work implicitly for realtime. There is no config needed. All you have to do is ensure the number of servers is a multiple of numReplicas. The partitions get uniformly sprayed across the servers, creating replica groups.  
   
 For example, consider we have 6 partitions, 2 replicas, and 4 servers.
 
