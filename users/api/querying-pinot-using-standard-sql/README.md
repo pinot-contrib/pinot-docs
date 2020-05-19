@@ -60,7 +60,7 @@ bin/pinot-admin.sh PostQuery \
 
 Here's a list of the clients available to query Pinot from your application
 
-1. [Java Client](https://apache-pinot.gitbook.io/apache-pinot-cookbook/pinot-user-guide/pinot-clients/java)
+1. [Java Client](https://docs.pinot.apache.org/users/clients/java)
 2. Coming soon - JDBC client
 3. [Golang Client](../../clients/golang.md#pinot-client-go)
 
