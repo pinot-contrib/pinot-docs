@@ -65,5 +65,7 @@ This works well if some of your fields are nested json, but most of your fields 
 Support for flattening during ingestion is on the roadmap: [https://github.com/apache/incubator-pinot/issues/5264](https://github.com/apache/incubator-pinot/issues/5264)
 {% endhint %}
 
+### What are all the fields in the Pinot query's JSON response?
 
+Here's the page explaining the Pinot response format: [https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format)
 
