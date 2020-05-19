@@ -27,7 +27,9 @@ For example, consider we have 6 partitions, 2 replicas, and 4 servers.
 
 As you can see, the set \(S0, S2\) contains r1 of every partition, and \(s1, S3\) contains r2 of every partition. The query will only be routed to one of the sets, and not span every server.
 
+### How to set inverted indexes?
 
+Inverted indexes are set in the tableConfig's tableIndexConfig -&gt; invertedIndexColumns list. Here's the documentation for tableIndexConfig: [https://docs.pinot.apache.org/basics/components/table\#tableindexconfig-1](https://docs.pinot.apache.org/basics/components/table#tableindexconfig-1) along with a sample table that has set inverted indexes on some columns.
 
 ### How to apply inverted index to existing setup?
 
