@@ -69,3 +69,11 @@ Support for flattening during ingestion is on the roadmap: [https://github.com/a
 
 Here's the page explaining the Pinot response format: [https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format)
 
+### SQL Query fails with "Encountered 'timestamp' was expecting one of..."
+
+"timestamp" is a reserved keyword in SQL. Escape timestamp with double quotes 
+
+```text
+select "timestamp" from myTable
+```
+
