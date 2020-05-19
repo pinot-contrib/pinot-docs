@@ -71,7 +71,7 @@ Here's the page explaining the Pinot response format: [https://docs.pinot.apache
 
 ### SQL Query fails with "Encountered 'timestamp' was expecting one of..."
 
-"timestamp" is a reserved keyword in SQL. Escape timestamp with double quotes 
+"timestamp" is a reserved keyword in SQL. Escape timestamp with double quotes. TODO: link to full list of reserved keywords
 
 ```text
 select "timestamp" from myTable
