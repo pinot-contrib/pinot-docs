@@ -38,3 +38,32 @@ Inverted indexes are set in the tableConfig's tableIndexConfig -&gt; invertedInd
 
 Right now, there’s no easy way to confirm that reload succeeded. One way it to check out the index\_map file inside the segment metadata, you should see inverted index entries for the new columns. An API for this is coming soon: [https://github.com/apache/incubator-pinot/issues/5390](https://github.com/apache/incubator-pinot/issues/5390)
 
+### How to apply star tree index?
+
+### How do I flatten my JSON Kafka stream?
+
+We have `toJsonStr(key)` function which can store a top level json field as a STRING in Pinot.
+
+Then you can use `jsonExtractScalar(JSON_STRING_FIELD, JSON_PATH, OUTPUT_FORMAT)` function during query time to fetch the desired field from the json string. For example
+
+```text
+Select jsonExtractScalar(myJsonMapStr,'$.k1','STRING') 
+    from myTable  
+    where jsonExtractScalar(myJsonMapStr,'$.k1','STRING') = 'value-k1-0'"
+```
+
+```text
+Select sum(jsonExtractScalar(complexMapStr,'$.k4.met','INT')) 
+    from myTable 
+    group by jsonExtractScalar(complexMapStr,'$.k1','STRING')
+```
+
+{% hint style="warning" %}
+**NOTE**  
+This works well if some of your fields are nested json, but most of your fields are top level json keys. If all of your fields are within a nested JSON key, you will have to store the entire payload as 1 column, which is not ideal.  
+  
+Support for flattening during ingestion is on the roadmap: [https://github.com/apache/incubator-pinot/issues/5264](https://github.com/apache/incubator-pinot/issues/5264)
+{% endhint %}
+
+
+
