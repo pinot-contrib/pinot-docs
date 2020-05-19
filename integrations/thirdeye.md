@@ -8,6 +8,8 @@ ThirdEye started as an anomaly detection and root-cause analysis tool on top of 
 
 > ThirdEye is a self-service experience enabling anyone in the organization to efficiently identify and investigate deviations in business and system metrics.
 
+See more information in the ThirdEye documents [here](https://thirdeye.readthedocs.io/en/latest/introduction.html).
+
 ## Prepare Your Data \(optional\)
 
 When using **pinot-quickstart** you have the ability to generate and load sample data into Apache Pinot for demo purposes. You can load them as follows and analyze them with ThirdEye or any of the other tools, such as [Superset](superset.md) and [Presto](presto.md).
@@ -109,8 +111,8 @@ subscribedDetections:
 alertSchemes:
   - type: EMAIL
     recipients:
-      to: []
-      cc: []
+      to: 
+        - your-email@example.com
   fromAddress: alerts@localhost
 active: true
 referenceLinks: {}
