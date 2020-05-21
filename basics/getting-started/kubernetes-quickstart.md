@@ -32,13 +32,30 @@ cd incubator-pinot/kubernetes/helm
 {% endtab %}
 {% endtabs %}
 
-### 2.1 Update helm dependency
+### 2.1 Start Pinot with Helm 
+
+{% tabs %}
+{% tab title="Run Helm with Pre-installed Package" %}
+Pinot repo has pre-packaged HelmCharts for Pinot and Presto. Helm Repo index file is [here](https://github.com/apache/incubator-pinot/blob/master/kubernetes/helm/index.yaml).
+
+```text
+helm repo add pinot https://raw.githubusercontent.com/apache/incubator-pinot/master/kubernetes/helm
+kubectl create ns pinot-quickstart
+helm install pinot pinot/pinot \
+    -n pinot-quickstart \
+    --set cluster.name=pinot \
+    --set server.replicaCount=2
+```
+{% endtab %}
+
+{% tab title="Run Helm Script within Git Repo" %}
+### 2.1.1 Update helm dependency
 
 ```text
 helm dependency update
 ```
 
-### 2.2 Start Pinot with Helm
+### 2.1.2 Start Pinot with Helm
 
 * For Helm **v2.12.1**
 
@@ -61,7 +78,7 @@ kubectl create ns pinot-quickstart
 helm install -n pinot-quickstart pinot .
 ```
 
-### **2.3 Troubleshooting \(For helm v2.12.1\)**
+### **2.1.3 Troubleshooting \(For helm v2.12.1\)**
 
 * Error: Please run the below command if encountering the following issue:
 
@@ -86,8 +103,10 @@ helm init --service-account tiller
 ```text
 kubectl apply -f helm-rbac.yaml
 ```
+{% endtab %}
+{% endtabs %}
 
-### **2.4 Check deployment status**
+### **2.2 Check Pinot deployment status**
 
 ```text
 kubectl get all -n pinot-quickstart
@@ -97,19 +116,21 @@ kubectl get all -n pinot-quickstart
 
 ### **3.1 Bring up a Kafka cluster for real-time data ingestion**
 
-* For Helm **v2.12.1**
-
-```text
-helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
-helm install --namespace "pinot-quickstart"  --name kafka incubator/kafka
+{% tabs %}
+{% tab title="For Helm v3.0.0" %}
 ```
-
-* For Helm **v3.0.0**
-
-```text
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
 helm install -n pinot-quickstart kafka incubator/kafka --set replicas=1
 ```
+{% endtab %}
+
+{% tab title="For Helm v2.12.1" %}
+```
+helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+helm install --namespace "pinot-quickstart"  --name kafka incubator/kafka
+```
+{% endtab %}
+{% endtabs %}
 
 ### 3.2 Check Kafka deployment status
 
@@ -125,8 +146,6 @@ pod/kafka-zookeeper-0                                       1/1     Running     
 pod/kafka-zookeeper-1                                       1/1     Running     0          9m
 pod/kafka-zookeeper-2                                       1/1     Running     0          8m
 ```
-
-
 
 ### **3.3 Create Kafka topics**
 
@@ -207,9 +226,19 @@ You can open the imported dashboard by clicking `Dashboards` banner and then cli
 
 You can run the command below to deploy a customized Presto with Pinot plugin installed.
 
-```text
+{% tabs %}
+{% tab title="Helm" %}
+```
+helm install presto pinot/presto -n pinot 
+```
+{% endtab %}
+
+{% tab title="K8s Scripts" %}
+```
 kubectl apply -f presto-coordinator.yaml
 ```
+{% endtab %}
+{% endtabs %}
 
 ### 6.2 Query Presto using Presto CLI
 
