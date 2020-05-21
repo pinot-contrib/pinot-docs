@@ -33,7 +33,7 @@ For example, consider we have 6 partitions, 2 replicas, and 4 servers.
 | p6 | S2 | S3 |
 
 As you can see, the set \(S0, S2\) contains r1 of every partition, and \(s1, S3\) contains r2 of every partition. The query will only be routed to one of the sets, and not span every server.  
-If you are are adding/removing servers from an existing table setup, you have to run rebalance for segment assignment changes to take effect.
+If you are are adding/removing servers from an existing table setup, you have to run [rebalance](frequent-questions.md#how-to-run-a-rebalance-on-a-table) for segment assignment changes to take effect.
 
 **Replica group query routing**
 
