@@ -174,7 +174,7 @@ kubectl apply -f superset.yaml
 ### 5.2 \(First time\) Set up Admin account
 
 ```text
-kubectl exec -it pod/superset-0 -n pinot-quickstart -- bash -c 'export FLASK_APP=superset:app && flask fab create-admin'
+kubectl exec -it pod/superset-0 -n pinot-quickstart -- bash -c 'flask fab create-admin'
 ```
 
 ### 5.3 \(First time\) Init Superset
