@@ -90,19 +90,7 @@ This works well if some of your fields are nested json, but most of your fields 
 Support for flattening during ingestion is on the roadmap: [https://github.com/apache/incubator-pinot/issues/5264](https://github.com/apache/incubator-pinot/issues/5264)
 {% endhint %}
 
-### What are all the fields in the Pinot query's JSON response?
-
-Here's the page explaining the Pinot response format: [https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format)
-
-### SQL Query fails with "Encountered 'timestamp' was expecting one of..."
-
-"timestamp" is a reserved keyword in SQL. Escape timestamp with double quotes. TODO: link to full list of reserved keywords
-
-```text
-select "timestamp" from myTable
-```
-
-Can I change a column name in my table, without losing data?
+### Can I change a column name in my table, without losing data?
 
 ### How to run a rebalance on a table?
 
@@ -117,4 +105,28 @@ Use the rebalance API from the Swagger APIs on the controller [http://localhost:
 Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](%20http://localhost:9000/help#!/Table/rebalance), with tableType REALTIME**.** 
 
 A realtime table has 2 components, the consuming segments and the completed segments. By default, only the completed segments will get rebalanced. The consuming segments will pick the right assignment once they complete. But you can enforce the consuming segments to also be included in the rebalance, by setting the param `includeConsuming` to true. Note that rebalancing the consuming segments would mean the consuming segment will drop the consumed data so far, and restart consumption from the last offset, which may lead to a short duration of data staleness.
+
+## Querying
+
+### What are all the fields in the Pinot query's JSON response?
+
+Here's the page explaining the Pinot response format: [https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format)
+
+### SQL Query fails with "Encountered 'timestamp' was expecting one of..."
+
+"timestamp" is a reserved keyword in SQL. Escape timestamp with double quotes. 
+
+```text
+select "timestamp" from myTable
+```
+
+Other commonly encountered reserved keywords are date, time, table.
+
+### Filtering on STRING column WHERE column = "foo" does not work?
+
+For filtering on STRING columns, use single quotes
+
+```text
+SELECT COUNT(*) from myTable WHERE column = 'foo'
+```
 
