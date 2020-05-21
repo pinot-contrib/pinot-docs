@@ -92,6 +92,38 @@ Support for flattening during ingestion is on the roadmap: [https://github.com/a
 
 ### Can I change a column name in my table, without losing data?
 
+### How to change number of replicas of a table?
+
+You can change the number of replicas by updating the table config's [segmentsConfig](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
+
+For OFFLINE table, update [replication](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1)
+
+```text
+{ 
+    "tableName": "pinotTable", 
+    "tableType": "OFFLINE", 
+    "segmentsConfig": {
+      "replication": "3", 
+      ... 
+    }
+    ..
+```
+
+For REALTIME table update [replicasPerPartition](https://docs.pinot.apache.org/basics/components/table#segmentsconfig)
+
+```text
+{ 
+    "tableName": "pinotTable", 
+    "tableType": "REALTIME", 
+    "segmentsConfig": {
+      "replicasPerPartition": "3", 
+      ... 
+    }
+    ..
+```
+
+After changing the replication, run a [table rebalance](frequent-questions.md#how-to-run-a-rebalance-on-a-table). 
+
 ### How to run a rebalance on a table?
 
 A rebalance is run to reassign all the segments of a table to the available servers. This is typically done when capacity changes are done i.e. adding more servers or removing servers from a table.
@@ -102,9 +134,14 @@ Use the rebalance API from the Swagger APIs on the controller [http://localhost:
 
 **Realtime**
 
-Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](%20http://localhost:9000/help#!/Table/rebalance), with tableType REALTIME**.** 
-
+Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](%20http://localhost:9000/help#!/Table/rebalance), with tableType REALTIME**.**   
 A realtime table has 2 components, the consuming segments and the completed segments. By default, only the completed segments will get rebalanced. The consuming segments will pick the right assignment once they complete. But you can enforce the consuming segments to also be included in the rebalance, by setting the param `includeConsuming` to true. Note that rebalancing the consuming segments would mean the consuming segment will drop the consumed data so far, and restart consumption from the last offset, which may lead to a short duration of data staleness.
+
+You can check the status of the rebalance by
+
+1. Checking the controller logs
+2. Running rebalance again after a while, you should receive status `"status": "NO_OP"`
+3. Checking the External View of the table, to see the changes in capacity/replicas have taken effect.
 
 ## Querying
 
