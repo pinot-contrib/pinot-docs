@@ -167,3 +167,17 @@ For filtering on STRING columns, use single quotes
 SELECT COUNT(*) from myTable WHERE column = 'foo'
 ```
 
+### ORDER BY using an alias doesn't work?
+
+The fields in the `ORDER BY` clause must be one of the group by clauses or aggregations, _**BEFORE**_ applying the alias. Therefore, this will not work
+
+```text
+SELECT count(colA) as aliasA, colA from tableA GROUP BY colA ORDER BY aliasA
+```
+
+Instead, this will work
+
+```text
+SELECT count(colA) as sumA, colA from tableA GROUP BY colA ORDER BY count(colA)
+```
+
