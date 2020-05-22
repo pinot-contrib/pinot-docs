@@ -17,6 +17,7 @@ This page contains links to all the design documents
 | [Column transformation during ingestion](https://docs.google.com/document/d/13BywJncHrLAFLm-qy4kfKaPxXfAg9XE5v3_fk9sGVSo/edit?usp=sharing) | Neha | Mar 2020 |  |
 | [Tiered Storage](https://docs.google.com/document/d/1Z4FLg3ezHpqvc6zhy0jR6Wi2OL8wLO_lRC6aLkskFgs/edit?usp=sharing) | Neha | Mar 2020 |  |
 | [Synthetic Data Generator for Pinot](https://cwiki.apache.org/confluence/display/PINOT/Synthetic+Data+Generator+for+Pinot) | Alex Pucher | Mar 2020 |  |
+| [Pinot SQL migration Plan](https://docs.google.com/document/d/1uNIq0cybUtVtdtJ38-4ewFNEQorbg-2KYr-CMSj6H_8/edit#heading=h.ejrg0ci2rzol) | Xiang Fu | Nov 2019 |  |
 | [Segment Admin Rest APIs](https://cwiki.apache.org/confluence/display/PINOT/Segment+Admin+Rest+APIs) | Jackie Jiang | Nov 2019 |  |
 | [Order By in aggregations](https://cwiki.apache.org/confluence/display/PINOT/Order+By) | Neha | Oct 2019 |  |
 | [Pinot Benchmark as a Service](https://cwiki.apache.org/confluence/display/PINOT/Pinot+Benchmark+as+a+Service) | Jialiang Li | Sep 2019 |  |
