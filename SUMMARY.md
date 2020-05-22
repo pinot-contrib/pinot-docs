@@ -88,6 +88,7 @@
       * [Azure EventHub](developers/tutorials/pinot-connectors/streaming/eventhub.md)
       * [Amazon Kinesis](developers/tutorials/pinot-connectors/streaming/kinesis.md)
       * [Google Pub/Sub](developers/tutorials/pinot-connectors/streaming/google-pub-sub.md)
+* [Design Documents](developers/design-documents.md)
 
 ## For Operators <a id="operators"></a>
 
