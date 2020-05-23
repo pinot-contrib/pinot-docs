@@ -43,9 +43,29 @@ Columns in a Pinot table can be broadly categorized into three categories
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>Time</b>
+      <td style="text-align:left"><b>DateTime</b>
       </td>
       <td style="text-align:left">
+        <p>This column represents time columns in the data. There can be multiple
+          time columns in a table, but only one of them is the primary time column.
+          Primary time column is the one that is set in the <a href="https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1">segmentConfig</a>.
+          This primary time column is used by Pinot, for maintaining the time boundary
+          between offline and realtime data in a hybrid table and for retention management.
+          A primary time column is mandatory if the table&apos;s push type is <code>APPEND</code> and
+          optional if the push type is <code>REFRESH</code> .</p>
+        <p></p>
+        <p>Common operations done on time column:</p>
+        <ul>
+          <li>GROUP BY</li>
+          <li>Filter processing</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><del><b>Time</b></del>
+      </td>
+      <td style="text-align:left">
+        <p><b>This has been deprecated.</b> Use DateTime column type for time columns.</p>
         <p>This column represents a timestamp. There can be at most one time column
           in a table. Common operations done on time column:</p>
         <ul>
@@ -86,21 +106,26 @@ A Pinot schema is written in JSON format. Here's an example which shows all the 
       "defaultNullValue": 0
     }
   ],
-  "timeFieldSpec": {
-    "incomingGranularitySpec": {
+  "dateTimeFieldSpecs": [
+    {
       "name": "millisSinceEpoch",
       "dataType": "LONG",
-      "timeFormat" : "EPOCH",
-      "timeType": "MILLISECONDS"
+      "format": "1:MILLSECONDS:EPOCH",
+      "granularity": "15:MINUTES"
     },
-     "outgoingGranularitySpec": {
-      "name": "fiveMinutesEpoch",
+    {
+      "name": "hoursSinceEpoch",
       "dataType": "INT",
-      "timeFormat" : "EPOCH",
-      "timeType": "MINUTES",
-      "timeSize": "5"
+      "format": "1:HOURS:EPOCH",
+      "granularity": "1:HOURS"
+    },
+    {
+      "name": "date",
+      "dataType": "STRING",
+      "format": "1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd",
+      "granularity": "1:DAYS"
     }
-  }
+  ]
 }
 ```
 {% endcode %}
@@ -112,7 +137,8 @@ The Pinot schema is composed of
 | **schemaName** | Defines the name of the schema. This is usually the same as the table name. The offline and the realtime table of a hybrid table should use the same schema. |
 | **dimensionFieldSpecs** | A dimensionFieldSpec is defined for each dimension column. For more details, scroll down to [dimensionFieldSpec](schema.md#dimensionfieldspecs) |
 | **metricFieldSpecs** | A metricFieldSpec is defined for each metric column. For more details, scroll down to [metricFieldSpec](schema.md#metricfieldspecs) |
-| **timeFieldSpec** | A timeFieldSpec is defined for the time column. There can only be one time column. For more details, scroll down to [timeFieldSpec](schema.md#timefieldspec) |
+| **dateTimeFieldSpec** | A dateTimeFieldSpec is defined for the time columns. There can be multiple time columns. For more details, scroll down to dateTimeFieldSpec. |
+| ~~**timeFieldSpec**~~ | **Deprecated. Use dateTimeFieldSpec instead.** A timeFieldSpec is defined for the time column. There can only be one time column. For more details, scroll down to [timeFieldSpec](schema.md#timefieldspec) |
 
 Below is a detailed description of each type of field spec.
 
@@ -156,7 +182,7 @@ A dimensionFieldSpec is defined for each dimension column. Here's a list of the 
         column such as <code>skillSet</code> for a person (one row in the table)
         that can have multiple values such as <code>Real Estate, Mortgages.</code> Please
         note that the values in a multi-value field is a set, which doesn&apos;t
-        guarantee the ordering and always deduped.</td>
+        guarantee the ordering and always de-duped.</td>
     </tr>
   </tbody>
 </table>#### Internal default null values for dimension
@@ -217,34 +243,51 @@ Apart from these, there's some advanced fields. These are common to all field sp
 | field name | description |
 | :--- | :--- |
 | maxLength | Max length of this column |
-| transformFunction | Transform function to generate this column. See section below. |
+| transformFunction | Transform function to generate this column. See section [below](schema.md#ingestion-transform-functions). |
 | virtualColumnProvider | Column value provider |
 
-## Transform Functions
+## Ingestion Transform Functions
 
-Transform functions can be defined on columns in the schema. The syntax for this is
+Transform functions can be defined on columns in the schema. For example:
 
 ```javascript
-FunctionType({function}, argument1, argument2...argumentN)
+"metricFieldSpecs": [
+    {
+      "name": "maxPrice",
+      "dataType": "DOUBLE",
+      "transformFunction": "Groovy({prices.max()}, prices)" // groovy function
+    }
+  ],
+  "dateTimeFieldSpecs": [
+    {
+      "name": "hoursSinceEpoch",
+      "dataType": "INT",
+      "format": "1:HOURS:EPOCH",
+      "granularity": "1:HOURS",
+      "transformFunction": "toEpochHours(timestamp)" // inbuilt function
+    }
 ```
 
-where,  
-**function** - the function to execute  
-**arguments** - the arguments this function needs. These are columns from the data source.
+Currently, we have support for 2 kinds of functions
 
-{% hint style="warning" %}
-**Note**
+1. Groovy functions
+2. Inbuilt functions
 
-Currently, the arguments must be from the source data. They cannot be columns from the Pinot schema which have been created through transformations.
-{% endhint %}
+### Groovy functions
 
-Currently, we have support for function type Groovy
+Groovy functions can be defined using the syntax:
 
 ```javascript
 Groovy({groovy script}, argument1, argument2...argumentN)
 ```
 
 Here's some examples of commonly needed functions. Any valid Groovy expression can be used.
+
+{% hint style="warning" %}
+**Note**
+
+Currently, the arguments must be from the source data. They cannot be columns from the Pinot schema which have been created through transformations.
+{% endhint %}
 
 #### String concatenation
 
@@ -335,6 +378,188 @@ Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintai
       "transformFunction": "Groovy({map2.sort()*.value}, map2)"
 }
 ```
+
+### Inbuilt Pinot functions
+
+We have several inbuilt functions that can be used directly in as ingestion transform functions
+
+#### DateTime functions
+
+These are functions which enable commonly needed time transformations.
+
+**toEpochXXX** 
+
+Converts from epoch milliseconds to a higher granularity. 
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Function name</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">toEpochSeconds</td>
+      <td style="text-align:left">
+        <p>Converts epoch millis to epoch seconds.</p>
+        <p>Usage: <code>&quot;transformFunction&quot;: &quot;toEpochSeconds(millis)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">toEpochMinutes</td>
+      <td style="text-align:left">
+        <p>Converts epoch millis to epoch minutes</p>
+        <p>Usage: <code>&quot;transformFunction&quot;: &quot;toEpochMinutes(millis)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">toEpochHours</td>
+      <td style="text-align:left">
+        <p>Converts epoch millis to epoch hours</p>
+        <p>Usage: <code>&quot;transformFunction&quot;: &quot;toEpochHours(millis)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">toEpochDays</td>
+      <td style="text-align:left">
+        <p>Converts epoch millis to epoch days</p>
+        <p>Usage: <code>&quot;transformFunction&quot;: &quot;toEpochDays(millis)&quot;</code>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>**toEpochXXXRounded**
+
+Converts from epoch milliseconds to another granularity, rounding to the nearest rounding bucket. For example, `1588469352000` \(2020-05-01 42:29:12\) is `26474489` minutesSinceEpoch. ```toEpochMinutesRounded(1588469352000) = 26474480`` \(2020-05-01 42:20:00\)
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Function Name</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">toEpochSecondsRounded</td>
+      <td style="text-align:left">
+        <p>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket</p>
+        <p><code>&quot;transformFunction&quot;: &quot;toEpochSecondsRounded(millis, 30)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">toEpochMinutesRounded</td>
+      <td style="text-align:left">
+        <p>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket</p>
+        <p><code>&quot;transformFunction&quot;: &quot;toEpochMinutesRounded(millis, 10)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">toEpochHoursRounded</td>
+      <td style="text-align:left">
+        <p>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket</p>
+        <p><code>&quot;transformFunction&quot;: &quot;toEpochHoursRounded(millis, 6)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">toEpochDaysRounded</td>
+      <td style="text-align:left">
+        <p>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket</p>
+        <p><code>&quot;transformFunction&quot;: &quot;toEpochDaysRounded(millis, 7)&quot;</code>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>**fromEpochXXX**
+
+Converts from an epoch granularity to milliseconds.
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Function Name</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">fromEpochSeconds</td>
+      <td style="text-align:left">
+        <p>Converts from epoch seconds to milliseconds</p>
+        <p><code>&quot;transformFunction&quot;: &quot;fromEpochSeconds(secondsSinceEpoch)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">fromEpochMinutes</td>
+      <td style="text-align:left">
+        <p>Converts from epoch minutes to milliseconds</p>
+        <p><code>&quot;transformFunction&quot;: &quot;fromEpochMinutes(minutesSinceEpoch)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">fromEpochHours</td>
+      <td style="text-align:left">
+        <p>Converts from epoch hours to milliseconds</p>
+        <p><code>&quot;transformFunction&quot;: &quot;fromEpochHours(hoursSinceEpoch)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">fromEpochDays</td>
+      <td style="text-align:left">
+        <p>Converts from epoch days to milliseconds</p>
+        <p><code>&quot;transformFunction&quot;: &quot;fromEpochDays(daysSinceEpoch)&quot;</code>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>**Simple date format**
+
+Converts simple date format strings to milliseconds and vice-a-versa, as per the provided pattern string.
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Function name</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">toDateTime</td>
+      <td style="text-align:left">
+        <p>Converts from milliseconds to a formatted date time string, as per the
+          provided pattern</p>
+        <p><code>&quot;transformFunction&quot;: &quot;toDateTime(millis, &apos;yyyy-MM-dd&apos;)&quot;</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">fromDateTime</td>
+      <td style="text-align:left">
+        <p>Converts a formatted date time string to milliseconds, as per the provided
+          pattern</p>
+        <p><code>&quot;transformFunction&quot;: &quot;fromDateTime(dateTimeStr, &apos;EEE MMM dd HH:mm:ss ZZZ yyyy&apos;)&quot;</code>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>#### Json functions
+
+**toJsonMapStr**
+
+Converts a json map to a string. This json map can then be queried using jsonExtractScalar function
+
+`"transformFunction": "toJsonMapStr(jsonMapField)"`
 
 ## Creating a Schema
 
