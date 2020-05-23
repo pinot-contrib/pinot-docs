@@ -273,6 +273,12 @@ Currently, we have support for 2 kinds of functions
 1. Groovy functions
 2. Inbuilt functions
 
+{% hint style="warning" %}
+**Note**
+
+Currently, the arguments must be from the source data. They cannot be columns from the Pinot schema which have been created through transformations.
+{% endhint %}
+
 ### Groovy functions
 
 Groovy functions can be defined using the syntax:
@@ -282,12 +288,6 @@ Groovy({groovy script}, argument1, argument2...argumentN)
 ```
 
 Here's some examples of commonly needed functions. Any valid Groovy expression can be used.
-
-{% hint style="warning" %}
-**Note**
-
-Currently, the arguments must be from the source data. They cannot be columns from the Pinot schema which have been created through transformations.
-{% endhint %}
 
 #### String concatenation
 
