@@ -203,8 +203,8 @@ SELECT MAX(DIV(foo, bar) FROM myTable
 <table>
   <thead>
     <tr>
-      <th style="text-align:left"></th>
-      <th style="text-align:left"></th>
+      <th style="text-align:left">Function</th>
+      <th style="text-align:left">Description</th>
     </tr>
   </thead>
   <tbody>
@@ -223,6 +223,34 @@ SELECT MAX(DIV(foo, bar) FROM myTable
     <tr>
       <td style="text-align:left">DIV</td>
       <td style="text-align:left">Quotient of two values</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">MOD</td>
+      <td style="text-align:left">Modulo of two values</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ABS</td>
+      <td style="text-align:left">Absolute of a value</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">CEIL</td>
+      <td style="text-align:left">Rounded up to the nearest integer.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">FLOOR</td>
+      <td style="text-align:left">Rounded down to the nearest integer.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">EXP</td>
+      <td style="text-align:left">exponential of</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">LN</td>
+      <td style="text-align:left">Euler&#x2019;s number raised to the power of x.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">SQRT</td>
+      <td style="text-align:left">Square root of a value</td>
     </tr>
     <tr>
       <td style="text-align:left">TIMECONVERT</td>
@@ -310,6 +338,10 @@ SELECT MAX(DIV(foo, bar) FROM myTable
           in Los Angeles timezone). The output is expressed as hours since UTC epoch
           (note that the output is not Los Angeles timezone)</p>
       </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ARRAYLENGTH</td>
+      <td style="text-align:left">Returns the length of a multi-value column</td>
     </tr>
     <tr>
       <td style="text-align:left">VALUEIN</td>
