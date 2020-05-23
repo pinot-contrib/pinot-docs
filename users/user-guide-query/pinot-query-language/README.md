@@ -324,6 +324,40 @@ SELECT MAX(DIV(foo, bar) FROM myTable
         <br /><code>VALUEIN(mvColumn, 3, 5, 15)</code>
       </td>
     </tr>
+    <tr>
+      <td style="text-align:left">JSONEXTRACTSCALAR</td>
+      <td style="text-align:left">
+        <p><b><code>JSONEXTRACTSCALAR(jsonField, &apos;jsonPath&apos;, &apos;resultsType&apos;)</code></b>evaluates
+          the <code>jsonPath</code> on <code>jsonField</code> (a string containing JSON)
+          and returns the result as a type <code>resultsType</code>
+        </p>
+        <p><code>jsonFieldName</code> is a String field with Json document.</p>
+        <p><code>jsonPath</code> is a <a href="https://goessner.net/articles/JsonPath/">JsonPath expression</a> to
+          read from JSON document</p>
+        <p><code>results_type</code> refers to the results data type, could be <code>INT</code>, <code>LONG</code>, <code>FLOAT</code>, <code>DOUBLE</code>, <code>STRING</code>, <code>INT_ARRAY</code>, <code>LONG_ARRAY</code>, <code>FLOAT_ARRAY</code>, <code>DOUBLE_ARRAY</code>, <code>STRING_ARRAY</code>.</p>
+        <p><b>Examples</b>
+        </p>
+        <p><code>JSONEXTRACTSCALAR(profile_json_str, &apos;$.name&apos;, &apos;STRING&apos;) -&gt; &quot;bob&quot;</code>
+        </p>
+        <p><code>JSONEXTRACTSCALAR(profile_json_str, &apos;$.age&apos;, &apos;INT&apos;) -&gt; 37</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">JSONEXTRACTKEY</td>
+      <td style="text-align:left">
+        <p><b><code>JSONEXTRACTKEY(jsonField, &apos;jsonPath&apos;)</code></b> extracts
+          all field names based on <code>jsonPath</code> as a <code>STRING_ARRAY.</code>
+        </p>
+        <p><code>jsonFieldName</code> is a String field with Json document.</p>
+        <p><code>jsonPath</code> is a <a href="https://goessner.net/articles/JsonPath/">JsonPath expression</a> to
+          read from JSON document</p>
+        <p><b>Examples</b>
+        </p>
+        <p><code>JSONEXTRACTSCALAR(profile_json_str, &apos;$.*&apos;) -&gt; [&quot;name&quot;, &quot;age&quot;, &quot;phone&quot;...]</code>
+        </p>
+      </td>
+    </tr>
   </tbody>
 </table>## Differences with SQL
 
