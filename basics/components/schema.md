@@ -555,13 +555,25 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
   </tbody>
 </table>#### Json functions
 
-**toJsonMapStr**
-
-Converts a json map to a string. This json map can then be queried using jsonExtractScalar function
-
-`"transformFunction": "toJsonMapStr(jsonMapField)"`
-
-## Creating a Schema
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Function name</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">toJsonMapStr</td>
+      <td style="text-align:left">
+        <p>Converts a JSON/Avro map to a string. This json map can then be queried
+          using <a href="https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping">jsonExtractScalar</a> function.</p>
+        <p><code>&quot;transformFunction&quot;: &quot;toJsonMapStr(jsonMapField)&quot;</code>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>## Creating a Schema
 
 Create a schema for your data, or see [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for examples. Make sure you've [setup the cluster](cluster.md#setup-a-pinot-cluster) 
 
