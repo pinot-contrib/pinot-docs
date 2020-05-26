@@ -90,11 +90,11 @@ SELECT count(*) FROM SomeTable
 
 ### UDF
 
-As of now, functions have to be implemented within Pinot. Injecting functions is not allowed yet. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://apache-pinot.gitbook.io/apache-pinot-cookbook/pinot-user-guide/pinot-query-language#transform-function-in-aggregation-and-grouping)
+As of now, functions have to be implemented within Pinot. Injecting functions is not allowed yet. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping)
 
 ```sql
 SELECT count(*) FROM myTable
-  GROUP BY timeConvert(timeColumnName, 'SECONDS', 'DAYS')
+  GROUP BY dateTimeConvert(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH', '1:HOURS')
 ```
 
 ### BYTES column
@@ -187,7 +187,7 @@ The `TOP n` clause causes the ‘n’ largest group results to be returned. If n
 
 ### LIMIT
 
-The `LIMIT n` clause causes the selection results to contain at most ‘n’ results. The `LIMIT a, b` clause paginate the selection results from the ‘a’ th results and return at most ‘b’ results.
+The `LIMIT n` clause causes the selection results to contain at most ‘n’ results. The `LIMIT a, b` clause paginate the selection results from the ‘a’ th results and return at most ‘b’ results. By default, 10 records are returned in the result.
 
 ### Transform Function in Aggregation and Grouping
 
@@ -195,7 +195,7 @@ In aggregation and grouping, each column can be transformed from one or multiple
 
 ```sql
 SELECT MAX(DIV(foo, bar) FROM myTable
-  GROUP BY TIMECONVERT(time, 'MILLISECONDS', 'SECONDS')
+  GROUP BY DATETIMECONVERT(time, '1:MILLISECONDS:EPOCH', '1:SECONDS:EPOCH', '1:SECONDS')
 ```
 
 #### Supported transform functions
