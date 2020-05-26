@@ -74,14 +74,12 @@ Once you have identified the dimensions, metrics and time columns, create a sche
       "dataType": "FLOAT"
     }
   ],
-  "timeFieldSpec": {
-    "incomingGranularitySpec": {
-      "name": "timestamp",
-      "dataType": "LONG",
-      "timeFormat" : "EPOCH",
-      "timeType": "MILLISECONDS"
-    }
-  }
+  "dateTimeFieldSpecs": [{
+    "name": "timestamp",
+    "dataType": "LONG",
+    "format" : "1:MILLISECONDS:EPOCH",
+    "granularity": "1:MILLISECONDS"
+  }]
 }
 ```
 {% endcode %}

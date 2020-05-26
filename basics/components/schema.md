@@ -204,7 +204,7 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 | :--- | :--- |
 | name | Name of the metric column |
 | dataType | Data type of the column. Can be INT, LONG, DOUBLE, FLOAT, BYTES \(for specialized representations such as HLL, TDigest, etc, where the column stores byte serialized version of the value\) |
-| defaultNullValue | Represents null values in the data. If not specified, an internal default null value is used, as listed here. |
+| defaultNullValue | Represents null values in the data. If not specified, an internal default null value is used, as listed here. The values are the same as those used for dimensionFieldSpec. |
 
 #### Internal default null values for metric
 
@@ -217,7 +217,62 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 | STRING | "null" |
 | BYTES | byte array of length 0 |
 
-### timeFieldSpec
+### dateTimeFieldSpec
+
+A dateTimeFieldSpec is used to define time columns of the table. Here's a list of the fields in a dateTimeFieldSpec
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">field</th>
+      <th style="text-align:left">description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">name</td>
+      <td style="text-align:left">Name of the date time column</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">dataType</td>
+      <td style="text-align:left">Data type of the date time column. Can be STRING, INT, LONG</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">format</td>
+      <td style="text-align:left">
+        <p>The format of the time column. The syntax of the format is <code>timeSize:timeUnit:timeFormat</code> 
+        </p>
+        <p>timeFormat can be either EPOCH or SIMPLE_DATE_FORMAT. If it is SIMPLE_DATE_FORMAT,
+          the pattern string is also specified. For example:</p>
+        <p>1:MILLISECONDS:EPOCH - epoch millis</p>
+        <p>1:HOURS:EPOCH - epoch hours</p>
+        <p>1:DAYS:SIMPLE_DATE_FORMAT:yyyyMMdd - date specified like <code>20191018</code>
+        </p>
+        <p>1:HOURS:SIMPLE_DATE_FORMAT:EEE MMM dd HH:mm:ss ZZZ yyyy - date specified
+          like <code>Mon Aug 24 12:36:50 America/Los_Angeles 2019</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">granularity</td>
+      <td style="text-align:left">The granularity in which the column is bucketed. The syntax of granularity
+        is
+        <br /><code>bucket size:bucket unit</code>
+        <br />For example, the format can be milliseconds <code>1:MILLISECONDS:EPOCH</code>,
+        but bucketed to 15 minutes i.e. we only have one value for every 15 minute
+        interval, in which case granularity can be specified as <code>15:MINUTES</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">defaultNullValue</td>
+      <td style="text-align:left">Represents null values in the data. If not specified, an internal default
+        null value is used, as listed here. The values are the same as those used
+        for dimensionFieldSpec.</td>
+    </tr>
+  </tbody>
+</table>### ~~timeFieldSpec~~
+
+This has been deprecated. Older schemas containing timeFieldSpec will be supported. But for new schemas, use DateTimeFieldSpec instead.
 
 A timeFieldSpec is defined for the time column. A timeFieldSpec is composed of an incomingGranularitySpec and an outgoingGranularitySpec. **IncomingGranularitySpec** in combination with **outgoingGranularitySpec** can be used to transform the time column from incoming format to the outgoing format. If both of them are specified, the segment creation process will convert the time column from the incoming format to the outgoing format. If no time column transformation is required, you can specify just the **incomingGranularitySpec**. 
 
@@ -238,7 +293,7 @@ The incoming and outgoing granularitySpec are defined as:
 
 ### Advanced fields
 
-Apart from these, there's some advanced fields. These are common to all field specs. You shouldn't typically need to use them:
+Apart from these, there's some advanced fields. These are common to all field specs. 
 
 | field name | description |
 | :--- | :--- |
@@ -318,15 +373,13 @@ Find max value in array `bids`
 Convert `timestamp` from `MILLISECONDS` to `HOURS`
 
 ```javascript
-"timeFieldSpec": {
-    "incomingGranularitySpec": {
-      "name": "hoursSinceEpoch",
-      "dataType": "LONG",
-      "timeFormat" : "EPOCH",
-      "timeType": "HOURS"
-    },
+"dateTimeFieldSpecs": [{
+    "name": "hoursSinceEpoch",
+    "dataType": "LONG",
+    "format" : "1:HOURS:EPOCH",
+    "granularity": "1:HOURS"
     "transformFunction": "Groovy({timestamp/(1000*60*60)}, timestamp)"
-  }
+  }]
 ```
 
 #### Column name change
