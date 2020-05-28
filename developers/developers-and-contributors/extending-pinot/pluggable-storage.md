@@ -60,7 +60,6 @@ Sample Controller Config
 "pinot.controller.storage.factory.adl.accountId": "xxxx"
 "pinot.controller.storage.factory.adl.authEndpoint": "xxxx"
 "pinot.controller.storage.factory.adl.clientId": "xxxx"
-"pinot.controller.storage.factory.adl.clientId": "xxxx"
 "pinot.controller.segment.fetcher.protocols": "adl"
 ```
 
@@ -70,7 +69,6 @@ Sample Server Config
 "pinot.server.storage.factory.class.adl": "org.apache.pinot.filesystem.AzurePinotFS"
 "pinot.server.storage.factory.adl.accountId": "xxxx"
 "pinot.server.storage.factory.adl.authEndpoint": "xxxx"
-"pinot.server.storage.factory.adl.clientId": "xxxx"
 "pinot.server.storage.factory.adl.clientId": "xxxx"
 "pinot.server.segment.fetcher.protocols": "adl"
 ```
