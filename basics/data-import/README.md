@@ -4,7 +4,7 @@ description: >-
   Pinot.
 ---
 
-# Data Import
+# Data import
 
 There are multiple options for importing data into Pinot. These guides are ready-made examples that show you step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../plugins/plugin-architecture.md). These guides are meant to get you up and running with imported data as quick as possible. Pinot supports multiple file input formats without needing to change anything other than the file name. Each example imports a ready-made dataset so you can see how things work without needing to bring your own dataset.
 
@@ -20,7 +20,7 @@ These guides will show you how to import data from a supported file system.
 
 ### Pinot Input Formats
 
-This guides will show you how to import data from a Pinot supported input format.
+These guides will show you how to import data from a Pinot supported input format.
 
 {% page-ref page="pinot-input-formats/import-from-csv.md" %}
 

@@ -28,7 +28,7 @@
   * [Manual cluster setup](basics/getting-started/advanced-pinot-setup.md)
   * [Batch import example](basics/getting-started/pushing-your-data-to-pinot.md)
   * [Stream ingestion example](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
-* [Data Import](basics/data-import/README.md)
+* [Data import](basics/data-import/README.md)
   * [Pinot File System](basics/data-import/pinot-file-system/README.md)
     * [Import from ADLS \(Azure\)](basics/data-import/pinot-file-system/import-from-adls-azure.md)
     * [Import from HDFS](basics/data-import/pinot-file-system/import-from-hdfs.md)
