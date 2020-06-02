@@ -100,7 +100,9 @@ Helix agents use Zookeeper to store and update configurations, as well as for di
       </td>
     </tr>
   </tbody>
-</table>Knowing the _ZNode_ layout structure in Zookeeper for Helix agents in a cluster is useful for operations and/or troubleshooting cluster state and health.
+</table>
+
+Knowing the _ZNode_ layout structure in Zookeeper for Helix agents in a cluster is useful for operations and/or troubleshooting cluster state and health.
 
 ![](../.gitbook/assets/znode-layout%20%281%29.svg)
 

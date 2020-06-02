@@ -391,7 +391,9 @@ SELECT MAX(DIV(foo, bar) FROM myTable
       </td>
     </tr>
   </tbody>
-</table>## Differences with SQL
+</table>
+
+## Differences with SQL
 
 {% hint style="info" %}
 These differences only apply to the PQL endpoint. They do not hold true for the standard-SQL endpoint, which is the recommended endpoint. More information about the two types of endpoints in [Querying Pinot](../../api/querying-pinot-using-standard-sql/#rest-api-on-the-broker)

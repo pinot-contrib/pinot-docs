@@ -160,7 +160,9 @@ where,
       </td>
     </tr>
   </tbody>
-</table>#### executionFrameworkSpec
+</table>
+
+#### executionFrameworkSpec
 
 | field | Description |
 | :--- | :--- |
@@ -199,7 +201,9 @@ where,
       <td style="text-align:left">configs used to init PinotFS instance</td>
     </tr>
   </tbody>
-</table>#### recordReaderSpec
+</table>
+
+#### recordReaderSpec
 
 <table>
   <thead>
@@ -241,7 +245,9 @@ where,
         CSV and Thrift data format.</td>
     </tr>
   </tbody>
-</table>#### tableSpec
+</table>
+
+#### tableSpec
 
 <table>
   <thead>
@@ -273,7 +279,9 @@ where,
       </td>
     </tr>
   </tbody>
-</table>#### segmentNameGeneratorSpec
+</table>
+
+#### segmentNameGeneratorSpec
 
 | field | description |
 | :--- | :--- |
@@ -298,7 +306,9 @@ where,
       </td>
     </tr>
   </tbody>
-</table>#### pushJobSpec
+</table>
+
+#### pushJobSpec
 
 | field | description |
 | :--- | :--- |

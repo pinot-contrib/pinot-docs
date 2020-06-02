@@ -92,7 +92,9 @@ Pinot [tenants](basics/components/tenant.md) prevent any possibility of sharing 
       </td>
     </tr>
   </tbody>
-</table>### Features of Pinot
+</table>
+
+### Features of Pinot
 
 * A column-oriented database with various compression schemes such as Run Length, Fixed Bit Length
 * Pluggable indexing technologies - Sorted Index, Bitmap Index, Inverted Index

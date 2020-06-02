@@ -79,7 +79,9 @@ Columns in a Pinot table can be broadly categorized into three categories
       </td>
     </tr>
   </tbody>
-</table>## Schema format
+</table>
+
+## Schema format
 
 A Pinot schema is written in JSON format. Here's an example which shows all the fields of a schema
 
@@ -185,7 +187,9 @@ A dimensionFieldSpec is defined for each dimension column. Here's a list of the 
         guarantee the ordering and always de-duped.</td>
     </tr>
   </tbody>
-</table>#### Internal default null values for dimension
+</table>
+
+#### Internal default null values for dimension
 
 | Data Type | Internal Default Null Value |
 | :--- | :--- |
@@ -270,7 +274,9 @@ A dateTimeFieldSpec is used to define time columns of the table. Here's a list o
         for dimensionFieldSpec.</td>
     </tr>
   </tbody>
-</table>### ~~timeFieldSpec~~
+</table>
+
+### ~~timeFieldSpec~~
 
 This has been deprecated. Older schemas containing timeFieldSpec will be supported. But for new schemas, use DateTimeFieldSpec instead.
 
@@ -485,7 +491,9 @@ Converts from epoch milliseconds to a higher granularity.
       </td>
     </tr>
   </tbody>
-</table>**toEpochXXXRounded**
+</table>
+
+**toEpochXXXRounded**
 
 Converts from epoch milliseconds to another granularity, rounding to the nearest rounding bucket. For example, `1588469352000` \(2020-05-01 42:29:12\) is `26474489` minutesSinceEpoch. ```toEpochMinutesRounded(1588469352000) = 26474480`` \(2020-05-01 42:20:00\)
 
@@ -530,7 +538,9 @@ Converts from epoch milliseconds to another granularity, rounding to the nearest
       </td>
     </tr>
   </tbody>
-</table>**fromEpochXXX**
+</table>
+
+**fromEpochXXX**
 
 Converts from an epoch granularity to milliseconds.
 
@@ -575,7 +585,9 @@ Converts from an epoch granularity to milliseconds.
       </td>
     </tr>
   </tbody>
-</table>**Simple date format**
+</table>
+
+**Simple date format**
 
 Converts simple date format strings to milliseconds and vice-a-versa, as per the provided pattern string.
 
@@ -606,7 +618,9 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
       </td>
     </tr>
   </tbody>
-</table>#### Json functions
+</table>
+
+#### Json functions
 
 <table>
   <thead>
@@ -626,7 +640,9 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
       </td>
     </tr>
   </tbody>
-</table>## Creating a Schema
+</table>
+
+## Creating a Schema
 
 Create a schema for your data, or see [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for examples. Make sure you've [setup the cluster](cluster.md#setup-a-pinot-cluster) 
 
