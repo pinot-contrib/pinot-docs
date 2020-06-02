@@ -39,6 +39,7 @@
     * [Import from Avro](basics/data-import/pinot-input-formats/import-from-avro.md)
     * [Import from Parquet](basics/data-import/pinot-input-formats/import-from-parquet.md)
     * [Import from Thrift](basics/data-import/pinot-input-formats/import-from-thrift.md)
+    * [Import from ORC](basics/data-import/pinot-input-formats/import-from-orc.md)
   * [Pinot Stream Ingestion](basics/data-import/pinot-stream-ingestion/README.md)
     * [Import from Apache Kafka](basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
 * [Feature guides](features/README.md)
