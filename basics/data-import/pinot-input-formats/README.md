@@ -4,5 +4,5 @@ description: >-
   data from a Pinot supported input format.
 ---
 
-# Pinot Input Formats
+# Input formats
 

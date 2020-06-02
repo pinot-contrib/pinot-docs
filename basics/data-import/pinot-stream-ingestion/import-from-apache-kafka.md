@@ -4,7 +4,7 @@ description: >-
   topic into a Pinot table.
 ---
 
-# Import from Apache Kafka
+# Import from Kafka
 
 ## Coming soon
 

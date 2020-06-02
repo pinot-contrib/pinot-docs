@@ -4,5 +4,5 @@ description: >-
   from a Pinot supported file system.
 ---
 
-# Pinot File System
+# File systems
 

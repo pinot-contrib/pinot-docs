@@ -4,5 +4,5 @@ description: >-
   stream ingestion.
 ---
 
-# Pinot Stream Ingestion
+# Stream ingestion
 
