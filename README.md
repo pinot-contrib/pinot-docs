@@ -163,16 +163,3 @@ Instructions to connect Pinot with Superset can found [here](integrations/supers
 
 In addition to visualizing data in Pinot, one can run Machine Learning Algorithms to detect Anomalies on the data stored in Pinot. See [ThirdEye](integrations/thirdeye.md) for more information on how to use Pinot for Anomaly Detection and Root Cause Analysis.
 
-### Query example
-
-Pinot works very well for querying time series data with many dimensions and metrics over a vast unbounded space of records that scales linearly on a per node basis. Filters and aggregations are both easy and fast.
-
-```sql
-SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
-  WHERE 
-       ((daysSinceEpoch >= 17849 AND daysSinceEpoch <= 17856)) AND 
-       accountId IN (123456789)
-  GROUP BY 
-       daysSinceEpoch TOP 100
-```
-
