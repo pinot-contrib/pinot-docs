@@ -182,9 +182,8 @@ A dimensionFieldSpec is defined for each dimension column. Here's a list of the 
         For a multi-valued column, individual rows don&#x2019;t necessarily need
         to have the same number of values. Typical use case for this would be a
         column such as <code>skillSet</code> for a person (one row in the table)
-        that can have multiple values such as <code>Real Estate, Mortgages.</code> Please
-        note that the values in a multi-value field is a set, which doesn&apos;t
-        guarantee the ordering and always de-duped.</td>
+        that can have multiple values such as <code>Real Estate, Mortgages.</code> 
+      </td>
     </tr>
   </tbody>
 </table>
