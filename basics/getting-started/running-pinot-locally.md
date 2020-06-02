@@ -1,10 +1,16 @@
 ---
 description: >-
-  This quick start guide will help you bootstrap a Pinot cluster on your local
-  machine.
+  This quick start guide will help you bootstrap a Pinot standalone instance on
+  your local machine.
 ---
 
 # Running Pinot locally
+
+In this guide you'll learn how to download and install Apache Pinot as a standalone instance.
+
+{% hint style="success" %}
+This is a quickstart guide that will show you how to quickly start an example recipe in a standalone instance and is meant for learning. To run Pinot in cluster mode, please take a look at [Manual cluster setup](advanced-pinot-setup.md).
+{% endhint %}
 
 ## Download Apache Pinot
 
