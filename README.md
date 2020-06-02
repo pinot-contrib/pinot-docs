@@ -16,11 +16,52 @@ Join us in our Slack channel for questions, troubleshooting, and feedback. We'd 
 
 ![A modern OLAP platform for event-driven data warehousing](.gitbook/assets/pinot-overview-graphic.png)
 
-## Learning Pinot
+### 
+
+## Get started
 
 Our documentation is structured to let you quickly get to the content you need and is organized around the different concerns of users, operators, and developers. If you're new to Pinot and want to learn things by example, please take a look at our _getting started_ section.
 
+### Starter guides
+
 {% page-ref page="basics/getting-started/" %}
+
+To start importing data into Pinot, check out our guides on batch import and stream ingestion based on our [plugin architecture](plugins/plugin-architecture.md).
+
+{% page-ref page="basics/data-import/" %}
+
+### Query example
+
+Pinot works very well for querying time series data with many dimensions and metrics over a vast unbounded space of records that scales linearly on a per node basis. Filters and aggregations are both easy and fast.
+
+```sql
+SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
+  WHERE 
+       ((daysSinceEpoch >= 17849 AND daysSinceEpoch <= 17856)) AND 
+       accountId IN (123456789)
+  GROUP BY 
+       daysSinceEpoch TOP 100
+```
+
+Pinot supports SQL for querying read-only data. Learn more about querying Pinot for time series data in our [PQL \(Pinot Query Language\)](users/user-guide-query/pinot-query-language/) guide.
+
+## Installation
+
+Pinot may be deployed to and operated on a cloud provider or a local or virtual machine. You may get started either with a bare-metal installation or a Kubernetes one \(either locally or in the cloud\). To get immediately started with Pinot, check out these quick start guides for bootstrapping a Pinot cluster using Docker or Kubernetes.
+
+### Standalone mode
+
+{% page-ref page="basics/getting-started/running-pinot-locally.md" %}
+
+{% page-ref page="basics/getting-started/running-pinot-in-docker.md" %}
+
+### Cluster mode
+
+{% page-ref page="basics/getting-started/kubernetes-quickstart.md" %}
+
+{% page-ref page="basics/getting-started/advanced-pinot-setup.md" %}
+
+## Learn
 
 For a high-level overview that explains how Pinot works, please take a look at our basic concepts section.
 
@@ -30,19 +71,19 @@ To understand the distributed systems architecture that explains Pinot's operati
 
 {% page-ref page="basics/architecture.md" %}
 
-## FAQs
+## Overview
 
 This section focuses on answering the most frequently asked questions for people exploring the newly evolving category of distributed OLAP engines. Pinot was created by authors at both Uber and LinkedIn and has been hardened and battle tested at the very highest of load and scale.
 
-### Is Pinot a data warehouse or a database?
+#### Is Pinot a data warehouse or a database?
 
 While Pinot doesn't match the typical mold of a database product, it is best understood based on your role as either an analyst, data scientist, or application developer.
 
-#### Enterprise business intelligence
+**Enterprise business intelligence**
 
 For analysts and data scientists, Pinot is best viewed as a highly-scalable data platform for business intelligence. In this view, Pinot converges big data platforms with the traditional role of a data warehouse, making it a suitable replacement for analysis and reporting.
 
-#### Enterprise application development
+**Enterprise application development**
 
 For application developers, Pinot is best viewed as an immutable aggregate store that sources events from streaming data sources, such as Kafka, and makes it available for query using SQL. 
 
@@ -50,7 +91,7 @@ As is the case with a microservice architecture, data encapsulation ends up requ
 
 Pinot [tenants](basics/components/tenant.md) prevent any possibility of sharing ownership of database tables across microservice teams. Developers can create their own query models of data from multiple systems of record depending on their use case and needs. As with all aggregate stores, query models are eventually consistent and immutable.
 
-### **Who uses Pinot in production?**
+### **Companies using Pinot**
 
 <table>
   <thead>
@@ -94,7 +135,7 @@ Pinot [tenants](basics/components/tenant.md) prevent any possibility of sharing 
   </tbody>
 </table>
 
-### Features of Pinot
+### Features
 
 * A column-oriented database with various compression schemes such as Run Length, Fixed Bit Length
 * Pluggable indexing technologies - Sorted Index, Bitmap Index, Inverted Index
@@ -134,16 +175,4 @@ SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
   GROUP BY 
        daysSinceEpoch TOP 100
 ```
-
-### Installation
-
-Pinot may be deployed to and operated on a cloud provider or a local or virtual machine. You may get started either with a bare-metal installation or a Kubernetes one \(either locally or in the cloud\).
-
-{% page-ref page="basics/getting-started/advanced-pinot-setup.md" %}
-
-To get immediately started with Pinot, check out these quick start guides for bootstrapping a Pinot cluster using Docker or Kubernetes.
-
-{% page-ref page="basics/getting-started/running-pinot-in-docker.md" %}
-
-{% page-ref page="basics/getting-started/kubernetes-quickstart.md" %}
 
