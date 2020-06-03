@@ -17,7 +17,7 @@ pip install pinotdb==0.3.2
 Please note:
 
 * **pinotdb** version &gt;= **0.3.2** is using Pinot SQL API \(added in Pinot &gt;= 0.3.0\) and drops support for PQL API. So this client requires Pinot server version &gt;= **0.3.0** in order to access Pinot.
-* **pinotdb** version in **0.2.x** is using Pinot PQL API, which still works with pinot version &lt; 0.3.0.
+* **pinotdb** version in **0.2.x** is using Pinot PQL API, which works with pinot version &lt;= 0.3.0, but may miss some new SQL query features added in newer Pinot version.
 
 ## Usage
 
