@@ -64,6 +64,7 @@
   * [Pinot Rest Admin Interface](users/api/pinot-rest-admin-interface.md)
 * [Clients](users/clients/README.md)
   * [Java](users/clients/java.md)
+  * [Python](users/clients/python.md)
   * [Golang](users/clients/golang.md)
 
 ## For Developers <a id="developers"></a>
