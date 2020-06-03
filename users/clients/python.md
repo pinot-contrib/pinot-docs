@@ -21,7 +21,7 @@ Please note:
 
 ## Usage
 
-Using the DB API to query Pinot Broker directly:
+### Using the DB API to query Pinot Broker directly:
 
 ```text
 from pinotdb import connect
@@ -39,7 +39,7 @@ for row in curs:
     print(row)
 ```
 
-Using SQLAlchemy:
+### Using SQLAlchemy:
 
 The db engine connection string is format as: pinot://:?controller=://:/
 
@@ -58,7 +58,9 @@ print(select([func.count('*')], from_obj=places).scalar())
 
 ## Examples with Pinot Quickstart
 
-Start Pinot Batch Quickstart
+### Pinot Batch Quickstart
+
+Run below command to start Pinot Batch Quickstart in docker and expose Pinot controller port 9000 and Pinot broker port 8000.
 
 ```text
 docker run --name pinot-quickstart -p 2123:2123 -p 9000:9000 -p 8000:8000 -d apachepinot/pinot:latest QuickStart -type batch
@@ -95,13 +97,15 @@ Sending SQL to Pinot: SELECT playerName,sum(runs) AS sum_runs FROM baseballStats
 ['Alexander Emmanuel', 1426.0]
 ```
 
-Start Pinot Hybrid Quickstart
+### Pinot Hybrid Quickstart
+
+Run below command to start Pinot Hybrid Quickstart in docker and expose Pinot controller port 9000 and Pinot broker port 8000.
 
 ```text
 docker run --name pinot-quickstart -p 2123:2123 -p 9000:9000 -p 8000:8000 -d apachepinot/pinot:latest QuickStart -type hybrid
 ```
 
-Below is an example against Pinot Quickstart Hybrid:
+Below is an example to query against Pinot Quickstart Hybrid:
 
 ```text
 python3 examples/pinot-quickstart-hybrid.py
