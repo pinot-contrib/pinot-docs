@@ -559,3 +559,25 @@ hadoop jar  \
         ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/hadoopIngestionJobSpec.yaml
 ```
 
+### Tunning
+
+You can set Environment Variable: `JAVA_OPTS` to modify:
+
+* Log4j2 file location with `-Dlog4j2.configurationFile`
+* Plugin directory location with `-Dplugins.dir=/opt/pinot/plugins`
+* JVM props, like `-Xmx8g -Xms4G`
+
+Please note that you need to config above three all together in `JAVA_OPTS`. If you only config `JAVA_OPTS="-Xmx4g"` then `plugins.dir` is empty usually will cause job failure.
+
+E.g.  
+
+```text
+docker run --rm -ti -e JAVA_OPTS="-Xms8G -Dlog4j2.configurationFile=/opt/pinot/conf/pinot-admin-log4j2.xml  -Dplugins.dir=/opt/pinot/plugins" --name pinot-data-ingestion-job apachepinot/pinot:latest LaunchDataIngestionJob -jobSpecFile /path/to/ingestion_job_spec.yaml
+```
+
+You can also add your customized `JAVA_OPTS` if necessary. 
+
+
+
+
+
