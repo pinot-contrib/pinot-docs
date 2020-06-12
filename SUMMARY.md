@@ -47,6 +47,7 @@
   * [Text search support](features/text-search-support.md)
   * [Indexing](features/indexing.md)
 * [Releases](releases/README.md)
+  * [0.4.0](releases/0.4.0.md)
   * [0.3.0](releases/0.3.0.md)
   * [0.2.0](releases/0.2.0.md)
   * [0.1.0](releases/1.0.md)
