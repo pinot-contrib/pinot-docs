@@ -36,7 +36,7 @@ Another way to visualize the cluster is a logical view, wherein a cluster contai
 
 ## Setup a Pinot Cluster
 
-Typically, there is only cluster per environment/data center. There is no needed to create multiple Pinot clusters since Pinot supports the concept of [tenants](tenant.md). At LinkedIn, the largest Pinot cluster consists of 1000+ nodes.
+Typically, there is only one cluster per environment/data center. There is no needed to create multiple Pinot clusters since Pinot supports the concept of [tenants](tenant.md). At LinkedIn, the largest Pinot cluster consists of 1000+ nodes.
 
 To setup a Pinot cluster, we need to first start Zookeeper.
 
