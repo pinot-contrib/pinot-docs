@@ -10,6 +10,10 @@ description: >-
 
 Before upgrading from one version to another one, please read the release notes as there may be some incompatibilities between versions.
 
+## 0.4.0 \(June 2020\)
+
+{% page-ref page="0.4.0.md" %}
+
 ## 0.3.0 \(March 2020\)
 
 {% page-ref page="0.3.0.md" %}
