@@ -99,13 +99,13 @@ Please modify the parameters in the example command below:
 EKS_CLUSTER_NAME=pinot-quickstart
 eksctl create cluster \
 --name ${EKS_CLUSTER_NAME} \
---version 1.14 \
+--version 1.16 \
 --region us-west-2 \
 --nodegroup-name standard-workers \
---node-type t3.small \
---nodes 3 \
---nodes-min 3 \
---nodes-max 4 \
+--node-type t3.xlarge \
+--nodes 1 \
+--nodes-min 1 \
+--nodes-max 1 \
 --node-ami auto
 ```
 

@@ -186,8 +186,22 @@ This script can be found in the Pinot source at `./incubator-pinot/kubernetes/he
 
 ### 5.1 Bring up Superset
 
+Open `superset.yaml` file and goto the line showing `storageclass`. And change it based on your cloud vendor:
+
+* For AWS: "**gp2**"
+* For GCP: "**pd-ssd**" or "**standard**"
+* For Docker-Desktop: "**hostpath**"
+
+Then run:
+
 ```text
 kubectl apply -f superset.yaml
+```
+
+Ensure your cluster is up by running:
+
+```text
+kubectl get all -n pinot-quickstart | grep superset
 ```
 
 ### 5.2 \(First time\) Set up Admin account
