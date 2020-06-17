@@ -56,6 +56,10 @@ This is configured through Amazon VPC Page.
 
 ![Amazon EKS ClusterSharedNodeSecurityGroup](../../.gitbook/assets/image%20%289%29.png)
 
+{% hint style="info" %}
+Please ensure you are picking **ClusterShardNodeSecurityGroup**
+{% endhint %}
+
 3. In SecurityGroup, click on MSK SecurityGroup \(`sg-01e7ab1320a77f1a9`\), then Click on `Edit Rules` , then add above `ClusterSharedNodeSecurityGroup` \(`sg-0402b59d7e440f8d1`\) to it.
 
 ![Add SecurityGroup to Amazon MSK](../../.gitbook/assets/image%20%2822%29.png)
