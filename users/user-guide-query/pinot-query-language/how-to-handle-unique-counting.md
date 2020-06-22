@@ -32,5 +32,23 @@ For column type **BYTES**, Pinot treats each value as a serialized HyperLogLog O
 
 All deserialized HyperLogLog object will be merged into one then calling method _**cardinality\(\)** to get the approximated unique count._
 
+### Theta Sketches
 
+The [Theta Sketch](https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html) framework enables set operations over a stream of data, and can also be used for cardinality estimation. Pinot leverages the [Sketch Class](https://github.com/apache/incubator-datasketches-java/blob/master/src/main/java/org/apache/datasketches/theta/Sketch.java) and its extensions from the library `org.apache.datasketches:datasketches-java:1.2.0-incubating`  to perform distinct counting as well as evaluating set operations.
+
+Functions:
+
+* _**DistinctCountThetaSketch\(**&lt;thetaSketchColumn&gt;, &lt;thetaSketchParams&gt;, predicate1, predicate2..., postAggregationExpressionToEvaluate**\)**_
+  * _thetaSketchColumn \(required\)_: Name of the column that contains the serialized theta-sketch for each row.
+  * _thetaSketchParams \(required\)_: Parameters for constructing the intermediate theta-sketches, for segment/server level aggregations of form `k1=val1; k2=val2...` . Currently, the only supported parameter is `nominalEntries`.
+  * _predicates \(optional\):_  These are individual predicates of form `lhs <op> rhs` which are applied on rows selected by the `where` clause. During intermediate sketch aggregation, sketches from the `thetaSketchColumn` that satisfies these predicates are unionized individually. For example, all filtered rows that match `country=USA` are unionized into a single sketch. Complex predicates that are created by combining \(AND/OR\) of individual predicates is currently not supported, hence these are arguments are optional, as they can be derived by `postAggregationExpressionToEvaluate` .
+  * _postAggregationExpressionToEvaluate \(required\):_ The post aggregation expression \(set operation\) to perform on the individual intermediate sketches for each of the predicates. For example, `country=USA and device=mobile`. Currently, only AND \(intersection\) and OR \(union\) are supported. Set difference will be supported in future.
+
+In the example query below, the `where` clause is responsible for identifying the matching rows. Note, the where clause can be completely independent of the `postAggregationExpression`. Once matching rows are identified, the aggregation phase unionizes all the sketches that match the individual predicates of the `postAggregationExpression` \(which are `country='USA'` , `device='mobile'` in this case\). Once the broker receives the intermediate sketches for each of these individual predicates from all servers, it performs the final aggregation by evaluating the `postAggregationExpression` and returns the final cardinality of the resulting sketch.
+
+`select distinctCountThetaSketch(sketchCol, 'nominalEntries=1024', "country='USA' and device='mobile') from table where country = 'USA' or device = 'mobile...'` 
+
+* _**DistinctCountThetaSketchRaw\(**&lt;thetaSketchColumn&gt;, &lt;thetaSketchParams&gt;, predicate1, predicate2..., postAggregationExpressionToEvaluate**\)**_
+
+This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
 
