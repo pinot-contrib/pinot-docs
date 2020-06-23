@@ -48,7 +48,7 @@ In the example query below, the `where` clause is responsible for identifying th
 
 `select distinctCountThetaSketch(sketchCol, 'nominalEntries=1024', "country='USA' and device='mobile') from table where country = 'USA' or device = 'mobile...'` 
 
-* _**DistinctCountThetaSketchRaw\(**&lt;thetaSketchColumn&gt;, &lt;thetaSketchParams&gt;, predicate1, predicate2..., postAggregationExpressionToEvaluate**\)**_
+* _**DistinctCountRawThetaSketch\(**&lt;thetaSketchColumn&gt;, &lt;thetaSketchParams&gt;, predicate1, predicate2..., postAggregationExpressionToEvaluate**\)**_
 
 This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
 
