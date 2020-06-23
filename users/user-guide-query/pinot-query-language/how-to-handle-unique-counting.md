@@ -38,7 +38,7 @@ The [Theta Sketch](https://datasketches.apache.org/docs/Theta/ThetaSketchFramewo
 
 Functions:
 
-* _**DistinctCountThetaSketch\(**&lt;thetaSketchColumn&gt;, &lt;thetaSketchParams&gt;, predicate1, predicate2..., postAggregationExpressionToEvaluate**\)**_
+* _**DistinctCountThetaSketch\(**&lt;thetaSketchColumn&gt;, &lt;thetaSketchParams&gt;, predicate1, predicate2..., postAggregationExpressionToEvaluate**\)** -&gt; LONG_
   * _thetaSketchColumn \(required\)_: Name of the column that contains the serialized theta-sketch for each row.
   * _thetaSketchParams \(required\)_: Parameters for constructing the intermediate theta-sketches, for segment/server level aggregations of form `k1=val1; k2=val2...` . Currently, the only supported parameter is `nominalEntries`.
   * _predicates \(optional\):_  These are individual predicates of form `lhs <op> rhs` which are applied on rows selected by the `where` clause. During intermediate sketch aggregation, sketches from the `thetaSketchColumn` that satisfies these predicates are unionized individually. For example, all filtered rows that match `country=USA` are unionized into a single sketch. Complex predicates that are created by combining \(AND/OR\) of individual predicates is currently not supported, hence these are arguments are optional, as they can be derived by `postAggregationExpressionToEvaluate` .
@@ -48,7 +48,7 @@ In the example query below, the `where` clause is responsible for identifying th
 
 `select distinctCountThetaSketch(sketchCol, 'nominalEntries=1024', "country='USA' and device='mobile') from table where country = 'USA' or device = 'mobile...'` 
 
-* _**DistinctCountRawThetaSketch\(**&lt;thetaSketchColumn&gt;, &lt;thetaSketchParams&gt;, predicate1, predicate2..., postAggregationExpressionToEvaluate**\)**_
+* _**DistinctCountRawThetaSketch\(**&lt;thetaSketchColumn&gt;, &lt;thetaSketchParams&gt;, predicate1, predicate2..., postAggregationExpressionToEvaluate**\)** -&gt; HexEncoded Serialized Sketch Bytes_
 
 This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
 
