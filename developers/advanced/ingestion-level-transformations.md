@@ -1,4 +1,4 @@
-# Ingestion Level Transformations
+# Ingestion Transforms
 
 Raw source data often needs to undergo some transformations before it is pushed to Pinot. Transformations include extracting records from nested objects, applying simple transform functions on certain columns, filtering out unwanted columns, etc and also more advanced operations like joining between datasets. Typically, a preprocessing job is needed to perform these operations. In streaming data sources, such transformations require users to write a samza job, and create another intermediate topic. Writing preprocessing jobs, especially for simple transformations, creates an additional step for user onboarding, can result in inconsistencies in the batch/stream data source, and increases the maintenance and operator overhead.
 

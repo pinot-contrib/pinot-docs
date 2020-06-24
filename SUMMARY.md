@@ -83,7 +83,7 @@
   * [Update Documentation](developers/developers-and-contributors/update-document.md)
 * [Advanced](developers/advanced/README.md)
   * [Data Ingestion Overview](developers/advanced/data-ingestion.md)
-  * [Ingestion Level Transformations](developers/advanced/ingestion-level-transformations.md)
+  * [Ingestion Transforms](developers/advanced/ingestion-level-transformations.md)
   * [Advanced Pinot Setup](developers/advanced/advanced-pinot-setup.md)
 * [Tutorials](developers/tutorials/README.md)
   * [Pinot Architecture](developers/tutorials/pinot-architecture.md)
