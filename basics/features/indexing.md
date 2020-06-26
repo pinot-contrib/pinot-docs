@@ -177,11 +177,11 @@ We propose the Star-Tree data structure that offers a configurable trade-off bet
 
 ### Definitions
 
-**Tree Structure**
+**Tree structure**
 
-Star-Tree is a tree data structure that is consisted of the following properties:![../\_images/structure.png](https://pinot.readthedocs.io/en/latest/_images/structure.png)
+Star-tree is a tree data structure that is consisted of the following properties:![../\_images/structure.png](https://pinot.readthedocs.io/en/latest/_images/structure.png)
 
-Star-Tree Structure
+Star-tree Structure
 
 * **Root Node** \(Orange\): Single root node, from which the rest of the tree can be traversed.
 * **Leaf Node** \(Blue\): A leaf node can containing at most _T_ records, where _T_ is configurable.
@@ -189,7 +189,7 @@ Star-Tree Structure
 * **Star-Node** \(Yellow\): Non-leaf nodes can also have a special child node called the Star-Node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
 * **Dimensions Split Order** \(\[D1, D2\]\): Nodes at a given level in the tree are split into children nodes on all values of a particular dimension. The dimensions split order is an ordered list of dimensions that is used to determine the dimension to split on for a given level in the tree.
 
-**Node Properties**
+**Node properties**
 
 The properties stored in each node are as follows:
 
@@ -217,7 +217,7 @@ Aggregation is configured as a pair of aggregation function and the column to ap
 
 All types of aggregation function with bounded-sized intermediate result are supported.
 
-**Supported Functions**
+**Supported functions**
 
 * COUNT
 * MIN
@@ -229,14 +229,14 @@ All types of aggregation function with bounded-sized intermediate result are sup
 * PERCENTILEEST
 * PERCENTILETDIGEST
 
-**Unsupported Functions**
+**Unsupported functions**
 
 * DISTINCTCOUNT: Intermediate result _Set_ is unbounded
 * PERCENTILE: Intermediate result _List_ is unbounded
 
 #### Index generation configuration
 
-Multiple index generation configurations can be provided to generate multiple Star-Trees. Each configuration should contain the following properties:
+Multiple index generation configurations can be provided to generate multiple star-trees. Each configuration should contain the following properties:
 
 * **dimensionsSplitOrder**: An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. The nodes will be split based on the order of this list. For example, split at level _i_ is performed on the values of dimension at index _i_ in the list.
 * **skipStarNodeCreationForDimensions** \(Optional, default empty\): A list of dimension names for which to not create the Star-Node.
@@ -265,6 +265,17 @@ For our example data set, with the following example configuration, the tree and
   ...
 }
 ```
+
+#### **Default index generation configuration**
+
+Default star-tree index can be added to the segment with a boolean config _**enableDefaultStarTree**_ under the _tableIndexConfig_. 
+
+The default star-tree will have the following configuration:
+
+* All dictionary-encoded single-value dimensions with cardinality smaller or equal to a threshold \(10000\) will be included in the _dimensionsSplitOrder_, sorted by their cardinality in descending order.
+* All dictionary-encoded Time/DateTime columns will be appended to the _dimensionsSplitOrder_ following the dimensions, sorted by their cardinality in descending order. Here we assume that time columns will be included in most queries as the range filter column and/or the group by column, so for better performance, we always include them as the last elements in the _dimensionsSplitOrder_.
+* Include COUNT\(\*\) and SUM for all numeric metrics in the _functionColumnPairs._
+* Use default _maxLeafRecords_ ****\(10000\).
 
 #### **Tree structure**
 
@@ -316,7 +327,7 @@ The algorithm to traverse the tree can be described as follows:
   * If there are predicate\(s\) on the split dimension, select the child node\(s\) that satisfy the predicate\(s\).
   * If there is no predicate, but there is a group-by on the split dimension, select all child nodes except Star-Node.
 * Recursively repeat the previous step until all leaf nodes are reached, or all predicates are satisfied.
-* Collect all the documents pointed to by the selected nodes.
+* Collect all the documents pointed by the selected nodes.
   * If all predicates and group-bys are satisfied, pick the single aggregated document from each selected node.
   * Otherwise, collect all the documents in the document range from each selected node.
 
