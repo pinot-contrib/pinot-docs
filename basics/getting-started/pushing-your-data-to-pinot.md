@@ -18,7 +18,7 @@ Supported file formats are CVS, JSON, AVRO, PARQUET, THRIFT, ORC. If you don't h
 
 {% code title="/tmp/pinot-quick-start/rawdata/transcript.csv" %}
 ```bash
-studentID,firstName,lastName,gender,subject,score,timestamp
+studentID,firstName,lastName,gender,subject,score,timestampInEpoch
 200,Lucy,Smith,Female,Maths,3.8,1570863600000
 200,Lucy,Smith,Female,English,3.5,1571036400000
 201,Bob,King,Male,Maths,3.2,1571900400000
@@ -75,7 +75,7 @@ Once you have identified the dimensions, metrics and time columns, create a sche
     }
   ],
   "dateTimeFieldSpecs": [{
-    "name": "timestamp",
+    "name": "timestampInEpoch",
     "dataType": "LONG",
     "format" : "1:MILLISECONDS:EPOCH",
     "granularity": "1:MILLISECONDS"
@@ -95,7 +95,7 @@ Here's the table config for the sample CSV file. You can use this as a reference
 {
   "tableName": "transcript",
   "segmentsConfig" : {
-    "timeColumnName": "timestamp",
+    "timeColumnName": "timestampInEpoch",
     "timeType": "MILLISECONDS",
     "replication" : "1",
     "schemaName" : "transcript"
@@ -285,7 +285,7 @@ Using fixed bytes value dictionary for column: gender, size: 12
 Created dictionary for STRING column: gender with cardinality: 2, max length in bytes: 6, range: Female to Male
 Using fixed bytes value dictionary for column: subject, size: 21
 Created dictionary for STRING column: subject with cardinality: 3, max length in bytes: 7, range: English to Physics
-Created dictionary for LONG column: timestamp with cardinality: 4, range: 1570863600000 to 1572418800000
+Created dictionary for LONG column: timestampInEpoch with cardinality: 4, range: 1570863600000 to 1572418800000
 Start building IndexCreator!
 Finished records indexing in IndexCreator!
 Finished segment seal!
