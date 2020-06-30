@@ -122,7 +122,7 @@ A Pinot schema is written in JSON format. Here's an example which shows all the 
       "granularity": "1:HOURS"
     },
     {
-      "name": "date",
+      "name": "dateString",
       "dataType": "STRING",
       "format": "1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd",
       "granularity": "1:DAYS"
