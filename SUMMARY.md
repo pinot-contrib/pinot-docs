@@ -54,6 +54,11 @@
 * [Recipes](basics/recipes/README.md)
   * [GitHub Events Stream](basics/recipes/github-events-stream.md)
 
+## Configuration Reference
+
+* [Cluster](configuration-reference/cluster.md)
+* [Controller](configuration-reference/controller.md)
+
 ## For Users <a id="users"></a>
 
 * [Query](users/user-guide-query/README.md)
