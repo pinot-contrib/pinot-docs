@@ -156,3 +156,7 @@
 * [Pinot Batch Ingestion](plugins/pinot-batch-ingestion.md)
 * [Pinot Stream Ingestion](plugins/pinot-stream-ingestion.md)
 
+---
+
+* [Administration](operating-pinot.md)
+
