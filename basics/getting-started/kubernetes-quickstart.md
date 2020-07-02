@@ -46,6 +46,15 @@ helm install pinot pinot/pinot \
     --set cluster.name=pinot \
     --set server.replicaCount=2
 ```
+
+**NOTE**: Please specify **StorageClass** based on your cloud vendor. For Pinot Server, please don't mount blob store like AzureFile/GoogleCloudStorage/S3 as file system. 
+
+Only use Amazon EBS/GCP Persistent Disk/Azure Disk style disks.
+
+* For AWS: "**gp2**"
+* For GCP: "**pd-ssd**" or "**standard**"
+* For Azure: "**AzureDisk**"
+* For Docker-Desktop: "**hostpath**"
 {% endtab %}
 
 {% tab title="Run Helm Script within Git Repo" %}
@@ -190,6 +199,7 @@ Open `superset.yaml` file and goto the line showing `storageclass`. And change i
 
 * For AWS: "**gp2**"
 * For GCP: "**pd-ssd**" or "**standard**"
+* For Azure: "**AzureDisk**"
 * For Docker-Desktop: "**hostpath**"
 
 Then run:
