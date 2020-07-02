@@ -28,7 +28,7 @@ studentID,firstName,lastName,gender,subject,score,timestampInEpoch
 
 ### Creating a schema
 
-Schema is used to define the columns and data types of the Pinot table. A detailed overview of the schema can be found in [Schema](../components/schema.md).
+Schema is used to define the columns and data types of the Pinot table. A detailed overview of the schema can be found in [Schema](../../configuration-reference/schema.md).
 
 Briefly, we categorize our columns into 3 types
 

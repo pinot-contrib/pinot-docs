@@ -239,7 +239,7 @@ The two types of tables also scale differently.
 * **Real-time** tables have a smaller retention period and scales query performance based on the ingestion rate.
 * **Offline** tables have larger retention and scales performance based on the size of stored data.
 
-There are a few things to keep in mind when configuring the different types of tables for your workloads. When ingesting data from the same source, you can have two tables that ingest the same data that are configured differently for real-time and offline queries. Even though the two tables have the same data, performance will scale differently for queries based on your requirements. In this scenario, real-time and offline tables must share the same [schema](components/schema.md).
+There are a few things to keep in mind when configuring the different types of tables for your workloads. When ingesting data from the same source, you can have two tables that ingest the same data that are configured differently for real-time and offline queries. Even though the two tables have the same data, performance will scale differently for queries based on your requirements. In this scenario, real-time and offline tables must share the same [schema](../configuration-reference/schema.md).
 
 {% hint style="info" %}
 Tables for real-time and offline can be configured differently depending on usage requirements. For example, you can choose to enable star-tree indexing for an offline table, while the real-time table with the same schema may not need it.

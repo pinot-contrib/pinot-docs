@@ -14,7 +14,6 @@
   * [Minion](basics/components/minion.md)
   * [Tenant](basics/components/tenant.md)
   * [Table](basics/components/table.md)
-  * [Schema](basics/components/schema.md)
   * [Segment](basics/components/segment.md)
 * [Getting started](basics/getting-started/README.md)
   * [Frequent questions](basics/getting-started/frequent-questions.md)
@@ -60,6 +59,8 @@
 * [Controller](configuration-reference/controller.md)
 * [Broker](configuration-reference/broker.md)
 * [Server](configuration-reference/server.md)
+* [Table](configuration-reference/table.md)
+* [Schema](configuration-reference/schema.md)
 
 ## For Users <a id="users"></a>
 
