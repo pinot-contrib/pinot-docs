@@ -58,6 +58,8 @@
 
 * [Cluster](configuration-reference/cluster.md)
 * [Controller](configuration-reference/controller.md)
+* [Broker](configuration-reference/broker.md)
+* [Server](configuration-reference/server.md)
 
 ## For Users <a id="users"></a>
 
