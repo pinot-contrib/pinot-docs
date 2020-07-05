@@ -47,7 +47,7 @@ Connection connection = ConnectionFactory.fromZookeeper
 Connection connection = ConnectionFactory.fromProperties("demo.properties");
 
 Connection connection = ConnectionFactory.fromHostList
-  ("some-server:1234", "some-other-server:1234", ...);
+  ("broker-1:1234", "broker-2:1234", ...);
 ```
 
 Queries can be sent directly to the Pinot cluster using the `Connection.execute(org.apache.pinot.client.Request)` and `Connection.executeAsync(org.apache.pinot.client.Request)` methods of Connection:
