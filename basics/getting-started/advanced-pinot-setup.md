@@ -15,7 +15,7 @@ description: This quick start guide will show you how to set up a Pinot cluster 
 You can try out pre-built Pinot all-in-one docker image.
 
 ```text
-export PINOT_VERSION=0.3.0-SNAPSHOT
+export PINOT_VERSION=0.4.0-SNAPSHOT
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```

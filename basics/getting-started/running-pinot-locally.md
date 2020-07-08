@@ -24,7 +24,7 @@ Install JDK8 or higher.
 
 ```bash
 # define the pinot version 
-PINOT_VERSION=0.3.0
+PINOT_VERSION=0.4.0
 ```
 
 ### Build from source or download the distribution

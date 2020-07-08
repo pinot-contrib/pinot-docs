@@ -13,7 +13,7 @@ Setup Pinot by starting each component individually
 You can try out pre-built Pinot all-in-one docker image.
 
 ```text
-export PINOT_VERSION=0.3.0-SNAPSHOT
+export PINOT_VERSION=0.4.0-SNAPSHOT
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
@@ -111,7 +111,7 @@ a413b0013806        apachepinot/pinot:0.3.0-SNAPSHOT   "./bin/pinot-admin.s…" 
 {% tab title="Using launcher scripts" %}
 Download Pinot Distribution from [http://pinot.apache.org/download/](http://pinot.apache.org/download/)
 
-    $ export PINOT_VERSION=0.2.0
+    $ export PINOT_VERSION=0.4.0
     $ tar -xvf apache-pinot-incubating-${PINOT_VERSION}-bin.tar.gz
 
     $ cd apache-pinot-incubating-${PINOT_VERSION}-bin
