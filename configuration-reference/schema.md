@@ -303,18 +303,7 @@ Apart from these, there's some advanced fields. These are common to all field sp
 | field name | description |
 | :--- | :--- |
 | maxLength | Max length of this column |
-| transformFunction | Transform function to generate this column. See section [below](schema.md#ingestion-transform-functions). |
 | virtualColumnProvider | Column value provider |
-
-## Ingestion Transform Functions
-
-Transform functions can be defined on columns in the schema. Refer to [Ingestion Level Transformations](../developers/advanced/ingestion-level-transformations.md#column-transformation) section. 
-
-{% hint style="danger" %}
-**Note**
-
-This config will soon be moved out of Schema and into the Table's IngestionConfigs section
-{% endhint %}
 
 ## Creating a Schema
 

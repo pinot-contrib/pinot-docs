@@ -12,9 +12,9 @@ Records can be filtered as they are being ingested. A filter function can be spe
 tableConfig: {
     tableName: ...,
     tableType: ...,
-    ingestionConfig: {
-        filterConfig: {
-            filterFunction: “<expression>”
+    "ingestionConfig": {
+        "filterConfig": {
+            "filterFunction": “<expression>”
         }
     }
 }
@@ -28,9 +28,9 @@ Consider table with a column `timestamp`.
 Filter out records which are older than timestamp 1589007600000
 
 ```text
-ingestionConfig: {
-    filterConfig: {
-        filterFunction: “Groovy({timestamp < 1589007600000}, timestamp)”
+"ingestionConfig": {
+    "filterConfig": {
+        "filterFunction": “Groovy({timestamp < 1589007600000}, timestamp)”
     }
 }
 ```
@@ -39,16 +39,16 @@ Consider a table with a string column `campaign` and a multi-value column double
 Filter out records where campaign = X or Y and sum of all elements in prices is less than 100
 
 ```text
-ingestionConfig: {
-    filterConfig: {
-        filterFunction: “Groovy({(campaign == \"X\" || campaign == \"Y\") && prices.sum() < 100}, prices, campaign)”
+"ingestionConfig": {
+    "filterConfig": {
+        "filterFunction": “Groovy({(campaign == \"X\" || campaign == \"Y\") && prices.sum() < 100}, prices, campaign)”
     }
 } 
 ```
 
 ## Column Transformation
 
-Transform functions can be defined on columns in the schema. For example:
+Transform functions can be defined on columns in the ingestion config. For example:
 
 ```javascript
 "metricFieldSpecs": [
