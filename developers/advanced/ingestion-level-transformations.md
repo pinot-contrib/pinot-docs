@@ -48,36 +48,39 @@ Filter out records where campaign = X or Y and sum of all elements in prices is 
 
 ## Column Transformation
 
-Transform functions can be defined on columns in the ingestion config. For example:
+Transform functions can be defined on columns in the ingestion config of the table config. For example:
 
+{% code title="pinot-table-offline.json" %}
 ```javascript
-"metricFieldSpecs": [
-    {
-      "name": "maxPrice",
-      "dataType": "DOUBLE",
+{
+"tableName": "myTable",
+...
+"ingestionConfig": {
+    "transformConfigs": [{
+      "columnName": "maxPrice",
       "transformFunction": "Groovy({prices.max()}, prices)" // groovy function
-    }
-  ],
-  "dateTimeFieldSpecs": [
+    },
     {
-      "name": "hoursSinceEpoch",
-      "dataType": "INT",
-      "format": "1:HOURS:EPOCH",
-      "granularity": "1:HOURS",
+      "columnName": "hoursSinceEpoch",
       "transformFunction": "toEpochHours(timestamp)" // inbuilt function
-    }
+    }]
+  }
+}
 ```
+{% endcode %}
+
+In this example, we're assuming that `prices` field is available in the source data, and `maxPrice` is expected in the Pinot schema. Similarly, `timestamp` is available in the source data, and `hoursSinceEpoch` is expected in the Pinot schema.
+
+{% hint style="warning" %}
+**Note**
+
+Currently, the arguments must be from the source data. Other columns from Pinot schema can be used, as long as those columns have NOT been created through transformations themselves. In other words, chaining of transformations is not supported \(x = f\(y\) and z = f\(x\) not supported\)
+{% endhint %}
 
 Currently, we have support for 2 kinds of functions
 
 1. Groovy functions
 2. Inbuilt functions
-
-{% hint style="warning" %}
-**Note**
-
-Currently, the arguments must be from the source data. They cannot be columns from the Pinot schema which have been created through transformations.
-{% endhint %}
 
 ### Groovy functions
 
@@ -94,10 +97,11 @@ Here's some examples of commonly needed functions. Any valid Groovy expression c
 Concat `firstName` and `lasName` to get `fullName`
 
 ```javascript
-{
-      "name": "fullName",
-      "dataType": "STRING",
-      "transformFunction": "Groovy({firstName+' '+lastName}, firstName, lastName)"
+"ingestionConfig": {
+    "transformConfigs": [{
+      "columnName": "fullName",
+      "transformFunction": "Groovy({firstName+' '+lastName}, firstName, lastName)" 
+    }
 }
 ```
 
@@ -106,10 +110,11 @@ Concat `firstName` and `lasName` to get `fullName`
 Find max value in array `bids`
 
 ```javascript
-{
-      "name": "maxBid",
-      "dataType": "INT",
-      "transformFunction": "Groovy({bids.max{ it.toBigDecimal() }}, bids)"
+"ingestionConfig": {
+    "transformConfigs": [{
+      "columnName": "maxBid",
+      "transformFunction": "Groovy({bids.max{ it.toBigDecimal() }}, bids)" 
+    }
 }
 ```
 
@@ -118,13 +123,12 @@ Find max value in array `bids`
 Convert `timestamp` from `MILLISECONDS` to `HOURS`
 
 ```javascript
-"dateTimeFieldSpecs": [{
-    "name": "hoursSinceEpoch",
-    "dataType": "LONG",
-    "format" : "1:HOURS:EPOCH",
-    "granularity": "1:HOURS"
-    "transformFunction": "Groovy({timestamp/(1000*60*60)}, timestamp)"
-  }]
+"ingestionConfig": {
+    "transformConfigs": [{
+      "columnName": "hoursSinceEpoch",
+      "transformFunction": "Groovy({timestamp/(1000*60*60)}, timestamp)" 
+    }
+}
 ```
 
 #### Column name change
@@ -132,10 +136,11 @@ Convert `timestamp` from `MILLISECONDS` to `HOURS`
 Simply change name of the column from `user_id` to `userId`
 
 ```javascript
-{
-      "name": "userId",
-      "dataType": "LONG",
-      "transformFunction": "Groovy({user_id}, user_id)"
+"ingestionConfig": {
+    "transformConfigs": [{
+      "columnName": "userId",
+      "transformFunction": "Groovy({user_id}, user_id)" 
+    }
 }
 ```
 
@@ -144,15 +149,15 @@ Simply change name of the column from `user_id` to `userId`
 If `eventType` is `IMPRESSION` set `impression` to `1`. Similar for `CLICK`.
 
 ```javascript
-{
-    "name": "impressions",
-    "dataType": "LONG",
-    "transformFunction": "Groovy({eventType == 'IMPRESSION' ? 1: 0}, eventType)"
-},
-{
-    "name": "clicks",
-    "dataType": "LONG",
-    "transformFunction": "Groovy({eventType == 'CLICK' ? 1: 0}, eventType)"
+"ingestionConfig": {
+    "transformConfigs": [{
+      "columnName": "impressions",
+      "transformFunction": "Groovy({eventType == 'IMPRESSION' ? 1: 0}, eventType)" 
+    },
+    {
+      "columnName": "clicks",
+      "transformFunction": "Groovy({eventType == 'CLICK' ? 1: 0}, eventType)" 
+    }
 }
 ```
 
@@ -163,17 +168,15 @@ Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintai
 2\) The values of the map as `map_values`
 
 ```javascript
-{
-      "name": "map2_keys",
-      "dataType": "STRING",
-      "singleValueField": false,
-      "transformFunction": "Groovy({map2.sort()*.key}, map2)"
-},
-{
-      "name": "map2_values",
-      "dataType": "INT",
-      "singleValueField": false,
-      "transformFunction": "Groovy({map2.sort()*.value}, map2)"
+"ingestionConfig": {
+    "transformConfigs": [{
+      "columnName": "map2_keys",
+      "transformFunction": "Groovy({map2.sort()*.key}, map2)" 
+    },
+    {
+      "columnName": "map2_values",
+      "transformFunction": "Groovy({map2.sort()*.value}, map2)" 
+    }
 }
 ```
 
@@ -201,7 +204,7 @@ Converts from epoch milliseconds to a higher granularity.
       <td style="text-align:left">toEpochSeconds</td>
       <td style="text-align:left">
         <p>Converts epoch millis to epoch seconds.</p>
-        <p>Usage: <code>&quot;transformFunction&quot;: &quot;toEpochSeconds(millis)&quot;</code>
+        <p>Usage:<code>&quot;toEpochSeconds(millis)&quot;</code>
         </p>
       </td>
     </tr>
@@ -209,7 +212,7 @@ Converts from epoch milliseconds to a higher granularity.
       <td style="text-align:left">toEpochMinutes</td>
       <td style="text-align:left">
         <p>Converts epoch millis to epoch minutes</p>
-        <p>Usage: <code>&quot;transformFunction&quot;: &quot;toEpochMinutes(millis)&quot;</code>
+        <p>Usage: <code>&quot;toEpochMinutes(millis)&quot;</code>
         </p>
       </td>
     </tr>
@@ -217,7 +220,7 @@ Converts from epoch milliseconds to a higher granularity.
       <td style="text-align:left">toEpochHours</td>
       <td style="text-align:left">
         <p>Converts epoch millis to epoch hours</p>
-        <p>Usage: <code>&quot;transformFunction&quot;: &quot;toEpochHours(millis)&quot;</code>
+        <p>Usage: <code>&quot;toEpochHours(millis)&quot;</code>
         </p>
       </td>
     </tr>
@@ -225,7 +228,7 @@ Converts from epoch milliseconds to a higher granularity.
       <td style="text-align:left">toEpochDays</td>
       <td style="text-align:left">
         <p>Converts epoch millis to epoch days</p>
-        <p>Usage: <code>&quot;transformFunction&quot;: &quot;toEpochDays(millis)&quot;</code>
+        <p>Usage: <code>&quot;toEpochDays(millis)&quot;</code>
         </p>
       </td>
     </tr>
@@ -236,48 +239,12 @@ Converts from epoch milliseconds to a higher granularity.
 
 Converts from epoch milliseconds to another granularity, rounding to the nearest rounding bucket. For example, `1588469352000` \(2020-05-01 42:29:12\) is `26474489` minutesSinceEpoch. ```toEpochMinutesRounded(1588469352000) = 26474480`` \(2020-05-01 42:20:00\)
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Function Name</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">toEpochSecondsRounded</td>
-      <td style="text-align:left">
-        <p>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket</p>
-        <p><code>&quot;transformFunction&quot;: &quot;toEpochSecondsRounded(millis, 30)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">toEpochMinutesRounded</td>
-      <td style="text-align:left">
-        <p>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket</p>
-        <p><code>&quot;transformFunction&quot;: &quot;toEpochMinutesRounded(millis, 10)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">toEpochHoursRounded</td>
-      <td style="text-align:left">
-        <p>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket</p>
-        <p><code>&quot;transformFunction&quot;: &quot;toEpochHoursRounded(millis, 6)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">toEpochDaysRounded</td>
-      <td style="text-align:left">
-        <p>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket</p>
-        <p><code>&quot;transformFunction&quot;: &quot;toEpochDaysRounded(millis, 7)&quot;</code>
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Function Name | Description |
+| :--- | :--- |
+| toEpochSecondsRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochSecondsRounded(millis, 30)"` |
+| toEpochMinutesRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochMinutesRounded(millis, 10)"` |
+| toEpochHoursRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochHoursRounded(millis, 6)"` |
+| toEpochDaysRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochDaysRounded(millis, 7)"` |
 
 **fromEpochXXX**
 
@@ -295,7 +262,7 @@ Converts from an epoch granularity to milliseconds.
       <td style="text-align:left">fromEpochSeconds</td>
       <td style="text-align:left">
         <p>Converts from epoch seconds to milliseconds</p>
-        <p><code>&quot;transformFunction&quot;: &quot;fromEpochSeconds(secondsSinceEpoch)&quot;</code>
+        <p><code>&quot;fromEpochSeconds(secondsSinceEpoch)&quot;</code>
         </p>
       </td>
     </tr>
@@ -303,7 +270,7 @@ Converts from an epoch granularity to milliseconds.
       <td style="text-align:left">fromEpochMinutes</td>
       <td style="text-align:left">
         <p>Converts from epoch minutes to milliseconds</p>
-        <p><code>&quot;transformFunction&quot;: &quot;fromEpochMinutes(minutesSinceEpoch)&quot;</code>
+        <p><code>&quot;fromEpochMinutes(minutesSinceEpoch)&quot;</code>
         </p>
       </td>
     </tr>
@@ -311,7 +278,7 @@ Converts from an epoch granularity to milliseconds.
       <td style="text-align:left">fromEpochHours</td>
       <td style="text-align:left">
         <p>Converts from epoch hours to milliseconds</p>
-        <p><code>&quot;transformFunction&quot;: &quot;fromEpochHours(hoursSinceEpoch)&quot;</code>
+        <p><code>&quot;fromEpochHours(hoursSinceEpoch)&quot;</code>
         </p>
       </td>
     </tr>
@@ -319,7 +286,7 @@ Converts from an epoch granularity to milliseconds.
       <td style="text-align:left">fromEpochDays</td>
       <td style="text-align:left">
         <p>Converts from epoch days to milliseconds</p>
-        <p><code>&quot;transformFunction&quot;: &quot;fromEpochDays(daysSinceEpoch)&quot;</code>
+        <p><code>&quot;fromEpochDays(daysSinceEpoch)&quot;</code>
         </p>
       </td>
     </tr>
@@ -343,7 +310,7 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
       <td style="text-align:left">
         <p>Converts from milliseconds to a formatted date time string, as per the
           provided pattern</p>
-        <p><code>&quot;transformFunction&quot;: &quot;toDateTime(millis, &apos;yyyy-MM-dd&apos;)&quot;</code>
+        <p><code>&quot;toDateTime(millis, &apos;yyyy-MM-dd&apos;)&quot;</code>
         </p>
       </td>
     </tr>
@@ -352,7 +319,7 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
       <td style="text-align:left">
         <p>Converts a formatted date time string to milliseconds, as per the provided
           pattern</p>
-        <p><code>&quot;transformFunction&quot;: &quot;fromDateTime(dateTimeStr, &apos;EEE MMM dd HH:mm:ss ZZZ yyyy&apos;)&quot;</code>
+        <p><code>&quot;fromDateTime(dateTimeStr, &apos;EEE MMM dd HH:mm:ss ZZZ yyyy&apos;)&quot;</code>
         </p>
       </td>
     </tr>
@@ -374,7 +341,7 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
       <td style="text-align:left">
         <p>Converts a JSON/AVRO complex object to a string. This json map can then
           be queried using <a href="https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping">jsonExtractScalar</a> function.</p>
-        <p><code>&quot;transformFunction&quot;: &quot;json_format(jsonMapField)&quot;</code>
+        <p><code>&quot;json_format(jsonMapField)&quot;</code>
         </p>
       </td>
     </tr>
