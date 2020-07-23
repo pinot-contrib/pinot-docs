@@ -151,6 +151,10 @@ You can check the status of the rebalance by
 2. Running rebalance again after a while, you should receive status `"status": "NO_OP"`
 3. Checking the External View of the table, to see the changes in capacity/replicas have taken effect.
 
+### How to control number of segments generated?
+
+The number of segments generated depends on the number of input files. If you provide only 1 input file, you will get 1 segment. If you break up the input file into multiple files, you will get as many segments as the input files. 
+
 ## Tuning and Optimizations
 
 ### Do replica groups work for real-time? <a id="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3"></a>
