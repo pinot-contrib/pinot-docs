@@ -390,6 +390,41 @@ SELECT MAX(DIV(foo, bar) FROM myTable
         </p>
       </td>
     </tr>
+    <tr>
+      <td style="text-align:left">GROOVY</td>
+      <td style="text-align:left">
+        <p><b>GROOVY(&apos;result value metadata json&apos;, &apos;&apos;groovy script&apos;, arg0, arg1, arg2...)</b>
+        </p>
+        <p>This function will execute the groovy script using the arguments provided
+          and return the result which matches the provided result value metadata.</p>
+        <p><b>1st argument</b> - json string representing result value metadata. Must
+          contain non-null keys <code>resultType</code> and <code>isSingleValue</code>.</p>
+        <p><b>2nd argument </b>- groovy script string, which uses <code>arg0</code>, <code>arg1</code>, <code>arg2</code> etc
+          to refer to the arguments provided within the script</p>
+        <p><b>remaining arguments</b> - pinot columns/other transform functions which
+          are arguments to the groovy script</p>
+        <p></p>
+        <p><b>Examples</b>: (these are just illustrations, you can write practically
+          any groovy script)</p>
+        <p><code>groovy(&apos;{&quot;returnType&quot;:&quot;INT&quot;,&quot;isSingleValue&quot;:true}&apos;, &apos;arg0 + arg1&apos;, colA, colB)</code> -
+          adds colA and colB and returns a single-value INT</p>
+        <p><code>groovy(&apos;{&quot;returnType&quot;:&quot;INT&quot;,&quot;isSingleValue&quot;:true}&apos;, &apos;arg0.toList().max()&apos;, mvColumn)</code> -
+          find the max element in mvColumn array and returns a single-value INT</p>
+        <p><code>groovy(&apos;{&quot;returnType&quot;:&quot;LONG&quot;,&quot;isSingleValue&quot;:false}&apos;, &apos;arg0.findIndexValues{ it &gt; 5 }&apos;, mvColumn)</code> -
+          find all elements of the array mvColumn and returns as a multi-value LONG
+          column</p>
+        <p><code>groovy(&apos;{&quot;returnType&quot;:&quot;DOUBLE&quot;,&quot;isSingleValue&quot;:true}&apos;, &apos;arg0 * arg1&apos;, arraylength(mvColumn), colB)</code> -
+          multiplies length of array mvColumn with colB and returns a single-value
+          DOUBLE</p>
+        <p><code>groovy( &apos;{&quot;returnType&quot;:&quot;DOUBLE&quot;,&quot;isSingleValue&quot;:true}&apos;, &apos;def x = 0; arg0.eachWithIndex{item, idx-&gt; if (item == &quot;foo&quot;) {x = x + arg1[idx] }}; return x&apos; , mvColumnA, mvColumnB)</code> -
+          finds all indexes in mvColumnA which have value <code>foo</code>, adds values
+          at those indexes in mvColumnB</p>
+        <p><code>groovy(&apos;{\&quot;returnType\&quot;:\&quot;FLOAT\&quot;, \&quot;isSingleValue\&quot;:true}&apos;, &apos;def result; switch(arg0.length()) { case 10: result = 1.1; break; case 20: result = 1.2; break; default: result = 1.3;}; return result.floatValue()&apos;, mvCol)</code> -
+          switch case which returns a FLOAT value depending on length of mvCol array</p>
+        <p><code>groovy(&apos;new Date().format( &quot;yyyyMMdd&quot; )&apos;, &apos;{&quot;returnType&quot;:&quot;STRING&quot;,&quot;isSingleValue&quot;:true}&apos;)</code> -
+          groovy script which takes no arguments</p>
+      </td>
+    </tr>
   </tbody>
 </table>
 
