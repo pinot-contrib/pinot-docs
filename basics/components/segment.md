@@ -225,8 +225,8 @@ where,
         <p>org.apache.pinot.plugin.inputformat.avro.AvroRecordReader</p>
         <p>org.apache.pinot.plugin.inputformat.csv.CSVRecordReader</p>
         <p>org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader</p>
-        <p>org.apache.pinot.plugin.inputformat.json.JsonRecordReader</p>
-        <p>org.apache.pinot.plugin.inputformat.orc.OrcRecordReader</p>
+        <p>org.apache.pinot.plugin.inputformat.json.JSONRecordReader</p>
+        <p>org.apache.pinot.plugin.inputformat.orc.ORCRecordReader</p>
         <p>org.apache.pinot.plugin.inputformat.thrift.ThriftRecordReader</p>
       </td>
     </tr>
