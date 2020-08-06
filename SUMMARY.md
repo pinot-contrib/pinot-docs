@@ -32,7 +32,7 @@
     * [Spark](basics/data-import/batch-ingestion/spark.md)
     * [Hadoop](basics/data-import/batch-ingestion/hadoop.md)
   * [Stream ingestion](basics/data-import/pinot-stream-ingestion/README.md)
-    * [Import from Kafka](basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
+    * [Apache Kafka](basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
   * [File systems](basics/data-import/pinot-file-system/README.md)
     * [Amazon S3](basics/data-import/pinot-file-system/amazon-s3.md)
     * [Azure Data Lake Storage](basics/data-import/pinot-file-system/import-from-adls-azure.md)

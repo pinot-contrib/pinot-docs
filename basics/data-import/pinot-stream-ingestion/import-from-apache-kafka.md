@@ -4,11 +4,11 @@ description: >-
   topic into a Pinot table.
 ---
 
-# Import from Kafka
+# Apache Kafka
 
-## Introduction
+### Introduction
 
-In this guide, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. First, we need to setup a stream. Pinot has out-of-the-box real-time ingestion support for Kafka. Other streams can be plugged in, more details in [Pluggable Streams](../../../developers/developers-and-contributors/extending-pinot/pluggable-streams.md).
+In this guide, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka. 
 
 Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
 
@@ -56,59 +56,34 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-fac
 {% endtab %}
 {% endtabs %}
 
-## Creating a schema configuration
+### Creating Schema Configuration
 
-If you followed the [batch upload sample data](../../getting-started/pushing-your-data-to-pinot.md), you have already created a schema for your sample table. If not, head over to [creating a schema](../../getting-started/pushing-your-data-to-pinot.md#creating-a-schema) on that page, to learn how to create a schema for your sample data. To make it easy, the schema from that page is included here.
+We will publish the data in the same format as mentioned in the [Stream ingestion](./) docs. So you can use the same schema mentioned under [Create Schema Configuration](./#create-schema-configuration).
 
-{% code title="/tmp/pinot-quick-start/transcript-schema.json" %}
-```bash
-{
-  "schemaName": "transcript",
-  "dimensionFieldSpecs": [
-    {
-      "name": "studentID",
-      "dataType": "INT"
-    },
-    {
-      "name": "firstName",
-      "dataType": "STRING"
-    },
-    {
-      "name": "lastName",
-      "dataType": "STRING"
-    },
-    {
-      "name": "gender",
-      "dataType": "STRING"
-    },
-    {
-      "name": "subject",
-      "dataType": "STRING"
-    }
-  ],
-  "metricFieldSpecs": [
-    {
-      "name": "score",
-      "dataType": "FLOAT"
-    }
-  ],
-  "dateTimeFieldSpecs": [{
-    "name": "timestamp",
-    "dataType": "LONG",
-    "format" : "1:MILLISECONDS:EPOCH",
-    "granularity": "1:MILLISECONDS"
-  }]
-}
-```
-{% endcode %}
+### Creating a table configuration
 
-## Creating a table configuration
+The real-time table configuration for the `transcript` table described in the schema from the previous step. 
 
-If you followed [batch upload sample data](../../getting-started/pushing-your-data-to-pinot.md), you learned how to push an offline table and schema. Similar to the offline table config, we will create a real-time table config for this sample. Here's the real-time table configuration for the `transcript` table described in the schema from the previous step. For a more detailed overview about tables, check out the [table](../../components/table.md) reference.
+For Kafka, we use streamType as `kafka` . Currently only JSON format is supported but you can easily write your own decoder by extending the `StreamMessageDecoder` interface. You can then access your decoder class by putting the jar file in `plugins` directory
+
+The `lowLevel` consumer reads data per partition whereas the `highLevel` consumer  utilises Kafka high level consumer to read data from the whole stream. It doesn't have the control over which partition to read at a particular momemt. 
+
+For Kafka versions below 2.X, use `org.apache.pinot.plugin.stream.kafka09.KafkaConsumerFactory` 
+
+For Kafka version 2.X and above, use   
+`org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`
+
+You can set the offset to -
+
+* `smallest` to start consumer from the earliest offset
+* `largest` to start consumer from the latest offset
+* `timestamp in milliseconds` to start the consumer from the offset after the timestamp.
+
+The resulting configuration should look as follows -
 
 {% code title="/tmp/pinot-quick-start/transcript-table-realtime.json" %}
 ```css
-{
+ {
   "tableName": "transcript",
   "tableType": "REALTIME",
   "segmentsConfig": {
@@ -139,7 +114,7 @@ If you followed [batch upload sample data](../../getting-started/pushing-your-da
 ```
 {% endcode %}
 
-## Create schema and table
+### Upload schema and table
 
 Now that we have our table and schema configurations, let's upload them to the Pinot cluster. As soon as the real-time table is created, it will begin ingesting available records from the Kafka topic.
 
@@ -171,7 +146,7 @@ bin/pinot-admin.sh AddTable \
 
 ## Add sample data to the Kafka topic
 
-Here's a JSON file containing sample records we will import into the transcript table we created in the last step. Save the following file as `transcript.json`.
+We will publish data in the following format to Kafka. Let us save the data in a file named as `transcript.json`.
 
 {% code title="transcript.json" %}
 ```css
@@ -190,7 +165,7 @@ Here's a JSON file containing sample records we will import into the transcript 
 ```
 {% endcode %}
 
-Push sample JSON into the `transcript-topic` Kafka topic, using the following command. This will add 12 records to the topic described in the `transcript.json` file.
+Push sample JSON into the `transcript-topic` Kafka topic, using the Kafka console producer. This will add 12 records to the topic described in the `transcript.json` file.
 
 ```css
 bin/kafka-console-producer.sh \
@@ -198,7 +173,7 @@ bin/kafka-console-producer.sh \
     --topic transcript-topic < transcript.json
 ```
 
-## Ingesting streaming data
+### Ingesting streaming data
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the [Query Console ](http://localhost:9000/query)to checkout the real-time data.
 
