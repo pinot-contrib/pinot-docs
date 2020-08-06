@@ -31,9 +31,10 @@
   * [Stream ingestion](basics/data-import/pinot-stream-ingestion/README.md)
     * [Import from Kafka](basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
   * [File systems](basics/data-import/pinot-file-system/README.md)
-    * [Import from ADLS \(Azure\)](basics/data-import/pinot-file-system/import-from-adls-azure.md)
-    * [Import from HDFS](basics/data-import/pinot-file-system/import-from-hdfs.md)
-    * [Import from GCP](basics/data-import/pinot-file-system/import-from-gcp.md)
+    * [Amazon S3](basics/data-import/pinot-file-system/amazon-s3.md)
+    * [Azure Data Lake Storage](basics/data-import/pinot-file-system/import-from-adls-azure.md)
+    * [HDFS](basics/data-import/pinot-file-system/import-from-hdfs.md)
+    * [Google Cloud Storage](basics/data-import/pinot-file-system/import-from-gcp.md)
   * [Input formats](basics/data-import/pinot-input-formats/README.md)
     * [Import from CSV](basics/data-import/pinot-input-formats/import-from-csv.md)
     * [Import from JSON](basics/data-import/pinot-input-formats/import-from-json.md)
@@ -152,7 +153,6 @@
 
 * [Plugin Architecture](plugins/plugin-architecture.md)
 * [Pinot Input Format](plugins/pinot-input-format.md)
-* [Pinot File System](plugins/pinot-file-system.md)
 * [Pinot Batch Ingestion](plugins/pinot-batch-ingestion.md)
 * [Pinot Stream Ingestion](plugins/pinot-stream-ingestion.md)
 

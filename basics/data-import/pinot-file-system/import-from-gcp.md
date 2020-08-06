@@ -2,27 +2,28 @@
 description: This guide shows you how to import data from GCP (Google Cloud Platform).
 ---
 
-# Import from GCP
+# Google Cloud Storage
 
-## Coming soon
+You can enable the [Google Cloud Storage](https://cloud.google.com/products/storage/) using the plugin `pinot-gcs`. In the controller or server, add the config -
 
-{% hint style="warning" %}
-This guide is a work in progress.
-{% endhint %}
-
-We're actively working on improving our documentation. This doc will be available very soon. Please check back in a day or two for more details.
-
-```
-VERSION=0.3.0
-wget https://downloads.apache.org/incubator/pinot/apache-pinot-incubating-$VERSION/apache-pinot-incubating-$VERSION-bin.tar.gz
-tar vxf apache-pinot-incubating-*-bin.tar.gz
-cd apache-pinot-incubating-*-bin
-bin/quick-start-batch.sh
+```text
+pinot.controller.storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
+pinot.controller.segment.fetcher.protocols=file,http,gs
+pinot.controller.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
-{% hint style="info" %}
-While you're waiting, please take a look at our section on [plugin architecture](../../../plugins/plugin-architecture.md).
-{% endhint %}
+GCP filesystems provides the following options -
+
+* `projectId` - The name of the Google Cloud Platform project under which you have created your storage bucket.
+* `gcpKey` - Location of the json file containing GCP keys. You can refer [Creating and managing service account keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) to download the keys.
+
+Each of these properties should be prefixed by `pinot.[node].storage.factory.class.gs.` where `node` is either `controller` or `server` depending on the config
+
+e.g.
+
+```text
+pinot.controller.storage.factory.class.gs.projectId=test-project
+```
 
 
 

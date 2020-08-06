@@ -16,8 +16,6 @@ Input format is a set of plugins with the goal of reading data from files during
 
 File System is a set of plugins devoted to storage purpose. Currently supported file systems are: adsl, gcs and hdfs.
 
-{% page-ref page="pinot-file-system.md" %}
-
 #### Stream Ingestion
 
 Stream Ingestion is a set of plugins targeted to ingest data from streams. Currently supported streaming services: kafka 0.9 and kafka 2.0.

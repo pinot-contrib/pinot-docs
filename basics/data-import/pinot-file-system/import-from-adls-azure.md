@@ -4,27 +4,32 @@ description: >-
   Storage (ADLS)
 ---
 
-# Import from ADLS \(Azure\)
+# Azure Data Lake Storage
 
-## Coming soon
+You can enable the Azure Data Lake Storage using the plugin `pinot-adls`. In the controller or server, add the config -
 
-{% hint style="warning" %}
-This guide is a work in progress.
-{% endhint %}
-
-We're actively working on improving our documentation. This doc will be available very soon. Please check back in a day or two for more details.
-
-```
-VERSION=0.3.0
-wget https://downloads.apache.org/incubator/pinot/apache-pinot-incubating-$VERSION/apache-pinot-incubating-$VERSION-bin.tar.gz
-tar vxf apache-pinot-incubating-*-bin.tar.gz
-cd apache-pinot-incubating-*-bin
-bin/quick-start-batch.sh
+```text
+pinot.controller.storage.factory.class.abfss=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
+pinot.controller.segment.fetcher.protocols=file,http,abfss
+pinot.controller.segment.fetcher.abfss.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
-{% hint style="info" %}
-While you're waiting, please take a look at our section on [plugin architecture](../../../plugins/plugin-architecture.md).
-{% endhint %}
+Azure Blob Storage provides the following options -
+
+* `accountName` : Name of the azure account under which the storage is created
+* `accessKey` : access key required for the authentication
+* `fileSystemName` - name of the filesystem to use
+* `enableChecksum` - enable MD5 checksum for verification. Default is `false`.
+
+Each of these properties should be prefixed by `pinot.[node].storage.factory.class.abfss.` where `node` is either `controller` or `server` depending on the config
+
+e.g.
+
+```text
+pinot.controller.storage.factory.class.abfss.accountName=test-user
+```
+
+#### 
 
 
 
