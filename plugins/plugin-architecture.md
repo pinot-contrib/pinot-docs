@@ -10,8 +10,6 @@ Plugins are collected in folders, based on their purpose. Here are the four supp
 
 Input format is a set of plugins with the goal of reading data from files during data ingestion. It can be split into two additional types: record encoders \(for batch jobs\) and decoders \(for ingestion\). Currently supported record encoder formats are: avro, orc and parquet encoders, while for streaming: csv, json and thrift decoders.
 
-{% page-ref page="pinot-input-format.md" %}
-
 #### File System
 
 File System is a set of plugins devoted to storage purpose. Currently supported file systems are: adsl, gcs and hdfs.

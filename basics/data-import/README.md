@@ -28,13 +28,3 @@ These guides will show you how to import data from a supported file system.
 
 These guides will show you how to import data from a Pinot supported input format.
 
-{% page-ref page="pinot-input-formats/import-from-csv.md" %}
-
-{% page-ref page="pinot-input-formats/import-from-json.md" %}
-
-{% page-ref page="pinot-input-formats/import-from-avro.md" %}
-
-{% page-ref page="pinot-input-formats/import-from-parquet.md" %}
-
-{% page-ref page="pinot-input-formats/import-from-thrift.md" %}
-

@@ -28,6 +28,9 @@
   * [Batch import example](basics/getting-started/pushing-your-data-to-pinot.md)
   * [Stream ingestion example](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
 * [Data import](basics/data-import/README.md)
+  * [Batch Ingestion](basics/data-import/batch-ingestion/README.md)
+    * [Spark](basics/data-import/batch-ingestion/spark.md)
+    * [Hadoop](basics/data-import/batch-ingestion/hadoop.md)
   * [Stream ingestion](basics/data-import/pinot-stream-ingestion/README.md)
     * [Import from Kafka](basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
   * [File systems](basics/data-import/pinot-file-system/README.md)
@@ -35,13 +38,7 @@
     * [Azure Data Lake Storage](basics/data-import/pinot-file-system/import-from-adls-azure.md)
     * [HDFS](basics/data-import/pinot-file-system/import-from-hdfs.md)
     * [Google Cloud Storage](basics/data-import/pinot-file-system/import-from-gcp.md)
-  * [Input formats](basics/data-import/pinot-input-formats/README.md)
-    * [Import from CSV](basics/data-import/pinot-input-formats/import-from-csv.md)
-    * [Import from JSON](basics/data-import/pinot-input-formats/import-from-json.md)
-    * [Import from Avro](basics/data-import/pinot-input-formats/import-from-avro.md)
-    * [Import from Parquet](basics/data-import/pinot-input-formats/import-from-parquet.md)
-    * [Import from Thrift](basics/data-import/pinot-input-formats/import-from-thrift.md)
-    * [Import from ORC](basics/data-import/pinot-input-formats/import-from-orc.md)
+  * [Input formats](basics/data-import/pinot-input-formats.md)
 * [Feature guides](basics/features/README.md)
   * [Pinot data explorer](basics/features/exploring-pinot.md)
   * [Text search support](basics/features/text-search-support.md)
@@ -152,7 +149,6 @@
 ## PLUGINS
 
 * [Plugin Architecture](plugins/plugin-architecture.md)
-* [Pinot Input Format](plugins/pinot-input-format.md)
 * [Pinot Batch Ingestion](plugins/pinot-batch-ingestion.md)
 * [Pinot Stream Ingestion](plugins/pinot-stream-ingestion.md)
 
