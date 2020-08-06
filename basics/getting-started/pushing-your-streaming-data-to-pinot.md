@@ -10,7 +10,7 @@ Now, it's time to ingest from a sample stream into Pinot.
 
 ## Data Stream
 
-First, we need to setup a stream. Pinot has out-of-the-box realtime ingestion support for Kafka. Other streams can be plugged in, more details in [Pluggable Streams](../../developers/developers-and-contributors/extending-pinot/pluggable-streams.md). 
+First, we need to setup a stream. Pinot has out-of-the-box realtime ingestion support for Kafka. Other streams can be plugged in, more details in [Pluggable Streams](). 
 
 Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
 

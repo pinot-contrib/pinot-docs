@@ -80,9 +80,6 @@
 * [Basics](developers/developers-and-contributors/README.md)
   * [Extending Pinot](developers/developers-and-contributors/extending-pinot/README.md)
     * [Writing Custom Aggregation Function](developers/developers-and-contributors/extending-pinot/custom-aggregation-function.md)
-    * [Pluggable Streams](developers/developers-and-contributors/extending-pinot/pluggable-streams.md)
-    * [Pluggable Storage](developers/developers-and-contributors/extending-pinot/pluggable-storage.md)
-    * [Record Reader](developers/developers-and-contributors/extending-pinot/record-reader.md)
     * [Segment Fetchers](developers/developers-and-contributors/extending-pinot/segment-fetchers.md)
   * [Contribution Guidelines](developers/developers-and-contributors/contribution-guidelines.md)
   * [Code Setup](developers/developers-and-contributors/code-setup.md)
@@ -100,14 +97,12 @@
   * [Ingest Data](developers/tutorials/pinot-connectors/README.md)
     * [Batch](developers/tutorials/pinot-connectors/batch/README.md)
       * [Creating Pinot Segments](developers/tutorials/pinot-connectors/batch/create-pinot-segments.md)
-      * [Write your batch](developers/tutorials/pinot-connectors/batch/write-your-batch.md)
       * [HDFS](developers/tutorials/pinot-connectors/batch/hdfs.md)
       * [AWS S3](developers/tutorials/pinot-connectors/batch/s3.md)
       * [Azure Storage](developers/tutorials/pinot-connectors/batch/azure.md)
       * [Google Cloud Storage](developers/tutorials/pinot-connectors/batch/gcs.md)
     * [Streaming](developers/tutorials/pinot-connectors/streaming/README.md)
       * [Creating Pinot Segments](developers/tutorials/pinot-connectors/streaming/create-pinot-segments.md)
-      * [Write your stream](developers/tutorials/pinot-connectors/streaming/write-your-stream.md)
       * [Kafka](developers/tutorials/pinot-connectors/streaming/kafka.md)
       * [Azure EventHub](developers/tutorials/pinot-connectors/streaming/eventhub.md)
       * [Amazon Kinesis](developers/tutorials/pinot-connectors/streaming/kinesis.md)
@@ -149,8 +144,11 @@
 ## PLUGINS
 
 * [Plugin Architecture](plugins/plugin-architecture.md)
-* [Pinot Batch Ingestion](plugins/pinot-batch-ingestion.md)
-* [Pinot Stream Ingestion](plugins/pinot-stream-ingestion.md)
+* [Write Custom Plugins](plugins/write-custom-plugins/README.md)
+  * [Input Format Plugin](plugins/write-custom-plugins/record-reader.md)
+  * [Filesystem Plugin](plugins/write-custom-plugins/pluggable-storage.md)
+  * [Batch Segment Fetcher Plugin](plugins/write-custom-plugins/write-your-batch.md)
+  * [Stream Ingestion Plugin](plugins/write-custom-plugins/write-your-stream.md)
 
 ---
 
