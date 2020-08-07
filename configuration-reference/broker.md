@@ -1,16 +1,24 @@
 # Broker
 
-Broker configuration properties can be provided as part of the startup command.
+You can set broker properties in a configuration file. The file can be provided during startup time as follows - 
 
 ```text
 bin/pinot-admin.sh StartBroker -configFileName /path/to/broker.conf
 ```
 
-broker.conf can have the following properties. All properties are defined in this class.
+`broker.conf` can have the following properties. All properties are defined in this class.
 
-{% embed url="https://github.com/apache/incubator-pinot/blob/9678035115e3c9fb2e41a4f45176bedfb2f1af5c/pinot-common/src/main/java/org/apache/pinot/common/utils/CommonConstants.java\#L117" caption="Broker Configuration Params" %}
-
-
+| Property | Default | Description |
+| :--- | :--- | :--- |
+| pinot.broker.delayShutdownTimeMs | 10 seconds |  |
+| pinot.broker.enableTableLevelMetrics | true |  |
+| pinot.broker.query.response.limit | Integer.MAX\_VALUE |  |
+| pinot.broker.query.log.length | Integer.MAX\_VALUE |  |
+| pinot.broker.query.log.maxRatePerSecond | 10000.0 |  |
+| pinot.broker.timeoutMs | 10 seconds |  |
+| pinot.broker.startup.minResourcePercent | 100 |  |
+| pinot.broker.enable.query.limit.override | true |  |
+|  |  |  |
 
 
 

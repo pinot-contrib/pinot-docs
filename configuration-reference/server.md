@@ -6,13 +6,39 @@ Server configuration can be provided as part of the server startup parameters.
 bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
 ```
 
-All parameters that can be configured as part of server.conf can be found here
+`server.conf` can have the following properties
 
-server.conf can have the following properties. All properties are defined in this class.
-
-{% embed url="https://github.com/apache/incubator-pinot/blob/9678035115e3c9fb2e41a4f45176bedfb2f1af5c/pinot-common/src/main/java/org/apache/pinot/common/utils/CommonConstants.java\#L163" %}
-
-
+| Property | Default | Description |
+| :--- | :--- | :--- |
+| pinot.server.netty.port | 8098 |  |
+| pinot.server.adminapi.port | 8097 |  |
+| pinot.server.instance.dataDir | `java.io.tmpdir` + `/PinotServer/index` |  |
+| pinot.server.instance.consumerDir |  |  |
+| pinot.server.instance.segmentTarDir | `java.io.tmpdir` + `/PinotServer/segmentTar` |  |
+| pinot.server.instance.readMode | `mmap` |  |
+| pinot.server.instance.reload.consumingSegment | false |  |
+| pinot.server.instance.data.manager.class | `org.apache.pinot.server.` `starter.helix.HelixInstanceDataManager` |  |
+| pinot.server.query.executor.pruner.class | `ValidSegmentPruner,DataSchemaSegmentPruner, ColumnValueSegmentPruner,SelectionQuerySegmentPruner` |  |
+| pinot.server.query.executor.timeout | 15 seconds |  |
+| pinot.server.query.executor.class | `org.apache.pinot.core.query.` `executor.ServerQueryExecutorV1Impl` |  |
+| pinot.server.requestHandlerFactory.class | `org.apache.pinot.server.` `request.SimpleRequestHandlerFactory` |  |
+| pinot.server.instance.segment.format.version |  |  |
+| pinot.server.instance.enable.split.commit |  |  |
+| pinot.server.instance.enable.commitend.metadata |  |  |
+| pinot.server.instance.realtime.alloc.offheap |  |  |
+| pinot.server.instance.realtime.alloc.offheap.direct |  |  |
+| pinot.server.startup.minResourcePercent | 100 |  |
+| pinot.server.starter.realtimeConsumptionCatchupWaitMs | 0 |  |
+| pinot.server.startup.timeoutMs | 10 minutes |  |
+| pinot.server.startup.enableServiceStatusCheck | true |  |
+| pinot.server.startup.serviceStatusCheckIntervalMs | 10 seconds |  |
+| pinot.server.shutdown.timeoutMs | 10 minutes |  |
+| pinot.server.shutdown.enableQueryCheck | true |  |
+| pinot.server.shutdown.noQueryThresholdMs | 15 seconds |  |
+| pinot.server.shutdown.enableResourceCheck | false |  |
+| pinot.server.shutdown.resourceCheckIntervalMs | 10 seconds |  |
+| pinot.server.admin.access.control.factory.class | `org.apache.pinot.server.` `api.access.AllowAllAccessFactory` |  |
+|  |  |  |
 
 
 
