@@ -22,6 +22,12 @@ Geospatial data types abstract and encapsulate spatial structures such as bounda
 - `MULTIPOLYGON (((0 0, 4 0, 4 4, 0 4, 0 0), (1 1, 2 1, 2 2, 1 2, 1 1)), ((-1 -1, -1 -2, -2 -2, -2 -1, -1 -1)))`
 - `GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))`
 
+### Geometry vs Geography
+
+It is common to have data in which the coordinate are “geographics” or “latitude/longitude”. Unlike coordinates in Mercator or UTM, geographic coordinates are not Cartesian coordinates. Geographic coordinates do not represent a linear distance from an origin as plotted on a plane. Rather, these spherical coordinates describe angular coordinates on a globe. In spherical coordinates a point is specified by the angle of rotation from a reference meridian (longitude), and the angle from the equator (latitude). You can treat geographic coordinates as approximate Cartesian coordinates and continue to do spatial calculations. However, measurements of distance, length and area will be nonsensical. Since spherical coordinates measure angular distance, the units are in *degrees*.
+
+Pinot supports both geometry and geography types, which can be constructed by the corresponding functions as shown in [section](#constructors). And for the geography types, the measurement functions such as `ST_Distance` and `ST_Area` calculate the spherical distance and area on earth respectively.
+
 ## Geospatial functions
 
 For manipulating geospatial data, Pinot provides a set of functions for analyzing geometric components, determining spatial relationships, and manipulating geometries. In particular, geospatial functions that begin with the ST_ prefix support the SQL/MM specification.
@@ -29,54 +35,57 @@ For manipulating geospatial data, Pinot provides a set of functions for analyzin
 The geospatial functions can be grouped into one of the following categories:
 
 ### Aggregations
-ST_Union(geometry[] g1_array) → Geometry	
+
+*ST\_Union(geometry[] g1_array) → Geometry* <br>
 This aggregate function returns a MULTI geometry or NON-MULTI geometry from a set of geometries. it ignores NULL geometries.
 
+
 ### Constructors
-ST_GeomFromText(String wkt) → Geometry
-ST_GeomFromText(string wkt, int srid) → Geometry
+
+*ST\_GeomFromText(String wkt) → Geometry* <br>
 Returns a geometry type object from WKT representation, with the optional spatial system reference.
 
-ST_GeomFromWKB(bytes wkb) → Geometry
-ST_GeomFromWKB(bytes wkb, int srid) → Geometry
+*ST\_GeomFromWKB(bytes wkb) → Geometry* <br>
 Returns a geometry type object from WKB representation.
 
-ST_Point(double x, double y) → Point
+*ST\_Point(double x, double y) → Point* <br>
 Returns a geometry type point object with the given coordinate values.
 
-ST_Polygon(String wkt) → Polygon
+*ST\_Polygon(String wkt) → Polygon* <br>
 Returns a geometry type polygon object from WKT representation.
 
-ST_GeogFromWKB(bytes wkb) → Geography
+*ST\_GeogFromWKB(bytes wkb) → Geography*  <br>
 Creates a geography instance from a Well-Known Binary geometry representation (WKB)
 
-ST_GeogFromText(String wkt) → Geography
+*ST\_GeogFromText(String wkt) → Geography*  <br>
 Return a specified geography value from Well-Known Text representation or extended (WKT).
 
 ### Measurements
-ST_Area(Geometry/Geography g) → double	
+
+*ST\_Area(Geometry/Geography g) → double*  <br>
 For geometry type, it returns the 2D Euclidean area of a geometry. For geography, returns the area of a polygon or multi-polygon in square meters using a spherical model for Earth.
 
-ST_Distance(Geometry/Geography g1, Geometry/Geography g2) → double	[SQL/MM]
+*ST\_Distance(Geometry/Geography g1, Geometry/Geography g2) → double*  <br>
 For geometry type, returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography, returns the great-circle distance in meters between two SphericalGeography points. Note that g1, g2 shall have the same type.
 
-ST_GeometryType(Geometry g) → String  
-Returns the type of the geometry as a string. EG: 'ST_Linestring', 'ST_Polygon','ST_MultiPolygon' etc.
+*ST\_GeometryType(Geometry g) → String*  <br>
+Returns the type of the geometry as a string. e.g.: `ST_Linestring`, `ST_Polygon`,`ST_MultiPolygon` etc.
 
 ### Outputs
-ST_AsBinary(Geometry/Geography g) → bytes	
+
+*ST\_AsBinary(Geometry/Geography g) → bytes* <br>
 Returns the WKB representation of the geometry.
 
-ST_AsText(Geometry/Geography g) → string
+*ST\_AsText(Geometry/Geography g) → string* <br>
 Returns the WKT representation of the geometry/geography. 
-Relationship
-ST_Contains(Geometry, Geometry) → boolean
+
+###Relationship
+
+*ST\_Contains(Geometry, Geometry) → boolean* <br>
 Returns true if and only if no points of the second geometry/geography lie in the exterior of the first geometry/geography, and at least one point of the interior of the first geometry lies in the interior of the second geometry.
 
-ST_Equals(Geometry, Geometry) → boolean
+*ST\_Equals(Geometry, Geometry) → boolean* <br>
 Returns true if the given geometries represent the same geometry/geography.
 
-ST_Within(Geometry, Geometry) → boolean
+*ST\_Within(Geometry, Geometry) → boolean* <br>
 Returns true if first geometry is completely inside second geometry.
-
-
