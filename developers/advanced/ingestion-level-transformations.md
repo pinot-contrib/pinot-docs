@@ -326,6 +326,18 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
   </tbody>
 </table>
 
+{% hint style="info" %}
+**Note**
+
+Letters that are not part of Simple Date Time legend \([https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html)\) need to be escaped. For example:
+
+`"transformFunction": "fromDateTime(dateTimeStr, \"yyyy-MM-dd'T'HH:mm:ss\")"`
+
+or
+
+`"transformFunction": "fromDateTime(dateTimeStr, 'yyyy-MM-dd''T''HH:mm:ss')"`
+{% endhint %}
+
 #### Json functions
 
 <table>
