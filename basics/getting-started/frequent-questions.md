@@ -96,6 +96,10 @@ Instead, this will work
 SELECT count(colA) as sumA, colA from tableA GROUP BY colA ORDER BY count(colA)
 ```
 
+### Does pagination work in GROUP BY queries?
+
+No. Pagination only works for SELECTION queries
+
 ## Operations
 
 ### Can I change a column name in my table, without losing data?
