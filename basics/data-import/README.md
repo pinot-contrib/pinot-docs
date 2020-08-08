@@ -4,7 +4,7 @@ description: >-
   Pinot.
 ---
 
-# Data import
+# Import Data
 
 There are multiple options for importing data into Pinot. These guides are ready-made examples that show you step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../plugins/plugin-architecture.md).   
 

@@ -4,5 +4,5 @@ description: >-
   details of Pinot features
 ---
 
-# Feature guides
+# Advanced Features
 

@@ -9,5 +9,5 @@ When pinot segment files are created in external systems \(hadoop/spark/etc\), t
 3. push segment to HDFS and let pinot pull segment files from HDFS with hdfs location uri.
 4. push segment to other system and implement your own segment fetcher to pull data from those systems.
 
-The first two options should be supported out of the box with pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for HDFS, you will need to provide Pinot Hadoop configuration and proper Hadoop dependencies.
+The first two options are supported out of the box with pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for HDFS, you will need to provide Pinot Hadoop configuration and proper Hadoop dependencies.
 

@@ -4,7 +4,7 @@ description: >-
   Pinot.
 ---
 
-# Getting started
+# Getting Started
 
 ## Running Pinot
 
