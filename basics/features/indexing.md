@@ -4,7 +4,18 @@ description: This page describes the different indexing techniques available in 
 
 # Indexing
 
-Pinot currently supports the following index techniques, where each of them have their own advantages in different query scenarios. By default, Pinot will use `dictionary-encoded forward index` for each column.
+Pinot currently supports the following index techniques, where each of them have their own advantages in different query scenarios.
+
+* Forward Index
+  * Dictionary-encoded forward index with bit compression
+  * Raw value forward index
+  * Sorted forward index with run-length encoding
+* Inverted Index
+  * Bitmap inverted index
+  * Sorted inverted index
+* Star-tree Index
+
+By default, Pinot will use `dictionary-encoded forward index` for each column. 
 
 ## Forward index
 
@@ -40,7 +51,7 @@ Raw value forward index can be configured for a table by setting it in the table
 }
 ```
 
-#### Sorted forward index with run-length encoding
+### Sorted forward index with run-length encoding
 
 When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, we store a pair of start and end document id for each value. \(The below diagram does not include dictionary encoding layer for simplicity.\)
 
@@ -328,11 +339,14 @@ The algorithm to traverse the tree can be described as follows:
   * If there is no predicate, but there is a group-by on the split dimension, select all child nodes except Star-Node.
 * Recursively repeat the previous step until all leaf nodes are reached, or all predicates are satisfied.
 * Collect all the documents pointed by the selected nodes.
-  * If all predicates and group-bys are satisfied, pick the single aggregated document from each selected node.
+  * If all predicates and group-by's are satisfied, pick the single aggregated document from each selected node.
   * Otherwise, collect all the documents in the document range from each selected node.
 
 ### Notes on index tuning
 
-If your use case is not site facing with a strict low latency requirement, inverted index will perform good enough for the most of use cases. We recommend to start with adding inverted index and if the query does not perform good enough, a user can consider to use more advanced indices such as sorted column and star-tree index.  
-
+{% hint style="info" %}
+If your use case is not site facing with a strict low latency requirement, inverted index will provide good performance for the most of use cases.   
+  
+You should start by adding an inverted index and if the query does not perform as per the expectations switch to  advanced indices such as sorted column and star-tree index.
+{% endhint %}
 

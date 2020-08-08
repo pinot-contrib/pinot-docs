@@ -154,7 +154,7 @@ bin/pinot-admin.sh StartServer \
 {% endtab %}
 {% endtabs %}
 
-## Start Pinot Using Config  Files
+## Start Pinot Using Config Files
 
 Often times we need to customized the setup of Pinot Components. Hence user can compile a config file and use it to start Pinot Components.
 
@@ -182,7 +182,8 @@ bin/pinot-admin.sh StartController -configFileName config/pinot-controller.conf
 
 #### Configure Controller
 
-Below are some outstanding configurations you can set in Pinot Controller:
+Below are some configurations you can set in Pinot Controller. You can head over to [Controller](../../configuration-reference/controller.md#primary-configuration) for complete list of available configs.  
+
 
 | Config Name | Description | Default Value |
 | :--- | :--- | :--- |

@@ -81,12 +81,12 @@ cd apache-pinot-incubating-$PINOT_VERSION-bin
 
 ## Setting up a Pinot cluster
 
-We'll be using a quick-start script, which does the following:
+We'll be using the quick-start scripts provided along with pinot distribution, which do the following:
 
-1. Sets up the Pinot cluster `QuickStartCluster`
-2. Creates a sample table and loads sample data
+1. Set up the Pinot cluster `QuickStartCluster`
+2. Create a sample table and load sample data
 
-There's 3 kinds of quick start
+The following quick start scripts are available -
 
 ### Batch
 

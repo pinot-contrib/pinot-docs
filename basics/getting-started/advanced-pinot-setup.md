@@ -6,6 +6,15 @@ description: This quick start guide will show you how to set up a Pinot cluster 
 
 ## Start Pinot components \(scripts or docker images\)
 
+A manual cluster setup consists of the following components -   
+1. Zookeeper  
+2. Controller  
+3. Broker  
+4. Server  
+5. Kafka  
+  
+We will run each of these components in seperate containers
+
 {% tabs %}
 {% tab title="Using docker images" %}
 ## Start Pinot Components using docker 
@@ -32,7 +41,7 @@ docker network create -d bridge pinot-demo
 
 ### 1. Start Zookeeper
 
-Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper is the central metadata store for Pinot and should be set up with replication for production use. See [https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html\#sc\_RunningReplicatedZooKeeper](https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html#sc_RunningReplicatedZooKeeper) for more information.
+Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper is the central metadata store for Pinot and should be set up with replication for production use. See [Running Replicated Zookeeper](https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html#sc_RunningReplicatedZooKeeper) for more information.
 
 ```text
 docker run \
@@ -53,7 +62,7 @@ docker run --rm -ti \
 	-d qnib/plain-zkui:latest
 ```
 
-Alternately, you can use [Zooinspector](https://github.com/zzhang5/zooinspector).
+Alternatively you can also use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse zookeeper as well.
 
 ### 2. Start Pinot Controller
 

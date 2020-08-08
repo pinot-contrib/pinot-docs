@@ -4,21 +4,23 @@ description: Explore the data on our Pinot cluster
 
 # Pinot data explorer
 
-Now that the QuickStartCluster is setup, we can start exploring the data and the APIs. Head over to [http://localhost:9000](http://localhost:9000) in your browser. 
+Once you have set up the Cluster, you can start exploring the data and the APIs.   
+Just head over to [http://localhost:9000](http://localhost:9000) in your browser to open the controller UI.
 
 ![](../../.gitbook/assets/screen-shot-2020-02-28-at-9.46.33-am%20%281%29.png)
 
-You are now connected to the Pinot controller. Let's take a look at the following two features. 
+Let's take a look at the following two features on the UI
 
 ### Query Console
 
-[Query Console](http://localhost:9000/query#) let's us run queries on the data in the Pinot cluster
+[Query Console](http://localhost:9000/query#) let's us run queries on the data in the Pinot cluster.
 
-We can see our `baseballStats` table listed on the left \(you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid quick start\).  Clicking on the table name should display all the names and data types of the columns of the table, and also execute a sample query `select * from baseballStats limit 10` . You can query this table by typing your query in the text box and clicking the `Run Query` button.
+We can see our `baseballStats` table listed on the left \(you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid quick start\).  Click on the table name to display all the names along with the data types of the columns of the table.  
+You can also execute a sample query `select * from baseballStats limit 10`  by typing it in the text box and clicking the `Run Query` button.
 
 ![Pinot Data Explorer](../../.gitbook/assets/screen-shot-2020-02-28-at-9.49.12-am.png)
 
-Here's some other queries you can try out:
+You can also try out the following queries:
 
 `select playerName, max(hits) from baseballStats group by playerName order by max(hits) desc`
 
@@ -158,5 +160,5 @@ Take a look at the schema by going to [Schema -&gt; Get a schema](http://localho
 
 Finally, let's checkout the data segments in the cluster by going to [Segment -&gt; List all segments](http://localhost:9000/help#!/Segment/getSegments), type in `baseballStats` in the table name, and click `Try it out!`. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
-You might have figured out by now, in order to get data into the Pinot cluster, we need a table, a schema and segments. Let's head over to [Batch upload sample data](../getting-started/pushing-your-data-to-pinot.md), to find out more about these components and learn how to create them for your own data.
+You can head over to [Batch Ingestion](../data-import/batch-ingestion/) or [Stream ingestion](../data-import/pinot-stream-ingestion/) to learn how to upload your own data and schema in Pinot.
 

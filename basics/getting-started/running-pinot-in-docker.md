@@ -12,22 +12,22 @@ Install [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac
 You can also try [Kubernetes quick start](kubernetes-quickstart.md) if you already have a local [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) cluster installed or [Docker Kubernetes](https://www.docker.com/products/kubernetes) setup.
 {% endhint %}
 
-Create an isolated bridge network in docker
-
-```text
-docker network create -d bridge pinot-demo
-```
-
 We'll be using our docker image `apachepinot/pinot:latest` to run this quick start, which does the following:
 
 * Sets up the Pinot cluster
 * Creates a sample table and loads sample data
 
-There are 3 types of quick start examples.
+The following quick-start scripts are available 
 
 * Batch example
 * Streaming example
 * Hybrid example
+
+Before running the scripts, create an isolated bridge network `pinot-demo` in docker. This will allow all docker containers to easily communicate with each other. You can create the network using the following command - 
+
+```text
+docker network create -d bridge pinot-demo
+```
 
 ## Batch example
 
@@ -66,11 +66,11 @@ That's it! We've spun up a Pinot cluster.
 It may take a while for all the Pinot components to start and for the sample data to be loaded. 
 
 Use the below command to check the status in the container logs.
-{% endhint %}
 
 ```text
 docker logs pinot-quickstart -f
 ```
+{% endhint %}
 
 Your cluster is ready once you see the cluster setup completion messages and sample queries, as demonstrated below.
 

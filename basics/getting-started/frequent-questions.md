@@ -4,7 +4,7 @@ description: >-
   community.
 ---
 
-# Frequent questions
+# Frequently Asked Questions \(FAQs\)
 
 {% hint style="info" %}
 This is a list of frequent questions most often asked in our troubleshooting channel on Slack. Please feel free to contribute your questions and answers here and make a pull request.
