@@ -215,7 +215,7 @@ bin/pinot-admin.sh StartBroker -clusterName pinot-quickstart -zkAddress pinot-zo
 
 #### Configure Broker
 
-Below are some outstanding configurations you can set in Pinot Broker:
+Below are some configurations you can set in Pinot Broker. You can head over to [Broker](../../configuration-reference/broker.md) for complete list of available configs.
 
 | Config Name | Description | Default Value |
 | :--- | :--- | :--- |
@@ -247,7 +247,7 @@ bin/pinot-admin.sh StartServer -clusterName pinot-quickstart -zkAddress pinot-zo
 
 #### Configure Server
 
-Below are some outstanding configurations you can set in Pinot Server:
+Below are some outstanding configurations you can set in Pinot Server. You can head over to [Server](../../configuration-reference/server.md) for complete list of available configs.
 
 | Config Name | Description | Default Value |
 | :--- | :--- | :--- |
@@ -451,7 +451,7 @@ bin/pinot-admin.sh LaunchDataIngestionJob \
 {% endtab %}
 {% endtabs %}
 
-JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. See [Pinot Ingestion Job]() for more details.
+JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. See [Pinot Ingestion Job](../../basics/data-import/batch-ingestion/) for more details.
 
 ### Load Data in Streaming
 
