@@ -112,7 +112,7 @@ A Pinot schema is written in JSON format. Here's an example which shows all the 
     {
       "name": "millisSinceEpoch",
       "dataType": "LONG",
-      "format": "1:MILLSECONDS:EPOCH",
+      "format": "1:MILLISECONDS:EPOCH",
       "granularity": "15:MINUTES"
     },
     {
