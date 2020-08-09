@@ -40,7 +40,7 @@ spark.driver.extraJavaOptions =>
 OR
 
 spark.driver.extraClassPath =>
-pinot-all-${PINOT_VERSION}-jar-with-depdencies.jar
+pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
 ```
 
 Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
