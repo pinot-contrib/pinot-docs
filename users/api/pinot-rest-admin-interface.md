@@ -1,4 +1,4 @@
-# Pinot Rest Admin Interface
+# Controller Admin API
 
 The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 

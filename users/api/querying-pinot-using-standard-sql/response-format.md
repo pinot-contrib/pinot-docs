@@ -1,4 +1,4 @@
-# Response Format
+# Query Response Format
 
 ### Standard-SQL response
 
@@ -182,7 +182,7 @@ $ curl -X POST \
 {% endtab %}
 {% endtabs %}
 
-where,
+
 
 | Response Field | Description |
 | :--- | :--- |

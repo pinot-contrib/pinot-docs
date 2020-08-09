@@ -8,7 +8,7 @@ Pypi Repo: [https://pypi.org/project/pinotdb/](https://pypi.org/project/pinotdb/
 
 Source Code Repo: [https://github.com/python-pinot-dbapi/pinot-dbapi](https://github.com/python-pinot-dbapi/pinot-dbapi)
 
-## Install
+### Installation
 
 ```text
 pip install pinotdb==0.3.2
@@ -19,9 +19,9 @@ Please note:
 * **pinotdb** version &gt;= **0.3.2** is using Pinot SQL API \(added in Pinot &gt;= 0.3.0\) and drops support for PQL API. So this client requires Pinot server version &gt;= **0.3.0** in order to access Pinot.
 * **pinotdb** version in **0.2.x** is using Pinot PQL API, which works with pinot version &lt;= 0.3.0, but may miss some new SQL query features added in newer Pinot version.
 
-## Usage
+### Usage
 
-### Using the DB API to query Pinot Broker directly:
+#### Using the DB API to query Pinot Broker directly:
 
 ```text
 from pinotdb import connect
@@ -39,7 +39,7 @@ for row in curs:
     print(row)
 ```
 
-### Using SQLAlchemy:
+#### Using SQLAlchemy:
 
 The db engine connection string is format as: pinot://:?controller=://:/
 
@@ -56,9 +56,9 @@ places = Table('places', MetaData(bind=engine), autoload=True)
 print(select([func.count('*')], from_obj=places).scalar())
 ```
 
-## Examples with Pinot Quickstart
+### Examples with Pinot Quickstart
 
-### Pinot Batch Quickstart
+#### Pinot Batch Quickstart
 
 Run below command to start Pinot Batch Quickstart in docker and expose Pinot controller port 9000 and Pinot broker port 8000.
 
@@ -97,7 +97,7 @@ Sending SQL to Pinot: SELECT playerName,sum(runs) AS sum_runs FROM baseballStats
 ['Alexander Emmanuel', 1426.0]
 ```
 
-### Pinot Hybrid Quickstart
+#### Pinot Hybrid Quickstart
 
 Run below command to start Pinot Hybrid Quickstart in docker and expose Pinot controller port 9000 and Pinot broker port 8000.
 

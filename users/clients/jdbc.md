@@ -1,8 +1,40 @@
 # JDBC
 
-The java client can be found in [pinot-clients/pinot-jdbc-client](https://github.com/apache/incubator-pinot/tree/master/pinot-clients/pinot-jdbc-client). Here's an example of how to use the `pinot-java-client` to query Pinot.
+Pinot offers standard JDBC interface to query the database. This makes it easier to integrate Pinot with other applications such as Tableau.  
+
+### Installation
+
+You can include the JDBC dependency in your code as follows - 
+
+{% tabs %}
+{% tab title="Maven" %}
+```java
+<dependency>
+    <groupId>org.apache.pinot</groupId>
+    <artifactId>pinot-jdbc-client</artifactId>
+    <version>0.5.0</version>
+</dependency>
+```
+{% endtab %}
+
+{% tab title="Gradle" %}
+```java
+include 'org.apache.pinot:pinot-jdbc-client:0.5.0'
+```
+{% endtab %}
+{% endtabs %}
+
+   
+You can also compile the [JDBC code](https://github.com/apache/incubator-pinot/tree/master/pinot-clients/pinot-jdbc-client) into a JAR and place the JAR in the Drivers directory of your application.   
+  
+There is no need to register the driver manually as it will automatically register itself at the startup of the application.
+
+### Usage
+
+Here's an example of how to use the `pinot-jdbc-client` for querying. The client requires both the broker URL and the controller url. This issue is WIP and later you will only require the controller URL.
 
 ```java
+public static final String DB_URL = "jdbc:pinot://localhost:8000?controller=localhost:9000"
 DriverManager.registerDriver(new PinotDriver());
 Connection conn = DriverManager.getConnection(DB_URL);
 Statement statement = conn.createStatement();
@@ -18,7 +50,8 @@ while(rs.next()){
 conn.close();
 ```
 
-You can also use PreparedStatements. The placeholder parameters are represented using **?** symbol.
+  
+You can also use PreparedStatements. The placeholder parameters are represented using `?` **** \(question mark\) symbol.
 
 ```java
 Connection conn = DriverManager.getConnection(DB_URL);
@@ -35,4 +68,13 @@ while(rs.next()){
 
 conn.close();
 ```
+
+### Limitation
+
+The JDBC client doesn't support `INSERT`, `DELETE` or `UPDATE` statements due to the database limitations. You can only use the client to query the database.  
+The driver is also not completely ANSI SQL 92 compliant. 
+
+{% hint style="warning" %}
+If you want to use JDBC driver to integrate Pinot with other applications, do make sure to check JDBC ConnectionMetadata in your code. This will help in determining which features cannot be supported by Pinot since it is an OLAP database.
+{% endhint %}
 

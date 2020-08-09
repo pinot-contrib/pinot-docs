@@ -1,6 +1,34 @@
 # Java
 
-The java client can be found in [pinot-clients/pinot-java-client](https://github.com/apache/incubator-pinot/tree/master/pinot-clients/pinot-java-client). Here's an example of how to use the `pinot-java-client` to query Pinot.
+Pinot provides a native java client to execute queries on the cluster. The client makes it easier for user to query data. The client is also tenant-aware and thus is able to redirect the queries to the correct broker. 
+
+### Installation
+
+You can use the client by including the following dependency - 
+
+{% tabs %}
+{% tab title="Maven" %}
+```java
+<dependency>
+    <groupId>org.apache.pinot</groupId>
+    <artifactId>pinot-java-client</artifactId>
+    <version>0.5.0</version>
+</dependency>
+```
+{% endtab %}
+
+{% tab title="Gradle" %}
+```java
+include 'org.apache.pinot:pinot-java-client:0.5.0'
+```
+{% endtab %}
+{% endtabs %}
+
+You can also build [the code for java client](https://github.com/apache/incubator-pinot/tree/master/pinot-clients/pinot-java-client) locally and use it. 
+
+### Usage
+
+Here's an example of how to use the `pinot-java-client` to query Pinot.
 
 ```java
 import org.apache.pinot.client.Connection;
@@ -38,7 +66,15 @@ public class PinotClientExample {
 }
 ```
 
-Connections to Pinot are created using the `ConnectionFactory` class’ utility methods to create connections to a Pinot cluster given a Zookeeper URL, a Java Properties object or a list of broker addresses to connect to.
+### Connection Factory
+
+The client provides a `ConnectionFactory` class  to create connections to a Pinot cluster. The factory supports the following methods to create a connection -
+
+* **Zookeeper \(Recommended\)** - Comma seperated list of zookeeper of the cluster. This is the only method which can redirect queries to appropriate brokers based on tenant/table and hence it is recommended
+* **Broker list** - Comma seperated list of the brokers in the cluster. This should only be used in standalone setups or for POC.
+* **Properties file** -  You can also put the broker list as `brokerList` in a properties file and provide the path to that file to the factory.  This should only be used in standalone setups or for POC. 
+
+Here's an example demonstrating all methods of Connection factory - 
 
 ```java
 Connection connection = ConnectionFactory.fromZookeeper
@@ -50,7 +86,12 @@ Connection connection = ConnectionFactory.fromHostList
   ("broker-1:1234", "broker-2:1234", ...);
 ```
 
-Queries can be sent directly to the Pinot cluster using the `Connection.execute(org.apache.pinot.client.Request)` and `Connection.executeAsync(org.apache.pinot.client.Request)` methods of Connection:
+### Query Methods
+
+You can run the query in both blocking as well as async manner. Use 
+
+* `Connection.execute(org.apache.pinot.client.Request)` for blocking queries
+* `Connection.executeAsync(org.apache.pinot.client.Request)` for asynchronous queries that return a future object.
 
 ```java
 ResultSetGroup resultSetGroup = 
@@ -60,7 +101,7 @@ Future<ResultSetGroup> futureResultSetGroup =
   connection.executeAsync(new Request("sql", "select * from foo..."));
 ```
 
-Queries can also use a `PreparedStatement` to escape query parameters:
+You can also use `PreparedStatement` to escape query parameters. We don't store the Prepared Statement in the database and hence it won't increase the subsequent query performance. 
 
 ```java
 PreparedStatement statement = 
@@ -71,6 +112,8 @@ ResultSetGroup resultSetGroup = statement.execute();
 // OR
 Future<ResultSetGroup> futureResultSetGroup = statement.executeAsync();
 ```
+
+### Result Set
 
 Results can be obtained with the various get methods in the first ResultSet, obtained through the `getResultSet(int)` method:
 
@@ -85,11 +128,7 @@ for (int i = 0; i < resultSet.getRowCount(); ++i) {
 }
 ```
 
-{% hint style="warning" %}
-Note
-
-The examples for the sections below this note, are for querying the PQL endpoint, which is deprecated and will be deleted soon. For more information about the 2 endpoints, visit [Querying Pinot](../api/querying-pinot-using-standard-sql/).
-{% endhint %}
+#### PQL Queries
 
 If queryFormat `pql` is used in the `Request`,  there are some differences in how the results can be accessed, depending on the query. 
 
@@ -107,7 +146,7 @@ ResultSet resultSetMin = resultSetGroup.getResultSet(1);
 System.out.println("Min foo: " + resultSetMin.getInt(0));
 ```
 
-In case of aggregation group by, there will be as many ResultSets as the number of aggregations, each of which will contain multiple results grouped by a group key.
+In case of aggregation with `GROUP BY`, there will be as many ResultSets as the number of aggregations, each of which will contain multiple results grouped by a grouping key.
 
 ```java
 ResultSetGroup resultSetGroup = 
@@ -129,4 +168,8 @@ for(int i = 0; i < maxResultSet.length(); ++i) {
         ": " + maxResultSet.getInt(i));
 }
 ```
+
+{% hint style="warning" %}
+This section is only applicable for PQL endpoint, which is deprecated and will be deleted soon. For more information about the endpoints, visit [Querying Pinot](../api/querying-pinot-using-standard-sql/).
+{% endhint %}
 

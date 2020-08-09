@@ -4,13 +4,9 @@ description: Pinot Client for Golang
 
 # Golang
 
-## Pinot Client GO
+Pinot also provides [a native go client](https://github.com/fx19880617/pinot-client-go) to query database directly from go application. 
 
-Applications can use this golang client library to query Apache Pinot.
-
-Source Code Repo: [https://github.com/fx19880617/pinot-client-go](https://github.com/fx19880617/pinot-client-go)
-
-## Examples
+### Installation
 
 Please follow this [Pinot Quickstart](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/running-pinot-locally) link to install and start Pinot batch QuickStart locally.
 
@@ -32,9 +28,9 @@ go build ./examples/batch-quickstart
 ./batch-quickstart
 ```
 
-## Usage
+### Usage
 
-### Create a Pinot Connection
+#### Create a Pinot Connection
 
 Pinot client could be initialized through:
 

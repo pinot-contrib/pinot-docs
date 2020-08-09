@@ -1,8 +1,4 @@
----
-description: Ways to query Pinot
----
-
-# Querying Pinot
+# Broker Query API
 
 ### REST API on the Broker
 
@@ -56,11 +52,5 @@ bin/pinot-admin.sh PostQuery \
 2020/03/04 12:46:33.854 INFO [PostQueryCommand] [main] Result: {"resultTable":{"dataSchema":{"columnDataTypes":["LONG"],"columnNames":["count(*)"]},"rows":[[97889]]},"exceptions":[],"numServersQueried":1,"numServersResponded":1,"numSegmentsQueried":1,"numSegmentsProcessed":1,"numSegmentsMatched":1,"numConsumingSegmentsQueried":0,"numDocsScanned":97889,"numEntriesScannedInFilter":0,"numEntriesScannedPostFilter":0,"numGroupsLimitReached":false,"totalDocs":97889,"timeUsedMs":185,"segmentStatistics":[],"traceInfo":{},"minConsumingFreshnessTimeMs":0}
 ```
 
-### Pinot Clients
-
-Here's a list of the clients available to query Pinot from your application
-
-1. [Java Client](https://docs.pinot.apache.org/users/clients/java)
-2. Coming soon - JDBC client
-3. [Golang Client](../../clients/golang.md#pinot-client-go)
+### 
 

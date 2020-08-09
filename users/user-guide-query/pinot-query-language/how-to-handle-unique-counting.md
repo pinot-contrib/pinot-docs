@@ -1,6 +1,6 @@
-# Unique Counting
+# Cardinality Estimation
 
-Unique counting is a classic problem. Pinot solves it with multiple ways to trade-off between accuracy and latency.
+Cardinality estimation is a classic problem. Pinot solves it with multiple ways to trade-off between accuracy and latency.
 
 ## Accurate Results
 
