@@ -7,9 +7,7 @@ description: This guide shows you how to import data from GCP (Google Cloud Plat
 You can enable the [Google Cloud Storage](https://cloud.google.com/products/storage/) using the plugin `pinot-gcs`. In the controller or server, add the config -
 
 ```text
-pinot.controller.storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
-pinot.controller.segment.fetcher.protocols=file,http,gs
-pinot.controller.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+-Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-gcs
 ```
 
 GCP filesystems provides the following options -
@@ -25,5 +23,55 @@ e.g.
 pinot.controller.storage.factory.class.gs.projectId=test-project
 ```
 
+### Examples
 
+#### Job spec
+
+```yaml
+executionFrameworkSpec:
+    name: 'standalone'
+    segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
+    segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
+    segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
+jobType: SegmentCreationAndTarPush
+inputDirURI: 'gs://my-bucket/path/to/input/directory/'
+outputDirURI: 'gs://my-bucket/path/to/output/directory/'
+overwriteOutput: true
+pinotFSSpecs:
+    - scheme: gs
+      className: org.apache.pinot.plugin.filesystem.GcsPinotFS
+      configs:
+        projectId: 'my-project'
+        gcpKey: 'path-to-gcp json key file'
+recordReaderSpec:
+    dataFormat: 'csv'
+    className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
+    configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
+tableSpec:
+    tableName: 'students'
+pinotClusterSpecs:
+    - controllerURI: 'http://localhost:9000'
+```
+
+#### Controller config
+
+```text
+pinot.controller.storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
+pinot.controller.storage.factory.gs.projectId=my-project
+pinot.controller.storage.factory.gs.gcpKey=path/to/gcp/key.json
+pinot.controller.segment.fetcher.protocols=file,http,gs
+pinot.controller.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+```
+
+#### Server config
+
+```text
+pinot.server.storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
+pinot.server.storage.factory.gs.projectId=my-project
+pinot.server.storage.factory.gs.gcpKey=path/to/gcp/key.json
+pinot.server.segment.fetcher.protocols=file,http,gs
+pinot.server.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+```
+
+#### 
 

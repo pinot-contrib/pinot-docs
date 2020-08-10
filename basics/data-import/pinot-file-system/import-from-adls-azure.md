@@ -9,9 +9,7 @@ description: >-
 You can enable the Azure Data Lake Storage using the plugin `pinot-adls`. In the controller or server, add the config -
 
 ```text
-pinot.controller.storage.factory.class.abfss=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
-pinot.controller.segment.fetcher.protocols=file,http,abfss
-pinot.controller.segment.fetcher.abfss.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+-Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-adls
 ```
 
 Azure Blob Storage provides the following options -
@@ -26,7 +24,58 @@ Each of these properties should be prefixed by `pinot.[node].storage.factory.cla
 e.g.
 
 ```text
-pinot.controller.storage.factory.class.abfss.accountName=test-user
+pinot.controller.storage.factory.class.adl.accountName=test-user
+```
+
+### Examples
+
+#### Job spec
+
+```yaml
+executionFrameworkSpec:
+    name: 'standalone'
+    segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
+    segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
+    segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
+jobType: SegmentCreationAndTarPush
+inputDirURI: 'adl://path/to/input/directory/'
+outputDirURI: 'adl://path/to/output/directory/'
+overwriteOutput: true
+pinotFSSpecs:
+    - scheme: adl
+      className: org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
+      configs:
+        accountName: 'my-account'
+        accessKey: 'foo-bar-1234'
+        fileSystemName: 'fs-name'
+recordReaderSpec:
+    dataFormat: 'csv'
+    className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
+    configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
+tableSpec:
+    tableName: 'students'
+pinotClusterSpecs:
+    - controllerURI: 'http://localhost:9000'
+```
+
+#### Controller config
+
+```text
+pinot.controller.storage.factory.class.adl=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
+pinot.controller.storage.factory.adl.accountName=my-account
+pinot.controller.storage.factory.adl.accessKey=foo-bar-1234
+pinot.controller.segment.fetcher.protocols=file,http,adl
+pinot.controller.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+```
+
+#### Server config
+
+```text
+pinot.server.storage.factory.class.adl=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
+pinot.server.storage.factory.adl.accountName=my-account
+pinot.server.storage.factory.adl.accessKey=foo-bar-1234
+pinot.server.segment.fetcher.protocols=file,http,adl
+pinot.server.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
 #### 
