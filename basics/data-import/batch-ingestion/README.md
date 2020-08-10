@@ -126,7 +126,7 @@ executionFrameworkSpec:
   segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
 jobType: SegmentCreationAndTarPush
-**inputDirURI: '/tmp/pinot-quick-start/rawdata/'**
+inputDirURI: '/tmp/pinot-quick-start/rawdata/'
 includeFileNamePattern: 'glob:**/*.csv'
 outputDirURI: '/tmp/pinot-quick-start/segments/'
 overwriteOutput: true
@@ -145,13 +145,14 @@ pinotClusterSpecs:
 
 For any other batch job you can change the following parameters
 
-1. tableName - the name of the table to put the data in
-2. recordReaderSpec - This should match the format of the input data. e.g. CSV, Avro, ProtoBuf etc.
-3. pinotClusterSpecs - URL of controller node.
-4. inputDirURI and outputDirURI
-5. pinotFSSpecs - In case you are using distributed file system such as GCS, Azure Blob Storage or S3
+1. **tableName** - the name of the table to put the data in
+2. **recordReaderSpec** - This should match the format of the input data. e.g. CSV, Avro, ProtoBuf etc.
+3. **pinotClusterSpecs** - URL of controller node.
+4. **inputDirURI** and **outputDirURI**
+5. **includeFileNamePattern** - pattern to match files inside the input directory. supports both [`glob`](https://mincong.io/2019/04/16/glob-expression-understanding/) as well as `regex`
+6. **pinotFSSpecs** - In case you are using distributed file system such as GCS, Azure Blob Storage or S3. You can use multiple schemes under this in case the input and output filesystems are different.
 
-You can refer \[Segment Generation Job Configuration\] for more details.
+You can refer Segment Generation Job Configuration for more details.
 
 Now that we have the job spec for our table `transcript` , we can trigger the job using the following command
 
