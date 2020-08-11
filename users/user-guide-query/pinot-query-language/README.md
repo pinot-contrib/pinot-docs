@@ -151,6 +151,10 @@ For Multi-Valued columns, EQUALS is similar to CONTAINS.
 * `FASTHLL` \(**WARN**: will be deprecated soon. `FASTHLL` stores serialized HyperLogLog in String format, which performs worse than `DISTINCTCOUNTHLL`, which supports serialized HyperLogLog in BYTES \(byte array\) format\)
 * `PERCENTILE[0-100]`: e.g. `PERCENTILE5`, `PERCENTILE50`, `PERCENTILE99`, etc.
 * `PERCENTILEEST[0-100]`: e.g. `PERCENTILEEST5`, `PERCENTILEEST50`, `PERCENTILEEST99`, etc.
+* `PERCENTILETDIGEST[0-100]`: e.g. `PERCENTILETDIGEST5`, `PERCENTILETDIGEST50`, `PERCENTILETDIGEST99`, etc. 
+  * `PERCENTILE` returns accurate percentile results.
+  * `PERCENTILEEST` returns estimated percentile results based on [io.airlift.stats.QuantileDigest](https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java).
+  * `PERCENTILETDIGEST` returns estimated percentile results based on [T-Digest](https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf) algorithm.
 
 ### Supported aggregations on multi-value columns
 
@@ -166,6 +170,7 @@ For Multi-Valued columns, EQUALS is similar to CONTAINS.
 * `FASTHLLMV` \(**WARN**: will be deprecated soon. It does not make lots of sense to configure serialized HyperLogLog column as a dimension\)
 * `PERCENTILE[0-100]MV`: e.g. `PERCENTILE5MV`, `PERCENTILE50MV`, `PERCENTILE99MV`, etc.
 * `PERCENTILEEST[0-100]MV`: e.g. `PERCENTILEEST5MV`, `PERCENTILEEST50MV`, `PERCENTILEEST99MV`, etc.
+* `PERCENTILETDIGEST[0-100]MV`: e.g. `PERCENTILETDIGEST5MV`, `PERCENTILETDIGEST50MV`, `PERCENTILETDIGEST99MV`, etc.
 
 ### WHERE
 
