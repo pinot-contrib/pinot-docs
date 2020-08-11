@@ -47,7 +47,7 @@
     * [Inverted Index](basics/features/indexing/inverted-index.md)
     * [Star-Tree Index](basics/features/indexing/star-tree-index.md)
     * [Range Index](basics/features/indexing/range-index.md)
-  * [Geospatial](basics/features/geospatial-support.md)
+  * [Geospatial](basics/features/geospatial.md)
 * [Releases](basics/releases/README.md)
   * [0.4.0](basics/releases/0.4.0.md)
   * [0.3.0](basics/releases/0.3.0.md)
@@ -68,9 +68,11 @@
 ## For Users <a id="users"></a>
 
 * [Query](users/user-guide-query/README.md)
-  * [Pinot Query Language \(PQL\)](users/user-guide-query/pinot-query-language/README.md)
-    * [Scalar Functions](users/user-guide-query/pinot-query-language/scalar-functions.md)
-    * [Cardinality Estimation](users/user-guide-query/pinot-query-language/how-to-handle-unique-counting.md)
+  * [Pinot Query Language \(PQL\)](users/user-guide-query/pinot-query-language.md)
+  * [Supported Transformations](users/user-guide-query/supported-transformations.md)
+  * [Supported Aggregations](users/user-guide-query/supported-aggregations.md)
+  * [User-Defined Functions \(UDFs\)](users/user-guide-query/scalar-functions.md)
+  * [Cardinality Estimation](users/user-guide-query/how-to-handle-unique-counting.md)
 * [APIs](users/api/README.md)
   * [Broker Query API](users/api/querying-pinot-using-standard-sql/README.md)
     * [Query Response Format](users/api/querying-pinot-using-standard-sql/response-format.md)
