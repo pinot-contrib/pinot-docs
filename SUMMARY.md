@@ -47,7 +47,7 @@
     * [Inverted Index](basics/features/indexing/inverted-index.md)
     * [Star-Tree Index](basics/features/indexing/star-tree-index.md)
     * [Range Index](basics/features/indexing/range-index.md)
-  * [Geospatial](basics/features/geospatial.md)
+  * [Geospatial](basics/features/geospatial-support.md)
 * [Releases](basics/releases/README.md)
   * [0.4.0](basics/releases/0.4.0.md)
   * [0.3.0](basics/releases/0.3.0.md)
