@@ -186,7 +186,9 @@ The `GROUP BY` clause groups aggregation results by a list of columns, or transf
 
 The `ORDER BY` clause orders selection results or group by results by a list of columns. PQL supports ordering `DESC` or `ASC`.
 
-### TOP
+### TOP \(Deprecated\)
+
+Deprecated in SQL syntax.
 
 The `TOP n` clause causes the ‘n’ largest group results to be returned. If not specified, the top 10 groups are returned.
 
