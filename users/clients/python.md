@@ -11,7 +11,7 @@ Source Code Repo: [https://github.com/python-pinot-dbapi/pinot-dbapi](https://gi
 ### Installation
 
 ```text
-pip install pinotdb==0.3.2
+pip install pinotdb
 ```
 
 Please note:
