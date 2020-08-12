@@ -267,7 +267,7 @@ See [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-too
 
 ### Batch Table Creation
 
-Please see [Batch Tables](../tutorials/store-data/offline-tables.md) for table configuration details and how to customize it.
+Please see [Batch Tables]() for table configuration details and how to customize it.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -304,7 +304,7 @@ bin/pinot-admin.sh AddTable \
 
 ### Streaming Table Creation
 
-Please see [Streaming Tables](../tutorials/store-data/realtime-tables.md) for table configuration details and how to customize it.
+Please see [Streaming Tables]() for table configuration details and how to customize it.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -383,7 +383,7 @@ Now that the table is configured, let's load some data. Data can be loaded in ba
 
 ### Load Data in Batch
 
-User can always generate and push segments to Pinot via standalone scripts or using frameworks such as Hadoop or Spark. See this [page](../tutorials/pinot-connectors/batch/) for more details on setting up Data Ingestion Jobs.
+User can always generate and push segments to Pinot via standalone scripts or using frameworks such as Hadoop or Spark. See this [page]() for more details on setting up Data Ingestion Jobs.
 
 Below example goes with the standalone mode.
 

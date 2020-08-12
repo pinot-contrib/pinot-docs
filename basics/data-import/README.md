@@ -25,7 +25,9 @@ This guide will show you how to import data using stream ingestion from Apache K
 
 ### Pinot File Systems
 
-These guides will show you how to import data from a supported file system.
+By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add a deep storage. Checkout [File systems](pinot-file-system/) for all the info and related configs.  
+  
+These guides will show you how to import data as well as persist it in the file systems.
 
 {% page-ref page="pinot-file-system/amazon-s3.md" %}
 

@@ -56,6 +56,9 @@ pinotClusterSpecs:
 #### Controller config
 
 ```text
+controller.data.dir=gs://path/to/data/directory/
+controller.local.temp.dir=/path/to/local/temp/directory
+controller.enable.split.commit=true
 pinot.controller.storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
 pinot.controller.storage.factory.gs.projectId=my-project
 pinot.controller.storage.factory.gs.gcpKey=path/to/gcp/key.json
@@ -66,6 +69,7 @@ pinot.controller.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.
 #### Server config
 
 ```text
+pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
 pinot.server.storage.factory.gs.projectId=my-project
 pinot.server.storage.factory.gs.gcpKey=path/to/gcp/key.json

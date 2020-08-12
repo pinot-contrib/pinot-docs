@@ -82,6 +82,8 @@
   * [Java](users/clients/java.md)
   * [Python](users/clients/python.md)
   * [Golang](users/clients/golang.md)
+* [Tutorials](users/tutorials/README.md)
+  * [Creating Pinot Segments](users/tutorials/create-pinot-segments.md)
 
 ## For Developers <a id="developers"></a>
 
@@ -97,24 +99,6 @@
   * [Data Ingestion Overview](developers/advanced/data-ingestion.md)
   * [Ingestion Transforms](developers/advanced/ingestion-level-transformations.md)
   * [Advanced Pinot Setup](developers/advanced/advanced-pinot-setup.md)
-* [Tutorials](developers/tutorials/README.md)
-  * [Pinot Architecture](developers/tutorials/pinot-architecture.md)
-  * [Store Data](developers/tutorials/store-data/README.md)
-    * [Batch Tables](developers/tutorials/store-data/offline-tables.md)
-    * [Streaming Tables](developers/tutorials/store-data/realtime-tables.md)
-  * [Ingest Data](developers/tutorials/pinot-connectors/README.md)
-    * [Batch](developers/tutorials/pinot-connectors/batch/README.md)
-      * [Creating Pinot Segments](developers/tutorials/pinot-connectors/batch/create-pinot-segments.md)
-      * [HDFS](developers/tutorials/pinot-connectors/batch/hdfs.md)
-      * [AWS S3](developers/tutorials/pinot-connectors/batch/s3.md)
-      * [Azure Storage](developers/tutorials/pinot-connectors/batch/azure.md)
-      * [Google Cloud Storage](developers/tutorials/pinot-connectors/batch/gcs.md)
-    * [Streaming](developers/tutorials/pinot-connectors/streaming/README.md)
-      * [Creating Pinot Segments](developers/tutorials/pinot-connectors/streaming/create-pinot-segments.md)
-      * [Kafka](developers/tutorials/pinot-connectors/streaming/kafka.md)
-      * [Azure EventHub](developers/tutorials/pinot-connectors/streaming/eventhub.md)
-      * [Amazon Kinesis](developers/tutorials/pinot-connectors/streaming/kinesis.md)
-      * [Google Pub/Sub](developers/tutorials/pinot-connectors/streaming/google-pub-sub.md)
 * [Design Documents](developers/design-documents.md)
 
 ## For Operators <a id="operators"></a>

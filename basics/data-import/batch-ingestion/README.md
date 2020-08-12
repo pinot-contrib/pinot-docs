@@ -163,6 +163,21 @@ bin/pinot-admin.sh LaunchDataIngestionJob \\
 
 Once the job has successfully finished, you can head over to the \[query console\] and start playing with the data.
 
+### Segment Fetchers
+
+When pinot segment files are created in external systems \(hadoop/spark/etc\), there are several ways to push those data to pinot Controller and Server:
+
+1. push segment to shared NFS and let pinot pull segment files from the location of that NFS.
+2. push segment to a Web server and let pinot pull segment files from the Web server with http/https link.
+3. push segment to HDFS and let pinot pull segment files from HDFS with hdfs location URI.
+4. push segment to other system and implement your own segment fetcher to pull data from those systems.
+
+The first two options are supported out of the box with pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for HDFS, you will need to provide Pinot Hadoop configuration and proper Hadoop dependencies.
+
+### Persistance
+
+By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add a deep storage. Checkout [File systems](../pinot-file-system/) for all the info and related configs.
+
 ### Tuning
 
 Since pinot is written in Java, you can set the following basic java configurations to tune the segment runner job -

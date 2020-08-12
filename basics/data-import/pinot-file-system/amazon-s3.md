@@ -63,6 +63,9 @@ pinotClusterSpecs:
 #### Controller config
 
 ```text
+controller.data.dir=s3://path/to/data/directory/
+controller.local.temp.dir=/path/to/local/temp/directory
+controller.enable.split.commit=true
 pinot.controller.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.controller.storage.factory.s3.region=ap-southeast-1
 pinot.controller.segment.fetcher.protocols=file,http,s3
@@ -72,6 +75,7 @@ pinot.controller.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.
 #### Server config
 
 ```text
+pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.server.storage.factory.s3.region=ap-southeast-1
 pinot.server.segment.fetcher.protocols=file,http,s3

@@ -61,6 +61,9 @@ pinotClusterSpecs:
 #### Controller config
 
 ```text
+controller.data.dir=adl://path/to/data/directory/
+controller.local.temp.dir=/path/to/local/temp/directory
+controller.enable.split.commit=true
 pinot.controller.storage.factory.class.adl=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
 pinot.controller.storage.factory.adl.accountName=my-account
 pinot.controller.storage.factory.adl.accessKey=foo-bar-1234
@@ -71,6 +74,7 @@ pinot.controller.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher
 #### Server config
 
 ```text
+pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.adl=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
 pinot.server.storage.factory.adl.accountName=my-account
 pinot.server.storage.factory.adl.accessKey=foo-bar-1234
