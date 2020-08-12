@@ -63,7 +63,7 @@
 * [Server](configuration-reference/server.md)
 * [Table](configuration-reference/table.md)
 * [Schema](configuration-reference/schema.md)
-* [Job Specification](configuration-reference/job-specification.md)
+* [Ingestion Job Spec](configuration-reference/job-specification.md)
 
 ## For Users <a id="users"></a>
 
