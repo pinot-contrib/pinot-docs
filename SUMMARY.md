@@ -11,10 +11,11 @@
   * [Controller](basics/components/controller.md)
   * [Broker](basics/components/broker.md)
   * [Server](basics/components/server.md)
-  * [Minion](basics/components/minion.md)
   * [Tenant](basics/components/tenant.md)
   * [Table](basics/components/table.md)
   * [Segment](basics/components/segment.md)
+  * [Minion](basics/components/minion.md)
+  * [Pinot data explorer](basics/components/exploring-pinot.md)
 * [Getting Started](basics/getting-started/README.md)
   * [Running Pinot locally](basics/getting-started/running-pinot-locally.md)
   * [Running Pinot in Docker](basics/getting-started/running-pinot-in-docker.md)
@@ -40,7 +41,6 @@
     * [Google Cloud Storage](basics/data-import/pinot-file-system/import-from-gcp.md)
   * [Input formats](basics/data-import/pinot-input-formats.md)
 * [Advanced Features](basics/features/README.md)
-  * [Pinot data explorer](basics/features/exploring-pinot.md)
   * [Indexing](basics/features/indexing/README.md)
     * [Forward Index](basics/features/indexing/forward-index.md)
     * [Inverted Index](basics/features/indexing/inverted-index.md)
@@ -64,6 +64,7 @@
 * [Server](configuration-reference/server.md)
 * [Table](configuration-reference/table.md)
 * [Schema](configuration-reference/schema.md)
+* [Job Specification](configuration-reference/job-specification.md)
 
 ## For Users <a id="users"></a>
 

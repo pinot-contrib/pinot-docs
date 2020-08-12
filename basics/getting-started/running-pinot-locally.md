@@ -96,7 +96,7 @@ Batch quick start creates the pinot cluster, creates an offline table `baseballS
 bin/quick-start-batch.sh
 ```
 
-That's it! We've spun up a Pinot cluster. You can continue playing with other types of quick start, or simply head on to [Pinot Data Explorer](../features/exploring-pinot.md) to check out the data in the `baseballStats` table.
+That's it! We've spun up a Pinot cluster. You can continue playing with other types of quick start, or simply head on to [Pinot Data Explorer](../components/exploring-pinot.md) to check out the data in the `baseballStats` table.
 
 ### Streaming
 
@@ -107,7 +107,7 @@ Streaming quick start sets up a Kafka cluster and pushes sample data to a Kafka 
 bin/quick-start-streaming.sh
 ```
 
-We now have a Pinot cluster with a realtime table! You can head over to  [Pinot Data Explorer](../features/exploring-pinot.md) to check out the data in the `meetupRSVP` table.
+We now have a Pinot cluster with a realtime table! You can head over to  [Pinot Data Explorer](../components/exploring-pinot.md) to check out the data in the `meetupRSVP` table.
 
 ### Hybrid
 
@@ -118,5 +118,5 @@ Hybrid quick start sets up a Kafka cluster and pushes sample data to a Kafka top
 bin/quick-start-hybrid.sh
 ```
 
-Let's head over to [Pinot Data Explorer](../features/exploring-pinot.md) to check out the data we pushed to the `airlineStats` table.
+Let's head over to [Pinot Data Explorer](../components/exploring-pinot.md) to check out the data we pushed to the `airlineStats` table.
 
