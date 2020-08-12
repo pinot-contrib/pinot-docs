@@ -36,7 +36,7 @@ The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you 
 
 ![](../../.gitbook/assets/screen-shot-2020-02-28-at-10.00.43-am.png)
 
-Let's check out the tables in this cluster by going to [Table -&gt; List all tables in cluster](http://localhost:9000/help#!/Table/listTableConfigs) and click on `Try it out!`. We can see the `baseballStats` table listed here. We can also see the exact `curl` call made to the controller API.
+Let's check out the tables in this cluster by going to [Table -&gt; List all tables in cluster](http://localhost:9000/help#!/Table/listTableConfigs) and click on `Try it out!`. We can see the`baseballStats` table listed here. We can also see the exact`curl` call made to the controller API.
 
 ![List all tables in cluster](../../.gitbook/assets/screen-shot-2020-02-28-at-10.00.26-am.png)
 

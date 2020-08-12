@@ -15,14 +15,16 @@ Pinot currently supports the following indexing techniques, where each of them h
   * Sorted inverted index
 * [Star-tree Index](star-tree-index.md)
 * [Range Index](range-index.md)
+* [Text Index](../text-search-support.md)
+* [Geospatial](../geospatial-support.md)
 
 By default, Pinot will use `dictionary-encoded forward index` for each column. 
 
 ### Tuning Index
 
 {% hint style="info" %}
-If your use case is not site facing with a strict low latency requirement, inverted index will provide good performance for the most of use cases.   
+If your use case is not site facing with a strict low latency requirement, the inverted index will provide good performance for most use cases.   
   
-You should start by adding an inverted index and if the query does not perform as per the expectations switch to  advanced indices such as sorted column and star-tree index.
+You should start by adding an inverted index and if the query does not perform as per the expectations switch to advanced indices such as sorted column and star-tree index.
 {% endhint %}
 
