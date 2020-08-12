@@ -15,8 +15,8 @@ Pinot currently supports the following indexing techniques, where each of them h
   * Sorted inverted index
 * [Star-tree Index](star-tree-index.md)
 * [Range Index](range-index.md)
-* [Text Index](../text-search-support.md)
-* [Geospatial](../geospatial-support.md)
+* [Text Index](text-search-support.md)
+* [Geospatial](geospatial-support.md)
 
 By default, Pinot will use `dictionary-encoded forward index` for each column. 
 
