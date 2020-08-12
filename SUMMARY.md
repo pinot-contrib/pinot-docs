@@ -158,7 +158,3 @@
   * [Batch Segment Fetcher Plugin](plugins/write-custom-plugins/write-your-batch.md)
   * [Stream Ingestion Plugin](plugins/write-custom-plugins/write-your-stream.md)
 
----
-
-* [Administration](operating-pinot.md)
-
