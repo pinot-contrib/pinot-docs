@@ -99,6 +99,12 @@
   * [Data Ingestion Overview](developers/advanced/data-ingestion.md)
   * [Ingestion Transforms](developers/advanced/ingestion-level-transformations.md)
   * [Advanced Pinot Setup](developers/advanced/advanced-pinot-setup.md)
+* [Plugins](developers/plugin-architecture/README.md)
+  * [Write Custom Plugins](developers/plugin-architecture/write-custom-plugins/README.md)
+    * [Input Format Plugin](developers/plugin-architecture/write-custom-plugins/record-reader.md)
+    * [Filesystem Plugin](developers/plugin-architecture/write-custom-plugins/pluggable-storage.md)
+    * [Batch Segment Fetcher Plugin](developers/plugin-architecture/write-custom-plugins/write-your-batch.md)
+    * [Stream Ingestion Plugin](developers/plugin-architecture/write-custom-plugins/write-your-stream.md)
 * [Design Documents](developers/design-documents.md)
 
 ## For Operators <a id="operators"></a>
@@ -132,13 +138,4 @@
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)
 * [Presto](integrations/presto.md)
-
-## PLUGINS
-
-* [Plugin Architecture](plugins/plugin-architecture.md)
-* [Write Custom Plugins](plugins/write-custom-plugins/README.md)
-  * [Input Format Plugin](plugins/write-custom-plugins/record-reader.md)
-  * [Filesystem Plugin](plugins/write-custom-plugins/pluggable-storage.md)
-  * [Batch Segment Fetcher Plugin](plugins/write-custom-plugins/write-your-batch.md)
-  * [Stream Ingestion Plugin](plugins/write-custom-plugins/write-your-stream.md)
 

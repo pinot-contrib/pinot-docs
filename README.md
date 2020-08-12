@@ -26,7 +26,7 @@ Our documentation is structured to let you quickly get to the content you need a
 
 {% page-ref page="basics/getting-started/" %}
 
-To start importing data into Pinot, check out our guides on batch import and stream ingestion based on our [plugin architecture](plugins/plugin-architecture.md).
+To start importing data into Pinot, check out our guides on batch import and stream ingestion based on our [plugin architecture](developers/plugin-architecture/).
 
 {% page-ref page="basics/data-import/" %}
 
