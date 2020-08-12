@@ -23,7 +23,7 @@ Currently, range indexing is only supported for dictionary columns. Range indexi
 {% hint style="info" %}
 ### When to use Range Index?
 
-A good thumb rule is to use range index is columns which have very large number of unique values. Using inverted index for such columns will create a very large index which is not suitable.
+A good thumb rule is to use range index when you want to apply range predicates on metric columns which have very large number of unique values. Using inverted index for such columns will create a very large index that is inefficient in terms of storage and performance.
 {% endhint %}
 
 ### 
