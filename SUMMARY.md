@@ -55,16 +55,6 @@
 * [Recipes](basics/recipes/README.md)
   * [GitHub Events Stream](basics/recipes/github-events-stream.md)
 
-## Configuration Reference
-
-* [Cluster](configuration-reference/cluster.md)
-* [Controller](configuration-reference/controller.md)
-* [Broker](configuration-reference/broker.md)
-* [Server](configuration-reference/server.md)
-* [Table](configuration-reference/table.md)
-* [Schema](configuration-reference/schema.md)
-* [Ingestion Job Spec](configuration-reference/job-specification.md)
-
 ## For Users <a id="users"></a>
 
 * [Query](users/user-guide-query/README.md)
@@ -125,6 +115,16 @@
   * [Amazon EKS \(Kafka\)](operators/tutorials/non-eks-to-eks.md)
   * [Amazon MSK \(Kafka\)](operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
   * [Batch Data Ingestion In Practice](operators/tutorials/batch-data-ingestion-in-practice.md)
+
+## Configuration Reference
+
+* [Cluster](configuration-reference/cluster.md)
+* [Controller](configuration-reference/controller.md)
+* [Broker](configuration-reference/broker.md)
+* [Server](configuration-reference/server.md)
+* [Table](configuration-reference/table.md)
+* [Schema](configuration-reference/schema.md)
+* [Ingestion Job Spec](configuration-reference/job-specification.md)
 
 ## RESOURCES <a id="community-1"></a>
 
