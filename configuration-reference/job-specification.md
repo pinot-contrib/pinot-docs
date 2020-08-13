@@ -4,6 +4,12 @@ Ingestion job spec is used while generating, running and pushing segments from t
 
 The Job spec can be in either YAML or JSON format \(0.5.0 onwards\) . Property names remain same in both the formats.
 
+To use the JSON format, add `job-spec-format=json` property in the properties file while launching ingestions job.  The properties file can be passed as follows 
+
+```text
+pinot-admin.sh LaunchDataIngestionJob -jobSpecFile /path/to/job_spec.json -propertyFile /path/to/job.properties
+```
+
 The following configurations are supported by Pinot
 
 
