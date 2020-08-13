@@ -8,7 +8,7 @@ description: >-
 
 ### Introduction
 
-In this guide, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka. 
+In this guide, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka.
 
 Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
 
@@ -18,11 +18,11 @@ Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-
 
 ```bash
 docker run \
-	--network pinot-demo --name=kafka \
-	-e KAFKA_ZOOKEEPER_CONNECT=pinot-quickstart:2123/kafka \
-	-e KAFKA_BROKER_ID=0 \
-	-e KAFKA_ADVERTISED_HOST_NAME=kafka \
-	-d wurstmeister/kafka:latest
+    --network pinot-demo --name=kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=pinot-quickstart:2123/kafka \
+    -e KAFKA_BROKER_ID=0 \
+    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+    -d wurstmeister/kafka:latest
 ```
 
 **Create a Kafka Topic**
@@ -62,15 +62,15 @@ We will publish the data in the same format as mentioned in the [Stream ingestio
 
 ### Creating a table configuration
 
-The real-time table configuration for the `transcript` table described in the schema from the previous step. 
+The real-time table configuration for the `transcript` table described in the schema from the previous step.
 
 For Kafka, we use streamType as `kafka` . Currently only JSON format is supported but you can easily write your own decoder by extending the `StreamMessageDecoder` interface. You can then access your decoder class by putting the jar file in `plugins` directory
 
-The `lowLevel` consumer reads data per partition whereas the `highLevel` consumer  utilises Kafka high level consumer to read data from the whole stream. It doesn't have the control over which partition to read at a particular momemt. 
+The `lowLevel` consumer reads data per partition whereas the `highLevel` consumer utilises Kafka high level consumer to read data from the whole stream. It doesn't have the control over which partition to read at a particular momemt.
 
-For Kafka versions below 2.X, use `org.apache.pinot.plugin.stream.kafka09.KafkaConsumerFactory` 
+For Kafka versions below 2.X, use `org.apache.pinot.plugin.stream.kafka09.KafkaConsumerFactory`
 
-For Kafka version 2.X and above, use   
+For Kafka version 2.X and above, use  
 `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`
 
 You can set the offset to -
@@ -121,7 +121,7 @@ The resulting configuration should look as follows -
 
 #### How to consume from higher Kafka version?
 
-This connector is also suitable for Kafka lib version higher than `2.0.0`. In [Kafka 2.0 connector pom.xml](https://github.com/apache/incubator-pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-2.0/pom.xml),  change the `kafka.lib.version` from `2.0.0` to `2.1.1` will make this Connector working with Kafka `2.1.1`.
+This connector is also suitable for Kafka lib version higher than `2.0.0`. In [Kafka 2.0 connector pom.xml](https://github.com/apache/incubator-pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-2.0/pom.xml), change the `kafka.lib.version` from `2.0.0` to `2.1.1` will make this Connector working with Kafka `2.1.1`.
 
 ### Upload schema and table
 
@@ -192,17 +192,11 @@ SELECT * FROM transcript
 
 ### Some More kafka ingestion configs
 
- 
-#### Use Kafka Partition(Low) Level Consumer with SSL 
+#### Use Kafka Partition\(Low\) Level Consumer with SSL
 
-Here is an example config which uses SSL based authentication to talk with kafka
-and schema-registry. Notice there are two sets of SSL options, ones starting with
-`ssl.` are for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.`
-are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
-
+Here is an example config which uses SSL based authentication to talk with kafka and schema-registry. Notice there are two sets of SSL options, ones starting with `ssl.` are for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.` are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
 
 ```text
-
   {
     "tableName": "transcript",
     "tableType": "REALTIME",
@@ -246,3 +240,4 @@ are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageD
     }
   }
 ```
+

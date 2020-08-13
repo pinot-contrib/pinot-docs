@@ -108,6 +108,7 @@
   * [Tuning](operators/operating-pinot/tuning/README.md)
     * [Realtime](operators/operating-pinot/tuning/realtime.md)
     * [Routing](operators/operating-pinot/tuning/routing.md)
+* [CLI](operators/cli.md)
 * [Tutorials](operators/tutorials/README.md)
   * [Build Docker Images](operators/tutorials/build-docker-images.md)
   * [Running Pinot in Production](operators/tutorials/running-pinot-in-production.md)
