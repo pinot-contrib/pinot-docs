@@ -190,3 +190,59 @@ As soon as data flows into the stream, the Pinot table will consume it and it wi
 SELECT * FROM transcript
 ```
 
+### Some More kafka ingestion configs
+
+ 
+#### Use Kafka Partition(Low) Level Consumer with SSL 
+
+Here is an example config which uses SSL based authentication to talk with kafka
+and schema-registry. Notice there are two sets of SSL options, ones starting with
+`ssl.` are for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.`
+are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
+
+
+```text
+
+  {
+    "tableName": "transcript",
+    "tableType": "REALTIME",
+    "segmentsConfig": {
+    "timeColumnName": "timestamp",
+    "timeType": "MILLISECONDS",
+    "schemaName": "transcript",
+    "replicasPerPartition": "1"
+    },
+    "tenants": {},
+    "tableIndexConfig": {
+      "loadMode": "MMAP",
+      "streamConfigs": {
+        "streamType": "kafka",
+        "stream.kafka.consumer.type": "LowLevel",
+        "stream.kafka.topic.name": "transcript-topic",
+        "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
+        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+        "stream.kafka.zk.broker.url": "localhost:2191/kafka",
+        "stream.kafka.broker.list": "localhost:9876",
+        "schema.registry.url": "",
+        "security.protocol": "",
+        "ssl.truststore.location": "",
+        "ssl.keystore.location": "",
+        "ssl.truststore.password": "",
+        "ssl.keystore.password": "",
+        "ssl.key.password": "",
+        "stream.kafka.decoder.prop.schema.registry.rest.url": "",
+        "stream.kafka.decoder.prop.schema.registry.ssl.truststore.location": "",
+        "stream.kafka.decoder.prop.schema.registry.ssl.keystore.location": "",
+        "stream.kafka.decoder.prop.schema.registry.ssl.truststore.password": "",
+        "stream.kafka.decoder.prop.schema.registry.ssl.keystore.password": "",
+        "stream.kafka.decoder.prop.schema.registry.ssl.keystore.type": "",
+        "stream.kafka.decoder.prop.schema.registry.ssl.truststore.type": "",
+        "stream.kafka.decoder.prop.schema.registry.ssl.key.password": "",
+        "stream.kafka.decoder.prop.schema.registry.ssl.protocol": "",
+      }
+    },
+    "metadata": {
+      "customConfigs": {}
+    }
+  }
+```
