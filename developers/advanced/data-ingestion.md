@@ -8,9 +8,9 @@ When an Offline segment is ingested, the controller looks up the table’s confi
 
 Pinot supports different segment assignment strategies that are optimized for various use cases.
 
-Once segments are assigned, Pinot servers get notified via Helix to “host” the segment. The servers download the segments \(as a cached local copy to serve queries\) and load them into local memory. All segment data is maintained in memory as long as the server hosts that segment.
+Once segments are assigned, Pinot servers get notified via Helix to “host” the segment. The segments are downloaded from the remote segment store to the local storage, untarred, and memory-mapped.
 
-Once the server has loaded the segment, Helix notifies brokers of the availability of these segments. The brokers start include the new segments for queries. Brokers support different routing strategies depending on the type of table, the segment assignment strategy and the use case.
+Once the server has loaded \(memory-mapped\) the segment, Helix notifies brokers of the availability of these segments. The brokers start to include the new segments for queries. Brokers support different routing strategies depending on the type of table, the segment assignment strategy, and the use case.
 
 Data in offline segments are immutable \(Rows cannot be added, deleted, or modified\). However, segments may be replaced with modified data.
 
@@ -25,7 +25,7 @@ A pinot table can be configured to consume from streams in one of two modes:
 > * `LowLevel`: This is the preferred mode of consumption. Pinot creates independent partition-level consumers for each partition. Depending on the the configured number of replicas, multiple consumers may be created for each partition, taking care that no two replicas exist on the same server host. Therefore you need to provision _at least_ as many hosts as the number of replcias configured.
 > * `HighLevel`: Pinot creates _one_ stream-level consumer that consumes from all partitions. Each message consumed could be from any of the partitions of the stream. Depending on the configured number of replicas, multiple stream-level consumers are created, taking care that no two replicas exist on the same server host. Therefore you need to provision exactly as many hosts as the number of replicas configured.
 
-Of course, the underlying stream should support either mode of consumption in order for a Pinot table to use that mode. Kafka has support for both of these modes. See [Pluggable Streams](https://pinot.readthedocs.io/en/latest/pluggable_streams.html#pluggable-streams) for more information on support of other data streams in Pinot.
+Of course, the underlying stream should support either mode of consumption in order for a Pinot table to use that mode. Kafka has support for both of these modes. See [Pluggable Streams](https://pinot.readthedocs.io/en/latest/pluggable_streams.html#pluggable-streams) for more information on the support of other data streams in Pinot.
 
 In either mode, Pinot servers store the ingested rows in volatile memory until either one of the following conditions are met:
 
