@@ -1,6 +1,6 @@
 # HDFS
 
-### HDFS segment fetcher configs
+## HDFS segment fetcher configs
 
 In your Pinot controller/server configuration, you will need to provide the following configs:
 
@@ -32,7 +32,7 @@ These two configs should be the corresponding Kerberos configuration if your Had
 
 You will also need to provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
 
-### Push HDFS segment to Pinot Controller
+## Push HDFS segment to Pinot Controller
 
 To push HDFS segment files to Pinot controller, you just need to ensure you have proper Hadoop configuration as we mentioned in the previous part. Then your remote segment creation/push job can send the HDFS path of your newly created segment files to the Pinot Controller and let it download the files.
 

@@ -14,7 +14,7 @@ This guide is a work in progress.
 
 We're actively working on improving our documentation. This doc will be available very soon. Please check back in a day or two for more details.
 
-```
+```text
 VERSION=0.3.0
 wget https://downloads.apache.org/incubator/pinot/apache-pinot-incubating-$VERSION/apache-pinot-incubating-$VERSION-bin.tar.gz
 tar vxf apache-pinot-incubating-*-bin.tar.gz
@@ -25,6 +25,4 @@ bin/quick-start-batch.sh
 {% hint style="info" %}
 While you're waiting, please take a look at our section on [plugin architecture](../../../plugins/plugin-architecture.md).
 {% endhint %}
-
-
 

@@ -54,11 +54,11 @@ pinotClient := pinot.NewFromBrokerList([]string{"localhost:8000"})
 
 ```text
 pinotClient := pinot.NewWithConfig(&pinot.ClientConfig{
-	ZkConfig: &pinot.ZookeeperConfig{
-		ZookeeperPath:     zkPath,
-		PathPrefix:        strings.Join([]string{zkPathPrefix, pinotCluster}, "/"),
-		SessionTimeoutSec: defaultZkSessionTimeoutSec,
-	},
+    ZkConfig: &pinot.ZookeeperConfig{
+        ZookeeperPath:     zkPath,
+        PathPrefix:        strings.Join([]string{zkPathPrefix, pinotCluster}, "/"),
+        SessionTimeoutSec: defaultZkSessionTimeoutSec,
+    },
     ExtraHTTPHeader: map[string]string{
         "extra-header":"value",
     },
@@ -89,24 +89,24 @@ Query Response is defined as the struct of following:
 
 ```text
 type BrokerResponse struct {
-	AggregationResults          []*AggregationResult `json:"aggregationResults,omitempty"`
-	SelectionResults            *SelectionResults    `json:"SelectionResults,omitempty"`
-	ResultTable                 *ResultTable         `json:"resultTable,omitempty"`
-	Exceptions                  []Exception          `json:"exceptions"`
-	TraceInfo                   map[string]string    `json:"traceInfo,omitempty"`
-	NumServersQueried           int                  `json:"numServersQueried"`
-	NumServersResponded         int                  `json:"numServersResponded"`
-	NumSegmentsQueried          int                  `json:"numSegmentsQueried"`
-	NumSegmentsProcessed        int                  `json:"numSegmentsProcessed"`
-	NumSegmentsMatched          int                  `json:"numSegmentsMatched"`
-	NumConsumingSegmentsQueried int                  `json:"numConsumingSegmentsQueried"`
-	NumDocsScanned              int64                `json:"numDocsScanned"`
-	NumEntriesScannedInFilter   int64                `json:"numEntriesScannedInFilter"`
-	NumEntriesScannedPostFilter int64                `json:"numEntriesScannedPostFilter"`
-	NumGroupsLimitReached       bool                 `json:"numGroupsLimitReached"`
-	TotalDocs                   int64                `json:"totalDocs"`
-	TimeUsedMs                  int                  `json:"timeUsedMs"`
-	MinConsumingFreshnessTimeMs int64                `json:"minConsumingFreshnessTimeMs"`
+    AggregationResults          []*AggregationResult `json:"aggregationResults,omitempty"`
+    SelectionResults            *SelectionResults    `json:"SelectionResults,omitempty"`
+    ResultTable                 *ResultTable         `json:"resultTable,omitempty"`
+    Exceptions                  []Exception          `json:"exceptions"`
+    TraceInfo                   map[string]string    `json:"traceInfo,omitempty"`
+    NumServersQueried           int                  `json:"numServersQueried"`
+    NumServersResponded         int                  `json:"numServersResponded"`
+    NumSegmentsQueried          int                  `json:"numSegmentsQueried"`
+    NumSegmentsProcessed        int                  `json:"numSegmentsProcessed"`
+    NumSegmentsMatched          int                  `json:"numSegmentsMatched"`
+    NumConsumingSegmentsQueried int                  `json:"numConsumingSegmentsQueried"`
+    NumDocsScanned              int64                `json:"numDocsScanned"`
+    NumEntriesScannedInFilter   int64                `json:"numEntriesScannedInFilter"`
+    NumEntriesScannedPostFilter int64                `json:"numEntriesScannedPostFilter"`
+    NumGroupsLimitReached       bool                 `json:"numGroupsLimitReached"`
+    TotalDocs                   int64                `json:"totalDocs"`
+    TimeUsedMs                  int                  `json:"timeUsedMs"`
+    MinConsumingFreshnessTimeMs int64                `json:"minConsumingFreshnessTimeMs"`
 }
 ```
 
@@ -117,8 +117,8 @@ Meanwhile `ResultTable` is the holder for SQL queries. `ResultTable` is defined 
 ```text
 // ResultTable is a ResultTable
 type ResultTable struct {
-	DataSchema RespSchema      `json:"dataSchema"`
-	Rows       [][]interface{} `json:"rows"`
+    DataSchema RespSchema      `json:"dataSchema"`
+    Rows       [][]interface{} `json:"rows"`
 }
 ```
 
@@ -127,8 +127,8 @@ type ResultTable struct {
 ```text
 // RespSchema is response schema
 type RespSchema struct {
-	ColumnDataTypes []string `json:"columnDataTypes"`
-	ColumnNames     []string `json:"columnNames"`
+    ColumnDataTypes []string `json:"columnDataTypes"`
+    ColumnNames     []string `json:"columnNames"`
 }
 ```
 

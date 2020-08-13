@@ -13,7 +13,7 @@ There can be multiple instances of Pinot controller for redundancy. If there are
 
 ## Starting a Controller
 
-Make sure you've [setup Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using docker, make sure to [pull the pinot docker image](cluster.md#setup-a-pinot-cluster).  To start a controller 
+Make sure you've [setup Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using docker, make sure to [pull the pinot docker image](cluster.md#setup-a-pinot-cluster). To start a controller
 
 {% tabs %}
 {% tab title="Docker Image" %}

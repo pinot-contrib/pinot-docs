@@ -16,24 +16,22 @@ Pinot Servers are modeled as Helix Participants, hosting Pinot tables \(referred
 
 ## Starting a Server
 
-Make sure you've [setup Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using docker, make sure to [pull the pinot docker image](cluster.md#setup-a-pinot-cluster).  To start a server 
+Make sure you've [setup Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using docker, make sure to [pull the pinot docker image](cluster.md#setup-a-pinot-cluster). To start a server
 
 ```text
 Usage: StartServer
-	-serverHost               <String>                      : Host name for controller. (required=false)
-	-serverPort               <int>                         : Port number to start the server at. (required=false)
-	-serverAdminPort          <int>                         : Port number to serve the server admin API at. (required=false)
-	-dataDir                  <string>                      : Path to directory containing data. (required=false)
-	-segmentDir               <string>                      : Path to directory containing segments. (required=false)
-	-zkAddress                <http>                        : Http address of Zookeeper. (required=false)
-	-clusterName              <String>                      : Pinot cluster name. (required=false)
-	-configFileName           <Config File Name>            : Broker Starter Config file. (required=false)
-	-help                                                   : Print this message. (required=false)
+    -serverHost               <String>                      : Host name for controller. (required=false)
+    -serverPort               <int>                         : Port number to start the server at. (required=false)
+    -serverAdminPort          <int>                         : Port number to serve the server admin API at. (required=false)
+    -dataDir                  <string>                      : Path to directory containing data. (required=false)
+    -segmentDir               <string>                      : Path to directory containing segments. (required=false)
+    -zkAddress                <http>                        : Http address of Zookeeper. (required=false)
+    -clusterName              <String>                      : Pinot cluster name. (required=false)
+    -configFileName           <Config File Name>            : Broker Starter Config file. (required=false)
+    -help                                                   : Print this message. (required=false)
 ```
 
-
-
->
+&gt;
 
 {% tabs %}
 {% tab title="Docker Image" %}
@@ -58,14 +56,14 @@ USAGE
 
 ```text
 Usage: StartServer
-	-serverHost               <String>                      : Host name for controller. (required=false)
-	-serverPort               <int>                         : Port number to start the server at. (required=false)
-	-serverAdminPort          <int>                         : Port number to serve the server admin API at. (required=false)
-	-dataDir                  <string>                      : Path to directory containing data. (required=false)
-	-segmentDir               <string>                      : Path to directory containing segments. (required=false)
-	-zkAddress                <http>                        : Http address of Zookeeper. (required=false)
-	-clusterName              <String>                      : Pinot cluster name. (required=false)
-	-configFileName           <Config File Name>            : Server Starter Config file. (required=false)
-	-help                                                   : Print this message. (required=false)
+    -serverHost               <String>                      : Host name for controller. (required=false)
+    -serverPort               <int>                         : Port number to start the server at. (required=false)
+    -serverAdminPort          <int>                         : Port number to serve the server admin API at. (required=false)
+    -dataDir                  <string>                      : Path to directory containing data. (required=false)
+    -segmentDir               <string>                      : Path to directory containing segments. (required=false)
+    -zkAddress                <http>                        : Http address of Zookeeper. (required=false)
+    -clusterName              <String>                      : Pinot cluster name. (required=false)
+    -configFileName           <Config File Name>            : Server Starter Config file. (required=false)
+    -help                                                   : Print this message. (required=false)
 ```
 

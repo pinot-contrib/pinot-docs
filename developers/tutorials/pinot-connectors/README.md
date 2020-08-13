@@ -9,5 +9,3 @@ There are two ways to get data ingested into Pinot:
 * [Batch](batch/)
 * [Streaming](streaming/)
 
-
-

@@ -15,24 +15,24 @@ import org.apache.pinot.client.ResultSet;
 public class PinotClientExample {
 
   public static void main(String[] args) {
-    
+
     // pinot connection
     String zkUrl = "localhost:2181";
     String pinotClusterName = "PinotCluster";
     Connection pinotConnection = ConnectionFactory.fromZookeeper(zkUrl + "/" + pinotClusterName);
-  
+
     String query = "SELECT COUNT(*) FROM myTable GROUP BY foo";
-        
+
     // set queryType=sql for querying the sql endpoint
     Request pinotClientRequest = new Request("sql", query);
     ResultSetGroup pinotResultSetGroup = pinotConnection.execute(pinotClientRequest);
     ResultSet resultTableResultSet = pinotResultSetGroup.getResultSet(0);
-        
+
     int numRows = resultTableResultSet.getRowCount();
     int numColumns = resultTableResultSet.getColumnCount();
     String columnValue = resultTableResultSet.getString(0, 1);
     String columnName = resultTableResultSet.getColumnName(1);
-        
+
     System.out.println("ColumnName: " + columnName + ", ColumnValue: " + columnValue);
   }
 }
@@ -91,7 +91,7 @@ Note
 The examples for the sections below this note, are for querying the PQL endpoint, which is deprecated and will be deleted soon. For more information about the 2 endpoints, visit [Querying Pinot](../api/querying-pinot-using-standard-sql/).
 {% endhint %}
 
-If queryFormat `pql` is used in the `Request`,  there are some differences in how the results can be accessed, depending on the query. 
+If queryFormat `pql` is used in the `Request`, there are some differences in how the results can be accessed, depending on the query.
 
 In the case of aggregation, each aggregation function is within its own ResultSet. A query with multiple aggregation function will return one result set per aggregation function, as they are computed in parallel.
 

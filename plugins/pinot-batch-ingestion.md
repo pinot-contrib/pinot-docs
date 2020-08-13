@@ -8,5 +8,3 @@ Currently supported ingestion systems are:
 * Hadoop
 * Standalone jobs.
 
-
-

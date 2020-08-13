@@ -1,6 +1,6 @@
 # Response Format
 
-### Standard-SQL response
+## Standard-SQL response
 
 Response is returned in a **SQL-like tabular structure.** Note, this is the response returned from the standard-SQL endpoint. For PQL endpoint response, skip to [PQL endpoint response](response-format.md#pql-endpoint-response)
 
@@ -188,33 +188,33 @@ where,
 | :--- | :--- |
 | resultTable | This contains everything needed to process the response |
 | resultTable.dataSchema | This describes schema of the response \(columnNames and their dataTypes\) |
-| resultTable.dataSchema.columnNames | columnNames in the response.  |
+| resultTable.dataSchema.columnNames | columnNames in the response. |
 | resultTable.dataSchema.columnDataTypes | DataTypes for each column |
 | resultTable.rows | Actual content with values. This is an array of arrays. number of rows depends on the limit value in the query. The number of columns in each row is equal to the length of \(resultTable.dataSchema.columnNames\) |
 | timeUsedms | Total time taken as seen by the broker before sending the response back to the client |
 | totalDocs | This is number of documents/records in the table |
-| numServersQueried |  represents the number of servers queried by the broker \(note that this may be less than the total number of servers since broker can apply some optimizations to minimize the number of servers\) |
+| numServersQueried | represents the number of servers queried by the broker \(note that this may be less than the total number of servers since broker can apply some optimizations to minimize the number of servers\) |
 | numServersResponded | This should be equal to the numServersQueried. If this is not the same, then one of more servers might have timed out. If numServersQueried != numServersResponded the results can be considered partial and clients can retry the query with exponential back off. |
 | numSegmentsQueried | Total number of segmentsQueried for this query. it may be less than the total number of segments since broker can apply optimizations. |
-| numSegmentsMatched | This is the number of segments actually processed. This indicates the effectiveness of pruning logic \(based on partitioning, time etc\).  |
+| numSegmentsMatched | This is the number of segments actually processed. This indicates the effectiveness of pruning logic \(based on partitioning, time etc\). |
 | numSegmentsProcessed | Actual number of segments that were processed. This is where the majority of the time is spent. |
 | numDocScanned | The number of docs/records that were scanned to process the query. This includes the docs scanned in filter phase \(this can be zero if columns in query are indexed\) and post filter. |
-| numEntriesScannedInFilter | This along with numEntriesScannedInPostFilter should give an idea on where most of the time is spent during query processing. If this is high, enabling indexing for columns in tableConfig can be one way to bring it down.   |
+| numEntriesScannedInFilter | This along with numEntriesScannedInPostFilter should give an idea on where most of the time is spent during query processing. If this is high, enabling indexing for columns in tableConfig can be one way to bring it down. |
 | numEntriesScannedPostFilter | This along with numEntriesScannedInPostFilter should give an idea on where most of the time is spent during query processing. A high number for this means the selectivity is low \(i.e. pinot needs to scan a lot of records to answer the query\). If this is high, adding regular inverted/bitmap index will not  help. However, consider using start-tree index. |
 | numGroupsLimitReached | If the query has group by clause and top K, pinot drops new entries after the numGroupsLimit is reached. If this boolean is set to true then the query result may not be accurate. Note that the default value for numGroupsLimit is 100k and should be sufficient for most use cases. |
 | exceptions | Will contain the stack trace if there is any exception processing the query. |
 | segmentStatistics | N/A |
 | traceInfo | If trace is enabled \(can be enabled for each query\), this will contain the timing for each stage and each segment. Advanced feature and intended for dev/debugging purposes |
 
-### PQL response
+## PQL response
 
 {% hint style="warning" %}
 **Note**
 
-PQL endpoint is deprecated, and will soon be removed. The standard sql endpoint is the recommended endpoint. 
+PQL endpoint is deprecated, and will soon be removed. The standard sql endpoint is the recommended endpoint.
 {% endhint %}
 
-The response received from PQL endpoint is different depending on the type of the query. 
+The response received from PQL endpoint is different depending on the type of the query.
 
 {% tabs %}
 {% tab title="Selections" %}

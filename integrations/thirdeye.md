@@ -93,8 +93,6 @@ detectionName: "page_view_alert"
       params:
         offset: median4w
         percentageChange: 0.10
-
-
 ```
 
 Before moving on to the subscription config you can check out the neat "what you see is what you get" alert preview. Below the editor window you'll find an option to "\(Re-\)run preview". Select a larger time range like 30 days for better effect. You can zoom in and out and modify your config and observe the effect. It'll look something like this:

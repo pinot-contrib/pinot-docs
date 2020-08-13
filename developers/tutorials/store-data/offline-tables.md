@@ -1,6 +1,6 @@
 # Batch Tables
 
-### Configurations for Batch Tables
+## Configurations for Batch Tables
 
 These properties for the stream implementation are to be set in your controller and server configurations.
 

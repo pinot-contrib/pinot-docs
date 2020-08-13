@@ -1,12 +1,12 @@
 # Update Documentation
 
-Pinot documentation is powered by Gitbook, and a bi-directional Github integration is set up to back up all the changes. 
+Pinot documentation is powered by Gitbook, and a bi-directional Github integration is set up to back up all the changes.
 
 The git repo is here: [https://github.com/pinot-contrib/pinot-docs](https://github.com/pinot-contrib/pinot-docs)
 
 For Pinot Contributor, there are majorly two ways to update the documentations.
 
-### Submit a Pull Request
+## Submit a Pull Request
 
 This follows the old fashion of updating documentations.
 
@@ -16,9 +16,9 @@ Once the PR got merged, the changes will automatically applied to corresponding 
 
 Please note that all Gitbook documentation follows [Markdown Syntax](https://www.markdownguide.org/basic-syntax/).
 
-### Directly Edit on Gitbook
+## Directly Edit on Gitbook
 
-Once granted edit permission, contributors could edit any page on Gitbook and then save and merge the changes by themselves. This is one example commit on Github repo to reflect the updates coming from Git book: [Adding Update Document Page Commit](%20https://github.com/pinot-contrib/pinot-docs/commit/76261ec9d7a7e533315459554b3bd7272a1e00c7).
+Once granted edit permission, contributors could edit any page on Gitbook and then save and merge the changes by themselves. This is one example commit on Github repo to reflect the updates coming from Git book: [Adding Update Document Page Commit](https://github.com/pinot-contrib/pinot-docs/tree/f2ddc3ebc1ec94c66221d3b6b2cb952bee28d3de/pinot-contrib/pinot-docs/commit/76261ec9d7a7e533315459554b3bd7272a1e00c7/README.md).
 
 Usually we grant edit permission to committers and active contributors.
 

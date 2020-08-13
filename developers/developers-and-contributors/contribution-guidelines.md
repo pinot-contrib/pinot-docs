@@ -1,16 +1,14 @@
 # Contribution Guidelines
 
-
-
 Before you begin to contribute, make sure you have reviewed [Dev Environment Setup](https://pinot.readthedocs.io/en/latest/dev_env.html#dev-setup) and [Code Modules and Organization](https://pinot.readthedocs.io/en/latest/code_modules.html#code-modules) sections and that you have created your own fork of the pinot source code.
 
-### Create a design document
+## Create a design document
 
 If your change is relatively minor, you can skip this step. If you are adding new major feature, we suggest that you add a design document and solicit comments from the community before submitting any code.
 
 [Here](https://cwiki.apache.org/confluence/display/PINOT/Design+Documents) is a list of current design documents.
 
-### Create an issue for the change
+## Create an issue for the change
 
 Create a Pinot issue [here](https://github.com/apache/incubator-pinot/issues) for the change you would like to make. Provide information on why the change is needed and how you plan to address it. Use the conversations on the issue as a way to validate assumptions and the right way to proceed. Be sure to review sections on [Backward and Forward compatibility changes](https://pinot.readthedocs.io/en/latest/contribution_guidelines.html#compatibility-changes) and [External libraries](https://pinot.readthedocs.io/en/latest/contribution_guidelines.html#external-libs).
 
@@ -18,7 +16,7 @@ If you have a design document, please refer to the design documents in your Issu
 
 Once you are clear about what you want to do, proceed with the next steps listed below.
 
-### Create a branch for your change
+## Create a branch for your change
 
 ```text
 $ cd pinot
@@ -35,39 +33,39 @@ $ git checkout -b <your issue branch>
 
 Make the necessary changes. If the changes you plan to make are too big, make sure you break it down into smaller tasks.
 
-### Making the changes
+## Making the changes
 
 Follow the recommendations/best-practices noted here when you are making changes.
 
-#### Code documentation
+### Code documentation
 
 Please ensure your code is adequately documented. Some things to consider for documentation:
 
 * Always include class level java docs. At the top class level, we are looking for information about what functionality is provided by the class, what state is maintained by the class, whether there are concurrency/thread-safety concerns and any exceptional behavior that the class might exhibit.
 * Document public methods and their parameters.
 
-#### Logging
+### Logging
 
 * Ensure there is adequate logging for positive paths as well as exceptional paths. As a corollary to this, ensure logs are not noisy.
 * Do not use System.out.println to log messages. Use the `slf4j` loggers.
 * Use logging levels correctly: set level to `debug` for verbose logs useful for only for debugging.
 * Do not log stack traces via `printStackTrace` method of the exception.
 
-#### Exceptions and Exception-Handling
+### Exceptions and Exception-Handling
 
 * Where possible, throw specific exceptions, preferably checked exceptions, so the callers can easily determine what the erroneous conditions that need to be handled are.
 * Avoid catching broad exceptions \(ie, `catch (Exception e)` blocks, except for when this is in the run\(\) method of a thread/runnable.
 
 Current Pinot code does not strictly adhere to this, but we would like to change this over time and adopt best practices around exception handling.
 
-#### Backward and Forward compatibility changes
+### Backward and Forward compatibility changes
 
 If you are making any changes to state stored, either in Zookeeper or in segments, make sure you consider both backward and forward compatibility issues.
 
 * For backward compatibility, consider cases where one component is using the new version and another is still on the old version. E.g., when the request format between broker and server is updated, consider resulting behaviors when a new broker is talking to an older server. Will it break?
 * For forward compatibility, consider rollback cases. E.g., consider what happens when state persisted by new code is handled by old code. Does the old code skip over new fields?
 
-#### External libraries
+### External libraries
 
 Be cautious about pulling in external dependencies. You will need to consider multiple things when faced with a need to pull in a new library.
 
@@ -76,7 +74,7 @@ Be cautious about pulling in external dependencies. You will need to consider mu
 * What are the licensing terms for the library. For more information about handling licenses, see [License Headers for newly added files](https://pinot.readthedocs.io/en/latest/contribution_guidelines.html#handling-licenses).
 * Are you adding the library to [Foundational modules](https://pinot.readthedocs.io/en/latest/code_modules.html#pinot-foundation) modules? This will affect the rest of the Pinot code base. If the new library pulls in a lot of transitive dependencies, then we might encounter unexpected issues with multiple classes in the classpath. These issues are hard to catch with tests as the order of loading the libraries at runtime matters. If you absolutely need the support, consider adding it via extension modules, see [Extension modules](https://pinot.readthedocs.io/en/latest/code_modules.html#extension-modules).
 
-#### Testing your changes
+### Testing your changes
 
 Automated tests are always recommended for contributions. Make sure you write tests so that:
 
@@ -93,7 +91,7 @@ Identify a list of tests for the changes you have made. Depending on the scope o
 
   Add integration tests to cover End-to-End paths without relying on _mocking_ \(see note below\). You `MUST` add integration tests for REST APIs, and must include tests that cover different error codes; i.e., 200 OK, 4xx or 5xx errors that are explicit contracts of the API.
 
-#### Testing Guidelines
+### Testing Guidelines
 
 * **Mocking**
 
@@ -113,7 +111,7 @@ DO NOT use advanced mock libraries such as [PowerMock](https://github.com/powerm
 
   Make sure you are writing tests that are reliable. If the tests depend on asynchronous events to be fired, do not add `sleep` to your tests. Where possible, use appropriate mocking or condition based triggers.
 
-#### License Headers for newly added files
+### License Headers for newly added files
 
 All source code files should have license headers. To automatically add the header for any new file you plan to checkin, run in `pinot` top-level folder:
 
@@ -137,7 +135,7 @@ Once you determine the code you are pulling in adhere to the guidelines above, g
 
 If attention to the licensing terms in not paid early on, they will be caught much later in the process, when we prepare to make a new release. Updating code at that time to work with the right libraries at that time might require bigger refactoring changes and delay the release process.
 
-### Creating a Pull Request \(PR\)
+## Creating a Pull Request \(PR\)
 
 * **Verifying code-style**
 
@@ -204,11 +202,9 @@ $ git push origin <your issue branch>
 * When you have addressed all comments and have an approved PR, one of the committers can merge your PR.
 * After your change is merged, check to see if any documentation needs to be updated. If so, create a PR for documentation.
 
-### Update Documentation
+## Update Documentation
 
 Usually for new features, functionalities, API changes, documentation update is required to keep users up to date and keep track of our development.
 
 Please follow this link to [Update Document](update-document.md) accordingly.
-
-
 

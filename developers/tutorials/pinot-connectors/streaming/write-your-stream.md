@@ -6,7 +6,7 @@ description: >-
 
 # Write your stream
 
-### Requirements to support Stream Level \(High Level\) consumers
+## Requirements to support Stream Level \(High Level\) consumers
 
 The stream should provide the following guarantees:
 
@@ -19,7 +19,7 @@ The stream should provide the following guarantees:
   * earliest available data
   * last saved checkpoint
 
-### Requirements to support Partition Level \(Low Level\) consumers
+## Requirements to support Partition Level \(Low Level\) consumers
 
 While consuming rows at a partition level, the stream should support the following properties:
 
@@ -35,7 +35,7 @@ While consuming rows at a partition level, the stream should support the followi
 
 In addition, we have an operational requirement that the number of partitions should not be reduced over time.
 
-### Stream plug-in implementation
+## Stream plug-in implementation
 
 In order to add a new type of stream \(say, Foo\) implement the following classes:
 
@@ -95,6 +95,4 @@ The properties for the thresholds are as follows:
 ```
 
 An example of this implementation can be found in the [KafkaConsumerFactory](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/realtime/impl/kafka/KafkaConsumerFactory.java), which is an implementation for the kafka stream.
-
-### 
 

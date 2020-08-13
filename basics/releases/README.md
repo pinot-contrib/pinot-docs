@@ -22,5 +22,3 @@ Before upgrading from one version to another one, please read the release notes 
 
 {% page-ref page="1.0.md" %}
 
-
-

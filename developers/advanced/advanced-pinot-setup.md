@@ -6,7 +6,7 @@ Setup Pinot by starting each component individually
 
 {% tabs %}
 {% tab title="Using docker images" %}
-## Start Pinot Components using docker 
+## Start Pinot Components using docker
 
 ### Pull docker image
 
@@ -41,14 +41,14 @@ docker run \
     -d zookeeper:3.5.6
 ```
 
-Start  [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
+Start [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
 
 ```text
 docker run \
-	--network pinot-demo --name=zkui \
-	-p 9090:9090 \
-	-e ZK_SERVER=pinot-zookeeper:2181 \
-	-d qnib/plain-zkui:latest
+    --network pinot-demo --name=zkui \
+    -p 9090:9090 \
+    -e ZK_SERVER=pinot-zookeeper:2181 \
+    -d qnib/plain-zkui:latest
 ```
 
 ### 2. Start Pinot Controller
@@ -111,14 +111,16 @@ a413b0013806        apachepinot/pinot:0.3.0-SNAPSHOT   "./bin/pinot-admin.s…" 
 {% tab title="Using launcher scripts" %}
 Download Pinot Distribution from [http://pinot.apache.org/download/](http://pinot.apache.org/download/)
 
-    $ export PINOT_VERSION=0.2.0
-    $ tar -xvf apache-pinot-incubating-${PINOT_VERSION}-bin.tar.gz
+```text
+$ export PINOT_VERSION=0.2.0
+$ tar -xvf apache-pinot-incubating-${PINOT_VERSION}-bin.tar.gz
 
-    $ cd apache-pinot-incubating-${PINOT_VERSION}-bin
-    $ ls
-    DISCLAIMER	LICENSE		NOTICE		bin		conf		lib		licenses	query_console	sample_data
+$ cd apache-pinot-incubating-${PINOT_VERSION}-bin
+$ ls
+DISCLAIMER    LICENSE        NOTICE        bin        conf        lib        licenses    query_console    sample_data
 
-    $ PINOT_INSTALL_DIR=`pwd`
+$ PINOT_INSTALL_DIR=`pwd`
+```
 
 ## Start Pinot components via launcher scripts
 
@@ -131,7 +133,7 @@ bin/pinot-admin.sh StartZookeeper
 
 ### Start Pinot Controller
 
-> See [controller page]() for more details .
+> See [controller page](advanced-pinot-setup.md) for more details .
 
 ```text
 bin/pinot-admin.sh StartController \
@@ -192,7 +194,7 @@ Below are some outstanding configurations you can set in Pinot Controller:
 | controller.port | Pinot Controller Port | 9000 |
 | controller.vip.host | The VIP hostname used to set the download URL for segments | ${controller.host} |
 | controller.vip.port | The VIP port used to set the download URL for segments | ${controller.port} |
-| controller.data.dir | Directory to host segment data  | ${java.io.tmpdir}/PinotController |
+| controller.data.dir | Directory to host segment data | ${java.io.tmpdir}/PinotController |
 | controller.zk.str | Zookeeper URL | localhost:2181 |
 | cluster.tenant.isolation.enable | Enable Tenant Isolation, default is single tenant cluster | true |
 
@@ -262,7 +264,7 @@ Below are some outstanding configurations you can set in Pinot Server:
 
 A TABLE in regular database world is represented as &lt;TABLE&gt;\_OFFLINE and/or &lt;TABLE&gt;\_REALTIME in Pinot depending on the ingestion mode \(batch, real-time, hybrid\)
 
-See [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables. 
+See [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables.
 
 ### Batch Table Creation
 
@@ -270,7 +272,7 @@ Please see [Batch Tables](../tutorials/store-data/offline-tables.md) for table c
 
 {% tabs %}
 {% tab title="Docker" %}
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-batch-table-creation \
@@ -309,13 +311,13 @@ Please see [Streaming Tables](../tutorials/store-data/realtime-tables.md) for ta
 {% tab title="Docker" %}
 **Start Kafka**
 
-```
+```text
 docker run \
-	--network pinot-demo --name=kafka \
-	-e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
-	-e KAFKA_BROKER_ID=0 \
-	-e KAFKA_ADVERTISED_HOST_NAME=kafka \
-	-d wurstmeister/kafka:latest
+    --network pinot-demo --name=kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
+    -e KAFKA_BROKER_ID=0 \
+    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+    -d wurstmeister/kafka:latest
 ```
 
 **Create a Kafka Topic**
@@ -331,7 +333,7 @@ docker exec \
 
 **Create a Streaming table**
 
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-streaming-table-creation \
@@ -450,7 +452,7 @@ bin/pinot-admin.sh LaunchDataIngestionJob \
 {% endtab %}
 {% endtabs %}
 
-JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. See [Pinot Ingestion Job]() for more details.
+JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. See [Pinot Ingestion Job](advanced-pinot-setup.md) for more details.
 
 ### Load Data in Streaming
 
@@ -480,8 +482,4 @@ bin/pinot-admin.sh StreamAvroIntoKafka \
 ```
 {% endtab %}
 {% endtabs %}
-
-
-
-
 

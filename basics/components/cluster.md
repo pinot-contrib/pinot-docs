@@ -1,6 +1,6 @@
 # Cluster
 
-Cluster is a set a nodes comprising of servers, brokers, controllers and minions. 
+Cluster is a set a nodes comprising of servers, brokers, controllers and minions.
 
 ![Pinot cluster components](../../.gitbook/assets/components.jpg)
 
@@ -22,8 +22,8 @@ The nodes that observe the current state of each Participant and use that inform
 
 The node that observes and controls the Participant nodes. It is responsible for coordinating all transitions in the cluster and ensuring that state constraints are satisfied while maintaining cluster stability_._
 
-**Pinot Servers** are modeled as Participants, more details about server nodes can be found in [Server](server.md).   
-**Pinot Brokers** are modeled as Spectators, more details about broker nodes can be found in [Broker](broker.md).   
+**Pinot Servers** are modeled as Participants, more details about server nodes can be found in [Server](server.md).  
+**Pinot Brokers** are modeled as Spectators, more details about broker nodes can be found in [Broker](broker.md).  
 **Pinot Controllers** are modeled as Controllers, more details about controller nodes can be found in [Controller](controller.md).
 
 ### Logical view
@@ -31,8 +31,6 @@ The node that observes and controls the Participant nodes. It is responsible for
 Another way to visualize the cluster is a logical view, wherein a cluster contains [tenants](tenant.md), tenants contain [tables](table.md), and tables contain [segments](segment.md).
 
 ![](../../.gitbook/assets/clusterlogical.jpg)
-
-
 
 ## Setup a Pinot Cluster
 
@@ -65,14 +63,14 @@ docker run \
 
 ### 2. Start Zookeeper UI
 
-Start  [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
+Start [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
 
 ```text
 docker run \
-	--network pinot-demo --name=zkui \
-	-p 9090:9090 \
-	-e ZK_SERVER=pinot-zookeeper:2181 \
-	-d qnib/plain-zkui:latest
+    --network pinot-demo --name=zkui \
+    -p 9090:9090 \
+    -e ZK_SERVER=pinot-zookeeper:2181 \
+    -d qnib/plain-zkui:latest
 ```
 {% endtab %}
 
@@ -91,7 +89,7 @@ Install [zooinspector](https://github.com/jfim/zooinspector) to view the data in
 {% endtab %}
 {% endtabs %}
 
-Once we've started Zookeeper, we can start other components to join this cluster. If you're using docker, pull the latest `apachepinot/pinot` image. 
+Once we've started Zookeeper, we can start other components to join this cluster. If you're using docker, pull the latest `apachepinot/pinot` image.
 
 {% tabs %}
 {% tab title="Using docker images" %}
@@ -109,13 +107,11 @@ docker pull ${PINOT_IMAGE}
 {% endtab %}
 {% endtabs %}
 
-To start other components to join the cluster 
+To start other components to join the cluster
 
 1. [Start Controller](controller.md#starting-a-controller)
 2. [Start Broker](broker.md#starting-a-broker)
 3. [Start Server](server.md#starting-a-server)
 
-Explore your cluster via [Pinot Data Explorer](../../features/exploring-pinot.md)
-
-
+Explore your cluster via [Pinot Data Explorer](../features/exploring-pinot.md)
 

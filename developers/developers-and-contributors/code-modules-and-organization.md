@@ -6,7 +6,7 @@ description: 'TODO: Deprecated'
 
 Before proceeding to contributing changes to Pinot, review the contents of this section.
 
-### External Dependencies
+## External Dependencies
 
 Pinot depends on a number of external projects, the most notable ones are:
 
@@ -28,19 +28,19 @@ _Guava_ is used for number of auxiliary components such as Caches and RateLimite
 
 In addition, Pinot relies on several key external libraries for some of its core functionality: _Roaring Bitmaps_: Pinot’s inverted indices are built using [RoaringBitmap](https://github.com/RoaringBitmap/RoaringBitmap) library. _t-Digest_: Pinot’s digest based percentile calculations are based on [T-Digest](https://github.com/tdunning/t-digest) library.
 
-### Pinot Modules
+## Pinot Modules
 
 Pinot is a multi-module project, with each module providing specific functionality that helps us to build services from a combination of modules. This helps keep clean interface contracts between different modules as well as reduce the overall executable size for individually deployable component.
 
 Each module has a `src/main/java` folder where the code resides and `src/test/java` where the _unit_ tests corresponding to the module’s code reside.
 
-### Foundational modules
+## Foundational modules
 
 The following figure provides a high-level overview of the foundational Pinot modules.
 
 ![\_images/PinotFoundation.png](https://pinot.readthedocs.io/en/latest/_images/PinotFoundation.png)
 
-#### pinot-common
+### pinot-common
 
 `pinot-common` provides classes common to Pinot components. Some key classes you will find here are:
 
@@ -52,43 +52,43 @@ The following figure provides a high-level overview of the foundational Pinot mo
 * `response`: Definitions of response format returned by the Broker.
 * `filesystem`: provides abstractions for working with `segments` on local or remote filesystems. This module allows for users to plugin filesystems specific to their usecase. Extensions to the base `PinotFS` should ideally be housed in their specific modules so as not pull in unnecessary dependencies for all users.
 
-#### pinot-transport
+### pinot-transport
 
 `pinot-transport` module provides classes required to handle scatter-gather on Pinot Broker and netty wrapper classes used by Server to handle connections from Broker.
 
-#### pinot-core
+### pinot-core
 
 `pinot-core` modules provides the core functionality of Pinot, specifically for handling segments, various index structures, query execution - filters, transformations, aggregations etc and support for realtime segments.
 
-#### pinot-server
+### pinot-server
 
 `pinot-server` provides server specific functionality including server startup and REST APIs exposed by the server.
 
 ![\_images/PinotServer.png](https://pinot.readthedocs.io/en/latest/_images/PinotServer.png)
 
-#### pinot-controller
+### pinot-controller
 
 `pinot-controller` houses all the controller specific functionality, including many cluster administration APIs, segment upload \(for both offline and realtime\), segment assignment, retention strategies etc.
 
 ![\_images/PinotController.png](https://pinot.readthedocs.io/en/latest/_images/PinotController.png)
 
-#### pinot-broker
+### pinot-broker
 
 `pinot-broker` provides broker functionality that includes wiring the broker startup sequence, building broker routing tables, PQL request handling.
 
 ![\_images/PinotBroker.png](https://pinot.readthedocs.io/en/latest/_images/PinotBroker.png)
 
-#### pinot-minion
+### pinot-minion
 
 `pinot-minion` provides functionality for running auxiliary/periodic tasks on a Pinot Cluster such as purging records for compliance with regulations like GDPR.
 
-#### pinot-hadoop
+### pinot-hadoop
 
 `pinot-hadoop` provides classes for segment generation jobs using Hadoop infrastructure.
 
 ![\_images/PinotMinionHadoop.png](https://pinot.readthedocs.io/en/latest/_images/PinotMinionHadoop.png)
 
-### Auxiliary modules
+## Auxiliary modules
 
 In addition to the core modules described above, Pinot code provides the following modules:
 
@@ -99,7 +99,7 @@ In addition to the core modules described above, Pinot code provides the followi
 
 These tests typically do not rely on mocking and provide more end to end coverage for code.
 
-### Extension modules
+## Extension modules
 
 `pinot-hadoop-filesystem` and `pinot-azure-filesystem` are module added to support extensions to Pinot filesystem. The functionality is broken down into modules of their own to avoid polluting the common modules with additional large libraries. These libraries bring in transitive dependencies of their own that can cause classpath conflicts at runtime. We would like to avoid this for the common usage of Pinot as much as possible.
 

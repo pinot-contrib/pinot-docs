@@ -8,7 +8,7 @@ description: This quick start guide will show you how to set up a Pinot cluster 
 
 {% tabs %}
 {% tab title="Using docker images" %}
-## Start Pinot Components using docker 
+## Start Pinot Components using docker
 
 ### Pull docker image
 
@@ -43,14 +43,14 @@ docker run \
     -d zookeeper:3.5.6
 ```
 
-Start  [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
+Start [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
 
 ```text
 docker run --rm -ti \
-	--network pinot-demo --name=zkui \
-	-p 9090:9090 \
-	-e ZK_SERVER=pinot-zookeeper:2181 \
-	-d qnib/plain-zkui:latest
+    --network pinot-demo --name=zkui \
+    -p 9090:9090 \
+    -e ZK_SERVER=pinot-zookeeper:2181 \
+    -d qnib/plain-zkui:latest
 ```
 
 Alternately, you can use [Zooinspector](https://github.com/zzhang5/zooinspector).
@@ -96,16 +96,15 @@ docker run --rm -ti \
 
 Optionally, you can also start Kafka for setting up realtime streams. This brings up the Kafka broker on port 9092.
 
-```
+```text
 docker run --rm -ti \
-	--network pinot-demo --name=kafka \
-	-e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
-	-e KAFKA_BROKER_ID=0 \
-	-e KAFKA_ADVERTISED_HOST_NAME=kafka \
-	-d wurstmeister/kafka:latest
+    --network pinot-demo --name=kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
+    -e KAFKA_BROKER_ID=0 \
+    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+    -d wurstmeister/kafka:latest
 ```
 
-  
 Now all Pinot related components are started as an empty cluster.
 
 You can run below command to check container status.
@@ -179,5 +178,5 @@ Now all Pinot related components are started as an empty cluster.
 {% endtab %}
 {% endtabs %}
 
-Now it's time to start adding data to the cluster. Check out some of the [Recipes](../../recipes/) or follow the [Batch upload sample data](pushing-your-data-to-pinot.md) and [Stream sample data](pushing-your-streaming-data-to-pinot.md) for instructions on loading your own data.
+Now it's time to start adding data to the cluster. Check out some of the [Recipes](../recipes/) or follow the [Batch upload sample data](pushing-your-data-to-pinot.md) and [Stream sample data](pushing-your-streaming-data-to-pinot.md) for instructions on loading your own data.
 

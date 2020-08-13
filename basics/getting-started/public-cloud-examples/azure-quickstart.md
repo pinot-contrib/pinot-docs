@@ -77,7 +77,7 @@ az group create --name ${AKS_RESOURCE_GROUP} \
                 --location ${AKS_RESOURCE_GROUP_LOCATION}
 ```
 
-## 4. \(Optional\) Create a Kubernetes cluster\(AKS\) in Azure 
+## 4. \(Optional\) Create a Kubernetes cluster\(AKS\) in Azure
 
 Below script will create a **3** nodes cluster named **pinot-quickstart** for demo purposes.
 
@@ -95,7 +95,7 @@ Once the command is succeed, it's ready to be used.
 
 ## **5. Connect to an existing cluster**
 
-Simply run below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster. 
+Simply run below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster.
 
 ```text
 AKS_RESOURCE_GROUP=pinot-demo

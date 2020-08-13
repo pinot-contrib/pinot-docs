@@ -8,7 +8,7 @@ However there are a few things to be noted before starting the benchmark/product
 
 ## Container Resources
 
-We recommend to run Pinot with pre-defined resources for the container, and make requests and limits to be the same. 
+We recommend to run Pinot with pre-defined resources for the container, and make requests and limits to be the same.
 
 This will ensure the container won't be killed if there is a sudden bump of workload.
 
@@ -77,6 +77,4 @@ Pinot uses remote storage as deep storage to backup segments.
 Default deployment creates a mount disk\(e.g Amazon EBS\) as deep storage in controller.
 
 You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link](../../plugins/pinot-file-system.md).
-
-
 

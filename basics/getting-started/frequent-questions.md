@@ -32,8 +32,8 @@ Select sum(jsonExtractScalar(complexMapStr,'$.k4.met','INT'))
 
 {% hint style="warning" %}
 **NOTE**  
-This works well if some of your fields are nested json, but most of your fields are top level json keys. If all of your fields are within a nested JSON key, you will have to store the entire payload as 1 column, which is not ideal.  
-  
+This works well if some of your fields are nested json, but most of your fields are top level json keys. If all of your fields are within a nested JSON key, you will have to store the entire payload as 1 column, which is not ideal.
+
 Support for flattening during ingestion is on the roadmap: [https://github.com/apache/incubator-pinot/issues/5264](https://github.com/apache/incubator-pinot/issues/5264)
 {% endhint %}
 
@@ -62,7 +62,7 @@ Here's the page explaining the Pinot response format: [https://docs.pinot.apache
 
 ### SQL Query fails with "Encountered 'timestamp' was expecting one of..."
 
-"timestamp" is a reserved keyword in SQL. Escape timestamp with double quotes. 
+"timestamp" is a reserved keyword in SQL. Escape timestamp with double quotes.
 
 ```text
 select "timestamp" from myTable
@@ -126,7 +126,7 @@ For REALTIME table update [replicasPerPartition](https://docs.pinot.apache.org/b
     ..
 ```
 
-After changing the replication, run a [table rebalance](frequent-questions.md#how-to-run-a-rebalance-on-a-table). 
+After changing the replication, run a [table rebalance](frequent-questions.md#how-to-run-a-rebalance-on-a-table).
 
 ### How to run a rebalance on a table?
 
@@ -134,11 +134,11 @@ A rebalance is run to reassign all the segments of a table to the available serv
 
 **Offline**
 
-Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](%20http://localhost:9000/help#!/Table/rebalance), with tableType OFFLINE
+Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](https://github.com/pinot-contrib/pinot-docs/tree/f2ddc3ebc1ec94c66221d3b6b2cb952bee28d3de/help/README.md#!/Table/rebalance), with tableType OFFLINE
 
 **Realtime**
 
-Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](%20http://localhost:9000/help#!/Table/rebalance), with tableType REALTIME**.**   
+Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](https://github.com/pinot-contrib/pinot-docs/tree/f2ddc3ebc1ec94c66221d3b6b2cb952bee28d3de/help/README.md#!/Table/rebalance), with tableType REALTIME**.**  
 A realtime table has 2 components, the consuming segments and the completed segments. By default, only the completed segments will get rebalanced. The consuming segments will pick the right assignment once they complete. But you can enforce the consuming segments to also be included in the rebalance, by setting the param `includeConsuming` to true. Note that rebalancing the consuming segments would mean the consuming segment will drop the consumed data so far, and restart consumption from the last offset, which may lead to a short duration of data staleness.
 
 You can check the status of the rebalance by
@@ -158,8 +158,8 @@ Yes, replica groups work for realtime. There's 2 parts to enabling replica group
 
 **Replica group segment assignment**
 
-Replica group segment assignment is achieved in realtime, if number of servers is a multiple of number of replicas. The partitions get uniformly sprayed across the servers, creating replica groups.  
-  
+Replica group segment assignment is achieved in realtime, if number of servers is a multiple of number of replicas. The partitions get uniformly sprayed across the servers, creating replica groups.
+
 For example, consider we have 6 partitions, 2 replicas, and 4 servers.
 
 |  | r1 | r2 |
@@ -188,6 +188,4 @@ Once replica group segment assignment is in effect, the query routing can take a
     ..
 }
 ```
-
-
 

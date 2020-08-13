@@ -224,7 +224,6 @@ The schema is present at `examples/stream/githubEvents/pullRequestMergedEvents_s
     }
   }
 }
-
 ```
 {% endcode %}
 
@@ -232,7 +231,7 @@ The table config is present at `examples/stream/githubEvents/docker/pullRequestM
 
 {% hint style="info" %}
 **Note**  
-If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster. 
+If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.
 {% endhint %}
 
 {% code title="pullRequestMergedEvents\_realtime\_table\_config.json" %}
@@ -323,7 +322,7 @@ $ docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-github-events-quick-start \
      ${PINOT_IMAGE} GitHubEventsQuickStart \
-    -personalAccessToken <your_github_personal_access_token> 
+    -personalAccessToken <your_github_personal_access_token>
 ```
 {% endtab %}
 
@@ -346,11 +345,11 @@ Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/
 
 ### Create a Kafka topic
 
-Download [Apache Kafka](https://kafka.apache.org/downloads) release. 
+Download [Apache Kafka](https://kafka.apache.org/downloads) release.
 
 Create a Kafka topic called `pullRequestMergedEvents` for the demo.
 
-```
+```text
 $ bin/kafka-topics.sh \
   --create \
   --bootstrap-server localhost:19092 \
@@ -361,7 +360,7 @@ $ bin/kafka-topics.sh \
 
 ### Add Pinot table and schema
 
-Schema can be found at  `/examples/stream/githubevents/` in the release, and is also pasted below:
+Schema can be found at `/examples/stream/githubevents/` in the release, and is also pasted below:
 
 ```bash
 {
@@ -515,7 +514,6 @@ Schema can be found at  `/examples/stream/githubevents/` in the release, and is 
     }
   }
 }
-
 ```
 
 Table config can be found at `/examples/stream/githubevents/` in the release, and is also pasted below.
@@ -523,7 +521,7 @@ Table config can be found at `/examples/stream/githubevents/` in the release, an
 {% hint style="info" %}
 **Note**
 
-If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.  
+If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.
 {% endhint %}
 
 ```bash
@@ -563,13 +561,11 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
     "customConfigs": {}
   }
 }
-
-
 ```
 
 Add the table and schema using the command
 
-```
+```text
 $ bin/pinot-admin.sh AddTable \
   -tableConfigFile $PATH_TO_CONFIGS/examples/stream/githubEvents/pullRequestMergedEvents_realtime_table_config.json \
   -schemaFile $PATH_TO_CONFIGS/examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
@@ -607,7 +603,7 @@ $ bin/pinot-admin.sh GitHubEventsQuickStart \
 
 ### Kubernetes cluster
 
-If you already have a Kubernetes cluster with Pinot and Kafka \(see [Running Pinot in Kubernetes](../basics/getting-started/kubernetes-quickstart.md)\), first create the topic and then setup the table and streaming using
+If you already have a Kubernetes cluster with Pinot and Kafka \(see [Running Pinot in Kubernetes](../getting-started/kubernetes-quickstart.md)\), first create the topic and then setup the table and streaming using
 
 ```text
 $ cd kubernetes/helm
@@ -618,7 +614,7 @@ $ kubectl apply -f pinot-github-realtime-events.yml
 
 Head over to the [Query Console](http://localhost:9000/query) to checkout the data!
 
-![](../.gitbook/assets/screen-shot-2020-03-26-at-6.27.43-pm.png)
+![](../../.gitbook/assets/screen-shot-2020-03-26-at-6.27.43-pm.png)
 
 ### Visualizing on SuperSet
 
@@ -626,17 +622,11 @@ You can use SuperSet to visualize this data. Some of the interesting insights we
 
 #### Most Active organizations during the lockdown
 
-![](../.gitbook/assets/screen-shot-2020-04-08-at-9.28.57-am.png)
+![](../../.gitbook/assets/screen-shot-2020-04-08-at-9.28.57-am.png)
 
 Repositories by number of commits in the Apache organization
 
-![](../.gitbook/assets/screen-shot-2020-04-08-at-9.29.12-am.png)
+![](../../.gitbook/assets/screen-shot-2020-04-08-at-9.29.12-am.png)
 
-To integrate with SuperSet you can check out the [SuperSet Integrations](../integrations/superset.md) page.
-
-
-
-
-
-
+To integrate with SuperSet you can check out the [SuperSet Integrations](../../integrations/superset.md) page.
 

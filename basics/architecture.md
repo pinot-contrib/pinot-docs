@@ -24,7 +24,7 @@ Pinot was designed by engineers at LinkedIn and Uber to scale query performance 
 
 ## Core components
 
-As described in the [concepts](concepts.md), Pinot has multiple distributed system components:[ Controller](components/controller.md), [Broker](components/broker.md), [Server](components/server.md), and [Minion](components/minion.md). 
+As described in the [concepts](concepts.md), Pinot has multiple distributed system components:[ Controller](components/controller.md), [Broker](components/broker.md), [Server](components/server.md), and [Minion](components/minion.md).
 
 Pinot uses [Apache Helix](http://helix.apache.org/) for cluster management. Helix is embedded as an agent within the different components and uses [Apache Zookeeper](https://zookeeper.apache.org/) for coordination and maintaining the overall cluster state and health.
 
@@ -42,7 +42,7 @@ Helix divides nodes into three logical components based on their responsibilitie
 
 Helix uses Zookeeper to maintain cluster state. Each component in a Pinot cluster takes a Zookeeper address as a startup parameter. The various components that are distributed in a Pinot cluster will watch Zookeeper notifications and issue updates via its embedded Helix-defined agent.
 
-| Component  | Helix Mapping |
+| Component | Helix Mapping |
 | :--- | :--- |
 | Segment | Modeled as a **Helix Partition.** Each [segment](components/segment.md) can have multiple copies referred to as **Replicas**. |
 | Table | Modeled as a **Helix Resource.** Multiple segments are grouped into a [table](components/table.md). All segments belonging to a Pinot Table have the same schema. |
@@ -108,11 +108,11 @@ Knowing the _ZNode_ layout structure in Zookeeper for Helix agents in a cluster 
 
 ### Controller
 
-Pinot's [controller](components/controller.md) acts as the driver of the cluster's overall state and health. Because of its role as a Helix participant and spectator, which drives the state of other components, it is the first component that is typically started after Zookeeper. Two parameters are required for starting a controller: Zookeeper address and cluster name. The controller will automatically create a cluster via Helix if it does not yet exist. 
+Pinot's [controller](components/controller.md) acts as the driver of the cluster's overall state and health. Because of its role as a Helix participant and spectator, which drives the state of other components, it is the first component that is typically started after Zookeeper. Two parameters are required for starting a controller: Zookeeper address and cluster name. The controller will automatically create a cluster via Helix if it does not yet exist.
 
 #### Fault tolerance
 
-To achieve fault tolerance, one can start multiple controllers \(typically three\) and one of them will act as a leader. If the leader crashes or dies, another leader is automatically elected. Leader election is achieved using Apache Helix. Having at-least one controller is required to perform any DDL equivalent operation on the cluster, such as adding a table or a segment. 
+To achieve fault tolerance, one can start multiple controllers \(typically three\) and one of them will act as a leader. If the leader crashes or dies, another leader is automatically elected. Leader election is achieved using Apache Helix. Having at-least one controller is required to perform any DDL equivalent operation on the cluster, such as adding a table or a segment.
 
 The controller does not interfere with query execution. Query execution is not impacted even when all controllers nodes are offline. If all controller nodes are offline, the state of the cluster will stay as it was when the last leader went down. When a new leader comes online, a cluster resumes re-balancing activity and can accept new tables or segments.
 
@@ -121,12 +121,12 @@ The controller does not interfere with query execution. Query execution is not i
 The [controller](components/controller.md) provides a REST interface to perform CRUD operations on all logical storage resources \(servers, brokers, tables, and segments\).
 
 {% hint style="info" %}
-See [Pinot Data Explorer](../features/exploring-pinot.md) for more information on the web-based admin tool.
+See [Pinot Data Explorer](features/exploring-pinot.md) for more information on the web-based admin tool.
 {% endhint %}
 
 ### Broker
 
-The responsibility of the [broker](components/broker.md) is to route a given query to an appropriate [server](components/server.md) instance. A broker will collect and merge the responses from all servers into a final result and send it back to the requesting client. The broker provides HTTP endpoints that accept SQL queries and returns the response in JSON format. 
+The responsibility of the [broker](components/broker.md) is to route a given query to an appropriate [server](components/server.md) instance. A broker will collect and merge the responses from all servers into a final result and send it back to the requesting client. The broker provides HTTP endpoints that accept SQL queries and returns the response in JSON format.
 
 Brokers need three key things to start.
 
@@ -138,10 +138,10 @@ At the start, a broker registers as a **Helix Participant** and awaits notificat
 
 **Service Discovery/Routing Table**
 
-Irrespective of the kind of notification, the key responsibility of a broker is to maintain the query routing table. The query routing table is simply a mapping between segments and the servers that a segment resides on. Typically, a segment resides on more than one server. The broker computes multiple routing tables depending on the configured routing strategy for a table. The default strategy is to balance the query load across all available servers. 
+Irrespective of the kind of notification, the key responsibility of a broker is to maintain the query routing table. The query routing table is simply a mapping between segments and the servers that a segment resides on. Typically, a segment resides on more than one server. The broker computes multiple routing tables depending on the configured routing strategy for a table. The default strategy is to balance the query load across all available servers.
 
 {% hint style="info" %}
-There are advanced routing strategies available such as ReplicaAware routing, partition-based routing, and minimal server selection routing. These strategies are meant for special or generic cases that are meant to serve very high throughput queries. 
+There are advanced routing strategies available such as ReplicaAware routing, partition-based routing, and minimal server selection routing. These strategies are meant for special or generic cases that are meant to serve very high throughput queries.
 {% endhint %}
 
 ```javascript
@@ -204,13 +204,13 @@ For every query**,** a cluster's broker performs the following:
 }
 ```
 
-**Fault tolerance**  
-  
+**Fault tolerance**
+
 Broker instances scale horizontally without an upper bound. In a majority of cases, only three brokers are required. If most query results that are returned to a client are &lt;1MB in size per query, one can run a broker and servers inside the same instance container. This lowers the overall footprint of a cluster deployment for use cases that do not need to guarantee a strict SLA on query performance in production.
 
 ### Server
 
-[Servers](components/server.md) host [segments](components/segment.md) and do most of the heavy lifting during query processing. Though the architecture shows that there are two kinds of servers, real-time and offline, a server does not really know if it's going to be a real-time server or an offline server. The responsibility of a server depends on the [table](components/table.md) assignment strategy. 
+[Servers](components/server.md) host [segments](components/segment.md) and do most of the heavy lifting during query processing. Though the architecture shows that there are two kinds of servers, real-time and offline, a server does not really know if it's going to be a real-time server or an offline server. The responsibility of a server depends on the [table](components/table.md) assignment strategy.
 
 {% hint style="info" %}
 In theory, a server can host both real-time segments and offline segments. However, in practice, we use different types of machine SKUs for real-time servers and offline servers. The advantage of separating real-time servers and offline servers is to allow each to scale independently.
@@ -245,7 +245,7 @@ There are a few things to keep in mind when configuring the different types of t
 Tables for real-time and offline can be configured differently depending on usage requirements. For example, you can choose to enable star-tree indexing for an offline table, while the real-time table with the same schema may not need it.
 {% endhint %}
 
-### Batch data flow 
+### Batch data flow
 
 ![](../.gitbook/assets/offlineserver-4.jpg)
 

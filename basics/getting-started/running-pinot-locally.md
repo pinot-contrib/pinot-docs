@@ -17,7 +17,7 @@ This is a quickstart guide that will show you how to quickly start an example re
 First, let's download the Pinot distribution for this tutorial. You can either build the distribution from source or download a packaged release.
 
 {% hint style="info" %}
- **Prerequisites** 
+**Prerequisites**
 
 Install JDK8 or higher.
 {% endhint %}
@@ -31,12 +31,10 @@ PINOT_VERSION=0.3.0
 
 {% tabs %}
 {% tab title="Build from source " %}
-
-
 Follow these steps to checkout code from [Github](https://github.com/apache/incubator-pinot) and build Pinot locally
 
 {% hint style="info" %}
- **Prerequisites** 
+**Prerequisites**
 
 Install [Apache Maven](https://maven.apache.org/install.html) 3.6 or higher
 {% endhint %}
@@ -59,9 +57,7 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 {% endtab %}
 
 {% tab title="Download the release" %}
-
-
-Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command 
+Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command
 
 ```bash
 wget https://downloads.apache.org/incubator/pinot/apache-pinot-incubating-$PINOT_VERSION/apache-pinot-incubating-$PINOT_VERSION-bin.tar.gz
@@ -96,7 +92,7 @@ Batch quick start creates the pinot cluster, creates an offline table `baseballS
 bin/quick-start-batch.sh
 ```
 
-That's it! We've spun up a Pinot cluster. You can continue playing with other types of quick start, or simply head on to [Pinot Data Explorer](../../features/exploring-pinot.md) to check out the data in the `baseballStats` table.
+That's it! We've spun up a Pinot cluster. You can continue playing with other types of quick start, or simply head on to [Pinot Data Explorer](../features/exploring-pinot.md) to check out the data in the `baseballStats` table.
 
 ### Streaming
 
@@ -107,7 +103,7 @@ Streaming quick start sets up a Kafka cluster and pushes sample data to a Kafka 
 bin/quick-start-streaming.sh
 ```
 
-We now have a Pinot cluster with a realtime table! You can head over to  [Pinot Data Explorer](../../features/exploring-pinot.md) to check out the data in the `meetupRSVP` table.
+We now have a Pinot cluster with a realtime table! You can head over to [Pinot Data Explorer](../features/exploring-pinot.md) to check out the data in the `meetupRSVP` table.
 
 ### Hybrid
 
@@ -118,5 +114,5 @@ Hybrid quick start sets up a Kafka cluster and pushes sample data to a Kafka top
 bin/quick-start-hybrid.sh
 ```
 
-Let's head over to [Pinot Data Explorer](../../features/exploring-pinot.md) to check out the data we pushed to the `airlineStats` table.
+Let's head over to [Pinot Data Explorer](../features/exploring-pinot.md) to check out the data we pushed to the `airlineStats` table.
 

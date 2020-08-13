@@ -6,7 +6,7 @@ description: Learn how to query Pinot using PQL
 
 ## PQL
 
-PQL is a derivative of SQL that supports selection, projection, aggregation, and grouping aggregation. 
+PQL is a derivative of SQL that supports selection, projection, aggregation, and grouping aggregation.
 
 ## PQL Limitations
 
@@ -122,9 +122,7 @@ SELECT <outputColumn> (, outputColumn, outputColumn,...)
 
 `outputColumn` can be `*` to project all columns, columns \(`foo`, `bar`, `baz`\) or aggregation functions like \(`MIN(foo)`, `MAX(bar)`, `AVG(baz)`\).
 
-
-
-### Filter Functions on Single Value/Multi-value 
+### Filter Functions on Single Value/Multi-value
 
 * `EQUALS`
 * `IN`
@@ -134,7 +132,7 @@ SELECT <outputColumn> (, outputColumn, outputColumn,...)
 * `BETWEEN`
 * `REGEXP_LIKE`
 
-For Multi-Valued columns, EQUALS is similar to CONTAINS. 
+For Multi-Valued columns, EQUALS is similar to CONTAINS.
 
 ### Supported aggregations on single-value columns
 
@@ -256,7 +254,7 @@ SELECT MAX(DIV(foo, bar) FROM myTable
       <td style="text-align:left">TIMECONVERT</td>
       <td style="text-align:left">
         <p>Takes 3 arguments, converts the value into another time unit.</p>
-        <p><em><br /></em><b>Examples</b><em> <br /></em><code>TIMECONVERT(time, &apos;MILLISECONDS&apos;, &apos;SECONDS&apos;)</code> -
+        <p><em><br /></em><b>Examples</b><em><br /></em><code>TIMECONVERT(time, &apos;MILLISECONDS&apos;, &apos;SECONDS&apos;)</code> -
           This expression converts the value of column <code>time</code> (taken to
           be in milliseconds) to the nearest seconds (<em>i.e.</em> the nearest seconds
           that is lower than the value of <code>date</code> column)</p>
@@ -273,23 +271,20 @@ SELECT MAX(DIV(foo, bar) FROM myTable
           <br /><code>inputFormat</code> - format of the column columnName
           <br /><code>outputFormat</code> - format of the result desired after conversion <code>outputGranularity</code> -
           the granularity in which to bucket the result</p>
-        <p></p>
         <p>Format is expressed as <code>&lt;time size&gt;:&lt;time unit&gt;:&lt;time format&gt;:&lt;pattern&gt;</code>
           <br
           />where,</p>
         <p><code>time size</code> - size of the time unit eg: 1, 10</p>
         <p><code>time unit</code> - HOURS, DAYS etc</p>
         <p><code>time format</code> - EPOCH or SIMPLE_DATE_FORMAT</p>
-        <p><code>pattern</code> - <b> </b>this is defined in case of SIMPLE_DATE_FORMAT.
-          eg: yyyyMMdd. A specific timezone can be passed using tz(timezone).</p>
+        <p><code>pattern</code> - this is defined in case of SIMPLE_DATE_FORMAT. eg:
+          yyyyMMdd. A specific timezone can be passed using tz(timezone).</p>
         <p><code>timezone</code> - can be expressed as long form tz(Asia/Kolkata),
           or short form tz(IST) or in terms of GMT tz(GMT+0530). Default is UTC.
           It is recommended to use long form timezone, as short forms are ambiguous
           with daylight savings (eg: PDT works during daylight savings, PST otherwise)</p>
-        <p></p>
         <p>Granularity is expressed as <code>&lt;time size&gt;:&lt;time unit&gt;</code>
         </p>
-        <p></p>
         <p><b>Examples</b>
         </p>
         <p>1) To convert column &quot;Date&quot; from hoursSinceEpoch to daysSinceEpoch

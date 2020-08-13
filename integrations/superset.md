@@ -30,7 +30,7 @@ Output:
 
 ![Superset Admin Command line Output](../.gitbook/assets/image%20%288%29.png)
 
-2.2. \(First time\) DB upgrade and Initialize Superset 
+2.2. \(First time\) DB upgrade and Initialize Superset
 
 ```text
 docker exec \
@@ -38,7 +38,7 @@ docker exec \
     bash -c 'superset db upgrade && superset init'
 ```
 
-3. Import Pre-defined Pinot Datasources and Dashboard
+1. Import Pre-defined Pinot Datasources and Dashboard
 
 ```text
 docker exec \
@@ -47,9 +47,7 @@ docker exec \
              superset import_dashboards -p /etc/examples/pinot/pinot_example_dashboard.json'
 ```
 
-4. Go to SuperSet UI: [http://localhost:8088/](http://localhost:8088/) to play around with dashboard.
+1. Go to SuperSet UI: [http://localhost:8088/](http://localhost:8088/) to play around with dashboard.
 {% endtab %}
 {% endtabs %}
-
-## 
 

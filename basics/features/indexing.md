@@ -100,7 +100,7 @@ Sorted index performs much better than inverted index; however, it can only be a
 
 ## Star-tree index
 
-Unlike other index techniques which work on single column, Star-Tree index is built on multiple columns, and utilize the pre-aggregated results to significantly reduce the number of values to be processed, thus improve the query performance. 
+Unlike other index techniques which work on single column, Star-Tree index is built on multiple columns, and utilize the pre-aggregated results to significantly reduce the number of values to be processed, thus improve the query performance.
 
 One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLA’s on latency and throughput on large data sets. Existing techniques such as sorted index or inverted index help improve query latencies, but speed-ups are still limited by number of documents necessary to process for computing the results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
@@ -322,6 +322,5 @@ The algorithm to traverse the tree can be described as follows:
 
 ### Notes on index tuning
 
-If your use case is not site facing with a strict low latency requirement, inverted index will perform good enough for the most of use cases. We recommend to start with adding inverted index and if the query does not perform good enough, a user can consider to use more advanced indices such as sorted column and star-tree index.  
-
+If your use case is not site facing with a strict low latency requirement, inverted index will perform good enough for the most of use cases. We recommend to start with adding inverted index and if the query does not perform good enough, a user can consider to use more advanced indices such as sorted column and star-tree index.
 

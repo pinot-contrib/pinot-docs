@@ -32,7 +32,7 @@ cd incubator-pinot/kubernetes/helm
 {% endtab %}
 {% endtabs %}
 
-### 2.1 Start Pinot with Helm 
+### 2.1 Start Pinot with Helm
 
 {% tabs %}
 {% tab title="Run Helm with Pre-installed Package" %}
@@ -112,20 +112,20 @@ kubectl apply -f helm-rbac.yaml
 kubectl get all -n pinot-quickstart
 ```
 
-## 3. Load data into Pinot using Kafka 
+## 3. Load data into Pinot using Kafka
 
 ### **3.1 Bring up a Kafka cluster for real-time data ingestion**
 
 {% tabs %}
 {% tab title="For Helm v3.0.0" %}
-```
+```text
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
 helm install -n pinot-quickstart kafka incubator/kafka --set replicas=1
 ```
 {% endtab %}
 
 {% tab title="For Helm v2.12.1" %}
-```
+```text
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
 helm install --namespace "pinot-quickstart"  --name kafka incubator/kafka
 ```
@@ -158,7 +158,7 @@ kubectl -n pinot-quickstart exec kafka-0 -- kafka-topics --zookeeper kafka-zooke
 
 ### **3.4 Load data into Kafka and create Pinot schema/tables**
 
- The script below will deploy 3 batch jobs.
+The script below will deploy 3 batch jobs.
 
 * Ingest 19492 JSON messages to Kafka topic `flights-realtime`  at a speed of 1 msg/sec
 * Ingest 19492 Avro messages to Kafka topic `flights-realtime-avro`  at a speed of 1 msg/sec
@@ -174,7 +174,7 @@ kubectl apply -f pinot-realtime-quickstart.yml
 
 ### 4.1 Pinot Data Explorer
 
-Please use the script below to perform local port-forwarding, which will also open Pinot query console in your default web browser. 
+Please use the script below to perform local port-forwarding, which will also open Pinot query console in your default web browser.
 
 This script can be found in the Pinot source at `./incubator-pinot/kubernetes/helm`
 
@@ -228,13 +228,13 @@ You can run the command below to deploy a customized Presto with Pinot plugin in
 
 {% tabs %}
 {% tab title="Helm" %}
-```
-helm install presto pinot/presto -n pinot 
+```text
+helm install presto pinot/presto -n pinot
 ```
 {% endtab %}
 
 {% tab title="K8s Scripts" %}
-```
+```text
 kubectl apply -f presto-coordinator.yaml
 ```
 {% endtab %}
@@ -266,7 +266,6 @@ presto:default> show catalogs;
 Query 20191112_050827_00003_xkm4g, FINISHED, 1 node
 Splits: 19 total, 19 done (100.00%)
 0:01 [0 rows, 0B] [0 rows/s, 0B/s]
-
 ```
 
 * List All tables

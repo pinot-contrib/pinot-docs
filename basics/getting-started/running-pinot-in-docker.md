@@ -60,10 +60,10 @@ Once the Docker container is running, you can view the logs by running the follo
 docker logs pinot-quickstart -f
 ```
 
-That's it! We've spun up a Pinot cluster. 
+That's it! We've spun up a Pinot cluster.
 
 {% hint style="info" %}
-It may take a while for all the Pinot components to start and for the sample data to be loaded. 
+It may take a while for all the Pinot components to start and for the sample data to be loaded.
 
 Use the below command to check the status in the container logs.
 {% endhint %}
@@ -76,7 +76,7 @@ Your cluster is ready once you see the cluster setup completion messages and sam
 
 ![Cluster Setup Completion Example ](../../.gitbook/assets/image%20%281%29.png)
 
-You can head over to [Exploring Pinot](../../features/exploring-pinot.md) to check out the data in the `baseballStats` table.
+You can head over to [Exploring Pinot](../features/exploring-pinot.md) to check out the data in the `baseballStats` table.
 
 ## Streaming example
 
@@ -90,7 +90,7 @@ In this example we demonstrate how to do stream processing with Pinot.
   * Pinot Server
 * Creates a demo table
   * `meetupRsvp`
-* Launches a `meetup` ****stream
+* Launches a `meetup` _\*\*_stream
 * Publishes data to a Kafka topic `meetupRSVPEvents` to be subscribed to by Pinot
 * Issues sample queries to Pinot
 
@@ -104,7 +104,7 @@ docker run \
     -type stream
 ```
 
-Once the cluster is up, you can head over to  [Exploring Pinot](../../features/exploring-pinot.md) to check out the data in the `meetupRSVPEvents` table.
+Once the cluster is up, you can head over to [Exploring Pinot](../features/exploring-pinot.md) to check out the data in the `meetupRSVPEvents` table.
 
 ## Hybrid example
 
@@ -121,7 +121,7 @@ In this example we demonstrate how to do hybrid stream and batch processing with
 3. Launches a standalone data ingestion job
    * Builds Pinot segments under a given directory of Avro files for table `airlineStats`
    * Pushes built segments to Pinot controller
-4. Launches a ****stream of flights stats
+4. Launches a _\*\*_stream of flights stats
 5. Publishes data to a Kafka topic `airlineStatsEvents` to be subscribed to by Pinot
 6. Issues sample queries to Pinot 
 
@@ -135,5 +135,5 @@ docker run \
     -type hybrid
 ```
 
-Once the cluster is up, you can head over to  [Exploring Pinot](../../features/exploring-pinot.md) to check out the data in the `airlineStats` table.
+Once the cluster is up, you can head over to [Exploring Pinot](../features/exploring-pinot.md) to check out the data in the `airlineStats` table.
 

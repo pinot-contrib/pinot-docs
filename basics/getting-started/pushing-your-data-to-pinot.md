@@ -6,9 +6,9 @@ description: Step-by-step guide on pushing your own data into the Pinot cluster
 
 So far, we setup our cluster, ran some queries, explored the admin endpoints. Now, it's time to get our own data into Pinot
 
-### Preparing your data
+## Preparing your data
 
-Let's gather our data files and put it in `pinot-quick-start/rawdata`. 
+Let's gather our data files and put it in `pinot-quick-start/rawdata`.
 
 ```bash
 mkdir -p /tmp/pinot-quick-start/rawdata
@@ -26,7 +26,7 @@ studentID,firstName,lastName,gender,subject,score,timestamp
 ```
 {% endcode %}
 
-### Creating a schema
+## Creating a schema
 
 Schema is used to define the columns and data types of the Pinot table. A detailed overview of the schema can be found in [Schema](../components/schema.md).
 
@@ -40,7 +40,7 @@ Briefly, we categorize our columns into 3 types
 
 For example, in our sample table, the `playerID, yearID, teamID, league, playerName` columns are the dimensions, the `playerStint, numberOfgames, numberOfGamesAsBatter, AtBatting, runs, hits, doules, triples, homeRuns, runsBattedIn, stolenBases, caughtStealing, baseOnBalls, strikeouts, intentionalWalks, hitsByPitch, sacrificeHits, sacrificeFlies, groundedIntoDoublePlays, G_old` columns are the metrics and there is no time column.
 
-Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the reference below. 
+Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the reference below.
 
 {% code title="/tmp/pinot-quick-start/transcript-schema.json" %}
 ```bash
@@ -84,9 +84,9 @@ Once you have identified the dimensions, metrics and time columns, create a sche
 ```
 {% endcode %}
 
-### Creating a table config
+## Creating a table config
 
-A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table.md). 
+A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table.md).
 
 Here's the table config for the sample CSV file. You can use this as a reference to build your own table config. Simply edit the tableName and schemaName.
 
@@ -114,13 +114,13 @@ Here's the table config for the sample CSV file. You can use this as a reference
 ```
 {% endcode %}
 
-### Uploading your table config and schema
+## Uploading your table config and schema
 
 Check the directory structure so far
 
 ```bash
 $ ls /tmp/pinot-quick-start
-rawdata			transcript-schema.json	transcript-table-offline.json
+rawdata            transcript-schema.json    transcript-table-offline.json
 
 $ ls /tmp/pinot-quick-start/rawdata 
 transcript.csv
@@ -154,9 +154,9 @@ bin/pinot-admin.sh AddTable \
 
 Check out the table config and schema in the [Rest API](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig) to make sure it was successfully uploaded.
 
-### Creating a segment
+## Creating a segment
 
-A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../components/segment.md). 
+A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../components/segment.md).
 
 To generate a segment, we need to first create a job spec yaml file. JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. You can just copy over this job spec file. If you're using your own data, be sure to 1\) replace `transcript` with your table name 2\) set the right `recordReaderSpec`
 
@@ -315,7 +315,7 @@ Response for pushing table transcript segment transcript_OFFLINE_1570863600000_1
 
 Check that your segment made it to the table using the [Rest API](http://localhost:9000/help#!/Segment/getSegments)
 
-### Querying your data
+## Querying your data
 
 You're all set! You should see your table in the [Query Console](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/exploring-pinot#query-console) and be able to run queries against it now.
 

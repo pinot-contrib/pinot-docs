@@ -72,5 +72,3 @@ Meanwhile you can access [Presto Cluster UI](http://localhost:8080/ui/) to see q
 {% endtab %}
 {% endtabs %}
 
-
-

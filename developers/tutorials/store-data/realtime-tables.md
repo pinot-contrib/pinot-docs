@@ -1,6 +1,6 @@
 # Streaming Tables
 
-### Configurations for Streaming Tables
+## Configurations for Streaming Tables
 
 The example here uses the existing org.apache.pinot.filesystem.HadoopPinotFS to store realtime segments in a HDFS filesytem. In the Pinot controller config, add the following new configs:
 
@@ -20,5 +20,5 @@ In the Pinot controller config, add the following new configs:
 "pinot.server.instance.enable.split.commit": "true"
 ```
 
-Note: currently there is a bug in the controller \(issue &lt;https://github.com/apache/incubator-pinot/issues/3847&gt;\), for now you can cherrypick the PR [https://github.com/apache/incubator-pinot/pull/3849](https://github.com/apache/incubator-pinot/pull/3849) to fix the issue as tested already. The PR is under review now.
+Note: currently there is a bug in the controller \(issue &lt;[https://github.com/apache/incubator-pinot/issues/3847&gt;\](https://github.com/apache/incubator-pinot/issues/3847>\)\), for now you can cherrypick the PR [https://github.com/apache/incubator-pinot/pull/3849](https://github.com/apache/incubator-pinot/pull/3849) to fix the issue as tested already. The PR is under review now.
 

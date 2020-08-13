@@ -1,6 +1,6 @@
 # Creating Pinot Segments
 
-#### Realtime segment generation
+## Realtime segment generation
 
 To consume in realtime, we simply need to create a table with the same name as the schema and point to the Kafka topic to consume from, using a table definition such as this one:
 

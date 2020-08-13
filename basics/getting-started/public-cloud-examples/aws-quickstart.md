@@ -79,17 +79,17 @@ brew install weaveworks/tap/eksctl
 
 For first time AWS user, please register your account at [https://aws.amazon.com/](https://aws.amazon.com/).
 
-Once created the account, you can go to [AWS Identity and Access Management \(IAM\)](https://console.aws.amazon.com/iam/home#/home) to create a user and create access keys under Security Credential tab. 
+Once created the account, you can go to [AWS Identity and Access Management \(IAM\)](https://console.aws.amazon.com/iam/home#/home) to create a user and create access keys under Security Credential tab.
 
 ```bash
 aws configure
 ```
 
 {% hint style="info" %}
-Environment variables **`AWS_ACCESS_KEY_ID`** and **`AWS_SECRET_ACCESS_KEY`** will override  AWS configuration stored in file **`~/.aws/credentials`**
+Environment variables **`AWS_ACCESS_KEY_ID`** and **`AWS_SECRET_ACCESS_KEY`** will override AWS configuration stored in file **`~/.aws/credentials`**
 {% endhint %}
 
-## 3. \(Optional\) Create a Kubernetes cluster\(EKS\) in AWS 
+## 3. \(Optional\) Create a Kubernetes cluster\(EKS\) in AWS
 
 Below script will create a **3** nodes cluster named **pinot-quickstart** in **us-west-2** with **t3.small** machines for demo purposes.
 

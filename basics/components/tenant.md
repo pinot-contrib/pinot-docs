@@ -1,8 +1,8 @@
 # Tenant
 
-A tenant is a logical component, defined as a **group of server/broker nodes with the same Helix tag**.  
+A tenant is a logical component, defined as a **group of server/broker nodes with the same Helix tag**.
 
-In order to support multi-tenancy, Pinot has first class support for tenants. Every table is associated with a server tenant and a broker tenant. This controls the nodes that will be used by this table as servers and brokers. This allows all tables belonging to a particular use case to be grouped under a single tenant name. 
+In order to support multi-tenancy, Pinot has first class support for tenants. Every table is associated with a server tenant and a broker tenant. This controls the nodes that will be used by this table as servers and brokers. This allows all tables belonging to a particular use case to be grouped under a single tenant name.
 
 The concept of tenants is very important when the multiple use cases are using Pinot and there is a need to provide quotas or some sort of isolation across tenants. For example, consider we have two tables `Table A` and `Table B` in the same Pinot cluster.
 
@@ -12,11 +12,11 @@ We can configure `Table A` with server tenant `Tenant A` and `Table B` with serv
 
 ![Table isolation using tenants](../../.gitbook/assets/tenantisolation.jpg)
 
- No need to create separate clusters for every table or use case! 
+No need to create separate clusters for every table or use case!
 
 ## Tenant Config
 
-This tenant is defined in the [tenants](table.md#tenants) section of the table config. 
+This tenant is defined in the [tenants](table.md#tenants) section of the table config.
 
 This section contains 2 main fields `broker` and `server` which decide the tenants used for the broker and server components of this table.
 
@@ -37,7 +37,7 @@ In the above example,
 
 ### Broker tenant
 
-Here's a sample broker tenant config. This will create a broker tenant `sampleBrokerTenant` by tagging 3 untagged broker nodes as `sampleBrokerTenant_BROKER`. 
+Here's a sample broker tenant config. This will create a broker tenant `sampleBrokerTenant` by tagging 3 untagged broker nodes as `sampleBrokerTenant_BROKER`.
 
 {% code title="sample-broker-tenant.json" %}
 ```javascript
@@ -64,17 +64,17 @@ bin/pinot-admin.sh AddTenant \
 {% endtab %}
 
 {% tab title="curl" %}
-```
+```text
 curl -i -X POST -H 'Content-Type: application/json' -d @sample-broker-tenant.json localhost:9000/tenants
 ```
 {% endtab %}
 {% endtabs %}
 
-Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded. 
+Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded.
 
 ### Server tenant
 
-Here's a sample server tenant config. This will create a server tenant `sampleServerTenant` by tagging 1 untagged server node as `sampleServerTenant_OFFLINE` and 1 untagged server node as `sampleServerTenant_REALTIME`. 
+Here's a sample server tenant config. This will create a server tenant `sampleServerTenant` by tagging 1 untagged server node as `sampleServerTenant_OFFLINE` and 1 untagged server node as `sampleServerTenant_REALTIME`.
 
 {% code title="sample-server-tenant.json" %}
 ```javascript
@@ -103,11 +103,11 @@ bin/pinot-admin.sh AddTenant \
 {% endtab %}
 
 {% tab title="curl" %}
-```
+```text
 curl -i -X POST -H 'Content-Type: application/json' -d @sample-server-tenant.json localhost:9000/tenants
 ```
 {% endtab %}
 {% endtabs %}
 
-Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded. 
+Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded.
 

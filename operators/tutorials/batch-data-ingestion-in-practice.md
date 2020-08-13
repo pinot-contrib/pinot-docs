@@ -4,7 +4,7 @@ In practice, we need to run Pinot data ingestion as a pipeline or a scheduled jo
 
 Assuming pinot-distribution is already built, inside examples directory, you could find several sample table layouts.
 
-### Table Layout
+## Table Layout
 
 Usually each table deserves its own directory, like _airlineStats_.
 
@@ -46,7 +46,7 @@ Typically, for data events with timestamp, we partition those data and store the
 /var/pinot/airlineStats/rawdata/2014/01/31/airlineStats_data_2014-01-31.avro
 ```
 
-### Configuring batch ingestion job
+## Configuring batch ingestion job
 
 Create a batch ingestion job spec file to describe how to ingest the data.
 
@@ -176,7 +176,7 @@ pushJobSpec:
   pushRetryIntervalMillis: 1000
 ```
 
-### Executing the job
+## Executing the job
 
 Below command will create example table into Pinot cluster.
 
@@ -226,7 +226,7 @@ After job finished, segments are stored in `examples/batch/airlineStats/segments
 /var/pinot/airlineStats/segments/2014/01/31/airlineStats_batch_2014-01-31_2014-01-31.tar.gz
 ```
 
-### Executing the job using Spark
+## Executing the job using Spark
 
 Below example is running in a spark local mode. You can download spark distribution and start it by running:
 
@@ -374,7 +374,6 @@ pushJobSpec:
 
   # pushRetryIntervalMillis: retry wait Ms, default to 1 second.
   pushRetryIntervalMillis: 1000
-
 ```
 
 Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
@@ -407,7 +406,7 @@ ${SPARK_HOME}/bin/spark-submit \
   ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/sparkIngestionJobSpec.yaml
 ```
 
-### Executing the job using Hadoop
+## Executing the job using Hadoop
 
 Below command shows how to use Hadoop jar command to run a Hadoop job using `pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`.
 
@@ -544,7 +543,6 @@ pushJobSpec:
 
   # pushRetryIntervalMillis: retry wait Ms, default to 1 second.
   pushRetryIntervalMillis: 1000
-
 ```
 
 Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.

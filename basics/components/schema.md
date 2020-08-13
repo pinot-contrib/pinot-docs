@@ -1,6 +1,6 @@
 # Schema
 
-Schema  is used to define the names, data types and other information for the columns of a Pinot table. 
+Schema is used to define the names, data types and other information for the columns of a Pinot table.
 
 ## Types of columns
 
@@ -18,7 +18,6 @@ Columns in a Pinot table can be broadly categorized into three categories
       <td style="text-align:left"><b>Dimension</b>
       </td>
       <td style="text-align:left">
-        <p></p>
         <p>Dimension columns are typically used in slice and dice operations for
           answering business queries. Frequent operations done on dimension columns:</p>
         <ul>
@@ -53,7 +52,6 @@ Columns in a Pinot table can be broadly categorized into three categories
           between offline and realtime data in a hybrid table and for retention management.
           A primary time column is mandatory if the table&apos;s push type is <code>APPEND</code> and
           optional if the push type is <code>REFRESH</code> .</p>
-        <p></p>
         <p>Common operations done on time column:</p>
         <ul>
           <li>GROUP BY</li>
@@ -182,7 +180,7 @@ A dimensionFieldSpec is defined for each dimension column. Here's a list of the 
         For a multi-valued column, individual rows don&#x2019;t necessarily need
         to have the same number of values. Typical use case for this would be a
         column such as <code>skillSet</code> for a person (one row in the table)
-        that can have multiple values such as <code>Real Estate, Mortgages.</code> 
+        that can have multiple values such as <code>Real Estate, Mortgages.</code>
       </td>
     </tr>
   </tbody>
@@ -243,7 +241,7 @@ A dateTimeFieldSpec is used to define time columns of the table. Here's a list o
     <tr>
       <td style="text-align:left">format</td>
       <td style="text-align:left">
-        <p>The format of the time column. The syntax of the format is <code>timeSize:timeUnit:timeFormat</code> 
+        <p>The format of the time column. The syntax of the format is <code>timeSize:timeUnit:timeFormat</code>
         </p>
         <p>timeFormat can be either EPOCH or SIMPLE_DATE_FORMAT. If it is SIMPLE_DATE_FORMAT,
           the pattern string is also specified. For example:</p>
@@ -279,7 +277,7 @@ A dateTimeFieldSpec is used to define time columns of the table. Here's a list o
 
 This has been deprecated. Older schemas containing timeFieldSpec will be supported. But for new schemas, use DateTimeFieldSpec instead.
 
-A timeFieldSpec is defined for the time column. A timeFieldSpec is composed of an incomingGranularitySpec and an outgoingGranularitySpec. **IncomingGranularitySpec** in combination with **outgoingGranularitySpec** can be used to transform the time column from incoming format to the outgoing format. If both of them are specified, the segment creation process will convert the time column from the incoming format to the outgoing format. If no time column transformation is required, you can specify just the **incomingGranularitySpec**. 
+A timeFieldSpec is defined for the time column. A timeFieldSpec is composed of an incomingGranularitySpec and an outgoingGranularitySpec. **IncomingGranularitySpec** in combination with **outgoingGranularitySpec** can be used to transform the time column from incoming format to the outgoing format. If both of them are specified, the segment creation process will convert the time column from the incoming format to the outgoing format. If no time column transformation is required, you can specify just the **incomingGranularitySpec**.
 
 | timeFieldSpec fields | Description |
 | :--- | :--- |
@@ -298,7 +296,7 @@ The incoming and outgoing granularitySpec are defined as:
 
 ### Advanced fields
 
-Apart from these, there's some advanced fields. These are common to all field specs. 
+Apart from these, there's some advanced fields. These are common to all field specs.
 
 | field name | description |
 | :--- | :--- |
@@ -416,7 +414,7 @@ If `eventType` is `IMPRESSION` set `impression` to `1`. Similar for `CLICK`.
 }
 ```
 
-#### AVRO Map 
+#### AVRO Map
 
 Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintain the mapping.  
 1\) The keys of the map as `map_keys`  
@@ -445,9 +443,9 @@ We have several inbuilt functions that can be used directly in as ingestion tran
 
 These are functions which enable commonly needed time transformations.
 
-**toEpochXXX** 
+**toEpochXXX**
 
-Converts from epoch milliseconds to a higher granularity. 
+Converts from epoch milliseconds to a higher granularity.
 
 <table>
   <thead>
@@ -643,9 +641,9 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
 
 ## Creating a Schema
 
-Create a schema for your data, or see [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for examples. Make sure you've [setup the cluster](cluster.md#setup-a-pinot-cluster) 
+Create a schema for your data, or see [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for examples. Make sure you've [setup the cluster](cluster.md#setup-a-pinot-cluster)
 
-Note: schema can also be created as part of table creation, refer to [Creating a table](table.md#creating-a-table). 
+Note: schema can also be created as part of table creation, refer to [Creating a table](table.md#creating-a-table).
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
@@ -655,7 +653,7 @@ bin/pinot-admin.sh AddSchema -schemaFile transcript-schema.json -exec
 {% endtab %}
 
 {% tab title="curl" %}
-```
+```text
 curl -F schemaName=@transcript-schema.json  localhost:9000/schemas
 ```
 {% endtab %}
