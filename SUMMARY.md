@@ -104,6 +104,7 @@
   * [Setup cluster](operators/operating-pinot/setup-cluster.md)
   * [Setup table](operators/operating-pinot/setup-table.md)
   * [Setup ingestion](operators/operating-pinot/setup-ingestion.md)
+  * [Tiered Storage](operators/operating-pinot/tiered-storage.md)
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Monitoring](operators/operating-pinot/monitoring.md)
   * [Tuning](operators/operating-pinot/tuning/README.md)
