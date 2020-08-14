@@ -50,7 +50,7 @@ To import the Pinot stylesheet this launch intellij and navigate to `Preferences
 * Select `Import Scheme` -&gt; `Intellij IDES code style XML`
 * Choose `codestyle-intellij.xml` from `incubator-pinot/config` folder of your workspace. Click Apply.
 
-![\_images/import\_scheme.png](https://pinot.readthedocs.io/en/latest/_images/import_scheme.png)
+![](../../.gitbook/assets/import_scheme.png)
 
 #### Eclipse
 
@@ -59,5 +59,5 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 * Navigate to Java-&gt;Code Style-&gt;Formatter
 * Choose `codestyle-eclipse.xml` from `incubator-pinot/config folder` of your workspace. Click Apply.
 
-![\_images/eclipse\_style.png](https://pinot.readthedocs.io/en/latest/_images/eclipse_style.png)
+![](../../.gitbook/assets/eclipse_style.png)
 

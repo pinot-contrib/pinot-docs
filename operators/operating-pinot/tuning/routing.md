@@ -21,7 +21,7 @@ In order to address this issue, we have introduced a concept of `Replica Group`,
 
 `Replica Group` is a set of servers that contains a ‘complete’ set of segments of a table. Once we assign the segment based on replica group, each query can be answered by fanning out to a single replica group instead of all servers.
 
-![\_images/replica-group.png](https://pinot.readthedocs.io/en/latest/_images/replica-group.png)
+![](../../../.gitbook/assets/replica-group.png)
 
 `Replica Group` can be configured by setting the `InstanceAssignmentConfig` in the table config. Replica group based routing can be configured by setting `replicaGroup` as the `instanceSelectorType` in the `RoutingConfig`.
 
@@ -60,7 +60,7 @@ Currently, we have two different mechanisms to prune segments on the broker side
 
 When the data is partitioned on a dimension, each segment will contain all the rows with the same partition value for a partitioning dimension. In this case, a lot of segments can be pruned if a query requires to look at a single partition to compute the result. Below diagram gives the example of data partitioned on member id while the query includes an equality filter on member id.
 
-![\_images/partitioning.png](https://pinot.readthedocs.io/en/latest/_images/partitioning.png)
+![](../../../.gitbook/assets/partitioning.png)
 
 `Partitoning` can be enabled by setting the following configuration in the table config.
 

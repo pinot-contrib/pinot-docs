@@ -29,15 +29,15 @@ Pinot provides a web-based management console and a command-line utility \(`pino
 
 The web based management console allows operations on tables, tenants, segments and schemas. You can access the console via `http://controller-host:port/help`. The console also allows you to enter queries for interactive debugging. Here are some screen-shots from the console.
 
-![\_images/pinot-console.png](https://pinot.readthedocs.io/en/latest/_images/pinot-console.png)
+![](../../.gitbook/assets/pinot-console.png)
 
 Listing all the schemas in the Pinot cluster:
 
-![\_images/list-schemas.png](https://pinot.readthedocs.io/en/latest/_images/list-schemas.png)
+![](../../.gitbook/assets/list-schemas.png)
 
 Rebalancing segments of a table:
 
-![\_images/rebalance-table.png](https://pinot.readthedocs.io/en/latest/_images/rebalance-table.png)
+![](../../.gitbook/assets/rebalance-table.png)
 
 #### Command line utility \(pinot-admin.sh\)
 

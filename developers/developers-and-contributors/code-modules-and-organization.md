@@ -38,7 +38,7 @@ Each module has a `src/main/java` folder where the code resides and `src/test/ja
 
 The following figure provides a high-level overview of the foundational Pinot modules.
 
-![\_images/PinotFoundation.png](https://pinot.readthedocs.io/en/latest/_images/PinotFoundation.png)
+![](../../.gitbook/assets/pinotfoundation.png)
 
 #### pinot-common
 
@@ -64,19 +64,19 @@ The following figure provides a high-level overview of the foundational Pinot mo
 
 `pinot-server` provides server specific functionality including server startup and REST APIs exposed by the server.
 
-![\_images/PinotServer.png](https://pinot.readthedocs.io/en/latest/_images/PinotServer.png)
+![](../../.gitbook/assets/pinotserver.png)
 
 #### pinot-controller
 
 `pinot-controller` houses all the controller specific functionality, including many cluster administration APIs, segment upload \(for both offline and realtime\), segment assignment, retention strategies etc.
 
-![\_images/PinotController.png](https://pinot.readthedocs.io/en/latest/_images/PinotController.png)
+![](../../.gitbook/assets/pinotcontroller.png)
 
 #### pinot-broker
 
 `pinot-broker` provides broker functionality that includes wiring the broker startup sequence, building broker routing tables, PQL request handling.
 
-![\_images/PinotBroker.png](https://pinot.readthedocs.io/en/latest/_images/PinotBroker.png)
+![](../../.gitbook/assets/pinotbroker.png)
 
 #### pinot-minion
 
@@ -86,7 +86,7 @@ The following figure provides a high-level overview of the foundational Pinot mo
 
 `pinot-hadoop` provides classes for segment generation jobs using Hadoop infrastructure.
 
-![\_images/PinotMinionHadoop.png](https://pinot.readthedocs.io/en/latest/_images/PinotMinionHadoop.png)
+![](../../.gitbook/assets/pinotminionhadoop.png)
 
 ### Auxiliary modules
 
