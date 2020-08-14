@@ -8,7 +8,7 @@ For each unique value from a column, we assign an id to it, and build a dictiona
 
 The below diagram shows the dictionary encoding for two columns with `integer` and `string` types. As seen in the `colA`, dictionary encoding will save significant amount of space for duplicated values. On the other hand, `colB` has no duplicated data. Dictionary encoding will not compress much data in this case where there are a lot of unique values in the column. For `string` type, we pick the length of the longest value and use it as the length for dictionary’s fixed length value array. In this case, padding overhead can be high if there are a large number of unique values for a column.
 
-![\_images/dictionary.png](https://pinot.readthedocs.io/en/latest/_images/dictionary.png)
+![](../../.gitbook/assets/dictionary.png)
 
 ### Raw value forward index
 
@@ -18,7 +18,7 @@ Without the dictionary, the dictionary lookup step can be skipped for each value
 
 A typical use case to apply raw value forward index is when the column has a large number of unique values and the dictionary does not provide much compression. As seen the above diagram for dictionary encoding, scanning values with a dictionary involves a lot of random access because we need to perform dictionary look up. On the other hand, we can scan values sequentially with raw value forward index and this can improve performance a lot when applied appropriately.
 
-![\_images/no-dictionary.png](https://pinot.readthedocs.io/en/latest/_images/no-dictionary.png)
+![](../../.gitbook/assets/no-dictionary.png)
 
 Raw value forward index can be configured for a table by setting it in the table config as
 
@@ -38,7 +38,7 @@ Raw value forward index can be configured for a table by setting it in the table
 
 When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, we store a pair of start and end document id for each value. \(The below diagram does not include dictionary encoding layer for simplicity.\)
 
-![\_images/sorted-forward.png](https://pinot.readthedocs.io/en/latest/_images/sorted-forward.png)
+![](../../.gitbook/assets/sorted-forward.png)
 
 Sorted forward index has the advantages of both good compression and data locality. Sorted forward index can also be used as inverted index.
 

@@ -69,7 +69,9 @@ Doing so makes answering queries about total impressions for a country just a va
 
 ### Star-tree solution
 
-On one end of the spectrum we have indexing techniques that improve search times with limited increase in space, but do not guarantee a hard upper bound on query latencies. On the other end of the spectrum we have pre-aggregation techniques that offer hard upper bound on query latencies, but suffer from exponential explosion of storage space.![../\_images/space-time.png](https://pinot.readthedocs.io/en/latest/_images/space-time.png)
+On one end of the spectrum we have indexing techniques that improve search times with limited increase in space, but do not guarantee a hard upper bound on query latencies. On the other end of the spectrum we have pre-aggregation techniques that offer hard upper bound on query latencies, but suffer from exponential explosion of storage space
+
+![](../../.gitbook/assets/space-time.png)
 
 Space-Time Trade Off Between Different Techniques
 
@@ -79,7 +81,9 @@ We propose the Star-Tree data structure that offers a configurable trade-off bet
 
 **Tree structure**
 
-Star-tree is a tree data structure that is consisted of the following properties:![../\_images/structure.png](https://pinot.readthedocs.io/en/latest/_images/structure.png)
+Star-tree is a tree data structure that is consisted of the following properties:
+
+![](../../.gitbook/assets/structure.png)
 
 Star-tree Structure
 
@@ -181,7 +185,7 @@ The default star-tree will have the following configuration:
 
 The values in the parentheses are the aggregated sum of _Impressions_ for all the documents under the node.
 
-![../\_images/example.png](https://pinot.readthedocs.io/en/latest/_images/example.png)
+![](../../.gitbook/assets/example.png)
 
 **Star-tree documents**
 
