@@ -73,7 +73,7 @@
   * [Python](users/clients/python.md)
   * [Golang](users/clients/golang.md)
 * [Tutorials](users/tutorials/README.md)
-  * [Ingest Parquet files from S3 using Spark](users/tutorials/ingest-parquet-files-from-s3-using-spark.md)
+  * [Ingest Parquet Files from S3 Using Spark](users/tutorials/ingest-parquet-files-from-s3-using-spark.md)
   * [Creating Pinot Segments](users/tutorials/create-pinot-segments.md)
 
 ## For Developers <a id="developers"></a>

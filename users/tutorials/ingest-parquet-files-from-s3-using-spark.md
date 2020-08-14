@@ -1,4 +1,4 @@
-# Ingest Parquet files from S3 using Spark
+# Ingest Parquet Files from S3 Using Spark
 
 One of the primary advantage of using Pinot is its pluggable architecture. The plugins make it easy to add support for any third-party system which can be an execution framework, a filesystem or input format.
 
