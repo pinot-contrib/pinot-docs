@@ -6,7 +6,7 @@ Pinot segments can be created offline on Hadoop, or via command line from data f
 
 ### Creating segments using hadoop
 
-![\_images/Pinot-Offline-only-flow.png](https://pinot.readthedocs.io/en/latest/_images/Pinot-Offline-only-flow.png)
+![](../../.gitbook/assets/pinot-offline-only-flow.png)
 
 Offline Pinot workflow
 
