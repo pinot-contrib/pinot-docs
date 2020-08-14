@@ -96,7 +96,7 @@ Result: {"aggregationResults":[{"function":"count_star","value":"97889"}],"excep
 
 ### Monitoring Pinot
 
-Pinot exposes several metrics to monitor the service and ensure that pinot users are not experiencing issues. In this section we discuss some of the key metrics that are useful to monitor. A full list of metrics is available in the [Metrics](https://pinot.readthedocs.io/en/latest/customizations.html#metrics) section.
+Pinot exposes several metrics to monitor the service and ensure that pinot users are not experiencing issues. In this section we discuss some of the key metrics that are useful to monitor. A full list of metrics is available in the [Metrics](../operating-pinot/monitoring.md#customizing-metrics) section.
 
 #### Pinot Server
 
@@ -143,8 +143,5 @@ Give a more detailed explanation of how metrics are generated, how to identify r
 * Percent of replicas up - [PERCENT\_OF\_REPLICAS](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
   * Percentage of complete online replicas in external view as compared to replicas in ideal state.
 * Table storage quota usage percent - [TABLE\_STORAGE\_QUOTA\_UTILIZATION](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
-  * Shows how much of the table’s storage quota is currently being used, metric will a percentage of a the entire quota.
-
-[Next ](https://pinot.readthedocs.io/en/latest/pinot_hadoop.html)[ Previous](https://pinot.readthedocs.io/en/latest/schema.html)  
-
+  * Shows how much of the table’s storage quota is currently being used, metric will a percentage of a the entire quota. 
 

@@ -25,14 +25,14 @@ A pinot table can be configured to consume from streams in one of two modes:
 > * `LowLevel`: This is the preferred mode of consumption. Pinot creates independent partition-level consumers for each partition. Depending on the the configured number of replicas, multiple consumers may be created for each partition, taking care that no two replicas exist on the same server host. Therefore you need to provision _at least_ as many hosts as the number of replcias configured.
 > * `HighLevel`: Pinot creates _one_ stream-level consumer that consumes from all partitions. Each message consumed could be from any of the partitions of the stream. Depending on the configured number of replicas, multiple stream-level consumers are created, taking care that no two replicas exist on the same server host. Therefore you need to provision exactly as many hosts as the number of replicas configured.
 
-Of course, the underlying stream should support either mode of consumption in order for a Pinot table to use that mode. Kafka has support for both of these modes. See [Pluggable Streams](https://pinot.readthedocs.io/en/latest/pluggable_streams.html#pluggable-streams) for more information on the support of other data streams in Pinot.
+Of course, the underlying stream should support either mode of consumption in order for a Pinot table to use that mode. Kafka has support for both of these modes. See [Stream ingestion](../../basics/data-import/pinot-stream-ingestion/) for more information on the support of other data streams in Pinot.
 
 In either mode, Pinot servers store the ingested rows in volatile memory until either one of the following conditions are met:
 
 > 1. A certain number of rows are consumed
 > 2. The consumption has gone on for a certain length of time
 
-\(See [StreamConfigs Section](https://pinot.readthedocs.io/en/latest/tableconfig_schema.html#stream-config-description) on how to set these values, or have pinot compute them for you\)
+\(See [StreamConfigs Section](../../configuration-reference/table.md#realtime-table-config) on how to set these values, or have pinot compute them for you\)
 
 Upon reaching either one of these limits, the servers do the following:
 
@@ -42,7 +42,7 @@ Upon reaching either one of these limits, the servers do the following:
 
 The persisted rows form what we call a _completed_ segment \(as opposed to a _consuming_ segment that resides in volatile memory\).
 
-In `LowLevel` mode, the completed segments are persisted the into local non-volatile store of pinot server _as well as_ the segment store of the pinot cluster \(See [Pinot Architecture Overview](https://pinot.readthedocs.io/en/latest/architecture.html#pinot-architecture-diagram)\). This allows for easy and automated mechanisms for replacing pinot servers, or expanding capacity, etc. Pinot has [special mechanisms](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime#ConsumingandIndexingrowsinRealtime-Segmentcompletionprotocol) that ensure that the completed segment is equivalent across all replicas.
+In `LowLevel` mode, the completed segments are persisted the into local non-volatile store of pinot server _as well as_ the segment store of the pinot cluster \(See [Pinot Architecture Overview](../../basics/architecture.md)\). This allows for easy and automated mechanisms for replacing pinot servers, or expanding capacity, etc. Pinot has [special mechanisms](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime#ConsumingandIndexingrowsinRealtime-Segmentcompletionprotocol) that ensure that the completed segment is equivalent across all replicas.
 
 During segment completion, one winner is chosen by the controller from all the replicas as the `committer server`. The `committer server` builds the segment and uploads it to the controller. All the other `non-committer servers` follow one of these two paths:
 

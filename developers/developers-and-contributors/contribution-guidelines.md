@@ -2,7 +2,7 @@
 
 
 
-Before you begin to contribute, make sure you have reviewed [Dev Environment Setup](https://pinot.readthedocs.io/en/latest/dev_env.html#dev-setup) and [Code Modules and Organization](https://pinot.readthedocs.io/en/latest/code_modules.html#code-modules) sections and that you have created your own fork of the pinot source code.
+Before you begin to contribute, make sure you have reviewed [Dev Environment Setup](code-setup.md) and [Code Modules and Organization](code-modules-and-organization.md) sections and that you have created your own fork of the pinot source code.
 
 ### Create a design document
 
@@ -12,7 +12,7 @@ If your change is relatively minor, you can skip this step. If you are adding ne
 
 ### Create an issue for the change
 
-Create a Pinot issue [here](https://github.com/apache/incubator-pinot/issues) for the change you would like to make. Provide information on why the change is needed and how you plan to address it. Use the conversations on the issue as a way to validate assumptions and the right way to proceed. Be sure to review sections on [Backward and Forward compatibility changes](https://pinot.readthedocs.io/en/latest/contribution_guidelines.html#compatibility-changes) and [External libraries](https://pinot.readthedocs.io/en/latest/contribution_guidelines.html#external-libs).
+Create a Pinot issue [here](https://github.com/apache/incubator-pinot/issues) for the change you would like to make. Provide information on why the change is needed and how you plan to address it. Use the conversations on the issue as a way to validate assumptions and the right way to proceed. Be sure to review sections on [Backward and Forward compatibility changes](contribution-guidelines.md#backward-and-forward-compatibility-changes) and [External libraries](contribution-guidelines.md#external-libraries).
 
 If you have a design document, please refer to the design documents in your Issue. You may even want to create multiple issues depending on the extent of your change.
 
@@ -73,15 +73,15 @@ Be cautious about pulling in external dependencies. You will need to consider mu
 
 * What capability is the addition of the library providing you with? Can existing libraries provide this functionality \(may be with a little bit of effort\)?
 * Is the external library maintained by an active community of contributors?
-* What are the licensing terms for the library. For more information about handling licenses, see [License Headers for newly added files](https://pinot.readthedocs.io/en/latest/contribution_guidelines.html#handling-licenses).
-* Are you adding the library to [Foundational modules](https://pinot.readthedocs.io/en/latest/code_modules.html#pinot-foundation) modules? This will affect the rest of the Pinot code base. If the new library pulls in a lot of transitive dependencies, then we might encounter unexpected issues with multiple classes in the classpath. These issues are hard to catch with tests as the order of loading the libraries at runtime matters. If you absolutely need the support, consider adding it via extension modules, see [Extension modules](https://pinot.readthedocs.io/en/latest/code_modules.html#extension-modules).
+* What are the licensing terms for the library. For more information about handling licenses, see [License Headers for newly added files](contribution-guidelines.md#license-headers-for-newly-added-files).
+* Are you adding the library to [Foundational modules](code-modules-and-organization.md#foundational-modules) modules? This will affect the rest of the Pinot code base. If the new library pulls in a lot of transitive dependencies, then we might encounter unexpected issues with multiple classes in the classpath. These issues are hard to catch with tests as the order of loading the libraries at runtime matters. If you absolutely need the support, consider adding it via extension modules, see [Extension modules](code-modules-and-organization.md#extension-modules).
 
 #### Testing your changes
 
 Automated tests are always recommended for contributions. Make sure you write tests so that:
 
 1. You verify the correctness of your contribution. This serves as proof to you as well as the reviewers.
-2. You future proof your contributions against code refactors or other changes. While this may not always be possible \(see [Testing Guidelines](https://pinot.readthedocs.io/en/latest/contribution_guidelines.html#testing-guidelines)\), its a good goal to aim for.
+2. You future proof your contributions against code refactors or other changes. While this may not always be possible \(see [Testing Guidelines](contribution-guidelines.md#testing-guidelines)\), its a good goal to aim for.
 
 Identify a list of tests for the changes you have made. Depending on the scope of changes, you may need one or more of the following tests:
 

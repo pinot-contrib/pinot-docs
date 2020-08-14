@@ -2,7 +2,7 @@
 
 ## Tuning Realtime Performance
 
-See the section on [Ingesting Realtime Data](https://pinot.readthedocs.io/en/latest/architecture.html#ingesting-realtime-data) before reading this section.
+See the section on [Ingesting Realtime Data](../../../basics/data-import/pinot-stream-ingestion/) before reading this section.
 
 Pinot servers ingest rows into a consuming segment that resides in volatile memory. Therefore, pinot servers hosting consuming segments tend to be memory bound. They may also have long garbage collection cycles when the segment is completed and memory is released.
 
@@ -22,7 +22,7 @@ We still use heap memory to store inverted indices for consuming segments.
 
 The number of rows in a consuming segment needs to be balanced. Having too many rows can result in memory pressure. On the other hand, having too few rows results in having too many small segments. Having too many segments can be detrimental to query performance, and also increase pressure on the Helix.
 
-The recommended way to do this is to use the `realtime.segment.flush.desired.size` setting as described in [StreamConfigs Section](https://pinot.readthedocs.io/en/latest/tableconfig_schema.html#stream-config-description). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
+The recommended way to do this is to use the `realtime.segment.flush.desired.size` setting as described in [StreamConfigs Section](../../../configuration-reference/table.md#realtime-table-config). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
 
 ### Moving completed segments to different hosts
 
@@ -30,7 +30,7 @@ This feature is available only if the consumption type is `LowLevel`.
 
 The structure of the consuming segments and the completed segments are very different. The memory, CPU, I/O and GC characteristics could be very different while processing queries on these segments. Therefore it may be useful to move the completed segments onto different set of hosts in some use cases.
 
-You can host completed segments on a different set of hosts using the `tagOverrideConfig` as described in [Table Config](https://docs.pinot.apache.org/basics/components/table#tenants). Pinot will automatically move them once the consuming segments are completed.
+You can host completed segments on a different set of hosts using the `tagOverrideConfig` as described in [Table Config](../../../configuration-reference/table.md). Pinot will automatically move them once the consuming segments are completed.
 
 ### Controlling segment build vs segment download on Realtime servers
 
@@ -40,7 +40,7 @@ When a realtime segment completes, a winner server is chosen as a committer amon
 
 Building a segment can cause excessive garbage and may result in GC pauses on the server. Long GC pauses can affect query processing. In order to avoid this, we have a configuration that allows you to control whether
 
-It might become desirable to force the non-committer servers to download the segment from the controller, instead of building it again. The `completionConfig` as described in [Table Config](https://pinot.readthedocs.io/en/latest/tableconfig_schema.html#table-config-section) can be used to configure this.
+It might become desirable to force the non-committer servers to download the segment from the controller, instead of building it again. The `completionConfig` as described in [Table Config](../../../configuration-reference/table.md) can be used to configure this.
 
 ### Fine tuning the segment commit protocol
 

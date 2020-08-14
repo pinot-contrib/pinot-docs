@@ -29,7 +29,7 @@ $ git remote -v
 
 ### Maven
 
-Pinot is a Maven project and familiarity with Maven will help you work with Pinot code. If you are new to Maven, you can read about Maven [here](https://pinot.readthedocs.io/en/latest/maven.apache.org) and [get a quick overview here](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
+Pinot is a Maven project and familiarity with Maven will help you work with Pinot code. If you are new to Maven, you can read about Maven [here](https://maven.apache.org/) and [get a quick overview here](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
 
 Run the following maven command to setup the project.
 

@@ -65,7 +65,7 @@ hadoop jar pinot-hadoop-<version>-SNAPSHOT-shaded.jar SegmentTarPush job.propert
 
 Here is how you can create Pinot segments from standard formats like CSV/JSON/AVRO.
 
-1. Follow the steps described in the section on [Compiling the code](https://pinot.readthedocs.io/en/latest/getting_started.html#compiling-code-section) to build pinot. Locate `pinot-admin.sh` in `pinot-tools/target/pinot-tools=pkg/bin/pinot-admin.sh`.
+1. Follow the steps described in the section on [Compiling the code](../../basics/getting-started/#running-pinot) to build pinot. Locate `pinot-admin.sh` in `pinot-tools/target/pinot-tools=pkg/bin/pinot-admin.sh`.
 2. Create a top level directory containing all the CSV/JSON/AVRO files that need to be converted into segments.
 3. The file name extensions are expected to be the same as the format name \(_i.e_ `.csv`, `.json` or `.avro`\), and are case insensitive. Note that the converter expects the `.csv` extension even if the data is delimited using tabs or spaces instead.
 4. Prepare a schema file describing the schema of the input data. The schema needs to be in JSON format. See example later in this section.
