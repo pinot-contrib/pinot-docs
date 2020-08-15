@@ -4,21 +4,21 @@ description: Explore the data on our Pinot cluster
 
 # Pinot data explorer
 
-Once you have set up the Cluster, you can start exploring the data and the APIs.   
+Once you have set up the Cluster, you can start exploring the data and the APIs. Pinot 0.5.0 comes bundled with a completely new UI.  
 Just head over to [http://localhost:9000](http://localhost:9000) in your browser to open the controller UI.
 
-![](../../.gitbook/assets/screen-shot-2020-02-28-at-9.46.33-am%20%281%29.png)
+![](../../.gitbook/assets/pinot_controller_ui.png)
 
 Let's take a look at the following two features on the UI
 
 ### Query Console
 
-[Query Console](http://localhost:9000/query#) let's us run queries on the data in the Pinot cluster.
+Let us run some queries on the data in the Pinot cluster. Head over to [Query Console](http://localhost:9000/#/query) to see the querying interface.
 
 We can see our `baseballStats` table listed on the left \(you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid quick start\).  Click on the table name to display all the names along with the data types of the columns of the table.  
 You can also execute a sample query `select * from baseballStats limit 10`  by typing it in the text box and clicking the `Run Query` button.
 
-![Pinot Data Explorer](../../.gitbook/assets/screen-shot-2020-02-28-at-9.49.12-am.png)
+![](../../.gitbook/assets/pinot_query_console_cropped.png)
 
 You can also try out the following queries:
 

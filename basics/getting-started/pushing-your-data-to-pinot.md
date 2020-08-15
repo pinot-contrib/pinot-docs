@@ -319,5 +319,5 @@ Check that your segment made it to the table using the [Rest API](http://localho
 
 You're all set! You should see your table in the [Query Console](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/exploring-pinot#query-console) and be able to run queries against it now.
 
-![select \* from transcript](../../.gitbook/assets/screen-shot-2020-02-28-at-2.44.23-pm.png)
+![](../../.gitbook/assets/pinot_query_transcript_table.png)
 

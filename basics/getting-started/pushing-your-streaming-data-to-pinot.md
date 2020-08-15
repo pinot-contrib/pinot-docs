@@ -162,5 +162,5 @@ bin/kafka-console-producer.sh \
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the [Query Console ](http://localhost:9000/query)to checkout the realtime data
 
-![](../../.gitbook/assets/screen-shot-2020-03-09-at-12.43.29-pm.png)
+![](../../.gitbook/assets/pinot_query_transcript_table.png)
 
