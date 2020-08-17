@@ -1,12 +1,17 @@
 # Tiered Storage
 
-Tiered storage allows you to split your server storage into tiers. 
+Tiered storage allows you to split your server storage into multiple tiers. All the tiers can use different filesystem to hold the data. Tiered storage can be used to optimise the cost to latency tradeoff in production Pinot systems.
 
-Consider use cases which have Pinot tables with **very large retention,** but typically **only query the most recent segments**. Or use cases where very **low latency is expected when querying the recent data**, and are **tolerant of slightly higher latencies when querying older data**. In order to optimize for low latency, we often recommend using high performance SSDs. But if such a use case has 2 years of data, and need the high performance only when querying 1 month of data, it might become desirable to keep only the recent time ranges on SSDs, and keep the less frequently queried ones on cheaper and modest nodes \(say HDDs\).
+Some example scenarios in which tiered storage can be used - 
 
-This time based data tiers is just 1 example. The logic to split data into tiers may change depending on the use case. Similarly, using SSDs and HDDs is just 1 example of storage tiers. Again, depending on the usecase, you may want to use a different configuration of servers, or even move it to a deep store \(say S3\).
+* Tables with very long retention \(more than 2 years\) but most frequently queries are performed on the recent data.
+* Reduce storage cost for older data while tolerating slightly higher latencies  In order to optimize for low latency, we often recommend using high performance SSDs. But if such a use case has 2 years of data, and need the high performance only when querying 1 month of data, it might become desirable to keep only the recent time ranges on SSDs, and keep the less frequently queried ones on cheaper nodes such as HDDs or a DFS such as S3.
 
-To configure tiered storage, set the `tieredConfigs` in your table config:
+The data age based tiers is just one of the examples. The logic to split data into tiers may change depending on the use case.
+
+You can configured tiered storage by setting the `tieredConfigs` key in your table config json.
+
+#### Example
 
 ```text
 {
@@ -32,15 +37,17 @@ To configure tiered storage, set the `tieredConfigs` in your table config:
 }
 ```
 
-where,
+In this example, the table uses servers tagged with `base_OFFLINE`. We have created two tiers of Pinot servers, tagged with `tier_a_OFFLINE` and `tier_b_OFFLINE`. Segments older than 7 days will move from `base_OFFLINE` to `tier_a_OFFLINE`, and segments older than 15 days will move to `tier_b_OFFLINE`.
+
+Following properties are supported under `tierConfigs` - 
 
 |  |  |
 | :--- | :--- |
 | name | Name of the tier. Every tier in the tierConfigs list must have a unique name |
-| segmentSelectorType | The strategy used for selecting segments for tiers. The only supported strategy as of now is "time", which will pick segments based on segment age. In future, we expect to have strategies like "column\_value", etc |
-| segmentAge | This property is required when `segmentSelectorType` is "time". Set a period string, eg. 15d, 24h, 60m |
-| storageType | The type of storage. The only supported type as of now is "pinot\_server", which will use Pinot servers as storage for the tier. In future, we expect to have some deep store modes here  |
-| serverTag | This property is required when `storageType` is "pinot\_server". Set the tag of the Pinot servers you wish to use for this tier. |
+| segmentSelectorType | The strategy used for selecting segments for tiers. The only supported strategy as of now is `time`, which will pick segments based on segment age. In future, we expect to have strategies like `column_value`, etc |
+| segmentAge | This property is required when `segmentSelectorType` is `time`. Set a period string, eg. 15d, 24h, 60m. Segments which are older than the age will be moved to the the specific tier |
+| storageType | The type of storage. The only supported type is `pinot_server`, which will use Pinot servers as storage for the tier. In future, we expect to have some deep store modes here  |
+| serverTag | This property is required when `storageType` is `pinot_server`. Set the tag of the Pinot servers you wish to use for this tier. |
 
-In the example above, the table uses servers tagged with "base\_OFFLINE". We have created 2 tiers of Pinot servers, tagged with "tier\_a\_OFFLINE" and "tier\_b\_OFFLINE". Segments older than 7 days will move from "base\_OFFLINE" to "tier\_a\_OFFLINE", and segments older than 15 days will move to "tier\_b\_OFFLINE".
+
 
