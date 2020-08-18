@@ -126,7 +126,7 @@ Take a look at the schema by going to [Schema -&gt; Get a schema](http://localho
 }
 ```
 
-Finally, let's checkout the data segments in the cluster by going to [Segment -&gt; List all segments](http://localhost:9000/help#!/Segment/getSegments), type in `baseballStats` in the table name, and click `Try it out!`. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
+Finally, let's checkout the data segments in the cluster by going to [List all segments](http://localhost:9000/help#!/Segment/getSegments), type in `baseballStats` in the table name, and click `Try it out!`. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
 You might have figured out by now, in order to get data into the Pinot cluster, we need a table, a schema and segments. Let's head over to [Batch upload sample data](../../basics/getting-started/pushing-your-data-to-pinot.md), to find out more about these components and learn how to create them for your own data.
 
