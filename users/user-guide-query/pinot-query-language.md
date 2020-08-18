@@ -50,6 +50,16 @@ SELECT COUNT(*) FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
+### Filtering with NULL predicate
+
+```sql
+SELECT COUNT(*) FROM myTable
+  WHERE foo IS NOT NULL
+  AND foo = 'foo'
+  AND bar BETWEEN 1 AND 20
+  OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
+```
+
 ### Selection \(Projection\)
 
 ```sql
@@ -137,8 +147,10 @@ Comparison with a regular expression is supported using the regexp\_like functio
 * `LT`
 * `BETWEEN`
 * `REGEXP_LIKE`
+* `IS NULL`
+* `IS NOT NULL`
 
-For Multi-Valued columns, `EQUALS` is similar to `CONTAINS`. 
+For Multi-Valued columns, `EQUALS` is similar to `CONTAINS`. For NULL predicate usage \(`IS NULL` or `IS NOT NULL`\)  the `nullHandlingEnabled` flag needs to be set to true in table config. Please see section on [table index config](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1) for more details.
 
 ### GROUP BY
 
