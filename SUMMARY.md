@@ -89,6 +89,7 @@
 * [Advanced](developers/advanced/README.md)
   * [Data Ingestion Overview](developers/advanced/data-ingestion.md)
   * [Ingestion Transforms](developers/advanced/ingestion-level-transformations.md)
+  * [Null Value Support](developers/advanced/null-value-support.md)
   * [Advanced Pinot Setup](developers/advanced/advanced-pinot-setup.md)
 * [Plugins](developers/plugin-architecture/README.md)
   * [Write Custom Plugins](developers/plugin-architecture/write-custom-plugins/README.md)
