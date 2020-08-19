@@ -140,6 +140,10 @@ After changing the replication, run a [table rebalance](frequent-questions.md#ho
 
 A rebalance is run to reassign all the segments of a table to the available servers. This is typically done when capacity changes are done i.e. adding more servers or removing servers from a table.
 
+#### Capacity changes
+
+The first step is to untag the servers you wish to remove, or tag new servers you wish to add. This can be done using the swagger API under INSTANCES. Call UPDATE instances/{instanceName}, removing or adding tags. 
+
 **Offline**
 
 Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](%20http://localhost:9000/help#!/Table/rebalance), with tableType OFFLINE
