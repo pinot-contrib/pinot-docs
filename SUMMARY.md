@@ -119,6 +119,7 @@
   * [Amazon EKS \(Kafka\)](operators/tutorials/non-eks-to-eks.md)
   * [Amazon MSK \(Kafka\)](operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
   * [Batch Data Ingestion In Practice](operators/tutorials/batch-data-ingestion-in-practice.md)
+  * [Batch Data Ingestion Using S3 as Deep Store](operators/tutorials/batch-data-ingestion-using-s3-as-deep-store.md)
 
 ## Configuration Reference
 
