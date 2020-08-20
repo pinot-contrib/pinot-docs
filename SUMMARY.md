@@ -7,6 +7,7 @@
 * [Concepts](basics/concepts.md)
 * [Architecture](basics/architecture.md)
 * [Components](basics/components/README.md)
+  * [Schema](basics/components/schema.md)
   * [Cluster](basics/components/cluster.md)
   * [Controller](basics/components/controller.md)
   * [Broker](basics/components/broker.md)
