@@ -12,12 +12,12 @@ You can also configure the S3 filesystem using the following options -
 * `accessKey` - \(Optional\) AWS access key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.
 * `secretKey` - \(Optional\) AWS secret key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.
 
-Each of these properties should be prefixed by `pinot.[node].storage.factory.class.s3.` where `node` is either `controller` or `server` depending on the config
+Each of these properties should be prefixed by `pinot.[node].storage.factory.s3.` where `node` is either `controller` or `server` depending on the config
 
 e.g.
 
 ```text
-pinot.controller.storage.factory.class.s3.region=ap-southeast-1
+pinot.controller.storage.factory.s3.region=ap-southeast-1
 ```
 
 S3 Filesystem supports authentication using the [DefaultCredentialsProviderChain](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html). The credential provider looks for the credentials in the following order -
