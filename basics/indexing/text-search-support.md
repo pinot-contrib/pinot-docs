@@ -174,7 +174,11 @@ Text index is an addition to the type of **per-column indexes** users can create
 
 Similar to other indexes, users can enable text index on a column through table config. As part of text-search feature, we have also introduced a new generic way of specifying the per-column encoding and index information. In the table config, there will be a new section with name "fieldConfigList". 
 
-**IMPORTANT:** This mechanism of using "fieldConfigList" is currently ONLY used for text indexes. Our plan is to migrate all other indexes to this model. We are going to do that in upcoming releases and accordingly user documentation and new guidelines will be published. So **please continue** to specify other index info in table config as you have done till now and use the **"fieldConfigList" only for text indexes**. 
+{% hint style="warning" %}
+`fieldConfigList`is currently ONLY used for text indexes. Our plan is to migrate all other indexes to this model. We are going to do that in upcoming releases and accordingly modify user documentation. So **please continue** to specify other index info in table config as you have done till now and use the `fieldConfigList` **only for text indexes**. 
+{% endhint %}
+
+
 
 ```javascript
 "fieldConfigList":[
