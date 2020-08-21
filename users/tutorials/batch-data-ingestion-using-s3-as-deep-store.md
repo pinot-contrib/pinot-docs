@@ -1,4 +1,4 @@
-# Batch Data Ingestion Using S3 as Deep Store
+# Use S3 as Pinot Deep Store with Data Ingestion Example
 
 {% hint style="info" %}
 Below commands are based on pinot distribution binary.
@@ -13,7 +13,26 @@ In order to setup Pinot to use S3 as deep store, we need to put extra configs fo
 Below is a sample `controller.conf` file.
 
 {% hint style="info" %}
-Please config `controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there. 
+Please config:
+
+`controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there. 
+{% endhint %}
+
+{% hint style="info" %}
+And add s3 as a pinot storage with configs:
+
+```bash
+pinot.controller.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
+pinot.controller.storage.factory.s3.region=us-west-2
+pinot.controller.storage.factory.s3.accessKey=****************LFVX
+pinot.controller.storage.factory.s3.secretKey=****************gfhz
+```
+{% endhint %}
+
+{% hint style="info" %}
+Add `s3` to `pinot.controller.segment.fetcher.protocols` 
+
+and set `pinot.controller.segment.fetcher.s3.class` to`org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher`
 {% endhint %}
 
 ```bash

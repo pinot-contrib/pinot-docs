@@ -76,6 +76,7 @@
 * [Tutorials](users/tutorials/README.md)
   * [Ingest Parquet Files from S3 Using Spark](users/tutorials/ingest-parquet-files-from-s3-using-spark.md)
   * [Creating Pinot Segments](users/tutorials/create-pinot-segments.md)
+  * [Use S3 as Pinot Deep Store with Data Ingestion Example](users/tutorials/batch-data-ingestion-using-s3-as-deep-store.md)
 
 ## For Developers <a id="developers"></a>
 
@@ -120,7 +121,6 @@
   * [Amazon EKS \(Kafka\)](operators/tutorials/non-eks-to-eks.md)
   * [Amazon MSK \(Kafka\)](operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
   * [Batch Data Ingestion In Practice](operators/tutorials/batch-data-ingestion-in-practice.md)
-  * [Batch Data Ingestion Using S3 as Deep Store](operators/tutorials/batch-data-ingestion-using-s3-as-deep-store.md)
 
 ## Configuration Reference
 
