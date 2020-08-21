@@ -352,6 +352,13 @@ All of the functions mentioned till now only support single value columns. You c
       <td style="text-align:left"></td>
     </tr>
     <tr>
+      <td style="text-align:left"><b>MAP_VALUE</b>
+      </td>
+      <td style="text-align:left">Select the value for a key from Map stored in Pinot.</td>
+      <td style="text-align:left"><code>MAP_VALUE(mapColumn, &apos;myKey&apos;, valueColumn)</code>
+      </td>
+    </tr>
+    <tr>
       <td style="text-align:left"><b>VALUEIN</b>
       </td>
       <td style="text-align:left">Takes at least 2 arguments, where the first argument is a multi-valued
@@ -370,7 +377,16 @@ All of the functions mentioned till now only support single value columns. You c
   </tbody>
 </table>
 
+### Advanced Queries
 
+#### Geospatial Queries
+
+Pinot supports Geospatial queries on columns containing text-based geographies. Check out [Geospatial](../../basics/indexing/geospatial-support.md) for more details on the queries and how to enable them.  
+
+
+#### Text Queries
+
+Pinot supports Pattern matching on text-based columns as well. Only the columns mentioned as text columns in table config can be queried using this method. Check out [Text search support](../../basics/indexing/text-search-support.md) for more details on how to enable pattern matching.
 
 
 
