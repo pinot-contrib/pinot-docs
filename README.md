@@ -11,7 +11,9 @@ Pinot is a real-time distributed OLAP datastore, built to deliver scalable real-
 Pinot was built by engineers at LinkedIn and Uber and is designed to scale up and out with no upper bound. Performance always remains constant based on the size of your cluster and an expected query per second \(QPS\) threshold.
 
 {% hint style="info" %}
-Join us in our Slack channel for questions, troubleshooting, and feedback. We'd love to hear from you. [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot)
+Join us in our Slack channel for questions, troubleshooting, and feedback. You can request an invite from -  [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot) .
+
+We'd love to hear from you
 {% endhint %}
 
 ![A modern OLAP platform for event-driven data warehousing](.gitbook/assets/pinot-overview-graphic.png)

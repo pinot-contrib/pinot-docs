@@ -26,7 +26,7 @@ This section is a reference for the definition of major components and logical a
 
 {% page-ref page="table.md" %}
 
-{% page-ref page="../../configuration-reference/schema.md" %}
+{% page-ref page="schema.md" %}
 
 {% page-ref page="segment.md" %}
 
