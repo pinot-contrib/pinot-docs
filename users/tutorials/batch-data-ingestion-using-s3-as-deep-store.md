@@ -1,4 +1,4 @@
-# Use S3 as Pinot Deep Store
+# Use S3 as Deep Store for Pinot
 
 {% hint style="info" %}
 Below commands are based on pinot distribution binary.
@@ -24,6 +24,18 @@ And add s3 as a pinot storage with configs:
 ```bash
 pinot.controller.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.controller.storage.factory.s3.region=us-west-2
+```
+
+Regarding AWS Credential, we also follow the convention of [DefaultAWSCredentialsProviderChain](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html).
+
+You can specify AccessKey and Secret using:
+
+* Environment Variables - `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` \(RECOMMENDED since they are recognized by all the AWS SDKs and CLI except for .NET\), or `AWS_ACCESS_KEY` and `AWS_SECRET_KEY` \(only recognized by Java SDK\)
+* Java System Properties - `aws.accessKeyId` and `aws.secretKey`
+* Credential profiles file at the default location \(`~/.aws/credentials`\) shared by all AWS SDKs and the AWS CLI
+* Configure AWS credential in pinot config files, e.g. set `pinot.controller.storage.factory.s3.accessKey` and `pinot.controller.storage.factory.s3.secretKey` in the config file. \(Not recommended\)
+
+```bash
 pinot.controller.storage.factory.s3.accessKey=****************LFVX
 pinot.controller.storage.factory.s3.secretKey=****************gfhz
 ```
@@ -44,8 +56,6 @@ controller.port=9000
 controller.helix.cluster.name=pinot-s3-example
 pinot.controller.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.controller.storage.factory.s3.region=us-west-2
-pinot.controller.storage.factory.s3.accessKey=****************LFVX
-pinot.controller.storage.factory.s3.secretKey=****************gfhz
 
 pinot.controller.segment.fetcher.protocols=file,http,s3
 pinot.controller.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
@@ -69,6 +79,10 @@ bin/pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName pinot-s3-e
 
 Below is a sample `server.conf` file
 
+{% hint style="info" %}
+Similar to controller config, please also set s3 configs in pinot server. 
+{% endhint %}
+
 ```bash
 pinot.server.netty.port=8098
 pinot.server.adminapi.port=8097
@@ -78,8 +92,6 @@ pinot.server.instance.segmentTarDir=/tmp/pinot-tmp/server/segmentTars
 
 pinot.server.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.server.storage.factory.s3.region=us-west-2
-pinot.server.storage.factory.s3.accessKey=****************LFVX
-pinot.server.storage.factory.s3.secretKey=****************gfhz
 pinot.server.segment.fetcher.protocols=file,http,s3
 pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
@@ -116,8 +128,6 @@ Below is a sample standalone ingestion job spec with certain notable changes:
     className: org.apache.pinot.plugin.filesystem.S3PinotFS
     configs:
       region: 'us-west-2'
-      accessKey: '****************LFVX'
-      secretKey: '****************gfhz'
   ```
 
 * For library version &lt; **0.6.0**, please set `segmentUriPrefix` to `[scheme]://[bucket.name]`, e.g. `s3://my.bucket` , from version **0.6.0**, you can put empty string or just ignore `segmentUriPrefix`.
@@ -189,8 +199,6 @@ pinotFSSpecs:
     className: org.apache.pinot.plugin.filesystem.S3PinotFS
     configs:
       region: 'us-west-2'
-      accessKey: '****************LFVX'
-      secretKey: '****************gfhz'
 
 # recordReaderSpec: defines all record reader
 recordReaderSpec:
@@ -455,8 +463,6 @@ pinotFSSpecs:
     className: org.apache.pinot.plugin.filesystem.S3PinotFS
     configs:
       region: 'us-west-2'
-      accessKey: '****************LFVX'
-      secretKey: '****************gfhz'
 
 # recordReaderSpec: defines all record reader
 recordReaderSpec:
