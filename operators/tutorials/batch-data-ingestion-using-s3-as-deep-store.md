@@ -25,6 +25,8 @@ controller.port=9000
 controller.helix.cluster.name=pinot-s3-example
 pinot.controller.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.controller.storage.factory.s3.region=us-west-2
+pinot.controller.storage.factory.s3.accessKey=****************LFVX
+pinot.controller.storage.factory.s3.secretKey=****************gfhz
 
 pinot.controller.segment.fetcher.protocols=file,http,s3
 pinot.controller.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
@@ -57,6 +59,8 @@ pinot.server.instance.segmentTarDir=/tmp/pinot-tmp/server/segmentTars
 
 pinot.server.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.server.storage.factory.s3.region=us-west-2
+pinot.server.storage.factory.s3.accessKey=****************LFVX
+pinot.server.storage.factory.s3.secretKey=****************gfhz
 pinot.server.segment.fetcher.protocols=file,http,s3
 pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
@@ -166,6 +170,8 @@ pinotFSSpecs:
     className: org.apache.pinot.plugin.filesystem.S3PinotFS
     configs:
       region: 'us-west-2'
+      accessKey: '****************LFVX'
+      secretKey: '****************gfhz'
 
 # recordReaderSpec: defines all record reader
 recordReaderSpec:
