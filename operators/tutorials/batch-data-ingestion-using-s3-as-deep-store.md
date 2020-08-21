@@ -10,10 +10,14 @@ In order to setup Pinot to use S3 as deep store, we need to put extra configs fo
 
 ### Start Controller
 
-Below is a sample `controller.conf` file
+Below is a sample `controller.conf` file.
+
+{% hint style="info" %}
+Please config `controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there. 
+{% endhint %}
 
 ```bash
-controller.data.dir=/tmp/controller-data/
+controller.data.dir=s3://my.bucket/pinot-data/pinot-s3-example/controller-data
 controller.local.temp.dir=/tmp/pinot-tmp-data/
 controller.zk.str=localhost:2181
 controller.host=127.0.0.1
@@ -4836,4 +4840,20 @@ tableSpec: {schemaURI: 'http://localhost:9000/tables/airlineStats/schema', table
 2020/08/20 13:30:23.534 INFO [ShutdownHookManager] [Thread-1] Deleting directory /private/var/folders/kp/v8smb2f11tg6q2grpwkq7qnh0000gn/T/spark-8e799266-782b-4069-b12a-4c1012c54954
 
 ```
+
+## Sample Output
+
+Below is the sample snapshot of s3 location for controller:
+
+![Sample S3 Controller Storage](../../.gitbook/assets/image%20%2832%29.png)
+
+Below is a sample download URI in PropertyStore
+
+![Sample segment download URI in PropertyStore](../../.gitbook/assets/image%20%2833%29.png)
+
+
+
+
+
+
 
