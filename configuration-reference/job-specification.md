@@ -298,8 +298,8 @@ pinotClusterSpecs:
 | pushAttempts | Number of attempts for push job. Default is 1, which means no retry |
 | pushParallelism | Workers to use for push job. Default is 1 |
 | pushRetryIntervalMillis | Time in milliseconds to wait for between retry attempts Default is 1 second.  |
-| segmentUriPrefix |  |
-| segmentUriSuffix |  |
+| segmentUriPrefix | append this string before the path of the push destination. Generally, it is the scheme of the filesystem e.g. `s3://` , `file://` etc. |
+| segmentUriSuffix | append this string after the path of the push destination.  |
 
 #### Example
 
@@ -308,5 +308,8 @@ pushJobSpec:
   pushParallelism: 2
   pushAttempts: 2
   pushRetryIntervalMillis: 1000
+  segmentUriPrefix : 'file://'
+  segmentUriSuffix : my-dir/
+
 ```
 
