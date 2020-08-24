@@ -19,10 +19,6 @@ This function will execute the groovy script using the arguments provided and re
 
 `arguments` - pinot columns/other transform functions which are arguments to the groovy script
 
-{% hint style="info" %}
-If you want to add your custom scalar functions, check out [User-Defined Scalar Functions](scalar-functions.md)
-{% endhint %}
-
 **Examples**
 
 * Add colA and colB and return a single-value INT `groovy('{"returnType":"INT","isSingleValue":true}', 'arg0 + arg1', colA, colB)` 
@@ -54,7 +50,7 @@ If you want to add your custom scalar functions, check out [User-Defined Scalar 
 
 ### Scalar Functions
 
-Since 0.5.0 release, Pinot supports custom functions which returns a single output for multiple inputs. Some examples of scalar functions can be found in [StringFunctions](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/function/StringFunctions.java) and [DateTimeFunctions](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/function/DateTimeFunctions.java) 
+Since 0.5.0 release, Pinot supports custom functions which returns a single output for multiple inputs. Some examples of scalar functions can be found in [StringFunctions](supported-transformations.md#string-functions) and [DateTimeFunctions ](supported-transformations.md#datetime-functions)
 
 Pinot automatically identifies and registers all the functions with annotation `@ScalarFunction` 
 
