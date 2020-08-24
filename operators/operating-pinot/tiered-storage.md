@@ -39,6 +39,8 @@ You can configured tiered storage by setting the `tieredConfigs` key in your tab
 
 In this example, the table uses servers tagged with `base_OFFLINE`. We have created two tiers of Pinot servers, tagged with `tier_a_OFFLINE` and `tier_b_OFFLINE`. Segments older than 7 days will move from `base_OFFLINE` to `tier_a_OFFLINE`, and segments older than 15 days will move to `tier_b_OFFLINE`.
 
+![](../../.gitbook/assets/screen-shot-2020-08-24-at-9.17.43-am.png)
+
 Following properties are supported under `tierConfigs` - 
 
 |  |  |
