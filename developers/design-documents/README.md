@@ -8,6 +8,7 @@ This page contains links to all the design documents
 
 | Name | Authors | Date |
 | :--- | :--- | :--- |
+| [Server Health Checker](https://docs.google.com/document/d/1PP_RaDuS7KGeF9RnAcRFJRCA8aCVxxVLTJn-c3hg9qQ/edit) | Chinmay | Aug 2020 |
 | [Segment Merge and Rollup \(Updated\)](https://docs.google.com/document/d/1-AKCfXNXdoNjFIvJ87wjWwFM_38gS0NCwFrIYjYsqp8/edit#) | Seunghyun | June 2020 |
 | [Filtering during ingestion](https://docs.google.com/document/d/1Cahnas3nh0XErETH0KHLaecN6xCnRVYWNKO3rDn7qcI/edit#) | Neha | June 2020 |
 | [Flattening during ingestion](https://docs.google.com/document/d/1IYCsYCgGn6YMWTDG4-i61Hxbtnac2dCuhvDKUZIxDYg/edit?usp=sharing) | Neha | May 2020 |
