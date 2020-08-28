@@ -21,9 +21,8 @@ public interface ServerHealthChecker {
   boolean isUnhealthy(String instanceName);
   Set<String> getUnhealthyServers();
 
-  // These 2 methods may not be a NOOP for some implementations
-  void reportError(String instanceName);
-  void reportDelayedResponse(String instanceName);
+  // This method may be a NOOP for some implementations
+  void registerResponse(ServerResponse response);
 }
 ```
 
