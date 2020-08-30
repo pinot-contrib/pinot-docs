@@ -128,28 +128,56 @@ All types of aggregation function with bounded-sized intermediate result are sup
 * MAX
 * SUM
 * AVG
-* MINMAXRANGE
-* DISTINCTCOUNTHLL
-* PERCENTILEEST
-* PERCENTILETDIGEST
+* MIN\_MAX\_RANGE
+* DISTINCT\_COUNT\_HLL
+* PERCENTILE\_EST
+* PERCENTILE\_TDIGEST
+* DISTINCT\_COUNT\_BITMAP
+  * NOTE: The intermediate result _RoaringBitmap_ is not bounded-sized, use carefully on high cardinality columns\)
 
 **Unsupported functions**
 
-* DISTINCTCOUNT: Intermediate result _Set_ is unbounded
-* PERCENTILE: Intermediate result _List_ is unbounded
+* DISTINCT\_COUNT
+  * Intermediate result _Set_ is unbounded
+* SEGMENT\_PARTITIONED\_DISTINCT\_COUNT: 
+  * Intermediate result _Set_ is unbounded
+* PERCENTILE
+  * Intermediate result _List_ is unbounded
+
+**Functions to be supported**
+
+* DISTINCT\_COUNT\_THETA\_SKETCH
+* ST\_UNION
 
 #### Index generation configuration
 
 Multiple index generation configurations can be provided to generate multiple star-trees. Each configuration should contain the following properties:
 
-* **dimensionsSplitOrder**: An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. The nodes will be split based on the order of this list. For example, split at level _i_ is performed on the values of dimension at index _i_ in the list.
+* **dimensionsSplitOrder**: An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. All columns in the filter and group-by clause of a query should be included in this list in order to use the star-tree index. The nodes will be split based on the order of this list. For example, split at level _i_ is performed on the values of dimension at index _i_ in the list.
 * **skipStarNodeCreationForDimensions** \(Optional, default empty\): A list of dimension names for which to not create the Star-Node.
-* **functionColumnPairs**: A list of aggregation function and column pairs \(split by double underscore “\_\_”\). E.g. **SUM\_\_Impressions** \(_SUM_ of column _Impressions_\)
+* **functionColumnPairs**: A list of aggregation function and column pairs \(split by double underscore “\_\_”\). E.g. **SUM\_\_Impressions** \(_SUM_ of column _Impressions_\). All aggregations of a query should be included in this list in order to use the star-tree index.
 * **maxLeafRecords** \(Optional, default 10000\): The threshold _T_ to determine whether to further split each node.
+
+#### **Default index generation configuration**
+
+Default star-tree index can be added to the segment with a boolean config _**enableDefaultStarTree**_ under the _tableIndexConfig_. 
+
+The default star-tree will have the following configuration:
+
+* All dictionary-encoded single-value dimensions with cardinality smaller or equal to a threshold \(10000\) will be included in the _dimensionsSplitOrder_, sorted by their cardinality in descending order.
+* All dictionary-encoded Time/DateTime columns will be appended to the _dimensionsSplitOrder_ following the dimensions, sorted by their cardinality in descending order. Here we assume that time columns will be included in most queries as the range filter column and/or the group by column, so for better performance, we always include them as the last elements in the _dimensionsSplitOrder_.
+* Include COUNT\(\*\) and SUM for all numeric metrics in the _functionColumnPairs._
+* Use default _maxLeafRecords_ ****\(10000\).
 
 #### Example
 
-For our example data set, with the following example configuration, the tree and documents should be something like below.
+For our example data set, in order to solve the following query efficiently:
+
+```javascript
+SELECT SUM(Impressions) FROM myTable WHERE Country = 'USA' AND Browser = 'Chrome' GROUP BY Locale
+```
+
+We may config the star-tree index as following:
 
 ```javascript
 "tableIndexConfig": {
@@ -170,16 +198,7 @@ For our example data set, with the following example configuration, the tree and
 }
 ```
 
-#### **Default index generation configuration**
-
-Default star-tree index can be added to the segment with a boolean config _**enableDefaultStarTree**_ under the _tableIndexConfig_. 
-
-The default star-tree will have the following configuration:
-
-* All dictionary-encoded single-value dimensions with cardinality smaller or equal to a threshold \(10000\) will be included in the _dimensionsSplitOrder_, sorted by their cardinality in descending order.
-* All dictionary-encoded Time/DateTime columns will be appended to the _dimensionsSplitOrder_ following the dimensions, sorted by their cardinality in descending order. Here we assume that time columns will be included in most queries as the range filter column and/or the group by column, so for better performance, we always include them as the last elements in the _dimensionsSplitOrder_.
-* Include COUNT\(\*\) and SUM for all numeric metrics in the _functionColumnPairs._
-* Use default _maxLeafRecords_ ****\(10000\).
+The star-tree and documents should be something like below:
 
 #### **Tree structure**
 
