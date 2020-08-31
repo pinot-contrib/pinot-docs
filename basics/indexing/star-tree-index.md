@@ -153,9 +153,14 @@ All types of aggregation function with bounded-sized intermediate result are sup
 
 Multiple index generation configurations can be provided to generate multiple star-trees. Each configuration should contain the following properties:
 
-* **dimensionsSplitOrder**: An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. All columns in the filter and group-by clause of a query should be included in this list in order to use the star-tree index. The nodes will be split based on the order of this list. For example, split at level _i_ is performed on the values of dimension at index _i_ in the list.
+* **dimensionsSplitOrder**: An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. The nodes will be split based on the order of this list. For example, split at level _i_ is performed on the values of dimension at index _i_ in the list.
+  * The star-tree dimension does not have to be a dimension column in the table, it can also be time column, date-time column, or metric column if necessary.
+  * The star-tree dimension column should be dictionary encoded in order to generate the star-tree index.
+  * All columns in the filter and group-by clause of a query should be included in this list in order to use the star-tree index.
 * **skipStarNodeCreationForDimensions** \(Optional, default empty\): A list of dimension names for which to not create the Star-Node.
-* **functionColumnPairs**: A list of aggregation function and column pairs \(split by double underscore “\_\_”\). E.g. **SUM\_\_Impressions** \(_SUM_ of column _Impressions_\). All aggregations of a query should be included in this list in order to use the star-tree index.
+* **functionColumnPairs**: A list of aggregation function and column pairs \(split by double underscore “\_\_”\). E.g. **SUM\_\_Impressions** \(_SUM_ of column _Impressions_\).
+  * The column within the function-column pair can be either dictionary encoded or raw.
+  * All aggregations of a query should be included in this list in order to use the star-tree index.
 * **maxLeafRecords** \(Optional, default 10000\): The threshold _T_ to determine whether to further split each node.
 
 #### **Default index generation configuration**
