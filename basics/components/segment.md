@@ -283,10 +283,50 @@ where,
 
 #### segmentNameGeneratorSpec
 
-| field | description |
-| :--- | :--- |
-| type | supported type is `simple` and `normalizedDate` |
-| configs | configs to init SegmentNameGenerator |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">field</th>
+      <th style="text-align:left">description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">type</td>
+      <td style="text-align:left">supported type is <code>simple</code> and <code>normalizedDate</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">configs</td>
+      <td style="text-align:left">configs to init SegmentNameGenerator</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">segment.name.postfix</td>
+      <td style="text-align:left">For <code>simple</code> SegmentNameGenerator.
+        <br />Postfix will be appended to all the segment names.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">segment.name.prefix</td>
+      <td style="text-align:left">For <code>normalizedDate</code> SegmentNameGenerator.
+        <br />The Prefix will be prepended to all the segment names.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">exclude.sequence.id</td>
+      <td style="text-align:left">
+        <p>Whether to include sequence ids in segment name.</p>
+        <p>Needed when there are multiple segments for same time range.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">local.directory.sequence.id</td>
+      <td style="text-align:left">
+        <p>Assign sequence ids to input files based at each local directory level.</p>
+        <p>This is useful when generating multiple segments for multiple days.</p>
+        <p>In that case, each of the days will start from sequence id 0.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 #### pinotClusterSpecs
 
