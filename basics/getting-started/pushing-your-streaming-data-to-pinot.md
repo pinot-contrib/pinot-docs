@@ -87,8 +87,9 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you l
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.broker.list": "localhost:9876",
-      "realtime.segment.flush.threshold.time": "3600000",
-      "realtime.segment.flush.threshold.size": "50000",
+      "realtime.segment.flush.threshold.size": "0",
+      "realtime.segment.flush.threshold.time": "24h",
+     "realtime.segment.flush.desired.size": "50M",
       "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
     }
   },
