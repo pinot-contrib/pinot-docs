@@ -53,7 +53,7 @@ docker exec \
 
 ## Advanced Setup
 
-### Adding Pinot database
+### Adding Pinot Database
 
 In order to add Pinot cluster as a database, a SQLAlchemy URI is required.
 
@@ -67,5 +67,35 @@ E.g.
 
 Below is an example for the QuickStart cluster, you can click `TEST CONNECTION` button to check if Pinot cluster is successfully connected.
 
-![Add Pinot cluster as a new Database](../.gitbook/assets/image%20%2834%29.png)
+![Add Pinot cluster as a new Database](../.gitbook/assets/image%20%2837%29.png)
+
+### Adding Pinot Table
+
+User can add an existing table into Superset:
+
+![Add Table Definition](../.gitbook/assets/image%20%2834%29.png)
+
+![Table Definition](../.gitbook/assets/image%20%2839%29.png)
+
+User can edit table/column definition by clicking the `edit` button left to the table name.
+
+### Configuring time column
+
+User can configure an existing column `mergedTimeMillis` as temporal and set `Datetime Format` accordingly.
+
+![Configure time column](../.gitbook/assets/image%20%2836%29.png)
+
+### Adding a derived column
+
+User can also add a new column by setting the expression.
+
+![Add a simple derived column](../.gitbook/assets/image%20%2838%29.png)
+
+Another example:
+
+![Add a derived column with Pinot UDFs](../.gitbook/assets/image%20%2835%29.png)
+
+
+
+
 
