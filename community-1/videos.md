@@ -9,11 +9,6 @@
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left">2020/09/02</td>
-      <td style="text-align:left"><a href="https://youtu.be/IWpE2L9XlGk">Apache Pinot Virtual Meetup at LinkedIn</a>
-      </td>
-    </tr>
-    <tr>
       <td style="text-align:left">2019/06/23</td>
       <td style="text-align:left"><a href="https://www.youtube.com/watch?v=mOzjVRf0yt4&amp;t=1s">Building Real-Time Analytics Applications Using Apache Pinot</a>
       </td>

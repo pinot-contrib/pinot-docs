@@ -4,10 +4,6 @@ description: Following a list of presentations centered on Pinot
 
 # Presentations
 
-## 2020
-
-* [Apache Pinot Meetup @ LinkedIn, Sept 02, 2020](https://www.slideshare.net/MayankShrivastava25/apache-pinot-meetup-sept02-2020)
-
 ## 2019
 
 * [Pinot: Enabling Real-time Analytics Applications @ LinkedIn's Scale - ApacheCon 2019 \(Sep 2019\)](https://www.slideshare.net/seunghyunlee1460/pinot-enabling-realtime-analytics-applications-linkedins-scale)
