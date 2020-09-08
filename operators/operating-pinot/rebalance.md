@@ -71,7 +71,7 @@ This API has a lot of knobs to control various behaviors. Make sure to go over t
 {% hint style="warning" %}
 **Note**
 
-Typically, you'd want to change 
+Typically, the flags that need to be changed from defaults are 
 
 **includeConsuming=true** for REALTIME 
 
@@ -98,13 +98,15 @@ Typically, you'd want to change
       <td style="text-align:left">false</td>
       <td style="text-align:left">Applicable for REALTIME tables. <b>CONSUMING segments are rebalanced only if this is set to true</b>.
         <br
-        />Moving a CONSUMING segment involves stopping consumption on a server and
-        re-consuming on the new server. If an application is sensitive to <b>increased memory utilization due to re-consumption or to a momentary data staleness</b>,
+        />Moving a CONSUMING segment involves dropping the data consumed so far
+        on old server, and re-consuming on the new server. If an application is
+        sensitive to <b>increased memory utilization due to re-consumption or to a momentary data staleness</b>,
         they may choose to not include consuming in the rebalance. Whenever the
         CONSUMING segment completes, the completed segment will be assigned to
         the right instances, and the new CONSUMING segment will also be started
-        on the correct instances. This would mean that any downsized nodes be allowed
-        to remain untagged in the cluster, until the segment completion happens.</td>
+        on the correct instances. If you choose to includeConsuming=false and let
+        the segments move later on, any downsized nodes need to remain untagged
+        in the cluster, until the segment completion happens.</td>
     </tr>
     <tr>
       <td style="text-align:left">downtime</td>
@@ -154,4 +156,10 @@ Typically, you'd want to change
     </tr>
   </tbody>
 </table>
+
+You can check the status of the rebalance by
+
+1. Checking the controller logs
+2. Running rebalance again after a while, you should receive status `"status": "NO_OP"`
+3. Checking the External View of the table, to see the changes in capacity/replicas have taken effect.
 
