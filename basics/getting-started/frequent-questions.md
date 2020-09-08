@@ -138,26 +138,7 @@ After changing the replication, run a [table rebalance](frequent-questions.md#ho
 
 ### How to run a rebalance on a table?
 
-A rebalance is run to reassign all the segments of a table to the available servers. This is typically done when capacity changes are done i.e. adding more servers or removing servers from a table.
-
-#### Capacity changes
-
-The first step is to untag the servers you wish to remove, or tag new servers you wish to add. This can be done using the swagger API under INSTANCES. Call UPDATE instances/{instanceName}, removing or adding tags. 
-
-**Offline**
-
-Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](%20http://localhost:9000/help#!/Table/rebalance), with tableType OFFLINE
-
-**Realtime**
-
-Use the rebalance API from the Swagger APIs on the controller [http://localhost:9000/help\#!/Table/rebalance](%20http://localhost:9000/help#!/Table/rebalance), with tableType REALTIME**.**   
-A realtime table has 2 components, the consuming segments and the completed segments. By default, only the completed segments will get rebalanced. The consuming segments will pick the right assignment once they complete. But you can enforce the consuming segments to also be included in the rebalance, by setting the param `includeConsuming` to true. Note that rebalancing the consuming segments would mean the consuming segment will drop the consumed data so far, and restart consumption from the last offset, which may lead to a short duration of data staleness.
-
-You can check the status of the rebalance by
-
-1. Checking the controller logs
-2. Running rebalance again after a while, you should receive status `"status": "NO_OP"`
-3. Checking the External View of the table, to see the changes in capacity/replicas have taken effect.
+Refere to [Rebalance](../../operators/operating-pinot/rebalance.md).
 
 ### How to control number of segments generated?
 
