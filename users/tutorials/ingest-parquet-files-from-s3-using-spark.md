@@ -158,6 +158,8 @@ overwriteOutput: true
 pinotFSSpecs:
   - scheme: s3
     className: org.apache.pinot.plugin.filesystem.S3PinotFS
+    configs:    
+      region: 'us-west-2'
 recordReaderSpec:
   dataFormat: 'parquet'
   className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader'
