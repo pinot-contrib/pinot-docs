@@ -12,7 +12,7 @@ Before upgrading from one version to another one, please read the release notes 
 
 ## 0.5.0 \(September 2020\)
 
-{% page-ref page="0.4.0.md" %}
+{% page-ref page="0.5.0.md" %}
 
 ## 0.4.0 \(June 2020\)
 
