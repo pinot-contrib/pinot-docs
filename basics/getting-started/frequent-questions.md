@@ -188,30 +188,21 @@ Once replica group segment assignment is in effect, the query routing can take a
 
 ## Handling time in Pinot
 
-**How does Pinot’s real-time ingestion handle out-of-order events \(with respect to event timestamps?**
+### **How does Pinot’s real-time ingestion handle out-of-order events?**
 
-Pinot does not require ordering of event time stamps. Out of order events are still consumed and indexed into the “currently consuming” segment. There is no strict time-based partitioning but star-indexes and hybrid tables accommodate. In a pathalogical case, if you have a 2 day old event come in 'now', it will still be stored in the segment that is open for consumption 'now'.  
+Pinot does not require ordering of event time stamps. Out of order events are still consumed and indexed into the "currently consuming" segment. In a pathalogical case, if you have a 2 day old event come in "now", it will still be stored in the segment that is open for consumption "now". There is no strict time-based partitioning for segments, but star-indexes and hybrid tables will handle this as appropriate.
 
+See the [Components &gt; Broker](https://docs.pinot.apache.org/basics/components/broker) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`. Pinot does store the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
 
-See the [Components &gt; Broker](https://docs.pinot.apache.org/basics/components/broker) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`.  
-Pinot does store the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
-
-  
 When generating star-indexes, the time column will be part of the star-tree so the tree can still be efficiently queried for segments with multiple time intervals.
 
-  
-**What is the purpose of a hybrid table not using `max(OfflineTime)` to determine the time-boundary, and instead using an offset?**  
+### **What is the purpose of a hybrid table not using `max(OfflineTime)` to determine the time-boundary, and instead using an offset?**
 
+This lets you have an old event up come in without building complex offline pipelines that perfectly partition your events by event timestamps. With this offset, even if your offline data pipeline produces segments with a maximum timestamp, Pinot will not use the offline dataset for that last chunk of segments. The expectation is if you process offline the next time-range of data, your data pipeline will include any late events.
 
-This lets you have an old event up come in. If your granularity was 1 day, you would be able to have a real-time event show up 1 day late, become available in the real-time table, and then only after   
+### **Why are segments not strictly time-partitioned?**
 
-
-**Why are segments not strictly time-partitioned?**
-
-It might seem odd that segemnts are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. 
-
-Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time-intervals to for performance of hybrid tables and time-filtered data.  
-
+It might seem odd that segemnts are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time-intervals to for performance of hybrid tables and time-filtered data.
 
 When generating offline segments, the segments generated such that segments only contain one time-interval and are well partitioned by the time column.
 
