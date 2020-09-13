@@ -32,6 +32,8 @@ controller:
   jvmOpts: "-javaagent:/opt/pinot/etc/jmx_prometheus_javaagent/jmx_prometheus_javaagent-0.12.0.jar=8008:/opt/pinot/etc/jmx_prometheus_javaagent/configs/pinot.yml -Xms256M -Xmx1G"
 ```
 
+You can port forward port 8008 to local and access metrics though: [http://localhost:8008/metrics](http://localhost:8008/metrics)
+
 2. Configure service annotations:
 
 Add prometheus related annotations to enable prometheus to scrape metrics.  
