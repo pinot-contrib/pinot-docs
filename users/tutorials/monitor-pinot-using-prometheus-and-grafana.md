@@ -34,6 +34,8 @@ controller:
 
 You can port forward port 8008 to local and access metrics though: [http://localhost:8008/metrics](http://localhost:8008/metrics)
 
+![Sample output of JMX metrics](../../.gitbook/assets/image%20%2849%29.png)
+
 2. Configure service annotations:
 
 Add prometheus related annotations to enable prometheus to scrape metrics.  
