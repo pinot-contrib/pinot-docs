@@ -14,21 +14,9 @@ This is a list of frequent questions most often asked in our troubleshooting cha
 
 ### How do I flatten my JSON Kafka stream?
 
-We have `toJsonStr(key)` function which can store a top level json field as a STRING in Pinot.
+We have [json\_format\(field\)](https://docs.pinot.apache.org/developers/advanced/ingestion-level-transformations#json-functions) function which can store a top level json field as a STRING in Pinot.
 
-Then you can use `jsonExtractScalar(JSON_STRING_FIELD, JSON_PATH, OUTPUT_FORMAT)` function during query time to fetch the desired field from the json string. For example
-
-```text
-Select jsonExtractScalar(myJsonMapStr,'$.k1','STRING') 
-    from myTable  
-    where jsonExtractScalar(myJsonMapStr,'$.k1','STRING') = 'value-k1-0'"
-```
-
-```text
-Select sum(jsonExtractScalar(complexMapStr,'$.k4.met','INT')) 
-    from myTable 
-    group by jsonExtractScalar(complexMapStr,'$.k1','STRING')
-```
+Then you can use these [json functions](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations#json-functions) during query time, to extract fields from the json string.
 
 {% hint style="warning" %}
 **NOTE**  
@@ -138,7 +126,7 @@ After changing the replication, run a [table rebalance](frequent-questions.md#ho
 
 ### How to run a rebalance on a table?
 
-Refere to [Rebalance](../../operators/operating-pinot/rebalance.md).
+Refer to [Rebalance](../../operators/operating-pinot/rebalance.md).
 
 ### How to control number of segments generated?
 
@@ -190,7 +178,7 @@ Once replica group segment assignment is in effect, the query routing can take a
 
 ### **How does Pinot’s real-time ingestion handle out-of-order events?**
 
-Pinot does not require ordering of event time stamps. Out of order events are still consumed and indexed into the "currently consuming" segment. In a pathalogical case, if you have a 2 day old event come in "now", it will still be stored in the segment that is open for consumption "now". There is no strict time-based partitioning for segments, but star-indexes and hybrid tables will handle this as appropriate.
+Pinot does not require ordering of event time stamps. Out of order events are still consumed and indexed into the "currently consuming" segment. In a pathological case, if you have a 2 day old event come in "now", it will still be stored in the segment that is open for consumption "now". There is no strict time-based partitioning for segments, but star-indexes and hybrid tables will handle this as appropriate.
 
 See the [Components &gt; Broker](https://docs.pinot.apache.org/basics/components/broker) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`. Pinot does store the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
 
@@ -202,7 +190,7 @@ This lets you have an old event up come in without building complex offline pipe
 
 ### **Why are segments not strictly time-partitioned?**
 
-It might seem odd that segemnts are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time-intervals to for performance of hybrid tables and time-filtered data.
+It might seem odd that segments are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time-intervals to for performance of hybrid tables and time-filtered data.
 
 When generating offline segments, the segments generated such that segments only contain one time-interval and are well partitioned by the time column.
 
