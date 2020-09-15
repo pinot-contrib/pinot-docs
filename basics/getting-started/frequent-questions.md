@@ -126,7 +126,7 @@ After changing the replication, run a [table rebalance](frequent-questions.md#ho
 
 ### How to run a rebalance on a table?
 
-Refer to [Rebalance](../../operators/operating-pinot/rebalance.md).
+Refer to [Rebalance](../../operators/operating-pinot/rebalance/).
 
 ### How to control number of segments generated?
 
