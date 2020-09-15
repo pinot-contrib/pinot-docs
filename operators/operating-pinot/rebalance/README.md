@@ -10,5 +10,11 @@ In case of servers, rebalance operation is used to balance the distribution of t
 
 In case of brokers, rebalance operation is used to recalculate the broker assignment to the tables. This is typically done after capacity changes \(scale up/down brokers\).
 
+{% page-ref page="rebalance-servers.md" %}
+
+{% page-ref page="rebalance-brokers.md" %}
+
+
+
 ## 
 
