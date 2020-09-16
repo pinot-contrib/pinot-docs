@@ -36,11 +36,34 @@ A Pinot table config has a tenants section, to define the tenant to be used by t
 
 #### Updating tags
 
+_**Using master or 0.6.0 onwards**_
+
 In order to change the server tags, the following API can be used.
 
 `PUT /instances/{instanceName}/updateTags?tags=<comma separated tags>`
 
 ![](../../../.gitbook/assets/screen-shot-2020-09-08-at-2.29.44-pm.png)
+
+_**0.5.0 and prior**_
+
+UpdateTags API is not available in 0.5.0 and prior. Instead use this API to update the Instance.
+
+`PUT /instances/{instanceName}`
+
+For example,
+
+```text
+curl -X PUT "http://localhost:9000/instances/Server_10.1.10.51_7000" 
+    -H "accept: application/json" 
+    -H "Content-Type: application/json" 
+    -d "{ \"host\": \"10.1.10.51\", \"port\": \"7000\", \"type\": \"SERVER\", \"tags\": [ \"newName_OFFLINE\", \"DefaultTenant_REALTIME\" ]}"
+```
+
+{% hint style="danger" %}
+**NOTE**
+
+The output of GET and input of PUT don't match for this API. Please make sure to use the right payload as shown in example above. Particularly, notice that instance name "Server\_host\_port" gets split up into their own fields in this PUT API.
+{% endhint %}
 
 ### Replication changes
 
