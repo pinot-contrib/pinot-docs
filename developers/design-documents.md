@@ -8,6 +8,7 @@ This page contains links to all the design documents
 
 | Name | Authors | Date |
 | :--- | :--- | :--- |
+| [Use IdSet for Id Filtering](https://docs.google.com/document/d/1s6DZ9eTPqH7vaKQlPjKiWb_OBC3hkkEGICIzcd5gozc/edit?usp=sharing) | Jackie Jiang | Sep 2020 |
 | [Server Health Checker](https://docs.google.com/document/d/1PP_RaDuS7KGeF9RnAcRFJRCA8aCVxxVLTJn-c3hg9qQ/edit) | Chinmay | Aug 2020 |
 | [HAVING and Post-Aggregation Support](https://docs.google.com/document/d/1Dg1KXpxIdl75Tsg2YFCYVeE8sMAIj64ZWoxDcj1cHwo/edit?usp=sharing) | Jackie Jiang | July 2020 |
 | [Segment Merge and Rollup \(Updated\)](https://docs.google.com/document/d/1-AKCfXNXdoNjFIvJ87wjWwFM_38gS0NCwFrIYjYsqp8/edit#) | Seunghyun | June 2020 |
