@@ -23,9 +23,22 @@ bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
       <td style="text-align:left">Port to query Pinot Server</td>
     </tr>
     <tr>
+      <td style="text-align:left">pinot.server.netty.host</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Pinot server hostname</td>
+    </tr>
+    <tr>
       <td style="text-align:left">pinot.server.adminapi.port</td>
       <td style="text-align:left">8097</td>
       <td style="text-align:left">Port for Pinot Server Admin UI</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.instance.id</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">By default the server instance id used by Helix is <em>Server_hostname_port </em>where
+        the hostname and port are configured through host and port config values
+        above. This config overwrites the default setting. User can put server
+        id independent of the server&apos;s hostname and port.</td>
     </tr>
     <tr>
       <td style="text-align:left">pinot.server.instance.dataDir</td>
