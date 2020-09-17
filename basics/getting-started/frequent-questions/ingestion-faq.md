@@ -2,9 +2,40 @@
 
 ## Data processing
 
-### How do I partition data, when using Kafka stream?
+### How do I enable partitioning in Pinot, when using Kafka stream?
+
+Setup partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
+
+The partitioning logic in the stream should match the partitioning config in Pinot. Kafka uses `murmur2`, and the equivalent in Pinot is `Murmur` function.
+
+Set partitioning config as below using same column used in Kafka
+
+```text
+"tableIndexConfig": {
+      ..
+      "segmentPartitionConfig": {
+        "columnPartitionMap": {
+          "column_foo": {
+            "functionName": "Murmur",
+            "numPartitions": 12 // same as number of kafka partitions
+          }
+        }
+      }
+```
+
+and also set
+
+```text
+"routing": {
+      "segmentPrunerTypes": ["partition"]
+    }
+```
+
+More details about how partitioner works in Pinot [here](../../../operators/operating-pinot/tuning/routing.md#partitioning).
 
 ### How do I store BYTES column in JSON data?
+
+For JSON, you can use hex encoded string to ingest BYTES
 
 ### How do I flatten my JSON Kafka stream?
 
