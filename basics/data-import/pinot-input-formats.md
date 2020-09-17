@@ -55,6 +55,12 @@ CSV Record Reader supports the following configs -
 
 `multiValueDelimiter` - The character seperating multiple values in a single column. This can be used to split a column into a list.
 
+{% hint style="info" %}
+Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config.   
+  
+`multiValueDelimiter: ''` 
+{% endhint %}
+
 #### AVRO
 
 ```text
