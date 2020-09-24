@@ -12,6 +12,8 @@ In case of RealTime Pinot tables, whenever a Pinot server finishes consuming a s
 
 When this is enabled, the Pinot servers will attempt to upload the completed segment to the segment store directly, thus by-passing the controller. Once this is finished, it will update the controller with the corresponding segment metadata. The reason this policy is named `peer download` is because if the segment store is unavailable for whatever reason, the corresponding segments can still be downloaded directly from the Pinot servers.
 
+**Please Note:** This is available in the latest master \(not in 0.5.0 release\)
+
 ## How to enable Peer Download for Segments
 
 This scheme only works for real-time tables using the Low Level Consumer \(LLC\) mode. The changes needed are as follows:
