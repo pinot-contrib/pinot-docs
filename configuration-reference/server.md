@@ -127,13 +127,16 @@ bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
     </tr>
     <tr>
       <td style="text-align:left">pinot.server.instance.realtime.alloc.offheap</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">false</td>
+      <td style="text-align:left">Boolean value to control whether memory for realtime consuming segments
+        should be allocated off-heap.</td>
     </tr>
     <tr>
       <td style="text-align:left">pinot.server.instance.realtime.alloc.offheap.direct</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">false</td>
+      <td style="text-align:left">If &apos;realtime.alloc.offheap&apos; is set to true, this boolean value
+        controls whether the corresponding allocation should be direct or not (false
+        indicate mmap allocation)</td>
     </tr>
     <tr>
       <td style="text-align:left">pinot.server.startup.minResourcePercent</td>
