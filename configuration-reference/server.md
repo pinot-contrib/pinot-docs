@@ -120,6 +120,12 @@ bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
       <td style="text-align:left"></td>
     </tr>
     <tr>
+      <td style="text-align:left">pinot.server.instance.realtime.max.parallel.segment.builds</td>
+      <td style="text-align:left">0</td>
+      <td style="text-align:left">Specifies how many parallel realtime segments can be built. Value of &lt;=
+        0 indicates unlimited.</td>
+    </tr>
+    <tr>
       <td style="text-align:left">pinot.server.instance.realtime.alloc.offheap</td>
       <td style="text-align:left"></td>
       <td style="text-align:left"></td>
