@@ -74,7 +74,8 @@ Once Pinot is deployed and running, we can start deploy Prometheus.
 Similar to Pinot Helm, we will have Prometheus Helm and it's config yaml file:
 
 ```text
-helm inspect values stable/prometheus > /tmp/prometheus-values.yaml
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm inspect values prometheus-community/prometheus > /tmp/prometheus-values.yaml
 ```
 
 Configure Prometheus
@@ -88,7 +89,7 @@ Deploy Prometheus
 
 ```text
 kubectl create ns prometheus
-helm install prometheus stable/prometheus -n prometheus --values /tmp/prometheus-values.yaml
+helm install prometheus prometheus-community/prometheus -n prometheus --values /tmp/prometheus-values.yaml
 ```
 
 Access Prometheus
@@ -108,18 +109,16 @@ Then we can query metrics Prometheus scrapped:
 Similar to Pinot Helm, we will have Grafana Helm and it's config yaml file:
 
 ```text
-helm inspect values stable/grafana > /tmp/grafana-values.yaml
+helm repo add grafana https://grafana.github.io/helm-charts
+helm inspect values grafana/grafana > /tmp/grafana-values.yaml
 ```
 
 * Configure Grafana
-
-
-
 * Deploy Grafana
 
 ```text
 kubectl create ns grafana
-helm install grafana stable/grafana -n grafana --values /tmp/grafana-values.yaml
+helm install grafana grafana/grafana -n grafana --values /tmp/grafana-values.yaml
 ```
 
 * Get Password to access Grafana
@@ -158,7 +157,7 @@ Once data source is added, we can import a Pinot Dashboard:
 
 A sample Pinot dashboard JSON is:
 
-{% file src="../../.gitbook/assets/pinot-1599691007230.json" caption="sample-pinot-dashboard" %}
+{% file src="../../.gitbook/assets/pinot-1601334866100.json" caption="sample-pinot-dashboard" %}
 
 Now you can upload this file and select Prometheus as data source to finish the import
 
