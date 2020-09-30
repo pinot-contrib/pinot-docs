@@ -1,5 +1,11 @@
 # Monitoring
 
+## Tutorial
+
+If you are deploying using the helm chart with Kubernetes, see the tutorial on setting up Prometheus and Grafana to monitor Pinot.
+
+[https://docs.pinot.apache.org/users/tutorials/monitor-pinot-using-prometheus-and-grafana](https://docs.pinot.apache.org/users/tutorials/monitor-pinot-using-prometheus-and-grafana)
+
 ## Key Metrics to Watch
 
 Please refer to key metrics documented in [monitoring pinot](../tutorials/running-pinot-in-production.md#monitoring-pinot).
