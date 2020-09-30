@@ -165,9 +165,9 @@ Now you can upload this file and select Prometheus as data source to finish the 
 
 Then you can explore and make your own Pinot dashboard!
 
-![](../../.gitbook/assets/image%20%2853%29.png)
-
 ![](../../.gitbook/assets/image%20%2855%29.png)
+
+![](../../.gitbook/assets/image%20%2856%29.png)
 
 ![](../../.gitbook/assets/image%20%2854%29.png)
 
