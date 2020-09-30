@@ -165,9 +165,15 @@ Now you can upload this file and select Prometheus as data source to finish the 
 
 Then you can explore and make your own Pinot dashboard!
 
-![Pinot Dashboard](../../.gitbook/assets/screencapture-ab283036f136d4e43b222da90f055cd1-1157268355-us-east-2-elb-amazonaws-d-a2hnndcwk-pinot-2020-09-30-00_31_19.png)
+![](../../.gitbook/assets/image%20%2853%29.png)
 
+![](../../.gitbook/assets/image%20%2855%29.png)
 
+![](../../.gitbook/assets/image%20%2854%29.png)
+
+![](../../.gitbook/assets/image%20%2852%29.png)
+
+![](../../.gitbook/assets/image%20%2850%29.png)
 
 
 
