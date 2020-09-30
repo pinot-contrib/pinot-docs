@@ -70,7 +70,9 @@ bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
     <tr>
       <td style="text-align:left">pinot.server.instance.reload.consumingSegment</td>
       <td style="text-align:left">false</td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">Specifies if the reload segment API should reload the consuming segments.
+        This is useful when the corresponding schema is updated and we want the
+        changes to be reflected in the consuming segment.</td>
     </tr>
     <tr>
       <td style="text-align:left">pinot.server.instance.data.manager.class</td>
