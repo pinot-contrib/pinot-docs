@@ -73,6 +73,7 @@ docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-controller \
     -p 9000:9000 \
+    -e JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log"
     -d ${PINOT_IMAGE} StartController \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -85,6 +86,7 @@ Start Pinot Broker in daemon and connect to Zookeeper.
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-broker \
+    -e JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-broker.log"
     -d ${PINOT_IMAGE} StartBroker \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -97,6 +99,7 @@ Start Pinot Server in daemon and connect to Zookeeper.
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-server \
+    -e JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-server.log"
     -d ${PINOT_IMAGE} StartServer \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -157,6 +160,7 @@ You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse th
 ### 2. Start Pinot Controller
 
 ```text
+export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log"
 bin/pinot-admin.sh StartController \
     -zkAddress localhost:2191 \
     -controllerPort 9000
@@ -165,6 +169,7 @@ bin/pinot-admin.sh StartController \
 ### 3. Start Pinot Broker
 
 ```text
+export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-broker.log"
 bin/pinot-admin.sh StartBroker \
     -zkAddress localhost:2191
 ```
@@ -172,6 +177,7 @@ bin/pinot-admin.sh StartBroker \
 ### 4. Start Pinot Server
 
 ```text
+export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-server.log"
 bin/pinot-admin.sh StartServer \
     -zkAddress localhost:2191
 ```
