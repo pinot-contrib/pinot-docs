@@ -66,7 +66,15 @@ Executing command: PostQuery -brokerHost 192.168.86.234 -brokerPort 8000 -queryT
 Result: {"resultTable":{"dataSchema":{"columnNames":["playerID","yearsOfExperience"],"columnDataTypes":["STRING","INT"]},"rows":[["aardsda01",1],["aardsda01",1],["aardsda01",1],["aardsda01",1],["aardsda01",1],["aardsda01",1],["aardsda01",1],["aaronha01",1],["aaronha01",1],["aaronha01",1]]},"exceptions":[],"numServersQueried":1,"numServersResponded":1,"numSegmentsQueried":1,"numSegmentsProcessed":1,"numSegmentsMatched":1,"numConsumingSegmentsQueried":0,"numDocsScanned":10,"numEntriesScannedInFilter":0,"numEntriesScannedPostFilter":20,"numGroupsLimitReached":false,"totalDocs":97889,"timeUsedMs":3,"segmentStatistics":[],"traceInfo":{},"minConsumingFreshnessTimeMs":0}
 ```
 
+{% hint style="info" %}
+**Real-Time Pinot table:** In case of real-time tables, make sure the "_pinot.server.instance.reload.consumingSegment_" config is set to true inside [Server config](https://docs.pinot.apache.org/configuration-reference/server). Without this, the current consuming segment\(s\) will not reflect the default null value for newly added columns.
+{% endhint %}
+
 ### Backfilling the Data
 
 As you can observe, the current query returns the `defaultNullValue` for the newly added column. In order to populate this column with real values, you will need to re-run the batch ingestion job for the past dates.
+
+{% hint style="info" %}
+**Real-Time Pinot table:** Backfilling data does not work for real-time tables. If you only have a real-time table, you can convert it to a hybrid table, by adding an offline counterpart that uses the same schema. Then you can backfill the offline table and fill in values for the newly added column. More on [hybrid tables here](https://docs.pinot.apache.org/basics/components/table#hybrid-table).
+{% endhint %}
 
