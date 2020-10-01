@@ -89,7 +89,8 @@ bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
     </tr>
     <tr>
       <td style="text-align:left">pinot.server.query.executor.timeout</td>
-      <td style="text-align:left">15 seconds</td>
+      <td style="text-align:left"><code>15000</code>
+      </td>
       <td style="text-align:left">Timeout for Server to process Query in Milliseconds</td>
     </tr>
     <tr>
