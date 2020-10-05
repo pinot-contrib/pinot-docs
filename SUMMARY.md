@@ -28,6 +28,7 @@
   * [Manual cluster setup](basics/getting-started/advanced-pinot-setup.md)
   * [Batch import example](basics/getting-started/pushing-your-data-to-pinot.md)
   * [Stream ingestion example](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
+  * [Troubleshooting Pinot](basics/getting-started/troubleshooting-pinot.md)
   * [Frequently Asked Questions \(FAQs\)](basics/getting-started/frequent-questions/README.md)
     * [Ingestion FAQ](basics/getting-started/frequent-questions/ingestion-faq.md)
     * [Query FAQ](basics/getting-started/frequent-questions/query-faq.md)
