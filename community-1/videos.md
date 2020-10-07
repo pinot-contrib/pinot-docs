@@ -1,4 +1,26 @@
+---
+description: 'Youtube channel: https://www.youtube.com/channel/UCHTiKyGonqyMhXBd3uTpu0g'
+---
+
 # Videos
+
+## Operations
+
+|  |  |
+| :--- | :--- |
+| [How to setup a Pinot cluster](https://youtu.be/cNnwMF0pOJ8) |  |
+| [Apache Pinot on Kubernetes - A Practical Gui](https://youtu.be/UR6rYEMZYLA) |  |
+
+## Concepts
+
+### Pinot Segment Lifecycle
+
+|  |
+| :--- |
+| [Segment Assignment in OFFLINE tables](https://youtu.be/HycNRCzkrjg) |
+| [Segment Assignment in REALTIME tables](https://youtu.be/WoruCQgPhSA) |
+
+## Meetups and talks
 
 <table>
   <thead>
@@ -11,6 +33,11 @@
     <tr>
       <td style="text-align:left">2020/09/02</td>
       <td style="text-align:left"><a href="https://www.youtube.com/watch?v=FjTjGxrgAoY&amp;list=PLihIrF0tCXddhXkQdAdnmfs8FtYMfrbTl">Apache Pinot Virtual Meetup at LinkedIn (Sep 02, 2020)</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">2020/08/25</td>
+      <td style="text-align:left"><a href="https://www.confluent.io/resources/kafka-summit-2020/apache-pinot-case-study-building-distributed-analytics-systems-using-apache-kafka/">Kafka Summit: Apache Pinot Case Study</a>
       </td>
     </tr>
     <tr>
@@ -61,4 +88,6 @@
     </tr>
   </tbody>
 </table>
+
+
 
