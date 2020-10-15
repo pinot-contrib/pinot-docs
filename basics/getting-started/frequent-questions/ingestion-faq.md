@@ -67,7 +67,7 @@ Right now, there’s no easy way to confirm that reload succeeded. One way it to
 
 ### How to create star-tree indexes?
 
-Star-tree indexes are configured in the table config under the _tableIndexConfig_ -&gt; _starTreeIndexConfigs_ \(list\) and _enableDefaultStarTree_ \(boolean\). Read more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/features/indexing\#index-generation-configuration](https://docs.pinot.apache.org/basics/features/indexing#index-generation-configuration)
+Star-tree indexes are configured in the table config under the _tableIndexConfig_ -&gt; _starTreeIndexConfigs_ \(list\) and _enableDefaultStarTree_ \(boolean\). Read more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/indexing/star-tree-index\#index-generation](https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation)
 
 The new segments will have star-tree indexes generated after applying the star-tree index configs to the table config. Currently Pinot does not support adding star-tree indexes to the existing segments.
 
