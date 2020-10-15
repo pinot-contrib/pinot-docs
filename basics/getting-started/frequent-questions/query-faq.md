@@ -50,3 +50,7 @@ You can add this at the end of your query: `option(timeoutMs=X)`. For eg: the fo
 SELECT COUNT(*) from myTable option(timeoutMs=20000)
 ```
 
+### How do I optimize my Pinot table for doing aggregations and group-by on high cardinality columns ?
+
+In order to speed up aggregations, you can enable metrics aggregation on the required column by adding a [metric field](https://docs.pinot.apache.org/configuration-reference/schema#metricfieldspecs) in the corresponding schema and setting `aggregateMetrics` to true in the table config. You can also use a star-tree index config for such columns \([read more about star-tree here](https://docs.pinot.apache.org/basics/indexing/star-tree-index)\)  
+
