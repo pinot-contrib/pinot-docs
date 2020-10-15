@@ -42,3 +42,11 @@ SELECT count(colA) as sumA, colA from tableA GROUP BY colA ORDER BY count(colA)
 
 No. Pagination only works for SELECTION queries
 
+### How do I increase timeout for a query ?
+
+You can add this at the end of your query: `option(timeoutMs=X)`. For eg: the following example will use a timeout of 20 seconds for the query:
+
+```text
+SELECT COUNT(*) from myTable option(timeoutMs=20000)
+```
+
