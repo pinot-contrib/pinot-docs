@@ -114,6 +114,8 @@
   * [Setup table](operators/operating-pinot/setup-table.md)
   * [Setup ingestion](operators/operating-pinot/setup-ingestion.md)
   * [Decoupling Controller from the Data Path](operators/operating-pinot/decoupling-controller-from-the-data-path.md)
+  * [Segment Assignment](operators/operating-pinot/segment-assignment.md)
+  * [Instance Assignment](operators/operating-pinot/instance-assignment.md)
   * [Rebalance](operators/operating-pinot/rebalance/README.md)
     * [Rebalance Servers](operators/operating-pinot/rebalance/rebalance-servers.md)
     * [Rebalance Brokers](operators/operating-pinot/rebalance/rebalance-brokers.md)
