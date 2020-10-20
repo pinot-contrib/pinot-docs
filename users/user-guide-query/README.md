@@ -1,6 +1,6 @@
 ---
 description: >-
-  Learn how to query Apache Pinot using SQL or explore data using the Apache
+  Learn how to query Apache Pinot using SQL or explore data using the web-based
   Pinot query console.
 ---
 
