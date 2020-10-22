@@ -120,6 +120,7 @@
     * [Rebalance Servers](operators/operating-pinot/rebalance/rebalance-servers.md)
     * [Rebalance Brokers](operators/operating-pinot/rebalance/rebalance-brokers.md)
   * [Tiered Storage](operators/operating-pinot/tiered-storage.md)
+  * [Pinot managed Offline flows](operators/operating-pinot/pinot-managed-offline-flows.md)
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Monitoring](operators/operating-pinot/monitoring.md)
   * [Tuning](operators/operating-pinot/tuning/README.md)
