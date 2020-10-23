@@ -8,6 +8,7 @@ This page contains links to all the design documents
 
 | Name | Authors | Date |
 | :--- | :--- | :--- |
+| [Pinot Upsert Revisited](https://docs.google.com/document/d/1qljEMndPMxbbKtjlVn9mn2toz7Qrk0TGQsHLfI--7h8/edit#heading=h.lsfmyoyyxtgt) | Yupeng Fu | Sep 2020 |
 | [Use IdSet for Id Filtering](https://docs.google.com/document/d/1s6DZ9eTPqH7vaKQlPjKiWb_OBC3hkkEGICIzcd5gozc/edit?usp=sharing) | Jackie Jiang | Sep 2020 |
 | [Pinot managed offline flows](https://docs.google.com/document/d/1-e_9aHQB4HXS38ONtofdxNvMsGmAoYfSnc2LP88MbIc/edit#heading=h.60ws8it8iwvp) | Neha | Aug 2020 |
 | [Server Health Checker](https://docs.google.com/document/d/1PP_RaDuS7KGeF9RnAcRFJRCA8aCVxxVLTJn-c3hg9qQ/edit) | Chinmay | Aug 2020 |
@@ -19,7 +20,7 @@ This page contains links to all the design documents
 | [Refactor pinot-core and pinot-common](https://docs.google.com/document/d/1urROfQZuTE8JJmW3IMCeB2i3FYoEyG1TCyPsxvSaNuw/edit?usp=sharing) | Kishore | May 2020 |
 | [Range Indexing in Pinot](https://docs.google.com/document/d/1eisu7L-ERLs1OZCASOz3qSpzZfoipplKrYgmBXaFobw/edit?usp=sharing) | Kishore | Apr 2020 |
 | [Deprecate TimeFieldSpec, make DateTimeFieldSpec mainstream](https://docs.google.com/document/d/1SU1jCjfsIDSA960fD5YWQbD72p8UdGF0c7CroFNt9Ho/edit#heading=h.qeqkd3x33xzp) | Neha | Apr 2020 |
-| [Geospatial support in Pinot](https://docs.google.com/document/d/1Mkm5RHS_tof-vIUt5-UNeOgRYSBAN6M_pN-hedV6Q0g/edit?ts=5ea0b8d4#heading=h.i45os595j1sp) | Yupeng | Apr 2020 |
+| [Geospatial support in Pinot](https://docs.google.com/document/d/1Mkm5RHS_tof-vIUt5-UNeOgRYSBAN6M_pN-hedV6Q0g/edit?ts=5ea0b8d4#heading=h.i45os595j1sp) | Yupeng Fu | Apr 2020 |
 | [Column transformation during ingestion](https://docs.google.com/document/d/13BywJncHrLAFLm-qy4kfKaPxXfAg9XE5v3_fk9sGVSo/edit?usp=sharing) | Neha | Mar 2020 |
 | [Tiered Storage](https://docs.google.com/document/d/1Z4FLg3ezHpqvc6zhy0jR6Wi2OL8wLO_lRC6aLkskFgs/edit?usp=sharing) | Neha | Mar 2020 |
 | [Synthetic Data Generator for Pinot](https://cwiki.apache.org/confluence/display/PINOT/Synthetic+Data+Generator+for+Pinot) | Alex Pucher | Mar 2020 |
