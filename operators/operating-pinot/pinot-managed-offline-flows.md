@@ -36,6 +36,8 @@ This feature uses the **pinot-minions** and **the Helix Task Executor framework*
 
 ### Config
 
+**Step 0:** Start a pinot-minion
+
 **Step 1**: Setup your REALTIME table. Add "RealtimeToOfflineSegmentsTask" in the task configs
 
 ```text
