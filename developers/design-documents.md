@@ -41,7 +41,3 @@ This page contains links to all the design documents
 | [Query Processing](https://cwiki.apache.org/confluence/display/PINOT/Query+Processing) | Subbu | 2016 |
 | [Expressions and UDFs](https://cwiki.apache.org/confluence/display/PINOT/Expressions+and+UDFs) | Subbu | 2016 |
 
-### 
-
-##  <a id="title-text"></a>
-

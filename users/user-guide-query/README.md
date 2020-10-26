@@ -6,7 +6,7 @@ description: >-
 
 # Query
 
-![](../../.gitbook/assets/apache-pinot-ui.gif)
+![](../../.gitbook/assets/pinot-ui-gif-resized.gif)
 
 {% page-ref page="pinot-query-language.md" %}
 
