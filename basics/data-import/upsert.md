@@ -4,9 +4,9 @@ description: 'Upsert support in Apache Pinot.'
 
 # Upsert Support
 
-Pinot provides native support of upsert during the real-time table's ingestion. There are scenarios that the records need modifications such as correcting a ride fare and updating a delivery status. 
+Pinot provides native support of upsert during the real-time ingestion (v0.6.0+). There are scenarios that the records need modifications, such as correcting a ride fare and updating a delivery status. 
 
-To enable upsert on a Pinot table, there are a couple of configurations to make on the Pinot table as well as on the input stream.
+To enable upsert on a Pinot table, there are a couple of configurations to make on the table configurations as well as on the input stream.
 
 ## Define the primary key in the schema
 
@@ -24,7 +24,7 @@ Note this field expects a list of columns, as the primary key can be composite.
 
 ## Partition the input stream by the primary key
 
-A key requirement for the upsert Pinot table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (e.g. Flink) is needd to shuffle and repartition into an output stream for Pinot's ingestion.
+An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (e.g. Flink) is needd to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
 
 ## Enable upsert in the table configurations
 
@@ -32,7 +32,7 @@ There are a few configurations needed in the table configurations to enable upse
 
 ### Upsert mode
 
-For append-only tables, the upsert mode defaults to `NONE`. To enable the upsert, set the `mode` to `FULL` for the full update. In future, Pinot plans to add the partial update support. For example:
+For append-only tables, the upsert mode defaults to `NONE`. To enable the upsert, set the `mode` to `FULL` for the full update. In the future, Pinot plans to add the partial update support. For example:
 
 {% code title="upsert mode" %}
 ```javascript
@@ -46,7 +46,7 @@ For append-only tables, the upsert mode defaults to `NONE`. To enable the upsert
 
 ### Use replicaGroup for routing
 
-The upsert Pinot table can use only the low-level consumer for the input streams per partition. And as a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Accordingly, it requires to use `replicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
+The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Accordingly, it requires to use `replicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
 
 {% code title="routing" %}
 ```javascript
@@ -62,11 +62,58 @@ The upsert Pinot table can use only the low-level consumer for the input streams
 
 There are some limitations for the upsert Pinot tables. 
 
-First, the high-level consumer is not allowed for the input stream. As a result, `"stream.kafka.consumer.type"` must be `lowLevel`.
+First, the high-level consumer is not allowed for the input stream ingestion, which means `stream.kafka.consumer.type` must be `lowLevel`.
 
-Second, the star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation as the table ingests.
+Second, the star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 
-## Example
+### Example
+Putting these together, you can find the table configurations of the quick start example as the following:
+
+{% code title="upsert_meetupRsvp_realtime_table_config.json" %}
+```javascript
+{
+  "tableName": "meetupRsvp",
+  "tableType": "REALTIME",
+  "segmentsConfig": {
+    "timeColumnName": "mtime",
+    "timeType": "MILLISECONDS",
+    "retentionTimeUnit": "DAYS",
+    "retentionTimeValue": "1",
+    "segmentPushType": "APPEND",
+    "segmentAssignmentStrategy": "BalanceNumSegmentAssignmentStrategy",
+    "schemaName": "meetupRsvp",
+    "replicasPerPartition": "1"
+  },
+  "tenants": {},
+  "tableIndexConfig": {
+    "loadMode": "MMAP",
+    "streamConfigs": {
+      "streamType": "kafka",
+      "stream.kafka.consumer.type": "lowLevel",
+      "stream.kafka.topic.name": "meetupRSVPEvents",
+      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+      "stream.kafka.hlc.zk.connect.string": "localhost:2191/kafka",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.zk.broker.url": "localhost:2191/kafka",
+      "stream.kafka.broker.list": "localhost:19092",
+      "realtime.segment.flush.threshold.size": 30,
+      "realtime.segment.flush.threshold.rows": 30
+    }
+  },
+  "metadata": {
+    "customConfigs": {}
+  },
+  "routing": {
+    "instanceSelectorType": "replicaGroup"
+  },
+  "upsertConfig": {
+    "mode": "FULL"
+  }
+}
+```
+{% endcode %}
+
+## Quick Start
 
 To illustrate how the upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a realtiime upsert table `meetupRSVP`.
 
@@ -76,8 +123,8 @@ bin/quick-start-upsert-streaming.sh
 ```
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the realtime data.
 
-![select \* from transcript](../../.gitbook/assets/upsert-query-console-example.png)
+![Query the upsert table](../../.gitbook/assets/upsert-query-console-example.png)
 
 To see the difference from the append-only table, you can use a query option `disableUpsert` to disable the upsert effect in the query result.
 
-![select \* from transcript](../../.gitbook/assets/disable-upsert.png)
+![Disable the upsert during query via query option](../../.gitbook/assets/disable-upsert.png)
