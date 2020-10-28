@@ -22,6 +22,8 @@ To update a record, a primary key is needed to uniquely identify the record. To 
 
 Note this field expects a list of columns, as the primary key can be composite.
 
+When two records of the same primary key are ingested, *the record with the greater event time (as defined by the time column) is used*.
+
 ## Partition the input stream by the primary key
 
 An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (e.g. Flink) is needd to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
@@ -125,6 +127,6 @@ As soon as data flows into the stream, the Pinot table will consume it and it wi
 
 ![Query the upsert table](../../.gitbook/assets/upsert-query-console-example.png)
 
-To see the difference from the append-only table, you can use a query option `disableUpsert` to disable the upsert effect in the query result.
+To see the difference from the append-only table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
 ![Disable the upsert during query via query option](../../.gitbook/assets/disable-upsert.png)
