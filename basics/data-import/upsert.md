@@ -1,10 +1,10 @@
 ---
-description: 'Upsert support in Apache Pinot.'
+description: Upsert support in Apache Pinot.
 ---
 
-# Upsert Support
+# Stream Ingestion with Upsert
 
-Pinot provides native support of upsert during the real-time ingestion (v0.6.0+). There are scenarios that the records need modifications, such as correcting a ride fare and updating a delivery status. 
+Pinot provides native support of upsert during the real-time ingestion \(v0.6.0+\). There are scenarios that the records need modifications, such as correcting a ride fare and updating a delivery status.
 
 To enable upsert on a Pinot table, there are a couple of configurations to make on the table configurations as well as on the input stream.
 
@@ -12,21 +12,21 @@ To enable upsert on a Pinot table, there are a couple of configurations to make 
 
 To update a record, a primary key is needed to uniquely identify the record. To define a primary key, add the field `primaryKeyColumns` to the schema definition. For example, the schema definition of `UpsertMeetupRSVP` in the quick start example has this definition.
 
-{% code title="upsert_meetupRsvp_schema.json" %}
+{% code title="upsert\_meetupRsvp\_schema.json" %}
 ```javascript
 {
-	"primaryKeyColumns": ["event_id"]
+    "primaryKeyColumns": ["event_id"]
 }
 ```
 {% endcode %}
 
 Note this field expects a list of columns, as the primary key can be composite.
 
-When two records of the same primary key are ingested, *the record with the greater event time (as defined by the time column) is used*.
+When two records of the same primary key are ingested, _the record with the greater event time \(as defined by the time column\) is used_.
 
 ## Partition the input stream by the primary key
 
-An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (e.g. Flink) is needd to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
+An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job \(e.g. Flink\) is needd to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
 
 ## Enable upsert in the table configurations
 
@@ -62,16 +62,17 @@ The upsert Pinot table can use only the low-level consumer for the input streams
 
 ### Limitations
 
-There are some limitations for the upsert Pinot tables. 
+There are some limitations for the upsert Pinot tables.
 
 First, the high-level consumer is not allowed for the input stream ingestion, which means `stream.kafka.consumer.type` must be `lowLevel`.
 
 Second, the star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 
 ### Example
+
 Putting these together, you can find the table configurations of the quick start example as the following:
 
-{% code title="upsert_meetupRsvp_realtime_table_config.json" %}
+{% code title="upsert\_meetupRsvp\_realtime\_table\_config.json" %}
 ```javascript
 {
   "tableName": "meetupRsvp",
@@ -123,6 +124,7 @@ To illustrate how the upsert works, the Pinot binary comes with a quick start ex
 # stop previous quick start cluster, if any
 bin/quick-start-upsert-streaming.sh
 ```
+
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the realtime data.
 
 ![Query the upsert table](../../.gitbook/assets/upsert-query-console-example.png)
@@ -130,3 +132,4 @@ As soon as data flows into the stream, the Pinot table will consume it and it wi
 To see the difference from the append-only table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
 ![Disable the upsert during query via query option](../../.gitbook/assets/disable-upsert.png)
+

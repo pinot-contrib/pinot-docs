@@ -6,18 +6,17 @@ description: >-
 
 # Import Data
 
-There are multiple options for importing data into Pinot. These guides are ready-made examples that show you step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../developers/plugin-architecture/).   
-
+There are multiple options for importing data into Pinot. These guides are ready-made examples that show you step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../developers/plugin-architecture/).
 
 These guides are meant to get you up and running with imported data as quick as possible. Pinot supports multiple file input formats without needing to change anything other than the file name. Each example imports a ready-made dataset so you can see how things work without needing to bring your own dataset.
 
-### Pinot Batch Ingestion
+## Pinot Batch Ingestion
 
 {% page-ref page="batch-ingestion/spark.md" %}
 
 {% page-ref page="batch-ingestion/hadoop.md" %}
 
-### Pinot Stream Ingestion
+## Pinot Stream Ingestion
 
 This guide will show you how to import data using stream ingestion from Apache Kafka topics.
 
@@ -27,11 +26,10 @@ This guide will show you how to import data using stream ingestion with upsert.
 
 {% page-ref page="upsert.md" %}
 
+## Pinot File Systems
 
-### Pinot File Systems
+By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add a deep storage. Checkout [File systems](pinot-file-system/) for all the info and related configs.
 
-By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add a deep storage. Checkout [File systems](pinot-file-system/) for all the info and related configs.  
-  
 These guides will show you how to import data as well as persist it in the file systems.
 
 {% page-ref page="pinot-file-system/amazon-s3.md" %}
@@ -42,7 +40,7 @@ These guides will show you how to import data as well as persist it in the file 
 
 {% page-ref page="pinot-file-system/import-from-hdfs.md" %}
 
-### Pinot Input Formats
+## Pinot Input Formats
 
 These guides will show you how to import data from a Pinot supported input format.
 
