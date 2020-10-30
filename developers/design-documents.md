@@ -8,6 +8,7 @@ This page contains links to all the design documents
 
 | Name | Authors | Date |
 | :--- | :--- | :--- |
+| [Strict Replica-Group Routing](https://docs.google.com/document/d/1B5SghG0x5JHfZrKMBjiv_m3Dd969hfyWgc1joKZpJIU/edit?usp=sharing) | Jackie Jiang | Oct 2020 |
 | [Pinot Upsert Revisited](https://docs.google.com/document/d/1qljEMndPMxbbKtjlVn9mn2toz7Qrk0TGQsHLfI--7h8/edit#heading=h.lsfmyoyyxtgt) | Yupeng Fu | Sep 2020 |
 | [Use IdSet for Id Filtering](https://docs.google.com/document/d/1s6DZ9eTPqH7vaKQlPjKiWb_OBC3hkkEGICIzcd5gozc/edit?usp=sharing) | Jackie Jiang | Sep 2020 |
 | [Pinot managed offline flows](https://docs.google.com/document/d/1-e_9aHQB4HXS38ONtofdxNvMsGmAoYfSnc2LP88MbIc/edit#heading=h.60ws8it8iwvp) | Neha | Aug 2020 |
