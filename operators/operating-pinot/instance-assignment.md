@@ -144,6 +144,18 @@ TableConfig for Table 1:
 }
 ```
 
+## Instance Assignment for Low Level Consumer \(LLC\) Real-time Table
+
+For LLC real-time table, all the stream events are split into several stream partitions, and the events from each stream partition are consumed by a single server. Because the data is always partitioned, the LLC real-time table is using [Partitioned Replica-Group Instance Assignment](instance-assignment.md#partitioned-replica-group-instance-assignment) implicitly with `numPartitions` the same as the number of stream partitions, and `numInstancesPerPartition` of 1, and we don't allow configuring them explicitly. The replica-group based instance assignment can still be configured explicitly.
+
+Without explicitly configuring the replica-group based instance assignment, the replicas of the stream partitions will be evenly spread over all the available instances as shown in the following diagram:
+
+![](../../.gitbook/assets/llc.png)
+
+With replica-group based instance assignment, the stream partitions will be evenly spread over the instances within the replica-group:
+
+![](../../.gitbook/assets/llc_replica.png)
+
 ## Pool-Based Instance Assignment
 
 This strategy is designed for accelerating the no-downtime rolling restart of the large shared cluster.
