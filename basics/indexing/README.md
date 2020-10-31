@@ -14,6 +14,7 @@ Pinot currently supports the following indexing techniques, where each of them h
   * Bitmap inverted index
   * Sorted inverted index
 * [Star-tree Index](star-tree-index.md)
+* [Bloom Filter](bloom-filter.md)
 * [Range Index](range-index.md)
 * [Text Index](text-search-support.md)
 * [Geospatial](geospatial-support.md)

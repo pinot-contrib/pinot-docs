@@ -50,6 +50,7 @@
   * [Forward Index](basics/indexing/forward-index.md)
   * [Inverted Index](basics/indexing/inverted-index.md)
   * [Star-Tree Index](basics/indexing/star-tree-index.md)
+  * [Bloom Filter](basics/indexing/bloom-filter.md)
   * [Range Index](basics/indexing/range-index.md)
   * [Text search support](basics/indexing/text-search-support.md)
   * [Geospatial](basics/indexing/geospatial-support.md)

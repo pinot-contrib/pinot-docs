@@ -99,25 +99,3 @@ column.memberId.partitionValues = 1
 
 Broker side pruning for partitioning can be configured by setting the `segmentPrunerTypes` in the `RoutingConfig`. Note that the current implementation for partitioning only works for **EQUALITY** and **IN** filter \(e.g. `memberId = xx`, `memberId IN (x, y, z)`\).
 
-#### Bloom Filter for Dictionary
-
-Dictionary encoding provides the array of unique values. Pinot allows to create a bloom filter on this unique values for each column. Bloom filter can quickly determine whether the value exist in the segment.
-
-Bloom filter can be enabled by setting the following configuration in the table config.
-
-```text
-{
-    "tableIndexConfig": {
-        "bloomFilterColumns": [
-            "column_name",
-            ...
-        ],
-        ...
-    }
-}
-```
-
-Our implementation limits the size of bloom filter to be less than 1MB per segment along with max false positive of 5% to avoid consuming too much memory. We recommend to put bloom filter for the column with `less than 1 million cardinality`.
-
-Note that the current implementation for bloom filter works for **EQUALITY** filter only.
-
