@@ -30,11 +30,9 @@ After configuring the server tags, the Tag-Based Instance Assignment can be enab
 
 ![](../../.gitbook/assets/tag.png)
 
-```text
-Helix InstanceConfig for Server 1:
-
+{% code title="Helix InstanceConfig for Server 1:" %}
+```javascript
 {
-  ...
   "listFields": {
     "TAG_LIST": [
       "Tag1_OFFLINE"
@@ -43,12 +41,11 @@ Helix InstanceConfig for Server 1:
   ...
 }
 ```
+{% endcode %}
 
-```text
-TableConfig for Table 1:
-
+{% code title="TableConfig for Table 1:" %}
+```javascript
 {
-  ...
   "instanceAssignmentConfigMap": {
     "OFFLINE": {
       "tagPoolConfig": {
@@ -61,6 +58,7 @@ TableConfig for Table 1:
   ...
 }
 ```
+{% endcode %}
 
 ## Control Number of Instances
 
@@ -68,11 +66,9 @@ On top of the Tag-Based Instance Assignment, we can also control the number of s
 
 ![](../../.gitbook/assets/control.png)
 
-```text
-TableConfig for Table 1:
-
+{% code title="TableConfig for Table 1:" %}
+```javascript
 {
-  ...
   "instanceAssignmentConfigMap": {
     "OFFLINE": {
       "tagPoolConfig": {
@@ -86,6 +82,7 @@ TableConfig for Table 1:
   ...
 }
 ```
+{% endcode %}
 
 ## Replica-Group Instance Assignment
 
@@ -93,18 +90,16 @@ In order to use the [Replica-Group Segment Assignment](segment-assignment.md#rep
 
 ![](../../.gitbook/assets/replica.png)
 
-```text
-TableConfig for Table 1:
-
+{% code title="TableConfig for Table 1:" %}
+```javascript
 {
-  ...
   "instanceAssignmentConfigMap": {
     "OFFLINE": {
       "tagPoolConfig": {
         "tag": "Tag1_OFFLINE"
       },
       "replicaGroupPartitionConfig": {
-        "replicaGroupBased": "true",
+        "replicaGroupBased": true,
         "numReplicaGroups": 2,
         "numInstancesPerReplicaGroup": 3
       }
@@ -113,6 +108,7 @@ TableConfig for Table 1:
   ...
 }
 ```
+{% endcode %}
 
 ## Partitioned Replica-Group Instance Assignment
 
@@ -122,27 +118,26 @@ Similar to the Replica-Group Segment Assignment, in order to use the [Partitione
 
 ![](../../.gitbook/assets/partition.png)
 
-```text
-TableConfig for Table 1:
-
+{% code title="TableConfig for Table 1:" %}
+```javascript
 {
-  ...
   "instanceAssignmentConfigMap": {
     "OFFLINE": {
       "tagPoolConfig": {
         "tag": "Tag1_OFFLINE"
       },
       "replicaGroupPartitionConfig": {
-        "replicaGroupBased": "true",
+        "replicaGroupBased": true,
         "numReplicaGroups": 2,
         "numPartitions": 2,
-        "numInstancesPerPartition": 2,
+        "numInstancesPerPartition": 2
       }
     }
   },
   ...
 }
 ```
+{% endcode %}
 
 ## Instance Assignment for Low Level Consumer \(LLC\) Real-time Table
 
@@ -168,11 +163,9 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 
 ![](../../.gitbook/assets/pool.png)
 
-```text
-Helix InstanceConfig for Server 1:
-
+{% code title="Helix InstanceConfig for Server 1:" %}
+```javascript
 {
-  ...
   "listFields": {
     "TAG_LIST": {
       "Tag1_OFFLINE"
@@ -186,29 +179,29 @@ Helix InstanceConfig for Server 1:
   ...
 }
 ```
+{% endcode %}
 
-```text
-TableConfig for Table 1:
-
+{% code title="TableConfig for Table 1:" %}
+```javascript
 {
-  ...
   "instanceAssignmentConfigMap": {
     "OFFLINE": {
       "tagPoolConfig": {
         "tag": "Tag1_OFFLINE",
-        "poolBased": "true"
+        "poolBased": true
       },
       "replicaGroupPartitionConfig": {
-        "replicaGroupBased": "true",
+        "replicaGroupBased": true,
         "numReplicaGroups": 2,
         "numPartitions": 2,
-        "numInstancesPerPartition": 2,
+        "numInstancesPerPartition": 2
       }
     }
   },
   ...
 }
 ```
+{% endcode %}
 
 ## Change the Instance Assignment
 
