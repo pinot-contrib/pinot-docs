@@ -46,15 +46,15 @@ For append-only tables, the upsert mode defaults to `NONE`. To enable the upsert
 ```
 {% endcode %}
 
-### Use replicaGroup for routing
+### Use strictReplicaGroup for routing
 
-The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Accordingly, it requires to use `replicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
+The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover,upsert poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
 
 {% code title="routing" %}
 ```javascript
 {
   "routing": {
-    "instanceSelectorType": "replicaGroup"
+    "instanceSelectorType": "strictReplicaGroup"
   }
 }
 ```
@@ -107,7 +107,7 @@ Putting these together, you can find the table configurations of the quick start
     "customConfigs": {}
   },
   "routing": {
-    "instanceSelectorType": "replicaGroup"
+    "instanceSelectorType": "strictReplicaGroup"
   },
   "upsertConfig": {
     "mode": "FULL"
