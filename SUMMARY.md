@@ -84,6 +84,7 @@
   * [Ingest Parquet Files from S3 Using Spark](users/tutorials/ingest-parquet-files-from-s3-using-spark.md)
   * [Creating Pinot Segments](users/tutorials/create-pinot-segments.md)
   * [Use S3 as Deep Store for Pinot](users/tutorials/use-s3-as-deep-store-for-pinot.md)
+  * [Use S3 and Pinot in Docker](users/tutorials/use-s3-and-pinot-in-docker.md)
   * [Monitor Pinot using Prometheus and Grafana](users/tutorials/monitor-pinot-using-prometheus-and-grafana.md)
 
 ## For Developers <a id="developers"></a>
