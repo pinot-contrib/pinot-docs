@@ -61,6 +61,10 @@ pinot.controller.segment.fetcher.protocols=file,http,s3
 pinot.controller.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
+If you to grant full control to bucket owner, then add this to the config:
+```bash
+pinot.controller.storage.factory.s3.disableAcl=false
+```
 Then start pinot controller with:
 
 ```
@@ -96,7 +100,12 @@ pinot.server.segment.fetcher.protocols=file,http,s3
 pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
+If you to grant full control to bucket owner, then add this to the config:
+```bash
+pinot.controller.storage.factory.s3.disableAcl=false
+```
 Then start pinot controller with:
+
 
 ```
 bin/pinot-admin.sh StartServer -configFileName conf/server.conf -zkAddress localhost:2181 -clusterName pinot-s3-example
