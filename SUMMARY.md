@@ -55,6 +55,7 @@
   * [Text search support](basics/indexing/text-search-support.md)
   * [Geospatial](basics/indexing/geospatial-support.md)
 * [Releases](basics/releases/README.md)
+  * [0.6.0](basics/releases/0.6.0.md)
   * [0.5.0](basics/releases/0.5.0.md)
   * [0.4.0](basics/releases/0.4.0.md)
   * [0.3.0](basics/releases/0.3.0.md)
