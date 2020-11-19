@@ -13,7 +13,7 @@ A manual cluster setup consists of the following components -
 4. Server  
 5. Kafka  
   
-We will run each of these components in seperate containers
+We will run each of these components in separate containers
 
 {% tabs %}
 {% tab title="Using docker images" %}
@@ -21,7 +21,7 @@ We will run each of these components in seperate containers
 
 ### Pull docker image
 
-You can try out pre-built Pinot all-in-one docker image.
+You can try out the pre-built Pinot all-in-one docker image.
 
 ```text
 export PINOT_VERSION=0.4.0-SNAPSHOT
@@ -62,7 +62,7 @@ docker run --rm -ti \
 	-d qnib/plain-zkui:latest
 ```
 
-Alternatively you can also use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse zookeeper as well.
+Alternatively, you can also use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse zookeeper as well.
 
 ### 2. Start Pinot Controller
 
@@ -73,7 +73,7 @@ docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-controller \
     -p 9000:9000 \
-    -e JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log"
+    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log" \
     -d ${PINOT_IMAGE} StartController \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -86,7 +86,7 @@ Start Pinot Broker in daemon and connect to Zookeeper.
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-broker \
-    -e JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-broker.log"
+    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-broker.log" \
     -d ${PINOT_IMAGE} StartBroker \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -99,7 +99,7 @@ Start Pinot Server in daemon and connect to Zookeeper.
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-server \
-    -e JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-server.log"
+    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-server.log" \
     -d ${PINOT_IMAGE} StartServer \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -120,7 +120,7 @@ docker run --rm -ti \
   
 Now all Pinot related components are started as an empty cluster.
 
-You can run below command to check container status.
+You can run the below command to check container status.
 
 ```text
 docker container ls -a
@@ -142,7 +142,7 @@ b6d0f2bd26a3        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   45 mi
 {% hint style="info" %}
 Prerequisites
 
-Follow instruction in [Getting Pinot](./) to get Pinot
+Follow this instruction in [Getting Pinot](./) to get Pinot
 {% endhint %}
 
 ## Start Pinot components via launcher scripts
