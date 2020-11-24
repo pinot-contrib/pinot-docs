@@ -91,9 +91,7 @@ Environment variables **`AWS_ACCESS_KEY_ID`** and **`AWS_SECRET_ACCESS_KEY`** wi
 
 ## 3. \(Optional\) Create a Kubernetes cluster\(EKS\) in AWS 
 
-Below script will create a **3** nodes cluster named **pinot-quickstart** in **us-west-2** with **t3.small** machines for demo purposes.
-
-Please modify the parameters in the example command below:
+The script below will create a **1** node cluster named **pinot-quickstart** in **us-west-2** with a **t3.xlarge** machine for demo purposes:
 
 ```bash
 EKS_CLUSTER_NAME=pinot-quickstart
@@ -109,7 +107,7 @@ eksctl create cluster \
 --node-ami auto
 ```
 
-You can monitor cluster status by command:
+You can monitor the cluster status via this command:
 
 ```text
 EKS_CLUSTER_NAME=pinot-quickstart
