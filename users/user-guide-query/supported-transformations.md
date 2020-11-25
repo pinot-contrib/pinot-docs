@@ -315,9 +315,14 @@ Date time functions allow you to perform transformations on columns which contai
 | `'jsonPath'` | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read from JSON document. |
 | `'results_type'` | One of the Pinot supported data types`(INT, LONG, FLOAT, DOUBLE, STRING, INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY).`  |
 
-{% hint style="info" %}
-**`'jsonPath'`**`and`**`'results_type'`**are literals, please use single quotes for this.
+{% hint style="warning" %}
+**`'jsonPath'`**`and`**`'results_type'`**are **Literals.** Pinot uses single quotes to distinguish it from **Identifiers**.
 {% endhint %}
+
+E.g: 
+
+* `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')`  is **Valid**.
+* `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")`  is **Invalid**.
 
 **Examples**
 
