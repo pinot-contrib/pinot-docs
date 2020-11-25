@@ -276,9 +276,12 @@ Date time functions allow you to perform transformations on columns which contai
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">Function</th>
-      <th style="text-align:left">Description</th>
-      <th style="text-align:left">Example</th>
+      <th style="text-align:left"><b>Function</b>
+      </th>
+      <th style="text-align:left"><b>Description</b>
+      </th>
+      <th style="text-align:left"><b>Example</b>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -289,17 +292,8 @@ Date time functions allow you to perform transformations on columns which contai
         <p><b>(</b>jsonField, &apos;jsonPath&apos;, &apos;resultsType&apos;<b>)</b>
         </p>
       </td>
-      <td style="text-align:left">
-        <p>Evaluates the <code>jsonPath</code> on <code>jsonField</code> (a string containing
-          JSON) and returns the result as a type <code>resultsType</code>
-        </p>
-        <p><code>jsonFieldName</code> is a String field with Json document.</p>
-        <p>&lt;del&gt;&lt;/del&gt;</p>
-        <p><code>jsonPath</code> is a <a href="https://goessner.net/articles/JsonPath/">JsonPath expression</a> to
-          read from JSON document</p>
-        <p><code>results_type - </code>can be <code>INT</code>, <code>LONG</code>, <code>FLOAT</code>, <code>DOUBLE</code>, <code>STRING</code>, <code>INT_ARRAY</code>, <code>LONG_ARRAY</code>, <code>FLOAT_ARRAY</code>, <code>DOUBLE_ARRAY</code>, <code>STRING_ARRAY</code>.</p>
-        <p>&lt;code&gt;&lt;/code&gt;</p>
-      </td>
+      <td style="text-align:left">Evaluates the <code>&apos;jsonPath&apos;</code> on <code>jsonField,</code>returns
+        the result as the type <code>&apos;resultsType&apos;</code>.</td>
       <td style="text-align:left">
         <ul>
           <li><code>JSONEXTRACTSCALAR(profile_json_str, &apos;$.name&apos;, &apos;STRING&apos;) -&gt; &quot;bob&quot;</code>
@@ -316,13 +310,8 @@ Date time functions allow you to perform transformations on columns which contai
         <p><b>(</b>jsonField, &apos;jsonPath&apos;<b>)</b>
         </p>
       </td>
-      <td style="text-align:left">
-        <p> <code>E</code>xtracts all field names based on <code>jsonPath</code> as
-          a <code>STRING_ARRAY.</code>
-        </p>
-        <p><code>jsonFieldName</code> is a String field with Json document.</p>
-        <p><code>jsonPath</code> is a <a href="https://goessner.net/articles/JsonPath/">JsonPath expression</a> to
-          read from JSON document</p>
+      <td style="text-align:left">Extracts all matched JSON field keys based on <code>&apos;jsonPath&apos;</code> into
+        a<code>STRING_ARRAY.</code>
       </td>
       <td style="text-align:left"><code>JSONEXTRACTSCALAR(profile_json_str, &apos;$.*&apos;) -&gt; [&quot;name&quot;, &quot;age&quot;, &quot;phone&quot;...]</code>
       </td>
@@ -330,7 +319,110 @@ Date time functions allow you to perform transformations on columns which contai
   </tbody>
 </table>
 
-### 
+**Usage**
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left"><b><code>Arguments</code></b>
+      </th>
+      <th style="text-align:left"><b>Description</b>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><code>jsonField</code>
+      </td>
+      <td style="text-align:left">An identifier/expression contains JSON document</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>&apos;jsonPath&apos;</code>
+      </td>
+      <td style="text-align:left">
+        <p>Follows <a href="https://goessner.net/articles/JsonPath/">JsonPath Syntax</a> to
+          read from JSON document.</p>
+        <p>Note that this is a literal expression, please use single quotes for this.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>&apos;results_type&apos;</code>
+      </td>
+      <td style="text-align:left">
+        <p>One of the Pinot supported data types (<code>INT, LONG, FLOAT, DOUBLE, STRING, INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY). </code>
+        </p>
+        <p>Note that this is a literal expression, please use single quotes for this.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+**Examples**
+
+Below examples are based on 3 sample profile JSON documents:
+
+```text
+{
+  "name" : "Bob",
+  "age" : 37,
+  "gender": "male",
+  "location": "San Francisco"
+},{
+  "name" : "Alice",
+  "age" : 25,
+  "gender": "female",
+  "location": "New York"
+},{
+  "name" : "Mia",
+  "age" : 18,
+  "gender": "female",
+  "location": "Chicago"
+}
+```
+
+Query 1: Extract string values from the field 'name'
+
+```text
+SELECT
+    JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')
+FROM
+    myTable
+```
+
+Results are 
+
+```text
+["Bob", "Alice", "Mia"]
+```
+
+Query 2: Extract integer values from the field 'age'
+
+```text
+SELECT
+    JSONEXTRACTSCALAR(profile_json_str, '$.age', 'INT')
+FROM
+    myTable
+```
+
+Results are 
+
+```text
+[37, 25, 18]
+```
+
+Query 3: Extract Bob's age from the JSON profile.
+
+```text
+SELECT jsonExtractScalar(myMapStr,'$.age','INT')
+FROM myTable
+WHERE jsonExtractScalar(myMapStr,'$.name','STRING') = 'Bob'
+```
+
+Results are 
+
+```text
+[37]
+```
 
 ### Multi-value Column Functions
 
