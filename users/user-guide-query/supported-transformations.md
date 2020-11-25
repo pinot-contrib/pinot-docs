@@ -280,8 +280,6 @@ Date time functions allow you to perform transformations on columns which contai
       </th>
       <th style="text-align:left"><b>Description</b>
       </th>
-      <th style="text-align:left"><b>Example</b>
-      </th>
     </tr>
   </thead>
   <tbody>
@@ -294,14 +292,6 @@ Date time functions allow you to perform transformations on columns which contai
       </td>
       <td style="text-align:left">Evaluates the <code>&apos;jsonPath&apos;</code> on <code>jsonField,</code>returns
         the result as the type <code>&apos;resultsType&apos;</code>.</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>JSONEXTRACTSCALAR(profile_json_str, &apos;$.name&apos;, &apos;STRING&apos;) -&gt; &quot;bob&quot;</code>
-          </li>
-          <li><code>JSONEXTRACTSCALAR(profile_json_str, &apos;$.age&apos;, &apos;INT&apos;) -&gt; 37</code>
-          </li>
-        </ul>
-      </td>
     </tr>
     <tr>
       <td style="text-align:left">
@@ -312,8 +302,6 @@ Date time functions allow you to perform transformations on columns which contai
       </td>
       <td style="text-align:left">Extracts all matched JSON field keys based on <code>&apos;jsonPath&apos;</code> into
         a<code>STRING_ARRAY.</code>
-      </td>
-      <td style="text-align:left"><code>JSONEXTRACTSCALAR(profile_json_str, &apos;$.*&apos;) -&gt; [&quot;name&quot;, &quot;age&quot;, &quot;phone&quot;...]</code>
       </td>
     </tr>
   </tbody>
@@ -422,6 +410,19 @@ Results are
 
 ```text
 [37]
+```
+
+Query 4: Extract all field keys of JSON profile.
+
+```text
+SELECT JSONEXTRACTKEY(myMapStr,'$.*')
+FROM myTable
+```
+
+Results are 
+
+```text
+["name", "age", "gender", "location"]
 ```
 
 ### Multi-value Column Functions
