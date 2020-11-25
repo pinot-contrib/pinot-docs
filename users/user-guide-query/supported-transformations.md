@@ -309,11 +309,39 @@ Date time functions allow you to perform transformations on columns which contai
 
 **Usage**
 
-| **`Arguments`** | **Description** |
-| :--- | :--- |
-| `jsonField` | An identifier/expression contains JSON document. |
-| `'jsonPath'` | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read from JSON document. |
-| `'results_type'` | One of the Pinot supported data types`(INT, LONG, FLOAT, DOUBLE, STRING, INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY).`  |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left"><b><code>Arguments</code></b>
+      </th>
+      <th style="text-align:left"><b>Description</b>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><code>jsonField</code>
+      </td>
+      <td style="text-align:left">An <b>Identifier</b>/<b>Expression</b> contains JSON documents.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>&apos;jsonPath&apos;</code>
+      </td>
+      <td style="text-align:left">Follows <a href="https://goessner.net/articles/JsonPath/">JsonPath Syntax</a> to
+        read values from JSON documents.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>&apos;results_type&apos;</code>
+      </td>
+      <td style="text-align:left">
+        <p>One of the Pinot supported data types:<code>INT, LONG, FLOAT, DOUBLE, STRING, </code>
+        </p>
+        <p><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY. </code>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="warning" %}
 **`'jsonPath'`**`and`**`'results_type'`**are **Literals.** Pinot uses single quotes to distinguish it from **Identifiers**.
