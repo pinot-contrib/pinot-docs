@@ -290,8 +290,12 @@ Date time functions allow you to perform transformations on columns which contai
         <p><b>(</b>jsonField, &apos;jsonPath&apos;, &apos;resultsType&apos;<b>)</b>
         </p>
       </td>
-      <td style="text-align:left">Evaluates the <code>&apos;jsonPath&apos;</code> on <code>jsonField,</code>returns
-        the result as the type <code>&apos;resultsType&apos;</code>.</td>
+      <td style="text-align:left">
+        <p>Evaluates the <code>&apos;jsonPath&apos;</code> on <code>jsonField,</code>
+        </p>
+        <p>returns the result as the type <code>&apos;resultsType&apos;.</code>
+        </p>
+      </td>
     </tr>
     <tr>
       <td style="text-align:left">
@@ -300,8 +304,11 @@ Date time functions allow you to perform transformations on columns which contai
         <p><b>(</b>jsonField, &apos;jsonPath&apos;<b>)</b>
         </p>
       </td>
-      <td style="text-align:left">Extracts all matched JSON field keys based on <code>&apos;jsonPath&apos;</code> into
-        a<code>STRING_ARRAY.</code>
+      <td style="text-align:left">
+        <p>Extracts all matched JSON field keys based on <code>&apos;jsonPath&apos;</code> 
+        </p>
+        <p>Into a<code>STRING_ARRAY.</code>
+        </p>
       </td>
     </tr>
   </tbody>
@@ -334,9 +341,9 @@ Date time functions allow you to perform transformations on columns which contai
       <td style="text-align:left"><code>&apos;results_type&apos;</code>
       </td>
       <td style="text-align:left">
-        <p>One of the Pinot supported data types:<code>INT, LONG, FLOAT, DOUBLE, STRING, </code>
+        <p>One of the Pinot supported data types:<b><code>INT, LONG, FLOAT, DOUBLE, STRING, </code></b>
         </p>
-        <p><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY. </code>
+        <p><b><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></b><code>. </code>
         </p>
       </td>
     </tr>
