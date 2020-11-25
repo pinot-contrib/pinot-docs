@@ -401,9 +401,12 @@ Results are
 Query 3: Extract Bob's age from the JSON profile.
 
 ```text
-SELECT jsonExtractScalar(myMapStr,'$.age','INT')
-FROM myTable
-WHERE jsonExtractScalar(myMapStr,'$.name','STRING') = 'Bob'
+SELECT
+    JSONEXTRACTSCALAR(myMapStr,'$.age','INT')
+FROM
+    myTable
+WHERE
+    JSONEXTRACTSCALAR(myMapStr,'$.name','STRING') = 'Bob'
 ```
 
 Results are 
@@ -415,8 +418,10 @@ Results are
 Query 4: Extract all field keys of JSON profile.
 
 ```text
-SELECT JSONEXTRACTKEY(myMapStr,'$.*')
-FROM myTable
+SELECT
+    JSONEXTRACTKEY(myMapStr,'$.*')
+FROM
+    myTable
 ```
 
 Results are 
