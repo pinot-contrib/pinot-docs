@@ -138,7 +138,7 @@ docker run --rm -ti \
     apachepinot/pinot:latest AddTable \
     -schemaFile /tmp/pinot-quick-start/transcript-schema.json \
     -tableConfigFile /tmp/pinot-quick-start/transcript-table-offline.json \
-    -controllerHost pinot-controller \
+    -controllerHost pinot-quickstart \
     -controllerPort 9000 -exec
 ```
 {% endtab %}
@@ -183,10 +183,10 @@ recordReaderSpec:
   configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
 tableSpec:
   tableName: 'transcript'
-  schemaURI: 'http://pinot-controller:9000/tables/transcript/schema'
-  tableConfigURI: 'http://pinot-controller:9000/tables/transcript'
+  schemaURI: 'http://pinot-quickstart:9000/tables/transcript/schema'
+  tableConfigURI: 'http://pinot-quickstart:9000/tables/transcript'
 pinotClusterSpecs:
-  - controllerURI: 'http://pinot-controller:9000'
+  - controllerURI: 'http://pinot-quickstart:9000'
 ```
 {% endcode %}
 {% endtab %}
