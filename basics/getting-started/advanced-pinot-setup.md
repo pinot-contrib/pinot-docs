@@ -159,6 +159,12 @@ You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse th
 
 ### 2. Start Pinot Controller
 
+{% hint style="info" %}
+The examples below are for Java 8 users.
+
+For Java 11+ users, please remove the GC settings inside`JAVA_OPTS.` So it looks like: `export JAVA_OPTS="-Xms4G -Xmx8G"`
+{% endhint %}
+
 ```text
 export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log"
 bin/pinot-admin.sh StartController \
