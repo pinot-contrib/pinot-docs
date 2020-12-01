@@ -54,3 +54,12 @@ SELECT COUNT(*) from myTable option(timeoutMs=20000)
 
 In order to speed up aggregations, you can enable metrics aggregation on the required column by adding a [metric field](https://docs.pinot.apache.org/configuration-reference/schema#metricfieldspecs) in the corresponding schema and setting `aggregateMetrics` to true in the table config. You can also use a star-tree index config for such columns \([read more about star-tree here](https://docs.pinot.apache.org/basics/indexing/star-tree-index)\)  
 
+### How do I verify that an index is created on a particular column ?
+
+There are 2 ways to verify this:
+
+1. Log in to a server that hosts segments of this table. Inside the data directory, locate the segment directory for this table. In this directory, there is a file named `index_map` which lists all the indexes and other data structures created for each segment. Verify that the requested index is present here.
+2. During query: Use the column in the filter predicate and check the value of `numEntriesScannedInFilter` . If this value is 0, then indexing is working as expected \(works for Inverted index\)
+
+
+
