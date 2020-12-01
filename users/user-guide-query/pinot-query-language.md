@@ -95,7 +95,39 @@ To count rows where the column `airlineName` starts with `U`
 ```sql
 SELECT count(*) FROM SomeTable
   WHERE regexp_like(airlineName, '^U.*')
-  GROUP BY airlineName TOP 10
+  GROUP BY airlineName LIMIT 10
+```
+
+### Case-When Statement
+
+Pinot supports the CASE-WHEN-ELSE statement.
+
+Example 1:
+
+```sql
+SELECT
+    CASE
+      WHEN price > 30 THEN 3
+      WHEN price > 20 THEN 2
+      WHEN price > 10 THEN 1
+      ELSE 0
+    END AS price_category
+FROM SomeTable
+```
+
+Example 2:
+
+```sql
+SELECT
+  SUM(
+    CASE
+      WHEN price > 30 THEN 30
+      WHEN price > 20 THEN 20
+      WHEN price > 10 THEN 10
+      ELSE 0
+    END) AS total_cost
+FROM
+    SomeTable
 ```
 
 ### UDF
