@@ -6,7 +6,7 @@ description: The Docker instructions on this page are still WIP
 
 So far, we setup our cluster, ran some queries on the demo tables and explored the admin endpoints. We also uploaded some sample batch data for transcript table. 
 
-Now, it's time to ingest from a sample stream into Pinot.
+Now, it's time to ingest from a sample stream into Pinot. The rest of the instructions assume you're using [Pinot running in Docker](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker) \(inside a pinot-quickstart container\).
 
 ## Data Stream
 

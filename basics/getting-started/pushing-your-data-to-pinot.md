@@ -4,7 +4,7 @@ description: Step-by-step guide on pushing your own data into the Pinot cluster
 
 # Batch import example
 
-So far, we setup our cluster, ran some queries, explored the admin endpoints. Now, it's time to get our own data into Pinot
+So far, we setup our cluster, ran some queries, explored the admin endpoints. Now, it's time to get our own data into Pinot. The rest of the instructions assume you're using [Pinot running in Docker](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker) \(inside a pinot-quickstart container\).
 
 ### Preparing your data
 
