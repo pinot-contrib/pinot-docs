@@ -37,6 +37,7 @@ This page contains links to all the design documents
 | [Project Tuna: Automatic Inverted Index Recommendation](https://cwiki.apache.org/confluence/display/PINOT/Automated+Inverted+Index+Recommendation+for+Pinot) | Jia Guo | May 2019 |
 | [Segment Completion Enhancement for deep storage support](https://cwiki.apache.org/confluence/display/PINOT/Segment+Completion+Protocol+enhancements+for+Deep+Store+support) | Subbu | Feb 2019 |
 | [Segment Merge and Rollup](https://cwiki.apache.org/confluence/display/PINOT/Segment+Merge+and+Rollup) | Seunghyun Lee | 2018 |
+| [Pinot-Minion Service](https://docs.google.com/document/d/1kbK88fCexmEsDcFINebqLvZWtKg8CVQN4kmsLm0s9f8/edit?usp=sharing) | Jackie Jiang | 2017 |
 | [Consuming and indexing rows in realtime](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime) | Subbu | 2017 |
 | [Partition Aware Query Routing](https://cwiki.apache.org/confluence/display/PINOT/Partition+Aware+Query+Routing) | Subbu | 2017 |
 | [Query Processing](https://cwiki.apache.org/confluence/display/PINOT/Query+Processing) | Subbu | 2016 |
