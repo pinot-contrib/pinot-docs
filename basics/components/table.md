@@ -89,6 +89,18 @@ Only supported aggregation right now is `SUM`.  The columns on which pre-aggrega
 * There should not be any multi-value dimensions.
 * All dimension columns are treated to have a dictionary, even if they appear as `noDictionaryColumns` in the config.
 
+The following table config snippet shows an example of enabling pre-aggregation during real-time ingestion.
+
+{% code title="pinot-table-realtime.json" %}
+```javascript
+    "tableIndexConfig": { 
+      "noDictionaryColumns": ["metric1", "metric2"],
+      "aggregateMetrics": true,
+      ...
+    }
+```
+{% endcode %}
+
 ### Tenants
 
 Each table is associated with a tenant. A segment resides on the server which has the same tenant as itself. You can refer [Tenant](tenant.md) for more details on how tenants work.
