@@ -55,6 +55,10 @@ Sorted index can be configured for a table by setting it in the table config as
 }
 ```
 
+{% hint style="info" %}
+**Note**: A given Pinot table can only have 1 sorted column
+{% endhint %}
+
 Real-time server will sort data on `sortedColumn` when generating segment internally. For offline push, input data needs to be sorted before running Pinot segment conversion and push job.
 
 When applied correctly, one can find the following information on the segment metadata.
