@@ -54,24 +54,24 @@ Pinot provides support for aggregations using GROUP BY. You can use the followin
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PERCENTILE</b>[0-100]</td>
-      <td style="text-align:left">Returns the Nth percentile of the group where N is between 0-100</td>
+      <td style="text-align:left"><b>PERCENTILE(column, N)</b></td>
+      <td style="text-align:left">Returns the Nth percentile of the group where N is a decimal number between 0 and 100 inclusive</td>
       <td
-      style="text-align:left"><code>PERCENTILE50(playerScore), PERCENTILE99(playerScore)</code>
+      style="text-align:left"><code>PERCENTILE(playerScore, 50), PERCENTILE(playerScore, 99.9)</code>
         </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PERCENTILEEST</b>[0-100]</td>
+      <td style="text-align:left"><b>PERCENTILEEST(column, N)</b></td>
       <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java">Quantile Digest</a> algorithm</td>
       <td
-      style="text-align:left"><code>PERCENTILEEST50(playerScore), PERCENTILEEST99(playerScore)</code>
+      style="text-align:left"><code>PERCENTILEEST(playerScore, 50), PERCENTILEEST(playerScore, 99.9)</code>
         </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PercentileTDigest</b>[0-100]</td>
+      <td style="text-align:left"><b>PercentileTDigest(column, N)</b></td>
       <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf">T-digest algorithm</a>
       </td>
-      <td style="text-align:left"><code>PERCENTILETDIGEST50(playerScore), PERCENTILETDIGEST99(playerScore)</code>
+      <td style="text-align:left"><code>PERCENTILETDIGEST(playerScore, 50), PERCENTILETDIGEST(playerScore, 99.9)</code>
       </td>
     </tr>
     <tr>
@@ -198,38 +198,38 @@ The following aggregation functions can be used for multi-value columns
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PERCENTILE</b>[0-100]<b>MV</b>
+      <td style="text-align:left"><b>PERCENTILEMV(column, N)</b>
       </td>
-      <td style="text-align:left">Returns the Nth percentile of the group where N is between 0-100</td>
+      <td style="text-align:left">Returns the Nth percentile of the group where N is a decimal number between 0 and 100 inclusive</td>
       <td
       style="text-align:left">
-        <p><code>PERCENTILE50MV(playerScores),</code>
+        <p><code>PERCENTILEMV(playerScores, 50),</code>
         </p>
-        <p><code>PERCENTILE99MV(playerScores)</code>
+        <p><code>PERCENTILEMV(playerScores, 99.9)</code>
         </p>
         </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PERCENTILEEST</b>[0-100]<b>MV</b>
+      <td style="text-align:left"><b>PERCENTILEESTMV(column, N)</b>
       </td>
       <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java">Quantile Digest</a> algorithm</td>
       <td
       style="text-align:left">
-        <p><code>PERCENTILEEST50MV(playerScores),</code>
+        <p><code>PERCENTILEESTMV(playerScores, 50),</code>
         </p>
-        <p><code>PERCENTILEEST99MV(playerScores)</code>
+        <p><code>PERCENTILEESTMV(playerScores, 99.9)</code>
         </p>
         </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PercentileTDigest[0-100]MV</b>
+      <td style="text-align:left"><b>PercentileTDigestMV(column, N)</b>
       </td>
       <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf">T-digest algorithm</a>
       </td>
       <td style="text-align:left">
-        <p><code>PERCENTILETDIGEST50MV(playerScores),</code>
+        <p><code>PERCENTILETDIGESTMV(playerScores, 50),</code>
         </p>
-        <p><code>PERCENTILETDIGEST99MV(playerScores),</code>
+        <p><code>PERCENTILETDIGESTMV(playerScores, 99.9),</code>
         </p>
       </td>
     </tr>
