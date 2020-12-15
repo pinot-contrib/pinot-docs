@@ -149,9 +149,9 @@ For Multi-Valued columns, EQUALS is similar to CONTAINS.
 * `DISTINCTCOUNTHLL`
 * `DISTINCTCOUNTRAWHLL`: Returns HLL response serialized as string. The serialized HLL can be converted back into an HLL \(see pinot-core/\*\*/HllUtil.java as an example\) and then aggregated with other HLLs. A common use case may be to merge HLL responses from different Pinot tables, or to allow aggregation after client-side batching.
 * `FASTHLL` \(**WARN**: will be deprecated soon. `FASTHLL` stores serialized HyperLogLog in String format, which performs worse than `DISTINCTCOUNTHLL`, which supports serialized HyperLogLog in BYTES \(byte array\) format\)
-* `PERCENTILE[0-100]`: e.g. `PERCENTILE5`, `PERCENTILE50`, `PERCENTILE99`, etc.
-* `PERCENTILEEST[0-100]`: e.g. `PERCENTILEEST5`, `PERCENTILEEST50`, `PERCENTILEEST99`, etc.
-* `PERCENTILETDIGEST[0-100]`: e.g. `PERCENTILETDIGEST5`, `PERCENTILETDIGEST50`, `PERCENTILETDIGEST99`, etc. 
+* `PERCENTILE`: e.g. `PERCENTILE(column, 0.05)`, `PERCENTILE(column, 50)`, `PERCENTILE(column, 99.9)`, etc.
+* `PERCENTILEEST`: e.g. `PERCENTILEEST(column, 0.05)`, `PERCENTILEEST(column, 50)`, `PERCENTILEEST(column, 99.9)`, etc.
+* `PERCENTILETDIGEST`: e.g. `PERCENTILETDIGEST(column, 0.05)`, `PERCENTILETDIGEST(column, 50)`, `PERCENTILETDIGEST(column, 99.9)`, etc. 
   * `PERCENTILE` returns accurate percentile results.
   * `PERCENTILEEST` returns estimated percentile results based on [io.airlift.stats.QuantileDigest](https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java).
   * `PERCENTILETDIGEST` returns estimated percentile results based on [T-Digest](https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf) algorithm.
@@ -168,9 +168,9 @@ For Multi-Valued columns, EQUALS is similar to CONTAINS.
 * `DISTINCTCOUNTHLLMV`
 * `DISTINCTCOUNTRAWHLLMV`: Returns HLL response serialized as string. The serialized HLL can be converted back into an HLL \(see pinot-core/\*\*/HllUtil.java as an example\) and then aggregated with other HLLs. A common use case may be to merge HLL responses from different Pinot tables, or to allow aggregation after client-side batching.
 * `FASTHLLMV` \(**WARN**: will be deprecated soon. It does not make lots of sense to configure serialized HyperLogLog column as a dimension\)
-* `PERCENTILE[0-100]MV`: e.g. `PERCENTILE5MV`, `PERCENTILE50MV`, `PERCENTILE99MV`, etc.
-* `PERCENTILEEST[0-100]MV`: e.g. `PERCENTILEEST5MV`, `PERCENTILEEST50MV`, `PERCENTILEEST99MV`, etc.
-* `PERCENTILETDIGEST[0-100]MV`: e.g. `PERCENTILETDIGEST5MV`, `PERCENTILETDIGEST50MV`, `PERCENTILETDIGEST99MV`, etc.
+* `PERCENTILEMV`: e.g. `PERCENTILEMV(column, 0.05)`, `PERCENTILEMV(column, 50)`, `PERCENTILEMV(column, 99.9)`, etc.
+* `PERCENTILEESTMV`: e.g. `PERCENTILEESTMV(column, 0.05)`, `PERCENTILEESTMV(column, 50)`, `PERCENTILEESTMV(column, 99.9)`, etc.
+* `PERCENTILETDIGESTMV`: e.g. `PERCENTILETDIGESTMV(column, 0.05)`, `PERCENTILETDIGESTMV(column, 50)`, `PERCENTILETDIGESTMV(column, 99.9)`, etc.
 
 ### WHERE
 
