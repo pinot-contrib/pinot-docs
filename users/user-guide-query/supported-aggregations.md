@@ -54,21 +54,24 @@ Pinot provides support for aggregations using GROUP BY. You can use the followin
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PERCENTILE(column, N)</b></td>
-      <td style="text-align:left">Returns the Nth percentile of the group where N is a decimal number between 0 and 100 inclusive</td>
-      <td
-      style="text-align:left"><code>PERCENTILE(playerScore, 50), PERCENTILE(playerScore, 99.9)</code>
-        </td>
+      <td style="text-align:left"><b>PERCENTILE(column, N)</b>
+      </td>
+      <td style="text-align:left">Returns the Nth percentile of the group where N is a decimal number between
+        0 and 100 inclusive</td>
+      <td style="text-align:left"><code>PERCENTILE(playerScore, 50), PERCENTILE(playerScore, 99.9)</code>
+      </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PERCENTILEEST(column, N)</b></td>
+      <td style="text-align:left"><b>PERCENTILEEST(column, N)</b>
+      </td>
       <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java">Quantile Digest</a> algorithm</td>
       <td
       style="text-align:left"><code>PERCENTILEEST(playerScore, 50), PERCENTILEEST(playerScore, 99.9)</code>
         </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>PercentileTDigest(column, N)</b></td>
+      <td style="text-align:left"><b>PercentileTDigest(column, N)</b>
+      </td>
       <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf">T-digest algorithm</a>
       </td>
       <td style="text-align:left"><code>PERCENTILETDIGEST(playerScore, 50), PERCENTILETDIGEST(playerScore, 99.9)</code>
@@ -104,13 +107,9 @@ Pinot provides support for aggregations using GROUP BY. You can use the followin
         may be to merge HLL responses from different Pinot tables, or to allow
         aggregation after client-side batching.</td>
       <td style="text-align:left">
-        <p></p>
-        <p></p>
         <p><code>DISTINCTCOUNTRAWHLL(playerName)</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
-        <p></p>
-        <p></p>
       </td>
     </tr>
     <tr>
@@ -139,9 +138,7 @@ Pinot provides support for aggregations using GROUP BY. You can use the followin
   </tbody>
 </table>
 
-
-
-### Multi-value column functions
+## Multi-value column functions
 
 The following aggregation functions can be used for multi-value columns
 
@@ -200,14 +197,14 @@ The following aggregation functions can be used for multi-value columns
     <tr>
       <td style="text-align:left"><b>PERCENTILEMV(column, N)</b>
       </td>
-      <td style="text-align:left">Returns the Nth percentile of the group where N is a decimal number between 0 and 100 inclusive</td>
-      <td
-      style="text-align:left">
+      <td style="text-align:left">Returns the Nth percentile of the group where N is a decimal number between
+        0 and 100 inclusive</td>
+      <td style="text-align:left">
         <p><code>PERCENTILEMV(playerScores, 50),</code>
         </p>
         <p><code>PERCENTILEMV(playerScores, 99.9)</code>
         </p>
-        </td>
+      </td>
     </tr>
     <tr>
       <td style="text-align:left"><b>PERCENTILEESTMV(column, N)</b>

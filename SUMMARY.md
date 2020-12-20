@@ -30,6 +30,7 @@
   * [Stream ingestion example](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
   * [Troubleshooting Pinot](basics/getting-started/troubleshooting-pinot.md)
   * [Frequently Asked Questions \(FAQs\)](basics/getting-started/frequent-questions/README.md)
+    * [Pinot On Kubernetes FAQ](basics/getting-started/frequent-questions/pinot-on-kubernetes-faq.md)
     * [Ingestion FAQ](basics/getting-started/frequent-questions/ingestion-faq.md)
     * [Query FAQ](basics/getting-started/frequent-questions/query-faq.md)
     * [Operations FAQ](basics/getting-started/frequent-questions/operations-faq.md)
