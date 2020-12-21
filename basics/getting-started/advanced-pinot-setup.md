@@ -24,7 +24,7 @@ We will run each of these components in separate containers
 You can try out the pre-built Pinot all-in-one docker image.
 
 ```text
-export PINOT_VERSION=0.4.0-SNAPSHOT
+export PINOT_VERSION=0.6.0
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
