@@ -52,18 +52,6 @@ docker run \
     -d zookeeper:3.5.6
 ```
 
-Start  [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
-
-```text
-docker run --rm -ti \
-	--network pinot-demo --name=zkui \
-	-p 9090:9090 \
-	-e ZK_SERVER=pinot-zookeeper:2181 \
-	-d qnib/plain-zkui:latest
-```
-
-Alternatively, you can also use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse zookeeper as well.
-
 ### 2. Start Pinot Controller
 
 Start Pinot Controller in daemon and connect to Zookeeper.
