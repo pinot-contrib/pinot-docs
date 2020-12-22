@@ -19,6 +19,14 @@ We will run each of these components in separate containers
 {% tab title="Using docker images" %}
 ## Start Pinot Components using docker 
 
+### **Prerequisites**
+
+{% hint style="info" %}
+If running locally, please ensure your docker cluster has enough resources, below is a sample config.
+{% endhint %}
+
+![Sample docker resources](../../.gitbook/assets/image%20%281%29.png)
+
 ### Pull docker image
 
 You can try out the pre-built Pinot all-in-one docker image.
@@ -56,12 +64,16 @@ docker run \
 
 Start Pinot Controller in daemon and connect to Zookeeper.
 
+{% hint style="info" %}
+Below command expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
+{% endhint %}
+
 ```text
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-controller \
     -p 9000:9000 \
-    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log" \
+    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log" \
     -d ${PINOT_IMAGE} StartController \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -69,6 +81,10 @@ docker run --rm -ti \
 ### 3. Start Pinot Broker
 
 Start Pinot Broker in daemon and connect to Zookeeper.
+
+{% hint style="info" %}
+Below command expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
+{% endhint %}
 
 ```text
 docker run --rm -ti \
@@ -82,6 +98,10 @@ docker run --rm -ti \
 ### 4. Start Pinot Server
 
 Start Pinot Server in daemon and connect to Zookeeper.
+
+{% hint style="info" %}
+Below command expects a 16GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
+{% endhint %}
 
 ```text
 docker run --rm -ti \
