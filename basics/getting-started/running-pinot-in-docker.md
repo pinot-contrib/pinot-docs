@@ -10,7 +10,11 @@ description: This quick start guide will show you how to run a Pinot cluster usi
 Install [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 
 You can also try [Kubernetes quick start](kubernetes-quickstart.md) if you already have a local [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) cluster installed or [Docker Kubernetes](https://www.docker.com/products/kubernetes) setup.
+
+If running locally, please ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
+
+![](../../.gitbook/assets/image%20%281%29.png)
 
 We'll be using our docker image `apachepinot/pinot:latest` to run this quick start, which does the following:
 
