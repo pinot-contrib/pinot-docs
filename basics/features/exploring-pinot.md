@@ -6,7 +6,7 @@ description: Explore the data on our Pinot cluster
 
 Now that the QuickStartCluster is setup, we can start exploring the data and the APIs. Head over to [http://localhost:9000](http://localhost:9000) in your browser.
 
-![](../../.gitbook/assets/screen-shot-2020-02-28-at-9.46.33-am%20%281%29.png)
+![](../../.gitbook/assets/screen-shot-2020-02-28-at-9.46.33-am%20%282%29%20%281%29.png)
 
 You are now connected to the Pinot controller. Let's take a look at the following two features.
 
