@@ -71,7 +71,7 @@ Start Pinot Controller in daemon and connect to Zookeeper.
 ```text
 docker run --rm -ti \
     --network=pinot-demo \
-    --name pinot-quickstart \
+    --name pinot-controller \
     -p 9000:9000 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log" \
     -d ${PINOT_IMAGE} StartController \
