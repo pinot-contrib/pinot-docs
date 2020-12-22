@@ -14,7 +14,7 @@ You can also try [Kubernetes quick start](kubernetes-quickstart.md) if you alrea
 If running locally, please ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
 
-![](../../.gitbook/assets/image%20%281%29.png)
+![](../../.gitbook/assets/image%20%284%29.png)
 
 We'll be using our docker image `apachepinot/pinot:latest` to run this quick start, which does the following:
 

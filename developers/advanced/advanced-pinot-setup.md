@@ -8,6 +8,14 @@ Setup Pinot by starting each component individually
 {% tab title="Using docker images" %}
 ## Start Pinot Components using docker 
 
+### **Prerequisites**
+
+{% hint style="info" %}
+If running locally, please ensure your docker cluster has enough resources, below is a sample config.
+{% endhint %}
+
+![Sample docker resources](../../.gitbook/assets/image%20%281%29.png)
+
 ### Pull docker image
 
 You can try out pre-built Pinot all-in-one docker image.
@@ -153,6 +161,8 @@ bin/pinot-admin.sh StartServer \
 ```
 {% endtab %}
 {% endtabs %}
+
+
 
 ## Start Pinot Using Config Files
 
