@@ -71,6 +71,32 @@ bin/pinot-admin.sh StartBroker -configFileName /path/to/broker.conf
       <td style="text-align:left">8099</td>
       <td style="text-align:left">Port to query broker</td>
     </tr>
+    <tr>
+      <td style="text-align:left">pinot.broker.client.protocol</td>
+      <td style="text-align:left">http</td>
+      <td style="text-align:left">Protocol to query broker (http or https)</td>
+    </tr>    <tr>
+      <td style="text-align:left">pinot.broker.client.tls.keystore.path</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Path to broker TLS keystore</td>
+    </tr>    <tr>
+      <td style="text-align:left">pinot.broker.client.tls.keystore.password</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">keystore password</td>
+    </tr>    <tr>
+      <td style="text-align:left">pinot.broker.client.tls.truststore.path</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Path to broker TLS truststore</td>
+    </tr>    <tr>
+      <td style="text-align:left">pinot.broker.client.tls.truststore.password</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">truststore password</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.broker.client.tls.requires_client_auth</td>
+      <td style="text-align:left">false</td>
+      <td style="text-align:left">toggle for requiring TLS client auth</td>
+    </tr>
   </tbody>
 </table>
 
