@@ -50,10 +50,6 @@ Add the following things to the real-time [segments config](https://docs.pinot.a
 ```text
     "segmentsConfig": {
       ...
-      
-      "completionConfig": {
-        "completionMode": "DOWNLOAD"
-      }
       "peerSegmentDownloadScheme": "http"
     }
 
