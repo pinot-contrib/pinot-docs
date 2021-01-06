@@ -1,6 +1,6 @@
 # Advanced Configurations for Pinot Controller
 
-For advanced configurations, the Pinot Controller can be configure with a property file 
+For advanced configurations, the Pinot Controller can be configured with a property file 
 refered with the `-configFileName` argument of `pinot-admin.sh`.
 
 ```bash
