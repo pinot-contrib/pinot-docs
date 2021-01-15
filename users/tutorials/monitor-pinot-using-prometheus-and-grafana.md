@@ -139,7 +139,7 @@ kubectl port-forward service/grafana 20080:80 -n grafana
 
 `admin`/`[ PASSWORD GET FROM PREVIOUS STEP]` 
 
-![Grafana Dashboard](../../.gitbook/assets/image%20%2847%29%20%281%29.png)
+![Grafana Dashboard](../../.gitbook/assets/image%20%2847%29%20%281%29%20%281%29.png)
 
 * Add data source
 

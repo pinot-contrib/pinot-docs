@@ -15,7 +15,7 @@ Below is a sample `controller.conf` file.
 {% hint style="info" %}
 Please config:
 
-`controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there. 
+`controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there.
 {% endhint %}
 
 {% hint style="info" %}
@@ -42,7 +42,7 @@ pinot.controller.storage.factory.s3.secretKey=****************gfhz
 {% endhint %}
 
 {% hint style="info" %}
-Add `s3` to `pinot.controller.segment.fetcher.protocols` 
+Add `s3` to `pinot.controller.segment.fetcher.protocols`
 
 and set `pinot.controller.segment.fetcher.s3.class` to`org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher`
 {% endhint %}
@@ -62,12 +62,14 @@ pinot.controller.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.
 ```
 
 If you to grant full control to bucket owner, then add this to the config:
+
 ```bash
 pinot.controller.storage.factory.s3.disableAcl=false
 ```
+
 Then start pinot controller with:
 
-```
+```text
 bin/pinot-admin.sh StartController -configFileName conf/controller.conf
 ```
 
@@ -75,7 +77,7 @@ bin/pinot-admin.sh StartController -configFileName conf/controller.conf
 
 Broker is a simple one you can just start it with default:
 
-```
+```text
 bin/pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName pinot-s3-example
 ```
 
@@ -84,7 +86,7 @@ bin/pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName pinot-s3-e
 Below is a sample `server.conf` file
 
 {% hint style="info" %}
-Similar to controller config, please also set s3 configs in pinot server. 
+Similar to controller config, please also set s3 configs in pinot server.
 {% endhint %}
 
 ```bash
@@ -101,13 +103,14 @@ pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.Pino
 ```
 
 If you to grant full control to bucket owner, then add this to the config:
+
 ```bash
 pinot.controller.storage.factory.s3.disableAcl=false
 ```
+
 Then start pinot controller with:
 
-
-```
+```text
 bin/pinot-admin.sh StartServer -configFileName conf/server.conf -zkAddress localhost:2181 -clusterName pinot-s3-example
 ```
 
@@ -260,7 +263,7 @@ pushJobSpec:
 
   # pushRetryIntervalMillis: retry wait Ms, default to 1 second.
   pushRetryIntervalMillis: 1000
-  
+
   # For Pinot version < 0.6.0, use [scheme]://[bucket.name] as prefix.
   # E.g. s3://my.bucket
   segmentUriPrefix: 's3://my.bucket'
@@ -562,10 +565,4 @@ Below is the sample snapshot of s3 location for controller:
 Below is a sample download URI in PropertyStore, we expect the segment download uri is started with `s3://`
 
 ![Sample segment download URI in PropertyStore](../../.gitbook/assets/image%20%2833%29.png)
-
-
-
-
-
-
 

@@ -1,6 +1,6 @@
 # Broker
 
-You can set broker properties in a configuration file. The file can be provided during startup time as follows - 
+You can set broker properties in a configuration file. The file can be provided during startup time as follows -
 
 ```text
 bin/pinot-admin.sh StartBroker -configFileName /path/to/broker.conf
@@ -8,99 +8,21 @@ bin/pinot-admin.sh StartBroker -configFileName /path/to/broker.conf
 
 `broker.conf` can have the following properties. All properties are defined in this class.
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Property</th>
-      <th style="text-align:left">Default</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">pinot.broker.delayShutdownTimeMs</td>
-      <td style="text-align:left">10 seconds</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.enableTableLevelMetrics</td>
-      <td style="text-align:left">true</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.query.response.limit</td>
-      <td style="text-align:left">Integer.MAX_VALUE</td>
-      <td style="text-align:left">When config <code>pinot.broker.enable.query.limit.override</code>is enabled,
-        reset limit for selection query if it exceeds this value.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.query.log.length</td>
-      <td style="text-align:left">Integer.MAX_VALUE</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.query.log.maxRatePerSecond</td>
-      <td style="text-align:left">10000.0</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.timeoutMs</td>
-      <td style="text-align:left">10 seconds</td>
-      <td style="text-align:left">
-        <p></p>
-        <p>Timeout for Broker Query in Milliseconds</p>
-        <p></p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.startup.minResourcePercent</td>
-      <td style="text-align:left">100</td>
-      <td style="text-align:left">Configuration to consider the broker ServiceStatus as being STARTED if
-        the percent of resources (tables) that are ONLINE for this this broker
-        has crossed the threshold percentage of the total number of tables that
-        it is expected to serve</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.enable.query.limit.override</td>
-      <td style="text-align:left">false</td>
-      <td style="text-align:left">Configuration to enable Query LIMIT Override to protect Pinot Broker and
-        Server from fetch too many records back.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.client.queryPort</td>
-      <td style="text-align:left">8099</td>
-      <td style="text-align:left">Port to query broker</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.client.protocol</td>
-      <td style="text-align:left">http</td>
-      <td style="text-align:left">Protocol to query broker (http or https)</td>
-    </tr>    <tr>
-      <td style="text-align:left">pinot.broker.client.tls.keystore.path</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Path to broker TLS keystore</td>
-    </tr>    <tr>
-      <td style="text-align:left">pinot.broker.client.tls.keystore.password</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">keystore password</td>
-    </tr>    <tr>
-      <td style="text-align:left">pinot.broker.client.tls.truststore.path</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Path to broker TLS truststore</td>
-    </tr>    <tr>
-      <td style="text-align:left">pinot.broker.client.tls.truststore.password</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">truststore password</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.broker.client.tls.requires_client_auth</td>
-      <td style="text-align:left">false</td>
-      <td style="text-align:left">toggle for requiring TLS client auth</td>
-    </tr>
-  </tbody>
-</table>
-
-
-
-
+| Property | Default | Description |
+| :--- | :--- | :--- |
+| pinot.broker.delayShutdownTimeMs | 10 seconds |  |
+| pinot.broker.enableTableLevelMetrics | true |  |
+| pinot.broker.query.response.limit | Integer.MAX\_VALUE | When config `pinot.broker.enable.query.limit.override`is enabled, reset limit for selection query if it exceeds this value. |
+| pinot.broker.query.log.length | Integer.MAX\_VALUE |  |
+| pinot.broker.query.log.maxRatePerSecond | 10000.0 |  |
+| pinot.broker.timeoutMs | 10 seconds | Timeout for Broker Query in Milliseconds |
+| pinot.broker.startup.minResourcePercent | 100 | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources \(tables\) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve |
+| pinot.broker.enable.query.limit.override | false | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back. |
+| pinot.broker.client.queryPort | 8099 | Port to query broker |
+| pinot.broker.client.protocol | http | Protocol to query broker \(http or https\) |
+| pinot.broker.client.tls.keystore.path |  | Path to broker TLS keystore |
+| pinot.broker.client.tls.keystore.password |  | keystore password |
+| pinot.broker.client.tls.truststore.path |  | Path to broker TLS truststore |
+| pinot.broker.client.tls.truststore.password |  | truststore password |
+| pinot.broker.client.tls.requires\_client\_auth | false | toggle for requiring TLS client auth |
 

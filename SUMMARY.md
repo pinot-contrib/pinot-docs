@@ -68,7 +68,7 @@
 ## For Users <a id="users"></a>
 
 * [Query](users/user-guide-query/README.md)
-  * [Pinot Query Language \(PQL\)](users/user-guide-query/pinot-query-language.md)
+  * [Querying Pinot](users/user-guide-query/pinot-query-language.md)
   * [Supported Transformations](users/user-guide-query/supported-transformations.md)
   * [Supported Aggregations](users/user-guide-query/supported-aggregations.md)
   * [User-Defined Functions \(UDFs\)](users/user-guide-query/scalar-functions.md)

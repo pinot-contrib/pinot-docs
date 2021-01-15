@@ -32,9 +32,9 @@ S3 Filesystem supports authentication using the [DefaultCredentialsProviderChain
 
 You can also specify the accessKey and secretKey using the properties. However, this method is not secure and should be used only for POC setups.
 
-### Examples
+## Examples
 
-#### Job spec
+### Job spec
 
 ```yaml
 executionFrameworkSpec:
@@ -61,7 +61,7 @@ pinotClusterSpecs:
     - controllerURI: 'http://localhost:9000'
 ```
 
-#### Controller config
+### Controller config
 
 ```text
 controller.data.dir=s3://path/to/data/directory/
@@ -73,7 +73,7 @@ pinot.controller.segment.fetcher.protocols=file,http,s3
 pinot.controller.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
-#### Server config
+### Server config
 
 ```text
 pinot.server.instance.enable.split.commit=true
@@ -82,8 +82,4 @@ pinot.server.storage.factory.s3.region=ap-southeast-1
 pinot.server.segment.fetcher.protocols=file,http,s3
 pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
-
-#### 
-
-#### 
 

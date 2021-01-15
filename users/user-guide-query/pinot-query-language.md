@@ -1,23 +1,32 @@
 ---
-description: Learn how to query Pinot using PQL
+description: Learn how to query Pinot using SQL
 ---
 
-# Pinot Query Language \(PQL\)
+# Querying Pinot
 
-## PQL
+## DIALECT
 
-PQL is a derivative of SQL that supports selection, projection, aggregation, and grouping aggregation. 
+Pinot uses Calcite SQL Parser to parse queries and uses MYSQL\_ANSI dialect. You can see the grammar [here](https://calcite.apache.org/docs/reference.html). 
 
-## PQL Limitations
+## Limitations
 
-PQL is only a derivative of SQL, and it does not support Joins nor Subqueries. In order to support them, we suggest to rely on PrestoDB [https://prestodb.io/](https://prestodb.io/), although Subqueries are not completely supported by PrestoDB at the moment of writing. Refer [Presto](../../integrations/presto.md) for details on integration.
+Pinot does not support Joins or nested Subqueries and we recommend using  Presto for queries that span multiple tables. Read engineering [Engineering Full SQL support for Pinot at Uber](https://eng.uber.com/engineering-sql-support-on-apache-pinot/) for more info.
 
-## PQL Examples
+No DDL support. Tables can be created via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
-The Pinot Query Language \(PQL\) is very similar to standard SQL:
+## Example Queries
 
-```sql
-SELECT COUNT(*) FROM myTable
+* Use single quotes for literals and double quotes \(optional\) for identifiers \(column names\)
+* If you name your columns as timestamp, date, and other reserved keywords, you need to use double quotes when you refer to them in the query.
+
+  
+**Simple selection**
+
+```
+//default to limit 10
+SELECT * FROM myTable 
+
+SELECT * FROM myTable LIMIT 100
 ```
 
 ### Aggregation
@@ -150,109 +159,5 @@ SELECT * FROM myTable
   WHERE UID = "c8b3bce0b378fc5ce8067fc271a34892"
 ```
 
-## PQL Specification
 
-### SELECT
-
-The select statement is as follows
-
-```sql
-SELECT <outputColumn> (, outputColumn, outputColumn,...)
-  FROM <tableName>
-  (WHERE ... | GROUP BY ... | ORDER BY ... | TOP ... | LIMIT ...)
-```
-
-`outputColumn` can be `*` to project all columns, columns \(`foo`, `bar`, `baz`\) or aggregation functions like \(`MIN(foo)`, `MAX(bar)`, `AVG(baz)`\).
-
-### WHERE
-
-Supported predicates are comparisons with a constant using the standard SQL operators \(`=`, `<`, `<=`, `>`, `>=`, `<>`, ‘!=’\) , range comparisons using `BETWEEN` \(`foo BETWEEN 42 AND 69`\), set membership \(`foo IN (1, 2, 4, 8)`\) and exclusion \(`foo NOT IN (1, 2, 4, 8)`\). For `BETWEEN`, the range is inclusive.
-
-Comparison with a regular expression is supported using the regexp\_like function, as in `WHERE regexp_like(columnName, 'regular expression')`
-
-### Filter Functions on Single Value/Multi-value 
-
-* `EQUALS`
-* `IN`
-* `NOT IN`
-* `GT`
-* `LT`
-* `BETWEEN`
-* `REGEXP_LIKE`
-* `IS NULL`
-* `IS NOT NULL`
-
-For Multi-Valued columns, `EQUALS` is similar to `CONTAINS`. For NULL predicate usage \(`IS NULL` or `IS NOT NULL`\)  the `nullHandlingEnabled` flag needs to be set to true in table config. Please see section on [table index config](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1) for more details.
-
-### GROUP BY
-
-The `GROUP BY` clause groups aggregation results by a list of columns, or transform functions on columns \(see below\)
-
-### ORDER BY
-
-The `ORDER BY` clause orders selection results or group by results by a list of columns. PQL supports ordering `DESC` or `ASC`.
-
-### TOP \(Deprecated\)
-
-Deprecated in SQL syntax.
-
-The `TOP n` clause causes the ‘n’ largest group results to be returned. If not specified, the top 10 groups are returned.
-
-### LIMIT
-
-The `LIMIT n` clause causes the selection results to contain at most ‘n’ results. The `LIMIT a, b` clause paginate the selection results from the ‘a’ th results and return at most ‘b’ results. By default, 10 records are returned in the result.
-
-## Differences with SQL
-
-{% hint style="warning" %}
-These differences only apply to the PQL endpoint. They do not hold true for the standard-SQL endpoint, which is the recommended endpoint. More information about the two types of endpoints in [Querying Pinot](../api/querying-pinot-using-standard-sql/#rest-api-on-the-broker)
-{% endhint %}
-
-* `TOP` works like `LIMIT` for truncation in group by queries
-* No need to select the columns to group with. The following two queries are both supported in PQL, where the non-aggregation columns are ignored.
-
-```sql
-SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM mytable
-  GROUP BY bar, baz
-  TOP 50
-
-SELECT bar, baz, MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM mytable
-  GROUP BY bar, baz
-  TOP 50
-```
-
-* The results will always order by the aggregated value \(descending\). The results for query
-
-```sql
-SELECT MIN(foo), MAX(foo) FROM myTable
-  GROUP BY bar
-  TOP 50
-```
-
-will be the same as the combining results from the following queries
-
-```sql
-SELECT MIN(foo) FROM myTable
-  GROUP BY bar
-  TOP 50
-SELECT MAX(foo) FROM myTable
-  GROUP BY bar
-  TOP 50
-```
-
-where we don’t put the results for the same group together.
-
-* No support for ORDER BY in aggregation group by. However, ORDER BY support was added recently and is available in the standard-SQL endpoint. It can be used in the PQL endpoint by passing `queryOptions` into the payload as follows
-
-```javascript
-{
-  "pql" : "SELECT SUM(foo), SUM(bar) from myTable GROUP BY moo ORDER BY SUM(bar) ASC, moo DESC TOP 10",
-  "queryOptions" : "groupByMode=sql;responseFormat=sql"
-}
-```
-
-where,
-
-* `groupByMode=sql` - standard sql way of execution group by, hence accepting order by
-* `responseFormat=sql` - standard sql way of displaying results, in a tabular manner
 

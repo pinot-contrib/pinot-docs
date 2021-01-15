@@ -6,7 +6,7 @@ description: >-
 
 # Supported Transformations
 
-### Math Functions
+## Math Functions
 
 | Function | Description | Example |
 | :--- | :--- | :--- |
@@ -20,11 +20,9 @@ description: >-
 | **FLOOR\(**col1**\)** | Rounded down to the nearest integer. | `FLOOR(percentage)` |
 | **EXP\(**col1**\)** | Euler’s number\(e\) raised to the power of col. | `EXP(age)` |
 | **LN\(**col1**\)** | Natural log of value i.e. ln\(col1\) | `LN(age)` |
-| **SQRT\(**col1**\)** | Square root of a value  | `SQRT(height)` |
+| **SQRT\(**col1**\)** | Square root of a value | `SQRT(height)` |
 
-### 
-
-### String Functions
+## String Functions
 
 Multiple string functions are supported out of the box from release-0.5.0 .
 
@@ -149,9 +147,7 @@ Multiple string functions are supported out of the box from release-0.5.0 .
   </tbody>
 </table>
 
-### 
-
-### DateTime Functions
+## DateTime Functions
 
 Date time functions allow you to perform transformations on columns which contains timestamps or date.
 
@@ -173,7 +169,7 @@ Date time functions allow you to perform transformations on columns which contai
       </td>
       <td style="text-align:left">converts the value into another time unit. column should be timestamp.
         Supported units are
-        <br /><code>DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS </code>
+        <br /><code>DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS</code>
       </td>
       <td style="text-align:left"><code>TIMECONVERT(time, &apos;MILLISECONDS&apos;, &apos;SECONDS&apos;)</code>This
         expression converts the value of column <code>time</code> (taken to be in
@@ -189,7 +185,6 @@ Date time functions allow you to perform transformations on columns which contai
       <td style="text-align:left">
         <p>Takes 4 arguments, converts the value into another date time format, and
           buckets time based on the given time granularity.</p>
-        <p></p>
         <p>Format is expressed as <code>&lt;time size&gt;:&lt;time unit&gt;:&lt;time format&gt;:&lt;pattern&gt;</code>
           <br
           />where,</p>
@@ -197,14 +192,12 @@ Date time functions allow you to perform transformations on columns which contai
         <p><b><code>time unit</code></b> - <code>HOURS</code>, <code>DAYS</code> etc</p>
         <p><b><code>time format</code></b> - <code>EPOCH</code> or <code>SIMPLE_DATE_FORMAT</code>
         </p>
-        <p><code>pattern</code> - <b> </b>this is defined in case of <code>SIMPLE_DATE_FORMAT</code> eg: <code>yyyy-MM-dd</code>.
+        <p><code>pattern</code> - this is defined in case of <code>SIMPLE_DATE_FORMAT</code> eg: <code>yyyy-MM-dd</code>.
           A specific timezone can be passed using tz(timezone). Timezone can be long
           or short string format timezone. e.g. <code>Asia/Kolkata</code> or <code>PDT</code>
         </p>
-        <p></p>
-        <p><b><code>granularity</code></b>  <b>- </b> specified in format<code>&lt;time size&gt;:&lt;time unit&gt;</code>
+        <p><b><code>granularity</code></b>  <b>-</b> specified in format<code>&lt;time size&gt;:&lt;time unit&gt;</code>
         </p>
-        <p></p>
       </td>
       <td style="text-align:left">
         <ul>
@@ -269,9 +262,7 @@ Date time functions allow you to perform transformations on columns which contai
   </tbody>
 </table>
 
-### 
-
-### JSON Functions
+## JSON Functions
 
 <table>
   <thead>
@@ -305,7 +296,7 @@ Date time functions allow you to perform transformations on columns which contai
         </p>
       </td>
       <td style="text-align:left">
-        <p>Extracts all matched JSON field keys based on <code>&apos;jsonPath&apos;</code> 
+        <p>Extracts all matched JSON field keys based on <code>&apos;jsonPath&apos;</code>
         </p>
         <p>Into a<code>STRING_ARRAY.</code>
         </p>
@@ -341,9 +332,9 @@ Date time functions allow you to perform transformations on columns which contai
       <td style="text-align:left"><code>&apos;results_type&apos;</code>
       </td>
       <td style="text-align:left">
-        <p>One of the Pinot supported data types:<b><code>INT, LONG, FLOAT, DOUBLE, STRING, </code></b>
+        <p>One of the Pinot supported data types:<b><code>INT, LONG, FLOAT, DOUBLE, STRING,</code></b>
         </p>
-        <p><b><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></b><code>. </code>
+        <p><b><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></b><code>.</code>
         </p>
       </td>
     </tr>
@@ -354,7 +345,7 @@ Date time functions allow you to perform transformations on columns which contai
 **`'jsonPath'`**`and`**`'results_type'`**are **Literals.** Pinot uses single quotes to distinguish it from **Identifiers**.
 {% endhint %}
 
-E.g: 
+E.g:
 
 * `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')`  is **Valid**.
 * `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")`  is **Invalid**.
@@ -391,7 +382,7 @@ FROM
     myTable
 ```
 
-Results are 
+Results are
 
 ```text
 ["Bob", "Alice", "Mia"]
@@ -406,7 +397,7 @@ FROM
     myTable
 ```
 
-Results are 
+Results are
 
 ```text
 [37, 25, 18]
@@ -423,7 +414,7 @@ WHERE
     JSONEXTRACTSCALAR(myMapStr,'$.name','STRING') = 'Bob'
 ```
 
-Results are 
+Results are
 
 ```text
 [37]
@@ -438,79 +429,38 @@ FROM
     myTable
 ```
 
-Results are 
+Results are
 
 ```text
 ["name", "age", "gender", "location"]
 ```
 
-### Binary Functions
+## Binary Functions
 
 | Function | Description | Example |
 | :--- | :--- | :--- |
-| **SHA\(**bytesCol**\)** | Return SHA-1 digest of binary column(`bytes` type) as hex string | `SHA(rawData)` |
-| **SHA256\(**bytesCol**\)** | Return SHA-256 digest of binary column(`bytes` type) as hex string | `SHA256(rawData)` |
-| **SHA512\(**bytesCol**\)** | Return SHA-512 digest of binary column(`bytes` type) as hex string | `SHA512(rawData)` |
-| **MD5\(**bytesCol**\)** | Return MD5 digest of binary column(`bytes` type) as hex string | `MD5(rawData)` |
+| **SHA\(**bytesCol**\)** | Return SHA-1 digest of binary column\(`bytes` type\) as hex string | `SHA(rawData)` |
+| **SHA256\(**bytesCol**\)** | Return SHA-256 digest of binary column\(`bytes` type\) as hex string | `SHA256(rawData)` |
+| **SHA512\(**bytesCol**\)** | Return SHA-512 digest of binary column\(`bytes` type\) as hex string | `SHA512(rawData)` |
+| **MD5\(**bytesCol**\)** | Return MD5 digest of binary column\(`bytes` type\) as hex string | `MD5(rawData)` |
 
-
-### 
-
-### Multi-value Column Functions
+## Multi-value Column Functions
 
 All of the functions mentioned till now only support single value columns. You can use the following functions to do operations on multi-value columns.
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Function</th>
-      <th style="text-align:left">Description</th>
-      <th style="text-align:left">Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left"><b>ARRAYLENGTH</b>
-      </td>
-      <td style="text-align:left">Returns the length of a multi-value column</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>MAP_VALUE</b>
-      </td>
-      <td style="text-align:left">Select the value for a key from Map stored in Pinot.</td>
-      <td style="text-align:left"><code>MAP_VALUE(mapColumn, &apos;myKey&apos;, valueColumn)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>VALUEIN</b>
-      </td>
-      <td style="text-align:left">Takes at least 2 arguments, where the first argument is a multi-valued
-        column, and the following arguments are constant values. The transform
-        function will filter the value from the multi-valued column with the given
-        constant values. The <code>VALUEIN</code> transform function is especially
-        useful when the same multi-valued column is both filtering column and grouping
-        column.</td>
-      <td style="text-align:left">
-        <p></p>
-        <p><code>VALUEIN(mvColumn, 3, 5, 15)</code>
-        </p>
-        <p></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Function | Description | Example |
+| :--- | :--- | :--- |
+| **ARRAYLENGTH** | Returns the length of a multi-value column |  |
+| **MAP\_VALUE** | Select the value for a key from Map stored in Pinot. | `MAP_VALUE(mapColumn, 'myKey', valueColumn)` |
+| **VALUEIN** | Takes at least 2 arguments, where the first argument is a multi-valued column, and the following arguments are constant values. The transform function will filter the value from the multi-valued column with the given constant values. The `VALUEIN` transform function is especially useful when the same multi-valued column is both filtering column and grouping column. | `VALUEIN(mvColumn, 3, 5, 15)` |
 
-### Advanced Queries
+## Advanced Queries
 
-#### Geospatial Queries
+### Geospatial Queries
 
-Pinot supports Geospatial queries on columns containing text-based geographies. Check out [Geospatial](../../basics/indexing/geospatial-support.md) for more details on the queries and how to enable them.  
+Pinot supports Geospatial queries on columns containing text-based geographies. Check out [Geospatial](../../basics/indexing/geospatial-support.md) for more details on the queries and how to enable them.
 
-
-#### Text Queries
+### Text Queries
 
 Pinot supports Pattern matching on text-based columns as well. Only the columns mentioned as text columns in table config can be queried using this method. Check out [Text search support](../../basics/indexing/text-search-support.md) for more details on how to enable pattern matching.
-
-
 
