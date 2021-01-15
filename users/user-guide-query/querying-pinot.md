@@ -6,21 +6,20 @@ description: Learn how to query Pinot using SQL
 
 ## DIALECT
 
-Pinot uses Calcite SQL Parser to parse queries and uses MYSQL\_ANSI dialect. You can see the grammar [here](https://calcite.apache.org/docs/reference.html). 
+Pinot uses **Calcite SQL** Parser to parse queries and uses **MYSQL\_ANSI** dialect. You can see the grammar [here](https://calcite.apache.org/docs/reference.html). 
 
 ## Limitations
 
-Pinot does not support Joins or nested Subqueries and we recommend using  Presto for queries that span multiple tables. Read engineering [Engineering Full SQL support for Pinot at Uber](https://eng.uber.com/engineering-sql-support-on-apache-pinot/) for more info.
+Pinot does not support Joins or nested Subqueries and we recommend using **Presto** for queries that span multiple tables. Read [Engineering Full SQL support for Pinot at Uber](https://eng.uber.com/engineering-sql-support-on-apache-pinot/) for more info.
 
 No DDL support. Tables can be created via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
 ## Example Queries
 
 * Use single quotes for literals and double quotes \(optional\) for identifiers \(column names\)
-* If you name your columns as timestamp, date, and other reserved keywords, you need to use double quotes when you refer to them in the query.
+* If you name the columns as `timestamp`, `date`, or other reserved keywords, or the column name includes special characters, you need to use double quotes when you refer to them in the query.
 
-  
-**Simple selection**
+### **Simple selection**
 
 ```
 //default to limit 10
@@ -38,14 +37,14 @@ SELECT COUNT(*), MAX(foo), SUM(bar) FROM myTable
 ### Grouping on Aggregation
 
 ```sql
-SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM myTable
+SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo), bar, baz FROM myTable
   GROUP BY bar, baz LIMIT 50
 ```
 
 ### Ordering on Aggregation
 
 ```sql
-SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo) FROM myTable
+SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo), bar, baz FROM myTable
   GROUP BY bar, baz 
   ORDER BY bar, MAX(foo) DESC LIMIT 50
 ```
@@ -102,8 +101,8 @@ SELECT foo, bar FROM myTable
 To count rows where the column `airlineName` starts with `U`
 
 ```sql
-SELECT count(*) FROM SomeTable
-  WHERE regexp_like(airlineName, '^U.*')
+SELECT COUNT(*) FROM myTable
+  WHERE REGEXP_LIKE(airlineName, '^U.*')
   GROUP BY airlineName LIMIT 10
 ```
 
@@ -121,7 +120,7 @@ SELECT
       WHEN price > 10 THEN 1
       ELSE 0
     END AS price_category
-FROM SomeTable
+FROM myTable
 ```
 
 Example 2:
@@ -135,8 +134,7 @@ SELECT
       WHEN price > 10 THEN 10
       ELSE 0
     END) AS total_cost
-FROM
-    SomeTable
+FROM myTable
 ```
 
 ### UDF
@@ -144,8 +142,8 @@ FROM
 As of now, functions have to be implemented within Pinot. Injecting functions is not allowed yet. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping)
 
 ```sql
-SELECT count(*) FROM myTable
-  GROUP BY dateTimeConvert(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH', '1:HOURS')
+SELECT COUNT(*) FROM myTable
+  GROUP BY DATETIME_CONVERT(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH', '1:HOURS')
 ```
 
 ### BYTES column
@@ -156,7 +154,7 @@ E.g. the query below fetches all the rows for a given UID.
 
 ```sql
 SELECT * FROM myTable
-  WHERE UID = "c8b3bce0b378fc5ce8067fc271a34892"
+  WHERE UID = 'c8b3bce0b378fc5ce8067fc271a34892'
 ```
 
 
