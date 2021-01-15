@@ -45,7 +45,7 @@ SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
        daysSinceEpoch TOP 100
 ```
 
-Pinot supports SQL for querying read-only data. Learn more about querying Pinot for time series data in our [PQL \(Pinot Query Language\)](users/user-guide-query/pinot-query-language.md) guide.
+Pinot supports SQL for querying read-only data. Learn more about querying Pinot for time series data in our [PQL \(Pinot Query Language\)](users/user-guide-query/querying-pinot.md) guide.
 
 ## Installation
 

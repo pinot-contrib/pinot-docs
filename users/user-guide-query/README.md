@@ -8,7 +8,7 @@ description: >-
 
 ![](../../.gitbook/assets/pinot-ui-width-1000.gif)
 
-{% page-ref page="pinot-query-language.md" %}
+{% page-ref page="querying-pinot.md" %}
 
 {% page-ref page="supported-transformations.md" %}
 

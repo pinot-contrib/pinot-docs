@@ -28,7 +28,7 @@ You can also try out the following queries:
 
 `select * from baseballStats order by league`
 
-Pinot supports a subset of standard SQL. See [Pinot Query Language](../../users/user-guide-query/pinot-query-language.md) for more information.
+Pinot supports a subset of standard SQL. See [Pinot Query Language](../../users/user-guide-query/querying-pinot.md) for more information.
 
 ### Rest API
 
