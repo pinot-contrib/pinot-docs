@@ -18,14 +18,16 @@ No DDL support. Tables can be created via the [REST API](https://docs.pinot.apac
 
 In Pinot SQL:
 
-Double quotes\(**"**\) are used to force a string containing otherwise special characters to be interpreted as identifiers.
+**Double quotes\("\)** are used to force string identifiers, e.g. column name.
 
-Single quotes\(**'**\) are used to enclose string literals.
+**Single quotes\('\)** are used to enclose string literals.
+
+Mis-using those might cause unexpected query results:
 
 E.g.
 
-* `WHERE a='b'` means the predicate on column `a` equals string value `'b'`
-* `WHERE a="b"` means the predicate on column `a` equals a column `b`
+* `WHERE a='b'` means the predicate on the column `a` equals to a string literal value `'b'`
+* `WHERE a="b"` means the predicate on the column `a` equals to the value of the column `b`
 
 ## Example Queries
 
