@@ -14,6 +14,19 @@ Pinot does not support Joins or nested Subqueries and we recommend using **Prest
 
 No DDL support. Tables can be created via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
+### Identifier vs Literal
+
+In Pinot SQL:
+
+Double quotes\(**"**\) are used to force a string containing otherwise special characters to be interpreted as identifiers.
+
+Single quotes\(**'**\) are used to enclose string literals.
+
+E.g.
+
+* `WHERE a='b'` means the predicate on column `a` equals string value `'b'`
+* `WHERE a="b"` means the predicate on column `a` equals a column `b`
+
 ## Example Queries
 
 * Use single quotes for literals and double quotes \(optional\) for identifiers \(column names\)
