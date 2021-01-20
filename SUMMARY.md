@@ -54,6 +54,7 @@
   * [Bloom Filter](basics/indexing/bloom-filter.md)
   * [Range Index](basics/indexing/range-index.md)
   * [Text search support](basics/indexing/text-search-support.md)
+  * [JSON Index](basics/indexing/json-index.md)
   * [Geospatial](basics/indexing/geospatial-support.md)
 * [Releases](basics/releases/README.md)
   * [0.6.0](basics/releases/0.6.0.md)
