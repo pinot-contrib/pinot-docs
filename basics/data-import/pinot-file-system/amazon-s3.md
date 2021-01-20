@@ -11,6 +11,7 @@ You can also configure the S3 filesystem using the following options -
 * `region` - The AWS Data centre region in which the bucket is located
 * `accessKey` - \(Optional\) AWS access key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.
 * `secretKey` - \(Optional\) AWS secret key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.
+* `endpoint` - \(Optional\) Override endpoint for s3 client.
 * `disableAcl` - If this is set to `false`, bucket owner is granted full access to the objects created by pinot. Default value is `true`. 
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.s3.` where `node` is either `controller` or `server` depending on the config
