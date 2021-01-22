@@ -18,11 +18,15 @@ bin/pinot-admin.sh StartBroker -configFileName /path/to/broker.conf
 | pinot.broker.timeoutMs | 10 seconds | Timeout for Broker Query in Milliseconds |
 | pinot.broker.startup.minResourcePercent | 100 | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources \(tables\) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve |
 | pinot.broker.enable.query.limit.override | false | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back. |
-| pinot.broker.client.queryPort | 8099 | Port to query broker |
-| pinot.broker.client.protocol | http | Protocol to query broker \(http or https\) |
-| pinot.broker.client.tls.keystore.path |  | Path to broker TLS keystore |
-| pinot.broker.client.tls.keystore.password |  | keystore password |
-| pinot.broker.client.tls.truststore.path |  | Path to broker TLS truststore |
-| pinot.broker.client.tls.truststore.password |  | truststore password |
-| pinot.broker.client.tls.requires\_client\_auth | false | toggle for requiring TLS client auth |
+| pinot.broker.client.queryPort | 8099 | Port to query broker via http (legacy) |
+| pinot.broker.client.access.protocols |  | Ingress protocols to query broker \(http or https or http,https\) |
+| pinot.broker.client.access.protocols.http.port |  | Protocol to query broker via http |
+| pinot.broker.client.access.protocols.https.port |  | Protocol to query broker via https |
+| pinot.broker.netty.enabled | true | Enable unsecured netty connections to pinot-server |
+| pinot.broker.nettytls.enabled | false | Enable secured netty connections to pinot-server |
+| pinot.broker.tls.keystore.path |  | Path to broker TLS keystore |
+| pinot.broker.tls.keystore.password |  | keystore password |
+| pinot.broker.tls.truststore.path |  | Path to broker TLS truststore |
+| pinot.broker.tls.truststore.password |  | truststore password |
+| pinot.broker.tls.requires\_client\_auth | false | toggle for requiring TLS client auth |
 
