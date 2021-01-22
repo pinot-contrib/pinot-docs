@@ -20,8 +20,8 @@ bin/pinot-admin.sh StartBroker -configFileName /path/to/broker.conf
 | pinot.broker.enable.query.limit.override | false | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back. |
 | pinot.broker.client.queryPort | 8099 | Port to query broker via http (legacy) |
 | pinot.broker.client.access.protocols |  | Ingress protocols to query broker \(http or https or http,https\) |
-| pinot.broker.client.access.protocols.http.port |  | Protocol to query broker via http |
-| pinot.broker.client.access.protocols.https.port |  | Protocol to query broker via https |
+| pinot.broker.client.access.protocols.http.port |  | Port to query broker via http |
+| pinot.broker.client.access.protocols.https.port |  | Port to query broker via https |
 | pinot.broker.netty.enabled | true | Enable unsecured netty connections to pinot-server |
 | pinot.broker.nettytls.enabled | false | Enable secured netty connections to pinot-server |
 | pinot.broker.tls.keystore.path |  | Path to broker TLS keystore |
