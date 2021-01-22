@@ -165,6 +165,56 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
       <td style="text-align:left">1</td>
       <td style="text-align:left"></td>
     </tr>
+    <tr>
+      <td style="text-align:left">controller.access.protocols</td>
+      <td style="text-align:left">http</td>
+      <td style="text-align:left">Ingress protocols to access controller (http or https or http,https)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.access.protocols.http.port</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Port to access controller via http</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.broker.protocols.https</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Port to access controller via https</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.broker.protocol</td>
+      <td style="text-align:left">http</td>
+      <td style="text-align:left">protocol for forwarding query requests (http or https)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.broker.port.override</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">override for broker port when forwarding query requests (use in multi-ingress scenarios)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.tls.keystore.path</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Path to controller TLS keystore</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.tls.keystore.password</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">keystore password</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.tls.truststore.path</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Path to controller TLS truststore</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.tls.truststore.password</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">truststore password</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">controller.tls.client.auth</td>
+      <td style="text-align:left">false</td>
+      <td style="text-align:left">toggle for requiring TLS client auth</td>
+    </tr>
   </tbody>
 </table>
 
