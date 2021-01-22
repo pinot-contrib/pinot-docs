@@ -176,7 +176,7 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
       <td style="text-align:left">Port to access controller via http</td>
     </tr>
     <tr>
-      <td style="text-align:left">controller.broker.protocols.https</td>
+      <td style="text-align:left">controller.broker.protocols.https.port</td>
       <td style="text-align:left"></td>
       <td style="text-align:left">Port to access controller via https</td>
     </tr>
