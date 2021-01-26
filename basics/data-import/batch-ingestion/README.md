@@ -1,6 +1,6 @@
 # Batch Ingestion
 
-Batch ingestion allows user to create a table using data already present in a file system such as S3. This is particularly useful for the cases where the user wants to utilise Pinot's ability to query large data with minimal latency or test out new features using a simple data file.
+Batch ingestion allows users to create a table using data already present in a file system such as S3. This is particularly useful for the cases where the user wants to utilize Pinot's ability to query large data with minimal latency or test out new features using a simple data file.
 
 Ingesting data from a filesystem involves the following steps -
 
@@ -9,7 +9,7 @@ Ingesting data from a filesystem involves the following steps -
 3. Upload Schema and Table configs
 4. Upload data
 
-Batch Ingestion currently supports following mechanisms to upload the data -
+Batch Ingestion currently supports the following mechanisms to upload the data -
 
 * Standalone
 * [Hadoop](hadoop.md)
@@ -17,7 +17,7 @@ Batch Ingestion currently supports following mechanisms to upload the data -
 
 Here we'll take a look at the standalone local processing to get you started.
 
-Let's create a table for the following CSV datasource.
+Let's create a table for the following CSV data source.
 
 ```text
 studentID,firstName,lastName,gender,subject,score,timestampInEpoch
