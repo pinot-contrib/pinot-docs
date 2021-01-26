@@ -199,9 +199,64 @@ bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
       <td style="text-align:left"></td>
     </tr>
     <tr>
+      <td style="text-align:left">pinot.server.adminapi.access.protocols</td>
+      <td style="text-align:left">http</td>
+      <td style="text-align:left">Ingress protocols to access server admin api (http or https or http,https)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.adminapi.access.protocols.http.port</td>
       <td style="text-align:left"></td>
+      <td style="text-align:left">Port to access server admin api via http</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.adminapi.broker.protocols.https.port</td>
       <td style="text-align:left"></td>
+      <td style="text-align:left">Port to access server admin api via https</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.tls.keystore.path</td>
       <td style="text-align:left"></td>
+      <td style="text-align:left">Path to server TLS keystore</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.tls.keystore.password</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">keystore password</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.tls.truststore.path</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Path to server TLS truststore</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.tls.truststore.password</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">truststore password</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">inot.server.tls.client.auth</td>
+      <td style="text-align:left">false</td>
+      <td style="text-align:left">toggle for requiring TLS client auth</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.netty.enabled</td>
+      <td style="text-align:left">true</td>
+      <td style="text-align:left">toggle for enabling unsecured netty connections to server</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.netty.port</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Port for accessing pinot server via unsecured netty</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.nettytls.enabled</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left"><toggle for enabling TLS-secured netty connections to server/td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.server.nettytls.port</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">Port for accessing pinot server via TLS-secured netty</td>
     </tr>
   </tbody>
 </table>
