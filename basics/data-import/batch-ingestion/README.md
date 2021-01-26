@@ -71,11 +71,11 @@ In our data, the only column on which aggregations can be performed is score. Se
 }
 ```
 
-Here, we have also defined two extra fields - format and granularity. Format specifies the formatting of our timestamp column in data source. Currently it is in milliseconds hence we have specified `1:MILLISECONDS:EPOCH`
+Here, we have also defined two extra fields - format and granularity. Format specifies the formatting of our timestamp column in the data source. Currently, it is in milliseconds hence we have specified `1:MILLISECONDS:EPOCH`
 
 ### **Create Table Configuration**
 
-We define a table named `transcript` and map the schema created in previous step to the table. For batch data we keep the tableType as `OFFLINE`
+We define a table named  `transcript`  and map the schema created in the previous step to the table. For batch data, we keep the tableType as `OFFLINE`
 
 ```text
 {
@@ -113,7 +113,7 @@ Check out the table config and schema in the \[Rest API\] to make sure it was su
 
 ### **Upload data**
 
-We now have an empty table in pinot. So as next step we will upload our CSV file to this table. A table is composed of multiple segments.
+We now have an empty table in pinot. So as the next step we will upload our CSV file to this table. A table is composed of multiple segments.
 
 The segments are created and uploaded using tasks known as DataIngestionJobs. A job also needs a config of its own. We call this config the JobSpec.
 
@@ -143,16 +143,16 @@ pinotClusterSpecs:
   - controllerURI: '<http://localhost:9000>'
 ```
 
-For any other batch job you can change the following parameters
+For any other batch job, you can change the following parameters
 
-1. **tableName** - the name of the table to put the data in
+1. **tableName** - The name of the table to put the data in
 2. **recordReaderSpec** - This should match the format of the input data. e.g. CSV, Avro, ProtoBuf etc.
 3. **pinotClusterSpecs** - URL of controller node.
 4. **inputDirURI** and **outputDirURI**
 5. **includeFileNamePattern** - pattern to match files inside the input directory. supports both [`glob`](https://mincong.io/2019/04/16/glob-expression-understanding/) as well as `regex`
-6. **pinotFSSpecs** - In case you are using distributed file system such as GCS, Azure Blob Storage or S3. You can use multiple schemes under this in case the input and output filesystems are different.
+6. **pinotFSSpecs** - In case you are using a distributed file system such as GCS, Azure Blob Storage or S3. You can use multiple schemes under this in case the input and output filesystems are different.
 
-You can refer Segment Generation Job Configuration for more details.
+You can refer to Segment Generation Job Configuration for more details.
 
 Now that we have the job spec for our table `transcript` , we can trigger the job using the following command
 
@@ -180,6 +180,8 @@ By default, Pinot does not come with a storage layer, so all the data sent, won'
 
 ### Tuning
 
+#### **Standalone**
+
 Since pinot is written in Java, you can set the following basic java configurations to tune the segment runner job -
 
 * Log4j2 file location with `-Dlog4j2.configurationFile`
@@ -187,4 +189,12 @@ Since pinot is written in Java, you can set the following basic java configurati
 * JVM props, like `-Xmx8g -Xms4G`
 
 If you are using the docker, you can set the following under `JAVA_OPTS` variable.
+
+#### Hadoop
+
+You can set `-D mapreduce.map.memory.mb=8192` to set the mapper memory size when submitting the Hadoop job.
+
+#### Spark
+
+You can add config `spark.executor.memory` to tune the memory usage for segment creation when submitting the Spark job.
 
