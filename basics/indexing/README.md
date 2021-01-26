@@ -18,6 +18,9 @@ Pinot currently supports the following indexing techniques, where each of them h
 * [Range Index](range-index.md)
 * [Text Index](text-search-support.md)
 * [Geospatial](geospatial-support.md)
+* [JSON Index](json-index.md)
+
+
 
 By default, Pinot will use `dictionary-encoded forward index` for each column. 
 
