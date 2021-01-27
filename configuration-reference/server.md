@@ -8,262 +8,49 @@ bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
 
 `server.conf` can have the following properties
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Property</th>
-      <th style="text-align:left">Default</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">pinot.server.netty.port</td>
-      <td style="text-align:left">8098</td>
-      <td style="text-align:left">Port to query Pinot Server</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.netty.host</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Pinot server hostname</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.adminapi.port</td>
-      <td style="text-align:left">8097</td>
-      <td style="text-align:left">Port for Pinot Server Admin UI</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.id</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">By default the server instance id used by Helix is <em>Server_hostname_port </em>where
-        the hostname and port are configured through host and port config values
-        above. This config overwrites the default setting. User can put server
-        id independent of the server&apos;s hostname and port.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.dataDir</td>
-      <td style="text-align:left"><code>java.io.tmpdir</code> + <code>/PinotServer/index</code>
-      </td>
-      <td style="text-align:left">
-        <p></p>
-        <p>Directory to hold all the data</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.consumerDir</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.segmentTarDir</td>
-      <td style="text-align:left"><code>java.io.tmpdir</code> + <code>/PinotServer/segmentTar</code>
-      </td>
-      <td style="text-align:left">Directory to hold temporary segments downloaded from Controller or Deep
-        Store</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.readMode</td>
-      <td style="text-align:left"><code>mmap</code>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.reload.consumingSegment</td>
-      <td style="text-align:left">false</td>
-      <td style="text-align:left">Specifies if the reload segment API should reload the consuming segments.
-        This is useful when the corresponding schema is updated and we want the
-        changes to be reflected in the consuming segment.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.data.manager.class</td>
-      <td style="text-align:left"><code>org.apache.pinot.server.</code>
-        <br /><code>starter.helix.HelixInstanceDataManager</code>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.query.executor.pruner.class</td>
-      <td style="text-align:left"><code>ValidSegmentPruner,DataSchemaSegmentPruner,<br />ColumnValueSegmentPruner,SelectionQuerySegmentPruner</code>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.query.executor.timeout</td>
-      <td style="text-align:left"><code>15000</code>
-      </td>
-      <td style="text-align:left">Timeout for Server to process Query in Milliseconds</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.query.executor.class</td>
-      <td style="text-align:left"><code>org.apache.pinot.core.query.</code>
-        <br /><code>executor.ServerQueryExecutorV1Impl</code>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.requestHandlerFactory.class</td>
-      <td style="text-align:left"><code>org.apache.pinot.server.</code>
-        <br /><code>request.SimpleRequestHandlerFactory</code>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.segment.format.version</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.enable.split.commit</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.enable.commitend.metadata</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.realtime.max.parallel.segment.builds</td>
-      <td style="text-align:left">0</td>
-      <td style="text-align:left">Specifies how many parallel realtime segments can be built. Value of &lt;=
-        0 indicates unlimited.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.realtime.alloc.offheap</td>
-      <td style="text-align:left">false</td>
-      <td style="text-align:left">Boolean value to control whether memory for realtime consuming segments
-        should be allocated off-heap.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.instance.realtime.alloc.offheap.direct</td>
-      <td style="text-align:left">false</td>
-      <td style="text-align:left">If &apos;realtime.alloc.offheap&apos; is set to true, this boolean value
-        controls whether the corresponding allocation should be direct or not (false
-        indicate mmap allocation)</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.startup.minResourcePercent</td>
-      <td style="text-align:left">100</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.starter.realtimeConsumptionCatchupWaitMs</td>
-      <td style="text-align:left">0</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.startup.timeoutMs</td>
-      <td style="text-align:left">10 minutes</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.startup.enableServiceStatusCheck</td>
-      <td style="text-align:left">true</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.startup.serviceStatusCheckIntervalMs</td>
-      <td style="text-align:left">10 seconds</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.shutdown.timeoutMs</td>
-      <td style="text-align:left">10 minutes</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.shutdown.enableQueryCheck</td>
-      <td style="text-align:left">true</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.shutdown.noQueryThresholdMs</td>
-      <td style="text-align:left">15 seconds</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.shutdown.enableResourceCheck</td>
-      <td style="text-align:left">false</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.shutdown.resourceCheckIntervalMs</td>
-      <td style="text-align:left">10 seconds</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.admin.access.control.factory.class</td>
-      <td style="text-align:left"><code>org.apache.pinot.server.</code>
-        <br /><code>api.access.AllowAllAccessFactory</code>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.adminapi.access.protocols</td>
-      <td style="text-align:left">http</td>
-      <td style="text-align:left">Ingress protocols to access server admin api (http or https or http,https)</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.adminapi.access.protocols.http.port</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Port to access server admin api via http</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.adminapi.broker.protocols.https.port</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Port to access server admin api via https</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.tls.keystore.path</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Path to server TLS keystore</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.tls.keystore.password</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">keystore password</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.tls.truststore.path</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Path to server TLS truststore</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.tls.truststore.password</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">truststore password</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">inot.server.tls.client.auth</td>
-      <td style="text-align:left">false</td>
-      <td style="text-align:left">toggle for requiring TLS client auth</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.netty.enabled</td>
-      <td style="text-align:left">true</td>
-      <td style="text-align:left">toggle for enabling unsecured netty connections to server</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.netty.port</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Port for accessing pinot server via unsecured netty</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.nettytls.enabled</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left"><toggle for enabling TLS-secured netty connections to server/td>
-    </tr>
-    <tr>
-      <td style="text-align:left">pinot.server.nettytls.port</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">Port for accessing pinot server via TLS-secured netty</td>
-    </tr>
-  </tbody>
-</table>
-
-
-
-
-
-
+| Property | Default | Description |
+| :--- | :--- | :--- |
+| pinot.server.netty.port | 8098 | Port to query Pinot Server |
+| pinot.server.netty.host |  | Pinot server hostname |
+| pinot.server.adminapi.port | 8097 | Port for Pinot Server Admin UI |
+| pinot.server.instance.id |  | By default the server instance id used by Helix is _Server\_hostname\_port_ where the hostname and port are configured through host and port config values above. This config overwrites the default setting. User can put server id independent of the server's hostname and port. |
+| pinot.server.instance.dataDir | `java.io.tmpdir` + `/PinotServer/index` | Directory to hold all the data |
+| pinot.server.instance.consumerDir |  |  |
+| pinot.server.instance.segmentTarDir | `java.io.tmpdir` + `/PinotServer/segmentTar` | Directory to hold temporary segments downloaded from Controller or Deep Store |
+| pinot.server.instance.readMode | `mmap` |  |
+| pinot.server.instance.reload.consumingSegment | false | Specifies if the reload segment API should reload the consuming segments. This is useful when the corresponding schema is updated and we want the changes to be reflected in the consuming segment. |
+| pinot.server.instance.data.manager.class | `org.apache.pinot.server.` `starter.helix.HelixInstanceDataManager` |  |
+| pinot.server.query.executor.pruner.class | `ValidSegmentPruner,DataSchemaSegmentPruner, ColumnValueSegmentPruner,SelectionQuerySegmentPruner` |  |
+| pinot.server.query.executor.timeout | `15000` | Timeout for Server to process Query in Milliseconds |
+| pinot.server.query.executor.class | `org.apache.pinot.core.query.` `executor.ServerQueryExecutorV1Impl` |  |
+| pinot.server.requestHandlerFactory.class | `org.apache.pinot.server.` `request.SimpleRequestHandlerFactory` |  |
+| pinot.server.instance.segment.format.version |  |  |
+| pinot.server.instance.enable.split.commit |  |  |
+| pinot.server.instance.enable.commitend.metadata |  |  |
+| pinot.server.instance.realtime.max.parallel.segment.builds | 0 | Specifies how many parallel realtime segments can be built. Value of &lt;= 0 indicates unlimited. |
+| pinot.server.instance.realtime.alloc.offheap | false | Boolean value to control whether memory for realtime consuming segments should be allocated off-heap. |
+| pinot.server.instance.realtime.alloc.offheap.direct | false | If 'realtime.alloc.offheap' is set to true, this boolean value controls whether the corresponding allocation should be direct or not \(false indicate mmap allocation\) |
+| pinot.server.startup.minResourcePercent | 100 |  |
+| pinot.server.starter.realtimeConsumptionCatchupWaitMs | 0 |  |
+| pinot.server.startup.timeoutMs | 10 minutes |  |
+| pinot.server.startup.enableServiceStatusCheck | true |  |
+| pinot.server.startup.serviceStatusCheckIntervalMs | 10 seconds |  |
+| pinot.server.shutdown.timeoutMs | 10 minutes |  |
+| pinot.server.shutdown.enableQueryCheck | true |  |
+| pinot.server.shutdown.noQueryThresholdMs | 15 seconds |  |
+| pinot.server.shutdown.enableResourceCheck | false |  |
+| pinot.server.shutdown.resourceCheckIntervalMs | 10 seconds |  |
+| pinot.server.admin.access.control.factory.class | `org.apache.pinot.server.` `api.access.AllowAllAccessFactory` |  |
+| pinot.server.adminapi.access.protocols | http | Ingress protocols to access server admin api \(http or https or http,https\) |
+| pinot.server.adminapi.access.protocols.http.port |  | Port to access server admin api via http |
+| pinot.server.adminapi.broker.protocols.https.port |  | Port to access server admin api via https |
+| pinot.server.tls.keystore.path |  | Path to server TLS keystore |
+| pinot.server.tls.keystore.password |  | keystore password |
+| pinot.server.tls.truststore.path |  | Path to server TLS truststore |
+| pinot.server.tls.truststore.password |  | truststore password |
+| inot.server.tls.client.auth | false | toggle for requiring TLS client auth |
+| pinot.server.netty.enabled | true | toggle for enabling unsecured netty connections to server |
+| pinot.server.netty.port |  | Port for accessing pinot server via unsecured netty |
+| pinot.server.nettytls.enabled |  |  |
+| pinot.server.nettytls.port |  | Port for accessing pinot server via TLS-secured netty |
 

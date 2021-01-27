@@ -18,7 +18,7 @@ bin/pinot-admin.sh StartBroker -configFileName /path/to/broker.conf
 | pinot.broker.timeoutMs | 10 seconds | Timeout for Broker Query in Milliseconds |
 | pinot.broker.startup.minResourcePercent | 100 | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources \(tables\) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve |
 | pinot.broker.enable.query.limit.override | false | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back. |
-| pinot.broker.client.queryPort | 8099 | Port to query broker via http (legacy) |
+| pinot.broker.client.queryPort | 8099 | Port to query broker via http \(legacy\) |
 | pinot.broker.client.access.protocols |  | Ingress protocols to query broker \(http or https or http,https\) |
 | pinot.broker.client.access.protocols.http.port |  | Port to query broker via http |
 | pinot.broker.client.access.protocols.https.port |  | Port to query broker via https |
