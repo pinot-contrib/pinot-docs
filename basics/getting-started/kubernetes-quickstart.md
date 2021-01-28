@@ -7,7 +7,7 @@ description: Pinot quick start in Kubernetes
 ## 1. Prerequisites
 
 {% hint style="info" %}
-This quick start assumes that you already have a running Kubernetes cluster. Please follow the links below to setup a Kubernetes cluster - .
+This quickstart assumes that you already have a running Kubernetes cluster. Please follow the links below to set up a Kubernetes cluster.
 
 * [Enable Kubernetes on Docker-Desktop](https://docs.docker.com/docker-for-mac/kubernetes/)
 * [Install Minikube for local setup](https://kubernetes.io/docs/tasks/tools/install-minikube/)
@@ -47,7 +47,7 @@ helm install pinot pinot/pinot \
     --set server.replicaCount=2
 ```
 
-**NOTE**: Please specify **StorageClass** based on your cloud vendor. For Pinot Server, please don't mount blob store like AzureFile/GoogleCloudStorage/S3 as file system. 
+**NOTE**: Please specify **StorageClass** based on your cloud vendor. For Pinot Server, please don't mount blob store like AzureFile/GoogleCloudStorage/S3 as the data serving file system. 
 
 Only use Amazon EBS/GCP Persistent Disk/Azure Disk style disks.
 
