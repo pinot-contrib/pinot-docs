@@ -248,12 +248,12 @@ You can open the imported dashboard by clicking `Dashboards` banner and then cli
 
 ### 6.1 Deploy Presto using Pinot plugin
 
-You can run the command below to deploy a customized Presto with Pinot plugin installed.
+You can run the command below to deploy a customized Presto with the Pinot plugin installed.
 
 {% tabs %}
 {% tab title="Helm" %}
 ```
-helm install presto pinot/presto -n pinot 
+helm install presto pinot/presto -n pinot-quickstart
 ```
 {% endtab %}
 
@@ -264,13 +264,55 @@ kubectl apply -f presto-coordinator.yaml
 {% endtab %}
 {% endtabs %}
 
+The above command deploys Presto with default configs. For customizing your deployment, you can run the below command to get all the configurable values.
+
+```text
+helm inspect values pinot/presto > /tmp/presto-values.yaml
+```
+
+After modifying the `/tmp/presto-values.yaml` file, you can deploy Presto with:
+
+```text
+helm install presto pinot/presto -n pinot-quickstart --values /tmp/presto-values.yaml
+```
+
+Once you deployed the Presto, You can check Presto deployment status by:
+
+```text
+Kubectl get pod -n pinot-quickstart
+```
+
+![Sample Output of K8s Deployment Status](https://lh3.googleusercontent.com/t4LnQL4xalac-ObeF37LvtrroHzfgr84lYv3av_MI1NWIcUG1Kuc9uDmJHdYbyJiEfLuBdvT3451VS49lGO_i167m82EM2ZfWk84Zvj-Hib8hHLI8mZt20akpdEh3BLV1Q4ETaL_)
+
 ### 6.2 Query Presto using Presto CLI
 
-Once Presto is deployed, you can run the command below.
+Once Presto is deployed, you can run the below command from [here](https://github.com/apache/incubator-pinot/blob/master/kubernetes/helm/presto/pinot-presto-cli.sh), or just follow steps 6.2.1 to 6.2.3.
 
 ```text
 ./pinot-presto-cli.sh
 ```
+
+#### **6.2.1 Download Presto CLI**
+
+```text
+curl -L https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.246/presto-cli-0.246-executable.jar -o /tmp/presto-cli && chmod +x /tmp/presto-cli
+```
+
+**6.2.2 Port forward presto-coordinator port 8080 to localhost port 18080**
+
+```text
+kubectl port-forward service/presto-coordinator 18080:8080 -n pinot-quickstart> /dev/null &
+```
+
+#### **6.2.3 Start Presto CLI with pinot catalog to query it then query it**
+
+```text
+/tmp/presto-cli --server localhost:18080 --catalog pinot --schema default
+```
+
+6.2.4 Query Pinot data using Presto CLI
+
+![](https://lh3.googleusercontent.com/e5h4FIpvLjSiLi9J2WeABD8CAhtxj-vjyzjgj4pgmtkY-0o3uVr-qNHlOrFV3RGTu8ah4VFtLw5vqAABTATvTjLF5g2E6VnpDKRweAp_akfD7EeabgXVr2ObbUMIsDZ9pibO1a9j)
 
 ### 6.3 Sample queries to execute
 
