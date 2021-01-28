@@ -1,7 +1,7 @@
 ---
 description: >-
   This document contains the list of all the transformation functions supported
-  by Pinot Query Language (PQL).
+  by Pinot SQ
 ---
 
 # Supported Transformations
@@ -269,6 +269,7 @@ Date time functions allow you to perform transformations on columns which contai
     <tr>
       <th style="text-align:left"><b>Function</b>
       </th>
+      <th style="text-align:left">Type</th>
       <th style="text-align:left"><b>Description</b>
       </th>
     </tr>
@@ -281,6 +282,7 @@ Date time functions allow you to perform transformations on columns which contai
         <p><b>(</b>jsonField, &apos;jsonPath&apos;, &apos;resultsType&apos;<b>)</b>
         </p>
       </td>
+      <td style="text-align:left">Transform</td>
       <td style="text-align:left">
         <p>Evaluates the <code>&apos;jsonPath&apos;</code> on <code>jsonField,</code>
         </p>
@@ -295,12 +297,56 @@ Date time functions allow you to perform transformations on columns which contai
         <p><b>(</b>jsonField, &apos;jsonPath&apos;<b>)</b>
         </p>
       </td>
+      <td style="text-align:left">Transform</td>
       <td style="text-align:left">
         <p>Extracts all matched JSON field keys based on <code>&apos;jsonPath&apos;</code>
         </p>
         <p>Into a<code>STRING_ARRAY.</code>
         </p>
       </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>TOJSONMAPSTR</b>(map)</td>
+      <td style="text-align:left">Scalar</td>
+      <td style="text-align:left">Convert map to JSON String</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>JSONFORMAT</b>(object)</td>
+      <td style="text-align:left">Scalar</td>
+      <td style="text-align:left">Convert object to JSON String</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>JSONPATH</b>(jsonField, &apos;jsonPath&apos;)</td>
+      <td style="text-align:left">Scalar</td>
+      <td style="text-align:left">Extracts the object value from <code>jsonField</code> based on <code>&apos;jsonPath&apos;</code>,
+        the result type is inferred based on JSON value.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>JSONPATHLONG</b>(jsonField, &apos;jsonPath&apos;, [defaultValue])</td>
+      <td
+      style="text-align:left">Scalar</td>
+        <td style="text-align:left">Extracts the <b>Long</b> value from <code>jsonField</code> based on <code>&apos;jsonPath&apos;</code>,
+          use optional <code>defaultValue</code>for null or parsing error.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>JSONPATHDOUBLE</b>(jsonField, &apos;jsonPath&apos;, [defaultValue])</td>
+      <td
+      style="text-align:left">Scalar</td>
+        <td style="text-align:left">Extracts the <b>Double</b> value from <code>jsonField</code> based on <code>&apos;jsonPath&apos;</code>,
+          use optional <code>defaultValue</code>for null or parsing error.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>JSONPATHSTRING</b>(jsonField, &apos;jsonPath&apos;, [defaultValue])</td>
+      <td
+      style="text-align:left">Scalar</td>
+        <td style="text-align:left">Extracts the <b>String</b> value from <code>jsonField</code> based on <code>&apos;jsonPath&apos;</code>,
+          use optional <code>defaultValue</code>for null or parsing error.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>JSONPATHARRAY</b>(jsonField, &apos;jsonPath&apos;)</td>
+      <td style="text-align:left">Scalar</td>
+      <td style="text-align:left">Extracts an array from <code>jsonField</code> based on <code>&apos;jsonPath&apos;</code>,
+        the result type is inferred based on JSON value.</td>
     </tr>
   </tbody>
 </table>
@@ -343,6 +389,10 @@ Date time functions allow you to perform transformations on columns which contai
 
 {% hint style="warning" %}
 **`'jsonPath'`**`and`**`'results_type'`**are **Literals.** Pinot uses single quotes to distinguish it from **Identifiers**.
+{% endhint %}
+
+{% hint style="warning" %}
+**Transform** functions can only be used in Pinot SQL. **Scalar** functions can be used in table ingestion configs for column transformation.
 {% endhint %}
 
 E.g:
@@ -434,6 +484,39 @@ Results are
 ```text
 ["name", "age", "gender", "location"]
 ```
+
+Another **example** of extracting JSON fields from below JSON record:
+
+```text
+{
+        "name": "Pete",
+        "age": 24,
+        "subjects": [{
+                        "name": "maths",
+                        "homework_grades": [80, 85, 90, 95, 100],
+                        "grade": "A",
+                        "score": 90
+                },
+                {
+                        "name": "english",
+                        "homework_grades": [60, 65, 70, 85, 90],
+                        "grade": "B",
+                        "score": 70
+                }
+        ]
+}
+```
+
+Extract JSON fields:
+
+| Expression | Value |
+| :--- | :--- |
+| `JSONPATH(myJsonRecord, '$.name')` | `"Pete"` |
+| `JSONPATH(myJsonRecord, '$.age')` | `24` |
+| `JSONPATHSTRING(myJsonRecord, '$.age')` | `"24"` |
+| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].name')` | `["maths", "english"]` |
+| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].score')` | `[90, 70]` |
+| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].homework_grades[1]')` | `[85, 65]` |
 
 ## Binary Functions
 
