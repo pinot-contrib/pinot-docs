@@ -128,14 +128,14 @@ kubectl get all -n pinot-quickstart
 {% tabs %}
 {% tab title="For Helm v3.0.0" %}
 ```
-helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+helm repo add incubator https://charts.helm.sh/incubator
 helm install -n pinot-quickstart kafka incubator/kafka --set replicas=1
 ```
 {% endtab %}
 
 {% tab title="For Helm v2.12.1" %}
 ```
-helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+helm repo add incubator https://charts.helm.sh/incubator
 helm install --namespace "pinot-quickstart"  --name kafka incubator/kafka
 ```
 {% endtab %}
