@@ -91,7 +91,7 @@ To use the geoindex, first declare the geolocation field as bytes in the schema,
 ```
 {% endcode %}
 
-Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed in the `ST\_Distance` function. 
+Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed in the `ST_Distance` function. 
 
 Next, declare the geospatial index in the table config:
 
@@ -121,17 +121,17 @@ Next, declare the geospatial index in the table config:
 So the query below will use the geoindex to filter the Starbucks stores within 5km of the given point in the bay area.
 
 ```sql
-SELECT address, ST_DISTANCE(location_st_point, ST_Point(37, -122,1))
+SELECT address, ST_DISTANCE(location_st_point, ST_Point(-122, 37, 1))
 FROM starbucksStores
-WHERE ST_DISTANCE(location_st_point, ST_Point(37, -122, 1)) < 5000
+WHERE ST_DISTANCE(location_st_point, ST_Point(-122, 37, 1)) < 5000
 limit 1000
 ```
 
 ### How Geoindex works
 
-Geoindex in Pinot accelerates the query evaluation without compromising the correctness of the query result. Currently, geoindex supports the `ST\_Distance` function used in the range predicates in the `WHERE` clause, as shown in the query example in the previous section.
+Geoindex in Pinot accelerates the query evaluation without compromising the correctness of the query result. Currently, geoindex supports the `ST_Distance` function used in the range predicates in the `WHERE` clause, as shown in the query example in the previous section.
 
-At high level, geoindex is used for retrieving the records within the nearby hexagons of the given location, and then use `ST\_Distance` to accurately filter the matched results.
+At the high level, geoindex is used for retrieving the records within the nearby hexagons of the given location, and then use `ST_Distance` to accurately filter the matched results.
 
 ![Geoindex example](../../.gitbook/assets/geoindex-example.png)
 
@@ -140,5 +140,5 @@ As in the example diagram above, if we want to find all relevant points within a
 
  - For the points within the H3 distance (i.e. covered by the hexagons within [`kRing(x)`](https://h3geo.org/docs/api/traversal)), we can directly take those points without filtering
 
- - For the points falling into the H3 distance (i.e. in the hexagons of `kRing(x)`), we do filtering on them by evaluating the condition `ST\_Distance(loc1, loc2) < x`
+ - For the points falling into the H3 distance (i.e. in the hexagons of `kRing(x)`), we do filtering on them by evaluating the condition `ST_Distance(loc1, loc2) < x`
 
