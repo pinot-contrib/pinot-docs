@@ -54,7 +54,7 @@ This is configured through Amazon VPC Page.
 
 2. Open [Amazon VPC Page](https://us-west-2.console.aws.amazon.com/vpc/home), click on **`SecurityGroups`** on left bar. Find the EKS Security group: `eksctl-${PINOT_EKS_CLUSTER}-cluster/ClusterSharedNodeSecurityGroup.`
 
-![Amazon EKS ClusterSharedNodeSecurityGroup](../../.gitbook/assets/image%20%289%29%20%282%29%20%282%29.png)
+![Amazon EKS ClusterSharedNodeSecurityGroup](../../.gitbook/assets/image%20%289%29%20%282%29%20%282%29%20%282%29.png)
 
 {% hint style="info" %}
 Please ensure you are picking **ClusterShardNodeSecurityGroup**

@@ -12,7 +12,7 @@ You can include the JDBC dependency in your code as follows -
 <dependency>
     <groupId>org.apache.pinot</groupId>
     <artifactId>pinot-jdbc-client</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
 </dependency>
 ```
 {% endtab %}
@@ -31,10 +31,10 @@ There is no need to register the driver manually as it will automatically regist
 
 ### Usage
 
-Here's an example of how to use the `pinot-jdbc-client` for querying. The client requires both the broker URL and the controller url. This issue is WIP and later you will only require the controller URL.
+Here's an example of how to use the `pinot-jdbc-client` for querying. The client only requires the controller URL.
 
 ```java
-public static final String DB_URL = "jdbc:pinot://localhost:8000?controller=localhost:9000"
+public static final String DB_URL = "jdbc:pinot://localhost:9000"
 DriverManager.registerDriver(new PinotDriver());
 Connection conn = DriverManager.getConnection(DB_URL);
 Statement statement = conn.createStatement();

@@ -24,7 +24,7 @@ Geospatial data types abstract and encapsulate spatial structures such as bounda
 
 ### Geometry vs Geography
 
-It is common to have data in which the coordinate are `geographics` or `latitude/longitude.` Unlike coordinates in Mercator or UTM, geographic coordinates are not Cartesian coordinates. 
+It is common to have data in which the coordinate are `geographics` or `latitude/longitude.` Unlike coordinates in Mercator or UTM, geographic coordinates are not Cartesian coordinates.
 
 * Geographic coordinates do not represent a linear distance from an origin as plotted on a plane. Rather, these spherical coordinates describe angular coordinates on a globe. 
 * Spherical coordinates specify a point by the angle of rotation from a reference meridian \(longitude\), and the angle from the equator \(latitude\).  
@@ -41,8 +41,8 @@ Following geospatial functions are available out of the box in Pinot-
 
 ### Aggregations
 
-**ST\_Union\(geometry\[\] g1\_array\) → Geometry**   
- This aggregate function returns a MULTI geometry or NON-MULTI geometry from a set of geometries. it ignores NULL geometries.
+**ST\_Union\(geometry\[\] g1\_array\) → Geometry**  
+This aggregate function returns a MULTI geometry or NON-MULTI geometry from a set of geometries. it ignores NULL geometries.
 
 ### Constructors
 
@@ -70,16 +70,15 @@ Following geospatial functions are available out of the box in Pinot-
 * **ST\_Equals\(Geometry, Geometry\) → boolean**   Returns true if the given geometries represent the same geometry/geography. 
 * **ST\_Within\(Geometry, Geometry\) → boolean**   Returns true if first geometry is completely inside second geometry.
 
-
 ## Geospatial index
 
-Geospatial functions are typically expensive to evaluate, and using geoindex can greatly accelebrate the query evaluation. Geoindexing in Pinot is based on Uber’s [H3](https://h3geo.org/#/), a hexagons-based hierarchical gridding. A given geospatial location (longitude, latitude) can map to one hexagon (represented as H3Index). And its neighbors in H3 can be approximated by a ring of hexagons. To quickly identify the distance between any given two geospatial locations, we can convert the two locations in the H3Index, and then check the H3 distance between them. H3 distance is measured as the number of hexagons. For example, in the diagram below, the red hexagons are within the 1 distance of the central hexagon. Moreover, the size of the hexagon is determined by the resolution of the indexing. Please check this table for the level of [resolutions](https://h3geo.org/#/documentation/core-library/resolution-table) and the corresponding precision (measured in km). 
+Geospatial functions are typically expensive to evaluate, and using geoindex can greatly accelebrate the query evaluation. Geoindexing in Pinot is based on Uber’s [H3](https://h3geo.org/#/), a hexagons-based hierarchical gridding. A given geospatial location \(longitude, latitude\) can map to one hexagon \(represented as H3Index\). And its neighbors in H3 can be approximated by a ring of hexagons. To quickly identify the distance between any given two geospatial locations, we can convert the two locations in the H3Index, and then check the H3 distance between them. H3 distance is measured as the number of hexagons. For example, in the diagram below, the red hexagons are within the 1 distance of the central hexagon. Moreover, the size of the hexagon is determined by the resolution of the indexing. Please check this table for the level of [resolutions](https://h3geo.org/#/documentation/core-library/resolution-table) and the corresponding precision \(measured in km\).
 
 ![Hexagonal grid in H3](../../.gitbook/assets/geoindex-h3.png)
 
 ### How to use Geoindex
 
-To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores_schema.json#L25). 
+To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores_schema.json#L25).
 
 {% code title="geoindex schema" %}
 ```javascript
@@ -91,7 +90,7 @@ To use the geoindex, first declare the geolocation field as bytes in the schema,
 ```
 {% endcode %}
 
-Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed in the `ST_Distance` function. 
+Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed in the `ST_Distance` function.
 
 Next, declare the geospatial index in the table config:
 
@@ -135,10 +134,9 @@ At the high level, geoindex is used for retrieving the records within the nearby
 
 ![Geoindex example](../../.gitbook/assets/geoindex-example.png)
 
-As in the example diagram above, if we want to find all relevant points within a given distance at San Francisco (represented in the area within the red circle), then the algorithm with geoindex works as the following:
- - Find the H3 distance `x` that contains the range (i.e. red circle)
+As in the example diagram above, if we want to find all relevant points within a given distance at San Francisco \(represented in the area within the red circle\), then the algorithm with geoindex works as the following:
 
- - For the points within the H3 distance (i.e. covered by the hexagons within [`kRing(x)`](https://h3geo.org/docs/api/traversal)), we can directly take those points without filtering
-
- - For the points falling into the H3 distance (i.e. in the hexagons of `kRing(x)`), we do filtering on them by evaluating the condition `ST_Distance(loc1, loc2) < x`
+* Find the H3 distance `x` that contains the range \(i.e. red circle\)
+* For the points within the H3 distance \(i.e. covered by the hexagons within [`kRing(x)`](https://h3geo.org/docs/api/traversal)\), we can directly take those points without filtering
+* For the points falling into the H3 distance \(i.e. in the hexagons of `kRing(x)`\), we do filtering on them by evaluating the condition `ST_Distance(loc1, loc2) < x`
 
