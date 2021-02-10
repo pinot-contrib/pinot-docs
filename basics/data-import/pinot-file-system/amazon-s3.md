@@ -6,13 +6,66 @@ You can enable [Amazon S3](https://aws.amazon.com/s3/) Filesystem backend by inc
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-s3
 ```
 
-You can also configure the S3 filesystem using the following options -
+You can also configure the S3 filesystem using the following options:
 
-* `region` - The AWS Data centre region in which the bucket is located
-* `accessKey` - \(Optional\) AWS access key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.
-* `secretKey` - \(Optional\) AWS secret key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.
-* `endpoint` - \(Optional\) Override endpoint for s3 client.
-* `disableAcl` - If this is set to `false`, bucket owner is granted full access to the objects created by pinot. Default value is `true`. 
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Configuration</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">region</td>
+      <td style="text-align:left">The AWS Data center region in which the bucket is located</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">accessKey</td>
+      <td style="text-align:left">(Optional) AWS access key required for authentication. This should only
+        be used for testing purposes as we don&apos;t store these keys in secret.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">secretKey</td>
+      <td style="text-align:left">(Optional) AWS secret key required for authentication. This should only
+        be used for testing purposes as we don&apos;t store these keys in secret.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p></p>
+        <p>endpoint</p>
+      </td>
+      <td style="text-align:left">(Optional) Override endpoint for s3 client.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p></p>
+        <p>disableAcl</p>
+      </td>
+      <td style="text-align:left">If this is set to<code>false</code>, bucket owner is granted full access
+        to the objects created by pinot. Default value is <code>true</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">serverSideEncryption</td>
+      <td style="text-align:left">(Optional) The server-side encryption algorithm used when storing this
+        object in Amazon S3 (Now supports <code>aws:kms</code>), set to null to
+        disable SSE.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ssekmsKeyId</td>
+      <td style="text-align:left">(Optional, but <b>required</b> when <code>serverSideEncryption=aws:kms</code>)
+        Specifies the AWS KMS key ID to use for object encryption. All GET and
+        PUT requests for an object protected by AWS KMS will fail if not made via
+        SSL or using SigV4.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ssekmsEncryptionContext</td>
+      <td style="text-align:left">(Optional) Specifies the AWS KMS Encryption Context to use for object
+        encryption. The value of this header is a base64-encoded UTF-8 string holding
+        JSON with the encryption context key-value pairs.</td>
+    </tr>
+  </tbody>
+</table>
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.s3.` where `node` is either `controller` or `server` depending on the config
 
