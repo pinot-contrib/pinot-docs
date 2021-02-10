@@ -44,7 +44,7 @@ The docker image is tagged as `[Docker Tag]`.
 * Example of building and tagging a snapshot on your own fork:
 
 ```text
-./docker-build.sh pinot_fork:snapshot-5.2 snapshot-5.2 https://github.com/your_own_fork/pinot.git
+./docker-build.sh pinot_fork:snapshot-5.2 snapshot-5.2 https://github.com/your_own_fork/incubator-pinot.git
 ```
 
 * Example of building a release version:
