@@ -72,5 +72,24 @@ Meanwhile you can access [Presto Cluster UI](http://localhost:8080/ui/) to see q
 {% endtab %}
 {% endtabs %}
 
+### Advanced features
 
+### Using Pinot Streaming/gRPC connector
+
+Presto supports aggregation and predicate push down to Pinot. However, for certain queries that Pinot doesn't handle, Presto tries to fetch all the rows from the Pinot table segment by segment. This is definitely not an ideal access pattern for Pinot.
+
+In order to support large data scanning, Pinot \(&gt;=0.6.0\) introduces a gRPC server for on-demand data scanning with a reasonable smaller memory footprint.
+
+You can enable it by adding the below configs to the Pinot server config file:
+
+```text
+pinot.server.grpc.enable=true
+pinot.server.grpc.port=8090
+```
+
+Then you can enable the streaming connector in Presto\(&gt;=0.244\) by adding the below config to the Pinot catalog configs.
+
+```text
+pinot.use-streaming-for-segment-queries=true
+```
 
