@@ -259,6 +259,306 @@ Date time functions allow you to perform transformations on columns which contai
           is not Los Angeles timezone)</p>
       </td>
     </tr>
+    <tr>
+      <td style="text-align:left"><b>ToEpoch&lt;TIME_UNIT&gt;(timeInMillis)</b>
+      </td>
+      <td style="text-align:left">Convert epoch milliseconds to epoch &lt;Time Unit&gt;. Supported &lt;Time
+        Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
+      </td>
+      <td style="text-align:left">
+        <p>Examples:</p>
+        <p><code>ToEpochSeconds(tsInMillis):</code>Converts column <code>tsInMillis</code> value
+          from epoch milliseconds to epoch seconds.</p>
+        <p><code>ToEpochDays(tsInMillis):</code>Converts column <code>tsInMillis</code> value
+          from epoch milliseconds to epoch days.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>ToEpoch&lt;TIME_UNIT&gt;Rounded(timeInMillis, bucketSize)</b>
+      </td>
+      <td style="text-align:left">Convert epoch milliseconds to epoch &lt;Time Unit&gt;, round to nearest
+        rounding bucket(Bucket size is defined in &lt;Time Unit&gt;). Supported
+        &lt;Time Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
+      </td>
+      <td style="text-align:left">
+        <p>Examples:</p>
+        <p><code>ToEpochSecondsRound(tsInMillis, 10):</code>Converts column <code>tsInMillis</code> value
+          from epoch milliseconds to epoch seconds and round to the 10-minute bucket
+          value. E.g.<code>ToEpochSecondsRound(</code>1613472303000, 10) = 1613472300</p>
+        <p></p>
+        <p><code>ToEpochMinutesRound(tsInMillis, 1440):</code>Converts column <code>tsInMillis</code> value
+          from epoch milliseconds to epoch Minutes, but round to 1-day bucket value.
+          E.g.<code>ToEpochMinutesRound(</code>1613472303000, 1440) = 26890560</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>ToEpoch&lt;TIME_UNIT&gt;Bucket(timeInMillis, bucketSize)</b>
+      </td>
+      <td style="text-align:left">Convert epoch milliseconds to epoch &lt;Time Unit&gt;, and divided by
+        bucket size(Bucket size is defined in &lt;Time Unit&gt;). Supported &lt;Time
+        Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
+      </td>
+      <td style="text-align:left">
+        <p>Examples:</p>
+        <p><code>ToEpochSecondsBucket(tsInMillis, 10):</code>Converts column <code>tsInMillis</code> value
+          from epoch milliseconds to epoch seconds then divide by 10 to get the 10
+          seconds since epoch value. E.g.</p>
+        <p><code>ToEpochSecondsBucket(</code>1613472303000, 10) = 161347230</p>
+        <p><code>ToEpochHoursBucket(tsInMillis, 24):</code>Converts column <code>tsInMillis</code> value
+          from epoch milliseconds to epoch Hours, then divide by 24 to get 24 hours
+          since epoch value. E.g.<code>ToEpochMinutesBucket(</code>1613472303000,
+          1440) = 18674</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>FromEpoch&lt;TIME_UNIT&gt;(timeIn&lt;Time_UNIT&gt;)</b>
+      </td>
+      <td style="text-align:left">Convert epoch &lt;Time Unit&gt; to epoch milliseconds. Supported &lt;Time
+        Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
+      </td>
+      <td style="text-align:left">
+        <p>Examples:</p>
+        <p><code>FromEpochSeconds(tsInSeconds):</code>Converts column <code>tsInSeconds</code> value
+          from epoch seconds to epoch milliseconds. E.g.</p>
+        <p><code>FromEpochSeconds(</code>1613472303) = 1613472303000</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>FromEpoch&lt;TIME_UNIT&gt;Bucket(timeIn&lt;Time_UNIT&gt;, bucketSizeIn&lt;Time_UNIT&gt;)</b>
+      </td>
+      <td style="text-align:left">Convert epoch &lt;Bucket Size&gt;&lt;Time Unit&gt; to epoch milliseconds.
+        E.g. 10 seconds since epoch or 5 minutes since Epoch. Supported &lt;Time
+        Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
+      </td>
+      <td style="text-align:left">
+        <p>Examples:</p>
+        <p><code>FromEpochSecondsBucket(tsInSeconds, 10):</code>Converts column <code>tsInSeconds</code> value
+          from epoch 10-seconds to epoch milliseconds. E.g.</p>
+        <p><code>FromEpochSeconds(161347231)= 1613472310000</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>ToDateTime(timeInMillis, pattern)</b>
+      </td>
+      <td style="text-align:left">Convert epoch millis value to DateTime string represented by pattern.</td>
+      <td
+      style="text-align:left">Example: <code>ToDateTime(tsInMillis, &apos;yyyy-MM-dd&apos;)</code>converts
+        tsInMillis value to date time pattern <code>yyyy-MM-dd</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>FromDateTime(dateTimeString, pattern)</b>
+      </td>
+      <td style="text-align:left">Convert DateTime string represented by pattern to epoch millis.</td>
+      <td
+      style="text-align:left">Example: <code>FromDateTime(dateTime, &apos;yyyy-MM-dd&apos;)</code>converts <code>dateTime</code> string
+        value to millis epoch value</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>round(timeValue, bucketSize)</b>
+      </td>
+      <td style="text-align:left">Round the given time value to nearest bucket start value.</td>
+      <td style="text-align:left">Example: <code>round(tsInSeconds, 60)</code> round seconds epoch value to
+        the start value of the 60 seconds bucket it belongs to. E.g. <code>round(161347231, 60)= 161347200</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>now()</b>
+      </td>
+      <td style="text-align:left">Return current time as epoch millis</td>
+      <td style="text-align:left">Typically used in predicate to filter on timestamp for recent data. E.g.
+        filter data on recent 1 day(86400 seconds).<code>WHERE tsInMillis &gt; now() - 86400000</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>timezoneHour(timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the hour of the time zone offset.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>timezoneMinute(timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the minute of the time zone offset.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>year(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the year from the given epoch millis in UTC timezone.</td>
+      <td
+      style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>year(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the year from the given epoch millis and timezone id.</td>
+      <td
+      style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>yearOfWeek(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the year of the ISO week from the given epoch millis in UTC timezone.
+        Alias <code>yow</code>is also supported.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>yearOfWeek(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the year of the ISO week from the given epoch millis and timezone
+        id. Alias <code>yow</code>is also supported.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>quarter(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the quarter of the year from the given epoch millis in UTC timezone.
+        The value ranges from 1 to 4.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>quarter(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the quarter of the year from the given epoch millis and timezone
+        id. The value ranges from 1 to 4.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>month(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the month of the year from the given epoch millis in UTC timezone.
+        The value ranges from 1 to 12.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>month(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the month of the year from the given epoch millis and timezone
+        id. The value ranges from 1 to 12.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>week(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the ISO week of the year from the given epoch millis in UTC timezone.
+        The value ranges from 1 to 53. Alias <code>weekOfYear</code> is also supported.</td>
+      <td
+      style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>week(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the ISO week of the year from the given epoch millis and timezone
+        id. The value ranges from 1 to 53. Alias <code>weekOfYear</code> is also
+        supported.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>dayOfYear(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the day of the year from the given epoch millis in UTC timezone.
+        The value ranges from 1 to 366. Alias <code>doy</code> is also supported.</td>
+      <td
+      style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>dayOfYear(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the day of the year from the given epoch millis and timezone id.
+        The value ranges from 1 to 366. Alias <code>doy</code> is also supported.</td>
+      <td
+      style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>day(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the day of the month from the given epoch millis in UTC timezone.
+        The value ranges from 1 to 31. Alias <code>dayOfMonth</code> is also supported.</td>
+      <td
+      style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>day(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the day of the month from the given epoch millis and timezone
+        id. The value ranges from 1 to 31. Alias <code>dayOfMonth</code> is also
+        supported.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>dayOfWeek(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the day of the week from the given epoch millis in UTC timezone.
+        The value ranges from 1(Monday) to 7(Sunday). Alias <code>dow</code> is also
+        supported.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>dayOfWeek(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the day of the week from the given epoch millis and timezone id.
+        The value ranges from 1(Monday) to 7(Sunday). Alias <code>dow</code> is also
+        supported.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>hour(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the hour of the day from the given epoch millis in UTC timezone.
+        The value ranges from 0 to 23.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>hour(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the hour of the day from the given epoch millis and timezone id.
+        The value ranges from 0 to 23.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>minute(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the minute of the hour from the given epoch millis in UTC timezone.
+        The value ranges from 0 to 59.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>minute(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the minute of the hour from the given epoch millis and timezone
+        id. The value ranges from 0 to 59.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>second(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the second of the minute from the given epoch millis in UTC timezone.
+        The value ranges from 0 to 59.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>second(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the second of the minute from the given epoch millis and timezone
+        id. The value ranges from 0 to 59.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>millisecond(tsInMillis)</b>
+      </td>
+      <td style="text-align:left">Returns the millisecond of the second from the given epoch millis in UTC
+        timezone. The value ranges from 0 to 999.</td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>millisecond(tsInMillis, timeZoneId)</b>
+      </td>
+      <td style="text-align:left">Returns the millisecond of the second from the given epoch millis and
+        timezone id. The value ranges from 0 to 999.</td>
+      <td style="text-align:left"></td>
+    </tr>
   </tbody>
 </table>
 
