@@ -88,7 +88,8 @@
   * [Creating Pinot Segments](users/tutorials/create-pinot-segments.md)
   * [Use S3 as Deep Store for Pinot](users/tutorials/use-s3-as-deep-store-for-pinot.md)
   * [Use S3 and Pinot in Docker](users/tutorials/use-s3-and-pinot-in-docker.md)
-  * [Monitor Pinot using Prometheus and Grafana](users/tutorials/monitor-pinot-using-prometheus-and-grafana.md)
+  * [Batch Data Ingestion In Practice](users/tutorials/batch-data-ingestion-in-practice.md)
+  * [Schema Evolution](users/tutorials/schema-evolution.md)
 
 ## For Developers <a id="developers"></a>
 
@@ -140,8 +141,7 @@
   * [Kubernetes Deployment](operators/tutorials/deployment-pinot-on-kubernetes.md)
   * [Amazon EKS \(Kafka\)](operators/tutorials/non-eks-to-eks.md)
   * [Amazon MSK \(Kafka\)](operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
-  * [Batch Data Ingestion In Practice](operators/tutorials/batch-data-ingestion-in-practice.md)
-  * [Schema Evolution](operators/tutorials/schema-evolution.md)
+  * [Monitor Pinot using Prometheus and Grafana](operators/tutorials/monitor-pinot-using-prometheus-and-grafana.md)
 
 ## Configuration Reference
 
