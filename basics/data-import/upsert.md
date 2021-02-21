@@ -26,7 +26,7 @@ When two records of the same primary key are ingested, _the record with the grea
 
 ## Partition the input stream by the primary key
 
-An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job \(e.g. Flink\) is needd to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
+An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job \(e.g. Flink\) is needed to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
 
 ## Enable upsert in the table configurations
 
