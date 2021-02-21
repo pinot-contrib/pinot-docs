@@ -241,3 +241,38 @@ Here is an example config which uses SSL based authentication to talk with kafka
   }
 ```
 
+#### Ingest transactionally committed messages only from Kafka
+
+With Kafka consumer 2.0, you can ingest transactionally committed messages only by configuring `kafka.isolation.level` to `read_committed`. For example,
+
+```text
+  {
+    "tableName": "transcript",
+    "tableType": "REALTIME",
+    "segmentsConfig": {
+    "timeColumnName": "timestamp",
+    "timeType": "MILLISECONDS",
+    "schemaName": "transcript",
+    "replicasPerPartition": "1"
+    },
+    "tenants": {},
+    "tableIndexConfig": {
+      "loadMode": "MMAP",
+      "streamConfigs": {
+        "streamType": "kafka",
+        "stream.kafka.consumer.type": "LowLevel",
+        "stream.kafka.topic.name": "transcript-topic",
+        "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
+        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+        "stream.kafka.zk.broker.url": "localhost:2191/kafka",
+        "stream.kafka.broker.list": "localhost:9876",
+        "stream.kafka.isolation.level": "read_committed"
+      }
+    },
+    "metadata": {
+      "customConfigs": {}
+    }
+  }
+```
+
+Note that the default value of this config `read_uncommitted` to read all messages. Also, this config supports low-level consumer only.
