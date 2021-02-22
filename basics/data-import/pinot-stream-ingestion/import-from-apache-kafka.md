@@ -276,3 +276,4 @@ With Kafka consumer 2.0, you can ingest transactionally committed messages only 
 ```
 
 Note that the default value of this config `read_uncommitted` to read all messages. Also, this config supports low-level consumer only.
+

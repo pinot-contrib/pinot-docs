@@ -1,10 +1,10 @@
 # Ingestion Job Spec
 
-Ingestion job spec is used while generating, running and pushing segments from the input files. 
+The ingestion job spec is used while generating, running, and pushing segments from the input files. 
 
-The Job spec can be in either YAML or JSON format \(0.5.0 onwards\) . Property names remain same in both the formats.
+The Job spec can be in either YAML or JSON format \(0.5.0 onwards\). Property names remain the same in both formats.
 
-To use the JSON format, add `job-spec-format=json` property in the properties file while launching ingestions job.  The properties file can be passed as follows 
+To use the JSON format, add the property`job-spec-format=json`in the properties file while launching the ingestion job.  The properties file can be passed as follows 
 
 ```text
 pinot-admin.sh LaunchDataIngestionJob -jobSpecFile /path/to/job_spec.json -propertyFile /path/to/job.properties
@@ -40,9 +40,13 @@ The following configurations are supported by Pinot
           </li>
           <li><code>SegmentUriPush</code>
           </li>
+          <li><code>SegmentMetadataPush</code>
+          </li>
           <li><code>SegmentCreationAndTarPush</code>
           </li>
           <li><code>SegmentCreationAndUriPush</code>
+          </li>
+          <li><code>SegmentCreationAndMetadataPush</code>
           </li>
         </ul>
       </td>
@@ -99,8 +103,8 @@ The following configurations are supported by Pinot
     </tr>
     <tr>
       <td style="text-align:left">overwriteOutput</td>
-      <td style="text-align:left">Set to <code>true</code> to overwrite segments if already present in output
-        directory, <code>false</code> otherwise</td>
+      <td style="text-align:left">Set to <code>true</code> to overwrite segments if already present in the
+        output directory, <code>false</code> otherwise</td>
       <td style="text-align:left"><code>overwriteOutput: true</code>
       </td>
     </tr>
@@ -132,7 +136,7 @@ The following configurations are supported by Pinot
     </tr>
     <tr>
       <td style="text-align:left">pinotClusterSpecs</td>
-      <td style="text-align:left">Cluster to which the job request are to be sent.</td>
+      <td style="text-align:left">Cluster to which the job request is to be sent.</td>
       <td style="text-align:left">See <a href="job-specification.md#pinot-cluster-spec">Pinot Cluster Spec</a>
       </td>
     </tr>
@@ -187,17 +191,18 @@ pushJobSpec:
 
 ### Execution Config
 
-The configs specifies the execution framework to use to ingest data. Check out [Batch Ingestion](../basics/data-import/batch-ingestion/) for configs related to all the supported frameworks
+The configs specify the execution framework to use to ingest data. Check out [Batch Ingestion](../basics/data-import/batch-ingestion/) for configs related to all the supported frameworks
 
 
 
 | Property | Description |
 | :--- | :--- |
 | name | name of the execution framework. can be one of `spark,hadoop or standalone` |
-| segmentGenerationJobRunnerClassName | The name of class of the framework to run the job |
-| segmentTarPushJobRunnerClassName | The name of class of the framework to push the TAR file |
-| segmentUriPushJobRunnerClassName | The name of class of the framework to run the job |
-| extraConfigs | Key-value pairs of configs related to the executions framework |
+| segmentGenerationJobRunnerClassName | The name of the class to run the segment generation job |
+| segmentTarPushJobRunnerClassName | The name of the class to push the segment TAR file |
+| segmentUriPushJobRunnerClassName | The name of the class to send segment URI |
+| segmentMetadataPushJobRunnerClassName | The name of the class  to send segment Metadata |
+| extraConfigs | Key-value pairs of configs related to the framework of the executions |
 
 #### Example
 
@@ -248,7 +253,8 @@ tableSpec:
         <ul>
           <li><code>simple</code> - this is the default spec.</li>
           <li><code>normalizedDate</code> - use this type when the time column in your
-            data is in the String format instead of epoch time</li>
+            data is in the String format instead of epoch time.</li>
+          <li><code>fixed</code> - configure the segment name by user.</li>
         </ul>
       </td>
     </tr>
@@ -257,11 +263,25 @@ tableSpec:
       <td style="text-align:left">
         <p>Key-value pairs related to the name generator. Following configs are supported
           -</p>
+        <p>simple:</p>
+        <ul>
+          <li><code>segment.name.postfix</code> - suffix to use for segment name</li>
+          <li><code>use.local.directory.sequence.id</code> - Use local directory sequence
+            id instead global, useful when there are multiple directories under input
+            dir.</li>
+        </ul>
+        <p>normalizedDate:</p>
         <ul>
           <li><code>segment.name.prefix</code>- prefix to use for segment name</li>
-          <li><code>segment.name.postfix</code> - suffix to use for segment name</li>
           <li><code>exclude.sequence.id</code> - set to <code>true</code> to include the
-            sequence id in segment name. <code>false</code> otherwise</li>
+            sequence id in the segment name. <code>false</code> otherwise</li>
+          <li><code>use.local.directory.sequence.id</code> - Use local directory sequence
+            id instead global, useful when there are multiple directories under input
+            dir.</li>
+        </ul>
+        <p>fixed:</p>
+        <ul>
+          <li><code>segment.name</code> - segment name to be set</li>
         </ul>
       </td>
     </tr>
