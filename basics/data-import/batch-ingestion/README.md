@@ -154,16 +154,68 @@ bin/pinot-admin.sh LaunchDataIngestionJob \\
 
 Once the job has successfully finished, you can head over to the \[query console\] and start playing with the data.
 
+### Segment Push Job Type
+
+There are 3 ways to upload a Pinot segment:
+
+#### Segment Tar Push
+
+This is the original and default push mechanism.
+
+Tar push requires the segment
+
+The push job will:
+
+1. Upload the entire segment tar file to the Pinot controller. 
+
+Pinot controller will:
+
+1. Save the segment into the controller segment directory\(Local or any PinotFS\). 
+2. Extract segment metadata.
+3. Add the segment to the table.
+
+#### Segment URI Push
+
+This push mechanism requires the segment Tar file stored on a deep store with a globally accessible segment tar URI.
+
+URI push is light-weight on the client-side, and the controller side requires equivalent work as the Tar push.
+
+The push job will:
+
+1. POST this segment Tar URI to the Pinot controller. 
+
+Pinot controller will:
+
+1. Download segment from the URI and save it to controller segment directory\(Local or any PinotFS\).
+2. Extract segment metadata.
+3. Add the segment to the table.
+
+#### Segment Metadata Push
+
+This push mechanism also requires the segment Tar file stored on a deep store with a globally accessible segment tar URI.
+
+Metadata push is light-weight on the controller side, there is no deep store download involves from the controller side.
+
+The push job will:
+
+1. Download the segment based on URI.
+2. Extract metadata.
+3. Upload metadata to the Pinot Controller.
+
+Pinot Controller will:
+
+1. Add the segment to the table based on the metadata.
+
 ### Segment Fetchers
 
 When pinot segment files are created in external systems \(Hadoop/spark/etc\), there are several ways to push those data to the Pinot Controller and Server:
 
-1. push segment to shared NFS and let pinot pull segment files from the location of that NFS.
-2. push segment to a Web server and let pinot pull segment files from the Web server with HTTP/HTTPS link.
-3. push segment to HDFS and let pinot pull segment files from HDFS with HDFS location URI.
-4. push segment to other systems and implement your own segment fetcher to pull data from those systems.
+1. Push segment to shared NFS and let pinot pull segment files from the location of that NFS. See [Segment URI Push](./#segment-uri-push).
+2. Push segment to a Web server and let pinot pull segment files from the Web server with HTTP/HTTPS link. See [Segment URI Push](./#segment-uri-push).
+3. Push segment to PinotFS\(HDFS/S3/GCS/ADLS\) and let pinot pull segment files from PinotFS URI. See [Segment URI Push](./#segment-uri-push) and [Segment Metadata Push](./#segment-metadata-push).
+4. Push segment to other systems and implement your own segment fetcher to pull data from those systems.
 
-The first two options are supported out of the box within the Pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for HDFS, you will need to provide Pinot Hadoop configuration and proper Hadoop dependencies.
+The first three options are supported out of the box within the Pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for PinotFS, you will need to provide [PinotFS](../pinot-file-system/) configuration and proper Hadoop dependencies.
 
 ### Persistence
 
