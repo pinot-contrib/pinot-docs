@@ -38,6 +38,7 @@
   * [Batch Ingestion](basics/data-import/batch-ingestion/README.md)
     * [Spark](basics/data-import/batch-ingestion/spark.md)
     * [Hadoop](basics/data-import/batch-ingestion/hadoop.md)
+    * [Backfill Data](basics/data-import/batch-ingestion/backfill-data.md)
   * [Stream ingestion](basics/data-import/pinot-stream-ingestion/README.md)
     * [Apache Kafka](basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
   * [Stream Ingestion with Upsert](basics/data-import/upsert.md)
