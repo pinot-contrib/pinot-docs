@@ -143,16 +143,7 @@ pinotClusterSpecs:
   - controllerURI: '<http://localhost:9000>'
 ```
 
-For any other batch job, you can change the following parameters
-
-1. **tableName** - The name of the table to put the data in
-2. **recordReaderSpec** - This should match the format of the input data. e.g. CSV, Avro, ProtoBuf, etc.
-3. **pinotClusterSpecs** - URL of controller node.
-4. **inputDirURI** and **outputDirURI**
-5. **includeFileNamePattern** - pattern to match files inside the input directory. supports both [`glob`](https://mincong.io/2019/04/16/glob-expression-understanding/) as well as `regex`
-6. **pinotFSSpecs** - In case you are using a distributed file system such as GCS, Azure Blob Storage, or S3. You can use multiple schemes under this in case the input and output filesystems are different.
-
-You can refer to Segment Generation Job Configuration for more details.
+You can refer to [Ingestion Job Spec](../../../configuration-reference/job-specification.md) for more details.
 
 Now that we have the job spec for our table `transcript` , we can trigger the job using the following command
 
