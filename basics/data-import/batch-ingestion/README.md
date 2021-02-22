@@ -162,13 +162,13 @@ There are 3 ways to upload a Pinot segment:
 
 This is the original and default push mechanism.
 
-Tar push requires the segment
+Tar push requires the segment to be stored locally or can be opened as an InputStream on PinotFS. So we can stream the entire segment tar file to the controller.
 
-The push job will:
+**The push job will:**
 
 1. Upload the entire segment tar file to the Pinot controller. 
 
-Pinot controller will:
+**Pinot controller will:**
 
 1. Save the segment into the controller segment directory\(Local or any PinotFS\). 
 2. Extract segment metadata.
@@ -180,11 +180,11 @@ This push mechanism requires the segment Tar file stored on a deep store with a 
 
 URI push is light-weight on the client-side, and the controller side requires equivalent work as the Tar push.
 
-The push job will:
+**The push job will:**
 
 1. POST this segment Tar URI to the Pinot controller. 
 
-Pinot controller will:
+**Pinot controller will:**
 
 1. Download segment from the URI and save it to controller segment directory\(Local or any PinotFS\).
 2. Extract segment metadata.
@@ -196,13 +196,13 @@ This push mechanism also requires the segment Tar file stored on a deep store wi
 
 Metadata push is light-weight on the controller side, there is no deep store download involves from the controller side.
 
-The push job will:
+**The push job will:**
 
 1. Download the segment based on URI.
 2. Extract metadata.
 3. Upload metadata to the Pinot Controller.
 
-Pinot Controller will:
+**Pinot Controller will:**
 
 1. Add the segment to the table based on the metadata.
 
