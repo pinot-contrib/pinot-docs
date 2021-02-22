@@ -71,11 +71,11 @@ In our data, the only column on which aggregations can be performed is score. Se
 }
 ```
 
-Here, we have also defined two extra fields - format and granularity. Format specifies the formatting of our timestamp column in the data source. Currently, it is in milliseconds hence we have specified `1:MILLISECONDS:EPOCH`
+Here, we have also defined two extra fields - format and granularity. The format specifies the formatting of our timestamp column in the data source. Currently, it is in milliseconds hence we have specified `1:MILLISECONDS:EPOCH`
 
 ### **Create Table Configuration**
 
-We define a table named  `transcript`  and map the schema created in the previous step to the table. For batch data, we keep the tableType as `OFFLINE`
+We define a table`transcript`and map the schema created in the previous step to the table. For batch data, we keep the `tableType` as `OFFLINE`
 
 ```text
 {
@@ -146,11 +146,11 @@ pinotClusterSpecs:
 For any other batch job, you can change the following parameters
 
 1. **tableName** - The name of the table to put the data in
-2. **recordReaderSpec** - This should match the format of the input data. e.g. CSV, Avro, ProtoBuf etc.
+2. **recordReaderSpec** - This should match the format of the input data. e.g. CSV, Avro, ProtoBuf, etc.
 3. **pinotClusterSpecs** - URL of controller node.
 4. **inputDirURI** and **outputDirURI**
 5. **includeFileNamePattern** - pattern to match files inside the input directory. supports both [`glob`](https://mincong.io/2019/04/16/glob-expression-understanding/) as well as `regex`
-6. **pinotFSSpecs** - In case you are using a distributed file system such as GCS, Azure Blob Storage or S3. You can use multiple schemes under this in case the input and output filesystems are different.
+6. **pinotFSSpecs** - In case you are using a distributed file system such as GCS, Azure Blob Storage, or S3. You can use multiple schemes under this in case the input and output filesystems are different.
 
 You can refer to Segment Generation Job Configuration for more details.
 
@@ -165,18 +165,18 @@ Once the job has successfully finished, you can head over to the \[query console
 
 ### Segment Fetchers
 
-When pinot segment files are created in external systems \(hadoop/spark/etc\), there are several ways to push those data to pinot Controller and Server:
+When pinot segment files are created in external systems \(Hadoop/spark/etc\), there are several ways to push those data to the Pinot Controller and Server:
 
 1. push segment to shared NFS and let pinot pull segment files from the location of that NFS.
-2. push segment to a Web server and let pinot pull segment files from the Web server with http/https link.
-3. push segment to HDFS and let pinot pull segment files from HDFS with hdfs location URI.
-4. push segment to other system and implement your own segment fetcher to pull data from those systems.
+2. push segment to a Web server and let pinot pull segment files from the Web server with HTTP/HTTPS link.
+3. push segment to HDFS and let pinot pull segment files from HDFS with HDFS location URI.
+4. push segment to other systems and implement your own segment fetcher to pull data from those systems.
 
-The first two options are supported out of the box with pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for HDFS, you will need to provide Pinot Hadoop configuration and proper Hadoop dependencies.
+The first two options are supported out of the box within the Pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for HDFS, you will need to provide Pinot Hadoop configuration and proper Hadoop dependencies.
 
-### Persistance
+### Persistence
 
-By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add a deep storage. Checkout [File systems](../pinot-file-system/) for all the info and related configs.
+By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of a system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add deep storage. Checkout [File systems](../pinot-file-system/) for all the info and related configs.
 
 ### Tuning
 
