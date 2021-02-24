@@ -214,11 +214,6 @@ Date time functions allow you to perform transformations on columns which contai
             bucket it to 1 days granularity
             <br />
             <br /><code>DATETIMECONVERT(Date, &apos;1:HOURS:EPOCH&apos;, &apos;1:DAYS:SIMPLE_DATE_FORMAT:yyyyMMdd&apos;, &apos;1:DAYS&apos;)<br /></code>
-          </li>
-          <li><code>Date</code> from format <code>yyyy/MM/dd</code> to <code>weeksSinceEpoch</code> and
-            bucket it to 1 week granularity
-            <br />
-            <br /><code>DATETIMECONVERT(Date, &apos;1:DAYS:SIMPLE_DATE_FORMAT:yyyy/MM/dd&apos;, &apos;1:WEEKS:EPOCH&apos;, &apos;1:WEEKS&apos;)</code>
             <br
             />
           </li>
