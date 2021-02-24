@@ -167,9 +167,9 @@ Date time functions allow you to perform transformations on columns which contai
         <p><b>(</b>col, fromUnit, toUnit<b>)</b>
         </p>
       </td>
-      <td style="text-align:left">converts the value into another time unit. column should be timestamp.
-        Supported units are
-        <br /><code>DAYS HOURS MICROSECONDS MILLISECONDS MINUTES NANOSECONDS SECONDS</code>
+      <td style="text-align:left">Converts the value into another time unit. the column should be an epoch
+        timestamp. Supported units are
+        <br /><code>DAYS HOURS MINUTES SECONDS  MILLISECONDS MICROSECONDS NANOSECONDS</code>
       </td>
       <td style="text-align:left"><code>TIMECONVERT(time, &apos;MILLISECONDS&apos;, &apos;SECONDS&apos;)</code>This
         expression converts the value of column <code>time</code> (taken to be in
@@ -184,19 +184,21 @@ Date time functions allow you to perform transformations on columns which contai
       </td>
       <td style="text-align:left">
         <p>Takes 4 arguments, converts the value into another date time format, and
-          buckets time based on the given time granularity.</p>
-        <p>Format is expressed as <code>&lt;time size&gt;:&lt;time unit&gt;:&lt;time format&gt;:&lt;pattern&gt;</code>
+          buckets time based on the given time granularity. Note that, for weeks/months/quarters/years,
+          please use function: <b>DateTrunc</b>.</p>
+        <p>The format is expressed as <code>&lt;time size&gt;:&lt;time unit&gt;:&lt;time format&gt;:&lt;pattern&gt;</code>
           <br
           />where,</p>
         <p><b><code>time size</code></b> - size of the time unit eg: 1, 10</p>
-        <p><b><code>time unit</code></b> - <code>HOURS</code>, <code>DAYS</code> etc</p>
+        <p><b><code>time unit</code></b> - <code>DAYS HOURS MINUTES SECONDS  MILLISECONDS MICROSECONDS NANOSECONDS</code> 
+        </p>
         <p><b><code>time format</code></b> - <code>EPOCH</code> or <code>SIMPLE_DATE_FORMAT</code>
         </p>
         <p><code>pattern</code> - this is defined in case of <code>SIMPLE_DATE_FORMAT</code> eg: <code>yyyy-MM-dd</code>.
           A specific timezone can be passed using tz(timezone). Timezone can be long
           or short string format timezone. e.g. <code>Asia/Kolkata</code> or <code>PDT</code>
         </p>
-        <p><b><code>granularity</code></b>  <b>-</b> specified in format<code>&lt;time size&gt;:&lt;time unit&gt;</code>
+        <p><b><code>granularity</code></b>  <b>-</b> specified in the format<code>&lt;time size&gt;:&lt;time unit&gt;</code>
         </p>
       </td>
       <td style="text-align:left">
