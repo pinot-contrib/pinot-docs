@@ -54,7 +54,7 @@ This is configured through Amazon VPC Page.
 1. Record the Amazon MSK `SecurityGroup` from the Cluster page, in the above demo, it's `sg-01e7ab1320a77f1a9`.
 2. Open [Amazon VPC Page](https://us-west-2.console.aws.amazon.com/vpc/home), click on **`SecurityGroups`** on left bar. Find the EKS Security group: `eksctl-${PINOT_EKS_CLUSTER}-cluster/ClusterSharedNodeSecurityGroup.`
 
-![Amazon EKS ClusterSharedNodeSecurityGroup](../../.gitbook/assets/image%20%289%29%20%282%29.png)
+![Amazon EKS ClusterSharedNodeSecurityGroup](../../.gitbook/assets/image%20%289%29%20%282%29%20%282%29%20%282%29%20%282%29.png)
 
 1. In SecurityGroup, click on MSK SecurityGroup \(`sg-01e7ab1320a77f1a9`\), then Click on `Edit Rules` , then add above `ClusterSharedNodeSecurityGroup` \(`sg-0402b59d7e440f8d1`\) to it.
 
