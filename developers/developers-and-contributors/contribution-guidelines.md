@@ -1,7 +1,5 @@
 # Contribution Guidelines
 
-
-
 Before you begin to contribute, make sure you have reviewed [Dev Environment Setup](code-setup.md) and [Code Modules and Organization](code-modules-and-organization.md) sections and that you have created your own fork of the pinot source code.
 
 ### Create a design document
@@ -56,7 +54,7 @@ Please ensure your code is adequately documented. Some things to consider for do
 #### Exceptions and Exception-Handling
 
 * Where possible, throw specific exceptions, preferably checked exceptions, so the callers can easily determine what the erroneous conditions that need to be handled are.
-* Avoid catching broad exceptions \(ie, `catch (Exception e)` blocks, except for when this is in the run\(\) method of a thread/runnable.
+* Avoid catching broad exceptions \(i.e., `catch (Exception e)` blocks\), except for when this is in the `run()` method of a thread/runnable.
 
 Current Pinot code does not strictly adhere to this, but we would like to change this over time and adopt best practices around exception handling.
 
@@ -81,7 +79,7 @@ Be cautious about pulling in external dependencies. You will need to consider mu
 Automated tests are always recommended for contributions. Make sure you write tests so that:
 
 1. You verify the correctness of your contribution. This serves as proof to you as well as the reviewers.
-2. You future proof your contributions against code refactors or other changes. While this may not always be possible \(see [Testing Guidelines](contribution-guidelines.md#testing-guidelines)\), its a good goal to aim for.
+2. You future proof your contributions against code refactors or other changes. While this may not always be possible \(see [Testing Guidelines](contribution-guidelines.md#testing-guidelines)\), it's a good goal to aim for.
 
 Identify a list of tests for the changes you have made. Depending on the scope of changes, you may need one or more of the following tests:
 
@@ -208,7 +206,5 @@ $ git push origin <your issue branch>
 
 Usually for new features, functionalities, API changes, documentation update is required to keep users up to date and keep track of our development.
 
-Please follow this link to [Update Document](update-document.md) accordingly.
-
-
+Please follow this link to [Update Document](update-document.md) accordingly
 
