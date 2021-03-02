@@ -56,7 +56,7 @@ Transform functions can be defined on columns in the ingestion config of the tab
 "tableName": "myTable",
 ...
 "ingestionConfig": {
-    "transformConfig": [{
+    "transformConfigs": [{
       "columnName": "maxPrice",
       "transformFunction": "Groovy({prices.max()}, prices)" // groovy function
     },
@@ -98,7 +98,7 @@ Concat `firstName` and `lasName` to get `fullName`
 
 ```javascript
 "ingestionConfig": {
-    "transformConfig": [{
+    "transformConfigs": [{
       "columnName": "fullName",
       "transformFunction": "Groovy({firstName+' '+lastName}, firstName, lastName)" 
     }
@@ -111,7 +111,7 @@ Find max value in array `bids`
 
 ```javascript
 "ingestionConfig": {
-    "transformConfig": [{
+    "transformConfigs": [{
       "columnName": "maxBid",
       "transformFunction": "Groovy({bids.max{ it.toBigDecimal() }}, bids)" 
     }
@@ -124,7 +124,7 @@ Convert `timestamp` from `MILLISECONDS` to `HOURS`
 
 ```javascript
 "ingestionConfig": {
-    "transformConfig": [{
+    "transformConfigs": [{
       "columnName": "hoursSinceEpoch",
       "transformFunction": "Groovy({timestamp/(1000*60*60)}, timestamp)" 
     }
@@ -137,7 +137,7 @@ Simply change name of the column from `user_id` to `userId`
 
 ```javascript
 "ingestionConfig": {
-    "transformConfig": [{
+    "transformConfigs": [{
       "columnName": "userId",
       "transformFunction": "Groovy({user_id}, user_id)" 
     }
@@ -150,7 +150,7 @@ If `eventType` is `IMPRESSION` set `impression` to `1`. Similar for `CLICK`.
 
 ```javascript
 "ingestionConfig": {
-    "transformConfig": [{
+    "transformConfigs": [{
       "columnName": "impressions",
       "transformFunction": "Groovy({eventType == 'IMPRESSION' ? 1: 0}, eventType)" 
     },
@@ -169,7 +169,7 @@ Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintai
 
 ```javascript
 "ingestionConfig": {
-    "transformConfig": [{
+    "transformConfigs": [{
       "columnName": "map2_keys",
       "transformFunction": "Groovy({map2.sort()*.key}, map2)" 
     },
