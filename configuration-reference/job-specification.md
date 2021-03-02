@@ -324,11 +324,13 @@ tableSpec:
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">use.local.directory.sequence.id</td>
+      <td style="text-align:left">use.global.directory.sequence.id</td>
       <td style="text-align:left">
-        <p>Assign sequence ids to input files based on each local directory level.</p>
-        <p>This is useful when generating multiple segments for multiple days.</p>
-        <p>In that case, each of the days will start from sequence id 0.</p>
+        <p>Assign sequence ids to input files based on all input files under the
+          directory.</p>
+        <p>Set to <code>false</code> to use local directory sequence id. This is useful
+          when generating multiple segments for multiple days. In that case, each
+          of the days will start from sequence id 0.</p>
       </td>
     </tr>
   </tbody>
