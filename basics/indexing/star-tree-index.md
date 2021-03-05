@@ -6,6 +6,10 @@ One of the biggest challenges in realtime OLAP systems is achieving and maintain
 
 Here we introduce **star-tree** index to utilize the pre-aggregated documents in a smart way to achieve low query latencies but also use the storage space efficiently for aggregation/group-by queries.
 
+{% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
+
+
+
 ### Existing solutions
 
 Consider the following data set as an example to discuss the existing approaches:
