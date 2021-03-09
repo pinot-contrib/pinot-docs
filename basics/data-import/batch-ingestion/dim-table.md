@@ -4,7 +4,7 @@ description: Dimension tables in Apache Pinot.
 
 # Batch Ingestion for Dimension Table 
 
-Dimension tables are a spcial kind of offline tables from which data canbe looked up via the lookup UDF, providing a join like functionality. These dimension tables are replicated on all the hosts on a given tenant to allow faster lookups.
+Dimension tables are a special kind of offline tables from which data can be looked up via the lookup UDF, providing a join like functionality. These dimension tables are replicated on all the hosts for a given tenant to allow faster lookups.
 
 To mark an offline table as a dim table the configuration `isDimTable` should be set to true in the table config as shown below
 
@@ -27,7 +27,7 @@ To mark an offline table as a dim table the configuration `isDimTable` should be
 
 ```
 
-As dimension table are used ot perform lookups of dimension values, they are required to have a primary key (can be a composite key).
+As dimension table are used to perform lookups of dimension values, they are required to have a primary key (can be a composite key).
 
 ```text
 {
