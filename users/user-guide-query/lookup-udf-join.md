@@ -11,4 +11,4 @@ lookUp('dimTableName', 'dimColToLookUp', 'dimJoinKey1', factJoinKeyVal1, 'dimJoi
 * `dimJoinKey` The column name on which we want to perform the lookup i.e. the join column name for dim table. 
 * `factJoinKeyVal` The value of the dim table join column for which we will retrieve the dimColToLookUp for the scope and invocation. 
 
-Return type of the UDF will be that of the dimColToLookUp column type. IN our case string for both the invocations. There can be multiple primary keys and corresponding values.
+Return type of the UDF will be that of the dimColToLookUp column type. There can also be multiple primary keys and corresponding values.
