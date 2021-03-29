@@ -49,7 +49,7 @@ Pinot provides support for aggregations using GROUP BY. You can use the followin
     <tr>
       <td style="text-align:left"><b>MINMAXRANGE</b>
       </td>
-      <td style="text-align:left">Returns the min and max value in a group</td>
+      <td style="text-align:left">Returns the <code>max - min</code> value in a group</td>
       <td style="text-align:left"><code>MINMAXRANGE(playerScore)</code>
       </td>
     </tr>
@@ -190,7 +190,7 @@ The following aggregation functions can be used for multi-value columns
     <tr>
       <td style="text-align:left"><b>MINMAXRANGEMV</b>
       </td>
-      <td style="text-align:left">Returns the min and max value in a group</td>
+      <td style="text-align:left">Returns the <code>max - min</code> value in a group</td>
       <td style="text-align:left"><code>MINMAXRANGEMV(playerScores)</code>
       </td>
     </tr>

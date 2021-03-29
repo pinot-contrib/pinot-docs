@@ -1,6 +1,6 @@
 # Lookup UDF Join
 
-Lookup UDF is used to get dimension data via primary key from a dimension table allowing a decoration join functionality. Lookup UDF can only be used with [a dimension table](../../../basics/data-import/batch-ingestion/dim-table.md) in Pinot. The UDF signature is as below:
+Lookup UDF is used to get dimension data via primary key from a dimension table allowing a decoration join functionality. Lookup UDF can only be used with [a dimension table](../../basics/data-import/batch-ingestion/dim-table.md) in Pinot. The UDF signature is as below:
 
 ```text
 lookUp('dimTableName', 'dimColToLookUp', 'dimJoinKey1', factJoinKeyVal1, 'dimJoinKey2', factJoinKeyVal2 ... )
@@ -12,3 +12,4 @@ lookUp('dimTableName', 'dimColToLookUp', 'dimJoinKey1', factJoinKeyVal1, 'dimJoi
 * `factJoinKeyVal` The value of the dim table join column for which we will retrieve the dimColToLookUp for the scope and invocation. 
 
 Return type of the UDF will be that of the dimColToLookUp column type. There can also be multiple primary keys and corresponding values.
+
