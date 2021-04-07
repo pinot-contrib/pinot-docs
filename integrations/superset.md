@@ -16,7 +16,7 @@ Start running [Superset Image](https://hub.docker.com/repository/docker/apachepi
 docker run \
   --network pinot-demo \
   --name=superset \
-  -p 8088:8080 \
+  -p 8088:8088 \
   -d apachepinot/pinot-superset:latest
 ```
 
