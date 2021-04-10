@@ -4,11 +4,15 @@ description: This guide shows you how to import data from HDFS.
 
 # HDFS
 
-You can enable the [Hadoop DFS](https://hadoop.apache.org/) using the plugin `pinot-hdfs`. In the controller or server, add the config -
+You can enable the [Hadoop DFS](https://hadoop.apache.org/) using the plugin `pinot-hdfs`. In the controller or server, add the config:
 
 ```text
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-hdfs
 ```
+
+{% hint style="info" %}
+By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
+{% endhint %}
 
 HDFS implementation provides the following options -
 

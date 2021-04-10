@@ -6,6 +6,10 @@ You can enable [Amazon S3](https://aws.amazon.com/s3/) Filesystem backend by inc
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-s3
 ```
 
+{% hint style="info" %}
+By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
+{% endhint %}
+
 You can also configure the S3 filesystem using the following options:
 
 <table>
