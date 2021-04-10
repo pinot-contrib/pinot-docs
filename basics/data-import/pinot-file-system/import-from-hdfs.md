@@ -71,7 +71,7 @@ controller.enable.split.commit=true
 pinot.controller.storage.factory.class.hdfs=org.apache.pinot.plugin.filesystem.HadoopPinotFS
 pinot.controller.storage.factory.hdfs.hadoop.conf.path=path/to/conf/directory/
 pinot.controller.segment.fetcher.protocols=file,http,hdfs
-pinot.controller.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+pinot.controller.segment.fetcher.hdfs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.principle=`<your kerberos principal>
 pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.keytab=`<your kerberos keytab>
 ```
