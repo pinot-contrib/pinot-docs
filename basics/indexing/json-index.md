@@ -76,11 +76,15 @@ Note that the quotes within the filter expression need to be escaped.
 
 ### Simple key lookup
 
+Find all persons whose name is "adam".
+
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, 'name=''adam''')
 ```
 
 ### Chained key lookup
+
+Find all persons who have an address \(one of the addresses\) with number 112.
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, 'addresses.number=112')
@@ -88,11 +92,15 @@ SELECT ... FROM mytable WHERE JSON_MATCH(person, 'addresses.number=112')
 
 ### Nested filter expression
 
+Find all persons whose name is "adam" and also have an address \(one of the addresses\) with number 112.
+
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, 'name=''adam'' AND addresses.number=112')
 ```
 
 ### Array access
+
+Find all persons whose first address has number 112.
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"addresses[0].number"=112')
@@ -102,9 +110,13 @@ Note that `addresses[0].number` needs to be escaped because it contains special 
 
 ### Existence check
 
+Find all persons who have phone field within the JSON.
+
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, 'phone IS NOT NULL')
 ```
+
+Find all persons whose first address does not contain floor field within the JSON.
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"addresses[0].floor" IS NULL')
