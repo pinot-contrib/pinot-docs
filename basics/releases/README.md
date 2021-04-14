@@ -14,10 +14,6 @@ Before upgrading from one version to another one, please read the release notes 
 
 {% page-ref page="0.7.1.md" %}
 
-## 0.7.0 \(March 2021\)
-
-{% page-ref page="0.7.0.md" %}
-
 ## 0.6.0 \(November 2020\)
 
 {% page-ref page="0.6.0.md" %}
