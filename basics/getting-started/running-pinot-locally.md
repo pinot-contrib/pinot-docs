@@ -86,7 +86,7 @@ We'll be using the quick-start scripts provided along with pinot distribution, w
 1. Set up the Pinot cluster `QuickStartCluster`
 2. Create a sample table and load sample data
 
-The following quick start scripts are available -
+The following quick start scripts are available. Please note though, these scripts launch the Pinot cluster with minimal resources. If you intend to play with sizable data \(more than few MB\), you may want to follow the [Manual cluster setup](https://app.gitbook.com/@apache-pinot/s/apache-pinot-docs/~/drafts/-MYGXF71U0yIiqM1EDPS/basics/getting-started/advanced-pinot-setup) and provide required resources.
 
 ### Batch
 
