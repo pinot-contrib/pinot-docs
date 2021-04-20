@@ -2,6 +2,10 @@
 
 So far, you've seen how to [create a new schema](https://docs.pinot.apache.org/basics/components/schema#creating-a-schema) for a Pinot table. In this tutorial, we'll see how to evolve the schema \(e.g. add a new column to the schema\). This guide assumes you have a Pinot cluster up and running \(eg: as mentioned in [https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally)\). We will also assume there's an existing table `baseballStats` created as part of the [batch quick start](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch).
 
+{% hint style="info" %}
+Pinot only allows adding new columns to the schema. In order to drop a column, change the column name or data type, a new table has to be created.
+{% endhint %}
+
 ### Get the existing schema
 
 Let's begin by first fetching the existing schema. We can do this using the controller API:
