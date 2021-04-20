@@ -44,6 +44,10 @@ Refer to [Rebalance](../../../operators/operating-pinot/rebalance/).
 
 The number of segments generated depends on the number of input files. If you provide only 1 input file, you will get 1 segment. If you break up the input file into multiple files, you will get as many segments as the input files. 
 
+### What are the common reasons my segment is in a BAD state ?
+
+This typically happens when the server is unable to load the segment. Possible causes: Out-Of-Memory, no-disk space, unable to download segment from deep-store, and similar other errors. Please check server logs for more information. 
+
 ## Tuning and Optimizations
 
 ### Do replica groups work for real-time? <a id="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3"></a>
