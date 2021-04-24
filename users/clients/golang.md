@@ -17,7 +17,7 @@ bin/quick-start-batch.sh
 Check out Client library Github Repo
 
 ```text
-git clone git@github.com:fx19880617/pinot-client-go.git
+git clone git@github.com:xiangfu0/pinot-client-go.git
 cd pinot-client-go
 ```
 
