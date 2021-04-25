@@ -165,3 +165,7 @@ Instructions to connect Pinot with Superset can found [here](integrations/supers
 
 In addition to visualizing data in Pinot, one can run Machine Learning Algorithms to detect Anomalies on the data stored in Pinot. See [ThirdEye](integrations/thirdeye.md) for more information on how to use Pinot for Anomaly Detection and Root Cause Analysis.
 
+**Webiste Traffic Analysis**
+
+A common use case for Pinot, is to analyse user traffic on a website. Aggregating over different dimensions, such as browser, os, location and other information that may be collected.
+
