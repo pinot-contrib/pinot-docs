@@ -17,54 +17,23 @@ Below is a detailed description of each type of field spec.
 
 A dimensionFieldSpec is defined for each dimension column. Here's a list of the fields in the dimensionFieldSpec
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Property</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">name</td>
-      <td style="text-align:left">Name of the dimension column</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">dataType</td>
-      <td style="text-align:left">
-        <p>Data type of the dimension column. Can be STRING, BOOLEAN, INT, LONG,
-          DOUBLE, FLOAT, BYTES</p>
-        <p>&lt;b&gt;&lt;/b&gt;</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">defaultNullValue</td>
-      <td style="text-align:left">Represents null values in the data, since Pinot doesn&apos;t support storing
-        null column values natively (as part of its on-disk storage format). If
-        not specified, an internal default null value is used as listed here</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">singleValueField</td>
-      <td style="text-align:left">Boolean indicating if this is a single value or a multi value column.
-        In the example above, the dimension <code>tags</code> is multi-valued. This
-        means that it can have multiple values for a particular row, say <code>tag1, tag2, tag3</code>.
-        For a multi-valued column, individual rows don&#x2019;t necessarily need
-        to have the same number of values. Typical use case for this would be a
-        column such as <code>skillSet</code> for a person (one row in the table)
-        that can have multiple values such as <code>Real Estate, Mortgages.</code> 
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Property | Description |
+| :--- | :--- |
+| name | Name of the dimension column. |
+| dataType | Data type of the dimension column. Can be INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING, BYTES. |
+| defaultNullValue | Represents null values in the data, since Pinot doesn't support storing null column values natively \(as part of its on-disk storage format\). If not specified, an internal default null value is used as listed here. |
+| singleValueField | Boolean indicating if this is a single value or a multi value column. In the example above, the dimension `tags` is multi-valued. This means that it can have multiple values for a particular row, say `tag1, tag2, tag3`. For a multi-valued column, individual rows don’t necessarily need to have the same number of values. Typical use case for this would be a column such as `skillSet` for a person \(one row in the table\) that can have multiple values such as `Real Estate, Mortgages`. The default null value for a multi-valued column is a single `defaultNullValue`, e.g. `[Integer.MIN_VALUE]`. |
 
 #### Internal default null values for dimension
 
 | Data Type | Internal Default Null Value |
 | :--- | :--- |
 | INT | ​[Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN_VALUE)​ |
-| LONG | ​[LONG.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE)​ |
+| LONG | ​[Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE)​ |
 | FLOAT | ​[Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY)​ |
-| DOUBLE | ​[DOUBLE.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY)​ |
+| DOUBLE | ​[Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY)​ |
+| BOOLEAN | 0 \(`false`\) |
+| TIMESTAMP | 0 \(`1970-01-01 00:00:00 UTC`\) |
 | STRING | "null" |
 | BYTES | byte array of length 0 |
 
@@ -75,8 +44,8 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 | Property | Description |
 | :--- | :--- |
 | name | Name of the metric column |
-| dataType | Data type of the column. Can be INT, LONG, DOUBLE, FLOAT, BYTES \(for specialized representations such as HLL, TDigest, etc, where the column stores byte serialized version of the value\) |
-| defaultNullValue | Represents null values in the data. If not specified, an internal default null value is used, as listed here. The values are the same as those used for dimensionFieldSpec. |
+| dataType | Data type of the column. Can be INT, LONG, FLOAT, DOUBLE, BYTES \(for specialized representations such as HLL, TDigest, etc, where the column stores byte serialized version of the value\) |
+| defaultNullValue | Represents null values in the data. If not specified, an internal default null value is used, as listed here. |
 
 #### Internal default null values for metric
 
@@ -86,7 +55,6 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 | LONG | 0 |
 | FLOAT | 0.0 |
 | DOUBLE | 0.0 |
-| STRING | "null" |
 | BYTES | byte array of length 0 |
 
 ### dateTimeFieldSpec
