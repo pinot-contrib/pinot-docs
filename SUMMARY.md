@@ -1,9 +1,7 @@
 # Table of contents
 
 * [Introduction](README.md)
-* [Introduction](introduction/README.md)
-  * [Pushing the boundaries of Realtime Analytics](introduction/pushing-the-boundaries-of-realtime-analytics.md)
-  * [Introduction to Pinot](introduction/introduction-to-pinot.md)
+* [Introduction](introduction-to-pinot.md)
 
 ## Basics
 
