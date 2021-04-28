@@ -1,12 +1,16 @@
 ---
-description: 'Introduction to Apache Pinot, a real-time distributed OLAP datastore.'
+description: >-
+  Introduction to Apache Pinot, a real-time distributed OLAP datastore,
+  purpose-build for low-latency in user-facing analytics.
 ---
 
 # Introduction
 
 ## What is Pinot?
 
-Pinot is a real-time distributed OLAP datastore, built to deliver scalable real-time analytics with low latency. It can ingest from batch data sources \(such as Hadoop HDFS, Amazon S3, Azure ADLS, Google Cloud Storage\) as well as stream data sources \(such as Apache Kafka\). 
+Pinot is a real-time distributed OLAP datastore, purpose-built to provide ultra low latency analytics, even at extremely high throughput. It can **ingest directly from streaming data sources - such as Apache Kafka and Amazon Kinesis - and make the events available for querying instantly**. It can also ingest from batch data sources - such as Hadoop HDFS, Amazon S3, Azure ADLS, Google Cloud Storage.
+
+At the heart of the system is a columnar store, with several smart indexing and pre-aggregation techniques for low latency. **This makes Pinot the most perfect fit for user-facing realtime analytics**. At the same time, Pinot is also a great choice for other analytical use-cases, such as internal dashboards, anomaly detection and ad-hoc data exploration.
 
 Pinot was built by engineers at LinkedIn and Uber and is designed to scale up and out with no upper bound. Performance always remains constant based on the size of your cluster and an expected query per second \(QPS\) threshold.
 
@@ -165,7 +169,7 @@ Instructions to connect Pinot with Superset can found [here](integrations/supers
 
 In addition to visualizing data in Pinot, one can run Machine Learning Algorithms to detect Anomalies on the data stored in Pinot. See [ThirdEye](integrations/thirdeye.md) for more information on how to use Pinot for Anomaly Detection and Root Cause Analysis.
 
-**Webiste Traffic Analysis**
+**Website Traffic Analysis**
 
-A common use case for Pinot, is to analyse user traffic on a website. Aggregating over different dimensions, such as browser, os, location and other information that may be collected.
+A common use case for Pinot, is to analyze user traffic on a website. Aggregating over different dimensions, such as browser, os, location and other information that may be collected.
 
