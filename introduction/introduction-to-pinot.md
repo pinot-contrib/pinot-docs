@@ -9,11 +9,21 @@ description: >-
 
 ## Apache Pinot
 
+{% hint style="info" %}
+Join us in our Slack channel for questions, troubleshooting, and feedback. You can request an invite from -  [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot) .
+
+We'd love to hear from you!
+{% endhint %}
+
 Pinot is a real-time distributed OLAP datastore, purpose-built to provide ultra low latency analytics, even at extremely high throughput. It can **ingest directly from streaming data sources - such as Apache Kafka and Amazon Kinesis - and make the events available for querying instantly**. It can also ingest from batch data sources - such as Hadoop HDFS, Amazon S3, Azure ADLS, Google Cloud Storage.
+
+At the heart of the system is a columnar store, with several smart indexing and pre-aggregation techniques for low latency. **This makes Pinot the most perfect fit for**[ **user-facing realtime analytics**](pushing-the-boundaries-of-realtime-analytics.md#what-is-user-facing-realtime-analytics). At the same time, Pinot is also a great choice for other analytical use-cases, such as internal dashboards, anomaly detection and ad-hoc data exploration.
 
 ![](../.gitbook/assets/pinot-overview-graphic.png)
 
-At the heart of the system is a columnar store, with several smart indexing and pre-aggregation techniques for low latency. **This makes Pinot the most perfect fit for**[ **user-facing realtime analytics**](pushing-the-boundaries-of-realtime-analytics.md#what-is-user-facing-realtime-analytics). At the same time, Pinot is also a great choice for other analytical use-cases, such as internal dashboards, anomaly detection and ad-hoc data exploration.
+
+
+Pinot was built by engineers at LinkedIn and Uber and is designed to scale up and out with no upper bound. Performance always remains constant based on the size of your cluster and an expected query per second \(QPS\) threshold.
 
 This video talks more about user-facing realtime analytics, and how Pinot is used to achieve that.
 
@@ -23,13 +33,7 @@ Here's another great video that goes into the details of how Pinot tackles some 
 
 {% embed url="https://youtu.be/JV0WxBwJqKE" caption="Building Latency Sensitive User-facing Analytics via Apache Pinot" %}
 
-Pinot was built by engineers at LinkedIn and Uber and is designed to scale up and out with no upper bound. Performance always remains constant based on the size of your cluster and an expected query per second \(QPS\) threshold.
 
-{% hint style="info" %}
-Join us in our Slack channel for questions, troubleshooting, and feedback. You can request an invite from -  [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot) .
-
-We'd love to hear from you!
-{% endhint %}
 
 ### **Companies using Pinot**
 
