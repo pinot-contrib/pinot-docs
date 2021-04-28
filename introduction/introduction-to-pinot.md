@@ -15,13 +15,13 @@ Pinot is a real-time distributed OLAP datastore, purpose-built to provide ultra 
 
 At the heart of the system is a columnar store, with several smart indexing and pre-aggregation techniques for low latency. **This makes Pinot the most perfect fit for**[ **user-facing realtime analytics**](pushing-the-boundaries-of-realtime-analytics.md#what-is-user-facing-realtime-analytics). At the same time, Pinot is also a great choice for other analytical use-cases, such as internal dashboards, anomaly detection and ad-hoc data exploration.
 
-This video explains more about user-facing realtime analytics, and how Pinot is used to achieve that.
+This video talks more about user-facing realtime analytics, and how Pinot is used to achieve that.
 
-[https://www.youtube.com/watch?v=L5b\_OJVOJKo&t=576s](https://www.youtube.com/watch?v=L5b_OJVOJKo&t=576s)
+{% embed url="https://www.youtube.com/watch?v=L5b\_OJVOJKo&t=576s" caption="Using Kafka and Pinot for Real-time User-facing Analytics" %}
 
 Here's another great video that goes into the details of how Pinot tackles some of the challenges faced in handling a user-facing analytics workload.
 
-[https://youtu.be/JV0WxBwJqKE](https://youtu.be/JV0WxBwJqKE)
+{% embed url="https://youtu.be/JV0WxBwJqKE" caption="Building Latency Sensitive User-facing Analytics via Apache Pinot" %}
 
 Pinot was built by engineers at LinkedIn and Uber and is designed to scale up and out with no upper bound. Performance always remains constant based on the size of your cluster and an expected query per second \(QPS\) threshold.
 
