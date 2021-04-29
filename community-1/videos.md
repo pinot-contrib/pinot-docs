@@ -6,19 +6,19 @@ description: 'Youtube channel: https://www.youtube.com/channel/UCHTiKyGonqyMhXBd
 
 ## Operations
 
-|  |  |
-| :--- | :--- |
-| [How to setup a Pinot cluster](https://youtu.be/cNnwMF0pOJ8) |  |
-| [Apache Pinot on Kubernetes - A Practical Gui](https://youtu.be/UR6rYEMZYLA) |  |
+{% embed url="https://youtu.be/cNnwMF0pOJ8" caption="How to setup a Pinot cluster" %}
+
+{% embed url="https://youtu.be/UR6rYEMZYLA" caption="Apache Pinot on Kubernetes - A Practical Guide" %}
+
+
 
 ## Concepts
 
 ### Pinot Segment Lifecycle
 
-|  |
-| :--- |
-| [Segment Assignment in OFFLINE tables](https://youtu.be/HycNRCzkrjg) |
-| [Segment Assignment in REALTIME tables](https://youtu.be/WoruCQgPhSA) |
+{% embed url="https://youtu.be/HycNRCzkrjg" caption="Segment Assignment in OFFLINE tables" %}
+
+{% embed url="https://youtu.be/WoruCQgPhSA" caption="Segment Assignment in REALTIME tables" %}
 
 ## Meetups and talks
 
