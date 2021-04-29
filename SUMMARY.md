@@ -141,6 +141,7 @@
     * [Routing](operators/operating-pinot/tuning/routing.md)
 * [Command-Line Interface \(CLI\)](operators/cli.md)
 * [Tutorials](operators/tutorials/README.md)
+  * [Authentication and Authorization](operators/tutorials/authentication-and-authorization.md)
   * [Configuring TLS/SSL](operators/tutorials/configuring-tls-ssl.md)
   * [Build Docker Images](operators/tutorials/build-docker-images.md)
   * [Running Pinot in Production](operators/tutorials/running-pinot-in-production.md)
