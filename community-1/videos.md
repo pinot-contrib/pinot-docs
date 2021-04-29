@@ -1,8 +1,6 @@
----
-description: 'Youtube channel: https://www.youtube.com/channel/UCHTiKyGonqyMhXBd3uTpu0g'
----
-
 # Videos
+
+#### Youtube Channel: [Apache Pinot](https://www.youtube.com/channel/UCHTiKyGonqyMhXBd3uTpu0g)
 
 ## Operations
 
