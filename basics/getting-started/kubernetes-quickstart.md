@@ -10,7 +10,7 @@ description: Pinot quick start in Kubernetes
 This quickstart assumes that you already have a running Kubernetes cluster. Please follow the links below to set up a Kubernetes cluster.
 
 * [Enable Kubernetes on Docker-Desktop](https://docs.docker.com/docker-for-mac/kubernetes/)
-* [Install Minikube for local setup](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+* [Install Minikube for local setup](https://kubernetes.io/docs/tasks/tools/install-minikube/) \(make sure to run with enough resources e.g. `minikube start --vm=true --cpus=4 --memory=8g --disk-size=50g)`
 * [Setup a Kubernetes Cluster using Amazon Elastic Kubernetes Service \(Amazon EKS\)](public-cloud-examples/aws-quickstart.md)
 * [Setup a Kubernetes Cluster using Google Kubernetes Engine \(GKE\)](public-cloud-examples/gcp-quickstart.md)
 * [Setup a Kubernetes Cluster using Azure Kubernetes Service \(AKS\)](public-cloud-examples/azure-quickstart.md)
@@ -150,7 +150,7 @@ kubectl get all -n pinot-quickstart |grep kafka
 Ensure the Kafka deployment is ready before executing the scripts in the following next steps.
 
 ```text
-pod/kafka-0                                          1/1     Running     0          2m
+pod/kafka-0                                                 1/1     Running     0          2m
 pod/kafka-zookeeper-0                                       1/1     Running     0          10m
 pod/kafka-zookeeper-1                                       1/1     Running     0          9m
 pod/kafka-zookeeper-2                                       1/1     Running     0          8m
@@ -176,7 +176,7 @@ kubectl -n pinot-quickstart exec kafka-0 -- kafka-topics --zookeeper kafka-zooke
 * Create Pinot table `airlineStatsAvro`  to ingest data from Avro encoded Kafka topic `flights-realtime-avro`
 
 ```text
-kubectl apply -f pinot-realtime-quickstart.yml
+kubectl apply -f pinot/pinot-realtime-quickstart.yml
 ```
 
 ## 4. Query using Pinot Data Explorer
@@ -185,7 +185,7 @@ kubectl apply -f pinot-realtime-quickstart.yml
 
 Please use the script below to perform local port-forwarding, which will also open Pinot query console in your default web browser. 
 
-This script can be found in the Pinot source at `./incubator-pinot/kubernetes/helm`
+This script can be found in the Pinot source at `./incubator-pinot/kubernetes/helm/pinot`
 
 ```text
 ./query-pinot-data.sh
@@ -195,7 +195,7 @@ This script can be found in the Pinot source at `./incubator-pinot/kubernetes/he
 
 ### 5.1 Bring up Superset
 
-Open `superset.yaml` file and goto the line showing `storageclass`. And change it based on your cloud vendor:
+Open `superset.yaml` file and goto the line showing `storageClass`. And change it based on your cloud vendor:
 
 * For AWS: "**gp2**"
 * For GCP: "**pd-ssd**" or "**standard**"
@@ -279,7 +279,7 @@ helm install presto pinot/presto -n pinot-quickstart --values /tmp/presto-values
 Once you deployed the Presto, You can check Presto deployment status by:
 
 ```text
-Kubectl get pod -n pinot-quickstart
+kubectl get pods -n pinot-quickstart
 ```
 
 ![Sample Output of K8s Deployment Status](https://lh3.googleusercontent.com/t4LnQL4xalac-ObeF37LvtrroHzfgr84lYv3av_MI1NWIcUG1Kuc9uDmJHdYbyJiEfLuBdvT3451VS49lGO_i167m82EM2ZfWk84Zvj-Hib8hHLI8mZt20akpdEh3BLV1Q4ETaL_)
