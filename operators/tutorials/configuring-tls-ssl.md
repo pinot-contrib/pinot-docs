@@ -6,6 +6,8 @@ description: Set up TLS-secured connections inside and outside your cluster
 
 Pinot versions from 0.7.0+ support client-cluster and intra-cluster TLS. TLS-support comes in both 1-way and 2-way flavors. This guide walks through the relevant configuration options.
 
+Looking to ingest from Kafka via secured connections? Check out [Kafka Streaming Ingestion with TLS/SSL](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion/import-from-apache-kafka#some-more-kafka-ingestion-configs).
+
 ### Listeners
 
 In order to support incremental upgrades of unsecured pinot clusters towards TLS, we introduce multi-ingress support via listeners. Each listener accepts connections for a specific protocol on a specific port. For example, pinot-broker may be configured to accept both, **http** on port 8099 and **https** on port 8443 at the same time.
