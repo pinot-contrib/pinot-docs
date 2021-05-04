@@ -1,7 +1,6 @@
 # Table of contents
 
 * [Introduction](README.md)
-* [Introduction](introduction-to-pinot.md)
 
 ## Basics
 
