@@ -19,7 +19,7 @@ First, let's download the Pinot distribution for this tutorial. You can either b
 {% hint style="info" %}
  **Prerequisites** 
 
-Install JDK8 or higher.
+Install JDK8 or higher \(JDK16 is not yet supported\)
 {% endhint %}
 
 ### Build from source or download the distribution
