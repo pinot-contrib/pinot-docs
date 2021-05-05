@@ -144,7 +144,7 @@ helm install --namespace "pinot-quickstart"  --name kafka incubator/kafka
 ### 3.2 Check Kafka deployment status
 
 ```text
-kubectl get all -n pinot-quickstart |grep kafka
+kubectl get all -n pinot-quickstart | grep kafka
 ```
 
 Ensure the Kafka deployment is ready before executing the scripts in the following next steps.
@@ -195,7 +195,7 @@ This script can be found in the Pinot source at `./incubator-pinot/kubernetes/he
 
 ### 5.1 Bring up Superset
 
-Open `superset.yaml` file and goto the line showing `storageClass`. And change it based on your cloud vendor:
+Open `superset.yaml` file and goto the line showing `storageClass`. And change it based on your cloud vendor. `kubectl get sc` will get you the `storageClass` value for your Kubernetes system. E.g.
 
 * For AWS: "**gp2**"
 * For GCP: "**pd-ssd**" or "**standard**"

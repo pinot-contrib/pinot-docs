@@ -22,11 +22,6 @@ First, let's download the Pinot distribution for this tutorial. You can either b
 Install JDK8 or higher.
 {% endhint %}
 
-```bash
-# define the pinot version 
-PINOT_VERSION=0.6.0
-```
-
 ### Build from source or download the distribution
 
 {% tabs %}
@@ -59,11 +54,11 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 {% endtab %}
 
 {% tab title="Download the release" %}
-
-
 Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command 
 
 ```bash
+PINOT_VERSION=0.6.0 #set to the Pinot version you decide to use
+
 wget https://downloads.apache.org/incubator/pinot/apache-pinot-incubating-$PINOT_VERSION/apache-pinot-incubating-$PINOT_VERSION-bin.tar.gz
 ```
 
