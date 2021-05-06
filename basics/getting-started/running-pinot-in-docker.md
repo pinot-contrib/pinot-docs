@@ -4,6 +4,10 @@ description: This quick start guide will show you how to run a Pinot cluster usi
 
 # Running Pinot in Docker
 
+{% hint style="success" %}
+This is a quickstart guide that will show you how to quickly start an example recipe in a standalone instance and is meant for learning. To run Pinot in cluster mode, please take a look at [Manual cluster setup](advanced-pinot-setup.md).
+{% endhint %}
+
 {% hint style="info" %}
 **Prerequisites**
 
