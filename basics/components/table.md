@@ -123,9 +123,11 @@ In the above example, the consuming segments will still be assigned to `serverTe
 ### Hybrid Table
 
 A hybrid table is simply a table composed of 2 tables, one offline and other realtime both sharing the same name. In such a table, offline segments may be pushed periodically. The retention on the offline table can be set to a high value since segments are coming in on a periodic basis, whereas the retention on the realtime part can be small.   
-Once an offline segment is pushed to cover a recent time period, the brokers automatically switch to using the offline table for segments for that time period, and use realtime table only for data not available in offline table.  
+Once an offline segment is pushed to cover a recent time period, the brokers automatically switch to using the offline table for segments for that time period and use realtime table only for data not available in offline table.
+
+**See this section to understand how time boundary works in the case of a hybrid table -** [**https://docs.pinot.apache.org/basics/components/broker**](https://docs.pinot.apache.org/basics/components/broker)  
   
-A  typical scenario can be pushing a deduped cleaned up data in offline table every day while consuming realtime data as and when it arrives. The data can be kept in offline tables for even a few years while the realtime data can be cleaned up in a few days.
+A  typical scenario can be pushing a deduped cleaned up data in offline table every day while consuming real-time data as and when it arrives. The data can be kept in offline tables for even a few years while the real-time data can be cleaned up in a few days.
 
 ### Examples
 
