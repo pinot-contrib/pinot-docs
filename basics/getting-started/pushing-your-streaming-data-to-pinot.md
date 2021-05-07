@@ -60,7 +60,7 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-fac
 
 ## Creating a Schema
 
-If you followed the [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, head over to [Creating a schema](pushing-your-data-to-pinot.md#creating-a-schema) on that page, to learn how to create a schema for your sample data.
+If you followed the [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, head over to [Creating a schema](../../basics/data-import/pinot-stream-ingestion/README.md#create-schema-configuration) on that page, to learn how to create a schema for your sample data.
 
 ## Creating a table config
 
