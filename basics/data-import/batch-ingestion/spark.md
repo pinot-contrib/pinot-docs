@@ -48,7 +48,7 @@ Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set
 Finally execute the spark job using the command -
 
 ```text
-export PINOT_VERSION=0.5.0-SNAPSHOT
+export PINOT_VERSION=0.7.1
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-incubating-${PINOT_VERSION}-bin/apache-pinot-incubating-${PINOT_VERSION}-bin
 
 cd ${PINOT_DISTRIBUTION_DIR}
