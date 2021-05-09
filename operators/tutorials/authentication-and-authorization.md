@@ -88,10 +88,10 @@ The example below creates two users, _admin_ with password _verysecret_ and _use
 ```text
 controller.admin.access.control.factory.class=org.apache.pinot.controller.api.access.BasicAuthAccessControlFactory
 
- controller.admin.access.control.principals=admin,user
- controller.admin.access.control.principals.admin.password=verysecret 
-controller.admin.access.control.principals.user.password=secret 
-controller.admin.access.control.principals.user.tables=myusertable,baseballStats ,stuff
+controller.admin.access.control.principals=admin,user
+controller.admin.access.control.principals.admin.password=verysecret
+controller.admin.access.control.principals.user.password=secret
+controller.admin.access.control.principals.user.tables=myusertable,baseballStats,stuff
 controller.admin.access.control.principals.user.permissions=READ
 ```
 

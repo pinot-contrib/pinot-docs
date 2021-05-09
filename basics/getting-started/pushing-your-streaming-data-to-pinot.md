@@ -4,13 +4,13 @@ description: The Docker instructions on this page are still WIP
 
 # Stream ingestion example
 
-So far, we setup our cluster, ran some queries on the demo tables and explored the admin endpoints. We also uploaded some sample batch data for transcript table. 
+So far, we setup our cluster, ran some queries on the demo tables and explored the admin endpoints. We also uploaded some sample batch data for transcript table.
 
 Now, it's time to ingest from a sample stream into Pinot. The rest of the instructions assume you're using [Pinot running in Docker](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker) \(inside a pinot-quickstart container\).
 
 ## Data Stream
 
-First, we need to setup a stream. Pinot has out-of-the-box realtime ingestion support for Kafka. Other streams can be plugged in, more details in [Pluggable Streams](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md). 
+First, we need to setup a stream. Pinot has out-of-the-box realtime ingestion support for Kafka. Other streams can be plugged in, more details in [Pluggable Streams](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
 
 Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
 
@@ -18,13 +18,13 @@ Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-
 {% tab title="Docker" %}
 **Start Kafka**
 
-```
+```text
 docker run \
-	--network pinot-demo --name=kafka \
-	-e KAFKA_ZOOKEEPER_CONNECT=pinot-quickstart:2123/kafka \
-	-e KAFKA_BROKER_ID=0 \
-	-e KAFKA_ADVERTISED_HOST_NAME=kafka \
-	-d wurstmeister/kafka:latest
+    --network pinot-demo --name=kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=pinot-quickstart:2123/kafka \
+    -e KAFKA_BROKER_ID=0 \
+    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+    -d wurstmeister/kafka:latest
 ```
 
 **Create a Kafka Topic**
@@ -60,7 +60,7 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-fac
 
 ## Creating a Schema
 
-If you followed the [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, head over to [Creating a schema](../../basics/data-import/pinot-stream-ingestion/README.md#create-schema-configuration) on that page, to learn how to create a schema for your sample data.
+If you followed the [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, head over to [Creating a schema](../data-import/pinot-stream-ingestion/#create-schema-configuration) on that page, to learn how to create a schema for your sample data.
 
 ## Creating a table config
 
@@ -121,7 +121,7 @@ docker run \
 {% endtab %}
 
 {% tab title="Launcher Script" %}
-```
+```text
 bin/pinot-admin.sh AddTable \
     -schemaFile /tmp/pinot-quick-start/transcript-schema.json \
     -tableConfigFile /tmp/pinot-quick-start/transcript-table-realtime.json \
