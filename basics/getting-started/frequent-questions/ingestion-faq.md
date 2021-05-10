@@ -2,6 +2,10 @@
 
 ## Data processing
 
+### Can multiple Pinot tables consume from the same Kafka topic?
+
+Yes. Each table can be independently configured to consume from any given Kafka topic, regardless of whether there are other tables that are also consuming from the same Kafka topic.
+
 ### How do I enable partitioning in Pinot, when using Kafka stream?
 
 Setup partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
