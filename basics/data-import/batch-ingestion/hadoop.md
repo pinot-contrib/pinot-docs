@@ -34,7 +34,7 @@ You can check out the sample job spec here.
 Finally execute the hadoop job using the command -
 
 ```text
-export PINOT_VERSION=0.5.0-SNAPSHOT
+export PINOT_VERSION=0.7.1
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-incubating-${PINOT_VERSION}-bin/apache-pinot-incubating-${PINOT_VERSION}-bin
 export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
 
