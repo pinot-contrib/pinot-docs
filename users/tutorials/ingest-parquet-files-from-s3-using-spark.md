@@ -2,7 +2,7 @@
 
 One of the primary advantage of using Pinot is its pluggable architecture. The plugins make it easy to add support for any third-party system which can be an execution framework, a filesystem or input format.
 
-In this tutorial, we will use three such plugins to easily ingest data and push it to our pinot cluster. The plugins we will be using are - 
+In this tutorial, we will use three such plugins to easily ingest data and push it to our pinot cluster. The plugins we will be using are -
 
 * `pinot-batch-ingestion-spark`
 * `pinot-s3` 
@@ -10,18 +10,18 @@ In this tutorial, we will use three such plugins to easily ingest data and push 
 
 You can check out [Batch Ingestion](../../basics/data-import/batch-ingestion/), [File systems](../../basics/data-import/pinot-file-system/) and [Input formats](../../basics/data-import/pinot-input-formats.md) for all the available plugins.
 
-### Setup
+## Setup
 
-We are using the following tools and frameworks for this tutorial - 
+We are using the following tools and frameworks for this tutorial -
 
 * [Apache Spark](https://spark.apache.org/) 2.2.3 \(Although any spark 2.X should work\)
 * [Apache Parquet](https://parquet.apache.org/) 1.8.2
 * [Amazon S3](https://aws.amazon.com/s3/)
 * [Apache Pinot 0.4.0](https://pinot.apache.org/)
 
-### Input Data
+## Input Data
 
-We need to get input data to ingest first. For our demo, we'll just create some small parquet files and upload them to our S3 bucket. The easiest way is to create CSV files and then convert them to parquet. CSV makes it human-readable and thus easier to modify input in case of some failure in our demo.  We will call this file `students.csv`
+We need to get input data to ingest first. For our demo, we'll just create some small parquet files and upload them to our S3 bucket. The easiest way is to create CSV files and then convert them to parquet. CSV makes it human-readable and thus easier to modify input in case of some failure in our demo. We will call this file `students.csv`
 
 ```text
 timestampInEpoch,id,name,age,score
@@ -44,15 +44,15 @@ scala> val df = spark.read.format("csv").option("header", true).load("path/to/st
 scala> df.write.option("compression","none").mode("overwrite").parquet("/path/to/batch_input/")
 ```
 
-The `.parquet` files can now be found in `/path/to/batch_input` directory.  You can now upload this directory to S3 either using their UI or running the command
+The `.parquet` files can now be found in `/path/to/batch_input` directory. You can now upload this directory to S3 either using their UI or running the command
 
 ```scala
 aws s3 cp /path/to/batch_input s3://my-bucket/batch-input/ --recursive
 ```
 
-### Create Schema and Table 
+## Create Schema and Table
 
-We need to create a table to query the data that will be ingested. All tables in pinot are associated with a schema. You can check out [Table configuration](../../configuration-reference/table.md) and [Schema configuration](../../configuration-reference/schema.md) for more details on creating configurations. 
+We need to create a table to query the data that will be ingested. All tables in pinot are associated with a schema. You can check out [Table configuration](../../configuration-reference/table.md) and [Schema configuration](../../configuration-reference/schema.md) for more details on creating configurations.
 
 For our demo, we will have the following schema and table configs
 
@@ -116,19 +116,19 @@ For our demo, we will have the following schema and table configs
 ```
 {% endcode %}
 
-We can now upload these configurations to pinot and create an empty table. We will be using `pinot-admin.sh` CLI for these purpose. 
+We can now upload these configurations to pinot and create an empty table. We will be using `pinot-admin.sh` CLI for these purpose.
 
 ```scala
 pinot-admin.sh AddTable -tableConfigFile /path/to/student_table.json -schemaFile /path/to/student_schema.json -controllerHost localhost -controllerPort 9000 -exec
 ```
 
-You can check out [Command-Line Interface \(CLI\)](../../operators/cli.md) for all the available commands. 
+You can check out [Command-Line Interface \(CLI\)](../../operators/cli.md) for all the available commands.
 
 Our table will now be available in the [Pinot data explorer](../../basics/components/exploring-pinot.md)
 
-### Ingest Data
+## Ingest Data
 
-Now that our data is available in S3 as well as we have the Tables in Pinot, we can start the process of ingesting the data.  Data ingestion in Pinot involves the following steps - 
+Now that our data is available in S3 as well as we have the Tables in Pinot, we can start the process of ingesting the data. Data ingestion in Pinot involves the following steps -
 
 * Read data and generate compressed segment files from input
 * Upload the compressed segment files to output location
@@ -136,11 +136,11 @@ Now that our data is available in S3 as well as we have the Tables in Pinot, we 
 
 Once the location is available to the controller, it can notify the servers to download the segment files and populate the tables.
 
-The above steps can be performed using any distributed executor of your choice such as Hadoop, Spark, Flink etc.  For this demo we will be using Apache Spark to execute the steps. 
+The above steps can be performed using any distributed executor of your choice such as Hadoop, Spark, Flink etc. For this demo we will be using Apache Spark to execute the steps.
 
 Pinot provides runners for Spark out of the box. So as a user, you don't need to write a single line of code. You can write runners for any other executor using our provided interfaces.
 
-Firstly, we will create a job spec configuration file for our data ingestion process. 
+Firstly, we will create a job spec configuration file for our data ingestion process.
 
 {% code title="spark\_job\_spec.yaml" %}
 ```scala
@@ -314,6 +314,4 @@ If everything went right, you should receive the following output
   "minConsumingFreshnessTimeMs": 0
 }
 ```
-
-
 

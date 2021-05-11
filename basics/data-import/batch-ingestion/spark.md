@@ -26,7 +26,7 @@ executionFrameworkSpec:
   extraConfigs:
 
     # stagingDir is used in distributed filesystem to host all the segments then move this directory entirely to output directory.
-    stagingDir: your/local/dir/staging 
+    stagingDir: your/local/dir/staging
 ```
 
 You can check out the sample job spec here.

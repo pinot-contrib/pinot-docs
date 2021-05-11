@@ -10,7 +10,7 @@ Next, you need to change the execution config in the job spec to the following -
 # executionFrameworkSpec: Defines ingestion jobs to be running.
 executionFrameworkSpec:
 
-	# name: execution framework name
+    # name: execution framework name
   name: 'hadoop'
 
   # segmentGenerationJobRunnerClassName: class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentGenerationJobRunner interface.
@@ -21,12 +21,12 @@ executionFrameworkSpec:
 
   # segmentUriPushJobRunnerClassName: class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentUriPushJobRunner interface.
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.hadoop.HadoopSegmentUriPushJobRunner'
-  
-	# extraConfigs: extra configs for execution framework.
+
+    # extraConfigs: extra configs for execution framework.
   extraConfigs:
 
     # stagingDir is used in distributed filesystem to host all the segments then move this directory entirely to output directory.
-    stagingDir: your/local/dir/staging 
+    stagingDir: your/local/dir/staging
 ```
 
 You can check out the sample job spec here.

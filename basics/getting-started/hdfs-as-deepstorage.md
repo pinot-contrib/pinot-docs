@@ -2,13 +2,13 @@
 description: This guide helps to setup HDFS as deepstorage for Pinot Segment.
 ---
 
-# HDFS As Deep Storage
+# Hdfs as DeepStorage
 
 To use HDFS as deep storage you need to include HDFS dependency jars and plugins.
 
-## Server Setup 
+## Server Setup
 
-### Configuration. 
+### Configuration.
 
 ```text
 pinot.server.instance.enable.split.commit=true
@@ -27,7 +27,7 @@ pinot.server.grpc.port=8090
 
 ### Executable.
 
-```shell
+```text
 export HADOOP_HOME=/path/to/hadoop/home
 export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
@@ -42,7 +42,6 @@ export ZOOKEEPER_ADDRESS=localhost:2181
 export CLASSPATH_PREFIX="${HADOOP_HOME}/share/hadoop/hdfs/hadoop-hdfs-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/hadoop-annotations-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/hadoop-auth-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/hadoop-common-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/guava-${HADOOP_GUAVA_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/gson-${HADOOP_GSON_VERSION}.jar"
 export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:${GC_LOG_LOCATION}/gc-pinot-server.log"
 ${PINOT_DISTRIBUTION_DIR}/bin/start-server.sh  -zkAddress ${ZOOKEEPER_ADDRESS} -configFileName ${SERVER_CONF_DIR}/server.conf
-
 ```
 
 ## Controller Setup
@@ -70,7 +69,7 @@ pinot.server.grpc.enable=true
 
 ### Executable.
 
-```shell
+```text
 export HADOOP_HOME=/path/to/hadoop/home
 export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
@@ -87,7 +86,6 @@ export JAVA_OPTS="-Xms8G -Xmx12G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+Prin
 ${PINOT_DISTRIBUTION_DIR}/bin/start-controller.sh -configFileName ${SERVER_CONF_DIR}/controller.conf
 ```
 
-
 ## Broker Setup
 
 ### Configuration.
@@ -99,7 +97,7 @@ pinot.server.grpc.enable=true
 
 ### Executable.
 
-```shell
+```text
 export HADOOP_HOME=/path/to/hadoop/home
 export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
@@ -115,6 +113,4 @@ export CLASSPATH_PREFIX="${HADOOP_HOME}/share/hadoop/hdfs/hadoop-hdfs-${HADOOP_V
 export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:${GC_LOG_LOCATION}/gc-pinot-broker.log"
 ${PINOT_DISTRIBUTION_DIR}/bin/start-broker.sh -zkAddress ${ZOOKEEPER_ADDRESS} -configFileName  ${SERVER_CONF_DIR}/broker.conf
 ```
-
-
 

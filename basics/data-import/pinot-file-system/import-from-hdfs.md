@@ -25,9 +25,9 @@ Each of these properties should be prefixed by `pinot.[node].storage.factory.cla
 
 The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Please check [Hadoop Kerberos guide ](https://docs.cloudera.com/documentation/enterprise/5-8-x/topics/cdh_sg_kerberos_prin_keytab_deploy.html#topic_3_4)on how to generate Kerberos security identification.
 
-You will also need to provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts. 
+You will also need to provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
 
-```shell
+```text
 export HADOOP_HOME=/local/hadoop/
 export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
@@ -35,7 +35,7 @@ export HADOOP_GSON_VERSION=2.2.4
 export CLASSPATH_PREFIX="${HADOOP_HOME}/share/hadoop/hdfs/hadoop-hdfs-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/hadoop-annotations-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/hadoop-auth-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/hadoop-common-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/guava-${HADOOP_GUAVA_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/gson-${HADOOP_GSON_VERSION}.jar"
 ```
 
-### Push HDFS segment to Pinot Controller
+## Push HDFS segment to Pinot Controller
 
 To push HDFS segment files to Pinot controller, you just need to ensure you have proper Hadoop configuration as we mentioned in the previous part. Then your remote segment creation/push job can send the HDFS path of your newly created segment files to the Pinot Controller and let it download the files.
 
@@ -45,9 +45,9 @@ For example, the following curl requests to Controller will notify it to downloa
 curl -X POST -H "UPLOAD_TYPE:URI" -H "DOWNLOAD_URI:hdfs://nameservice1/hadoop/path/to/segment/file.
 ```
 
-### Examples
+## Examples
 
-#### Job spec
+### Job spec
 
 ```yaml
 executionFrameworkSpec:
@@ -74,7 +74,7 @@ pinotClusterSpecs:
     - controllerURI: 'http://localhost:9000'
 ```
 
-#### Controller config
+### Controller config
 
 ```text
 controller.data.dir=hdfs://path/to/data/directory/
@@ -88,7 +88,7 @@ pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.principle=`<your kerberos 
 pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.keytab=`<your kerberos keytab>
 ```
 
-#### Server config
+### Server config
 
 ```text
 pinot.server.instance.enable.split.commit=true
@@ -99,8 +99,4 @@ pinot.server.segment.fetcher.hdfs.class=org.apache.pinot.common.utils.fetcher.Pi
 pinot.server.segment.fetcher.hdfs.hadoop.kerberos.principle=`<your kerberos principal>
 pinot.server.segment.fetcher.hdfs.hadoop.kerberos.keytab=`<your kerberos keytab>
 ```
-
-
-
-
 
