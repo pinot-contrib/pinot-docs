@@ -36,7 +36,7 @@ We'd love to hear from you!
 
 Pinot is a real-time distributed OLAP datastore, purpose-built to provide ultra low latency analytics, even at extremely high throughput. It can **ingest directly from streaming data sources - such as Apache Kafka and Amazon Kinesis - and make the events available for querying instantly**. It can also ingest from batch data sources - such as Hadoop HDFS, Amazon S3, Azure ADLS, Google Cloud Storage.
 
-At the heart of the system is a columnar store, with several smart indexing and pre-aggregation techniques for low latency. **This makes Pinot the most perfect fit for**[ **user-facing realtime analytics**](). At the same time, Pinot is also a great choice for other analytical use-cases, such as internal dashboards, anomaly detection and ad-hoc data exploration.
+At the heart of the system is a columnar store, with several smart indexing and pre-aggregation techniques for low latency. **This makes Pinot the most perfect fit for user-facing realtime analytics**. At the same time, Pinot is also a great choice for other analytical use-cases, such as internal dashboards, anomaly detection and ad-hoc data exploration.
 
 ![](https://gblobscdn.gitbook.com/assets%2F-LtH6nl58DdnZnelPdTc%2F-M69C48fK2BhCoou1REr%2F-M69DbDfcATcZOAgyX7k%2Fpinot-overview-graphic.png?alt=media&token=3552722e-8d1d-4397-972e-a81917ced182)
 
