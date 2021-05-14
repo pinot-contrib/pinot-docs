@@ -90,6 +90,7 @@ Below command expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if you
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-broker \
+    -p 8099:8099 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-broker.log" \
     -d ${PINOT_IMAGE} StartBroker \
     -zkAddress pinot-zookeeper:2181
