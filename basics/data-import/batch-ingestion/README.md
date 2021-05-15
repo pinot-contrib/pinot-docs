@@ -158,7 +158,7 @@ Once the job has successfully finished, you can head over to the \[query console
 
 There are 3 ways to upload a Pinot segment:
 
-#### Segment Tar Push
+#### 1. Segment Tar Push
 
 This is the original and default push mechanism.
 
@@ -174,7 +174,7 @@ Tar push requires the segment to be stored locally or can be opened as an InputS
 2. Extract segment metadata.
 3. Add the segment to the table.
 
-#### Segment URI Push
+#### 2. Segment URI Push
 
 This push mechanism requires the segment Tar file stored on a deep store with a globally accessible segment tar URI.
 
@@ -190,7 +190,7 @@ URI push is light-weight on the client-side, and the controller side requires eq
 2. Extract segment metadata.
 3. Add the segment to the table.
 
-#### Segment Metadata Push
+#### 3. Segment Metadata Push
 
 This push mechanism also requires the segment Tar file stored on a deep store with a globally accessible segment tar URI.
 

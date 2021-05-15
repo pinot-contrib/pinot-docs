@@ -6,18 +6,18 @@ description: This quick start guide will show you how to set up a Pinot cluster 
 
 ## Start Pinot components \(scripts or docker images\)
 
-A manual cluster setup consists of the following components -   
+A manual cluster setup consists of the following components -  
 1. Zookeeper  
 2. Controller  
 3. Broker  
 4. Server  
-5. Kafka  
-  
+5. Kafka
+
 We will run each of these components in separate containers
 
 {% tabs %}
 {% tab title="Using docker images" %}
-## Start Pinot Components using docker 
+## Start Pinot Components using docker
 
 ### **Prerequisites**
 
@@ -117,16 +117,15 @@ docker run --rm -ti \
 
 Optionally, you can also start Kafka for setting up realtime streams. This brings up the Kafka broker on port 9092.
 
-```
+```text
 docker run --rm -ti \
-	--network pinot-demo --name=kafka \
-	-e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
-	-e KAFKA_BROKER_ID=0 \
-	-e KAFKA_ADVERTISED_HOST_NAME=kafka \
-	-d wurstmeister/kafka:latest
+    --network pinot-demo --name=kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
+    -e KAFKA_BROKER_ID=0 \
+    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+    -d wurstmeister/kafka:latest
 ```
 
-  
 Now all Pinot related components are started as an empty cluster.
 
 You can run the below command to check container status.
