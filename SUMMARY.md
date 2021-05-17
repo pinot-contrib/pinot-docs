@@ -164,6 +164,7 @@
 ## RESOURCES <a id="community-1"></a>
 
 * [Community](community-1/community.md)
+* [Team](community-1/team.md)
 * [Blogs](community-1/blogs.md)
 * [Presentations](community-1/blogs-and-presentations.md)
 * [Videos](community-1/videos.md)
