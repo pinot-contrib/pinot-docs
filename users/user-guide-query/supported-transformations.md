@@ -263,7 +263,6 @@ Date time functions allow you to perform transformations on columns which contai
         Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
       </td>
       <td style="text-align:left">
-        <p>Examples:</p>
         <p><code>ToEpochSeconds(tsInMillis):</code>Converts column <code>tsInMillis</code> value
           from epoch milliseconds to epoch seconds.</p>
         <p><code>ToEpochDays(tsInMillis):</code>Converts column <code>tsInMillis</code> value
@@ -278,7 +277,6 @@ Date time functions allow you to perform transformations on columns which contai
         &lt;Time Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
       </td>
       <td style="text-align:left">
-        <p>Examples:</p>
         <p><code>ToEpochSecondsRound(tsInMillis, 10):</code>Converts column <code>tsInMillis</code> value
           from epoch milliseconds to epoch seconds and round to the 10-minute bucket
           value. E.g.<code>ToEpochSecondsRound(</code>1613472303000, 10) = 1613472300</p>
@@ -296,15 +294,13 @@ Date time functions allow you to perform transformations on columns which contai
         Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
       </td>
       <td style="text-align:left">
-        <p>Examples:</p>
         <p><code>ToEpochSecondsBucket(tsInMillis, 10):</code>Converts column <code>tsInMillis</code> value
           from epoch milliseconds to epoch seconds then divide by 10 to get the 10
           seconds since epoch value. E.g.</p>
         <p><code>ToEpochSecondsBucket(</code>1613472303000, 10) = 161347230</p>
         <p><code>ToEpochHoursBucket(tsInMillis, 24):</code>Converts column <code>tsInMillis</code> value
           from epoch milliseconds to epoch Hours, then divide by 24 to get 24 hours
-          since epoch value. E.g.<code>ToEpochMinutesBucket(</code>1613472303000,
-          1440) = 18674</p>
+          since epoch value.</p>
       </td>
     </tr>
     <tr>
@@ -314,7 +310,6 @@ Date time functions allow you to perform transformations on columns which contai
         Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
       </td>
       <td style="text-align:left">
-        <p>Examples:</p>
         <p><code>FromEpochSeconds(tsInSeconds):</code>Converts column <code>tsInSeconds</code> value
           from epoch seconds to epoch milliseconds. E.g.</p>
         <p><code>FromEpochSeconds(</code>1613472303) = 1613472303000</p>
@@ -328,7 +323,6 @@ Date time functions allow you to perform transformations on columns which contai
         Unit&gt;: <code>SECONDS/MINUTES/HOURS/DAYS</code>
       </td>
       <td style="text-align:left">
-        <p>Examples:</p>
         <p><code>FromEpochSecondsBucket(tsInSeconds, 10):</code>Converts column <code>tsInSeconds</code> value
           from epoch 10-seconds to epoch milliseconds. E.g.</p>
         <p><code>FromEpochSeconds(161347231)= 1613472310000</code>
@@ -340,8 +334,8 @@ Date time functions allow you to perform transformations on columns which contai
       </td>
       <td style="text-align:left">Convert epoch millis value to DateTime string represented by pattern.</td>
       <td
-      style="text-align:left">Example: <code>ToDateTime(tsInMillis, &apos;yyyy-MM-dd&apos;)</code>converts
-        tsInMillis value to date time pattern <code>yyyy-MM-dd</code>
+      style="text-align:left"><code>ToDateTime(tsInMillis, &apos;yyyy-MM-dd&apos;)</code>converts tsInMillis
+        value to date time pattern <code>yyyy-MM-dd</code>
         </td>
     </tr>
     <tr>
@@ -349,15 +343,15 @@ Date time functions allow you to perform transformations on columns which contai
       </td>
       <td style="text-align:left">Convert DateTime string represented by pattern to epoch millis.</td>
       <td
-      style="text-align:left">Example: <code>FromDateTime(dateTime, &apos;yyyy-MM-dd&apos;)</code>converts <code>dateTime</code> string
+      style="text-align:left"><code>FromDateTime(dateTime, &apos;yyyy-MM-dd&apos;)</code>converts <code>dateTime</code> string
         value to millis epoch value</td>
     </tr>
     <tr>
       <td style="text-align:left"><b>round(timeValue, bucketSize)</b>
       </td>
       <td style="text-align:left">Round the given time value to nearest bucket start value.</td>
-      <td style="text-align:left">Example: <code>round(tsInSeconds, 60)</code> round seconds epoch value to
-        the start value of the 60 seconds bucket it belongs to. E.g. <code>round(161347231, 60)= 161347200</code>
+      <td style="text-align:left"><code>round(tsInSeconds, 60)</code> round seconds epoch value to the start
+        value of the 60 seconds bucket it belongs to. E.g. <code>round(161347231, 60)= 161347200</code>
       </td>
     </tr>
     <tr>
@@ -558,6 +552,8 @@ Date time functions allow you to perform transformations on columns which contai
     </tr>
   </tbody>
 </table>
+
+
 
 ## JSON Functions
 
