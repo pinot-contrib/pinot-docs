@@ -2,6 +2,10 @@
 
 ## Operations
 
+## How much heap should I allocate for my Pinot instances?
+
+Typically, Pinot components try to use as much off-heap \(MMAP/DirectMemory\) where ever possible. For example, Pinot servers load segments in memory-mapped files in MMAP mode \(recommended\), or direct memory in HEAP  mode. Heap memory is used mostly for query execution and storing some metadata. We have seen production deployments with high throughput and low-latency work well with just 16 GB of heap for Pinot servers and brokers. Pinot controller may also cache some metadata \(table configs etc\) in heap, so if there are just a few tables in the Pinot cluster, a few GB of heap should suffice.
+
 ### Can I change a column name in my table, without losing data?
 
 ### How to change number of replicas of a table?
