@@ -2,6 +2,14 @@
 
 ## Querying
 
+## I get the following error when running a query, what does it mean?
+
+```text
+{'errorCode': 410, 'message': 'BrokerResourceMissingError'}
+```
+
+This essentially implies that the Pinot Broker assigned to the table specified in the query was not found. A common root cause for this is a typo in the table name in the query. Another uncommon reason could be if there wasn't actually a broker with required broker tenant tag for the table.
+
 ### What are all the fields in the Pinot query's JSON response?
 
 Here's the page explaining the Pinot response format: [https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format)
