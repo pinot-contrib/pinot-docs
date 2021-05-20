@@ -67,7 +67,7 @@ Note that JSON index can only be applied to `STRING` columns whose values are JS
 JSON index can be used via the `JSON_MATCH` predicate: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find all persons whose name is "adam", the query will look like:
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, 'name=''adam''')
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
 Note that the quotes within the filter expression need to be escaped.
@@ -79,7 +79,7 @@ Note that the quotes within the filter expression need to be escaped.
 Find all persons whose name is "adam".
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, 'name=''adam''')
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
 ### Chained key lookup
@@ -87,7 +87,7 @@ SELECT ... FROM mytable WHERE JSON_MATCH(person, 'name=''adam''')
 Find all persons who have an address \(one of the addresses\) with number 112.
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, 'addresses.number=112')
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[*].number"=112')
 ```
 
 ### Nested filter expression
@@ -95,7 +95,7 @@ SELECT ... FROM mytable WHERE JSON_MATCH(person, 'addresses.number=112')
 Find all persons whose name is "adam" and also have an address \(one of the addresses\) with number 112.
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, 'name=''adam'' AND addresses.number=112')
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
 ```
 
 ### Array access
@@ -103,27 +103,24 @@ SELECT ... FROM mytable WHERE JSON_MATCH(person, 'name=''adam'' AND addresses.nu
 Find all persons whose first address has number 112.
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"addresses[0].number"=112')
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
 ```
-
-Note that `addresses[0].number` needs to be escaped because it contains special character.
 
 ### Existence check
 
 Find all persons who have phone field within the JSON.
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, 'phone IS NOT NULL')
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.phone" IS NOT NULL')
 ```
 
 Find all persons whose first address does not contain floor field within the JSON.
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"addresses[0].floor" IS NULL')
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].floor" IS NULL')
 ```
 
 ## Limitations
 
-1. JSON index does not work on multi-dimensional array, e.g. `addresses[0][1]` is not supported.
-2. The key \(left-hand side\) of the filter expression must be the leaf level of the JSON object, e.g. `addresses='main st'` won't work.
+1. The key \(left-hand side\) of the filter expression must be the leaf level of the JSON object, e.g. `"$.addresses[*]"='main st'` won't work.
 
