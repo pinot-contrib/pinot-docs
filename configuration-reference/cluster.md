@@ -1,5 +1,7 @@
 # Cluster
 
+## Cluster Configs Definition
+
 These are the properties that be set at the cluster level. 
 
 | Property | Default | Description |
@@ -12,13 +14,13 @@ These are the properties that be set at the cluster level.
 
 
 
-### Retrieve current config
+## Cluster Configs APIs
 
-You can retrieve all of the cluster properties using the following controller API - 
+![](../.gitbook/assets/screen-shot-2020-07-01-at-10.29.33-pm.png)
 
-{% api-method method="get" host="http://<controller>:<port>/cluster/configs\'" path="" %}
+{% api-method method="get" host="http://<controller>:<port>/cluster/configs" path="" %}
 {% api-method-summary %}
-List Cluster Config
+List All Cluster Configs
 {% endapi-method-summary %}
 
 {% api-method-description %}
@@ -47,7 +49,41 @@ List Cluster Config
 {% endapi-method-spec %}
 {% endapi-method %}
 
-![](../.gitbook/assets/screen-shot-2020-07-01-at-10.29.33-pm.png)
+{% api-method method="post" host="http://<controller>:<port>/cluster/configs" path="" %}
+{% api-method-summary %}
+Update Cluster Configs
+{% endapi-method-summary %}
 
+{% api-method-description %}
+Add new or update existing cluster configs.
+{% endapi-method-description %}
 
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-body-parameters %}
+{% api-method-parameter name="" type="string" required=true %}
+JSON body contains the configs map for new/updated configs
+{% endapi-method-parameter %}
+{% endapi-method-body-parameters %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+{
+  "status": "Updated cluster config."
+}
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+Example:
+
+![](../.gitbook/assets/image%20%281%29.png)
 
