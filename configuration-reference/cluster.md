@@ -62,7 +62,7 @@ Add new or update existing cluster configs.
 {% api-method-request %}
 {% api-method-body-parameters %}
 {% api-method-parameter name="" type="string" required=true %}
-JSON body contains the configs map for new/updated configs
+JSON body contains the configs map for new/updated configs. E.g. **`{"queryConsoleOnlyView":"true"}`**
 {% endapi-method-parameter %}
 {% endapi-method-body-parameters %}
 {% endapi-method-request %}
@@ -85,5 +85,5 @@ JSON body contains the configs map for new/updated configs
 
 Example:
 
-![](../.gitbook/assets/image%20%281%29.png)
+![](../.gitbook/assets/image%20%289%29.png)
 
