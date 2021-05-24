@@ -98,9 +98,9 @@ Here's another great video that goes into the details of how Pinot tackles some 
 ### Features
 
 * A column-oriented database with various compression schemes such as Run Length, Fixed Bit Length
-* Pluggable indexing technologies - Sorted Index, Bitmap Index, Inverted Index
+* Pluggable indexing technologies - Sorted Index, Bitmap Index, Inverted Index, StarTree Index, Range Index, 
 * Ability to optimize query/execution plan based on query and segment metadata
-* Near real time ingestion from streams such as Kafka, Kinesis and batch ingestion from sources such as Hadoop, S3, Azure, GCS
+* Near real-time ingestion from streams such as Kafka, Kinesis and batch ingestion from sources such as Hadoop, S3, Azure, GCS
 * SQL-like language that supports selection, aggregation, filtering, group by, order by, distinct queries on data
 * Support for multi-valued fields
 * Horizontally scalable and fault-tolerant
@@ -111,7 +111,7 @@ Pinot is designed to execute OLAP queries with low latency. It is suited in cont
 
 **User facing Analytics Products**
 
-Pinot is the perfect choice for [user-facing analytics]() products. Pinot was originally built at LinkedIn to power rich interactive real-time analytic applications such as [Who Viewed Profile](https://www.linkedin.com/me/profile-views/urn:li:wvmp:summary/), [Company Analytics](https://www.linkedin.com/company/linkedin/insights/), [Talent Insights](https://business.linkedin.com/talent-solutions/talent-insights), and many more. [UberEats Restaurant Manager](https://eng.uber.com/restaurant-manager/) is another example of a customer facing Analytics App. At LinkedIn, Pinot powers 50+ user-facing products, ingesting _**millions of events per second**_ and serving **100k+ queries per second** at millisecond latency.
+Pinot is the perfect choice for user-facing analytics products. Pinot was originally built at LinkedIn to power rich interactive real-time analytic applications such as [Who Viewed Profile](https://www.linkedin.com/me/profile-views/urn:li:wvmp:summary/), [Company Analytics](https://www.linkedin.com/company/linkedin/insights/), [Talent Insights](https://business.linkedin.com/talent-solutions/talent-insights), and many more. [UberEats Restaurant Manager](https://eng.uber.com/restaurant-manager/) is another example of a customer-facing Analytics App. At LinkedIn, Pinot powers 50+ user-facing products, ingesting _**millions of events per second**_ and serving **100k+ queries per second** at millisecond latency.
 
 **Real-time Dashboard for Business Metrics**
 
