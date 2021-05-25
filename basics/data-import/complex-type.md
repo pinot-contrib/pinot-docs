@@ -21,7 +21,7 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
   "transformConfigs": [
       {
         "columnName": "group_json",
-        "transformFunction": "jsonFormat(group)"
+        "transformFunction": "jsonFormat(\"group\")"
       }
     ],
     ...
@@ -39,7 +39,7 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
 ```
 {% endcode %}
 
-Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, please check out this [file](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json_meetupRsvp_realtime_table_config.json).
+Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, please check out this [file](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json_meetupRsvp_realtime_table_config.json). Also note that `group` is a reserved keyword in SQL, and that's why it's quoted in the `transformFunction`.
 
 Additionall, you need to overwrite the `maxLength` of the field `group_json` on the schema, because by default, a string column has a limited length. For example,
 
@@ -77,7 +77,8 @@ To process this complex-type, you can add the configuration `complexTypeConfig` 
   "ingestionConfig": {    
     "complexTypeConfig": {
       "delimiter": '.',
-      "fieldsToUnnest": ["group.group_topics"]
+      "fieldsToUnnest": ["group.group_topics"],
+      "collectionNotUnnestedToJson": "NON_PRIMITIVE"
     }
   }
 }
@@ -89,8 +90,9 @@ With the `complexTypeConfig` , all the map objects will be flattened to direct f
 ![Flattened/unnested data](../../.gitbook/assets/complex-type-flattened.png)
 
 Note that
- - The nested field `group_id` under `group` is flattened to field `group.group_id`. The default value of the delimiter is `.`, you can choose other delimiter by changing the configuration `delimiter` under `complexTypeConfig`.
- - The nested array `group_topics` under `group` is unnested into the top-level, and convert the output to a collection of two rows. Note the handling of the nested field within `group_topics`, and the eventual top-level field of `group.group_topics.urlkey`. All the collections to unnest shall be included in configuration `fieldsToUnnest`, otherwise the ingestion by default will serialize the collection to JSON string except for the array of primitive values, which will be ingested as multi-value column by default.
+ - The nested field `group_id` under `group` is flattened to field `group.group_id`. The default value of the delimiter is `.`, you can choose other delimiter by changing the configuration `delimiter` under `complexTypeConfig`. This flattening rule also apllies on the maps in the collections to be unnested.
+ - The nested array `group_topics` under `group` is unnested into the top-level, and convert the output to a collection of two rows. Note the handling of the nested field within `group_topics`, and the eventual top-level field of `group.group_topics.urlkey`. All the collections to unnest shall be included in configuration `fieldsToUnnest`.
+ - For the collections not in specified in `fieldsToUnnest`,  the ingestion by default will serialize them into JSON string, except for the array of primitive values, which will be ingested as multi-value column by default. The behavior is defined in config `collectionNotUnnestedToJson` with default value to `NON_PRIMITIVE`. Other behaviors include (1) `ALL`, which aslo convert the array of primitive values to JSON string; (2) `NONE`, this does not do conversion, but leave it to the users to use transform functions for handling.
 
 
 You can find the full spec of the table config [here](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling_meetupRsvp_realtime_table_config.json) and the table schema [here](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling_meetupRsvp_schema.json).
