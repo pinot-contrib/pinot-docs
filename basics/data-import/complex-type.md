@@ -67,7 +67,7 @@ Though JSON indexing is a handy way to process the complex types, there are some
  - For cases that you want to use Pinot's [multi-column functions](https://docs.pinot.apache.org/users/user-guide-query/supported-aggregations#multi-value-column-functions) such as `DISTINCTCOUNTMV`
 
 
-Alternatively, you can use the complex-type handling in ingestion configurations to flatten and unnest the complex structure and convert them into primitive types. Then you can reduce the complex-type data into a flattened Pinot table, and query it via SQL. With the inbuilt processing rules, you do not need to write ETL jobs in another compute framework such as Flink or Spark.
+Alternatively, from Pinot 0.8, you can use the complex-type handling in ingestion configurations to flatten and unnest the complex structure and convert them into primitive types. Then you can reduce the complex-type data into a flattened Pinot table, and query it via SQL. With the inbuilt processing rules, you do not need to write ETL jobs in another compute framework such as Flink or Spark.
 
 To process this complex-type, you can add the configuration `complexTypeConfig` to the `ingestionConfig`. For example:
 
@@ -107,4 +107,21 @@ LIMIT 10
 
 Note `.` is a reserved character in SQL, so you need to quote the flattened column.
 
+### Infer the Pinot schema from the Avro schema and JSON data
+
+When there are complex structure, it could be challenging and tedious to figure out the Pinot schema manually. To help the schema inference, Pinot provides utility tools to take the Avro schema or JSON data as input and output the inferred Pinot schema.
+
+To infer the Pinot schema from Avro schema, you can use the command like the following
+
+```bash
+bin/pinot-admin.sh AvroSchemaToPinotSchema -timeColumnName fields.hoursSinceEpoch -avroSchemaFile pinot-plugins/pinot-input-format/pinot-avro-base/src/test/resources/fake_avro_nested_schema.avsc -pinotSchemaName schema -outputDir /tmp/test -fieldsToUnnest=entries 
+```
+
+Note you can input configurations like `fieldsToUnnest` similar to the ones in `complexTypeConfig`. And this will simulate the complex-type handling rules on the Avro schema and output the Pinot schema in the file specified in `outputDir`.
+
+Similarly, you can use the command like the following to infer the Pinot schema from a file of JSON objects.
+```bash
+bin/pinot-admin.sh JsonToPinotSchema -timeColumnName hoursSinceEpoch -jsonFile //tmp/test/test.json -pinotSchemaName json-schema -outputDir /tmp/test -unnestFields=payload.commits 
+```
+You can check out an example of this run in this [PR](https://github.com/apache/incubator-pinot/pull/6930).
 
