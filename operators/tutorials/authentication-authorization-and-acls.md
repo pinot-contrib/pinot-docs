@@ -41,7 +41,43 @@ controller.segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 {% endtab %}
 {% endtabs %}
 
-### Token Setup
+### Authentication with Web UI and API
+
+Apache Pinot's Basic Auth follows the established standards for HTTP Basic Auth. Credentials are provided via an HTTP Authorization header. The pinot-controller web ui dynamically adapts to your auth configuration and will display a login prompt when basic auth is enabled. Restricted users are still shown all available ui functions, but their operations will fail with an error message if ACLs prohibit access.
+
+If you're using pinot's CLI clients you can provide your credentials either via dedicated username and password arguments, or as pre-serialized token for the HTTP Authorization header. Note, that while most of Apache Pinot's CLI commands support auth, not all of them have been back-fitted yet. If you encounter any such case, you can access the REST API directly, e.g. via curl.
+
+{% tabs %}
+{% tab title="Web UI" %}
+![](../../.gitbook/assets/screen-shot-2021-05-25-at-3.35.05-pm.png)
+{% endtab %}
+
+{% tab title="CLI Arguments" %}
+```
+$ bin/pinot-admin.sh PostQuery \
+-user user -password secret \
+-brokerPort 8000 -query 'SELECT * FROM baseballStats'
+```
+{% endtab %}
+
+{% tab title="CLI Token" %}
+```
+$ bin/pinot-admin.sh PostQuery \
+-authToken "Basic dXNlcjpzZWNyZXQ=" \
+-brokerPort 8000 -query 'SELECT * FROM baseballStats'
+```
+{% endtab %}
+
+{% tab title="HTTP Headers" %}
+```text
+$ curl http://localhost:8000/query/sql \
+-H 'Authorization: Basic dXNlcjpzZWNyZXQ=' \
+-d '{"sql":"SELECT * FROM baseballStats"}'
+```
+{% endtab %}
+{% endtabs %}
+
+### Manual Token Setup
 
 Before we can require authentication, we first have to distribute service tokens among all pinot nodes. **Nodes use tokens to authenticate themselves as clients** to other nodes. The simplest approach is to create a single internal _admin_ token that is shared across all nodes. Alternatively, every group of components or even every single node can be provided their own token. All tokens live exclusively within a node's local configuration properties \(which in turn also enable injection via environmental variables\).
 
