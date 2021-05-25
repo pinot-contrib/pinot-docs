@@ -85,5 +85,5 @@ JSON body contains the configs map for new/updated configs. E.g. **`{"queryConso
 
 Example:
 
-![](../.gitbook/assets/image%20%289%29.png)
+![](../.gitbook/assets/image%20%289%29%20%281%29.png)
 

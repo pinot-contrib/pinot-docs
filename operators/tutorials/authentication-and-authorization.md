@@ -1,10 +1,10 @@
 ---
-description: Set up HTTP basic auth for access to controller and broker
+description: Set up HTTP basic auth and ACLs for access to controller and broker
 ---
 
-# Authentication and Authorization
+# Authentication, Authorization, and ACLs
 
-Apache Pinot 0.8.0+ comes out of the box with support for HTTP Basic Auth. While disabled by default for easier setup, authentication and authorization can be added to any environment simply via configuration. This upgrade can be performed with zero downtime in any environment that provides replication.
+Apache Pinot 0.8.0+ comes out of the box with support for HTTP Basic Auth. While disabled by default for easier setup, authentication and authorization can be added to any environment simply via configuration. ACLs can be set on both API and table levels. This upgrade can be performed with zero downtime in any environment that provides replication.
 
 For external access, Pinot exposes two primary APIs via the following components:
 
@@ -81,7 +81,7 @@ pinot.server.instance.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 
 Pinot-controller has supported custom access control implementations for quite some time. We expanded the scope of this support in 0.8.0+ and added a default implementation for HTTP Basic Auth. Furthermore, the controller's web UI added support for user login workflows and graceful handling of authentication and authorization messages.
 
-Controller Auth can be enabled via configuration in the controller properties. The configuration options allow the specification of usernames and passwords as well as optional restrictions on a per-table and per-access-type \(_CREATE_, _READ_, _UPDATE_, _DELETE_\) basis.
+Controller Auth can be enabled via configuration in the controller properties. The configuration options allow the specification of usernames and passwords as well as optional ACL restrictions on a per-table and per-access-type \(_CREATE_, _READ_, _UPDATE_, _DELETE_\) basis.
 
 The example below creates two users, _admin_ with password _verysecret_ and _user_ with password _secret_. _admin_ has full access, whereas _user_ is restricted to READ operations and, additionally, to tables named _myusertable_, _baseballStats_, and _stuff_ in all cases where the API calls are table-specific.
 
@@ -101,7 +101,7 @@ This configuration will automatically allow other pinot components to access pin
 
 Pinot-Broker, similar to pinot-controller above, has supported access control for a while now and we added a default implementation for HTTP Basic Auth. Since pinot-broker does not provide a web UI by itself, authentication is only relevant for SQL queries hitting the broker's REST API.
 
-Broker Auth can be enabled via configuration in the broker properties, similar to the controller. The configuration options allow specification of usernames and passwords as well as optional restrictions on a per-table table basis \(access type is always READ\). Note, that it is possible to configure a different set of users, credentials, and permissions for broker access. However, **if you want a user to be able to access data via the query console on the controller web UI,** that user must \(a\) share the **same username and password** on both controller and broker, and \(b\) have **READ permissions and table-level access**.
+Broker Auth can be enabled via configuration in the broker properties, similar to the controller. The configuration options allow specification of usernames and passwords as well as optional ACL restrictions on a per-table table basis \(access type is always READ\). Note, that it is possible to configure a different set of users, credentials, and permissions for broker access. However, **if you want a user to be able to access data via the query console on the controller web UI,** that user must \(a\) share the **same username and password** on both controller and broker, and \(b\) have **READ permissions and table-level access**.
 
 The example below again creates two users, _admin_ with password _verysecret_ and _user_ with password _secret_. _admin_ has full access, whereas _user_ is restricted to tables named _baseballStats_ and _otherstuff_.
 
