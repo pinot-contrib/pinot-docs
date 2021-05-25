@@ -109,7 +109,7 @@ Note `.` is a reserved character in SQL, so you need to quote the flattened colu
 
 ### Infer the Pinot schema from the Avro schema and JSON data
 
-When there are complex structure, it could be challenging and tedious to figure out the Pinot schema manually. To help the schema inference, Pinot provides utility tools to take the Avro schema or JSON data as input and output the inferred Pinot schema.
+When there are complex structures, it could be challenging and tedious to figure out the Pinot schema manually. To help the schema inference, Pinot provides utility tools to take the Avro schema or JSON data as input and output the inferred Pinot schema.
 
 To infer the Pinot schema from Avro schema, you can use the command like the following
 
