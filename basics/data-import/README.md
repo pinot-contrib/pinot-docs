@@ -46,3 +46,7 @@ These guides will show you how to import data from a Pinot supported input forma
 
 {% page-ref page="pinot-input-formats.md" %}
 
+This guide will show you how to handle the complex type in the ingested data, such as map and array.
+
+{% page-ref page="complex-type.md" %}
+
