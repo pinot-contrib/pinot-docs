@@ -6,11 +6,11 @@ Pinot Minion is a standby component which leverages the [Helix Task Framework](h
 
 To be added
 
-## Add Custom Tasks
+## Interfaces
 
-### Interfaces
+![](../../.gitbook/assets/screen-shot-2021-05-26-at-3.22.55-pm.png)
 
-#### PinotTaskGenerator
+### PinotTaskGenerator
 
 PinotTaskGenerator interface defines the APIs for controller to generate tasks for minions to execute.
 
@@ -54,7 +54,7 @@ public interface PinotTaskGenerator {
 }
 ```
 
-#### PinotTaskExecutorFactory
+### PinotTaskExecutorFactory
 
 Factory for `PinotTaskExecutor` which defines the APIs for minion to execute the tasks.
 
@@ -94,7 +94,7 @@ public interface PinotTaskExecutor {
 }
 ```
 
-#### MinionEventObserverFactory
+### MinionEventObserverFactory
 
 Factory for `MinionEventObserver` which defines the APIs for task event callbacks on minion.
 
@@ -153,17 +153,19 @@ public interface MinionEventObserver {
 }
 ```
 
-### Plug-in Tasks
+## Built-in Tasks
 
-To plug-in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` \(optional\) for the task type \(all of them should return the same string for `getTaskType()`\), and annotate them with the following annotations:
+### SegmentGenerationAndPushTask
 
-| Implementation | Annotation |
-| :--- | :--- |
-| PinotTaskGenerator | @TaskGenerator |
-| PinotTaskExecutorFactory | @TaskExecutorFactory |
-| MinionEventObserverFactory | @EventObserverFactory |
+To be added
 
-After annotating the classes, put them under the package of name `org.apache.pinot.*.plugin.minion.tasks.*`, then they will be auto-registered by the controller and minion.
+### RealtimeToOfflineSegmentsTask
+
+See [Pinot managed Offline flows](../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
+
+### ConvertToRawIndexTask
+
+To be added
 
 ## Enable Tasks
 
@@ -202,13 +204,19 @@ Tasks can be manually scheduled using the following controller rest APIs:
 | **POST /tasks/schedule?tableName=myTable\_OFFLINE** | Schedule tasks for all task types on the given table |
 | **POST /tasks/schedule?taskType=myTask&tableName=myTable\_OFFLINE** | Schedule tasks for the given task type on the given table |
 
-## Example Tasks
+## Plug-in Custom Tasks
 
-### RealtimeToOfflineSegmentsTask
+To plug-in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` \(optional\) for the task type \(all of them should return the same string for `getTaskType()`\), and annotate them with the following annotations:
 
-See [Pinot managed Offline flows](../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
+| Implementation | Annotation |
+| :--- | :--- |
+| PinotTaskGenerator | @TaskGenerator |
+| PinotTaskExecutorFactory | @TaskExecutorFactory |
+| MinionEventObserverFactory | @EventObserverFactory |
 
-### TestTask
+After annotating the classes, put them under the package of name `org.apache.pinot.*.plugin.minion.tasks.*`, then they will be auto-registered by the controller and minion.
 
-See [SimpleMinionClusterIntegrationTest](https://github.com/apache/incubator-pinot/blob/master/pinot-integration-tests/src/test/java/org/apache/pinot/integration/tests/SimpleMinionClusterIntegrationTest.java) for details.
+### Example
+
+See [SimpleMinionClusterIntegrationTest](https://github.com/apache/incubator-pinot/blob/master/pinot-integration-tests/src/test/java/org/apache/pinot/integration/tests/SimpleMinionClusterIntegrationTest.java) where the `TestTask` is plugged-in.
 
