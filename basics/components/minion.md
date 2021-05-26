@@ -2,9 +2,15 @@
 
 Pinot Minion is a standby component which leverages the [Helix Task Framework](https://engineering.linkedin.com/blog/2019/01/managing-distributed-tasks-with-helix-task-framework) to offload the computationally intensive tasks from other components. It can be attached to an existing Pinot cluster and then execute tasks as provided by the controller. Custom tasks can be plugged via annotations into the cluster. Some typical minion tasks are: segment creation, segment purge, segment merge etc.
 
-## Interfaces
+## Starting a Minion
 
-### PinotTaskGenerator
+To be added
+
+## Add Custom Tasks
+
+### Interfaces
+
+#### PinotTaskGenerator
 
 PinotTaskGenerator interface defines the APIs for controller to generate tasks for minions to execute.
 
@@ -48,7 +54,7 @@ public interface PinotTaskGenerator {
 }
 ```
 
-### PinotTaskExecutorFactory
+#### PinotTaskExecutorFactory
 
 Factory for `PinotTaskExecutor` which defines the APIs for minion to execute the tasks.
 
@@ -88,7 +94,7 @@ public interface PinotTaskExecutor {
 }
 ```
 
-### MinionEventObserverFactory
+#### MinionEventObserverFactory
 
 Factory for `MinionEventObserver` which defines the APIs for task event callbacks on minion.
 
@@ -147,7 +153,7 @@ public interface MinionEventObserver {
 }
 ```
 
-## Plug-in Tasks
+### Plug-in Tasks
 
 To plug-in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` \(optional\) for the task type \(all of them should return the same string for `getTaskType()`\), and annotate them with the following annotations:
 
@@ -196,7 +202,7 @@ Tasks can be manually scheduled using the following controller rest APIs:
 | **POST /tasks/schedule?tableName=myTable\_OFFLINE** | Schedule tasks for all task types on the given table |
 | **POST /tasks/schedule?taskType=myTask&tableName=myTable\_OFFLINE** | Schedule tasks for the given task type on the given table |
 
-## Examples
+## Example Tasks
 
 ### RealtimeToOfflineSegmentsTask
 
