@@ -73,5 +73,9 @@ There are 2 ways to verify this:
 
 Yes, Pinot uses a default value of _LIMIT 10_ in queries. The reason behind this default value is to avoid unintentionally submitting expensive queries that end up fetching or processing a lot of data from Pinot. Users can always overwrite this by explicitly specifying a _LIMIT_ value. 
 
+## Does Pinot cache query results?
+
+Pinot does not cache query results, each query is computed in its entirety. Note though, running the same or similar query multiple times will naturally pull in segment pages into memory making subsequent calls faster. Also, for realtime systems, the data is changing in realtime, so results cannot be cached. For offline-only systems, caching layer can be built on top of Pinot, with invalidation mechanism built-in to invalidate the cache when data is pushed into Pinot.
+
 
 
