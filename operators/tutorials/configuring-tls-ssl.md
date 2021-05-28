@@ -209,6 +209,30 @@ This is a common scenario for development clusters and an intermediate phase dur
       <td style="text-align:left">pinot.server.adminapi.access.protocols.https.port</td>
       <td style="text-align:left">7443</td>
     </tr>
+    <tr>
+      <td style="text-align:left">pinot.minion.tls.keystore.path</td>
+      <td style="text-align:left">/path/to/keystore
+        <br />(unset for JVM default)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.minion.tls.keystore.password</td>
+      <td style="text-align:left">
+        <p>mykeystorepassword</p>
+        <p>(unset for JVM default)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.minion.tls.truststore.path</td>
+      <td style="text-align:left">/path/to/truststore
+        <br />(unset for JVM default)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.minion.tls.truststore.password</td>
+      <td style="text-align:left">
+        <p>mytruststorepassword</p>
+        <p>(unset JVM default)</p>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -228,6 +252,7 @@ After all pinot components have been configured and restarted to offer secure in
 | pinot.broker.client.access ... | \(see above\) |
 | pinot.broker.nettytls.enabled | true |
 | pinot.server ... | \(see above\) |
+| pinot.minion ... | \(see above\) |
 
 #### TLS only
 
@@ -251,6 +276,7 @@ This is the default for a newly bootstrapped secure pinot cluster. It is also th
 | pinot.server.netty.enabled | false |
 | pinot.server.nettytls.enabled | true |
 | pinot.server.nettytls.port | 8089 |
+| pinot.minon.tls ... | \(see above\) |
 
 #### 2-way TLS
 
@@ -295,6 +321,14 @@ Apache Pinot also supports 2-way TLS for environments with high security require
         <p>pinot.server.tls.client.auth.enabled</p>
         <p>(applies to nettytls and adminapi)</p>
       </td>
+      <td style="text-align:left">true</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.minion ...</td>
+      <td style="text-align:left">(see above)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">pinot.minion.tls.client.auth.enabled</td>
       <td style="text-align:left">true</td>
     </tr>
   </tbody>
