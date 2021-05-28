@@ -30,7 +30,7 @@ This requires a rolling restart of \(replicated\) service containers after each 
 
 Apache Pinot leverages the JVM's native TLS infrastructure with all its benefits and limitations. Certificates should be generated to include the host IP, hostname, and fully-qualified domain names \(if accessed or identified this way\).
 
-We support both, the JVM's default key/truststore, as well as configuration options to load certificates from secondary locations.
+We support both, the JVM's default key/truststore, as well as configuration options to load certificates from secondary locations. Note, that **some connector plugins require the default truststore** to contain any trusted certs since they do not parse pinot's configuration properties for external truststores.
 
 {% hint style="info" %}
 Most JVM's default certificate store can be configured with command-line arguments:
@@ -40,6 +40,8 @@ Most JVM's default certificate store can be configured with command-line argumen
 -Djavax.net.ssl.trustStorecertificates  
 -Djavax.net.ssl.trustStorePassword`
 {% endhint %}
+
+
 
 ### Listener Specifications
 
