@@ -44,6 +44,7 @@
     * [Dimension Table](basics/data-import/batch-ingestion/dim-table.md)
   * [Stream ingestion](basics/data-import/pinot-stream-ingestion/README.md)
     * [Apache Kafka](basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
+    * [Amazon Kinesis](basics/data-import/pinot-stream-ingestion/amazon-kinesis.md)
   * [Stream Ingestion with Upsert](basics/data-import/upsert.md)
   * [File systems](basics/data-import/pinot-file-system/README.md)
     * [Amazon S3](basics/data-import/pinot-file-system/amazon-s3.md)
