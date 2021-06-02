@@ -572,15 +572,15 @@ Date time functions allow you to perform transformations on columns which contai
       <td style="text-align:left">
         <p><b>JSONEXTRACTSCALAR</b>
         </p>
-        <p><b>(</b>jsonField, &apos;jsonPath&apos;, &apos;resultsType&apos;<b>)</b>
+        <p><b>(</b>jsonField, &apos;jsonPath&apos;, &apos;resultsType&apos;, [defaultValue]<b>)</b>
         </p>
       </td>
       <td style="text-align:left">Transform</td>
       <td style="text-align:left">
         <p>Evaluates the <code>&apos;jsonPath&apos;</code> on <code>jsonField,</code>
         </p>
-        <p>returns the result as the type <code>&apos;resultsType&apos;.</code>
-        </p>
+        <p>returns the result as the type <code>&apos;resultsType&apos;</code>, use
+          optional <code>defaultValue</code>for null or parsing error.</p>
       </td>
     </tr>
     <tr>
@@ -671,7 +671,7 @@ Date time functions allow you to perform transformations on columns which contai
       <td style="text-align:left"><code>&apos;results_type&apos;</code>
       </td>
       <td style="text-align:left">
-        <p>One of the Pinot supported data types:<b><code>INT, LONG, FLOAT, DOUBLE, STRING,</code></b>
+        <p>One of the Pinot supported data types:<b><code>INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,</code></b>
         </p>
         <p><b><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></b><code>.</code>
         </p>
