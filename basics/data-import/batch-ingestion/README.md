@@ -80,21 +80,27 @@ We define a table`transcript`and map the schema created in the previous step to 
 ```text
 {
   "tableName": "transcript",
-  "segmentsConfig" : {
+  "tableType": "OFFLINE",
+  "segmentsConfig": {
+    "replication": 1,
     "timeColumnName": "timestampInEpoch",
     "timeType": "MILLISECONDS",
-    "replication" : "1",
-    "schemaName" : "transcript"
+    "retentionTimeUnit": "DAYS",
+    "retentionTimeValue": 365
   },
-  "tableIndexConfig" : {
-    "invertedIndexColumns" : [],
-    "loadMode"  : "MMAP"
-  },
-  "tenants" : {
+  "tenants": {
     "broker":"DefaultTenant",
     "server":"DefaultTenant"
   },
-  "tableType":"OFFLINE",
+  "tableIndexConfig": {
+    "loadMode": "MMAP"
+  },
+  "ingestionConfig": {
+    "batchIngestionConfig": {
+      "segmentIngestionType": "APPEND",
+      "segmentIngestionFrequency": "DAILY"
+    }
+  }
   "metadata": {}
 }
 ```
