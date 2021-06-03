@@ -49,6 +49,8 @@ curl -X POST -H "UPLOAD_TYPE:URI" -H "DOWNLOAD_URI:hdfs://nameservice1/hadoop/pa
 
 ### Job spec
 
+Standalone Job:
+
 ```yaml
 executionFrameworkSpec:
     name: 'standalone'
@@ -58,12 +60,43 @@ executionFrameworkSpec:
 jobType: SegmentCreationAndTarPush
 inputDirURI: 'hdfs:///path/to/input/directory/'
 outputDirURI: 'hdfs:///path/to/output/directory/'
+includeFileNamePath: 'glob:**/*.csv'
 overwriteOutput: true
 pinotFSSpecs:
     - scheme: hdfs
       className: org.apache.pinot.plugin.filesystem.HadoopPinotFS
       configs:
         hadoop.conf.path: 'path/to/conf/directory/' 
+recordReaderSpec:
+    dataFormat: 'csv'
+    className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
+    configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
+tableSpec:
+    tableName: 'students'
+pinotClusterSpecs:
+    - controllerURI: 'http://localhost:9000'
+```
+
+Hadoop Job:
+
+```yaml
+executionFrameworkSpec:
+    name: 'hadoop'
+    segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.hadoop.HadoopSegmentGenerationJobRunner'
+    segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.hadoop.HadoopSegmentTarPushJobRunner'
+    segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.hadoop.HadoopSegmentUriPushJobRunner'
+    extraConfigs:
+      stagingDir: 'hdfs:///path/to/staging/directory/'
+jobType: SegmentCreationAndTarPush
+inputDirURI: 'hdfs:///path/to/input/directory/'
+outputDirURI: 'hdfs:///path/to/output/directory/'
+includeFileNamePath: 'glob:**/*.csv'
+overwriteOutput: true
+pinotFSSpecs:
+    - scheme: hdfs
+      className: org.apache.pinot.plugin.filesystem.HadoopPinotFS
+      configs:
+        hadoop.conf.path: '/etc/hadoop/conf/' 
 recordReaderSpec:
     dataFormat: 'csv'
     className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
