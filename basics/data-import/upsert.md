@@ -22,7 +22,7 @@ To update a record, a primary key is needed to uniquely identify the record. To 
 
 Note this field expects a list of columns, as the primary key can be composite.
 
-When two records of the same primary key are ingested, _the record with the greater event time \(as defined by the time column\) is used_.
+When two records of the same primary key are ingested, _the record with the greater event time \(as defined by the time column\) is used_. When records with the same primary key and event time, then the order is not determined. In most cases, the later ingested record will be used, but may not be so in the cases when the table has a column to sort by.
 
 ## Partition the input stream by the primary key
 
