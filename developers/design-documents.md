@@ -16,7 +16,7 @@ This page contains links to all the design documents
 | [HAVING and Post-Aggregation Support](https://docs.google.com/document/d/1Dg1KXpxIdl75Tsg2YFCYVeE8sMAIj64ZWoxDcj1cHwo/edit?usp=sharing) | Jackie Jiang | July 2020 |
 | [Segment Merge and Rollup \(Updated\)](https://docs.google.com/document/d/1-AKCfXNXdoNjFIvJ87wjWwFM_38gS0NCwFrIYjYsqp8/edit#) | Seunghyun | June 2020 |
 | [Filtering during ingestion](https://docs.google.com/document/d/1Cahnas3nh0XErETH0KHLaecN6xCnRVYWNKO3rDn7qcI/edit#) | Neha | June 2020 |
-| [Segment Preprocessing Hadoop Job](https://docs.google.com/document/d/13YaEQLPyq8FdjvCoyM6H6ZhXmfKsnyjGJ9OKf-S6Vgs/edit?usp=sharing) | Jialiang Li | May 2020 |
+| [Segment Preprocessing Hadoop Job](https://docs.google.com/document/d/1BnjjVj3OLuo-vmOt0WjqEFbUC9AZgCDuDxCtLEFPM34/edit?usp=sharing) | Jialiang Li | May 2020 |
 | [Flattening during ingestion](https://docs.google.com/document/d/1IYCsYCgGn6YMWTDG4-i61Hxbtnac2dCuhvDKUZIxDYg/edit?usp=sharing) | Neha | May 2020 |
 | [Compatibility Regression Testing](https://docs.google.com/document/d/1yNlvnLKDNUuyRWOKYYF01FWW9weYMGoaLRtU-CueciM/edit#heading=h.sbzlx23tnq14) | Subbu | May 2020 |
 | [Refactor pinot-core and pinot-common](https://docs.google.com/document/d/1urROfQZuTE8JJmW3IMCeB2i3FYoEyG1TCyPsxvSaNuw/edit?usp=sharing) | Kishore | May 2020 |
