@@ -54,6 +54,10 @@ This works well if some of your fields are nested json, but most of your fields 
 Support for flattening during ingestion is on the roadmap: [https://github.com/apache/incubator-pinot/issues/5264](https://github.com/apache/incubator-pinot/issues/5264)
 {% endhint %}
 
+### How do I escape Unicode in my Job Spec YAML file?
+
+To use explicit code points, you must double-quote \(not single-quote\) the string, and escape the code point via "\uHHHH", where HHHH is the four digit hex code for the character. See [https://yaml.org/spec/spec.html\#escaping/in%20double-quoted%20scalars/](https://yaml.org/spec/spec.html#escaping/in%20double-quoted%20scalars/) for more details.
+
 ## Indexing
 
 ### How to set inverted indexes?
