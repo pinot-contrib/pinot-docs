@@ -73,7 +73,7 @@ A schema also defines what category a column belongs to. Columns in a Pinot tabl
 
 ### Data Types
 
-Data type helps in determining the operations which can be performed on the column. The following data types are supported by Pinot
+Data type helps in determining the operations which can be performed on the column. The following data types are supported by Pinot:
 
 | Data Type | Default Dimension Value | Default Metric Value |
 | :--- | :--- | :--- |
@@ -81,8 +81,15 @@ Data type helps in determining the operations which can be performed on the colu
 | LONG | [Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE) | 0 |
 | FLOAT | [Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY) | 0.0 |
 | DOUBLE | [Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY) | 0.0 |
-| STRING | "null" | "null" |
+| BOOLEAN | 0 \(false\) | N/A |
+| TIMESTAMP | 0 \(1970-01-01 00:00:00 UTC\) | N/A |
+| STRING | "null" | N/A |
+| JSON | "null" | N/A |
 | BYTES | byte array of length 0 | byte array of length 0 |
+
+{% hint style="warning" %}
+`BOOLEAN`, `TIMESTAMP`, `JSON` are added after release `0.7.1`. In release `0.7.1` and older releases, `BOOLEAN` is equivalent to `STRING.`
+{% endhint %}
 
 ### Date Time Fields
 

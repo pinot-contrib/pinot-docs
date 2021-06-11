@@ -2,20 +2,20 @@
 
 Schema is used to define the names, data types, and other information for the columns of a Pinot table. 
 
-The Pinot schema is composed of
+The Pinot schema is composed of:
 
-| schema fields | description |
+| Field | Description |
 | :--- | :--- |
 | **schemaName** | Defines the name of the schema. This is usually the same as the table name. The offline and the realtime table of a hybrid table should use the same schema. |
-| **dimensionFieldSpecs** | A dimensionFieldSpec is defined for each dimension column. For more details, scroll down to [dimensionFieldSpec](schema.md#dimensionfieldspecs) |
-| **metricFieldSpecs** | A metricFieldSpec is defined for each metric column. For more details, scroll down to [metricFieldSpec](schema.md#metricfieldspecs) |
-| **dateTimeFieldSpec** | A dateTimeFieldSpec is defined for the time columns. There can be multiple time columns. For more details, scroll down to dateTimeFieldSpec. |
+| **dimensionFieldSpecs** | A dimensionFieldSpec is defined for each dimension column. For more details, scroll down to [DimensionFieldSpec](schema.md#dimensionfieldspecs). |
+| **metricFieldSpecs** | A metricFieldSpec is defined for each metric column. For more details, scroll down to [MetricFieldSpec](schema.md#metricfieldspecs). |
+| **dateTimeFieldSpec** | A dateTimeFieldSpec is defined for the time columns. There can be multiple time columns. For more details, scroll down to [DateTimeFieldSpec](schema.md#datetimefieldspec). |
 
 Below is a detailed description of each type of field spec.
 
-### dimensionFieldSpecs
+### DimensionFieldSpec
 
-A dimensionFieldSpec is defined for each dimension column. Here's a list of the fields in the dimensionFieldSpec
+A dimensionFieldSpec is defined for each dimension column. Here's a list of the fields in the dimensionFieldSpec:
 
 | Property | Description |
 | :--- | :--- |
@@ -37,7 +37,7 @@ A dimensionFieldSpec is defined for each dimension column. Here's a list of the 
 | STRING | "null" |
 | BYTES | byte array of length 0 |
 
-### metricFieldSpecs
+### MetricFieldSpec
 
 A metricFieldSpec is defined for each metric column. Here's a list of fields in the metricFieldSpec
 
@@ -57,7 +57,7 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 | DOUBLE | 0.0 |
 | BYTES | byte array of length 0 |
 
-### dateTimeFieldSpec
+### DateTimeFieldSpec
 
 A dateTimeFieldSpec is used to define time columns of the table. Here's a list of the fields in a dateTimeFieldSpec
 
