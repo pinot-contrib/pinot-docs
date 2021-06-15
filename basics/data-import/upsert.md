@@ -118,7 +118,7 @@ Putting these together, you can find the table configurations of the quick start
 
 ## Quick Start
 
-To illustrate how the upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a realtiime upsert table `meetupRSVP`.
+To illustrate how the upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a realtime upsert table `meetupRSVP`.
 
 ```bash
 # stop previous quick start cluster, if any
@@ -127,9 +127,9 @@ bin/quick-start-upsert-streaming.sh
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the realtime data.
 
-![Query the upsert table](../../.gitbook/assets/upsert-query-console-example.png)
+![Query the upsert table](../../.gitbook/assets/screen-shot-2021-06-15-at-10.02.46-am.png)
 
 To see the difference from the append-only table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
-![Disable the upsert during query via query option](../../.gitbook/assets/disable-upsert.png)
+![Disable the upsert during query via query option](../../.gitbook/assets/screen-shot-2021-06-15-at-10.03.22-am.png)
 
