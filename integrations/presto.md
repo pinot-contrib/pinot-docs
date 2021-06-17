@@ -93,3 +93,7 @@ Then you can enable the streaming connector in Presto\(&gt;=0.244\) by adding th
 pinot.use-streaming-for-segment-queries=true
 ```
 
+
+
+\(Disclaimer: Presto is a third-party software that is not part of the Apache Software Foundation\).
+

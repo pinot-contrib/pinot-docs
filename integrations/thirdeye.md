@@ -1,5 +1,5 @@
 ---
-description: Integration with ThirdEye for anomaly detection and root cause analysis
+description: Integration with ThirdEye for anomaly detection and root cause analysis.
 ---
 
 # ThirdEye
@@ -119,4 +119,8 @@ referenceLinks: {}
 ```
 
 Click "Create Alert" and you're done with the process. Whether you set up email notifications or not, you can always check the current status of the alert under the "Alerts" tab on the top navigation bar.
+
+
+
+\(Disclaimer: ThirdEye is a third-party software that is not part of the Apache Software Foundation\).
 
