@@ -77,5 +77,14 @@ Yes, Pinot uses a default value of _LIMIT 10_ in queries. The reason behind this
 
 Pinot does not cache query results, each query is computed in its entirety. Note though, running the same or similar query multiple times will naturally pull in segment pages into memory making subsequent calls faster. Also, for realtime systems, the data is changing in realtime, so results cannot be cached. For offline-only systems, caching layer can be built on top of Pinot, with invalidation mechanism built-in to invalidate the cache when data is pushed into Pinot.
 
+## How do I determine if StarTree index is being used for my query?
+
+The query execution engine will prefer to use StarTree index for all queries where it can be used. The criteria to determine whether StarTree index can be used is as follows:
+
+* All aggregation function + column pairs in the query must exist in the StarTree index.
+* All dimensions that appear in filter predicates and group-by should be StarTree dimensions.
+
+For queries where above is true, StarTree index is used. For other queries, the execution engine will default to using the next best index available. 
+
 
 
