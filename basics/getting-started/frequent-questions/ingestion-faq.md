@@ -58,6 +58,20 @@ Support for flattening during ingestion is on the roadmap: [https://github.com/a
 
 To use explicit code points, you must double-quote \(not single-quote\) the string, and escape the code point via "\uHHHH", where HHHH is the four digit hex code for the character. See [https://yaml.org/spec/spec.html\#escaping/in%20double-quoted%20scalars/](https://yaml.org/spec/spec.html#escaping/in%20double-quoted%20scalars/) for more details.
 
+### Is there a limit on the maximum length of a string column in Pinot?
+
+By default, Pinot limits the length of a String column to 512 bytes. If you want to overwrite this value, you can set the maxLength attribute in the schema as follows:
+
+```text
+    {
+      "dataType": "STRING",
+      "maxLength": 1000,
+      "name": "textDim1"
+    },
+```
+
+
+
 ## Indexing
 
 ### How to set inverted indexes?
