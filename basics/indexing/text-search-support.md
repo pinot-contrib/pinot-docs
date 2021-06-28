@@ -201,7 +201,7 @@ Similar to other indexes, users can enable text index on a column through table 
 * encodingType - As mentioned earlier, we can store a column either as RAW or dictionary encoded. Since for now we have a restriction on the text index, this should always be RAW.
 * indexType - This should be TEXT.
 
-Also, since we haven't yet removed the old way of specifying the index info, each column that text index is enabled on should also be specified in noDictionaryColumns in tableIndexConfig
+Since we haven't yet removed the old way of specifying the index info, each column that has a text index should also be specified as `noDictionaryColumns` in `tableIndexConfig`:
 
 ```javascript
 "tableIndexConfig": {
@@ -211,13 +211,11 @@ Also, since we haven't yet removed the old way of specifying the index info, eac
  ]}
 ```
 
-The above mechanism should allow the user to use text index in all of the following scenarios:
+The above mechanism can be used to configure text indexes in the following scenarios:
 
-* Adding new table with text index enabled on one or more columns.
+* Adding a new table with text index enabled on one or more columns.
 * Adding a new column with text index enabled to an existing table.
 * Enabling text index on an existing column.
-
-Since we haven't yet removed the old way of specifying the 
 
 ## Text Index Creation
 
@@ -320,13 +318,13 @@ Distributed systems, Apache Kafka, publish-subscribe, building and deploying lar
 Databases, columnar query processing, Apache Arrow, distributed systems, Machine learning, cluster management, docker image building and distribution
 ```
 
- But it won't match the following document:
+But it won't match the following document:
 
 ```text
 Distributed data processing, systems design experience
 ```
 
- This is because the phrase query looks for the phrase occurring in the original document **"as is"**. The terms as specified by the user in phrase should be in the **exact same order in the original document** for the document to be considered as a match.
+This is because the phrase query looks for the phrase occurring in the original document **"as is"**. The terms as specified by the user in phrase should be in the **exact same order in the original document** for the document to be considered as a match.
 
 **NOTE:** Matching is always done in a case-insensitive manner. 
 
