@@ -18,8 +18,8 @@ You would have to design your own systems to view and monitor these metrics. A l
 * [BrokerGauge](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerGauge.java)
 * [ServerMeter](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerMeter.java)
 * [ServerGauge](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerGauge.java)
-* [MinionMeter](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/MinionMeter.java)
-* [MinionGauge](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/MinionGauge.java)
+* [MinionMeter](https://github.com/apache/incubator-pinot/blob/master/pinot-minion/src/main/java/org/apache/pinot/minion/metrics/MinionMeter.java)
+* [MinionGauge](https://github.com/apache/incubator-pinot/blob/master/pinot-minion/src/main/java/org/apache/pinot/minion/metrics/MinionGauge.java)
 
 ## JMX to Prometheus
 
