@@ -34,11 +34,11 @@ where &lt;column\_name&gt; is the column text index is created on and **&lt;sear
 
 ## Sample Datasets
 
-Text search should ideally be used on STRING columns where doing standard filter operations \(EQUALITY, RANGE, BETWEEN\) doesn't fit the bill because each column value is a reasonably large blob of  text.
+Text search should ideally be used on STRING columns where doing standard filter operations \(EQUALITY, RANGE, BETWEEN\) doesn't fit the bill because each column value is a reasonably large blob of text.
 
 ### Apache Access Log
 
-Consider the following snippet from Apache access log. Each line in the log consists of arbitrary data \(IP addresses, URLs, timestamps, symbols etc\) and represents a column value. Data like this is a good candidate for doing text search. 
+Consider the following snippet from Apache access log. Each line in the log consists of arbitrary data \(IP addresses, URLs, timestamps, symbols etc\) and represents a column value. Data like this is a good candidate for doing text search.
 
 Let's say the following snippet of data is stored in ACCESS\_LOG\_COL column in Pinot table.
 
@@ -162,7 +162,7 @@ Currently we support text search in a restricted manner. More specifically, we h
 * The column should be single-valued.
 * Co-existence of text index with other Pinot indexes is currently not supported.
 
-The last two restrictions are going to be relaxed very soon in the upcoming releases. 
+The last two restrictions are going to be relaxed very soon in the upcoming releases.
 
 ### Co-existence with other indexes
 
@@ -172,13 +172,11 @@ Text index is an addition to the type of **per-column indexes** users can create
 
 ## How to enable text index?
 
-Similar to other indexes, users can enable text index on a column through table config. As part of text-search feature, we have also introduced a new generic way of specifying the per-column encoding and index information. In the table config, there will be a new section with name "fieldConfigList". 
+Similar to other indexes, users can enable text index on a column through table config. As part of text-search feature, we have also introduced a new generic way of specifying the per-column encoding and index information. In the table config, there will be a new section with name "fieldConfigList".
 
 {% hint style="warning" %}
-`fieldConfigList`is currently ONLY used for text indexes. Our plan is to migrate all other indexes to this model. We are going to do that in upcoming releases and accordingly modify user documentation. So **please continue** to specify other index info in table config as you have done till now and use the `fieldConfigList` **only for text indexes**. 
+`fieldConfigList`is currently ONLY used for text indexes. Our plan is to migrate all other indexes to this model. We are going to do that in upcoming releases and accordingly modify user documentation. So **please continue** to specify other index info in table config as you have done till now and use the `fieldConfigList` **only for text indexes**.
 {% endhint %}
-
-
 
 ```javascript
 "fieldConfigList":[
@@ -265,7 +263,7 @@ TEXT\_MATCH can be used in WHERE clause of all kinds of queries supported by Pin
 * Aggregation query
 * Aggregation GROUP BY query
 
-The search expression \(second argument to TEXT\_MATCH function\) is the query string that Pinot will use to perform text search on the column's text index. ****Following expression types are supported
+The search expression \(second argument to TEXT\_MATCH function\) is the query string that Pinot will use to perform text search on the column's text index. _\*\*_Following expression types are supported
 
 ### **Phrase Query**
 
@@ -298,7 +296,7 @@ Database engine, OLAP systems, OLTP transaction processing at large scale, concu
 **Example 1 -** Search in SKILL\_COL column to look for documents where each matching document MUST contain phrase "distributed systems" as is
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Distributed systems\"') 
+SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Distributed systems\"')
 ```
 
 The search expression is '\"Distributed systems\"'
@@ -326,12 +324,12 @@ Distributed data processing, systems design experience
 
 This is because the phrase query looks for the phrase occurring in the original document **"as is"**. The terms as specified by the user in phrase should be in the **exact same order in the original document** for the document to be considered as a match.
 
-**NOTE:** Matching is always done in a case-insensitive manner. 
+**NOTE:** Matching is always done in a case-insensitive manner.
 
 **Example 2 -** Search in SKILL\_COL column to look for documents where each matching document MUST contain phrase "query processing" as is
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"query processing\"') 
+SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"query processing\"')
 ```
 
 The above query will match the following documents:
@@ -437,11 +435,11 @@ C++, Java, Python, realtime streaming systems, Machine learning, spark, Kubernet
 
 Phrase and term queries work on the fundamental logic of looking up the terms \(aka tokens\) in the text index. The original text document \(a value in the column with text index enabled\) is parsed, tokenized and individual "indexable" terms are extracted. These terms are inserted into the index.
 
-Based on the nature of original text and how the text is segmented into tokens, it is possible that some terms don't get indexed individually. In such cases, it is better to use regular expression queries on the text index. 
+Based on the nature of original text and how the text is segmented into tokens, it is possible that some terms don't get indexed individually. In such cases, it is better to use regular expression queries on the text index.
 
 Consider server log as an example and we want to look for exceptions. A regex query is suitable for this scenario as it is unlikely that 'exception' is present as an individual indexed token.
 
-Syntax of a regex query is slightly different from queries mentioned earlier. The regular expression is written between a pair of forward slashes \(/\). 
+Syntax of a regex query is slightly different from queries mentioned earlier. The regular expression is written between a pair of forward slashes \(/\).
 
 ```sql
 SELECT SKILLS_COL FROM MyTable WHERE text_match(SKILLS_COL, '/.*Exception/')
@@ -451,11 +449,11 @@ The above query will match any text document containing exception.
 
 ### Deciding Query Types
 
-Generally, a combination of phrase and term queries using boolean operators and grouping should allow us to build a complex text search query expression. 
+Generally, a combination of phrase and term queries using boolean operators and grouping should allow us to build a complex text search query expression.
 
-The key thing to remember is that phrases should be used when the order of terms in the document is important and if separating the phrase into individual terms doesn't make sense from end user's perspective. 
+The key thing to remember is that phrases should be used when the order of terms in the document is important and if separating the phrase into individual terms doesn't make sense from end user's perspective.
 
-An example would be phrase "machine learning". 
+An example would be phrase "machine learning".
 
 ```sql
 TEXT_MATCH(column, '\"machine learning\"')
