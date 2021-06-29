@@ -49,9 +49,9 @@ ${PINOT_DISTRIBUTION_DIR}/bin/start-server.sh  -zkAddress ${ZOOKEEPER_ADDRESS} -
 ### Configuration.
 
 ```text
-controller.data.dir=`<fs.defaultFS>`/path/in/hdfs/for/controller/segment
+controller.data.dir=hdfs://path/in/hdfs/for/controller/segment
 controller.local.temp.dir=/tmp/pinot/
-controller.zk.str=`<ZOOKEEPER_ADDRESS>`
+controller.zk.str=<ZOOKEEPER_HOST:ZOOKEEPER_PORT>
 controller.enable.split.commit=true
 controller.access.protocols.http.port=9000
 controller.helix.cluster.name=PinotCluster
