@@ -26,15 +26,15 @@ pinot.server.segment.fetcher.hdfs.hadoop.conf.path=`<file path to hadoop conf fo
 This path should point the local folder containing `core-site.xml` and `hdfs-site.xml` files from your Hadoop installation
 
 ```text
-pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.principle=`<your kerberos principal>
-pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.keytab=`<your kerberos keytab>
+pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.principle=<your kerberos principal>
+pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.keytab=<your kerberos keytab>
 ```
 
 or
 
 ```text
-pinot.server.segment.fetcher.hdfs.hadoop.kerberos.principle=`<your kerberos principal>
-pinot.server.segment.fetcher.hdfs.hadoop.kerberos.keytab=`<your kerberos keytab>
+pinot.server.segment.fetcher.hdfs.hadoop.kerberos.principle=<your kerberos principal>
+pinot.server.segment.fetcher.hdfs.hadoop.kerberos.keytab=<your kerberos keytab>
 ```
 
 These two configs should be the corresponding Kerberos configuration if your Hadoop installation is secured with Kerberos. Please check Hadoop Kerberos guide on how to generate Kerberos security identification.
