@@ -117,8 +117,8 @@ pinot.controller.storage.factory.class.hdfs=org.apache.pinot.plugin.filesystem.H
 pinot.controller.storage.factory.hdfs.hadoop.conf.path=path/to/conf/directory/
 pinot.controller.segment.fetcher.protocols=file,http,hdfs
 pinot.controller.segment.fetcher.hdfs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
-pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.principle=`<your kerberos principal>
-pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.keytab=`<your kerberos keytab>
+pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.principle=<your kerberos principal>
+pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.keytab=<your kerberos keytab>
 ```
 
 ### Server config
@@ -129,7 +129,7 @@ pinot.server.storage.factory.class.hdfs=org.apache.pinot.plugin.filesystem.Hadoo
 pinot.server.storage.factory.hdfs.hadoop.conf.path=path/to/conf/directory/
 pinot.server.segment.fetcher.protocols=file,http,hdfs
 pinot.server.segment.fetcher.hdfs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
-pinot.server.segment.fetcher.hdfs.hadoop.kerberos.principle=`<your kerberos principal>
-pinot.server.segment.fetcher.hdfs.hadoop.kerberos.keytab=`<your kerberos keytab>
+pinot.server.segment.fetcher.hdfs.hadoop.kerberos.principle=<your kerberos principal>
+pinot.server.segment.fetcher.hdfs.hadoop.kerberos.keytab=<your kerberos keytab>
 ```
 
