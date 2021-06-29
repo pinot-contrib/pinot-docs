@@ -220,3 +220,18 @@ After annotating the classes, put them under the package of name `org.apache.pin
 
 See [SimpleMinionClusterIntegrationTest](https://github.com/apache/incubator-pinot/blob/master/pinot-integration-tests/src/test/java/org/apache/pinot/integration/tests/SimpleMinionClusterIntegrationTest.java) where the `TestTask` is plugged-in.
 
+## Task related metrics
+
+There is a controller job runs every 5 minutes by default and emits metrics about Minion tasks scheduled in Pinot.
+For now, the following metrics are emitted for each task type:
+* ***NumMinionTasksInProgress***: Number of running tasks
+* ***NumMinionSubtasksRunning***: Number of running sub-tasks
+* ***NumMinionSubtasksWaiting***: Number of waiting sub-tasks (unassigned to a minion as yet)
+* ***NumMinionSubtasksError***: Number of error sub-tasks (completed with an error/exception)
+* ***PercentMinionSubtasksInQueue***: Percent of sub-tasks in error
+* ***PercentMinionSubtasksInError***: Percent of sub-tasks in waiting or running states
+
+For each task, the minion will emit metrics:
+* ***TASK_QUEUEING***: Task queueing time (task_dequeue_time - task_inqueue_time), assuming the time drift between helix controller and pinot minion is minor, otherwise the value may be negative
+* ***TASK_EXECUTION***: Task execution time, which is the time spent on executing the task
+* ***NUMBER_OF_TASKS***: number of tasks in progress on that minion. Whenever minion start a task, increase the Gauge by 1, whenever minion completed (either succeeded or failed) a task, decrease it by 1
