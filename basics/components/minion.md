@@ -228,8 +228,8 @@ For now, the following metrics are emitted for each task type:
 * ***NumMinionSubtasksRunning***: Number of running sub-tasks
 * ***NumMinionSubtasksWaiting***: Number of waiting sub-tasks (unassigned to a minion as yet)
 * ***NumMinionSubtasksError***: Number of error sub-tasks (completed with an error/exception)
-* ***PercentMinionSubtasksInQueue***: Percent of sub-tasks in error
-* ***PercentMinionSubtasksInError***: Percent of sub-tasks in waiting or running states
+* ***PercentMinionSubtasksInQueue***: Percent of sub-tasks in waiting or running states
+* ***PercentMinionSubtasksInError***: Percent of sub-tasks in error
 
 For each task, the minion will emit metrics:
 * ***TASK_QUEUEING***: Task queueing time (task_dequeue_time - task_inqueue_time), assuming the time drift between helix controller and pinot minion is minor, otherwise the value may be negative
