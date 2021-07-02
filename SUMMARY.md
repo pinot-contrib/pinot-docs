@@ -143,6 +143,7 @@
   * [Tuning](operators/operating-pinot/tuning/README.md)
     * [Realtime](operators/operating-pinot/tuning/realtime.md)
     * [Routing](operators/operating-pinot/tuning/routing.md)
+  * [Upgrading Pinot with confidence](operators/operating-pinot/upgrading-pinot-cluster.md)
 * [Command-Line Interface \(CLI\)](operators/cli.md)
 * [Tutorials](operators/tutorials/README.md)
   * [Authentication, Authorization, and ACLs](operators/tutorials/authentication-authorization-and-acls.md)
