@@ -73,7 +73,7 @@ A schema also defines what category a column belongs to. Columns in a Pinot tabl
 
 ### Data Types
 
-Data type helps in determining the operations which can be performed on the column. The following data types are supported by Pinot:
+Data types determine the operations that can be performed on a column. Pinot supports the following data types:
 
 | Data Type | Default Dimension Value | Default Metric Value |
 | :--- | :--- | :--- |
@@ -90,6 +90,8 @@ Data type helps in determining the operations which can be performed on the colu
 {% hint style="warning" %}
 `BOOLEAN`, `TIMESTAMP`, `JSON` are added after release `0.7.1`. In release `0.7.1` and older releases, `BOOLEAN` is equivalent to `STRING.`
 {% endhint %}
+
+Pinot also supports columns that contain lists or arrays of items, but there isn't an explicit data type for these columns. Instead, you can indicate that a dimension column accepts multiple values. For more information, see [DimensionFieldSpec](https://docs.pinot.apache.org/configuration-reference/schema#dimensionfieldspec) in the Schema configuration reference.
 
 ### Date Time Fields
 
@@ -125,6 +127,10 @@ These virtual columns can be accessed by the query similar to regular columns.
 
 First, Make sure your [cluster is up](cluster.md#setup-a-pinot-cluster) and running.   
 Let's create a schema and put it in a JSON file. For this example, we have created a schema for flight data.
+
+{% hint style="info" %}
+For more details on constructing a schema file, see the [Schema configuration reference](https://docs.pinot.apache.org/configuration-reference/schema).
+{% endhint %}
 
 {% code title="flights-schema.json" %}
 ```javascript
