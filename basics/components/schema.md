@@ -95,9 +95,9 @@ Pinot also supports columns that contain lists or arrays of items, but there isn
 
 ### Date Time Fields
 
-Since pinot doesn't have a dedicated `DATETIME` datatype support, the user needs to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations.
+Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations.
 
-To achieve this conversion, users need to provide the format of the date along with the data type in schema.  The syntax of the format is `timeSize:timeUnit:timeFormat:pattern` .
+To achieve this conversion, you will need to provide the format of the date along with the data type in the schema.  The format is described using the following syntax: `timeSize:timeUnit:timeFormat:pattern` .
 
 * **time size** - the size of the time unit. This size is multiplied to the value present in the time column to get an actual timestamp. eg: if timesize is 5 and value in time column is 4996308 minutes. The value that will be converted to epoch timestamp will be 4996308 \* 5 \* 60 \* 1000 = 1498892400000 milliseconds. If your date is not in `EPOCH` format, this value is not used and can be set to 1 or any other integer. 
 * **time unit** - one of  [TimeUnit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html) enum values. e.g. `HOURS` , `MINUTES` etc.  If your date is not in `EPOCH` format, this value is not used and can be set to `MILLISECONDS` or any other unit. 
@@ -113,7 +113,7 @@ Here are some sample date-time formats you can use in the schema-
 
 ### Built-in Virtual Columns
 
-There are several built-in virtual columns inside the schema for debugging purpose:
+There are several built-in virtual columns inside the schema the can be used for debugging purposes:
 
 | Column Name | Column Type | Data Type | Description |
 | :--- | :--- | :--- | :--- |
@@ -121,7 +121,7 @@ There are several built-in virtual columns inside the schema for debugging purpo
 | $segmentName | Dimension | STRING | Name of the segment containing the record |
 | $docId | Dimension | INT | Document id of the record within the segment |
 
-These virtual columns can be accessed by the query similar to regular columns.
+These virtual columns can be used in queries in a similar way to regular columns.
 
 ### Creating a Schema
 
