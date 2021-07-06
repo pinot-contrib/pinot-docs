@@ -22,7 +22,7 @@ A dimensionFieldSpec is defined for each dimension column. Here's a list of the 
 | name | Name of the dimension column. |
 | dataType | Data type of the dimension column. Can be INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING, BYTES. |
 | defaultNullValue | Represents null values in the data, since Pinot doesn't support storing null column values natively \(as part of its on-disk storage format\). If not specified, an internal default null value is used as listed here. |
-| singleValueField | Boolean indicating if this is a single value or a multi value column. In the example above, the dimension `tags` is multi-valued. This means that it can have multiple values for a particular row, say `tag1, tag2, tag3`. For a multi-valued column, individual rows don’t necessarily need to have the same number of values. Typical use case for this would be a column such as `skillSet` for a person \(one row in the table\) that can have multiple values such as `Real Estate, Mortgages`. The default null value for a multi-valued column is a single `defaultNullValue`, e.g. `[Integer.MIN_VALUE]`. |
+| singleValueField | Boolean indicating if this is a single-valued or a multi-valued column. Multi-valued column is modeled as a list, where the order of the values are preserved and duplicate values are allowed. Individual rows don’t necessarily have the same number of values. Typical use case for this would be a column such as `skillSet` for a person \(one row in the table\) that can have multiple values such as `Real Estate, Mortgages`. The default null value for a multi-valued column is a single `defaultNullValue`, e.g. `[Integer.MIN_VALUE]`. |
 
 #### Internal default null values for dimension
 
