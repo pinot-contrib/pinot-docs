@@ -215,14 +215,14 @@ The schema is present at `examples/stream/githubEvents/pullRequestMergedEvents_s
       "dataType": "LONG"
     }
   ],
-  "timeFieldSpec": {
-    "incomingGranularitySpec": {
-      "timeType": "MILLISECONDS",
-      "timeFormat": "EPOCH",
-      "dataType": "LONG",
-      "name": "mergedTimeMillis"
+  "dateTimeFieldSpecs": [
+    {
+      "name": "mergedTimeMillis",
+      "dataType": "TIMESTAMP",
+      "format": "1:MILLISECONDS:TIMESTAMP",
+      "granularity": "1:MILLISECONDS"
     }
-  }
+  ]
 }
 
 ```
