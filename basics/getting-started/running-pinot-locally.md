@@ -61,7 +61,7 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command 
 
 ```bash
-PINOT_VERSION=0.6.0 #set to the Pinot version you decide to use
+PINOT_VERSION=0.7.1 #set to the Pinot version you decide to use
 
 wget https://downloads.apache.org/incubator/pinot/apache-pinot-incubating-$PINOT_VERSION/apache-pinot-incubating-$PINOT_VERSION-bin.tar.gz
 ```
