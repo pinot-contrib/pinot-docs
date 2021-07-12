@@ -2,11 +2,11 @@
 
 ## Operations
 
-## How much heap should I allocate for my Pinot instances?
+### How much heap should I allocate for my Pinot instances?
 
 Typically, Pinot components try to use as much off-heap \(MMAP/DirectMemory\) where ever possible. For example, Pinot servers load segments in memory-mapped files in MMAP mode \(recommended\), or direct memory in HEAP  mode. Heap memory is used mostly for query execution and storing some metadata. We have seen production deployments with high throughput and low-latency work well with just 16 GB of heap for Pinot servers and brokers. Pinot controller may also cache some metadata \(table configs etc\) in heap, so if there are just a few tables in the Pinot cluster, a few GB of heap should suffice.
 
-## Does Pinot provide any backup/restore mechanism?
+### Does Pinot provide any backup/restore mechanism?
 
 Pinot relies on deep-storage for storing backup copy of segments \(offline as well as realtime\). It relies on Zookeeper to store metadata \(table configs, schema, cluster state, etc\). It does not explicitly provide tools to take backups or restore these data, but relies on the deep-storage \(ADLS/S3/GCP/etc\), and ZK to persist these data/metadata. 
 
@@ -57,6 +57,14 @@ The number of segments generated depends on the number of input files. If you pr
 ### What are the common reasons my segment is in a BAD state ?
 
 This typically happens when the server is unable to load the segment. Possible causes: Out-Of-Memory, no-disk space, unable to download segment from deep-store, and similar other errors. Please check server logs for more information. 
+
+### How to reset a segment when it runs into a BAD state?
+
+Use the segment reset controller REST API to reset the segment:
+
+```text
+curl -X POST "{host}/segments/{tableNameWithType}/{segmentName}/reset"
+```
 
 ## Tuning and Optimizations
 
