@@ -6,6 +6,8 @@ description: Upsert support in Apache Pinot.
 
 Pinot provides native support of upsert during the real-time ingestion \(v0.6.0+\). There are scenarios that the records need modifications, such as correcting a ride fare and updating a delivery status.
 
+With the foundation of full upsert support in Pinot, another category of use cases on partial upsert are enabled \(v0.8.0+\). Partial upsert is convenient to users so that they only need to specify the columns whose value changes, and ignore the others. 
+
 To enable upsert on a Pinot table, there are a couple of configurations to make on the table configurations as well as on the input stream.
 
 ## Define the primary key in the schema
@@ -34,9 +36,9 @@ There are a few configurations needed in the table configurations to enable upse
 
 ### Upsert mode
 
-For append-only tables, the upsert mode defaults to `NONE`. To enable the upsert, set the `mode` to `FULL` for the full update. In the future, Pinot plans to add the partial update support. For example:
+For append-only tables, the upsert mode defaults to `NONE`. To enable the full upsert, set the `mode` to `FULL` for the full update. For example:
 
-{% code title="upsert mode" %}
+{% code title="upsert mode: full" %}
 ```javascript
 {
   "upsertConfig": {
@@ -45,6 +47,32 @@ For append-only tables, the upsert mode defaults to `NONE`. To enable the upsert
 }
 ```
 {% endcode %}
+
+Pinot also added the partial update support in v0.8.0+. To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. For example:
+
+{% code title="upsert mode: partial" %}
+```javascript
+{
+  "upsertConfig": {
+    "mode": "PARTIAL",
+    "partialUpsertStrategies":{
+      "rsvp_count": "INCREMENT",
+      "group_name": "UNION",
+      "venue_name": "APPEND"
+    }
+  }
+}
+```
+{% endcode %}
+
+Pinot supports the following partial upsert strategies -
+
+| Strategy | Description |
+| :--- | :--- |
+| OVERWRITE | Overwrite the column of the last record |
+| INCREMENT | Add the new value to the existing values |
+| APPEND | Add the new item to the Pinot unordered set |
+| UNION | Add the new item to the Pinot unordered set if not exists |
 
 ### Use strictReplicaGroup for routing
 
@@ -118,16 +146,31 @@ Putting these together, you can find the table configurations of the quick start
 
 ## Quick Start
 
-To illustrate how the upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a realtime upsert table `meetupRSVP`.
+To illustrate how the full upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a realtime upsert table `meetupRSVP`.
 
 ```bash
 # stop previous quick start cluster, if any
 bin/quick-start-upsert-streaming.sh
 ```
 
+You can also run partial upsert demo with the following command
+
+```bash
+# stop previous quick start cluster, if any
+bin/quick-start-partial-upsert-streaming.sh
+```
+
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the realtime data.
 
 ![Query the upsert table](../../.gitbook/assets/screen-shot-2021-06-15-at-10.02.46-am.png)
+
+For partial upsert you can see only the value from configured column changed based on specified partial upsert strategy. 
+
+![Query the partial upsert table](../../.gitbook/assets/screen-shot-2021-07-13-at-12.40.24-pm.png)
+
+An example for partial upsert is shown below, each of the event_id kept being unique during ingestion, meanwhile the value of rsvp_count incremented.
+
+![Explain partial upsert table](../../.gitbook/assets/screen-shot-2021-07-13-at-12.41.42-pm.png)
 
 To see the difference from the append-only table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
