@@ -6,7 +6,7 @@ description: Upsert support in Apache Pinot.
 
 Pinot provides native support of upsert during the real-time ingestion \(v0.6.0+\). There are scenarios that the records need modifications, such as correcting a ride fare and updating a delivery status.
 
-With the foundation of full upsert support in Pinot, another category of use cases on partial upsert are enabled \(v0.8.0+\). Partial upsert is convenient to users so that they only need to specify the columns whose value changes, and ignore the others. 
+With the foundation of full upsert support in Pinot, another category of use cases on partial upsert are enabled \(v0.8.0+\). Partial upsert is convenient to users so that they only need to specify the columns whose value changes, and ignore the others.
 
 To enable upsert on a Pinot table, there are a couple of configurations to make on the table configurations as well as on the input stream.
 
@@ -164,11 +164,11 @@ As soon as data flows into the stream, the Pinot table will consume it and it wi
 
 ![Query the upsert table](../../.gitbook/assets/screen-shot-2021-06-15-at-10.02.46-am.png)
 
-For partial upsert you can see only the value from configured column changed based on specified partial upsert strategy. 
+For partial upsert you can see only the value from configured column changed based on specified partial upsert strategy.
 
 ![Query the partial upsert table](../../.gitbook/assets/screen-shot-2021-07-13-at-12.40.24-pm.png)
 
-An example for partial upsert is shown below, each of the event_id kept being unique during ingestion, meanwhile the value of rsvp_count incremented.
+An example for partial upsert is shown below, each of the event\_id kept being unique during ingestion, meanwhile the value of rsvp\_count incremented.
 
 ![Explain partial upsert table](../../.gitbook/assets/screen-shot-2021-07-13-at-12.41.42-pm.png)
 

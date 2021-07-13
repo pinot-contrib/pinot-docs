@@ -91,13 +91,8 @@ The command will exit with a status of 0 if all tests pass, 1 otherwise.
 
 NOTE:
 
-* You can run the `compCheck.sh` command multiple times against the same build, you just need to make
-
-  sure to provide a new working directory name each time.
-
-* You can specify a `-k` option to the `compCheck.sh` command to keep the cluster \(Kafka, Pinot components\)
-
-  running. You can then attempt the operation \(e.g. a query\) that failed. 
+* You can run the `compCheck.sh` command multiple times against the same build, you just need to make sure to provide a new working directory name each time.
+* You can specify a `-k` option to the `compCheck.sh` command to keep the cluster \(Kafka, Pinot components\) running. You can then attempt the operation \(e.g. a query\) that failed. 
 
 ## Query and Data files
 
@@ -105,9 +100,25 @@ So we can use the same data files and queries, upload them as new set of rows \(
 
 This allows the test suite to upload the same data as different segments, and verify that the current data as well as the previously uploaded ones are all working correctly in terms of responding to queries. The test driver automatically tests all previous generation numbers as well.
 
-See the sample test suite for use of this feature.
+See the [input file](https://github.com/apache/incubator-pinot/blob/master/compatibility-verifier/sample-test-suite/config/data/RealtimeFeatureTest1-data-00.csv) and [query file](https://github.com/apache/incubator-pinot/blob/master/compatibility-verifier/sample-test-suite/config/queries/feature-test-2-sql-realtime.queries) in sample test suite for use of this feature. 
 
-Another way to accomplish this is to ensure that the set of queries you provide for each phase also includes results from the previous phases.
+Consider an input line in the data file like the following:
+
+```text
+123456,__GENERATION_NUMBER__,"s1-0",s2-0,1,2,m1-0-0;m1-0-1,m2-0-0;m2-0-1,3;4,6;7,Java C++ Python,01a0bc,k1;k2;k3;k4;k5,1;1;2;2;2,"{""k1"":1,""k2"":1,""k3"":2,""k4"":2,""k5"":2}",10,11,12.1,13.1
+```
+
+When this input line is processed to generate a segment or push data into Kafka, the string `__GENERATION_NUMBER__` will be replaced with an integer \(each yaml file is one generation, starting with 0\).
+
+Similarly, consider a query like the following:
+
+```text
+SELECT longDimSV1, intDimMV1, count(*) FROM FeatureTest2 WHERE generationNumber = __GENERATION_NUMBER__ AND (stringDimSV1 != 's1-6' AND longDimSV1 BETWEEN 10 AND 1000 OR (intDimMV1 < 42 AND stringDimMV2 IN ('m2-0-0', 'm2-2-0') AND intDimMV2 NOT IN (6,72))) GROUP BY longDimSV1, intDimMV1 ORDER BY longDimSV1, intDimMV1 LIMIT 20
+```
+
+Before issuing this query, the tests will substitute the string `__GENERATION_NUMBER__` with the actual generation number like above.
+
+Use of generation number is optional \(the test suite will try to substitute the string `__GENERATION_NUMBER__` , but not find it if your input files do not have the string in them\). Another way is to ensure that the set of queries you provide for each phase also includes results from the previous phases. That will make sure that all previously loaded data are also considered in the results when the queries are issued.
 
 ## Result files
 
