@@ -70,6 +70,13 @@ By default, Pinot limits the length of a String column to 512 bytes. If you want
     },
 ```
 
+### When does new data becomes queryable when getting ingested into real-time table?
+
+The new data is available to be queried as soon as it is indexed by the segment, even if the segment is still in consuming state.
+Please note that because segment of real-time table can have multiple replicas that ingest data independently,
+same query may return inconsistent result should it hit different replicas.
+But once the segment is completed, the replicas become consistent following the
+[commit protocol](https://docs.pinot.apache.org/operators/operating-pinot/decoupling-controller-from-the-data-path).
 
 
 ## Indexing
