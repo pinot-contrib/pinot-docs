@@ -2,6 +2,10 @@
 
 ## Data processing
 
+### What is a good segment size?
+
+While Pinot can work with segments of various sizes, for optimal use of Pinot, you want to get your segments sized in the 100MB to 500MB \(un-tarred/uncompressed\) range. Please note that having too many \(thousands or more\) of tiny segments for a single table just creates more overhead in terms of the metadata storage in Zookeeper as well as in the Pinot servers' heap. At the same time, having too few really large \(GBs\) segments reduces parallelism of query execution, as on the server side, the thread parallelism of query execution is at segment level.
+
 ### Can multiple Pinot tables consume from the same Kafka topic?
 
 Yes. Each table can be independently configured to consume from any given Kafka topic, regardless of whether there are other tables that are also consuming from the same Kafka topic.
@@ -49,8 +53,8 @@ Then you can use these [json functions](https://docs.pinot.apache.org/users/user
 
 {% hint style="warning" %}
 **NOTE**  
-This works well if some of your fields are nested json, but most of your fields are top level json keys. If all of your fields are within a nested JSON key, you will have to store the entire payload as 1 column, which is not ideal.  
-  
+This works well if some of your fields are nested json, but most of your fields are top level json keys. If all of your fields are within a nested JSON key, you will have to store the entire payload as 1 column, which is not ideal.
+
 Support for flattening during ingestion is on the roadmap: [https://github.com/apache/incubator-pinot/issues/5264](https://github.com/apache/incubator-pinot/issues/5264)
 {% endhint %}
 
@@ -74,12 +78,9 @@ By default, Pinot limits the length of a String column to 512 bytes. If you want
 
 Events are available to be read by queries as soon as they are ingested. This is because events are instantly indexed in-memory upon ingestion.
 
-The ingestion of events into the real-time table is not transactional, so replicas of the open segment are not immediately consistent.
-Pinot trades consistency for availability upon network partitioning (CAP theorem) to provide ultra-low ingestion latencies at high throughput.
+The ingestion of events into the real-time table is not transactional, so replicas of the open segment are not immediately consistent. Pinot trades consistency for availability upon network partitioning \(CAP theorem\) to provide ultra-low ingestion latencies at high throughput.
 
-However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent,
-with the [commit protocol](https://docs.pinot.apache.org/operators/operating-pinot/decoupling-controller-from-the-data-path).
-
+However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent, with the [commit protocol](https://docs.pinot.apache.org/operators/operating-pinot/decoupling-controller-from-the-data-path).
 
 ## Indexing
 

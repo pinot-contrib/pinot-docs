@@ -61,16 +61,14 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 
 ![](../../.gitbook/assets/eclipse_style.png)
 
+### **Starting Pinot via IDE**
 
+Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for realtime mode.
 
-### **Starting Pinot via IDE** 
-
-Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for realtime mode.  
-  
 **Batch Quickstart**
 
 * start all Pinot components \(ZK, Controller, Server, Broker\) in the same JVM
-*  create Baseball Stats table
+* create Baseball Stats table
 
 Go to Open localhost:9000 in your browser and play with the query console.
 

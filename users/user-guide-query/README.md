@@ -20,4 +20,3 @@ description: >-
 
 {% page-ref page="lookup-udf-join.md" %}
 
-
