@@ -65,7 +65,7 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 
 ### **Starting Pinot via IDE** 
 
-Once the IDE is set up, you can run `QuickStart` for batch mode or `RealtimeQuickStart` for realtime mode.  
+Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for realtime mode.  
   
 **Batch Quickstart**
 
