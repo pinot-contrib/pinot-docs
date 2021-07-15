@@ -218,7 +218,7 @@ In theory, a server can host both real-time segments and offline segments. Howev
 
 **Offline servers**
 
-Offline servers typically host segments that are immutable. In this case, segments are created outside of a cluster and uploaded via a shell-based [curl](https://curl.haxx.se/) request. Based on the replication factor and the segment assignment strategy, the controller picks one or more servers to host the segment. Servers are notified via Helix about the new segments. Servers fetch the segments from deep store and loads them before being ready to serve query requests. At this point, the cluster's [broker](components/broker.md) detects that new segments are available and starts including them in query responses.
+Offline servers typically host segments that are immutable. In this case, segments are created outside of a cluster and uploaded via a shell-based [curl](https://curl.haxx.se/) request. Based on the replication factor and the segment assignment strategy, the controller picks one or more servers to host the segment. Servers are notified via Helix about the new segments. Servers fetch the segments from deep store and load them before being ready to serve query requests. At this point, the cluster's [broker](components/broker.md) detects that new segments are available and starts including them in query responses.
 
 **Real-time servers**
 
@@ -253,7 +253,7 @@ In _batch mode_, data is ingested into Pinot via an [ingestion job](data-import/
 
 ### Real-time data flow
 
-At table creation, a controller creates a new entry in Zookeeper for the consuming segment. Helix notices the new segment and notifies the _real-time server_, which start consuming data from the streaming source. The broker, which watches for changes, detects the new segments and adds them to the list of segments to query \(segment-to-server routing table\).
+At table creation, a controller creates a new entry in Zookeeper for the consuming segment. Helix notices the new segment and notifies the _real-time server_, which starts consuming data from the streaming source. The broker, which watches for changes, detects the new segments and adds them to the list of segments to query \(segment-to-server routing table\).
 
 ![](../.gitbook/assets/real-time-flow.svg)
 
