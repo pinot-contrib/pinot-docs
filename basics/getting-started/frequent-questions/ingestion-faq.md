@@ -70,6 +70,15 @@ By default, Pinot limits the length of a String column to 512 bytes. If you want
     },
 ```
 
+### When can new events become queryable when getting ingested into a real-time table?
+
+Events are available to be read by queries as soon as they are ingested. This is because events are instantly indexed in-memory upon ingestion.
+
+The ingestion of events into the real-time table is not transactional, so replicas of the open segment are not immediately consistent.
+Pinot trades consistency for availability upon network partitioning (CAP theorem) to provide ultra-low ingestion latencies at high throughput.
+
+However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent,
+with the [commit protocol](https://docs.pinot.apache.org/operators/operating-pinot/decoupling-controller-from-the-data-path).
 
 
 ## Indexing
