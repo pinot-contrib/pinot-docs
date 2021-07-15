@@ -18,5 +18,6 @@ description: >-
 
 {% page-ref page="how-to-handle-unique-counting.md" %}
 
+{% page-ref page="lookup-udf-join.md" %}
 
 
