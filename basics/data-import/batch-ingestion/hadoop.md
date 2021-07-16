@@ -50,19 +50,21 @@ Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set
 
 ## Data Preprocessing before Segment Creation
 
-We’ve seen some requests that data should be massaged (like partitioning, sorting, resizing) before creating and pushing segments to Pinot. 
+We’ve seen some requests that data should be massaged \(like partitioning, sorting, resizing\) before creating and pushing segments to Pinot.
 
 The MapReduce job called `SegmentPreprocessingJob` would be the best fit for this use case, regardless of whether the input data is of AVRO or ORC format.
 
 Check the below example to see how to use `SegmentPreprocessingJob`.
 
 In Hadoop properties, set the following to enable this job:
+
 ```text
 enable.preprocessing = true
 preprocess.path.to.output = <output_path>
 ```
 
 In table config, specify the operations in `preprocessing.operations` that you'd like to enable in the MR job, and then specify the exact configs regarding those operations:
+
 ```text
 {
     "OFFLINE": {
@@ -104,12 +106,13 @@ In table config, specify the operations in `preprocessing.operations` that you'd
 }
 ```
 
-#### preprocessing.num.reducers
+### preprocessing.num.reducers
 
 Minimum number of reducers. Optional. Fetched when partitioning gets disabled and resizing is enabled. This parameter is to avoid having too many small input files for Pinot, which leads to the case where Pinot server is holding too many small segments, causing too many threads.
 
-#### preprocessing.max.num.records.per.file
+### preprocessing.max.num.records.per.file
 
-Maximum number of records per reducer. Optional.Unlike, “preprocessing.num.reducers”, this parameter is to avoid having too few large input files for Pinot, which misses the advantage of muti-threading when querying. When not set, each reducer will finally generate one output file. When set (e.g. M), the original output file will be split into multiple files and each new output file contains at most M records. It does not matter whether partitioning is enabled or not. 
+Maximum number of records per reducer. Optional.Unlike, “preprocessing.num.reducers”, this parameter is to avoid having too few large input files for Pinot, which misses the advantage of muti-threading when querying. When not set, each reducer will finally generate one output file. When set \(e.g. M\), the original output file will be split into multiple files and each new output file contains at most M records. It does not matter whether partitioning is enabled or not.
 
 For more details on this MR job, please refer to this [document](https://docs.google.com/document/d/1BnjjVj3OLuo-vmOt0WjqEFbUC9AZgCDuDxCtLEFPM34/edit?usp=sharing).
+
