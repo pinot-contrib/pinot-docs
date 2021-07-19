@@ -13,6 +13,7 @@ This page contains links to all the design documents
 | [JSON Indexing](https://docs.google.com/document/d/1ZBkZUjlkTH7pA1dN_hLAUXhuP1pIo4WmtM5YXktUifg/edit?usp=sharing) | Kishore Gopalakrishna | Oct 2020 |
 | [Lookup Join](https://docs.google.com/document/d/1InWmxbRqwcqIakzvoEWHLxtX4XR9H5L01256EbAUHV8/edit?usp=sharing) | Dharak Kharod | Oct 2020 |
 | [Strict Replica-Group Routing](https://docs.google.com/document/d/1B5SghG0x5JHfZrKMBjiv_m3Dd969hfyWgc1joKZpJIU/edit?usp=sharing) | Jackie Jiang | Oct 2020 |
+| [Cluster Manager UI](https://docs.google.com/document/d/1E6OWyt-NvOpbBsOH1qwi5v8DcNSgT4PTLJ21TKYIsoI/edit#heading=h.8xhj1hrxrxl) | Neha Pawar | Sep 2020 |
 | [Pinot Upsert Revisited](https://docs.google.com/document/d/1qljEMndPMxbbKtjlVn9mn2toz7Qrk0TGQsHLfI--7h8/edit#heading=h.lsfmyoyyxtgt) | Yupeng Fu | Sep 2020 |
 | [Use IdSet for Id Filtering](https://docs.google.com/document/d/1s6DZ9eTPqH7vaKQlPjKiWb_OBC3hkkEGICIzcd5gozc/edit?usp=sharing) | Jackie Jiang | Sep 2020 |
 | [Pinot managed offline flows](https://docs.google.com/document/d/1-e_9aHQB4HXS38ONtofdxNvMsGmAoYfSnc2LP88MbIc/edit#heading=h.60ws8it8iwvp) | Neha | Aug 2020 |
