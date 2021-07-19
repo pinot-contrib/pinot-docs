@@ -8,6 +8,8 @@ This page contains links to all the design documents
 
 | Name | Authors | Date |
 | :--- | :--- | :--- |
+| [Kinesis Integration in Pinot](https://docs.google.com/document/d/1hFbzumQAGALAi8XZMOsVlwVHN-s2t37MA5QUfduL4Yk/edit?usp=sharing)  | Neha Pawar | Dec 2020 |
+| [Lookup Join](https://docs.google.com/document/d/1InWmxbRqwcqIakzvoEWHLxtX4XR9H5L01256EbAUHV8/edit?usp=sharing) | Dharak Kharod | Oct 2020 |
 | [Strict Replica-Group Routing](https://docs.google.com/document/d/1B5SghG0x5JHfZrKMBjiv_m3Dd969hfyWgc1joKZpJIU/edit?usp=sharing) | Jackie Jiang | Oct 2020 |
 | [Pinot Upsert Revisited](https://docs.google.com/document/d/1qljEMndPMxbbKtjlVn9mn2toz7Qrk0TGQsHLfI--7h8/edit#heading=h.lsfmyoyyxtgt) | Yupeng Fu | Sep 2020 |
 | [Use IdSet for Id Filtering](https://docs.google.com/document/d/1s6DZ9eTPqH7vaKQlPjKiWb_OBC3hkkEGICIzcd5gozc/edit?usp=sharing) | Jackie Jiang | Sep 2020 |
