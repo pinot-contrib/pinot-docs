@@ -154,6 +154,13 @@ where,
   </tbody>
 </table>
 
+{% hint style="warning" %}
+The following properties are deprecated/removed in release `0.8.0`
+
+* **timeColumnTransformFunction** \(removed\): Use [ingestion transforms](../../developers/advanced/ingestion-level-transformations.md) or **roundBucketTimePeriod** instead
+* **collectorType** \(deprecated\): Replaced by **mergeType**
+{% endhint %}
+
 ### **Limitations & possible enhancements**
 
 #### **Late data problem**
