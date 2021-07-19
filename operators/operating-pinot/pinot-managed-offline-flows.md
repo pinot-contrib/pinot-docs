@@ -73,10 +73,10 @@ If needed, you can add more configs to the task configs in the REALTIME table, s
       "realtimeToOfflineSegmentsTask": {
         "bucketTimePeriod": "6h",
         "bufferTimePeriod": "5d",
-        "timeColumnTransformFunction": "round(timestampInEpoch, 86400000)",
-        "collectorType": "rollup",
+        "roundBucketTimePeriod": "1h",
+        "mergeType": "rollup",
         "score.aggregationType": "max",
-        "maxNumRecordsPerSegment": "100_000"
+        "maxNumRecordsPerSegment": "100000"
       }
     }
   }
@@ -113,21 +113,28 @@ where,
       <td style="text-align:left">2d</td>
     </tr>
     <tr>
-      <td style="text-align:left">timeColumnTransformationFunction</td>
-      <td style="text-align:left"><b>Transformation to apply to the time column</b>. This is useful if time
-        column is highly granular in the REALTIME table and is not needed by the
-        application. In the OFFLINE table you can rollup the time values (e.g.
-        milliseconds granularity in REALTIME table, but okay with minute level
-        granularity in the application - set to <code>round(timeColumnName, 60000)</code>
+      <td style="text-align:left">
+        <p>roundBucketTimePeriod</p>
+        <p>(supported since release <code>0.8.0</code>)</p>
+      </td>
+      <td style="text-align:left"><b>Round the time value before merging the rows</b>. This is useful if
+        time column is highly granular in the REALTIME table and is not needed
+        by the application. In the OFFLINE table you can rollup the time values
+        (e.g. milliseconds granularity in REALTIME table, but okay with minute
+        level granularity in the application - set to <code>1m</code>
       </td>
       <td style="text-align:left">None</td>
     </tr>
     <tr>
-      <td style="text-align:left">collectorType</td>
+      <td style="text-align:left">
+        <p>mergeType</p>
+        <p>(supported since release <code>0.8.0</code>)</p>
+      </td>
       <td style="text-align:left">Allowed values are
         <br /><b>concat</b> - no aggregations
         <br /><b>rollup</b> - perform metrics aggregations across common dimensions +
-        time</td>
+        time
+        <br /><b>dedup</b> - deduplicates rows with the same values</td>
       <td style="text-align:left">concat</td>
     </tr>
     <tr>
@@ -142,7 +149,7 @@ where,
       <td style="text-align:left">Control the <b>number of records you want in a segment generated</b>. Useful
         if the time window has many records, but you don&apos;t want them all in
         the same segment.</td>
-      <td style="text-align:left">1m</td>
+      <td style="text-align:left">1,000,000</td>
     </tr>
   </tbody>
 </table>
