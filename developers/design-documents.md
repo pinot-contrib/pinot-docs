@@ -8,6 +8,7 @@ This page contains links to all the design documents
 
 | Name | Authors | Date |
 | :--- | :--- | :--- |
+| Segment Writer API | Neha Pawar | Feb 2021 |
 | [Kinesis Integration in Pinot](https://docs.google.com/document/d/1hFbzumQAGALAi8XZMOsVlwVHN-s2t37MA5QUfduL4Yk/edit?usp=sharing)  | Neha Pawar | Dec 2020 |
 | [Lookup Join](https://docs.google.com/document/d/1InWmxbRqwcqIakzvoEWHLxtX4XR9H5L01256EbAUHV8/edit?usp=sharing) | Dharak Kharod | Oct 2020 |
 | [Strict Replica-Group Routing](https://docs.google.com/document/d/1B5SghG0x5JHfZrKMBjiv_m3Dd969hfyWgc1joKZpJIU/edit?usp=sharing) | Jackie Jiang | Oct 2020 |
