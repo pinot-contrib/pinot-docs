@@ -37,7 +37,7 @@ Most JVM's default certificate store can be configured with command-line argumen
 
 `-Djavax.net.ssl.keyStore  
 -Djavax.net.ssl.keyStorePassword  
--Djavax.net.ssl.trustStorecertificates  
+-Djavax.net.ssl.trustStore  
 -Djavax.net.ssl.trustStorePassword`
 {% endhint %}
 
