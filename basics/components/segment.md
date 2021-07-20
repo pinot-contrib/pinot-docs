@@ -22,7 +22,7 @@ Once the table is configured, we can load some data. Loading data involves gener
 2. [Create broker and server tenants](tenant.md#creating-a-tenant)
 3. [Create an offline table](table.md#offline-table-creation)
 
-Below are instructions to generate and push segments to Pinot via standalone scripts. For a production setup, you should use frameworks such as Hadoop or Spark. See this [page]() for more details on setting up Data Ingestion Jobs. 
+Below are instructions to generate and push segments to Pinot via standalone scripts. For a production setup, you should use frameworks such as Hadoop or Spark. See this [page](https://docs.pinot.apache.org/basics/data-import) for more details on setting up Data Ingestion Jobs. 
 
 #### Job Spec YAML
 
