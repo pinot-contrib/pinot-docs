@@ -4,7 +4,40 @@ Pinot Minion is a standby component which leverages the [Helix Task Framework](h
 
 ## Starting a Minion
 
-To be added
+Make sure you've [setup Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using docker, make sure to [pull the pinot docker image](cluster.md#setup-a-pinot-cluster).  To start a minion
+
+```text
+Usage: StartMinion
+	-help                                                   : Print this message. (required=false)
+	-minionHost               <String>                      : Host name for minion. (required=false)
+	-minionPort               <int>                         : Port number to start the minion at. (required=false)
+	-zkAddress                <http>                        : HTTP address of Zookeeper. (required=false)
+	-clusterName              <String>                      : Pinot cluster name. (required=false)
+	-configFileName           <Config File Name>            : Minion Starter Config file. (required=false)
+```
+
+
+
+{% tabs %}
+{% tab title="Docker Image" %}
+```text
+docker run \
+    --network=pinot-demo \
+    --name pinot-minion \
+    -d ${PINOT_IMAGE} StartMinion \
+    -zkAddress pinot-zookeeper:2181
+```
+{% endtab %}
+
+{% tab title="Launcher Scripts" %}
+```text
+bin/pinot-admin.sh StartMinion \
+    -zkAddress localhost:2181
+```
+{% endtab %}
+{% endtabs %}
+
+
 
 ## Interfaces
 
