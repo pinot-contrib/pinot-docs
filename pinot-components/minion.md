@@ -5,6 +5,14 @@ Pinot Minion is a new component which leverages the [Helix Task Framework](https
 ## Starting Minion
 
 ```text
-// coming soon
+bin/pinot-admin.sh StartMinion -clusterName pinot-quickstart -zkAddress localhost:2181 -configFileName ${PINOT_DIR}/config/pinot-minion.conf
+
+**pinot-minion.conf**
+
+pinot.minion.port=6000
+pinot.minion.adminapi.port=6001
+pinot.set.instance.id.to.hostname=true
+dataDir=/minion-data-dir
+instance.enable.split.commit=true
 ```
 
