@@ -95,6 +95,16 @@ dataFormat: 'parquet'
 className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader'
 ```
 
+{% hint style="info" %}
+The above class doesn't read the Parquet `INT96` type.
+
+Parquet `INT96` type for **nanoseconds** can be read as a Pinot `INT64` type of **milliseconds** by changing className to
+
+```text
+'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReader'
+```
+{% endhint %}
+
 #### ORC
 
 ```text
