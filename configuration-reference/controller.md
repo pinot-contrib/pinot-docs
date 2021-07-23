@@ -56,7 +56,6 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 | :--- | :--- | :--- |
 | controller.retention.frequencyInSeconds \(Deprecated\)| 6 hours | frequency at which to trigger retention checking tasks |
 | controller.retention.frequencyPeriod | 6 hours | frequency at which to trigger retention checking tasks |
-| controller.validation.frequencyInSeconds \(Deprecated\) | 1 hour |  |
 | controller.offline.segment.interval.checker.frequencyInSeconds \(Deprecated\) | 24 hours |  |
 | controller.offline.segment.interval.checker.frequencyPeriod | 24 hours |  |
 | controller.realtime.segment.validation.frequencyInSeconds \(Deprecated\)| 1 hour |  |
