@@ -95,11 +95,43 @@ dataFormat: 'parquet'
 className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader'
 ```
 
-{% hint style="info" %}
-The above class doesn't read the Parquet `INT96` type.
-
-Parquet `INT96` type for **nanoseconds** can be read as a Pinot `INT64` type of **milliseconds** by changing className to:`org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReader`
+{% hint style="warning" %}
+The above class doesn't read the Parquet `INT96` and `Decimal`type.
 {% endhint %}
+
+Please use the below class to handle  `INT96` and `Decimal`type.
+
+```text
+dataFormat: 'parquet'
+className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReader'
+```
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Parquet Data Type</th>
+      <th style="text-align:left">Java Data Type</th>
+      <th style="text-align:left">Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">INT96</td>
+      <td style="text-align:left">INT64</td>
+      <td style="text-align:left">
+        <p>Parquet<code>INT96</code> type converts <b>nanoseconds</b>
+        </p>
+        <p>to Pinot <code>INT64</code> type of <b>milliseconds</b>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">DECIMAL</td>
+      <td style="text-align:left">DOUBLE</td>
+      <td style="text-align:left"></td>
+    </tr>
+  </tbody>
+</table>
 
 #### ORC
 
