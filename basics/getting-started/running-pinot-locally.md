@@ -38,7 +38,7 @@ Install [Apache Maven](https://maven.apache.org/install.html) 3.6 or higher
 
 ```bash
 # checkout pinot
-git clone https://github.com/apache/incubator-pinot.git
+git clone https://github.com/apache/pinot.git
 cd incubator-pinot
 
 # build pinot
