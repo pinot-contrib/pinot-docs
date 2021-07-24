@@ -32,5 +32,5 @@ Batch Ingestion is a set of plugins targeted to ingest data from batches. Curren
 
 ### Developing Plugins
 
-Plugins can be developed with no restriction. There are some standards that have to be followed, though. The plugin have to implement the interfaces from the link [https://github.com/apache/incubator-pinot/tree/master/pinot-spi/src/main/java/org/apache/pinot/spi](https://github.com/apache/incubator-pinot/tree/master/pinot-spi/src/main/java/org/apache/pinot/spi)
+Plugins can be developed with no restriction. There are some standards that have to be followed, though. The plugin have to implement the interfaces from the link [https://github.com/apache/pinot/tree/master/pinot-spi/src/main/java/org/apache/pinot/spi](https://github.com/apache/pinot/tree/master/pinot-spi/src/main/java/org/apache/pinot/spi)
 
