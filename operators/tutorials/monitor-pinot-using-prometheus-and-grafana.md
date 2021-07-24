@@ -13,7 +13,7 @@ Here we will introduce how to monitor Pinot with Prometheus and Grafana in Kuber
 
 ```text
 ## Adding Pinot helm repo
-helm repo add pinot https://raw.githubusercontent.com/apache/incubator-pinot/master/kubernetes/helm
+helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/kubernetes/helm
 ## Extract all the configurable values of Pinot Helm into a config.
 helm inspect values pinot/pinot > /tmp/pinot-values.yaml
 ```
@@ -38,7 +38,7 @@ You can port forward port 8008 to local and access metrics though: [http://local
 
 2. Configure service annotations:
 
-Add prometheus related annotations to enable prometheus to scrape metrics.  
+Add Prometheus related annotations to enable Prometheus to scrape metrics.  
 
 * `controller.service.annotations` 
 * `broker.service.annotations`
@@ -71,7 +71,7 @@ helm install pinot pinot/pinot -n pinot --values /tmp/pinot-values.yaml
 
 Once Pinot is deployed and running, we can start deploy Prometheus.
 
-Similar to Pinot Helm, we will have Prometheus Helm and it's config yaml file:
+Similar to Pinot Helm, we will have Prometheus Helm and its config yaml file:
 
 ```text
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
