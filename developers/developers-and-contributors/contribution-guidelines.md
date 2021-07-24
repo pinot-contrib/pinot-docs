@@ -160,7 +160,7 @@ $ git add <files required for the change>
 $ git commit -m "Meaningful oneliner for the change"
 $ git push origin <your issue branch>
 
-After this, create a PullRequest in `github <https://github.com/apache/incubator-pinot/pulls>`_. Include the following information in the description:
+After this, create a PullRequest in `github <https://github.com/apache/pinot/pulls>`_. Include the following information in the description:
 
   * The changes that are included in the PR.
 
