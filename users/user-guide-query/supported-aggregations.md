@@ -267,5 +267,5 @@ The following aggregation functions can be used for multi-value columns
   </tbody>
 </table>
 
-\`\`
+
 
