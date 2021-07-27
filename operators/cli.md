@@ -389,7 +389,7 @@ All the options should be prefixed with `-` \(hyphen\)
 Start multiple Pinot process with all the default configuration using single command.
 
 ```text
-pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName PinotCluster -bootstrapServices CONTROLLER BROKER -bootstrapConfigPaths /path/to/controller.conf /path/to/broker.conf 
+pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName PinotCluster  -bootstrapConfigPaths /path/to/controller.conf /path/to/broker.conf /path/to/server.conf
 ```
 
 #### Supported Options
