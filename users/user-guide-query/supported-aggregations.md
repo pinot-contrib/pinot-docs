@@ -92,6 +92,16 @@ Pinot provides support for aggregations using GROUP BY. You can use the followin
       </td>
     </tr>
     <tr>
+      <td style="text-align:left"><b>DISTINCTCOUNTBITMAP</b>
+      </td>
+      <td style="text-align:left">Returns the count of distinct row values in a group. This function is
+        accurate for INT or dictionary encoded column, but approximate for other
+        cases where hash codes are used in distinct counting and there may be hash
+        collision.</td>
+      <td style="text-align:left"><code>DISTINCTCOUNTBITMAP(playerName)</code>
+      </td>
+    </tr>
+    <tr>
       <td style="text-align:left"><b>DISTINCTCOUNTHLL</b>
       </td>
       <td style="text-align:left">Returns an approximate distinct count using HyperLogLog in a group</td>
@@ -235,6 +245,16 @@ The following aggregation functions can be used for multi-value columns
       </td>
       <td style="text-align:left">Returns the count of distinct row values in a group</td>
       <td style="text-align:left"><code>DISTINCTCOUNTMV(playerNames)</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>DISTINCTCOUNTBITMAPMV</b>
+      </td>
+      <td style="text-align:left">Returns the count of distinct row values in a group. This function is
+        accurate for INT or dictionary encoded column, but approximate for other
+        cases where hash codes are used in distinct counting and there may be hash
+        collision.</td>
+      <td style="text-align:left"><code>DISTINCTCOUNTBITMAPMV(playerNames)</code>
       </td>
     </tr>
     <tr>
