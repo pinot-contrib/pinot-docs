@@ -71,7 +71,7 @@ All the options should be prefixed with `-` \(hyphen\)
 Lists all the segments which have invalid time interval. Only `OFFLINE` segments are supported.
 
 ```text
-pinot-admin.sh CheckOfflineSegmentIntervals -zkAddress localhost:2181 -clusterName PinotCluster -tableName myTable
+pinot-admin.sh CheckOfflineSegmentIntervals -zkAddress localhost:2181 -clusterName PinotCluster -tableNames myTable
 ```
 
 #### Supported Options
@@ -89,7 +89,7 @@ All the options should be prefixed with `-` \(hyphen\)
 This command changes the replicas of the table. The number of replicas are set from the latest available table config.
 
 ```text
-pinot-admin.sh ChangeNumReplicas -tableName myTable -clusterName PinotCluster -zkAddress localhost:2181 -exec
+pinot-admin.sh ChangeNumReplicas -tableNames myTable -clusterName PinotCluster -zkAddress localhost:2181 -exec
 ```
 
 #### Supported Options
@@ -100,7 +100,7 @@ All the options should be prefixed with `-` \(hyphen\)
 | :--- | :--- |
 | zkAddress | comma seperated host:port string of zookeeper to connect |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
-| tableName | name of the table on which to perform operation |
+| tableNames | name of the table on which to perform operation |
 | exec | If not specified, a dry run will be done but configs won't actually be uploaded.  |
 
 ### Change Table State
@@ -108,7 +108,9 @@ All the options should be prefixed with `-` \(hyphen\)
 Enable, Disable or Drop the table available in database.
 
 ```text
-pinot-admin.sh ChangeTableState -tableName myTable -state disable -controllerHost localhost -controllerPort 9000 -exec
+pinot-admin.sh ChangeTableState -
+
+s myTable -state disable -controllerHost localhost -controllerPort 9000 -exec
 ```
 
 #### Supported Options
@@ -119,7 +121,7 @@ All the options should be prefixed with `-` \(hyphen\)
 | :--- | :--- |
 | controllerHost | controllerHost on which to send the upload requests |
 | controllerPort | controllerPort on which to send the upload requests |
-| tableName | name of the table to modify  |
+| tableNames | name of the table to modify  |
 | state | can be one of `enable` , `disable` or `drop`  |
 
 ### Create Segment
@@ -240,7 +242,7 @@ All the options should be prefixed with `-` \(hyphen\)
 | :--- | :--- |
 | srcHosts | path of the file with all the source hosts or comma seperated list of hostnames |
 | destHostsFile | path of the file with all the destination hosts |
-| tableName | name of the table for which replica group is to be moved. Supports only `OFFLINE` tables currently |
+| tableNames | name of the table for which replica group is to be moved. Supports only `OFFLINE` tables currently |
 | maxSegmentsToMove | maximum number of segments to move. default is `Integer.MAX_VALUE` |
 | zkHost | zookeeper host:port string |
 | cluster | name of the cluster inside zookeeper .  |
@@ -311,7 +313,7 @@ All the options should be prefixed with `-` \(hyphen\)
 | :--- | :--- |
 | zkAddress | comma seperated host:port string of zookeeper to connect |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
-| tableName | name of the table on which to perform operation |
+| tableNames | name of the table on which to perform operation |
 | reassignInstances | set to reassign instances before reassigning segments \(`false` by default\) |
 | includeConsuming | set to reassign `CONSUMING` segments for real-time table \(`false` by default\) |
 | bootstrap | set to rebalance table in bootstrap mode \(regardless of minimum segment movement, reassign all segments in a round-robin fashion as if adding new segments to an empty table, `false` by default\) |
@@ -460,14 +462,14 @@ All the options should be prefixed with `-` \(hyphen\)
 | controllerHost | hostname or ip of the controller |
 | controllerPort | port of the controller |
 | segmentDir | local directory containing segment files |
-| tableName | name of the table to push the segments in |
+| tableNames | name of the table to push the segments in |
 
 ### Validate Config
 
 Validate the table configs and schema present in Zookeeper. 
 
 ```text
-pinot-admin.sh ValidateConfig -clusterName PinotCluster -zkAddress localhost:2181 -tableConfig -tableName mytable myTable2 -schema -schemaNames myschema myschema2
+pinot-admin.sh ValidateConfig -clusterName PinotCluster -zkAddress localhost:2181 -tableConfig -tableNames mytable myTable2 -schema -schemaNames myschema myschema2
 ```
 
 #### Supported Options
@@ -506,7 +508,7 @@ All the options should be prefixed with `-` \(hyphen\)
 Verify if all the tables in the cluster have same Ideal State and External View.
 
 ```text
-pinot-admin.sh VerifyClusterState -zkAddress localhost:2181 -clusterName PinotCluster -tableName myTable -timeoutSec 10
+pinot-admin.sh VerifyClusterState -zkAddress localhost:2181 -clusterName PinotCluster -tableNames myTable -timeoutSec 10
 ```
 
 #### Supported Options
@@ -517,7 +519,7 @@ All the options should be prefixed with `-` \(hyphen\)
 | :--- | :--- |
 | zkAddress | comma seperated host:port string of zookeeper to connect |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
-| tableName | name of the table for which the validation should be done.  By default, all tables are verified. |
+| tableNames | name of the table for which the validation should be done.  By default, all tables are verified. |
 | timeoutSec | timeout in seconds for the request to check the cluster state. |
 
  
