@@ -65,58 +65,7 @@ This method of committing can be useful if the network bandwidth on the lead con
 
 This tool can help decide the optimum segment size and number of hosts for your table. You will need one sample Pinot segment from your table before you run this command. If you have an offline segment, you can use that. Alternatively, you can provision a test version of your table with some minimum number of hosts that can consume the stream, let it create a few segments with large enough number of rows \(say, 500k  to 1M rows\), and use one of those  segments to run the command. You can drop the test version table, and re-provision it once the command outputs some parameters to set.
 
-#### Version 0.4.0 and older
-
-The arguments for this command are as follows \(some of these have default values, so try the -help argument first\):
-
-* `tableConfigFile`: This is the path to the table config file
-* `numPartitions`: Number of partitions in your stream
-* `numHosts`: This is a list of the number of hosts for which you need to compute the actual parameters. For example,  if you are planning to deploy between 4 and 8 hosts, you may specify 4,6,8. In this case, the parameters will be computed for each configuration -- that of 4 hosts, 6 hosts, and 8 hosts. You can then decide which of these configurations to use.
-* `numHours` : This is a list of maximum number of hours you want your consuming segments to be in consuming state. After these many hours the segment will move to completed state, even if other criteria \(like segment size or number of rows\) are not met yet. This value must be smaller than the retention of your stream. If you specify too small a value, then you run the risk of creating too many segments, this resulting in sub-optimal query performance. If you specify this value to be too big, then you may run the risk of having too large segments, running out of "hot" memory \(consuming segments are in read-write memory\). Specify a few different \(comma-separated\) values, and the command computes the segment size for each of these.
-* `retentionHours` : Number of hours of most recent data that needs to be in memory. The realtime segments need to be in memory only until the offline segments are available for use in a hybrid table \(for a realtime only table, specify the table retention time in hours\). For example, if the offline tables are pushed daily, you can specify 72, and if it is pushed hourly, you can specify 24. 
-* `maxUsableHostMemory`: This is the total memory available in each host for hosting "retentionHours" worth of segments of this table. Remember to leave some for query processing \(or other tables,  if you have them in the same hosts\)
-* `sampleCompletedSegmentDir`: The path of the directory in which the sample segment is present.
-* `periodSampleSegmentConsumed`: The time taken for the sample segment to be consumed. If it is an offline segment, then you will need to compute this value by dividing the number of rows in the offline segment by the average ingestion rate of any one partition in your stream \(we assume here that the partitions are more or less uniform\).
-
-Once you run the command, it produces an out like below:
-
-```text
-Memory used per host
-
-numHosts --> 8        |10       |12       |14       |
-numHours
- 4 --------> 31.94GB  |26.61GB  |21.29GB  |18.63GB  |
- 6 --------> 31.81GB  |26.51GB  |21.2GB   |18.55GB  |
- 8 --------> 31.68GB  |26.4GB   |21.12GB  |18.48GB  |
-10 --------> 34.94GB  |29.12GB  |23.29GB  |20.38GB  |
-12 --------> 31.42GB  |26.19GB  |20.95GB  |18.33GB  |
-
-Optimal segment size
-
-numHosts --> 8        |10       |12       |14       |
-numHours
- 4 --------> 144.68MB |144.68MB |144.68MB |144.68MB |
- 6 --------> 217.02MB |217.02MB |217.02MB |217.02MB |
- 8 --------> 289.36MB |289.36MB |289.36MB |289.36MB |
-10 --------> 361.7MB  |361.7MB  |361.7MB  |361.7MB  |
-12 --------> 434.04MB |434.04MB |434.04MB |434.04MB |
-
-Consuming memory
-
-numHosts --> 8        |10       |12       |14       |
-numHours
- 4 --------> 3.11GB   |2.59GB   |2.07GB   |1.82GB   |
- 6 --------> 3.83GB   |3.19GB   |2.55GB   |2.24GB   |
- 8 --------> 4.55GB   |3.79GB   |3.03GB   |2.66GB   |
-10 --------> 5.27GB   |4.39GB   |3.51GB   |3.08GB   |
-12 --------> 5.99GB   |4.99GB   |3.99GB   |3.5GB    |
-```
-
-Now, depending on how much memory you want to allocate for this table, and how many hosts you want to provision, you can select the number of hours to consume, and the optimal segment size, and enter that into the streamsConfig section of the table configuration.
-
-#### Version 0.5.0 and later
-
-This command has been improved to display the number of pages mapped, as well as take in the push frequency as an argument if the realtime table being provisioned is a part of a hybrid table. The arguments are as follows:
+As of Pinot version 0.5.0, this command has been improved to display the number of pages mapped, as well as take in the push frequency as an argument if the realtime table being provisioned is a part of a hybrid table. If you are using an older version of this command, please download a later version and re-run the command. The arguments to the command are as follows:
 
 * `tableConfigFile`: This is the path to the table config file
 * `numPartitions`: Number of partitions in your stream
