@@ -63,7 +63,7 @@ Download the latest binary release from [Apache Pinot](https://pinot.apache.org/
 ```bash
 PINOT_VERSION=0.7.1 #set to the Pinot version you decide to use
 
-wget https://downloads.apache.org/incubator/pinot/apache-pinot-incubating-$PINOT_VERSION/apache-pinot-incubating-$PINOT_VERSION-bin.tar.gz
+wget https://downloads.apache.org/pinot/apache-pinot-incubating-$PINOT_VERSION/apache-pinot-incubating-$PINOT_VERSION-bin.tar.gz
 ```
 
 Once you have the tar file,
