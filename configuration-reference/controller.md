@@ -54,23 +54,23 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 
 | Property | Default | Description |
 | :--- | :--- | :--- |
-| controller.retention.frequencyInSeconds \(Deprecated\)| 6 hours | frequency at which to trigger retention checking tasks |
+| controller.retention.frequencyInSeconds \(Deprecated\) | 6 hours | frequency at which to trigger retention checking tasks |
 | controller.retention.frequencyPeriod | 6 hours | frequency at which to trigger retention checking tasks |
 | controller.offline.segment.interval.checker.frequencyInSeconds \(Deprecated\) | 24 hours |  |
 | controller.offline.segment.interval.checker.frequencyPeriod | 24 hours |  |
-| controller.realtime.segment.validation.frequencyInSeconds \(Deprecated\)| 1 hour |  |
+| controller.realtime.segment.validation.frequencyInSeconds \(Deprecated\) | 1 hour |  |
 | controller.realtime.segment.validation.frequencyPeriod | 1 hour |  |
-| controller.broker.resource.validation.frequencyInSeconds \(Deprecated\)| 1 hour |  |
+| controller.broker.resource.validation.frequencyInSeconds \(Deprecated\) | 1 hour |  |
 | controller.broker.resource.validation.frequencyPeriod | 1 hour |  |
 | controller.broker.resource.validation.initialDelayInSeconds | 120-300 seconds |  |
-| controller.statuschecker.frequencyInSeconds \(Deprecated\)| 5 minutes |  |
+| controller.statuschecker.frequencyInSeconds \(Deprecated\) | 5 minutes |  |
 | controller.statuschecker.frequencyPeriod | 5 minutes |  |
-| controller.statuschecker.waitForPushTimeInSeconds \(Deprecated\)| 10 minutes |  |
+| controller.statuschecker.waitForPushTimeInSeconds \(Deprecated\) | 10 minutes |  |
 | controller.statuschecker.waitForPushTimePeriod | 10 minutes |  |
-| controller.task.frequencyInSeconds \(Deprecated\)| -1 \(disabled\) |  |
+| controller.task.frequencyInSeconds \(Deprecated\) | -1 \(disabled\) |  |
 | controller.task.frequencyPeriod | -1 \(disabled\) |  |
 | controller.realtime.segment.relocator.frequency | 1 hour |  |
-| controller.segment.level.validation.intervalInSeconds \(Deprecated\)| 24 hours |  |
+| controller.segment.level.validation.intervalInSeconds \(Deprecated\) | 24 hours |  |
 | controller.segment.level.validation.intervalPeriod | 24 hours |  |
 | controller.statuschecker.intialDelayInSeconds | 120-300 seconds |  |
 | controller.retentionManager.initialDelayInSeconds | 120-300 seconds |  |

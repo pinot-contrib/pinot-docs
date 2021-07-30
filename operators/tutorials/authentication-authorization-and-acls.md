@@ -47,32 +47,30 @@ Apache Pinot's Basic Auth follows the established standards for HTTP Basic Auth.
 
 If you're using pinot's CLI clients you can provide your credentials either via dedicated username and password arguments, or as pre-serialized token for the HTTP Authorization header. Note, that while most of Apache Pinot's CLI commands support auth, not all of them have been back-fitted yet. If you encounter any such case, you can access the REST API directly, e.g. via curl.
 
-{% tabs %}
-{% tab title="Web UI" %}
 ![](../../.gitbook/assets/screen-shot-2021-05-25-at-3.35.05-pm.png)
-{% endtab %}
 
+{% tabs %}
 {% tab title="CLI Arguments" %}
 ```
 $ bin/pinot-admin.sh PostQuery \
--user user -password secret \
--brokerPort 8000 -query 'SELECT * FROM baseballStats'
+  -user user -password secret \
+  -brokerPort 8000 -query 'SELECT * FROM baseballStats'
 ```
 {% endtab %}
 
 {% tab title="CLI Token" %}
 ```
 $ bin/pinot-admin.sh PostQuery \
--authToken "Basic dXNlcjpzZWNyZXQ=" \
--brokerPort 8000 -query 'SELECT * FROM baseballStats'
+  -authToken "Basic dXNlcjpzZWNyZXQ=" \
+  -brokerPort 8000 -query 'SELECT * FROM baseballStats'
 ```
 {% endtab %}
 
 {% tab title="HTTP Headers" %}
 ```text
 $ curl http://localhost:8000/query/sql \
--H 'Authorization: Basic dXNlcjpzZWNyZXQ=' \
--d '{"sql":"SELECT * FROM baseballStats"}'
+  -H 'Authorization: Basic dXNlcjpzZWNyZXQ=' \
+  -d '{"sql":"SELECT * FROM baseballStats"}'
 ```
 {% endtab %}
 {% endtabs %}
@@ -156,15 +154,34 @@ pinot.broker.access.control.principals.user.tables=baseballStats ,otherstuff
 Similar to any API calls, offline jobs executed via command line or minion require credentials as well if ACLs are enabled on pinot-controller. These credentials can be provided either as part of the job spec itself or using CLI arguments as values \(via **-values**\) or properties \(via **-propertyFile**\).
 
 {% tabs %}
-{% tab title="Job Spec" %}
+{% tab title="Job Spec YAML" %}
 ```
 authToken: Basic YWRtaW46dmVyeXNlY3JldA
 ```
 {% endtab %}
 
 {% tab title="CLI Arguments" %}
+```
+$ bin/pinot-admin.sh LaunchDataIngestionJob \
+  -user admin -password verysecret \
+  -jobSpecFile myJobSpec.yaml
+```
+{% endtab %}
+
+{% tab title="CLI Token" %}
+```
+$ bin/pinot-admin.sh LaunchDataIngestionJob \
+  -authToken "Basic YWRtaW46dmVyeXNlY3JldA" \
+  -jobSpecFile myJobSpec.yaml
+```
+{% endtab %}
+
+{% tab title="CLI Values" %}
 ```text
-$ bin/pinot-admin.sh LaunchDataIngestionJob -jobSpecFile myJobSpec.yaml -values "authToken=Basic YWRtaW46dmVyeXNlY3JldA"
+# this requires a reference to "${authToken}" in myJobSpec.yaml!
+$ bin/pinot-admin.sh LaunchDataIngestionJob \
+  -jobSpecFile myJobSpec.yaml \
+  -values "authToken=Basic YWRtaW46dmVyeXNlY3JldA"
 ```
 {% endtab %}
 {% endtabs %}
