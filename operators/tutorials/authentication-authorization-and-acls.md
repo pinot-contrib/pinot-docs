@@ -151,7 +151,7 @@ pinot.broker.access.control.principals.user.tables=baseballStats ,otherstuff
 
 ### Minion and ingestion jobs
 
-Similar to any API calls, offline jobs executed via command line or minion require credentials as well if ACLs are enabled on pinot-controller. These credentials can be provided either as part of the job spec itself or using CLI arguments as values \(via **-values**\) or properties \(via **-propertyFile**\).
+Similar to any API calls, offline jobs executed via command line or minion require credentials as well if ACLs are enabled on pinot-controller. These credentials can be provided either as part of the job spec itself or using CLI arguments and as values \(via **-values**\) or properties \(via **-propertyFile**\) if Groovy templates are defined in the jobSpec.
 
 {% tabs %}
 {% tab title="Job Spec YAML" %}
