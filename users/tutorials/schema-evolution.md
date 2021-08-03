@@ -72,7 +72,13 @@ Result: {"resultTable":{"dataSchema":{"columnNames":["playerID","yearsOfExperien
 
 {% hint style="info" %}
 **Real-Time Pinot table:** In case of real-time tables, make sure the "_pinot.server.instance.reload.consumingSegment_" config is set to true inside [Server config](https://docs.pinot.apache.org/configuration-reference/server). Without this, the current consuming segment\(s\) will not reflect the default null value for newly added columns.
+
+Note that the real values for the newly added columns won't be reflected within the current consuming segment\(s\). The next consuming segment\(s\) will start consuming the real values.
 {% endhint %}
+
+### Derived Column
+
+New columns can be added with [ingestion transforms](../../developers/advanced/ingestion-level-transformations.md). If all the source columns for the new column exist in the schema, the transformed values will be generated for the new column instead of filling default values.
 
 ### Backfilling the Data
 
