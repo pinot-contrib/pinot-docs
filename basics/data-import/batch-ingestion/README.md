@@ -155,7 +155,7 @@ Now that we have the job spec for our table `transcript` , we can trigger the jo
 
 ```text
 bin/pinot-admin.sh LaunchDataIngestionJob \\
-    -jobSpecFile /tmp/pinot-quick-start/batch-job-spec.yml
+    -jobSpecFile /tmp/pinot-quick-start/batch-job-spec.yaml
 ```
 
 Once the job has successfully finished, you can head over to the \[query console\] and start playing with the data.
