@@ -1,6 +1,6 @@
 # Cluster
 
-Cluster is a set a nodes comprising of servers, brokers, controllers and minions. 
+Cluster is a set of nodes comprising of servers, brokers, controllers and minions.
 
 ![Pinot cluster components](../../.gitbook/assets/components.jpg)
 
