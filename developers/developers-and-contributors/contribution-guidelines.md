@@ -6,7 +6,7 @@ Before you begin to contribute, make sure you have reviewed [Dev Environment Set
 
 If your change is relatively minor, you can skip this step. If you are adding new major feature, we suggest that you add a design document and solicit comments from the community before submitting any code.
 
-[Here](https://cwiki.apache.org/confluence/display/PINOT/Design+Documents) is a list of current design documents.
+[Here](https://docs.pinot.apache.org/developers/design-documents) is a list of current design documents.
 
 ### Create an issue for the change
 
