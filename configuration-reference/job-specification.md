@@ -162,10 +162,10 @@ The configs specify the execution framework to use to ingest data. Check out [Ba
 | Property | Description |
 | :--- | :--- |
 | name | name of the execution framework. can be one of `spark,hadoop or standalone` |
-| segmentGenerationJobRunnerClassName | The class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentGenerationJobRunner interface to run the segment generation job |
-| segmentTarPushJobRunnerClassName | The class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentTarPushJobRunner interface to push the segment TAR file |
-| segmentUriPushJobRunnerClassName | The class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentUriPushJobRunner interface to send segment URI |
-| segmentMetadataPushJobRunnerClassName | The class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentMetadataPushJobRunner interface to send segment Metadata |
+| segmentGenerationJobRunnerClassName | The class name implements org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner interface to run the segment generation job |
+| segmentTarPushJobRunnerClassName | The class name implements org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner interface to push the segment TAR file |
+| segmentUriPushJobRunnerClassName | The class name implements org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner interface to send segment URI |
+| segmentMetadataPushJobRunnerClassName | The class name implements org.apache.pinot.plugin.ingestion.batch.standalone.SegmentMetadataPushJobRunner interface to send segment Metadata |
 | extraConfigs | Key-value pairs of configs related to the framework of the executions |
 
 #### Example
