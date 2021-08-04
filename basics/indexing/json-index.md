@@ -80,7 +80,7 @@ In release `0.7.1`, we use the old syntax for `filterExpression`: `'name=''adam'
 
 ### Simple key lookup
 
-Find all persons whose name is "adam".
+Find all persons whose name is "adam":
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.name"=''adam''')
@@ -92,7 +92,7 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'name=''adam'''
 
 ### Chained key lookup
 
-Find all persons who have an address \(one of the addresses\) with number 112.
+Find all persons who have an address \(one of the addresses\) with number 112:
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[*].number"=112')
@@ -104,7 +104,7 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'addresses.numb
 
 ### Nested filter expression
 
-Find all persons whose name is "adam" and also have an address \(one of the addresses\) with number 112.
+Find all persons whose name is "adam" and also have an address \(one of the addresses\) with number 112:
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
@@ -116,7 +116,7 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'name=''adam'' 
 
 ### Array access
 
-Find all persons whose first address has number 112.
+Find all persons whose first address has number 112:
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
@@ -128,7 +128,7 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'"addresses[0].
 
 ### Existence check
 
-Find all persons who have phone field within the JSON.
+Find all persons who have phone field within the JSON:
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.phone" IS NOT NULL')
@@ -138,7 +138,7 @@ SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.phone" IS NOT NULL')
 In release `0.7.1`, we use the old syntax for filterExpression: `'phone IS NOT NULL'`
 {% endhint %}
 
-Find all persons whose first address does not contain floor field within the JSON.
+Find all persons whose first address does not contain floor field within the JSON:
 
 ```sql
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].floor" IS NULL')
@@ -147,6 +147,32 @@ SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].floor" IS NULL
 {% hint style="info" %}
 In release `0.7.1`, we use the old syntax for filterExpression: `'"addresses[0].floor" IS NULL'`
 {% endhint %}
+
+## JSON context is maintained
+
+The JSON context is maintained for object elements within an array, i.e. the filter won't cross match different objects in the array.
+
+To find all persons who live on "main st" in "ca":
+
+```sql
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st'' AND "$.addresses[*].country"=''ca''')
+```
+
+This query won't match "adam" because none of his addresses matches both the street and the country.
+
+If JSON context is not desired, use multiple separate `JSON_MATCH` predicates. E.g. to find all persons who have addresses on "main st" and have addressed in "ca" \(doesn't have to be the same address\):
+
+```sql
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[*].country"=''ca''')
+```
+
+This query will match "adam" because one of his addressed matches the street and another one matches the country.
+
+Note that the array index is maintained as a separate entry within the element, so in order to query different elements within an array, multiple `JSON_MATCH` predicates are required. E.g. to find all persons who have first address on "main st" and second address on "second st":
+
+```sql
+SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[1].street"=''second st''')
+```
 
 ## Limitations
 
