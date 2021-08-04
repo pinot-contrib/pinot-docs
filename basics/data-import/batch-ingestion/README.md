@@ -147,7 +147,10 @@ recordReaderSpec:
 tableSpec:
   tableName: 'transcript'
 pinotClusterSpecs:
-  - controllerURI: '<http://localhost:9000>'
+  - controllerURI: 'http://localhost:9000'
+pushJobSpec:
+  pushAttempts: 2
+  pushRetryIntervalMillis: 1000
 ```
 
 You can refer to [Ingestion Job Spec](../../../configuration-reference/job-specification.md) for more details.
