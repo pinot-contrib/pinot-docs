@@ -70,9 +70,9 @@ curl -X POST "{host}/segments/{tableNameWithType}/{segmentName}/reset"
 
 RESET: this gets a segment in ERROR state back to ONLINE or CONSUMING state. Behind the scenes, Pinot controller takes the segment to OFFLINE state, waits for External View to stabilize, and then moves it back to ONLINE/CONSUMING state, thus effectively resetting segments or consumers in error states. 
 
-REFRESH: this replaces the segment with a new one, with the same name but often different data. Under the hood, Pinot controller sets new segment metadata in Zookeeper, and notifies brokers and servers to check their local states about this segment and update accordingly. Servers also download the new segment to replace the old one. 
+REFRESH: this replaces the segment with a new one, with the same name but often different data. Under the hood, Pinot controller sets new segment metadata in Zookeeper, and notifies brokers and servers to check their local states about this segment and update accordingly. Servers also download the new segment to replace the old one, when both have different CRC. Option is provided to force server to download segment, so that it can wipe out existing segment cleanly and build a brand new one, usually with different set of indices.
 
-RELOAD: this reloads the segment, often to generate a new index as updated in table config. Underlying, Pinot server gets the new table config from Zookeeper, and uses it to guide the segment reloading. In fact, the last step of REFRESH as explained above is to load the new segment to serve queries. 
+RELOAD: this reloads the segment, often to generate a new index as updated in table config. Underlying, Pinot server gets the new table config from Zookeeper, and uses it to guide the segment reloading. No segment download happens in this process. In fact, the last step of REFRESH as explained above is to load the new segment to serve queries. 
 
 In addition, RESET brings the segment OFFLINE temporarily; while REFRESH and RELOAD swap the segment on server atomically without bringing down the segment or affecting ongoing queries.
 
