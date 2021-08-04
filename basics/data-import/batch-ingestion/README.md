@@ -100,7 +100,7 @@ We define a table`transcript`and map the schema created in the previous step to 
       "segmentIngestionType": "APPEND",
       "segmentIngestionFrequency": "DAILY"
     }
-  }
+  },
   "metadata": {}
 }
 ```
