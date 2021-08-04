@@ -70,7 +70,7 @@ Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apac
 * start all Pinot components \(ZK, Controller, Server, Broker\) in the same JVM
 * create Baseball Stats table
 
-Go to Open localhost:9000 in your browser and play with the query console.
+Go to localhost:9000 in your browser and play with the query console.
 
 **Realtime Quickstart**
 
@@ -79,5 +79,5 @@ Go to Open localhost:9000 in your browser and play with the query console.
 * create MeetUpRSVP table.
 * Live stream meetup events into Kafka
 
-Go to Open localhost:9000 in your browser and play with the meetup RSVP table.
+Go to localhost:9000 in your browser and play with the meetup RSVP table.
 
