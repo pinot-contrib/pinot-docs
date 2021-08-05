@@ -25,7 +25,7 @@
     * [Running on Azure](basics/getting-started/public-cloud-examples/azure-quickstart.md)
     * [Running on GCP](basics/getting-started/public-cloud-examples/gcp-quickstart.md)
     * [Running on AWS](basics/getting-started/public-cloud-examples/aws-quickstart.md)
-  * [Hdfs as DeepStorage](basics/getting-started/hdfs-as-deepstorage.md)
+  * [Hdfs as Deep Storage](basics/getting-started/hdfs-as-deepstorage.md)
   * [Manual cluster setup](basics/getting-started/advanced-pinot-setup.md)
   * [Batch import example](basics/getting-started/pushing-your-data-to-pinot.md)
   * [Stream ingestion example](basics/getting-started/pushing-your-streaming-data-to-pinot.md)

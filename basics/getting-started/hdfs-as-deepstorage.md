@@ -2,7 +2,7 @@
 description: This guide helps to setup HDFS as deepstorage for Pinot Segment.
 ---
 
-# Hdfs as DeepStorage
+# Hdfs as Deep Storage
 
 To use HDFS as deep storage you need to include HDFS dependency jars and plugins.
 
