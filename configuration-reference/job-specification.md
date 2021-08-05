@@ -47,6 +47,8 @@ The following configurations are supported by Pinot
           <li><code>SegmentCreationAndMetadataPush</code>
           </li>
         </ul>
+        <p><b><code>Note: </code></b><code>For production environments where Pinot Deep Store is configured, it&apos;s recommended to use </code><b><code>SegmentCreationAndMetadataPush</code></b>
+        </p>
       </td>
     </tr>
     <tr>
@@ -122,9 +124,13 @@ executionFrameworkSpec:
   segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentGenerationJobRunner'
   segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentTarPushJobRunner'
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentUriPushJobRunner'
+  segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentMetadataPushJobRunner'
   extraConfigs:
     stagingDir: hdfs://examples/batch/airlineStats/staging
+
+# Recommended to set jobType to SegmentCreationAndMetadataPush for production environments where Pinot Deep Store is configured
 jobType: SegmentCreationAndTarPush
+
 inputDirURI: 'examples/batch/airlineStats/rawdata'
 includeFileNamePattern: 'glob:**/*.avro'
 outputDirURI: 'hdfs:///examples/batch/airlineStats/segments'
@@ -162,10 +168,10 @@ The configs specify the execution framework to use to ingest data. Check out [Ba
 | Property | Description |
 | :--- | :--- |
 | name | name of the execution framework. can be one of `spark,hadoop or standalone` |
-| segmentGenerationJobRunnerClassName | The class name implements org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner interface to run the segment generation job |
-| segmentTarPushJobRunnerClassName | The class name implements org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner interface to push the segment TAR file |
-| segmentUriPushJobRunnerClassName | The class name implements org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner interface to send segment URI |
-| segmentMetadataPushJobRunnerClassName | The class name implements org.apache.pinot.plugin.ingestion.batch.standalone.SegmentMetadataPushJobRunner interface to send segment Metadata |
+| segmentGenerationJobRunnerClassName | The class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface to run the segment generation job |
+| segmentTarPushJobRunnerClassName | The class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface to push the segment TAR file |
+| segmentUriPushJobRunnerClassName | The class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface to send segment URI |
+| segmentMetadataPushJobRunnerClassName | The class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface to send segment Metadata |
 | extraConfigs | Key-value pairs of configs related to the framework of the executions |
 
 #### Example
@@ -176,6 +182,7 @@ executionFrameworkSpec:
     segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
     segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
     segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
+    segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentMetadataPushJobRunner'
 ```
 
 ### Pinot FS Spec
