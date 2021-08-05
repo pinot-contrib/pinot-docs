@@ -13,16 +13,16 @@ executionFrameworkSpec:
   # name: execution framework name
   name: 'spark'
 
-  # segmentGenerationJobRunnerClassName: class name implements org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentGenerationJobRunner interface.
+  # segmentGenerationJobRunnerClassName: class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface.
   segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentGenerationJobRunner'
 
-  # segmentTarPushJobRunnerClassName: class name implements org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentTarPushJobRunner interface.
+  # segmentTarPushJobRunnerClassName: class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface.
   segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentTarPushJobRunner'
 
-  # segmentUriPushJobRunnerClassName: class name implements org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentUriPushJobRunner interface.
+  # segmentUriPushJobRunnerClassName: class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface.
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentUriPushJobRunner'
   
-  #segmentMetadataPushJobRunnerClassName: class name implements org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentMetadataPushJobRunner'
+  #segmentMetadataPushJobRunnerClassName: class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface
   segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentMetadataPushJobRunner'
   
   # extraConfigs: extra configs for execution framework.
