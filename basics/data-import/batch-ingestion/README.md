@@ -132,7 +132,10 @@ executionFrameworkSpec:
   segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
   segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentMetadataPushJobRunner'
+
+# Recommended to set jobType to SegmentCreationAndMetadataPush for production environment where Pinot Deep Store is configured  
 jobType: SegmentCreationAndTarPush
+
 inputDirURI: '/tmp/pinot-quick-start/rawdata/'
 includeFileNamePattern: 'glob:**/*.csv'
 outputDirURI: '/tmp/pinot-quick-start/segments/'
