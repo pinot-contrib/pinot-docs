@@ -95,7 +95,7 @@
   * [Use OSS as Deep Storage for Pinot](users/tutorials/use-oss-as-deep-storage-for-pinot.md)
   * [Ingest Parquet Files from S3 Using Spark](users/tutorials/ingest-parquet-files-from-s3-using-spark.md)
   * [Creating Pinot Segments](users/tutorials/create-pinot-segments.md)
-  * [Use S3 as Deep Store for Pinot](users/tutorials/use-s3-as-deep-store-for-pinot.md)
+  * [Use S3 as Deep Storage for Pinot](users/tutorials/use-s3-as-deep-store-for-pinot.md)
   * [Use S3 and Pinot in Docker](users/tutorials/use-s3-and-pinot-in-docker.md)
   * [Batch Data Ingestion In Practice](users/tutorials/batch-data-ingestion-in-practice.md)
   * [Schema Evolution](users/tutorials/schema-evolution.md)

@@ -1,4 +1,4 @@
-# Use S3 as Deep Store for Pinot
+# Use S3 as Deep Storage for Pinot
 
 {% hint style="info" %}
 Below commands are based on pinot distribution binary.
