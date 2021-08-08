@@ -1,3 +1,7 @@
+---
+description: This page describes the pinot cross-release compatibility test suite.
+---
+
 # Upgrading Pinot with confidence
 
 Pinot has unit and integration tests that verify that the system can work well as long as all components are in the same version. Further, each PR goes through reviews in which Pinot committers can decide whether a PR may break compatibility, and if so, how it can be avoided. Even with all this, it is useful to be able to test an upgrade before actually subjecting a live installation to upgrades.
@@ -55,7 +59,42 @@ See the [yaml files](https://github.com/apache/incubator-pinot/tree/master/compa
 
 ## Running the compatibility test suite
 
-You can use command line tools to verify compatibility against a previous release of Pinot \(the tools support a `--help` option\). Here are the steps to follow:
+There are two commands available. The first one allows you to identify the versions or builds between which you wish to ascertain compatibility. The second one runs the test suite.
+
+```text
+$ # This is the tool to check out and build the versions to test
+$ checkoutAndBuild.sh -h
+Usage: checkoutAndBuild.sh [-o olderCommit] [-n newerCommit] -w workingDir
+  -w, --working-dir                      Working directory where olderCommit and newCommit target files reside
+
+  -o, --old-commit-hash                  git hash (or tag) for old commit
+
+  -n, --new-commit-hash                  git hash (or tag) for new commit
+
+If -n is not specified, then current commit is assumed
+If -o is not specified, then previous commit is assumed (expected -n is also empty)
+Examples:
+    To compare this checkout with previous commit: 'checkoutAndBuild.sh -w /tmp/wd'
+    To compare this checkout with some older tag or hash: 'checkoutAndBuild.sh -o release-0.7.1 -w /tmp/wd'
+    To compare any two previous tags or hashes: 'checkoutAndBuild.sh -o release-0.7.1 -n 637cc3494 -w /tmp/wd
+```
+
+```text
+$ # This is the tool to run the compatibility test suite against
+$ ./compCheck.sh -h
+Usage:  -w <workingDir> -t <testSuiteDir> [-k]
+MANDATORY:
+  -w, --working-dir                      Working directory where olderCommit and newCommit target files reside.
+  -t, --test-suite-dir                   Test suite directory
+
+OPTIONAL:
+  -k, --keep-cluster-on-failure          Keep cluster on test failure
+  -h, --help                             Prints this help
+```
+
+You can use command line tools to verify compatibility against a previous release of Pinot \(the tools support a `--help` option\). 
+
+Here are the steps to follow before you upgrade your installation
 
 ### Determine the revision of Pinot you are currently running
 
