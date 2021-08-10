@@ -20,7 +20,7 @@ Azure Blob Storage provides the following options -
 
 * `accountName` : Name of the azure account under which the storage is created
 * `accessKey` : access key required for the authentication
-* `fileSystemName` - name of the filesystem to use
+* `fileSystemName` - name of the filesystem to use i.e. container name \(container name is similar to bucket name in S3\)
 * `enableChecksum` - enable MD5 checksum for verification. Default is `false`.
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.class.abfss.` where `node` is either `controller` or `server` depending on the config
@@ -71,6 +71,7 @@ controller.enable.split.commit=true
 pinot.controller.storage.factory.class.adl=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
 pinot.controller.storage.factory.adl.accountName=my-account
 pinot.controller.storage.factory.adl.accessKey=foo-bar-1234
+pinot.controller.storage.factory.adl.fileSystemName=fs-name
 pinot.controller.segment.fetcher.protocols=file,http,adl
 pinot.controller.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
@@ -82,6 +83,7 @@ pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.adl=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
 pinot.server.storage.factory.adl.accountName=my-account
 pinot.server.storage.factory.adl.accessKey=foo-bar-1234
+pinot.controller.storage.factory.adl.fileSystemName=fs-name
 pinot.server.segment.fetcher.protocols=file,http,adl
 pinot.server.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
