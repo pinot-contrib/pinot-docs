@@ -122,7 +122,8 @@
     * [Filesystem Plugin](developers/plugin-architecture/write-custom-plugins/pluggable-storage.md)
     * [Batch Segment Fetcher Plugin](developers/plugin-architecture/write-custom-plugins/write-your-batch.md)
     * [Stream Ingestion Plugin](developers/plugin-architecture/write-custom-plugins/write-your-stream.md)
-* [Design Documents](developers/design-documents.md)
+* [Design Documents](developers/design-documents/README.md)
+  * [Segment Writer API](developers/design-documents/segment-writer-api.md)
 
 ## For Operators <a id="operators"></a>
 
