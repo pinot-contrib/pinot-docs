@@ -14,7 +14,7 @@ Recommendation Engine can be used to optimize the configuration parameters for b
 
 ## How to use the engine
 
-The engine is currently accessible by a REST endpoint on Pinot Controller. It's a PUT endpoint under /tables/recommender path which takes a json as its input and produce a json as its output. You can try it out in Swagger REST API section of Pinot Web UI.
+The engine is currently accessible by a REST endpoint on Pinot Controller. It's a PUT endpoint under `/tables/recommender` path which takes a json as its input and produce a json as its output. You can try it out in Swagger REST API section of Pinot Web UI.
 
 ## Input
 
