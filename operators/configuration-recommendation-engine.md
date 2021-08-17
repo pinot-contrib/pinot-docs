@@ -8,9 +8,135 @@ description: >-
 
 ## Overview
 
-Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related \(e.g indexes, realtime config\). Please note that not all configuration options in TableConfig are currently covered.
+Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related \(e.g indexes, realtime config\). Please note that not all configuration options in TableConfig are currently covered. The following table shows the ones that are currently covered.
 
-Recommendation Engine can be used to optimize the configuration parameters for both new and existing tables. Also since the recommendation engine tries to generate near-optimal configurations, users are strongly encouraged to provide the input information to the best of their knowledge. It is ok if the information is not fully accurate. However, random/arbitrary and incomplete information will not help the recommendation engine’s algorithms.
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Rule</th>
+      <th style="text-align:left">Config Entity</th>
+      <th style="text-align:left">Config Name</th>
+      <th style="text-align:left">Applicable Table Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">Kafka Partitions</td>
+      <td style="text-align:left">Kafka</td>
+      <td style="text-align:left">
+        <ul>
+          <li><code>num.partitions</code>
+          </li>
+        </ul>
+      </td>
+      <td style="text-align:left">Realtime</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Table Partitioning</td>
+      <td style="text-align:left">Table Config</td>
+      <td style="text-align:left">
+        <ul>
+          <li><code>tableIndexConfig</code>&#x2192;<code>segmentPartitionConfig</code>
+          </li>
+        </ul>
+      </td>
+      <td style="text-align:left">Realtime &amp; Offline</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Inverted Sorted Index Joint</td>
+      <td style="text-align:left">Table Config</td>
+      <td style="text-align:left">
+        <ul>
+          <li><code>tableIndexConfig</code>&#x2192;<code>invertedIndexColumns</code>
+          </li>
+          <li><code>tableIndexConfig</code>&#x2192;<code>sortedColumn</code>
+          </li>
+        </ul>
+      </td>
+      <td style="text-align:left">Realtime &amp; Offline</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">NoDictionary OnHeapDictionary Joint</td>
+      <td style="text-align:left">Table Config</td>
+      <td style="text-align:left">
+        <ul>
+          <li><code>tableIndexConfig</code>&#x2192;<code>noDictionaryColumns</code>
+          </li>
+          <li><code>tableIndexConfig</code>&#x2192;<code>onHeapDictionaryColumns</code>
+          </li>
+        </ul>
+      </td>
+      <td style="text-align:left">Realtime &amp; Offline</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Bloom Filter</td>
+      <td style="text-align:left">Table Config</td>
+      <td style="text-align:left">
+        <ul>
+          <li><code>tableIndexConfig</code>&#x2192;<code>bloomFilterColumns</code>
+          </li>
+        </ul>
+      </td>
+      <td style="text-align:left">Realtime &amp; Offline</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Varied Length Dictionary</td>
+      <td style="text-align:left">Table Config</td>
+      <td style="text-align:left">
+        <ul>
+          <li><code>tableIndexConfig</code>&#x2192;<code>variedLengthDictionaryColumns</code>
+          </li>
+        </ul>
+      </td>
+      <td style="text-align:left">Realtime &amp; Offline</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Segment Size</td>
+      <td style="text-align:left">Segment Build &amp; Push Job</td>
+      <td style="text-align:left">
+        <p>Recommendations on:</p>
+        <ul>
+          <li>Segment size in Bytes</li>
+          <li>Number of segments</li>
+          <li>Number of rows per segment</li>
+        </ul>
+      </td>
+      <td style="text-align:left">Offline</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Aggregate Metrics</td>
+      <td style="text-align:left">Table Config</td>
+      <td style="text-align:left">
+        <ul>
+          <li><code>tableIndexConfig</code>&#x2192;<code>aggregateMetrics</code>
+          </li>
+        </ul>
+      </td>
+      <td style="text-align:left">Realtime</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Realtime Provisioning</td>
+      <td style="text-align:left">Table Config</td>
+      <td style="text-align:left">
+        <ul>
+          <li><code>tableIndexConfig</code>&#x2192;<code>streamConfigs</code>&#x2192;<code>realtime.segment.flush.threshold.time</code>
+          </li>
+          <li><code>tableIndexConfig</code>&#x2192;<code>streamConfigs</code>&#x2192;<code>realtime.segment.flush.desired.size</code>
+          </li>
+        </ul>
+      </td>
+      <td style="text-align:left">Realtime</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Realtime Provisioning</td>
+      <td style="text-align:left">Host Management</td>
+      <td style="text-align:left">Number of hosts needed in terms of memory consumption</td>
+      <td style="text-align:left">Realtime</td>
+    </tr>
+  </tbody>
+</table>
+
+Recommendation Engine can be used to optimize the configuration parameters for both new and existing tables. Also since the recommendation engine tries to generate near-optimal configurations, users are strongly encouraged to provide the input information to the best of their knowledge. It is ok if the information is not fully accurate. However, random/arbitrary and incomplete information will not help the Recommendation Engine’s algorithms.
 
 ## How to use the engine
 
