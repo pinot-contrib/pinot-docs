@@ -119,6 +119,12 @@ The following properties can be nested inside the top-level configs.
         is used to manage segment retention and time boundary for offline vs realtime.</td>
     </tr>
     <tr>
+      <td style="text-align:left">allowNullTimeValue</td>
+      <td style="text-align:left">Boolean to indicate whether null value in time column is allowed.
+        By default, false i.e. data source needs to make sure the value is not null in time column.
+        When this flag is enabled, a default value based on machine time will be filled in if time column is null.</td>
+    </tr>
+    <tr>
       <td style="text-align:left">replication</td>
       <td style="text-align:left">Number of replicas</td>
     </tr>
@@ -550,6 +556,7 @@ Below is an example of setting AWS credential as part of table config using envi
       "schemaName": "pinotTable",
       "timeColumnName": "daysSinceEpoch",
       "timeType": "DAYS",
+      "allowNullTimeValue": false,
       "replication": "3",
       "retentionTimeUnit": "DAYS",
       "retentionTimeValue": "365",
@@ -619,6 +626,7 @@ Here's an example table config for a realtime table. **All the fields from the o
       "schemaName": "pinotTable",
       "timeColumnName": "daysSinceEpoch",
       "timeType": "DAYS",
+      "allowNullTimeValue": true,
       "replicasPerPartition": "3",
       "retentionTimeUnit": "DAYS",
       "retentionTimeValue": "5",
