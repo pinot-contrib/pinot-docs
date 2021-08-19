@@ -2,6 +2,51 @@
 
 Before you begin to contribute, make sure you have reviewed [Dev Environment Setup](code-setup.md) and [Code Modules and Organization](code-modules-and-organization.md) sections and that you have created your own fork of the pinot source code.
 
+## Pinot Enhancement Proposal Workflow
+
+The Apache Pinot community encourages members to contribute to the overall growth and success of the project. All contributors are expected to follow the following guidelines when proposing an enhancement \(aka PEP - Pinot Enhancement Proposal\):
+
+All enhancements, regardless of scope/size, must start with a [Github issue](https://github.com/apache/pinot/issues). The issue should clearly state the following information:
+
+* What needs to be done?
+* Why the feature is needed \(e.g. describing the use case\). 
+* It may also include an initial idea/proposal on how as well.
+* The Github issue must be tagged with the label PEP-Request.
+
+Once the Github issue is filed:
+
+* The PMC would decide if a detailed proposal/design-doc is required or can simply be followed by a PR.
+* There should be enough time \(e.g. 5 business days\) given for the PMC to review the issue/proposal before moving to implementation. 
+* One +1 and zero -1 votes from the PMC may be used to proceed with the implementation. 
+* If during the course of the implementation it is found that the feature is much more complex than initially anticipated, the PMC may request for a detailed design doc.
+
+The PMC would use the following guideline when deciding whether a PEP requires an explicit proposal/design doc, or can simply be followed by a PR that includes a link to the Github issue.
+
+* Any new major feature, subsystem, or piece of functionality.
+* Any change that may potentially create backward incompatibility:
+  * Any change that impacts the public interfaces of the project.
+  * Any changes to SPI
+  * Adding new API resources, or changing broker-server-controller communications.
+* Any change that can impact performance.
+
+If the requests get at least one +1 and no -1 from the PMC to directly go to the PR stage, the requestor can then submit the PR along with a link to the Github issue.
+
+If the request requires a proposal, then the requestor is expected to provide a proposal design doc before submitting a PR for review. The design doc must include the following:
+
+* **Motivation:** Describe the problem to be solved including the details on why such as use-case, etc.
+* **Proposed Change:** Describe the new thing that needs to be done. This may be fairly extensive and have large subsections of its own. Or it may be a few sentences, depending on the scope of the change. Also, describe “How” with details and possible POC.
+* **New or Changed Public Interfaces:** impact to any of the "compatibility commitments" described above. We want to call these out in particular so everyone thinks about them.
+* **Deployment, Migration Plan and Compatibility:** if this feature requires additional support for a no-downtime upgrade describe how that will work
+* **Rejected Alternatives:** What are the other alternatives you considered and why are they worse? The goal of this section is to help people understand why this is the best solution now, and also to prevent churn in the future when old alternatives are reconsidered.
+* **PMC Review Status:** The proposal/design doc may also contain a review status table at the beginning of the doc that includes the reviewer names along with their review status.
+
+The proposal/design doc should be in a google doc that has comment access enabled by default to any community member \(should not require asking for permissions\). Only exceptions are small features where the initial proposal in the issue is generally accepted. Once the proposal/design doc is approved \(all questions/comments resolved\), it must be transferred into a common Google Drive where all Pinot proposal/design docs must be submitted.
+
+* If there are meetings/discussions offline with a subset of members, the meeting notes should be captured and added to the doc.
+* General Guidelines
+  * Smaller PRs that are easier to review
+  * Pure refactoring PRs must be separated from PRs that change functionality. Refactoring PRs may state so, as an aid for the reviewers. For example, package moves may show up as huge diff’s in the PR.
+
 ## Create a design document
 
 If your change is relatively minor, you can skip this step. If you are adding new major feature, we suggest that you add a design document and solicit comments from the community before submitting any code.
