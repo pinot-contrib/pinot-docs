@@ -1,6 +1,6 @@
 # Table
 
-### Top-level fields
+## Top-level fields
 
 | Property | Description |
 | :--- | :--- |
@@ -20,42 +20,18 @@
 | **tierConfigs** | This section defines configs needed to setup tiered storage. More details in [Tiered Storage](../operators/operating-pinot/tiered-storage.md). |
 | **metadata** | This section is for keeping custom configs, which are expressed as key-value pairs. |
 
-### Second level fields
+## Second level fields
 
 The following properties can be nested inside the top-level configs.
 
-#### Quota
+### Quota
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Property</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">storage</td>
-      <td style="text-align:left">The maximum storage space the table is allowed to use, before replication.
-        For example, in the above table, the storage is 140G and replication is
-        3. Therefore, the maximum storage the table is allowed to use is 140*3=420G.
-        The space used by the table is calculated by adding up the sizes of all
-        segments from every server hosting this table. Once this limit is reached,
-        offline segment push throws a <code>403</code> exception with message, <code>Quota check failed for segment: segment_0 of table: pinotTable</code>.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">maxQueriesPerSecond</td>
-      <td style="text-align:left">The maximum queries per second allowed to execute on this table. If query
-        volume exceeds this, a <code>429</code> exception with message <code>Request 123 exceeds query quota for table:pinotTable, query:select count(*) from pinotTable</code>
-        will be sent, and a BrokerMetric <code>QUERY_QUOTA_EXCEEDED</code> will
-        be recorded. The application should build an exponential backoff and retry
-        mechanism to react to this exception.
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Property | Description |
+| :--- | :--- |
+| storage | The maximum storage space the table is allowed to use, before replication. For example, in the above table, the storage is 140G and replication is 3. Therefore, the maximum storage the table is allowed to use is 140\*3=420G. The space used by the table is calculated by adding up the sizes of all segments from every server hosting this table. Once this limit is reached, offline segment push throws a `403` exception with message, `Quota check failed for segment: segment_0 of table: pinotTable`. |
+| maxQueriesPerSecond | The maximum queries per second allowed to execute on this table. If query volume exceeds this, a `429` exception with message `Request 123 exceeds query quota for table:pinotTable, query:select count(*) from pinotTable` will be sent, and a BrokerMetric `QUERY_QUOTA_EXCEEDED` will be recorded. The application should build an exponential backoff and retry mechanism to react to this exception. |
 
-#### Routing
+### Routing
 
 <table>
   <thead>
@@ -91,13 +67,13 @@ The following properties can be nested inside the top-level configs.
   </tbody>
 </table>
 
-#### Query
+### Query
 
 | Property | Description |
 | :--- | :--- |
 | timeoutMs | Query timeout in milliseconds |
 
-#### Segments Config
+### Segments Config
 
 <table>
   <thead>
@@ -115,14 +91,15 @@ The following properties can be nested inside the top-level configs.
       <td style="text-align:left">timeColumnName</td>
       <td style="text-align:left">The name of the time column for this table. This must match with the time
         column name in the schema. This is mandatory for tables with push type <code>APPEND</code>,
-        optional for <code>REFRESH. </code>timeColumnName along with timeColumnType
+        optional for <code>REFRESH.</code> timeColumnName along with timeColumnType
         is used to manage segment retention and time boundary for offline vs realtime.</td>
     </tr>
     <tr>
       <td style="text-align:left">allowNullTimeValue</td>
-      <td style="text-align:left">Boolean to indicate whether null value in time column is allowed.
-        By default, false i.e. data source needs to make sure the value is not null in time column.
-        When this flag is enabled, a default value based on machine time will be filled in if time column is null.</td>
+      <td style="text-align:left">Boolean to indicate whether null value in time column is allowed. By default,
+        false i.e. data source needs to make sure the value is not null in time
+        column. When this flag is enabled, a default value based on machine time
+        will be filled in if time column is null.</td>
     </tr>
     <tr>
       <td style="text-align:left">replication</td>
@@ -171,7 +148,7 @@ The following properties can be nested inside the top-level configs.
   </tbody>
 </table>
 
-#### Table Index Config
+### Table Index Config
 
 <table>
   <thead>
@@ -269,7 +246,7 @@ The following properties can be nested inside the top-level configs.
         <p><code>ByteArray</code> - java hashCode() on deserialized byte array</p>
         <p>
           <br />Example:</p>
-        <p><code>{<br />  &quot;foo&quot;: {<br />    &quot;functionName&quot;: &quot;Murmur&quot;,<br />    &quot;numPartitions&quot;: 32<br />  }<br />}</code>
+        <p><code>{<br /> &quot;foo&quot;: {<br /> &quot;functionName&quot;: &quot;Murmur&quot;,<br /> &quot;numPartitions&quot;: 32<br /> }<br />}</code>
         </p>
       </td>
     </tr>
@@ -302,7 +279,7 @@ The following properties can be nested inside the top-level configs.
   </tbody>
 </table>
 
-#### Field Config List
+### Field Config List
 
 Specify the columns and the type of indices to be created on those columns. Currently, only [Text search](../basics/indexing/text-search-support.md) columns can be specified using this property. We will be migrating the rest of the indices to this field in future releases.
 
@@ -337,7 +314,7 @@ Specify the columns and the type of indices to be created on those columns. Curr
             caching for text index in Lucene</li>
           <li><code>rawIndexWriterVersion</code>
           </li>
-          <li><code>deriveNumDocsPerChunkForRawIndex </code>
+          <li><code>deriveNumDocsPerChunkForRawIndex</code>
           </li>
         </ul>
       </td>
@@ -345,25 +322,24 @@ Specify the columns and the type of indices to be created on those columns. Curr
   </tbody>
 </table>
 
-### Realtime Table Config
+## Realtime Table Config
 
 We will now discuss the sections that are only applicable to realtime tables.
 
-#### segmentsConfig
+### segmentsConfig
 
 | Property | Description |
 | :--- | :--- |
 | replicasPerPartition | The number of replicas per partition for the stream |
 | completionMode | determines if segment should be downloaded from other server or built in memory. can be `DOWNLOAD` or empty |
-| peerSegmentDownloadScheme | protocol to use to download segments from server. can be on of `http` or `https`  |
+| peerSegmentDownloadScheme | protocol to use to download segments from server. can be on of `http` or `https` |
 
-#### Indexing config
+### Indexing config
 
 Below is the list of fields in `streamConfigs` section.
 
 {% hint style="danger" %}
-IndexingConfig -&gt; streamConfig has been deprecated starting 0.7.0 or commit 9eaea9.
-Use IngestionConfig -&gt; StreamIngestionConfig -&gt; streamConfigMaps instead.
+IndexingConfig -&gt; streamConfig has been deprecated starting 0.7.0 or commit 9eaea9. Use IngestionConfig -&gt; StreamIngestionConfig -&gt; streamConfigMaps instead.
 {% endhint %}
 
 <table>
@@ -436,7 +412,7 @@ Use IngestionConfig -&gt; StreamIngestionConfig -&gt; streamConfigMaps instead.
 
 All the configurations that are prefixed with the `streamType` are expected to be used by the underlying stream. So, you can set any of the configurations described in the [Kafka configuraton page](https://kafka.apache.org/documentation/#consumerconfigs) can be set using the prefix `stream.kafka` and Kafka should pay attention to it.
 
-#### Example
+### Example
 
 Here is a minimal example of what the `streamConfigs` section may look like:
 
@@ -468,7 +444,7 @@ Here is a minimal example of what the `streamConfigs` section may look like:
 }
 ```
 
-### Tenants
+## Tenants
 
 | Property | Description |
 | :--- | :--- |
@@ -476,7 +452,7 @@ Here is a minimal example of what the `streamConfigs` section may look like:
 | server | Server tenant in which the segment should reside |
 | tagOverrideConfig | Override the tenant for segment if it fulfills certain conditions. Currently, only support override on `realtimeConsuming` or `realtimeCompleted` |
 
-#### Example
+### Example
 
 ```javascript
   "broker": "brokerTenantName",
@@ -488,7 +464,7 @@ Here is a minimal example of what the `streamConfigs` section may look like:
 }
 ```
 
-### Environment Variables Override
+## Environment Variables Override
 
 Pinot allows users to define environment variables in the format of `${ENV_NAME}` or `${ENV_NAME:DEFAULT_VALUE}`as field values in table config.
 
@@ -535,9 +511,9 @@ Below is an example of setting AWS credential as part of table config using envi
 }
 ```
 
-### Sample Configurations
+## Sample Configurations
 
-#### Offline Table
+### Offline Table
 
 {% code title="pinot-table-offline.json" %}
 ```javascript
@@ -611,9 +587,7 @@ Below is an example of setting AWS credential as part of table config using envi
 ```
 {% endcode %}
 
-
-
-#### Realtime Table
+### Realtime Table
 
 Here's an example table config for a realtime table. **All the fields from the offline table config are valid for the realtime table**. Additionally, realtime tables use **some extra fields**.
 

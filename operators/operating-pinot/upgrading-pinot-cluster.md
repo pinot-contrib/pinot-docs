@@ -79,8 +79,33 @@ Examples:
     To compare any two previous tags or hashes: 'checkoutAndBuild.sh -o release-0.7.1 -n 637cc3494 -w /tmp/wd
 ```
 
+Depending on how old your versions are, you may have some build failures. It will be useful to create the following file as `compat-settings.xml` and set it in an environment variable  before running the `checkoutAndBuild.sh` command: 
+
 ```text
-$ # This is the tool to run the compatibility test suite against
+$ # Create the following file
+$ cat /tmp/compat-settings.xml
+<settings>
+     <mirrors>
+          <mirror>
+               <id>maven-default-http-blocker</id>
+               <mirrorOf>dummy</mirrorOf>
+               <name>Dummy mirror to override default blocking mirror that blocks http</name>
+               <url>http://0.0.0.0/</url>
+               <blocked>false</blocked>
+         </mirror>
+    </mirrors>
+</settings>
+
+$ export PINOT_MAVEN_OPTS="/tmp/compat-settings.xml"
+$ # And now, run the checkoutAndBuid.sh
+$ checkoutAndBuild.sh -o <oldVersion> -n <newVersion> -w <workingDir>
+
+```
+
+And the command to run the compatibility test suite is as follows:
+
+```text
+# This is the tool to run the compatibility test suite against
 $ ./compCheck.sh -h
 Usage:  -w <workingDir> -t <testSuiteDir> [-k]
 MANDATORY:
