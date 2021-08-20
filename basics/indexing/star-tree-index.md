@@ -162,7 +162,7 @@ Multiple index generation configurations can be provided to generate multiple st
   * The star-tree dimension column should be dictionary encoded in order to generate the star-tree index.
   * All columns in the filter and group-by clause of a query should be included in this list in order to use the star-tree index.
 * **skipStarNodeCreationForDimensions** \(Optional, default empty\): A list of dimension names for which to not create the Star-Node.
-* **functionColumnPairs**: A list of aggregation function and column pairs \(split by double underscore “\_\_”\). E.g. **SUM\_\_Impressions** \(_SUM_ of column _Impressions_\).
+* **functionColumnPairs**: A list of aggregation function and column pairs \(split by double underscore “\_\_”\). E.g. **SUM\_\_Impressions** \(_SUM_ of column _Impressions_\) or **COUNT\_\_\***.
   * The column within the function-column pair can be either dictionary encoded or raw.
   * All aggregations of a query should be included in this list in order to use the star-tree index.
 * **maxLeafRecords** \(Optional, default 10000\): The threshold _T_ to determine whether to further split each node.
