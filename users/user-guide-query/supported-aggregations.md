@@ -47,6 +47,23 @@ Pinot provides support for aggregations using GROUP BY. You can use the followin
       </td>
     </tr>
     <tr>
+      <td style="text-align:left"><b>MODE</b>
+      </td>
+      <td style="text-align:left">Get the most frequent value in a group. When multiple modes are present
+        it gives the minimum of all the modes. This behaviour can be overridden
+        to get the maximum or the average mode.</td>
+      <td style="text-align:left">
+        <p><code>MODE(playerScore)</code>
+        </p>
+        <p><code>MODE(playerScore, &apos;MIN&apos;)</code>
+        </p>
+        <p><code>MODE(playerScore, &apos;MAX&apos;)</code>
+        </p>
+        <p><code>MODE(playerScore, &apos;AVG&apos;)</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
       <td style="text-align:left"><b>MINMAXRANGE</b>
       </td>
       <td style="text-align:left">Returns the <code>max - min</code> value in a group</td>
