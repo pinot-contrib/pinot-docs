@@ -124,7 +124,7 @@ You can download below yaml file, then replace:
 
 * `${ZOOKEEPER_CONNECT_STRING}` -&gt;  MSK Zookeeper String
 * `${BROKER_LIST_STRING}` -&gt;  MSK **Plaintext** Broker String in the deployment
-* `${GITHUB_PERSONAL_ACCESS_TOKEN}` -&gt; A personal Github Personal Access Token generated from [here](https://github.com/settings/tokens), please grant all read permissions to it. Here is the [source code](https://github.com/apache/incubator-pinot/commit/1baede8e760d593fcd539d61a147185816c44fc9) to generate Github Events.
+* `${GITHUB_PERSONAL_ACCESS_TOKEN}` -&gt; A personal Github Personal Access Token generated from [here](https://github.com/settings/tokens), please grant all read permissions to it. Here is the [source code](https://github.com/apache/pinot/commit/1baede8e760d593fcd539d61a147185816c44fc9) to generate Github Events.
 
 {% file src="../../.gitbook/assets/github-events-aws-msk-demo.yaml" caption="github-events-aws-msk-demo.yaml" %}
 

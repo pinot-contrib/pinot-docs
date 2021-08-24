@@ -25,7 +25,7 @@ include 'org.apache.pinot:pinot-jdbc-client:0.5.0'
 {% endtabs %}
 
    
-You can also compile the [JDBC code](https://github.com/apache/incubator-pinot/tree/master/pinot-clients/pinot-jdbc-client) into a JAR and place the JAR in the Drivers directory of your application.   
+You can also compile the [JDBC code](https://github.com/apache/pinot/tree/master/pinot-clients/pinot-jdbc-client) into a JAR and place the JAR in the Drivers directory of your application.   
   
 There is no need to register the driver manually as it will automatically register itself at the startup of the application.
 

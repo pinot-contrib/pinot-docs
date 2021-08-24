@@ -20,14 +20,14 @@ This quick start assumes the existence of a Kubernetes cluster. Please follow th
 
 Before continuing, please make sure that you've downloaded Apache Pinot. The scripts for the setup in this guide can be found in our open source project on GitHub.
 
-The scripts can be found in the Pinot source at `./incubator-pinot/kubernetes/helm`
+The scripts can be found in the Pinot source at `./pinot/kubernetes/helm`
 
 {% tabs %}
 {% tab title="Git clone project source" %}
 ```bash
 # checkout pinot
-git clone https://github.com/apache/incubator-pinot.git
-cd incubator-pinot/kubernetes/helm
+git clone https://github.com/apache/pinot.git
+cd pinot/kubernetes/helm
 ```
 {% endtab %}
 {% endtabs %}
@@ -157,7 +157,7 @@ kubectl apply -f pinot-realtime-quickstart.yml
 
 Please use the script below to perform local port-forwarding, which will also open Pinot query console in your default web browser. 
 
-This script can be found in the Pinot source at `./incubator-pinot/kubernetes/helm`
+This script can be found in the Pinot source at `./pinot/kubernetes/helm`
 
 ```text
 ./query-pinot-data.sh

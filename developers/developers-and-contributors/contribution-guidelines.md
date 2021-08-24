@@ -55,7 +55,7 @@ If your change is relatively minor, you can skip this step. If you are adding ne
 
 ## Create an issue for the change
 
-Create a Pinot issue [here](https://github.com/apache/incubator-pinot/issues) for the change you would like to make. Provide information on why the change is needed and how you plan to address it. Use the conversations on the issue as a way to validate assumptions and the right way to proceed. Be sure to review sections on [Backward and Forward compatibility changes](contribution-guidelines.md#backward-and-forward-compatibility-changes) and [External libraries](contribution-guidelines.md#external-libraries).
+Create a Pinot issue [here](https://github.com/apache/pinot/issues) for the change you would like to make. Provide information on why the change is needed and how you plan to address it. Use the conversations on the issue as a way to validate assumptions and the right way to proceed. Be sure to review sections on [Backward and Forward compatibility changes](contribution-guidelines.md#backward-and-forward-compatibility-changes) and [External libraries](contribution-guidelines.md#external-libraries).
 
 If you have a design document, please refer to the design documents in your Issue. You may even want to create multiple issues depending on the extent of your change.
 

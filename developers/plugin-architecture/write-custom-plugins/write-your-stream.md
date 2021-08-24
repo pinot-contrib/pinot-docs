@@ -44,11 +44,11 @@ In addition, we have an operational requirement that the number of partitions sh
 
 In order to add a new type of stream \(say, Foo\) implement the following classes:
 
-1. FooConsumerFactory extends [StreamConsumerFactory](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamConsumerFactory.java)
-2. FooPartitionLevelConsumer implements [PartitionLevelConsumer](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/PartitionLevelConsumer.java)
-3. FooStreamLevelConsumer implements [StreamLevelConsumer](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamLevelConsumer.java)
-4. FooMetadataProvider implements [StreamMetadataProvider](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMetadataProvider.java)
-5. FooMessageDecoder implements [StreamMessageDecoder](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMessageDecoder.java)
+1. FooConsumerFactory extends [StreamConsumerFactory](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamConsumerFactory.java)
+2. FooPartitionLevelConsumer implements [PartitionLevelConsumer](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/PartitionLevelConsumer.java)
+3. FooStreamLevelConsumer implements [StreamLevelConsumer](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamLevelConsumer.java)
+4. FooMetadataProvider implements [StreamMetadataProvider](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMetadataProvider.java)
+5. FooMessageDecoder implements [StreamMessageDecoder](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMessageDecoder.java)
 
 Depending on stream level or partition level, your implementation needs to include StreamLevelConsumer or PartitionLevelConsumer.
 
@@ -99,7 +99,7 @@ The properties for the thresholds are as follows:
 "realtime.segment.flush.threshold.time" : "6h"
 ```
 
-An example of this implementation can be found in the [KafkaConsumerFactory](https://github.com/apache/incubator-pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-2.0/src/main/java/org/apache/pinot/plugin/stream/kafka20/KafkaConsumerFactory.java), which is an implementation for the kafka stream.
+An example of this implementation can be found in the [KafkaConsumerFactory](https://github.com/apache/pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-2.0/src/main/java/org/apache/pinot/plugin/stream/kafka20/KafkaConsumerFactory.java), which is an implementation for the kafka stream.
 
 ### 
 

@@ -1,6 +1,6 @@
 # Java
 
-The java client can be found in [pinot-clients/pinot-java-client](https://github.com/apache/incubator-pinot/tree/master/pinot-clients/pinot-java-client). Here's an example of how to use the `pinot-java-client` to query Pinot.
+The java client can be found in [pinot-clients/pinot-java-client](https://github.com/apache/pinot/tree/master/pinot-clients/pinot-java-client). Here's an example of how to use the `pinot-java-client` to query Pinot.
 
 ```java
 import org.apache.pinot.client.Connection;

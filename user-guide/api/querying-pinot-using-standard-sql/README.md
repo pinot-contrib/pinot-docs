@@ -47,7 +47,7 @@ Query Console can be used for running ad-hoc queries \(checkbox available to que
 You can also query using the `pinot-admin` scripts. Make sure you follow instructions in [Getting Pinot](../../../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
 
 ```bash
-cd incubator-pinot/pinot-tools/target/pinot-tools-pkg 
+cd pinot/pinot-tools/target/pinot-tools-pkg 
 bin/pinot-admin.sh PostQuery \
   -queryType sql \
   -brokerPort 8000 \

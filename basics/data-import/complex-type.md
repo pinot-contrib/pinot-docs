@@ -6,7 +6,7 @@ description: Complex-type handling in Apache Pinot.
 
 It's common for the ingested data to have complex structure. For example, Avro schema has [records](https://avro.apache.org/docs/current/spec.html#schema_record) and [arrays](https://avro.apache.org/docs/current/spec.html#Arrays), and JSON data has [objects](https://json-schema.org/understanding-json-schema/reference/object.html) and [arrays](https://json-schema.org/understanding-json-schema/reference/array.html). In Apache Pinot, the data model supports primitive data types \(including int, long, float, double, string, bytes\), as well as limited multi-value types such as an array of primitive types. Such simple data types allow Pinot to build fast indexing structures for good query performance, but it requires some handling on the complex structures. There are in general two options for such handling: convert the complex-type data into JSON string and then build JSON index; or use the inbuilt complex-type handling rules in the ingestion config.
 
-In this page, we'll show how to handle this complex-type structure with these two approaches, to process the example data in the following figure, which is a field `group` from the [Meetup events Quickstart example](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp). Note this object has two child fields, and the child `group` is a nested array with the element of object type.
+In this page, we'll show how to handle this complex-type structure with these two approaches, to process the example data in the following figure, which is a field `group` from the [Meetup events Quickstart example](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp). Note this object has two child fields, and the child `group` is a nested array with the element of object type.
 
 ![Example JSON data](../../.gitbook/assets/complex-type-example-data.png)
 
@@ -38,7 +38,7 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
 ```
 {% endcode %}
 
-Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, please check out this [file](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json_meetupRsvp_realtime_table_config.json). Also note that `group` is a reserved keyword in SQL, and that's why it's quoted in the `transformFunction`.
+Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, please check out this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json_meetupRsvp_realtime_table_config.json). Also note that `group` is a reserved keyword in SQL, and that's why it's quoted in the `transformFunction`.
 
 Additionall, you need to overwrite the `maxLength` of the field `group_json` on the schema, because by default, a string column has a limited length. For example,
 
@@ -55,7 +55,7 @@ Additionall, you need to overwrite the `maxLength` of the field `group_json` on 
 ```
 {% endcode %}
 
-For the full spec, please check out this [file](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json_meetupRsvp_schema.json).
+For the full spec, please check out this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json_meetupRsvp_schema.json).
 
 With this, you can start to query the nested fields under `group`. For the deatils about the supported JSON function, please check out this [guide](../indexing/json-index.md)\).
 
@@ -94,7 +94,7 @@ Note that
 * The nested array `group_topics` under `group` is unnested into the top-level, and convert the output to a collection of two rows. Note the handling of the nested field within `group_topics`, and the eventual top-level field of `group.group_topics.urlkey`. All the collections to unnest shall be included in configuration `fieldsToUnnest`.
 * For the collections not in specified in `fieldsToUnnest`,  the ingestion by default will serialize them into JSON string, except for the array of primitive values, which will be ingested as multi-value column by default. The behavior is defined in config `collectionNotUnnestedToJson` with default value to `NON_PRIMITIVE`. Other behaviors include \(1\) `ALL`, which aslo convert the array of primitive values to JSON string; \(2\) `NONE`, this does not do conversion, but leave it to the users to use transform functions for handling.
 
-You can find the full spec of the table config [here](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling_meetupRsvp_realtime_table_config.json) and the table schema [here](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling_meetupRsvp_schema.json).
+You can find the full spec of the table config [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling_meetupRsvp_realtime_table_config.json) and the table schema [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling_meetupRsvp_schema.json).
 
 With the flattening/unnesting, you can then query the table with primitive values using the SQL query like:
 
@@ -124,5 +124,5 @@ Similarly, you can use the command like the following to infer the Pinot schema 
 bin/pinot-admin.sh JsonToPinotSchema -timeColumnName hoursSinceEpoch -jsonFile //tmp/test/test.json -pinotSchemaName json-schema -outputDir /tmp/test -unnestFields=payload.commits
 ```
 
-You can check out an example of this run in this [PR](https://github.com/apache/incubator-pinot/pull/6930).
+You can check out an example of this run in this [PR](https://github.com/apache/pinot/pull/6930).
 

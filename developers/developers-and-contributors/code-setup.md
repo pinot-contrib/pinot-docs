@@ -12,7 +12,7 @@ Pinot uses git for source code management. If you are new to Git, it will be goo
 
 #### Create a fork
 
-To limit the number of branches created on the Apache Pinot repository, we recommend that you create a fork by clicking on the fork button [in this page](https://github.com/apache/incubator-pinot). Read more about [fork workflow here](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow)
+To limit the number of branches created on the Apache Pinot repository, we recommend that you create a fork by clicking on the fork button [in this page](https://github.com/apache/pinot). Read more about [fork workflow here](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow)
 
 #### Clone the repository locally
 
@@ -22,7 +22,7 @@ $ cd workspace
 $ git clone git@github.com:<github username>/pinot.git
 $ cd pinot
 # set upstream
-$ git remote add upstream https://github.com/apache/incubator-pinot
+$ git remote add upstream https://github.com/apache/pinot
 # check that the upstream shows up correctly
 $ git remote -v
 ```
@@ -40,7 +40,7 @@ $mvn install package -DskipTests -Pbin-dist -DdownloadSources -DdownloadJavadocs
 
 ### Setup IDE
 
-Import the project into your favorite IDE. Setup stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, please ensure you use stylesheet based on [this](https://github.com/apache/incubator-pinot/blob/master/config/codestyle-intellij.xml).
+Import the project into your favorite IDE. Setup stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, please ensure you use stylesheet based on [this](https://github.com/apache/pinot/blob/master/config/codestyle-intellij.xml).
 
 #### Intellij
 
@@ -48,7 +48,7 @@ To import the Pinot stylesheet this launch intellij and navigate to `Preferences
 
 * Navigate to `Editor` -&gt; `Code Style` -&gt; `Java`
 * Select `Import Scheme` -&gt; `Intellij IDES code style XML`
-* Choose `codestyle-intellij.xml` from `incubator-pinot/config` folder of your workspace. Click Apply.
+* Choose `codestyle-intellij.xml` from `pinot/config` folder of your workspace. Click Apply.
 
 ![](../../.gitbook/assets/import_scheme.png)
 
@@ -57,7 +57,7 @@ To import the Pinot stylesheet this launch intellij and navigate to `Preferences
 To import the Pinot stylesheet this launch eclipse and navigate to `Preferences` \(on Mac\) or `Settings` on Linux.
 
 * Navigate to Java-&gt;Code Style-&gt;Formatter
-* Choose `codestyle-eclipse.xml` from `incubator-pinot/config folder` of your workspace. Click Apply.
+* Choose `codestyle-eclipse.xml` from `pinot/config folder` of your workspace. Click Apply.
 
 ![](../../.gitbook/assets/eclipse_style.png)
 

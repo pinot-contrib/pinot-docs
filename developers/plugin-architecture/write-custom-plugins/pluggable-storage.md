@@ -7,11 +7,11 @@ Some examples of storage backends\(other than local storage\) currently supporte
 * [HadoopFS](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
 * [Azure Data Lake](https://azure.microsoft.com/en-us/solutions/data-lake/)
 
-If the above two filesystems do not meet your needs, you can extend the current [PinotFS](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/filesystem/PinotFS.java) to customize for your needs.
+If the above two filesystems do not meet your needs, you can extend the current [PinotFS](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/filesystem/PinotFS.java) to customize for your needs.
 
 ### New Storage Type implementation
 
-In order to add a new type of storage backend such as Amazon S3 we need to  implement the [PinotFS](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/filesystem/PinotFS.java) class. The interface expects common method related to accessing the file system such as `mkdir`, `list` etc.
+In order to add a new type of storage backend such as Amazon S3 we need to  implement the [PinotFS](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/filesystem/PinotFS.java) class. The interface expects common method related to accessing the file system such as `mkdir`, `list` etc.
 
 Once the the class is ready, you can compile it and put it in the `/plugins` directory of pinot.
 

@@ -55,7 +55,7 @@ Then you can use these [json functions](https://docs.pinot.apache.org/users/user
 **NOTE**  
 This works well if some of your fields are nested json, but most of your fields are top level json keys. If all of your fields are within a nested JSON key, you will have to store the entire payload as 1 column, which is not ideal.
 
-Support for flattening during ingestion is on the roadmap: [https://github.com/apache/incubator-pinot/issues/5264](https://github.com/apache/incubator-pinot/issues/5264)
+Support for flattening during ingestion is on the roadmap: [https://github.com/apache/pinot/issues/5264](https://github.com/apache/pinot/issues/5264)
 {% endhint %}
 
 ### How do I escape Unicode in my Job Spec YAML file?
@@ -95,7 +95,7 @@ Applying inverted indexes to a table config will generate inverted index to all 
 1. Add the columns you wish to index to the tableIndexConfig-&gt; invertedIndexColumns list. This sample table config show inverted indexes set: [https://docs.pinot.apache.org/basics/components/table\#offline-table-config ](https://docs.pinot.apache.org/basics/components/table#offline-table-config)To update the table config use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig)
 2. Invoke the reload API: [http://localhost:9000/help\#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments)
 
-Right now, there’s no easy way to confirm that reload succeeded. One way it to check out the index\_map file inside the segment metadata, you should see inverted index entries for the new columns. An API for this is coming soon: [https://github.com/apache/incubator-pinot/issues/5390](https://github.com/apache/incubator-pinot/issues/5390)
+Right now, there’s no easy way to confirm that reload succeeded. One way it to check out the index\_map file inside the segment metadata, you should see inverted index entries for the new columns. An API for this is coming soon: [https://github.com/apache/pinot/issues/5390](https://github.com/apache/pinot/issues/5390)
 
 ### How to create star-tree indexes?
 

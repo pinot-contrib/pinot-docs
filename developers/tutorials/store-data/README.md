@@ -11,11 +11,11 @@ Some examples of storage backends\(other than local storage\) currently supporte
 * [HadoopFS](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
 * [Azure Data Lake](https://azure.microsoft.com/en-us/solutions/data-lake/)
 
-If the above two filesystems do not meet your needs, you can extend the current [PinotFS](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/filesystem/PinotFS.java) to customize for your needs.
+If the above two filesystems do not meet your needs, you can extend the current [PinotFS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/filesystem/PinotFS.java) to customize for your needs.
 
 ### New Storage Type implementation
 
 In order to add a new type of storage backend \(say, Amazon s3\) implement the following class:
 
-S3FS extends [PinotFS](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/filesystem/PinotFS.java)
+S3FS extends [PinotFS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/filesystem/PinotFS.java)
 

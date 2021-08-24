@@ -251,7 +251,7 @@ After annotating the classes, put them under the package of name `org.apache.pin
 
 ### Example
 
-See [SimpleMinionClusterIntegrationTest](https://github.com/apache/incubator-pinot/blob/master/pinot-integration-tests/src/test/java/org/apache/pinot/integration/tests/SimpleMinionClusterIntegrationTest.java) where the `TestTask` is plugged-in.
+See [SimpleMinionClusterIntegrationTest](https://github.com/apache/pinot/blob/master/pinot-integration-tests/src/test/java/org/apache/pinot/integration/tests/SimpleMinionClusterIntegrationTest.java) where the `TestTask` is plugged-in.
 
 ## Task related metrics
 

@@ -20,14 +20,14 @@ This quickstart assumes that you already have a running Kubernetes cluster. Plea
 
 Before continuing, please make sure that you've downloaded Apache Pinot. The scripts for the setup in this guide can be found in our open source project on GitHub.
 
-The scripts can be found in the Pinot source at `./incubator-pinot/kubernetes/helm`
+The scripts can be found in the Pinot source at `./pinot/kubernetes/helm`
 
 {% tabs %}
 {% tab title="Git clone project source" %}
 ```bash
 # checkout pinot
-git clone https://github.com/apache/incubator-pinot.git
-cd incubator-pinot/kubernetes/helm
+git clone https://github.com/apache/pinot.git
+cd pinot/kubernetes/helm
 ```
 {% endtab %}
 {% endtabs %}
@@ -36,10 +36,10 @@ cd incubator-pinot/kubernetes/helm
 
 {% tabs %}
 {% tab title="Run Helm with Pre-installed Package" %}
-Pinot repo has pre-packaged HelmCharts for Pinot and Presto. Helm Repo index file is [here](https://github.com/apache/incubator-pinot/blob/master/kubernetes/helm/index.yaml).
+Pinot repo has pre-packaged HelmCharts for Pinot and Presto. Helm Repo index file is [here](https://github.com/apache/pinot/blob/master/kubernetes/helm/index.yaml).
 
 ```text
-helm repo add pinot https://raw.githubusercontent.com/apache/incubator-pinot/master/kubernetes/helm
+helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/kubernetes/helm
 kubectl create ns pinot-quickstart
 helm install pinot pinot/pinot \
     -n pinot-quickstart \
@@ -185,7 +185,7 @@ kubectl apply -f pinot/pinot-realtime-quickstart.yml
 
 Please use the script below to perform local port-forwarding, which will also open Pinot query console in your default web browser. 
 
-This script can be found in the Pinot source at `./incubator-pinot/kubernetes/helm/pinot`
+This script can be found in the Pinot source at `./pinot/kubernetes/helm/pinot`
 
 ```text
 ./query-pinot-data.sh
@@ -286,7 +286,7 @@ kubectl get pods -n pinot-quickstart
 
 ### 6.2 Query Presto using Presto CLI
 
-Once Presto is deployed, you can run the below command from [here](https://github.com/apache/incubator-pinot/blob/master/kubernetes/helm/presto/pinot-presto-cli.sh), or just follow steps 6.2.1 to 6.2.3.
+Once Presto is deployed, you can run the below command from [here](https://github.com/apache/pinot/blob/master/kubernetes/helm/presto/pinot-presto-cli.sh), or just follow steps 6.2.1 to 6.2.3.
 
 ```text
 ./pinot-presto-cli.sh

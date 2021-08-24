@@ -131,7 +131,7 @@ A  typical scenario can be pushing a deduped cleaned up data in offline table ev
 
 ### Examples
 
-Create a table config for your data, or see [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables. 
+Create a table config for your data, or see [`examples`](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables. 
 
 **Prerequisites**
 

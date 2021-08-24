@@ -181,8 +181,8 @@ We also provide the S3 Filesystem and Parquet reader implementation in the confi
 We can now run our spark job to execute all the steps and populate data in pinot.
 
 ```bash
-export PINOT_VERSION=0.7.1
-export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-incubating-${PINOT_VERSION}-bin
+export PINOT_VERSION=0.8.0
+export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin
 
 spark-submit //
 --class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand //

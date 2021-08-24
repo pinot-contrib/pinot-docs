@@ -1,6 +1,6 @@
 # Community
 
-Most Pinot related discussion happens on the [dev mailing list](https://lists.apache.org/list.html?dev@pinot.apache.org), [Github Issues](https://github.com/apache/incubator-pinot/issues) and  [Slack](https://communityinviter.com/apps/apache-pinot/apache-pinot).
+Most Pinot related discussion happens on the [dev mailing list](https://lists.apache.org/list.html?dev@pinot.apache.org), [Github Issues](https://github.com/apache/pinot/issues) and  [Slack](https://communityinviter.com/apps/apache-pinot/apache-pinot).
 
 ## Mailing lists
 
@@ -16,7 +16,7 @@ For general questions and announcement:
 
 ## Github
 
-Star us at [apache/incubator-pinot](https://github.com/apache/incubator-pinot) to follow Pinot development, ask questions, raise issues, or contribute pull requests. Please see [Developers and Contributors](../developers/developers-and-contributors/) section if you're interested in development.
+Star us at [apache/pinot](https://github.com/apache/pinot) to follow Pinot development, ask questions, raise issues, or contribute pull requests. Please see [Developers and Contributors](../developers/developers-and-contributors/) section if you're interested in development.
 
 ## Slack Channel
 

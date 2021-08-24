@@ -28,7 +28,7 @@ Install JDK8 or higher \(JDK16 is not yet supported\)
 {% tab title="Build from source " %}
 
 
-Follow these steps to checkout code from [Github](https://github.com/apache/incubator-pinot) and build Pinot locally
+Follow these steps to checkout code from [Github](https://github.com/apache/pinot) and build Pinot locally
 
 {% hint style="info" %}
  **Prerequisites** 
@@ -39,13 +39,13 @@ Install [Apache Maven](https://maven.apache.org/install.html) 3.6 or higher
 ```bash
 # checkout pinot
 git clone https://github.com/apache/pinot.git
-cd incubator-pinot
+cd pinot
 
 # build pinot
 mvn install package -DskipTests -Pbin-dist
 
 # navigate to directory containing the setup scripts
-cd pinot-distribution/target/apache-pinot-incubating-$PINOT_VERSION-bin/apache-pinot-incubating-$PINOT_VERSION-bin
+cd pinot-distribution/target/apache-pinot-$PINOT_VERSION-bin/apache-pinot-$PINOT_VERSION-bin
 ```
 
 {% hint style="info" %}
@@ -61,19 +61,19 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command 
 
 ```bash
-PINOT_VERSION=0.7.1 #set to the Pinot version you decide to use
+PINOT_VERSION=0.8.0 #set to the Pinot version you decide to use
 
-wget https://downloads.apache.org/pinot/apache-pinot-incubating-$PINOT_VERSION/apache-pinot-incubating-$PINOT_VERSION-bin.tar.gz
+wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```
 
 Once you have the tar file,
 
 ```bash
 # untar it
-tar -zxvf apache-pinot-incubating-$PINOT_VERSION-bin.tar.gz
+tar -zxvf apache-pinot-$PINOT_VERSION-bin.tar.gz
 
 # navigate to directory containing the launcher scripts
-cd apache-pinot-incubating-$PINOT_VERSION-bin
+cd apache-pinot-$PINOT_VERSION-bin
 ```
 {% endtab %}
 {% endtabs %}

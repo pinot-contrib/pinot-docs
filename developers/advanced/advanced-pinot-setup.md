@@ -120,9 +120,9 @@ a413b0013806        apachepinot/pinot:0.3.0-SNAPSHOT   "./bin/pinot-admin.s…" 
 Download Pinot Distribution from [http://pinot.apache.org/download/](http://pinot.apache.org/download/)
 
     $ export PINOT_VERSION=0.7.0
-    $ tar -xvf apache-pinot-incubating-${PINOT_VERSION}-bin.tar.gz
+    $ tar -xvf apache-pinot-${PINOT_VERSION}-bin.tar.gz
 
-    $ cd apache-pinot-incubating-${PINOT_VERSION}-bin
+    $ cd apache-pinot-${PINOT_VERSION}-bin
     $ ls
     DISCLAIMER	LICENSE		NOTICE		bin		conf		lib		licenses	query_console	sample_data
 
@@ -133,7 +133,7 @@ Download Pinot Distribution from [http://pinot.apache.org/download/](http://pino
 ### Start Zookeeper
 
 ```text
-cd apache-pinot-incubating-${PINOT_VERSION}-bin
+cd apache-pinot-${PINOT_VERSION}-bin
 bin/pinot-admin.sh StartZookeeper
 ```
 
@@ -273,7 +273,7 @@ Below are some outstanding configurations you can set in Pinot Server. You can h
 
 A TABLE in regular database world is represented as &lt;TABLE&gt;\_OFFLINE and/or &lt;TABLE&gt;\_REALTIME in Pinot depending on the ingestion mode \(batch, real-time, hybrid\)
 
-See [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables. 
+See [`examples`](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables. 
 
 ### Batch Table Creation
 

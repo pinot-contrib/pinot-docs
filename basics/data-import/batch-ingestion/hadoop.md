@@ -4,7 +4,7 @@
 
 Pinot supports [Apache Hadoop](https://hadoop.apache.org/) as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
 
-You can follow the \[wiki\] to build pinot distribution from source. The resulting JAR file can be found in `incubator-pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
+You can follow the \[wiki\] to build pinot distribution from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
 
 Next, you need to change the execution config in the job spec to the following -
 
@@ -39,8 +39,8 @@ You can check out the sample job spec here.
 Finally execute the hadoop job using the command -
 
 ```text
-export PINOT_VERSION=0.7.1
-export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-incubating-${PINOT_VERSION}-bin/apache-pinot-incubating-${PINOT_VERSION}-bin
+export PINOT_VERSION=0.8.0
+export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/apache-pinot-${PINOT_VERSION}-bin
 export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
 
 hadoop jar  \\
