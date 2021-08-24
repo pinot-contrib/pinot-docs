@@ -131,6 +131,10 @@ controller.admin.access.control.principals.user.permissions=READ
 
 This configuration will automatically allow other pinot components to access pinot-controller with the shared _admin_ service token set up earlier.
 
+{% hint style="info" %}
+If `*.principals.<user>.tables`is not configured, then all the tables are considered accessible for this &lt;user&gt;.
+{% endhint %}
+
 ### Broker Authentication and Authorization
 
 Pinot-Broker, similar to pinot-controller above, has supported access control for a while now and we added a default implementation for HTTP Basic Auth. Since pinot-broker does not provide a web UI by itself, authentication is only relevant for SQL queries hitting the broker's REST API.
