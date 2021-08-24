@@ -1,6 +1,6 @@
 # Scalar Functions
 
-Since 0.5.0 release, Pinot supports custom functions which returns a single output for multiple inputs. Some examples of scalar functions can be found in [StringFunctions](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/function/StringFunctions.java) and [DateTimeFunctions](https://github.com/apache/incubator-pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/function/DateTimeFunctions.java) 
+Since 0.5.0 release, Pinot supports custom functions which returns a single output for multiple inputs. Some examples of scalar functions can be found in [StringFunctions](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/function/StringFunctions.java) and [DateTimeFunctions](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/function/DateTimeFunctions.java) 
 
 Pinot automatically identifies and registers all the functions with annotation `@ScalarFunction` 
 

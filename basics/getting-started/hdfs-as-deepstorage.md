@@ -33,8 +33,8 @@ export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
 export HADOOP_GSON_VERSION=2.2.4
 export GC_LOG_LOCATION=/path/to/gc/log/file
-export PINOT_VERSION=0.7.1
-export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-incubating-${PINOT_VERSION}-bin/
+export PINOT_VERSION=0.8.0
+export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin/
 export SERVER_CONF_DIR=/path/to/pinot/conf/dir/
 export ZOOKEEPER_ADDRESS=localhost:2181
 
@@ -75,8 +75,8 @@ export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
 export HADOOP_GSON_VERSION=2.2.4
 export GC_LOG_LOCATION=/path/to/gc/log/file
-export PINOT_VERSION=0.7.1
-export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-incubating-${PINOT_VERSION}-bin/
+export PINOT_VERSION=0.8.0
+export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin/
 export SERVER_CONF_DIR=/path/to/pinot/conf/dir/
 export ZOOKEEPER_ADDRESS=localhost:2181
 
@@ -103,8 +103,8 @@ export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
 export HADOOP_GSON_VERSION=2.2.4
 export GC_LOG_LOCATION=/path/to/gc/log/file
-export PINOT_VERSION=0.7.1
-export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-incubating-${PINOT_VERSION}-bin/
+export PINOT_VERSION=0.8.0
+export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin/
 export SERVER_CONF_DIR=/path/to/pinot/conf/dir/
 export ZOOKEEPER_ADDRESS=localhost:2181
 

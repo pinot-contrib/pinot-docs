@@ -24,7 +24,7 @@ include 'org.apache.pinot:pinot-java-client:0.5.0'
 {% endtab %}
 {% endtabs %}
 
-You can also build [the code for java client](https://github.com/apache/incubator-pinot/tree/master/pinot-clients/pinot-java-client) locally and use it. 
+You can also build [the code for java client](https://github.com/apache/pinot/tree/master/pinot-clients/pinot-java-client) locally and use it. 
 
 ### Usage
 

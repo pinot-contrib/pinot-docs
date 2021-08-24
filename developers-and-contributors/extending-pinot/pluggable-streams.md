@@ -1,8 +1,8 @@
 # Pluggable Streams
 
-Prior to commit [ba9f2d](https://github.com/apache/incubator-pinot/commit/ba9f2ddfc0faa42fadc2cc48df1d77fec6b174fb), Pinot was only able to support consuming from [Kafka](https://kafka.apache.org/documentation/) stream.
+Prior to commit [ba9f2d](https://github.com/apache/pinot/commit/ba9f2ddfc0faa42fadc2cc48df1d77fec6b174fb), Pinot was only able to support consuming from [Kafka](https://kafka.apache.org/documentation/) stream.
 
-Pinot now enables its users to write plug-ins to consume from pub-sub streams other than Kafka. \(Please refer to [Issue \#2583](https://github.com/apache/incubator-pinot/issues/2583)\)
+Pinot now enables its users to write plug-ins to consume from pub-sub streams other than Kafka. \(Please refer to [Issue \#2583](https://github.com/apache/pinot/issues/2583)\)
 
 Some of the streams for which plug-ins can be added are:
 
@@ -49,15 +49,15 @@ In addition, we have an operational requirement that the number of partitions sh
 
 In order to add a new type of stream \(say,Foo\) implement the following classes:
 
-1. FooConsumerFactory extends [StreamConsumerFactory](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamConsumerFactory.java)
-2. FooPartitionLevelConsumer implements [PartitionLevelConsumer](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/PartitionLevelConsumer.java)
-3. FooStreamLevelConsumer implements [StreamLevelConsumer](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamLevelConsumer.java)
-4. FooMetadataProvider implements [StreamMetadataProvider](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMetadataProvider.java)
-5. FooMessageDecoder implements [StreamMessageDecoder](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/realtime/stream/StreamMessageDecoder.java)
+1. FooConsumerFactory extends [StreamConsumerFactory](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamConsumerFactory.java)
+2. FooPartitionLevelConsumer implements [PartitionLevelConsumer](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/PartitionLevelConsumer.java)
+3. FooStreamLevelConsumer implements [StreamLevelConsumer](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamLevelConsumer.java)
+4. FooMetadataProvider implements [StreamMetadataProvider](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMetadataProvider.java)
+5. FooMessageDecoder implements [StreamMessageDecoder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/realtime/stream/StreamMessageDecoder.java)
 
 Depending on stream level or partition level, your implementation needs to include StreamLevelConsumer or PartitionLevelConsumer.
 
-The properties for the stream implementation are to be set in the table configuration, inside [streamConfigs](https://github.com/apache/incubator-pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamConfig.java) section.
+The properties for the stream implementation are to be set in the table configuration, inside [streamConfigs](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamConfig.java) section.
 
 Use the `streamType` property to define the stream type. For example, for the implementation of stream `foo`, set the property `"streamType" : "foo"`.
 
@@ -104,7 +104,7 @@ The properties for the thresholds are as follows:
 "realtime.segment.flush.threshold.time" : "6h"
 ```
 
-An example of this implementation can be found in the [KafkaConsumerFactory](https://github.com/apache/incubator-pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-2.0/src/main/java/org/apache/pinot/plugin/stream/kafka20/KafkaConsumerFactory.java), which is an implementation for the kafka stream.
+An example of this implementation can be found in the [KafkaConsumerFactory](https://github.com/apache/pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-2.0/src/main/java/org/apache/pinot/plugin/stream/kafka20/KafkaConsumerFactory.java), which is an implementation for the kafka stream.
 
 ### Kafka 2.x Plugin
 

@@ -338,7 +338,7 @@ Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintai
 
 ## Creating a Schema
 
-Create a schema for your data, or see [`examples`](https://github.com/apache/incubator-pinot/tree/master/pinot-tools/src/main/resources/examples) for examples. Make sure you've [setup the cluster](cluster.md#setup-a-pinot-cluster) 
+Create a schema for your data, or see [`examples`](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples) for examples. Make sure you've [setup the cluster](cluster.md#setup-a-pinot-cluster) 
 
 Note: schema can also be created as part of table creation, refer to [Creating a table](table.md#creating-a-table). 
 

@@ -2,12 +2,12 @@
 
 ## Overview
 
-The scripts to build Pinot related docker images is located at [here](https://github.com/apache/incubator-pinot/tree/master/docker/images). 
+The scripts to build Pinot related docker images is located at [here](https://github.com/apache/pinot/tree/master/docker/images). 
 
 You can access those scripts by running below command to checkout Pinot repo:
 
 ```text
-git clone git@github.com:apache/incubator-pinot.git pinot
+git clone git@github.com:apache/pinot.git pinot
 cd pinot/docker/images
 ```
 
@@ -19,7 +19,7 @@ You can find current supported 3 images in this directory:
 
 ## Pinot 
 
-This is a docker image of [Apache Pinot](https://github.com/apache/incubator-pinot). 
+This is a docker image of [Apache Pinot](https://github.com/apache/pinot). 
 
 ### How to build a docker image
 
@@ -39,7 +39,7 @@ The docker image is tagged as `[Docker Tag]`.
 
 `Git Branch`: The Pinot branch to build. Default is `master`.
 
-`Pinot Git URL`: The Pinot Git Repo to build, users can set it to their own fork. Please note that, the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/apache/incubator-pinot.git`.
+`Pinot Git URL`: The Pinot Git Repo to build, users can set it to their own fork. Please note that, the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/apache/pinot.git`.
 
 * Example of building and tagging a snapshot on your own fork:
 
@@ -50,7 +50,7 @@ The docker image is tagged as `[Docker Tag]`.
 * Example of building a release version:
 
 ```text
-./docker-build.sh pinot:release-0.1.0 release-0.1.0 https://github.com/apache/incubator-pinot.git
+./docker-build.sh pinot:release-0.1.0 release-0.1.0 https://github.com/apache/pinot.git
 ```
 
 * Example of building current master branch as a snapshot: 
@@ -83,7 +83,7 @@ Script `docker-build-and-push.sh` builds and publishes this docker image to your
 * Example of building and publishing an image to [apachepinot/pinot](https://cloud.docker.com/u/apachepinot/repository/docker/apachepinot/pinot) dockerHub repo.
 
 ```text
-./docker-build-and-push.sh apachepinot/pinot:latest master https://github.com/apache/incubator-pinot.git
+./docker-build-and-push.sh apachepinot/pinot:latest master https://github.com/apache/pinot.git
 ```
 
 ### Kubernetes Examples
@@ -134,7 +134,7 @@ The data volume is located at `/home/presto/data`.
 
 ### Kubernetes Examples
 
-Please refer to [`presto-coordinator.yaml`](https://github.com/apache/incubator-pinot/blob/master/kubernetes/examples/helm/prest-coordinator.yaml) as k8s deployment example.
+Please refer to [`presto-coordinator.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/prest-coordinator.yaml) as k8s deployment example.
 
 ## Pinot Superset
 
@@ -171,7 +171,7 @@ make push
 
 ### Configuration
 
-Follow the [instructions](https://superset.incubator.apache.org/installation.html#configuration) provided by Apache Superset for writing your own `superset_config.py`.
+Follow the [instructions](https://superset.apache.org/installation.html#configuration) provided by Apache Superset for writing your own `superset_config.py`.
 
 Place this file in a local directory and mount this directory to `/etc/superset` inside the container. This location is included in the image's `PYTHONPATH`. Mounting this file to a different location is possible, but it will need to be in the `PYTHONPATH`.
 
@@ -185,7 +185,7 @@ The data volume is located at `/var/lib/superset` and it is where you would moun
 
 ### Kubernetes Examples
 
-Please refer to [`superset.yaml`](https://github.com/apache/incubator-pinot/blob/master/kubernetes/examples/helm/superset.yaml) as k8s deployment example.
+Please refer to [`superset.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/superset.yaml) as k8s deployment example.
 
 
 

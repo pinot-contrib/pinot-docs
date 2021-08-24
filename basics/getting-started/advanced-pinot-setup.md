@@ -158,7 +158,7 @@ Follow this instruction in [Getting Pinot](./) to get Pinot
 ### 1. Start Zookeeper
 
 ```text
-cd apache-pinot-incubating-${PINOT_VERSION}-bin
+cd apache-pinot-${PINOT_VERSION}-bin
 bin/pinot-admin.sh StartZookeeper \
   -zkPort 2191
 ```

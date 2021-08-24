@@ -55,7 +55,7 @@ The idea here is as follows:
 
 Minion upgrades is currently not supported in the test framework. Also, testing compatibility of the controller APIs is not supported at this time. We welcome contributions in these areas.
 
-See the [yaml files](https://github.com/apache/incubator-pinot/tree/master/compatibility-verifier/sample-test-suite) provided along with the source code for examples on how to specify operations for each roll forward/backward stage of the upgrade process.
+See the [yaml files](https://github.com/apache/pinot/tree/master/compatibility-verifier/sample-test-suite) provided along with the source code for examples on how to specify operations for each roll forward/backward stage of the upgrade process.
 
 ## Running the compatibility test suite
 
@@ -134,7 +134,7 @@ This can be a tag or a commit hash.
 Clone the current source code from Pinot and go to the appropriate directory. This will get you the latest compatibility tester.
 
 ```text
-git clone https://github.com/apache/incubator-pinot.git
+git clone https://github.com/apache/pinot.git
 cd compatibility-verifier
 ```
 
@@ -165,7 +165,7 @@ So we can use the same data files and queries, upload them as new set of rows \(
 
 This allows the test suite to upload the same data as different segments, and verify that the current data as well as the previously uploaded ones are all working correctly in terms of responding to queries. The test driver automatically tests all previous generation numbers as well.
 
-See the [input file](https://github.com/apache/incubator-pinot/blob/master/compatibility-verifier/sample-test-suite/config/data/RealtimeFeatureTest1-data-00.csv) and [query file](https://github.com/apache/incubator-pinot/blob/master/compatibility-verifier/sample-test-suite/config/queries/feature-test-2-sql-realtime.queries) in sample test suite for use of this feature. 
+See the [input file](https://github.com/apache/pinot/blob/master/compatibility-verifier/sample-test-suite/config/data/RealtimeFeatureTest1-data-00.csv) and [query file](https://github.com/apache/pinot/blob/master/compatibility-verifier/sample-test-suite/config/queries/feature-test-2-sql-realtime.queries) in sample test suite for use of this feature. 
 
 Consider an input line in the data file like the following:
 

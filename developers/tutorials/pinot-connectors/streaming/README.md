@@ -6,9 +6,9 @@ Note
 
 This section is a pre-read if you are planning to develop plug-ins for streams other than Kafka. Pinot supports Kafka out of the box.
 
-Prior to commit [ba9f2d](https://github.com/apache/incubator-pinot/commit/ba9f2ddfc0faa42fadc2cc48df1d77fec6b174fb), Pinot was only able to support consuming from [Kafka](https://kafka.apache.org/documentation/) stream.
+Prior to commit [ba9f2d](https://github.com/apache/pinot/commit/ba9f2ddfc0faa42fadc2cc48df1d77fec6b174fb), Pinot was only able to support consuming from [Kafka](https://kafka.apache.org/documentation/) stream.
 
-Pinot now enables its users to write plug-ins to consume from pub-sub streams other than Kafka. \(Please refer to [Issue \#2583](https://github.com/apache/incubator-pinot/issues/2583)\)
+Pinot now enables its users to write plug-ins to consume from pub-sub streams other than Kafka. \(Please refer to [Issue \#2583](https://github.com/apache/pinot/issues/2583)\)
 
 Some of the streams for which plug-ins can be added are:
 

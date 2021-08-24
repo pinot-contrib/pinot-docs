@@ -78,7 +78,7 @@ Geospatial functions are typically expensive to evaluate, and using geoindex can
 
 ### How to use Geoindex
 
-To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/incubator-pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores_schema.json#L25).
+To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores_schema.json#L25).
 
 {% code title="geoindex schema" %}
 ```javascript

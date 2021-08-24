@@ -4,10 +4,10 @@ Pinot has many inbuilt Aggregation Functions such as MIN, MAX, SUM, AVG etc. See
 
 Adding a new AggregationFunction requires two things
 
-* Implement [AggregationFunction](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function/AggregationFunction.java) interface and make it available as part of the classpath
-* Register the function in [AggregationFunctionFactory](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function/AggregationFunctionFactory.java). As of today, this requires code change in Pinot but we plan to add the ability to plugin Functions without having to change Pinot code.
+* Implement [AggregationFunction](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function/AggregationFunction.java) interface and make it available as part of the classpath
+* Register the function in [AggregationFunctionFactory](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function/AggregationFunctionFactory.java). As of today, this requires code change in Pinot but we plan to add the ability to plugin Functions without having to change Pinot code.
 
-To get an overall idea, see [MAX](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function/MaxAggregationFunction.java) Aggregation Function implementation. All other implementations can be found [here](https://github.com/apache/incubator-pinot/tree/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function).
+To get an overall idea, see [MAX](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function/MaxAggregationFunction.java) Aggregation Function implementation. All other implementations can be found [here](https://github.com/apache/pinot/tree/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function).
 
 Lets look at the key methods to implements in AggregationFunction
 
@@ -49,8 +49,8 @@ This is advanced topic and assumes you know Pinot [concepts](../../../basics/con
 This phase works on the individual segments in Pinot. 
 
 * Initialization: Depending on the query type the following methods are invoked to setup the result holder.  While having different methods and return types adds complexity, it helps in performance.
-  * AGGREGATION : `createAggregationResultHolder`This must return an instance of type [AggregationResultHolder](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/AggregationResultHolder.java). You can either use the [DoubleAggregationResultHolder](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/DoubleAggregationResultHolder.java) or [ObjectAggregationResultHolder](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/ObjectAggregationResultHolder.java)
-  * GROUP BY: `createGroupByResultHolder`This method must return an instance of type [GroupByResultHolder](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/groupby/GroupByResultHolder.java). Depending on the type of result object, you might be able to use one of the existing [implementations](https://github.com/apache/incubator-pinot/tree/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/groupby).
+  * AGGREGATION : `createAggregationResultHolder`This must return an instance of type [AggregationResultHolder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/AggregationResultHolder.java). You can either use the [DoubleAggregationResultHolder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/DoubleAggregationResultHolder.java) or [ObjectAggregationResultHolder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/ObjectAggregationResultHolder.java)
+  * GROUP BY: `createGroupByResultHolder`This method must return an instance of type [GroupByResultHolder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/groupby/GroupByResultHolder.java). Depending on the type of result object, you might be able to use one of the existing [implementations](https://github.com/apache/pinot/tree/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/groupby).
 * Callback:  For every record that matches the filter condition in the query,
 
   one of the following methods are invoked depending on the queryType\(aggregation vs group by\) and columnType\(single-value vs multi-value\). Note that we invoke this method for a batch of records instead of every row for performance reasons and allows JVM to vectorize some of parts of the execution if possible.
@@ -88,7 +88,7 @@ public interface AggregationFunction<IntermediateResult, FinalResult extends Com
 There are two steps  in the Reduce Phase
 
 * Merge all the IntermediateResult's from various servers using the  **merge** function
-* Extract the final results by invoking the extractFinalResult method. In most cases, FinalResult is same type as IntermediateResult. [AverageAggregationFunction](https://github.com/apache/incubator-pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function/AvgAggregationFunction.java) is an example where IntermediateResult \(AvgPair\) is different from FinalResult\(Double\)
+* Extract the final results by invoking the extractFinalResult method. In most cases, FinalResult is same type as IntermediateResult. [AverageAggregationFunction](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/function/AvgAggregationFunction.java) is an example where IntermediateResult \(AvgPair\) is different from FinalResult\(Double\)
 
 ```text
   FinalResult extractFinalResult(IntermediateResult intermediateResult);
