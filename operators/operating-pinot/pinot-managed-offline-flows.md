@@ -70,7 +70,7 @@ If needed, you can add more configs to the task configs in the REALTIME table, s
 ```text
 "task": {
     "taskTypeConfigsMap": {
-      "realtimeToOfflineSegmentsTask": {
+      "RealtimeToOfflineSegmentsTask": {
         "bucketTimePeriod": "6h",
         "bufferTimePeriod": "5d",
         "roundBucketTimePeriod": "1h",
