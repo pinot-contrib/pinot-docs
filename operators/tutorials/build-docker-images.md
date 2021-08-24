@@ -2,7 +2,7 @@
 
 ## Overview
 
-The scripts to build Pinot related docker images is located at [here](https://github.com/apache/pinot/tree/master/docker/images). 
+The scripts to build Pinot related docker images is located at [here](https://github.com/apache/pinot/tree/master/docker/images).
 
 You can access those scripts by running below command to checkout Pinot repo:
 
@@ -11,15 +11,15 @@ git clone git@github.com:apache/pinot.git pinot
 cd pinot/docker/images
 ```
 
-You can find current supported 3 images in this directory: 
+You can find current supported 3 images in this directory:
 
 * **Pinot**: Pinot all-in-one distribution image
 * **Pinot-Presto**: Presto image with Presto-Pinot Connector built-in.
 * **Pinot-Superset**: Superset image with Pinot connector built-in.
 
-## Pinot 
+## Pinot
 
-This is a docker image of [Apache Pinot](https://github.com/apache/pinot). 
+This is a docker image of [Apache Pinot](https://github.com/apache/pinot).
 
 ### How to build a docker image
 
@@ -156,11 +156,11 @@ You can also build directly with `docker build` command by setting arguments:
 
 ```text
 docker build \
-	--build-arg NODE_VERSION=latest \
-	--build-arg PYTHON_VERSION=3.6 \
-	--build-arg SUPERSET_VERSION=0.34.1 \
-	--tag apachepinot/pinot-superset:0.34.1 \
-	--target build .
+    --build-arg NODE_VERSION=latest \
+    --build-arg PYTHON_VERSION=3.6 \
+    --build-arg SUPERSET_VERSION=0.34.1 \
+    --tag apachepinot/pinot-superset:0.34.1 \
+    --target build .
 ```
 
 ### How to push
@@ -186,6 +186,4 @@ The data volume is located at `/var/lib/superset` and it is where you would moun
 ### Kubernetes Examples
 
 Please refer to [`superset.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/superset.yaml) as k8s deployment example.
-
-
 

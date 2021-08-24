@@ -17,7 +17,7 @@ This is a quickstart guide that will show you how to quickly start an example re
 First, let's download the Pinot distribution for this tutorial. You can either build the distribution from source or download a packaged release.
 
 {% hint style="info" %}
- **Prerequisites** 
+**Prerequisites**
 
 Install JDK8 or higher \(JDK16 is not yet supported\)
 {% endhint %}
@@ -26,12 +26,10 @@ Install JDK8 or higher \(JDK16 is not yet supported\)
 
 {% tabs %}
 {% tab title="Build from source " %}
-
-
 Follow these steps to checkout code from [Github](https://github.com/apache/pinot) and build Pinot locally
 
 {% hint style="info" %}
- **Prerequisites** 
+**Prerequisites**
 
 Install [Apache Maven](https://maven.apache.org/install.html) 3.6 or higher
 {% endhint %}
@@ -58,7 +56,7 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 {% endtab %}
 
 {% tab title="Download the release" %}
-Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command 
+Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command
 
 ```bash
 PINOT_VERSION=0.8.0 #set to the Pinot version you decide to use
@@ -106,7 +104,7 @@ Streaming quick start sets up a Kafka cluster and pushes sample data to a Kafka 
 bin/quick-start-streaming.sh
 ```
 
-We now have a Pinot cluster with a realtime table! You can head over to  [Pinot Data Explorer](../components/exploring-pinot.md) to check out the data in the `meetupRSVP` table.
+We now have a Pinot cluster with a realtime table! You can head over to [Pinot Data Explorer](../components/exploring-pinot.md) to check out the data in the `meetupRSVP` table.
 
 ### Hybrid
 

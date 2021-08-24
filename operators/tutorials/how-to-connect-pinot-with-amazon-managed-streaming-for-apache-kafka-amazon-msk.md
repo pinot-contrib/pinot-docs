@@ -17,16 +17,17 @@ Please follow this [AWS Quickstart Wiki](https://docs.pinot.apache.org/getting-s
 Please go to [MSK Landing Page](https://us-west-2.console.aws.amazon.com/msk/home) to create a Kafka Cluster.
 
 {% hint style="info" %}
-Note: 
+Note:
 
 1. For demo simplicity, this MSK cluster reuses same VPC created by EKS cluster in the previous step. Otherwise a [VPC Peering](https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) is required to ensure two VPCs could talk to each other.
-
-2. Under **Encryption** section, choose**`Both TLS encrypted and plaintext traffic allowed`** 
+2. Under **Encryption** section, choose**`Both TLS encrypted and plaintext traffic allowed`**
 {% endhint %}
 
-Below is a sample screenshot to create an Amazon MSK cluster. 
+Below is a sample screenshot to create an Amazon MSK cluster.
 
-                                                           ![](../../.gitbook/assets/snapshot-msk.png)
+```text
+                                                       ![](../../.gitbook/assets/snapshot-msk.png)
+```
 
 After click on Create button, you can take a coffee break and come back.
 
@@ -51,7 +52,6 @@ In order to connect MSK to EKS, we need to allow the traffic could go through ea
 This is configured through Amazon VPC Page.
 
 1. Record the Amazon MSK `SecurityGroup` from the Cluster page, in the above demo, it's `sg-01e7ab1320a77f1a9`.
-
 2. Open [Amazon VPC Page](https://us-west-2.console.aws.amazon.com/vpc/home), click on **`SecurityGroups`** on left bar. Find the EKS Security group: `eksctl-${PINOT_EKS_CLUSTER}-cluster/ClusterSharedNodeSecurityGroup.`
 
 ![Amazon EKS ClusterSharedNodeSecurityGroup](../../.gitbook/assets/image%20%289%29%20%282%29%20%282%29%20%282%29%20%282%29.png)
@@ -60,11 +60,11 @@ This is configured through Amazon VPC Page.
 Please ensure you are picking **ClusterShardNodeSecurityGroup**
 {% endhint %}
 
-3. In SecurityGroup, click on MSK SecurityGroup \(`sg-01e7ab1320a77f1a9`\), then Click on `Edit Rules` , then add above `ClusterSharedNodeSecurityGroup` \(`sg-0402b59d7e440f8d1`\) to it.
+1. In SecurityGroup, click on MSK SecurityGroup \(`sg-01e7ab1320a77f1a9`\), then Click on `Edit Rules` , then add above `ClusterSharedNodeSecurityGroup` \(`sg-0402b59d7e440f8d1`\) to it.
 
 ![Add SecurityGroup to Amazon MSK](../../.gitbook/assets/image%20%2822%29.png)
 
-4. Click EKS Security Group `ClusterSharedNodeSecurityGroup` \(`sg-0402b59d7e440f8d1`\), add In bound Rule for MSK Security Group \(`sg-01e7ab1320a77f1a9`\).
+1. Click EKS Security Group `ClusterSharedNodeSecurityGroup` \(`sg-0402b59d7e440f8d1`\), add In bound Rule for MSK Security Group \(`sg-01e7ab1320a77f1a9`\).
 
 ![Add SecurityGroup to Amazon EKS](../../.gitbook/assets/image.png)
 
@@ -192,8 +192,4 @@ Sending request: http://pinot-controller:9000/schemas to controller: pinot-contr
 * Then you can open Pinot Query Console to browse the data
 
 ![](../../.gitbook/assets/image%20%2812%29.png)
-
-
-
-
 

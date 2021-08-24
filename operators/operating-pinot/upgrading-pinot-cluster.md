@@ -10,7 +10,7 @@ Pinot has multiple components that run independently of each other. Therefore up
 
 Pinot is highly configurable, so it is possible that there are few installations that use the same combination of configuration options as any one site does. Therefore, it may be that a defect or incompatibility exists with that particular combination of configurations, and went undetected in reviews.
 
-In practice, installations upgrade their deployments to newer versions periodically, or when an urgent bug-fix is needed, or when a new release is published. It is also possible that an installation has not upgraded Pinot for a long time. Either way, it is usually the case that installations will pull in a lot more new/modified software than the feature or bug fix they need. 
+In practice, installations upgrade their deployments to newer versions periodically, or when an urgent bug-fix is needed, or when a new release is published. It is also possible that an installation has not upgraded Pinot for a long time. Either way, it is usually the case that installations will pull in a lot more new/modified software than the feature or bug fix they need.
 
 In a mission-critical pinot installation, the administrators require that during \(and certainly after\) the upgrade, correctness of normal operations \(segment pushes, ingestion from streams, queries, monitoring, etc.\) is not compromised..
 
@@ -79,7 +79,7 @@ Examples:
     To compare any two previous tags or hashes: 'checkoutAndBuild.sh -o release-0.7.1 -n 637cc3494 -w /tmp/wd
 ```
 
-Depending on how old your versions are, you may have some build failures. It will be useful to create the following file as `compat-settings.xml` and set it in an environment variable  before running the `checkoutAndBuild.sh` command: 
+Depending on how old your versions are, you may have some build failures. It will be useful to create the following file as `compat-settings.xml` and set it in an environment variable before running the `checkoutAndBuild.sh` command:
 
 ```text
 $ # Create the following file
@@ -99,7 +99,6 @@ $ cat /tmp/compat-settings.xml
 $ export PINOT_MAVEN_OPTS="/tmp/compat-settings.xml"
 $ # And now, run the checkoutAndBuid.sh
 $ checkoutAndBuild.sh -o <oldVersion> -n <newVersion> -w <workingDir>
-
 ```
 
 And the command to run the compatibility test suite is as follows:
@@ -117,7 +116,7 @@ OPTIONAL:
   -h, --help                             Prints this help
 ```
 
-You can use command line tools to verify compatibility against a previous release of Pinot \(the tools support a `--help` option\). 
+You can use command line tools to verify compatibility against a previous release of Pinot \(the tools support a `--help` option\).
 
 Here are the steps to follow before you upgrade your installation
 
@@ -165,7 +164,7 @@ So we can use the same data files and queries, upload them as new set of rows \(
 
 This allows the test suite to upload the same data as different segments, and verify that the current data as well as the previously uploaded ones are all working correctly in terms of responding to queries. The test driver automatically tests all previous generation numbers as well.
 
-See the [input file](https://github.com/apache/pinot/blob/master/compatibility-verifier/sample-test-suite/config/data/RealtimeFeatureTest1-data-00.csv) and [query file](https://github.com/apache/pinot/blob/master/compatibility-verifier/sample-test-suite/config/queries/feature-test-2-sql-realtime.queries) in sample test suite for use of this feature. 
+See the [input file](https://github.com/apache/pinot/blob/master/compatibility-verifier/sample-test-suite/config/data/RealtimeFeatureTest1-data-00.csv) and [query file](https://github.com/apache/pinot/blob/master/compatibility-verifier/sample-test-suite/config/queries/feature-test-2-sql-realtime.queries) in sample test suite for use of this feature.
 
 Consider an input line in the data file like the following:
 

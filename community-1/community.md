@@ -1,6 +1,6 @@
 # Community
 
-Most Pinot related discussion happens on the [dev mailing list](https://lists.apache.org/list.html?dev@pinot.apache.org), [Github Issues](https://github.com/apache/pinot/issues) and  [Slack](https://communityinviter.com/apps/apache-pinot/apache-pinot).
+Most Pinot related discussion happens on the [dev mailing list](https://lists.apache.org/list.html?dev@pinot.apache.org), [Github Issues](https://github.com/apache/pinot/issues) and [Slack](https://communityinviter.com/apps/apache-pinot/apache-pinot).
 
 ## Mailing lists
 
@@ -29,6 +29,4 @@ Please follow us on Twitter [@ApachePinot](https://twitter.com/ApachePinot).
 ## Meetups
 
 Please see [Apache Pinot on Meetup.com](https://www.meetup.com/apache-pinot/) for upcoming meetup events.
-
-
 

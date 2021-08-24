@@ -9,13 +9,13 @@ Some examples of storage backends\(other than local storage\) currently supporte
 
 If the above two filesystems do not meet your needs, you can extend the current [PinotFS](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/filesystem/PinotFS.java) to customize for your needs.
 
-### New Storage Type implementation
+## New Storage Type implementation
 
-In order to add a new type of storage backend such as Amazon S3 we need to  implement the [PinotFS](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/filesystem/PinotFS.java) class. The interface expects common method related to accessing the file system such as `mkdir`, `list` etc.
+In order to add a new type of storage backend such as Amazon S3 we need to implement the [PinotFS](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/filesystem/PinotFS.java) class. The interface expects common method related to accessing the file system such as `mkdir`, `list` etc.
 
 Once the the class is ready, you can compile it and put it in the `/plugins` directory of pinot.
 
-### Using plugin in realtime table
+## Using plugin in realtime table
 
 You can set the configuration in realtime or batch tables by using base scheme of URI \(scheme://host:port/path\) as suffix.  
 e.g. for the path `hdfs://user/yarn/path/to/dir` , the base scheme is `hdfs` and all the config keys should have `hdfs` in them such `pinot.controller.storage.factory.hdfs`
@@ -38,7 +38,7 @@ In the Pinot controller config, add the following new configs:
 "pinot.server.instance.enable.split.commit": "true"
 ```
 
-### Configurations for Offline Tables
+## Configurations for Offline Tables
 
 These properties for the stream implementation are to be set in your controller and server configurations.
 

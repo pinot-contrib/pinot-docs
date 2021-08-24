@@ -612,7 +612,8 @@ Date time functions allow you to perform transformations on columns which contai
       <td style="text-align:left"><b>JSONPATH</b>(jsonField, &apos;jsonPath&apos;)</td>
       <td style="text-align:left">Scalar</td>
       <td style="text-align:left">Extracts the object value from <code>jsonField</code> based on <code>&apos;jsonPath&apos;</code>,
-        the result type is inferred based on JSON value.</td>
+        the result type is inferred based on JSON value. <b>Cannot be used in query because data type is not specified.</b>
+      </td>
     </tr>
     <tr>
       <td style="text-align:left"><b>JSONPATHLONG</b>(jsonField, &apos;jsonPath&apos;, [defaultValue])</td>
@@ -639,7 +640,17 @@ Date time functions allow you to perform transformations on columns which contai
       <td style="text-align:left"><b>JSONPATHARRAY</b>(jsonField, &apos;jsonPath&apos;)</td>
       <td style="text-align:left">Scalar</td>
       <td style="text-align:left">Extracts an array from <code>jsonField</code> based on <code>&apos;jsonPath&apos;</code>,
-        the result type is inferred based on JSON value.</td>
+        the result type is inferred based on JSON value. <b>Cannot be used in query because data type is not specified.</b>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>JSONPATHARRAYDEFAULTEMPTY</b>(jsonField, &apos;jsonPath&apos;)</td>
+      <td
+      style="text-align:left">Scalar</td>
+        <td style="text-align:left">Extracts an array from <code>jsonField</code> based on <code>&apos;jsonPath&apos;</code>,
+          the result type is inferred based on JSON value. Returns empty array for
+          null or parsing error. <b>Cannot be used in query because data type is not specified.</b>
+        </td>
     </tr>
   </tbody>
 </table>
@@ -681,17 +692,16 @@ Date time functions allow you to perform transformations on columns which contai
 </table>
 
 {% hint style="warning" %}
-**`'jsonPath'`**`and`**`'results_type'`**are **Literals.** Pinot uses single quotes to distinguish it from **Identifiers**.
+**`'jsonPath'`**`and`**`'resultsType'`**are **Literals.** Pinot uses single quotes to distinguish it from **Identifiers**.
+
+E.g.
+
+`JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')`  is **Valid**.`JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")`  is **Invalid**.
 {% endhint %}
 
 {% hint style="warning" %}
 **Transform** functions can only be used in Pinot SQL. **Scalar** functions can be used in table ingestion configs for column transformation.
 {% endhint %}
-
-E.g:
-
-* `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')`  is **Valid**.
-* `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")`  is **Invalid**.
 
 **Examples**
 

@@ -1,10 +1,10 @@
 # Java
 
-Pinot provides a native java client to execute queries on the cluster. The client makes it easier for user to query data. The client is also tenant-aware and thus is able to redirect the queries to the correct broker. 
+Pinot provides a native java client to execute queries on the cluster. The client makes it easier for user to query data. The client is also tenant-aware and thus is able to redirect the queries to the correct broker.
 
-### Installation
+## Installation
 
-You can use the client by including the following dependency - 
+You can use the client by including the following dependency -
 
 {% tabs %}
 {% tab title="Maven" %}
@@ -24,9 +24,9 @@ include 'org.apache.pinot:pinot-java-client:0.5.0'
 {% endtab %}
 {% endtabs %}
 
-You can also build [the code for java client](https://github.com/apache/pinot/tree/master/pinot-clients/pinot-java-client) locally and use it. 
+You can also build [the code for java client](https://github.com/apache/pinot/tree/master/pinot-clients/pinot-java-client) locally and use it.
 
-### Usage
+## Usage
 
 Here's an example of how to use the `pinot-java-client` to query Pinot.
 
@@ -43,38 +43,38 @@ import org.apache.pinot.client.ResultSet;
 public class PinotClientExample {
 
   public static void main(String[] args) {
-    
+
     // pinot connection
     String zkUrl = "localhost:2181";
     String pinotClusterName = "PinotCluster";
     Connection pinotConnection = ConnectionFactory.fromZookeeper(zkUrl + "/" + pinotClusterName);
-  
+
     String query = "SELECT COUNT(*) FROM myTable GROUP BY foo";
-        
+
     // set queryType=sql for querying the sql endpoint
     Request pinotClientRequest = new Request("sql", query);
     ResultSetGroup pinotResultSetGroup = pinotConnection.execute(pinotClientRequest);
     ResultSet resultTableResultSet = pinotResultSetGroup.getResultSet(0);
-        
+
     int numRows = resultTableResultSet.getRowCount();
     int numColumns = resultTableResultSet.getColumnCount();
     String columnValue = resultTableResultSet.getString(0, 1);
     String columnName = resultTableResultSet.getColumnName(1);
-        
+
     System.out.println("ColumnName: " + columnName + ", ColumnValue: " + columnValue);
   }
 }
 ```
 
-### Connection Factory
+## Connection Factory
 
-The client provides a `ConnectionFactory` class  to create connections to a Pinot cluster. The factory supports the following methods to create a connection -
+The client provides a `ConnectionFactory` class to create connections to a Pinot cluster. The factory supports the following methods to create a connection -
 
 * **Zookeeper \(Recommended\)** - Comma seperated list of zookeeper of the cluster. This is the only method which can redirect queries to appropriate brokers based on tenant/table and hence it is recommended
 * **Broker list** - Comma seperated list of the brokers in the cluster. This should only be used in standalone setups or for POC.
 * **Properties file** -  You can also put the broker list as `brokerList` in a properties file and provide the path to that file to the factory.  This should only be used in standalone setups or for POC. 
 
-Here's an example demonstrating all methods of Connection factory - 
+Here's an example demonstrating all methods of Connection factory -
 
 ```java
 Connection connection = ConnectionFactory.fromZookeeper
@@ -86,9 +86,9 @@ Connection connection = ConnectionFactory.fromHostList
   ("broker-1:1234", "broker-2:1234", ...);
 ```
 
-### Query Methods
+## Query Methods
 
-You can run the query in both blocking as well as async manner. Use 
+You can run the query in both blocking as well as async manner. Use
 
 * `Connection.execute(org.apache.pinot.client.Request)` for blocking queries
 * `Connection.executeAsync(org.apache.pinot.client.Request)` for asynchronous queries that return a future object.
@@ -101,7 +101,7 @@ Future<ResultSetGroup> futureResultSetGroup =
   connection.executeAsync(new Request("sql", "select * from foo..."));
 ```
 
-You can also use `PreparedStatement` to escape query parameters. We don't store the Prepared Statement in the database and hence it won't increase the subsequent query performance. 
+You can also use `PreparedStatement` to escape query parameters. We don't store the Prepared Statement in the database and hence it won't increase the subsequent query performance.
 
 ```java
 PreparedStatement statement = 
@@ -113,7 +113,7 @@ ResultSetGroup resultSetGroup = statement.execute();
 Future<ResultSetGroup> futureResultSetGroup = statement.executeAsync();
 ```
 
-### Result Set
+## Result Set
 
 Results can be obtained with the various get methods in the first ResultSet, obtained through the `getResultSet(int)` method:
 
@@ -128,9 +128,9 @@ for (int i = 0; i < resultSet.getRowCount(); ++i) {
 }
 ```
 
-#### PQL Queries
+### PQL Queries
 
-If queryFormat `pql` is used in the `Request`,  there are some differences in how the results can be accessed, depending on the query. 
+If queryFormat `pql` is used in the `Request`, there are some differences in how the results can be accessed, depending on the query.
 
 In the case of aggregation, each aggregation function is within its own ResultSet. A query with multiple aggregation function will return one result set per aggregation function, as they are computed in parallel.
 
