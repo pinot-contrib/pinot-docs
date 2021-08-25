@@ -113,7 +113,7 @@ When there are complex structures, it could be challenging and tedious to figure
 To infer the Pinot schema from Avro schema, you can use the command like the following
 
 ```bash
-bin/pinot-admin.sh AvroSchemaToPinotSchema -timeColumnName fields.hoursSinceEpoch -avroSchemaFile pinot-plugins/pinot-input-format/pinot-avro-base/src/test/resources/fake_avro_nested_schema.avsc -pinotSchemaName schema -outputDir /tmp/test -fieldsToUnnest=entries
+bin/pinot-admin.sh AvroSchemaToPinotSchema -timeColumnName fields.hoursSinceEpoch -avroSchemaFile /tmp/test.avsc -pinotSchemaName myTable -outputDir /tmp/test -fieldsToUnnest entries
 ```
 
 Note you can input configurations like `fieldsToUnnest` similar to the ones in `complexTypeConfig`. And this will simulate the complex-type handling rules on the Avro schema and output the Pinot schema in the file specified in `outputDir`.
@@ -121,7 +121,7 @@ Note you can input configurations like `fieldsToUnnest` similar to the ones in `
 Similarly, you can use the command like the following to infer the Pinot schema from a file of JSON objects.
 
 ```bash
-bin/pinot-admin.sh JsonToPinotSchema -timeColumnName hoursSinceEpoch -jsonFile //tmp/test/test.json -pinotSchemaName json-schema -outputDir /tmp/test -unnestFields=payload.commits
+bin/pinot-admin.sh JsonToPinotSchema -timeColumnName hoursSinceEpoch -jsonFile /tmp/test.json -pinotSchemaName myTable -outputDir /tmp/test -fieldsToUnnest payload.commits
 ```
 
 You can check out an example of this run in this [PR](https://github.com/apache/pinot/pull/6930).

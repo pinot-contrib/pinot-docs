@@ -11,12 +11,12 @@ Just head over to [http://localhost:9000](http://localhost:9000) in your browser
 
 Let's take a look at the following two features on the UI
 
-### Query Console
+## Query Console
 
 Let us run some queries on the data in the Pinot cluster. Head over to [Query Console](http://localhost:9000/#/query) to see the querying interface.
 
-We can see our `baseballStats` table listed on the left \(you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid quick start\).  Click on the table name to display all the names along with the data types of the columns of the table.  
-You can also execute a sample query `select * from baseballStats limit 10`  by typing it in the text box and clicking the `Run Query` button. 
+We can see our `baseballStats` table listed on the left \(you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid quick start\). Click on the table name to display all the names along with the data types of the columns of the table.  
+You can also execute a sample query `select * from baseballStats limit 10` by typing it in the text box and clicking the `Run Query` button.
 
 `Cmd + Enter` can also be used to run the query when focused on the console.
 
@@ -32,7 +32,7 @@ You can also try out the following queries:
 
 Pinot supports a subset of standard SQL. See [Pinot Query Language](../../users/user-guide-query/querying-pinot.md) for more information.
 
-### Rest API
+## Rest API
 
 The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
