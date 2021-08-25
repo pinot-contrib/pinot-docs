@@ -403,7 +403,7 @@ IndexingConfig -&gt; streamConfig has been deprecated starting 0.7.0 or commit 9
         <p>Initial number of rows for learning.</p>
         <p>This value is used only if <code>realtime.segment.flush.threshold.size</code> is
           set o 0 and the consumer type is <code>LowLevel</code>.</p>
-        <p>Default is <code>100K</code>
+        <p>Default is <code>100000 (ie 100K).</code>
         </p>
       </td>
     </tr>
