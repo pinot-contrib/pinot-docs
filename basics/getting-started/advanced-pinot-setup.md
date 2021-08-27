@@ -174,7 +174,7 @@ For Java 11+ users, please remove the GC settings inside`JAVA_OPTS.` So it looks
 {% endhint %}
 
 ```text
-export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log"
+export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
 bin/pinot-admin.sh StartController \
     -zkAddress localhost:2191 \
     -controllerPort 9000
@@ -183,7 +183,7 @@ bin/pinot-admin.sh StartController \
 ### 3. Start Pinot Broker
 
 ```text
-export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-broker.log"
+export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
 bin/pinot-admin.sh StartBroker \
     -zkAddress localhost:2191
 ```
@@ -191,7 +191,7 @@ bin/pinot-admin.sh StartBroker \
 ### 4. Start Pinot Server
 
 ```text
-export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-server.log"
+export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
 bin/pinot-admin.sh StartServer \
     -zkAddress localhost:2191
 ```
