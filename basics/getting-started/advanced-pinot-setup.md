@@ -32,7 +32,7 @@ If running locally, please ensure your docker cluster has enough resources, belo
 You can try out the pre-built Pinot all-in-one docker image.
 
 ```text
-export PINOT_VERSION=0.6.0
+export PINOT_VERSION=0.8.0
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
@@ -73,7 +73,7 @@ docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-controller \
     -p 9000:9000 \
-    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-controller.log" \
+    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log" \
     -d ${PINOT_IMAGE} StartController \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -91,7 +91,7 @@ docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-broker \
     -p 8099:8099 \
-    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-broker.log" \
+    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log" \
     -d ${PINOT_IMAGE} StartBroker \
     -zkAddress pinot-zookeeper:2181
 ```
@@ -108,7 +108,7 @@ Below command expects a 16GB memory container. Please tune`-Xms` and`-Xmx` if yo
 docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-server \
-    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -Xloggc:gc-pinot-server.log" \
+    -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log" \
     -d ${PINOT_IMAGE} StartServer \
     -zkAddress pinot-zookeeper:2181
 ```
