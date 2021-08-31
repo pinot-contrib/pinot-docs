@@ -9,7 +9,7 @@ description: >-
 In this guide you'll learn how to download and install Apache Pinot as a standalone instance.
 
 {% hint style="success" %}
-This is a quickstart guide that will show you how to quickly start an example recipe in a standalone instance and is meant for learning. To run Pinot in cluster mode, please take a look at [Manual cluster setup](advanced-pinot-setup.md).
+This is a quick start guide that will show you how to quickly start an example recipe in a standalone instance and is meant for learning. To run Pinot in cluster mode, please take a look at [Manual cluster setup](advanced-pinot-setup.md).
 {% endhint %}
 
 ## Download Apache Pinot
@@ -19,7 +19,8 @@ First, let's download the Pinot distribution for this tutorial. You can either b
 {% hint style="info" %}
 **Prerequisites**
 
-Install JDK8 or higher \(JDK16 is not yet supported\)
+Install JDK11 or higher \(JDK16 is not yet supported\)  
+For JDK 8 support use Pinot 0.7.1 or compile from source
 {% endhint %}
 
 ### Build from source or download the distribution
