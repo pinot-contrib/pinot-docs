@@ -27,7 +27,7 @@ studentID,firstName,lastName,gender,subject,score,timestampInEpoch
 202,Nick,Young,Male,Physics,3.6,1572418800000
 ```
 
-### Create Schema Configuration
+## Create Schema Configuration
 
 In our data, the only column on which aggregations can be performed is score. Secondly, timestampInEpoch is the only timestamp column. So, on our schema, we keep score as metric and timestampInEpoch as timestamp column.
 
@@ -73,7 +73,7 @@ In our data, the only column on which aggregations can be performed is score. Se
 
 Here, we have also defined two extra fields - format and granularity. The format specifies the formatting of our timestamp column in the data source. Currently, it is in milliseconds hence we have specified `1:MILLISECONDS:EPOCH`
 
-### **Create Table Configuration**
+## **Create Table Configuration**
 
 We define a table`transcript`and map the schema created in the previous step to the table. For batch data, we keep the `tableType` as `OFFLINE`
 
@@ -105,7 +105,7 @@ We define a table`transcript`and map the schema created in the previous step to 
 }
 ```
 
-### Upload Schema and Table
+## Upload Schema and Table
 
 Now that we have both the configs, we can simply upload them and create a table. To achieve that, just run the command -
 
@@ -117,11 +117,77 @@ bin/pinot-admin.sh AddTable \\
 
 Check out the table config and schema in the \[Rest API\] to make sure it was successfully uploaded.
 
-### **Upload data**
+## **Upload data**
 
-We now have an empty table in pinot. So as the next step we will upload our CSV file to this table. A table is composed of multiple segments.
+We now have an empty table in pinot. So as the next step we will upload our CSV file to this table. 
 
-The segments are created and uploaded using tasks known as DataIngestionJobs. A job also needs a config of its own. We call this config the JobSpec.
+A table is composed of multiple segments. The segments can be created using three ways
+
+1\) Minion based ingestion  
+2\) Upload API  
+3\) Ingestion jobs
+
+### Minion Based Ingestion
+
+Doc coming soon
+
+### Upload API
+
+There are 2 Controller APIs that can be used for a quick ingestion test using a small file. 
+
+{% hint style="danger" %}
+**When these APIs are invoked, the controller has to download the file and build the segment locally.**
+
+**Hence, these APIs are NOT meant for production environments and for large input files.** 
+{% endhint %}
+
+#### /ingestFromFile
+
+This API creates a segment using the given file and pushes it to Pinot. All steps happen on the controller. Example usage:
+
+To upload a JSON file `data.json` to a table called `foo_OFFLINE`, use below command 
+
+**Note: Query params need encoding.**
+
+```text
+curl -X POST -F file=@data.json \
+  -H "Content-Type: multipart/form-data" \
+  "http://localhost:9000/ingestFromFile?tableNameWithType=foo_OFFLINE&
+  batchConfigMapStr={"inputFormat":"json"}"
+```
+
+The `batchConfigMapStr` can be used to pass in additional properties needed for decoding the file. For example, in case of csv, you may need to provide the delimiter
+
+```text
+curl -X POST -F file=@data.csv \
+  -H "Content-Type: multipart/form-data" \
+  "http://localhost:9000/ingestFromFile?tableNameWithType=foo_OFFLINE&
+batchConfigMapStr={
+  "inputFormat":"csv",
+  "recordReader.prop.delimiter":"|"
+}"
+```
+
+#### /ingestFromURI
+
+This API creates a segment using file at the given URI and pushes it to Pinot. Properties to access the FS need to be provided in the batchConfigMap. All steps happen on the controller.  
+Example usage: 
+
+```text
+curl -X POST "http://localhost:9000/ingestFromURI?tableNameWithType=foo_OFFLINE
+&batchConfigMapStr={
+  "inputFormat":"json",
+  "input.fs.className":"org.apache.pinot.plugin.filesystem.S3PinotFS",
+  "input.fs.prop.region":"us-central",
+  "input.fs.prop.accessKey":"foo",
+  "input.fs.prop.secretKey":"bar"
+}
+&sourceURIStr=s3://test.bucket/path/to/json/data/data.json"
+```
+
+### Ingestion Jobs
+
+Segments can be created and uploaded using tasks known as DataIngestionJobs. A job also needs a config of its own. We call this config the JobSpec.
 
 For our CSV file and table, the job spec should look like below.
 
