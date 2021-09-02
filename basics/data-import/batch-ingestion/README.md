@@ -129,7 +129,7 @@ A table is composed of multiple segments. The segments can be created using thre
 
 ### Minion Based Ingestion
 
-Doc coming soon
+Refer to [SegmentGenerationAndPushTask](../../components/minion.md#segmentgenerationandpushtask)
 
 ### Upload API
 
