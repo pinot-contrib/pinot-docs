@@ -13,3 +13,7 @@ lookUp('dimTableName', 'dimColToLookUp', 'dimJoinKey1', factJoinKeyVal1, 'dimJoi
 
 Return type of the UDF will be that of the dimColToLookUp column type. There can also be multiple primary keys and corresponding values.
 
+{% hint style="warning" %}
+**Note**: If the dimension table uses a composite primary key i.e multiple primary keys, then ensure that the order of keys appearing in the lookup\(\) UDF is same as the order defined for **"primaryKeyColumns"** in the dimension table schema.
+{% endhint %}
+
