@@ -77,14 +77,14 @@ helm init --service-account tiller
 Then deploy a new HA Pinot cluster using the following command:
 
 ```text
-helm install --namespace "pinot-quickstart" --name "pinot" .
+helm install --namespace "pinot-quickstart" --name "pinot" pinot
 ```
 
 * For Helm **v3.0.0**
 
 ```text
 kubectl create ns pinot-quickstart
-helm install -n pinot-quickstart pinot .
+helm install -n pinot-quickstart pinot pinot
 ```
 
 ### **2.1.3 Troubleshooting \(For helm v2.12.1\)**
