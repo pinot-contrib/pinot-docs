@@ -70,9 +70,9 @@ public class PinotClientExample {
 
 The client provides a `ConnectionFactory` class to create connections to a Pinot cluster. The factory supports the following methods to create a connection -
 
-* **Zookeeper \(Recommended\)** - Comma seperated list of zookeeper of the cluster. This is the only method which can redirect queries to appropriate brokers based on tenant/table and hence it is recommended
-* **Broker list** - Comma seperated list of the brokers in the cluster. This should only be used in standalone setups or for POC.
-* **Properties file** -  You can also put the broker list as `brokerList` in a properties file and provide the path to that file to the factory.  This should only be used in standalone setups or for POC. 
+* **Zookeeper \(Recommended\)** - Comma seperated list of zookeeper of the cluster. This is the recommended method which can redirect queries to appropriate brokers based on tenant/table.
+* **Broker list** - Comma seperated list of the brokers in the cluster. This should only be used in standalone setups or for POC, unless you have a load balancer setup for brokers.
+* **Properties file** -  You can also put the broker list as `brokerList` in a properties file and provide the path to that file to the factory.  This should only be used in standalone setups or for POC, unless you have a load balancer setup for brokers.
 
 Here's an example demonstrating all methods of Connection factory -
 
