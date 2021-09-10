@@ -60,6 +60,7 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 | controller.offline.segment.interval.checker.frequencyPeriod | 24 hours |  |
 | controller.realtime.segment.validation.frequencyInSeconds \(Deprecated\) | 1 hour |  |
 | controller.realtime.segment.validation.frequencyPeriod | 1 hour |  |
+| controller.realtime.segment.deepStoreUploadRetryEnabled | false |  |
 | controller.broker.resource.validation.frequencyInSeconds \(Deprecated\) | 1 hour |  |
 | controller.broker.resource.validation.frequencyPeriod | 1 hour |  |
 | controller.broker.resource.validation.initialDelayInSeconds | 120-300 seconds |  |
