@@ -226,7 +226,7 @@ Or in case your table is already in production and you know the actual segment s
 }
 ```
 
-The detailed list and usages of the parameters are documented in detail in [source code](https://github.com/apache/pinot/tree/master/pinot-controller/src/main/java/org/apache/pinot/controller/recommender/rules/io/params>) and this [wiki](https://cwiki.apache.org/confluence/display/PINOT/Automated+Inverted+Index+Recommendation+for+Pinot>) page.
+The detailed list and usages of the parameters are documented in detail in [source code](https://github.com/apache/pinot/tree/master/pinot-controller/src/main/java/org/apache/pinot/controller/recommender/rules/io/params) and this [wiki](https://cwiki.apache.org/confluence/display/PINOT/Automated+Inverted+Index+Recommendation+for+Pinot) page.
 
 One last item to explain for the input json is the overridden configs. You can instruct the recommendation engine to not recommend some config values and instead use your provided values for those configs. This way, the Rule Engine tries to find the optimal value for other parameter with respsect to the fixed parameters that you have provided. As an example, you can say I want the followings to be my inverted index columns and range index columns:
 
