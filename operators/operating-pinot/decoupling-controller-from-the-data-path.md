@@ -57,7 +57,12 @@ Add the following things to the real-time [segments config](https://docs.pinot.a
 
 In this case, the `peerSegmentDownloadScheme` can be either `http` or `https`. 
 
+### Config for failure case handling
+Enabling peer download may incur LLC segments failed to be uploaded to segment store in some failure cases, e.g. segment store is unavailable during segment completion. Add the following controller config to enable the upload retry by a controller periodic job asynchronously. 
 
+```text
+controller.realtime.segment.deepStoreUploadRetryEnabled=true
+``` 
 
 
 
