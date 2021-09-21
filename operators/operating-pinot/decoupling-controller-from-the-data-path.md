@@ -25,7 +25,6 @@ Add the following things to the Controller Config
 ```text
 controller.allow.hlc.tables=false
 controller.enable.split.commit=true
-
 ```
 
 ### Server Config
@@ -36,7 +35,6 @@ Add the following things to the server config
 pinot.server.instance.segment.store.uri=<URI of segment store>
 pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.(scheme)=<the corresponding Pinot FS impl>
-
 ```
 
 Here URI of segment store should point to the desired _**full**_ path in the corresponding segment store with both filesystem scheme and path \(eg: `file://dir` or `hdfs://path` or `s3://path`\)
@@ -52,21 +50,15 @@ Add the following things to the real-time [segments config](https://docs.pinot.a
       ...
       "peerSegmentDownloadScheme": "http"
     }
-
 ```
 
-In this case, the `peerSegmentDownloadScheme` can be either `http` or `https`. 
+In this case, the `peerSegmentDownloadScheme` can be either `http` or `https`.
 
 ### Config for failure case handling
-Enabling peer download may incur LLC segments failed to be uploaded to segment store in some failure cases, e.g. segment store is unavailable during segment completion. Add the following controller config to enable the upload retry by a controller periodic job asynchronously. 
+
+Enabling peer download may incur LLC segments failed to be uploaded to segment store in some failure cases, e.g. segment store is unavailable during segment completion. Add the following controller config to enable the upload retry by a controller periodic job asynchronously.
 
 ```text
 controller.realtime.segment.deepStoreUploadRetryEnabled=true
-``` 
-
-
-
-
-
-
+```
 

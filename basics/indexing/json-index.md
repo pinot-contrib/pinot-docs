@@ -174,11 +174,61 @@ Note that the array index is maintained as a separate entry within the element, 
 SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[1].street"=''second st''')
 ```
 
-## Limitations
+## Supported JSON values
 
-1. The key \(left-hand side\) of the filter expression must be the leaf level of the JSON object, e.g. `"$.addresses[*]"='main st'` won't work.
+### Object
+
+See examples above.
+
+### Array
+
+```javascript
+["item1", "item2", "item3"]
+```
+
+To find the records with array element "item1" in "arrayCol":
+
+```sql
+SELECT ... FROM mytable WHERE JSON_MATCH(arrayCol, '"$[*]"=''item1''')
+```
+
+To find the records with second array element "item2" in "arrayCol":
+
+```sql
+SELECT ... FROM mytable WHERE JSON_MATCH(arrayCol, '"$[1]"=''item2''')
+```
+
+### Value
+
+```javascript
+123
+1.23
+"Hello World"
+```
+
+To find the records with value 123 in "valueCol":
+
+```sql
+SELECT ... FROM mytable WHERE JSON_MATCH(valueCol, '"$"=123')
+```
+
+### Null
+
+```javascript
+null
+```
+
+To find the records with null in "nullableCol":
+
+```sql
+SELECT ... FROM mytable WHERE JSON_MATCH(nullableCol, '"$" IS NULL')
+```
 
 {% hint style="warning" %}
 In release `0.7.1`, json string must be object \(cannot be `null`, value or array\); multi-dimensional array is not supported.
 {% endhint %}
+
+## Limitations
+
+1. The key \(left-hand side\) of the filter expression must be the leaf level of the JSON object, e.g. `"$.addresses[*]"='main st'` won't work.
 
