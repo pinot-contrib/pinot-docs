@@ -41,7 +41,7 @@ Filter out records where campaign = X or Y and sum of all elements in prices is 
 ```text
 "ingestionConfig": {
     "filterConfig": {
-        "filterFunction": “Groovy({(campaign == \"X\" || campaign == \"Y\") && prices.sum() < 100}, prices, campaign)”
+        "filterFunction": "Groovy({(campaign == 'X' || campaign == 'Y') && prices.sum() < 100}, prices, campaign)"
     }
 } 
 ```
