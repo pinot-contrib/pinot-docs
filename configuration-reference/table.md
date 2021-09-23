@@ -565,7 +565,7 @@ Below is an example of setting AWS credential as part of table config using envi
     },
     "ingestionConfig": {
       "filterConfig": {
-        "filterFunction": "Groovy({foo == 'VALUE1'}, foo)"
+        "filterFunction": "Groovy({foo == \"VALUE1\"}, foo)"
       },
       "transformConfigs": [{
         "columnName": "bar",
