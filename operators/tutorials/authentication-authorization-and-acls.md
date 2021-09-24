@@ -84,7 +84,7 @@ Here's an example of a simple shared _admin_ credential with password _verysecre
 {% tabs %}
 {% tab title="Controller" %}
 ```
-controller.segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
+pinot.controller.segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 ```
 {% endtab %}
 

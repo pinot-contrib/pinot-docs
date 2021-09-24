@@ -43,7 +43,7 @@ Filter out records where campaign = X or Y and sum of all elements in prices is 
     "filterConfig": {
         "filterFunction": "Groovy({(campaign == \"X\" || campaign == \"Y\") && prices.sum() < 100}, prices, campaign)"
     }
-} 
+}
 ```
 
 ## Column Transformation
@@ -161,7 +161,7 @@ If `eventType` is `IMPRESSION` set `impression` to `1`. Similar for `CLICK`.
 }
 ```
 
-#### AVRO Map 
+#### AVRO Map
 
 Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintain the mapping.  
 1\) The keys of the map as `map_keys`  
@@ -188,9 +188,9 @@ We have several inbuilt functions that can be used directly in as ingestion tran
 
 These are functions which enable commonly needed time transformations.
 
-**toEpochXXX** 
+**toEpochXXX**
 
-Converts from epoch milliseconds to a higher granularity. 
+Converts from epoch milliseconds to a higher granularity.
 
 <table>
   <thead>
