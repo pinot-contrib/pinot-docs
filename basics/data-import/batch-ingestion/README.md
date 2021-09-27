@@ -147,7 +147,7 @@ This API creates a segment using the given file and pushes it to Pinot. All step
 
 To upload a JSON file `data.json` to a table called `foo_OFFLINE`, use below command 
 
-**Note: Query params need encoding.**
+**Note that** query params need to be URLEncoded. For example, _{"inputFormat":"json"}_ in the command below needs to be converted to _%7B%22inputFormat%22%3A%22json%22%7D. ****_
 
 ```text
 curl -X POST -F file=@data.json \
