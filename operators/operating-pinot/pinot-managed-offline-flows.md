@@ -149,7 +149,7 @@ where,
       <td style="text-align:left">Control the <b>number of records you want in a segment generated</b>. Useful
         if the time window has many records, but you don&apos;t want them all in
         the same segment.</td>
-      <td style="text-align:left">1,000,000</td>
+      <td style="text-align:left">5,000,000</td>
     </tr>
   </tbody>
 </table>
