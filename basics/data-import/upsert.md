@@ -74,6 +74,21 @@ Pinot supports the following partial upsert strategies -
 | APPEND | Add the new item to the Pinot unordered set |
 | UNION | Add the new item to the Pinot unordered set if not exists |
 
+
+### Comparison Column
+
+By default, Pinot uses the value in the time column to determine the latest record. That means, for two records with the same primary key, the record with the larger value of the time column is picked as the latest update. However, there are cases when users need to use another column to determine the order. In such case, you can use option `comparisonColumn` to override the column used for comparison. For example,
+
+{% code title="comparison column" %}
+```javascript
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "comparisonColumn": "anotherTimeColumn"
+  }
+}
+```
+
 ### Use strictReplicaGroup for routing
 
 The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover,upsert poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
