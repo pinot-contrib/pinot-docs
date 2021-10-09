@@ -330,12 +330,17 @@ Date time functions allow you to perform transformations on columns which contai
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>ToDateTime(timeInMillis, pattern)</b>
+      <td style="text-align:left"><b>ToDateTime(timeInMillis, pattern[, timezoneId])</b>
       </td>
-      <td style="text-align:left">Convert epoch millis value to DateTime string represented by pattern.</td>
-      <td
-      style="text-align:left"><code>ToDateTime(tsInMillis, &apos;yyyy-MM-dd&apos;)</code>converts tsInMillis
-        value to date time pattern <code>yyyy-MM-dd</code>
+      <td style="text-align:left">Convert epoch millis value to DateTime string represented by pattern. Time
+        zone will be set to UTC if <code>timezoneId</code> is not specified.</td>
+      <td style="text-align:left">
+        <p><code>ToDateTime(tsInMillis, &apos;yyyy-MM-dd&apos;)</code> converts tsInMillis value to date time
+          pattern <code>yyyy-MM-dd</code></p>
+        <p></p>
+        <p><code>ToDateTime(tsInMillis, &apos;yyyy-MM-dd ZZZ&apos;, &apos;America/Los_Angeles&apos;)</code>
+          converts tsInMillis value to date time pattern <code>yyyy-MM-dd ZZZ</code> in America/Los_Angeles
+          time zone</p>
         </td>
     </tr>
     <tr>
