@@ -6,7 +6,7 @@ description: Learn how to query Pinot using SQL
 
 ## DIALECT
 
-Pinot uses **Calcite SQL** Parser to parse queries and uses **MYSQL\_ANSI** dialect. You can see the grammar [here](https://calcite.apache.org/docs/reference.html). 
+Pinot uses **Calcite SQL** Parser to parse queries and uses **MYSQL\_ANSI** dialect. You can see the grammar [here](https://calcite.apache.org/docs/reference.html).&#x20;
 
 ## Limitations
 
@@ -18,9 +18,9 @@ No DDL support. Tables can be created via the [REST API](https://docs.pinot.apac
 
 In Pinot SQL:
 
-**Double quotes\("\)** are used to force string identifiers, e.g. column name.
+**Double quotes(") **are used to force string identifiers, e.g. column name.
 
-**Single quotes\('\)** are used to enclose string literals.
+**Single quotes(') **are used to enclose string literals.
 
 Mis-using those might cause unexpected query results:
 
@@ -31,7 +31,7 @@ E.g.
 
 ## Example Queries
 
-* Use single quotes for literals and double quotes \(optional\) for identifiers \(column names\)
+* Use single quotes for literals and double quotes (optional) for identifiers (column names)
 * If you name the columns as `timestamp`, `date`, or other reserved keywords, or the column name includes special characters, you need to use double quotes when you refer to them in the query.
 
 ### **Simple selection**
@@ -83,7 +83,7 @@ SELECT COUNT(*) FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
-### Selection \(Projection\)
+### Selection (Projection)
 
 ```sql
 SELECT * FROM myTable
@@ -111,7 +111,7 @@ SELECT foo, bar FROM myTable
   LIMIT 50, 100
 ```
 
-### Wild-card match \(in WHERE clause only\)
+### Wild-card match (in WHERE clause only)
 
 To count rows where the column `airlineName` starts with `U`
 
@@ -171,6 +171,4 @@ E.g. the query below fetches all the rows for a given UID.
 SELECT * FROM myTable
   WHERE UID = 'c8b3bce0b378fc5ce8067fc271a34892'
 ```
-
-
 

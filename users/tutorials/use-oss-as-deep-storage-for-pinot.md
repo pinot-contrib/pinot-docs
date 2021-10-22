@@ -4,13 +4,13 @@ description: Configure AliCloud Object Storage Service (OSS) as Pinot deep stora
 
 # Use OSS as Deep Storage for Pinot
 
-OSS can be used as HDFS deep storage for Apache Pinot without implement OSS file system plugin. You should follow the steps below;  
-  
-**1.** Configure _**hdfs-site.xml**_ and _**core-site.xml**_ files. After that, put these configurations under any desired path, then set the value of `pinot.<node>.storage.factory.oss.hadoop.conf` config on the controller/server configs to this path.
+OSS can be used as HDFS deep storage for Apache Pinot without implement OSS file system plugin. You should follow the steps below;\
+\
+**1. **Configure _**hdfs-site.xml**_ and _**core-site.xml**_ files. After that, put these configurations under any desired path, then set the value of `pinot.<node>.storage.factory.oss.hadoop.conf` config on the controller/server configs to this path.
 
 For **hdfs-site.xml**; you do not have to give any configuration;
 
-```text
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 </configuration>
@@ -18,7 +18,7 @@ For **hdfs-site.xml**; you do not have to give any configuration;
 
 For **core-site.xml**; you have to give OSS access/secret and bucket configurations like below;
 
-```text
+```
 <?xml version="1.0"?>
 <configuration>
     <property>
@@ -46,7 +46,7 @@ For **core-site.xml**; you have to give OSS access/secret and bucket configurati
 
 **2.** In order to access OSS, find your HDFS jars related to OSS and put them under the `PINOT_DIR/lib`. You can use jars below but be careful about versions to avoid conflict.
 
-* smartdata-aliyun-oss 
+* smartdata-aliyun-oss&#x20;
 * smartdata-hadoop-common
 * guava
 
@@ -54,7 +54,7 @@ For **core-site.xml**; you have to give OSS access/secret and bucket configurati
 
 **Controller config**
 
-```text
+```
 controller.data.dir=oss://your-bucket-name/path/to/segments
 controller.local.temp.dir=/path/to/local/temp/directory
 controller.enable.split.commit=true
@@ -66,7 +66,7 @@ pinot.controller.segment.fetcher.oss.class=org.apache.pinot.common.utils.fetcher
 
 **Server config**
 
-```text
+```
 pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.oss=org.apache.pinot.plugin.filesystem.HadoopPinotFS
 pinot.server.storage.factory.oss.hadoop.conf.path=path/to/conf/directory/
@@ -78,7 +78,7 @@ pinot.server.segment.fetcher.oss.class=org.apache.pinot.common.utils.fetcher.Pin
 
 Using the same HDFS deep storage configs and jars, you can read data from OSS, then create segments and push them to OSS again. An example standalone batch ingestion job can be like below;
 
-```text
+```
 executionFrameworkSpec:
   name: 'standalone'
   segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
@@ -105,4 +105,3 @@ pinotClusterSpecs:
   - controllerURI: '<http://localhost:9000>'
 
 ```
-

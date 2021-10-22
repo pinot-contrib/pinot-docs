@@ -8,7 +8,7 @@ Here's some of the ingestion transformations that are supported by Pinot
 
 Records can be filtered as they are being ingested. A filter function can be specified in the filterConfigs in the ingestionConfigs of the table config.
 
-```text
+```
 tableConfig: {
     tableName: ...,
     tableType: ...,
@@ -24,10 +24,10 @@ If the expression evaluates to true, the record will be filtered out. The expres
 
 ### Examples
 
-Consider table with a column `timestamp`.  
+Consider table with a column `timestamp`.\
 Filter out records which are older than timestamp 1589007600000
 
-```text
+```
 "ingestionConfig": {
     "filterConfig": {
         "filterFunction": “Groovy({timestamp < 1589007600000}, timestamp)”
@@ -35,10 +35,10 @@ Filter out records which are older than timestamp 1589007600000
 }
 ```
 
-Consider a table with a string column `campaign` and a multi-value column double column `prices`.  
+Consider a table with a string column `campaign` and a multi-value column double column `prices`.\
 Filter out records where campaign = X or Y and sum of all elements in prices is less than 100
 
-```text
+```
 "ingestionConfig": {
     "filterConfig": {
         "filterFunction": "Groovy({(campaign == \"X\" || campaign == \"Y\") && prices.sum() < 100}, prices, campaign)"
@@ -74,7 +74,7 @@ In this example, we're assuming that `prices` field is available in the source d
 {% hint style="warning" %}
 **Note**
 
-Currently, the arguments must be from the source data. Other columns from Pinot schema can be used, as long as those columns have NOT been created through transformations themselves. In other words, chaining of transformations is not supported \(x = f\(y\) and z = f\(x\) not supported\)
+Currently, the arguments must be from the source data. Other columns from Pinot schema can be used, as long as those columns have NOT been created through transformations themselves. In other words, chaining of transformations is not supported (x = f(y) and z = f(x) not supported)
 {% endhint %}
 
 Currently, we have support for 2 kinds of functions
@@ -163,8 +163,8 @@ If `eventType` is `IMPRESSION` set `impression` to `1`. Similar for `CLICK`.
 
 #### AVRO Map
 
-Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintain the mapping.  
-1\) The keys of the map as `map_keys`  
+Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintain the mapping.\
+1\) The keys of the map as `map_keys`\
 2\) The values of the map as `map_values`
 
 ```javascript
@@ -192,169 +192,57 @@ These are functions which enable commonly needed time transformations.
 
 Converts from epoch milliseconds to a higher granularity.
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Function name</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">toEpochSeconds</td>
-      <td style="text-align:left">
-        <p>Converts epoch millis to epoch seconds.</p>
-        <p>Usage:<code>&quot;toEpochSeconds(millis)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">toEpochMinutes</td>
-      <td style="text-align:left">
-        <p>Converts epoch millis to epoch minutes</p>
-        <p>Usage: <code>&quot;toEpochMinutes(millis)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">toEpochHours</td>
-      <td style="text-align:left">
-        <p>Converts epoch millis to epoch hours</p>
-        <p>Usage: <code>&quot;toEpochHours(millis)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">toEpochDays</td>
-      <td style="text-align:left">
-        <p>Converts epoch millis to epoch days</p>
-        <p>Usage: <code>&quot;toEpochDays(millis)&quot;</code>
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Function name  | Description                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------------ |
+| toEpochSeconds | <p>Converts epoch millis to epoch seconds.</p><p>Usage:<code>"toEpochSeconds(millis)"</code></p> |
+| toEpochMinutes | <p>Converts epoch millis to epoch minutes</p><p>Usage: <code>"toEpochMinutes(millis)"</code></p> |
+| toEpochHours   | <p>Converts epoch millis to epoch hours</p><p>Usage: <code>"toEpochHours(millis)"</code></p>     |
+| toEpochDays    | <p>Converts epoch millis to epoch days</p><p>Usage: <code>"toEpochDays(millis)"</code></p>       |
 
 **toEpochXXXRounded**
 
-Converts from epoch milliseconds to another granularity, rounding to the nearest rounding bucket. For example, `1588469352000` \(2020-05-01 42:29:12\) is `26474489` minutesSinceEpoch. ```toEpochMinutesRounded(1588469352000) = 26474480`` \(2020-05-01 42:20:00\)
+Converts from epoch milliseconds to another granularity, rounding to the nearest rounding bucket. For example, `1588469352000` (2020-05-01 42:29:12) is `26474489` minutesSinceEpoch. `` `toEpochMinutesRounded(1588469352000) = 26474480 `` (2020-05-01 42:20:00)
 
-| Function Name | Description |
-| :--- | :--- |
+| Function Name         | Description                                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | toEpochSecondsRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochSecondsRounded(millis, 30)"` |
 | toEpochMinutesRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochMinutesRounded(millis, 10)"` |
-| toEpochHoursRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochHoursRounded(millis, 6)"` |
-| toEpochDaysRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochDaysRounded(millis, 7)"` |
+| toEpochHoursRounded   | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochHoursRounded(millis, 6)"`    |
+| toEpochDaysRounded    | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochDaysRounded(millis, 7)"`     |
 
 **fromEpochXXX**
 
 Converts from an epoch granularity to milliseconds.
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Function Name</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">fromEpochSeconds</td>
-      <td style="text-align:left">
-        <p>Converts from epoch seconds to milliseconds</p>
-        <p><code>&quot;fromEpochSeconds(secondsSinceEpoch)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">fromEpochMinutes</td>
-      <td style="text-align:left">
-        <p>Converts from epoch minutes to milliseconds</p>
-        <p><code>&quot;fromEpochMinutes(minutesSinceEpoch)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">fromEpochHours</td>
-      <td style="text-align:left">
-        <p>Converts from epoch hours to milliseconds</p>
-        <p><code>&quot;fromEpochHours(hoursSinceEpoch)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">fromEpochDays</td>
-      <td style="text-align:left">
-        <p>Converts from epoch days to milliseconds</p>
-        <p><code>&quot;fromEpochDays(daysSinceEpoch)&quot;</code>
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Function Name    | Description                                                                                                 |
+| ---------------- | ----------------------------------------------------------------------------------------------------------- |
+| fromEpochSeconds | <p>Converts from epoch seconds to milliseconds</p><p><code>"fromEpochSeconds(secondsSinceEpoch)"</code></p> |
+| fromEpochMinutes | <p>Converts from epoch minutes to milliseconds</p><p><code>"fromEpochMinutes(minutesSinceEpoch)"</code></p> |
+| fromEpochHours   | <p>Converts from epoch hours to milliseconds</p><p><code>"fromEpochHours(hoursSinceEpoch)"</code></p>       |
+| fromEpochDays    | <p>Converts from epoch days to milliseconds</p><p><code>"fromEpochDays(daysSinceEpoch)"</code></p>          |
 
 **Simple date format**
 
 Converts simple date format strings to milliseconds and vice-a-versa, as per the provided pattern string.
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Function name</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">toDateTime</td>
-      <td style="text-align:left">
-        <p>Converts from milliseconds to a formatted date time string, as per the
-          provided pattern</p>
-        <p><code>&quot;toDateTime(millis, &apos;yyyy-MM-dd&apos;)&quot;</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">fromDateTime</td>
-      <td style="text-align:left">
-        <p>Converts a formatted date time string to milliseconds, as per the provided
-          pattern</p>
-        <p><code>&quot;fromDateTime(dateTimeStr, &apos;EEE MMM dd HH:mm:ss ZZZ yyyy&apos;)&quot;</code>
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Function name | Description                                                                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| toDateTime    | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
+| fromDateTime  | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
 
 {% hint style="info" %}
 **Note**
 
-Letters that are not part of Simple Date Time legend \([https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html)\) need to be escaped. For example:
+Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html)) need to be escaped. For example:
 
 `"transformFunction": "fromDateTime(dateTimeStr, 'yyyy-MM-dd''T''HH:mm:ss')"`
 {% endhint %}
 
 #### Json functions
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Function name</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">json_format</td>
-      <td style="text-align:left">
-        <p>Converts a JSON/AVRO complex object to a string. This json map can then
-          be queried using <a href="https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping">jsonExtractScalar</a> function.</p>
-        <p><code>&quot;json_format(jsonMapField)&quot;</code>
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Function name | Description                                                                                                                                                                                                                                                                                                       |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| json\_format  | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
 
 ## Flattening
 
@@ -362,9 +250,8 @@ There are 2 kinds of flattening
 
 ### One record into many
 
-This is not natively supported as of yet. You can **write a custom Decoder/RecordReader if you want to use this**. Once the Decoder generates the multiple GenericRows from the provided input record, a List&lt;GenericRow&gt; should be set into the destination GenericRow, with the key `$MULTIPLE_RECORDS_KEY$`. The segment generation drivers will treat this as a special case and handle the multiple records case.
+This is not natively supported as of yet. You can **write a custom Decoder/RecordReader if you want to use this**. Once the Decoder generates the multiple GenericRows from the provided input record, a List\<GenericRow> should be set into the destination GenericRow, with the key `$MULTIPLE_RECORDS_KEY$`. The segment generation drivers will treat this as a special case and handle the multiple records case.
 
 ### Extract attributes from complex objects
 
 _Feature TBD_
-

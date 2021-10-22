@@ -5,8 +5,8 @@ One of the primary advantage of using Pinot is its pluggable architecture. The p
 In this tutorial, we will use three such plugins to easily ingest data and push it to our pinot cluster. The plugins we will be using are -
 
 * `pinot-batch-ingestion-spark`
-* `pinot-s3` 
-* `pinot-parquet` 
+* `pinot-s3`&#x20;
+* `pinot-parquet`&#x20;
 
 You can check out [Batch Ingestion](../../basics/data-import/batch-ingestion/), [File systems](../../basics/data-import/pinot-file-system/) and [Input formats](../../basics/data-import/pinot-input-formats.md) for all the available plugins.
 
@@ -14,16 +14,16 @@ You can check out [Batch Ingestion](../../basics/data-import/batch-ingestion/), 
 
 We are using the following tools and frameworks for this tutorial -
 
-* [Apache Spark](https://spark.apache.org/) 2.2.3 \(Although any spark 2.X should work\)
-* [Apache Parquet](https://parquet.apache.org/) 1.8.2
+* [Apache Spark](https://spark.apache.org) 2.2.3 (Although any spark 2.X should work)
+* [Apache Parquet](https://parquet.apache.org) 1.8.2
 * [Amazon S3](https://aws.amazon.com/s3/)
-* [Apache Pinot 0.4.0](https://pinot.apache.org/)
+* [Apache Pinot 0.4.0](https://pinot.apache.org)
 
 ## Input Data
 
 We need to get input data to ingest first. For our demo, we'll just create some small parquet files and upload them to our S3 bucket. The easiest way is to create CSV files and then convert them to parquet. CSV makes it human-readable and thus easier to modify input in case of some failure in our demo. We will call this file `students.csv`
 
-```text
+```
 timestampInEpoch,id,name,age,score
 1597044264380,1,david,15,98
 1597044264381,2,henry,16,97
@@ -56,7 +56,7 @@ We need to create a table to query the data that will be ingested. All tables in
 
 For our demo, we will have the following schema and table configs
 
-{% code title="student\_schema.json" %}
+{% code title="student_schema.json" %}
 ```javascript
 {
     "schemaName": "students",
@@ -92,7 +92,7 @@ For our demo, we will have the following schema and table configs
 ```
 {% endcode %}
 
-{% code title="student\_table.json" %}
+{% code title="student_table.json" %}
 ```scala
 {
     "tableName": "students",
@@ -122,7 +122,7 @@ We can now upload these configurations to pinot and create an empty table. We wi
 pinot-admin.sh AddTable -tableConfigFile /path/to/student_table.json -schemaFile /path/to/student_schema.json -controllerHost localhost -controllerPort 9000 -exec
 ```
 
-You can check out [Command-Line Interface \(CLI\)](../../operators/cli.md) for all the available commands.
+You can check out [Command-Line Interface (CLI)](../../operators/cli.md) for all the available commands.
 
 Our table will now be available in the [Pinot data explorer](../../basics/components/exploring-pinot.md)
 
@@ -142,7 +142,7 @@ Pinot provides runners for Spark out of the box. So as a user, you don't need to
 
 Firstly, we will create a job spec configuration file for our data ingestion process.
 
-{% code title="spark\_job\_spec.yaml" %}
+{% code title="spark_job_spec.yaml" %}
 ```scala
 executionFrameworkSpec:
   name: 'spark'
@@ -314,4 +314,3 @@ If everything went right, you should receive the following output
   "minConsumingFreshnessTimeMs": 0
 }
 ```
-

@@ -19,7 +19,7 @@ Here we'll take a look at the standalone local processing to get you started.
 
 Let's create a table for the following CSV data source.
 
-```text
+```
 studentID,firstName,lastName,gender,subject,score,timestampInEpoch
 200,Lucy,Smith,Female,Maths,3.8,1570863600000
 200,Lucy,Smith,Female,English,3.5,1571036400000
@@ -31,7 +31,7 @@ studentID,firstName,lastName,gender,subject,score,timestampInEpoch
 
 In our data, the only column on which aggregations can be performed is score. Secondly, timestampInEpoch is the only timestamp column. So, on our schema, we keep score as metric and timestampInEpoch as timestamp column.
 
-```text
+```
 {
   "schemaName": "transcript",
   "dimensionFieldSpecs": [
@@ -77,7 +77,7 @@ Here, we have also defined two extra fields - format and granularity. The format
 
 We define a table`transcript`and map the schema created in the previous step to the table. For batch data, we keep the `tableType` as `OFFLINE`
 
-```text
+```
 {
   "tableName": "transcript",
   "tableType": "OFFLINE",
@@ -109,22 +109,22 @@ We define a table`transcript`and map the schema created in the previous step to 
 
 Now that we have both the configs, we can simply upload them and create a table. To achieve that, just run the command -
 
-```text
+```
 bin/pinot-admin.sh AddTable \\
   -tableConfigFile /path/to/table-config.json \\
   -schemaFile /path/to/table-schema.json -exec
 ```
 
-Check out the table config and schema in the \[Rest API\] to make sure it was successfully uploaded.
+Check out the table config and schema in the \[Rest API] to make sure it was successfully uploaded.
 
 ## **Upload data**
 
-We now have an empty table in pinot. So as the next step we will upload our CSV file to this table. 
+We now have an empty table in pinot. So as the next step we will upload our CSV file to this table.&#x20;
 
 A table is composed of multiple segments. The segments can be created using three ways
 
-1\) Minion based ingestion  
-2\) Upload API  
+1\) Minion based ingestion\
+2\) Upload API\
 3\) Ingestion jobs
 
 ### Minion Based Ingestion
@@ -133,23 +133,23 @@ Refer to [SegmentGenerationAndPushTask](../../components/minion.md#segmentgenera
 
 ### Upload API
 
-There are 2 Controller APIs that can be used for a quick ingestion test using a small file. 
+There are 2 Controller APIs that can be used for a quick ingestion test using a small file.&#x20;
 
 {% hint style="danger" %}
 **When these APIs are invoked, the controller has to download the file and build the segment locally.**
 
-**Hence, these APIs are NOT meant for production environments and for large input files.** 
+**Hence, these APIs are NOT meant for production environments and for large input files. **
 {% endhint %}
 
 #### /ingestFromFile
 
 This API creates a segment using the given file and pushes it to Pinot. All steps happen on the controller. Example usage:
 
-To upload a JSON file `data.json` to a table called `foo_OFFLINE`, use below command 
+To upload a JSON file `data.json` to a table called `foo_OFFLINE`, use below command&#x20;
 
-**Note that** query params need to be URLEncoded. For example, _{"inputFormat":"json"}_ in the command below needs to be converted to _%7B%22inputFormat%22%3A%22json%22%7D. ****_
+**Note that **query params need to be URLEncoded. For example, _{"inputFormat":"json"}_ in the command below needs to be converted to _%7B%22inputFormat%22%3A%22json%22%7D.** **_
 
-```text
+```
 curl -X POST -F file=@data.json \
   -H "Content-Type: multipart/form-data" \
   "http://localhost:9000/ingestFromFile?tableNameWithType=foo_OFFLINE&
@@ -158,7 +158,7 @@ curl -X POST -F file=@data.json \
 
 The `batchConfigMapStr` can be used to pass in additional properties needed for decoding the file. For example, in case of csv, you may need to provide the delimiter
 
-```text
+```
 curl -X POST -F file=@data.csv \
   -H "Content-Type: multipart/form-data" \
   "http://localhost:9000/ingestFromFile?tableNameWithType=foo_OFFLINE&
@@ -170,10 +170,10 @@ batchConfigMapStr={
 
 #### /ingestFromURI
 
-This API creates a segment using file at the given URI and pushes it to Pinot. Properties to access the FS need to be provided in the batchConfigMap. All steps happen on the controller.  
-Example usage: 
+This API creates a segment using file at the given URI and pushes it to Pinot. Properties to access the FS need to be provided in the batchConfigMap. All steps happen on the controller.\
+Example usage:&#x20;
 
-```text
+```
 curl -X POST "http://localhost:9000/ingestFromURI?tableNameWithType=foo_OFFLINE
 &batchConfigMapStr={
   "inputFormat":"json",
@@ -191,7 +191,7 @@ Segments can be created and uploaded using tasks known as DataIngestionJobs. A j
 
 For our CSV file and table, the job spec should look like below.
 
-```text
+```
 executionFrameworkSpec:
   name: 'standalone'
   segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
@@ -226,12 +226,12 @@ You can refer to [Ingestion Job Spec](../../../configuration-reference/job-speci
 
 Now that we have the job spec for our table `transcript` , we can trigger the job using the following command
 
-```text
+```
 bin/pinot-admin.sh LaunchDataIngestionJob \\
     -jobSpecFile /tmp/pinot-quick-start/batch-job-spec.yaml
 ```
 
-Once the job has successfully finished, you can head over to the \[query console\] and start playing with the data.
+Once the job has successfully finished, you can head over to the \[query console] and start playing with the data.
 
 ### Segment Push Job Type
 
@@ -245,11 +245,11 @@ Tar push requires the segment to be stored locally or can be opened as an InputS
 
 **The push job will:**
 
-1. Upload the entire segment tar file to the Pinot controller. 
+1. Upload the entire segment tar file to the Pinot controller.&#x20;
 
 **Pinot controller will:**
 
-1. Save the segment into the controller segment directory\(Local or any PinotFS\). 
+1. Save the segment into the controller segment directory(Local or any PinotFS).&#x20;
 2. Extract segment metadata.
 3. Add the segment to the table.
 
@@ -261,11 +261,11 @@ URI push is light-weight on the client-side, and the controller side requires eq
 
 **The push job will:**
 
-1. POST this segment Tar URI to the Pinot controller. 
+1. POST this segment Tar URI to the Pinot controller.&#x20;
 
 **Pinot controller will:**
 
-1. Download segment from the URI and save it to controller segment directory\(Local or any PinotFS\).
+1. Download segment from the URI and save it to controller segment directory(Local or any PinotFS).
 2. Extract segment metadata.
 3. Add the segment to the table.
 
@@ -287,11 +287,11 @@ Metadata push is light-weight on the controller side, there is no deep store dow
 
 ### Segment Fetchers
 
-When pinot segment files are created in external systems \(Hadoop/spark/etc\), there are several ways to push those data to the Pinot Controller and Server:
+When pinot segment files are created in external systems (Hadoop/spark/etc), there are several ways to push those data to the Pinot Controller and Server:
 
 1. Push segment to shared NFS and let pinot pull segment files from the location of that NFS. See [Segment URI Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#2-segment-uri-push).
 2. Push segment to a Web server and let pinot pull segment files from the Web server with HTTP/HTTPS link. See [Segment URI Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#2-segment-uri-push).
-3. Push segment to PinotFS\(HDFS/S3/GCS/ADLS\) and let pinot pull segment files from PinotFS URI. See [Segment URI Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#2-segment-uri-push) and [Segment Metadata Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#3-segment-metadata-push).
+3. Push segment to PinotFS(HDFS/S3/GCS/ADLS) and let pinot pull segment files from PinotFS URI. See [Segment URI Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#2-segment-uri-push) and [Segment Metadata Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#3-segment-metadata-push).
 4. Push segment to other systems and implement your own segment fetcher to pull data from those systems.
 
 The first three options are supported out of the box within the Pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for PinotFS, you will need to provide [PinotFS](../pinot-file-system/) configuration and proper Hadoop dependencies.
@@ -319,4 +319,3 @@ You can set `-D mapreduce.map.memory.mb=8192` to set the mapper memory size when
 #### Spark
 
 You can add config `spark.executor.memory` to tune the memory usage for segment creation when submitting the Spark job.
-
