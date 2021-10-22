@@ -30,7 +30,7 @@
   * [Batch import example](basics/getting-started/pushing-your-data-to-pinot.md)
   * [Stream ingestion example](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
   * [Troubleshooting Pinot](basics/getting-started/troubleshooting-pinot.md)
-  * [Frequently Asked Questions \(FAQs\)](basics/getting-started/frequent-questions/README.md)
+  * [Frequently Asked Questions (FAQs)](basics/getting-started/frequent-questions/README.md)
     * [General](basics/getting-started/frequent-questions/genaral.md)
     * [Pinot On Kubernetes FAQ](basics/getting-started/frequent-questions/pinot-on-kubernetes-faq.md)
     * [Ingestion FAQ](basics/getting-started/frequent-questions/ingestion-faq.md)
@@ -52,7 +52,7 @@
     * [HDFS](basics/data-import/pinot-file-system/import-from-hdfs.md)
     * [Google Cloud Storage](basics/data-import/pinot-file-system/import-from-gcp.md)
   * [Input formats](basics/data-import/pinot-input-formats.md)
-  * [Complex Type \(Array, Map\) Handling](basics/data-import/complex-type.md)
+  * [Complex Type (Array, Map) Handling](basics/data-import/complex-type.md)
 * [Indexing](basics/indexing/README.md)
   * [Forward Index](basics/indexing/forward-index.md)
   * [Inverted Index](basics/indexing/inverted-index.md)
@@ -74,13 +74,13 @@
 * [Recipes](basics/recipes/README.md)
   * [GitHub Events Stream](basics/recipes/github-events-stream.md)
 
-## For Users <a id="users"></a>
+## For Users <a href="users" id="users"></a>
 
 * [Query](users/user-guide-query/README.md)
   * [Querying Pinot](users/user-guide-query/querying-pinot.md)
   * [Supported Transformations](users/user-guide-query/supported-transformations.md)
   * [Supported Aggregations](users/user-guide-query/supported-aggregations.md)
-  * [User-Defined Functions \(UDFs\)](users/user-guide-query/scalar-functions.md)
+  * [User-Defined Functions (UDFs)](users/user-guide-query/scalar-functions.md)
   * [Cardinality Estimation](users/user-guide-query/how-to-handle-unique-counting.md)
   * [Lookup UDF Join](users/user-guide-query/lookup-udf-join.md)
   * [Querying JSON data](users/user-guide-query/json-queries.md)
@@ -102,7 +102,7 @@
   * [Batch Data Ingestion In Practice](users/tutorials/batch-data-ingestion-in-practice.md)
   * [Schema Evolution](users/tutorials/schema-evolution.md)
 
-## For Developers <a id="developers"></a>
+## For Developers <a href="developers" id="developers"></a>
 
 * [Basics](developers/developers-and-contributors/README.md)
   * [Extending Pinot](developers/developers-and-contributors/extending-pinot/README.md)
@@ -126,7 +126,7 @@
 * [Design Documents](developers/design-documents/README.md)
   * [Segment Writer API](developers/design-documents/segment-writer-api.md)
 
-## For Operators <a id="operators"></a>
+## For Operators <a href="operators" id="operators"></a>
 
 * [Deployment and Monitoring](operators/operating-pinot/README.md)
   * [Setup cluster](operators/operating-pinot/setup-cluster.md)
@@ -146,7 +146,7 @@
     * [Realtime](operators/operating-pinot/tuning/realtime.md)
     * [Routing](operators/operating-pinot/tuning/routing.md)
   * [Upgrading Pinot with confidence](operators/operating-pinot/upgrading-pinot-cluster.md)
-* [Command-Line Interface \(CLI\)](operators/cli.md)
+* [Command-Line Interface (CLI)](operators/cli.md)
 * [Configuration Recommendation Engine](operators/configuration-recommendation-engine.md)
 * [Tutorials](operators/tutorials/README.md)
   * [Authentication, Authorization, and ACLs](operators/tutorials/authentication-authorization-and-acls.md)
@@ -154,8 +154,8 @@
   * [Build Docker Images](operators/tutorials/build-docker-images.md)
   * [Running Pinot in Production](operators/tutorials/running-pinot-in-production.md)
   * [Kubernetes Deployment](operators/tutorials/deployment-pinot-on-kubernetes.md)
-  * [Amazon EKS \(Kafka\)](operators/tutorials/non-eks-to-eks.md)
-  * [Amazon MSK \(Kafka\)](operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
+  * [Amazon EKS (Kafka)](operators/tutorials/non-eks-to-eks.md)
+  * [Amazon MSK (Kafka)](operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
   * [Monitor Pinot using Prometheus and Grafana](operators/tutorials/monitor-pinot-using-prometheus-and-grafana.md)
 
 ## Configuration Reference
@@ -168,7 +168,7 @@
 * [Schema](configuration-reference/schema.md)
 * [Ingestion Job Spec](configuration-reference/job-specification.md)
 
-## RESOURCES <a id="community-1"></a>
+## RESOURCES <a href="community-1" id="community-1"></a>
 
 * [Community](community-1/community.md)
 * [Team](community-1/team.md)
@@ -178,8 +178,7 @@
 
 ## Integrations
 
+* [Trino](integrations/trino.md)
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)
-* [Trino](integrations/trino.md)
 * [Presto](integrations/presto.md)
-
