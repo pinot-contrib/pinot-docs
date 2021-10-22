@@ -180,5 +180,6 @@
 
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)
+* [Trino](integrations/trino.md)
 * [Presto](integrations/presto.md)
 
