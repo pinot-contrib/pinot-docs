@@ -54,11 +54,11 @@ to this.
     }
 ```
 
-Next, invoke reload API. This API sends reload messages via Helix to all servers, as part of which indexes are added/removed from the local segments. You can find this API under `Segments` tab on Swagger
+Next, invoke reload API. This API sends reload messages via Helix to all servers, as part of which indexes are added/removed from the local segments. This happens without downtime and is completely transparent to the queries. In case of addition of index, only the new index is created and appended to the existing segment. In case of removal of index, its related states are cleaned up from Pinot servers. You can find this API under `Segments` tab on Swagger:
 
 ```
 curl -X POST 
-"http://localhost:9000/segments/myTable/reload?forceDownload=false" 
+"http://localhost:9000/segments/myTable/reload" 
 -H "accept: application/json"
 ```
 
