@@ -40,7 +40,7 @@ Update your table config with the latest set of indexes you wish to have. For ex
 
 ```
 "tableIndexConfig": {
-        "invertedIndexColumns": ["column_name"],
+        "invertedIndexColumns": ["foo"],
         ...
     }
 ```
