@@ -140,6 +140,7 @@
     * [Rebalance Brokers](operators/operating-pinot/rebalance/rebalance-brokers.md)
   * [Tiered Storage](operators/operating-pinot/tiered-storage.md)
   * [Pinot managed Offline flows](operators/operating-pinot/pinot-managed-offline-flows.md)
+  * [Minion merge rollup task](operators/operating-pinot/minion-merge-rollup-task.md)
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Monitoring](operators/operating-pinot/monitoring.md)
   * [Tuning](operators/operating-pinot/tuning/README.md)
