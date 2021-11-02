@@ -192,6 +192,10 @@ To be added
 
 See [Pinot managed Offline flows](../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
 
+### MergeRollupTask
+
+See [Minion merge rollup task](../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
+
 ### ConvertToRawIndexTask
 
 To be added
