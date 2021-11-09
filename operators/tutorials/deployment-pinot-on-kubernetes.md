@@ -8,7 +8,7 @@ However there are a few things to be noted before starting the benchmark/product
 
 ## Container Resources
 
-We recommend to run Pinot with pre-defined resources for the container, and make requests and limits to be the same.&#x20;
+We recommend to run Pinot with pre-defined resources for the container, and make requests and limits to be the same. 
 
 This will ensure the container won't be killed if there is a sudden bump of workload.
 
@@ -16,7 +16,7 @@ It will also be simpler to benchmark the system, e.g. get broker qps limit.
 
 Below is an example for values to set in `values.yaml` file. Default resources is not set.
 
-```
+```text
 resources:
   requests:
     cpu: 1
@@ -32,7 +32,7 @@ resources:
 
 JVM setting should be complaint with the container resources for Pinot Controller and Pinot Broker.
 
-```
+```text
 resources:
   requests:
     cpu: 1
@@ -44,7 +44,7 @@ resources:
 
 You can make JVM setting like below to make `-Xmx` the same size as your container.
 
-```
+```text
 jvmOpts: "-Xms256M -Xmx1G"
 ```
 
@@ -54,7 +54,7 @@ For Pinot Server, heap is majorly used for query processing, metadata management
 
 E.g. Assuming data is 100 GB on disk, the container size is 4 CPU, 10GB Memory.
 
-```
+```text
 resources:
   requests:
     cpu: 4
@@ -66,7 +66,7 @@ resources:
 
 For JVM, limit `-Xmx` to not exceed 50% container memory limit, so that the rest of the container could be leveraged by the off-heap operations.
 
-```
+```text
 jvmOpts: "-Xms1G -Xmx4G"
 ```
 
@@ -74,7 +74,9 @@ jvmOpts: "-Xms1G -Xmx4G"
 
 Pinot uses remote storage as deep storage to backup segments.
 
-Default deployment creates a mount disk(e.g Amazon EBS) as deep storage in controller.
+Default deployment creates a mount disk\(e.g Amazon EBS\) as deep storage in controller.
 
-You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link](broken-reference).
+You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link]().
+
+
 

@@ -179,6 +179,7 @@
 
 ## Integrations
 
+* [Tableau](integrations/tableau.md)
 * [Trino](integrations/trino.md)
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)

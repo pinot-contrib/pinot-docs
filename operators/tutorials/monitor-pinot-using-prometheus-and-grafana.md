@@ -11,7 +11,7 @@ Here we will introduce how to monitor Pinot with Prometheus and Grafana in Kuber
 
 ### Install Pinot helm repo
 
-```
+```text
 ## Adding Pinot helm repo
 helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/kubernetes/helm
 ## Extract all the configurable values of Pinot Helm into a config.
@@ -20,13 +20,13 @@ helm inspect values pinot/pinot > /tmp/pinot-values.yaml
 
 ### Configure Pinot Helm to enable Prometheus JMX Exporter
 
-1\. Configure jvmOpts:
+1. Configure jvmOpts:
 
-Add [JMX Prometheus Java Agent](https://github.com/prometheus/jmx\_exporter) to `controller.jvmOpts` / `broker.jvmOpts`/ `server.jvmOpts` . Note that Pinot image already packages `jmx_prometheus_javaagent-0.12.0.jar`.
+Add [JMX Prometheus Java Agent](https://github.com/prometheus/jmx_exporter) to `controller.jvmOpts` / `broker.jvmOpts`/ `server.jvmOpts` . Note that Pinot image already packages `jmx_prometheus_javaagent-0.12.0.jar`.
 
 Below config will expose pinot metrics to port 8008 for Prometheus to scrape.
 
-```
+```text
 controller:
   ...
   jvmOpts: "-javaagent:/opt/pinot/etc/jmx_prometheus_javaagent/jmx_prometheus_javaagent-0.12.0.jar=8008:/opt/pinot/etc/jmx_prometheus_javaagent/configs/pinot.yml -Xms256M -Xmx1G"
@@ -34,20 +34,20 @@ controller:
 
 You can port forward port 8008 to local and access metrics though: [http://localhost:8008/metrics](http://localhost:8008/metrics)
 
-![Sample output of JMX metrics](<../../.gitbook/assets/image (49).png>)
+![Sample output of JMX metrics](../../.gitbook/assets/image%20%2849%29.png)
 
-2\. Configure service annotations:
+2. Configure service annotations:
 
-Add Prometheus related annotations to enable Prometheus to scrape metrics. &#x20;
+Add Prometheus related annotations to enable Prometheus to scrape metrics.  
 
-* `controller.service.annotations`&#x20;
+* `controller.service.annotations` 
 * `broker.service.annotations`
 * `server.service.annotations`
-* `controller.podAnnotations`&#x20;
+* `controller.podAnnotations` 
 * `broker.podAnnotations`
 * `server.podAnnotations`
 
-```
+```text
 controller:
   ...
   service:
@@ -62,7 +62,7 @@ controller:
 
 ### Deploy Pinot Helm
 
-```
+```text
 kubectl create ns pinot
 helm install pinot pinot/pinot -n pinot --values /tmp/pinot-values.yaml
 ```
@@ -73,21 +73,21 @@ Once Pinot is deployed and running, we can start deploy Prometheus.
 
 Similar to Pinot Helm, we will have Prometheus Helm and its config yaml file:
 
-```
+```text
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm inspect values prometheus-community/prometheus > /tmp/prometheus-values.yaml
 ```
 
 Configure Prometheus
 
-Please remember to check the configs:&#x20;
+Please remember to check the configs: 
 
 * server.persistentVolume: data storage location/size limit/storage class
-* server.retention: how long to keep the data (default is 15d)
+* server.retention: how long to keep the data \(default is 15d\)
 
 Deploy Prometheus
 
-```
+```text
 kubectl create ns prometheus
 helm install prometheus prometheus-community/prometheus -n prometheus --values /tmp/prometheus-values.yaml
 ```
@@ -96,19 +96,19 @@ Access Prometheus
 
 Port forward Prometheus service to local and open the page on `localhost:30080`
 
-```
+```text
 kubectl port-forward service/prometheus-server 30080:80 -n prometheus
 ```
 
 Then we can query metrics Prometheus scrapped:
 
-![](<../../.gitbook/assets/image (42).png>)
+![](../../.gitbook/assets/image%20%2842%29.png)
 
 ## Deploy Grafana
 
 Similar to Pinot Helm, we will have Grafana Helm and it's config yaml file:
 
-```
+```text
 helm repo add grafana https://grafana.github.io/helm-charts
 helm inspect values grafana/grafana > /tmp/grafana-values.yaml
 ```
@@ -116,64 +116,64 @@ helm inspect values grafana/grafana > /tmp/grafana-values.yaml
 * Configure Grafana
 * Deploy Grafana
 
-```
+```text
 kubectl create ns grafana
 helm install grafana grafana/grafana -n grafana --values /tmp/grafana-values.yaml
 ```
 
 * Get Password to access Grafana
 
-```
+```text
 kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
-* Access Grafana dashboard&#x20;
+* Access Grafana dashboard 
 
 You can access it locally through port forwarding:
 
-```
+```text
 kubectl port-forward service/grafana 20080:80 -n grafana
 ```
 
-&#x20;Once open the dashboard, you can login with credential:&#x20;
+ Once open the dashboard, you can login with credential: 
 
-`admin`/`[ PASSWORD GET FROM PREVIOUS STEP] `
+`admin`/`[ PASSWORD GET FROM PREVIOUS STEP]` 
 
-![Grafana Dashboard](<../../.gitbook/assets/image (47) (1) (1).png>)
+![Grafana Dashboard](../../.gitbook/assets/image%20%2847%29%20%281%29%20%281%29.png)
 
 * Add data source
 
-![](<../../.gitbook/assets/image (44).png>)
+![](../../.gitbook/assets/image%20%2844%29.png)
 
 Click on Prometheus and set HTTP URL to : `http://prometheus-server.prometheus.svc.cluster.local`
 
-![Prometheus data source config](<../../.gitbook/assets/image (48).png>)
+![Prometheus data source config](../../.gitbook/assets/image%20%2848%29.png)
 
 * Configure Pinot Dashboard
 
 Once data source is added, we can import a Pinot Dashboard:
 
-![Grafana Import Button](<../../.gitbook/assets/image (45).png>)
+![Grafana Import Button](../../.gitbook/assets/image%20%2845%29.png)
 
 A sample Pinot dashboard JSON is:
 
-{% file src="../../.gitbook/assets/pinot-1601334866100.json" %}
-sample-pinot-dashboard
-{% endfile %}
+{% file src="../../.gitbook/assets/pinot-1601334866100.json" caption="sample-pinot-dashboard" %}
 
 Now you can upload this file and select Prometheus as data source to finish the import
 
-![Grafana Import Page](<../../.gitbook/assets/image (46).png>)
+![Grafana Import Page](../../.gitbook/assets/image%20%2846%29.png)
 
 Then you can explore and make your own Pinot dashboard!
 
-![](<../../.gitbook/assets/image (55).png>)
+![](../../.gitbook/assets/image%20%2855%29.png)
 
-![](<../../.gitbook/assets/image (56).png>)
+![](../../.gitbook/assets/image%20%2856%29.png)
 
-![](<../../.gitbook/assets/image (54).png>)
+![](../../.gitbook/assets/image%20%2854%29.png)
 
-![](<../../.gitbook/assets/image (52).png>)
+![](../../.gitbook/assets/image%20%2852%29.png)
 
-![](<../../.gitbook/assets/image (50).png>)
+![](../../.gitbook/assets/image%20%2850%29.png)
+
+
 

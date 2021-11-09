@@ -8,26 +8,26 @@ description: >-
 
 You can enable the Azure Data Lake Storage using the plugin `pinot-adls`. In the controller or server, add the config -
 
-```
+```text
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-adls
 ```
 
 {% hint style="info" %}
-By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro `, `pinot-kafka-2.0...`
+By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
 {% endhint %}
 
 Azure Blob Storage provides the following options -
 
 * `accountName` : Name of the azure account under which the storage is created
 * `accessKey` : access key required for the authentication
-* `fileSystemName` - name of the filesystem to use i.e. container name (container name is similar to bucket name in S3)
+* `fileSystemName` - name of the filesystem to use i.e. container name \(container name is similar to bucket name in S3\)
 * `enableChecksum` - enable MD5 checksum for verification. Default is `false`.
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.class.abfss.` where `node` is either `controller` or `server` depending on the config
 
 e.g.
 
-```
+```text
 pinot.controller.storage.factory.class.adl.accountName=test-user
 ```
 
@@ -64,7 +64,7 @@ pinotClusterSpecs:
 
 #### Controller config
 
-```
+```text
 controller.data.dir=adl://path/to/data/directory/
 controller.local.temp.dir=/path/to/local/temp/directory
 controller.enable.split.commit=true
@@ -78,7 +78,7 @@ pinot.controller.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher
 
 #### Server config
 
-```
+```text
 pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.adl=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
 pinot.server.storage.factory.adl.accountName=my-account
@@ -88,5 +88,7 @@ pinot.server.segment.fetcher.protocols=file,http,adl
 pinot.server.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
-####
+#### 
+
+
 

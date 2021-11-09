@@ -10,15 +10,16 @@ description: >-
 
 In this recipe, we will
 
-1.  Set up a Pinot cluster, in the steps
+1. Set up a Pinot cluster, in the steps
 
-    a. Start zookeeper
+   a. Start zookeeper
 
-    b. Start controller
+   b. Start controller
 
-    c. Start broker
+   c. Start broker
 
-    d. Start server
+   d. Start server
+
 2. Set up a Kafka cluster
 3. Create a Kafka topic - pullRequestMergedEvents
 4. Create a realtime table - pullRequestMergedEvents and a schema
@@ -35,7 +36,7 @@ In this recipe, we will
 
 Get the latest Docker image.
 
-```
+```text
 export PINOT_VERSION=latest
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
@@ -70,7 +71,7 @@ docker exec \
 
 The schema is present at `examples/stream/githubEvents/pullRequestMergedEvents_schema.json` and is also pasted below
 
-{% code title="pullRequestMergedEvents_schema.json" %}
+{% code title="pullRequestMergedEvents\_schema.json" %}
 ```javascript
 {
   "schemaName": "pullRequestMergedEvents",
@@ -230,11 +231,11 @@ The schema is present at `examples/stream/githubEvents/pullRequestMergedEvents_s
 The table config is present at `examples/stream/githubEvents/docker/pullRequestMergedEvents_realtime_table_config.json` and is also pasted below.
 
 {% hint style="info" %}
-**Note**\
-If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.&#x20;
+**Note**  
+If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster. 
 {% endhint %}
 
-{% code title="pullRequestMergedEvents_realtime_table_config.json" %}
+{% code title="pullRequestMergedEvents\_realtime\_table\_config.json" %}
 ```javascript
 {
   "tableName": "pullRequestMergedEvents",
@@ -345,7 +346,7 @@ Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/
 
 ### Create a Kafka topic
 
-Download [Apache Kafka](https://kafka.apache.org/downloads) release.&#x20;
+Download [Apache Kafka](https://kafka.apache.org/downloads) release. 
 
 Create a Kafka topic called `pullRequestMergedEvents` for the demo.
 
@@ -522,7 +523,7 @@ Table config can be found at `/examples/stream/githubevents/` in the release, an
 {% hint style="info" %}
 **Note**
 
-If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster. &#x20;
+If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.  
 {% endhint %}
 
 ```bash
@@ -585,7 +586,7 @@ Start streaming GitHub events into the Kafka topic
 Generate a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) on GitHub.
 {% endhint %}
 
-```
+```text
 $ bin/pinot-admin.sh StreamGitHubEvents \
   -topic pullRequestMergedEvents \
   -personalAccessToken <your_github_personal_access_token> \
@@ -606,9 +607,9 @@ $ bin/pinot-admin.sh GitHubEventsQuickStart \
 
 ### Kubernetes cluster
 
-If you already have a Kubernetes cluster with Pinot and Kafka (see [Running Pinot in Kubernetes](../getting-started/kubernetes-quickstart.md)), first create the topic and then setup the table and streaming using
+If you already have a Kubernetes cluster with Pinot and Kafka \(see [Running Pinot in Kubernetes](../getting-started/kubernetes-quickstart.md)\), first create the topic and then setup the table and streaming using
 
-```
+```text
 $ cd kubernetes/helm
 $ kubectl apply -f pinot-github-realtime-events.yml
 ```
@@ -632,6 +633,8 @@ Repositories by number of commits in the Apache organization
 ![](../../.gitbook/assets/screen-shot-2020-04-08-at-9.29.12-am.png)
 
 To integrate with SuperSet you can check out the [SuperSet Integrations](../../integrations/superset.md) page.
+
+
 
 
 

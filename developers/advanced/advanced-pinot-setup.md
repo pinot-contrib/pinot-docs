@@ -1,6 +1,6 @@
 # Advanced Pinot Setup
 
-## Start Pinot components (scripts or docker images)
+## Start Pinot components \(scripts or docker images\)
 
 Setup Pinot by starting each component individually
 
@@ -14,25 +14,25 @@ Setup Pinot by starting each component individually
 If running locally, please ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
 
-![Sample docker resources](<../../.gitbook/assets/image (4) (1).png>)
+![Sample docker resources](../../.gitbook/assets/image%20%284%29.png)
 
 ### Pull docker image
 
 You can try out pre-built Pinot all-in-one docker image.
 
-```
+```text
 export PINOT_VERSION=0.7.0-SNAPSHOT
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
 
-(Optional) You can also follow the instructions [here](../../operators/tutorials/build-docker-images.md) to build your own images.
+\(Optional\) You can also follow the instructions [here](../../operators/tutorials/build-docker-images.md) to build your own images.
 
 ### 0. Create a Network
 
 Create an isolated bridge network in docker
 
-```
+```text
 docker network create -d bridge pinot-demo
 ```
 
@@ -40,7 +40,7 @@ docker network create -d bridge pinot-demo
 
 Start Zookeeper in daemon.
 
-```
+```text
 docker run \
     --network=pinot-demo \
     --name  pinot-zookeeper \
@@ -51,7 +51,7 @@ docker run \
 
 Start [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
 
-```
+```text
 docker run \
     --network pinot-demo --name=zkui \
     -p 9090:9090 \
@@ -63,7 +63,7 @@ docker run \
 
 Start Pinot Controller in daemon and connect to Zookeeper.
 
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-controller \
@@ -76,7 +76,7 @@ docker run \
 
 Start Pinot Broker in daemon and connect to Zookeeper.
 
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-broker \
@@ -88,7 +88,7 @@ docker run \
 
 Start Pinot Server in daemon and connect to Zookeeper.
 
-```
+```text
 export PINOT_IMAGE=apachepinot/pinot:0.3.0-SNAPSHOT
 docker run \
     --network=pinot-demo \
@@ -101,13 +101,13 @@ Now all Pinot related components are started as an empty cluster.
 
 You can run below command to check container status.
 
-```
+```text
 docker container ls -a
 ```
 
 **Sample Console Output**
 
-```
+```text
 CONTAINER ID        IMAGE                              COMMAND                  CREATED              STATUS                PORTS                                                  NAMES
 9e80c3fcd29b        apachepinot/pinot:0.3.0-SNAPSHOT   "./bin/pinot-admin.s…"   18 seconds ago       Up 17 seconds         8096-8099/tcp, 9000/tcp                                pinot-server
 f4c42a5865c7        apachepinot/pinot:0.3.0-SNAPSHOT   "./bin/pinot-admin.s…"   21 seconds ago       Up 21 seconds         8096-8099/tcp, 9000/tcp                                pinot-broker
@@ -119,7 +119,7 @@ a413b0013806        apachepinot/pinot:0.3.0-SNAPSHOT   "./bin/pinot-admin.s…" 
 {% tab title="Using launcher scripts" %}
 Download Pinot Distribution from [http://pinot.apache.org/download/](http://pinot.apache.org/download/)
 
-```
+```text
 $ export PINOT_VERSION=0.7.0
 $ tar -xvf apache-pinot-${PINOT_VERSION}-bin.tar.gz
 
@@ -134,7 +134,7 @@ $ PINOT_INSTALL_DIR=`pwd`
 
 ### Start Zookeeper
 
-```
+```text
 cd apache-pinot-${PINOT_VERSION}-bin
 bin/pinot-admin.sh StartZookeeper
 ```
@@ -143,21 +143,21 @@ bin/pinot-admin.sh StartZookeeper
 
 > See [controller page](advanced-pinot-setup.md) for more details .
 
-```
+```text
 bin/pinot-admin.sh StartController \
     -zkAddress localhost:2181
 ```
 
 ### Start Pinot Broker
 
-```
+```text
 bin/pinot-admin.sh StartBroker \
     -zkAddress localhost:2181
 ```
 
 ### Start Pinot Controller
 
-```
+```text
 bin/pinot-admin.sh StartServer \
     -zkAddress localhost:2181
 ```
@@ -174,7 +174,7 @@ Below are the examples config files and sample command to start Pinot.
 
 Below is a sample `pinot-controller.conf` used in HelmChart setup.
 
-```
+```text
 controller.helix.cluster.name=pinot-quickstart
 controller.port=9000
 controller.vip.host=pinot-controller
@@ -186,7 +186,7 @@ pinot.set.instance.id.to.hostname=true
 
 In order to run Pinot Controller, the command is:
 
-```
+```text
 bin/pinot-admin.sh StartController -configFileName config/pinot-controller.conf
 ```
 
@@ -194,23 +194,23 @@ bin/pinot-admin.sh StartController -configFileName config/pinot-controller.conf
 
 Below are some configurations you can set in Pinot Controller. You can head over to [Controller](../../configuration-reference/controller.md#primary-configuration) for complete list of available configs.
 
-| Config Name                       | Description                                                    | Default Value                                                      |
-| --------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------ |
-| controller.helix.cluster.name     | Pinot Cluster name                                             | PinotCluster                                                       |
-| controller.host                   | Pinot Controller Host                                          | Required if config **pinot.set.instance.id.to.hostname** is false. |
-| pinot.set.instance.id.to.hostname | When enabled, use server hostname to infer **controller.host** | false                                                              |
-| controller.port                   | Pinot Controller Port                                          | 9000                                                               |
-| controller.vip.host               | The VIP hostname used to set the download URL for segments     | ${controller.host}                                                 |
-| controller.vip.port               | The VIP port used to set the download URL for segments         | ${controller.port}                                                 |
-| controller.data.dir               | Directory to host segment data                                 | ${java.io.tmpdir}/PinotController                                  |
-| controller.zk.str                 | Zookeeper URL                                                  | localhost:2181                                                     |
-| cluster.tenant.isolation.enable   | Enable Tenant Isolation, default is single tenant cluster      | true                                                               |
+| Config Name | Description | Default Value |
+| :--- | :--- | :--- |
+| controller.helix.cluster.name | Pinot Cluster name | PinotCluster |
+| controller.host | Pinot Controller Host | Required if config **pinot.set.instance.id.to.hostname** is false. |
+| pinot.set.instance.id.to.hostname | When enabled, use server hostname to infer **controller.host** | false |
+| controller.port | Pinot Controller Port | 9000 |
+| controller.vip.host | The VIP hostname used to set the download URL for segments | ${controller.host} |
+| controller.vip.port | The VIP port used to set the download URL for segments | ${controller.port} |
+| controller.data.dir | Directory to host segment data | ${java.io.tmpdir}/PinotController |
+| controller.zk.str | Zookeeper URL | localhost:2181 |
+| cluster.tenant.isolation.enable | Enable Tenant Isolation, default is single tenant cluster | true |
 
 ### Pinot Broker
 
 Below is a sample `pinot-broker.conf` used in HelmChart setup.
 
-```
+```text
 pinot.broker.client.queryPort=8099
 pinot.broker.routing.table.builder.class=random
 pinot.set.instance.id.to.hostname=true
@@ -218,7 +218,7 @@ pinot.set.instance.id.to.hostname=true
 
 In order to run Pinot Broker, the command is:
 
-```
+```text
 bin/pinot-admin.sh StartBroker -clusterName pinot-quickstart -zkAddress pinot-zookeeper:2181 -configFileName config/pinot-broker.conf
 ```
 
@@ -226,21 +226,21 @@ bin/pinot-admin.sh StartBroker -clusterName pinot-quickstart -zkAddress pinot-zo
 
 Below are some configurations you can set in Pinot Broker. You can head over to [Broker](../../configuration-reference/broker.md) for complete list of available configs.
 
-| Config Name                              | Description                                                                                                                                                                                                                                   | Default Value                                             |
-| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| instanceId                               | Unique id to register Pinot Broker in the cluster.                                                                                                                                                                                            | BROKER\_${BROKER\_HOST}\_${pinot.broker.client.queryPort} |
-| pinot.set.instance.id.to.hostname        | When enabled, use server hostname to set ${BROKER\_HOST} in above config, else use IP address.                                                                                                                                                | false                                                     |
-| pinot.broker.client.queryPort            | Port to query Pinot Broker                                                                                                                                                                                                                    | 8099                                                      |
-| pinot.broker.timeoutMs                   | Timeout for Broker Query in Milliseconds                                                                                                                                                                                                      | 10000                                                     |
-| pinot.broker.enable.query.limit.override | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back.                                                                                                                             | false                                                     |
-| pinot.broker.query.response.limit        | When config **pinot.broker.enable.query.limit.override** is enabled, reset limit for selection query if it exceeds this value.                                                                                                                | 2147483647                                                |
-| pinot.broker.startup.minResourcePercent  | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources (tables) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve | 100.0                                                     |
+| Config Name | Description | Default Value |
+| :--- | :--- | :--- |
+| instanceId | Unique id to register Pinot Broker in the cluster. | BROKER\_${BROKER\_HOST}\_${pinot.broker.client.queryPort} |
+| pinot.set.instance.id.to.hostname | When enabled, use server hostname to set ${BROKER\_HOST} in above config, else use IP address. | false |
+| pinot.broker.client.queryPort | Port to query Pinot Broker | 8099 |
+| pinot.broker.timeoutMs | Timeout for Broker Query in Milliseconds | 10000 |
+| pinot.broker.enable.query.limit.override | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back. | false |
+| pinot.broker.query.response.limit | When config **pinot.broker.enable.query.limit.override** is enabled, reset limit for selection query if it exceeds this value. | 2147483647 |
+| pinot.broker.startup.minResourcePercent | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources \(tables\) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve | 100.0 |
 
 ### Pinot Server
 
 Below is a sample `pinot-server.conf` used in HelmChart setup.
 
-```
+```text
 pinot.server.netty.port=8098
 pinot.server.adminapi.port=8097
 pinot.server.instance.dataDir=/var/pinot/server/data/index
@@ -250,7 +250,7 @@ pinot.set.instance.id.to.hostname=true
 
 In order to run Pinot Server, the command is:
 
-```
+```text
 bin/pinot-admin.sh StartServer -clusterName pinot-quickstart -zkAddress pinot-zookeeper:2181 -configFileName config/pinot-server.conf
 ```
 
@@ -258,19 +258,19 @@ bin/pinot-admin.sh StartServer -clusterName pinot-quickstart -zkAddress pinot-zo
 
 Below are some outstanding configurations you can set in Pinot Server. You can head over to [Server](../../configuration-reference/server.md) for complete list of available configs.
 
-| Config Name                         | Description                                                                                    | Default Value                                       |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| instanceId                          | Unique id to register Pinot Server in the cluster.                                             | Server\_${SERVER\_HOST}\_${pinot.server.netty.port} |
-| pinot.set.instance.id.to.hostname   | When enabled, use server hostname to set ${SERVER\_HOST} in above config, else use IP address. | false                                               |
-| pinot.server.netty.port             | Port to query Pinot Server                                                                     | 8098                                                |
-| pinot.server.adminapi.port          | Port for Pinot Server Admin UI                                                                 | 8097                                                |
-| pinot.server.instance.dataDir       | Directory to hold all the data                                                                 | ${java.io.tmpDir}/PinotServer/index                 |
-| pinot.server.instance.segmentTarDir | Directory to hold temporary segments downloaded from Controller or Deep Store                  | ${java.io.tmpDir}/PinotServer/segmentTar            |
-| pinot.server.query.executor.timeout | Timeout for Server to process Query in Milliseconds                                            | 15000                                               |
+| Config Name | Description | Default Value |
+| :--- | :--- | :--- |
+| instanceId | Unique id to register Pinot Server in the cluster. | Server\_${SERVER\_HOST}\_${pinot.server.netty.port} |
+| pinot.set.instance.id.to.hostname | When enabled, use server hostname to set ${SERVER\_HOST} in above config, else use IP address. | false |
+| pinot.server.netty.port | Port to query Pinot Server | 8098 |
+| pinot.server.adminapi.port | Port for Pinot Server Admin UI | 8097 |
+| pinot.server.instance.dataDir | Directory to hold all the data | ${java.io.tmpDir}/PinotServer/index |
+| pinot.server.instance.segmentTarDir | Directory to hold temporary segments downloaded from Controller or Deep Store | ${java.io.tmpDir}/PinotServer/segmentTar |
+| pinot.server.query.executor.timeout | Timeout for Server to process Query in Milliseconds | 15000 |
 
 ## Create and Configure table
 
-A TABLE in regular database world is represented as \<TABLE>\_OFFLINE and/or \<TABLE>\_REALTIME in Pinot depending on the ingestion mode (batch, real-time, hybrid)
+A TABLE in regular database world is represented as &lt;TABLE&gt;\_OFFLINE and/or &lt;TABLE&gt;\_REALTIME in Pinot depending on the ingestion mode \(batch, real-time, hybrid\)
 
 See [`examples`](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables.
 
@@ -280,7 +280,7 @@ Please see [Batch Tables](advanced-pinot-setup.md) for table configuration detai
 
 {% tabs %}
 {% tab title="Docker" %}
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-batch-table-creation \
@@ -294,7 +294,7 @@ docker run \
 
 **Sample Console Output**
 
-```
+```text
 Executing command: AddTable -tableConfigFile examples/batch/airlineStats/airlineStats_offline_table_config.json -schemaFile examples/batch/airlineStats/airlineStats_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
 Sending request: http://pinot-controller:9000/schemas to controller: a413b0013806, version: Unknown
 {"status":"Table airlineStats_OFFLINE succesfully added"}
@@ -302,7 +302,7 @@ Sending request: http://pinot-controller:9000/schemas to controller: a413b001380
 {% endtab %}
 
 {% tab title="Using launcher scripts" %}
-```
+```text
 bin/pinot-admin.sh AddTable \
     -schemaFile examples/batch/airlineStats/airlineStats_schema.json \
     -tableConfigFile examples/batch/airlineStats/airlineStats_offline_table_config.json \
@@ -319,7 +319,7 @@ Please see [Streaming Tables](advanced-pinot-setup.md) for table configuration d
 {% tab title="Docker" %}
 **Start Kafka**
 
-```
+```text
 docker run \
     --network pinot-demo --name=kafka \
     -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
@@ -330,7 +330,7 @@ docker run \
 
 **Create a Kafka Topic**
 
-```
+```text
 docker exec \
   -t kafka \
   /opt/kafka/bin/kafka-topics.sh \
@@ -341,7 +341,7 @@ docker exec \
 
 **Create a Streaming table**
 
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-streaming-table-creation \
@@ -355,7 +355,7 @@ docker run \
 
 **Sample output**
 
-```
+```text
 Executing command: AddTable -tableConfigFile examples/docker/table-configs/airlineStats_realtime_table_config.json -schemaFile examples/stream/airlineStats/airlineStats_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
 Sending request: http://pinot-controller:9000/schemas to controller: 8fbe601012f3, version: Unknown
 {"status":"Table airlineStats_REALTIME succesfully added"}
@@ -365,19 +365,19 @@ Sending request: http://pinot-controller:9000/schemas to controller: 8fbe601012f
 {% tab title="Using launcher scripts" %}
 **Start Kafka-Zookeeper**
 
-```
+```text
 bin/pinot-admin.sh StartZookeeper -zkPort 2191
 ```
 
 **Start Kafka**
 
-```
+```text
 bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2191/kafka -port 19092
 ```
 
 **Create stream table**
 
-```
+```text
 bin/pinot-admin.sh AddTable \
     -schemaFile examples/stream/airlineStats/airlineStats_schema.json \
     -tableConfigFile examples/stream/airlineStats/airlineStats_realtime_table_config.json \
@@ -398,7 +398,7 @@ Below example goes with the standalone mode.
 
 {% tabs %}
 {% tab title="Docker" %}
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-data-ingestion-job \
@@ -408,7 +408,7 @@ docker run \
 
 **Sample Console Output**
 
-```
+```text
 SegmentGenerationJobSpec:
 !!org.apache.pinot.spi.ingestion.batch.spec.SegmentGenerationJobSpec
 excludeFileNamePattern: null
@@ -453,7 +453,7 @@ Response for pushing table airlineStats segment airlineStats_OFFLINE_16084_16084
 {% endtab %}
 
 {% tab title="Using launcher scripts" %}
-```
+```text
 bin/pinot-admin.sh LaunchDataIngestionJob \
     -jobSpecFile examples/batch/airlineStats/ingestionJobSpec.yaml
 ```
@@ -470,7 +470,7 @@ JobSpec yaml file has all the information regarding data format, input data loca
 {% tab title="Docker" %}
 Run below command to stream JSON data into Kafka topic: **flights-realtime**
 
-```
+```text
 docker run \
   --network pinot-demo \
   --name=loading-airlineStats-data-to-kafka \
@@ -483,10 +483,11 @@ docker run \
 {% tab title="Using launcher scripts" %}
 Run below command to stream JSON data into Kafka topic: **flights-realtime**
 
-```
+```text
 bin/pinot-admin.sh StreamAvroIntoKafka \
   -avroFile examples/stream/airlineStats/sample_data/airlineStats_data.avro \
   -kafkaTopic flights-realtime -kafkaBrokerList localhost:19092 -zkAddress localhost:2191/kafka
 ```
 {% endtab %}
 {% endtabs %}
+

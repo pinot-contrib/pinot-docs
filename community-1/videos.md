@@ -4,13 +4,9 @@
 
 ## Operations
 
-{% embed url="https://youtu.be/cNnwMF0pOJ8" %}
-How to setup a Pinot cluster
-{% endembed %}
+{% embed url="https://youtu.be/cNnwMF0pOJ8" caption="How to setup a Pinot cluster" %}
 
-{% embed url="https://youtu.be/UR6rYEMZYLA" %}
-Apache Pinot on Kubernetes - A Practical Guide
-{% endembed %}
+{% embed url="https://youtu.be/UR6rYEMZYLA" caption="Apache Pinot on Kubernetes - A Practical Guide" %}
 
 
 
@@ -18,23 +14,78 @@ Apache Pinot on Kubernetes - A Practical Guide
 
 ### Pinot Segment Lifecycle
 
-{% embed url="https://youtu.be/HycNRCzkrjg" %}
-Segment Assignment in OFFLINE tables
-{% endembed %}
+{% embed url="https://youtu.be/HycNRCzkrjg" caption="Segment Assignment in OFFLINE tables" %}
 
-{% embed url="https://youtu.be/WoruCQgPhSA" %}
-Segment Assignment in REALTIME tables
-{% endembed %}
+{% embed url="https://youtu.be/WoruCQgPhSA" caption="Segment Assignment in REALTIME tables" %}
 
 ## Meetups and talks
 
-| Date       | Title                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2020/09/02 | [Apache Pinot Virtual Meetup at LinkedIn (Sep 02, 2020)](https://www.youtube.com/watch?v=FjTjGxrgAoY\&list=PLihIrF0tCXddhXkQdAdnmfs8FtYMfrbTl)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| 2020/08/25 | [Kafka Summit: Apache Pinot Case Study](https://www.confluent.io/resources/kafka-summit-2020/apache-pinot-case-study-building-distributed-analytics-systems-using-apache-kafka/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 2019/06/23 | [Building Real-Time Analytics Applications Using Apache Pinot](https://www.youtube.com/watch?v=mOzjVRf0yt4\&t=1s)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| 2019/03/27 | <p><a href="https://www.youtube.com/watch?v=CDEkxaEJbgs">Supercharged OLAP", a Big Data meetup focused on the LinkedIn analytics stack of Pinot and Presto.</a></p><ul><li>Keynote: Shirshanka Das - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&#x26;t=263s">4:23</a> </li><li>Architecture Overview: Neha Pawar and Jackie Jiang - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&#x26;t=1340s">22:20</a> </li><li>LinkedIn TalentInsights Powered by Pinot: Manzar Kazi and Sunitha Beeram - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&#x26;t=2080s">34:40</a> </li><li>Presto: Shardool - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&#x26;t=3120s">52:00</a> </li><li>Microsoft Teams and Pinot: Vish Balasubramaniam - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&#x26;t=4490s">1:14:50</a> </li><li>The Journey Towards Pinot: Ananth Packkildurai - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&#x26;t=5364s">1:29:24</a> </li><li>Closing Remarks: Ravi Aringunram - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&#x26;t=6197s">1:43:17</a> </li><li>Q&#x26;A - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&#x26;t=6525s">1:48:45</a></li></ul> |
-| 2018/11/21 | [Scaling the wall of real-time analytics with Pinot](https://www.youtube.com/watch?v=XhwnGhpcC60)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| 2018/06/05 |  [Uber Tech Day: Powering Real-time Analytics at Uber](https://www.youtube.com/watch?v=PKc-RdrW8Ec)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 2017/04/26 |  [Pinot: Near Realtime Analytics @ Uber](https://www.youtube.com/watch?v=evmXXZ2N1bY\&t=17s)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Date</th>
+      <th style="text-align:left">Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">2020/09/02</td>
+      <td style="text-align:left"><a href="https://www.youtube.com/watch?v=FjTjGxrgAoY&amp;list=PLihIrF0tCXddhXkQdAdnmfs8FtYMfrbTl">Apache Pinot Virtual Meetup at LinkedIn (Sep 02, 2020)</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">2020/08/25</td>
+      <td style="text-align:left"><a href="https://www.confluent.io/resources/kafka-summit-2020/apache-pinot-case-study-building-distributed-analytics-systems-using-apache-kafka/">Kafka Summit: Apache Pinot Case Study</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">2019/06/23</td>
+      <td style="text-align:left"><a href="https://www.youtube.com/watch?v=mOzjVRf0yt4&amp;t=1s">Building Real-Time Analytics Applications Using Apache Pinot</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">2019/03/27</td>
+      <td style="text-align:left">
+        <p><a href="https://www.youtube.com/watch?v=CDEkxaEJbgs">Supercharged OLAP&quot;, a Big Data meetup focused on the LinkedIn analytics stack of Pinot and Presto.</a>
+        </p>
+        <ul>
+          <li>Keynote: Shirshanka Das - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&amp;t=263s">4:23</a> 
+          </li>
+          <li>Architecture Overview: Neha Pawar and Jackie Jiang - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&amp;t=1340s">22:20</a> 
+          </li>
+          <li>LinkedIn TalentInsights Powered by Pinot: Manzar Kazi and Sunitha Beeram
+            - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&amp;t=2080s">34:40</a> 
+          </li>
+          <li>Presto: Shardool - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&amp;t=3120s">52:00</a> 
+          </li>
+          <li>Microsoft Teams and Pinot: Vish Balasubramaniam - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&amp;t=4490s">1:14:50</a> 
+          </li>
+          <li>The Journey Towards Pinot: Ananth Packkildurai - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&amp;t=5364s">1:29:24</a> 
+          </li>
+          <li>Closing Remarks: Ravi Aringunram - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&amp;t=6197s">1:43:17</a> 
+          </li>
+          <li>Q&amp;A - <a href="https://www.youtube.com/watch?v=CDEkxaEJbgs&amp;t=6525s">1:48:45</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">2018/11/21</td>
+      <td style="text-align:left"><a href="https://www.youtube.com/watch?v=XhwnGhpcC60">Scaling the wall of real-time analytics with Pinot</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">2018/06/05</td>
+      <td style="text-align:left"> <a href="https://www.youtube.com/watch?v=PKc-RdrW8Ec">Uber Tech Day: Powering Real-time Analytics at Uber</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">2017/04/26</td>
+      <td style="text-align:left"> <a href="https://www.youtube.com/watch?v=evmXXZ2N1bY&amp;t=17s">Pinot: Near Realtime Analytics @ Uber</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
 
