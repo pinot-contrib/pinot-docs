@@ -4,7 +4,7 @@ description: This page describes the different indexing techniques available in 
 
 # Indexing
 
-Pinot currently supports the following indexing techniques, where each of them have their own advantages in different query scenarios.
+Pinot supports the following indexing techniques:
 
 * [Forward Index](forward-index.md)
   * Dictionary-encoded forward index with bit compression
@@ -20,23 +20,19 @@ Pinot currently supports the following indexing techniques, where each of them h
 * [Geospatial](geospatial-support.md)
 * [JSON Index](json-index.md)
 
-
-
-By default, Pinot will use `dictionary-encoded forward index` for each column.&#x20;
+Each of these techniques has advantages in different query scenarios. By default, Pinot creates a dictionary-encoded forward index for each column.&#x20;
 
 ### Enabling indexes
 
-It is very easy to enable and get started with indexing in Pinot. There are 2 ways to create indexes for a Pinot table.&#x20;
+There are 2 ways to create indexes for a Pinot table.&#x20;
 
 #### As part of ingestion, during Pinot segment generation
 
-Indexing is enabled by simply specifying the desired column names in the table config. More details about how to configure each type of index, can be found in the respective index's section above or in the Table Config section.
+Indexing is enabled by specifying the desired column names in the table config. More details about how to configure each type of index can be found in the respective index's section above or in the Table Config section.
 
 #### Dynamically added or removed
 
-Indexes can also be dynamically added to segments or removed from segments at any point.I. Simply
-
-Update your table config with the latest set of indexes you wish to have. For example, if you had inverted index on `foo` and now want to include `bar`, you would update your table config from this
+Indexes can also be dynamically added to or removed from segments at any point. Update your table config with the latest set of indexes you wish to have. For example, if you had an inverted index on `foo` and now want to include `bar`, you would update your table config from this:
 
 ```
 "tableIndexConfig": {
@@ -45,7 +41,7 @@ Update your table config with the latest set of indexes you wish to have. For ex
     }
 ```
 
-to this.
+To this:
 
 ```
 "tableIndexConfig": {
@@ -54,7 +50,7 @@ to this.
     }
 ```
 
-Next, invoke reload API. This API sends reload messages via Helix to all servers, as part of which indexes are added/removed from the local segments. This happens without downtime and is completely transparent to the queries. In case of addition of index, only the new index is created and appended to the existing segment. In case of removal of index, its related states are cleaned up from Pinot servers. You can find this API under `Segments` tab on Swagger:
+Next, invoke reload API. This API sends reload messages via Helix to all servers, as part of which indexes are added or removed from the local segments. This happens without any downtime and is completely transparent to the queries. In the case of the addition of an index, only the new index is created and appended to the existing segment. In the case of the removal of an index, its related states are cleaned up from Pinot servers. You can find this API under `Segments` tab on Swagger:
 
 ```
 curl -X POST 
@@ -64,12 +60,10 @@ curl -X POST
 
 Or you can also find this action on the Pinot UI, on the specific table's page.
 
-
-
 ### Tuning Index
 
 {% hint style="info" %}
-If your use case is not site facing with a strict low latency requirement, the inverted index will provide good performance for most use cases. \
+The inverted index will provide good performance for most use cases, especially if your use case doesn't have a strict low latency requirement. \
 \
-You should start by adding an inverted index and if the query does not perform as per the expectations switch to advanced indices such as sorted column and star-tree index.
+You should start by using this, and if your queries aren't fast enough, switch to advanced indices like the sorted or Star-Tree index.
 {% endhint %}
