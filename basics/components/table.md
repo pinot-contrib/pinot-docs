@@ -1,6 +1,6 @@
 # Table
 
-A **table** is a logical abstraction that represents a collection of related data. It is composed of columns and rows \(known as documents in pinot\). The columns, data types and other metadata related to the table is defined using a [schema](../../configuration-reference/schema.md).
+A **table** is a logical abstraction that represents a collection of related data. It is composed of columns and rows (known as documents in pinot). The columns, data types and other metadata related to the table is defined using a [schema](../../configuration-reference/schema.md).
 
 Pinot breaks a table into multiple [segments](segment.md) and stores these segments in a deep-store such as HDFS as well as Pinot servers.
 
@@ -8,14 +8,14 @@ In the Pinot cluster, a table is modeled as a [Helix resource](https://helix.apa
 
 The following types of table can be created in pinot -
 
-| Type | Description |
-| :--- | :--- |
-| **Offline** | Offline tables ingest pre-built pinot-segments from external data stores. This is generally used for batch ingestion. |
-| **Realtime** | Realtime tables ingest data from streams \(such as Kafka\) and build segments from the consumed data. |
-| **Hybrid** | A hybrid Pinot table has both realtime as well as offline tables under the hood. By default, all tables in Pinot are Hybrid in nature. |
+| Type         | Description                                                                                                                            |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Offline**  | Offline tables ingest pre-built pinot-segments from external data stores. This is generally used for batch ingestion.                  |
+| **Realtime** | Realtime tables ingest data from streams (such as Kafka) and build segments from the consumed data.                                    |
+| **Hybrid**   | A hybrid Pinot table has both realtime as well as offline tables under the hood. By default, all tables in Pinot are Hybrid in nature. |
 
 {% hint style="info" %}
-The user querying the database does not need to know the type of the table. They only need to specify the table name in the query.  
+The user querying the database does not need to know the type of the table. They only need to specify the table name in the query.\
 e.g. regardless of whether we have an offline table `myTable_OFFLINE` , or a realtime table `myTable_REALTIME` or a hybrid table containing both of these, the query will be `mytable` as `select count(*) from myTable` .
 {% endhint %}
 
@@ -31,27 +31,27 @@ You can use the following properties to make your tables faster or leaner -
 
 A table in pinot is comprised of small chunks of data. These chunks are known as Segments. You can learn more about how pinot creates and manages segments in [the official documentation](segment.md)
 
-For offline tables, Segments are built outside of pinot and uploaded using a distributed executor such as Spark or Hadoop. See [Batch Ingestion](../data-import/batch-ingestion/) for more details
+For offline tables, Segments are built outside of pinot and uploaded using a distributed executor such as Spark or Hadoop. For more details, see [Batch Ingestion](../data-import/batch-ingestion/).&#x20;
 
-For realtime tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments -
+For real-time tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments -
 
 ### Flush
 
-The pinot realtime consumer ingests the data, creates the segment, and then flushes the in-memory segment to disk. Pinot allows you to configure when to flush the segment in the following ways -
+The pinot real-time consumer ingests the data, creates the segment, and then flushes the in-memory segment to disk. Pinot allows you to configure when to flush the segment in the following ways -
 
-* **Number of consumed rows** After consuming X no. of rows from the stream, pinot will persist the segment to disk 
-* **Number of desired rows per segment** Pinot learns and then estimates the number of rows that need to be consumed so that the persisted segment is approximately the size. The learning phase starts by setting the number of rows to 100,000 \(can be changed as well\) and increasing to reach the desired segment size.  Segment size may go over the desired size significantly during the learning phase. Pinot corrects the estimation as it goes along, so it is not guaranteed that the resulting completed segments are of the exact size as configured.  You should set this value to optimize the performance of queries 
-* **Max time duration to wait** Pinot consumers wait for the configured time duration after which segments are persisted to the disk. 
+* **Number of consumed rows** After consuming X no. of rows from the stream, pinot will persist the segment to disk&#x20;
+* **Number of desired rows per segment** Pinot learns and then estimates the number of rows that need to be consumed so that the persisted segment is approximately the size. The learning phase starts by setting the number of rows to 100,000 (can be changed as well) and increasing to reach the desired segment size.  Segment size may go over the desired size significantly during the learning phase. Pinot corrects the estimation as it goes along, so it is not guaranteed that the resulting completed segments are of the exact size as configured.  You should set this value to optimize the performance of queries&#x20;
+* **Max time duration to wait** Pinot consumers wait for the configured time duration after which segments are persisted to the disk.&#x20;
 
-**Replicas**  
+**Replicas**\
 A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment using
 
-**Completion Mode**  
+**Completion Mode**\
 By default, if the in-memory segment in the [non-winner server](server.md) is equivalent to the committed segment, then the non-winner server builds and replaces the segment. If the available segment is not equivalent to the committed segment, the server simply downloads the committed segment from the controller.
 
 However, in certain scenarios, the segment build can get very memory intensive. It might become desirable to enforce the non-committer servers to just download the segment from the controller, instead of building it again. You can do this by setting `completionMode: "DOWNLOAD"` in the table configuration
 
-For more details on why this is needed, check out [Completion Config](../../operators/operating-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers)
+For more details on why this is needed, see [Completion Config](../../operators/operating-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers)
 
 **Download Scheme**
 
@@ -61,7 +61,7 @@ For more details about peer segment download during realtime ingestion, please r
 
 ## Indexing
 
-You can create multiple indices on a table to increase the performance of the queries. The following types of indices are supported out of the box -
+You can create multiple indices on a table to increase the performance of the queries. The following types of indices are supported:
 
 * [Forward Index](../indexing/forward-index.md)
   * Dictionary-encoded forward index with bit compression
@@ -75,13 +75,13 @@ You can create multiple indices on a table to increase the performance of the qu
 * [Text Index](../indexing/text-search-support.md)
 * [Geospatial](../indexing/geospatial-support.md)
 
-You can refer [Indexing](../indexing/) for more details on each indexing mechanism and corresponding configurations.
+For more details on each indexing mechanism and corresponding configurations, see [Indexing](../indexing/).&#x20;
 
 You can also setup [Bloomfilters](../../operators/operating-pinot/tuning/routing.md#bloom-filter-for-dictionary) on columns to make queries faster. Further, you can also keep segments in off-heap instead of on-heap memory for faster queries.
 
 ### Pre-aggregation
 
-You can aggregate the realtime stream data as it is consumed, where applicable, in order to reduce segment sizes. We sum the metric column values of all rows that have same dimensions and create a single row in the segment. This feature is only available on `REALTIME` tables.  
+You can aggregate the realtime stream data as it is consumed, where applicable, in order to reduce segment sizes. We sum the metric column values of all rows that have same dimensions and create a single row in the segment. This feature is only available on `REALTIME` tables.\
 Only supported aggregation right now is `SUM`. The columns on which pre-aggregation is to be done need to satisfy the following requirements -
 
 * All metrics should be listed in `noDictionaryColumns` .
@@ -102,9 +102,9 @@ The following table config snippet shows an example of enabling pre-aggregation 
 
 ## Tenants
 
-Each table is associated with a tenant. A segment resides on the server which has the same tenant as itself. You can refer [Tenant](tenant.md) for more details on how tenants work.
+Each table is associated with a tenant. A segment resides on the server, which has the same tenant as itself. For more details on how tenants work, see [Tenant](tenant.md).
 
-You can also override if a table should move to a server with different tenant based on segment status.  
+You can also override if a table should move to a server with different tenant based on segment status.\
 A `tagOverrideConfig` can be added under the `tenants` section for realtime tables, to override tags for consuming and completed segments. For example:
 
 ```javascript
@@ -117,16 +117,16 @@ A `tagOverrideConfig` can be added under the `tenants` section for realtime tabl
 }
 ```
 
-In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`. It is possible to specify the full name of _any_ tag in this section \(so, for example, you could decide that completed segments for this table should be in pinot servers tagged as `allTables_COMPLETED`\). Refer to [Moving Completed Segments](../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section for learning more about this config.
+In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`. It is possible to specify the full name of _any_ tag in this section (so, for example, you could decide that completed segments for this table should be in pinot servers tagged as `allTables_COMPLETED`). To learn more about this config, see the [Moving Completed Segments](../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
 
 ## Hybrid Table
 
-A hybrid table is simply a table composed of 2 tables, one offline and other realtime both sharing the same name. In such a table, offline segments may be pushed periodically. The retention on the offline table can be set to a high value since segments are coming in on a periodic basis, whereas the retention on the realtime part can be small.  
-Once an offline segment is pushed to cover a recent time period, the brokers automatically switch to using the offline table for segments for that time period and use realtime table only for data not available in offline table.
+A hybrid table is a table composed of 2 tables, one offline and one real-time that share the same name. In such a table, offline segments may be pushed periodically. The retention on the offline table can be set to a high value since segments are coming in on a periodic basis, whereas the retention on the realtime part can be small.\
+Once an offline segment is pushed to cover a recent time period, the brokers automatically switch to using the offline table for segments for that time period and use the real-time table only for data not available in offline table.
 
-**See this section to understand how time boundary works in the case of a hybrid table -** [**https://docs.pinot.apache.org/basics/components/broker**](https://docs.pinot.apache.org/basics/components/broker)
+**To understand how time boundary works in the case of a hybrid table see -** [**https://docs.pinot.apache.org/basics/components/broker**](https://docs.pinot.apache.org/basics/components/broker)
 
-A typical scenario can be pushing a deduped cleaned up data in offline table every day while consuming real-time data as and when it arrives. The data can be kept in offline tables for even a few years while the real-time data can be cleaned up in a few days.
+A typical scenario can be pushing a deduped cleaned up data in offline table every day while consuming real-time data as and when it arrives. The data can be kept in offline tables for even a few years while the real-time data can be cleaned every few days.
 
 ## Examples
 
@@ -134,7 +134,7 @@ Create a table config for your data, or see [`examples`](https://github.com/apac
 
 **Prerequisites**
 
-1. [Setup the cluster](cluster.md#setup-a-pinot-cluster)  
+1. [Setup the cluster](cluster.md#setup-a-pinot-cluster) &#x20;
 2. [Create broker and server tenants](tenant.md#creating-a-tenant)
 
 ## Offline Table Creation
@@ -191,7 +191,7 @@ Check out the table config in the [Rest API](http://localhost:9000/help#!/Table/
 {% tab title="Docker" %}
 **Start Kafka**
 
-```text
+```
 docker run \
     --network pinot-demo --name=kafka \
     -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
@@ -202,7 +202,7 @@ docker run \
 
 **Create a Kafka Topic**
 
-```text
+```
 docker exec \
   -t kafka \
   /opt/kafka/bin/kafka-topics.sh \
@@ -213,7 +213,7 @@ docker exec \
 
 **Create a Streaming table**
 
-```text
+```
 docker run \
     --network=pinot-demo \
     --name pinot-streaming-table-creation \
@@ -227,7 +227,7 @@ docker run \
 
 **Sample output**
 
-```text
+```
 Executing command: AddTable -tableConfigFile examples/docker/table-configs/airlineStats_realtime_table_config.json -schemaFile examples/stream/airlineStats/airlineStats_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
 Sending request: http://pinot-controller:9000/schemas to controller: 8fbe601012f3, version: Unknown
 {"status":"Table airlineStats_REALTIME succesfully added"}
@@ -237,19 +237,19 @@ Sending request: http://pinot-controller:9000/schemas to controller: 8fbe601012f
 {% tab title="Using launcher scripts" %}
 **Start Kafka-Zookeeper**
 
-```text
+```
 bin/pinot-admin.sh StartZookeeper -zkPort 2191
 ```
 
 **Start Kafka**
 
-```text
+```
 bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2191/kafka -port 19092
 ```
 
 **Create stream table**
 
-```text
+```
 bin/pinot-admin.sh AddTable \
     -schemaFile examples/stream/airlineStats/airlineStats_schema.json \
     -tableConfigFile examples/stream/airlineStats/airlineStats_realtime_table_config.json \
@@ -306,4 +306,3 @@ Check out the table config in the [Rest API](http://localhost:9000/help#!/Table/
 {% hint style="warning" %}
 Note that creating a hybrid table has to be done in 2 separate steps of creating an offline and realtime table individually.
 {% endhint %}
-

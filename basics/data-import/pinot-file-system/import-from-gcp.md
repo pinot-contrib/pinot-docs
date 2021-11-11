@@ -6,12 +6,12 @@ description: This guide shows you how to import data from GCP (Google Cloud Plat
 
 You can enable the [Google Cloud Storage](https://cloud.google.com/products/storage/) using the plugin `pinot-gcs`. In the controller or server, add the config -
 
-```text
+```
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-gcs
 ```
 
 {% hint style="info" %}
-By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
+By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro `, `pinot-kafka-2.0...`
 {% endhint %}
 
 GCP filesystems provides the following options -
@@ -23,7 +23,7 @@ Each of these properties should be prefixed by `pinot.[node].storage.factory.cla
 
 e.g.
 
-```text
+```
 pinot.controller.storage.factory.class.gs.projectId=test-project
 ```
 
@@ -59,7 +59,7 @@ pinotClusterSpecs:
 
 #### Controller config
 
-```text
+```
 controller.data.dir=gs://path/to/data/directory/
 controller.local.temp.dir=/path/to/local/temp/directory
 controller.enable.split.commit=true
@@ -72,7 +72,7 @@ pinot.controller.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.
 
 #### Server config
 
-```text
+```
 pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
 pinot.server.storage.factory.gs.projectId=my-project
@@ -81,5 +81,4 @@ pinot.server.segment.fetcher.protocols=file,http,gs
 pinot.server.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
-#### 
-
+####

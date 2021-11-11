@@ -10,7 +10,7 @@ Pinot offers support for various popular input formats during ingestion. By chan
 
 The input format can be changed using the `recordReaderSpec` config in the ingestion job spec.
 
-```text
+```
 recordReaderSpec:
   dataFormat: 'csv'
   className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
@@ -34,7 +34,7 @@ Pinot supports the multiple input formats out of the box. You just need to speci
 
 #### CSV
 
-```text
+```
 dataFormat: 'csv'
 className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
 configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
@@ -56,14 +56,14 @@ CSV Record Reader supports the following configs -
 `multiValueDelimiter` - The character seperating multiple values in a single column. This can be used to split a column into a list.
 
 {% hint style="info" %}
-Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config.   
-  
-`multiValueDelimiter: ''` 
+Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config. \
+\
+`multiValueDelimiter: '' `
 {% endhint %}
 
 #### AVRO
 
-```text
+```
 dataFormat: 'avro'
 className: 'org.apache.pinot.plugin.inputformat.avro.AvroRecordReader'
 ```
@@ -72,14 +72,14 @@ The Avro record reader converts the data in file to a `GenericRecord`. A java cl
 
 #### JSON
 
-```text
+```
 dataFormat: 'json'
 className: 'org.apache.pinot.plugin.inputformat.json.JSONRecordReader'
 ```
 
 #### Thrift
 
-```text
+```
 dataFormat: 'thrift'
 className: 'org.apache.pinot.plugin.inputformat.thrift.ThriftRecordReader'
 configs:
@@ -90,7 +90,7 @@ configs:
 
 #### Parquet
 
-```text
+```
 dataFormat: 'parquet'
 className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader'
 ```
@@ -101,64 +101,42 @@ The above class doesn't read the Parquet `INT96` and `Decimal`type.
 
 Please use the below class to handle  `INT96` and `Decimal`type.
 
-```text
+```
 dataFormat: 'parquet'
 className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReader'
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Parquet Data Type</th>
-      <th style="text-align:left">Java Data Type</th>
-      <th style="text-align:left">Comment</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">INT96</td>
-      <td style="text-align:left">INT64</td>
-      <td style="text-align:left">
-        <p>Parquet<code>INT96</code> type converts <b>nanoseconds</b>
-        </p>
-        <p>to Pinot <code>INT64</code> type of <b>milliseconds</b>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">DECIMAL</td>
-      <td style="text-align:left">DOUBLE</td>
-      <td style="text-align:left"></td>
-    </tr>
-  </tbody>
-</table>
+| Parquet Data Type | Java Data Type | Comment                                                                                                                                              |
+| ----------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| INT96             | INT64          | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p> to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |
+| DECIMAL           | DOUBLE         |                                                                                                                                                      |
 
 #### ORC
 
-```text
+```
 dataFormat: 'orc'
 className: 'org.apache.pinot.plugin.inputformat.orc.ORCRecordReader'
 ```
 
 ORC record reader supports the following data types -
 
-| ORC Data Type | Java Data Type |
-| :--- | :--- |
-| BOOLEAN | String |
-| SHORT | Integer |
-| INT | Integer |
-| LONG | Integer |
-| FLOAT | Float |
-| DOUBLE | Double |
-| STRING | String |
-| VARCHAR | String |
-| CHAR | String |
-| LIST | Object\[\] |
-| MAP | Map&lt;Object, Object&gt; |
-| DATE | Long |
-| TIMESTAMP | Long |
-| BINARY | byte\[\] |
-| BYTE | Integer |
+| ORC Data Type | Java Data Type       |
+| ------------- | -------------------- |
+| BOOLEAN       | String               |
+| SHORT         | Integer              |
+| INT           | Integer              |
+| LONG          | Integer              |
+| FLOAT         | Float                |
+| DOUBLE        | Double               |
+| STRING        | String               |
+| VARCHAR       | String               |
+| CHAR          | String               |
+| LIST          | Object\[]            |
+| MAP           | Map\<Object, Object> |
+| DATE          | Long                 |
+| TIMESTAMP     | Long                 |
+| BINARY        | byte\[]              |
+| BYTE          | Integer              |
 
 {% hint style="info" %}
 In LIST and MAP types, the object should only belong to one of the data types supported by Pinot.
@@ -166,16 +144,15 @@ In LIST and MAP types, the object should only belong to one of the data types su
 
 #### Protocol Buffers
 
-```text
+```
 dataFormat: 'proto'
 className: 'org.apache.pinot.plugin.inputformat.protobuf.ProtoBufRecordReader'
 configs:
 	descriptorFile: 'file:///path/to/sample.desc'
 ```
 
-The reader requires a descriptor file to deserialize the data present in the files. You can generate the descriptor file \(`.desc`\) from the `.proto` file using the command -
+The reader requires a descriptor file to deserialize the data present in the files. You can generate the descriptor file (`.desc`) from the `.proto` file using the command -
 
-```text
+```
 protoc --include_imports --descriptor_set_out=/absolute/path/to/output.desc /absolute/path/to/input.proto
 ```
-
