@@ -42,13 +42,13 @@ docker exec \
 
 Start Kafka cluster on port `9876` using the same Zookeeper from the [quick-start examples](../../getting-started/running-pinot-in-docker.md).
 
-```text
+```
 bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2123/kafka -port 9876
 ```
 
 **Create a Kafka topic**
 
-Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart_download). Create a topic.
+Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart\_download). Create a topic.
 
 ```css
 bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-factor 1 --partitions 1 --topic transcript-topic
@@ -70,7 +70,7 @@ The `lowLevel` consumer reads data per partition whereas the `highLevel` consume
 
 For Kafka versions below 2.X, use `org.apache.pinot.plugin.stream.kafka09.KafkaConsumerFactory`
 
-For Kafka version 2.X and above, use  
+For Kafka version 2.X and above, use\
 `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`
 
 You can set the offset to -
@@ -117,7 +117,7 @@ The resulting configuration should look as follows -
 #### Upgrade from Kafka 0.9 connector to Kafka 2.x connector
 
 * Update table config for both high level and low level consumer: Update config: `stream.kafka.consumer.factory.class.name` from `org.apache.pinot.core.realtime.impl.kafka.KafkaConsumerFactory` to `org.apache.pinot.core.realtime.impl.kafka2.KafkaConsumerFactory`.
-* If using Stream\(High\) level consumer: Please also add config `stream.kafka.hlc.bootstrap.server` into `tableIndexConfig.streamConfigs`. This config should be the URI of Kafka broker lists, e.g. `localhost:9092`.
+* If using Stream(High) level consumer: Please also add config `stream.kafka.hlc.bootstrap.server` into `tableIndexConfig.streamConfigs`. This config should be the URI of Kafka broker lists, e.g. `localhost:9092`.
 
 #### How to consume from higher Kafka version?
 
@@ -192,11 +192,11 @@ SELECT * FROM transcript
 
 ### Some More kafka ingestion configs
 
-#### Use Kafka Partition\(Low\) Level Consumer with SSL
+#### Use Kafka Partition(Low) Level Consumer with SSL
 
 Here is an example config which uses SSL based authentication to talk with kafka and schema-registry. Notice there are two sets of SSL options, ones starting with `ssl.` are for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.` are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
 
-```text
+```
   {
     "tableName": "transcript",
     "tableType": "REALTIME",
@@ -218,7 +218,7 @@ Here is an example config which uses SSL based authentication to talk with kafka
         "stream.kafka.zk.broker.url": "localhost:2191/kafka",
         "stream.kafka.broker.list": "localhost:9876",
         "schema.registry.url": "",
-        "security.protocol": "",
+        "security.protocol": "SSL",
         "ssl.truststore.location": "",
         "ssl.keystore.location": "",
         "ssl.truststore.password": "",
@@ -245,7 +245,7 @@ Here is an example config which uses SSL based authentication to talk with kafka
 
 With Kafka consumer 2.0, you can ingest transactionally committed messages only by configuring `kafka.isolation.level` to `read_committed`. For example,
 
-```text
+```
   {
     "tableName": "transcript",
     "tableType": "REALTIME",
@@ -276,4 +276,3 @@ With Kafka consumer 2.0, you can ingest transactionally committed messages only 
 ```
 
 Note that the default value of this config `read_uncommitted` to read all messages. Also, this config supports low-level consumer only.
-
