@@ -1,36 +1,32 @@
 # Segment
 
-Pinot has the concept of a [**table**](table.md), which is a logical abstraction to refer to a collection of related data. Pinot has a distributed architecture and scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, the entire data needs to be distributed across multiple nodes.&#x20;
+Pinot has the concept of [**table**](table.md), which is a logical abstraction to refer to a collection of related data. Pinot has a distributed architecture and scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, the entire data needs to  be distributed across multiple nodes. Pinot achieve this by breaking the data into smaller chunks known as **segment** \(this is similar to **shards/partitions** in relational databases\). Segments can also be seen as **time based partitions**.
 
-Pinot achieves this by breaking the data into smaller chunks known as **segments **(similar to **shards/partitions** in relational databases). Segments can be seen as **time-based partitions**.
+Thus, a **segment is a horizontal shard representing a chunk of table data** with some number of rows.  The segment stores data for all columns of the table. Each segment packs the data in a **columnar fashion**, along with the **dictionaries and indices** for the columns. The segment is laid out in a columnar format so that it can be directly mapped into memory for serving queries. 
 
-Thus, a **segment is a horizontal shard representing a chunk of table data **with some number of rows.  The segment stores data for all columns of the table. Each segment packs the data in a **columnar fashion**, along with the **dictionaries and indices** for the columns. The segment is laid out in a columnar format so that it can be directly mapped into memory for serving queries.&#x20;
+Columns may be **single or multi-valued.** Column types may be **STRING, INT, LONG, FLOAT, DOUBLE or BYTES**. Columns may be declared to be **metric or dimension \(or specifically as a time dimension\)** in the schema. Columns can have default null value. For example, the default null value of a integer column can be 0. Note: The default value of byte column has to be hex-encoded before adding to the schema.
 
-Columns can be **single or multi-valued **and the following types are supported: **STRING, INT, LONG, FLOAT, DOUBLE or BYTES**.&#x20;
+Pinot uses **dictionary encoding** to store values as a dictionary ID. Columns may be configured to be “no-dictionary” column in which case raw values are stored. Dictionary IDs are encoded using minimum number of bits for efficient storage \(_e.g._ a column with cardinality of 3 will use only 2 bits for each dictionary ID\).
 
-Columns may be declared to be **metric or dimension (or specifically as a time dimension)** in the schema. Columns can have default null values. For example, the default null value of a integer column can be 0. The default value for bytes columns must be hex-encoded before it's added to the schema.
-
-Pinot uses **dictionary encoding** to store values as a dictionary ID. Columns may be configured to be “no-dictionary” column in which case raw values are stored. Dictionary IDs are encoded using minimum number of bits for efficient storage (_e.g._ a column with a cardinality of 3 will use only 2 bits for each dictionary ID).
-
-A **forward index** is built for each column and compressed for efficient memory use. In addition, you can optionally configure **inverted indices** for any set of columns. Inverted indices take up more storage, but improve query performance. Specialized indexes like **Star-Tree index** are also supported. For more details, see [Indexing](../indexing/).
+There is a **forward index** built for each column and compressed appropriately for efficient memory use. In addition, optional i**nverted indices** can be configured for any set of columns. Inverted indices, while take up more storage, offer better query performance. Specialized indexes like **Star-Tree index** is also supported. Check out [Indexing](../indexing/) for more details.
 
 ## Creating a segment
 
-Once the table is configured, we can load some data. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster. Data can be loaded in batch mode or streaming mode. For more details, see the[ ingestion overview](../../developers/advanced/data-ingestion.md) page.&#x20;
+Once the table is configured, we can load some data. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster. Data can be loaded in batch mode or streaming mode. See[ ingestion overview](../../developers/advanced/data-ingestion.md) page for details. 
 
 ### Load Data in Batch
 
 #### **Prerequisites**
 
-1. [Setup a cluster](cluster.md#setup-a-pinot-cluster)&#x20;
+1. [Setup a cluster](cluster.md#setup-a-pinot-cluster) 
 2. [Create broker and server tenants](tenant.md#creating-a-tenant)
 3. [Create an offline table](table.md#offline-table-creation)
 
-Below are instructions to generate and push segments to Pinot via standalone scripts. For a production setup, you should use frameworks such as Hadoop or Spark. For more details on setting up data ingestion jobs, see [Import Data.](https://docs.pinot.apache.org/basics/data-import)
+Below are instructions to generate and push segments to Pinot via standalone scripts. For a production setup, you should use frameworks such as Hadoop or Spark. See this [page](https://docs.pinot.apache.org/basics/data-import) for more details on setting up Data Ingestion Jobs. 
 
 #### Job Spec YAML
 
-To generate a segment, we need to first create a job spec YAML file. This file contains all the information regarding data format, input data location, and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. For full configurations, see [Ingestion Job Spec](../../configuration-reference/job-specification.md).
+To generate a segment, we need to first create a job spec yaml file. JobSpec yaml file has all the information regarding data format, input data location, and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. Please refer to [Ingestion Job Spec](../../configuration-reference/job-specification.md) for full configurations.
 
 {% code title="job-spec.yml" %}
 ```yaml
@@ -80,7 +76,7 @@ To create and push the segment in one go, use
 
 {% tabs %}
 {% tab title="Docker" %}
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-data-ingestion-job \
@@ -90,7 +86,7 @@ docker run \
 
 **Sample Console Output**
 
-```
+```text
 SegmentGenerationJobSpec:
 !!org.apache.pinot.spi.ingestion.batch.spec.SegmentGenerationJobSpec
 excludeFileNamePattern: null
@@ -135,7 +131,7 @@ Response for pushing table airlineStats segment airlineStats_OFFLINE_16084_16084
 {% endtab %}
 
 {% tab title="Using launcher scripts" %}
-```
+```text
 bin/pinot-admin.sh LaunchDataIngestionJob \
     -jobSpecFile examples/batch/airlineStats/ingestionJobSpec.yaml
 ```
@@ -146,22 +142,24 @@ Alternately, you can separately create and then push, by changing the jobType to
 
 #### Templating Ingestion Job Spec
 
-The Ingestion job spec supports templating with Groovy Syntax.&#x20;
+Ingestion job spec supports templating with Groovy Syntax. 
 
-This is convenient if you want to generate one ingestion job template file and schedule it on a daily basis with extra parameters updated daily.
+This would be convenient for users to generate one ingestion job template file and schedule it in a daily basis with extra parameters updated daily.
 
-e.g. you could set `inputDirURI` with parameters to indicate the date, so that the ingestion job only processes the data for a particular date. Below is an example that templates the date for input and output directories.
+E.g. users can set `inputDirURI` with parameters to indicate date, so that ingestion job only process the data for a particular date.
+
+Below is an example to specify the date templating for input and output path.
 
 ```yaml
 inputDirURI: 'examples/batch/airlineStats/rawdata/${year}/${month}/${day}'
 outputDirURI: 'examples/batch/airlineStats/segments/${year}/${month}/${day}'
 ```
 
-You can pass in arguments containing values for `${year}, ${month}, ${day}` when kicking off the ingestion job: `-values $param=value1 $param2=value2`...
+Then specify the value of `${year}, ${month}, ${day}` when kicking off the ingestion job with arguments: `-values $param=value1 $param2=value2`...
 
 {% tabs %}
 {% tab title="Docker" %}
-```
+```text
 docker run \
     --network=pinot-demo \
     --name pinot-data-ingestion-job \
@@ -172,13 +170,13 @@ docker run \
 {% endtab %}
 {% endtabs %}
 
-This ingestion job only generates segments for date `2014-01-03`
+This ingestion job only generates segment for date `2014-01-03`
 
 ### Load Data in Streaming
 
 **Prerequisites**
 
-1. [Setup a cluster](cluster.md#setup-a-pinot-cluster)&#x20;
+1. [Setup a cluster](cluster.md#setup-a-pinot-cluster) 
 2. [Create broker and server tenants](tenant.md#creating-a-tenant)
 3. [Create a realtime table and setup a realtime stream](table.md#streaming-table-creation)
 
@@ -190,7 +188,7 @@ Below is an example of how to publish sample data to your stream. As soon as dat
 {% tab title="Docker" %}
 Run below command to stream JSON data into Kafka topic: **flights-realtime**
 
-```
+```text
 docker run \
   --network pinot-demo \
   --name=loading-airlineStats-data-to-kafka \
@@ -203,10 +201,11 @@ docker run \
 {% tab title="Using launcher scripts" %}
 Run below command to stream JSON data into Kafka topic: **flights-realtime**
 
-```
+```text
 bin/pinot-admin.sh StreamAvroIntoKafka \
   -avroFile examples/stream/airlineStats/sample_data/airlineStats_data.avro \
   -kafkaTopic flights-realtime -kafkaBrokerList localhost:19092 -zkAddress localhost:2191/kafka
 ```
 {% endtab %}
 {% endtabs %}
+

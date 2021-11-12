@@ -7,7 +7,7 @@ description: >-
 
 # Introduction
 
-Join us in our Slack channel for questions, troubleshooting, and feedback. You can request an invite from -  [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot).
+Join us in our Slack channel for questions, troubleshooting, and feedback. You can request an invite from -  [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot) .
 
 {% hint style="info" %}
 We'd love to hear from you!

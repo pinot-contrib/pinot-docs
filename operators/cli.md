@@ -202,27 +202,27 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 | propertyFile | Path to properties file. This file can contain properties related to ingestion job or template paramaters     |
 | values       | list of string containing the values to replace template parameters with                                      |
 
-### Merge Segments
+### Merge/Rollup Segments
 
-Merge multiple segment files into a single file. The content of the files is concatenated although the support for Rollup merge is in WIP.
+Perform operations similar to the [Minion Merge Rollup Task](operating-pinot/minion-merge-rollup-task.md), where multiple segments can be merged based on the provided spec.
 
 ```
-pinot-admin.sh MergeSegments -inputPaths /path/to/dir1 /path/to/dir2 -outputPath /path/to/output/dir -tarOutputSegment -tableConfigFilePaths /path/to/table.json -schemaFilePath /path/to/schema.json
+pinot-admin.sh SegmentProcessorFramework -segmentProcessorFrameworkSpec /path/to/framework_spec.json
 ```
 
-#### Supported Options
+#### Fields within the spec file
 
-All the options should be prefixed with `-` (hyphen)&#x20;
-
-| Option               | Description                                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------------------ |
-| inputPaths           | input segment files or directories that contains input segments to be merged"                          |
-| ouptutPath           | directory in which merged segment file should be put. This should be different from working directory. |
-| tableConfigFilePaths | path to table config for which segments are to be merged                                               |
-| schemaFilePath       | path to schema of the table for which segment should be merged                                         |
-| tarOutputSegment     | set it to output the compressed .tar.gz segment file                                                   |
-| mergeType            | can be one of `CONCATENATE` or `ROLLUP. `Currently on CONCATENATE is supported                         |
-| workingDirectory     | Path for working directory. This directory gets cleaned up after the job. Default is `/tmp` directory  |
+| Field              | Description                                                                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| inputSegmentsDir   | directory that contains all the input segment files or directories to be merged                                                             |
+| outputSegmentsDir  | directory in which merged segment file should be put                                                                                        |
+| tableConfigFile    | path to table config for which segments are to be merged                                                                                    |
+| schemaFile         | path to schema of the table for which segment should be merged                                                                              |
+| timeHandlerConfig  | configs related to time handling, including `type`, `startTimeMs`, `endTimeMs`, `roundBucketMs`, `partitionBucketMs`                        |
+| partitionerConfigs | list of partition related configs, including `partitionerType`, `numPartitions`, `columnName`, `transformFunction`, `columnPartitionConfig` |
+| mergeType          | `CONCAT`, `ROLLUP`, `DEDUP`                                                                                                                 |
+| aggregationTypes   | map from metric column to aggregation function type for the `ROLLUP` merge type                                                             |
+| segmentConfig      | configs related to the generated segments, including `maxNumRecordsPerSegment`, `segmentNamePrefix`                                         |
 
 ### Move Replica Group
 
