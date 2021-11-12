@@ -206,6 +206,10 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 Perform operations similar to the [Minion Merge Rollup Task](operating-pinot/minion-merge-rollup-task.md), where multiple segments can be merged based on the provided spec.
 
+{% hint style="warning" %}
+This command is mostly for debugging purpose. Use Minion Merge Rollup Task for production.
+{% endhint %}
+
 ```
 pinot-admin.sh SegmentProcessorFramework -segmentProcessorFrameworkSpec /path/to/framework_spec.json
 ```
