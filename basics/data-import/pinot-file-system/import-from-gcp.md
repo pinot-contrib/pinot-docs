@@ -81,4 +81,12 @@ pinot.server.segment.fetcher.protocols=file,http,gs
 pinot.server.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
-####
+#### Minion config
+
+```
+storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
+storage.factory.gs.projectId=my-project
+storage.factory.gs.gcpKey=path/to/gcp/key.json
+segment.fetcher.protocols=file,http,gs
+segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+```

@@ -4,9 +4,9 @@ description: This guide shows you how to import data from HDFS.
 
 # HDFS
 
-You can enable the [Hadoop DFS](https://hadoop.apache.org/) using the plugin `pinot-hdfs`. In the controller or server, add the config:
+You can enable the [Hadoop DFS](https://hadoop.apache.org) using the plugin `pinot-hdfs`. In the controller or server, add the config:
 
-```text
+```
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-hdfs
 ```
 
@@ -23,11 +23,11 @@ HDFS implementation provides the following options -
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.class.hdfs.` where `node` is either `controller` or `server` depending on the config
 
-The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Please check [Hadoop Kerberos guide ](https://docs.cloudera.com/documentation/enterprise/5-8-x/topics/cdh_sg_kerberos_prin_keytab_deploy.html#topic_3_4)on how to generate Kerberos security identification.
+The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Please check [Hadoop Kerberos guide ](https://docs.cloudera.com/documentation/enterprise/5-8-x/topics/cdh\_sg\_kerberos\_prin\_keytab\_deploy.html#topic\_3\_4)on how to generate Kerberos security identification.
 
 You will also need to provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
 
-```text
+```
 export HADOOP_HOME=/local/hadoop/
 export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
@@ -41,7 +41,7 @@ To push HDFS segment files to Pinot controller, you just need to ensure you have
 
 For example, the following curl requests to Controller will notify it to download segment files to the proper table:
 
-```text
+```
 curl -X POST -H "UPLOAD_TYPE:URI" -H "DOWNLOAD_URI:hdfs://nameservice1/hadoop/path/to/segment/file.
 ```
 
@@ -109,7 +109,7 @@ pinotClusterSpecs:
 
 ### Controller config
 
-```text
+```
 controller.data.dir=hdfs://path/to/data/directory/
 controller.local.temp.dir=/path/to/local/temp/directory
 controller.enable.split.commit=true
@@ -123,7 +123,7 @@ pinot.controller.segment.fetcher.hdfs.hadoop.kerberos.keytab=<your kerberos keyt
 
 ### Server config
 
-```text
+```
 pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.hdfs=org.apache.pinot.plugin.filesystem.HadoopPinotFS
 pinot.server.storage.factory.hdfs.hadoop.conf.path=path/to/conf/directory/
@@ -133,3 +133,13 @@ pinot.server.segment.fetcher.hdfs.hadoop.kerberos.principle=<your kerberos princ
 pinot.server.segment.fetcher.hdfs.hadoop.kerberos.keytab=<your kerberos keytab>
 ```
 
+### Minion config
+
+```
+storage.factory.class.hdfs=org.apache.pinot.plugin.filesystem.HadoopPinotFS
+storage.factory.hdfs.hadoop.conf.path=path/to/conf/directory
+segment.fetcher.protocols=file,http,hdfs
+segment.fetcher.hdfs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+segment.fetcher.hdfs.hadoop.kerberos.principle=<your kerberos principal>
+segment.fetcher.hdfs.hadoop.kerberos.keytab=<your kerberos keytab>
+```

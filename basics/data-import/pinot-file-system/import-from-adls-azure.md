@@ -88,5 +88,14 @@ pinot.server.segment.fetcher.protocols=file,http,adl
 pinot.server.segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
-####
+#### Minion config
+
+```
+storage.factory.class.adl=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
+storage.factory.adl.accountName=my-account
+storage.factory.adl.fileSystemName=fs-name
+storage.factory.adl.accessKey=foo-bar-1234
+segment.fetcher.protocols=file,http,adl
+segment.fetcher.adl.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+```
 
