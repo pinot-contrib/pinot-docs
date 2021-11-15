@@ -92,3 +92,12 @@ pinot.server.storage.factory.s3.region=ap-southeast-1
 pinot.server.segment.fetcher.protocols=file,http,s3
 pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
+
+### Minion config
+
+```
+storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
+storage.factory.s3.region=ap-southeast-1
+segment.fetcher.protocols=file,http,s3
+segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+```
