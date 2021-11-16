@@ -154,11 +154,12 @@ FROM myTable
 
 ### UDF
 
-As of now, functions have to be implemented within Pinot. Injecting functions is not allowed yet. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping)
+As of now, functions have to be implemented within Pinot. Injecting functions is not allowed yet. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations)
 
 ```sql
-SELECT COUNT(*) FROM myTable
-  GROUP BY DATETIME_CONVERT(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH', '1:HOURS')
+SELECT COUNT(*)
+FROM myTable
+GROUP BY DATETIMECONVERT(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH', '1:HOURS')
 ```
 
 ### BYTES column
@@ -168,7 +169,8 @@ Pinot supports queries on BYTES column using HEX string. The query response also
 E.g. the query below fetches all the rows for a given UID.
 
 ```sql
-SELECT * FROM myTable
-  WHERE UID = 'c8b3bce0b378fc5ce8067fc271a34892'
+SELECT * 
+FROM myTable
+WHERE UID = 'c8b3bce0b378fc5ce8067fc271a34892'
 ```
 
