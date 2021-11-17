@@ -6,7 +6,7 @@ Pinot Minion is a standby component which leverages the [Helix Task Framework](h
 
 Make sure you've [setup Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using docker, make sure to [pull the pinot docker image](cluster.md#setup-a-pinot-cluster). To start a minion
 
-```text
+```
 Usage: StartMinion
     -help                                                   : Print this message. (required=false)
     -minionHost               <String>                      : Host name for minion. (required=false)
@@ -18,7 +18,7 @@ Usage: StartMinion
 
 {% tabs %}
 {% tab title="Docker Image" %}
-```text
+```
 docker run \
     --network=pinot-demo \
     --name pinot-minion \
@@ -28,7 +28,7 @@ docker run \
 {% endtab %}
 
 {% tab title="Launcher Scripts" %}
-```text
+```
 bin/pinot-admin.sh StartMinion \
     -zkAddress localhost:2181
 ```
@@ -202,7 +202,7 @@ To be added
 
 ## Enable Tasks
 
-Tasks are enabled on a per-table basis. To enable a certain task type \(e.g. `myTask`\) on a table, update the table config to include the task type:
+Tasks are enabled on a per-table basis. To enable a certain task type (e.g. `myTask`) on a table, update the table config to include the task type:
 
 ```javascript
 {
@@ -226,25 +226,39 @@ Under each enable task type, custom properties can be configured for the task ty
 
 Tasks can be scheduled periodically for all task types on all enabled tables. Enable auto task scheduling by configuring the schedule frequency in the controller config with key `controller.task.frequencyInSeconds`.
 
+Tasks can also be scheduled based on cron expressions. The cron expression is set in `schedule` config for each task type separately. This option `controller.task.scheduler.enabled` should be set to true to enable cron scheduling. As shown below, the RealtimeToOfflineSegmentsTask will be scheduled at the first second of every minute (following syntax [defined here](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html)).&#x20;
+
+```
+  "task": {
+    "taskTypeConfigsMap": {
+      "RealtimeToOfflineSegmentsTask": {
+        "bucketTimePeriod": "1h",
+        "bufferTimePeriod": "1h",
+        "schedule": "0 * * * * ?"
+      }
+    }
+  },
+```
+
 ### Manual Schedule
 
 Tasks can be manually scheduled using the following controller rest APIs:
 
-| Rest API | Description |
-| :--- | :--- |
-| **POST /tasks/schedule** | Schedule tasks for all task types on all enabled tables |
-| **POST /tasks/schedule?taskType=myTask** | Schedule tasks for the given task type on all enabled tables |
-| **POST /tasks/schedule?tableName=myTable\_OFFLINE** | Schedule tasks for all task types on the given table |
-| **POST /tasks/schedule?taskType=myTask&tableName=myTable\_OFFLINE** | Schedule tasks for the given task type on the given table |
+| Rest API                                                             | Description                                                  |
+| -------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **POST /tasks/schedule**                                             | Schedule tasks for all task types on all enabled tables      |
+| **POST /tasks/schedule?taskType=myTask**                             | Schedule tasks for the given task type on all enabled tables |
+| **POST /tasks/schedule?tableName=myTable\_OFFLINE**                  | Schedule tasks for all task types on the given table         |
+| **POST /tasks/schedule?taskType=myTask\&tableName=myTable\_OFFLINE** | Schedule tasks for the given task type on the given table    |
 
 ## Plug-in Custom Tasks
 
-To plug-in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` \(optional\) for the task type \(all of them should return the same string for `getTaskType()`\), and annotate them with the following annotations:
+To plug-in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` (optional) for the task type (all of them should return the same string for `getTaskType()`), and annotate them with the following annotations:
 
-| Implementation | Annotation |
-| :--- | :--- |
-| PinotTaskGenerator | @TaskGenerator |
-| PinotTaskExecutorFactory | @TaskExecutorFactory |
+| Implementation             | Annotation            |
+| -------------------------- | --------------------- |
+| PinotTaskGenerator         | @TaskGenerator        |
+| PinotTaskExecutorFactory   | @TaskExecutorFactory  |
 | MinionEventObserverFactory | @EventObserverFactory |
 
 After annotating the classes, put them under the package of name `org.apache.pinot.*.plugin.minion.tasks.*`, then they will be auto-registered by the controller and minion.
@@ -259,14 +273,13 @@ There is a controller job runs every 5 minutes by default and emits metrics abou
 
 * _**NumMinionTasksInProgress**_: Number of running tasks
 * _**NumMinionSubtasksRunning**_: Number of running sub-tasks
-* _**NumMinionSubtasksWaiting**_: Number of waiting sub-tasks \(unassigned to a minion as yet\)
-* _**NumMinionSubtasksError**_: Number of error sub-tasks \(completed with an error/exception\)
+* _**NumMinionSubtasksWaiting**_: Number of waiting sub-tasks (unassigned to a minion as yet)
+* _**NumMinionSubtasksError**_: Number of error sub-tasks (completed with an error/exception)
 * _**PercentMinionSubtasksInQueue**_: Percent of sub-tasks in waiting or running states
 * _**PercentMinionSubtasksInError**_: Percent of sub-tasks in error
 
 For each task, the minion will emit metrics:
 
-* _**TASK\_QUEUEING**_: Task queueing time \(task\_dequeue\_time - task\_inqueue\_time\), assuming the time drift between helix controller and pinot minion is minor, otherwise the value may be negative
+* _**TASK\_QUEUEING**_: Task queueing time (task\_dequeue\_time - task\_inqueue\_time), assuming the time drift between helix controller and pinot minion is minor, otherwise the value may be negative
 * _**TASK\_EXECUTION**_: Task execution time, which is the time spent on executing the task
-* _**NUMBER\_OF\_TASKS**_: number of tasks in progress on that minion. Whenever minion start a task, increase the Gauge by 1, whenever minion completed \(either succeeded or failed\) a task, decrease it by 1
-
+* _**NUMBER\_OF\_TASKS**_: number of tasks in progress on that minion. Whenever minion start a task, increase the Gauge by 1, whenever minion completed (either succeeded or failed) a task, decrease it by 1
