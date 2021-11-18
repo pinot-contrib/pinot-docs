@@ -2,307 +2,46 @@
 
 Pinot provides support for aggregations using GROUP BY. You can use the following functions to get the aggregated value.
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Function</th>
-      <th style="text-align:left">Description</th>
-      <th style="text-align:left">Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left"><b>COUNT</b>
-      </td>
-      <td style="text-align:left">Get the count of rows in a group</td>
-      <td style="text-align:left"><code>COUNT(*)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>MIN</b>
-      </td>
-      <td style="text-align:left">Get the minimum value in a group</td>
-      <td style="text-align:left"><code>MIN(playerScore)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>MAX</b>
-      </td>
-      <td style="text-align:left">Get the maximum value in a group</td>
-      <td style="text-align:left"><code>MAX(playerScore)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>SUM</b>
-      </td>
-      <td style="text-align:left">Get the sum of values in a group</td>
-      <td style="text-align:left"><code>SUM(playerScore)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>AVG</b>
-      </td>
-      <td style="text-align:left">Get the average of the values in a group</td>
-      <td style="text-align:left"><code>AVG(playerScore)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>MODE</b>
-      </td>
-      <td style="text-align:left">Get the most frequent value in a group. When multiple modes are present
-        it gives the minimum of all the modes. This behaviour can be overridden
-        to get the maximum or the average mode.</td>
-      <td style="text-align:left">
-        <p><code>MODE(playerScore)</code>
-        </p>
-        <p><code>MODE(playerScore, &apos;MIN&apos;)</code>
-        </p>
-        <p><code>MODE(playerScore, &apos;MAX&apos;)</code>
-        </p>
-        <p><code>MODE(playerScore, &apos;AVG&apos;)</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>MINMAXRANGE</b>
-      </td>
-      <td style="text-align:left">Returns the <code>max - min</code> value in a group</td>
-      <td style="text-align:left"><code>MINMAXRANGE(playerScore)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>PERCENTILE(column, N)</b>
-      </td>
-      <td style="text-align:left">Returns the Nth percentile of the group where N is a decimal number between
-        0 and 100 inclusive</td>
-      <td style="text-align:left"><code>PERCENTILE(playerScore, 50), PERCENTILE(playerScore, 99.9)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>PERCENTILEEST(column, N)</b>
-      </td>
-      <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java">Quantile Digest</a> algorithm</td>
-      <td
-      style="text-align:left"><code>PERCENTILEEST(playerScore, 50), PERCENTILEEST(playerScore, 99.9)</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>PercentileTDigest(column, N)</b>
-      </td>
-      <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf">T-digest algorithm</a>
-      </td>
-      <td style="text-align:left"><code>PERCENTILETDIGEST(playerScore, 50), PERCENTILETDIGEST(playerScore, 99.9)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCT</b>
-      </td>
-      <td style="text-align:left">Returns the distinct row values in a group</td>
-      <td style="text-align:left"><code>DISTINCT(playerName)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCTCOUNT</b>
-      </td>
-      <td style="text-align:left">Returns the count of distinct row values in a group</td>
-      <td style="text-align:left"><code>DISTINCTCOUNT(playerName)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCTCOUNTBITMAP</b>
-      </td>
-      <td style="text-align:left">Returns the count of distinct row values in a group. This function is
-        accurate for INT or dictionary encoded column, but approximate for other
-        cases where hash codes are used in distinct counting and there may be hash
-        collision.</td>
-      <td style="text-align:left"><code>DISTINCTCOUNTBITMAP(playerName)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCTCOUNTHLL</b>
-      </td>
-      <td style="text-align:left">Returns an approximate distinct count using HyperLogLog in a group</td>
-      <td
-      style="text-align:left"><code>DISTINCTCOUNTHLL(playerName)</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCTCOUNTRAWHLL</b>
-      </td>
-      <td style="text-align:left">Returns HLL response serialized as string. The serialized HLL can be converted
-        back into an HLL and then aggregated with other HLLs. A common use case
-        may be to merge HLL responses from different Pinot tables, or to allow
-        aggregation after client-side batching.</td>
-      <td style="text-align:left">
-        <p><code>DISTINCTCOUNTRAWHLL(playerName)</code>
-        </p>
-        <p>&lt;code&gt;&lt;/code&gt;</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>FASTHLL (Deprecated)</b>
-      </td>
-      <td style="text-align:left"><b>WARN</b>: will be deprecated soon. FASTHLL stores serialized HyperLogLog
-        in String format, which performs worse than DISTINCTCOUNTHLL, which supports
-        serialized HyperLogLog in BYTES (byte array) format</td>
-      <td style="text-align:left"><code>FASTHLL(playerName)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DistinctCountThetaSketch</b>
-      </td>
-      <td style="text-align:left">See <a href="how-to-handle-unique-counting.md">Cardinality Estimation</a>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DistinctCountRawThetaSketch</b>
-      </td>
-      <td style="text-align:left">See <a href="how-to-handle-unique-counting.md">Cardinality Estimation</a>
-      </td>
-      <td style="text-align:left"></td>
-    </tr>
-  </tbody>
-</table>
+| Function                            | Description                                                                                                                                                                                                                                                                                                                       | Example                                                                                                                                                                   |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **COUNT**                           | Get the count of rows in a group                                                                                                                                                                                                                                                                                                  | `COUNT(*)`                                                                                                                                                                |
+| **MIN**                             | Get the minimum value in a group                                                                                                                                                                                                                                                                                                  | `MIN(playerScore)`                                                                                                                                                        |
+| **MAX**                             | Get the maximum value in a group                                                                                                                                                                                                                                                                                                  | `MAX(playerScore)`                                                                                                                                                        |
+| **SUM**                             | Get the sum of values in a group                                                                                                                                                                                                                                                                                                  | `SUM(playerScore)`                                                                                                                                                        |
+| **AVG**                             | Get the average of the values in a group                                                                                                                                                                                                                                                                                          | `AVG(playerScore)`                                                                                                                                                        |
+| **MODE**                            | Get the most frequent value in a group. When multiple modes are present it gives the minimum of all the modes. This behavior can be overridden to get the maximum or the average mode.                                                                                                                                            | <p><code>MODE(playerScore)</code></p><p><code>MODE(playerScore, 'MIN')</code></p><p><code>MODE(playerScore, 'MAX')</code></p><p><code>MODE(playerScore, 'AVG')</code></p> |
+| **MINMAXRANGE**                     | Returns the `max - min` value in a group                                                                                                                                                                                                                                                                                          | `MINMAXRANGE(playerScore)`                                                                                                                                                |
+| **PERCENTILE(column, N)**           | Returns the Nth percentile of the group where N is a decimal number between 0 and 100 inclusive                                                                                                                                                                                                                                   | `PERCENTILE(playerScore, 50), PERCENTILE(playerScore, 99.9)`                                                                                                              |
+| **PERCENTILEEST(column, N)**        | Returns the Nth percentile of the group using [Quantile Digest](https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java) algorithm                                                                                                                                                | `PERCENTILEEST(playerScore, 50), PERCENTILEEST(playerScore, 99.9)`                                                                                                        |
+| **PERCENTILETDigest(column, N)**    | Returns the Nth percentile of the group using [T-digest algorithm](https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf)                                                                                                                                                                      | `PERCENTILETDIGEST(playerScore, 50), PERCENTILETDIGEST(playerScore, 99.9)`                                                                                                |
+| **DISTINCT**                        | Returns the distinct row values in a group                                                                                                                                                                                                                                                                                        | `DISTINCT(playerName)`                                                                                                                                                    |
+| **DISTINCTCOUNT**                   | Returns the count of distinct row values in a group                                                                                                                                                                                                                                                                               | `DISTINCTCOUNT(playerName)`                                                                                                                                               |
+| **DISTINCTCOUNTBITMAP**             | Returns the count of distinct row values in a group. This function is accurate for _INT_ column, but approximate for other cases where hash codes are used in distinct counting and there may be hash collisions.                                                                                                                 | `DISTINCTCOUNTBITMAP(playerName)`                                                                                                                                         |
+| **DISTINCTCOUNTHLL**                | Returns an approximate distinct count using _HyperLogLog_. It also takes an optional second argument to configure the _log2m_ for the _HyperLogLog_.                                                                                                                                                                              | `DISTINCTCOUNTHLL(playerName, 12)`                                                                                                                                        |
+| **DISTINCTCOUNTRAWHLL**             | Returns HLL response serialized as string. The serialized HLL can be converted back into an HLL and then aggregated with other HLLs. A common use case may be to merge HLL responses from different Pinot tables, or to allow aggregation after client-side batching.                                                             | `DISTINCTCOUNTRAWHLL(playerName)`                                                                                                                                         |
+| **FASTHLL (Deprecated)**            | **WARN**: will be deprecated soon. FASTHLL stores serialized HyperLogLog in String format, which performs worse than DISTINCTCOUNTHLL, which supports serialized HyperLogLog in BYTES (byte array) format                                                                                                                         | `FASTHLL(playerName)`                                                                                                                                                     |
+| **DISTINCTCOUNTTHETASKETCH**        | See [Cardinality Estimation](how-to-handle-unique-counting.md)                                                                                                                                                                                                                                                                    |                                                                                                                                                                           |
+| **DISTINCTCOUNTRAWTHETASKETCH**     | See [Cardinality Estimation](how-to-handle-unique-counting.md)                                                                                                                                                                                                                                                                    |                                                                                                                                                                           |
+| **SEGMENTPARTITIONEDDISTINCTCOUNT** | Returns the count of distinct  values of a column when the column is pre-partitioned for each segment, where there is no common value within different segments. This function calculates the exact count of distinct values within the segment, then simply sums up the results from different segments to get the final result. | `SEGMENTPARTITIONEDDISTINCTCOUNT(playerName)`                                                                                                                             |
 
 ## Multi-value column functions
 
 The following aggregation functions can be used for multi-value columns
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left"><b>Function</b>
-      </th>
-      <th style="text-align:left">Description</th>
-      <th style="text-align:left">Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left"><b>COUNTMV</b>
-      </td>
-      <td style="text-align:left">Get the count of rows in a group</td>
-      <td style="text-align:left"><code>COUNTMV(playerName)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>MINMV</b>
-      </td>
-      <td style="text-align:left">Get the minimum value in a group</td>
-      <td style="text-align:left"><code>MINMV(playerScores)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>MAXMV</b>
-      </td>
-      <td style="text-align:left">Get the maximum value in a group</td>
-      <td style="text-align:left"><code>MAXMV(playerScores)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>SUMMV</b>
-      </td>
-      <td style="text-align:left">Get the sum of values in a group</td>
-      <td style="text-align:left"><code>SUMMV(playerScores)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>AVGMV</b>
-      </td>
-      <td style="text-align:left">Get the avg of values in a group</td>
-      <td style="text-align:left"><code>AVGMV(playerScores)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>MINMAXRANGEMV</b>
-      </td>
-      <td style="text-align:left">Returns the <code>max - min</code> value in a group</td>
-      <td style="text-align:left"><code>MINMAXRANGEMV(playerScores)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>PERCENTILEMV(column, N)</b>
-      </td>
-      <td style="text-align:left">Returns the Nth percentile of the group where N is a decimal number between
-        0 and 100 inclusive</td>
-      <td style="text-align:left">
-        <p><code>PERCENTILEMV(playerScores, 50),</code>
-        </p>
-        <p><code>PERCENTILEMV(playerScores, 99.9)</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>PERCENTILEESTMV(column, N)</b>
-      </td>
-      <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java">Quantile Digest</a> algorithm</td>
-      <td
-      style="text-align:left">
-        <p><code>PERCENTILEESTMV(playerScores, 50),</code>
-        </p>
-        <p><code>PERCENTILEESTMV(playerScores, 99.9)</code>
-        </p>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>PercentileTDigestMV(column, N)</b>
-      </td>
-      <td style="text-align:left">Returns the Nth percentile of the group using <a href="https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf">T-digest algorithm</a>
-      </td>
-      <td style="text-align:left">
-        <p><code>PERCENTILETDIGESTMV(playerScores, 50),</code>
-        </p>
-        <p><code>PERCENTILETDIGESTMV(playerScores, 99.9),</code>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCTCOUNTMV</b>
-      </td>
-      <td style="text-align:left">Returns the count of distinct row values in a group</td>
-      <td style="text-align:left"><code>DISTINCTCOUNTMV(playerNames)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCTCOUNTBITMAPMV</b>
-      </td>
-      <td style="text-align:left">Returns the count of distinct row values in a group. This function is
-        accurate for INT or dictionary encoded column, but approximate for other
-        cases where hash codes are used in distinct counting and there may be hash
-        collision.</td>
-      <td style="text-align:left"><code>DISTINCTCOUNTBITMAPMV(playerNames)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCTCOUNTHLLMV</b>
-      </td>
-      <td style="text-align:left">Returns an approximate distinct count using HyperLogLog in a group</td>
-      <td
-      style="text-align:left"><code>DISTINCTCOUNTHLLMV(playerNames)</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>DISTINCTCOUNTRAWHLLMV</b>
-      </td>
-      <td style="text-align:left">Returns HLL response serialized as string. The serialized HLL can be converted
-        back into an HLL and then aggregated with other HLLs. A common use case
-        may be to merge HLL responses from different Pinot tables, or to allow
-        aggregation after client-side batching.</td>
-      <td style="text-align:left"><code>DISTINCTCOUNTRAWHLLMV(playerNames)</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>FASTHLLMV (Deprecated)</b>
-      </td>
-      <td style="text-align:left">stores serialized HyperLogLog in String format, which performs worse than
-        DISTINCTCOUNTHLL, which supports serialized HyperLogLog in BYTES (byte
-        array) format</td>
-      <td style="text-align:left"><code>FASTHLLMV(playerNames)</code>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-
+| **Function**                       | Description                                                                                                                                                                                                                                                           | Example                                                                                                                |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **COUNTMV**                        | Get the count of rows in a group                                                                                                                                                                                                                                      | `COUNTMV(playerName)`                                                                                                  |
+| **MINMV**                          | Get the minimum value in a group                                                                                                                                                                                                                                      | `MINMV(playerScores)`                                                                                                  |
+| **MAXMV**                          | Get the maximum value in a group                                                                                                                                                                                                                                      | `MAXMV(playerScores)`                                                                                                  |
+| **SUMMV**                          | Get the sum of values in a group                                                                                                                                                                                                                                      | `SUMMV(playerScores)`                                                                                                  |
+| **AVGMV**                          | Get the avg of values in a group                                                                                                                                                                                                                                      | `AVGMV(playerScores)`                                                                                                  |
+| **MINMAXRANGEMV**                  | Returns the `max - min` value in a group                                                                                                                                                                                                                              | `MINMAXRANGEMV(playerScores)`                                                                                          |
+| **PERCENTILEMV(column, N)**        | Returns the Nth percentile of the group where N is a decimal number between 0 and 100 inclusive                                                                                                                                                                       | <p><code>PERCENTILEMV(playerScores, 50),</code></p><p><code>PERCENTILEMV(playerScores, 99.9)</code></p>                |
+| **PERCENTILEESTMV(column, N)**     | Returns the Nth percentile of the group using [Quantile Digest](https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java) algorithm                                                                                    | <p><code>PERCENTILEESTMV(playerScores, 50),</code></p><p><code>PERCENTILEESTMV(playerScores, 99.9)</code></p>          |
+| **PERCENTILETDIGESTMV(column, N)** | Returns the Nth percentile of the group using [T-digest algorithm](https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf)                                                                                                          | <p><code>PERCENTILETDIGESTMV(playerScores, 50),</code></p><p><code>PERCENTILETDIGESTMV(playerScores, 99.9),</code></p> |
+| **DISTINCTCOUNTMV**                | Returns the count of distinct row values in a group                                                                                                                                                                                                                   | `DISTINCTCOUNTMV(playerNames)`                                                                                         |
+| **DISTINCTCOUNTBITMAPMV**          | Returns the count of distinct row values in a group. This function is accurate for INT or dictionary encoded column, but approximate for other cases where hash codes are used in distinct counting and there may be hash collision.                                  | `DISTINCTCOUNTBITMAPMV(playerNames)`                                                                                   |
+| **DISTINCTCOUNTHLLMV**             | Returns an approximate distinct count using HyperLogLog in a group                                                                                                                                                                                                    | `DISTINCTCOUNTHLLMV(playerNames)`                                                                                      |
+| **DISTINCTCOUNTRAWHLLMV**          | Returns HLL response serialized as string. The serialized HLL can be converted back into an HLL and then aggregated with other HLLs. A common use case may be to merge HLL responses from different Pinot tables, or to allow aggregation after client-side batching. | `DISTINCTCOUNTRAWHLLMV(playerNames)`                                                                                   |
+| **FASTHLLMV (Deprecated)**         | stores serialized HyperLogLog in String format, which performs worse than DISTINCTCOUNTHLL, which supports serialized HyperLogLog in BYTES (byte array) format                                                                                                        | `FASTHLLMV(playerNames)`                                                                                               |
 
