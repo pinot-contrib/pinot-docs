@@ -169,12 +169,6 @@ For example, imagine that our source data contains the `prices` and `timestamp` 
 ```
 {% endcode %}
 
-{% hint style="warning" %}
-**Note**
-
-Currently, the arguments must be from the source data. Other columns from Pinot schema can be used, as long as those columns have NOT been created through transformations themselves. In other words, chaining of transformations is not supported (x = f(y) and z = f(x) not supported)
-{% endhint %}
-
 Below are some examples of commonly used functions.&#x20;
 
 #### String concatenation
@@ -262,6 +256,35 @@ Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintai
       "columnName": "map2_values",
       "transformFunction": "Groovy({map2.sort()*.value}, map2)" 
     }
+}
+```
+
+#### Chaining transformations
+
+Transformations can be chained. This means that you can use a field created by a transformation in another transformation function.
+
+For example, we might have the following JSON document in the `data` field of our source data:
+
+```
+{
+  "userId": "12345678__foo__othertext"
+}
+```
+
+We can apply one transformation to extract the `userId` and then another one to pull out the numerical part of the identifier:
+
+```
+"ingestionConfig": {
+    "transformConfigs": [
+      {
+        "columnName": "userOid",
+        "transformFunction": "jsonPathString(data, '$.userId')"
+      },
+      {
+        "columnName": "userId",
+        "transformFunction": "Groovy({Long.valueOf(userOid.substring(0, 8))}, userOid)"
+      }
+   ]
 }
 ```
 
