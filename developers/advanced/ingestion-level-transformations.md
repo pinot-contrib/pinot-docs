@@ -97,13 +97,13 @@ Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/j
 
 Records can be filtered as they are being ingested. A filter function can be specified in the filterConfigs in the ingestionConfigs of the table config.
 
-```
-tableConfig: {
-    tableName: ...,
-    tableType: ...,
+```javascript
+"tableConfig": {
+    "tableName": ...,
+    "tableType": ...,
     "ingestionConfig": {
         "filterConfig": {
-            "filterFunction": “<expression>”
+            "filterFunction": "<expression>"
         }
     }
 }
@@ -113,7 +113,7 @@ If the expression evaluates to true, the record will be filtered out. The expres
 
 Consider a table that has a column `timestamp`. If you want to filter out records that are older than timestamp 1589007600000, you could apply the following function:
 
-```
+```javascript
 "ingestionConfig": {
     "filterConfig": {
         "filterFunction": “Groovy({timestamp < 1589007600000}, timestamp)”
@@ -123,7 +123,7 @@ Consider a table that has a column `timestamp`. If you want to filter out record
 
 Consider a table that has a string column `campaign` and a multi-value column double column `prices`. If you want to filter out records where campaign = 'X' or 'Y' and sum of all elements in prices is less than 100, you could apply the following function:
 
-```
+```javascript
 "ingestionConfig": {
     "filterConfig": {
         "filterFunction": "Groovy({(campaign == \"X\" || campaign == \"Y\") && prices.sum() < 100}, prices, campaign)"
@@ -135,10 +135,10 @@ Consider a table that has a string column `campaign` and a multi-value column do
 
 Transform functions can be defined on columns in the ingestion config of the table config.&#x20;
 
-```
-tableConfig: {
-    tableName: ...,
-    tableType: ...,
+```javascript
+{ "tableConfig": {
+    "tableName": ...,
+    "tableType": ...,
     "ingestionConfig": {
         "transformConfigs": [{
           "columnName": "fieldName",
@@ -265,7 +265,7 @@ Transformations can be chained. This means that you can use a field created by a
 
 For example, we might have the following JSON document in the `data` field of our source data:
 
-```
+```json
 {
   "userId": "12345678__foo__othertext"
 }
@@ -273,7 +273,7 @@ For example, we might have the following JSON document in the `data` field of ou
 
 We can apply one transformation to extract the `userId` and then another one to pull out the numerical part of the identifier:
 
-```
+```javascript
 "ingestionConfig": {
     "transformConfigs": [
       {
