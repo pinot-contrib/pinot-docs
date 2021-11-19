@@ -212,7 +212,7 @@ Convert `timestamp` from `MILLISECONDS` to `HOURS`
 
 #### Column name change
 
-Simply change name of the column from `user_id` to `userId`
+Change name of the column from `user_id` to `userId`
 
 ```javascript
 "ingestionConfig": {
@@ -222,6 +222,19 @@ Simply change name of the column from `user_id` to `userId`
     }]
 }
 ```
+
+Change name of the column from `first Name` to `firstName`
+
+```javascript
+"ingestionConfig": {
+    "transformConfigs": [{
+      "columnName": "firstName",
+      "transformFunction": "\"first Name \"" 
+    }]
+}
+```
+
+
 
 #### Ternary operation
 
