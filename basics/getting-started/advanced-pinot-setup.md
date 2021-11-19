@@ -4,7 +4,7 @@ description: This quick start guide will show you how to set up a Pinot cluster 
 
 # Manual cluster setup
 
-## Start Pinot components (scripts or docker images)
+## Start Pinot components (scripts or Docker images)
 
 A manual cluster setup consists of the following components -\
 1\. Zookeeper\
@@ -16,7 +16,7 @@ A manual cluster setup consists of the following components -\
 We will run each of these components in separate containers
 
 {% tabs %}
-{% tab title="Using docker images" %}
+{% tab title="Docker" %}
 ## Start Pinot Components using docker
 
 ### **Prerequisites**
@@ -32,7 +32,7 @@ If running locally, please ensure your docker cluster has enough resources, belo
 You can try out the pre-built Pinot all-in-one docker image.
 
 ```
-export PINOT_VERSION=0.8.0
+export PINOT_VERSION=0.9.0
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
@@ -49,7 +49,7 @@ docker network create -d bridge pinot-demo
 
 ### 1. Start Zookeeper
 
-Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper is the central metadata store for Pinot and should be set up with replication for production use. See [Running Replicated Zookeeper](https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html#sc\_RunningReplicatedZooKeeper) for more information.
+Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper is the central metadata store for Pinot and should be set up with replication for production use. For more information, see [Running Replicated Zookeeper](https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html#sc\_RunningReplicatedZooKeeper).&#x20;
 
 ```
 docker run \
@@ -65,7 +65,7 @@ docker run \
 Start Pinot Controller in daemon and connect to Zookeeper.
 
 {% hint style="info" %}
-Below command expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
+The command below expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
 {% endhint %}
 
 ```
@@ -83,7 +83,7 @@ docker run --rm -ti \
 Start Pinot Broker in daemon and connect to Zookeeper.
 
 {% hint style="info" %}
-Below command expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
+The command below expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
 {% endhint %}
 
 ```
@@ -101,7 +101,7 @@ docker run --rm -ti \
 Start Pinot Server in daemon and connect to Zookeeper.
 
 {% hint style="info" %}
-Below command expects a 16GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
+The command below expects a 16GB memory container. Please tune`-Xms` and`-Xmx` if your machine doesn't have enough resources.
 {% endhint %}
 
 ```
@@ -144,6 +144,67 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 b6d0f2bd26a3        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   45 minutes ago      Up 45 minutes       8096-8099/tcp, 0.0.0.0:9000->9000/tcp                  pinot-quickstart
 570416fc530e        zookeeper:3.5.6             "/docker-entrypoint.…"   45 minutes ago      Up 45 minutes       2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
+{% endtab %}
+
+{% tab title="Docker Compose" %}
+## Start Pinot Components using Docker Compose
+
+### **Prerequisites**
+
+{% hint style="info" %}
+If running locally, please ensure your docker cluster has enough resources, below is a sample config.
+{% endhint %}
+
+![Sample docker resources](<../../.gitbook/assets/image (4) (1).png>)
+
+Create a file called _docker-compose.yml_ that contains the following:
+
+{% code title="docker-compose.yml" %}
+```yaml
+version: '3.7'
+services:
+  zookeeper:
+    image: zookeeper:3.5.6
+    hostname: zookeeper
+    container_name: manual-zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+  pinot-controller:
+    image: apachepinot/pinot:0.9.0
+    command: "StartController -zkAddress manual-zookeeper:2181"
+    container_name: "manual-pinot-controller"
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
+    depends_on:
+      - zookeeper
+  pinot-broker:
+    image: apachepinot/pinot:0.9.0
+    command: "StartBroker -zkAddress manual-zookeeper:2181"
+    restart: unless-stopped
+    container_name: "manual-pinot-broker"
+    ports:
+      - "8099:8099"
+    environment:
+      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
+    depends_on:
+      - pinot-controller
+  pinot-server:
+    image: apachepinot/pinot:0.9.0
+    command: "StartServer -zkAddress manual-zookeeper:2181"
+    restart: unless-stopped
+    container_name: "manual-pinot-server" 
+    environment:
+      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
+    depends_on:
+      - pinot-broker
+```
+{% endcode %}
 {% endtab %}
 
 {% tab title="Using launcher scripts" %}
@@ -207,5 +268,23 @@ bin/pinot-admin.sh  StartKafka \
 Now all Pinot related components are started as an empty cluster.
 {% endtab %}
 {% endtabs %}
+
+Run `docker-compose up` to launch all the components.&#x20;
+
+You can run the below command to check container status.
+
+```
+docker container ls 
+```
+
+**Sample Console Output**
+
+```
+CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                                     NAMES
+ba5cb0868350   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   manual-pinot-server
+698f160852f9   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        manual-pinot-broker
+b1ba8cf60d69   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  manual-pinot-controller
+54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   manual-zookeeper
+```
 
 Now it's time to start adding data to the cluster. Check out some of the [Recipes](../recipes/) or follow the [Batch upload sample data](pushing-your-data-to-pinot.md) and [Stream sample data](pushing-your-streaming-data-to-pinot.md) for instructions on loading your own data.
