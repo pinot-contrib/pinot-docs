@@ -223,7 +223,9 @@ Change name of the column from `user_id` to `userId`
 }
 ```
 
-Change name of the column from `first Name` to `firstName`
+#### Extract value from a column containing space
+
+Pinot doesn't support columns that have spaces, so if a source data column has a space, we'll need to store that value in a column with a supported name. To extract the value from `first Name` into the column `firstName`, run the following:
 
 ```javascript
 "ingestionConfig": {
