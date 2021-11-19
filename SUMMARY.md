@@ -115,7 +115,7 @@
   * [Update Documentation](developers/developers-and-contributors/update-document.md)
 * [Advanced](developers/advanced/README.md)
   * [Data Ingestion Overview](developers/advanced/data-ingestion.md)
-  * [Ingestion Transforms](developers/advanced/ingestion-level-transformations.md)
+  * [Ingestion Transformations](developers/advanced/ingestion-level-transformations.md)
   * [Null Value Support](developers/advanced/null-value-support.md)
   * [Advanced Pinot Setup](developers/advanced/advanced-pinot-setup.md)
 * [Plugins](developers/plugin-architecture/README.md)
