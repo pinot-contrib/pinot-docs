@@ -1,4 +1,4 @@
-# Ingestion Transforms
+# Ingestion Transformations
 
 Raw source data often needs to undergo some transformations before it is pushed to Pinot.&#x20;
 
@@ -180,7 +180,7 @@ Concat `firstName` and `lasName` to get `fullName`
     "transformConfigs": [{
       "columnName": "fullName",
       "transformFunction": "Groovy({firstName+' '+lastName}, firstName, lastName)" 
-    }
+    }]
 }
 ```
 
@@ -193,7 +193,7 @@ Find max value in array `bids`
     "transformConfigs": [{
       "columnName": "maxBid",
       "transformFunction": "Groovy({bids.max{ it.toBigDecimal() }}, bids)" 
-    }
+    }]
 }
 ```
 
@@ -206,7 +206,7 @@ Convert `timestamp` from `MILLISECONDS` to `HOURS`
     "transformConfigs": [{
       "columnName": "hoursSinceEpoch",
       "transformFunction": "Groovy({timestamp/(1000*60*60)}, timestamp)" 
-    }
+    }]
 }
 ```
 
@@ -219,7 +219,7 @@ Simply change name of the column from `user_id` to `userId`
     "transformConfigs": [{
       "columnName": "userId",
       "transformFunction": "Groovy({user_id}, user_id)" 
-    }
+    }]
 }
 ```
 
@@ -236,7 +236,7 @@ If `eventType` is `IMPRESSION` set `impression` to `1`. Similar for `CLICK`.
     {
       "columnName": "clicks",
       "transformFunction": "Groovy({eventType == 'CLICK' ? 1: 0}, eventType)" 
-    }
+    }]
 }
 ```
 
@@ -255,7 +255,7 @@ Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintai
     {
       "columnName": "map2_values",
       "transformFunction": "Groovy({map2.sort()*.value}, map2)" 
-    }
+    }]
 }
 ```
 
