@@ -116,7 +116,7 @@ Consider a table that has a column `timestamp`. If you want to filter out record
 ```javascript
 "ingestionConfig": {
     "filterConfig": {
-        "filterFunction": “Groovy({timestamp < 1589007600000}, timestamp)”
+        "filterFunction": "Groovy({timestamp < 1589007600000}, timestamp)"
     }
 }
 ```
