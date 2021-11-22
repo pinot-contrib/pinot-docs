@@ -15,8 +15,9 @@ The following types of table can be created in pinot -
 | **Hybrid**   | A hybrid Pinot table has both realtime as well as offline tables under the hood. By default, all tables in Pinot are Hybrid in nature. |
 
 {% hint style="info" %}
-The user querying the database does not need to know the type of the table. They only need to specify the table name in the query.\
-e.g. regardless of whether we have an offline table `myTable_OFFLINE` , or a realtime table `myTable_REALTIME` or a hybrid table containing both of these, the query will be&#x20;
+The user querying the database does not need to know the type of the table. They only need to specify the table name in the query.
+
+e.g. regardless of whether we have an offline table `myTable_OFFLINE`, a real-time table `myTable_REALTIME`, or a hybrid table containing both of these, the query will be:
 
 ```sql
 select count(*)
@@ -36,7 +37,7 @@ You can use the following properties to make your tables faster or leaner:
 
 A table in pinot is comprised of small chunks of data. These chunks are known as Segments. To learn more about how Pinot creates and manages segments see [the official documentation](segment.md)
 
-For offline tables, Segments are built outside of pinot and uploaded using a distributed executor such as Spark or Hadoop. For more details, see [Batch Ingestion](../data-import/batch-ingestion/).&#x20;
+For offline tables, Segments are built outside of pinot and uploaded using a distributed executor such as Spark or Hadoop. For more details, see [Batch Ingestion](../data-import/batch-ingestion/).
 
 For real-time tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments:
 
@@ -44,9 +45,9 @@ For real-time tables, segments are built in a specific interval inside Pinot. Yo
 
 The Pinot real-time consumer ingests the data, creates the segment, and then flushes the in-memory segment to disk. Pinot allows you to configure when to flush the segment in the following ways:
 
-* **Number of consumed rows** - After consuming X no. of rows from the stream, Pinot will persist the segment to disk&#x20;
-* **Number of desired rows per segment** - Pinot learns and then estimates the number of rows that need to be consumed so that the persisted segment is approximately the size. The learning phase starts by setting the number of rows to 100,000 (this value can be changed) and adjusts it to reach the desired segment size.  The segment size may go significantly over the desired size during the learning phase. Pinot corrects the estimation as it goes along, so it is not guaranteed that the resulting completed segments are of the exact size as configured.  You should set this value to optimize the performance of queries&#x20;
-* **Max time duration to wait** Pinot consumers wait for the configured time duration after which segments are persisted to the disk.&#x20;
+* **Number of consumed rows** - After consuming X no. of rows from the stream, Pinot will persist the segment to disk
+* **Number of desired rows per segment** - Pinot learns and then estimates the number of rows that need to be consumed so that the persisted segment is approximately the size. The learning phase starts by setting the number of rows to 100,000 (this value can be changed) and adjusts it to reach the desired segment size. The segment size may go significantly over the desired size during the learning phase. Pinot corrects the estimation as it goes along, so it is not guaranteed that the resulting completed segments are of the exact size as configured. You should set this value to optimize the performance of queries
+* **Max time duration to wait** Pinot consumers wait for the configured time duration after which segments are persisted to the disk.
 
 **Replicas**\
 A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment using
@@ -80,7 +81,7 @@ You can create multiple indices on a table to increase the performance of the qu
 * [Text Index](../indexing/text-search-support.md)
 * [Geospatial](../indexing/geospatial-support.md)
 
-For more details on each indexing mechanism and corresponding configurations, see [Indexing](../indexing/).&#x20;
+For more details on each indexing mechanism and corresponding configurations, see [Indexing](../indexing/).
 
 You can also set up [Bloomfilters](../../operators/operating-pinot/tuning/routing.md#bloom-filter-for-dictionary) on columns to make queries faster. Further, you can also keep segments in off-heap instead of on-heap memory for faster queries.
 
@@ -141,7 +142,7 @@ Create a table config for your data, or see [`examples`](https://github.com/apac
 
 **Prerequisites**
 
-1. [Setup the cluster](cluster.md#setup-a-pinot-cluster) &#x20;
+1. [Setup the cluster](cluster.md#setup-a-pinot-cluster)
 2. [Create broker and server tenants](tenant.md#creating-a-tenant)
 
 ## Offline Table Creation
