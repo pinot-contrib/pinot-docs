@@ -18,9 +18,10 @@ The following types of table can be created in pinot -
 The user querying the database does not need to know the type of the table. They only need to specify the table name in the query.\
 e.g. regardless of whether we have an offline table `myTable_OFFLINE` , or a realtime table `myTable_REALTIME` or a hybrid table containing both of these, the query will be&#x20;
 
-`select count(*) `
-
-`from myTable` .
+```sql
+select count(*)
+from myTable
+```
 {% endhint %}
 
 [Table Configuration](../../configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, retention etc. It is written in JSON format and is stored in Zookeeper, along with the table schema.
