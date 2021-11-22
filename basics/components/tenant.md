@@ -1,8 +1,8 @@
 # Tenant
 
-A tenant is a logical component, defined as a **group of server/broker nodes with the same Helix tag**. &#x20;
+A tenant is a logical component defined as a **group of server/broker nodes with the same Helix tag**. &#x20;
 
-In order to support multi-tenancy, Pinot has first class support for tenants. Every table is associated with a server tenant and a broker tenant. This controls the nodes that will be used by this table as servers and brokers. This allows all tables belonging to a particular use case to be grouped under a single tenant name.&#x20;
+In order to support multi-tenancy, Pinot has first-class support for tenants. Every table is associated with a server tenant and a broker tenant. This controls the nodes that will be used by this table as servers and brokers. This allows all tables belonging to a particular use case to be grouped under a single tenant name.&#x20;
 
 The concept of tenants is very important when the multiple use cases are using Pinot and there is a need to provide quotas or some sort of isolation across tenants. For example, consider we have two tables `Table A` and `Table B` in the same Pinot cluster.
 
@@ -18,7 +18,7 @@ We can configure `Table A` with server tenant `Tenant A` and `Table B` with serv
 
 This tenant is defined in the [tenants](table.md#tenants) section of the table config.&#x20;
 
-This section contains 2 main fields `broker` and `server` which decide the tenants used for the broker and server components of this table.
+This section contains 2 main fields `broker` and `server` , which decide the tenants used for the broker and server components of this table.
 
 ```javascript
 "tenants": {
@@ -27,11 +27,11 @@ This section contains 2 main fields `broker` and `server` which decide the tenan
 }
 ```
 
-In the above example,
+In the above example:
 
 * The table will be served by brokers that have been tagged as `brokerTenantName_BROKER` in Helix.
-* If this were an offline table, the offline segments for the table will be hosted in pinot servers tagged in helix as `serverTenantName_OFFLINE`
-* If this were a realtime table, the realtime segments (both consuming as well as completed ones) will be hosted in pinot servers tagged in helix as `serverTenantName_REALTIME`.
+* If this were an offline table, the offline segments for the table will be hosted in Pinot servers tagged in Helix as `serverTenantName_OFFLINE`
+* If this were a real-time table, the real-time segments (both consuming as well as completed ones) will be hosted in pinot servers tagged in Helix as `serverTenantName_REALTIME`.
 
 ## Creating a tenant
 
