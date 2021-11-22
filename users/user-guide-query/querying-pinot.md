@@ -133,8 +133,8 @@ GROUP BY yearID
 
 The approach to using an IdSet described in the previous section requires us to send two queries, one to get the IdSet and one to filter rows based on that IdSet. We can do all this in one query using the following functions:
 
-* IN_SUBQUERY - Combines the two queries into one on the broker.
-* IN_PARTITIONED_SUBQUERY - When the data is partitioned by the id column and each server contains all the data for a partition, we can bypass the broker merging but directly solve the subquery on the server side. The generated IdSet for the first query will only contain the ids for the partitions served by the server, thus has smaller size for better performance.
+* IN\_SUBQUERY - Combines the two queries into one on the broker.
+* IN\_PARTITIONED\_SUBQUERY - When the data is partitioned by the id column and each server contains all the data for a partition, we can directly process the subquery on the server. The generated IdSet for the first query will be smaller as it will only contain the ids for the partitions served by the server. This will give better performance.
 
 #### Filter on broker
 
@@ -164,7 +164,7 @@ GROUP BY yearID
 
 #### Filter on server
 
-To filter rows for _yearID_s in the IdSet, check that _IN\_PARTITIONED`_SUBQUERY_ returns `1`, by running the following query:
+To filter rows for _yearID_s in the IdSet, check that _IN\_PARTITIONED\_SUBQUERY_ returns `1`, by running the following query:
 
 ```sql
 SELECT yearID, count(*) 
@@ -176,7 +176,7 @@ WHERE IN_PARTITIONED_SUBQUERY(
 GROUP BY yearID  
 ```
 
-To filter rows for _yearID_s not in the IdSet, check that _IN\_PARTITIONED`_SUBQUERY_ returns `0`, by running the following query:
+To filter rows for _yearID_s not in the IdSet, check that _IN\_PARTITIONED\_SUBQUERY_ returns `0`, by running the following query:
 
 ```sql
 SELECT yearID, count(*) 
