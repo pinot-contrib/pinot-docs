@@ -6,7 +6,7 @@ description: Learn how to query Pinot using SQL
 
 ## DIALECT
 
-Pinot uses **Calcite SQL** Parser to parse queries and uses **MYSQL\_ANSI** dialect. You can see the grammar [here](https://calcite.apache.org/docs/reference.html).&#x20;
+Pinot uses **Calcite SQL** Parser to parse queries and uses **MYSQL\_ANSI** dialect. You can see the grammar [here](https://calcite.apache.org/docs/reference.html).
 
 ## Limitations
 
@@ -18,9 +18,9 @@ No DDL support. Tables can be created via the [REST API](https://docs.pinot.apac
 
 In Pinot SQL:
 
-**Double quotes(") **are used to force string identifiers, e.g. column name.
+\*\*Double quotes(") \*\*are used to force string identifiers, e.g. column name.
 
-**Single quotes(') **are used to enclose string literals.
+\*\*Single quotes(') \*\*are used to enclose string literals.
 
 Mis-using those might cause unexpected query results:
 
@@ -82,6 +82,38 @@ SELECT COUNT(*) FROM myTable
   AND bar BETWEEN 1 AND 20
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
+
+### Filtering with IdSet
+
+A common use case is filtering on an id field with a list of values. This can be done with the IN clause, but this approach doesn't perform well with large lists of ids. In these cases, you can use an IdSet.
+
+#### Create IdSet
+
+You can create an IdSet of the values returned by a query using the _ID\_SET_ function, as shown below:
+
+```sql
+SELECT ID_SET(yearID)
+FROM baseballStats
+WHERE teamID = 'WS1'
+```
+
+This query returns the following:
+
+`ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc=`
+
+#### Filter by values in IdSet
+
+To return rows for _yearID_s in the IdSet, run the following:
+
+`SELECT yearID, count(*) FROM baseballStats WHERE IN_ID_SET(yearID, 'ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc=') = 1 GROUP BY yearID`
+
+#### Filter by values not in IdSet
+
+To return rows for _yearID_s not in the IdSet, run the following:
+
+`SELECT yearID, count(*) FROM baseballStats WHERE IN_ID_SET(yearID, 'ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc=') = 0 GROUP BY yearID`
+
+``
 
 ### Selection (Projection)
 
@@ -173,4 +205,3 @@ SELECT *
 FROM myTable
 WHERE UID = 'c8b3bce0b378fc5ce8067fc271a34892'
 ```
-
