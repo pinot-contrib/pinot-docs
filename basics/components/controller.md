@@ -1,15 +1,15 @@
 # Controller
 
-The Pinot Controller is responsible for a number of things
+The Pinot Controller is responsible for the following:
 
-* Controllers maintain the **global metadata** (e.g. configs and schemas) of the system with the help of Zookeeper which is used as the  persistent metadata store.
-* Controllers host **Helix Controller **and is responsible for managing other pinot components (brokers, servers, minions)&#x20;
-* They maintain the **mapping of which servers are responsible for which segments**. This mapping is used by the servers, to download the portion of the segments that they are responsible for. This mapping is also used by the broker to decide which servers to route the queries to.
-* Controller has **admin endpoints** for viewing, creating, updating and deleting configs which help us manage and operate the cluster.
-* Controllers also have endpoints for **segment uploads** which are used in offline data pushes. They are responsible for initializing **realtime consumption **and coordination of persisting the realtime segments into the segment store periodically.
-* They undertake other **management activities** such as managing retention of segments, validations.
+* Maintaining **global metadata** (e.g. configs and schemas) of the system with the help of Zookeeper which is used as the persistent metadata store.
+* Hosting the **Helix Controller **and managing other Pinot components (brokers, servers, minions)&#x20;
+* Maintaining the **mapping of which servers are responsible for which segments**. This mapping is used by the servers to download the portion of the segments that they are responsible for. This mapping is also used by the broker to decide which servers to route the queries to.
+* Serving **admin endpoints** for viewing, creating, updating, and deleting configs, which are used to manage and operate the cluster.
+* Serving endpoints for **segment uploads**, which are used in offline data pushes. They are responsible for initializing **real-time consumption **and coordination of persisting real-time segments into the segment store periodically.
+* Undertaking other **management activities** such as managing retention of segments, validations.
 
-There can be multiple instances of Pinot controller for redundancy. If there are multiple controllers, Pinot expects that all of them are configured with the same back-end storage system so that they have a common view of the segments (_e.g._ NFS). Pinot can use other storage systems such as HDFS or [ADLS](https://azure.microsoft.com/en-us/services/storage/data-lake-storage/).
+For redundancy, there can be multiple instances of Pinot controllers. Pinot expects that all controllers are configured with the same back-end storage system so that they have a common view of the segments (_e.g._ NFS). Pinot can use other storage systems such as HDFS or [ADLS](https://azure.microsoft.com/en-us/services/storage/data-lake-storage/).
 
 ## Starting a Controller
 
