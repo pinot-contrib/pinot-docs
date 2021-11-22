@@ -129,6 +129,65 @@ WHERE IN_ID_SET(
 GROUP BY yearID
 ```
 
+### Sub Query Filtering with IdSet
+
+The approach to using an IdSet described in the previous section requires us to send two queries, one to get the IdSet and one to filter rows based on that IdSet. We can do all this in one query using the following functions:
+
+* IN_SUBQUERY - Combines the two queries into one on the broker.
+* IN_PARTITIONED_SUBQUERY - When the data is partitioned by the id column and each server contains all the data for a partition, we can bypass the broker merging but directly solve the subquery on the server side. The generated IdSet for the first query will only contain the ids for the partitions served by the server, thus has smaller size for better performance.
+
+#### Filter on broker
+
+To filter rows for _yearID_s in the IdSet, check that _IN\_SUBQUERY_ returns `1`, by running the following query:
+
+```sql
+SELECT yearID, count(*) 
+FROM baseballStats 
+WHERE IN_SUBQUERY(
+  yearID, 
+  'SELECT ID_SET(yearID) FROM baseballStats WHERE teamID = ''WS1'''
+  ) = 1
+GROUP BY yearID  
+```
+
+To filter rows for _yearID_s not in the IdSet, check that _IN\_SUBQUERY_ returns `0`, by running the following query:
+
+```sql
+SELECT yearID, count(*) 
+FROM baseballStats 
+WHERE IN_SUBQUERY(
+  yearID, 
+  'SELECT ID_SET(yearID) FROM baseballStats WHERE teamID = ''WS1'''
+  ) = 0
+GROUP BY yearID  
+```
+
+#### Filter on server
+
+To filter rows for _yearID_s in the IdSet, check that _IN\_PARTITIONED`_SUBQUERY_ returns `1`, by running the following query:
+
+```sql
+SELECT yearID, count(*) 
+FROM baseballStats 
+WHERE IN_PARTITIONED_SUBQUERY(
+  yearID, 
+  'SELECT ID_SET(yearID) FROM baseballStats WHERE teamID = ''WS1'''
+  ) = 1
+GROUP BY yearID  
+```
+
+To filter rows for _yearID_s not in the IdSet, check that _IN\_PARTITIONED`_SUBQUERY_ returns `0`, by running the following query:
+
+```sql
+SELECT yearID, count(*) 
+FROM baseballStats 
+WHERE IN_PARTITIONED_SUBQUERY(
+  yearID, 
+  'SELECT ID_SET(yearID) FROM baseballStats WHERE teamID = ''WS1'''
+  ) = 0
+GROUP BY yearID  
+```
+
 ### Selection (Projection)
 
 ```sql
