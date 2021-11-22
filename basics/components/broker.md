@@ -4,7 +4,7 @@ Brokers handle Pinot queries. They** accept queries from clients and forward the
 
 ![Broker interaction with other components](../../.gitbook/assets/broker-1.jpg)
 
-Pinot Brokers are modeled as **Spectators**. They need to know the location of each segment of a table (and each replica of the segments) and route requests to the appropriate server that hosts the segments of the table being queried.&#x20;
+Pinot Brokers are modeled as Helix **Spectators**. They need to know the location of each segment of a table (and each replica of the segments) and route requests to the appropriate server that hosts the segments of the table being queried.&#x20;
 
 The broker ensures that all the rows of the table are queried exactly once so as to return correct, consistent results for a query. The brokers may optimize to** prune some of the segments** as long as accuracy is not sacrificed.&#x20;
 
