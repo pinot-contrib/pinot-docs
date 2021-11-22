@@ -103,7 +103,7 @@ This query returns the following:
 
 #### Filter by values in IdSet
 
-To return rows for _yearID_s in the IdSet, run the following:
+We can use the _IN\_ID\_SET_ function to filter a query based on an IdSet. To return rows for _yearID_s in the IdSet, check that this function returns `1` by run the following:
 
 ```sql
 SELECT yearID, count(*) 
@@ -117,7 +117,7 @@ GROUP BY yearID
 
 #### Filter by values not in IdSet
 
-To return rows for _yearID_s not in the IdSet, run the following:
+To return rows for _yearID_s not in the IdSet, check that the _IN\_ID\_SET_ function returns `0` by running the following:
 
 ```sql
 SELECT yearID, count(*) 
