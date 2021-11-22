@@ -1,6 +1,12 @@
 # Minion
 
-Pinot Minion is a standby component which leverages the [Helix Task Framework](https://engineering.linkedin.com/blog/2019/01/managing-distributed-tasks-with-helix-task-framework) to offload the computationally intensive tasks from other components. It can be attached to an existing Pinot cluster and then execute tasks as provided by the controller. Custom tasks can be plugged via annotations into the cluster. Some typical minion tasks are: segment creation, segment purge, segment merge etc.
+A Minion is a standby component that leverages the [Helix Task Framework](https://engineering.linkedin.com/blog/2019/01/managing-distributed-tasks-with-helix-task-framework) to offload computationally intensive tasks from other components.&#x20;
+
+It can be attached to an existing Pinot cluster and then execute tasks as provided by the controller. Custom tasks can be plugged via annotations into the cluster. Some typical minion tasks are:
+
+* Segment creation
+* Segment purge
+* Segment merge&#x20;
 
 ## Starting a Minion
 
@@ -41,7 +47,7 @@ bin/pinot-admin.sh StartMinion \
 
 ### PinotTaskGenerator
 
-PinotTaskGenerator interface defines the APIs for controller to generate tasks for minions to execute.
+PinotTaskGenerator interface defines the APIs for the controller to generate tasks for minions to execute.
 
 ```java
 public interface PinotTaskGenerator {
@@ -85,7 +91,7 @@ public interface PinotTaskGenerator {
 
 ### PinotTaskExecutorFactory
 
-Factory for `PinotTaskExecutor` which defines the APIs for minion to execute the tasks.
+Factory for `PinotTaskExecutor` which defines the APIs for Minion to execute the tasks.
 
 ```java
 public interface PinotTaskExecutorFactory {
@@ -222,11 +228,13 @@ Under each enable task type, custom properties can be configured for the task ty
 
 ## Schedule Tasks
 
-### Auto Schedule
+### Auto-Schedule
 
-Tasks can be scheduled periodically for all task types on all enabled tables. Enable auto task scheduling by configuring the schedule frequency in the controller config with key `controller.task.frequencyInSeconds`.
+Tasks can be scheduled periodically for all task types on all enabled tables. Enable auto task scheduling by configuring the schedule frequency in the controller config with the key `controller.task.frequencyInSeconds`.
 
-Tasks can also be scheduled based on cron expressions. The cron expression is set in `schedule` config for each task type separately. This option `controller.task.scheduler.enabled` should be set to true to enable cron scheduling. As shown below, the RealtimeToOfflineSegmentsTask will be scheduled at the first second of every minute (following syntax [defined here](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html)).&#x20;
+Tasks can also be scheduled based on cron expressions. The cron expression is set in the `schedule` config for each task type separately. Thie option`controller.task.scheduler.enabled` should be set to `true` to enable cron scheduling.&#x20;
+
+As shown below, the RealtimeToOfflineSegmentsTask will be scheduled at the first second of every minute (following the syntax [defined here](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html)).&#x20;
 
 ```
   "task": {
@@ -253,7 +261,7 @@ Tasks can be manually scheduled using the following controller rest APIs:
 
 ## Plug-in Custom Tasks
 
-To plug-in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` (optional) for the task type (all of them should return the same string for `getTaskType()`), and annotate them with the following annotations:
+To plug in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` (optional) for the task type (all of them should return the same string for `getTaskType()`), and annotate them with the following annotations:
 
 | Implementation             | Annotation            |
 | -------------------------- | --------------------- |
@@ -267,9 +275,9 @@ After annotating the classes, put them under the package of name `org.apache.pin
 
 See [SimpleMinionClusterIntegrationTest](https://github.com/apache/pinot/blob/master/pinot-integration-tests/src/test/java/org/apache/pinot/integration/tests/SimpleMinionClusterIntegrationTest.java) where the `TestTask` is plugged-in.
 
-## Task related metrics
+## Task-related metrics
 
-There is a controller job runs every 5 minutes by default and emits metrics about Minion tasks scheduled in Pinot. For now, the following metrics are emitted for each task type:
+There is a controller job that runs every 5 minutes by default and emits metrics about Minion tasks scheduled in Pinot. The following metrics are emitted for each task type:
 
 * _**NumMinionTasksInProgress**_: Number of running tasks
 * _**NumMinionSubtasksRunning**_: Number of running sub-tasks
@@ -278,8 +286,8 @@ There is a controller job runs every 5 minutes by default and emits metrics abou
 * _**PercentMinionSubtasksInQueue**_: Percent of sub-tasks in waiting or running states
 * _**PercentMinionSubtasksInError**_: Percent of sub-tasks in error
 
-For each task, the minion will emit metrics:
+For each task, the Minion will emit these metrics:
 
 * _**TASK\_QUEUEING**_: Task queueing time (task\_dequeue\_time - task\_inqueue\_time), assuming the time drift between helix controller and pinot minion is minor, otherwise the value may be negative
 * _**TASK\_EXECUTION**_: Task execution time, which is the time spent on executing the task
-* _**NUMBER\_OF\_TASKS**_: number of tasks in progress on that minion. Whenever minion start a task, increase the Gauge by 1, whenever minion completed (either succeeded or failed) a task, decrease it by 1
+* _**NUMBER\_OF\_TASKS**_: number of tasks in progress on that minion. Whenever a Minion starts a task, increase the Gauge by 1, whenever a Minion completes (either succeeded or failed) a task, decrease it by 1
