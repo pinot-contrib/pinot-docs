@@ -117,7 +117,7 @@ GROUP BY yearID
 
 To return rows for _yearID_s not in the IdSet, run the following:
 
-```
+```sql
 SELECT yearID, count(*) 
 FROM baseballStats 
 WHERE IN_ID_SET(
