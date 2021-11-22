@@ -1,28 +1,26 @@
 # User-Defined Functions (UDFs)
 
-Pinot currently supports two ways of for user to implement their own functions&#x20;
+Pinot currently supports two ways for you to implement your own functions:
 
 * Groovy Scripts
 * Scalar Functions
 
 ### Groovy Scripts
 
-Pinot allows you the run any function other than those supported out of the box using [Apache Groovy](https://groovy-lang.org) scripts. The syntax for executing groovy script within the query is as follows -
+Pinot allows you to run any function using [Apache Groovy](https://groovy-lang.org) scripts. The syntax for executing Groovy script within the query is as follows:
 
 **`GROOVY('result value metadata json', ''groovy script', arg0, arg1, arg2...)`**
 
-This function will execute the groovy script using the arguments provided and return the result which matches the provided result value metadata.** **The function requires the following arguments -&#x20;
+This function will execute the groovy script using the arguments provided and return the result that matches the provided result value metadata.** **The function requires the following arguments:&#x20;
 
-`Result value metadata json` - json string representing result value metadata. Must contain non-null keys `resultType` and `isSingleValue`.&#x20;
-
-`Groovy script to execute`- groovy script string, which uses `arg0`,  `arg1`, `arg2` etc to refer to the arguments provided within the script
-
-`arguments `- pinot columns/other transform functions which are arguments to the groovy script
+* `Result value metadata json` - json string representing result value metadata. Must contain non-null keys `resultType` and `isSingleValue`.&#x20;
+* `Groovy script to execute`- groovy script string, which uses `arg0`,  `arg1`, `arg2` etc to refer to the arguments provided within the script
+* `arguments `- pinot columns/other transform functions that are arguments to the groovy script
 
 **Examples**
 
 * Add colA and colB and return a single-value INT\
-  `groovy('{"returnType":"INT","isSingleValue":true}', 'arg0 + arg1', colA, colB)`\
+  `groovy(  '{"returnType":"INT","isSingleValue":true}',   'arg0 + arg1',   colA, colB)`\
 
 *   Find the max element in mvColumn array and return a single-value INT
 
@@ -52,15 +50,15 @@ This function will execute the groovy script using the arguments provided and re
 
 ### Scalar Functions
 
-Since 0.5.0 release, Pinot supports custom functions which returns a single output for multiple inputs. Some examples of scalar functions can be found in [StringFunctions](supported-transformations.md#string-functions) and [DateTimeFunctions ](supported-transformations.md#datetime-functions)
+Since the 0.5.0 release, Pinot supports custom functions that return a single output for multiple inputs. Examples of scalar functions can be found in [StringFunctions](supported-transformations.md#string-functions) and [DateTimeFunctions ](supported-transformations.md#datetime-functions)
 
-Pinot automatically identifies and registers all the functions with annotation `@ScalarFunction`&#x20;
+Pinot automatically identifies and registers all the functions that have the `@ScalarFunction`  annotation.&#x20;
 
-Currently only Java methods are supported.
+Only Java methods are supported.
 
 #### Adding user defined scalar functions
 
-You can add new scalar functions as follows -&#x20;
+You can add new scalar functions as follows:
 
 * Create a new java project. Make sure you keep the package name as `org.apache.pinot.scalar.XXXX`
 * In your java project include the dependency
@@ -98,10 +96,12 @@ static String mySubStr(String input, Integer beginIndex) {
 }
 ```
 
-* Place the compiled JAR in `/plugins` directory in pinot. You will need to restart all pinot instances if they are already running.
-* Now, you can use the function in query as follows. Note that function name in SQL is same as function name in Java. The SQL function name is case-insensitive as well.
+* Place the compiled JAR in the `/plugins` directory in pinot. You will need to restart all Pinot instances if they are already running.
+* Now, you can use the function in a query as follows:
 
 ```
-SELECT mysubstr(playerName, 4) FROM baseballStats
+SELECT mysubstr(playerName, 4) 
+FROM baseballStats
 ```
 
+Note that the function name in SQL is the same as the function name in Java. The SQL function name is case-insensitive as well.
