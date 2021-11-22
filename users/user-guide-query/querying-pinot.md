@@ -129,8 +129,6 @@ WHERE IN_ID_SET(
 GROUP BY yearID
 ```
 
-``
-
 ### Selection (Projection)
 
 ```sql
