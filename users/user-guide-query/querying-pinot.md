@@ -18,9 +18,8 @@ No DDL support. Tables can be created via the [REST API](https://docs.pinot.apac
 
 In Pinot SQL:
 
-\*\*Double quotes(") \*\*are used to force string identifiers, e.g. column name.
-
-\*\*Single quotes(') \*\*are used to enclose string literals.
+* **Double quotes(")** are used to force string identifiers, e.g. column name.
+* **Single quotes(')** are used to enclose string literals.
 
 Mis-using those might cause unexpected query results:
 
@@ -38,36 +37,45 @@ E.g.
 
 ```
 //default to limit 10
-SELECT * FROM myTable 
+SELECT * 
+FROM myTable 
 
-SELECT * FROM myTable LIMIT 100
+SELECT * 
+FROM myTable 
+LIMIT 100
 ```
 
 ### Aggregation
 
 ```sql
-SELECT COUNT(*), MAX(foo), SUM(bar) FROM myTable
+SELECT COUNT(*), MAX(foo), SUM(bar) 
+FROM myTable
 ```
 
 ### Grouping on Aggregation
 
 ```sql
-SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo), bar, baz FROM myTable
-  GROUP BY bar, baz LIMIT 50
+SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo), bar, baz 
+FROM myTable
+GROUP BY bar, baz 
+LIMIT 50
 ```
 
 ### Ordering on Aggregation
 
 ```sql
-SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo), bar, baz FROM myTable
-  GROUP BY bar, baz 
-  ORDER BY bar, MAX(foo) DESC LIMIT 50
+SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo), bar, baz 
+FROM myTable
+GROUP BY bar, baz 
+ORDER BY bar, MAX(foo) DESC 
+LIMIT 50
 ```
 
 ### Filtering
 
 ```sql
-SELECT COUNT(*) FROM myTable
+SELECT COUNT(*) 
+FROM myTable
   WHERE foo = 'foo'
   AND bar BETWEEN 1 AND 20
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
@@ -76,7 +84,8 @@ SELECT COUNT(*) FROM myTable
 ### Filtering with NULL predicate
 
 ```sql
-SELECT COUNT(*) FROM myTable
+SELECT COUNT(*) 
+FROM myTable
   WHERE foo IS NOT NULL
   AND foo = 'foo'
   AND bar BETWEEN 1 AND 20
@@ -191,7 +200,8 @@ GROUP BY yearID
 ### Selection (Projection)
 
 ```sql
-SELECT * FROM myTable
+SELECT * 
+FROM myTable
   WHERE quux < 5
   LIMIT 50
 ```
@@ -199,7 +209,8 @@ SELECT * FROM myTable
 ### Ordering on Selection
 
 ```sql
-SELECT foo, bar FROM myTable
+SELECT foo, bar 
+FROM myTable
   WHERE baz > 20
   ORDER BY bar DESC
   LIMIT 100
@@ -210,7 +221,8 @@ SELECT foo, bar FROM myTable
 Note: results might not be consistent if column ordered by has same value in multiple rows.
 
 ```sql
-SELECT foo, bar FROM myTable
+SELECT foo, bar 
+FROM myTable
   WHERE baz > 20
   ORDER BY bar DESC
   LIMIT 50, 100
@@ -221,7 +233,8 @@ SELECT foo, bar FROM myTable
 To count rows where the column `airlineName` starts with `U`
 
 ```sql
-SELECT COUNT(*) FROM myTable
+SELECT COUNT(*) 
+FROM myTable
   WHERE REGEXP_LIKE(airlineName, '^U.*')
   GROUP BY airlineName LIMIT 10
 ```
