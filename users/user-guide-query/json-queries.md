@@ -19,9 +19,12 @@ Table data:
 
 We also assume that "jsoncolumn" has a [Json Index](https://docs.pinot.apache.org/basics/indexing/json-index) on it. Note that the last two rows in the table have different structure than the rest of the rows. In keeping with JSON specification, a JSON column can contain any valid JSON data and doesn't need to adhere to a predefined schema. To pull out the entire JSON document for each row, we can run the query below:
 
-```text
-SELECT id, jsoncolumn FROM myTable.
+```json
+SELECT id, jsoncolumn 
+FROM myTable
+```
 
+```text
 id,jsoncolumn
 "101","{"name":{"first":"daffy","last":"duck"},"score":101,"data":["a","b","c","d"]}"
 "102","{"name":{"first":"donald","last":"duck"},"score":102,"data":["a","b","e","f"]}"
@@ -34,9 +37,13 @@ id,jsoncolumn
 
 To drill down and pull out specific keys within the JSON column, we simply append the JsonPath expression of those keys to the end of the column name.
 
-```text
-SELECT id, jsoncolumn.name.last, jsoncolumn.name.first, jsoncolumn.data[1] FROM myTable
 
+```json
+SELECT id, jsoncolumn.name.last, jsoncolumn.name.first, jsoncolumn.data[1] 
+FROM myTable
+```
+
+```text
 id,jsoncolumn.name.last,jsoncolumn.name.first,jsoncolumn.data[1]
 "101","duck","daffy","b"
 "102","duck","donald","b"
@@ -49,9 +56,13 @@ id,jsoncolumn.name.last,jsoncolumn.name.first,jsoncolumn.data[1]
 
 Note that the third column \(jsoncolumn.data\[1\]\) is null for rows with id 106 and 107. This is because these rows have JSON documents that don't have a key with JsonPath jsoncolumn.data\[1\]. We can filter out these rows.
 
-```text
-SELECT id, jsoncolumn.name.last, jsoncolumn.name.first, jsoncolumn.data[1] FROM myTable WHERE jsoncolumn.data[1] IS NOT NULL
+```json
+SELECT id, jsoncolumn.name.last, jsoncolumn.name.first, jsoncolumn.data[1] 
+FROM myTable 
+WHERE jsoncolumn.data[1] IS NOT NULL
+```
 
+```text
 id,jsoncolumn.name.last,jsoncolumn.name.first,jsoncolumn.data[1]
 "101","duck","daffy","b"
 "102","duck","donald","b"
@@ -63,8 +74,14 @@ id,jsoncolumn.name.last,jsoncolumn.name.first,jsoncolumn.data[1]
 Notice that certain last names \(duck and mouse for example\) repeat in the data above. We can get a count of each last name by running a GROUP BY query on a JsonPath expression.
 
 ```text
-SELECT jsoncolumn.name.last, count(*) FROM myTable WHERE jsoncolumn.data[1] IS NOT NULL GROUP BY jsoncolumn.name.last ORDER BY 2 DESC
+SELECT jsoncolumn.name.last, count(*) 
+FROM myTable 
+WHERE jsoncolumn.data[1] IS NOT NULL 
+GROUP BY jsoncolumn.name.last 
+ORDER BY 2 DESC
+```
 
+```text
 jsoncolumn.name.last,count(*)
 "mouse","2"
 "duck","2"
@@ -73,9 +90,14 @@ jsoncolumn.name.last,count(*)
 
 Also there is numerical information \(jsconcolumn.score\) embeded within the JSON document. We can extract those numerical values from JSON data into SQL and sum them up using the query below.
 
-```text
-SELECT jsoncolumn.name.last, sum(jsoncolumn.score) FROM myTable WHERE jsoncolumn.name.last IS NOT NULL GROUP BY jsoncolumn.name.last
+```json
+SELECT jsoncolumn.name.last, sum(jsoncolumn.score) 
+FROM myTable 
+WHERE jsoncolumn.name.last IS NOT NULL 
+GROUP BY jsoncolumn.name.last
+```
 
+```text
 jsoncolumn.name.last,sum(jsoncolumn.score)
 "mouse","207"
 "dwag","104"
