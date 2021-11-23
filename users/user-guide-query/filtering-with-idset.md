@@ -6,7 +6,7 @@ A common use case is filtering on an id field with a list of values. This can be
 
 ### ID\_SET
 
-\> IDSET(columnName, 'sizeThresholdInBytes=1000;expectedInsertions=10000;fpp=0.03' )
+> ID_SET(columnName, 'sizeThresholdInBytes=1000;expectedInsertions=10000;fpp=0.03' )
 
 This function returns a base 64 encoded IdSet of the values for a single column. The IdSet implementation used depends on the column data type:
 
@@ -18,19 +18,19 @@ This function returns a base 64 encoded IdSet of the values for a single column.
 
 ### IN\_ID\_SET
 
-\> IN_ID_SET(columnName, base64EncodedIdSet)
+> IN_ID_SET(columnName, base64EncodedIdSet)
 
 This function returns 1 if a column contains a value specified in the IdSet and 0 if it does not.
 
 ### IN\_SUBQUERY
 
-\> IN\_SUBQUERY(columnName, subQuery)
+> IN_SUBQUERY(columnName, subQuery)
 
 This function generates an IdSet from a subquery and then filters ids based on that IdSet on a Pinot broker.
 
 ### IN\__PARTITIONED\__SUBQUERY
 
-\> IN\__PARTITIONED\__SUBQUERY(columnName, subQuery)
+> IN_PARTITIONED_SUBQUERY(columnName, subQuery)
 
 This function generates an IdSet from a subquery and then filters ids based on that IdSet on a Pinot server.&#x20;
 
