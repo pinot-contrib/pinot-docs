@@ -14,11 +14,12 @@ The underlying implementation is using a IntOpenHashSet in library: `it.unimi.ds
 
 ## Approximation Results
 
-Usually it takes a lot of resources and time to compute accurate results for unique counting. In some circumstance, users could tolerate with certain error rate, then we could use approximation functions to tackle this problem.&#x20;
+It usually takes a lot of resources and time to compute accurate results for unique counting on large datasets.
+In some circumstances, we can tolerate a certain error rate, in which case we can use approximation functions to tackle this problem.
 
 ### HyperLogLog
 
-[HyperLogLog](https://en.wikipedia.org/wiki/HyperLogLog) is one approximation algorithm for unique counting. It uses fixed number of bits to estimate the cardinality of given data set.
+[HyperLogLog](https://en.wikipedia.org/wiki/HyperLogLog) is an approximation algorithm for unique counting. It uses fixed number of bits to estimate the cardinality of given data set.
 
 Pinot leverages [HyperLogLog Class](https://github.com/addthis/stream-lib/blob/master/src/main/java/com/clearspring/analytics/stream/cardinality/HyperLogLog.java)  in library `com.clearspring.analytics:stream:2.7.0`as the data structure to hold intermediate results.
 
@@ -44,9 +45,20 @@ Functions:
   * predicates (optional)_: _ These are individual predicates of form `lhs <op> rhs` which are applied on rows selected by the `where` clause. During intermediate sketch aggregation, sketches from the `thetaSketchColumn` that satisfies these predicates are unionized individually. For example, all filtered rows that match `country=USA` are unionized into a single sketch. Complex predicates that are created by combining (AND/OR) of individual predicates is supported.
   * postAggregationExpressionToEvaluate (required)_:_ The set operation to perform on the individual intermediate sketches for each of the predicates. Currently supported operations are `SET_DIFF, SET_UNION, SET_INTERSECT` , where DIFF requires two arguments and the UNION/INTERSECT allow more than two arguments. &#x20;
 
-In the example query below, the `where` clause is responsible for identifying the matching rows. Note, the where clause can be completely independent of the `postAggregationExpression`. Once matching rows are identified, each server unionizes all the sketches that match the individual predicates, i.e.  `country='USA'` , `device='mobile'` in this case. Once the broker receives the intermediate sketches for each of these individual predicates from all servers, it performs the final aggregation by evaluating the `postAggregationExpression` and returns the final cardinality of the resulting sketch.
+In the example query below, the `where` clause is responsible for identifying the matching rows. 
+Note, the where clause can be completely independent of the `postAggregationExpression`. 
+Once matching rows are identified, each server unionizes all the sketches that match the individual predicates, i.e.  `country='USA'` , `device='mobile'` in this case. 
+Once the broker receives the intermediate sketches for each of these individual predicates from all servers, it performs the final aggregation by evaluating the `postAggregationExpression` and returns the final cardinality of the resulting sketch.
 
-`select distinctCountThetaSketch(sketchCol, 'nominalEntries=1024', 'country'=''USA'' AND 'state'=''CA'', 'device'=''mobile'', 'SET_INTERSECT($1, $2)') from table where country = 'USA' or device = 'mobile...' `
+```sql
+select distinctCountThetaSketch(
+  sketchCol, 
+  'nominalEntries=1024', 
+  'country'=''USA'' AND 'state'=''CA'', 'device'=''mobile'', 'SET_INTERSECT($1, $2)'
+) 
+from table 
+where country = 'USA' or device = 'mobile...' 
+```
 
 * **DistinctCountRawThetaSketch(**\<thetaSketchColumn>, \<thetaSketchParams>, predicate1, predicate2..., postAggregationExpressionToEvaluate**)** -> HexEncoded Serialized Sketch Bytes
 
