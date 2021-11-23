@@ -272,7 +272,7 @@ FROM myTable
 
 ### UDF
 
-As of now, functions have to be implemented within Pinot. Injecting functions is not allowed yet. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations)
+Functions have to be implemented within Pinot. Injecting functions is not yet supported. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations)
 
 ```sql
 SELECT COUNT(*)
