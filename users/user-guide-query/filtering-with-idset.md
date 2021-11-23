@@ -16,7 +16,7 @@ This function returns a base 64 encoded IdSet of the values for a single column.
 
 * INT - RoaringBitmap
 * LONG - Roaring64NavigableMap
-* Other types - Bloom Filter. Supports the following parameters:
+* Other types - Bloom Filter. Supports the following parameters, which can be used to adjust the size of the IdSet:
   * _expectedInsertions_ - Number of expected insertions for the BloomFilter, must be positive
   * _fpp_ - Desired false positive probability for the BloomFilter, must be positive and < 1.0
 
