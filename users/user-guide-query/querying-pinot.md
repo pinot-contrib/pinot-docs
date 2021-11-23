@@ -81,6 +81,8 @@ FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
+For performant filtering of ids in a list, see Filtering with IdSet.
+
 ### Filtering with NULL predicate
 
 ```sql
@@ -92,110 +94,7 @@ FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
-### Filtering with IdSet
 
-A common use case is filtering on an id field with a list of values. This can be done with the IN clause, but this approach doesn't perform well with large lists of ids. In these cases, you can use an IdSet.
-
-#### Create IdSet
-
-You can create an IdSet of the values returned by a query using the _ID\_SET_ function, as shown below:
-
-```sql
-SELECT ID_SET(yearID)
-FROM baseballStats
-WHERE teamID = 'WS1'
-```
-
-This query returns the following:
-
-`ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc=`
-
-#### Filter by values in IdSet
-
-We can use the _IN\_ID\_SET_ function to filter a query based on an IdSet. To return rows for _yearID_s in the IdSet, check that this function returns `1` by run the following:
-
-```sql
-SELECT yearID, count(*) 
-FROM baseballStats 
-WHERE IN_ID_SET(
- yearID,   
- 'ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc='
-  ) = 1 
-GROUP BY yearID
-```
-
-#### Filter by values not in IdSet
-
-To return rows for _yearID_s not in the IdSet, check that the _IN\_ID\_SET_ function returns `0` by running the following:
-
-```sql
-SELECT yearID, count(*) 
-FROM baseballStats 
-WHERE IN_ID_SET(
-  yearID,   
-  'ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc='
-  ) = 0 
-GROUP BY yearID
-```
-
-### Sub Query Filtering with IdSet
-
-The approach to using an IdSet described in the previous section requires us to send two queries, one to get the IdSet and one to filter rows based on that IdSet. We can do all this in one query using the following functions:
-
-* IN\_SUBQUERY - Combines the two queries into one on the broker.
-* IN\_PARTITIONED\_SUBQUERY - When the data is partitioned by the id column and each server contains all the data for a partition, we can directly process the subquery on the server. The generated IdSet for the first query will be smaller as it will only contain the ids for the partitions served by the server. This will give better performance.
-
-#### Filter on broker
-
-To filter rows for _yearID_s in the IdSet, check that _IN\_SUBQUERY_ returns `1`, by running the following query:
-
-```sql
-SELECT yearID, count(*) 
-FROM baseballStats 
-WHERE IN_SUBQUERY(
-  yearID, 
-  'SELECT ID_SET(yearID) FROM baseballStats WHERE teamID = ''WS1'''
-  ) = 1
-GROUP BY yearID  
-```
-
-To filter rows for _yearID_s not in the IdSet, check that _IN\_SUBQUERY_ returns `0`, by running the following query:
-
-```sql
-SELECT yearID, count(*) 
-FROM baseballStats 
-WHERE IN_SUBQUERY(
-  yearID, 
-  'SELECT ID_SET(yearID) FROM baseballStats WHERE teamID = ''WS1'''
-  ) = 0
-GROUP BY yearID  
-```
-
-#### Filter on server
-
-To filter rows for _yearID_s in the IdSet, check that _IN\_PARTITIONED\_SUBQUERY_ returns `1`, by running the following query:
-
-```sql
-SELECT yearID, count(*) 
-FROM baseballStats 
-WHERE IN_PARTITIONED_SUBQUERY(
-  yearID, 
-  'SELECT ID_SET(yearID) FROM baseballStats WHERE teamID = ''WS1'''
-  ) = 1
-GROUP BY yearID  
-```
-
-To filter rows for _yearID_s not in the IdSet, check that _IN\_PARTITIONED\_SUBQUERY_ returns `0`, by running the following query:
-
-```sql
-SELECT yearID, count(*) 
-FROM baseballStats 
-WHERE IN_PARTITIONED_SUBQUERY(
-  yearID, 
-  'SELECT ID_SET(yearID) FROM baseballStats WHERE teamID = ''WS1'''
-  ) = 0
-GROUP BY yearID  
-```
 
 ### Selection (Projection)
 

@@ -79,6 +79,7 @@
 
 * [Query](users/user-guide-query/README.md)
   * [Querying Pinot](users/user-guide-query/querying-pinot.md)
+  * [Filtering with IdSet](users/user-guide-query/filtering-with-idset.md)
   * [Supported Transformations](users/user-guide-query/supported-transformations.md)
   * [Supported Aggregations](users/user-guide-query/supported-aggregations.md)
   * [User-Defined Functions (UDFs)](users/user-guide-query/scalar-functions.md)
