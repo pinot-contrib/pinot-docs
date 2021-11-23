@@ -25,17 +25,31 @@ You can also execute a sample query `select * from baseballStats limit 10` by ty
 
 You can also try out the following queries:
 
-`select playerName, max(hits) from baseballStats group by playerName order by max(hits) desc`
+```
+select playerName, max(hits) 
+from baseballStats 
+group by playerName 
+order by max(hits) desc
+```
 
-`select sum(hits), sum(homeRuns), sum(numberOfGames) from baseballStats where yearID > 2010`
+```
+select sum(hits), sum(homeRuns), sum(numberOfGames) 
+from baseballStats 
+where yearID > 2010
+```
 
-`select * from baseballStats order by league`
+```
+select * 
+from baseballStats 
+order by league
+````
 
-Pinot supports a subset of standard SQL. See [Pinot Query Language](../../users/user-guide-query/querying-pinot.md) for more information.
+Pinot supports a subset of standard SQL. For more information, see [Pinot Query Language](../../users/user-guide-query/querying-pinot.md).
 
 ## Rest API
 
-The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
+The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. 
+It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
 ![](../../.gitbook/assets/screen-shot-2020-02-28-at-10.00.43-am.png)
 
@@ -163,4 +177,4 @@ Take a look at the schema by going to [Schema -> Get a schema](http://localhost:
 
 Finally, let's checkout the data segments in the cluster by going to [Segment -> List all segments](http://localhost:9000/help#!/Segment/getSegments), type in `baseballStats` in the table name, and click `Try it out!`. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
-You can head over to [Batch Ingestion](../data-import/batch-ingestion/) or [Stream ingestion](../data-import/pinot-stream-ingestion/) to learn how to upload your own data and schema in Pinot.
+To learn how to uploaded your own data and schema, head over to [Batch Ingestion](../data-import/batch-ingestion/) or [Stream ingestion](../data-import/pinot-stream-ingestion/).
