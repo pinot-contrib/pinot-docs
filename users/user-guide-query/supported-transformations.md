@@ -14,7 +14,7 @@ description: >-
 | **SUB(col1, col2)**           | Difference between two values                 | `SUB(total_score, score_science)`                |
 | **MULT(col1, col2, col3...)** | Product of at least two values                | `MUL(score_maths, score_science, score_history)` |
 | **DIV(col1, col2)**           | Quotient of two values                        | `SUB(total_score, total_subjects)`               |
-| \*\*MOD(\*\*col1, col2)       | Modulo of two values                          | `MOD(total_score, total_subjects)`               |
+| **MOD(col1, col2)**           | Modulo of two values                          | `MOD(total_score, total_subjects)`               |
 | **ABS(col1)**                 | Absolute of a value                           | `ABS(score)`                                     |
 | **CEIL(col1)**                | Rounded up to the nearest integer.            | `CEIL(percentage)`                               |
 | **FLOOR(col1)**               | Rounded down to the nearest integer.          | `FLOOR(percentage)`                              |
@@ -47,7 +47,7 @@ Multiple string functions are supported out of the box from release-0.5.0 .
 
 ## DateTime Functions
 
-Date time functions allow you to perform transformations on columns which contains timestamps or date.
+Date time functions allow you to perform transformations on columns that contain timestamps or dates.
 
 | Function                                                                                                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Example                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -116,20 +116,21 @@ Date time functions allow you to perform transformations on columns which contai
 | `'results_type'` | <p>One of the Pinot supported data types:<strong><code>INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,</code></strong></p><p><strong><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></strong><code>.</code></p> |
 
 {% hint style="warning" %}
-**`'jsonPath'`**`and`\*\*`'resultsType'`\*\*are **Literals.** Pinot uses single quotes to distinguish it from **Identifiers**.
+**`'jsonPath'`**`and `**`'results_type'`**are l**iterals.** Pinot uses single quotes to distinguish them from **identifiers**.
 
-E.g.
+e.g.
 
-`JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')` is **Valid**.`JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is **Invalid**.
+* `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')` is v**alid**.
+* `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is i**nvalid**.
 {% endhint %}
 
 {% hint style="warning" %}
-**Transform** functions can only be used in Pinot SQL. **Scalar** functions can be used in table ingestion configs for column transformation.
+**Transform** functions can only be used in Pinot SQL. **Scalar** functions can be used for column transformation in table ingestion configs.
 {% endhint %}
 
 **Examples**
 
-Below examples are based on 3 sample profile JSON documents:
+The examples below are based on these 3 sample profile JSON documents:
 
 ```
 {
@@ -268,8 +269,8 @@ All of the functions mentioned till now only support single value columns. You c
 
 ### Geospatial Queries
 
-Pinot supports Geospatial queries on columns containing text-based geographies. Check out [Geospatial](../../basics/indexing/geospatial-support.md) for more details on the queries and how to enable them.
+Pinot supports Geospatial queries on columns containing text-based geographies. For more details on the queries and how to enable them, see [Geospatial](../../basics/indexing/geospatial-support.md).
 
 ### Text Queries
 
-Pinot supports Pattern matching on text-based columns as well. Only the columns mentioned as text columns in table config can be queried using this method. Check out [Text search support](../../basics/indexing/text-search-support.md) for more details on how to enable pattern matching.
+Pinot supports pattern matching on text-based columns. Only the columns mentioned as text columns in table config can be queried using this method. For more details on how to enable pattern matching, see [Text search support](../../basics/indexing/text-search-support.md).
