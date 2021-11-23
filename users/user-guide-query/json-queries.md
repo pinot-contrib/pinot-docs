@@ -24,16 +24,15 @@ SELECT id, jsoncolumn
 FROM myTable
 ```
 
-```text
-id,jsoncolumn
-"101","{"name":{"first":"daffy","last":"duck"},"score":101,"data":["a","b","c","d"]}"
-"102","{"name":{"first":"donald","last":"duck"},"score":102,"data":["a","b","e","f"]}"
-"103","{"name":{"first":"mickey","last":"mouse"},"score":103,"data":["a","b","g","h"]}"
-"104","{"name":{"first":"minnie","last":"mouse"},"score":104,"data":["a","b","i","j"]}"
-"105","{"name":{"first":"goofy","last":"dwag"},"score":104,"data":["a","b","i","j"]}"
-"106","{"person":{"name":"daffy duck","companies":[{"name":"n1","title":"t1"},{"name":"n2","title":"t2"}]}}"
-"107","{"person":{"name":"scrooge mcduck","companies":[{"name":"n1","title":"t1"},{"name":"n2","title":"t2"}]}}"
-```
+| id | jsoncolumn |
+| ----------- | ----------- |
+|"101" |"{"name":{"first":"daffy","last":"duck"},"score":101,"data":["a","b","c","d"]}"|
+|102"| "{"name":{"first":"donald","last":"duck"},"score":102,"data":["a","b","e","f"]}|
+|"103"|"{"name":{"first":"mickey","last":"mouse"},"score":103,"data":["a","b","g","h"]}|
+|"104"|"{"name":{"first":"minnie","last":"mouse"},"score":104,"data":["a","b","i","j"]}"|
+|"105"|"{"name":{"first":"goofy","last":"dwag"},"score":104,"data":["a","b","i","j"]}"|
+|"106"|"{"person":{"name":"daffy duck","companies":[{"name":"n1","title":"t1"},{"name":"n2","title":"t2"}]}}"|
+|"107"|"{"person":{"name":"scrooge mcduck","companies":[{"name":"n1","title":"t1"},{"name":"n2","title":"t2"}]}}"|
 
 To drill down and pull out specific keys within the JSON column, we simply append the JsonPath expression of those keys to the end of the column name.
 
@@ -43,16 +42,15 @@ SELECT id, jsoncolumn.name.last, jsoncolumn.name.first, jsoncolumn.data[1]
 FROM myTable
 ```
 
-```text
-id,jsoncolumn.name.last,jsoncolumn.name.first,jsoncolumn.data[1]
-"101","duck","daffy","b"
-"102","duck","donald","b"
-"103","mouse","mickey","b"
-"104","mouse","minnie","b"
-"105","dwag","goofy","b"
-"106","null","null","null"
-"107","null","null","null"
-```
+|id|jsoncolumn.name.last|jsoncolumn.name.first|jsoncolumn.data[1]
+| ----------- | ----------- | ----------- | ----------- |
+|"101"|"duck"|"daffy"|"b"|
+|"102"|"duck"|"donald"|"b"|
+|"103"|"mouse"|"mickey"|"b"|
+|"104"|"mouse"|"minnie"|"b"|
+|"105"|"dwag"|"goofy"|"b"|
+|"106"|"null"|"null"|"null"|
+|"107"|"null"|"null"|"null"|
 
 Note that the third column \(jsoncolumn.data\[1\]\) is null for rows with id 106 and 107. This is because these rows have JSON documents that don't have a key with JsonPath jsoncolumn.data\[1\]. We can filter out these rows.
 
@@ -62,14 +60,15 @@ FROM myTable
 WHERE jsoncolumn.data[1] IS NOT NULL
 ```
 
-```text
-id,jsoncolumn.name.last,jsoncolumn.name.first,jsoncolumn.data[1]
-"101","duck","daffy","b"
-"102","duck","donald","b"
-"103","mouse","mickey","b"
-"104","mouse","minnie","b"
-"105","dwag","goofy","b"
-```
+
+|id|jsoncolumn.name.last|jsoncolumn.name.first|jsoncolumn.data[1]
+| ----------- | ----------- | ----------- | ----------- |
+|"101"|"duck"|"daffy"|"b"|
+|"102"|"duck"|"donald"|"b"|
+|"103"|"mouse"|"mickey"|"b"|
+|"104"|"mouse"|"minnie"|"b"|
+|"105"|"dwag"|"goofy"|"b"|
+
 
 Notice that certain last names \(duck and mouse for example\) repeat in the data above. We can get a count of each last name by running a GROUP BY query on a JsonPath expression.
 
@@ -80,13 +79,12 @@ WHERE jsoncolumn.data[1] IS NOT NULL
 GROUP BY jsoncolumn.name.last 
 ORDER BY 2 DESC
 ```
+|jsoncolumn.name.last|count(*)|
+| ----------- | ----------- |
+|"mouse"|"2"|
+|"duck"|"2"|
+|"dwag"|"1"|
 
-```text
-jsoncolumn.name.last,count(*)
-"mouse","2"
-"duck","2"
-"dwag","1"
-```
 
 Also there is numerical information \(jsconcolumn.score\) embeded within the JSON document. We can extract those numerical values from JSON data into SQL and sum them up using the query below.
 
@@ -96,13 +94,11 @@ FROM myTable
 WHERE jsoncolumn.name.last IS NOT NULL 
 GROUP BY jsoncolumn.name.last
 ```
-
-```text
-jsoncolumn.name.last,sum(jsoncolumn.score)
-"mouse","207"
-"dwag","104"
-"duck","203"
-```
+|jsoncolumn.name.last|sum(jsoncolumn.score)|
+| ----------- | ----------- |
+|"mouse"|"207"|
+|"dwag"|"104"|
+|"duck"|"203"|
 
 In short, JSON querying support in Pinot will allow you to use a JsonPath expression whereever you can use a column name with the only difference being that to query a column with data type JSON, you must append a JsonPath expression after the name of the column.
 
