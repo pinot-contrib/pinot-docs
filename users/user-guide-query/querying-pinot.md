@@ -81,7 +81,7 @@ FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
-For performant filtering of ids in a list, see Filtering with IdSet.
+For performant filtering of ids in a list, see [Filtering with IdSet](https://docs.pinot.apache.org/users/user-guide-query/filtering-with-idset).
 
 ### Filtering with NULL predicate
 
