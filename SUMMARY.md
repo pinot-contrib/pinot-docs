@@ -16,7 +16,7 @@
   * [Schema](basics/components/schema.md)
   * [Table](basics/components/table.md)
   * [Segment](basics/components/segment.md)
-  * [Pinot data explorer](basics/components/exploring-pinot.md)
+  * [Pinot Data Explorer](basics/components/exploring-pinot.md)
 * [Getting Started](basics/getting-started/README.md)
   * [Running Pinot locally](basics/getting-started/running-pinot-locally.md)
   * [Running Pinot in Docker](basics/getting-started/running-pinot-in-docker.md)
