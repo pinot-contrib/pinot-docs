@@ -10,15 +10,20 @@ A common use case is filtering on an id field with a list of values. This can be
 
 ### ID\_SET
 
-> ID\_SET(columnName, 'sizeThresholdInBytes=1000;expectedInsertions=10000;fpp=0.03' )
+> ID\_SET(columnName, 'sizeThresholdInBytes=8388608;expectedInsertions=5000000;fpp=0.03' )
 
 This function returns a base 64 encoded IdSet of the values for a single column. The IdSet implementation used depends on the column data type:
 
-* INT - RoaringBitmap
-* LONG - Roaring64NavigableMap
-* Other types - Bloom Filter. Supports the following parameters, which can be used to adjust the size of the IdSet:
-  * _expectedInsertions_ - Number of expected insertions for the BloomFilter, must be positive
-  * _fpp_ - Desired false positive probability for the BloomFilter, must be positive and < 1.0
+* INT - RoaringBitmap unless _sizeThresholdInBytes_ is exceeded, in which case Bloom Filter.
+* LONG - Roaring64NavigableMap unless _sizeThresholdInBytes_ is exceeded, in which case Bloom Filter.
+* Other types - Bloom Filter
+
+The following parameters are used to configure the Bloom Filter:
+
+* _expectedInsertions_ - Number of expected insertions for the BloomFilter, must be positive
+* _fpp_ - Desired false positive probability for the BloomFilter, must be positive and < 1.0
+
+Note that when a Bloom Filter is used, the filter results are approximate - you can get false-positive results (for membership in the set), leading to potentially unexpected results.
 
 ### IN\_ID\_SET
 
@@ -38,7 +43,7 @@ This function generates an IdSet from a subquery and then filters ids based on t
 
 This function generates an IdSet from a subquery and then filters ids based on that IdSet on a Pinot server.
 
-This function works best when the data is partitioned by the id column and each server contains all the data for a partition. The generated IdSet for the first query will be smaller as it will only contain the ids for the partitions served by the server. This will give better performance.
+This function works best when the data is partitioned by the id column and each server contains all the data for a partition. The generated IdSet for the subquery will be smaller as it will only contain the ids for the partitions served by the server. This will give better performance.
 
 ## Examples
 
@@ -56,7 +61,7 @@ WHERE teamID = 'WS1'
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc= |
 
-When creating an IdSet for values in non INT/LONG columns, we can configure the expectedInsertions and fpp parameters:
+When creating an IdSet for values in non INT/LONG columns, we can configure the _expectedInsertions_:
 
 ```sql
 SELECT ID_SET(playerName, 'expectedInsertions=10')
@@ -77,6 +82,8 @@ WHERE teamID = 'WS1'
 | idset(playerName)                                                                                                                            |
 | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | AwIBBQAAAAz///////////////////////////////////////////////9///////f///9/////7///////////////+/////////////////////////////////////////////8= |
+
+We can also configure the fpp parameter:
 
 ```sql
 SELECT ID_SET(playerName, 'expectedInsertions=100;fpp=0.01')
