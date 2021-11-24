@@ -12,7 +12,7 @@ Inside the table directory, _**rawdata**_ is created to put all the input data.
 
 Typically, for data events with timestamp, we partition those data and store them into a daily folder. E.g. a typically layout would follow this pattern: `rawdata/%yyyy%/%mm%/%dd%/[daily_input_files]`.
 
-```text
+```
 /var/pinot/airlineStats/rawdata/2014/01/01/airlineStats_data_2014-01-01.avro
 /var/pinot/airlineStats/rawdata/2014/01/02/airlineStats_data_2014-01-02.avro
 /var/pinot/airlineStats/rawdata/2014/01/03/airlineStats_data_2014-01-03.avro
@@ -50,9 +50,9 @@ Typically, for data events with timestamp, we partition those data and store the
 
 Create a batch ingestion job spec file to describe how to ingest the data.
 
-Below is an example \(also located at `examples/batch/airlineStats/ingestionJobSpec.yaml`\)
+Below is an example (also located at `examples/batch/airlineStats/ingestionJobSpec.yaml`)
 
-```text
+```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
 executionFrameworkSpec:
 
@@ -180,19 +180,19 @@ pushJobSpec:
 
 Below command will create example table into Pinot cluster.
 
-```text
+```
 bin/pinot-admin.sh AddTable  -schemaFile examples/batch/airlineStats/airlineStats_schema.json -tableConfigFile examples/batch/airlineStats/airlineStats_offline_table_config.json -exec
 ```
 
 Below command will kick off the ingestion job to generate Pinot segments and push them into the cluster.
 
-```text
-bin/pinot-ingestion-job.sh -jobSpecFile examples/batch/airlineStats/ingestionJobSpec.yaml
+```
+bin/pinot-admin.sh LaunchDataIngestionJob -jobSpecFile examples/batch/airlineStats/ingestionJobSpec.yaml
 ```
 
 After job finished, segments are stored in `examples/batch/airlineStats/segments` following same layout of input directory layout.
 
-```text
+```
 /var/pinot/airlineStats/segments/2014/01/01/airlineStats_batch_2014-01-01_2014-01-01.tar.gz
 /var/pinot/airlineStats/segments/2014/01/02/airlineStats_batch_2014-01-02_2014-01-02.tar.gz
 /var/pinot/airlineStats/segments/2014/01/03/airlineStats_batch_2014-01-03_2014-01-03.tar.gz
@@ -230,7 +230,7 @@ After job finished, segments are stored in `examples/batch/airlineStats/segments
 
 Below example is running in a spark local mode. You can download spark distribution and start it by running:
 
-```text
+```
 wget https://downloads.apache.org/spark/spark-2.4.6/spark-2.4.6-bin-hadoop2.7.tgz
 tar xvf spark-2.4.6-bin-hadoop2.7.tgz
 cd spark-2.4.6-bin-hadoop2.7
@@ -241,9 +241,9 @@ Build latest Pinot Distribution following this [Wiki](https://docs.pinot.apache.
 
 Below command shows how to use spark-submit command to submit a spark job using `pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`.
 
-Sample Spark ingestion job spec yaml, \(also located at `examples/batch/airlineStats/sparkIngestionJobSpec.yaml`\):
+Sample Spark ingestion job spec yaml, (also located at `examples/batch/airlineStats/sparkIngestionJobSpec.yaml`):
 
-```text
+```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
 executionFrameworkSpec:
 
@@ -381,18 +381,18 @@ Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 {% hint style="info" %}
 Please ensure you set
 
-* `spark.driver.extraJavaOptions =>`
+*   `spark.driver.extraJavaOptions =>`
 
-  `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins`
+    `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins`
 
 Or put all the required plugins jars to CLASSPATH, then set `-Dplugins.dir=${CLASSPATH}`
 
-* `spark.driver.extraClassPath =>`
+*   `spark.driver.extraClassPath =>`
 
-  `pinot-all-${PINOT_VERSION}-jar-with-depdencies.jar`
+    `pinot-all-${PINOT_VERSION}-jar-with-depdencies.jar`
 {% endhint %}
 
-```text
+```
 export PINOT_VERSION=0.5.0-SNAPSHOT
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/apache-pinot-${PINOT_VERSION}-bin
 cd ${PINOT_DISTRIBUTION_DIR}
@@ -410,9 +410,9 @@ ${SPARK_HOME}/bin/spark-submit \
 
 Below command shows how to use Hadoop jar command to run a Hadoop job using `pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`.
 
-Sample Hadoop ingestion job spec yaml\(also located at `examples/batch/airlineStats/hadoopIngestionJobSpec.yaml`\):
+Sample Hadoop ingestion job spec yaml(also located at `examples/batch/airlineStats/hadoopIngestionJobSpec.yaml`):
 
-```text
+```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
 executionFrameworkSpec:
 
@@ -547,7 +547,7 @@ pushJobSpec:
 
 Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
-```text
+```
 export PINOT_VERSION=0.5.0-SNAPSHOT
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/apache-pinot-${PINOT_VERSION}-bin
 export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
@@ -569,9 +569,8 @@ Please note that you need to config above three all together in `JAVA_OPTS`. If 
 
 E.g.
 
-```text
+```
 docker run --rm -ti -e JAVA_OPTS="-Xms8G -Dlog4j2.configurationFile=/opt/pinot/conf/pinot-admin-log4j2.xml  -Dplugins.dir=/opt/pinot/plugins" --name pinot-data-ingestion-job apachepinot/pinot:latest LaunchDataIngestionJob -jobSpecFile /path/to/ingestion_job_spec.yaml
 ```
 
 You can also add your customized `JAVA_OPTS` if necessary.
-
