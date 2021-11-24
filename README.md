@@ -7,7 +7,7 @@ description: >-
 
 # Introduction
 
-Join us in our Slack channel for questions, troubleshooting, and feedback. You can request an invite from -  [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot) .
+Join us in our Slack channel for questions, troubleshooting, and feedback. You can request an invite from -  [https://communityinviter.com/apps/apache-pinot/apache-pinot](https://communityinviter.com/apps/apache-pinot/apache-pinot).
 
 {% hint style="info" %}
 We'd love to hear from you!
@@ -61,7 +61,7 @@ With Pinot's growing popularity, several companies are now using it in productio
 ### Features
 
 * A column-oriented database with various compression schemes such as Run Length, Fixed Bit Length
-* Pluggable indexing technologies - Sorted Index, Bitmap Index, Inverted Index, StarTree Index, Range Index,&#x20;
+* Pluggable indexing technologies - Sorted Index, Bitmap Index, Inverted Index, StarTree Index, Bloom Filter, Range Index, Text Search Index(Lucence/FST), Json Index, Geospatial Index&#x20;
 * Ability to optimize query/execution plan based on query and segment metadata
 * Near real-time ingestion from streams such as Kafka, Kinesis and batch ingestion from sources such as Hadoop, S3, Azure, GCS
 * SQL-like language that supports selection, aggregation, filtering, group by, order by, distinct queries on data
