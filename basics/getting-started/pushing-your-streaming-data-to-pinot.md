@@ -21,7 +21,7 @@ Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-
 ```
 docker run \
     --network pinot-demo_default --name=kafka \
-    -e KAFKA_ZOOKEEPER_CONNECT=manual-zookeeper:2123/kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=manual-zookeeper:2181/kafka \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
     -d wurstmeister/kafka:latest
@@ -33,7 +33,7 @@ docker run \
 docker exec \
   -t kafka \
   /opt/kafka/bin/kafka-topics.sh \
-  --zookeeper pinot-quickstart:2123/kafka \
+  --zookeeper manual-zookeeper:2181/kafka \
   --partitions=1 --replication-factor=1 \
   --create --topic transcript-topic
 ```
@@ -86,7 +86,7 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you l
       "stream.kafka.topic.name": "transcript-topic",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-      "stream.kafka.broker.list": "localhost:9876",
+      "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.size": "0",
       "realtime.segment.flush.threshold.time": "24h",
       "realtime.segment.flush.desired.size": "50M",
@@ -97,6 +97,7 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you l
     "customConfigs": {}
   }
 }
+
 ```
 {% endcode %}
 
