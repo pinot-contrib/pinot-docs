@@ -10,7 +10,11 @@ Navigate to [http://localhost:9000](http://localhost:9000) in your browser to op
 
 ![](../../.gitbook/assets/pinot\_controller\_ui.png)
 
-Let's take a look at the following two features on the UI
+## Cluster Manager
+
+The first screen that you'll see when you open the Pinot Data Explorer is the Cluster Manager. The Cluster Manager provides a UI to operate and manage your cluster.&#x20;
+
+
 
 ## Query Console
 
@@ -70,3 +74,4 @@ Take a look at the schema by going to [Schema -> Get a schema](http://localhost:
 Finally, let's check out the data segments in the cluster by going to [Segment -> List all segments](http://localhost:9000/help#!/Segment/getSegments), click **Try it out**, type in `baseballStats` in the table name, and then click **Execute**. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
 To learn how to upload your own data and schema, see [Batch Ingestion](../data-import/batch-ingestion/) or [Stream ingestion](../data-import/pinot-stream-ingestion/).
+
