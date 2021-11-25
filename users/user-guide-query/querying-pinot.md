@@ -126,9 +126,8 @@ FROM myTable
 
 ### Pagination on Selection
 
-----
-Note: results might not be consistent if column ordered by has same value in multiple rows.
-----
+
+> #### Note::Note results might not be consistent if column ordered by has same value in multiple rows.
 
 ```sql
 SELECT foo, bar 
