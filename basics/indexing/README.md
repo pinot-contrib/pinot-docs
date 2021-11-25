@@ -58,7 +58,7 @@ curl -X POST
 -H "accept: application/json"
 ```
 
-You can also find this action on the Pinot UI, on the specific table's page.
+You can also find this action on the [Cluster Manager in the Pinot UI](https://docs.pinot.apache.org/basics/components/exploring-pinot#cluster-manager), on the specific table's page.
 
 ### Tuning Index
 
