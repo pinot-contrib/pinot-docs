@@ -272,8 +272,11 @@ pushJobSpec:
 
 Below is a sample job output:
 
+```bash
+bin/pinot-admin.sh LaunchDataIngestionJob -jobSpecFile  ~/temp/pinot/pinot-s3-test/ingestionJobSpec.yaml
+```
+
 ```text
-➜ bin/pinot-ingestion-job.sh -jobSpecFile  ~/temp/pinot/pinot-s3-test/ingestionJobSpec.yaml
 2020/08/18 16:11:03.521 INFO [IngestionJobLauncher] [main] SegmentGenerationJobSpec:
 !!org.apache.pinot.spi.ingestion.batch.spec.SegmentGenerationJobSpec
 excludeFileNamePattern: null
