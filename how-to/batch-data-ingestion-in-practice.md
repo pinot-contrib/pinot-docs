@@ -187,7 +187,7 @@ bin/pinot-admin.sh AddTable  -schemaFile examples/batch/airlineStats/airlineStat
 Below command will kick off the ingestion job to generate Pinot segments and push them into the cluster.
 
 ```text
-bin/pinot-ingestion-job.sh examples/batch/airlineStats/ingestionJobSpec.yaml
+bin/pinot-admin.sh LaunchDataIngestionJob examples/batch/airlineStats/ingestionJobSpec.yaml
 ```
 
 After job finished, segments are stored in `examples/batch/airlineStats/segments` following same layout of input directory layout.
