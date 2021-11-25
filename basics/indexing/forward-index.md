@@ -2,9 +2,9 @@
 
 The values for every column are stored in a forward index, of which there are three types:
 
-* Dictionary encoded forward index - Builds a dictionary mapping 0 indexed ids to each unique value in a column and a forward index that contains the bit-compressed ids.
-* Raw value forward index - Builds a forward index of the column's values.&#x20;
-* Sorted forward index - Builds a dictionary mapping from each unique value to a pair of start and end document id and a forward index on top of the dictionary encoding.
+* [Dictionary encoded forward index](https://docs.pinot.apache.org/basics/indexing/forward-index#dictionary-encoded-forward-index-with-bit-compression-default) - Builds a dictionary mapping 0 indexed ids to each unique value in a column and a forward index that contains the bit-compressed ids.
+* [Raw value forward index](https://docs.pinot.apache.org/basics/indexing/forward-index#raw-value-forward-index) - Builds a forward index of the column's values.&#x20;
+* [Sorted forward index](https://docs.pinot.apache.org/basics/indexing/forward-index#sorted-forward-index-with-run-length-encoding) - Builds a dictionary mapping from each unique value to a pair of start and end document id and a forward index on top of the dictionary encoding.
 
 ## Dictionary-encoded forward index with bit compression (default)
 
@@ -63,9 +63,9 @@ Sorted index can be configured for a table by setting it in the table config as
 **Note**: A given Pinot table can only have 1 sorted column
 {% endhint %}
 
-Real-time server will sort data on `sortedColumn` when generating segment internally. For offline push, input data needs to be sorted before running Pinot segment conversion and push job.
+Real-time data ingestion will sort data by the `sortedColumn` when generating segments. For offline data ingestion, you will need to sort the data before ingesting it into Pinot.
 
-When applied correctly, one can find the following information on the segment metadata.
+You can check the sorted status of a column in a segment by running the following:
 
 ```bash
 $ grep memberId <segment_name>/v3/metadata.properties | grep isSorted
