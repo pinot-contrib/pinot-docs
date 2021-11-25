@@ -4,7 +4,7 @@ JSON index can be applied to JSON string columns to accelerate the value lookup 
 
 ## When to use JSON index
 
-JSON string can be used to represent the array, map, nested field without forcing a fixed schema. It is very flexible, but the flexibility comes with a cost - filtering on JSON string column is very expensive.
+JSON string can be used to represent the array, map, nested field without forcing a fixed schema. It is very flexible, but the flexibility comes with a cost - filtering on JSON string columns is very expensive.
 
 Suppose we have some JSON records similar to the following sample record stored in the `person` column:
 
@@ -39,7 +39,9 @@ Without an index, in order to look up a key and filter records based on the valu
 For example, in order to find all persons whose name is "adam", the query will look like:
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_EXTRACT_SCALAR(person, '$.name', 'STRING') = 'adam'
+SELECT * 
+FROM mytable 
+WHERE JSON_EXTRACT_SCALAR(person, '$.name', 'STRING') = 'adam'
 ```
 
 JSON index is designed to accelerate the filtering on JSON string columns without scanning and reconstructing all the JSON objects.
@@ -67,7 +69,9 @@ Note that JSON index can only be applied to `STRING` columns whose values are JS
 JSON index can be used via the `JSON_MATCH` predicate: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find all persons whose name is "adam", the query will look like:
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.name"=''adam''')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
 Note that the quotes within the filter expression need to be escaped.
@@ -83,7 +87,9 @@ In release `0.7.1`, we use the old syntax for `filterExpression`: `'name=''adam'
 Find all persons whose name is "adam":
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.name"=''adam''')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
 {% hint style="info" %}
@@ -92,10 +98,12 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'name=''adam'''
 
 ### Chained key lookup
 
-Find all persons who have an address \(one of the addresses\) with number 112:
+Find all persons who have an address (one of the addresses) with number 112:
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[*].number"=112')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.addresses[*].number"=112')
 ```
 
 {% hint style="info" %}
@@ -104,10 +112,12 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'addresses.numb
 
 ### Nested filter expression
 
-Find all persons whose name is "adam" and also have an address \(one of the addresses\) with number 112:
+Find all persons whose name is "adam" and also have an address (one of the addresses) with number 112:
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
 ```
 
 {% hint style="info" %}
@@ -119,7 +129,9 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'name=''adam'' 
 Find all persons whose first address has number 112:
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
 ```
 
 {% hint style="info" %}
@@ -128,10 +140,12 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'"addresses[0].
 
 ### Existence check
 
-Find all persons who have phone field within the JSON:
+Find all persons who have a phone field within the JSON:
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.phone" IS NOT NULL')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.phone" IS NOT NULL')
 ```
 
 {% hint style="info" %}
@@ -141,7 +155,9 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'phone IS NOT N
 Find all persons whose first address does not contain floor field within the JSON:
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].floor" IS NULL')
+SELECT ... 
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[0].floor" IS NULL')
 ```
 
 {% hint style="info" %}
@@ -150,28 +166,34 @@ In release `0.7.1`, we use the old syntax for filterExpression: `'"addresses[0].
 
 ## JSON context is maintained
 
-The JSON context is maintained for object elements within an array, i.e. the filter won't cross match different objects in the array.
+The JSON context is maintained for object elements within an array, i.e. the filter won't cross-match different objects in the array.
 
 To find all persons who live on "main st" in "ca":
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st'' AND "$.addresses[*].country"=''ca''')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st'' AND "$.addresses[*].country"=''ca''')
 ```
 
 This query won't match "adam" because none of his addresses matches both the street and the country.
 
-If JSON context is not desired, use multiple separate `JSON_MATCH` predicates. E.g. to find all persons who have addresses on "main st" and have addressed in "ca" \(doesn't have to be the same address\):
+If JSON context is not desired, use multiple separate `JSON_MATCH` predicates. E.g. to find all persons who have addresses on "main st" and have addressed in "ca" (doesn't have to be the same address):
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[*].country"=''ca''')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[*].country"=''ca''')
 ```
 
-This query will match "adam" because one of his addressed matches the street and another one matches the country.
+This query will match "adam" because one of his addresses matches the street and another one matches the country.
 
 Note that the array index is maintained as a separate entry within the element, so in order to query different elements within an array, multiple `JSON_MATCH` predicates are required. E.g. to find all persons who have first address on "main st" and second address on "second st":
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(person, '"$.addresses[0].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[1].street"=''second st''')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(person, '"$.addresses[0].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[1].street"=''second st''')
 ```
 
 ## Supported JSON values
@@ -189,13 +211,17 @@ See examples above.
 To find the records with array element "item1" in "arrayCol":
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(arrayCol, '"$[*]"=''item1''')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(arrayCol, '"$[*]"=''item1''')
 ```
 
 To find the records with second array element "item2" in "arrayCol":
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(arrayCol, '"$[1]"=''item2''')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(arrayCol, '"$[1]"=''item2''')
 ```
 
 ### Value
@@ -209,7 +235,9 @@ SELECT ... FROM mytable WHERE JSON_MATCH(arrayCol, '"$[1]"=''item2''')
 To find the records with value 123 in "valueCol":
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(valueCol, '"$"=123')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(valueCol, '"$"=123')
 ```
 
 ### Null
@@ -221,14 +249,15 @@ null
 To find the records with null in "nullableCol":
 
 ```sql
-SELECT ... FROM mytable WHERE JSON_MATCH(nullableCol, '"$" IS NULL')
+SELECT ... 
+FROM mytable 
+WHERE JSON_MATCH(nullableCol, '"$" IS NULL')
 ```
 
 {% hint style="warning" %}
-In release `0.7.1`, json string must be object \(cannot be `null`, value or array\); multi-dimensional array is not supported.
+In release `0.7.1`, json string must be object (cannot be `null`, value or array); multi-dimensional array is not supported.
 {% endhint %}
 
 ## Limitations
 
-1. The key \(left-hand side\) of the filter expression must be the leaf level of the JSON object, e.g. `"$.addresses[*]"='main st'` won't work.
-
+1. The key (left-hand side) of the filter expression must be the leaf level of the JSON object, e.g. `"$.addresses[*]"='main st'` won't work.

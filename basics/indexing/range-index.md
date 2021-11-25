@@ -1,10 +1,16 @@
 # Range Index
 
-Range indexing allows user to get better performance for queries which involve filtering over a range. e.g.
+Range indexing allows you to get better performance for queries that involve filtering over a range.
 
-`SELECT COUNT(*) from baseballStats where hits > 11`
+It would be useful for a query like the following:
 
-Range index is just a variant of inverted index. Instead of creating mapping from values to columns, we create mapping of a range of values to columns. You can use the range index by setting the following config in the table config json.
+```
+SELECT COUNT(*) 
+from baseballStats 
+where hits > 11
+```
+
+A range index is a variant of an [inverted index](https://docs.pinot.apache.org/basics/indexing/inverted-index), where instead of creating a mapping from values to columns, we create mapping of a range of values to columns. You can use the range index by setting the following config in the table config.
 
 ```javascript
 {
@@ -18,17 +24,13 @@ Range index is just a variant of inverted index. Instead of creating mapping fro
 }
 ```
 
-Currently, range indexing is only supported for dictionary columns. Range indexing support for raw value columns is WIP.
+At the moment, range indexing is only supported for dictionary columns. Support for raw value columns is WIP.
 
 {% hint style="info" %}
 ### When to use Range Index?
 
-A good thumb rule is to use range index when you want to apply range predicates on metric columns which have very large number of unique values. Using inverted index for such columns will create a very large index that is inefficient in terms of storage and performance.
+A good thumb rule is to use a range index when you want to apply range predicates on metric columns that have a very large number of unique values.&#x20;
+
+Using an inverted index for such columns will create a very large index that is inefficient in terms of storage and performance.
 {% endhint %}
-
-### 
-
-### 
-
-
 

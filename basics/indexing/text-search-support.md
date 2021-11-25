@@ -6,20 +6,27 @@ description: This page talks about support for text search functionality in Pino
 
 ## Why do we need text search?
 
-Pinot supports super fast query processing through its indexes on non-BLOB like columns. Queries with exact match filters are run efficiently through a combination of dictionary encoding, inverted index and sorted index. An example:
+Pinot supports super-fast query processing through its indexes on non-BLOB like columns. Queries with exact match filters are run efficiently through a combination of dictionary encoding, inverted index, and sorted index.&#x20;
+
+It would be useful for a query like the following:
 
 ```sql
-SELECT COUNT(*) FROM Foo WHERE STRING_COL = "ABCDCD" AND INT_COL > 2000
+SELECT COUNT(*) 
+FROM Foo 
+WHERE STRING_COL = "ABCDCD" 
+AND INT_COL > 2000
 ```
 
-In the above query, we are doing exact match on two columns of type STRING and INT respectively.
+This query does exact matches on two columns of type STRING and INT respectively.
 
-For arbitrary text data which falls into the BLOB/CLOB territory, we need more than exact matches. Users are interested in doing regex, phrase, fuzzy queries on BLOB like data. Before 0.3.0, one had to use [regexp\_like](https://apache-pinot.gitbook.io/apache-pinot-cookbook/pinot-user-guide/pinot-query-language#wild-card-match-in-where-clause-only) to achieve this. However, this was scan based which was not performant and features like fuzzy search (edit distance search) were not possible.
+For arbitrary text data that falls into the BLOB/CLOB territory, we need more than exact matches. Users are interested in doing regex, phrase, fuzzy queries on BLOB like data. Before 0.3.0, one had to use [regexp\_like](https://apache-pinot.gitbook.io/apache-pinot-cookbook/pinot-user-guide/pinot-query-language#wild-card-match-in-where-clause-only) to achieve this. However, this was scan based which was not performant and features like fuzzy search (edit distance search) were not possible.
 
 In version 0.3.0, we added support for text indexes to efficiently do arbitrary search on STRING columns where each column value is a large BLOB of text. This can be achieved by using the new built-in function TEXT\_MATCH.
 
 ```sql
-SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH (<column_name>, <search_expression)
+SELECT COUNT(*) 
+FROM Foo 
+WHERE TEXT_MATCH (<column_name>, <search_expression)
 ```
 
 where \<column\_name> is the column text index is created on and **\<search\_expression>** can be:
@@ -61,26 +68,32 @@ Few examples of search queries on this data:
 **Count the number of GET requests.**
 
 ```sql
-SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(ACCESS_LOG_COL, 'GET')
+SELECT COUNT(*) 
+FROM MyTable 
+WHERE TEXT_MATCH(ACCESS_LOG_COL, 'GET')
 ```
 
 **Count the number of POST requests that have administrator in the URL (administrator/index)**
 
 ```sql
-SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(ACCESS_LOG_COL, 'post AND administrator AND index')
+SELECT COUNT(*) 
+FROM MyTable 
+WHERE TEXT_MATCH(ACCESS_LOG_COL, 'post AND administrator AND index')
 ```
 
 **Count the number of POST requests that have a particular URL and handled by Firefox browser**
 
 ```sql
-SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(ACCESS_LOG_COL, 'post AND administrator AND index AND firefox')
+SELECT COUNT(*) 
+FROM MyTable 
+WHERE TEXT_MATCH(ACCESS_LOG_COL, 'post AND administrator AND index AND firefox')
 ```
 
 ### Resume text
 
 Consider another example of simple resume text. Each line in the file represents skill-data from resumes of different candidates
 
-Let's say the following snippet of data is stored in SKILLS\_COL column in Pinot table. Each line in the input text represents a column value.
+Let's say the following snippet of data is stored in _SKILLS\_COL_ column in Pinot table. Each line in the input text represents a column value.
 
 ```
 Distributed systems, Java, C++, Go, distributed query engines for analytics and data warehouses, Machine learning, spark, Kubernetes, transaction processing
@@ -104,13 +117,17 @@ Few examples of search queries on this data:
 **Count the number of candidates that have "machine learning" and "gpu processing"** - a phrase search (more on this further in the document) where we are looking for exact match of phrases "machine learning" and "gpu processing" not necessarily in the same order in original data.
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"gpu processing\"')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"gpu processing\"')
 ```
 
 **Count the number of candidates that have "distributed systems" and either 'Java' or 'C++'** - a combination of searching for exact phrase "distributed systems" along with other terms.
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" AND (Java C++)')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" AND (Java C++)')
 ```
 
 ### Query Log
@@ -137,19 +154,25 @@ Few examples of search queries on this data:
 **Count the number of queries that have GROUP BY**
 
 ```sql
-SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(QUERY_LOG_COL, '\"group by\"')
+SELECT COUNT(*) 
+FROM MyTable 
+WHERE TEXT_MATCH(QUERY_LOG_COL, '\"group by\"')
 ```
 
 **Count the number of queries that have the SELECT count... pattern**
 
 ```sql
-SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(QUERY_LOG_COL, '\"select count\"')
+SELECT COUNT(*) 
+FROM MyTable 
+WHERE TEXT_MATCH(QUERY_LOG_COL, '\"select count\"')
 ```
 
 **Count the number of queries that use BETWEEN filter on timestamp column along with GROUP BY**
 
 ```sql
-SELECT COUNT(*) FROM MyTable WHERE TEXT_MATCH(QUERY_LOG_COL, '\"timestamp between\" AND \"group by\"')
+SELECT COUNT(*) 
+FROM MyTable 
+WHERE TEXT_MATCH(QUERY_LOG_COL, '\"timestamp between\" AND \"group by\"')
 ```
 
 [Further sections](https://apache-pinot.gitbook.io/apache-pinot-cookbook/text-search-support#writing-text-search-queries) in the document cover several concrete examples on each kind of query and step-by-step guide on how to write text search queries in Pinot.
@@ -219,7 +242,7 @@ The above mechanism can be used to configure text indexes in the following scena
 
 Once the text index is enabled on one or more columns through table config, our segment generation code will pick up the config and automatically create text index (per column). This is exactly how other indexes in Pinot are created.
 
-Text index is supported for both offline and realtime segments.
+Text index is supported for both offline and real-time segments.
 
 ### Text parsing and tokenization
 
@@ -267,7 +290,7 @@ The search expression (second argument to TEXT\_MATCH function) is the query str
 
 ### **Phrase Query**
 
-This query is used to do exact match of a given phrase. Exact match implies that terms in the user specified phrase should appear in the exact same order in the original text document. Note that document is referred to as the column value.
+This query is used to do exact match of a given phrase. Exact match implies that terms in the user-specified phrase should appear in the exact same order in the original text document. Note that document is referred to as the column value.
 
 Let's take the example of resume text data containing 14 documents to walk through queries. The data is stored in column named SKILLS\_COL and we have created a text index on this column.
 
@@ -296,7 +319,9 @@ Database engine, OLAP systems, OLTP transaction processing at large scale, concu
 **Example 1 -** Search in SKILL\_COL column to look for documents where each matching document MUST contain phrase "distributed systems" as is
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Distributed systems\"')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, '\"Distributed systems\"')
 ```
 
 The search expression is '\\"Distributed systems\\"'
@@ -329,7 +354,9 @@ This is because the phrase query looks for the phrase occurring in the original 
 **Example 2 -** Search in SKILL\_COL column to look for documents where each matching document MUST contain phrase "query processing" as is
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"query processing\"')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, '\"query processing\"')
 ```
 
 The above query will match the following documents:
@@ -348,7 +375,9 @@ Term queries are used to search for individual terms
 As mentioned earlier, the search expression is always within single quotes. However, since this is a term query, we don't have to use double quotes within single quotes.
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, 'Java')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, 'Java')
 ```
 
 ### Composite Query using Boolean Operators
@@ -358,7 +387,9 @@ Boolean operators AND, OR are supported and we can use them to build a composite
 **Example 4 -** Search in SKILL\_COL column to look for documents where each matching document MUST contain phrases "distributed systems" and "tensor flow". This combines two phrases using AND boolean operator
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"Tensor Flow\"')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"Tensor Flow\"')
 ```
 
 The above query will match the following documents:
@@ -372,7 +403,9 @@ CUDA, GPU processing, Tensor flow, Pandas, Python, Jupyter notebook, spark, Mach
 **Example 5 -** Search in SKILL\_COL column to look for documents where each document MUST contain phrase "machine learning" and term 'gpu' and term 'python'. This combines a phrase and two terms using boolean operator
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND gpu AND python')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND gpu AND python')
 ```
 
 The above query will match the following documents:
@@ -382,7 +415,7 @@ CUDA, GPU, Python, Machine learning, database kernel, storage, indexing and tran
 CUDA, GPU processing, Tensor flow, Pandas, Python, Jupyter notebook, spark, Machine learning, building high performance scalable systems
 ```
 
-When using boolean operators to combine term(s) and phrase(s) or both, please note that:
+When using Boolean operators to combine term(s) and phrase(s) or both, please note that:
 
 * The matching document can contain the terms and phrases in any order.&#x20;
 * The matching document may not have the terms adjacent to each other (if this is needed, please use appropriate phrase query for the concerned terms).
@@ -396,7 +429,9 @@ Use of OR operator is implicit. In other words, if phrase(s) and term(s) are not
 * term 'C++'.
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" Java C++')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" Java C++')
 ```
 
 We can also do grouping using parentheses:
@@ -409,7 +444,9 @@ We can also do grouping using parentheses:
 In the below query, we group terms Java and C++ without any operator which implies the use of OR. The root operator AND is used to combine this with phrase "distributed systems"
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" AND (Java C++)')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" AND (Java C++)')
 ```
 
 ### Prefix Query
@@ -419,7 +456,9 @@ Prefix searches can also be done in the context of a single term. We can't use p
 **Example 8 -** Search in SKILL\_COL column to look for documents where each document MUST contain text like stream, streaming, streams etc
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE TEXT_MATCH(SKILLS_COL, 'stream*')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE TEXT_MATCH(SKILLS_COL, 'stream*')
 ```
 
 The above query will match the following documents:
@@ -442,7 +481,9 @@ Consider server log as an example and we want to look for exceptions. A regex qu
 Syntax of a regex query is slightly different from queries mentioned earlier. The regular expression is written between a pair of forward slashes (/).
 
 ```sql
-SELECT SKILLS_COL FROM MyTable WHERE text_match(SKILLS_COL, '/.*Exception/')
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE text_match(SKILLS_COL, '/.*Exception/')
 ```
 
 The above query will match any text document containing exception.
