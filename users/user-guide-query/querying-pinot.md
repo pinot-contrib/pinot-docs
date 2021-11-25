@@ -4,36 +4,40 @@ description: Learn how to query Pinot using SQL
 
 # Querying Pinot
 
-## DIALECT
+## SQL Dialect
 
-Pinot uses **Calcite SQL** Parser to parse queries and uses **MYSQL\_ANSI** dialect. You can see the grammar [here](https://calcite.apache.org/docs/reference.html).
+Pinot uses the **Calcite SQL** parser to parse queries and uses **MYSQL\_ANSI** dialect. 
+You can see the grammar [in the Calcite documentation](https://calcite.apache.org/docs/reference.html).
 
 ## Limitations
 
-Pinot does not support Joins or nested Subqueries and we recommend using **Presto** for queries that span multiple tables. Read [Engineering Full SQL support for Pinot at Uber](https://eng.uber.com/engineering-sql-support-on-apache-pinot/) for more info.
+Pinot does not support joins or nested subqueries.
+We recommend using **Presto** for queries that span multiple tables. 
+For more information, see [Engineering Full SQL support for Pinot at Uber](https://eng.uber.com/engineering-sql-support-on-apache-pinot/).
 
-No DDL support. Tables can be created via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
+There is no DDL support. 
+Tables can be created via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
-### Identifier vs Literal
+## Identifier vs Literal
 
 In Pinot SQL:
 
-* **Double quotes(")** are used to force string identifiers, e.g. column name.
-* **Single quotes(')** are used to enclose string literals.
+* **Double quotes(")** are used to force string identifiers, e.g. column names
+* **Single quotes(')** are used to enclose string literals. If the string literal also contains a single quote, escape this with a single quote e.g  `'''Pinot'''` to match the string literal `'Pinot'`
 
 Mis-using those might cause unexpected query results:
 
-E.g.
+e.g.
 
 * `WHERE a='b'` means the predicate on the column `a` equals to a string literal value `'b'`
 * `WHERE a="b"` means the predicate on the column `a` equals to the value of the column `b`
 
+If your column names use reserved keywords (e.g. `timestamp` or `date`) or special charactesr, you will need to use double quotes when referring to them in queries.
+
 ## Example Queries
 
-* Use single quotes for literals and double quotes (optional) for identifiers (column names)
-* If you name the columns as `timestamp`, `date`, or other reserved keywords, or the column name includes special characters, you need to use double quotes when you refer to them in the query.
 
-### **Simple selection**
+### Selection
 
 ```
 //default to limit 10
@@ -43,6 +47,11 @@ FROM myTable
 SELECT * 
 FROM myTable 
 LIMIT 100
+```
+
+```
+SELECT "date", "timestamp"
+FROM myTable 
 ```
 
 ### Aggregation
