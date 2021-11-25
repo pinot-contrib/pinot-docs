@@ -127,7 +127,7 @@ FROM myTable
 ### Pagination on Selection
 
 
-> #### Note::Note results might not be consistent if column ordered by has same value in multiple rows.
+> Results might not be consistent if the order by column has the same value in multiple rows.
 
 ```sql
 SELECT foo, bar 
