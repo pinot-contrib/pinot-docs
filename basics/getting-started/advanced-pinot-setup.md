@@ -17,7 +17,7 @@ We will run each of these components in separate containers
 
 {% tabs %}
 {% tab title="Docker" %}
-## Start Pinot Components using docker
+## Start Pinot Components using Docker
 
 ### **Prerequisites**
 
@@ -203,15 +203,34 @@ services:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
     depends_on:
       - pinot-broker
+  
 ```
 {% endcode %}
+
+Run `docker-compose up` to launch all the components.&#x20;
+
+You can run the below command to check container status.
+
+```
+docker container ls 
+```
+
+**Sample Console Output**
+
+```
+CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                                     NAMES
+ba5cb0868350   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   manual-pinot-server
+698f160852f9   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        manual-pinot-broker
+b1ba8cf60d69   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  manual-pinot-controller
+54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   manual-zookeeper
+```
 {% endtab %}
 
 {% tab title="Using launcher scripts" %}
 {% hint style="info" %}
 Prerequisites
 
-Follow this instruction in [Getting Pinot](./) to get Pinot
+Download pinot by following the instructions in [Getting Pinot](./).
 {% endhint %}
 
 ## Start Pinot components via launcher scripts
@@ -231,7 +250,7 @@ You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse th
 {% hint style="info" %}
 The examples below are for Java 8 users.
 
-For Java 11+ users, please remove the GC settings inside`JAVA_OPTS.` So it looks like: `export JAVA_OPTS="-Xms4G -Xmx8G"`
+For Java 11+ users, remove the GC settings inside`JAVA_OPTS.` So it looks like: `export JAVA_OPTS="-Xms4G -Xmx8G"`
 {% endhint %}
 
 ```
@@ -268,23 +287,5 @@ bin/pinot-admin.sh  StartKafka \
 Now all Pinot related components are started as an empty cluster.
 {% endtab %}
 {% endtabs %}
-
-Run `docker-compose up` to launch all the components.&#x20;
-
-You can run the below command to check container status.
-
-```
-docker container ls 
-```
-
-**Sample Console Output**
-
-```
-CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                                     NAMES
-ba5cb0868350   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   manual-pinot-server
-698f160852f9   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        manual-pinot-broker
-b1ba8cf60d69   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  manual-pinot-controller
-54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   manual-zookeeper
-```
 
 Now it's time to start adding data to the cluster. Check out some of the [Recipes](../recipes/) or follow the [Batch upload sample data](pushing-your-data-to-pinot.md) and [Stream sample data](pushing-your-streaming-data-to-pinot.md) for instructions on loading your own data.
