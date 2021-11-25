@@ -32,7 +32,9 @@ Indexing is enabled by specifying the desired column names in the table config. 
 
 #### Dynamically added or removed
 
-Indexes can also be dynamically added to or removed from segments at any point. Update your table config with the latest set of indexes you wish to have. For example, if you had an inverted index on `foo` and now want to include `bar`, you would update your table config from this:
+Indexes can also be dynamically added to or removed from segments at any point. Update your table config with the latest set of indexes you wish to have.&#x20;
+
+For example, if you have an inverted index on the `foo` field and now want to include the `bar` field, you would update your table config from this:
 
 ```
 "tableIndexConfig": {
@@ -50,7 +52,9 @@ To this:
     }
 ```
 
-Next, invoke reload API. This API sends reload messages via Helix to all servers, as part of which indexes are added or removed from the local segments. This happens without any downtime and is completely transparent to the queries. In the case of the addition of an index, only the new index is created and appended to the existing segment. In the case of the removal of an index, its related states are cleaned up from Pinot servers. You can find this API under `Segments` tab on Swagger:
+The updated index config won't be picked up unless we invoke the reload API. This API sends reload messages via Helix to all servers, as part of which indexes are added or removed from the local segments. This happens without any downtime and is completely transparent to the queries.&#x20;
+
+When adding an index, only the new index is created and appended to the existing segment. When removing an index, its related states are cleaned up from Pinot servers. You can find this API under the `Segments` tab on Swagger:
 
 ```
 curl -X POST 
