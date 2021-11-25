@@ -21,7 +21,7 @@
   * [Running Pinot locally](basics/getting-started/running-pinot-locally.md)
   * [Running Pinot in Docker](basics/getting-started/running-pinot-in-docker.md)
   * [Running Pinot in Kubernetes](basics/getting-started/kubernetes-quickstart.md)
-  * [Public cloud examples](basics/getting-started/public-cloud-examples/README.md)
+  * [Running on public clouds](basics/getting-started/public-cloud-examples/README.md)
     * [Running on Azure](basics/getting-started/public-cloud-examples/azure-quickstart.md)
     * [Running on GCP](basics/getting-started/public-cloud-examples/gcp-quickstart.md)
     * [Running on AWS](basics/getting-started/public-cloud-examples/aws-quickstart.md)
