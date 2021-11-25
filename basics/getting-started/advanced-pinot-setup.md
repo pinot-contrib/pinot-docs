@@ -44,7 +44,7 @@ docker pull ${PINOT_IMAGE}
 Create an isolated bridge network in docker
 
 ```
-docker network create -d bridge pinot-demo
+docker network create -d bridge pinot-demo_default
 ```
 
 ### 1. Start Zookeeper
@@ -53,8 +53,8 @@ Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper
 
 ```
 docker run \
-    --network=pinot-demo \
-    --name  pinot-zookeeper \
+    --network=pinot-demo_default \
+    --name  manual-pinot-zookeeper \
     --restart always \
     -p 2181:2181 \
     -d zookeeper:3.5.6
@@ -70,8 +70,8 @@ The command below expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if
 
 ```
 docker run --rm -ti \
-    --network=pinot-demo \
-    --name pinot-controller \
+    --network=pinot-demo_default \
+    --name manual-pinot-controller \
     -p 9000:9000 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log" \
     -d ${PINOT_IMAGE} StartController \
@@ -88,8 +88,8 @@ The command below expects a 4GB memory container. Please tune`-Xms` and`-Xmx` if
 
 ```
 docker run --rm -ti \
-    --network=pinot-demo \
-    --name pinot-broker \
+    --network=pinot-demo_default \
+    --name manual-pinot-broker \
     -p 8099:8099 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log" \
     -d ${PINOT_IMAGE} StartBroker \
@@ -106,8 +106,8 @@ The command below expects a 16GB memory container. Please tune`-Xms` and`-Xmx` i
 
 ```
 docker run --rm -ti \
-    --network=pinot-demo \
-    --name pinot-server \
+    --network=pinot-demo_default \
+    --name manual-pinot-server \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log" \
     -d ${PINOT_IMAGE} StartServer \
     -zkAddress pinot-zookeeper:2181
@@ -119,7 +119,7 @@ Optionally, you can also start Kafka for setting up realtime streams. This bring
 
 ```
 docker run --rm -ti \
-    --network pinot-demo --name=kafka \
+    --network pinot-demo_default --name=kafka \
     -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
@@ -207,7 +207,11 @@ services:
 ```
 {% endcode %}
 
-Run `docker-compose up` to launch all the components.&#x20;
+Run the following command to launch all the components:
+
+```
+docker-compose --project-name pinot-demo up
+```
 
 You can run the below command to check container status.
 

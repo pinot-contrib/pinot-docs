@@ -6,7 +6,7 @@ description: The Docker instructions on this page are still WIP
 
 So far, we setup our cluster, ran some queries on the demo tables and explored the admin endpoints. We also uploaded some sample batch data for transcript table.
 
-Now, it's time to ingest from a sample stream into Pinot. The rest of the instructions assume you're using [Pinot running in Docker](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker) \(inside a pinot-quickstart container\).
+Now, it's time to ingest from a sample stream into Pinot. The rest of the instructions assume you're using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).&#x20;
 
 ## Data Stream
 
@@ -18,9 +18,9 @@ Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-
 {% tab title="Docker" %}
 **Start Kafka**
 
-```text
+```
 docker run \
-    --network pinot-demo --name=kafka \
+    --network pinot-demo_default --name=kafka \
     -e KAFKA_ZOOKEEPER_CONNECT=pinot-quickstart:2123/kafka \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
@@ -29,7 +29,7 @@ docker run \
 
 **Create a Kafka Topic**
 
-```text
+```
 docker exec \
   -t kafka \
   /opt/kafka/bin/kafka-topics.sh \
@@ -44,13 +44,13 @@ docker exec \
 
 Start Kafka cluster on port `9876` using the same Zookeeper from the quick-start examples
 
-```text
+```
 bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2123/kafka -port 9876
 ```
 
 **Create a Kafka topic**
 
-Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart_download). Create a topic
+Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart\_download). Create a topic
 
 ```css
 bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-factor 1 --partitions 1 --topic transcript-topic
@@ -108,20 +108,20 @@ Now that we have our table and schema, let's upload them to the cluster. As soon
 {% tab title="Docker" %}
 ```bash
 docker run \
-    --network=pinot-demo \
+    --network=pinot-demo_default \
     -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
     --name pinot-streaming-table-creation \
     apachepinot/pinot:latest AddTable \
     -schemaFile /tmp/pinot-quick-start/transcript-schema.json \
     -tableConfigFile /tmp/pinot-quick-start/transcript-table-realtime.json \
-    -controllerHost pinot-quickstart \
+    -controllerHost manual-pinot-controller \
     -controllerPort 9000 \
     -exec
 ```
 {% endtab %}
 
 {% tab title="Launcher Script" %}
-```text
+```
 bin/pinot-admin.sh AddTable \
     -schemaFile /tmp/pinot-quick-start/transcript-schema.json \
     -tableConfigFile /tmp/pinot-quick-start/transcript-table-realtime.json \
@@ -163,5 +163,4 @@ bin/kafka-console-producer.sh \
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the [Query Console ](http://localhost:9000/query)to checkout the realtime data
 
-![](../../.gitbook/assets/pinot_query_transcript_table.png)
-
+![](../../.gitbook/assets/pinot\_query\_transcript\_table.png)

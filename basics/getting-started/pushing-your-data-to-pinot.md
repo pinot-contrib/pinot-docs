@@ -4,11 +4,11 @@ description: Step-by-step guide on pushing your own data into the Pinot cluster
 
 # Batch import example
 
-So far, we setup our cluster, ran some queries, explored the admin endpoints. Now, it's time to get our own data into Pinot. The rest of the instructions assume you're using [Pinot running in Docker](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker) \(inside a pinot-quickstart container\).
+So far, we have set up our cluster, ran some queries, and explored the admin endpoints. Now, it's time to get our own data into Pinot. The rest of the instructions assume you're using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).
 
 ### Preparing your data
 
-Let's gather our data files and put it in `pinot-quick-start/rawdata`. 
+Let's gather our data files and put them in `pinot-quick-start/rawdata`.&#x20;
 
 ```bash
 mkdir -p /tmp/pinot-quick-start/rawdata
@@ -32,15 +32,15 @@ Schema is used to define the columns and data types of the Pinot table. A detail
 
 Briefly, we categorize our columns into 3 types
 
-| Column Type | Description |
-| :--- | :--- |
-| Dimensions | Typically used in filters and group by, for slicing and dicing into data |
-| Metrics | Typically used in aggregations, represents the quantitative data |
-| Time | Optional column, represents the timestamp associated with each row |
+| Column Type | Description                                                              |
+| ----------- | ------------------------------------------------------------------------ |
+| Dimensions  | Typically used in filters and group by, for slicing and dicing into data |
+| Metrics     | Typically used in aggregations, represents the quantitative data         |
+| Time        | Optional column, represents the timestamp associated with each row       |
 
 For example, in our sample table, the `playerID, yearID, teamID, league, playerName` columns are the dimensions, the `playerStint, numberOfgames, numberOfGamesAsBatter, AtBatting, runs, hits, doules, triples, homeRuns, runsBattedIn, stolenBases, caughtStealing, baseOnBalls, strikeouts, intentionalWalks, hitsByPitch, sacrificeHits, sacrificeFlies, groundedIntoDoublePlays, G_old` columns are the metrics and there is no time column.
 
-Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the reference below. 
+Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the reference below.&#x20;
 
 {% code title="/tmp/pinot-quick-start/transcript-schema.json" %}
 ```bash
@@ -86,7 +86,7 @@ Once you have identified the dimensions, metrics and time columns, create a sche
 
 ### Creating a table config
 
-A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table.md). 
+A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table.md).&#x20;
 
 Here's the table config for the sample CSV file. You can use this as a reference to build your own table config. Simply edit the tableName and schemaName.
 
@@ -132,13 +132,13 @@ Upload the table config using the following command
 {% tab title="Docker" %}
 ```bash
 docker run --rm -ti \
-    --network=pinot-demo \
+    --network=pinot-demo_default \
     -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
     --name pinot-batch-table-creation \
     apachepinot/pinot:latest AddTable \
     -schemaFile /tmp/pinot-quick-start/transcript-schema.json \
     -tableConfigFile /tmp/pinot-quick-start/transcript-table-offline.json \
-    -controllerHost pinot-quickstart \
+    -controllerHost manual-pinot-controller \
     -controllerPort 9000 -exec
 ```
 {% endtab %}
@@ -156,9 +156,9 @@ Check out the table config and schema in the [Rest API](http://localhost:9000/he
 
 ### Creating a segment
 
-A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../components/segment.md). 
+A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../components/segment.md).&#x20;
 
-To generate a segment, we need to first create a job spec yaml file. JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. You can just copy over this job spec file. If you're using your own data, be sure to 1\) replace `transcript` with your table name 2\) set the right `recordReaderSpec`
+To generate a segment, we need to first create a job spec yaml file. JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. You can just copy over this job spec file. If you're using your own data, be sure to 1) replace `transcript` with your table name 2) set the right `recordReaderSpec`
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -183,10 +183,10 @@ recordReaderSpec:
   configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
 tableSpec:
   tableName: 'transcript'
-  schemaURI: 'http://pinot-quickstart:9000/tables/transcript/schema'
-  tableConfigURI: 'http://pinot-quickstart:9000/tables/transcript'
+  schemaURI: 'http://manual-pinot-controller:9000/tables/transcript/schema'
+  tableConfigURI: 'http://manual-pinot-controller:9000/tables/transcript'
 pinotClusterSpecs:
-  - controllerURI: 'http://pinot-quickstart:9000'
+  - controllerURI: 'http://manual-pinot-controller:9000'
 ```
 {% endcode %}
 {% endtab %}
@@ -226,9 +226,9 @@ Use the following command to generate a segment and upload it
 
 {% tabs %}
 {% tab title="Docker" %}
-```text
+```
 docker run --rm -ti \
-    --network=pinot-demo \
+    --network=pinot-demo_default \
     -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
     --name pinot-data-ingestion-job \
     apachepinot/pinot:latest LaunchDataIngestionJob \
@@ -237,7 +237,7 @@ docker run --rm -ti \
 {% endtab %}
 
 {% tab title="Using launcher scripts" %}
-```text
+```
 bin/pinot-admin.sh LaunchDataIngestionJob \
     -jobSpecFile /tmp/pinot-quick-start/batch-job-spec.yml
 ```
@@ -319,5 +319,4 @@ Check that your segment made it to the table using the [Rest API](http://localho
 
 You're all set! You should see your table in the [Query Console](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/exploring-pinot#query-console) and be able to run queries against it now.
 
-![](../../.gitbook/assets/pinot_query_transcript_table.png)
-
+![](../../.gitbook/assets/pinot\_query\_transcript\_table.png)
