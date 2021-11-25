@@ -8,12 +8,12 @@ Once you have set up the Cluster, you can start exploring the data and the APIs 
 
 Navigate to [http://localhost:9000](http://localhost:9000) in your browser to open the controller UI.
 
-![](../../.gitbook/assets/pinot\_controller\_ui.png)
-
 ## Cluster Manager
 
-The first screen that you'll see when you open the Pinot Data Explorer is the Cluster Manager. The Cluster Manager provides a UI to operate and manage your cluster.&#x20;
+The first screen that you'll see when you open the Pinot Data Explorer is the Cluster Manager. 
+The Cluster Manager provides a UI to operate and manage your cluster.
 
+![](../../.gitbook/assets/pinot\_controller\_ui.png)
 
 
 ## Query Console
