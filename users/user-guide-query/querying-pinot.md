@@ -182,13 +182,14 @@ FROM myTable
 ### UDF
 
 Functions have to be implemented within Pinot. Injecting functions is not yet supported. The example below demonstrate the use of UDFs. 
-For more examples, see [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations).
 
 ```sql
 SELECT COUNT(*)
 FROM myTable
 GROUP BY DATETIMECONVERT(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH', '1:HOURS')
 ```
+
+For more examples, see [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations).
 
 ### BYTES column
 
