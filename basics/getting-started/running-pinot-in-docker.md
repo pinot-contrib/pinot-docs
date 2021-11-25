@@ -5,7 +5,9 @@ description: This quick start guide will show you how to run a Pinot cluster usi
 # Running Pinot in Docker
 
 {% hint style="success" %}
-This is a quick-start guide that will show you how to quickly start an example recipe in a standalone instance and is meant for learning. To run Pinot in cluster mode, please take a look at [Manual cluster setup](advanced-pinot-setup.md).
+This is a quick-start guide that will show you how to quickly start an example recipe in a standalone instance and is meant for learning.&#x20;
+
+To run Pinot in cluster mode, see the [Manual cluster setup](advanced-pinot-setup.md).
 {% endhint %}
 
 {% hint style="info" %}
@@ -22,7 +24,7 @@ If running locally, please ensure your Docker cluster has enough resources, belo
 
 We'll be using the Docker image `apachepinot/pinot:latest` to run this quick start, which does the following:
 
-* Sets up the Pinot cluster
+* Sets up the Pinot cluster with all components running in one container
 * Creates a sample table and loads sample data
 
 The following quick-start scripts are available&#x20;
@@ -51,16 +53,6 @@ docker run \
 ```
 
 That's it! We've spun up a Pinot cluster.&#x20;
-
-{% hint style="info" %}
-It may take a while for all the Pinot components to start and for the sample data to be loaded.&#x20;
-
-Use the below command to check the status in the container logs.
-
-```
-docker logs pinot-quickstart -f
-```
-{% endhint %}
 
 Your cluster is ready once you see the cluster setup completion messages and sample queries, as demonstrated below.
 
