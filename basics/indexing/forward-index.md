@@ -1,8 +1,12 @@
 # Forward Index
 
-## Forward index
+The values for every column are stored in a forward index, of which there are three types:
 
-### Dictionary-encoded forward index with bit compression \(default\)
+* Dictionary encoded forward index - Builds a dictionary mapping 0 indexed ids to each unique value in a column and a forward index that contains the bit-compressed ids.
+* Raw value forward index - Builds a forward index of the column's values.&#x20;
+* Sorted forward index - Builds a dictionary mapping from each unique value to a pair of start and end document id and a forward index on top of the dictionary encoding.
+
+## Dictionary-encoded forward index with bit compression (default)
 
 For each unique value from a column, we assign an id to it, and build a dictionary from the id to the value. Then in the forward index, we only store the bit-compressed ids instead of the values. With few number of unique values, dictionary-encoding can significantly improve the space efficiency of the storage.
 
@@ -10,7 +14,7 @@ The below diagram shows the dictionary encoding for two columns with `integer` a
 
 ![](../../.gitbook/assets/dictionary.png)
 
-### Raw value forward index
+## Raw value forward index
 
 In contrast to the dictionary-encoded forward index, raw value forward index directly stores values instead of ids.
 
@@ -34,9 +38,9 @@ Raw value forward index can be configured for a table by setting it in the table
 }
 ```
 
-### Sorted forward index with run-length encoding
+## Sorted forward index with run-length encoding
 
-When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, we store a pair of start and end document id for each value. \(The below diagram does not include dictionary encoding layer for simplicity.\)
+When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, we store a pair of start and end document id for each value. (The below diagram does not include dictionary encoding layer for simplicity.)
 
 ![](../../.gitbook/assets/sorted-forward.png)
 
@@ -68,5 +72,4 @@ $ grep memberId <segment_name>/v3/metadata.properties | grep isSorted
 column.memberId.isSorted = true
 ```
 
-## 
-
+##
