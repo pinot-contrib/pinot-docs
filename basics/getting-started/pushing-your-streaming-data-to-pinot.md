@@ -21,7 +21,7 @@ Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-
 ```
 docker run \
     --network pinot-demo_default --name=kafka \
-    -e KAFKA_ZOOKEEPER_CONNECT=pinot-quickstart:2123/kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=manual-zookeeper:2123/kafka \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
     -d wurstmeister/kafka:latest
