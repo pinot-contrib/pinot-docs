@@ -126,7 +126,9 @@ FROM myTable
 
 ### Pagination on Selection
 
+----
 Note: results might not be consistent if column ordered by has same value in multiple rows.
+----
 
 ```sql
 SELECT foo, bar 
@@ -180,7 +182,8 @@ FROM myTable
 
 ### UDF
 
-Functions have to be implemented within Pinot. Injecting functions is not yet supported. The example below demonstrate the use of UDFs. More examples in [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations)
+Functions have to be implemented within Pinot. Injecting functions is not yet supported. The example below demonstrate the use of UDFs. 
+For more examples, see [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations).
 
 ```sql
 SELECT COUNT(*)
@@ -190,9 +193,10 @@ GROUP BY DATETIMECONVERT(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH'
 
 ### BYTES column
 
-Pinot supports queries on BYTES column using HEX string. The query response also uses hex string to represent bytes value.
+Pinot supports queries on BYTES column using HEX string. 
+The query response also uses HEX string to represent bytes values.
 
-E.g. the query below fetches all the rows for a given UID.
+e.g. the query below fetches all the rows for a given UID.
 
 ```sql
 SELECT * 
