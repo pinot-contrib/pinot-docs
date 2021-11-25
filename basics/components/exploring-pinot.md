@@ -2,9 +2,9 @@
 description: Explore the data on our Pinot cluster
 ---
 
-# Pinot data explorer
+# Pinot Data Explorer
 
-Once you have set up the Cluster, you can start exploring the data and the APIs. Pinot 0.5.0 comes bundled with a completely new UI.
+Once you have set up the Cluster, you can start exploring the data and the APIs using the Pinot Data Explorer.
 
 Navigate to [http://localhost:9000](http://localhost:9000) in your browser to open the controller UI.
 
@@ -16,8 +16,9 @@ Let's take a look at the following two features on the UI
 
 Let us run some queries on the data in the Pinot cluster. Head over to [Query Console](http://localhost:9000/#/query) to see the querying interface.
 
-We can see our `baseballStats` table listed on the left (you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid quick start). Click on the table name to display all the names along with the data types of the columns of the table.\
-You can also execute a sample query `select * from baseballStats limit 10` by typing it in the text box and clicking the `Run Query` button.
+We can see our `baseballStats` table listed on the left (you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid [quick start](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker)). Click on the table name to display all the names along with the data types of the columns of the table.
+
+You can also execute a sample query `select * from baseballStats limit 10` by typing it in the text box and clicking the **Run Query** button.
 
 `Cmd + Enter` can also be used to run the query when focused on the console.
 
@@ -42,139 +43,30 @@ where yearID > 2010
 select * 
 from baseballStats 
 order by league
-````
+```
 
 Pinot supports a subset of standard SQL. For more information, see [Pinot Query Language](../../users/user-guide-query/querying-pinot.md).
 
 ## Rest API
 
-The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. 
-It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
+The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
 ![](../../.gitbook/assets/screen-shot-2020-02-28-at-10.00.43-am.png)
 
-Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#!/Table/listTableConfigs) and click on `Try it out!`. We can see the`baseballStats` table listed here. We can also see the exact`curl` call made to the controller API.
+Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#/Table/listTables), click **Try it out**, and then click **Execute**. We can see the`baseballStats` table listed here. We can also see the exact cURL call made to the controller API.
 
-![List all tables in cluster](../../.gitbook/assets/screen-shot-2020-02-28-at-10.00.26-am.png)
+![List all tables in cluster](<../../.gitbook/assets/image (23).png>)
 
-You can look at the configuration of this table by going to [Tables -> Get/Enable/Disable/Drop a table](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig), type in `baseballStats` in the table name, and click `Try it out!`
+You can look at the configuration of this table by going to [Tables -> Get/Enable/Disable/Drop a table](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig), click **Try it out**, type `baseballStats` in the table name, and then click **Execute**.
 
-Let's check out the schemas in the cluster by going to [Schema -> List all schemas in the cluster](http://localhost:9000/help#!/Schema/listSchemaNames) and click `Try it out!`. We can see a schema called `baseballStats` in this list.
+Let's check out the schemas in the cluster by going to [Schema -> List all schemas in the cluster](http://localhost:9000/help#!/Schema/listSchemaNames), click **Try it out**, and then click **Execute**. We can see a schema called `baseballStats` in this list.
 
-![List all schemas in the cluster](../../.gitbook/assets/screen-shot-2020-02-28-at-10.09.18-am.png)
+![List all schemas in the cluster](<../../.gitbook/assets/image (28).png>)
 
-Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), type `baseballStats` in the schema name, and click `Try it out!`.
+Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), click **Try it out**, type `baseballStats` in the schema name, and then click **Execute**.
 
-```
-{
-  "schemaName": "baseballStats",
-  "dimensionFieldSpecs": [
-    {
-      "name": "playerID",
-      "dataType": "STRING"
-    },
-    {
-      "name": "yearID",
-      "dataType": "INT"
-    },
-    {
-      "name": "teamID",
-      "dataType": "STRING"
-    },
-    {
-      "name": "league",
-      "dataType": "STRING"
-    },
-    {
-      "name": "playerName",
-      "dataType": "STRING"
-    }
-  ],
-  "metricFieldSpecs": [
-    {
-      "name": "playerStint",
-      "dataType": "INT"
-    },
-    {
-      "name": "numberOfGames",
-      "dataType": "INT"
-    },
-    {
-      "name": "numberOfGamesAsBatter",
-      "dataType": "INT"
-    },
-    {
-      "name": "AtBatting",
-      "dataType": "INT"
-    },
-    {
-      "name": "runs",
-      "dataType": "INT"
-    },
-    {
-      "name": "hits",
-      "dataType": "INT"
-    },
-    {
-      "name": "doules",
-      "dataType": "INT"
-    },
-    {
-      "name": "tripples",
-      "dataType": "INT"
-    },
-    {
-      "name": "homeRuns",
-      "dataType": "INT"
-    },
-    {
-      "name": "runsBattedIn",
-      "dataType": "INT"
-    },
-    {
-      "name": "stolenBases",
-      "dataType": "INT"
-    },
-    {
-      "name": "caughtStealing",
-      "dataType": "INT"
-    },
-    {
-      "name": "baseOnBalls",
-      "dataType": "INT"
-    },
-    {
-      "name": "strikeouts",
-      "dataType": "INT"
-    },
-    {
-      "name": "intentionalWalks",
-      "dataType": "INT"
-    },
-    {
-      "name": "hitsByPitch",
-      "dataType": "INT"
-    },
-    {
-      "name": "sacrificeHits",
-      "dataType": "INT"
-    },
-    {
-      "name": "sacrificeFlies",
-      "dataType": "INT"
-    },
-    {
-      "name": "groundedIntoDoublePlays",
-      "dataType": "INT"
-    },
-    {
-      "name": "G_old",
-      "dataType": "INT"
-    }
-  ]
-}
-```
+![baseballStats Schema](<../../.gitbook/assets/image (13).png>)
 
-Finally, let's checkout the data segments in the cluster by going to [Segment -> List all segments](http://localhost:9000/help#!/Segment/getSegments), type in `baseballStats` in the table name, and click `Try it out!`. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
+Finally, let's check out the data segments in the cluster by going to [Segment -> List all segments](http://localhost:9000/help#!/Segment/getSegments), click **Try it out**, type in `baseballStats` in the table name, and then click **Execute**. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
-To learn how to uploaded your own data and schema, head over to [Batch Ingestion](../data-import/batch-ingestion/) or [Stream ingestion](../data-import/pinot-stream-ingestion/).
+To learn how to upload your own data and schema, see [Batch Ingestion](../data-import/batch-ingestion/) or [Stream ingestion](../data-import/pinot-stream-ingestion/).

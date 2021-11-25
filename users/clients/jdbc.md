@@ -12,14 +12,14 @@ You can include the JDBC dependency in your code as follows -
 <dependency>
     <groupId>org.apache.pinot</groupId>
     <artifactId>pinot-jdbc-client</artifactId>
-    <version>0.6.0</version>
+    <version>0.8.0</version>
 </dependency>
 ```
 {% endtab %}
 
 {% tab title="Gradle" %}
 ```java
-include 'org.apache.pinot:pinot-jdbc-client:0.5.0'
+include 'org.apache.pinot:pinot-jdbc-client:0.8.0'
 ```
 {% endtab %}
 {% endtabs %}
@@ -49,7 +49,7 @@ while(rs.next()){
 conn.close();
 ```
 
-You can also use PreparedStatements. The placeholder parameters are represented using `?` _\*\*_ \(question mark\) symbol.
+You can also use PreparedStatements. The placeholder parameters are represented using `?` _\*\*_ (question mark) symbol.
 
 ```java
 Connection conn = DriverManager.getConnection(DB_URL);
@@ -69,10 +69,9 @@ conn.close();
 
 ## Limitation
 
-The JDBC client doesn't support `INSERT`, `DELETE` or `UPDATE` statements due to the database limitations. You can only use the client to query the database.  
+The JDBC client doesn't support `INSERT`, `DELETE` or `UPDATE` statements due to the database limitations. You can only use the client to query the database.\
 The driver is also not completely ANSI SQL 92 compliant.
 
 {% hint style="warning" %}
 If you want to use JDBC driver to integrate Pinot with other applications, do make sure to check JDBC ConnectionMetadata in your code. This will help in determining which features cannot be supported by Pinot since it is an OLAP database.
 {% endhint %}
-
