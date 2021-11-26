@@ -87,7 +87,7 @@ For example, the following quick-start launches Pinot with a baseball dataset pr
 ./bin/pinot-admin.sh QuickStart -type batch
 ```
 
-For a list of all the available quick starts, see link.
+For a list of all the available quick starts, see [Quick Start](quick-start.md).
 
 ### Manual Cluster
 
