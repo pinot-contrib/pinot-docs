@@ -47,17 +47,23 @@ This example demonstrates how to do stream processing with Pinot. The command:
 * Publishes data to a Kafka topic `meetupRSVPEvents` to be subscribed to by Pinot
 * Issues sample queries to Pinot
 
-```bash
+{% tabs %}
+{% tab title="Docker" %}
+```
 docker run \
     --name pinot-quickstart-streaming \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
     -type stream
 ```
+{% endtab %}
 
-```bash
+{% tab title="Launcher scripts" %}
+```
 ./bin/pinot-admin QuickStart -type stream
 ```
+{% endtab %}
+{% endtabs %}
 
 ## Hybrid
 
@@ -68,18 +74,24 @@ This example demonstrates how to do hybrid stream and batch processing with Pino
 3. Launches a standalone data ingestion job
    * Builds Pinot segments under a given directory of Avro files for table `airlineStats`
    * Pushes built segments to Pinot controller
-4. Launches a\*\* \*\*stream of flights stats
+4. Launches a** **stream of flights stats
 5. Publishes data to a Kafka topic `airlineStatsEvents` to be subscribed to by Pinot
-6. Issues sample queries to Pinot
+6. Issues sample queries to Pinot&#x20;
 
-```bash
+{% tabs %}
+{% tab title="Docker" %}
+```
 docker run \
     --name pinot-quickstart-hybrid \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
     -type hybrid
 ```
+{% endtab %}
 
-```bash
+{% tab title="Launcher scripts" %}
+```
 ./bin/pinot-admin QuickStart -type hybrid
 ```
+{% endtab %}
+{% endtabs %}
