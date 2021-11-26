@@ -12,7 +12,7 @@ Pinot ships with multiple QuickStart command that can be used to launch Pinot co
 
 This example demonstrates how to do batch processing with Pinot. The command:
 
-* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
 * Creates the `baseballStats` table
 * Launches a standalone data ingestion job that builds one Pinot for a given CSV data file for the `baseballStats` table and pushes the segment to the Pinot Controller.
 * Issues sample queries to Pinot
@@ -39,7 +39,7 @@ docker run \
 
 This example demonstrates how to do stream processing with Pinot. The command:
 
-* Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
+* Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
 * Creates `meetupRsvp` table
 * Launches a `meetup` stream
 * Publishes data to a Kafka topic `meetupRSVPEvents` to be subscribed to by Pinot
@@ -67,7 +67,7 @@ docker run \
 
 This example demonstrates how to do hybrid stream and batch processing with Pinot. The command:
 
-1. Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
+1. Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
 2. Creates `airlineStats` table
 3. Launches a standalone data ingestion job that builds segments under a given directory of Avro files for table `airlineStats` and pushes the segments to the Pinot Controller.
 4. Launches a stream of flights stats
