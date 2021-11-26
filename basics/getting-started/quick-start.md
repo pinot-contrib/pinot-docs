@@ -6,7 +6,8 @@ description: >-
 
 # Quick Start
 
-Pinot ships with multiple QuickStart command that can be used to launch Pinot components in a single process and import pre-built datasets.
+Pinot ships with QuickStart commands that launch Pinot components in a single process and import pre-built datasets.
+These QuickStarts are a good place if you're just getting started with Pinot.
 
 ## Batch
 
@@ -21,9 +22,8 @@ This example demonstrates how to do batch processing with Pinot. The command:
 {% tab title="Docker" %}
 ```
 docker run \
-    --name pinot-quickstart-batch \
     -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
+    apachepinot/pinot:0.9.0 QuickStart \
     -type batch
 ```
 {% endtab %}
@@ -49,9 +49,8 @@ This example demonstrates how to do stream processing with Pinot. The command:
 {% tab title="Docker" %}
 ```
 docker run \
-    --name pinot-quickstart-streaming \
     -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
+    apachepinot/pinot:0.9.0 QuickStart \
     -type stream
 ```
 {% endtab %}
@@ -78,9 +77,8 @@ This example demonstrates how to do hybrid stream and batch processing with Pino
 {% tab title="Docker" %}
 ```
 docker run \
-    --name pinot-quickstart-hybrid \
     -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
+    apachepinot/pinot:0.9.0 QuickStart \
     -type hybrid
 ```
 {% endtab %}
@@ -107,9 +105,8 @@ This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../
 {% tab title="Docker" %}
 ```
 docker run \
-    --name pinot-quickstart-join \
     -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
+    apachepinot/pinot:0.9.0 QuickStart \
     -type join
 ```
 {% endtab %}
