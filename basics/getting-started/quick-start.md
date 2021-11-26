@@ -227,7 +227,7 @@ docker run \
 
 ## Streaming with minion cleanup
 
-This example demonstrates how to do stream processing with Pinot with RealtimeToOfflineSegmentsTask and MergeRollupTask minion tasks continuously optimizing segments as data gets ingested.
+This example demonstrates how to do stream processing in Pinot with RealtimeToOfflineSegmentsTask and MergeRollupTask minion tasks continuously optimizing segments as data gets ingested.
 The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, Pinot Minion, and Pinot Server.
@@ -255,7 +255,7 @@ docker run \
 
 ## Streaming with complex data types
 
-This example demonstrates how to do stream processing with Pinot where the stream contains items that have complex fields that need to be unnested. 
+This example demonstrates how to do stream processing in Pinot where the stream contains items that have complex fields that need to be unnested. 
 The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, Pinot Minion, and Pinot Server.
@@ -277,6 +277,33 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type stream_complex_type
+```
+{% endtab %}
+{% endtabs %}
+
+## Batch with complex data types
+
+This example demonstrates how to do batch processing in Pinot where the the data items have complex fields that need to be unnested. 
+The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates the `githubEvents` table
+* Launches a standalone data ingestion job that builds one segment for a given JSON data file for the `githubEvents` table and pushes the segment to the Pinot Controller.
+* Issues sample queries to Pinot
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:0.9.0 QuickStart \
+    -type batch_json_index
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type batch_json_index
 ```
 {% endtab %}
 {% endtabs %}
