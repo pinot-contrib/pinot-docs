@@ -4,10 +4,13 @@ description: >-
   in a single process.
 ---
 
-# Quick Start
+# Quick Start Examples
 
-Pinot ships with QuickStart commands that launch Pinot components in a single process and import pre-built datasets.
-These QuickStarts are a good place if you're just getting started with Pinot.
+Pinot ships with QuickStart commands that launch Pinot components in a single process and import pre-built datasets. These QuickStarts are a good place if you're just getting started with Pinot.
+
+**Prerequisites**
+
+You will need to have installed Pinot locally or have Docker installed if you want to use the Pinot Docker image.
 
 ## Batch
 
@@ -63,8 +66,7 @@ docker run \
 
 ## Batch with complex data types
 
-This example demonstrates how to do batch processing in Pinot where the the data items have complex fields that need to be unnested. 
-The command:
+This example demonstrates how to do batch processing in Pinot where the the data items have complex fields that need to be unnested. The command:
 
 * Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
 * Creates the `githubEvents` table
@@ -87,7 +89,6 @@ docker run \
 ```
 {% endtab %}
 {% endtabs %}
-
 
 ## Streaming
 
@@ -116,7 +117,6 @@ docker run \
 {% endtab %}
 {% endtabs %}
 
-
 ## Streaming JSON
 
 This example demonstrates how to do stream processing with JSON documents in Pinot. The command:
@@ -144,11 +144,9 @@ docker run \
 {% endtab %}
 {% endtabs %}
 
-
 ## Streaming with minion cleanup
 
-This example demonstrates how to do stream processing in Pinot with RealtimeToOfflineSegmentsTask and MergeRollupTask minion tasks continuously optimizing segments as data gets ingested.
-The command:
+This example demonstrates how to do stream processing in Pinot with RealtimeToOfflineSegmentsTask and MergeRollupTask minion tasks continuously optimizing segments as data gets ingested. The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, Pinot Minion, and Pinot Server.
 * Creates `githubEvents` table
@@ -175,8 +173,7 @@ docker run \
 
 ## Streaming with complex data types
 
-This example demonstrates how to do stream processing in Pinot where the stream contains items that have complex fields that need to be unnested. 
-The command:
+This example demonstrates how to do stream processing in Pinot where the stream contains items that have complex fields that need to be unnested. The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, Pinot Minion, and Pinot Server.
 * Creates `meetupRsvp` table
@@ -264,7 +261,7 @@ This example demonstrates how to do hybrid stream and batch processing with Pino
 3. Launches a standalone data ingestion job that builds segments under a given directory of Avro files for the `airlineStats` table and pushes the segments to the Pinot Controller.
 4. Launches a stream of flights stats
 5. Publishes data to a Kafka topic `airlineStatsEvents` that is subscribed to by Pinot.
-6. Issues sample queries to Pinot&#x20;
+6. Issues sample queries to Pinot
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -290,7 +287,7 @@ This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../
 * Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
 * Creates the `baseballStats` table
 * Launches a data ingestion job that builds one segment for a given CSV data file for the `baseballStats` table and pushes the segment to the Pinot Controller.
-* Creates the `dimBaseballTeams` table  
+* Creates the `dimBaseballTeams` table
 * Launches a data ingestion job that builds one segment for a given CSV data file for the `dimBaseballStats` table and pushes the segment to the Pinot Controller.
 * Issues sample queries to Pinot
 
@@ -310,5 +307,3 @@ docker run \
 ```
 {% endtab %}
 {% endtabs %}
-
-

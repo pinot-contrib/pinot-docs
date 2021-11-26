@@ -79,7 +79,7 @@ Now that we've downloaded Pinot, it's time to set up a cluster. There are two wa
 
 ### Quick Start
 
-Pinot comes with quick-start commands that launch instances of Pinot components in the same process and import pre-built datasets.&#x20;
+Pinot comes with quick-start commands that launch instances of Pinot components in the same process and import pre-built datasets.
 
 For example, the following quick-start launches Pinot with a baseball dataset pre-loaded:
 
@@ -87,9 +87,8 @@ For example, the following quick-start launches Pinot with a baseball dataset pr
 ./bin/pinot-admin.sh QuickStart -type batch
 ```
 
-For a list of all the available quick starts, see [Quick Start](quick-start.md).
+For a list of all the available quick starts, see the [Quick Start Examples](quick-start.md).
 
 ### Manual Cluster
 
-The quick start scripts launch Pinot with minimal resources. If you want to play with bigger datasets (more than a few MB), see the [Manual cluster setup](advanced-pinot-setup.md).&#x20;
-
+The quick start scripts launch Pinot with minimal resources. If you want to play with bigger datasets (more than a few MB), see the [Manual cluster setup](advanced-pinot-setup.md).
