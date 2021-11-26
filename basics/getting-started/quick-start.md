@@ -28,7 +28,7 @@ docker run \
 ```
 
 ```bash
-./bin/pinot-admin QuickStart -type batch
+./bin/pinot-admin.sh QuickStart -type batch
 ```
 
 ## Streaming
@@ -50,7 +50,7 @@ docker run \
 ```
 
 ```bash
-./bin/pinot-admin QuickStart -type stream
+./bin/pinot-admin.sh QuickStart -type stream
 ```
 
 ## Hybrid
@@ -75,5 +75,5 @@ docker run \
 ```
 
 ```bash
-./bin/pinot-admin QuickStart -type hybrid
+./bin/pinot-admin.sh QuickStart -type hybrid
 ```
