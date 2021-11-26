@@ -1,0 +1,8 @@
+---
+description: >-
+  This section describes quick start commands that launch all Pinot components in a single process. 
+---
+
+# Getting Started
+
+abc
