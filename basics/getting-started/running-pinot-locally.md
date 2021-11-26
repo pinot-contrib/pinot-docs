@@ -6,26 +6,42 @@ description: >-
 
 # Running Pinot locally
 
-In this guide you'll learn how to download and install Apache Pinot as a standalone instance.
-
-{% hint style="success" %}
-This is a quick start guide that will show you how to quickly start an example recipe in a standalone instance and is meant for learning. To run Pinot in cluster mode, please take a look at [Manual cluster setup](advanced-pinot-setup.md).
-{% endhint %}
+In this guide, you'll learn how to download and install Apache Pinot as a standalone instance.
 
 ## Download Apache Pinot
 
-First, let's download the Pinot distribution for this tutorial. You can either build the distribution from source or download a packaged release.
+First, let's download the Pinot distribution for this tutorial. You can either download a packaged release or build a distribution from the source code.
 
 {% hint style="info" %}
 **Prerequisites**
 
-Install JDK11 or higher \(JDK16 is not yet supported\)  
+Install JDK11 or higher (JDK16 is not yet supported)\
 For JDK 8 support use Pinot 0.7.1 or compile from source
 {% endhint %}
 
 ### Build from source or download the distribution
 
 {% tabs %}
+{% tab title="Download the release" %}
+Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command
+
+```bash
+PINOT_VERSION=0.9.0 #set to the Pinot version you decide to use
+
+wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
+```
+
+Once you have the tar file,
+
+```bash
+# untar it
+tar -zxvf apache-pinot-$PINOT_VERSION-bin.tar.gz
+
+# navigate to directory containing the launcher scripts
+cd apache-pinot-$PINOT_VERSION-bin
+```
+{% endtab %}
+
 {% tab title="Build from source " %}
 Follow these steps to checkout code from [Github](https://github.com/apache/pinot) and build Pinot locally
 
@@ -55,66 +71,25 @@ Add maven option `-Djdk.version=8` when building with JDK 8
 Note that Pinot scripts is located under **pinot-distribution/target** not **target** directory under root.
 {% endhint %}
 {% endtab %}
-
-{% tab title="Download the release" %}
-Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command
-
-```bash
-PINOT_VERSION=0.8.0 #set to the Pinot version you decide to use
-
-wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
-```
-
-Once you have the tar file,
-
-```bash
-# untar it
-tar -zxvf apache-pinot-$PINOT_VERSION-bin.tar.gz
-
-# navigate to directory containing the launcher scripts
-cd apache-pinot-$PINOT_VERSION-bin
-```
-{% endtab %}
 {% endtabs %}
 
 ## Setting up a Pinot cluster
 
-We'll be using the quick-start scripts provided along with pinot distribution, which do the following:
+Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this:
 
-1. Set up the Pinot cluster `QuickStartCluster`
-2. Create a sample table and load sample data
+### Quick Start
 
-The following quick start scripts are available. Please note though, these scripts launch the Pinot cluster with minimal resources. If you intend to play with sizable data \(more than few MB\), you may want to follow the [Manual cluster setup](advanced-pinot-setup.md) and provide required resources.
+Pinot comes with quick-start commands that launch instances of Pinot components in the same process and import pre-built datasets.&#x20;
 
-### Batch
+For example, the following quick-start launches Pinot with a baseball dataset pre-loaded:
 
-Batch quick start creates the pinot cluster, creates an offline table `baseballStats` and pushes sample offline data to the table.
-
-```bash
-bin/quick-start-batch.sh
+```
+./bin/pinot-admin.sh QuickStart -type batch
 ```
 
-That's it! We've spun up a Pinot cluster. You can continue playing with other types of quick start, or simply head on to [Pinot Data Explorer](../components/exploring-pinot.md) to check out the data in the `baseballStats` table.
+For a list of all the available quick starts, see link.
 
-### Streaming
+### Manual Cluster
 
-Streaming quick start sets up a Kafka cluster and pushes sample data to a Kafka topic. Then, it creates the Pinot cluster and creates a realtime table `meetupRSVP` which ingests data from the Kafka topic.
-
-```bash
-# stop previous quick start cluster, if any
-bin/quick-start-streaming.sh
-```
-
-We now have a Pinot cluster with a realtime table! You can head over to [Pinot Data Explorer](../components/exploring-pinot.md) to check out the data in the `meetupRSVP` table.
-
-### Hybrid
-
-Hybrid quick start sets up a Kafka cluster and pushes sample data to a Kafka topic. Then, it creates the Pinot cluster and creates a hybrid table `airlineStats` . The realtime table ingests data from the Kafka topic. Lastly, sample data is pushed into the offline table.
-
-```bash
-# stop previous quick start cluster, if any
-bin/quick-start-hybrid.sh
-```
-
-Let's head over to [Pinot Data Explorer](../components/exploring-pinot.md) to check out the data we pushed to the `airlineStats` table.
+The quick start scripts launch Pinot with minimal resources. If you want to play with bigger datasets (more than a few MB), see the [Manual cluster setup](advanced-pinot-setup.md).&#x20;
 
