@@ -91,4 +91,57 @@ For a list of all the available quick starts, see the [Quick Start Examples](qui
 
 ### Manual Cluster
 
-The quick start scripts launch Pinot with minimal resources. If you want to play with bigger datasets (more than a few MB), see the [Manual cluster setup](advanced-pinot-setup.md).
+If you want to play with bigger datasets (more than a few MB), you can launch all the components individually. 
+
+{% hint style="info" %}
+The examples below assume that you are using Java 8.
+
+If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS.` 
+So, for example, instead of `export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"`, you'd have `export JAVA_OPTS="-Xms4G -Xmx8G"`
+{% endhint %}
+
+#### Start Zookeeper
+
+```
+cd apache-pinot-${PINOT_VERSION}-bin
+bin/pinot-admin.sh StartZookeeper \
+  -zkPort 2191
+```
+
+You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse the Zookeeper instance.
+
+#### Start Pinot Controller
+
+```
+export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
+bin/pinot-admin.sh StartController \
+    -zkAddress localhost:2191 \
+    -controllerPort 9000
+```
+
+#### Start Pinot Broker
+
+```
+export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
+bin/pinot-admin.sh StartBroker \
+    -zkAddress localhost:2191
+```
+
+### Start Pinot Server
+
+```
+export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
+bin/pinot-admin.sh StartServer \
+    -zkAddress localhost:2191
+```
+
+#### Start Kafka
+
+```
+bin/pinot-admin.sh  StartKafka \ 
+  -zkAddress=localhost:2191/kafka \
+  -port 19092
+```
+
+Once your cluster is up and running, you can head over to  [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
+
