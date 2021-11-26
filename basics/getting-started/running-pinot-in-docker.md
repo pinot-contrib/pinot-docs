@@ -4,19 +4,14 @@ description: This guide will show you to run a Pinot Cluster using Docker.
 
 # Running Pinot in Docker
 
-{% hint style="info" %}
-**Prerequisites**
-
 In this guide we will learn about running Pinot in Docker.
 
-This guide assumes that you have installed [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac) and have configured it with enough memory. 
+This guide assumes that you have installed [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac) and have configured it with enough memory. A sample config is shown below:
 
-A sample config is shown below:
+![Sample Docker resources](<../../.gitbook/assets/image (4).png>)
 
-![](<../../.gitbook/assets/image (4).png>)
-{% endhint %}
+The latest Pinot Docker image is published at `apachepinot/pinot:latest` and you can see a list of [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).&#x20;
 
-The latest Pinot Docker image is published at `apachepinot/pinot:latest` and you can see a list [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
 You can pull the Docker image onto your machine by running the following command:
 
 ```bash
@@ -29,8 +24,7 @@ Or if you want to use a specific version:
 docker pull apachepinot/pinot:0.9.0
 ```
 
-Now that we've downloaded the Pinot Docker image, it's time to set up a cluster. 
-There are two ways to do this:
+Now that we've downloaded the Pinot Docker image, it's time to set up a cluster. There are two ways to do this:
 
 ## Quick Start
 
