@@ -10,7 +10,7 @@ This guide assumes that you have installed [Docker](https://hub.docker.com/editi
 
 ![Sample Docker resources](<../../.gitbook/assets/image (4).png>)
 
-The latest Pinot Docker image is published at `apachepinot/pinot:latest` and you can see a list of [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).&#x20;
+The latest Pinot Docker image is published at `apachepinot/pinot:latest` and you can see a list of [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
 
 You can pull the Docker image onto your machine by running the following command:
 
@@ -43,8 +43,7 @@ For a list of all the available quick starts, see the [Quick Start Examples](qui
 
 ## Manual Cluster
 
-The quick start scripts launch Pinot with minimal resources. 
-If you want to play with bigger datasets (more than a few MB), you can launch each of the Pinot components individually. 
+The quick start scripts launch Pinot with minimal resources. If you want to play with bigger datasets (more than a few MB), you can launch each of the Pinot components individually.
 
 ### Docker
 
@@ -58,9 +57,7 @@ docker network create -d bridge pinot-demo_default
 
 #### Start Zookeeper
 
-Start Zookeeper in daemon mode. 
-This is a single node zookeeper setup. Zookeeper is the central metadata store for Pinot and should be set up with replication for production use. 
-For more information, see [Running Replicated Zookeeper](https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html#sc\_RunningReplicatedZooKeeper).&#x20;
+Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper is the central metadata store for Pinot and should be set up with replication for production use. For more information, see [Running Replicated Zookeeper](https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html#sc\_RunningReplicatedZooKeeper).
 
 ```
 docker run \
@@ -126,8 +123,7 @@ docker run --rm -ti \
 
 #### Start Kafka
 
-Optionally, you can also start Kafka for setting up realtime streams. 
-This brings up the Kafka broker on port 9092.
+Optionally, you can also start Kafka for setting up realtime streams. This brings up the Kafka broker on port 9092.
 
 ```
 docker run --rm -ti \
@@ -157,7 +153,7 @@ b6d0f2bd26a3        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   45 mi
 570416fc530e        zookeeper:3.5.6             "/docker-entrypoint.…"   45 minutes ago      Up 45 minutes       2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
-#### Docker Compose
+### Docker Compose
 
 Create a file called _docker-compose.yml_ that contains the following:
 
@@ -231,7 +227,7 @@ b1ba8cf60d69   apachepinot/pinot:0.9.0   "./bin/pinot-admin.s…"   About a minu
 54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   manual-zookeeper
 ```
 
-Once your cluster is up and running, you can head over to  [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
+Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
 
 {% hint style="info" %}
 If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you could also try running the [Kubernetes quick start](kubernetes-quickstart.md).

@@ -16,10 +16,10 @@ First, let's download the Pinot distribution for this tutorial. You can either d
 **Prerequisites**
 
 Install JDK11 or higher (JDK16 is not yet supported)\
-For JDK 8 support use Pinot 0.7.1 or compile from source
+For JDK 8 support use Pinot 0.7.1 or compile from the source code.
 {% endhint %}
 
-### Build from source or download the distribution
+You can build from source or download the distribution:
 
 {% tabs %}
 {% tab title="Download the release" %}
@@ -73,11 +73,9 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 {% endtab %}
 {% endtabs %}
 
-## Setting up a Pinot cluster
-
 Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this:
 
-### Quick Start
+## Quick Start
 
 Pinot comes with quick-start commands that launch instances of Pinot components in the same process and import pre-built datasets.
 
@@ -89,18 +87,17 @@ For example, the following quick-start launches Pinot with a baseball dataset pr
 
 For a list of all the available quick starts, see the [Quick Start Examples](quick-start.md).
 
-### Manual Cluster
+## Manual Cluster
 
-If you want to play with bigger datasets (more than a few MB), you can launch all the components individually. 
+If you want to play with bigger datasets (more than a few MB), you can launch all the components individually.
 
 {% hint style="info" %}
 The examples below assume that you are using Java 8.
 
-If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS.` 
-So, for example, instead of `export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"`, you'd have `export JAVA_OPTS="-Xms4G -Xmx8G"`
+If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS.` So, for example, instead of `export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"`, you'd have `export JAVA_OPTS="-Xms4G -Xmx8G"`
 {% endhint %}
 
-#### Start Zookeeper
+### Start Zookeeper
 
 ```
 cd apache-pinot-${PINOT_VERSION}-bin
@@ -110,7 +107,7 @@ bin/pinot-admin.sh StartZookeeper \
 
 You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse the Zookeeper instance.
 
-#### Start Pinot Controller
+### Start Pinot Controller
 
 ```
 export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
@@ -119,7 +116,7 @@ bin/pinot-admin.sh StartController \
     -controllerPort 9000
 ```
 
-#### Start Pinot Broker
+### Start Pinot Broker
 
 ```
 export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
@@ -135,7 +132,7 @@ bin/pinot-admin.sh StartServer \
     -zkAddress localhost:2191
 ```
 
-#### Start Kafka
+### Start Kafka
 
 ```
 bin/pinot-admin.sh  StartKafka \ 
@@ -143,5 +140,4 @@ bin/pinot-admin.sh  StartKafka \
   -port 19092
 ```
 
-Once your cluster is up and running, you can head over to  [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
-
+Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
