@@ -66,7 +66,7 @@ In this example, we demonstrate how to do stream processing with Pinot.
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
 * Creates `meetupRsvp` table
-* Launches a `meetup`** **stream
+* Launches a `meetup` stream
 * Publishes data to a Kafka topic `meetupRSVPEvents` to be subscribed to by Pinot
 * Issues sample queries to Pinot
 
@@ -90,7 +90,7 @@ In this example, we demonstrate how to do hybrid stream and batch processing wit
 3. Launches a standalone data ingestion job
    * Builds Pinot segments under a given directory of Avro files for table `airlineStats`
    * Pushes built segments to Pinot controller
-4. Launches a** **stream of flights stats
+4. Launches a stream of flights stats
 5. Publishes data to a Kafka topic `airlineStatsEvents` to be subscribed to by Pinot
 6. Issues sample queries to Pinot&#x20;
 

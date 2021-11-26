@@ -14,9 +14,7 @@ This example demonstrates how to do batch processing with Pinot. The command:
 
 * Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
 * Creates the `baseballStats` table
-* Launches a standalone data ingestion job
-  * Builds one Pinot segment for a given CSV data file for table `baseballStats`
-  * Pushes the built segment to the Pinot Controller
+* Launches a standalone data ingestion job that builds one Pinot for a given CSV data file for the `baseballStats` table and pushes the segment to the Pinot Controller.
 * Issues sample queries to Pinot
 
 {% tabs %}
@@ -43,7 +41,7 @@ This example demonstrates how to do stream processing with Pinot. The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
 * Creates `meetupRsvp` table
-* Launches a `meetup`\*\* \*\*stream
+* Launches a `meetup` stream
 * Publishes data to a Kafka topic `meetupRSVPEvents` to be subscribed to by Pinot
 * Issues sample queries to Pinot
 
@@ -71,10 +69,8 @@ This example demonstrates how to do hybrid stream and batch processing with Pino
 
 1. Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
 2. Creates `airlineStats` table
-3. Launches a standalone data ingestion job
-   * Builds Pinot segments under a given directory of Avro files for table `airlineStats`
-   * Pushes built segments to Pinot controller
-4. Launches a** **stream of flights stats
+3. Launches a standalone data ingestion job that builds segments under a given directory of Avro files for table `airlineStats` and pushes the segments to the Pinot Controller.
+4. Launches a stream of flights stats
 5. Publishes data to a Kafka topic `airlineStatsEvents` to be subscribed to by Pinot
 6. Issues sample queries to Pinot&#x20;
 
@@ -92,6 +88,35 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type hybrid
+```
+{% endtab %}
+{% endtabs %}
+
+## Join
+
+This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../users/user-query-guide/lookup-udf-join.md). The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
+* Creates the `baseballStats` table
+* Launches a data ingestion job that builds one segment for a given CSV data file for the `baseballStats` table and pushes the segment to the Pinot Controller.
+* Creates the `dimBaseballTeams` table  
+* Launches a data ingestion job that builds one segment for a given CSV data file for the `dimBaseballStats` table and pushes the segment to the Pinot Controller.
+* Issues sample queries to Pinot
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    --name pinot-quickstart-join \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type join
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type join
 ```
 {% endtab %}
 {% endtabs %}
