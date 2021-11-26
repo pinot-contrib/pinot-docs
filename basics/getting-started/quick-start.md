@@ -198,6 +198,33 @@ docker run \
 {% endtab %}
 {% endtabs %}
 
+## Upsert JSON
+
+This example demonstrates how to do [stream processing with upsert](../data-import/upsert.md) with JSON documents in Pinot. The command:
+
+* Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates `meetupRsvp` table
+* Launches a `meetup` stream
+* Publishes data to a Kafka topic `meetupRSVPEvents` that is subscribed to by Pinot
+* Issues sample queries to Pinot
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:0.9.0 QuickStart \
+    -type upsert_json_index
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type upsert_json_index
+```
+{% endtab %}
+{% endtabs %}
+
 ## Streaming with minion cleanup
 
 This example demonstrates how to do stream processing with Pinot with RealtimeToOfflineSegmentsTask and MergeRollupTask minion tasks continuously optimizing segments as data gets ingested.
