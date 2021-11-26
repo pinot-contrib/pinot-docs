@@ -6,7 +6,7 @@ description: >-
 
 # Quick Start
 
-Pinot ships with multiple QuickStart command that can be used to launch Pinot components in a single process and import pre-built datasets.&#x20;
+Pinot ships with multiple QuickStart command that can be used to launch Pinot components in a single process and import pre-built datasets.
 
 ## Batch
 
@@ -19,12 +19,16 @@ This example demonstrates how to do batch processing with Pinot. The command:
   * Pushes the built segment to the Pinot Controller
 * Issues sample queries to Pinot
 
-```
+```bash
 docker run \
     --name pinot-quickstart-batch \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
     -type batch
+```
+
+```bash
+./bin/pinot-admin QuickStart -type batch
 ```
 
 ## Streaming
@@ -37,15 +41,17 @@ This example demonstrates how to do stream processing with Pinot. The command:
 * Publishes data to a Kafka topic `meetupRSVPEvents` to be subscribed to by Pinot
 * Issues sample queries to Pinot
 
-```
+```bash
 docker run \
-    --name pinot-quickstart-batch \
+    --name pinot-quickstart-streaming \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type batch
+    -type stream
 ```
 
-
+```bash
+./bin/pinot-admin QuickStart -type stream
+```
 
 ## Hybrid
 
@@ -60,11 +66,14 @@ This example demonstrates how to do hybrid stream and batch processing with Pino
 5. Publishes data to a Kafka topic `airlineStatsEvents` to be subscribed to by Pinot
 6. Issues sample queries to Pinot&#x20;
 
-```
-# Stop any previous containers first
+```bash
 docker run \
     --name pinot-quickstart-hybrid \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
     -type hybrid
+```
+
+```bash
+./bin/pinot-admin QuickStart -type hybrid
 ```
