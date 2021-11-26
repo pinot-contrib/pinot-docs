@@ -92,7 +92,7 @@ docker run \
 
 ## Join
 
-This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../users/user-query-guide/lookup-udf-join.md). The command:
+This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../users/user-guide-query/lookup-udf-join.md). The command:
 
 * Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
 * Creates the `baseballStats` table
