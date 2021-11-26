@@ -18,7 +18,7 @@
   * [Segment](basics/components/segment.md)
   * [Pinot Data Explorer](basics/components/exploring-pinot.md)
 * [Getting Started](basics/getting-started/README.md)
-  * [Quick Start](basics/getting-started/quick-start/README.md)
+  * [Quick Start](basics/getting-started/quick-start.md)
   * [Running QuickStart locally](basics/getting-started/running-pinot-locally.md)
   * [Running QuickStart in Docker](basics/getting-started/running-pinot-in-docker.md)
   * [Running in Kubernetes](basics/getting-started/kubernetes-quickstart.md)
