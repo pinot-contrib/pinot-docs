@@ -1,106 +1,56 @@
 ---
-description: This quick start guide will show you how to run a Pinot cluster using Docker.
+description: This guide will show you to run a Pinot Cluster using Docker.
 ---
 
 # Running Pinot in Docker
 
-{% hint style="success" %}
-This is a quick-start guide that will show you how to quickly start an example recipe in a standalone instance and is meant for learning.&#x20;
-
-To run Pinot in cluster mode, see the [Manual cluster setup](advanced-pinot-setup.md).
-{% endhint %}
-
 {% hint style="info" %}
 **Prerequisites**
 
-Install [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
+In this guide we will learn about running Pinot in Docker.
 
-You can also try [Kubernetes quick start](kubernetes-quickstart.md) if you already have a local [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) cluster installed or [Docker Kubernetes](https://www.docker.com/products/kubernetes) setup.
+This guide assumes that you have installed [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac) and have configured it with enough memory. 
 
-If running locally, please ensure your Docker cluster has enough resources, below is a sample config.
-{% endhint %}
+A sample config is shown below:
 
 ![](<../../.gitbook/assets/image (4).png>)
+{% endhint %}
 
-We'll be using the Docker image `apachepinot/pinot:latest` to run this quick start, which does the following:
-
-* Sets up the Pinot cluster with all components running in one container
-* Creates a sample table and loads sample data
-
-The following quick-start scripts are available&#x20;
-
-* Batch example
-* Streaming example
-* Hybrid example
-
-## Batch example
-
-In this example, we demonstrate how to do batch processing with Pinot.
-
-* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
-* Creates the `baseballStats`  table
-* Launches a standalone data ingestion job
-  * Builds one Pinot segment for a given CSV data file for table `baseballStats`
-  * Pushes the built segment to the Pinot Controller
-* Issues sample queries to Pinot
+The latest Pinot Docker image is published at `apachepinot/pinot:latest` and you can see a list [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
+You can pull the Docker image onto your machine by running the following command:
 
 ```bash
+docker pull apachepinot/pinot:latest
+```
+
+## Setting up a Pinot cluster
+
+Now that we've downloaded the Pinot Docker image, it's time to set up a cluster. 
+There are two ways to do this:
+
+### Quick Start
+
+Pinot comes with quick-start commands that launch instances of Pinot components in the same process and import pre-built datasets.
+
+For example, the following quick-start launches Pinot with a baseball dataset pre-loaded:
+
+```
 docker run \
-    --name pinot-quickstart-batch \
     -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
+    apachepinot/pinot:0.9.0 QuickStart \
     -type batch
 ```
 
-That's it! We've spun up a Pinot cluster.&#x20;
+For a list of all the available quick starts, see the [Quick Start Examples](quick-start.md).
 
-Your cluster is ready once you see the cluster setup completion messages and sample queries, as demonstrated below.
+### Manual Cluster
 
-![Cluster Setup Completion Example ](<../../.gitbook/assets/image (28) (1) (1).png>)
+The quick start scripts launch Pinot with minimal resources. 
+If you want to play with bigger datasets (more than a few MB), see the [Manual cluster setup](advanced-pinot-setup.md).
 
-You can head over to [Exploring Pinot](../components/exploring-pinot.md) to check out the data in the `baseballStats` table.
+{% hint style="info" %}
+If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you could also try running the [Kubernetes quick start](kubernetes-quickstart.md).
+{% endhint %}
 
-## Streaming example
 
-In this example, we demonstrate how to do stream processing with Pinot.
-
-* Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
-* Creates `meetupRsvp` table
-* Launches a `meetup` stream
-* Publishes data to a Kafka topic `meetupRSVPEvents` to be subscribed to by Pinot
-* Issues sample queries to Pinot
-
-```bash
-# Stop any previous containers first
-docker run \
-    --name pinot-quickstart-streaming \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type stream
-```
-
-Once the cluster is up, you can head over to  [Exploring Pinot](../components/exploring-pinot.md) to check out the data in the `meetupRSVPEvents` table.
-
-## Hybrid example
-
-In this example, we demonstrate how to do hybrid stream and batch processing with Pinot.
-
-1. Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
-2. Creates `airlineStats` table
-3. Launches a standalone data ingestion job
-   * Builds Pinot segments under a given directory of Avro files for table `airlineStats`
-   * Pushes built segments to Pinot controller
-4. Launches a stream of flights stats
-5. Publishes data to a Kafka topic `airlineStatsEvents` to be subscribed to by Pinot
-6. Issues sample queries to Pinot&#x20;
-
-```bash
-# Stop any previous containers first
-docker run \
-    --name pinot-quickstart-hybrid \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type hybrid
-```
-
-Once the cluster is up, you can head over to  [Exploring Pinot](../components/exploring-pinot.md) to check out the data in the `airlineStats` table.
+Once your cluster is up and running, you can head over to  [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
