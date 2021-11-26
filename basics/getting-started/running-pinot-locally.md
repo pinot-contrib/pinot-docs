@@ -94,14 +94,19 @@ If you want to play with bigger datasets (more than a few MB), you can launch al
 {% hint style="info" %}
 The examples below assume that you are using Java 8.
 
-If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS.` So, for example, instead of `export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"`, you'd have `export JAVA_OPTS="-Xms4G -Xmx8G"`
+If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS.` So, for example, instead of:
+
+`export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"`
+
+`You'd have:`
+
+`xport JAVA_OPTS="-Xms4G -Xmx8G"`
 {% endhint %}
 
 ### Start Zookeeper
 
 ```
-cd apache-pinot-${PINOT_VERSION}-bin
-bin/pinot-admin.sh StartZookeeper \
+./bin/pinot-admin.sh StartZookeeper \
   -zkPort 2191
 ```
 
@@ -111,7 +116,7 @@ You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse th
 
 ```
 export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
-bin/pinot-admin.sh StartController \
+./bin/pinot-admin.sh StartController \
     -zkAddress localhost:2191 \
     -controllerPort 9000
 ```
@@ -120,7 +125,7 @@ bin/pinot-admin.sh StartController \
 
 ```
 export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
-bin/pinot-admin.sh StartBroker \
+./bin/pinot-admin.sh StartBroker \
     -zkAddress localhost:2191
 ```
 
@@ -128,14 +133,14 @@ bin/pinot-admin.sh StartBroker \
 
 ```
 export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
-bin/pinot-admin.sh StartServer \
+./bin/pinot-admin.sh StartServer \
     -zkAddress localhost:2191
 ```
 
 ### Start Kafka
 
 ```
-bin/pinot-admin.sh  StartKafka \ 
+./bin/pinot-admin.sh  StartKafka \ 
   -zkAddress=localhost:2191/kafka \
   -port 19092
 ```
