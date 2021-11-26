@@ -8,9 +8,12 @@ description: >-
 
 Pinot ships with QuickStart commands that launch Pinot components in a single process and import pre-built datasets. These QuickStarts are a good place if you're just getting started with Pinot.
 
+{% hint style="info" %}
 **Prerequisites**
 
-You will need to have installed Pinot locally or have Docker installed if you want to use the Pinot Docker image.
+You will need to have [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md).
+
+{% endhint %}
 
 ## Batch
 
