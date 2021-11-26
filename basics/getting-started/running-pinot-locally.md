@@ -96,11 +96,15 @@ The examples below assume that you are using Java 8.
 
 If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS.` So, for example, instead of:
 
-`export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"`
+```bash
+export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
+```
 
-`You'd have:`
+You'd have:
 
-`xport JAVA_OPTS="-Xms4G -Xmx8G"`
+```bash
+export JAVA_OPTS="-Xms4G -Xmx8G"
+```
 {% endhint %}
 
 ### Start Zookeeper
