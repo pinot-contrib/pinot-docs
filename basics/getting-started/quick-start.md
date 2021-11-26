@@ -35,6 +35,60 @@ docker run \
 {% endtab %}
 {% endtabs %}
 
+## Batch JSON
+
+This example demonstrates how to import and query JSON documents in Pinot. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates the `githubEvents` table
+* Launches a standalone data ingestion job that builds one segment for a given JSON data file for the `githubEvents` table and pushes the segment to the Pinot Controller.
+* Issues sample queries to Pinot
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:0.9.0 QuickStart \
+    -type batch_json_index
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type batch_json_index
+```
+{% endtab %}
+{% endtabs %}
+
+## Batch with complex data types
+
+This example demonstrates how to do batch processing in Pinot where the the data items have complex fields that need to be unnested. 
+The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates the `githubEvents` table
+* Launches a standalone data ingestion job that builds one segment for a given JSON data file for the `githubEvents` table and pushes the segment to the Pinot Controller.
+* Issues sample queries to Pinot
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:0.9.0 QuickStart \
+    -type batch_json_index
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type batch_json_index
+```
+{% endtab %}
+{% endtabs %}
+
+
 ## Streaming
 
 This example demonstrates how to do stream processing with Pinot. The command:
@@ -58,62 +112,6 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type stream
-```
-{% endtab %}
-{% endtabs %}
-
-## Hybrid
-
-This example demonstrates how to do hybrid stream and batch processing with Pinot. The command:
-
-1. Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
-2. Creates `airlineStats` table
-3. Launches a standalone data ingestion job that builds segments under a given directory of Avro files for the `airlineStats` table and pushes the segments to the Pinot Controller.
-4. Launches a stream of flights stats
-5. Publishes data to a Kafka topic `airlineStatsEvents` that is subscribed to by Pinot.
-6. Issues sample queries to Pinot&#x20;
-
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:0.9.0 QuickStart \
-    -type hybrid
-```
-{% endtab %}
-
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type hybrid
-```
-{% endtab %}
-{% endtabs %}
-
-## Join
-
-This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../users/user-guide-query/lookup-udf-join.md). The command:
-
-* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
-* Creates the `baseballStats` table
-* Launches a data ingestion job that builds one segment for a given CSV data file for the `baseballStats` table and pushes the segment to the Pinot Controller.
-* Creates the `dimBaseballTeams` table  
-* Launches a data ingestion job that builds one segment for a given CSV data file for the `dimBaseballStats` table and pushes the segment to the Pinot Controller.
-* Issues sample queries to Pinot
-
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:0.9.0 QuickStart \
-    -type join
-```
-{% endtab %}
-
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type join
 ```
 {% endtab %}
 {% endtabs %}
@@ -145,31 +143,7 @@ docker run \
 {% endtab %}
 {% endtabs %}
 
-## Batch JSON
 
-This example demonstrates how to import and query JSON documents in Pinot. The command:
-
-* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
-* Creates the `githubEvents` table
-* Launches a standalone data ingestion job that builds one segment for a given JSON data file for the `githubEvents` table and pushes the segment to the Pinot Controller.
-* Issues sample queries to Pinot
-
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:0.9.0 QuickStart \
-    -type batch_json_index
-```
-{% endtab %}
-
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type batch_json_index
-```
-{% endtab %}
-{% endtabs %}
 
 ## Streaming JSON
 
@@ -281,14 +255,43 @@ docker run \
 {% endtab %}
 {% endtabs %}
 
-## Batch with complex data types
+## Hybrid
 
-This example demonstrates how to do batch processing in Pinot where the the data items have complex fields that need to be unnested. 
-The command:
+This example demonstrates how to do hybrid stream and batch processing with Pinot. The command:
 
-* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
-* Creates the `githubEvents` table
-* Launches a standalone data ingestion job that builds one segment for a given JSON data file for the `githubEvents` table and pushes the segment to the Pinot Controller.
+1. Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+2. Creates `airlineStats` table
+3. Launches a standalone data ingestion job that builds segments under a given directory of Avro files for the `airlineStats` table and pushes the segments to the Pinot Controller.
+4. Launches a stream of flights stats
+5. Publishes data to a Kafka topic `airlineStatsEvents` that is subscribed to by Pinot.
+6. Issues sample queries to Pinot&#x20;
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:0.9.0 QuickStart \
+    -type hybrid
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type hybrid
+```
+{% endtab %}
+{% endtabs %}
+
+## Join
+
+This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../users/user-guide-query/lookup-udf-join.md). The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
+* Creates the `baseballStats` table
+* Launches a data ingestion job that builds one segment for a given CSV data file for the `baseballStats` table and pushes the segment to the Pinot Controller.
+* Creates the `dimBaseballTeams` table  
+* Launches a data ingestion job that builds one segment for a given CSV data file for the `dimBaseballStats` table and pushes the segment to the Pinot Controller.
 * Issues sample queries to Pinot
 
 {% tabs %}
@@ -297,13 +300,15 @@ The command:
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:0.9.0 QuickStart \
-    -type batch_json_index
+    -type join
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type batch_json_index
+./bin/pinot-admin.sh QuickStart -type join
 ```
 {% endtab %}
 {% endtabs %}
+
+
