@@ -8,31 +8,31 @@ Pinot uses [Apache Helix](http://helix.apache.org) for cluster management.
 Helix is a cluster management framework that manages replicated, partitioned resources in a distributed system. 
 Helix uses Zookeeper to store cluster state and metadata.
 
-### Cluster components
+## Cluster components
 
 Helix divides nodes into logical components based on their responsibilities:
 
-#### Participant
+### Participant
 
 The nodes that host distributed, partitioned resources
 
 _**Pinot Servers**_ are modeled as Participants. For more details about server nodes, see [Server](server.md).
 
-#### Spectator
+### Spectator
 
 The nodes that observe the current state of each Participant and use that information to access the resources. 
 Spectators are notified of state changes in the cluster (state of a participant, or that of a partition in a participant).
 
 _**Pinot Brokers**_ are modeled as Spectators. For more details about broker nodes, see [Broker](broker.md).
 
-#### Controller
+### Controller
 
 The node that observes and controls the Participant nodes. 
 It is responsible for coordinating all transitions in the cluster and ensuring that state constraints are satisfied while maintaining cluster stability.
 
 _**Pinot Controllers**_ are modeled as Controllers. For more details about controller nodes, see [Controller](controller.md).
 
-### Logical view
+## Logical view
 
 Another way to visualize the cluster is a logical view, where: 
 
