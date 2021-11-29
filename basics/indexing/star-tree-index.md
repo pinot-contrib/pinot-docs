@@ -1,13 +1,14 @@
 # Star-Tree Index
 
-Unlike other index techniques which work on single column, Star-Tree index is built on multiple columns, and utilize the pre-aggregated results to significantly reduce the number of values to be processed, thus improve the query performance.&#x20;
+Unlike other index techniques which work on single column, the Star-Tree index is built on multiple columns, and utilizes pre-aggregated results to significantly reduce the number of values to be processed, thus improving query performance.
 
-One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLA’s on latency and throughput on large data sets. Existing techniques such as sorted index or inverted index help improve query latencies, but speed-ups are still limited by number of documents necessary to process for computing the results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
+One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. 
+Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by theh number of documents that need to be processed to compute results.
+On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
 Here we introduce **star-tree** index to utilize the pre-aggregated documents in a smart way to achieve low query latencies but also use the storage space efficiently for aggregation/group-by queries.
 
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
-
 
 
 ### Existing solutions
@@ -53,9 +54,10 @@ Below are the inverted indexes for columns ‘Browser’ and ‘Locale’ for ou
 | es     | 2,5     |
 | fr     | 1       |
 
-For example, if we want to get all the documents where ‘Browser’ is ‘Firefox’, we can simply look up the inverted index for ‘Browser’ and identify that it appears in documents \[1, 5, 6].
+For example, if we want to get all the documents where ‘Browser’ is ‘Firefox’, we can look up the inverted index for ‘Browser’ and identify that it appears in documents \[1, 5, 6].
 
-Using inverted index, we can reduce the search time to constant time _O(1)_. However, the query latency is still a function of the selectivity of the query, i.e. increases with the number of documents need to be processed to answer the query.
+Using an inverted index, we can reduce the search time to constant time _O(1)_. 
+The query latency, however, is still a function of the selectivity of the query, i.e. it increases with the number of documents that need to be processed to answer the query.
 
 #### Pre-aggregation
 
@@ -69,23 +71,25 @@ In the example below, we have pre-aggregated the total impressions for each coun
 | MX      | 400         |
 | USA     | 1200        |
 
-Doing so makes answering queries about total impressions for a country just a value lookup, by eliminating the need of processing a large number of documents. However, to be able to answer with multiple predicates implies pre-aggregating for various combinations of different dimensions. This leads to exponential explosion in storage space.
+With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. 
+However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential explosion in storage space.
 
 ### Star-tree solution
 
-On one end of the spectrum we have indexing techniques that improve search times with limited increase in space, but do not guarantee a hard upper bound on query latencies. On the other end of the spectrum we have pre-aggregation techniques that offer hard upper bound on query latencies, but suffer from exponential explosion of storage space
+On one end of the spectrum we have indexing techniques that improve search times with a limited increase in space, but do not guarantee a hard upper bound on query latencies. On the other end of the spectrum we have pre-aggregation techniques that offer hard upper bound on query latencies, but suffer from exponential explosion of storage space
 
 ![](../../.gitbook/assets/space-time.png)
 
 Space-Time Trade Off Between Different Techniques
 
-We propose the Star-Tree data structure that offers a configurable trade-off between space and time and allows us to achieve hard upper bound for query latencies for a given use case. In the following sections we will define the Star-Tree data structure, and discuss how it is utilized within Pinot for achieving low latencies with high throughput.
+The Star-Tree data structure offers a configurable trade-off between space and time and lets us achieve hard upper bound for query latencies for a given use case. 
+In the following sections we will define the Star-Tree data structure, and explains how Pinot uses it to achieve low latencies with high throughput.
 
 ### Definitions
 
 **Tree structure**
 
-Star-tree is a tree data structure that is consisted of the following properties:
+Star-tree is a tree data structure that consists of the following properties:
 
 ![](../../.gitbook/assets/structure.png)
 
@@ -101,9 +105,9 @@ Star-tree Structure
 
 The properties stored in each node are as follows:
 
-* **Dimension**: The dimension which the node is split on
+* **Dimension**: The dimension that the node is split on
 * **Start/End Document Id**: The range of documents this node points to
-* **Aggregated Document Id**: One single document which is the aggregation result of all documents pointed by this node
+* **Aggregated Document Id**: One single document that is the aggregation result of all documents pointed by this node
 
 ### Index generation
 
@@ -121,9 +125,9 @@ Star-tree index is generated in the following steps:
 
 #### Aggregation
 
-Aggregation is configured as a pair of aggregation function and the column to apply the aggregation.
+Aggregation is configured as a pair of aggregation functions and the column to apply the aggregation.
 
-All types of aggregation function with bounded-sized intermediate result are supported.
+All types of aggregation function that have a bounded-sized intermediate result are supported.
 
 **Supported functions**
 
@@ -169,9 +173,9 @@ Multiple index generation configurations can be provided to generate multiple st
 
 #### **Default index generation configuration**
 
-Default star-tree index can be added to the segment with a boolean config _**enableDefaultStarTree**_ under the _tableIndexConfig_.&#x20;
+A default star-tree index can be added to a segment by using the boolean config _**enableDefaultStarTree**_ under the _tableIndexConfig_.&#x20;
 
-The default star-tree will have the following configuration:
+A default star-tree will have the following configuration:
 
 * All dictionary-encoded single-value dimensions with cardinality smaller or equal to a threshold (10000) will be included in the _dimensionsSplitOrder_, sorted by their cardinality in descending order.
 * All dictionary-encoded Time/DateTime columns will be appended to the _dimensionsSplitOrder _following the dimensions, sorted by their cardinality in descending order. Here we assume that time columns will be included in most queries as the range filter column and/or the group by column, so for better performance, we always include them as the last elements in the _dimensionsSplitOrder_.
@@ -183,10 +187,14 @@ The default star-tree will have the following configuration:
 For our example data set, in order to solve the following query efficiently:
 
 ```javascript
-SELECT SUM(Impressions) FROM myTable WHERE Country = 'USA' AND Browser = 'Chrome' GROUP BY Locale
+SELECT SUM(Impressions) 
+FROM myTable 
+WHERE Country = 'USA' 
+AND Browser = 'Chrome' 
+GROUP BY Locale
 ```
 
-We may config the star-tree index as following:
+We may config the star-tree index as follows:
 
 ```javascript
 "tableIndexConfig": {

@@ -4,7 +4,7 @@
 
 When an inverted index is enabled for a column, Pinot maintains a map from each value to a bitmap of rows, which makes value lookup take constant time. If you have a column that is frequently used for filtering, adding an inverted index will improve performance greatly.
 
-An inverted index can be configured for a table by setting it in the table config as
+An inverted index can be configured for a table by setting it in the [table config](../../configuration-reference/table.md):
 
 ```javascript
 {

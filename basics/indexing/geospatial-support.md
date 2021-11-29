@@ -96,7 +96,7 @@ To use the geoindex, first declare the geolocation field as bytes in the schema,
 
 Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed by the `ST_Distance` function.
 
-Next, declare the geospatial index in the table config:
+Next, declare the geospatial index in the [table config](../../configuration-reference/table.md):
 
 {% code title="geoindex tableConfig" %}
 ```javascript

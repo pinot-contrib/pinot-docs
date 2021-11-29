@@ -16,7 +16,7 @@ There are 3 parameters to configure the Bloom Filter:
 * `maxSizeInBytes`: Maximum size of the bloom filter (unlimited by default). If a certain `fpp` generates a bloom filter larger than this size, we will increase the `fpp` to keep the bloom filter size within this limit.
 * `loadOnHeap`: Whether to load the bloom filter using heap memory or off-heap memory (`false` by default).
 
-There are 2 ways to configure a bloom filter for a table in the table config:
+There are 2 ways to configure a bloom filter for a table in the [table config](../../configuration-reference/table.md):
 
 * Default settings
 

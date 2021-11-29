@@ -10,7 +10,8 @@ FROM baseballStats
 WHERE hits > 11
 ```
 
-A range index is a variant of an [inverted index](https://docs.pinot.apache.org/basics/indexing/inverted-index), where instead of creating a mapping from values to columns, we create mapping of a range of values to columns. You can use the range index by setting the following config in the table config.
+A range index is a variant of an [inverted index](https://docs.pinot.apache.org/basics/indexing/inverted-index), where instead of creating a mapping from values to columns, we create mapping of a range of values to columns. 
+You can use the range index by setting the following config in the [table config](../../configuration-reference/table.md).
 
 ```javascript
 {

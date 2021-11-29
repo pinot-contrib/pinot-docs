@@ -34,7 +34,7 @@ As seen in the above diagram, using dictionary encoding will require a lot of ra
 
 ![](../../.gitbook/assets/no-dictionary.png)
 
-Raw value forward index can be configured for a table by setting it in the table config as
+A raw value forward index can be configured for a table by configuring the [table config](../../configuration-reference/table.md), as shown below:
 
 ```javascript
 {
@@ -58,7 +58,7 @@ When a column is physically sorted, Pinot uses a sorted forward index with run-l
 
 Sorted forward index has the advantages of both good compression and data locality. Sorted forward index can also be used as inverted index.
 
-Sorted index can be configured for a table by setting it in the table config as
+A sorted index can be configured for a table by setting it in the table config:
 
 ```javascript
 {
@@ -72,7 +72,7 @@ Sorted index can be configured for a table by setting it in the table config as
 ```
 
 {% hint style="info" %}
-**Note**: A given Pinot table can only have 1 sorted column
+**Note**: A Pinot table can only have 1 sorted column
 {% endhint %}
 
 Real-time data ingestion will sort data by the `sortedColumn` when generating segments. For offline data ingestion, you will need to sort the data before ingesting it into Pinot.
@@ -83,5 +83,3 @@ You can check the sorted status of a column in a segment by running the followin
 $ grep memberId <segment_name>/v3/metadata.properties | grep isSorted
 column.memberId.isSorted = true
 ```
-
-##
