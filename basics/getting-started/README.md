@@ -51,12 +51,6 @@ You can find the commands that are shown in this video on GitHub\
 Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster
 {% endembed %}
 
-We also have a step-by-step guide for manually setting up a Pinot cluster using Docker or shell scripts.
-
-{% content-ref url="advanced-pinot-setup.md" %}
-[advanced-pinot-setup.md](advanced-pinot-setup.md)
-{% endcontent-ref %}
-
 ## Data import examples
 
 Getting data into Pinot is easy. Take a look at these two quick start guides which will help you get up and running with sample data for offline and real-time [tables](../components/table.md).
