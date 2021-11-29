@@ -12,19 +12,21 @@ Raw data is broken into small data shards and each shard is converted into a uni
 
 ## Pinot Storage Model
 
-Pinot uses a variety of terms which can refer to either abstractions that model the storage of data or infrastructure components that drive the functionality of the system.&#x20;
+Pinot uses a variety of terms that can refer to either abstractions that model the storage of data or infrastructure components that drive the functionality of the system.&#x20;
 
 ![Pinot Storage Model Abstraction](../.gitbook/assets/pinot\_entities.jpg)
 
 ### **Table**
 
-Similar to traditional databases, Pinot has the concept of a [**table**](components/table.md)—a logical abstraction to refer to a collection of related data. As is the case with RDBMS, a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](components/schema.md) which defines the columns in a table as well as their data types.&#x20;
+Similar to traditional databases, Pinot has the concept of a [**table**](components/table.md)—a logical abstraction to refer to a collection of related data.&#x20;
 
-As opposed to RDBMS schemas, multiple tables can be created in Pinot (real-time or batch) that inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, and/or replication.
+As is the case with RDBMS, a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](components/schema.md) that defines the columns in a table as well as their data types.&#x20;
+
+In contrast to RDBMS schemas, multiple tables in Pinot (real-time or batch) can inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, and/or replication.
 
 ### **Segment**
 
-Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/segment.md)** **(this is similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.&#x20;
+Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/segment.md)** **(similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.&#x20;
 
 ### **Tenant**
 
@@ -44,7 +46,7 @@ Auto-scaling is also achievable, however, a set amount of nodes is recommended t
 
 ![](../.gitbook/assets/pinot-components.svg)
 
-A Pinot cluster is comprised of multiple distributed system components. These components are useful to understand for operators that are monitoring system usage or are debugging an issue with a cluster deployment.
+A Pinot cluster comprises multiple distributed system components. These components are useful to understand for operators that are monitoring system usage or are debugging an issue with a cluster deployment.
 
 * Controller
 * Server
@@ -69,10 +71,10 @@ A [broker](components/broker.md) receives queries from a client and routes their
 
 ### Pinot Server
 
-[Servers](components/server.md) host segments (shards) that are scheduled and allocated across multiple nodes and routed on an assignment to a tenant (there is a single tenant by default). Servers are independent containers that scale horizontally and are notified by Helix through state changes driven by the controller. A server can either be a real-time server or an offline server.&#x20;
+[Servers](components/server.md) host segments (shards) that are scheduled and allocated across multiple nodes and routed on an assignment to a tenant (there is a single-tenant by default). Servers are independent containers that scale horizontally and are notified by Helix through state changes driven by the controller. A server can either be a real-time server or an offline server.&#x20;
 
 A real-time and offline server have very different resource usage requirements, where real-time servers are continually consuming new messages from external systems (such as Kafka topics) that are ingested and allocated on segments of a tenant. Because of this, resource isolation can be used to prioritize high-throughput real-time data streams that are ingested and then made available for query through a broker.
 
 ### Pinot Minion
 
-Pinot [minion](components/minion.md) is an optional component that can be used to run background tasks such as "purge" for GDPR (General Data Protection Regulation). As Pinot is an immutable aggregate store, records containing sensitive private data need to be purged on a request-by-request basis. Minion provides a solution for this purpose that complies with GDPR while optimizing Pinot segments and building additional indices that guarantees performance in the presence of the possibility of data deletion. One can also write a custom task that runs on a periodic basis. While it's possible to perform these tasks on the Pinot servers directly, having a separate process (Minion) lessens the overall degradation of query latency as segments are impacted by mutable writes.
+Pinot [minion](components/minion.md) is an optional component that can be used to run background tasks such as "purge" for GDPR (General Data Protection Regulation). As Pinot is an immutable aggregate store, records containing sensitive private data need to be purged on a request-by-request basis. Minion provides a solution for this purpose that complies with GDPR while optimizing Pinot segments and building additional indices that guarantee performance in the presence of the possibility of data deletion. One can also write a custom task that runs on a periodic basis. While it's possible to perform these tasks on the Pinot servers directly, having a separate process (Minion) lessens the overall degradation of query latency as segments are impacted by mutable writes.

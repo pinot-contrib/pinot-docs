@@ -6,8 +6,8 @@ It would be useful for a query like the following:
 
 ```
 SELECT COUNT(*) 
-from baseballStats 
-where playerID = 12345
+FROM baseballStats 
+WHERE playerID = 12345
 ```
 
 There are 3 parameters to configure the Bloom Filter:
@@ -16,9 +16,9 @@ There are 3 parameters to configure the Bloom Filter:
 * `maxSizeInBytes`: Maximum size of the bloom filter (unlimited by default). If a certain `fpp` generates a bloom filter larger than this size, we will increase the `fpp` to keep the bloom filter size within this limit.
 * `loadOnHeap`: Whether to load the bloom filter using heap memory or off-heap memory (`false` by default).
 
-There are 2 ways of configuring bloom filter for a table in the table config:
+There are 2 ways to configure a bloom filter for a table in the table config:
 
-* Configure bloom filter columns with default settings
+* Default settings
 
 ```javascript
 {
@@ -33,7 +33,7 @@ There are 2 ways of configuring bloom filter for a table in the table config:
 }
 ```
 
-* Configure bloom filter columns with customized parameters
+* Customized parameters
 
 ```javascript
 {
@@ -52,4 +52,4 @@ There are 2 ways of configuring bloom filter for a table in the table config:
 }
 ```
 
-At the moment a Bloom Filter can only be applied to dictionary-encoded columns. Support for raw value columns is WIP.
+A Bloom Filter can only be applied to dictionary-encoded columns. Support for raw value columns is WIP.
