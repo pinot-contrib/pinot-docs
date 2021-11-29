@@ -15,7 +15,7 @@ You will need to have [installed Pinot locally](running-pinot-locally.md) or [ha
 {% endhint %}
 
 {% hint style="warning" %}
-**Note for macOS Monterey Users**
+**macOS Monterey Users**
 
 By default the Airplay receiver server runs on port 7000, which is also the port used by the Pinot Server in the Quick Start. You may see the following error when running these examples:
 
