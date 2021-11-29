@@ -12,11 +12,10 @@ Pinot ships with QuickStart commands that launch Pinot components in a single pr
 **Prerequisites**
 
 You will need to have [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md).
-
 {% endhint %}
 
-{% hint style="info" %}
-**Note for macOS Monterey Users**
+{% hint style="warning" %}
+**macOS Monterey Users**
 
 By default the Airplay receiver server runs on port 7000, which is also the port used by the Pinot Server in the Quick Start. You may see the following error when running these examples:
 
@@ -29,7 +28,6 @@ java.lang.RuntimeException: java.net.BindException: Address already in use
 ```
 
 If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
-
 {% endhint %}
 
 ## Batch
