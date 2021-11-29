@@ -40,5 +40,5 @@ Typically, there is only one cluster per environment/data center. There is no ne
 
 To set up a cluster, see one of the following guides:
 
-* Running Pinot in Docker
-* Running Pinot locally
+* [Running Pinot in Docker](../getting-started/running-pinot-in-docker.md)
+* [Running Pinot locally](../getting-started/running-pinot-locally.md)

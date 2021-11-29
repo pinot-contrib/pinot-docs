@@ -148,4 +148,4 @@ curl -F schemaName=@transcript-schema.json  localhost:9000/schemas
 {% endtab %}
 {% endtabs %}
 
-Check out the schema in the [Rest API ](http://localhost:9000/help#!/Schema/getSchema)to make sure it was successfully uploaded
+Check out the schema in the [Rest API](http://localhost:9000/help#!/Schema/getSchema)to make sure it was successfully uploaded
