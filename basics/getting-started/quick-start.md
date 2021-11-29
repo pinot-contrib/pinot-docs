@@ -15,6 +15,23 @@ You will need to have [installed Pinot locally](running-pinot-locally.md) or [ha
 
 {% endhint %}
 
+{% hint style="info" %}
+**Note for macOS Monterey Users**
+
+By default the Airplay receiver server runs on port 7000, which is also the port used by the Pinot Server in the Quick Start. You may see the following error when running these examples:
+
+```
+Failed to start a Pinot [SERVER]
+java.lang.RuntimeException: java.net.BindException: Address already in use
+	at org.apache.pinot.core.transport.QueryServer.start(QueryServer.java:103) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da21132906]
+	at org.apache.pinot.server.starter.ServerInstance.start(ServerInstance.java:158) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da21132906]
+	at org.apache.helix.manager.zk.ParticipantManager.handleNewSession(ParticipantManager.java:110) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da2113
+```
+
+If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
+
+{% endhint %}
+
 ## Batch
 
 This example demonstrates how to do batch processing with Pinot. The command:
