@@ -26,7 +26,7 @@ _**Pinot Brokers**_ are modeled as Spectators. For more details about broker nod
 
 The node that observes and controls the Participant nodes. It is responsible for coordinating all transitions in the cluster and ensuring that state constraints are satisfied while maintaining cluster stability_._
 
-_**Pinot Controllers**_** **are modeled as Controllers. For more details about controller nodes, see [Controller](controller.md).
+_**Pinot Controllers**_ are modeled as Controllers. For more details about controller nodes, see [Controller](controller.md).
 
 ### Logical view
 
