@@ -4,7 +4,9 @@ Cluster is a set of nodes comprising of servers, brokers, controllers and minion
 
 ![Pinot cluster components](../../.gitbook/assets/components.jpg)
 
-Pinot uses [Apache Helix](http://helix.apache.org) for cluster management. Helix is a cluster management framework that manages replicated, partitioned resources in a distributed system. Helix uses Zookeeper to store cluster state and metadata.
+Pinot uses [Apache Helix](http://helix.apache.org) for cluster management. 
+Helix is a cluster management framework that manages replicated, partitioned resources in a distributed system. 
+Helix uses Zookeeper to store cluster state and metadata.
 
 ### Cluster components
 
@@ -18,19 +20,25 @@ _**Pinot Servers**_ are modeled as Participants. For more details about server n
 
 #### Spectator
 
-The nodes that observe the current state of each Participant and use that information to access the resources. Spectators are notified of state changes in the cluster (state of a participant, or that of a partition in a participant).
+The nodes that observe the current state of each Participant and use that information to access the resources. 
+Spectators are notified of state changes in the cluster (state of a participant, or that of a partition in a participant).
 
 _**Pinot Brokers**_ are modeled as Spectators. For more details about broker nodes, see [Broker](broker.md).
 
 #### Controller
 
-The node that observes and controls the Participant nodes. It is responsible for coordinating all transitions in the cluster and ensuring that state constraints are satisfied while maintaining cluster stability_._
+The node that observes and controls the Participant nodes. 
+It is responsible for coordinating all transitions in the cluster and ensuring that state constraints are satisfied while maintaining cluster stability.
 
 _**Pinot Controllers**_ are modeled as Controllers. For more details about controller nodes, see [Controller](controller.md).
 
 ### Logical view
 
-Another way to visualize the cluster is a logical view, wherein a cluster contains [tenants](tenant.md), tenants contain [tables](table.md), and tables contain [segments](segment.md).
+Another way to visualize the cluster is a logical view, where: 
+
+* A cluster contains [tenants](tenant.md)
+* Tenants contain [tables](table.md)
+* Tables contain [segments](segment.md).
 
 ![](../../.gitbook/assets/clusterlogical.jpg)
 
