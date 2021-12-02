@@ -107,6 +107,17 @@ export JAVA_OPTS="-Xms4G -Xmx8G"
 ```
 {% endhint %}
 
+The video below is a step-by-step walk through for launching the individual components of Pinot and scaling them to multiple instances. 
+
+{% hint style="info" %}
+You can find the commands that are shown in this video on GitHub\
+[https://github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial)
+{% endhint %}
+
+{% embed url="https://www.youtube.com/watch?v=cNnwMF0pOJ8" %}
+Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster
+{% endembed %}
+
 ### Start Zookeeper
 
 ```

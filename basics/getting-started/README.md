@@ -36,19 +36,6 @@ To simplify the getting started experience, Pinot ships with quick start guides 
 [aws-quickstart.md](public-cloud-examples/aws-quickstart.md)
 {% endcontent-ref %}
 
-## How to setup a Pinot cluster
-
-This video will show you a step-by-step walk through for launching the individual components of Pinot and scaling them to multiple instances. This is an excellent resource for developers and operators that want to understand setting up each component and debugging a cluster.
-
-{% hint style="info" %}
-You can find the commands that are shown in this video on GitHub\
-[https://github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial)
-{% endhint %}
-
-{% embed url="https://www.youtube.com/watch?v=cNnwMF0pOJ8" %}
-Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster
-{% endembed %}
-
 ## Data import examples
 
 Getting data into Pinot is easy. Take a look at these two quick start guides which will help you get up and running with sample data for offline and real-time [tables](../components/table.md).
