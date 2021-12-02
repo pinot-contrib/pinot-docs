@@ -91,6 +91,17 @@ For a list of all the available quick starts, see the [Quick Start Examples](qui
 
 If you want to play with bigger datasets (more than a few MB), you can launch all the components individually.
 
+The video below is a step-by-step walk through for launching the individual components of Pinot and scaling them to multiple instances. 
+
+{% embed url="https://www.youtube.com/watch?v=cNnwMF0pOJ8" %}
+Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster
+{% endembed %}
+
+{% hint style="info" %}
+You can find the commands that are shown in this video on GitHub\
+[https://github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial)
+{% endhint %}
+
 {% hint style="info" %}
 The examples below assume that you are using Java 8.
 
@@ -105,17 +116,6 @@ You'd have:
 ```bash
 export JAVA_OPTS="-Xms4G -Xmx8G"
 ```
-{% endhint %}
-
-The video below is a step-by-step walk through for launching the individual components of Pinot and scaling them to multiple instances. 
-
-{% embed url="https://www.youtube.com/watch?v=cNnwMF0pOJ8" %}
-Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster
-{% endembed %}
-
-{% hint style="info" %}
-You can find the commands that are shown in this video on GitHub\
-[https://github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial)
 {% endhint %}
 
 ### Start Zookeeper
