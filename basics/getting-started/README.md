@@ -8,7 +8,7 @@ description: >-
 
 ## Running Pinot
 
-To simplify the getting started experience, Pinot ships with quick start guides that launch Pinot components in a single process and import pre-built datasets. For a full list of these guides, see Quik Start Examples.&#x20;
+To simplify the getting started experience, Pinot ships with quick start guides that launch Pinot components in a single process and import pre-built datasets. For a full list of these guides, see [Quick Start Examples](quick-start.md).
 
 {% content-ref url="running-pinot-locally.md" %}
 [running-pinot-locally.md](running-pinot-locally.md)
