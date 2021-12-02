@@ -8,9 +8,9 @@ description: >-
 
 Pinot keeps a compressed copy of segment files in the deep store (or deep storage).
 
-These compressed files can be stored on a local file system or on a variety of other file systems. For more details on supported file systems, see [File Systems](../data-import/pinot-file-system/README.md).
+These compressed files can be stored on a local file system or on a variety of other file systems. For more details on supported file systems, see [File Systems](../data-import/pinot-file-system/).
 
-For hands on examples of how to configure the deep store, see the following tutorials:
+For hands-on examples of how to configure the deep store, see the following tutorials:
 
-*[Use OSS as Deep Storage for Pinot](../../users/tutoirals/use-oss-as-deep-storage-for-pinot.md)
-*[Use S3 as Deep Storage for Pinot](../../users/tutoirals/use-s3-as-deep-store-for-pinot.md)
+* [Use OSS as Deep Storage for Pinot](../../users/tutoirals/use-oss-as-deep-storage-for-pinot.md)&#x20;
+* [Use S3 as Deep Storage for Pinot](../../users/tutoirals/use-s3-as-deep-store-for-pinot.md)
