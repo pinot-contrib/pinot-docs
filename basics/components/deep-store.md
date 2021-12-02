@@ -8,4 +8,4 @@ description: >-
 
 Pinot keeps a compressed copy of segment files in the deep store (or deep storage).
 
-These compressed files can be stored on a local file system or on a variety of other file systems. For more details on supported file systems, see [File Systems](../getting-started/pinot-file-system/README.md).
+These compressed files can be stored on a local file system or on a variety of other file systems. For more details on supported file systems, see [File Systems](../data-import/pinot-file-system/README.md).
