@@ -97,10 +97,7 @@ The video below is a step-by-step walk through for launching the individual comp
 Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster
 {% endembed %}
 
-{% hint style="info" %}
-You can find the commands that are shown in this video in the 
-[github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial) GitHub repository.
-{% endhint %}
+You can find the commands that are shown in this video in the [github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial) GitHub repository.
 
 {% hint style="info" %}
 The examples below assume that you are using Java 8.
