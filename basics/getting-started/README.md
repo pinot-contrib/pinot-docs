@@ -8,9 +8,7 @@ description: >-
 
 ## Running Pinot
 
-We want your experience getting started with Pinot to be both low effort and high reward. Here you'll find a collection of quick start guides that contain starter distributions of the Pinot platform.
-
-### Bootstrapping a cluster
+To simplify the getting started experience, Pinot ships with quick start guides that launch Pinot components in a single process and import pre-built datasets. For a full list of these guides, see Quik Start Examples.&#x20;
 
 {% content-ref url="running-pinot-locally.md" %}
 [running-pinot-locally.md](running-pinot-locally.md)
