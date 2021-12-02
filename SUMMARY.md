@@ -16,6 +16,7 @@
   * [Schema](basics/components/schema.md)
   * [Table](basics/components/table.md)
   * [Segment](basics/components/segment.md)
+  * [Deep Store](basics/components/deep-store.md)
   * [Pinot Data Explorer](basics/components/exploring-pinot.md)
 * [Getting Started](basics/getting-started/README.md)
   * [Running Pinot locally](basics/getting-started/running-pinot-locally.md)
@@ -75,7 +76,7 @@
 * [Recipes](basics/recipes/README.md)
   * [GitHub Events Stream](basics/recipes/github-events-stream.md)
 
-## For Users <a href="users" id="users"></a>
+## For Users <a href="#users" id="users"></a>
 
 * [Query](users/user-guide-query/README.md)
   * [Querying Pinot](users/user-guide-query/querying-pinot.md)
@@ -104,7 +105,7 @@
   * [Batch Data Ingestion In Practice](users/tutorials/batch-data-ingestion-in-practice.md)
   * [Schema Evolution](users/tutorials/schema-evolution.md)
 
-## For Developers <a href="developers" id="developers"></a>
+## For Developers <a href="#developers" id="developers"></a>
 
 * [Basics](developers/developers-and-contributors/README.md)
   * [Extending Pinot](developers/developers-and-contributors/extending-pinot/README.md)
@@ -128,7 +129,7 @@
 * [Design Documents](developers/design-documents/README.md)
   * [Segment Writer API](developers/design-documents/segment-writer-api.md)
 
-## For Operators <a href="operators" id="operators"></a>
+## For Operators <a href="#operators" id="operators"></a>
 
 * [Deployment and Monitoring](operators/operating-pinot/README.md)
   * [Setup cluster](operators/operating-pinot/setup-cluster.md)
@@ -171,7 +172,7 @@
 * [Schema](configuration-reference/schema.md)
 * [Ingestion Job Spec](configuration-reference/job-specification.md)
 
-## RESOURCES <a href="community-1" id="community-1"></a>
+## RESOURCES <a href="#community-1" id="community-1"></a>
 
 * [Community](community-1/community.md)
 * [Team](community-1/team.md)

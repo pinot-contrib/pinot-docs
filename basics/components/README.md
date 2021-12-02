@@ -4,33 +4,49 @@ description: Learn about the different components and logical abstractions
 
 # Components
 
-This section is a reference for the definition of major components and logical abstractions used in Pinot. Please visit the [Basic Concepts](../concepts.md) section to get a general overview that ties together all of the reference material in this section.
+This section is a reference for the definition of major components and logical abstractions used in Pinot.&#x20;
+
+For a general overview that ties together all of the reference material in this section, see [Basic Concepts](../concepts.md).
 
 ![](../../.gitbook/assets/pinot-system-architecture.png)
 
 ### Operator reference
 
-{% page-ref page="cluster.md" %}
+{% content-ref url="cluster.md" %}
+[cluster.md](cluster.md)
+{% endcontent-ref %}
 
-{% page-ref page="controller.md" %}
+{% content-ref url="controller.md" %}
+[controller.md](controller.md)
+{% endcontent-ref %}
 
-{% page-ref page="broker.md" %}
+{% content-ref url="broker.md" %}
+[broker.md](broker.md)
+{% endcontent-ref %}
 
-{% page-ref page="server.md" %}
+{% content-ref url="server.md" %}
+[server.md](server.md)
+{% endcontent-ref %}
 
-{% page-ref page="minion.md" %}
+{% content-ref url="minion.md" %}
+[minion.md](minion.md)
+{% endcontent-ref %}
 
-{% page-ref page="tenant.md" %}
+{% content-ref url="tenant.md" %}
+[tenant.md](tenant.md)
+{% endcontent-ref %}
 
 ### Developer reference
 
-{% page-ref page="table.md" %}
+{% content-ref url="table.md" %}
+[table.md](table.md)
+{% endcontent-ref %}
 
-{% page-ref page="schema.md" %}
+{% content-ref url="schema.md" %}
+[schema.md](schema.md)
+{% endcontent-ref %}
 
-{% page-ref page="segment.md" %}
-
-### 
-
-
+{% content-ref url="segment.md" %}
+[segment.md](segment.md)
+{% endcontent-ref %}
 
