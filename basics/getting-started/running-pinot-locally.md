@@ -98,8 +98,8 @@ Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster
 {% endembed %}
 
 {% hint style="info" %}
-You can find the commands that are shown in this video on GitHub\
-[https://github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial)
+You can find the commands that are shown in this video in the 
+[github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial) GitHub repository.
 {% endhint %}
 
 {% hint style="info" %}
