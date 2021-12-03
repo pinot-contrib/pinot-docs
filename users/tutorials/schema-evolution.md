@@ -1,6 +1,6 @@
 # Schema Evolution
 
-So far, you've seen how to [create a new schema](https://docs.pinot.apache.org/basics/components/schema#creating-a-schema) for a Pinot table. In this tutorial, we'll see how to evolve the schema \(e.g. add a new column to the schema\). This guide assumes you have a Pinot cluster up and running \(eg: as mentioned in [https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally)\). We will also assume there's an existing table `baseballStats` created as part of the [batch quick start](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch).
+So far, you've seen how to [create a new schema](https://docs.pinot.apache.org/basics/components/schema#creating-a-schema) for a Pinot table. In this tutorial, we'll see how to evolve the schema (e.g. add a new column to the schema). This guide assumes you have a Pinot cluster up and running (eg: as mentioned in [https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally)). We will also assume there's an existing table `baseballStats` created as part of the [batch quick start](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch).
 
 {% hint style="info" %}
 Pinot only allows adding new columns to the schema. In order to drop a column, change the column name or data type, a new table has to be created.
@@ -16,9 +16,9 @@ $ curl localhost:9000/schemas/baseballStats > baseballStats.schema
 
 ### Add a new column
 
-Let's add a new column at the end of the schema, something like this \(by editing `baseballStats.schema`
+Let's add a new column at the end of the schema, something like this (by editing `baseballStats.schema`
 
-```text
+```
 {
   "schemaName" : "baseballStats",
   "dimensionFieldSpecs" : [ {
@@ -33,7 +33,7 @@ Let's add a new column at the end of the schema, something like this \(by editin
 }
 ```
 
-In this example, we're adding a new column called `yearsOfExperience` with a default value of 1. 
+In this example, we're adding a new column called `yearsOfExperience` with a default value of 1.&#x20;
 
 ### Update the schema
 
@@ -41,7 +41,7 @@ You can now update the schema using the following command
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-```text
+```
 bin/pinot-admin.sh AddSchema -schemaFile baseballStats.schema -exec
 ```
 {% endtab %}
@@ -55,13 +55,13 @@ $ curl -F schemaName=@baseballStats.schema localhost:9000/schemas
 
 Please note: this will not be reflected immediately. You can use the following command to reload the table segments for this column to show up. This can be done as follows:
 
-```text
+```
 $ curl -X POST localhost:9000/segments/baseballStats/reload
 ```
 
 After the reload, now you can query the new column as shown below:
 
-```text
+```
 $ bin/pinot-admin.sh PostQuery \
   -queryType sql \
   -brokerPort 8000 \
@@ -71,14 +71,14 @@ Result: {"resultTable":{"dataSchema":{"columnNames":["playerID","yearsOfExperien
 ```
 
 {% hint style="info" %}
-**Real-Time Pinot table:** In case of real-time tables, make sure the "_pinot.server.instance.reload.consumingSegment_" config is set to true inside [Server config](https://docs.pinot.apache.org/configuration-reference/server). Without this, the current consuming segment\(s\) will not reflect the default null value for newly added columns.
+**Real-Time Pinot table:** In case of real-time tables, make sure the "_pinot.server.instance.reload.consumingSegment_" config is set to true inside [Server config](https://docs.pinot.apache.org/configuration-reference/server). Without this, the current consuming segment(s) will not reflect the default null value for newly added columns.
 
-Note that the real values for the newly added columns won't be reflected within the current consuming segment\(s\). The next consuming segment\(s\) will start consuming the real values.
+Note that the real values for the newly added columns won't be reflected within the current consuming segment(s). The next consuming segment(s) will start consuming the real values.
 {% endhint %}
 
 ### Derived Column
 
-New columns can be added with [ingestion transforms](../../developers/advanced/ingestion-level-transformations.md). If all the source columns for the new column exist in the schema, the transformed values will be generated for the new column instead of filling default values.
+New columns can be added with [ingestion transforms](../../developers/advanced/ingestion-level-transformations.md). If all the source columns for the new column exist in the schema, the transformed values will be generated for the new column instead of filling default values. Note that derived column as well as corresponding data type needs to be first defined in the schema before making changes in table config for ingestion transform.
 
 ### Backfilling the Data
 
@@ -87,4 +87,3 @@ As you can observe, the current query returns the `defaultNullValue` for the new
 {% hint style="info" %}
 **Real-Time Pinot table:** Backfilling data does not work for real-time tables. If you only have a real-time table, you can convert it to a hybrid table, by adding an offline counterpart that uses the same schema. Then you can backfill the offline table and fill in values for the newly added column. More on [hybrid tables here](https://docs.pinot.apache.org/basics/components/table#hybrid-table).
 {% endhint %}
-
