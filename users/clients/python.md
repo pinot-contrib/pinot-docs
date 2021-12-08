@@ -10,20 +10,20 @@ Source Code Repo: [https://github.com/python-pinot-dbapi/pinot-dbapi](https://gi
 
 ### Installation
 
-```text
+```
 pip install pinotdb
 ```
 
 Please note:
 
-* **pinotdb** version &gt;= **0.3.2** is using Pinot SQL API \(added in Pinot &gt;= 0.3.0\) and drops support for PQL API. So this client requires Pinot server version &gt;= **0.3.0** in order to access Pinot.
-* **pinotdb** version in **0.2.x** is using Pinot PQL API, which works with pinot version &lt;= 0.3.0, but may miss some new SQL query features added in newer Pinot version.
+* **pinotdb** version >= **0.3.2** uses the Pinot SQL API (added in Pinot >= 0.3.0) and drops support for PQL API. So this client requires Pinot server version >= **0.3.0** in order to access Pinot.
+* **pinotdb** version in **0.2.x** uses the Pinot PQL API, which works with pinot version <= 0.3.0, but may miss some new SQL query features added in newer Pinot version.
 
 ### Usage
 
 #### Using the DB API to query Pinot Broker directly:
 
-```text
+```
 from pinotdb import connect
 
 conn = connect(host='localhost', port=8099, path='/query/sql', scheme='http')
@@ -41,9 +41,9 @@ for row in curs:
 
 #### Using SQLAlchemy:
 
-The db engine connection string is format as: pinot://:?controller=://:/
+The db engine connection string is formated like this: `pinot://:?controller=://:/`
 
-```text
+```
 from sqlalchemy import *
 from sqlalchemy.engine import create_engine
 from sqlalchemy.schema import *
@@ -58,23 +58,35 @@ print(select([func.count('*')], from_obj=places).scalar())
 
 ### Examples with Pinot Quickstart
 
+#### Clone the Pinot DB repository
+
+```
+git clone git@github.com:python-pinot-dbapi/pinot-dbapi.git
+cd pinot-dbapi
+```
+
 #### Pinot Batch Quickstart
 
 Run below command to start Pinot Batch Quickstart in docker and expose Pinot controller port 9000 and Pinot broker port 8000.
 
-```text
-docker run --name pinot-quickstart -p 2123:2123 -p 9000:9000 -p 8000:8000 -d apachepinot/pinot:latest QuickStart -type batch
+```
+docker run \
+  --name pinot-quickstart \
+  -p 2123:2123 \
+  -p 9000:9000 \
+  -p 8000:8000 \
+  apachepinot/pinot:latest QuickStart -type batch
 ```
 
-Once pinot batch quickstart is up, you can run below sample code snippet to query Pinot:
+Once pinot batch quickstart is up, you can run the sample code snippet to query Pinot:
 
-```text
+```
 python3 examples/pinot-quickstart-batch.py
 ```
 
 Sample Output:
 
-```text
+```
 Sending SQL to Pinot: SELECT * FROM baseballStats LIMIT 5
 [0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 'NL', 11, 11, 'aardsda01', 'David Allan', 1, 0, 0, 0, 0, 0, 0, 'SFN', 0, 2004]
 [2, 45, 0, 0, 0, 0, 0, 0, 0, 0, 'NL', 45, 43, 'aardsda01', 'David Allan', 1, 0, 0, 0, 1, 0, 0, 'CHN', 0, 2006]
@@ -99,19 +111,24 @@ Sending SQL to Pinot: SELECT playerName,sum(runs) AS sum_runs FROM baseballStats
 
 #### Pinot Hybrid Quickstart
 
-Run below command to start Pinot Hybrid Quickstart in docker and expose Pinot controller port 9000 and Pinot broker port 8000.
+Run the command below to start Pinot Hybrid Quickstart in docker and expose Pinot controller port 9000 and Pinot broker port 8000.
 
-```text
-docker run --name pinot-quickstart -p 2123:2123 -p 9000:9000 -p 8000:8000 -d apachepinot/pinot:latest QuickStart -type hybrid
+```
+docker run \
+  --name pinot-quickstart \
+  -p 2123:2123 \
+  -p 9000:9000 \
+  -p 8000:8000 \
+  apachepinot/pinot:latest QuickStart -type hybrid
 ```
 
 Below is an example to query against Pinot Quickstart Hybrid:
 
-```text
+```
 python3 examples/pinot-quickstart-hybrid.py
 ```
 
-```text
+```
 Sending SQL to Pinot: SELECT * FROM airlineStats LIMIT 5
 [171, 153, 19393, 0, 8, 8, 1433, '1400-1459', 0, 1425, 1240, 165, 'null', 0, 'WN', -2147483648, 1, 27, 17540, 0, 2, 2, 1242, '1200-1259', 0, 'MDW', 13232, 1323202, 30977, 'Chicago, IL', 'IL', 17, 'Illinois', 41, 861, 4, -2147483648, [-2147483648], 0, [-2147483648], ['null'], -2147483648, -2147483648, [-2147483648], -2147483648, ['null'], [-2147483648], [-2147483648], [-2147483648], 0, -2147483648, '2014-01-27', 402, 1, -2147483648, -2147483648, 1, -2147483648, 'BOS', 10721, 1072102, 30721, 'Boston, MA', 'MA', 25, 'Massachusetts', 13, 1, ['null'], -2147483648, 'N556WN', 6, 12, -2147483648, 'WN', -2147483648, 1254, 1427, 2014]
 [183, 141, 20398, 1, 17, 17, 1302, '1200-1259', 1, 1245, 1005, 160, 'null', 0, 'MQ', 0, 1, 27, 17540, 0, -6, 0, 959, '1000-1059', -1, 'CMH', 11066, 1106603, 31066, 'Columbus, OH', 'OH', 39, 'Ohio', 44, 990, 4, -2147483648, [-2147483648], 0, [-2147483648], ['null'], -2147483648, -2147483648, [-2147483648], -2147483648, ['null'], [-2147483648], [-2147483648], [-2147483648], 0, -2147483648, '2014-01-27', 3574, 1, 0, -2147483648, 1, 17, 'MIA', 13303, 1330303, 32467, 'Miami, FL', 'FL', 12, 'Florida', 33, 1, ['null'], 0, 'N605MQ', 13, 29, -2147483648, 'MQ', 0, 1028, 1249, 2014]
@@ -149,6 +166,4 @@ Sending Count(*) SQL to Pinot
 Sending SQL: "SELECT OriginCityName, sum(Cancelled) AS sum_cancelled FROM "airlineStats" WHERE Year>2010 GROUP BY OriginCityName ORDER BY sum_cancelled DESC LIMIT 5" to Pinot
 [('Chicago, IL', 178.0), ('Atlanta, GA', 111.0), ('New York, NY', 65.0), ('Houston, TX', 62.0), ('Denver, CO', 49.0)]
 ```
-
-
 
