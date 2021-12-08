@@ -109,6 +109,33 @@ Sending SQL to Pinot: SELECT playerName,sum(runs) AS sum_runs FROM baseballStats
 ['Alexander Emmanuel', 1426.0]
 ```
 
+Using parameters:
+
+```
+from pinotdb import connect
+
+conn = connect(host='localhost', port=8000, path='/query/sql', scheme='http')
+curs = conn.cursor()
+
+curs.execute("""
+    SELECT * 
+    FROM baseballStats
+    WHERE league IN (%(leagues)s)
+    """, {"leagues": ["AA", "NL"]})
+for row in curs:
+    print(row)
+    
+curs.execute("""
+    SELECT *
+    FROM baseballStats
+    WHERE baseOnBalls > (%(score)d)
+    """, {"score": 0})
+for row in curs:
+    print(row)
+```
+
+####
+
 #### Pinot Hybrid Quickstart
 
 Run the command below to start Pinot Hybrid Quickstart in docker and expose Pinot controller port 9000 and Pinot broker port 8000.
