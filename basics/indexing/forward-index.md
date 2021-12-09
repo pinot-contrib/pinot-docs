@@ -2,13 +2,13 @@
 
 The values for every column are stored in a forward index, of which there are three types:
 
-*   [Dictionary encoded forward index](https://docs.pinot.apache.org/basics/indexing/forward-index#dictionary-encoded-forward-index-with-bit-compression-default)&#x20;
+*   [Dictionary encoded forward index](#dictionary-encoded-forward-index-with-bit-compression-default)
 
     Builds a dictionary mapping 0 indexed ids to each unique value in a column and a forward index that contains the bit-compressed ids.
-*   [Raw value forward index](https://docs.pinot.apache.org/basics/indexing/forward-index#raw-value-forward-index)&#x20;
+*   [Raw value forward index](#raw-value-forward-index)&#x20;
 
     Builds a forward index of the column's values.&#x20;
-*   [Sorted forward index](https://docs.pinot.apache.org/basics/indexing/forward-index#sorted-forward-index-with-run-length-encoding)&#x20;
+*   [Sorted forward index](#sorted-forward-index-with-run-length-encoding)&#x20;
 
     Builds a dictionary mapping from each unique value to a pair of start and end document id and a forward index on top of the dictionary encoding.
 
