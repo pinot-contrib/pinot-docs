@@ -24,7 +24,10 @@ FROM ignoreMe
 
 
 ```sql
-SELECT FromDateTime('2019-08-07 3:12:13 PM', 'YYYY-MM-dd hh:mm:ss a') AS epochMillis
+SELECT FromDateTime(
+    '2019-08-07 3:12:13 PM', 
+    'YYYY-MM-dd hh:mm:ss a'
+    ) AS epochMillis
 FROM ignoreMe
 ```
 
@@ -33,7 +36,10 @@ FROM ignoreMe
 | 1565190733000|
 
 ```sql
-SELECT FromDateTime('2019-08-07T15:12:13', 'YYYY-MM-dd''T''HH:mm:ss') AS epochMillis
+SELECT FromDateTime(
+    '2019-08-07T15:12:13', 
+    'YYYY-MM-dd''T''HH:mm:ss'
+    ) AS epochMillis
 FROM ignoreMe
 ```
 
@@ -43,7 +49,10 @@ FROM ignoreMe
 
 
 ```sql
-SELECT FromDateTime('2019-08-07T07:12:13-0800', 'YYYY-MM-dd''T''HH:mm:ssZ') AS epochMillis
+SELECT FromDateTime(
+    '2019-08-07T07:12:13-0800', 
+    'YYYY-MM-dd''T''HH:mm:ssZ'
+    ) AS epochMillis
 FROM ignoreMe
 ```
 
