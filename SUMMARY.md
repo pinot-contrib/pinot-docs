@@ -177,6 +177,8 @@
   * [timezoneHour](configuration-reference/functions/timezoneHour.md)
   * [timezoneMinute](configuration-reference/functions/timezoneMinute.md)
   * [round](configuration-reference/functions/round.md)
+  * [year](configuration-reference/functions/year.md)
+  * [yearOfWeek](configuration-reference/functions/yearOfWeek.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
