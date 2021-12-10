@@ -174,6 +174,8 @@
 * [Functions](configuration-reference/functions/README.md)
   * [FromDateTime](configuration-reference/functions/fromdatetime.md)
   * [ToDateTime](configuration-reference/functions/todatetime.md)
+  * [timezoneHour](configuration-reference/functions/timezoneHour.md)
+  * [timezoneMinute](configuration-reference/functions/timezoneMinute.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
