@@ -2,7 +2,7 @@
 description: This section contains reference documentation for the toEpoch functions.
 ---
 
-# FromDateTime
+# toEpoch
 
 Convert epoch milliseconds to epoch <Time Unit>.
 The following time units are supported:
