@@ -74,7 +74,7 @@ Converts simple date format strings to milliseconds and vice-a-versa, as per the
 
 | Function name | Description                                                                                                                                                              |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| toDateTime    | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
+| [ToDateTime](configuration-reference/functions/todatetime.md)    | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
 | [FromDateTime](configuration-reference/functions/fromdatetime.md)  | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
 
 {% hint style="info" %}

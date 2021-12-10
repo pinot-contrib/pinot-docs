@@ -173,6 +173,7 @@
 * [Ingestion Job Spec](configuration-reference/job-specification.md)
 * Functions
   * [FromDateTime](configuration-reference/functions/fromdatetime.md)
+  * [ToDateTime](configuration-reference/functions/todatetime.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
