@@ -14,7 +14,7 @@ Converts string to upper case.
 
 ```sql
 select UPPER('pinot') AS name
-FROM crimes
+FROM ignoreMe
 ```
 
 | name   |
