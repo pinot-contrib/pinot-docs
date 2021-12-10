@@ -171,6 +171,8 @@
 * [Table](configuration-reference/table.md)
 * [Schema](configuration-reference/schema.md)
 * [Ingestion Job Spec](configuration-reference/job-specification.md)
+* Functions
+  * [FromDateTime](configuration-reference/functions/fromdatetime.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
