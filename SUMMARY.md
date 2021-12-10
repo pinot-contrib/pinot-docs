@@ -180,6 +180,7 @@
   * [timezoneMinute](configuration-reference/functions/timezoneMinute.md)
   * [ToDateTime](configuration-reference/functions/todatetime.md)
   * [ToEpoch](configuration-reference/functions/toepoch.md)
+  * [upper](configuration-reference/functions/upper.md)
   * [year](configuration-reference/functions/year.md)
   * [yearOfWeek](configuration-reference/functions/yearOfWeek.md)
 
