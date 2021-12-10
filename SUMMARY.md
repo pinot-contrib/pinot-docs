@@ -171,7 +171,7 @@
 * [Table](configuration-reference/table.md)
 * [Schema](configuration-reference/schema.md)
 * [Ingestion Job Spec](configuration-reference/job-specification.md)
-* Functions
+* [Functions](configuration-reference/functions/README.md)
   * [FromDateTime](configuration-reference/functions/fromdatetime.md)
   * [ToDateTime](configuration-reference/functions/todatetime.md)
 

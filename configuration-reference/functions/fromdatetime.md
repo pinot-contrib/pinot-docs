@@ -1,11 +1,10 @@
 ---
-description: >-
-  This section contains reference documentation for the FromDateTime function.
+description: This section contains reference documentation for the FromDateTime function.
 ---
 
 # FromDateTime
 
-Converts a formatted date time string to milliseconds, based on the provided [Joda-Time pattern](https://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html). 
+Converts a formatted date-time string to milliseconds, based on the provided [Joda-Time pattern](https://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html).
 
 ## Signature
 
@@ -18,10 +17,9 @@ SELECT FromDateTime('2019-08-07', 'YYYY-MM-dd') AS epochMillis
 FROM ignoreMe
 ```
 
-| epochMillis
-| ----------- |
-| 1565136000000|
-
+| epochMillis   |
+| ------------- |
+| 1565136000000 |
 
 ```sql
 SELECT FromDateTime(
@@ -31,9 +29,9 @@ SELECT FromDateTime(
 FROM ignoreMe
 ```
 
-| epochMillis
-| ----------- |
-| 1565190733000|
+| epochMillis   |
+| ------------- |
+| 1565190733000 |
 
 ```sql
 SELECT FromDateTime(
@@ -43,10 +41,9 @@ SELECT FromDateTime(
 FROM ignoreMe
 ```
 
-| epochMillis
-| ----------- |
-| 1565190733000|
-
+| epochMillis   |
+| ------------- |
+| 1565190733000 |
 
 ```sql
 SELECT FromDateTime(
@@ -56,7 +53,6 @@ SELECT FromDateTime(
 FROM ignoreMe
 ```
 
-| epochMillis
-| ----------- |
-| 1565190733000|
-
+| epochMillis   |
+| ------------- |
+| 1565190733000 |
