@@ -1,6 +1,5 @@
 ---
-description: >-
-  This section contains reference documentation for the DATETRUNC function.
+description: This section contains reference documentation for the DATETRUNC function.
 ---
 
 # DATETRUNC
@@ -11,13 +10,13 @@ Converts the value into a specified output granularity seconds since UTC epoch t
 
 ## Signature
 
-> DATETRUNC(unit, timeValue) 
+> DATETRUNC(unit, timeValue)
 >
-> DATETRUNC(unit, timeValue, inputTimeUnitStr) 
+> DATETRUNC(unit, timeValue, inputTimeUnitStr)
 >
-> DATETRUNC(unit, timeValue, inputTimeUnitStr, timeZone) 
+> DATETRUNC(unit, timeValue, inputTimeUnitStr, timeZone)
 >
-> DATETRUNC(unit, timeValue, inputTimeUnitStr, timeZone, outputTimeUnitStr) 
+> DATETRUNC(unit, timeValue, inputTimeUnitStr, timeZone, outputTimeUnitStr)
 
 `unit` supports the following values:
 
@@ -37,7 +36,7 @@ Converts the value into a specified output granularity seconds since UTC epoch t
 * MICROSECONDS
 * MILLISECONDS
 * SECONDS
-* MINUTES 
+* MINUTES
 * HOURS
 * DAYS
 
@@ -57,15 +56,20 @@ select dateTrunc('week', 1639480981746, 'MILLISECONDS') AS ts
 FROM ignoreMe
 ```
 
-| ts         |
-| ---------- |
+| ts            |
+| ------------- |
 | 1639353600000 |
-
 
 Truncates an epoch in milliseconds at `WEEK` (where a Week starts at Monday UTC midnight) in the `UTC` time zone, returning a result in epoch in seconds in UTC timezone:
 
 ```sql
-select dateTrunc('week', 1639480981746, 'MILLISECONDS', 'UTC', 'SECONDS') AS ts
+select dateTrunc(
+  'week', 
+  1639480981746, 
+  'MILLISECONDS', 
+  'UTC', 
+  'SECONDS'
+) AS ts
 FROM ignoreMe
 ```
 
@@ -76,7 +80,13 @@ FROM ignoreMe
 Truncates an epoch in milliseconds at `WEEK` (where a Week starts at Monday UTC midnight) in the `CET` time zone, returning a result in epoch in seconds in UTC timezone:
 
 ```sql
-select dateTrunc('week', 1639480981746, 'MILLISECONDS', 'CET', 'SECONDS') AS ts
+select dateTrunc(
+  'week', 
+  1639480981746, 
+  'MILLISECONDS', 
+  'CET', 
+  'SECONDS'
+) AS ts
 FROM ignoreMe
 ```
 
@@ -84,14 +94,19 @@ FROM ignoreMe
 | ---------- |
 | 1639350000 |
 
-
-Truncates an epoch in milliseconds at `QUARTER` in the Los Angeles time zone (where a Quarter begins on Na 1st, April 1st, July 1st, October 1st in Los Angeles timezone), returning a result in hours since UTC epoch:
+Truncates an epoch in milliseconds at `QUARTER` in the Los Angeles time zone (where a Quarter begins on Jan 1st, April 1st, July 1st, October 1st in Los Angeles timezone), returning a result in hours since UTC epoch:
 
 ```sql
-select dateTrunc('quarter', 1639480981746, 'MILLISECONDS', 'America/Los_Angeles', 'HOURS') AS ts
+select dateTrunc(
+  'quarter', 
+  1639480981746, 
+  'MILLISECONDS', 
+  'America/Los_Angeles', 
+  'HOURS'
+) AS ts
 FROM ignoreMe
 ```
 
-| ts         |
-| ---------- |
+| ts     |
+| ------ |
 | 453631 |
