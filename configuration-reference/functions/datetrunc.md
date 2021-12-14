@@ -63,7 +63,13 @@ FROM ignoreMe
 Truncates an epoch in milliseconds at `WEEK` (where a Week starts at Monday UTC midnight) in the `UTC` time zone, returning a result in epoch in seconds in UTC timezone:
 
 ```sql
-select dateTrunc('week', 1639480981746, 'MILLISECONDS', 'UTC', 'SECONDS') AS ts
+select dateTrunc(
+  'week', 
+  1639480981746, 
+  'MILLISECONDS', 
+  'UTC', 
+  'SECONDS'
+) AS ts
 FROM ignoreMe
 ```
 
@@ -74,7 +80,13 @@ FROM ignoreMe
 Truncates an epoch in milliseconds at `WEEK` (where a Week starts at Monday UTC midnight) in the `CET` time zone, returning a result in epoch in seconds in UTC timezone:
 
 ```sql
-select dateTrunc('week', 1639480981746, 'MILLISECONDS', 'CET', 'SECONDS') AS ts
+select dateTrunc(
+  'week', 
+  1639480981746, 
+  'MILLISECONDS', 
+  'CET', 
+  'SECONDS'
+) AS ts
 FROM ignoreMe
 ```
 
