@@ -1,5 +1,7 @@
 ---
-description: This section contains reference documentation for the DATETIMECONVERT function.
+description: >-
+  This section contains reference documentation for the DATETIMECONVERT
+  function.
 ---
 
 # DATETIMECONVERT
@@ -18,19 +20,15 @@ where:
 
 * `time size` - size of the time unit eg: 1, 10
 * `time unit` - `DAYS`, `HOURS`, `MINUTES`, `SECONDS`, `MILLISECONDS`, `MICROSECONDS`, `NANOSECONDS`
-* `time format`        
-       * `EPOCH` 
-       * `SIMPLE_DATE_FORMAT` pattern - defined in case of `SIMPLE_DATE_FORMAT` e.g. `yyyy-MM-dd`. 
-          A specific timezone can be passed using `tz(timezone)`. 
-          Timezone can be long or short string format timezone. 
-          e.g. `Asia/Kolkata` or `PDT` 
+* `time format`
+  * `EPOCH`&#x20;
+  * `SIMPLE_DATE_FORMAT` pattern - defined in case of `SIMPLE_DATE_FORMAT` e.g. `yyyy-MM-dd`. A specific timezone can be passed using `tz(timezone)`. Timezone can be long or short string format timezone. e.g. `Asia/Kolkata` or `PDT`
 
-`granularity` is specified in the format `<time size>:<time unit>`. 
+`granularity` is specified in the format `<time size>:<time unit>`.
 
 ## Usage Examples
 
 These examples are based on the [Batch JSON Quick Start](../../basics/getting-started/quick-start.md#batch-json).
-
 
 `created_at_timestamp` from milliseconds since epoch to days since epoch, bucketed to 1 day granularity:
 
@@ -48,9 +46,9 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-| id   | created_at_timestamp | timeInMs | convertedTime |
-| ------------- | ------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 17532 
+| id         | created\_at\_timestamp | timeInMs      | convertedTime |
+| ---------- | ---------------------- | ------------- | ------------- |
+| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 17532         |
 
 `created_at_timestamp` bucketed to 15 minutes granularity:
 
@@ -68,10 +66,9 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-| id   | created_at_timestamp | timeInMs | convertedTime |
-| ------------- | ------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 1514804400000 
-
+| id         | created\_at\_timestamp | timeInMs      | convertedTime |
+| ---------- | ---------------------- | ------------- | ------------- |
+| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 1514804400000 |
 
 `created_at_timestamp` to format `yyyy-MM-dd`, bucketed to 1 days granularity:
 
@@ -89,9 +86,9 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-| id   | created_at_timestamp | timeInMs | convertedTime |
-| ------------- | ------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-01 
+| id         | created\_at\_timestamp | timeInMs      | convertedTime |
+| ---------- | ---------------------- | ------------- | ------------- |
+| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-01    |
 
 `created_at_timestamp` to format `yyyy-MM-dd HH:mm`, in timezone `Pacific/Kiritimati`:
 
@@ -109,9 +106,9 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-| id   | created_at_timestamp | timeInMs | convertedTime |
-| ------------- | ------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 01:00
+| id         | created\_at\_timestamp | timeInMs      | convertedTime    |
+| ---------- | ---------------------- | ------------- | ---------------- |
+| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 01:00 |
 
 `created_at_timestamp` to format `yyyy-MM-dd`, in timezone `Pacific/Kiritimati` and bucketed to 1 day granularity:
 
@@ -129,6 +126,6 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-| id   | created_at_timestamp | timeInMs | convertedTime |
-| ------------- | ------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 00:00
+| id         | created\_at\_timestamp | timeInMs      | convertedTime    |
+| ---------- | ---------------------- | ------------- | ---------------- |
+| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 00:00 |
