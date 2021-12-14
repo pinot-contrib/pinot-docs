@@ -174,6 +174,7 @@
 * [Ingestion Job Spec](configuration-reference/job-specification.md)
 * [Functions](configuration-reference/functions/README.md)
   * [DATETIMECONVERT](configuration-reference/functions/datetimeconvert.md)
+  * [DATETRUNC](configuration-reference/functions/datetrunc.md)
   * [FromDateTime](configuration-reference/functions/fromdatetime.md)
   * [FromEpoch](configuration-reference/functions/fromEpoch.md)
   * [lower](configuration-reference/functions/lower.md)

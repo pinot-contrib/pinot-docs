@@ -7,7 +7,11 @@ description: This section contains reference documentation for the TIMECONVERT f
 Converts the value from a column that contains an epoch timestamp into another time unit. 
 The converted value will be rounded down.
 
-The supported units are:
+## Signature
+
+> TIMECONVERT(col, fromUnit, toUnit)
+
+The supported units are as follows:
 
 * DAYS 
 * HOURS 
@@ -16,10 +20,6 @@ The supported units are:
 * MILLISECONDS 
 * MICROSECONDS 
 * NANOSECONDS
-
-## Signature
-
-> TIMECONVERT(col, fromUnit, toUnit)
 
 ## Usage Examples
 
