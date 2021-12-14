@@ -4,14 +4,13 @@ description: This section contains reference documentation for the month functio
 
 # month
 
-Returns the month of the year from the given epoch millis in UTC or specified timezone. 
-The value ranges from 1 to 12.
+Returns the month of the year from the given epoch millis in UTC or specified timezone. The value ranges from 1 to 12.
 
 ## Signature
 
-> quarter(tsInMillis)
+> month(tsInMillis)
 >
-> quarter(tsInMillis, timeZoneId)
+> month(tsInMillis, timeZoneId)
 
 ## Usage Examples
 
@@ -20,16 +19,15 @@ select month(1633046399000, 'UTC') AS month
 FROM ignoreMe
 ```
 
-| month   |
-| ------------- |
-| 9 |
+| month |
+| ----- |
+| 9     |
 
 ```sql
 select month(1633046399000, 'CET') AS month
 FROM ignoreMe
 ```
 
-| month   |
-| ------------- |
-| 10 |
-
+| month |
+| ----- |
+| 10    |
