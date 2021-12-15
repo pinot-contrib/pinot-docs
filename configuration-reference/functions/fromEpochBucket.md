@@ -1,11 +1,12 @@
 ---
-description: This section contains reference documentation for the fromEpochBucket functions.
+description: >-
+  This section contains reference documentation for the fromEpochBucket
+  functions.
 ---
 
-# fromEpochBucket
+# FromEpochBucket
 
-Convert epoch <Bucket Size><Time Unit> to epoch milliseconds. e.g. 10 seconds since epoch or 5 minutes since Epoch. 
-The following time units are supported:
+Convert epoch to epoch milliseconds. e.g. 10 seconds since epoch or 5 minutes since Epoch. The following time units are supported:
 
 * SECONDS
 * MINUTES
@@ -14,7 +15,7 @@ The following time units are supported:
 
 ## Signature
 
-> ToEpoch<TIME_UNIT>Bucket(timeInMillis, bucketSize)
+> FromEpoch\<TIME\_UNIT>Bucket(timeInMillis, bucketSize)
 
 ## Usage Examples
 
@@ -23,7 +24,7 @@ select FromEpochSecondsBucket(1613472303, 1) AS bucket
 FROM ignoreMe
 ```
 
-| bucket   |
+| bucket        |
 | ------------- |
 | 1613472303000 |
 
@@ -32,7 +33,7 @@ select FromEpochSecondsBucket(1613472303, 2) AS bucket
 FROM ignoreMe
 ```
 
-| bucket   |
+| bucket        |
 | ------------- |
 | 3226944606000 |
 
@@ -41,7 +42,7 @@ select FromEpochMinutesBucket(2689120, 10) AS bucket
 FROM ignoreMe
 ```
 
-| bucket   |
+| bucket        |
 | ------------- |
 | 1613472000000 |
 
@@ -50,7 +51,7 @@ select FromEpochHoursBucket(89637, 5) AS bucket
 FROM ignoreMe
 ```
 
-| bucket   |
+| bucket        |
 | ------------- |
 | 1613466000000 |
 
@@ -59,8 +60,6 @@ select FromEpochDaysBucket(1867, 10) AS bucket
 FROM ignoreMe
 ```
 
-| bucket   |
+| bucket        |
 | ------------- |
 | 1613088000000 |
-
-
