@@ -20,7 +20,7 @@ The following time units are supported:
 
 ```sql
 select ToEpochSeconds(1613472303000) AS epochSeconds
-FROM crimes
+FROM ignoreMe
 ```
 
 | epochSeconds   |
@@ -29,7 +29,7 @@ FROM crimes
 
 ```sql
 select ToEpochMinutes(1613472303000) AS epochMins
-FROM crimes
+FROM ignoreMe
 ```
 
 | epochMins   |
@@ -38,7 +38,7 @@ FROM crimes
 
 ```sql
 select ToEpochHours(1613472303000) AS epochHours
-FROM crimes
+FROM ignoreMe
 ```
 
 | epochHours   |
@@ -47,7 +47,7 @@ FROM crimes
 
 ```sql
 select ToEpochDays(1613472303000) AS epochDays
-FROM crimes
+FROM ignoreMe
 ```
 
 | epochDays   |

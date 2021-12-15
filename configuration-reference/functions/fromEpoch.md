@@ -20,7 +20,7 @@ The following time units are supported:
 
 ```sql
 select FromEpochSeconds(1613472303) AS epochMillis
-FROM crimes
+FROM ignoreMe
 ```
 
 | epochMillis   |
@@ -29,7 +29,7 @@ FROM crimes
 
 ```sql
 select FromEpochMinutes(26891205) AS epochMillis
-FROM crimes
+FROM ignoreMe
 ```
 
 | epochMillis   |
@@ -38,7 +38,7 @@ FROM crimes
 
 ```sql
 select FromEpochHours(448186) AS epochMillis
-FROM crimes
+FROM ignoreMe
 ```
 
 | epochMillis   |
@@ -47,7 +47,7 @@ FROM crimes
 
 ```sql
 select FromEpochDays(18674) AS epochMillis
-FROM crimes
+FROM ignoreMe
 ```
 
 | epochMillis   |
