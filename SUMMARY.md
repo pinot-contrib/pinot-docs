@@ -186,6 +186,7 @@
   * [FromEpoch](configuration-reference/functions/fromEpoch.md)
   * [FromEpochBucket](configuration-reference/functions/fromEpochBucket.md)
   * [hour](configuration-reference/functions/hour.md)
+  * [jsonextractscalar](configuration-reference/functions/jsonextractscalar.md)
   * [length](configuration-reference/functions/length.md)
   * [lower](configuration-reference/functions/lower.md)
   * [lpad](configuration-reference/functions/lpad.md)
