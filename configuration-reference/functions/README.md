@@ -18,6 +18,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="fromEpoch.md" %}
 {% page-ref page="fromEpochBucket.md" %}
 {% page-ref page="hour.md" %}
+{% page-ref page="jsonextractkey.md" %}
 {% page-ref page="jsonextractscalar.md" %}
 {% page-ref page="length.md" %}
 {% page-ref page="lower.md" %}
