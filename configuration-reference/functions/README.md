@@ -1,7 +1,8 @@
 ---
-description: This page describes all the functions available to use in Apache Pinot.
+description: This page contains reference documentation for functions in Apache Pinot.
 ---
 
 # Functions
 
-This page describes all the functions available to use in Apache Pinot.
+This page contains reference documentation for functions in Apache Pinot.
+
