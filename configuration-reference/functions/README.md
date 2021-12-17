@@ -18,6 +18,10 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="day.md" %}
 {% page-ref page="dayofweek.md" %}
 {% page-ref page="dayofyear.md" %}
+{% page-ref page="distinct.md" %}
+{% page-ref page="distinctcount.md" %}
+{% page-ref page="distinctcountbitmap.md" %}
+{% page-ref page="distinctcounthll.md" %}
 {% page-ref page="div.md" %}
 {% page-ref page="exp.md" %}
 {% page-ref page="fromdatetime.md" %}
