@@ -44,6 +44,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="now.md" %}
 {% page-ref page="percentile.md" %}
 {% page-ref page="percentileest.md" %}
+{% page-ref page="percentiletdigest.md" %}
 {% page-ref page="quarter.md" %}
 {% page-ref page="replace.md" %}
 {% page-ref page="reverse.md" %}

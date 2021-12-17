@@ -212,6 +212,7 @@
   * [now](configuration-reference/functions/now.md)
   * [percentile](configuration-reference/functions/percentile.md)
   * [percentileest](configuration-reference/functions/percentileest.md)
+  * [percentiletdigest](configuration-reference/functions/percentiletdigest.md)
   * [quarter](configuration-reference/functions/quarter.md)
   * [replace](configuration-reference/functions/replace.md)
   * [reverse](configuration-reference/functions/reverse.md)
