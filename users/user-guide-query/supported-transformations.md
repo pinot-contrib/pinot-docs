@@ -14,7 +14,7 @@ description: >-
 | ****[**SUB(col1, col2)**](../../configuration-reference/functions/sub.md)****          | Difference between two values                 | `SUB(total_score, score_science)`                |
 | **MULT(col1, col2, col3...)**                                                          | Product of at least two values                | `MUL(score_maths, score_science, score_history)` |
 | ****[**DIV(col1, col2)**](../../configuration-reference/functions/div.md)****          | Quotient of two values                        | `SUB(total_score, total_subjects)`               |
-| **MOD(col1, col2)**                                                                    | Modulo of two values                          | `MOD(total_score, total_subjects)`               |
+| ****[**MOD(col1, col2)**](../../configuration-reference/functions/mod.md)****          | Modulo of two values                          | `MOD(total_score, total_subjects)`               |
 | ****[**ABS(col1)**](../../configuration-reference/functions/abs.md)****                | Absolute of a value                           | `ABS(score)`                                     |
 | ****[**CEIL(col1)**](../../configuration-reference/functions/ceil.md#signature)****    | Rounded up to the nearest integer.            | `CEIL(percentage)`                               |
 | ****[**FLOOR(col1)**](../../configuration-reference/functions/floor.md)****            | Rounded down to the nearest integer.          | `FLOOR(percentage)`                              |
