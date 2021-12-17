@@ -12,6 +12,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="chr.md" %}
 {% page-ref page="codepoint.md" %}
 {% page-ref page="concat.md" %}
+{% page-ref page="count.md" %}
 {% page-ref page="datetimeconvert.md" %}
 {% page-ref page="datetrunc.md" %}
 {% page-ref page="day.md" %}
@@ -31,12 +32,18 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="lower.md" %}
 {% page-ref page="lpad.md" %}
 {% page-ref page="ltrim.md" %}
+{% page-ref page="max.md" %}
 {% page-ref page="millisecond.md" %}
+{% page-ref page="min.md" %}
+{% page-ref page="minmaxrange.md" %}
 {% page-ref page="minute.md" %}
 {% page-ref page="mod.md" %}
+{% page-ref page="mode.md" %}
 {% page-ref page="month.md" %}
 {% page-ref page="mult.md" %}
 {% page-ref page="now.md" %}
+{% page-ref page="percentile.md" %}
+{% page-ref page="percentileest.md" %}
 {% page-ref page="quarter.md" %}
 {% page-ref page="replace.md" %}
 {% page-ref page="reverse.md" %}
@@ -49,6 +56,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="strpos.md" %}
 {% page-ref page="sub.md" %}
 {% page-ref page="substr.md" %}
+{% page-ref page="sum.md" %}
 {% page-ref page="timeconvert.md" %}
 {% page-ref page="timezoneHour.md" %}
 {% page-ref page="timezoneMinute.md" %}
