@@ -1,7 +1,7 @@
-----
--description: This section contains reference documentation for the MOD function.
-----
--
+---
+description: This section contains reference documentation for the MOD function.
+---
+
  # MOD
 
 Modulo of two values
