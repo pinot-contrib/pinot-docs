@@ -18,6 +18,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="dayofweek.md" %}
 {% page-ref page="dayofyear.md" %}
 {% page-ref page="div.md" %}
+{% page-ref page="exp.md" %}
 {% page-ref page="fromdatetime.md" %}
 {% page-ref page="floor.md" %}
 {% page-ref page="fromEpoch.md" %}
@@ -26,6 +27,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="jsonextractkey.md" %}
 {% page-ref page="jsonextractscalar.md" %}
 {% page-ref page="length.md" %}
+{% page-ref page="ln.md" %}
 {% page-ref page="lower.md" %}
 {% page-ref page="lpad.md" %}
 {% page-ref page="ltrim.md" %}
