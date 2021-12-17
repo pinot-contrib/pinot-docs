@@ -9,7 +9,6 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="abs.md" %}
 {% page-ref page="add.md" %}
 {% page-ref page="chr.md" %}
-{% page-ref page="ceil.md" %}
 {% page-ref page="codepoint.md" %}
 {% page-ref page="concat.md" %}
 {% page-ref page="datetimeconvert.md" %}
