@@ -227,6 +227,7 @@
   * [rpad](configuration-reference/functions/rpad.md)
   * [rtrim](configuration-reference/functions/rtrim.md)
   * [second](configuration-reference/functions/second.md)
+  * [SEGMENTPARTITIONEDDISTINCTCOUNT](configuration-reference/functions/segmentpartitioneddistinctcount.md)
   * [sqrt](configuration-reference/functions/sqrt.md)
   * [startswith](configuration-reference/functions/startswith.md)
   * [strpos](configuration-reference/functions/strpos.md)

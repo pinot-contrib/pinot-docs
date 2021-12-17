@@ -57,6 +57,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="rpad.md" %}
 {% page-ref page="rtrim.md" %}
 {% page-ref page="second.md" %}
+{% page-ref page="segmentpartitioneddistinctcount.md" %}
 {% page-ref page="sqrt.md" %}
 {% page-ref page="startswith.md" %}
 {% page-ref page="strpos.md" %}
