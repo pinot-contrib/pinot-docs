@@ -31,6 +31,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="ltrim.md" %}
 {% page-ref page="millisecond.md" %}
 {% page-ref page="minute.md" %}
+{% page-ref page="mod.md" %}
 {% page-ref page="month.md" %}
 {% page-ref page="now.md" %}
 {% page-ref page="quarter.md" %}
