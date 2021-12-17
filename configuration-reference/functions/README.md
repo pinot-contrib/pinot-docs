@@ -6,6 +6,8 @@ description: This page contains reference documentation for functions in Apache 
 
 This page contains reference documentation for functions in Apache Pinot.
 
+{% page-ref page="abs.md" %}
+{% page-ref page="add.md" %}
 {% page-ref page="chr.md" %}
 {% page-ref page="codepoint.md" %}
 {% page-ref page="concat.md" %}
@@ -14,7 +16,9 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="day.md" %}
 {% page-ref page="dayofweek.md" %}
 {% page-ref page="dayofyear.md" %}
+{% page-ref page="div.md" %}
 {% page-ref page="fromdatetime.md" %}
+{% page-ref page="floor.md" %}
 {% page-ref page="fromEpoch.md" %}
 {% page-ref page="fromEpochBucket.md" %}
 {% page-ref page="hour.md" %}
@@ -37,6 +41,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="second.md" %}
 {% page-ref page="startswith.md" %}
 {% page-ref page="strpos.md" %}
+{% page-ref page="sub.md" %}
 {% page-ref page="substr.md" %}
 {% page-ref page="timeconvert.md" %}
 {% page-ref page="timezoneHour.md" %}
