@@ -4,7 +4,7 @@ description: >-
   by Pinot SQL.
 ---
 
-# Supported Transformations
+# Transformation Functions
 
 ## Math Functions
 
@@ -92,6 +92,10 @@ Date time functions allow you to perform transformations on columns that contain
 
 ## JSON Functions
 
+### **Transform Functions**
+
+These functions can only be used in Pinot SQL queries.&#x20;
+
 |                                                                                                                                                                                                                                                                                          |           |                                                                                                                                                                                                                           |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Function**                                                                                                                                                                                                                                                                             | Type      | **Description**                                                                                                                                                                                                           |
@@ -105,6 +109,10 @@ Date time functions allow you to perform transformations on columns that contain
 | **JSONPATHSTRING**(jsonField, 'jsonPath', \[defaultValue])                                                                                                                                                                                                                               | Scalar    | Extracts the **String** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.                                                                                               |
 | **JSONPATHARRAY**(jsonField, 'jsonPath')                                                                                                                                                                                                                                                 | Scalar    | Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. **Cannot be used in query because data type is not specified.**                                                |
 | **JSONPATHARRAYDEFAULTEMPTY**(jsonField, 'jsonPath')                                                                                                                                                                                                                                     | Scalar    | Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. Returns empty array for null or parsing error. **Cannot be used in query because data type is not specified.** |
+
+### **Scalar Functions**
+
+These functions can be used for column transformation in table ingestion configs
 
 **Usage**
 
@@ -122,10 +130,6 @@ e.g.
 
 * `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')` is v**alid**.
 * `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is i**nvalid**.
-{% endhint %}
-
-{% hint style="warning" %}
-**Transform** functions can only be used in Pinot SQL. **Scalar** functions can be used for column transformation in table ingestion configs.
 {% endhint %}
 
 **Examples**
