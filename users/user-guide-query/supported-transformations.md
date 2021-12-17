@@ -16,10 +16,10 @@ description: >-
 | ****[**DIV(col1, col2)**](../../configuration-reference/functions/div.md)****          | Quotient of two values                        | `SUB(total_score, total_subjects)`               |
 | **MOD(col1, col2)**                                                                    | Modulo of two values                          | `MOD(total_score, total_subjects)`               |
 | ****[**ABS(col1)**](../../configuration-reference/functions/abs.md)****                | Absolute of a value                           | `ABS(score)`                                     |
-| **CEIL(col1)**                                                                         | Rounded up to the nearest integer.            | `CEIL(percentage)`                               |
-| **FLOOR(col1)**                                                                        | Rounded down to the nearest integer.          | `FLOOR(percentage)`                              |
-| **EXP(col1)**                                                                          | Euler’s number(e) raised to the power of col. | `EXP(age)`                                       |
-| **LN(col1)**                                                                           | Natural log of value i.e. ln(col1)            | `LN(age)`                                        |
+| ****[**CEIL(col1)**](../../configuration-reference/functions/ceil.md#signature)****    | Rounded up to the nearest integer.            | `CEIL(percentage)`                               |
+| ****[**FLOOR(col1)**](../../configuration-reference/functions/floor.md)****            | Rounded down to the nearest integer.          | `FLOOR(percentage)`                              |
+| ****[**EXP(col1)**](../../configuration-reference/functions/exp.md)****                | Euler’s number(e) raised to the power of col. | `EXP(age)`                                       |
+| ****[**LN(col1)**](../../configuration-reference/functions/ln.md)****                  | Natural log of value i.e. ln(col1)            | `LN(age)`                                        |
 | **SQRT(col1)**                                                                         | Square root of a value                        | `SQRT(height)`                                   |
 
 ## String Functions

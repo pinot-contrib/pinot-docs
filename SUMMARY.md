@@ -201,7 +201,7 @@
   * [ltrim](configuration-reference/functions/ltrim.md)
   * [millisecond](configuration-reference/functions/millisecond.md)
   * [minute](configuration-reference/functions/minute.md)
-  * [MOD](configuration-reference/functions/MOD.md)
+  * [MOD](configuration-reference/functions/mod.md)
   * [month](configuration-reference/functions/month.md)
   * [now](configuration-reference/functions/now.md)
   * [quarter](configuration-reference/functions/quarter.md)
