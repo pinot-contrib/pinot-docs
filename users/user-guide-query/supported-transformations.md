@@ -8,19 +8,19 @@ description: >-
 
 ## Math Functions
 
-| Function                                                                               | Description                                   | Example                                          |
-| -------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------------------ |
-| ****[**ADD(col1, col2, col3...)**](../../configuration-reference/functions/add.md)**** | Sum of at least two values                    | `ADD(score_maths, score_science, score_history)` |
-| ****[**SUB(col1, col2)**](../../configuration-reference/functions/sub.md)****          | Difference between two values                 | `SUB(total_score, score_science)`                |
-| **MULT(col1, col2, col3...)**                                                          | Product of at least two values                | `MUL(score_maths, score_science, score_history)` |
-| ****[**DIV(col1, col2)**](../../configuration-reference/functions/div.md)****          | Quotient of two values                        | `SUB(total_score, total_subjects)`               |
-| ****[**MOD(col1, col2)**](../../configuration-reference/functions/mod.md)****          | Modulo of two values                          | `MOD(total_score, total_subjects)`               |
-| ****[**ABS(col1)**](../../configuration-reference/functions/abs.md)****                | Absolute of a value                           | `ABS(score)`                                     |
-| ****[**CEIL(col1)**](../../configuration-reference/functions/ceil.md#signature)****    | Rounded up to the nearest integer.            | `CEIL(percentage)`                               |
-| ****[**FLOOR(col1)**](../../configuration-reference/functions/floor.md)****            | Rounded down to the nearest integer.          | `FLOOR(percentage)`                              |
-| ****[**EXP(col1)**](../../configuration-reference/functions/exp.md)****                | Euler’s number(e) raised to the power of col. | `EXP(age)`                                       |
-| ****[**LN(col1)**](../../configuration-reference/functions/ln.md)****                  | Natural log of value i.e. ln(col1)            | `LN(age)`                                        |
-| **SQRT(col1)**                                                                         | Square root of a value                        | `SQRT(height)`                                   |
+| Function                                                                               | 
+| -------------------------------------------------------------------------------------- | 
+| ****[**ADD(col1, col2, col3...)**](../../configuration-reference/functions/add.md)****<br/>Sum of at least two values | 
+| ****[**SUB(col1, col2)**](../../configuration-reference/functions/sub.md)****<br />Difference between two values          | 
+| [**MULT(col1, col2, col3...)**](../../configuration-reference/functions/mult.md)<br />Product of at least two values                                                          | 
+| ****[**DIV(col1, col2)**](../../configuration-reference/functions/div.md)****<br /> Quotient of two values         | 
+| ****[**MOD(col1, col2)**](../../configuration-reference/functions/mod.md)****<br/>Modulo of two values          | 
+| ****[**ABS(col1)**](../../configuration-reference/functions/abs.md)****<br />Absolute of a value                | 
+| ****[**CEIL(col1)**](../../configuration-reference/functions/ceil.md#signature)****<br />Rounded up to the nearest integer.    | 
+| ****[**FLOOR(col1)**](../../configuration-reference/functions/floor.md)****<br />Rounded down to the nearest integer.           | 
+| ****[**EXP(col1)**](../../configuration-reference/functions/exp.md)**** <br /> Euler’s number(e) raised to the power of col.             | 
+| ****[**LN(col1)**](../../configuration-reference/functions/ln.md)****    <br />Natural log of value i.e. ln(col1)              | 
+| [**SQRT(col1)**](../../configuration-reference/functions/sqrt.md) <br/> Square root of a value                                                                         | 
 
 ## String Functions
 

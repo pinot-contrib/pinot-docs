@@ -35,6 +35,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="minute.md" %}
 {% page-ref page="mod.md" %}
 {% page-ref page="month.md" %}
+{% page-ref page="mult.md" %}
 {% page-ref page="now.md" %}
 {% page-ref page="quarter.md" %}
 {% page-ref page="replace.md" %}
@@ -43,6 +44,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="rpad.md" %}
 {% page-ref page="rtrim.md" %}
 {% page-ref page="second.md" %}
+{% page-ref page="sqrt.md" %}
 {% page-ref page="startswith.md" %}
 {% page-ref page="strpos.md" %}
 {% page-ref page="sub.md" %}
