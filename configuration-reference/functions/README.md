@@ -23,6 +23,8 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="distinctcountbitmap.md" %}
 {% page-ref page="distinctcounthll.md" %}
 {% page-ref page="distinctcountrawhll.md" %}
+{% page-ref page="distinctcountrawthetasketch.md" %}
+{% page-ref page="distinctcountthetasketch.md" %}
 {% page-ref page="div.md" %}
 {% page-ref page="exp.md" %}
 {% page-ref page="fromdatetime.md" %}
