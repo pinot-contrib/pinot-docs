@@ -265,11 +265,11 @@ Extract JSON fields:
 
 All of the functions mentioned till now only support single value columns. You can use the following functions to do operations on multi-value columns.
 
-| Function        | Description                                                                                                                                                                                                                                                                                                                                                                     | Example                                      |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| [**ARRAYLENGTH**](../../configuration-reference/functions/arraylength.md) | Returns the length of a multi-value column                                                                                                                                                                                                                                                                                                                                      |                                              |
-| **MAP\_VALUE**  | Select the value for a key from Map stored in Pinot.                                                                                                                                                                                                                                                                                                                            | `MAP_VALUE(mapColumn, 'myKey', valueColumn)` |
-| [**VALUEIN**](../../configuration-reference/functions/valuein.md)     | Takes at least 2 arguments, where the first argument is a multi-valued column, and the following arguments are constant values. The transform function will filter the value from the multi-valued column with the given constant values. The `VALUEIN` transform function is especially useful when the same multi-valued column is both filtering column and grouping column. | `VALUEIN(mvColumn, 3, 5, 15)`                |
+| Function        | 
+| ----------------------------------------------------------------- | 
+| [**ARRAYLENGTH**](../../configuration-reference/functions/arraylength.md) <br/> Returns the length of a multi-value |
+| **MAP\_VALUE**  <br />Select the value for a key from Map stored in Pinot.   <br/>`MAP_VALUE(mapColumn, 'myKey', valueColumn) |
+| [**VALUEIN**](../../configuration-reference/functions/valuein.md) <br />The transform function will filter the value from the multi-valued column with the given constant values. The `VALUEIN` transform function is especially useful when the same multi-valued column is both filtering column and grouping column.  |
 
 ## Advanced Queries
 
