@@ -268,7 +268,7 @@ All of the functions mentioned till now only support single value columns. You c
 | Function        | 
 | ----------------------------------------------------------------- | 
 | [**ARRAYLENGTH**](../../configuration-reference/functions/arraylength.md) <br/> Returns the length of a multi-value |
-| **MAP\_VALUE**  <br />Select the value for a key from Map stored in Pinot.   <br/>`MAP_VALUE(mapColumn, 'myKey', valueColumn) |
+| **MAP\_VALUE**  <br />Select the value for a key from Map stored in Pinot.   <br/>`MAP_VALUE(mapColumn, 'myKey', valueColumn)` |
 | [**VALUEIN**](../../configuration-reference/functions/valuein.md) <br />The transform function will filter the value from the multi-valued column with the given constant values. The `VALUEIN` transform function is especially useful when the same multi-valued column is both filtering column and grouping column.  |
 
 ## Advanced Queries
