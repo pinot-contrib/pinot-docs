@@ -176,6 +176,7 @@
 * [Functions](configuration-reference/functions/README.md)
   * [ABS](configuration-reference/functions/abs.md)
   * [ADD](configuration-reference/functions/add.md)
+  * [ARRAYLENGTH](configuration-reference/functions/arraylength.md)
   * [ceil](configuration-reference/functions/ceil.md)
   * [CHR](configuration-reference/functions/chr.md)
   * [codepoint](configuration-reference/functions/codepoint.md)
