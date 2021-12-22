@@ -5,7 +5,7 @@ Schema is used to define the names, data types, and other information for the co
 The Pinot schema is composed of:
 
 | Field | Description |
-| :--- | :--- |
+| ---- | ---- |
 | **schemaName** | Defines the name of the schema. This is usually the same as the table name. The offline and the realtime table of a hybrid table should use the same schema. |
 | **dimensionFieldSpecs** | A dimensionFieldSpec is defined for each dimension column. For more details, scroll down to [DimensionFieldSpec](schema.md#dimensionfieldspecs). |
 | **metricFieldSpecs** | A metricFieldSpec is defined for each metric column. For more details, scroll down to [MetricFieldSpec](schema.md#metricfieldspecs). |
@@ -18,7 +18,7 @@ Below is a detailed description of each type of field spec.
 A dimensionFieldSpec is defined for each dimension column. Here's a list of the fields in the dimensionFieldSpec:
 
 | Property | Description |
-| :--- | :--- |
+| ---- | ---- |
 | name | Name of the dimension column. |
 | dataType | Data type of the dimension column. Can be INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING, BYTES. |
 | defaultNullValue | Represents null values in the data, since Pinot doesn't support storing null column values natively \(as part of its on-disk storage format\). If not specified, an internal default null value is used as listed here. |
@@ -27,7 +27,7 @@ A dimensionFieldSpec is defined for each dimension column. Here's a list of the 
 #### Internal default null values for dimension
 
 | Data Type | Internal Default Null Value |
-| :--- | :--- |
+| ---- | ---- |
 | INT | ​[Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN_VALUE)​ |
 | LONG | ​[Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE)​ |
 | FLOAT | ​[Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY)​ |
@@ -50,7 +50,7 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 #### Internal default null values for metric
 
 | Data Type | Internal Default Null Value |
-| :--- | :--- |
+| ---- | ---- |
 | INT | 0 |
 | LONG | 0 |
 | FLOAT | 0.0 |
@@ -117,7 +117,7 @@ A dateTimeFieldSpec is used to define time columns of the table. Here's a list o
 Apart from these, there's some advanced fields. These are common to all field specs. 
 
 | Property | Description |
-| :--- | :--- |
+| ---- | ---- |
 | maxLength | Max length of this column |
 | virtualColumnProvider | Column value provider |
 

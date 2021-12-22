@@ -8,7 +8,7 @@ A preprocessing job is usually needed to perform these operations. In streaming 
 
 For simple transformations, this can result in inconsistencies in the batch/stream data source and increase maintenance and operator overhead.
 
-To make things easier, Pinot supports transformations that can be applied via the [table config](https://docs.pinot.apache.org/configuration-reference/table).
+To make things easier, Pinot supports transformations that can be applied via the [table config](../../configuration-reference/table.md).
 
 ## Transformation Functions
 
