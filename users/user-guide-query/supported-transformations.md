@@ -254,12 +254,12 @@ Extract JSON fields:
 
 ## Binary Functions
 
-| Function             | Description                                                        | Example           |
-| -------------------- | ------------------------------------------------------------------ | ----------------- |
-| [**SHA(bytesCol)**](../../configuration-reference/functions/sha.md)    | Return SHA-1 digest of binary column(`bytes` type) as hex string   | `SHA(rawData)`    |
-| [**SHA256(bytesCol)**](../../configuration-reference/functions/sha256.md) | Return SHA-256 digest of binary column(`bytes` type) as hex string | `SHA256(rawData)` |
-| [**SHA512(bytesCol)**](../../configuration-reference/functions/sha512.md) | Return SHA-512 digest of binary column(`bytes` type) as hex string | `SHA512(rawData)` |
-| [**MD5(bytesCol)**](../../configuration-reference/functions/md5.md)    | Return MD5 digest of binary column(`bytes` type) as hex string     | `MD5(rawData)`    |
+| Function             | 
+| -------------------- | 
+| [**SHA(bytesCol)**](../../configuration-reference/functions/sha.md) <br />Return SHA-1 digest of binary column(`bytes` type) as hex string   | 
+| [**SHA256(bytesCol)**](../../configuration-reference/functions/sha256.md) <br /> Return SHA-256 digest of binary column(`bytes` type) as hex string | 
+| [**SHA512(bytesCol)**](../../configuration-reference/functions/sha512.md) <br /> Return SHA-512 digest of binary column(`bytes` type) as hex string |
+| [**MD5(bytesCol)**](../../configuration-reference/functions/md5.md)    <br /> Return MD5 digest of binary column(`bytes` type) as hex string     | 
 
 ## Multi-value Column Functions
 
