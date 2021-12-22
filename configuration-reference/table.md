@@ -619,7 +619,7 @@ Here's an example table config for a realtime table. **All the fields from the o
       "streamConfigs": {
         "realtime.segment.flush.threshold.size": "0",
         "realtime.segment.flush.threshold.time": "24h",
-        "realtime.segment.flush.desired.size": "150M",
+        "realtime.segment.flush.threshold.segment.size": "150M",
         "stream.kafka.broker.list": "XXXX",
         "stream.kafka.consumer.factory.class.name": "XXXX",
         "stream.kafka.consumer.prop.auto.offset.reset": "largest",

@@ -121,7 +121,7 @@ Recommendation Engine is a rule based engine that recommends optimal configurati
         <ul>
           <li><code>tableIndexConfig</code>&#x2192;<code>streamConfigs</code>&#x2192;<code>realtime.segment.flush.threshold.time</code>
           </li>
-          <li><code>tableIndexConfig</code>&#x2192;<code>streamConfigs</code>&#x2192;<code>realtime.segment.flush.desired.size</code>
+          <li><code>tableIndexConfig</code>&#x2192;<code>streamConfigs</code>&#x2192;<code>realtime.segment.flush.threshold.segment.size</code>
           </li>
         </ul>
       </td>
@@ -260,7 +260,7 @@ Currently, the engine recommends the following configs:
   * **Number of Segments** Recommended number for offline segments.
   * **Number of Rows per Segment** Recommended number of rows for offline segments.
 * Realtime Provisioning Recommendations:
-  * Each of the following recommendations is basically a 2D matrix of number of hosts and number of consumption hours. The goal is to give user insight to help find out how many realtime hosts are required to handle Kafka ingestion. Also the value for two streamConfig parameters realtime.segment.flush.desired.size and realtime.segment.flush.threshold.time can be determined based the provided information.
+  * Each of the following recommendations is basically a 2D matrix of number of hosts and number of consumption hours. The goal is to give user insight to help find out how many realtime hosts are required to handle Kafka ingestion. Also the value for two streamConfig parameters `realtime.segment.flush.threshold.segment.size` and `realtime.segment.flush.threshold.time` can be determined based the provided information.
     * **Optimal Segment Size** Matrix of realtime segment size for each combination of numHost and numConsumptionHour.
     * **Consuming Memory per Host** Matrix of memory size for only consuming segments.
     * **Total Memory Used per Host** Matrix of total memory size for all realtime segments including consuming ones.

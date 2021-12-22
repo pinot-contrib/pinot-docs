@@ -14,7 +14,7 @@ Recommendation Engine is a rule based engine that recommends optimal configurati
 | Varied Length Dictionary            | Table Config             | tableIndexConfig → variedLengthDictionaryColumns                                                                                                | Realtime & Offline    |
 | Segment Size                        | Segment Build & Push Job | Recommendations on: - Segment size in Bytes - Number of segments - Number of rows per segment                                                   | Offline               |
 | Aggregate Metrics                   | Table Config             | tableIndexConfig → aggregateMetrics                                                                                                             | Realtime              |
-| Realtime Provisioning               | Table Config             | tableIndexConfig → streamConfigs → realtime.segment.flush.threshold.time tableIndexConfig → streamConfigs → realtime.segment.flush.desired.size | Realtime              |
+| Realtime Provisioning               | Table Config             | tableIndexConfig → streamConfigs → realtime.segment.flush.threshold.time tableIndexConfig → streamConfigs → realtime.segment.flush.threshold.segment.size | Realtime              |
 | Realtime Provisioning               | Host Management          | Number of hosts needed in terms of memory consumption                                                                                           | Realtime              |
 Please note that Recommendation Engine can be used to optimize the configuration parameters for both new and existing tables. Also since the recommendation engine tries to generate near-optimal configurations, users are strongly encouraged to provide the input information to the best of their knowledge. It is ok if the information is not fully accurate. However, random/arbitrary and incomplete information will not help the recommendation engine’s algorithms.
 
@@ -126,7 +126,7 @@ Currently, the engine recommends the following configs:
     - **Number of Segments** Recommended number for offline segments.
     - **Number of Rows per Segment** Recommended number of rows for offline segments.
 - Realtime Provisioning Recommendations:
-	- Each of the following recommendations is basically a 2D matrix of number of hosts and number of consumption hours. The goal is to give user insight to help find out how many realtime hosts are required to handle Kafka ingestion. Also the value for two streamConfig parameters realtime.segment.flush.desired.size and realtime.segment.flush.threshold.time can be determined based the provided information.
+	- Each of the following recommendations is basically a 2D matrix of number of hosts and number of consumption hours. The goal is to give user insight to help find out how many realtime hosts are required to handle Kafka ingestion. Also the value for two streamConfig parameters `realtime.segment.flush.threshold.segment.size` and `realtime.segment.flush.threshold.time` can be determined based the provided information.
         - **Optimal Segment Size** Matrix of realtime segment size for each combination of numHost and numConsumptionHour.
         - **Consuming Memory per Host** Matrix of memory size for only consuming segments.
         - **Total Memory Used per Host** Matrix of total memory size for all realtime segments including consuming ones.

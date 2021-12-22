@@ -89,7 +89,7 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you l
       "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.size": "0",
       "realtime.segment.flush.threshold.time": "24h",
-      "realtime.segment.flush.desired.size": "50M",
+      "realtime.segment.flush.threshold.segment.size": "50M",
       "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
     }
   },

@@ -22,7 +22,7 @@ We still use heap memory to store inverted indices for consuming segments.
 
 The number of rows in a consuming segment needs to be balanced. Having too many rows can result in memory pressure. On the other hand, having too few rows results in having too many small segments. Having too many segments can be detrimental to query performance, and also increase pressure on the Helix.
 
-The recommended way to do this is to use the `realtime.segment.flush.desired.size` setting as described in [StreamConfigs Section](https://pinot.readthedocs.io/en/latest/tableconfig_schema.html#stream-config-description). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
+The recommended way to do this is to use the `realtime.segment.flush.threshold.segment.size` setting as described in [StreamConfigs Section](https://pinot.readthedocs.io/en/latest/tableconfig_schema.html#stream-config-description). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
 
 ### Moving completed segments to different hosts
 
