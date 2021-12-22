@@ -75,6 +75,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="toEpochRounded.md" %}
 {% page-ref page="trim.md" %}
 {% page-ref page="upper.md" %}
+{% page-ref page="valuein.md" %}
 {% page-ref page="week.md" %}
 {% page-ref page="year.md" %}
 {% page-ref page="yearOfWeek.md" %}
