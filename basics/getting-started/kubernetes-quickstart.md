@@ -2,7 +2,7 @@
 description: Pinot quick start in Kubernetes
 ---
 
-# Running Pinot in Kubernetes
+# Running in Kubernetes
 
 ## 1. Prerequisites
 
@@ -128,15 +128,15 @@ kubectl get all -n pinot-quickstart
 {% tabs %}
 {% tab title="For Helm v3.0.0" %}
 ```
-helm repo add incubator https://charts.helm.sh/incubator
-helm install -n pinot-quickstart kafka incubator/kafka --set replicas=1
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install -n pinot-quickstart kafka --set replicaCount=2  bitnami/kafka
 ```
 {% endtab %}
 
 {% tab title="For Helm v2.12.1" %}
 ```
 helm repo add incubator https://charts.helm.sh/incubator
-helm install --namespace "pinot-quickstart"  --name kafka incubator/kafka
+helm install --namespace "pinot-quickstart"  --name kafka incubator/kafka --set zookeeper.image.tag=latest 
 ```
 {% endtab %}
 {% endtabs %}
