@@ -256,10 +256,10 @@ Extract JSON fields:
 
 | Function             | Description                                                        | Example           |
 | -------------------- | ------------------------------------------------------------------ | ----------------- |
-| **SHA(bytesCol)**    | Return SHA-1 digest of binary column(`bytes` type) as hex string   | `SHA(rawData)`    |
-| **SHA256(bytesCol)** | Return SHA-256 digest of binary column(`bytes` type) as hex string | `SHA256(rawData)` |
-| **SHA512(bytesCol)** | Return SHA-512 digest of binary column(`bytes` type) as hex string | `SHA512(rawData)` |
-| **MD5(bytesCol)**    | Return MD5 digest of binary column(`bytes` type) as hex string     | `MD5(rawData)`    |
+| [**SHA(bytesCol)**](../../configuration-reference/functions/sha.md)    | Return SHA-1 digest of binary column(`bytes` type) as hex string   | `SHA(rawData)`    |
+| [**SHA256(bytesCol)**](../../configuration-reference/functions/sha256.md) | Return SHA-256 digest of binary column(`bytes` type) as hex string | `SHA256(rawData)` |
+| [**SHA512(bytesCol)**](../../configuration-reference/functions/sha512.md) | Return SHA-512 digest of binary column(`bytes` type) as hex string | `SHA512(rawData)` |
+| [**MD5(bytesCol)**](../../configuration-reference/functions/md5.md)    | Return MD5 digest of binary column(`bytes` type) as hex string     | `MD5(rawData)`    |
 
 ## Multi-value Column Functions
 
