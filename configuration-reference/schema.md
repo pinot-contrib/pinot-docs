@@ -7,8 +7,8 @@ The Pinot schema is composed of:
 | Field | Description |
 | ---- | ---- |
 | **schemaName** | Defines the name of the schema. This is usually the same as the table name. The offline and the realtime table of a hybrid table should use the same schema. |
-| **dimensionFieldSpecs** | A dimensionFieldSpec is defined for each dimension column. For more details, scroll down to [DimensionFieldSpec](schema.md#dimensionfieldspecs). |
-| **metricFieldSpecs** | A metricFieldSpec is defined for each metric column. For more details, scroll down to [MetricFieldSpec](schema.md#metricfieldspecs). |
+| **dimensionFieldSpec** | A dimensionFieldSpec is defined for each dimension column. For more details, scroll down to [DimensionFieldSpec](schema.md#dimensionfieldspec). |
+| **metricFieldSpec** | A metricFieldSpec is defined for each metric column. For more details, scroll down to [MetricFieldSpec](schema.md#metricfieldspec). |
 | **dateTimeFieldSpec** | A dateTimeFieldSpec is defined for the time columns. There can be multiple time columns. For more details, scroll down to [DateTimeFieldSpec](schema.md#datetimefieldspec). |
 
 Below is a detailed description of each type of field spec.
