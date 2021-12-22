@@ -145,7 +145,6 @@ Putting these together, you can find the table configurations of the quick start
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.zk.broker.url": "localhost:2191/kafka",
       "stream.kafka.broker.list": "localhost:19092",
-      "realtime.segment.flush.threshold.size": 30,
       "realtime.segment.flush.threshold.rows": 30
     }
   },

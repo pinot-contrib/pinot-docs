@@ -28,7 +28,7 @@ To ingest events from an Amazon Kinesis stream into Pinot, set the following con
       "stream.kinesis.fetch.timeout.millis": "30000",
       "stream.kinesis.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "stream.kinesis.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory",
-      "realtime.segment.flush.threshold.size": "1000000",
+      "realtime.segment.flush.threshold.rows": "1000000",
       "realtime.segment.flush.threshold.time": "6h"
     }
   },

@@ -100,7 +100,7 @@ In addition to these properties, you can define thresholds for the consuming seg
 The properties for the thresholds are as follows:
 
 ```text
-"realtime.segment.flush.threshold.size" : "100000"
+"realtime.segment.flush.threshold.rows" : "100000"
 "realtime.segment.flush.threshold.time" : "6h"
 ```
 

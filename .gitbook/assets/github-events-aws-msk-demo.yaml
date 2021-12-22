@@ -29,7 +29,7 @@ data:
           "stream.kafka.zk.broker.url": "${ZOOKEEPER_CONNECT_STRING}",
           "stream.kafka.broker.list": "${BROKER_LIST_STRING}",
           "realtime.segment.flush.threshold.time": "12h",
-          "realtime.segment.flush.threshold.size": "100000",
+          "realtime.segment.flush.threshold.rows": "100000",
           "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
         }
       },

@@ -264,7 +264,7 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
       "stream.kafka.zk.broker.url": "pinot-zookeeper:2181/kafka",
       "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.time": "12h",
-      "realtime.segment.flush.threshold.size": "100000",
+      "realtime.segment.flush.threshold.rows": "100000",
       "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
     }
   },
@@ -554,7 +554,7 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
       "stream.kafka.zk.broker.url": "localhost:2191/kafka",
       "stream.kafka.broker.list": "localhost:19092",
       "realtime.segment.flush.threshold.time": "12h",
-      "realtime.segment.flush.threshold.size": "100000",
+      "realtime.segment.flush.threshold.rows": "100000",
       "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
     }
   },

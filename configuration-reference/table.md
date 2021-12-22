@@ -394,14 +394,14 @@ IndexingConfig -&gt; streamConfig has been deprecated starting 0.7.0 or commit 9
       </td>
       <td style="text-align:left">Desired size of the completed segments. This value can be set as a human
         readable string such as <code>150M</code>, or <code>1.1G</code>, etc. This
-        value is used when <code>realtime.segment.flush.threshold.size</code> is
+        value is used when <code>realtime.segment.flush.threshold.rows</code> is
         set to 0. Default is <code>200M</code> i.e. 200 MegaBytes</td>
     </tr>
     <tr>
       <td style="text-align:left">realtime.segment.flush.autotune.initialRows</td>
       <td style="text-align:left">
         <p>Initial number of rows for learning.</p>
-        <p>This value is used only if <code>realtime.segment.flush.threshold.size</code> is
+        <p>This value is used only if <code>realtime.segment.flush.threshold.rows</code> is
           set o 0 and the consumer type is <code>LowLevel</code>.</p>
         <p>Default is <code>100000 (ie 100K).</code>
         </p>
@@ -617,7 +617,7 @@ Here's an example table config for a realtime table. **All the fields from the o
       "aggregateMetrics": true,
       "nullHandlingEnabled": false,
       "streamConfigs": {
-        "realtime.segment.flush.threshold.size": "0",
+        "realtime.segment.flush.threshold.rows": "0",
         "realtime.segment.flush.threshold.time": "24h",
         "realtime.segment.flush.threshold.segment.size": "150M",
         "stream.kafka.broker.list": "XXXX",

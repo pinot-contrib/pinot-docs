@@ -29,7 +29,7 @@ data:
           "stream.kafka.zk.broker.url": "z-3.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:2181,z-1.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:2181,z-2.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:2181",
           "stream.kafka.broker.list": "b-1.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:9092,b-2.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:9092",
           "realtime.segment.flush.threshold.time": "12h",
-          "realtime.segment.flush.threshold.size": "100000",
+          "realtime.segment.flush.threshold.rows": "100000",
           "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
         }
       },

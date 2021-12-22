@@ -103,7 +103,7 @@ The resulting configuration should look as follows -
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.broker.list": "localhost:9876",
       "realtime.segment.flush.threshold.time": "3600000",
-      "realtime.segment.flush.threshold.size": "50000",
+      "realtime.segment.flush.threshold.rows": "50000",
       "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
     }
   },

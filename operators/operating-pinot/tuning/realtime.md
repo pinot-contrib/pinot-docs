@@ -138,7 +138,7 @@ You can pick the appropriate value for segment size and number of hours in the t
 From the above output you may decide that 6 hours is an optimal consumption time given the number of active segments looked at for a query, and you can afford about 4G of active memory per host. You can choose either 8 or 10 hosts, you choose 10. In this case, the optimal segment size will be 111.98M. You can then enter your realtime table config as below:
 
 ```javascript
-"realtime.segment.flush.threshold.size": "0"
+"realtime.segment.flush.threshold.rows": "0"
 "realtime.segment.flush.threshold.time": "6h"
 "realtime.segment.flush.threshold.segment.size": "112M"
 ```
@@ -148,7 +148,7 @@ From the above output you may decide that 6 hours is an optimal consumption time
 You may decide from the output that you want to make do with 6 hosts. You have only 2G of memory per host for active segments but you are willing to map 8G of active memory on that, with plenty of paging for each query. Since QPS is low, you may have plenty of CPU per query so huge segments may not be a problem. Choose 12 or 24h or consumption and pick an appropriate segment size. You may then configure something like:
 
 ```javascript
-"realtime.segment.flush.threshold.size": "0"
+"realtime.segment.flush.threshold.rows": "0"
 "realtime.segment.flush.threshold.time": "24h"
 "realtime.segment.flush.threshold.segment.size": "450M"
 ```
