@@ -128,8 +128,8 @@ kubectl get all -n pinot-quickstart
 {% tabs %}
 {% tab title="For Helm v3.0.0" %}
 ```
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install -n pinot-quickstart kafka --set replicaCount=2  bitnami/kafka
+helm repo add incubator https://charts.helm.sh/incubator
+helm install -n pinot-quickstart kafka incubator/kafka --set replicas=1,zookeeper.image.tag=latest
 ```
 {% endtab %}
 
