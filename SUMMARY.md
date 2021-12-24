@@ -64,6 +64,7 @@
   * [JSON Index](basics/indexing/json-index.md)
   * [Geospatial](basics/indexing/geospatial-support.md)
 * [Releases](basics/releases/README.md)
+  * [0.9.3](basics/releases/0.9.3.md)
   * [0.9.2](basics/releases/0.9.2.md)
   * [0.9.1](basics/releases/0.9.1.md)
   * [0.9.0](basics/releases/0.9.0.md)
