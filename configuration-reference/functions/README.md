@@ -9,11 +9,13 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="abs.md" %}
 {% page-ref page="add.md" %}
 {% page-ref page="arraylength.md" %}
+{% page-ref page="avgmv.md" %}
 {% page-ref page="ceil.md" %}
 {% page-ref page="chr.md" %}
 {% page-ref page="codepoint.md" %}
 {% page-ref page="concat.md" %}
 {% page-ref page="count.md" %}
+{% page-ref page="countmv.md" %}
 {% page-ref page="datetimeconvert.md" %}
 {% page-ref page="datetrunc.md" %}
 {% page-ref page="day.md" %}
@@ -23,6 +25,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="distinctcount.md" %}
 {% page-ref page="distinctcountbitmap.md" %}
 {% page-ref page="distinctcounthll.md" %}
+{% page-ref page="distinctcountmv.md" %}
 {% page-ref page="distinctcountrawhll.md" %}
 {% page-ref page="distinctcountrawthetasketch.md" %}
 {% page-ref page="distinctcountthetasketch.md" %}
@@ -41,10 +44,13 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="lpad.md" %}
 {% page-ref page="ltrim.md" %}
 {% page-ref page="max.md" %}
+{% page-ref page="maxmv.md" %}
 {% page-ref page="md5.md" %}
 {% page-ref page="millisecond.md" %}
 {% page-ref page="min.md" %}
 {% page-ref page="minmaxrange.md" %}
+{% page-ref page="minmaxrangemv.md" %}
+{% page-ref page="minmv.md" %}
 {% page-ref page="minute.md" %}
 {% page-ref page="mod.md" %}
 {% page-ref page="mode.md" %}
@@ -53,7 +59,10 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="now.md" %}
 {% page-ref page="percentile.md" %}
 {% page-ref page="percentileest.md" %}
+{% page-ref page="percentileestmv.md" %}
 {% page-ref page="percentiletdigest.md" %}
+{% page-ref page="percentiletdigestmv.md" %}
+{% page-ref page="percentilemv.md" %}
 {% page-ref page="quarter.md" %}
 {% page-ref page="replace.md" %}
 {% page-ref page="reverse.md" %}

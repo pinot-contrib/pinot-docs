@@ -1,21 +1,21 @@
 ---
-description: This section contains reference documentation for the percentileest function.
+description: This section contains reference documentation for the percentile function.
 ---
 
-# percentileest
+# percentile
 
-Returns the Nth percentile of the group using [Quantile Digest](https://github.com/airlift/airlift/blob/master/stats/src/main/java/io/airlift/stats/QuantileDigest.java) algorithm.
+Returns the `max` - `min` value in a group
 
 ## Signature
 
-> percentileest(colName, percentile)
+> percentile(colName, percentile)
 
 ## Usage Examples
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
 
 ```sql
-select percentileest(homeRuns, 50) AS value
+select percentile(homeRuns, 50) AS value
 from baseballStats 
 ```
 
@@ -24,7 +24,7 @@ from baseballStats
 | 0 | 
 
 ```sql
-select percentileest(homeRuns, 80) AS value
+select percentile(homeRuns, 80) AS value
 from baseballStats 
 ```
 
@@ -33,7 +33,7 @@ from baseballStats
 | 4 | 
 
 ```sql
-select percentileest(homeRuns, 99.9) AS value
+select percentile(homeRuns, 99.9) AS value
 from baseballStats 
 ```
 
