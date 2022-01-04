@@ -33,7 +33,7 @@ The config consists of the following keys:
 
 Pinot supports the multiple input formats out of the box. You just need to specify the corresponding readers and the associated custom configs to switch between the formats.
 
-#### CSV
+### CSV
 
 ```
 dataFormat: 'csv'
@@ -62,7 +62,7 @@ Your CSV file may have raw text fields that cannot be reliably delimited using a
 `multiValueDelimiter: ''`&#x20;
 {% endhint %}
 
-#### AVRO
+### AVRO
 
 ```
 dataFormat: 'avro'
@@ -71,14 +71,14 @@ className: 'org.apache.pinot.plugin.inputformat.avro.AvroRecordReader'
 
 The Avro record reader converts the data in file to a `GenericRecord`. A java class or `.avro` file is not required.
 
-#### JSON
+### JSON
 
 ```
 dataFormat: 'json'
 className: 'org.apache.pinot.plugin.inputformat.json.JSONRecordReader'
 ```
 
-#### Thrift
+### Thrift
 
 ```
 dataFormat: 'thrift'
@@ -87,9 +87,11 @@ configs:
 	thriftClass: 'ParserClassName'
 ```
 
-**Note**: Thrift requires the generated class using `.thrift` file to parse the data. The .class file should be available in the Pinot's classpath. You can put the files in the `lib/` folder of pinot distribution directory.
+{% hint style="info" %}
+Thrift requires the generated class using `.thrift` file to parse the data. The .class file should be available in the Pinot's classpath. You can put the files in the `lib/` folder of pinot distribution directory.
+{% endhint %}
 
-#### Parquet
+### Parquet
 
 ```
 dataFormat: 'parquet'
@@ -112,7 +114,7 @@ className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReade
 | INT96             | INT64          | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p> to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |
 | DECIMAL           | DOUBLE         |                                                                                                                                                      |
 
-#### ORC
+### ORC
 
 ```
 dataFormat: 'orc'
@@ -143,7 +145,7 @@ ORC record reader supports the following data types -
 In LIST and MAP types, the object should only belong to one of the data types supported by Pinot.
 {% endhint %}
 
-#### Protocol Buffers
+### Protocol Buffers
 
 ```
 dataFormat: 'proto'
