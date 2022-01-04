@@ -1,4 +1,4 @@
-    ---
+---
 description: This section contains reference documentation for the DISTINCTCOUNTRAWHLLMV function.
 ---
 
