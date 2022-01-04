@@ -33,5 +33,5 @@ Here are some related blog posts from the Apache Pinot community. You can find a
 ![](<../../.gitbook/assets/image (59).png>) [\
 **Monitoring Apache Pinot with JMX, Prometheus and Grafana**](https://medium.com/apache-pinot-developer-blog/monitoring-apache-pinot-99034050c1a5)
 
-![](<../../.gitbook/assets/image (58).png>)** **\
+![](<../../.gitbook/assets/image (58).png>) **** \
 ****[**Achieving 99th percentile latency SLA using Apache Pinot**](https://medium.com/apache-pinot-developer-blog/achieving-99th-percentile-latency-sla-using-apache-pinot-2ba4ce1d9eff)****

@@ -26,7 +26,7 @@ There are 3 kinds of tables in Pinot
 
 The Pinot managed offline flows feature will **move records from the REALTIME table to the OFFLINE table, one `time window` at a time**. For example, if the REALTIME table has records with timestamp starting 10-24-2020T13:56:00, then the Pinot managed offline flows will move records for the time window \[10-24-2020, 10-25-2020) in the first run, followed by \[10-25-2020, 10-26-1010) in the next run, followed by \[10-26-2020, 10-27-2020) in the next run, and so on. This **window length** of 1d is just the default, and it can be configured to any length of your choice. &#x20;
 
-This feature uses the **pinot-minions **and** the Helix Task Executor framework**. This feature consists of 2 parts
+This feature uses the **pinot-minions** and **the Helix Task Executor framework**. This feature consists of 2 parts
 
 ![RealtimeToOfflineSegmentsTask](../../.gitbook/assets/paper.journal.15.png)
 
@@ -39,7 +39,7 @@ This feature uses the **pinot-minions **and** the Helix Task Executor framework*
 
 ### Config
 
-**Step 0: **Start a pinot-minion
+**Step 0:** Start a pinot-minion
 
 **Step 1**: Setup your REALTIME table. Add "RealtimeToOfflineSegmentsTask" in the task configs
 
@@ -99,7 +99,7 @@ where,
 {% hint style="warning" %}
 The following properties are deprecated/removed in release `0.8.0`
 
-* **timeColumnTransformFunction** (removed): Use [ingestion transforms](../../developers/advanced/ingestion-level-transformations.md) or **roundBucketTimePeriod **instead
+* **timeColumnTransformFunction** (removed): Use [ingestion transforms](../../developers/advanced/ingestion-level-transformations.md) or **roundBucketTimePeriod** instead
 * **collectorType** (deprecated): Replaced by **mergeType**
 {% endhint %}
 

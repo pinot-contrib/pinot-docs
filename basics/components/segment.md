@@ -2,11 +2,11 @@
 
 Pinot has the concept of a [**table**](table.md), which is a logical abstraction to refer to a collection of related data. Pinot has a distributed architecture and scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, the entire data needs to be distributed across multiple nodes.&#x20;
 
-Pinot achieves this by breaking the data into smaller chunks known as **segments **(similar to **shards/partitions** in relational databases). Segments can be seen as **time-based partitions**.
+Pinot achieves this by breaking the data into smaller chunks known as **segments** (similar to **shards/partitions** in relational databases). Segments can be seen as **time-based partitions**.
 
-Thus, a **segment is a horizontal shard representing a chunk of table data **with some number of rows.  The segment stores data for all columns of the table. Each segment packs the data in a **columnar fashion**, along with the **dictionaries and indices** for the columns. The segment is laid out in a columnar format so that it can be directly mapped into memory for serving queries.&#x20;
+Thus, a **segment is a horizontal shard representing a chunk of table data** with some number of rows.  The segment stores data for all columns of the table. Each segment packs the data in a **columnar fashion**, along with the **dictionaries and indices** for the columns. The segment is laid out in a columnar format so that it can be directly mapped into memory for serving queries.&#x20;
 
-Columns can be **single or multi-valued **and the following types are supported: **STRING, INT, LONG, FLOAT, DOUBLE or BYTES**.&#x20;
+Columns can be **single or multi-valued** and the following types are supported: **STRING, INT, LONG, FLOAT, DOUBLE or BYTES**.&#x20;
 
 Columns may be declared to be **metric or dimension (or specifically as a time dimension)** in the schema. Columns can have default null values. For example, the default null value of a integer column can be 0. The default value for bytes columns must be hex-encoded before it's added to the schema.
 

@@ -24,7 +24,7 @@ To view the _baseballStats_ table, click on its name, which will show the follow
 
 From this screen, we can edit or delete the table, edit or adjust its schema, as well as several other operations.&#x20;
 
-For example, if we want to add _yearID_ to the list of inverted indexes, click on **Edit Table, **add the extra column, and click **Save:**
+For example, if we want to add _yearID_ to the list of inverted indexes, click on **Edit Table,** add the extra column, and click **Save:**
 
 ![Edit Table](<../../.gitbook/assets/Screenshot from 2021-11-25 10-57-48.png>)
 

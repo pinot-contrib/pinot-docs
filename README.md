@@ -25,7 +25,7 @@ Pinot was built by engineers at LinkedIn and Uber and is designed to scale up an
 
 **User-facing analytics**, or site-facing analytics, is the **analytical tools and applications that you would expose directly to the end-users** of your product. In a user-facing analytics application, think of the user-base as ALL end users of an App. This App could be a social networking app, or a food delivery app - anything at all. It’s not just a few analysts doing offline analysis, or a handful of data scientists in a company running ad-hoc queries. This is ALL end-users, receiving personalized analytics on their personal devices (**think 100s of 1000s of queries per second**). These queries are triggered by apps, and not written by people, and so the scale will be as much as the active users on that App (**think millions of events/sec**)
 
-And, this is for all the freshest possible data, which touches on the other aspect here -** realtime analytics**. "Yesterday" might be a long time ago for some businesses and they cannot wait for ETLs and batch jobs. The data needs to be used for analytics, as soon as it is generated (**think latencies < 1s**).
+And, this is for all the freshest possible data, which touches on the other aspect here - **realtime analytics**. "Yesterday" might be a long time ago for some businesses and they cannot wait for ETLs and batch jobs. The data needs to be used for analytics, as soon as it is generated (**think latencies < 1s**).
 
 ### Why is user-facing realtime analytics is so challenging?
 
@@ -89,7 +89,7 @@ In addition to visualizing data in Pinot, one can run Machine Learning Algorithm
 
 ### Frequently asked question when getting started
 
-#### Is Pinot a data warehouse or a database? <a href="is-pinot-a-data-warehouse-or-a-database" id="is-pinot-a-data-warehouse-or-a-database"></a>
+#### Is Pinot a data warehouse or a database? <a href="#is-pinot-a-data-warehouse-or-a-database" id="is-pinot-a-data-warehouse-or-a-database"></a>
 
 While Pinot doesn't match the typical mold of a database product, it is best understood based on your role as either an analyst, data scientist, or application developer.
 

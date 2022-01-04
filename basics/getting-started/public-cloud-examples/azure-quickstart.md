@@ -48,7 +48,7 @@ helm version
 This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
 {% endhint %}
 
-### **1.3 Install **Azure CLI
+### **1.3 Install** Azure CLI
 
 Please follow this link ([https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)) to install _Azure CLI_.
 

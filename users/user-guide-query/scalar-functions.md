@@ -11,11 +11,11 @@ Pinot allows you to run any function using [Apache Groovy](https://groovy-lang.o
 
 **`GROOVY('result value metadata json', ''groovy script', arg0, arg1, arg2...)`**
 
-This function will execute the groovy script using the arguments provided and return the result that matches the provided result value metadata.** **The function requires the following arguments:&#x20;
+This function will execute the groovy script using the arguments provided and return the result that matches the provided result value metadata. **** The function requires the following arguments:&#x20;
 
 * `Result value metadata json` - json string representing result value metadata. Must contain non-null keys `resultType` and `isSingleValue`.&#x20;
 * `Groovy script to execute`- groovy script string, which uses `arg0`,  `arg1`, `arg2` etc to refer to the arguments provided within the script
-* `arguments `- pinot columns/other transform functions that are arguments to the groovy script
+* `arguments` - pinot columns/other transform functions that are arguments to the groovy script
 
 **Examples**
 

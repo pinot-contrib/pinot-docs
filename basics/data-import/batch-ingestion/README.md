@@ -138,7 +138,7 @@ There are 2 Controller APIs that can be used for a quick ingestion test using a 
 {% hint style="danger" %}
 **When these APIs are invoked, the controller has to download the file and build the segment locally.**
 
-**Hence, these APIs are NOT meant for production environments and for large input files. **
+**Hence, these APIs are NOT meant for production environments and for large input files.**&#x20;
 {% endhint %}
 
 #### /ingestFromFile
@@ -147,7 +147,7 @@ This API creates a segment using the given file and pushes it to Pinot. All step
 
 To upload a JSON file `data.json` to a table called `foo_OFFLINE`, use below command&#x20;
 
-**Note that **query params need to be URLEncoded. For example, _{"inputFormat":"json"}_ in the command below needs to be converted to _%7B%22inputFormat%22%3A%22json%22%7D.** **_
+**Note that** query params need to be URLEncoded. For example, _{"inputFormat":"json"}_ in the command below needs to be converted to _%7B%22inputFormat%22%3A%22json%22%7D. ****_&#x20;
 
 ```
 curl -X POST -F file=@data.json \

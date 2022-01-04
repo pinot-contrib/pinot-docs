@@ -75,9 +75,9 @@ There are three binaries that are required by Tableau to be able to connect to P
 
 The directory we need to copy the binaries to will depend on your operating system. Your Tableau Desktop installation will create a `Drivers` directory, which will vary depending on whether you are using macOS or Windows. The folder locations for each operating system are listed below.
 
-**macOS: **`~/Library/Tableau/Drivers`
+**macOS:** `~/Library/Tableau/Drivers`
 
-**Windows: **`C:\Program Files\Tableau\Drivers`
+**Windows:** `C:\Program Files\Tableau\Drivers`
 
 #### Installing Pinot for Tableau Desktop on macOS
 
