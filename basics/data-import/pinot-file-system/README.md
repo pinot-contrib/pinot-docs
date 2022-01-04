@@ -14,12 +14,16 @@ Pinot uses distributed file systems for the following purposes:
 * Controller - When a segment is uploaded to the controller, the controller saves it in the DFS configured.
 * Server - When a server(s) is notified of a new segment, the server copies the segment from remote DFS to their local node using the DFS abstraction.
 
+## Supported File Systems
+
 Pinot lets you choose a distributed file system provider. The following file systems are supported by Pinot:
 
 * [Amazon S3](amazon-s3.md)
 * [Google Cloud Storage](import-from-gcp.md)
 * [HDFS](import-from-hdfs.md)
 * [Azure Data Lake Storage](import-from-adls-azure.md)
+
+## Enabling a File System
 
 To use a distributed file system, you need to enable plugins. To do that, specify the plugin directory and include the required plugins -
 
