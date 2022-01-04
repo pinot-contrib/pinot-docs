@@ -6,7 +6,9 @@ description: >-
 
 # Input formats
 
-Pinot offers support for various popular input formats during ingestion. By changing the input format, you can reduce the time that goes in serialization-deserialization and speed up the ingestion.
+Pinot offers support for various popular input formats during ingestion. By changing the input format, you can reduce the time spent doing serialization-deserialization and speed up the ingestion.
+
+## Configuring input formats
 
 The input format can be changed using the `recordReaderSpec` config in the ingestion job spec.
 
@@ -20,15 +22,14 @@ recordReaderSpec:
 			key2 : 'value2'
 ```
 
-The config consists of the following keys -
+The config consists of the following keys:
 
-`dataFormat` - Name of the data format to consume.
+* `dataFormat` - Name of the data format to consume.
+* `className` - name of the class that implements the `RecordReader` interface. This class is used for parsing the data.
+* `configClassName` - name of the class that implements the `RecordReaderConfig` interface. This class is used the parse the values mentioned in `configs`
+* `configs` - Key value pair for format specific configs. This field can be left out.
 
-`className` - name of the class that implements the `RecordReader` interface. This class is used for parsing the data.
-
-`configClassName` - name of the class that implements the `RecordReaderConfig` interface. This class is used the parse the values mentioned in `configs`
-
-`configs` - Key value pair for format specific configs. This field can be left out.
+## Supported input formats
 
 Pinot supports the multiple input formats out of the box. You just need to specify the corresponding readers and the associated custom configs to switch between the formats.
 
@@ -58,7 +59,7 @@ CSV Record Reader supports the following configs -
 {% hint style="info" %}
 Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config. \
 \
-`multiValueDelimiter: '' `
+`multiValueDelimiter: ''`&#x20;
 {% endhint %}
 
 #### AVRO
