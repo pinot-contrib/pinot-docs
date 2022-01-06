@@ -118,7 +118,7 @@ The output from this API should look something like the following:
 }
 ```
 
-## Can I retrospectively add an index to any segment? 
+### Can I retrospectively add an index to any segment?
 
 Not all indexes can be retrospectively applied to existing segments. 
 
