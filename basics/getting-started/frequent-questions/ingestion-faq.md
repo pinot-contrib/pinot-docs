@@ -102,7 +102,7 @@ The output from this API should look something like the following:
 ```json
 {
   "<segment-name>": {
-    "segmentName": "<segment-name",
+    "segmentName": "<segment-name>",
     "indexes": {
       "<columnName>": {
         "bloom-filter": "NO",
