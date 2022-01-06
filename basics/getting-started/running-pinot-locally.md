@@ -26,7 +26,7 @@ You can build from source or download the distribution:
 Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command
 
 ```bash
-PINOT_VERSION=0.9.2 #set to the Pinot version you decide to use
+PINOT_VERSION=0.9.3 #set to the Pinot version you decide to use
 
 wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```

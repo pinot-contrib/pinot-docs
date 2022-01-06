@@ -32,7 +32,7 @@ If running locally, please ensure your docker cluster has enough resources, belo
 You can try out the pre-built Pinot all-in-one docker image.
 
 ```
-export PINOT_VERSION=0.9.2
+export PINOT_VERSION=0.9.3
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
@@ -173,7 +173,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
   pinot-controller:
-    image: apachepinot/pinot:0.9.2
+    image: apachepinot/pinot:0.9.3
     command: "StartController -zkAddress manual-zookeeper:2181"
     container_name: "manual-pinot-controller"
     restart: unless-stopped
@@ -184,7 +184,7 @@ services:
     depends_on:
       - zookeeper
   pinot-broker:
-    image: apachepinot/pinot:0.9.2
+    image: apachepinot/pinot:0.9.3
     command: "StartBroker -zkAddress manual-zookeeper:2181"
     restart: unless-stopped
     container_name: "manual-pinot-broker"
@@ -195,7 +195,7 @@ services:
     depends_on:
       - pinot-controller
   pinot-server:
-    image: apachepinot/pinot:0.9.2
+    image: apachepinot/pinot:0.9.3
     command: "StartServer -zkAddress manual-zookeeper:2181"
     restart: unless-stopped
     container_name: "manual-pinot-server" 
@@ -223,9 +223,9 @@ docker container ls
 
 ```
 CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                                     NAMES
-ba5cb0868350   apachepinot/pinot:0.9.2   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   manual-pinot-server
-698f160852f9   apachepinot/pinot:0.9.2   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        manual-pinot-broker
-b1ba8cf60d69   apachepinot/pinot:0.9.2   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  manual-pinot-controller
+ba5cb0868350   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   manual-pinot-server
+698f160852f9   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        manual-pinot-broker
+b1ba8cf60d69   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  manual-pinot-controller
 54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   manual-zookeeper
 ```
 {% endtab %}
