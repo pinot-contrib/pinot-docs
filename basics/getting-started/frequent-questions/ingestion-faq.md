@@ -95,7 +95,28 @@ Applying inverted indexes to a table config will generate an inverted index for 
 1. Add the columns you wish to index to the tableIndexConfig-> invertedIndexColumns list. To update the table config use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig)
 2. Invoke the reload API: [http://localhost:9000/help#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments)
 
-Once you've done that, you can check whether the index has been applied by querying the segment metadata API at [http://localhost:9000/help#/Segment/getServerMetadata](http://localhost:9000/help#/Segment/getServerMetadata)
+Once you've done that, you can check whether the index has been applied by querying the segment metadata API at [http://localhost:9000/help#/Segment/getServerMetadata](http://localhost:9000/help#/Segment/getServerMetadata). Don't forget to include the names of the column on which you have applied the index.
+
+The output from this API should look something like the following:
+
+```json
+{
+  "<segment-name>": {
+    "segmentName": "<segment-name",
+    "indexes": {
+      "<columnName>": {
+        "bloom-filter": "NO",
+        "dictionary": "YES",
+        "forward-index": "YES",
+        "inverted-index": "YES",
+        "null-value-vector-reader": "NO",
+        "range-index": "NO",
+        "json-index": "NO"
+      }
+    }
+  }
+}
+```
 
 ### How to create star-tree indexes?
 
