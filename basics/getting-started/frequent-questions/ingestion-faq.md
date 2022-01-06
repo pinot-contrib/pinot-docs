@@ -88,7 +88,7 @@ However, when the open segment is closed and its in-memory indexes are flushed t
 
 Inverted indexes are set in the tableConfig's tableIndexConfig -> invertedIndexColumns list. For documentation on table config, see [Table Config Reference](../../../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../indexing/inverted-index.md).
 
-Applying inverted indexes to a table config will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to an existing table?](./#how-to-apply-inverted-index-to-existing-setup)
+Applying inverted indexes to a table config will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to an existing table?](./#how-to-apply-an-inverted-index-to-an-existing-table)
 
 ### How to apply an inverted index to an existing table?
 
