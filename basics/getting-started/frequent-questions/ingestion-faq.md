@@ -4,7 +4,7 @@
 
 ### What is a good segment size?
 
-While Pinot can work with segments of various sizes, for optimal use of Pinot, you want to get your segments sized in the 100MB to 500MB \(un-tarred/uncompressed\) range. Please note that having too many \(thousands or more\) of tiny segments for a single table just creates more overhead in terms of the metadata storage in Zookeeper as well as in the Pinot servers' heap. At the same time, having too few really large \(GBs\) segments reduces parallelism of query execution, as on the server side, the thread parallelism of query execution is at segment level.
+While Pinot can work with segments of various sizes, for optimal use of Pinot, you want to get your segments sized in the 100MB to 500MB (un-tarred/uncompressed) range. Please note that having too many (thousands or more) of tiny segments for a single table just creates more overhead in terms of the metadata storage in Zookeeper as well as in the Pinot servers' heap. At the same time, having too few really large (GBs) segments reduces parallelism of query execution, as on the server side, the thread parallelism of query execution is at segment level.
 
 ### Can multiple Pinot tables consume from the same Kafka topic?
 
@@ -18,7 +18,7 @@ The partitioning logic in the stream should match the partitioning config in Pin
 
 Set partitioning config as below using same column used in Kafka
 
-```text
+```
 "tableIndexConfig": {
       ..
       "segmentPartitionConfig": {
@@ -33,7 +33,7 @@ Set partitioning config as below using same column used in Kafka
 
 and also set
 
-```text
+```
 "routing": {
       "segmentPrunerTypes": ["partition"]
     }
@@ -47,12 +47,12 @@ For JSON, you can use hex encoded string to ingest BYTES
 
 ### How do I flatten my JSON Kafka stream?
 
-We have [json\_format\(field\)](https://docs.pinot.apache.org/developers/advanced/ingestion-level-transformations#json-functions) function which can store a top level json field as a STRING in Pinot.
+We have [json\_format(field)](https://docs.pinot.apache.org/developers/advanced/ingestion-level-transformations#json-functions) function which can store a top level json field as a STRING in Pinot.
 
 Then you can use these [json functions](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations#json-functions) during query time, to extract fields from the json string.
 
 {% hint style="warning" %}
-**NOTE**  
+**NOTE**\
 This works well if some of your fields are nested json, but most of your fields are top level json keys. If all of your fields are within a nested JSON key, you will have to store the entire payload as 1 column, which is not ideal.
 
 Support for flattening during ingestion is on the roadmap: [https://github.com/apache/pinot/issues/5264](https://github.com/apache/pinot/issues/5264)
@@ -60,13 +60,13 @@ Support for flattening during ingestion is on the roadmap: [https://github.com/a
 
 ### How do I escape Unicode in my Job Spec YAML file?
 
-To use explicit code points, you must double-quote \(not single-quote\) the string, and escape the code point via "\uHHHH", where HHHH is the four digit hex code for the character. See [https://yaml.org/spec/spec.html\#escaping/in%20double-quoted%20scalars/](https://yaml.org/spec/spec.html#escaping/in%20double-quoted%20scalars/) for more details.
+To use explicit code points, you must double-quote (not single-quote) the string, and escape the code point via "\uHHHH", where HHHH is the four digit hex code for the character. See [https://yaml.org/spec/spec.html#escaping/in%20double-quoted%20scalars/](https://yaml.org/spec/spec.html#escaping/in%20double-quoted%20scalars/) for more details.
 
 ### Is there a limit on the maximum length of a string column in Pinot?
 
 By default, Pinot limits the length of a String column to 512 bytes. If you want to overwrite this value, you can set the maxLength attribute in the schema as follows:
 
-```text
+```
     {
       "dataType": "STRING",
       "maxLength": 1000,
@@ -78,7 +78,7 @@ By default, Pinot limits the length of a String column to 512 bytes. If you want
 
 Events are available to be read by queries as soon as they are ingested. This is because events are instantly indexed in-memory upon ingestion.
 
-The ingestion of events into the real-time table is not transactional, so replicas of the open segment are not immediately consistent. Pinot trades consistency for availability upon network partitioning \(CAP theorem\) to provide ultra-low ingestion latencies at high throughput.
+The ingestion of events into the real-time table is not transactional, so replicas of the open segment are not immediately consistent. Pinot trades consistency for availability upon network partitioning (CAP theorem) to provide ultra-low ingestion latencies at high throughput.
 
 However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent, with the [commit protocol](https://docs.pinot.apache.org/operators/operating-pinot/decoupling-controller-from-the-data-path).
 
@@ -86,22 +86,22 @@ However, when the open segment is closed and its in-memory indexes are flushed t
 
 ### How to set inverted indexes?
 
-Inverted indexes are set in the tableConfig's tableIndexConfig -&gt; invertedIndexColumns list. Here's the documentation for tableIndexConfig: [https://docs.pinot.apache.org/basics/components/table\#tableindexconfig-1](https://docs.pinot.apache.org/basics/components/table#tableindexconfig-1) along with a sample table that has set inverted indexes on some columns.
+Inverted indexes are set in the tableConfig's tableIndexConfig -> invertedIndexColumns list. For documentation on table config, see [Table Config Reference](../../../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../indexing/inverted-index.md).
 
-Applying inverted indexes to a table config will generate inverted index to all new segments. In order to apply the inverted indexes to all existing segments, follow steps in [How to apply inverted index to existing setup?](./#how-to-apply-inverted-index-to-existing-setup)
+Applying inverted indexes to a table config will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to an existing table?](./#how-to-apply-inverted-index-to-existing-setup)
 
-### How to apply inverted index to existing setup?
+### How to apply an inverted index to an existing table?
 
-1. Add the columns you wish to index to the tableIndexConfig-&gt; invertedIndexColumns list. This sample table config show inverted indexes set: [https://docs.pinot.apache.org/basics/components/table\#offline-table-config ](https://docs.pinot.apache.org/basics/components/table#offline-table-config)To update the table config use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig)
-2. Invoke the reload API: [http://localhost:9000/help\#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments)
+1. Add the columns you wish to index to the tableIndexConfig-> invertedIndexColumns list. To update the table config use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig)
+2. Invoke the reload API: [http://localhost:9000/help#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments)
 
-Right now, there’s no easy way to confirm that reload succeeded. One way it to check out the index\_map file inside the segment metadata, you should see inverted index entries for the new columns. An API for this is coming soon: [https://github.com/apache/pinot/issues/5390](https://github.com/apache/pinot/issues/5390)
+Once you've done that, you can check whether the index has been applied by querying the segment metadata API at [http://localhost:9000/help#/Segment/getServerMetadata](http://localhost:9000/help#/Segment/getServerMetadata)
 
 ### How to create star-tree indexes?
 
-Star-tree indexes are configured in the table config under the _tableIndexConfig_ -&gt; _starTreeIndexConfigs_ \(list\) and _enableDefaultStarTree_ \(boolean\). Read more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/indexing/star-tree-index\#index-generation](https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation)
+Star-tree indexes are configured in the table config under the _tableIndexConfig_ -> _starTreeIndexConfigs_ (list) and _enableDefaultStarTree_ (boolean). Read more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation](https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation)
 
-The new segments will have star-tree indexes generated after applying the star-tree index configs to the table config. Currently Pinot does not support adding star-tree indexes to the existing segments.
+The new segments will have star-tree indexes generated after applying the star-tree index configs to the table config. Currently, Pinot does not support adding star-tree indexes to the existing segments.
 
 ## Handling time in Pinot
 
@@ -109,7 +109,7 @@ The new segments will have star-tree indexes generated after applying the star-t
 
 Pinot does not require ordering of event time stamps. Out of order events are still consumed and indexed into the "currently consuming" segment. In a pathological case, if you have a 2 day old event come in "now", it will still be stored in the segment that is open for consumption "now". There is no strict time-based partitioning for segments, but star-indexes and hybrid tables will handle this as appropriate.
 
-See the [Components &gt; Broker](https://docs.pinot.apache.org/basics/components/broker) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`. Pinot does store the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
+See the [Components > Broker](https://docs.pinot.apache.org/basics/components/broker) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`. Pinot does store the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
 
 When generating star-indexes, the time column will be part of the star-tree so the tree can still be efficiently queried for segments with multiple time intervals.
 
@@ -122,4 +122,3 @@ This lets you have an old event up come in without building complex offline pipe
 It might seem odd that segments are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time-intervals to for performance of hybrid tables and time-filtered data.
 
 When generating offline segments, the segments generated such that segments only contain one time-interval and are well partitioned by the time column.
-
