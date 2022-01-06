@@ -118,12 +118,11 @@ The output from this API should look something like the following:
 }
 ```
 
-## Can I retrospectively add an index to any segment? 
+### Can I retrospectively add an index to any segment?
 
-Not all indexes can be retrospectively applied to existing segments. 
+Not all indexes can be retrospectively applied to existing segments.
 
-If you want to add or change the (sorted index column)[../../basics/inverted-index.md#sorted-inverted-index] or adjust (the dictionary encoding of the default forward index)[../../basics/forward-index.md#raw-value-forward-index] you will need to manually re-load any existing segments.
-
+If you want to add or change the (sorted index column)\[../../basics/inverted-index.md#sorted-inverted-index] or adjust (the dictionary encoding of the default forward index)\[../../basics/forward-index.md#raw-value-forward-index] you will need to manually re-load any existing segments.
 
 ### How to create star-tree indexes?
 
