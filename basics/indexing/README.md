@@ -65,7 +65,7 @@ curl -X POST \
 You can also find this action on the [Cluster Manager in the Pinot UI](https://docs.pinot.apache.org/basics/components/exploring-pinot#cluster-manager), on the specific table's page.
 
 {% hint style="info" %}
-Not all indexes can be retrospectively applied to existing segments. For more detailed documentation on applying indexes, see the [Indexing FAQ](../getting-started/frequent-questions/ingestion-faq.md).
+Not all indexes can be retrospectively applied to existing segments. For more detailed documentation on applying indexes, see the [Indexing FAQ](../getting-started/frequent-questions/ingestion-faq.md#indexing).
 {% endhint %}
 
 ### Tuning Index
