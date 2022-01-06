@@ -52,22 +52,24 @@ To this:
     }
 ```
 
-The updated index config won't be picked up unless we invoke the reload API. This API sends reload messages via Helix to all servers, as part of which indexes are added or removed from the local segments. This happens without any downtime and is completely transparent to the queries.&#x20;
+The updated index config won't be picked up unless you invoke the reload API. This API sends reload messages via Helix to all servers, as part of which indexes are added or removed from the local segments. This happens without any downtime and is completely transparent to the queries.&#x20;
 
 When adding an index, only the new index is created and appended to the existing segment. When removing an index, its related states are cleaned up from Pinot servers. You can find this API under the `Segments` tab on Swagger:
 
 ```
-curl -X POST 
-"http://localhost:9000/segments/myTable/reload" 
--H "accept: application/json"
+curl -X POST \
+  "http://localhost:9000/segments/myTable/reload" \
+  -H "accept: application/json"
 ```
 
 You can also find this action on the [Cluster Manager in the Pinot UI](https://docs.pinot.apache.org/basics/components/exploring-pinot#cluster-manager), on the specific table's page.
 
+{% hint style="info" %}
+Not all indexes can be retrospectively applied to existing segments. For more detailed documentation on applying indexes, see the [Indexing FAQ](../getting-started/frequent-questions/ingestion-faq.md).
+{% endhint %}
+
 ### Tuning Index
 
-{% hint style="info" %}
 The inverted index provides good performance for most use cases, especially if your use case doesn't have a strict low latency requirement. \
 \
 You should start by using this, and if your queries aren't fast enough, switch to advanced indices like the sorted or Star-Tree index.
-{% endhint %}
