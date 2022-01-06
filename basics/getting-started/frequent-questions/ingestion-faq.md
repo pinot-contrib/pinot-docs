@@ -88,14 +88,21 @@ However, when the open segment is closed and its in-memory indexes are flushed t
 
 Inverted indexes are set in the tableConfig's tableIndexConfig -> invertedIndexColumns list. For documentation on table config, see [Table Config Reference](../../../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../indexing/inverted-index.md).
 
-Applying inverted indexes to a table config will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to an existing table?](./#how-to-apply-an-inverted-index-to-an-existing-table)
+Applying inverted indexes to a table config will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to existing segments?](./#how-to-apply-an-inverted-index-to-existing-segments)
 
-### How to apply an inverted index to an existing table?
+### How to apply an inverted index to existing segments?
 
 1. Add the columns you wish to index to the tableIndexConfig-> invertedIndexColumns list. To update the table config use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig)
 2. Invoke the reload API: [http://localhost:9000/help#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments)
 
 Once you've done that, you can check whether the index has been applied by querying the segment metadata API at [http://localhost:9000/help#/Segment/getServerMetadata](http://localhost:9000/help#/Segment/getServerMetadata)
+
+## Can I retrospectively add an index to any segment? 
+
+Not all indexes can be retrospectively applied to existing segments. 
+
+If you want to add or change the (sorted index column)[../../basics/inverted-index.md#sorted-inverted-index] or adjust (the dictionary encoding of the default forward index)[../../basics/forward-index.md#raw-value-forward-index] you will need to manually re-load any existing segments.
+
 
 ### How to create star-tree indexes?
 
