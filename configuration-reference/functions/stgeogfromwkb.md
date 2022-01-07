@@ -27,7 +27,7 @@ from ignoreMe
 ```sql
 select STPOINT(-122, 37, 1) AS point,
        ST_GeogFromWKB(
-         ST_AsBinary(STPOINT(-122, 37))
+         ST_AsBinary(STPOINT(-122, 37, 1))
        ) AS value
 from ignoreMe 
 ```
