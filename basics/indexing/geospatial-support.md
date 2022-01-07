@@ -57,7 +57,7 @@ This aggregate function returns a MULTI geometry or NON-MULTI geometry from a se
 
 * **ST\_Area(Geometry/Geography g) → double**   For geometry type, it returns the 2D Euclidean area of a geometry. For geography, returns the area of a polygon or multi-polygon in square meters using a spherical model for Earth.&#x20;
 * **ST\_Distance(Geometry/Geography g1, Geometry/Geography g2) → double**   For geometry type, returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography, returns the great-circle distance in meters between two SphericalGeography points. Note that g1, g2 shall have the same type.&#x20;
-* **ST\_GeometryType(Geometry g) → String**   Returns the type of the geometry as a string. e.g.: `ST_Linestring`, `ST_Polygon`,`ST_MultiPolygon` etc.
+* [**ST\_GeometryType(Geometry g) → String**](../../configuration-reference/functions/stgeometrytype.md)   Returns the type of the geometry as a string. e.g.: `ST_Linestring`, `ST_Polygon`,`ST_MultiPolygon` etc.
 
 ### Outputs
 

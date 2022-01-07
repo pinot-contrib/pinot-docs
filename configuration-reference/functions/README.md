@@ -83,6 +83,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="stastext.md" %}
 {% page-ref page="stgeogfromtext.md" %}
 {% page-ref page="stgeogfromwkb.md" %}
+{% page-ref page="stgeometrytype.md" %}
 {% page-ref page="stgeomfromtext.md" %}
 {% page-ref page="stgeomfromwkb.md" %}
 {% page-ref page="stpoint.md" %}

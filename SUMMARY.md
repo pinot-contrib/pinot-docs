@@ -252,6 +252,7 @@
   * [ST_AsText](configuration-reference/functions/stastext.md)
   * [ST_GeogFromText](configuration-reference/functions/stgeogfromtext.md)
   * [ST_GeogFromWKB](configuration-reference/functions/stgeogfromwkb.md)
+  * [ST_GeometryType](configuration-reference/functions/stgeometrytype.md)
   * [ST_GeomFromText](configuration-reference/functions/stgeomfromtext.md)
   * [ST_GeomFromWKB](configuration-reference/functions/stgeomfromwkb.md)
   * [STPOINT](configuration-reference/functions/stpoint.md)
