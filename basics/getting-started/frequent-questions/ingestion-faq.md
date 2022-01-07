@@ -122,7 +122,7 @@ The output from this API should look something like the following:
 
 Not all indexes can be retrospectively applied to existing segments. 
 
-If you want to add or change the [sorted index column](../../basics/inverted-index.md#sorted-inverted-index) or adjust [the dictionary encoding of the default forward index](../../basics/forward-index.md#raw-value-forward-index) you will need to manually re-load any existing segments.
+If you want to add or change the [sorted index column](../../inverted-index.md#sorted-inverted-index) or adjust [the dictionary encoding of the default forward index](../../forward-index.md#raw-value-forward-index) you will need to manually re-load any existing segments.
 
 
 ### How to create star-tree indexes?
