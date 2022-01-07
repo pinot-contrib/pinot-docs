@@ -49,14 +49,14 @@ This aggregate function returns a MULTI geometry or NON-MULTI geometry from a se
 * [**ST\_GeomFromText(String wkt) → Geometry**](../../configuration-reference/functions/stgeomfromtext.md)   Returns a geometry type object from WKT representation, with the optional spatial system reference.&#x20;
 * [**ST\_GeomFromWKB(bytes wkb) → Geometry**](../../configuration-reference/functions/stgeomfromwkb.md)   Returns a geometry type object from WKB representation.&#x20;
 * [**ST\_Point(double x, double y)    → Point**](../../configuration-reference/functions/stpoint.md)   Returns a geometry type point object with the given coordinate values.&#x20;
-* **ST\_Polygon(String wkt) → Polygon**   Returns a geometry type polygon object from [WKT representation](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).&#x20;
+* [**ST\_Polygon(String wkt) → Polygon**](../../configuration-reference/functions/stpolygon.md)   Returns a geometry type polygon object from [WKT representation](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).&#x20;
 * [**ST\_GeogFromWKB(bytes wkb) → Geography**](../../configuration-reference/functions/stgeogfromwkb.md)   Creates a geography instance from a [Well-Known Binary geometry representation (WKB)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry#Well-known\_binary)&#x20;
 * [**ST\_GeogFromText(String wkt) → Geography**](../../configuration-reference/functions/stgeogfromtext.md)   Return a specified geography value from [Well-Known Text representation or extended (WKT)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).&#x20;
 
 ### Measurements
 
 * **ST\_Area(Geometry/Geography g) → double**   For geometry type, it returns the 2D Euclidean area of a geometry. For geography, returns the area of a polygon or multi-polygon in square meters using a spherical model for Earth.&#x20;
-* **ST\_Distance(Geometry/Geography g1, Geometry/Geography g2) → double**   For geometry type, returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography, returns the great-circle distance in meters between two SphericalGeography points. Note that g1, g2 shall have the same type.&#x20;
+* [**ST\_Distance(Geometry/Geography g1, Geometry/Geography g2) → double**](../../configuration-reference/functions/stdistance.md)   For geometry type, returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography, returns the great-circle distance in meters between two SphericalGeography points. Note that g1, g2 shall have the same type.&#x20;
 * [**ST\_GeometryType(Geometry g) → String**](../../configuration-reference/functions/stgeometrytype.md)   Returns the type of the geometry as a string. e.g.: `ST_Linestring`, `ST_Polygon`,`ST_MultiPolygon` etc.
 
 ### Outputs
