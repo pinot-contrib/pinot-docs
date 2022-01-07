@@ -95,6 +95,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="toEpoch.md" %}
 {% page-ref page="toEpochBucket.md" %}
 {% page-ref page="toEpochRounded.md" %}
+{% page-ref page="tosphericalgeography.md" %}
 {% page-ref page="trim.md" %}
 {% page-ref page="upper.md" %}
 {% page-ref page="valuein.md" %}

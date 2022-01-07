@@ -64,6 +64,11 @@ This aggregate function returns a MULTI geometry or NON-MULTI geometry from a se
 * [**ST\_AsBinary(Geometry/Geography g) → bytes**](../../configuration-reference/functions/stasbinary.md)    Returns the WKB representation of the geometry.&#x20;
 * [**ST\_AsText(Geometry/Geography g) → string**](../../configuration-reference/functions/stastext.md)    Returns the WKT representation of the geometry/geography.
 
+### Conversion
+
+* [**toSphericalGeography(Geometry g) → Geography**](../../configuration-reference/functions/tosphericalgeography.md)    Converts a Geometry object to a spherical geography object.
+* [**toGeometry(Geography g) → Geometry**](../../configuration-reference/functions/togeometry.md)    Converts a spherical geographical object to a Geometry object.
+
 ### Relationship
 
 * **ST\_Contains(Geometry, Geometry) → boolean**   Returns true if and only if no points of the second geometry/geography lie in the exterior of the first geometry/geography, and at least one point of the interior of the first geometry lies in the interior of the second geometry.&#x20;

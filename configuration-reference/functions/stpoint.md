@@ -4,7 +4,7 @@ description: This section contains reference documentation for the ST_POINT/STPO
 
 # STPOINT
 
-Returns a geometry type point object with the given coordinate values.
+Returns a geometry or geography type point object with the given coordinate values.
 
 ## Signature
 
