@@ -79,6 +79,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="sha512.md" %}
 {% page-ref page="sqrt.md" %}
 {% page-ref page="startswith.md" %}
+{% page-ref page="stpoint.md" %}
 {% page-ref page="strpos.md" %}
 {% page-ref page="sub.md" %}
 {% page-ref page="substr.md" %}

@@ -248,6 +248,7 @@
   * [sha512](configuration-reference/functions/sha512.md)
   * [sqrt](configuration-reference/functions/sqrt.md)
   * [startswith](configuration-reference/functions/startswith.md)
+  * [STPOINT](configuration-reference/functions/stpoint.md)
   * [strpos](configuration-reference/functions/strpos.md)
   * [SUB](configuration-reference/functions/sub.md)
   * [substr](configuration-reference/functions/substr.md)
