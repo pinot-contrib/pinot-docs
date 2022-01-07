@@ -248,6 +248,8 @@
   * [sha512](configuration-reference/functions/sha512.md)
   * [sqrt](configuration-reference/functions/sqrt.md)
   * [startswith](configuration-reference/functions/startswith.md)
+  * [ST_AsBinary](configuration-reference/functions/stasbinary.md)
+  * [ST_AsText](configuration-reference/functions/stastext.md)
   * [ST_GeogFromText](configuration-reference/functions/stgeogfromtext.md)
   * [ST_GeomFromText](configuration-reference/functions/stgeomfromtext.md)
   * [STPOINT](configuration-reference/functions/stpoint.md)

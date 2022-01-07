@@ -61,8 +61,8 @@ This aggregate function returns a MULTI geometry or NON-MULTI geometry from a se
 
 ### Outputs
 
-* **ST\_AsBinary(Geometry/Geography g) → bytes**   Returns the WKB representation of the geometry.&#x20;
-* **ST\_AsText(Geometry/Geography g) → string**   Returns the WKT representation of the geometry/geography.
+* [**ST\_AsBinary(Geometry/Geography g) → bytes**](../../configuration-reference/functions/stasbinary.md)    Returns the WKB representation of the geometry.&#x20;
+* [**ST\_AsText(Geometry/Geography g) → string**](../../configuration-reference/functions/stastext.md)    Returns the WKT representation of the geometry/geography.
 
 ### Relationship
 
