@@ -46,7 +46,7 @@ This aggregate function returns a MULTI geometry or NON-MULTI geometry from a se
 
 ### Constructors
 
-* **ST\_GeomFromText(String wkt) → Geometry**   Returns a geometry type object from WKT representation, with the optional spatial system reference.&#x20;
+* [**ST\_GeomFromText(String wkt) → Geometry**](../../configuration-reference/functions/stgeomfromtext.md)   Returns a geometry type object from WKT representation, with the optional spatial system reference.&#x20;
 * **ST\_GeomFromWKB(bytes wkb) → Geometry**   Returns a geometry type object from WKB representation.&#x20;
 * [**ST\_Point(double x, double y)    → Point**](../../configuration-reference/functions/stpoint.md)   Returns a geometry type point object with the given coordinate values.&#x20;
 * **ST\_Polygon(String wkt) → Polygon**   Returns a geometry type polygon object from [WKT representation](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).&#x20;

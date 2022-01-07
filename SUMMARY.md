@@ -249,6 +249,7 @@
   * [sqrt](configuration-reference/functions/sqrt.md)
   * [startswith](configuration-reference/functions/startswith.md)
   * [ST_GeogFromText](configuration-reference/functions/stgeogfromtext.md)
+  * [ST_GeomFromText](configuration-reference/functions/stgeomfromtext.md)
   * [STPOINT](configuration-reference/functions/stpoint.md)
   * [strpos](configuration-reference/functions/strpos.md)
   * [SUB](configuration-reference/functions/sub.md)
