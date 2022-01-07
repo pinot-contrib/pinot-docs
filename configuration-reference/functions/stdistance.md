@@ -17,7 +17,7 @@ These examples are based on the [Streaming Quick Start](../../basics/getting-sta
 ```sql
 select group_city, 
        STASTEXT(location) AS locationString, 
-	   ST_Distance(location, ST_POINT(2.154007,41.390205, 1)) AS distanceInMetres
+       ST_Distance(location, ST_POINT(2.154007,41.390205, 1)) AS distanceInMetres
 from meetupRsvp 
 LIMIT 1
 ```
