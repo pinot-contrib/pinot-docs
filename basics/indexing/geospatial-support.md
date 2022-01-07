@@ -51,7 +51,7 @@ This aggregate function returns a MULTI geometry or NON-MULTI geometry from a se
 * [**ST\_Point(double x, double y)    → Point**](../../configuration-reference/functions/stpoint.md)   Returns a geometry type point object with the given coordinate values.&#x20;
 * **ST\_Polygon(String wkt) → Polygon**   Returns a geometry type polygon object from [WKT representation](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).&#x20;
 * **ST\_GeogFromWKB(bytes wkb) → Geography**   Creates a geography instance from a [Well-Known Binary geometry representation (WKB)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry#Well-known\_binary)&#x20;
-* **ST\_GeogFromText(String wkt) → Geography**   Return a specified geography value from [Well-Known Text representation or extended (WKT)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).&#x20;
+* [**ST\_GeogFromText(String wkt) → Geography**](../../configuration-reference/functions/stgeogfromtext.md)   Return a specified geography value from [Well-Known Text representation or extended (WKT)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).&#x20;
 
 ### Measurements
 
