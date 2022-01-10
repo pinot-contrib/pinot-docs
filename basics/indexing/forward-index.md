@@ -72,7 +72,15 @@ A sorted index can be configured for a table by setting it in the table config:
 **Note**: A Pinot table can only have 1 sorted column
 {% endhint %}
 
-Real-time data ingestion will sort data by the `sortedColumn` when generating segments. For offline data ingestion, you will need to sort the data before ingesting it into Pinot.
+### Real-time ingestion
+
+Real-time data ingestion will sort data by the `sortedColumn` when generating segments, so you don't need to pre-sort the data.
+
+### Offline ingestion
+
+For offline data ingestion, you will need to sort the data before ingesting it into Pinot. If you are ingesting multiple segments you will need to make sure that data is sorted within each segment - you don't need to sort the data across segments.
+
+### Checking sort status
 
 You can check the sorted status of a column in a segment by running the following:
 
