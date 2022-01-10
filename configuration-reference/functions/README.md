@@ -81,6 +81,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="startswith.md" %}
 {% page-ref page="stasbinary.md" %}
 {% page-ref page="stastext.md" %}
+{% page-ref page="stcontains.md" %}
 {% page-ref page="stdistance.md" %}
 {% page-ref page="stgeogfromtext.md" %}
 {% page-ref page="stgeogfromwkb.md" %}

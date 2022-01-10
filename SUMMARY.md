@@ -250,6 +250,7 @@
   * [startswith](configuration-reference/functions/startswith.md)
   * [ST_AsBinary](configuration-reference/functions/stasbinary.md)
   * [ST_AsText](configuration-reference/functions/stastext.md)
+  * [ST_Contains](configuration-reference/functions/stcontains.md)
   * [ST_Distance](configuration-reference/functions/stdistance.md)
   * [ST_GeogFromText](configuration-reference/functions/stgeogfromtext.md)
   * [ST_GeogFromWKB](configuration-reference/functions/stgeogfromwkb.md)
