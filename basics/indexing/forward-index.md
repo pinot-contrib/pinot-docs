@@ -74,7 +74,7 @@ A sorted index can be configured for a table by setting it in the table config:
 
 ### Real-time ingestion
 
-Real-time data ingestion will sort data by the `sortedColumn` when generating segments, so you don't need to pre-sort the data.
+Real-time data ingestion will sort data by the `sortedColumn` when generating segments - you don't need to pre-sort the data.
 
 ### Offline ingestion
 
