@@ -58,4 +58,4 @@ LIMIT 1
 ]
 ```
 
-To create geometry objects for other objects, see [ST_GeomFromText](stgeomfromtext.md).
+To create geometry objects for non polygons, see [ST_GeomFromText](stgeomfromtext.md).
