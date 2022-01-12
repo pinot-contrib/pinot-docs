@@ -260,6 +260,7 @@
   * [STPOINT](configuration-reference/functions/stpoint.md)
   * [ST\_Polygon](configuration-reference/functions/stpolygon.md)
   * [strpos](configuration-reference/functions/strpos.md)
+  * [ST_Union](configuration-reference/functions/stunion.md)
   * [SUB](configuration-reference/functions/sub.md)
   * [substr](configuration-reference/functions/substr.md)
   * [sum](configuration-reference/functions/sum.md)

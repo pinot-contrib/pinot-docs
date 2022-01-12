@@ -91,6 +91,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="stpoint.md" %}
 {% page-ref page="stpolygon.md" %}
 {% page-ref page="strpos.md" %}
+{% page-ref page="stunion.md" %}
 {% page-ref page="sub.md" %}
 {% page-ref page="substr.md" %}
 {% page-ref page="sum.md" %}
