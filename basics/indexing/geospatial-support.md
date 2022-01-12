@@ -41,7 +41,7 @@ Following geospatial functions are available out of the box in Pinot-
 
 ### Aggregations
 
-[**ST\_Union(geometry\[] g1\_array) → Geometry**](../../configuration-reference/functions/stunion.md)
+[**ST_Union(geometry\[\] g1_array) → Geometry**](../../configuration-reference/functions/stunion.md)
 This aggregate function returns a MULTI geometry or NON-MULTI geometry from a set of geometries. it ignores NULL geometries.
 
 ### Constructors
