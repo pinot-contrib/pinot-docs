@@ -196,9 +196,9 @@ $ curl -X POST \
 | numServersQueried |  represents the number of servers queried by the broker \(note that this may be less than the total number of servers since broker can apply some optimizations to minimize the number of servers\) |
 | numServersResponded | This should be equal to the numServersQueried. If this is not the same, then one of more servers might have timed out. If numServersQueried != numServersResponded the results can be considered partial and clients can retry the query with exponential back off. |
 | numSegmentsQueried | Total number of segmentsQueried for this query. it may be less than the total number of segments since broker can apply optimizations. |
-| numSegmentsMatched | This is the number of segments actually processed. This indicates the effectiveness of pruning logic \(based on partitioning, time etc\).  |
-| numSegmentsProcessed | Actual number of segments that were processed. This is where the majority of the time is spent. |
-| numDocScanned | The number of docs/records that were scanned to process the query. This includes the docs scanned in filter phase \(this can be zero if columns in query are indexed\) and post filter. |
+| numSegmentsMatched | This is the number of segments processed with at least one document matched query response. In general numSegmentsQueried <= numSegmentsProcessed <= numSegmentsMatched. |
+| numSegmentsProcessed | Number of segment operators used to process segments. This is indicates the effectiveness of the pruning logic. |
+| numDocScanned | The number of docs/records that were selected after filter phase. |
 | numEntriesScannedInFilter | This along with numEntriesScannedInPostFilter should give an idea on where most of the time is spent during query processing. If this is high, enabling indexing for columns in tableConfig can be one way to bring it down.   |
 | numEntriesScannedPostFilter | This along with numEntriesScannedInPostFilter should give an idea on where most of the time is spent during query processing. A high number for this means the selectivity is low \(i.e. pinot needs to scan a lot of records to answer the query\). If this is high, adding regular inverted/bitmap index will not  help. However, consider using start-tree index. |
 | numGroupsLimitReached | If the query has group by clause and top K, pinot drops new entries after the numGroupsLimit is reached. If this boolean is set to true then the query result may not be accurate. Note that the default value for numGroupsLimit is 100k and should be sufficient for most use cases. |
