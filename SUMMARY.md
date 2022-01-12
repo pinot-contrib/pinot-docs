@@ -260,7 +260,7 @@
   * [STPOINT](configuration-reference/functions/stpoint.md)
   * [ST\_Polygon](configuration-reference/functions/stpolygon.md)
   * [strpos](configuration-reference/functions/strpos.md)
-  * [ST_Union](configuration-reference/functions/stunion.md)
+  * [ST\_Union](configuration-reference/functions/stunion.md)
   * [SUB](configuration-reference/functions/sub.md)
   * [substr](configuration-reference/functions/substr.md)
   * [sum](configuration-reference/functions/sum.md)
@@ -272,7 +272,6 @@
   * [ToEpoch](configuration-reference/functions/toEpoch.md)
   * [ToEpochBucket](configuration-reference/functions/toEpochBucket.md)
   * [ToEpochRounded](configuration-reference/functions/toEpochRounded.md)
-  *
   * [toGeometry](configuration-reference/functions/togeometry.md)
   * [toSphericalGeography](configuration-reference/functions/tosphericalgeography.md)
   * [trim](configuration-reference/functions/trim.md)
