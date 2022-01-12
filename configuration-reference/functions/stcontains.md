@@ -18,13 +18,13 @@ These examples are based on the [Streaming Quick Start](../../basics/getting-sta
 select group_city, 
        ST_AsText(location) AS locationString,  
        ST_Contains(
-		 ST_GeomFromText('POLYGON ((
+		     ST_GeomFromText('POLYGON ((
              -74.171737 40.607377, 
              -74.089339 40.753180, 
              -73.911498 40.769303, 
              -74.016555 40.604249,  
              -74.171737 40.607377))'),
-	     toGeometry(location)
+	       toGeometry(location)
 	   ) AS inPolygon
 from meetupRsvp 
 order by inPolygon DESC
