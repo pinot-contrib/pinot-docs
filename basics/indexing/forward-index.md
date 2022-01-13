@@ -53,7 +53,9 @@ When a column is physically sorted, Pinot uses a sorted forward index with run-l
 
 (For simplicity, this diagram does not include dictionary encoding layer.)
 
-Sorted forward index has the advantages of both good compression and data locality. Sorted forward index can also be used as inverted index.
+The Sorted forward index has the advantages of both good compression and data locality. The Sorted forward index can also be used as inverted index.
+
+### Real-time tables
 
 A sorted index can be configured for a table by setting it in the table config:
 
@@ -72,13 +74,17 @@ A sorted index can be configured for a table by setting it in the table config:
 **Note**: A Pinot table can only have 1 sorted column
 {% endhint %}
 
-### Real-time ingestion
-
 Real-time data ingestion will sort data by the `sortedColumn` when generating segments - you don't need to pre-sort the data.
 
-### Offline ingestion
+When a segment is committed, Pinot will do a pass over the data in each column and create a sorted index for columns that contain sorted data, even if they aren't specified as the `sortedColumn`.&#x20;
 
-For offline data ingestion, you will need to sort the data before ingesting it into Pinot. If you are ingesting multiple segments you will need to make sure that data is sorted within each segment - you don't need to sort the data across segments.
+### Offline tables
+
+For offline data ingestion, Pinot will do a pass over the data in each column and create a sorted index for columns that contain sorted data.
+
+This means that if you want a column to have a sorted index, you will need to sort the data by that column before ingesting it into Pinot.
+
+If you are ingesting multiple segments you will need to make sure that data is sorted within each segment - you don't need to sort the data across segments.
 
 ### Checking sort status
 
@@ -87,4 +93,19 @@ You can check the sorted status of a column in a segment by running the followin
 ```bash
 $ grep memberId <segment_name>/v3/metadata.properties | grep isSorted
 column.memberId.isSorted = true
+```
+
+Alternatively, for offline tables you can retrieve the sorted status from the _getServerMetadata_ endpoint. The following example is based on the Batch Quick Start:
+
+```
+curl \
+  -X GET \
+  "http://localhost:9000/segments/baseballStats/metadata?columns=playerID&columns=teamID" \
+  -H "accept: application/json" 2>/dev/null | \
+  jq -c  '.[] | . as $parent |  .columns[] | [$parent .segmentName, .columnName, .sorted]'
+```
+
+```
+["baseballStats_OFFLINE_0","teamID",false]
+["baseballStats_OFFLINE_0","playerID",false]
 ```
