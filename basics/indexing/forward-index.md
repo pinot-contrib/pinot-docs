@@ -95,7 +95,8 @@ $ grep memberId <segment_name>/v3/metadata.properties | grep isSorted
 column.memberId.isSorted = true
 ```
 
-Alternatively, for offline tables you can retrieve the sorted status from the _getServerMetadata_ endpoint. The following example is based on the Batch Quick Start:
+Alternatively, for offline tables you can retrieve the sorted status from the _getServerMetadata_ endpoint. 
+The following example is based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch):
 
 ```
 curl \

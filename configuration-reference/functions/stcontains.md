@@ -25,7 +25,7 @@ select group_city,
              -74.016555 40.604249,  
              -74.171737 40.607377))'),
 	       toGeometry(location)
-	   ) AS inPolygon
+	     ) AS inPolygon
 from meetupRsvp 
 order by inPolygon DESC
 limit 5
