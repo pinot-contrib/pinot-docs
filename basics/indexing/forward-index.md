@@ -98,10 +98,13 @@ column.memberId.isSorted = true
 Alternatively, for offline tables you can retrieve the sorted status from the _getServerMetadata_ endpoint. The following example is based on the [Batch Quick Start](../getting-started/quick-start.md#batch):
 
 ```
+
 curl -X GET \
   "http://localhost:9000/segments/baseballStats/metadata?columns=playerID&columns=teamID" \
   -H "accept: application/json" 2>/dev/null | \
-  jq -c  '.[] | . as $parent |  .columns[] | [$parent .segmentName, .columnName, .sorted]'
+  jq -c  '.[] | . as $parent |  
+          .columns[] | 
+          [$parent .segmentName, .columnName, .sorted]'
 ```
 
 ```
