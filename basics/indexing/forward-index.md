@@ -76,7 +76,7 @@ A sorted index can be configured for a table by setting it in the table config:
 
 Real-time data ingestion will sort data by the `sortedColumn` when generating segments - you don't need to pre-sort the data.
 
-When a segment is committed, Pinot will do a pass over the data in each column and create a sorted index for columns that contain sorted data, even if they aren't specified as the `sortedColumn`.&#x20;
+When a segment is committed, Pinot will do a pass over the data in each column and create a sorted index for columns that contain sorted data, even if they aren't specified as the `sortedColumn`.
 
 ### Offline tables
 
@@ -95,12 +95,10 @@ $ grep memberId <segment_name>/v3/metadata.properties | grep isSorted
 column.memberId.isSorted = true
 ```
 
-Alternatively, for offline tables you can retrieve the sorted status from the _getServerMetadata_ endpoint. 
-The following example is based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch):
+Alternatively, for offline tables you can retrieve the sorted status from the _getServerMetadata_ endpoint. The following example is based on the [Batch Quick Start](../getting-started/quick-start.md#batch):
 
 ```
-curl \
-  -X GET \
+curl -X GET \
   "http://localhost:9000/segments/baseballStats/metadata?columns=playerID&columns=teamID" \
   -H "accept: application/json" 2>/dev/null | \
   jq -c  '.[] | . as $parent |  .columns[] | [$parent .segmentName, .columnName, .sorted]'
