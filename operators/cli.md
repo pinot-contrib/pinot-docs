@@ -264,7 +264,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option         | Description                                                                                                          |
 | -------------- | -------------------------------------------------------------------------------------------------------------------- |
-| operation      | <p>Type of operation to perform. <br>Can be one of <code>GET, ADD, UPDATE or DELETE </code></p>                      |
+| operation      | <p>Type of operation to perform. <br>Can be one of <code>GET, ADD, UPDATE or DELETE</code> </p>                      |
 | config         | The config on which operation should be performed. In case of ADD or UPDATE, the config value is provided after `=`  |
 | controllerHost | The host on which to send the request                                                                                |
 | controllerPort | The port on which to send the requests                                                                               |
@@ -285,7 +285,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 | ---------- | ----------------------------------------- |
 | brokerHost | broker host to execute the query on       |
 | brokerPort | broker port to execute the query on       |
-| queryType  | can be one of` sql` or `pql`(deprecated). |
+| queryType  | can be one of `sql` or `pql`(deprecated). |
 | query      | SQL query to execute                      |
 
 ### Rebalance Table
@@ -396,10 +396,10 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 ### Start Service Manager
 
-Start multiple Pinot process with all the default configuration using single command.
+Start multiple Pinot processes with all the default configurations using a single command.
 
 ```
-pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName PinotCluster -bootstrapServices CONTROLLER BROKER -bootstrapConfigPaths /path/to/controller.conf /path/to/broker.conf 
+pinot-admin.sh StartServiceManager -zkAddress localhost:2181 -clusterName PinotCluster -bootstrapServices CONTROLLER BROKER -bootstrapConfigPaths /path/to/controller.conf /path/to/broker.conf 
 ```
 
 #### Supported Options
