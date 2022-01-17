@@ -2,13 +2,13 @@
 
 ## Segment Creation and Push
 
-Pinot supports [Apache Hadoop](https://hadoop.apache.org/) as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
+Pinot supports [Apache Hadoop](https://hadoop.apache.org) as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
 
-You can follow the \[wiki\] to build pinot distribution from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
+You can follow the \[wiki] to build pinot distribution from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
 
 Next, you need to change the execution config in the job spec to the following -
 
-```text
+```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
 executionFrameworkSpec:
 
@@ -38,14 +38,15 @@ You can check out the sample job spec here.
 
 Finally execute the hadoop job using the command -
 
-```text
+```
 export PINOT_VERSION=0.8.0
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/apache-pinot-${PINOT_VERSION}-bin
 export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
 
 hadoop jar  \\
         ${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar \\
-        org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand \\
+        org.apache.pinot.tools.admin.PinotAdministrator \\
+        LaunchDataIngestionJob \\
         -jobSpecFile ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/hadoopIngestionJobSpec.yaml
 ```
 
@@ -53,7 +54,7 @@ Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set
 
 ## Data Preprocessing before Segment Creation
 
-We’ve seen some requests that data should be massaged \(like partitioning, sorting, resizing\) before creating and pushing segments to Pinot.
+We’ve seen some requests that data should be massaged (like partitioning, sorting, resizing) before creating and pushing segments to Pinot.
 
 The MapReduce job called `SegmentPreprocessingJob` would be the best fit for this use case, regardless of whether the input data is of AVRO or ORC format.
 
@@ -61,14 +62,14 @@ Check the below example to see how to use `SegmentPreprocessingJob`.
 
 In Hadoop properties, set the following to enable this job:
 
-```text
+```
 enable.preprocessing = true
 preprocess.path.to.output = <output_path>
 ```
 
 In table config, specify the operations in `preprocessing.operations` that you'd like to enable in the MR job, and then specify the exact configs regarding those operations:
 
-```text
+```
 {
     "OFFLINE": {
         "metadata": {
@@ -115,7 +116,6 @@ Minimum number of reducers. Optional. Fetched when partitioning gets disabled an
 
 ### preprocessing.max.num.records.per.file
 
-Maximum number of records per reducer. Optional.Unlike, “preprocessing.num.reducers”, this parameter is to avoid having too few large input files for Pinot, which misses the advantage of muti-threading when querying. When not set, each reducer will finally generate one output file. When set \(e.g. M\), the original output file will be split into multiple files and each new output file contains at most M records. It does not matter whether partitioning is enabled or not.
+Maximum number of records per reducer. Optional.Unlike, “preprocessing.num.reducers”, this parameter is to avoid having too few large input files for Pinot, which misses the advantage of muti-threading when querying. When not set, each reducer will finally generate one output file. When set (e.g. M), the original output file will be split into multiple files and each new output file contains at most M records. It does not matter whether partitioning is enabled or not.
 
 For more details on this MR job, please refer to this [document](https://docs.google.com/document/d/1BnjjVj3OLuo-vmOt0WjqEFbUC9AZgCDuDxCtLEFPM34/edit?usp=sharing).
-

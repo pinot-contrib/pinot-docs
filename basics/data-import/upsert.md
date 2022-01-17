@@ -74,6 +74,10 @@ Pinot supports the following partial upsert strategies -
 | APPEND    | Add the new item to the Pinot unordered set               |
 | UNION     | Add the new item to the Pinot unordered set if not exists |
 
+{% hint style="info" %}
+**Note**: If you don't specify any strategy for a given column, by default it will be overwritten with the new value for that column.
+{% endhint %}
+
 ### Comparison Column
 
 By default, Pinot uses the value in the time column to determine the latest record. That means, for two records with the same primary key, the record with the larger value of the time column is picked as the latest update. However, there are cases when users need to use another column to determine the order. In such case, you can use option `comparisonColumn` to override the column used for comparison. For example,
