@@ -44,7 +44,7 @@ limit 5
 select count(*)
 from meetupRsvp
 WHERE ST_Contains(
-		     ST_GeomFromText('POLYGON ((
+         ST_GeomFromText('POLYGON ((
              -74.171737 40.607377, 
              -74.089339 40.753180, 
              -73.911498 40.769303, 
