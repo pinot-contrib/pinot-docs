@@ -236,6 +236,7 @@
   * [percentiletdigest](configuration-reference/functions/percentiletdigest.md)
   * [percentiletdigestmv](configuration-reference/functions/percentiletdigestmv.md)
   * [quarter](configuration-reference/functions/quarter.md)
+  * [regexpExtract](configuration-reference/functions/regexpextract.md)
   * [replace](configuration-reference/functions/replace.md)
   * [reverse](configuration-reference/functions/reverse.md)
   * [round](configuration-reference/functions/round.md)

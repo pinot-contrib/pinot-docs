@@ -44,6 +44,8 @@ Multiple string functions are supported out of the box from release-0.5.0 .
 | <p><a href="../../configuration-reference/functions/lpad.md"><strong>LPAD(col, size, pad)</strong></a><br>string padded from the left side with <code>pad</code> to reach final <code>size</code></p>                                                                            |
 | <p><a href="../../configuration-reference/functions/codepoint.md"><strong>CODEPOINT(col)</strong></a><br>the Unicode codepoint of the first character of the string</p>                                                                                                          |
 | <p><a href="../../configuration-reference/functions/chr.md"><strong>CHR(codepoint)</strong></a><br>the character corresponding to the Unicode codepoint</p>                                                                                                                      |
+| <p><a href="../../configuration-reference/functions/regexpextract.md"><strong>regexpExtract(value, regexp)</strong></a><br>Extracts values that match the provided regular expression</p>                                                                                                                      |
+
 
 ## DateTime Functions
 

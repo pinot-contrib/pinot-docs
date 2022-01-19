@@ -67,6 +67,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="percentiletdigestmv.md" %}
 {% page-ref page="percentilemv.md" %}
 {% page-ref page="quarter.md" %}
+{% page-ref page="regexpextract.md" %}
 {% page-ref page="replace.md" %}
 {% page-ref page="reverse.md" %}
 {% page-ref page="round.md" %}
