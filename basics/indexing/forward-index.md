@@ -47,13 +47,13 @@ A raw value forward index can be configured for a table by configuring the [tabl
 
 ## Sorted forward index with run-length encoding
 
-When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, we store a pair of start and end document id for each value.
+When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, Pinot will store a pair of start and end document ids for each value.
 
 ![Sorted forward index](../../.gitbook/assets/sorted-forward.png)
 
-(For simplicity, this diagram does not include dictionary encoding layer.)
+(For simplicity, this diagram does not include the dictionary encoding layer.)
 
-The Sorted forward index has the advantages of both good compression and data locality. The Sorted forward index can also be used as inverted index.
+The Sorted forward index has the advantages of both good compression and data locality. The Sorted forward index can also be used as an inverted index.
 
 ### Real-time tables
 
@@ -76,7 +76,7 @@ A sorted index can be configured for a table by setting it in the table config:
 
 Real-time data ingestion will sort data by the `sortedColumn` when generating segments - you don't need to pre-sort the data.
 
-When a segment is committed, Pinot will do a pass over the data in each column and create a sorted index for columns that contain sorted data, even if they aren't specified as the `sortedColumn`.
+When a segment is committed, Pinot will do a pass over the data in each column and create a sorted index for any other columns that contain sorted data, even if they aren't specified as the `sortedColumn`.
 
 ### Offline tables
 
@@ -95,7 +95,7 @@ $ grep memberId <segment_name>/v3/metadata.properties | grep isSorted
 column.memberId.isSorted = true
 ```
 
-Alternatively, for offline tables you can retrieve the sorted status from the _getServerMetadata_ endpoint. The following example is based on the [Batch Quick Start](../getting-started/quick-start.md#batch):
+Alternatively, for offline tables and for committed segments in real-time tables, you can retrieve the sorted status from the _getServerMetadata_ endpoint. The following example is based on the [Batch Quick Start](../getting-started/quick-start.md#batch):
 
 ```
 

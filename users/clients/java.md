@@ -12,7 +12,7 @@ You can use the client by including the following dependency -
 <dependency>
     <groupId>org.apache.pinot</groupId>
     <artifactId>pinot-java-client</artifactId>
-    <version>0.5.0</version>
+    <version>0.9.3</version>
 </dependency>
 ```
 {% endtab %}
@@ -25,6 +25,12 @@ include 'org.apache.pinot:pinot-java-client:0.5.0'
 {% endtabs %}
 
 You can also build [the code for java client](https://github.com/apache/pinot/tree/master/pinot-clients/pinot-java-client) locally and use it.
+
+{% hint style="info" %}
+Basic authorization for the JDBC client is not supported in Pinot JDBC 0.9.3 release or earlier. The JDBC client has been upgraded to support basic authentication in the Pinot 0.10.0 snapshot, which can currently be built from source.
+
+You will not need to update your Pinot cluster to 0.10.0+ to support basic authentication, only the JDBC and Java client JARs.
+{% endhint %}
 
 ## Usage
 
@@ -70,7 +76,7 @@ public class PinotClientExample {
 
 The client provides a `ConnectionFactory` class to create connections to a Pinot cluster. The factory supports the following methods to create a connection -
 
-* **Zookeeper \(Recommended\)** - Comma seperated list of zookeeper of the cluster. This is the recommended method which can redirect queries to appropriate brokers based on tenant/table.
+* **Zookeeper (Recommended)** - Comma seperated list of zookeeper of the cluster. This is the recommended method which can redirect queries to appropriate brokers based on tenant/table.
 * **Broker list** - Comma seperated list of the brokers in the cluster. This should only be used in standalone setups or for POC, unless you have a load balancer setup for brokers.
 * **Properties file** -  You can also put the broker list as `brokerList` in a properties file and provide the path to that file to the factory.  This should only be used in standalone setups or for POC, unless you have a load balancer setup for brokers.
 
@@ -173,3 +179,35 @@ for(int i = 0; i < maxResultSet.length(); ++i) {
 This section is only applicable for PQL endpoint, which is deprecated and will be deleted soon. For more information about the endpoints, visit [Querying Pinot](../api/querying-pinot-using-standard-sql/).
 {% endhint %}
 
+## Authentication
+
+Pinot supports [basic HTTP authorization](../../operators/tutorials/authentication-authorization-and-acls.md#controller-authentication-and-authorization), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
+
+```java
+final String username = "admin";
+final String password = "verysecret";
+
+// Concatenate username and password and use base64 to encode the concatenated string
+String plainCredentials = username + ":" + password;
+String base64Credentials = new String(Base64.getEncoder().encode(plainCredentials.getBytes()));
+
+// Create authorization header
+String authorizationHeader = "Basic " + base64Credentials;
+Properties connectionProperties = new Properties();
+connectionProperties.setProperty("headers.Authorization", authorizationHeader);
+
+// Register new Pinot JDBC driver
+DriverManager.registerDriver(new PinotDriver());
+
+// Get a client connection and set the encoded authorization header
+Connection connection = DriverManager.getConnection(DB_URL, connectionProperties);
+
+// Test that your query successfully authenticates
+Statement statement = connection.createStatement();
+ResultSet rs = statement.executeQuery("SELECT count(*) FROM baseballStats LIMIT 1;");
+
+while (rs.next()) {
+    String result = rs.getString("count(*)");
+    System.out.println(result);
+}
+```
