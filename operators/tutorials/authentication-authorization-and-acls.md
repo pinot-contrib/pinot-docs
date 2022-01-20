@@ -49,13 +49,14 @@ For simplicity, we'll reuse the admin credentials as service tokens. In a produc
 ```
 # Enable the controller to fetch segments by providing the credentials as a token
 controller.segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
-### "Basic " + base64encode("admin:verysecret"
+
+# "Basic " + base64encode("admin:verysecret")
 ```
 {% endtab %}
 
 {% tab title="Broker" %}
 ```
-# no tokens required yet
+# no tokens required
 ```
 {% endtab %}
 
@@ -86,7 +87,7 @@ controller.admin.access.control.factory.class=org.apache.pinot.controller.api.ac
 
 After a controller restart, any access to controller APIs requires authentication information. Whether from internal components, external users, or the Web UI.
 
-**4. Create users and enable ACL enforcement on the Broker.**
+**4. Create users and enable ACL enforcement on the Broker**
 
 ```
 # the factory class property is different for the broker
