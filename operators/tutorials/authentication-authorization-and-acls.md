@@ -21,11 +21,11 @@ If you'd rather dive directly into the action with an all-in-one running example
 
 ### Tokens and User Credentials
 
-The configuration of HTTP Basic Auth in Apache Pinot distinguishes between **Tokens,** which are typically provided to service accounts, and **User Credentials**, which can be used by a human to log onto the web UI or issue SQL queries. While we distinguish these two concepts in the configuration of HTTP Basic Auth, they are fully-convertible formats holding the same authentication information. This distinction allows us to support future token-based authentication methods not reliant on username and password pairs. Currently, Tokens are merely base64-encoded username & password tuples, similar to those you can find in HTTP Authorization header values (e.g. see [RFC 7617](https://tools.ietf.org/html/rfc7617))
+The configuration of HTTP Basic Auth in Apache Pinot distinguishes between **Tokens,** which are typically provided to service accounts, and **User Credentials**, which can be used by a human to log onto the web UI or issue SQL queries. While we distinguish these two concepts in the configuration of HTTP Basic Auth, they are fully-convertible formats holding the same authentication information. This distinction allows us to support future token-based authentication methods not reliant on username and password pairs. Currently, Tokens are merely base64-encoded username & password tuples, similar to those you can find in HTTP Authorization header values ([RFC 7617](https://tools.ietf.org/html/rfc7617))
 
 This is best demonstrated by example of introducing ACLs with a simple admin + user setup. In order to enable authentication on a cluster without interrupting operations, we'll go these steps in sequence:
 
-**1. Create the "admin" user in the controller properties**
+**1. Create "admin" and "user" in the controller properties**
 
 ```
 # Create users "admin" and "user". Keep in mind we're not enforcing any ACLs yet.
@@ -99,7 +99,7 @@ pinot.broker.access.control.principals.user.password=secret
 # No need to set READ permissions here since broker requests are read-only 
 ```
 
-After restarting the broker, any access to broker APIs now requires authentication information as well.
+After restarting the broker, any access to broker APIs requires authentication information as well.
 
 Congratulation! You've successfully enabled authentication on Apache Pinot. Read on to learn more about the details and advanced configuration options.
 
