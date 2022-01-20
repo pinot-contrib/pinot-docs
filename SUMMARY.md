@@ -208,6 +208,8 @@
   * [FromEpoch](configuration-reference/functions/fromEpoch.md)
   * [FromEpochBucket](configuration-reference/functions/fromEpochBucket.md)
   * [hour](configuration-reference/functions/hour.md)
+  * [JSONPATH](configuration-reference/functions/jsonpath.md)
+  * [JSONPATHSTRING](configuration-reference/functions/jsonpathstring.md)
   * [jsonextractkey](configuration-reference/functions/jsonextractkey.md)
   * [jsonextractscalar](configuration-reference/functions/jsonextractscalar.md)
   * [length](configuration-reference/functions/length.md)

@@ -130,98 +130,15 @@ These functions can be used for column transformation in table ingestion configs
 | `'results_type'` | <p>One of the Pinot supported data types:<strong><code>INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,</code></strong></p><p><strong><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></strong><code>.</code></p> |
 
 {% hint style="warning" %}
-**`'jsonPath'`**` and`` `` `**`'results_type'`are literals.** Pinot uses single quotes to distinguish them from **identifiers**.
+`'jsonPath'` and `'results_type'` **are literals**. Pinot uses single quotes to distinguish them from **identifiers**.
 
 e.g.
 
-* `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')` is v**alid**.
-* `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is i**nvalid**.
+* `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')` is **valid**.
+* `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is **iinvalid**.
 {% endhint %}
 
 **Examples**
-
-The examples below are based on these 3 sample profile JSON documents:
-
-```
-{
-  "name" : "Bob",
-  "age" : 37,
-  "gender": "male",
-  "location": "San Francisco"
-},{
-  "name" : "Alice",
-  "age" : 25,
-  "gender": "female",
-  "location": "New York"
-},{
-  "name" : "Mia",
-  "age" : 18,
-  "gender": "female",
-  "location": "Chicago"
-}
-```
-
-Query 1: Extract string values from the field 'name'
-
-```
-SELECT
-    JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')
-FROM
-    myTable
-```
-
-Results are
-
-```
-["Bob", "Alice", "Mia"]
-```
-
-Query 2: Extract integer values from the field 'age'
-
-```
-SELECT
-    JSONEXTRACTSCALAR(profile_json_str, '$.age', 'INT')
-FROM
-    myTable
-```
-
-Results are
-
-```
-[37, 25, 18]
-```
-
-Query 3: Extract Bob's age from the JSON profile.
-
-```
-SELECT
-    JSONEXTRACTSCALAR(myMapStr,'$.age','INT')
-FROM
-    myTable
-WHERE
-    JSONEXTRACTSCALAR(myMapStr,'$.name','STRING') = 'Bob'
-```
-
-Results are
-
-```
-[37]
-```
-
-Query 4: Extract all field keys of JSON profile.
-
-```
-SELECT
-    JSONEXTRACTKEY(myMapStr,'$.*')
-FROM
-    myTable
-```
-
-Results are
-
-```
-["name", "age", "gender", "location"]
-```
 
 Another **example** of extracting JSON fields from below JSON record:
 
