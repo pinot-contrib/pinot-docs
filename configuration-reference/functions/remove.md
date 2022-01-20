@@ -4,7 +4,7 @@ description: This section contains reference documentation for the remove functi
 
 # regexpExtract
 
-Extracts values that match the provided regular expression
+Removes all instances of search from string
 
 ## Signature
 
