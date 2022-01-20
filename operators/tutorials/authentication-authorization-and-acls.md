@@ -86,7 +86,7 @@ controller.admin.access.control.factory.class=org.apache.pinot.controller.api.ac
 
 After a controller restart, any access to controller APIs requires authentication information. Whether from internal components, external users, or the Web UI.
 
-**4. Create users and enabled ACL enforcement on the Broker.**
+**4. Create users and enable ACL enforcement on the Broker.**
 
 ```
 # the factory class property is different for the broker
