@@ -32,6 +32,36 @@ The structure of the consuming segments and the completed segments are very diff
 
 You can host completed segments on a different set of hosts using the `tagOverrideConfig` as described in [Table Config](../../../configuration-reference/table.md). Pinot will automatically move them once the consuming segments are completed.
 
+If you require more fine-tuned control over how segments are hosted on different hosts, we recommend that you use the [Tag-Based Instance Assignment](../../../operators/operating-pinot/instance-assignment.md#tag-based-instance-assignment) feature to accomplish this.
+
+{% code title="Using tag-based instance assignment to host completed segments on different hosts:" %}
+```javascript
+  "instanceAssignmentConfigMap": {
+    "CONSUMING": {
+      "tagPoolConfig": {
+        "tag": "DefaultTenant_REALTIME"
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 2,
+        "numInstancesPerReplicaGroup": 2
+      }
+    },
+    "COMPLETED": {
+      "tagPoolConfig": {
+        "tag": "DefaultTenant_OFFLINE"
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 2,
+        "numInstancesPerReplicaGroup": 4
+      }
+    }
+  }
+...
+```
+{% endcode %}
+
 ### Controlling segment build vs segment download on Realtime servers
 
 This feature is available only if the consumption type is `LowLevel`.
