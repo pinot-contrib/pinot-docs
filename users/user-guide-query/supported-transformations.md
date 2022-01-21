@@ -115,7 +115,7 @@ These functions can be used for column transformation in table ingestion configs
 | <p><strong>JSONPATHLONG</strong>(jsonField, 'jsonPath', [defaultValue])<br>Extracts the <strong>Long</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                                                             |
 | <p><strong>JSONPATHDOUBLE</strong>(jsonField, 'jsonPath', [defaultValue])<br>Extracts the <strong>Double</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                                                         |
 | <p><a href="../../configuration-reference/functions/jsonpathstring.md"><strong>JSONPATHSTRING(jsonField, 'jsonPath', [defaultValue])</strong></a><br>Extracts the <strong>String</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                 |
-| <p><strong>JSONPATHARRAY</strong>(jsonField, 'jsonPath')<br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. <strong>Cannot be used in query because data type is not specified.</strong></p>                                                                      |
+| <p><a href="../../configuration-reference/functions/jsonpatharray.md"><strong>JSONPATHARRAY</strong>(jsonField, 'jsonPath')</a><br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. <strong>Cannot be used in query because data type is not specified.</strong></p>                                                                      |
 | <p><strong>JSONPATHARRAYDEFAULTEMPTY</strong>(jsonField, 'jsonPath')<br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. Returns empty array for null or parsing error. <strong>Cannot be used in query because data type is not specified.</strong></p>           |
 
 **Usage**
@@ -133,7 +133,7 @@ These functions can be used for column transformation in table ingestion configs
 e.g.
 
 * `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')` is **valid**.
-* `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is **iinvalid**.
+* `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is **invalid**.
 {% endhint %}
 
 **Examples**
