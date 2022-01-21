@@ -26,25 +26,49 @@ The usage examples are based on extracting fields from the following JSON docume
 
 ```
 {
-        "name": "Pete",
-        "age": 24,
-        "subjects": [{
-                        "name": "maths",
-                        "homework_grades": [80, 85, 90, 95, 100],
-                        "grade": "A",
-                        "score": 90
-                },
-                {
-                        "name": "english",
-                        "homework_grades": [60, 65, 70, 85, 90],
-                        "grade": "B",
-                        "score": 70
-                }
-        ]
+  "data": {
+    "name": "Pete",
+    "age": 24,
+    "subjects": [
+      {
+        "name": "maths",
+        "homework_grades": [80, 85, 90, 95, 100],
+        "grade": "A",
+        "score": 90
+      },
+      {
+        "name": "english",
+        "homework_grades": [60, 65, 70, 85, 90],
+        "grade": "B",
+        "score": 70
+      }
+    ]
+  }
 }
 ```
 
 | Expression                                                        | Value                  |
 | ----------------------------------------------------------------- | ---------------------- |
-| `JSONPATH(myJsonRecord, '$.name')`                                | `"Pete"`               |
-| `JSONPATH(myJsonRecord, '$.age')`                                 | `24`                   |
+| `JSONPATH(data, '$.name')`                                | `"Pete"`               |
+| `JSONPATH(data, '$.age')`                                 | `24`                   |
+
+This function can be defined in the [table config](../table.md) to extract the `name` property into the `name` column and `age` property into the `age` column, as described below:
+
+```javascript
+{
+   "tableConfig":{
+      "ingestionConfig":{
+         "transformConfigs":[
+            {
+               "columnName":"name",
+               "transformFunction":"JSONPATHSTRING(data, '$.name')"
+            },
+            {
+               "columnName":"age",
+               "transformFunction":"JSONPATHSTRING(data, '$.age')"
+            }
+         ]
+      }
+   }
+}
+```

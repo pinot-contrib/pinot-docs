@@ -26,24 +26,44 @@ The usage examples are based on extracting fields from the following JSON docume
 
 ```
 {
-        "name": "Pete",
-        "age": 24,
-        "subjects": [{
-                        "name": "maths",
-                        "homework_grades": [80, 85, 90, 95, 100],
-                        "grade": "A",
-                        "score": 90
-                },
-                {
-                        "name": "english",
-                        "homework_grades": [60, 65, 70, 85, 90],
-                        "grade": "B",
-                        "score": 70
-                }
-        ]
+  "data": {
+    "name": "Pete",
+    "age": 24,
+    "subjects": [
+      {
+        "name": "maths",
+        "homework_grades": [80, 85, 90, 95, 100],
+        "grade": "A",
+        "score": 90
+      },
+      {
+        "name": "english",
+        "homework_grades": [60, 65, 70, 85, 90],
+        "grade": "B",
+        "score": 70
+      }
+    ]
+  }
 }
 ```
 
 | Expression                                                        | Value                  |
 | ----------------------------------------------------------------- | ---------------------- |
-| `JSONPATHSTRING(myJsonRecord, '$.age')`                           | `"24"`                 |
+| `JSONPATHSTRING(data, '$.age')`                           | `"24"`                 |
+
+This function can be defined in the [table config](../table.md) to extract the `age` prooperty into the `age` field, as described below:
+
+```javascript
+{
+   "tableConfig":{
+      "ingestionConfig":{
+         "transformConfigs":[
+            {
+               "columnName":"age",
+               "transformFunction":"JSONPATHSTRING(data, '$.age')"
+            }
+         ]
+      }
+   }
+}
+```
