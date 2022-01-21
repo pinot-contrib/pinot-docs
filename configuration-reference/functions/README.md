@@ -41,6 +41,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="hour.md" %}
 {% page-ref page="jsonextractkey.md" %}
 {% page-ref page="jsonextractscalar.md" %}
+{% page-ref page="jsonformat.md" %}
 {% page-ref page="jsonpath.md" %}
 {% page-ref page="jsonpatharray.md" %}
 {% page-ref page="jsonpatharraydefaultempty.md" %}
@@ -110,6 +111,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="toEpoch.md" %}
 {% page-ref page="toEpochBucket.md" %}
 {% page-ref page="toEpochRounded.md" %}
+{% page-ref page="tojsonmapstr.md" %}
 {% page-ref page="tosphericalgeography.md" %}
 {% page-ref page="trim.md" %}
 {% page-ref page="upper.md" %}
