@@ -24,7 +24,7 @@ This function can only be used in an [ingestion transformation function](../../d
 
 The usage examples are based on extracting fields from the following JSON document:
 
-```
+```json
 {
   "data": {
     "name": "Pete",
@@ -51,9 +51,9 @@ The usage examples are based on extracting fields from the following JSON docume
 | ----------------------------------------------------------------- | ---------------------- |
 | `JSONPATHSTRING(data, '$.age')`                           | `"24"`                 |
 
-This function can be defined in the [table config](../table.md) to extract the `age` prooperty into the `age` field, as described below:
+This function can be defined in the [table config](../table.md) to extract the `age` property into the `age` column, as described below:
 
-```javascript
+```json
 {
    "tableConfig":{
       "ingestionConfig":{
