@@ -8,19 +8,19 @@ description: >-
 
 ## Math Functions
 
-| Function                                                                               | 
-| -------------------------------------------------------------------------------------- | 
-| ****[**ADD(col1, col2, col3...)**](../../configuration-reference/functions/add.md)****<br/>Sum of at least two values | 
-| ****[**SUB(col1, col2)**](../../configuration-reference/functions/sub.md)****<br />Difference between two values          | 
-| [**MULT(col1, col2, col3...)**](../../configuration-reference/functions/mult.md)<br />Product of at least two values                                                          | 
-| ****[**DIV(col1, col2)**](../../configuration-reference/functions/div.md)****<br /> Quotient of two values         | 
-| ****[**MOD(col1, col2)**](../../configuration-reference/functions/mod.md)****<br/>Modulo of two values          | 
-| ****[**ABS(col1)**](../../configuration-reference/functions/abs.md)****<br />Absolute of a value                | 
-| ****[**CEIL(col1)**](../../configuration-reference/functions/ceil.md#signature)****<br />Rounded up to the nearest integer.    | 
-| ****[**FLOOR(col1)**](../../configuration-reference/functions/floor.md)****<br />Rounded down to the nearest integer.           | 
-| ****[**EXP(col1)**](../../configuration-reference/functions/exp.md)**** <br /> Euler’s number(e) raised to the power of col.             | 
-| ****[**LN(col1)**](../../configuration-reference/functions/ln.md)****    <br />Natural log of value i.e. ln(col1)              | 
-| [**SQRT(col1)**](../../configuration-reference/functions/sqrt.md) <br/> Square root of a value                                                                         | 
+| Function                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><a href="../../configuration-reference/functions/add.md"><strong>ADD(col1, col2, col3...)</strong></a><br>Sum of at least two values</p>       |
+| <p><a href="../../configuration-reference/functions/sub.md"><strong>SUB(col1, col2)</strong></a><br>Difference between two values</p>             |
+| <p><a href="../../configuration-reference/functions/mult.md"><strong>MULT(col1, col2, col3...)</strong></a><br>Product of at least two values</p> |
+| <p><a href="../../configuration-reference/functions/div.md"><strong>DIV(col1, col2)</strong></a><br>Quotient of two values</p>                    |
+| <p><a href="../../configuration-reference/functions/mod.md"><strong>MOD(col1, col2)</strong></a><br>Modulo of two values</p>                      |
+| <p><a href="../../configuration-reference/functions/abs.md"><strong>ABS(col1)</strong></a><br>Absolute of a value</p>                             |
+| <p><a href="../../configuration-reference/functions/ceil.md#signature"><strong>CEIL(col1)</strong></a><br>Rounded up to the nearest integer.</p>  |
+| <p><a href="../../configuration-reference/functions/floor.md"><strong>FLOOR(col1)</strong></a><br>Rounded down to the nearest integer.</p>        |
+| <p><a href="../../configuration-reference/functions/exp.md"><strong>EXP(col1)</strong></a><br>Euler’s number(e) raised to the power of col.</p>   |
+| <p><a href="../../configuration-reference/functions/ln.md"><strong>LN(col1)</strong></a><br>Natural log of value i.e. ln(col1)</p>                |
+| <p><a href="../../configuration-reference/functions/sqrt.md"><strong>SQRT(col1)</strong></a><br>Square root of a value</p>                        |
 
 ## String Functions
 
@@ -44,10 +44,8 @@ Multiple string functions are supported out of the box from release-0.5.0 .
 | <p><a href="../../configuration-reference/functions/lpad.md"><strong>LPAD(col, size, pad)</strong></a><br>string padded from the left side with <code>pad</code> to reach final <code>size</code></p>                                                                            |
 | <p><a href="../../configuration-reference/functions/codepoint.md"><strong>CODEPOINT(col)</strong></a><br>the Unicode codepoint of the first character of the string</p>                                                                                                          |
 | <p><a href="../../configuration-reference/functions/chr.md"><strong>CHR(codepoint)</strong></a><br>the character corresponding to the Unicode codepoint</p>                                                                                                                      |
-| <p><a href="../../configuration-reference/functions/regexpextract.md"><strong>regexpExtract(value, regexp)</strong></a><br>Extracts values that match the provided regular expression</p>                                                                                                                      |
-| <p><a href="../../configuration-reference/functions/remove.md"><strong>remove(input, search)</strong></a><br>removes all instances of search from string</p>                                                                                                                      |
-
-
+| <p><a href="../../configuration-reference/functions/regexpextract.md"><strong>regexpExtract(value, regexp)</strong></a><br>Extracts values that match the provided regular expression</p>                                                                                        |
+| <p><a href="../../configuration-reference/functions/remove.md"><strong>remove(input, search)</strong></a><br>removes all instances of search from string</p>                                                                                                                     |
 
 ## DateTime Functions
 
@@ -78,7 +76,7 @@ Date time functions allow you to perform transformations on columns that contain
 | <p><a href="../../configuration-reference/functions/month.md"><strong>month(tsInMillis)</strong></a><br>Returns the month of the year from the given epoch millis in UTC timezone. The value ranges from 1 to 12.</p>                                                                            |
 | <p><a href="../../configuration-reference/functions/month.md"><strong>month(tsInMillis, timeZoneId)</strong></a><br>Returns the month of the year from the given epoch millis and timezone id. The value ranges from 1 to 12.</p>                                                                |
 | <p><a href="../../configuration-reference/functions/week.md"><strong>week(tsInMillis)</strong></a><br>Returns the ISO week of the year from the given epoch millis in UTC timezone. The value ranges from 1 to 53. Alias <code>weekOfYear</code> is also supported.</p>                          |
-| <p><a href="../../configuration-reference/functions/week.md"><strong>week(tsInMillis, timeZoneId)</strong></a><br>Returns the ISO week of the year from the given epoch millis and timezone id. The value ranges from 1 to 5</p>                                                                 |
+| <p><a href="../../configuration-reference/functions/week.md"><strong>week(tsInMillis, timeZoneId)</strong></a><br>Returns the ISO week of the year from the given epoch millis and timezone id. The value ranges from 1 to 53. Alias <code>weekOfYear</code> is also supported.</p>              |
 | <p><a href="../../configuration-reference/functions/dayofyear.md"><strong>dayOfYear(tsInMillis)</strong></a><br>Returns the day of the year from the given epoch millis in UTC timezone. The value ranges from 1 to 366. Alias <code>doy</code> is also supported.</p>                           |
 | <p><a href="../../configuration-reference/functions/dayofyear.md"><strong>dayOfYear(tsInMillis, timeZoneId)</strong></a><br>Returns the day of the year from the given epoch millis and timezone id. The value ranges from 1 to 366. Alias <code>doy</code> is also supported.</p>               |
 | <p><a href="../../configuration-reference/functions/day.md"><strong>day(tsInMillis)</strong></a><br>Returns the day of the month from the given epoch millis in UTC timezone. The value ranges from 1 to 31. Alias <code>dayOfMonth</code> is also supported.</p>                                |
@@ -109,16 +107,16 @@ These functions can only be used in Pinot SQL queries.
 
 These functions can be used for column transformation in table ingestion configs.
 
-| Function                                                                                                                                                                                                                                                                                                                                 |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <p><strong>TOJSONMAPSTR</strong>(map)<br>Convert map to JSON String</p>                                                                                                                                                                                                                                                                  |
-| <p><strong>JSONFORMAT</strong>(object)<br>Convert object to JSON String</p>                                                                                                                                                                                                                                                              |
-| <p><a href="../../configuration-reference/functions/jsonpath.md"><strong>JSONPATH(jsonField, 'jsonPath')</strong></a><br>Extracts the object value from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. <strong>Cannot be used in query because data type is not specified.</strong></p>                                                         |
-| <p><strong>JSONPATHLONG</strong>(jsonField, 'jsonPath', [defaultValue])<br>Extracts the <strong>Long</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                                                   |
-| <p><strong>JSONPATHDOUBLE</strong>(jsonField, 'jsonPath', [defaultValue])<br>Extracts the <strong>Double</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                                               |
-| <p><a href="../../configuration-reference/functions/jsonpathstring.md"><strong>JSONPATHSTRING(jsonField, 'jsonPath', [defaultValue])</strong></a><br>Extracts the <strong>String</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                                               |
-| <p><strong>JSONPATHARRAY</strong>(jsonField, 'jsonPath')<br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. <strong>Cannot be used in query because data type is not specified.</strong></p>                                                            |
-| <p><strong>JSONPATHARRAYDEFAULTEMPTY</strong>(jsonField, 'jsonPath')<br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. Returns empty array for null or parsing error. <strong>Cannot be used in query because data type is not specified.</strong></p> |
+| Function                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><strong>TOJSONMAPSTR</strong>(map)<br>Convert map to JSON String</p>                                                                                                                                                                                                                                                                            |
+| <p><strong>JSONFORMAT</strong>(object)<br>Convert object to JSON String</p>                                                                                                                                                                                                                                                                        |
+| <p><a href="../../configuration-reference/functions/jsonpath.md"><strong>JSONPATH(jsonField, 'jsonPath')</strong></a><br>Extracts the object value from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. <strong>Cannot be used in query because data type is not specified.</strong></p> |
+| <p><strong>JSONPATHLONG</strong>(jsonField, 'jsonPath', [defaultValue])<br>Extracts the <strong>Long</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                                                             |
+| <p><strong>JSONPATHDOUBLE</strong>(jsonField, 'jsonPath', [defaultValue])<br>Extracts the <strong>Double</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                                                         |
+| <p><a href="../../configuration-reference/functions/jsonpathstring.md"><strong>JSONPATHSTRING(jsonField, 'jsonPath', [defaultValue])</strong></a><br>Extracts the <strong>String</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                 |
+| <p><strong>JSONPATHARRAY</strong>(jsonField, 'jsonPath')<br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. <strong>Cannot be used in query because data type is not specified.</strong></p>                                                                      |
+| <p><strong>JSONPATHARRAYDEFAULTEMPTY</strong>(jsonField, 'jsonPath')<br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. Returns empty array for null or parsing error. <strong>Cannot be used in query because data type is not specified.</strong></p>           |
 
 **Usage**
 
@@ -175,22 +173,22 @@ Extract JSON fields:
 
 ## Binary Functions
 
-| Function             | 
-| -------------------- | 
-| [**SHA(bytesCol)**](../../configuration-reference/functions/sha.md) <br />Return SHA-1 digest of binary column(`bytes` type) as hex string   | 
-| [**SHA256(bytesCol)**](../../configuration-reference/functions/sha256.md) <br /> Return SHA-256 digest of binary column(`bytes` type) as hex string | 
-| [**SHA512(bytesCol)**](../../configuration-reference/functions/sha512.md) <br /> Return SHA-512 digest of binary column(`bytes` type) as hex string |
-| [**MD5(bytesCol)**](../../configuration-reference/functions/md5.md)    <br /> Return MD5 digest of binary column(`bytes` type) as hex string     | 
+| Function                                                                                                                                                                                  |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><a href="../../configuration-reference/functions/sha.md"><strong>SHA(bytesCol)</strong></a><br>Return SHA-1 digest of binary column(<code>bytes</code> type) as hex string</p>         |
+| <p><a href="../../configuration-reference/functions/sha256.md"><strong>SHA256(bytesCol)</strong></a><br>Return SHA-256 digest of binary column(<code>bytes</code> type) as hex string</p> |
+| <p><a href="../../configuration-reference/functions/sha512.md"><strong>SHA512(bytesCol)</strong></a><br>Return SHA-512 digest of binary column(<code>bytes</code> type) as hex string</p> |
+| <p><a href="../../configuration-reference/functions/md5.md"><strong>MD5(bytesCol)</strong></a><br>Return MD5 digest of binary column(<code>bytes</code> type) as hex string</p>           |
 
 ## Multi-value Column Functions
 
 All of the functions mentioned till now only support single value columns. You can use the following functions to do operations on multi-value columns.
 
-| Function        | 
-| ----------------------------------------------------------------- | 
-| [**ARRAYLENGTH**](../../configuration-reference/functions/arraylength.md) <br/> Returns the length of a multi-value |
-| **MAP\_VALUE**  <br />Select the value for a key from Map stored in Pinot.   <br/>`MAP_VALUE(mapColumn, 'myKey', valueColumn)` |
-| [**VALUEIN**](../../configuration-reference/functions/valuein.md) <br />The transform function will filter the value from the multi-valued column with the given constant values. The `VALUEIN` transform function is especially useful when the same multi-valued column is both filtering column and grouping column.  |
+| Function                                                                                                                                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><a href="../../configuration-reference/functions/arraylength.md"><strong>ARRAYLENGTH</strong></a><br>Returns the length of a multi-value</p>                                                                                                                                                                                                                |
+| <p><strong>MAP_VALUE</strong><br>Select the value for a key from Map stored in Pinot.<br><code>MAP_VALUE(mapColumn, 'myKey', valueColumn)</code></p>                                                                                                                                                                                                           |
+| <p><a href="../../configuration-reference/functions/valuein.md"><strong>VALUEIN</strong></a><br>The transform function will filter the value from the multi-valued column with the given constant values. The <code>VALUEIN</code> transform function is especially useful when the same multi-valued column is both filtering column and grouping column.</p> |
 
 ## Advanced Queries
 
