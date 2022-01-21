@@ -48,13 +48,14 @@ For append-only tables, the upsert mode defaults to `NONE`. To enable the full u
 ```
 {% endcode %}
 
-Pinot also added the partial update support in v0.8.0+. To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. For example:
+Pinot also added the partial update support in v0.8.0+. To enable the partial upsert, set the `mode` to `PARTIAL` and specify `defaultPartialUpsertStrategy` and `partialUpsertStrategies` for partial upsert columns. For example:
 
 {% code title="upsert mode: partial" %}
 ```javascript
 {
   "upsertConfig": {
     "mode": "PARTIAL",
+    "defaultPartialUpsertStrategy": "OVERWRITE",
     "partialUpsertStrategies":{
       "rsvp_count": "INCREMENT",
       "group_name": "UNION",
@@ -71,11 +72,12 @@ Pinot supports the following partial upsert strategies -
 | --------- | --------------------------------------------------------- |
 | OVERWRITE | Overwrite the column of the last record                   |
 | INCREMENT | Add the new value to the existing values                  |
+| IGNORE    | Ignore the new value and keep the existing value          |
 | APPEND    | Add the new item to the Pinot unordered set               |
 | UNION     | Add the new item to the Pinot unordered set if not exists |
 
 {% hint style="info" %}
-**Note**: If you don't specify any strategy for a given column, by default it will be overwritten with the new value for that column.
+**Note**: If you don't specify any strategy for a given column, by default it will use defaultPartialUpsertStrategy for that column. The default value of defaultPartialUpsertStrategy is OVERWRITE.
 {% endhint %}
 
 ### Comparison Column
@@ -96,6 +98,8 @@ By default, Pinot uses the value in the time column to determine the latest reco
   }
 }
 ```
+
+For partial upsert table, the out-of-order events won't be consumed and indexed. For example, for two records with the same primary key, if the record with the smaller value of the comparison column came later than the other record, it will be skipped. 
 
 ### Use strictReplicaGroup for routing
 
@@ -118,6 +122,8 @@ There are some limitations for the upsert Pinot tables.
 First, the high-level consumer is not allowed for the input stream ingestion, which means `stream.kafka.consumer.type` must be `lowLevel`.
 
 Second, the star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
+
+Third, unlike append-only tables, out-of-order events won't be consumed and indexed by Pinot partial upsert table.
 
 ### Best practices
 
