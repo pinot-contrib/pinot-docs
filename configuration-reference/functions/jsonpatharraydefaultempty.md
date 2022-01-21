@@ -1,15 +1,16 @@
 ---
-description: This section contains reference documentation for the JSONPATHARRAY function.
+description: This section contains reference documentation for the JSONPATHARRAYDEFAULTEMPTY function.
 ---
 
-# JSONPATHARRAY
+# JSONPATHARRAYDEFAULTEMPTY
 
-Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value.
+Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. 
+Returns empty array for null or parsing error. 
 This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
 
 ## Signature
 
-> JSONPATHARRAY(jsonField, 'jsonPath')
+> JSONPATHARRAYDEFAULTEMPTY(jsonField, 'jsonPath')
 
 | Arguments  | Description                                                                                                                                                                                                                                   |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -49,9 +50,10 @@ The usage examples are based on extracting fields from the following JSON docume
 
 | Expression                                                        | Value                  |
 | ----------------------------------------------------------------- | ---------------------- |
-| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].name')`               | `["maths", "english"]` |
-| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].score')`              | `[90, 70]`             |
-| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].homework_grades[1]')` | `[85, 65]`             |
+| `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].name')`               | `["maths", "english"]` |
+| `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].score')`              | `[90, 70]`             |
+| `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].homework_grades[1]')` | `[85, 65]`             |
+| `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].homework_grades[7]')` | `[]`             |
 
 This function can be used in the [table config](../table.md) to extract the  `name`, `score`, and second value of `homework_grades` into their respective columns , as described below:
 
@@ -62,15 +64,15 @@ This function can be used in the [table config](../table.md) to extract the  `na
          "transformConfigs":[
             {
                "columnName":"names",
-               "transformFunction":"JSONPATHARRAY(data, '$.subjects[*].name')"
+               "transformFunction":"JSONPATHARRAYDEFAULTEMPTY(data, '$.subjects[*].name')"
             },
             {
                "columnName":"ages",
-               "transformFunction":"JSONPATHARRAY(data, '$.subjects[*].score')"
+               "transformFunction":"JSONPATHARRAYDEFAULTEMPTY(data, '$.subjects[*].score')"
             },
             {
                "columnName":"homeworkGrades",
-               "transformFunction":"JSONPATHARRAY(data, '$.subjects[*].homework_grades[1]')"
+               "transformFunction":"JSONPATHARRAYDEFAULTEMPTY(data, '$.subjects[*].homework_grades[1]')"
             }
          ]
       }

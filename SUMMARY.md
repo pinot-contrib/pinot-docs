@@ -210,6 +210,7 @@
   * [hour](configuration-reference/functions/hour.md)
   * [JSONPATH](configuration-reference/functions/jsonpath.md)
   * [JSONPATHARRAY](configuration-reference/functions/jsonpatharray.md)
+  * [JSONPATHARRAYDEFAULTEMPTY](configuration-reference/functions/jsonpatharraydefaultempty.md)
   * [JSONPATHSTRING](configuration-reference/functions/jsonpathstring.md)
   * [jsonextractkey](configuration-reference/functions/jsonextractkey.md)
   * [jsonextractscalar](configuration-reference/functions/jsonextractscalar.md)

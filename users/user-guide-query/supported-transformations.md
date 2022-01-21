@@ -116,7 +116,7 @@ These functions can be used for column transformation in table ingestion configs
 | <p><strong>JSONPATHDOUBLE</strong>(jsonField, 'jsonPath', [defaultValue])<br>Extracts the <strong>Double</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                                                         |
 | <p><a href="../../configuration-reference/functions/jsonpathstring.md"><strong>JSONPATHSTRING(jsonField, 'jsonPath', [defaultValue])</strong></a><br>Extracts the <strong>String</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                 |
 | <p><a href="../../configuration-reference/functions/jsonpatharray.md"><strong>JSONPATHARRAY</strong>(jsonField, 'jsonPath')</a><br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. <strong>Cannot be used in query because data type is not specified.</strong></p>                                                                      |
-| <p><strong>JSONPATHARRAYDEFAULTEMPTY</strong>(jsonField, 'jsonPath')<br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. Returns empty array for null or parsing error. <strong>Cannot be used in query because data type is not specified.</strong></p>           |
+| <p><a href="../../configuration-reference/functions/jsonpatharraydefaultempty.md"><<strong>JSONPATHARRAYDEFAULTEMPTY</strong>(jsonField, 'jsonPath')</a><br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. Returns empty array for null or parsing error. <strong>Cannot be used in query because data type is not specified.</strong></p>           |
 
 **Usage**
 
@@ -136,40 +136,6 @@ e.g.
 * `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is **invalid**.
 {% endhint %}
 
-**Examples**
-
-Another **example** of extracting JSON fields from below JSON record:
-
-```
-{
-        "name": "Pete",
-        "age": 24,
-        "subjects": [{
-                        "name": "maths",
-                        "homework_grades": [80, 85, 90, 95, 100],
-                        "grade": "A",
-                        "score": 90
-                },
-                {
-                        "name": "english",
-                        "homework_grades": [60, 65, 70, 85, 90],
-                        "grade": "B",
-                        "score": 70
-                }
-        ]
-}
-```
-
-Extract JSON fields:
-
-| Expression                                                        | Value                  |
-| ----------------------------------------------------------------- | ---------------------- |
-| `JSONPATH(myJsonRecord, '$.name')`                                | `"Pete"`               |
-| `JSONPATH(myJsonRecord, '$.age')`                                 | `24`                   |
-| `JSONPATHSTRING(myJsonRecord, '$.age')`                           | `"24"`                 |
-| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].name')`               | `["maths", "english"]` |
-| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].score')`              | `[90, 70]`             |
-| `JSONPATHARRAY(myJsonRecord, '$.subjects[*].homework_grades[1]')` | `[85, 65]`             |
 
 ## Binary Functions
 
