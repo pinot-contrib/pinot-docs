@@ -48,9 +48,23 @@ For append-only tables, the upsert mode defaults to `NONE`. To enable the full u
 ```
 {% endcode %}
 
-Pinot also added the partial update support in v0.8.0+. To enable the partial upsert, set the `mode` to `PARTIAL` and specify `defaultPartialUpsertStrategy` and `partialUpsertStrategies` for partial upsert columns. For example:
+Pinot also added the partial update support in v0.8.0+. To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. Since v0.10.0, `defaultPartialUpsertStrategy` is introduced as the default merge strategy for columns without specified strategy. For example:
 
-{% code title="upsert mode: partial" %}
+{% code title="upsert mode: partial (v0.8.0)" %}
+```javascript
+{
+  "upsertConfig": {
+    "mode": "PARTIAL",
+    "partialUpsertStrategies":{
+      "rsvp_count": "INCREMENT",
+      "group_name": "UNION",
+      "venue_name": "APPEND"
+    }
+  }
+}
+```
+
+{% code title="upsert mode: partial (v0.10.0+)" %}
 ```javascript
 {
   "upsertConfig": {
@@ -72,12 +86,12 @@ Pinot supports the following partial upsert strategies -
 | --------- | --------------------------------------------------------- |
 | OVERWRITE | Overwrite the column of the last record                   |
 | INCREMENT | Add the new value to the existing values                  |
-| IGNORE    | Ignore the new value and keep the existing value          |
 | APPEND    | Add the new item to the Pinot unordered set               |
 | UNION     | Add the new item to the Pinot unordered set if not exists |
+| IGNORE    | Ignore the new value, keep the existing value (v0.10.0+)  |
 
 {% hint style="info" %}
-**Note**: If you don't specify any strategy for a given column, by default it will use defaultPartialUpsertStrategy for that column. The default value of defaultPartialUpsertStrategy is OVERWRITE.
+**Note**: If you don't specify any strategy for a given column, by default the value will always be overwritten by the new value for that column. In v0.10.0+, we added support for defaultPartialUpsertStrategy. The default value of defaultPartialUpsertStrategy is OVERWRITE.
 {% endhint %}
 
 ### Comparison Column
