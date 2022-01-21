@@ -44,6 +44,8 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="jsonpath.md" %}
 {% page-ref page="jsonpatharray.md" %}
 {% page-ref page="jsonpatharraydefaultempty.md" %}
+{% page-ref page="jsonpathdouble.md" %}
+{% page-ref page="jsonpathlong.md" %}
 {% page-ref page="jsonpathstring.md" %}
 {% page-ref page="length.md" %}
 {% page-ref page="ln.md" %}

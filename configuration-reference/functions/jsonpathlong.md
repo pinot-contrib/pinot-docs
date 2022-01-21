@@ -1,15 +1,15 @@
 ---
-description: This section contains reference documentation for the JSONPATHSTRING function.
+description: This section contains reference documentation for the JSONPATHLONG function.
 ---
 
-# JSONPATHSTRING
+# JSONPATHLONG
 
-Extracts the <strong>String</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.
+Extracts the <strong>Long</strong> value from <code>jsonField</code> based on <code>'jsonPath'</code>, use optional <code>defaultValue</code>for null or parsing error.
 This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
 
 ## Signature
 
-> JSONPATHSTRING(jsonField, 'jsonPath', [defaultValue])
+> JSONPATHLONG(jsonField, 'jsonPath', [defaultValue])
 
 | Arguments  | Description                                                                                                                                                                                                                                   |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -49,7 +49,7 @@ The usage examples are based on extracting fields from the following JSON docume
 
 | Expression                                                        | Value                  |
 | ----------------------------------------------------------------- | ---------------------- |
-| `JSONPATHSTRING(data, '$.age')`                           | `"24"`                 |
+| `JSONPATHLONG(data, '$.age')`                           | `24`                 |
 
 This function can be used in the [table config](../table.md) to extract the `age` property into the `age` column, as described below:
 
@@ -60,7 +60,7 @@ This function can be used in the [table config](../table.md) to extract the `age
          "transformConfigs":[
             {
                "columnName":"age",
-               "transformFunction":"JSONPATHSTRING(data, '$.age')"
+               "transformFunction":"JSONPATHLONG(data, '$.age')"
             }
          ]
       }
