@@ -2,7 +2,7 @@
 description: This section contains reference documentation for the remove function.
 ---
 
-# regexpExtract
+# remove
 
 Removes all instances of search from string
 
