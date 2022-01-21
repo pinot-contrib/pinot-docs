@@ -52,7 +52,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | `JSONPATH(data, '$.name')`                                | `"Pete"`               |
 | `JSONPATH(data, '$.age')`                                 | `24`                   |
 
-This function can be defined in the [table config](../table.md) to extract the `name` property into the `name` column and `age` property into the `age` column, as described below:
+This function can be used in the [table config](../table.md) to extract the `name` property into the `name` column and `age` property into the `age` column, as described below:
 
 ```json
 {
