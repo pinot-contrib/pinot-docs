@@ -137,7 +137,7 @@ First, the high-level consumer is not allowed for the input stream ingestion, wh
 
 Second, the star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 
-Third, unlike append-only tables, out-of-order events won't be consumed and indexed by Pinot partial upsert table.
+Third, unlike append-only tables, out-of-order events won't be consumed and indexed by Pinot partial upsert table, these late events will be skipped.
 
 ### Best practices
 
