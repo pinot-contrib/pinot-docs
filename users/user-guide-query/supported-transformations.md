@@ -118,24 +118,6 @@ These functions can be used for column transformation in table ingestion configs
 | <p><a href="../../configuration-reference/functions/jsonpatharray.md"><strong>JSONPATHARRAY</strong>(jsonField, 'jsonPath')</a><br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. <strong>Cannot be used in query because data type is not specified.</strong></p>                                                                      |
 | <p><a href="../../configuration-reference/functions/jsonpatharraydefaultempty.md"><strong>JSONPATHARRAYDEFAULTEMPTY</strong>(jsonField, 'jsonPath')</a><br>Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value. Returns empty array for null or parsing error. <strong>Cannot be used in query because data type is not specified.</strong></p>           |
 
-**Usage**
-
-|                  |                                                                                                                                                                                                                                                   |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`Arguments`**  | **Description**                                                                                                                                                                                                                                   |
-| `jsonField`      | An **Identifier**/**Expression** contains JSON documents.                                                                                                                                                                                         |
-| `'jsonPath'`     | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.                                                                                                                                            |
-| `'results_type'` | <p>One of the Pinot supported data types:<strong><code>INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,</code></strong></p><p><strong><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></strong><code>.</code></p> |
-
-{% hint style="warning" %}
-`'jsonPath'` and `'results_type'` **are literals**. Pinot uses single quotes to distinguish them from **identifiers**.
-
-e.g.
-
-* `JSONEXTRACTSCALAR(profile_json_str, '$.name', 'STRING')` is **valid**.
-* `JSONEXTRACTSCALAR(profile_json_str, "$.name", "STRING")` is **invalid**.
-{% endhint %}
-
 
 ## Binary Functions
 
