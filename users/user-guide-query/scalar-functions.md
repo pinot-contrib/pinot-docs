@@ -46,7 +46,7 @@ This function will execute the groovy script using the arguments provided and re
 
     `groovy('new Date().format( "yyyyMMdd" )', '{"returnType":"STRING","isSingleValue":true}')`
 
-
+:warning: Note that Groovy script doesn't accept Built-In ScalarFunction that's specific to Pinot queries. See the section below for more information.
 
 ### Scalar Functions
 
@@ -104,4 +104,4 @@ SELECT mysubstr(playerName, 4)
 FROM baseballStats
 ```
 
-Note that the function name in SQL is the same as the function name in Java. The SQL function name is case-insensitive as well.
+:warning: Note that the function name in SQL is the same as the function name in Java. The SQL function name is case-insensitive as well.

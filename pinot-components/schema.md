@@ -336,6 +336,8 @@ Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintai
 }
 ```
 
+:warning: Note that if you have double quote `"` in your Groovy script such as defining return type, you must escape them.
+
 ## Creating a Schema
 
 Create a schema for your data, or see [`examples`](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples) for examples. Make sure you've [setup the cluster](cluster.md#setup-a-pinot-cluster) 
