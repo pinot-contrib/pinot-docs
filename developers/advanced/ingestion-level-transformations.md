@@ -1,10 +1,10 @@
 # Ingestion Transformations
 
-Raw source data often needs to undergo some transformations before it is pushed to Pinot.&#x20;
+Raw source data often needs to undergo some transformations before it is pushed to Pinot.
 
-Transformations include extracting records from nested objects, applying simple transform functions on certain columns, filtering out unwanted columns, as well as more advanced operations like joining between datasets.&#x20;
+Transformations include extracting records from nested objects, applying simple transform functions on certain columns, filtering out unwanted columns, as well as more advanced operations like joining between datasets.
 
-A preprocessing job is usually needed to perform these operations. In streaming data sources you might write a Samza job and create an intermediate topic to store the transformed data.&#x20;
+A preprocessing job is usually needed to perform these operations. In streaming data sources you might write a Samza job and create an intermediate topic to store the transformed data.
 
 For simple transformations, this can result in inconsistencies in the batch/stream data source and increase maintenance and operator overhead.
 
@@ -17,7 +17,7 @@ Pinot supports the following functions:
 1. Groovy functions
 2. Inbuilt functions
 
-{% hint style="note" %}
+{% hint style="warning" %}
 A transformation function cannot mix Groovy and inbuilt functions - you can only use one type of function at a time.
 {% endhint %}
 
@@ -76,10 +76,10 @@ Converts from an epoch granularity to milliseconds.
 
 Converts simple date format strings to milliseconds and vice-a-versa, as per the provided pattern string.
 
-| Function name | Description                                                                                                                                                              |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [ToDateTime](../../configuration-reference/functions/todatetime.md)    | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
-| [FromDateTime](../../configuration-reference/functions/fromdatetime.md)  | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
+| Function name                                                           | Description                                                                                                                                                              |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [ToDateTime](../../configuration-reference/functions/todatetime.md)     | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
+| [FromDateTime](../../configuration-reference/functions/fromdatetime.md) | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
 
 {% hint style="info" %}
 **Note**
@@ -137,7 +137,7 @@ Consider a table that has a string column `campaign` and a multi-value column do
 
 ### Column Transformation
 
-Transform functions can be defined on columns in the ingestion config of the table config.&#x20;
+Transform functions can be defined on columns in the ingestion config of the table config.
 
 ```javascript
 { "tableConfig": {
@@ -173,7 +173,7 @@ For example, imagine that our source data contains the `prices` and `timestamp` 
 ```
 {% endcode %}
 
-Below are some examples of commonly used functions.&#x20;
+Below are some examples of commonly used functions.
 
 #### String concatenation
 
@@ -239,8 +239,6 @@ Pinot doesn't support columns that have spaces, so if a source data column has a
     }]
 }
 ```
-
-
 
 #### Ternary operation
 
