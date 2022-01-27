@@ -17,6 +17,10 @@ Pinot supports the following functions:
 1. Groovy functions
 2. Inbuilt functions
 
+{% hint style="note" %}
+A transformation function cannot mix Groovy and inbuilt functions - you can only use one type of function at a time.
+{% endhint %}
+
 ### Groovy functions
 
 Groovy functions can be defined using the syntax:
