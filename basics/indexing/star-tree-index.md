@@ -3,7 +3,7 @@
 Unlike other index techniques which work on single column, the Star-Tree index is built on multiple columns, and utilizes pre-aggregated results to significantly reduce the number of values to be processed, thus improving query performance.
 
 One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. 
-Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by theh number of documents that need to be processed to compute results.
+Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results.
 On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
 Here we introduce **star-tree** index to utilize the pre-aggregated documents in a smart way to achieve low query latencies but also use the storage space efficiently for aggregation/group-by queries.
