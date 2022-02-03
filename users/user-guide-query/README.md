@@ -22,5 +22,4 @@ description: >-
 
 {% page-ref page="json-queries.md" %}
 
-
-
+{% page-ref page="explain-plan.md" %}
