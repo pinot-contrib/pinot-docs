@@ -221,6 +221,10 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 ```
 {% endcode %}
 
+{% hint style="info" %}
+In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `replicaGroupStrategyConfig` is required.
+{% endhint %}
+
 ## Change the Instance Assignment
 
 Sometimes we don’t have the instance assignment configured in the optimal way in the first shot, or the capacity or requirement of the use case changes and we have to change the strategy. In order to do that, simply apply the table config with the updated InstanceAssignmentConfig, and kick off a rebalance of the table (read more about [Rebalance Servers](rebalance/rebalance-servers.md)). Pinot will reassign the instances for the table, and also rebalance the segments on the servers without downtime.
