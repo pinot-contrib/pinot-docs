@@ -6,7 +6,7 @@ description: >-
 
 # Instance Assignment
 
-Instance Assignment means the strategy of assigning the servers to host a table. Each instance assignment strategy is associated with one segment assignment strategy \(read more about [Segment Assignment](segment-assignment.md)\).
+Instance Assignment means the strategy of assigning the servers to host a table. Each instance assignment strategy is associated with one segment assignment strategy (read more about [Segment Assignment](segment-assignment.md)).
 
 Instance assignment is configured via the **InstanceAssignmentConfig**. Based on the config, Pinot can assign servers to a table, then assign segments to servers using the segment assignment strategy associated with the instance assignment strategy.
 
@@ -20,11 +20,11 @@ The default instance assignment strategy simply assigns all the servers in the c
 
 ## Tag-Based Instance Assignment
 
-For performance critical use cases, we might not want to share the server resources for multiple use cases to prevent the use case being impacted by other use cases hosted on the same set of servers. We can use the Tag-Based Instance Assignment to achieve isolation for tables. 
+For performance critical use cases, we might not want to share the server resources for multiple use cases to prevent the use case being impacted by other use cases hosted on the same set of servers. We can use the Tag-Based Instance Assignment to achieve isolation for tables.&#x20;
 
-\(Note: Logically the Tag-Based Instance Assignment is identical to the [Tenant](../../basics/components/tenant.md) concept in Pinot, but just a different way of configuring the table. We recommend using the instance assignment over the tenant config because it can achieve more complex assignment strategies, as described below.\)
+(Note: Logically the Tag-Based Instance Assignment is identical to the [Tenant](../../basics/components/tenant.md) concept in Pinot, but just a different way of configuring the table. We recommend using the instance assignment over the tenant config because it can achieve more complex assignment strategies, as described below.)
 
-In order to use the Tag-Based Instance Assignment, the servers should be tagged via the Helix **InstanceConfig**, where the tag suffix \(`_OFFLINE` or `_REALTIME`\) denotes the type of table the server is going to serve. Each server can have multiple tags if necessary.
+In order to use the Tag-Based Instance Assignment, the servers should be tagged via the Helix **InstanceConfig**, where the tag suffix (`_OFFLINE` or `_REALTIME`) denotes the type of table the server is going to serve. Each server can have multiple tags if necessary.
 
 After configuring the server tags, the Tag-Based Instance Assignment can be enabled by setting the `tag` within the InstanceAssignmentConfig for the table as shown below. Only the servers with this tag will be assigned to host this table, and the table will use the [Balanced Segment Assignment](segment-assignment.md#balanced-segment-assignment).
 
@@ -114,7 +114,7 @@ In order to use the [Replica-Group Segment Assignment](segment-assignment.md#rep
 
 Similar to the Replica-Group Segment Assignment, in order to use the [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), servers not only need to be assigned to each replica-group, but also the partition within the replica-group. Adding the `numPartitions` and `numInstancesPerPartition` in the InstanceAssignmentConfig can fulfill the requirement.
 
-\(Note: The `numPartitions` configured here does not have to match the actual number of partitions for the table in case the partitions of the table changed for some reason. If they do not match, the table partition will be assigned to the server partition in a round-robin fashion. For example, if there are 2 server partitions, but 4 table partitions, table partition 1 and 3 will be assigned to server partition 1, and table partition 2 and 4 will be assigned to server partition 2.\)
+(Note: The `numPartitions` configured here does not have to match the actual number of partitions for the table in case the partitions of the table changed for some reason. If they do not match, the table partition will be assigned to the server partition in a round-robin fashion. For example, if there are 2 server partitions, but 4 table partitions, table partition 1 and 3 will be assigned to server partition 1, and table partition 2 and 4 will be assigned to server partition 2.)
 
 ![](../../.gitbook/assets/partition.png)
 
@@ -134,12 +134,23 @@ Similar to the Replica-Group Segment Assignment, in order to use the [Partitione
       }
     }
   },
+  "segmentsConfig": {
+    "replicaGroupStrategyConfig": {
+      "partitionColumn": "memberId",
+      "numInstancesPerPartition": 2
+    },
+    ...
+  },
   ...
 }
 ```
 {% endcode %}
 
-## Instance Assignment for Low Level Consumer \(LLC\) Real-time Table
+{% hint style="info" %}
+In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `replicaGroupStrategyConfig` is required.
+{% endhint %}
+
+## Instance Assignment for Low Level Consumer (LLC) Real-time Table
 
 For LLC real-time table, all the stream events are split into several stream partitions, and the events from each stream partition are consumed by a single server. Because the data is always partitioned, the LLC real-time table is using [Partitioned Replica-Group Instance Assignment](instance-assignment.md#partitioned-replica-group-instance-assignment) implicitly with `numPartitions` the same as the number of stream partitions, and `numInstancesPerPartition` of 1, and we don't allow configuring them explicitly. The replica-group based instance assignment can still be configured explicitly.
 
@@ -149,17 +160,17 @@ Without explicitly configuring the replica-group based instance assignment, the 
 
 With replica-group based instance assignment, the stream partitions will be evenly spread over the instances within the replica-group:
 
-![](../../.gitbook/assets/llc_replica.png)
+![](../../.gitbook/assets/llc\_replica.png)
 
 ## Pool-Based Instance Assignment
 
 This strategy is designed for accelerating the no-downtime rolling restart of the large shared cluster.
 
-For example, suppose we have a cluster with 100 servers hosting hundreds of tables, each table has 2 replicas. Without organizing the segments, in order to keep no-downtime \(at least 1 replica for each table has to be alive\) for the cluster, only one server can be shut down at the same time, or there is a very high chance that both replicas of some segments are served on the down servers, which causes down time for the segment. Rolling restart servers one by one could take a very long time \(even days\) for a large cluster with petabytes of data. Pool-Based Instance Assignment is introduced to help organize the segments so that each time multiple servers can be restarted at the same time without bringing down any segment.
+For example, suppose we have a cluster with 100 servers hosting hundreds of tables, each table has 2 replicas. Without organizing the segments, in order to keep no-downtime (at least 1 replica for each table has to be alive) for the cluster, only one server can be shut down at the same time, or there is a very high chance that both replicas of some segments are served on the down servers, which causes down time for the segment. Rolling restart servers one by one could take a very long time (even days) for a large cluster with petabytes of data. Pool-Based Instance Assignment is introduced to help organize the segments so that each time multiple servers can be restarted at the same time without bringing down any segment.
 
-To use the Pool-Based Instance Assignment, each server should be assigned to a pool under the tag via the Helix InstanceConfig as shown below. Then the strategy can be configured by enabling the `poolBased` in the InstanceAssignmentConfig. All the tables in this cluster should use the Replica-Group Instance Assignment, and Pinot will assign servers from different pools to each replica-group of the table. It is guaranteed that servers within one pool only host one replica of any table, and it is okay to shut down all servers within one pool without bringing down any table. This can significantly reduce the deploy time of the cluster, where the 100 servers for the above example can be restarted in 2 rounds \(less than an hour\) instead of 100 rounds \(days\).
+To use the Pool-Based Instance Assignment, each server should be assigned to a pool under the tag via the Helix InstanceConfig as shown below. Then the strategy can be configured by enabling the `poolBased` in the InstanceAssignmentConfig. All the tables in this cluster should use the Replica-Group Instance Assignment, and Pinot will assign servers from different pools to each replica-group of the table. It is guaranteed that servers within one pool only host one replica of any table, and it is okay to shut down all servers within one pool without bringing down any table. This can significantly reduce the deploy time of the cluster, where the 100 servers for the above example can be restarted in 2 rounds (less than an hour) instead of 100 rounds (days).
 
-\(Note: A table can have more replicas than the number of pools for the cluster, in which case the replica-group will be assigned to the pools in a round-robin fashion, and the servers within a pool can host more than one replicas of the table. It is still okay to shut down the whole pool without bringing down the table because there are other replicas hosted by servers from other pools.\)
+(Note: A table can have more replicas than the number of pools for the cluster, in which case the replica-group will be assigned to the pools in a round-robin fashion, and the servers within a pool can host more than one replicas of the table. It is still okay to shut down the whole pool without bringing down the table because there are other replicas hosted by servers from other pools.)
 
 ![](../../.gitbook/assets/pool.png)
 
@@ -198,6 +209,13 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
       }
     }
   },
+  "segmentsConfig": {
+    "replicaGroupStrategyConfig": {
+      "partitionColumn": "memberId",
+      "numInstancesPerPartition": 2
+    },
+    ...
+  },
   ...
 }
 ```
@@ -205,5 +223,4 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 
 ## Change the Instance Assignment
 
-Sometimes we don’t have the instance assignment configured in the optimal way in the first shot, or the capacity or requirement of the use case changes and we have to change the strategy. In order to do that, simply apply the table config with the updated InstanceAssignmentConfig, and kick off a rebalance of the table \(read more about [Rebalance Servers](rebalance/rebalance-servers.md)\). Pinot will reassign the instances for the table, and also rebalance the segments on the servers without downtime.
-
+Sometimes we don’t have the instance assignment configured in the optimal way in the first shot, or the capacity or requirement of the use case changes and we have to change the strategy. In order to do that, simply apply the table config with the updated InstanceAssignmentConfig, and kick off a rebalance of the table (read more about [Rebalance Servers](rebalance/rebalance-servers.md)). Pinot will reassign the instances for the table, and also rebalance the segments on the servers without downtime.
