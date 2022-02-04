@@ -60,7 +60,7 @@ cd pinot
 mvn install package -DskipTests -Pbin-dist
 
 # navigate to directory containing the setup scripts
-cd pinot-distribution/target/apache-pinot-$PINOT_VERSION-bin/apache-pinot-$PINOT_VERSION-bin
+cd build
 ```
 
 {% hint style="info" %}

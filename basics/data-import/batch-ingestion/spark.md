@@ -52,7 +52,7 @@ Finally execute the spark job using the command -
 
 ```
 export PINOT_VERSION=0.8.0
-export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/apache-pinot-${PINOT_VERSION}-bin
+export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/build/
 
 cd ${PINOT_DISTRIBUTION_DIR}
 
