@@ -60,11 +60,7 @@ This feature uses the **pinot-minions** and **the Helix Task Executor framework*
 
 **Step 3**: Enable PinotTaskManager
 
-The PinotTaskManager periodic task is disabled by default. Enable it by adding this property to your controller conf. Set the frequency to some reasonable value (frequently is better, as extra tasks will not be scheduled unless required). Controller will need a restart after setting this config.
-
-```
-"controller.task.frequencyInSeconds": 3600
-```
+The PinotTaskManager periodic task is disabled by default. Enable this using one of the 2 methods described in [Auto-Schedule](https://docs.pinot.apache.org/basics/components/minion#auto-schedule) section. Set the frequency to some reasonable value (frequently is better, as extra tasks will not be scheduled unless required). Controller will need a restart after setting this config.
 
 **Step 4**: Advanced configs
 
