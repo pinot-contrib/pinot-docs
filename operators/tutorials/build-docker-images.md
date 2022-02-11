@@ -21,14 +21,14 @@ You can find current supported 3 images in this directory:
 
 This is a docker image of [Apache Pinot](https://github.com/apache/pinot).
 
-### How to build a docker image
+## How to build a docker image
 
 There is a docker build script which will build a given Git repo/branch and tag the image.
 
 Usage:
 
-```text
-./docker-build.sh [Docker Tag] [Git Branch] [Pinot Git URL]
+```SHELL
+./docker-build.sh [Docker Tag] [Git Branch] [Pinot Git URL] [Kafka Version] [Java Version] [JDK Version] [OpenJDK Image ]
 ```
 
 This script will check out Pinot Repo `[Pinot Git URL]` on branch `[Git Branch]` and build the docker image for that.
@@ -41,48 +41,66 @@ The docker image is tagged as `[Docker Tag]`.
 
 `Pinot Git URL`: The Pinot Git Repo to build, users can set it to their own fork. Please note that, the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/apache/pinot.git`.
 
-* Example of building and tagging a snapshot on your own fork:
+`Kafka Version`: The Kafka Version to build pinot with. Default is `2.0`
 
-```text
+`Java Version`: The Java Build and Runtime image version. Default is `11`
+
+`JDK Version`: The JDK parameter to build pinot, set as part of maven build option: `-Djdk.version=${JDK_VERSION}`. Default is `11`
+
+`OpenJDK Image`: Base image to use for Pinot build and runtime. Default is `openjdk`.
+
+* Example of building and tagging a snapshot on your own fork:
+```SHELL
 ./docker-build.sh pinot_fork:snapshot-5.2 snapshot-5.2 https://github.com/your_own_fork/pinot.git
 ```
 
 * Example of building a release version:
-
-```text
+```SHELL
 ./docker-build.sh pinot:release-0.1.0 release-0.1.0 https://github.com/apache/pinot.git
 ```
 
-* Example of building current master branch as a snapshot: 
+### Build image with arm64 base image
 
-```text
-./docker-build.sh apachepinot/pinot:0.3.0-SNAPSHOT master
+For users on Mac M1 chips, they need to build the images with arm64 base image, e.g. `arm64v8/openjdk`
+
+* Example of building an arm64 image:
+```SHELL
+./docker-build.sh pinot:latest master https://github.com/apache/pinot.git 2.0 11 11 arm64v8/openjdk
 ```
 
-### How to publish a docker image
+or just run the docker build script directly
+```SHELL
+docker build -t pinot:latest --no-cache --network=host --build-arg PINOT_GIT_URL=https://github.com/apache/pinot.git --build-arg PINOT_BRANCH=master --build-arg JDK_VERSION=11 --build-arg OPENJDK_IMAGE=arm64v8/openjdk -f Dockerfile .
+```
+
+Note that if you are not on arm64 machine, you can still build the image by turning on the experimental feature of docker, and add `--platform linux/arm64` into the `docker build ...` script, e.g.
+```SHELL
+docker build -t pinot:latest --platform linux/arm64 --no-cache --network=host --build-arg PINOT_GIT_URL=https://github.com/apache/pinot.git --build-arg PINOT_BRANCH=master --build-arg JDK_VERSION=11 --build-arg OPENJDK_IMAGE=arm64v8/openjdk -f Dockerfile .
+```
+
+## How to publish a docker image
 
 Script `docker-push.sh` publishes a given docker image to your docker registry.
 
 In order to push to your own repo, the image needs to be explicitly tagged with the repo name.
 
-* Example of publishing an image to [apachepinot/pinot](https://cloud.docker.com/u/apachepinot/repository/docker/apachepinot/pinot) dockerHub repo.
+* Example of publishing a image to [apachepinot/pinot](https://cloud.docker.com/u/apachepinot/repository/docker/apachepinot/pinot) dockerHub repo.
 
-```text
+```SHELL
 ./docker-push.sh apachepinot/pinot:latest
 ```
 
-* You can also tag a built image, then push it.
-
-```text
+* Tag a built image, then push.
+````SHELL
 docker tag pinot:release-0.1.0 apachepinot/pinot:release-0.1.0
 docker push apachepinot/pinot:release-0.1.0
-```
+````
 
 Script `docker-build-and-push.sh` builds and publishes this docker image to your docker registry after build.
 
-* Example of building and publishing an image to [apachepinot/pinot](https://cloud.docker.com/u/apachepinot/repository/docker/apachepinot/pinot) dockerHub repo.
+* Example of building and publishing a image to [apachepinot/pinot](https://cloud.docker.com/u/apachepinot/repository/docker/apachepinot/pinot) dockerHub repo.
 
-```text
+```SHELL
 ./docker-build-and-push.sh apachepinot/pinot:latest master https://github.com/apache/pinot.git
 ```
 
