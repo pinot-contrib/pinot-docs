@@ -37,7 +37,7 @@ Allowing execuatable Groovy in ingestion transformation can be a security vulner
 
 `controller.disable.ingestion.groovy=false`
 
-If not set, Groovy in ingestion transformation is enabled by default.
+If not set, Groovy for ingestion transformation is enabled by default.
 
 ### Inbuilt Pinot functions
 
