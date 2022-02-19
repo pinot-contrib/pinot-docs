@@ -31,6 +31,14 @@ Groovy({groovy script}, argument1, argument2...argumentN)
 
 Any valid Groovy expression can be used.
 
+**:warning: Disabling Groovy**
+
+Allowing execuatable Groovy in ingestion transformation can be a security vulnerability. If you would like to disable Groovy in ingestion, you can set the following controller config.
+
+`controller.disable.ingestion.groovy=false`
+
+If not set, Groovy in ingestion transformation is enabled by default.
+
 ### Inbuilt Pinot functions
 
 There are also several inbuilt functions that can be used directly as ingestion transform functions

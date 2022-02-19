@@ -48,6 +48,28 @@ This function will execute the groovy script using the arguments provided and re
 
 :warning: Note that Groovy script doesn't accept Built-In ScalarFunction that's specific to Pinot queries. See the section below for more information.
 
+
+**:warning: Disabling Groovy**
+
+Allowing execuatable Groovy in queries can be a security vulnerability. If you would like to disable Groovy in Pinot queries, you can set the following broker config.
+
+`pinot.broker.disable.query.groovy=false`
+
+If not set, Groovy in queries is enabled by default.
+
+The above configuration applies across the entire Pinot cluster. If you want a table level override to enable/disable Groovy queries, the following property can be set in the query table config.
+
+```json
+{
+  "tableName": "myTable",
+  "tableType": "OFFLINE",
+ 
+  "queryConfig" : {
+    "disableGroovy": "true"
+  }
+}
+```
+
 ### Scalar Functions
 
 Since the 0.5.0 release, Pinot supports custom functions that return a single output for multiple inputs. Examples of scalar functions can be found in [StringFunctions](supported-transformations.md#string-functions) and [DateTimeFunctions ](supported-transformations.md#datetime-functions)
