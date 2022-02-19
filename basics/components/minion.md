@@ -230,9 +230,15 @@ Under each enable task type, custom properties can be configured for the task ty
 
 ### Auto-Schedule
 
-Tasks can be scheduled periodically for all task types on all enabled tables. Enable auto task scheduling by configuring the schedule frequency in the controller config with the key `controller.task.frequencyInSeconds`.
+There are 2 ways to enable task scheduling:
 
-Tasks can also be scheduled based on cron expressions. The cron expression is set in the `schedule` config for each task type separately. Thie option`controller.task.scheduler.enabled` should be set to `true` to enable cron scheduling.&#x20;
+#### Controller level schedule for all minion tasks
+
+Tasks can be scheduled periodically for all task types on all enabled tables. Enable auto task scheduling by configuring the schedule frequency in the controller config with the key `controller.task.frequencyPeriod`. This takes period strings as values, e.g. 2h, 30m, 1d.
+
+#### Per table and task level schedule
+
+Tasks can also be scheduled based on cron expressions. The cron expression is set in the `schedule` config for each task type separately. This config in the controller config, `controller.task.scheduler.enabled` should be set to `true` to enable cron scheduling.&#x20;
 
 As shown below, the RealtimeToOfflineSegmentsTask will be scheduled at the first second of every minute (following the syntax [defined here](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html)).&#x20;
 

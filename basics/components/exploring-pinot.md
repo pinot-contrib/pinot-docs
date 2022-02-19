@@ -16,11 +16,11 @@ The first screen that you'll see when you open the Pinot Data Explorer is the Cl
 
 If you want to view the contents of a server, click on its instance name. You'll then see the following:
 
-![Pinot Server](<../../.gitbook/assets/image (28).png>)
+![Pinot Server](<../../.gitbook/assets/image (28) (2).png>)
 
 To view the _baseballStats_ table, click on its name, which will show the following screen:
 
-![baseballStats Table](<../../.gitbook/assets/image (29).png>)
+![baseballStats Table](<../../.gitbook/assets/image (29) (1).png>)
 
 From this screen, we can edit or delete the table, edit or adjust its schema, as well as several other operations.&#x20;
 
@@ -77,7 +77,7 @@ You can look at the configuration of this table by going to [Tables -> Get/Enabl
 
 Let's check out the schemas in the cluster by going to [Schema -> List all schemas in the cluster](http://localhost:9000/help#!/Schema/listSchemaNames), click **Try it out**, and then click **Execute**. We can see a schema called `baseballStats` in this list.
 
-![List all schemas in the cluster](<../../.gitbook/assets/image (28) (2).png>)
+![List all schemas in the cluster](<../../.gitbook/assets/image (28) (2) (1).png>)
 
 Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), click **Try it out**, type `baseballStats` in the schema name, and then click **Execute**.
 

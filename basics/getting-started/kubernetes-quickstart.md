@@ -193,56 +193,58 @@ This script can be found in the Pinot source at `./pinot/kubernetes/helm/pinot`
 
 ## 5. Using Superset to query Pinot
 
-### 5.1 Bring up Superset
+### 5.1 Bring up Superset using helm
 
-Open `superset.yaml` file and goto the line showing `storageClass`. And change it based on your cloud vendor. `kubectl get sc` will get you the `storageClass` value for your Kubernetes system. E.g.
-
-* For AWS: "**gp2**"
-* For GCP: "**pd-ssd**" or "**standard**"
-* For Azure: "**AzureDisk**"
-* For Docker-Desktop: "**hostpath**"
-
-Then run:
+Install SuperSet Helm Repo
 
 ```
-kubectl apply -f superset.yaml
+helm repo add superset https://apache.github.io/superset
+```
+
+Get Helm values config file:
+
+```
+helm inspect values superset/superset > /tmp/superset-values.yaml
+```
+
+Edit `/tmp/superset-values.yaml` file and add `pinotdb` pip dependency into `bootstrapScript` field, so Superset will install pinot dependencies during bootstrap time.
+
+You can also build your own image with this dependency or just use image: `apachepinot/pinot-superset:latest` instead.
+
+![](<../../.gitbook/assets/image (40).png>)
+
+Also remember to change the admin credential inside the `init` section with meaningful user profile and stronger password.
+
+![](<../../.gitbook/assets/image (28).png>)
+
+Install Superset using helm
+
+```
+kubectl create ns superset
+helm upgrade --install --values /tmp/superset-values.yaml superset superset/superset -n superset
 ```
 
 Ensure your cluster is up by running:
 
 ```
-kubectl get all -n pinot-quickstart | grep superset
+kubectl get all -n superset
 ```
 
-### 5.2 (First time) Set up Admin account
+### 5.2 Access Superset UI
+
+You can run the below command to port forward superset to your `localhost:18088`. Then you can navigate superset in your browser with the previous set admin credential.
 
 ```
-kubectl exec -it pod/superset-0 -n pinot-quickstart -- bash -c 'flask fab create-admin'
+kubectl port-forward service/superset 18088:8088 -n superset
 ```
 
-### 5.3 (First time) Init Superset
+Create Pinot Database using URI:
 
-```
-kubectl exec -it pod/superset-0 -n pinot-quickstart -- bash -c 'superset db upgrade'
-kubectl exec -it pod/superset-0 -n pinot-quickstart -- bash -c 'superset init'
-```
+`pinot+http://pinot-broker.pinot-quickstart:8099/query?controller=http://pinot-controller.pinot-quickstart:9000/`
 
-### 5.4 Load Demo data source
+![](<../../.gitbook/assets/image (29).png>)
 
-```
-kubectl exec -it pod/superset-0 -n pinot-quickstart -- bash -c 'superset import_datasources -p /etc/superset/pinot_example_datasource.yaml'
-kubectl exec -it pod/superset-0 -n pinot-quickstart -- bash -c 'superset import_dashboards -p /etc/superset/pinot_example_dashboard.json'
-```
-
-### 5.5 Access Superset UI
-
-You can run below command to navigate superset in your browser with the previous admin credential.
-
-```
-./open-superset-ui.sh
-```
-
-You can open the imported dashboard by clicking `Dashboards` banner and then click on `AirlineStats`.
+Once the database is added, you can add more data sets and explore the dashboarding.
 
 ## 6. Access Pinot using Trino
 
