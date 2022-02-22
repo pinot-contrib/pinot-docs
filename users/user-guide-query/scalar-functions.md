@@ -53,7 +53,7 @@ This function will execute the groovy script using the arguments provided and re
 
 Allowing execuatable Groovy in queries can be a security vulnerability. If you would like to disable Groovy in Pinot queries, you can set the following broker config.
 
-`pinot.broker.disable.query.groovy=false`
+`pinot.broker.disable.query.groovy=true`
 
 If not set, Groovy in queries is enabled by default.
 
@@ -65,7 +65,7 @@ The above configuration applies across the entire Pinot cluster. If you want a t
   "tableType": "OFFLINE",
  
   "queryConfig" : {
-    "disableGroovy": "true"
+    "disableGroovy": true
   }
 }
 ```
