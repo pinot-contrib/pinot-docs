@@ -33,11 +33,11 @@ Any valid Groovy expression can be used.
 
 **:warning: Disabling Groovy**
 
-Allowing execuatable Groovy in ingestion transformation can be a security vulnerability. If you would like to disable Groovy in ingestion, you can set the following controller config.
+Allowing execuatable Groovy in ingestion transformation can be a security vulnerability. If you would like to disable Groovy for ingestion, you can set the following controller config.
 
 `controller.disable.ingestion.groovy=true`
 
-If not set, Groovy in ingestion transformation is enabled by default.
+If not set, Groovy for ingestion transformation is enabled by default.
 
 ### Inbuilt Pinot functions
 
