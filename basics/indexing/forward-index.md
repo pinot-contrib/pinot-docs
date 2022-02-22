@@ -4,10 +4,10 @@ The values for every column are stored in a forward index, of which there are th
 
 * [Dictionary encoded forward index](forward-index.md#dictionary-encoded-forward-index-with-bit-compression-default)\
   Builds a dictionary mapping 0 indexed ids to each unique value in a column and a forward index that contains the bit-compressed ids.
-* [Raw value forward index](forward-index.md#raw-value-forward-index)\
-  Builds a forward index of the column's values.
 * [Sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding)\
   Builds a dictionary mapping from each unique value to a pair of start and end document id and a forward index on top of the dictionary encoding.
+* [Raw value forward index](forward-index.md#raw-value-forward-index)\
+  Builds a forward index of the column's values.
 
 ## Dictionary-encoded forward index with bit compression (default)
 
@@ -19,35 +19,10 @@ On the other hand, `colB` has no duplicated data. Dictionary encoding will not c
 
 ![](../../.gitbook/assets/dictionary.png)
 
-## Raw value forward index
-
-The raw value forward index directly stores values instead of ids.
-
-Without the dictionary, the dictionary lookup step can be skipped for each value fetch. The index can also take advantage of the good locality of the values, thus improving the performance of scanning a large number of values.
-
-The raw value forward index works well for columns that have a large number of unique values where a dictionary does not provide much compression.
-
-As seen in the above diagram, using dictionary encoding will require a lot of random accesses of memory to do those dictionary look-ups. With a raw value forward index, we can scan values sequentially, which can result in improved query performance when applied appropriately.
-
-![](../../.gitbook/assets/no-dictionary.png)
-
-A raw value forward index can be configured for a table by configuring the [table config](../../configuration-reference/table.md), as shown below:
-
-```javascript
-{
-    "tableIndexConfig": {
-        "noDictionaryColumns": [
-            "column_name",
-            ...
-        ],
-        ...
-    }
-}
-```
-
 ## Sorted forward index with run-length encoding
 
-When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, Pinot will store a pair of start and end document ids for each value.
+When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. 
+Instead of saving dictionary ids for each document id, Pinot will store a pair of start and end document ids for each value.
 
 ![Sorted forward index](../../.gitbook/assets/sorted-forward.png)
 
@@ -111,3 +86,40 @@ curl -X GET \
 ["baseballStats_OFFLINE_0","teamID",false]
 ["baseballStats_OFFLINE_0","playerID",false]
 ```
+
+## Raw value forward index
+
+The raw value forward index directly stores values instead of ids.
+
+Without the dictionary, the dictionary lookup step can be skipped for each value fetch. The index can also take advantage of the good locality of the values, thus improving the performance of scanning a large number of values.
+
+The raw value forward index works well for columns that have a large number of unique values where a dictionary does not provide much compression.
+
+As seen in the above diagram, using dictionary encoding will require a lot of random accesses of memory to do those dictionary look-ups. With a raw value forward index, we can scan values sequentially, which can result in improved query performance when applied appropriately.
+
+![](../../.gitbook/assets/no-dictionary.png)
+
+A raw value forward index can be configured for a table by configuring the [table config](../../configuration-reference/table.md), as shown below:
+
+```javascript
+{
+    "tableIndexConfig": {
+        "noDictionaryColumns": [
+            "column_name",
+            ...
+        ],
+        ...
+    }
+}
+```
+
+## Dictionary encoded vs raw value
+
+When working out whether a column should use dictionary encoded or raw value encoding, the following comparison table may help:
+
+| Dictionary | Raw Value   |
+| --------- | ---------------------- |
+| Provides compression when low to medium cardinality.       | Eliminates padding overhead |
+| Allows for indexing (esp inv index).      | No inv index (only JSON/Text/FST index) |
+| Adds one level of dereferencing, so can increase disk seeks     | Eliminates additional dereferencing, so good when all docs of interest are contiguous|
+| For Strings, adds padding to make all values equal length in the dictionary      | Chunk de-compression overhead with docs selected don't have spatial locality |
