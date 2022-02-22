@@ -4,11 +4,13 @@ description: Dimension tables in Apache Pinot.
 
 # Dimension Table
 
-Dimension tables are a special kind of offline tables from which data can be looked up via the lookup UDF, providing a join like functionality. These dimension tables are replicated on all the hosts for a given tenant to allow faster lookups.
+Dimension tables are a special kind of offline tables from which data can be looked up via the [lookup UDF](../../../users/user-guide-query/lookup-udf-join.md), providing join like functionality.&#x20;
 
-To mark an offline table as a dim table the configuration `isDimTable` should be set to true in the table config as shown below
+Dimension tables are replicated on all the hosts for a given tenant to allow faster lookups.
 
-```text
+To mark an offline table as a dim table, `isDimTable` should be set to true in the table config as shown below:
+
+```
 {
   "OFFLINE": {
     "tableName": "dimBaseballTeams_OFFLINE",
@@ -25,9 +27,9 @@ To mark an offline table as a dim table the configuration `isDimTable` should be
 }
 ```
 
-As dimension table are used to perform lookups of dimension values, they are required to have a primary key \(can be a composite key\).
+As dimension tables are used to perform lookups of dimension values, they are required to have a primary key (can be a composite key).
 
-```text
+```
 {
   "dimensionFieldSpecs": [
     {
@@ -44,5 +46,8 @@ As dimension table are used to perform lookups of dimension values, they are req
 }
 ```
 
-As mentioned above, when a table is marked as a dimension table it will be replicated on all the hosts, because of this the size of the dim table has to be small. The maximum size quota for a dimension table in a cluster is controlled by `controller.dimTable.maxSize` controller property. Table creation will fail if the storage quota exceeds this maximum size.
+When a table is marked as a dimension table, it will be replicated on all the hosts, which means that these tables must be small in size.
 
+The maximum size quota for a dimension table in a cluster is controlled by the `controller.dimTable.maxSize` controller property. Table creation will fail if the storage quota exceeds this maximum size.
+
+A dimension table cannot be part of a [hybrid table](../../components/table.md).
