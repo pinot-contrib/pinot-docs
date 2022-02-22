@@ -50,4 +50,4 @@ When a table is marked as a dimension table, it will be replicated on all the ho
 
 The maximum size quota for a dimension table in a cluster is controlled by the `controller.dimTable.maxSize` controller property. Table creation will fail if the storage quota exceeds this maximum size.
 
-A dimension table cannot be part of a [hybrid table](../../components/table.md).
+A dimension table cannot be part of a [hybrid table](../../components/table.md#hybrid-table).
