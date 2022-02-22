@@ -4,11 +4,11 @@ description: Dimension tables in Apache Pinot.
 
 # Dimension Table
 
-Dimension tables are a special kind of offline tables from which data can be looked up via the [lookup UDF](../../../users/user-guide-query/lookup-udf-join.md), providing join like functionality.&#x20;
+Dimension tables are a special kind of offline tables from which data can be looked up via the [lookup UDF](../../../users/user-guide-query/lookup-udf-join.md), providing join like functionality.
 
 Dimension tables are replicated on all the hosts for a given tenant to allow faster lookups.
 
-To mark an offline table as a dim table, `isDimTable` should be set to true in the table config as shown below:
+To mark an offline table as a dim table, `isDimTable` should be set to _true_ and `segmentsConfig.segementPushType` should be set to _REFRESH_ in the table config as shown below:
 
 ```
 {
@@ -17,6 +17,7 @@ To mark an offline table as a dim table, `isDimTable` should be set to true in t
     "tableType": "OFFLINE",
     "segmentsConfig": {
       "schemaName": "dimBaseballTeams",
+      "segmentPushType": "REFRESH"
     },
     "metadata": {},
     "quota": {
