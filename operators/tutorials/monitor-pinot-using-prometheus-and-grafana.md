@@ -22,7 +22,7 @@ helm inspect values pinot/pinot > /tmp/pinot-values.yaml
 
 1\. Configure jvmOpts:
 
-Add [JMX Prometheus Java Agent](https://github.com/prometheus/jmx\_exporter) to `controller.jvmOpts` / `broker.jvmOpts`/ `server.jvmOpts` . Note that Pinot image already packages `jmx_prometheus_javaagent.jar`.
+Add [JMX Prometheus Java Agent](https://github.com/prometheus/jmx\_exporter) to `controller.jvmOpts` / `broker.jvmOpts`/ `server.jvmOpts` . Note that Pinot Docker image already packages `jmx_prometheus_javaagent.jar`.
 
 Below config will expose pinot metrics to port 8008 for Prometheus to scrape.
 
