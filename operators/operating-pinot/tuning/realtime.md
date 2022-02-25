@@ -8,7 +8,7 @@ Pinot servers ingest rows into a consuming segment that resides in volatile memo
 
 ### Controlling memory allocation
 
-You can configure pinot servers to use off-heap memory for dictionary and forward indices of consuming segments by setting the value of `pinot.server.instance.realtime.alloc.offheap` to `true`. With this configuration in place, the server allocates off-heap memory by memory-mapping files. These files are never flushed to stable storage by Pinot \(the Operating System may do so depending on demand for memory on the host\). The files are discarded when the consuming segment is turned into a completed segment.
+You can configure pinot servers to use off-heap memory for dictionary and forward indices of consuming segments by setting the value of `pinot.server.instance.realtime.alloc.offheap` to `true`. With this configuration in place, the server allocates off-heap memory by memory-mapping files. These files are never flushed to stable storage by Pinot (the Operating System may do so depending on demand for memory on the host). The files are discarded when the consuming segment is turned into a completed segment.
 
 By default the files are created under the directory where the table’s segments are stored in local disk attached to the consuming server. You can set a specific directory for consuming segments with the configuration `pinot.server.consumerDir`. Given that there is no control over flushing of pages from the memory mapped for consuming segments, you may want to set the directory to point to a memory-based file system, eliminating wasteful disk I/O.
 
@@ -32,7 +32,7 @@ The structure of the consuming segments and the completed segments are very diff
 
 You can host completed segments on a different set of hosts using the `tagOverrideConfig` as described in [Table Config](../../../configuration-reference/table.md). Pinot will automatically move them once the consuming segments are completed.
 
-If you require more fine-tuned control over how segments are hosted on different hosts, we recommend that you use the [Tag-Based Instance Assignment](../../../operators/operating-pinot/instance-assignment.md#tag-based-instance-assignment) feature to accomplish this.
+If you require more fine-tuned control over how segments are hosted on different hosts, we recommend that you use the [Tag-Based Instance Assignment](../instance-assignment.md#tag-based-instance-assignment) feature to accomplish this.
 
 {% code title="Using tag-based instance assignment to host completed segments on different hosts:" %}
 ```javascript
@@ -81,35 +81,37 @@ Once a committer is asked to commit the segment, it builds a segment, and issues
 It is possible to conifigure the servers to do a _split_ commit, in which the committer performs the following steps:
 
 > * Build the segment
-> * Start a transaction with the lead controller to commit the segment \(CommitStart phase\)
-> * Post the completed segment to any of the controllers \(and the controller posts it to segment store\)
-> * End the transaction with the lead controller \(CommentEnd phase\). Optionally, this step can be done _with_ the segment metadata.
+> * Start a transaction with the lead controller to commit the segment (CommitStart phase)
+> * Post the completed segment to any of the controllers (and the controller posts it to segment store)
+> * End the transaction with the lead controller (CommentEnd phase). Optionally, this step can be done _with_ the segment metadata.
 
 This method of committing can be useful if the network bandwidth on the lead controller is limiting segment uploads.In order to accomplish this, you will need to set the following configurations:
 
-* On the controller, set `pinot.controller.enable.split.commit` to `true` \(default is `false`\).
-* On the server, set `pinot.server.enable.split.commit` to `true` \(default is `false`\).
-* On the server, set `pinot.server.enable.commitend.metadata` to `true` \(default is false\).
+* On the controller, set `pinot.controller.enable.split.commit` to `true` (default is `false`).
+* On the server, set `pinot.server.enable.split.commit` to `true` (default is `false`).
+* On the server, set `pinot.server.enable.commitend.metadata` to `true` (default is false).
 
 ### RealtimeProvisioningHelper
 
-This tool can help decide the optimum segment size and number of hosts for your table. You will need one sample Pinot segment from your table before you run this command. If you have an offline segment, you can use that. Alternatively, you can provision a test version of your table with some minimum number of hosts that can consume the stream, let it create a few segments with large enough number of rows \(say, 500k  to 1M rows\), and use one of those  segments to run the command. You can drop the test version table, and re-provision it once the command outputs some parameters to set.
+This tool can help decide the optimum segment size and number of hosts for your table. You will need one sample Pinot segment from your table before you run this command. If you have an offline segment, you can use that. Alternatively, you can provision a test version of your table with some minimum number of hosts that can consume the stream, let it create a few segments with large enough number of rows (say, 500k to 1M rows), and use one of those segments to run the command. You can drop the test version table, and re-provision it once the command outputs some parameters to set.
 
 As of Pinot version 0.5.0, this command has been improved to display the number of pages mapped, as well as take in the push frequency as an argument if the realtime table being provisioned is a part of a hybrid table. If you are using an older version of this command, please download a later version and re-run the command. The arguments to the command are as follows:
 
 * `tableConfigFile`: This is the path to the table config file
 * `numPartitions`: Number of partitions in your stream
-* `numHosts`: This is a list of the number of hosts for which you need to compute the actual parameters. For example,  if you are planning to deploy between 4 and 8 hosts, you may specify 4,6,8. In this case, the parameters will be computed for each configuration -- that of 4 hosts, 6 hosts, and 8 hosts. You can then decide which of these configurations to use.
-* `numHours` : This is a list of maximum number of hours you want your consuming segments to be in consuming state. After these many hours the segment will move to completed state, even if other criteria \(like segment size or number of rows\) are not met yet. This value must be smaller than the retention of your stream. If you specify too small a value, then you run the risk of creating too many segments, this resulting in sub-optimal query performance. If you specify this value to be too big, then you may run the risk of having too large segments, running out of "hot" memory \(consuming segments are in read-write memory\). Specify a few different \(comma-separated\) values, and the command computes the segment size for each of these.
-* `sampleCompletedSegmentDir`: The path of the directory in which the sample segment is present.
-* `pushFrequency` : This is optional. If this is a hybrid table, then enter the frequency with which offline segments are pushed \(one of "hourly", "daily", "weekly" or "monthly"\). This argument is ignored if `retentionHours` is specified.
-* `maxUsableHostMemory`: This is the total memory available in each host for hosting `retentionHours` worth of data \(_i.e._ "hot" data\) of this table. Remember to leave some for query processing \(or other tables,  if you have them in the same hosts\). If your latency needs to be very low, this value should not exceed the physical memory available to store pinot segments of this table, on each host in your cluster. On the other hand, if you are trying to lower cost and can take higher latencies, consider specifying a bigger value here. Pinot will leave the rest to the Operating System to page memory back in as necessary.
-* `retentionHours` : This argument should specify how many hours of data will typically be queried on your table. It is assumed that these are the most recent hours.   If `pushFrequency` is specified, then it is assumed that the older data will be served by the offline table, and the value is derived automatically. For example, if `pushFrequency` is `daily`, this value defaults to `72`. If `hourly`, then `24`. If `weekly`, then `8d`. If `monthly`, then `32d`. If neither `pushFrequency` nor `retentionHours` is specified, then this value is assumed to be the retention time of the realtime table \(e.g. if the table is retained for 6 months, then it is assumed that most queries will retrieve all six months of data\). As an example, if you have a realtime only table with a 21 day retention, and expect that 90% of your queries will be for the most recent 3 days, you can specify a `retentionHours` value of 72. This will help you configure a system that performs much better for most of your queries while taking a performance hit for those that occasionally query older data. 
+* `numHosts`: This is a list of the number of hosts for which you need to compute the actual parameters. For example, if you are planning to deploy between 4 and 8 hosts, you may specify 4,6,8. In this case, the parameters will be computed for each configuration -- that of 4 hosts, 6 hosts, and 8 hosts. You can then decide which of these configurations to use.
+* `numHours` : This is a list of maximum number of hours you want your consuming segments to be in consuming state. After these many hours the segment will move to completed state, even if other criteria (like segment size or number of rows) are not met yet. This value must be smaller than the retention of your stream. If you specify too small a value, then you run the risk of creating too many segments, this resulting in sub-optimal query performance. If you specify this value to be too big, then you may run the risk of having too large segments, running out of "hot" memory (consuming segments are in read-write memory). Specify a few different (comma-separated) values, and the command computes the segment size for each of these.
+* `sampleCompletedSegmentDir`: The path of the directory in which the sample segment is present. You can either generate a sample segment from your ingestion topic, or have this tool generate some data for you automatically. You can generate a sample segment by creating a table and consuming data and generating at least one segment (wait for the consuming segment to complete).  You can then drop this table to create the real table after settling on the tableConfig parameters. Alternatively, if you specify the `numRows` and `schemaWithMetadataFile` arguments, this helper will automatically generate a sample segment that you can then use for initial configuration of your table. Should your real data be very different in characteristics than the generated sample, then you may need to modify the consumption parameters.
+* `pushFrequency` : This is optional. If this is a hybrid table, then enter the frequency with which offline segments are pushed (one of "hourly", "daily", "weekly" or "monthly"). This argument is ignored if `retentionHours` is specified.
+* `maxUsableHostMemory`: This is the total memory available in each host for hosting `retentionHours` worth of data (_i.e._ "hot" data) of this table. Remember to leave some for query processing (or other tables, if you have them in the same hosts). If your latency needs to be very low, this value should not exceed the physical memory available to store pinot segments of this table, on each host in your cluster. On the other hand, if you are trying to lower cost and can take higher latencies, consider specifying a bigger value here. Pinot will leave the rest to the Operating System to page memory back in as necessary.
+* `retentionHours` : This argument should specify how many hours of data will typically be queried on your table. It is assumed that these are the most recent hours. If `pushFrequency` is specified, then it is assumed that the older data will be served by the offline table, and the value is derived automatically. For example, if `pushFrequency` is `daily`, this value defaults to `72`. If `hourly`, then `24`. If `weekly`, then `8d`. If `monthly`, then `32d`. If neither `pushFrequency` nor `retentionHours` is specified, then this value is assumed to be the retention time of the realtime table (e.g. if the table is retained for 6 months, then it is assumed that most queries will retrieve all six months of data). As an example, if you have a realtime only table with a 21 day retention, and expect that 90% of your queries will be for the most recent 3 days, you can specify a `retentionHours` value of 72. This will help you configure a system that performs much better for most of your queries while taking a performance hit for those that occasionally query older data.
 * `ingestionRate` : Specify the average number of rows ingested per second per partition of your stream.
+* `schemaWithMetadataFile` : This is needed if you do not have a sample segment from the topic to be ingested. This argument allows you to specify a schema file with additional information to describe the data characteristics (like number of unique values each column can have, etc.).
+* `numRows` : This is an optional argument if you want the tool to generate a segment for you. If it is not give, then a default value of `10000` is used.
 
 One you run the command, it produces an output as below:
 
-```text
+```
 ============================================================
 RealtimeProvisioningHelperCommand -tableConfigFile /Users/ssubrama/tmp/samza/realtimeTableConfig.json -numPartitions 16 -pushFrequency null -numHosts 8,6,10 -numHours 6,12,18,24 -sampleCompletedSegmentDir /Users/ssubrama/tmp/samza/TestSamzaAnalyticsFeatures_1593411480000_1593500340000_0/ -ingestionRate 100 -maxUsableHostMemory 10G -retentionHours 72
 
@@ -158,10 +160,10 @@ numHours
 The idea here is to choose an optimal segment size so that :
 
 1. The number of segments searched for your queries are minimized
-2. The segment size is neither too large not too small \(where "large" and "small" are as per the range for your table\).
+2. The segment size is neither too large not too small (where "large" and "small" are as per the range for your table).
 3. Overall memory is optimized for your table, considering the other tables in the host, the query traffic, etc.
 
-You can pick the appropriate value for segment size and number of hours in the table config, and set the number of rows to zero. Note that you don't have to pick values exactly as given in each of these combinations \(they are calculated guesses anyway\). Feel free to choose some values in between or out of range as you feel fit, and adjust them after your table is in production \(no restarts required, things will slowly adjust themselves to the new configuration\). The example given below chooses from the output.
+You can pick the appropriate value for segment size and number of hours in the table config, and set the number of rows to zero. Note that you don't have to pick values exactly as given in each of these combinations (they are calculated guesses anyway). Feel free to choose some values in between or out of range as you feel fit, and adjust them after your table is in production (no restarts required, things will slowly adjust themselves to the new configuration). The example given below chooses from the output.
 
 **Case 1: Optimize for performance, high QPS**
 
@@ -182,6 +184,3 @@ You may decide from the output that you want to make do with 6 hosts. You have o
 "realtime.segment.flush.threshold.time": "24h"
 "realtime.segment.flush.threshold.segment.size": "450M"
 ```
-
-
-

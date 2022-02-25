@@ -8,135 +8,24 @@ description: >-
 
 ## Overview
 
-Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related \(e.g indexes, realtime config\). Please note that not all configuration options in TableConfig are currently covered. The following table shows the ones that are currently covered.
+Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related (e.g indexes, realtime config). Please note that not all configuration options in TableConfig are currently covered. The following table shows the ones that are currently covered.
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Rule</th>
-      <th style="text-align:left">Config Entity</th>
-      <th style="text-align:left">Config Name</th>
-      <th style="text-align:left">Applicable Table Type</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">Kafka Partitions</td>
-      <td style="text-align:left">Kafka</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>num.partitions</code>
-          </li>
-        </ul>
-      </td>
-      <td style="text-align:left">Realtime</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Table Partitioning</td>
-      <td style="text-align:left">Table Config</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>tableIndexConfig</code>&#x2192;<code>segmentPartitionConfig</code>
-          </li>
-        </ul>
-      </td>
-      <td style="text-align:left">Realtime &amp; Offline</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Inverted Sorted Index Joint</td>
-      <td style="text-align:left">Table Config</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>tableIndexConfig</code>&#x2192;<code>invertedIndexColumns</code>
-          </li>
-          <li><code>tableIndexConfig</code>&#x2192;<code>sortedColumn</code>
-          </li>
-        </ul>
-      </td>
-      <td style="text-align:left">Realtime &amp; Offline</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">NoDictionary OnHeapDictionary Joint</td>
-      <td style="text-align:left">Table Config</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>tableIndexConfig</code>&#x2192;<code>noDictionaryColumns</code>
-          </li>
-          <li><code>tableIndexConfig</code>&#x2192;<code>onHeapDictionaryColumns</code>
-          </li>
-        </ul>
-      </td>
-      <td style="text-align:left">Realtime &amp; Offline</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Bloom Filter</td>
-      <td style="text-align:left">Table Config</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>tableIndexConfig</code>&#x2192;<code>bloomFilterColumns</code>
-          </li>
-        </ul>
-      </td>
-      <td style="text-align:left">Realtime &amp; Offline</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Varied Length Dictionary</td>
-      <td style="text-align:left">Table Config</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>tableIndexConfig</code>&#x2192;<code>variedLengthDictionaryColumns</code>
-          </li>
-        </ul>
-      </td>
-      <td style="text-align:left">Realtime &amp; Offline</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Segment Size</td>
-      <td style="text-align:left">Segment Build &amp; Push Job</td>
-      <td style="text-align:left">
-        <p>Recommendations on:</p>
-        <ul>
-          <li>Segment size in Bytes</li>
-          <li>Number of segments</li>
-          <li>Number of rows per segment</li>
-        </ul>
-      </td>
-      <td style="text-align:left">Offline</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Aggregate Metrics</td>
-      <td style="text-align:left">Table Config</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>tableIndexConfig</code>&#x2192;<code>aggregateMetrics</code>
-          </li>
-        </ul>
-      </td>
-      <td style="text-align:left">Realtime</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Realtime Provisioning</td>
-      <td style="text-align:left">Table Config</td>
-      <td style="text-align:left">
-        <ul>
-          <li><code>tableIndexConfig</code>&#x2192;<code>streamConfigs</code>&#x2192;<code>realtime.segment.flush.threshold.time</code>
-          </li>
-          <li><code>tableIndexConfig</code>&#x2192;<code>streamConfigs</code>&#x2192;<code>realtime.segment.flush.threshold.segment.size</code>
-          </li>
-        </ul>
-      </td>
-      <td style="text-align:left">Realtime</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Realtime Provisioning</td>
-      <td style="text-align:left">Host Management</td>
-      <td style="text-align:left">Number of hosts needed in terms of memory consumption</td>
-      <td style="text-align:left">Realtime</td>
-    </tr>
-  </tbody>
-</table>
+| Rule                                | Config Entity            | Config Name                                                                                                                                                                                                                                               | Applicable Table Type |
+| ----------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Kafka Partitions                    | Kafka                    | <ul><li><code>num.partitions</code></li></ul>                                                                                                                                                                                                             | Realtime              |
+| Table Partitioning                  | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>segmentPartitionConfig</code></li></ul>                                                                                                                                                                       | Realtime & Offline    |
+| Inverted Sorted Index Joint         | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>invertedIndexColumns</code></li><li><code>tableIndexConfig</code>→<code>sortedColumn</code></li></ul>                                                                                                         | Realtime & Offline    |
+| NoDictionary OnHeapDictionary Joint | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>noDictionaryColumns</code></li><li><code>tableIndexConfig</code>→<code>onHeapDictionaryColumns</code></li></ul>                                                                                               | Realtime & Offline    |
+| Bloom Filter                        | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>bloomFilterColumns</code></li></ul>                                                                                                                                                                           | Realtime & Offline    |
+| Varied Length Dictionary            | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>variedLengthDictionaryColumns</code></li></ul>                                                                                                                                                                | Realtime & Offline    |
+| Segment Size                        | Segment Build & Push Job | <p>Recommendations on:</p><ul><li>Segment size in Bytes</li><li>Number of segments</li><li>Number of rows per segment</li></ul>                                                                                                                           | Offline               |
+| Aggregate Metrics                   | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>aggregateMetrics</code></li></ul>                                                                                                                                                                             | Realtime              |
+| Realtime Provisioning               | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>streamConfigs</code>→<code>realtime.segment.flush.threshold.time</code></li><li><code>tableIndexConfig</code>→<code>streamConfigs</code>→<code>realtime.segment.flush.threshold.segment.size</code></li></ul> | Realtime              |
+| Realtime Provisioning               | Host Management          | Number of hosts needed in terms of memory consumption                                                                                                                                                                                                     | Realtime              |
 
 Recommendation Engine can be used to optimize the configuration parameters for both new and existing tables. Also since the recommendation engine tries to generate near-optimal configurations, users are strongly encouraged to provide the input information to the best of their knowledge. It is ok if the information is not fully accurate. However, random/arbitrary and incomplete information will not help the Recommendation Engine’s algorithms.
+
+Also see the section on [RealtimeProvisioningHelper](operating-pinot/tuning/realtime.md#realtimeprovisioninghelper).
 
 ## How to use the engine
 
@@ -161,22 +50,22 @@ Data characteristics is defined in "schema" field. The content of this field is 
 ### 2. Table Characteristics
 
 * For realtime/hybrid tables,
-  * **Kafka partitions** \[Optional\] Fill this field with the partition count suggested by Kafka team. If this field is not provided, the engine tries to recommend the optimal number of partitions for the Kafka topic.
-  * **Kafka messages per second** \[Required\] Average number of messages go to the Kafka topic per second.
+  * **Kafka partitions** \[Optional] Fill this field with the partition count suggested by Kafka team. If this field is not provided, the engine tries to recommend the optimal number of partitions for the Kafka topic.
+  * **Kafka messages per second** \[Required] Average number of messages go to the Kafka topic per second.
 * For offline/hybrid tables the following is required :
   * **Records per push**
 * For all tables, the following are required :
   * **Expected QPS**
   * **Latency SLA in ms**
-  * **Query pattern** This should be filled out to the best of your knowledge. Many performance-impactful configs \(e.g. indices, partitioning, sorting\) are generated using query patterns.
+  * **Query pattern** This should be filled out to the best of your knowledge. Many performance-impactful configs (e.g. indices, partitioning, sorting) are generated using query patterns.
 
 ### 3. Rules
 
 In this section, lets describe the rules which generate recommendations for different configurations:
 
-* **Segment Size** - This rule recommends the following parameters for offline tables: 1\) number of segments, 2\) number of records in each segment, and 3\) size of each segment. For new tables, the rule uses the provided data characteristics to find the optimal values for these parameters. If your table already exists in production, you can obtain the following information from existing segments: number of rows in segment and segment size. Then add them as actualSegmentSize and numRowsInActualSegment parameters of segment size rule. You'll see an example for this in Overrides section.
-* **Kafka Partitions** - If the number of Kafka partitions is not already determined/provided, this rules recommends a value for it. It requires topic aggregate message rate \(number of messages per seconds across all partitions of the topic\) to drive the optimal number of partitions.
-* **Inverted Sorted Index Join** - This rule recommends which columns should have sorted index or inverted index. 
+* **Segment Size** - This rule recommends the following parameters for offline tables: 1) number of segments, 2) number of records in each segment, and 3) size of each segment. For new tables, the rule uses the provided data characteristics to find the optimal values for these parameters. If your table already exists in production, you can obtain the following information from existing segments: number of rows in segment and segment size. Then add them as actualSegmentSize and numRowsInActualSegment parameters of segment size rule. You'll see an example for this in Overrides section.
+* **Kafka Partitions** - If the number of Kafka partitions is not already determined/provided, this rules recommends a value for it. It requires topic aggregate message rate (number of messages per seconds across all partitions of the topic) to drive the optimal number of partitions.
+* **Inverted Sorted Index Join** - This rule recommends which columns should have sorted index or inverted index.
 * **Table Partitioning** - Partitioning parameters for realtime and offline parts of the table are normally the same, but some use cases might have different parameters. For the realtime part, this rules mirrors the output of the Kafka Partitions rule. For offline, this rule recommends a value for the number of partitions parameter which is determined based on the optimal number of segments - refer to Segment Size rule on how it’s calculated. This rule also recommends which column gives the best performance for partitioning by going over the query patterns and find out which column appears more - of course proportional to the weight of the query pattern - in IN or EQUALITY filters.
 * **Bloom Filter** - Bloom filters are useful for the columns that appear frequently in EQUALITY filters. This rule recommends which columns should have Bloom filters. It skips the columns with high cardinality as their corresponding Bloom filter memory footprint is large.
 * **NoDictionary OnHeapDictionary Joint** - This rule recommends which columns should be defined as NoDictionary columns and also which columns should have on-heap dictionary indices. Dictionary encoding can be helpful for efficient query processing and saving storage. However, unnecessary creation of dictionary can also add to storage and sometimes performance penalty. Based on the query pattern user provides, the rule attempts to find the best set of columns that will benefit from dictionary encoding. For on-heap dictionary part, the columns that are heavily queried and also have low cardinalities - for which the on-heap memory footprint is acceptably small - can have on-heap dictionary. The on-heap dictionary can result in more performant query execution.
@@ -244,7 +133,7 @@ One last item to explain for the input json is the overridden configs. You can i
 Currently, the engine recommends the following configs:
 
 * Indexing Config:
-  * **Inverted Index Columns** The columns to apply inverted \(bitmap\) indices on.
+  * **Inverted Index Columns** The columns to apply inverted (bitmap) indices on.
   * **Primary Sorted Column** The ONE column used to sort all the data during the segment generation.
   * **Bloom Filter Columns** The columns to add the bloom filter on.
   * **No Dictionary Columns** The columns not to add a dictionary on.
@@ -264,7 +153,7 @@ Currently, the engine recommends the following configs:
     * **Optimal Segment Size** Matrix of realtime segment size for each combination of numHost and numConsumptionHour.
     * **Consuming Memory per Host** Matrix of memory size for only consuming segments.
     * **Total Memory Used per Host** Matrix of total memory size for all realtime segments including consuming ones.
-* Flagged Queries: 
+* Flagged Queries:
   * Flags the invalid or expensive queries.
 
 We are planning to add more rules in the near future.
@@ -378,4 +267,3 @@ Output:
   }
 }
 ```
-
