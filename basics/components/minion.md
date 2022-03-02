@@ -224,7 +224,17 @@ Tasks are enabled on a per-table basis. To enable a certain task type (e.g. `myT
 }
 ```
 
-Under each enable task type, custom properties can be configured for the task type.
+Under each enable task type, custom properties can be configured for the task type.&#x20;
+
+There are also two task configs to be set as part of cluster configs like below. One controls task's overall timeout (1hr by default) and one for how many tasks to run on a single minion worker (1 by default).&#x20;
+
+```
+Using "POST /cluster/configs" API on CLUSTER tab in Swagger, with this payload
+{
+	"RealtimeToOfflineSegmentsTask.timeoutMs": "600000",
+	"RealtimeToOfflineSegmentsTask.numConcurrentTasksPerInstance": "4"
+}
+```
 
 ## Schedule Tasks
 

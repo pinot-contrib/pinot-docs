@@ -8,7 +8,7 @@ In this guide we will learn about running Pinot in Docker.
 
 This guide assumes that you have installed [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac) and have configured it with enough memory. A sample config is shown below:
 
-![Sample Docker resources](<../../.gitbook/assets/image (4).png>)
+![Sample Docker resources](<../../.gitbook/assets/image (4) (1).png>)
 
 The latest Pinot Docker image is published at `apachepinot/pinot:latest` and you can see a list of [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
 

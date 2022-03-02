@@ -10,7 +10,7 @@ Start running [Presto Image](https://hub.docker.com/repository/docker/apachepino
 {% tab title="Docker" %}
 Run below command to start a standalone Presto coordinator.
 
-```text
+```
 docker run \
   --network pinot-demo \
   --name=presto-coordinator \
@@ -20,7 +20,7 @@ docker run \
 
 Then you can connect to presto with [Presto-Cli](https://prestodb.io/docs/current/installation/cli.html).
 
-```text
+```
 if [[ ! -f "/tmp/presto-cli" ]]; then
     curl -L https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.228/presto-cli-0.228-executable.jar -o /tmp/presto-cli
     chmod +x /tmp/presto-cli
@@ -30,7 +30,7 @@ fi
 
 Then write your own queries;
 
-```text
+```
 presto:default> show tables;
     Table
 --------------
@@ -42,7 +42,7 @@ Splits: 19 total, 19 done (100.00%)
 0:00 [1 rows, 29B] [3 rows/s, 99B/s]
 ```
 
-```text
+```
 presto:default> select count(*) as flights_from_ca_to_ny from airlinestats where originstate='CA' and deststate='NY';
  flights_from_ca_to_ny
 -----------------------
@@ -54,7 +54,7 @@ Splits: 17 total, 17 done (100.00%)
 0:00 [1 rows, 8B] [5 rows/s, 42B/s]
 ```
 
-```text
+```
 presto:default> select * from airlinestats limit 1;
  flightnum | origin | quarter | lateaircraftdelay | divactualelapsedtime | divwheelsons | divwheelsoffs | airtime | arrdel15 | divtotalgtimes | deptimeblk | destcitymarketid | divairportseqids | dayssinceepoch | deptime | month | crselapsedtime | deststatename | carrier |
 -----------+--------+---------+-------------------+----------------------+--------------+---------------+---------+----------+----------------+------------+------------------+------------------+----------------+---------+-------+----------------+---------------+---------+
@@ -68,7 +68,7 @@ Splits: 17 total, 17 done (100.00%)
 
 Meanwhile you can access [Presto Cluster UI](http://localhost:8080/ui/) to see query stats.
 
-![Presto Cluster UI](../.gitbook/assets/image%20%2816%29%20%281%29.png)
+![Presto Cluster UI](<../.gitbook/assets/image (16).png>)
 {% endtab %}
 {% endtabs %}
 
@@ -78,22 +78,21 @@ Meanwhile you can access [Presto Cluster UI](http://localhost:8080/ui/) to see q
 
 Presto supports aggregation and predicate push down to Pinot. However, for certain queries that Pinot doesn't handle, Presto tries to fetch all the rows from the Pinot table segment by segment. This is definitely not an ideal access pattern for Pinot.
 
-In order to support large data scanning, Pinot \(&gt;=0.6.0\) introduces a gRPC server for on-demand data scanning with a reasonable smaller memory footprint.
+In order to support large data scanning, Pinot (>=0.6.0) introduces a gRPC server for on-demand data scanning with a reasonable smaller memory footprint.
 
 You can enable it by adding the below configs to the Pinot server config file:
 
-```text
+```
 pinot.server.grpc.enable=true
 pinot.server.grpc.port=8090
 ```
 
-Then you can enable the streaming connector in Presto\(&gt;=0.244\) by adding the below config to the Pinot catalog configs.
+Then you can enable the streaming connector in Presto(>=0.244) by adding the below config to the Pinot catalog configs.
 
-```text
+```
 pinot.use-streaming-for-segment-queries=true
 ```
 
 
 
-\(Disclaimer: Presto is a third-party software that is not part of the Apache Software Foundation\).
-
+(Disclaimer: Presto is a third-party software that is not part of the Apache Software Foundation).
