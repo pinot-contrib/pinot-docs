@@ -6,10 +6,27 @@ description: Links to all the design docs
 
 This page contains links to all the design documents
 
+### 2022
+
+| Name                                                                                                                                 | Authors   | Date     |
+| ------------------------------------------------------------------------------------------------------------------------------------ | --------- | -------- |
+| [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo) | Yupeng Fu | Jan 2022 |
+|                                                                                                                                      |           |          |
+|                                                                                                                                      |           |          |
+
+### 2021
+
+
+
+| Name               | Authors    | Date     |
+| ------------------ | ---------- | -------- |
+|                    |            |          |
+| Segment Writer API | Neha Pawar | Feb 2021 |
+
+### 2020&#x20;
+
 | Name                                                                                                                                                                                     | Authors               | Date      |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------- |
-| [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo)                                                     | Yupeng Fu             | Jan 2022  |
-| [Segment Writer API](segment-writer-api.md)                                                                                                                                              | Neha Pawar            | Feb 2021  |
 | [Kinesis Integration in Pinot](https://docs.google.com/document/d/1hFbzumQAGALAi8XZMOsVlwVHN-s2t37MA5QUfduL4Yk/edit?usp=sharing)                                                         | Neha Pawar            | Dec 2020  |
 | [JSON Indexing](https://docs.google.com/document/d/1ZBkZUjlkTH7pA1dN\_hLAUXhuP1pIo4WmtM5YXktUifg/edit?usp=sharing)                                                                       | Kishore Gopalakrishna | Oct 2020  |
 | [Lookup Join](https://docs.google.com/document/d/1InWmxbRqwcqIakzvoEWHLxtX4XR9H5L01256EbAUHV8/edit?usp=sharing)                                                                          | Dharak Kharod         | Oct 2020  |
