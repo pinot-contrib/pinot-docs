@@ -57,7 +57,8 @@ This feature uses the **pinot-minions and the Helix Task Executor framework**. I
 The PinotTaskManager periodic task is disabled by default. Enable it by adding this property to your controller conf. Set the frequency to some reasonable value (frequently is better, as extra tasks will not be scheduled unless required). The controller will need a restart after setting this config.
 
 ```
-"controller.task.frequencyPeriod": 3600
+controller.task.scheduler.enabled=true
+controller.task.frequencyPeriod=3600
 ```
 
 **Step 3**: Advanced configs
