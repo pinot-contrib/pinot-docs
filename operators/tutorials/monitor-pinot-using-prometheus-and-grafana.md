@@ -38,12 +38,12 @@ You can port forward port 8008 to local and access metrics though: [http://local
 
 2\. Configure service annotations:
 
-Add Prometheus related annotations to enable Prometheus to scrape metrics. &#x20;
+Add Prometheus related annotations to enable Prometheus to scrape metrics.
 
-* `controller.service.annotations`&#x20;
+* `controller.service.annotations`
 * `broker.service.annotations`
 * `server.service.annotations`
-* `controller.podAnnotations`&#x20;
+* `controller.podAnnotations`
 * `broker.podAnnotations`
 * `server.podAnnotations`
 
@@ -80,7 +80,7 @@ helm inspect values prometheus-community/prometheus > /tmp/prometheus-values.yam
 
 Configure Prometheus
 
-Please remember to check the configs:&#x20;
+Please remember to check the configs:
 
 * server.persistentVolume: data storage location/size limit/storage class
 * server.retention: how long to keep the data (default is 15d)
@@ -127,7 +127,7 @@ helm install grafana grafana/grafana -n grafana --values /tmp/grafana-values.yam
 kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
-* Access Grafana dashboard&#x20;
+* Access Grafana dashboard
 
 You can access it locally through port forwarding:
 
@@ -135,11 +135,11 @@ You can access it locally through port forwarding:
 kubectl port-forward service/grafana 20080:80 -n grafana
 ```
 
-&#x20;Once open the dashboard, you can login with credential:&#x20;
+Once open the dashboard, you can login with credential:
 
-`admin`/`[ PASSWORD GET FROM PREVIOUS STEP] `
+`admin`/`[ PASSWORD GET FROM PREVIOUS STEP]`
 
-![Grafana Dashboard](<../../.gitbook/assets/image (47) (1) (1).png>)
+![Grafana Dashboard](<../../.gitbook/assets/image (47) (1).png>)
 
 * Add data source
 
@@ -176,4 +176,3 @@ Then you can explore and make your own Pinot dashboard!
 ![](<../../.gitbook/assets/image (52).png>)
 
 ![](<../../.gitbook/assets/image (50).png>)
-
