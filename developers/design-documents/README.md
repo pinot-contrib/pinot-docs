@@ -10,17 +10,25 @@ This page contains links to all the design documents
 
 | Name                                                                                                                                 | Authors                          | Date     |
 | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- | -------- |
+| [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)        | Rong Rong                        | Feb 2022 |
 | [Pause/Resume Stream](https://docs.google.com/document/d/19uKzPRowJ8WLE0A4g6i8XLOBwqpswH2\_OvFvbxxZ\_X4/edit#heading=h.tvfsvrm5pwew) | Sajjad Moradi, Subbu Subramaniam | Feb 2022 |
+| [Fault Domain Awareness](./#2022)                                                                                                    | Siddharth Teotia                 | Feb 2022 |
 | [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo) | Yupeng Fu                        | Jan 2022 |
 | [Pluggable Indexes](https://docs.google.com/document/d/1Slu7klgQn\_3RcEJWUuHq9AF0v5ZDA9M2Y0dy8iqrtLQ/edit)                           | Richard Startin                  | Jan 2022 |
 
 ### 2021
 
-| Name                                                                                                                                     | Authors         | Date      |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------- |
-| [Improve raw variable length forward index format](https://docs.google.com/document/d/1Y7MyQGmDD2fI7brOOFQtToxd8ML837qRuc3IlNYFvCw/edit) | Richard Startin | Nov 2021  |
-| [Range encoded bit-sliced indexes](https://docs.google.com/document/d/1se2OgqXJiD7r7S7U6SUmTIAApO66QIrAYosxvXHEXlw/edit)                 | Richard Startin | Sept 2021 |
-| [Segment Writer API](https://docs.google.com/document/d/1f\_JlegCkH\_Zysm80maLnv7iqgWtD9uPiBLkeLmMUoNg/edit#)                            | Neha Pawar      | Feb 2021  |
+| Name                                                                                                                                     | Authors                           | Date     |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | -------- |
+| [Improve raw variable length forward index format](https://docs.google.com/document/d/1Y7MyQGmDD2fI7brOOFQtToxd8ML837qRuc3IlNYFvCw/edit) | Richard Startin                   | Nov 2021 |
+| [Consistent Push and Rollback](https://docs.google.com/document/d/1PUy4wSUPFyEWEW3a88Mipdug3cPj4EpV\_\_lx-BVUTYk/edit?usp=sharing)       | Seunghyun Lee, Jialiang Li        | Nov 2021 |
+| [Aggregation Filter](https://docs.google.com/document/d/1qJzG1CmyVZpLN6rdI8V0zUWEaIjQ86hDL9XwrcPKcTs/edit?usp=sharing)                   | Atri Sharma                       | Oct 2021 |
+| [Range encoded bit-sliced indexes](https://docs.google.com/document/d/1se2OgqXJiD7r7S7U6SUmTIAApO66QIrAYosxvXHEXlw/edit)                 | Richard Startin                   | Sep 2021 |
+| [Time Series Aggregate Functions](https://docs.google.com/document/d/1D5tyd-gFIe5QjL8XYLQmL5\_traw-jtKkzeF96G3naes/edit?usp=sharing)     | Lakshmanan Velusamy, Weixiang Sun | Sep 2021 |
+| [Native Text Indices](https://docs.google.com/document/d/1PMhoRy6WF46C4d4mw0LVe9b8Vjqes6vsXZkmxXzMYzw/edit?usp=sharing)                  | Atri Sharma                       | Sep 2021 |
+| [Geospatial Support](https://docs.google.com/document/d/1Mkm5RHS\_tof-vIUt5-UNeOgRYSBAN6M\_pN-hedV6Q0g/edit?usp=sharing)                 | Yupeng Fu                         | May 2021 |
+| [Segment Writer API](https://docs.google.com/document/d/1f\_JlegCkH\_Zysm80maLnv7iqgWtD9uPiBLkeLmMUoNg/edit#)                            | Neha Pawar                        | Feb 2021 |
+| [Partial Upsert](https://docs.google.com/document/d/1qrTD7x23FlPrAUVIFbWs6GSBtTsztWhWgis-xr1lGMs/edit?usp=sharing)                       | Qiaochu Liu                       | Feb 2021 |
 
 ### 2020&#x20;
 
