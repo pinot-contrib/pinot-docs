@@ -8,11 +8,11 @@ This page contains links to all the design documents
 
 ### 2022
 
-| Name                                                                                                                                 | Authors   | Date     |
-| ------------------------------------------------------------------------------------------------------------------------------------ | --------- | -------- |
-| [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo) | Yupeng Fu | Jan 2022 |
-|                                                                                                                                      |           |          |
-|                                                                                                                                      |           |          |
+| Name                                                                                                                                 | Authors                          | Date     |
+| ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- | -------- |
+| [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo) | Yupeng Fu                        | Jan 2022 |
+| [Pause/Resume Stream](https://docs.google.com/document/d/19uKzPRowJ8WLE0A4g6i8XLOBwqpswH2\_OvFvbxxZ\_X4/edit#heading=h.tvfsvrm5pwew) | Sajjad Moradi, Subbu Subramaniam | Feb 2022 |
+|                                                                                                                                      |                                  |          |
 
 ### 2021
 
