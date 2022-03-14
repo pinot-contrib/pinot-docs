@@ -9,6 +9,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="abs.md" %}
 {% page-ref page="add.md" %}
 {% page-ref page="arraylength.md" %}
+{% page-ref page="arraySliceString.md" %}
 {% page-ref page="avgmv.md" %}
 {% page-ref page="ceil.md" %}
 {% page-ref page="chr.md" %}

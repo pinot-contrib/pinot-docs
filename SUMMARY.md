@@ -179,6 +179,7 @@
   * [ABS](configuration-reference/functions/abs.md)
   * [ADD](configuration-reference/functions/add.md)
   * [ARRAYLENGTH](configuration-reference/functions/arraylength.md)
+  * [arraySliceString](configuration-reference/functions/arraySliceString.md)
   * [AVGMV](configuration-reference/functions/avgmv.md)
   * [ceil](configuration-reference/functions/ceil.md)
   * [CHR](configuration-reference/functions/chr.md)
