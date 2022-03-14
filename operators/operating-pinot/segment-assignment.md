@@ -12,7 +12,7 @@ Segment assignment means the strategy of assigning each segment from a table to 
 
 Balanced Segment Assignment is the default assignment strategy, where each segment is assigned to the server with the least segments already assigned. With this strategy, each server will have balanced query load, and each query will be routed to all the servers. It requires minimum configuration, and works well for small use cases.
 
-![](<../../.gitbook/assets/balanced (1).png>)
+![](../../.gitbook/assets/balanced.png)
 
 ## Replica-Group Segment Assignment
 
@@ -28,10 +28,11 @@ When executing queries, each query will only be routed to the servers within the
 
 In order to further increase the query performance, we can reduce the number of segments processed for each query by partitioning the data and use the Partitioned Replica-Group Segment Assignment.
 
-Partitioned Replica-Group Segment Assignment extends the Replica-Group Segment Assignment by assigning the segments from the same partition to the same set of servers. To solve a query which hits only one partition (e.g. `SELECT * FROM myTable WHERE memberId = 123` where `myTable` is partitioned with `memberId` column), the query only needs to be routed to the servers for the targeting partition, which can significantly reduce the number of segments to be processed. This strategy is especially useful to achieve high throughput and low latency for use cases that filter on an id field.
+Partitioned Replica-Group Segment Assignment extends the Replica-Group Segment Assignment by assigning the segments from the same partition to the same set of servers. To solve a query which hits only one partition \(e.g. `SELECT * FROM myTable WHERE memberId = 123` where `myTable` is partitioned with `memberId` column\), the query only needs to be routed to the servers for the targeting partition, which can significantly reduce the number of segments to be processed. This strategy is especially useful to achieve high throughput and low latency for use cases that filter on an id field.
 
 ![](../../.gitbook/assets/partitioned.png)
 
 ## Configure Segment Assignment
 
 Segment assignment is configured along with the instance assignment, check [Instance Assignment](instance-assignment.md) for details.
+

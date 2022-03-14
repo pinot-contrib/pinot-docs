@@ -21,7 +21,7 @@ select FlightNum,
        arraySliceString(RandomAirports, 0, 2) AS airports, 
        RandomAirports
 from airlineStats 
-WHERE arraylength(RandomAirports) >= 2
+WHERE arraylength(RandomAirports) BETWEEN 2 AND 4
 limit 5
 ```
 
