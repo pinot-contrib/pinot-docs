@@ -23,6 +23,8 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="arrayslicestring.md" %}
 {% page-ref page="arraysortint.md" %}
 {% page-ref page="arraysortstring.md" %}
+{% page-ref page="arrayunionint.md" %}
+{% page-ref page="arrayunionstring.md" %}
 {% page-ref page="avgmv.md" %}
 {% page-ref page="ceil.md" %}
 {% page-ref page="chr.md" %}
