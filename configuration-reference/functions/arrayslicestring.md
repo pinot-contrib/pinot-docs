@@ -22,7 +22,7 @@ WHERE arraylength(RandomAirports) >= 2
 limit 5
 ```
 
-| FlightNum   | airports | RandomAirports
+| FlightNum   | airports | RandomAirports|
 | ------------- | ------------- |------------- |
 |671|	SEA,PSC	|SEA,PSC,PHX,MSY|
 |1767	|SEA,PSC	|SEA,PSC,PHX|

@@ -8,8 +8,14 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% page-ref page="abs.md" %}
 {% page-ref page="add.md" %}
+{% page-ref page="arraycontainsint.md" %}
+{% page-ref page="arraycontainsstring.md" %}
+{% page-ref page="arraydistinctstring.md" %}
+{% page-ref page="arrayindexofint.md" %}
+{% page-ref page="arrayindexofstring.md" %}
 {% page-ref page="arraylength.md" %}
-{% page-ref page="arraySliceString.md" %}
+{% page-ref page="arraysliceint.md" %}
+{% page-ref page="arrayslicestring.md" %}
 {% page-ref page="avgmv.md" %}
 {% page-ref page="ceil.md" %}
 {% page-ref page="chr.md" %}
