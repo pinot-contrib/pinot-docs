@@ -10,6 +10,7 @@ This page contains links to all the design documents
 
 | Name                                                                                                                                 | Authors                          | Date     |
 | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- | -------- |
+| [Generalized Pre-Aggregation](https://docs.google.com/document/d/17nMXwmDa7-eopzSaQ4XhbfnbF7myQMzDshanSPXLK0s/edit?usp=sharing)      | Evan Noon                        | Mar 2022 |
 | [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)        | Rong Rong                        | Feb 2022 |
 | [Pause/Resume Stream](https://docs.google.com/document/d/19uKzPRowJ8WLE0A4g6i8XLOBwqpswH2\_OvFvbxxZ\_X4/edit#heading=h.tvfsvrm5pwew) | Sajjad Moradi, Subbu Subramaniam | Feb 2022 |
 | [Fault Domain Awareness](./#2022)                                                                                                    | Siddharth Teotia                 | Feb 2022 |
