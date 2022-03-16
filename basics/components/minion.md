@@ -192,7 +192,36 @@ public interface MinionEventObserver {
 
 ### SegmentGenerationAndPushTask
 
-To be added
+The PushTask can fetch files from an input folder e.g. from a S3 bucket and converts them into segments. The PushTask converts one file into one segment and keeps file name in segment metadata to avoid duplicate ingestion. Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.
+
+```
+"ingestionConfig": {
+    "batchIngestionConfig": {
+      "segmentIngestionType": "APPEND",
+      "segmentIngestionFrequency": "DAILY",
+      "batchConfigMaps": [
+        {
+          "input.fs.className": "org.apache.pinot.plugin.filesystem.S3PinotFS",
+          "input.fs.prop.region": "us-west-2",
+          "input.fs.prop.secretKey": "....",
+          "input.fs.prop.accessKey": "....",
+          "inputDirURI": "s3://my.s3.bucket/batch/airlineStats/rawdata/",
+          "includeFileNamePattern": "glob:**/*.avro",
+          "excludeFileNamePattern": "glob:**/*.tmp",
+          "inputFormat": "avro"
+        }
+      ]
+    }
+  },
+  "task": {
+    "taskTypeConfigsMap": {
+      "SegmentGenerationAndPushTask": {
+        "tableMaxNumTasks": "10",
+        "schedule": "0 */10 * * * ?"
+      }
+    }
+  }
+```
 
 ### RealtimeToOfflineSegmentsTask
 
