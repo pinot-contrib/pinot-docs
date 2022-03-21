@@ -216,7 +216,6 @@ The PushTask can fetch files from an input folder e.g. from a S3 bucket and conv
   "task": {
     "taskTypeConfigsMap": {
       "SegmentGenerationAndPushTask": {
-        "tableMaxNumTasks": "10",
         "schedule": "0 */10 * * * ?"
       }
     }
