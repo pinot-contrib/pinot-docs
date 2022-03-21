@@ -280,3 +280,30 @@ With Kafka consumer 2.0, you can ingest transactionally committed messages only 
 ```
 
 Note that the default value of this config `read_uncommitted` to read all messages. Also, this config supports low-level consumer only.
+
+#### Use Kafka Level Consumer with SASL\_SSL
+
+Here is an example config which uses SASL\_SSL based authentication to talk with kafka and schema-registry. Notice there are two sets of SSL options, some for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.` are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
+
+```
+"streamConfigs": {
+        "streamType": "kafka",
+        "stream.kafka.consumer.type": "lowlevel",
+        "stream.kafka.topic.name": "mytopic",
+        "stream.kafka.consumer.prop.auto.offset.reset": "largest",
+        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+        "stream.kafka.broker.list": "kafka-broker-host:9092",
+        "stream.kafka.schema.registry.url": "https://xxx",
+        "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
+        "stream.kafka.decoder.prop.schema.registry.rest.url": "https://xxx",
+        "stream.kafka.decoder.prop.basic.auth.credentials.source": "USER_INFO",
+        "stream.kafka.decoder.prop.schema.registry.basic.auth.user.info": "schema_registry_username:schema_registry_password",
+        "sasl.mechanism": "PLAIN" ,
+        "security.protocol": "SASL_SSL" ,
+        "sasl.jaas.config":"org.apache.kafka.common.security.scram.ScramLoginModule required username=\"kafkausername\" password=\"kafkapassword\";",
+        "realtime.segment.flush.threshold.rows": "0",
+        "realtime.segment.flush.threshold.time": "24h",
+        "realtime.segment.flush.autotune.initialRows": "3000000",
+        "realtime.segment.flush.threshold.segment.size": "500M"
+      },
+```
