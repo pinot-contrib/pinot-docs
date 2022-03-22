@@ -75,7 +75,7 @@ A dateTimeFieldSpec is used to define time columns of the table. Here's a list o
     </tr>
     <tr>
       <td style="text-align:left">dataType</td>
-      <td style="text-align:left">Data type of the date time column. Can be STRING, INT, LONG</td>
+      <td style="text-align:left">Data type of the date time column. Can be STRING, INT, LONG or TIMESTAMP</td>
     </tr>
     <tr>
       <td style="text-align:left">format</td>
@@ -90,6 +90,8 @@ A dateTimeFieldSpec is used to define time columns of the table. Here's a list o
         </p>
         <p>1:HOURS:SIMPLE_DATE_FORMAT:EEE MMM dd HH:mm:ss ZZZ yyyy - date specified
           like <code>Mon Aug 24 12:36:50 America/Los_Angeles 2019</code>
+        </p>
+        <p>Noted that if TIMESTAMP type is used in dataType, format is ignored because JDBC standard SQL requires TIMESTAMP in <code>yyyy-[m]m-[d]d hh:mm:ss[.f...]</code> format.
         </p>
       </td>
     </tr>
