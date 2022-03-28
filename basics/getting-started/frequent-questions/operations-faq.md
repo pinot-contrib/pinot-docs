@@ -98,13 +98,31 @@ Use the `GET /periodictask/names` API to fetch the names of all the Periodic Tas
 
 ```
 curl -X GET "http://localhost:9000/periodictask/names" -H "accept: application/json"
+
+[
+  "RetentionManager",
+  "OfflineSegmentIntervalChecker",
+  "RealtimeSegmentValidationManager",
+  "BrokerResourceValidationManager",
+  "SegmentStatusChecker",
+  "SegmentRelocator",
+  "MinionInstancesCleanupTask",
+  "TaskMetricsEmitter"
+]
 ```
 
 To manually run a named Periodic Task use the `GET /periodictask/run` API
 
 ```
 curl -X GET "http://localhost:9000/periodictask/run?taskname=SegmentStatusChecker&tableName=jsontypetable&type=OFFLINE" -H "accept: application/json"
+
+{
+  "Log Request Id": "api-09630c07",
+  "Controllers notified": true
+}
 ```
+The `Log Request Id` (`api-09630c07`) can be used to search through pinot-controller log file to see log entries related to execution of the Periodic task that was manually run.
+
 
 If `tableName` (and its type `OFFLINE` or `REALTIME`) is not provided, the task will run against all tables.
 
