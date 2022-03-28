@@ -92,6 +92,21 @@ curl -X POST "http://localhost:9000/tenants"
 -H "Content-Type: application/json" 
 -d "{\"tenantRole\":\"BROKER\",\"tenantName\":\"foo\",\"numberOfInstances\":1}"
 ```
+### How to I manually run a Periodic Task
+
+Use the `GET /periodictask/names` API to fetch the names of all the Periodic Tasks running on your Pinot cluster.
+
+```
+curl -X GET "http://localhost:9000/periodictask/names" -H "accept: application/json"
+```
+
+To manually run a named Periodic Task use the `GET /periodictask/run` API
+
+```
+curl -X GET "http://localhost:9000/periodictask/run?taskname=SegmentStatusChecker&tableName=jsontypetable&type=OFFLINE" -H "accept: application/json"
+```
+
+If `tableName` (and its type `OFFLINE` or `REALTIME`) is not provided, the task will run against all tables.
 
 ## Tuning and Optimizations
 
