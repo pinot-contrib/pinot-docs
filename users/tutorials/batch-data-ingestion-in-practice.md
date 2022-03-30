@@ -393,7 +393,7 @@ Or put all the required plugins jars to CLASSPATH, then set `-Dplugins.dir=${CLA
 {% endhint %}
 
 ```
-export PINOT_VERSION=0.5.0-SNAPSHOT
+export PINOT_VERSION=0.10.0-SNAPSHOT
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/build/
 cd ${PINOT_DISTRIBUTION_DIR}
 ${SPARK_HOME}/bin/spark-submit \
@@ -548,7 +548,7 @@ pushJobSpec:
 Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
 ```
-export PINOT_VERSION=0.5.0-SNAPSHOT
+export PINOT_VERSION=0.10.0-SNAPSHOT
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/build/
 export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
 hadoop jar  \
