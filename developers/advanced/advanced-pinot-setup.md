@@ -21,7 +21,7 @@ If running locally, please ensure your docker cluster has enough resources, belo
 You can try out pre-built Pinot all-in-one docker image.
 
 ```
-export PINOT_VERSION=0.7.0-SNAPSHOT
+export PINOT_VERSION=0.10.0
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
@@ -120,7 +120,7 @@ a413b0013806        apachepinot/pinot:0.3.0-SNAPSHOT   "./bin/pinot-admin.s…" 
 Download Pinot Distribution from [http://pinot.apache.org/download/](http://pinot.apache.org/download/)
 
 ```
-$ export PINOT_VERSION=0.7.0
+$ export PINOT_VERSION=0.10.0
 $ tar -xvf apache-pinot-${PINOT_VERSION}-bin.tar.gz
 
 $ cd apache-pinot-${PINOT_VERSION}-bin
