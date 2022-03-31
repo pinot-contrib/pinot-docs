@@ -222,6 +222,7 @@ Here is an example config which uses SSL based authentication to talk with kafka
         "stream.kafka.zk.broker.url": "localhost:2191/kafka",
         "stream.kafka.broker.list": "localhost:9876",
         "schema.registry.url": "",
+        "topic.consumption.rate.limit": 10000,
         "security.protocol": "SSL",
         "ssl.truststore.location": "",
         "ssl.keystore.location": "",
