@@ -1,9 +1,5 @@
 # Amazon Kinesis
 
-{% hint style="warning" %}
-This is not tested in production. You may hit some snags while trying to use this.
-{% endhint %}
-
 To ingest events from an Amazon Kinesis stream into Pinot, set the following configs into the table config
 
 ```
