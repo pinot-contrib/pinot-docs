@@ -12,7 +12,7 @@ This page contains links to all the design documents
 | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- | -------- |
 | [Generalized Pre-Aggregation](https://docs.google.com/document/d/17nMXwmDa7-eopzSaQ4XhbfnbF7myQMzDshanSPXLK0s/edit?usp=sharing)      | Evan Noon                        | Mar 2022 |
 | [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)        | Rong Rong                        | Feb 2022 |
-| [Pause/Resume Stream](https://docs.google.com/document/d/19uKzPRowJ8WLE0A4g6i8XLOBwqpswH2\_OvFvbxxZ\_X4/edit#heading=h.tvfsvrm5pwew) | Sajjad Moradi, Subbu Subramaniam | Feb 2022 |
+| [Pause/Resume Stream](https://docs.google.com/document/d/1uuXuif0SfMTnH3ykfuzXXNjh-LyszjilodD\_mdlilZg/edit#)                        | Sajjad Moradi, Subbu Subramaniam | Feb 2022 |
 | [Fault Domain Awareness](./#2022)                                                                                                    | Siddharth Teotia                 | Feb 2022 |
 | [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo) | Yupeng Fu                        | Jan 2022 |
 | [Pluggable Indexes](https://docs.google.com/document/d/1Slu7klgQn\_3RcEJWUuHq9AF0v5ZDA9M2Y0dy8iqrtLQ/edit)                           | Richard Startin                  | Jan 2022 |
@@ -31,7 +31,7 @@ This page contains links to all the design documents
 | [Segment Writer API](https://docs.google.com/document/d/1f\_JlegCkH\_Zysm80maLnv7iqgWtD9uPiBLkeLmMUoNg/edit#)                            | Neha Pawar                        | Feb 2021 |
 | [Partial Upsert](https://docs.google.com/document/d/1qrTD7x23FlPrAUVIFbWs6GSBtTsztWhWgis-xr1lGMs/edit?usp=sharing)                       | Qiaochu Liu                       | Feb 2021 |
 
-### 2020&#x20;
+### 2020
 
 | Name                                                                                                                                                                      | Authors               | Date      |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------- |
@@ -62,7 +62,7 @@ This page contains links to all the design documents
 
 | Name                                                                                                                                                                                     | Authors          | Date     |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------- |
-| [Text Search ](https://docs.google.com/document/d/19uLti7wwl7nPlDuy6cUVnLOll2C8u3YtUITbNj0TT5o/edit)                                                                                     | Siddharth Teotia | Nov 2019 |
+| [Text Search](https://docs.google.com/document/d/19uLti7wwl7nPlDuy6cUVnLOll2C8u3YtUITbNj0TT5o/edit)                                                                                      | Siddharth Teotia | Nov 2019 |
 | [Pinot SQL migration Plan](https://docs.google.com/document/d/1uNIq0cybUtVtdtJ38-4ewFNEQorbg-2KYr-CMSj6H\_8/edit#heading=h.ejrg0ci2rzol)                                                 | Xiang Fu         | Nov 2019 |
 | [Segment Admin Rest APIs](https://cwiki.apache.org/confluence/display/PINOT/Segment+Admin+Rest+APIs)                                                                                     | Jackie Jiang     | Nov 2019 |
 | [Order By in aggregations](https://cwiki.apache.org/confluence/display/PINOT/Order+By)                                                                                                   | Neha             | Oct 2019 |
