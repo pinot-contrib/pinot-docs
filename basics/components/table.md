@@ -87,7 +87,7 @@ You can also set up [Bloomfilters](../../operators/operating-pinot/tuning/routin
 
 ### Pre-aggregation
 
-You can aggregate the real-time stream data as it is consumed to reduce segment sizes. We sum the metric column values of all rows that have the same dimensions and create a single row in the segment. This feature is only available on `REALTIME` tables.
+You can aggregate the real-time stream data as it is consumed to reduce segment sizes. We sum the metric column values of all rows that have the same values for all dimension and time columns and create a single row in the segment. This feature is only available on `REALTIME` tables.
 
 The only supported aggregation is `SUM`. The columns on which pre-aggregation is to be done need to satisfy the following requirements:
 
@@ -133,7 +133,7 @@ A hybrid table is a table composed of 2 tables, one offline and one real-time th
 
 Once an offline segment is pushed to cover a recent time period, the brokers automatically switch to using the offline table for segments for that time period and use the real-time table only for data not available in the offline table.
 
-**To understand how time boundary works in the case of a hybrid table, see **[**Broker**](https://docs.pinot.apache.org/basics/components/broker)**.**&#x20;
+**To understand how time boundary works in the case of a hybrid table, see** [**Broker**](https://docs.pinot.apache.org/basics/components/broker)**.**&#x20;
 
 A typical scenario is pushing a deduped cleaned up data into an offline table every day while consuming real-time data as and when it arrives. The data can be kept in offline tables for even a few years while the real-time data would be cleaned every few days.
 
