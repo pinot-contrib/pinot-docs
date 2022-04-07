@@ -10,6 +10,7 @@ This page contains links to all the design documents
 
 | Name                                                                                                                                 | Authors                          | Date     |
 | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- | -------- |
+| [Server Failure Detector](https://docs.google.com/document/d/1X32OMT6lC4pCveQVzK6OvRlaW0kE9HZ2vn\_EHzesM1w/edit?usp=sharing)         | Jackie Jiang                     | Apr 2022 |
 | [Generalized Pre-Aggregation](https://docs.google.com/document/d/17nMXwmDa7-eopzSaQ4XhbfnbF7myQMzDshanSPXLK0s/edit?usp=sharing)      | Evan Noon                        | Mar 2022 |
 | [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)        | Rong Rong                        | Feb 2022 |
 | [Pause/Resume Stream](https://docs.google.com/document/d/1uuXuif0SfMTnH3ykfuzXXNjh-LyszjilodD\_mdlilZg/edit#)                        | Sajjad Moradi, Subbu Subramaniam | Feb 2022 |
