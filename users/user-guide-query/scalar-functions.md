@@ -11,51 +11,44 @@ Pinot allows you to run any function using [Apache Groovy](https://groovy-lang.o
 
 **`GROOVY('result value metadata json', ''groovy script', arg0, arg1, arg2...)`**
 
-This function will execute the groovy script using the arguments provided and return the result that matches the provided result value metadata. **** The function requires the following arguments:&#x20;
+This function will execute the groovy script using the arguments provided and return the result that matches the provided result value metadata. \*\*\*\* The function requires the following arguments:
 
-* `Result value metadata json` - json string representing result value metadata. Must contain non-null keys `resultType` and `isSingleValue`.&#x20;
-* `Groovy script to execute`- groovy script string, which uses `arg0`,  `arg1`, `arg2` etc to refer to the arguments provided within the script
+* `Result value metadata json` - json string representing result value metadata. Must contain non-null keys `resultType` and `isSingleValue`.
+* `Groovy script to execute`- groovy script string, which uses `arg0`, `arg1`, `arg2` etc to refer to the arguments provided within the script
 * `arguments` - pinot columns/other transform functions that are arguments to the groovy script
 
 **Examples**
 
 * Add colA and colB and return a single-value INT\
-  `groovy(  '{"returnType":"INT","isSingleValue":true}',   'arg0 + arg1',   colA, colB)`\
-
+  `groovy( '{"returnType":"INT","isSingleValue":true}', 'arg0 + arg1', colA, colB)`\\
 *   Find the max element in mvColumn array and return a single-value INT
 
-    `groovy('{"returnType":"INT","isSingleValue":true}', 'arg0.toList().max()', mvColumn)`\
-
+    `groovy('{"returnType":"INT","isSingleValue":true}', 'arg0.toList().max()', mvColumn)`\\
 *   Find all elements of the array mvColumn and return as a multi-value LONG column
 
-    `groovy('{"returnType":"LONG","isSingleValue":false}', 'arg0.findIndexValues{ it > 5 }', mvColumn)`\
-
+    `groovy('{"returnType":"LONG","isSingleValue":false}', 'arg0.findIndexValues{ it > 5 }', mvColumn)`\\
 *   Multiply length of array mvColumn with colB and return a single-value DOUBLE
 
-    `groovy('{"returnType":"DOUBLE","isSingleValue":true}', 'arg0 * arg1', arraylength(mvColumn), colB)`\
-
+    `groovy('{"returnType":"DOUBLE","isSingleValue":true}', 'arg0 * arg1', arraylength(mvColumn), colB)`\\
 *   Find all indexes in mvColumnA which have value `foo`, add values at those indexes in mvColumnB
 
-    `groovy( '{"returnType":"DOUBLE","isSingleValue":true}', 'def x = 0; arg0.eachWithIndex{item, idx-> if (item == "foo") {x = x + arg1[idx] }}; return x' , mvColumnA, mvColumnB)`\
+    `groovy( '{"returnType":"DOUBLE","isSingleValue":true}', 'def x = 0; arg0.eachWithIndex{item, idx-> if (item == "foo") {x = x + arg1[idx] }}; return x' , mvColumnA, mvColumnB)`\\
+*   Switch case which returns a FLOAT value depending on length of mvCol array
 
-*   Switch case which returns a FLOAT value depending on length of mvCol array&#x20;
-
-    `groovy('{\"returnType\":\"FLOAT\", \"isSingleValue\":true}', 'def result; switch(arg0.length()) { case 10: result = 1.1; break; case 20: result = 1.2; break; default: result = 1.3;}; return result.floatValue()', mvCol)` \
-
+    `groovy('{\"returnType\":\"FLOAT\", \"isSingleValue\":true}', 'def result; switch(arg0.length()) { case 10: result = 1.1; break; case 20: result = 1.2; break; default: result = 1.3;}; return result.floatValue()', mvCol)` \\
 *   Any Groovy script which takes no arguments
 
     `groovy('new Date().format( "yyyyMMdd" )', '{"returnType":"STRING","isSingleValue":true}')`
 
 :warning: Note that Groovy script doesn't accept Built-In ScalarFunction that's specific to Pinot queries. See the section below for more information.
 
-
-**:warning: Disabling Groovy**
+:warning: **Disabling Groovy**
 
 Allowing execuatable Groovy in queries can be a security vulnerability. If you would like to disable Groovy in Pinot queries, you can set the following broker config.
 
 `pinot.broker.disable.query.groovy=true`
 
-If not set, Groovy in queries is enabled by default.
+If not set, Groovy in queries is disabled by default.
 
 The above configuration applies across the entire Pinot cluster. If you want a table level override to enable/disable Groovy queries, the following property can be set in the query table config.
 
@@ -72,9 +65,9 @@ The above configuration applies across the entire Pinot cluster. If you want a t
 
 ### Scalar Functions
 
-Since the 0.5.0 release, Pinot supports custom functions that return a single output for multiple inputs. Examples of scalar functions can be found in [StringFunctions](supported-transformations.md#string-functions) and [DateTimeFunctions ](supported-transformations.md#datetime-functions)
+Since the 0.5.0 release, Pinot supports custom functions that return a single output for multiple inputs. Examples of scalar functions can be found in [StringFunctions](supported-transformations.md#string-functions) and [DateTimeFunctions](supported-transformations.md#datetime-functions)
 
-Pinot automatically identifies and registers all the functions that have the `@ScalarFunction`  annotation.&#x20;
+Pinot automatically identifies and registers all the functions that have the `@ScalarFunction` annotation.
 
 Only Java methods are supported.
 
@@ -103,7 +96,7 @@ include 'org.apache.pinot:pinot-common:0.5.0'
 {% endtab %}
 {% endtabs %}
 
-* Annotate your methods with `@ScalarFunction` annotation. Make sure the method is `static` and returns only a single value output. The input and output can have one of the following types -&#x20;
+* Annotate your methods with `@ScalarFunction` annotation. Make sure the method is `static` and returns only a single value output. The input and output can have one of the following types -
   * Integer
   * Long
   * Double
