@@ -15,7 +15,7 @@ Converts from milliseconds to a formatted date-time string, based on the provide
 ## Usage Examples
 
 ```sql
-SELECT ToDateTime(1639137263000, 'YYYY-MM-dd') AS dateTimeString
+SELECT ToDateTime(1639137263000, 'yyyy-MM-dd') AS dateTimeString
 FROM ignoreMe
 ```
 
@@ -26,7 +26,7 @@ FROM ignoreMe
 ```sql
 SELECT ToDateTime(
     1639137263000, 
-    'YYYY-MM-dd hh:mm:ss a'
+    'yyyy-MM-dd hh:mm:ss a'
     ) AS dateTimeString
 FROM ignoreMe
 ```
@@ -38,7 +38,7 @@ FROM ignoreMe
 ```sql
 SELECT ToDateTime(
     1639137263000, 
-    'YYYY-MM-dd HH:mm:ss Z',
+    'yyyy-MM-dd HH:mm:ss Z',
     'CET'
     ) AS dateTimeString
 FROM ignoreMe
