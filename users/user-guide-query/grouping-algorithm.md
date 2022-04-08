@@ -57,6 +57,8 @@ HAVING SUM(colA) < 100
 LIMIT 10
 ```
 
+Increase min trim size to keep more groups in these cases. 
+
 ## Configuraton Parameters
 
 | Parameter                                                                                                                                                                       | Default   | Query Override                                              | Description |
