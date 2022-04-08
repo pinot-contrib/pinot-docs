@@ -23,3 +23,5 @@ description: >-
 {% page-ref page="json-queries.md" %}
 
 {% page-ref page="explain-plan.md" %}
+
+{% page-ref page="grouping-algorithm.md" %}
