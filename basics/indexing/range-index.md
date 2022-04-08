@@ -24,7 +24,7 @@ A range index is a variant of an [inverted index](https://docs.pinot.apache.org/
 }
 ```
 
-At the moment, range indexing is only supported for dictionary columns. Support for raw value columns is WIP.
+Range index is supported for both dictionary as well as raw encoded columns.
 
 {% hint style="info" %}
 #### When to use Range Index?
