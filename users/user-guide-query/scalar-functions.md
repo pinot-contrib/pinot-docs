@@ -48,7 +48,7 @@ Allowing execuatable Groovy in queries can be a security vulnerability. If you w
 
 `pinot.broker.disable.query.groovy=true`
 
-If not set, Groovy in queries is disabled by default.
+If not set, Groovy in queries is enabled by default.
 
 The above configuration applies across the entire Pinot cluster. If you want a table level override to enable/disable Groovy queries, the following property can be set in the query table config.
 
