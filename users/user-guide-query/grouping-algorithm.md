@@ -12,7 +12,9 @@ If the number of groups of a segment reaches this value, the extra groups will b
 
 After the inner segment groups have been computed, the Pinot query engine optionally trims tail groups. Tail groups are ones that have a lower rank based on the `ORDER BY` clause used in the query.
 
-This configuration is disabled by default, but can be enabled by configuring the `pinot.server.query.executor.min.segment.group.trim.size` property. When segment group trim is enabled, the query engine will trim the tail groups and keep `max(<minSegmentGroupTrimSize>, 5 * LIMIT)` groups if it gets more groups. Pinot keeps at least `5 * LIMIT` groups when trimming tail groups to ensure the accuracy of results.
+This configuration is disabled by default, but can be enabled by configuring the `pinot.server.query.executor.min.segment.group.trim.size` property.&#x20;
+
+When segment group trim is enabled, the query engine will trim the tail groups and keep `max(<minSegmentGroupTrimSize>, 5 * LIMIT)` groups if it gets more groups. Pinot keeps at least `5 * LIMIT` groups when trimming tail groups to ensure the accuracy of results.
 
 This value can be overridden on a query by query basis by passing the following option:
 
@@ -25,7 +27,9 @@ OPTION(minSegmentGroupTrimSize=<minSegmentGroupTrimSize>)
 
 ## Cross segments
 
-Once grouping has been done within a segment, Pinot will merge segment results and trim tail groups and keep `max(<minServerGroupTrimSize>, 5 * LIMIT)` groups if it gets more groups. `<minServerGroupTrimSize>` is set to 5,000 by default and can be adjusted by configuring the `pinot.server.query.executor.min.server.group.trim.size` property. When setting the configuration to `-1`, the cross segments trim can be disabled.
+Once grouping has been done within a segment, Pinot will merge segment results and trim tail groups and keep `max(<minServerGroupTrimSize>, 5 * LIMIT)` groups if it gets more groups.
+
+`<minServerGroupTrimSize>` is set to 5,000 by default and can be adjusted by configuring the `pinot.server.query.executor.min.server.group.trim.size` property. When setting the configuration to `-1`, the cross segments trim can be disabled.
 
 This value can be overridden on a query by query basis by passing the following option:
 
@@ -36,17 +40,21 @@ FROM ...
 OPTION(minServerGroupTrimSize=<minServerGroupTrimSize>)
 ```
 
-When cross segments trim is enabled, the server will trim the tail groups before sending the results back to the broker. It will also trim the tail groups when the number of groups reaches the `<trimThreshold>`. This configuration is set to 1,000,000 by default and can be adjusted by configuring the `pinot.server.query.executor.groupby.trim.threshold` property. A higher threshold reduce the amount of trimming done, but consumes more heap memory. If the threshold is set to more than 1,000,000,000, the server will only trim the groups once before returning the results to the broker.
+When cross segments trim is enabled, the server will trim the tail groups before sending the results back to the broker. It will also trim the tail groups when the number of groups reaches the `<trimThreshold>`.&#x20;
+
+This configuration is set to 1,000,000 by default and can be adjusted by configuring the `pinot.server.query.executor.groupby.trim.threshold` property.&#x20;
+
+A higher threshold reduces the amount of trimming done, but consumes more heap memory. If the threshold is set to more than 1,000,000,000, the server will only trim the groups once before returning the results to the broker.
 
 ## GROUP BY behavior
 
 Pinot sets a default `LIMIT` of 10 if one isn't defined and this applies to `GROUP BY` queries as well. Therefore, if no limit is specified, Pinot will return 10 groups.
 
-Pinot will trim tail groups based on the `ORDER BY` clause to reduce the memory footprint and improve the query performance. It keeps at least `5 * LIMIT` groups so that the results give good enough approximation in most cases. The configurable min trim size can be used to increase the groups kept to improve the accuracy, but has a larger extra memory footprint.
+Pinot will trim tail groups based on the `ORDER BY` clause to reduce the memory footprint and improve the query performance. It keeps at least `5 * LIMIT` groups so that the results give good enough approximation in most cases. The configurable min trim size can be used to increase the groups kept to improve the accuracy but has a larger extra memory footprint.
 
 ## HAVING behavior
 
-If the query has a `HAVING` clause, it is applied on the merged `GROUP BY` results that already have the tail groups trimmed. If the `HAVING` clause is opposite of the `ORDER BY` order, groups matching the condition might already be trimmed and not returned. e.g.
+If the query has a `HAVING` clause, it is applied on the merged `GROUP BY` results that already have the tail groups trimmed. If the `HAVING` clause is the opposite of the `ORDER BY` order, groups matching the condition might already be trimmed and not returned. e.g.
 
 ```sql
 SELECT SUM(colA) 
@@ -59,7 +67,7 @@ LIMIT 10
 
 Increase min trim size to keep more groups in these cases.
 
-## Configuraton Parameters
+## Configuration Parameters
 
 | Parameter                                                                                                                                                            | Default                        | Query Override                                              | Description |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ----------------------------------------------------------- | ----------- |
