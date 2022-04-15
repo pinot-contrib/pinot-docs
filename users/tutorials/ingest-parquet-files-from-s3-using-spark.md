@@ -205,6 +205,10 @@ local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-depend
 In the command , we have included the JARs of all the required plugins in the spark's `driver classpath`. In practice, you only need to do this if you get a `ClassNotFoundException`.
 {% endhint %}
 
+{% hint style="info" %}
+For Pinot version prior to 0.10.0, the spark plugin is located in `${PINOT_DISTRIBUTION_DIR}/plugins/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar`
+{% endhint %}
+
 Voila! Now our data is successfully ingested. Let's try to query it from Pinot's broker
 
 ```bash
