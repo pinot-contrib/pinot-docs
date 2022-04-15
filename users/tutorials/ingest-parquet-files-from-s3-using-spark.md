@@ -150,7 +150,8 @@ executionFrameworkSpec:
   segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentTarPushJobRunner'
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentUriPushJobRunner'
   segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentMetadataPushJobRunner'
-
+  extraConfigs:
+      stagingDir: s3://my-bucket/spark/staging/
 # jobType: Pinot ingestion job type.
 # Supported job types are:
 #   'SegmentCreation'
@@ -160,8 +161,6 @@ executionFrameworkSpec:
 #   'SegmentCreationAndUriPush'
 #   'SegmentCreationAndMetadataPush'
 jobType: SegmentCreationAndMetadataPush
-extraConfigs:
-    stagingDir: s3://my-bucket/spark/staging/
 inputDirURI: 's3://my-bucket/path/to/batch-input/'
 outputDirURI: 's3:///my-bucket/path/to/batch-output/'
 overwriteOutput: true
