@@ -42,6 +42,10 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
 
 Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, see this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_realtime\_table\_config.json). Also note that `group` is a reserved keyword in SQL and therefore needs to be quoted in `transformFunction`.
 
+{% hint style="info" %}
+The `columnName` can't use the same name as any of the fields in the source JSON data e.g. if our source data contains the field `group` and we want to transform the data in that field before persisting it, the destination column name would need to be something different, like `group_json`.
+{% endhint %}
+
 Additionally, you need to overwrite the `maxLength` of the field `group_json` on the schema, because by default, a string column has a limited length. For example,
 
 {% code title="json_meetupRsvp_realtime_table_schema.json" %}
@@ -59,7 +63,7 @@ Additionally, you need to overwrite the `maxLength` of the field `group_json` on
 
 For the full spec, please check out this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_schema.json).
 
-With this, you can start to query the nested fields under `group`. For the deatils about the supported JSON function, please check out this [guide](../indexing/json-index.md)).
+With this, you can start to query the nested fields under `group`. For the details about the supported JSON function, see [guide](../indexing/json-index.md)).
 
 ## Handle the complex type with ingestion configurations
 
