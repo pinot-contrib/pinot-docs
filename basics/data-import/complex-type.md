@@ -17,12 +17,14 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
 {% code title="json_meetupRsvp_realtime_table_config.json" %}
 ```javascript
 {
-  "transformConfigs": [
-      {
-        "columnName": "group_json",
-        "transformFunction": "jsonFormat(\"group\")"
-      }
-    ],
+    "ingestionConfig":{
+      "transformConfigs": [
+        {
+          "columnName": "group_json",
+          "transformFunction": "jsonFormat(\"group\")"
+        }
+      ],
+    },
     ...
     "tableIndexConfig": {
     "loadMode": "MMAP",
@@ -38,16 +40,16 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
 ```
 {% endcode %}
 
-Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, please check out this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_realtime\_table\_config.json). Also note that `group` is a reserved keyword in SQL, and that's why it's quoted in the `transformFunction`.
+Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, see this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_realtime\_table\_config.json). Also note that `group` is a reserved keyword in SQL and therefore needs to be quoted in `transformFunction`.
 
-Additionall, you need to overwrite the `maxLength` of the field `group_json` on the schema, because by default, a string column has a limited length. For example,
+Additionally, you need to overwrite the `maxLength` of the field `group_json` on the schema, because by default, a string column has a limited length. For example,
 
 {% code title="json_meetupRsvp_realtime_table_schema.json" %}
 ```javascript
 {
   {
       "name": "group_json",
-      "dataType": "STRING",
+      "dataType": "JSON",
       "maxLength": 2147483647
     }
     ...
