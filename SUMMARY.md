@@ -63,6 +63,7 @@
   * [Text search support](basics/indexing/text-search-support.md)
   * [JSON Index](basics/indexing/json-index.md)
   * [Geospatial](basics/indexing/geospatial-support.md)
+  * [Timestamp Index](basics/indexing/timestamp-index.md)
 * [Releases](basics/releases/README.md)
   * [0.10.0](basics/releases/0.10.0.md)
   * [0.9.3](basics/releases/0.9.3.md)
