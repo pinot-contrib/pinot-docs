@@ -1,14 +1,22 @@
+---
+description: Speed up your time query with different granularities
+---
+
 # Timestamp Index
 
-Timestamp stores value as millisecond epoch long value.&#x20;
+Pinot introduces the TIMESTAMP data type from [Pinot 0.8.0 release](../releases/0.8.0.md). This data type stores value as millisecond epoch long value internally.
 
-Typical workload for timestamp is filtering on a time range and group by with different time granularities(days/month/etc).
+Typically for analytics queries, users won't need this low level granularity, scanning the data and time value conversion can be costly for the big size of data.
 
-The current implementation requires the query executor to extract values, apply the function then do filter/groupBy, no leverage on dictionary or index.
+A common query pattern for timestamp columns is filtering on a time range and then group by with different time granularities(days/month/etc).
+
+The existing implementation requires the query executor to extract values, apply the transform functions then do filter/groupBy, no leverage on the dictionary or index.
+
+Hence the inspiration of **TIMESTAMP INDEX**, which is used to improve the query performance for range query and group by queries on TIMESTAMP columns.
 
 ## Supported data type
 
-So far, Timestamp index only supports TIMESTAMP data type.
+TIMESTAMP index can only be created on TIMESTAMP data type.
 
 ## Timestamp Index
 
