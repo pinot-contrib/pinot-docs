@@ -5,6 +5,10 @@ Pinot supports consuming data from [Apache Pulsar](https://pulsar.apache.org) vi
 You can enable pulsar plugin with the following config at the time of Pinot setup\
 `-Dplugins.include=pinot-pulsar`&#x20;
 
+{% hint style="info" %}
+`pinot-pulsar` plugin is not part of official 0.10.0 binary. You can download the plugin from [our external repository](https://repo.startreedata.io/artifactory/external-snapshots/org/apache/pinot/pinot-pulsar/0.11.0-SNAPSHOT/) and add it to `libs` or `plugins` directory in pinot.
+{% endhint %}
+
 
 
 ### Set up Pulsar table
