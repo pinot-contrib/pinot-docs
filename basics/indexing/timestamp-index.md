@@ -4,6 +4,10 @@ description: Speed up your time query with different granularities
 
 # Timestamp Index
 
+{% hint style="info" %}
+This feature is supported from Pinot 0.11+.&#x20;
+{% endhint %}
+
 Pinot introduces the TIMESTAMP data type from [Pinot 0.8.0 release](../releases/0.8.0.md). This data type stores value as millisecond epoch long value internally.
 
 Typically for analytics queries, users won't need this low level granularity, scanning the data and time value conversion can be costly for the big size of data.
