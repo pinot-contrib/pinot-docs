@@ -59,4 +59,4 @@ JSON body contains the configs map for new/updated configs. E.g.
 
 Example:
 
-![](<../.gitbook/assets/image (9) (1).png>)
+![](<../.gitbook/assets/image (9).png>)

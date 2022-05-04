@@ -2,6 +2,8 @@
 
 Pinot supports Apache spark as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
 
+We only support Spark 2.X as of now. The support for Spark 3.X is in progress.
+
 You can follow the [wiki](../../getting-started/running-pinot-locally.md#build-from-source-or-download-the-distribution) to build pinot distribution from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
 
 Next, you need to change the execution config in the [job spec](./#create-schema-configuration) to the following -
@@ -34,37 +36,55 @@ executionFrameworkSpec:
 
 You can check out the sample job spec here.
 
-Now, add the pinot jar to spark's classpath using following options -
+To run Spark ingestion, you need the following jars in your classpath
+
+* `pinot-batch-ingestion-spark` plugin jar - available in `plugins-external` directory in the package
+* `pinot-all` jar - available in `lib` directory in the package
+
+These jars can be specified using `spark.driver.extraClassPath`   or any other option.&#x20;
+
+```
+spark.driver.extraClassPath =>
+pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
+```
+
+For loading any other plugins that you want to use,  you can use -
 
 ```
 spark.driver.extraJavaOptions =>
 -Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins
+```
 
-OR
 
-spark.driver.extraClassPath =>
-pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
+
+The complete spark-submit command should look as follows
+
+```
+export PINOT_VERSION=0.10.0
+export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin
+
+spark-submit //
+--class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand //
+--master local --deploy-mode client //
+--conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins" //
+--conf "spark.driver.extraClassPath=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" //
+-conf "spark.executor.extraClassPath=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" //
+local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar -jobSpecFile /path/to/spark_job_spec.yaml
 ```
 
 Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
-Finally execute the spark job using the command -
+**Note**: You should change the `master` to `yarn` and `deploy-mode` to `cluster` for production environments.&#x20;
 
-```
-export PINOT_VERSION=0.10.0
-export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/build/
+{% hint style="info" %}
+We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../getting-started/)or [download latest master build jars](https://repo.startreedata.io/artifactory/external-snapshots/org/apache/pinot/).
+{% endhint %}
 
-cd ${PINOT_DISTRIBUTION_DIR}
+{% hint style="warning" %}
+Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the java8 version of pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/) but we are working on making the jdk8 binaries available in official distribution itself.
+{% endhint %}
 
-${SPARK_HOME}/bin/spark-submit \\
-  --class org.apache.pinot.tools.admin.PinotAdministrator \\
-  --master "local[2]" \\
-  --deploy-mode client \\
-  --conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml" \\
-  --conf "spark.driver.extraClassPath=${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" \\
-  local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar \\
-  LaunchDataIngestionJobCommand \\
-  -jobSpecFile ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/sparkIngestionJobSpec.yaml
-```
+{% hint style="warning" %}
+For Pinot version prior to 0.10.0, the spark plugin is located in `${PINOT_DISTRIBUTION_DIR}/plugins/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar`
+{% endhint %}
 
-**Note**: You should change the `master` to `yarn` and `deploy-mode` to `cluster` for production.

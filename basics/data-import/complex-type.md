@@ -17,12 +17,14 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
 {% code title="json_meetupRsvp_realtime_table_config.json" %}
 ```javascript
 {
-  "transformConfigs": [
-      {
-        "columnName": "group_json",
-        "transformFunction": "jsonFormat(\"group\")"
-      }
-    ],
+    "ingestionConfig":{
+      "transformConfigs": [
+        {
+          "columnName": "group_json",
+          "transformFunction": "jsonFormat(\"group\")"
+        }
+      ],
+    },
     ...
     "tableIndexConfig": {
     "loadMode": "MMAP",
@@ -38,16 +40,20 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
 ```
 {% endcode %}
 
-Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, please check out this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_realtime\_table\_config.json). Also note that `group` is a reserved keyword in SQL, and that's why it's quoted in the `transformFunction`.
+Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, see this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_realtime\_table\_config.json). Also note that `group` is a reserved keyword in SQL and therefore needs to be quoted in `transformFunction`.
 
-Additionall, you need to overwrite the `maxLength` of the field `group_json` on the schema, because by default, a string column has a limited length. For example,
+{% hint style="info" %}
+The `columnName` can't use the same name as any of the fields in the source JSON data e.g. if our source data contains the field `group` and we want to transform the data in that field before persisting it, the destination column name would need to be something different, like `group_json`.
+{% endhint %}
+
+Additionally, you need to overwrite the `maxLength` of the field `group_json` on the schema, because by default, a string column has a limited length. For example,
 
 {% code title="json_meetupRsvp_realtime_table_schema.json" %}
 ```javascript
 {
   {
       "name": "group_json",
-      "dataType": "STRING",
+      "dataType": "JSON",
       "maxLength": 2147483647
     }
     ...
@@ -57,7 +63,7 @@ Additionall, you need to overwrite the `maxLength` of the field `group_json` on 
 
 For the full spec, please check out this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_schema.json).
 
-With this, you can start to query the nested fields under `group`. For the deatils about the supported JSON function, please check out this [guide](../indexing/json-index.md)).
+With this, you can start to query the nested fields under `group`. For the details about the supported JSON function, see [guide](../indexing/json-index.md)).
 
 ## Handle the complex type with ingestion configurations
 
@@ -99,7 +105,9 @@ You can find the full spec of the table config [here](https://github.com/apache/
 With the flattening/unnesting, you can then query the table with primitive values using the SQL query like:
 
 ```sql
-SELECT "group.group_topics.urlkey", "group.group_topics.topic_name", "group.group_id" 
+SELECT "group.group_topics.urlkey", 
+       "group.group_topics.topic_name", 
+       "group.group_id" 
 FROM meetupRsvp
 LIMIT 10
 ```
@@ -113,7 +121,12 @@ When there are complex structures, it could be challenging and tedious to figure
 To infer the Pinot schema from Avro schema, you can use the command like the following
 
 ```bash
-bin/pinot-admin.sh AvroSchemaToPinotSchema -timeColumnName fields.hoursSinceEpoch -avroSchemaFile /tmp/test.avsc -pinotSchemaName myTable -outputDir /tmp/test -fieldsToUnnest entries
+bin/pinot-admin.sh AvroSchemaToPinotSchema \
+  -timeColumnName fields.hoursSinceEpoch \
+  -avroSchemaFile /tmp/test.avsc \
+  -pinotSchemaName myTable \
+  -outputDir /tmp/test \
+  -fieldsToUnnest entries
 ```
 
 Note you can input configurations like `fieldsToUnnest` similar to the ones in `complexTypeConfig`. And this will simulate the complex-type handling rules on the Avro schema and output the Pinot schema in the file specified in `outputDir`.
@@ -121,7 +134,12 @@ Note you can input configurations like `fieldsToUnnest` similar to the ones in `
 Similarly, you can use the command like the following to infer the Pinot schema from a file of JSON objects.
 
 ```bash
-bin/pinot-admin.sh JsonToPinotSchema -timeColumnName hoursSinceEpoch -jsonFile /tmp/test.json -pinotSchemaName myTable -outputDir /tmp/test -fieldsToUnnest payload.commits
+bin/pinot-admin.sh JsonToPinotSchema \
+  -timeColumnName hoursSinceEpoch \
+  -jsonFile /tmp/test.json \
+  -pinotSchemaName myTable \
+  -outputDir /tmp/test \
+  -fieldsToUnnest payload.commits
 ```
 
 You can check out an example of this run in this [PR](https://github.com/apache/pinot/pull/6930).

@@ -6,14 +6,14 @@ description: This page talks about support for text search functionality in Pino
 
 ## Why do we need text search?
 
-Pinot supports super-fast query processing through its indexes on non-BLOB like columns. Queries with exact match filters are run efficiently through a combination of dictionary encoding, inverted index, and sorted index.&#x20;
+Pinot supports super-fast query processing through its indexes on non-BLOB like columns. Queries with exact match filters are run efficiently through a combination of dictionary encoding, inverted index, and sorted index.
 
 It would be useful for a query like the following:
 
 ```sql
 SELECT COUNT(*) 
 FROM Foo 
-WHERE STRING_COL = "ABCDCD" 
+WHERE STRING_COL = 'ABCDCD' 
 AND INT_COL > 2000
 ```
 
@@ -26,18 +26,18 @@ In version 0.3.0, we added support for text indexes to efficiently do arbitrary 
 ```sql
 SELECT COUNT(*) 
 FROM Foo 
-WHERE TEXT_MATCH (<column_name>, <search_expression)
+WHERE TEXT_MATCH (<column_name>, '<search_expression>')
 ```
 
 where \<column\_name> is the column text index is created on and **\<search\_expression>** can be:
 
-| **Search Expression Type** | **Example**                                               |
-| -------------------------- | --------------------------------------------------------- |
-| Phrase query               | TEXT\_MATCH (\<column\_name>, '\\"distributed system\\"') |
-| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                     |
-| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java and c++')             |
-| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')                 |
-| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')           |
+| **Search Expression Type** | **Example**                                           |
+| -------------------------- | ----------------------------------------------------- |
+| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"') |
+| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                 |
+| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')         |
+| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')             |
+| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')       |
 
 ## Sample Datasets
 
@@ -119,7 +119,7 @@ Few examples of search queries on this data:
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
-WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"gpu processing\"')
+WHERE TEXT_MATCH(SKILLS_COL, '"Machine learning" AND "gpu processing"')
 ```
 
 **Count the number of candidates that have "distributed systems" and either 'Java' or 'C++'** - a combination of searching for exact phrase "distributed systems" along with other terms.
@@ -127,7 +127,7 @@ WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"gpu processing\"')
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
-WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" AND (Java C++)')
+WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" AND (Java C++)')
 ```
 
 ### Query Log
@@ -156,7 +156,7 @@ Few examples of search queries on this data:
 ```sql
 SELECT COUNT(*) 
 FROM MyTable 
-WHERE TEXT_MATCH(QUERY_LOG_COL, '\"group by\"')
+WHERE TEXT_MATCH(QUERY_LOG_COL, '"group by"')
 ```
 
 **Count the number of queries that have the SELECT count... pattern**
@@ -164,7 +164,7 @@ WHERE TEXT_MATCH(QUERY_LOG_COL, '\"group by\"')
 ```sql
 SELECT COUNT(*) 
 FROM MyTable 
-WHERE TEXT_MATCH(QUERY_LOG_COL, '\"select count\"')
+WHERE TEXT_MATCH(QUERY_LOG_COL, '"select count"')
 ```
 
 **Count the number of queries that use BETWEEN filter on timestamp column along with GROUP BY**
@@ -172,7 +172,7 @@ WHERE TEXT_MATCH(QUERY_LOG_COL, '\"select count\"')
 ```sql
 SELECT COUNT(*) 
 FROM MyTable 
-WHERE TEXT_MATCH(QUERY_LOG_COL, '\"timestamp between\" AND \"group by\"')
+WHERE TEXT_MATCH(QUERY_LOG_COL, '"timestamp between" AND "group by"')
 ```
 
 [Further sections](https://apache-pinot.gitbook.io/apache-pinot-cookbook/text-search-support#writing-text-search-queries) in the document cover several concrete examples on each kind of query and step-by-step guide on how to write text search queries in Pinot.
@@ -195,9 +195,7 @@ Text index is an addition to the type of **per-column indexes** users can create
 
 ## How to enable text index?
 
-Similar to other indexes, users can enable text index on a column through table config. 
-As part of text-search feature, we have also introduced a new generic way of specifying the per-column encoding and index information. 
-In the [table config](../../configuration-reference/table.md), there will be a new section with the name "fieldConfigList".
+Similar to other indexes, users can enable text index on a column through table config. As part of text-search feature, we have also introduced a new generic way of specifying the per-column encoding and index information. In the [table config](../../configuration-reference/table.md), there will be a new section with the name "fieldConfigList".
 
 {% hint style="warning" %}
 `fieldConfigList`is currently ONLY used for text indexes. Our plan is to migrate all other indexes to this model. We are going to do that in upcoming releases and accordingly modify user documentation. So **please continue** to specify other index info in table config as you have done till now and use the `fieldConfigList` **only for text indexes**.
@@ -258,7 +256,7 @@ A new built-in function TEXT\_MATCH has been introduced for using text search in
 
 TEXT\_MATCH(text\_column\_name, search\_expression)
 
-* text\_column\_name - name of the column to do text search on.&#x20;
+* text\_column\_name - name of the column to do text search on.
 * search\_expression - search query
 
 We can use TEXT\_MATCH function as part of our queries in the WHERE clause. Examples:
@@ -288,7 +286,7 @@ TEXT\_MATCH can be used in WHERE clause of all kinds of queries supported by Pin
 * Aggregation query
 * Aggregation GROUP BY query
 
-The search expression (second argument to TEXT\_MATCH function) is the query string that Pinot will use to perform text search on the column's text index. _\*\*_Following expression types are supported
+The search expression (second argument to TEXT\_MATCH function) is the query string that Pinot will use to perform text search on the column's text index. \_\*\*\_Following expression types are supported
 
 ### **Phrase Query**
 
@@ -323,13 +321,13 @@ Database engine, OLAP systems, OLTP transaction processing at large scale, concu
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
-WHERE TEXT_MATCH(SKILLS_COL, '\"Distributed systems\"')
+WHERE TEXT_MATCH(SKILLS_COL, '"Distributed systems"')
 ```
 
 The search expression is '\\"Distributed systems\\"'
 
 * The search expression is **always specified within single quotes** '\<your expression>'
-* Since we are doing a phrase search, the **phrase should be specified within double quotes** inside the single quotes and the **double quotes should be escaped**&#x20;
+* Since we are doing a phrase search, the **phrase should be specified within double quotes** inside the single quotes and the **double quotes should be escaped**
   * '\\"\<your phrase>\\"'
 
 The above query will match the following documents:
@@ -358,7 +356,7 @@ This is because the phrase query looks for the phrase occurring in the original 
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
-WHERE TEXT_MATCH(SKILLS_COL, '\"query processing\"')
+WHERE TEXT_MATCH(SKILLS_COL, '"query processing"')
 ```
 
 The above query will match the following documents:
@@ -391,7 +389,7 @@ Boolean operators AND, OR are supported and we can use them to build a composite
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
-WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND \"Tensor Flow\"')
+WHERE TEXT_MATCH(SKILLS_COL, '"Machine learning" AND "Tensor Flow"')
 ```
 
 The above query will match the following documents:
@@ -407,7 +405,7 @@ CUDA, GPU processing, Tensor flow, Pandas, Python, Jupyter notebook, spark, Mach
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
-WHERE TEXT_MATCH(SKILLS_COL, '\"Machine learning\" AND gpu AND python')
+WHERE TEXT_MATCH(SKILLS_COL, '"Machine learning" AND gpu AND python')
 ```
 
 The above query will match the following documents:
@@ -419,7 +417,7 @@ CUDA, GPU processing, Tensor flow, Pandas, Python, Jupyter notebook, spark, Mach
 
 When using Boolean operators to combine term(s) and phrase(s) or both, please note that:
 
-* The matching document can contain the terms and phrases in any order.&#x20;
+* The matching document can contain the terms and phrases in any order.
 * The matching document may not have the terms adjacent to each other (if this is needed, please use appropriate phrase query for the concerned terms).
 
 Use of OR operator is implicit. In other words, if phrase(s) and term(s) are not combined using AND operator in the search expression, OR operator is used by default:
@@ -433,7 +431,7 @@ Use of OR operator is implicit. In other words, if phrase(s) and term(s) are not
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
-WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" Java C++')
+WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" Java C++')
 ```
 
 We can also do grouping using parentheses:
@@ -448,7 +446,7 @@ In the below query, we group terms Java and C++ without any operator which impli
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
-WHERE TEXT_MATCH(SKILLS_COL, '\"distributed systems\" AND (Java C++)')
+WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" AND (Java C++)')
 ```
 
 ### Prefix Query
@@ -499,13 +497,13 @@ The key thing to remember is that phrases should be used when the order of terms
 An example would be phrase "machine learning".
 
 ```sql
-TEXT_MATCH(column, '\"machine learning\"')
+TEXT_MATCH(column, '"machine learning"')
 ```
 
 However, if we are searching for documents matching Java and C++ terms, using phrase query "Java C++" will actually result in in partial results (could be empty too) since now we are relying the on the user specifying these skills in the exact same order (adjacent to each other) in the resume text.
 
 ```sql
-TEXT_MATCH(column, '\"Java C++\"')
+TEXT_MATCH(column, '"Java C++"')
 ```
 
 Term query using boolean AND operator is more appropriate for such cases
