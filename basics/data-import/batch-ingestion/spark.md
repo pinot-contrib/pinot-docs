@@ -81,7 +81,7 @@ We have stopped including `spark-core` dependency in our jars post 0.10.0 releas
 {% endhint %}
 
 {% hint style="warning" %}
-Currently, all pinot binaries are built with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the java8 version of pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/) but we are working on making the jdk8 binaries available in official distribution itself.
+Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the java8 version of pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/) but we are working on making the jdk8 binaries available in official distribution itself.
 {% endhint %}
 
 {% hint style="warning" %}
