@@ -25,3 +25,5 @@ description: >-
 {% page-ref page="explain-plan.md" %}
 
 {% page-ref page="grouping-algorithm.md" %}
+
+{% page-ref page="gap-fill-functions.md" %}

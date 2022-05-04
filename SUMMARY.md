@@ -95,6 +95,7 @@
   * [Querying JSON data](users/user-guide-query/json-queries.md)
   * [Explain Plan](users/user-guide-query/explain-plan.md)
   * [Grouping Algorithm](users/user-guide-query/grouping-algorithm.md)
+  * [GapFill Function For Time-Series Dataset](users/user-guide-query/gap-fill-functions.md)
 * [APIs](users/api/README.md)
   * [Broker Query API](users/api/querying-pinot-using-standard-sql/README.md)
     * [Query Response Format](users/api/querying-pinot-using-standard-sql/response-format.md)
