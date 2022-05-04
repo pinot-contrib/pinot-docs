@@ -2,6 +2,8 @@
 
 Pinot supports Apache spark as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
 
+We only support Spark 2.X as of now. The support for Spark 3.X is in progress.
+
 You can follow the [wiki](../../getting-started/running-pinot-locally.md#build-from-source-or-download-the-distribution) to build pinot distribution from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
 
 Next, you need to change the execution config in the [job spec](./#create-schema-configuration) to the following -
@@ -72,12 +74,17 @@ local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-depend
 
 Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
-**Note**: You should change the `master` to `yarn` and `deploy-mode` to `cluster` for production environments
+**Note**: You should change the `master` to `yarn` and `deploy-mode` to `cluster` for production environments.&#x20;
 
 {% hint style="info" %}
 We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../getting-started/)or [download latest master build jars](https://repo.startreedata.io/artifactory/external-snapshots/org/apache/pinot/).
 {% endhint %}
 
-{% hint style="info" %}
+{% hint style="warning" %}
+Currently, all pinot binaries are built with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the java8 version of pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/) but we are working on making the jdk8 binaries available in official distribution itself.
+{% endhint %}
+
+{% hint style="warning" %}
 For Pinot version prior to 0.10.0, the spark plugin is located in `${PINOT_DISTRIBUTION_DIR}/plugins/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar`
 {% endhint %}
+
