@@ -6,7 +6,7 @@ description: Complex-type handling in Apache Pinot.
 
 It's common for ingested data to have a complex structure. For example, Avro schemas have [records](https://avro.apache.org/docs/current/spec.html#schema\_record) and [arrays](https://avro.apache.org/docs/current/spec.html#Arrays) and JSON supports [objects](https://json-schema.org/understanding-json-schema/reference/object.html) and [arrays](https://json-schema.org/understanding-json-schema/reference/array.html).&#x20;
 
-Apache Pinot's data model supports primitive data types (including int, long, float, double, string, bytes), as well as limited multi-value types such as an array of primitive types. Such simple data types allow Pinot to build fast indexing structures for good query performance, but it requires some handling ofthe complex structures.&#x20;
+Apache Pinot's data model supports primitive data types (including int, long, float, double, string, bytes), as well as limited multi-value types such as an array of primitive types. Such simple data types allow Pinot to build fast indexing structures for good query performance, but it requires some handling of the complex structures.&#x20;
 
 There are in general two options for such handling:&#x20;
 
@@ -101,19 +101,22 @@ To process this complex type, you can add the configuration `complexTypeConfig` 
 ```
 {% endcode %}
 
-With the `complexTypeConfig` , all the map objects will be flattened to direct fields automatically. And with `unnestFields` , a record with the nested collection will unnest into multiple records. For instance, the example in the beginning will transform into two rows with this configuration example.
+With the `complexTypeConfig` , all the map objects will be flattened to direct fields automatically. And with `unnestFields` , a record with the nested collection will unnest into multiple records. For instance, the example at the beginning will transform into two rows with this configuration example.
 
 ![Flattened/unnested data](../../.gitbook/assets/complex-type-flattened.png)
 
 Note that
 
-* The nested field `group_id` under `group` is flattened to field `group.group_id`. The default value of the delimiter is `.`, you can choose other delimiter by changing the configuration `delimiter` under `complexTypeConfig`. This flattening rule also apllies on the maps in the collections to be unnested.
-* The nested array `group_topics` under `group` is unnested into the top-level, and convert the output to a collection of two rows. Note the handling of the nested field within `group_topics`, and the eventual top-level field of `group.group_topics.urlkey`. All the collections to unnest shall be included in configuration `fieldsToUnnest`.
-* For the collections not in specified in `fieldsToUnnest`,  the ingestion by default will serialize them into JSON string, except for the array of primitive values, which will be ingested as multi-value column by default. The behavior is defined in config `collectionNotUnnestedToJson` with default value to `NON_PRIMITIVE`. Other behaviors include (1) `ALL`, which aslo convert the array of primitive values to JSON string; (2) `NONE`, this does not do conversion, but leave it to the users to use transform functions for handling.
+* The nested field `group_id` under `group` is flattened to `group.group_id`. The default value of the delimiter is `.`  You can choose another delimiter by specifying the configuration `delimiter` under `complexTypeConfig`. This flattening rule also applies to maps in the collections to be unnested.
+* The nested array `group_topics` under `group` is unnested into the top-level, and converts the output to a collection of two rows. Note the handling of the nested field within `group_topics`, and the eventual top-level field of `group.group_topics.urlkey`. All the collections to unnest shall be included in configuration `fieldsToUnnest`.
+* Collections not specified in `fieldsToUnnest`will be serialized into JSON string, except for the array of primitive values, which will be ingested as a multi-value column by default. The behavior is defined by the config `collectionNotUnnestedToJson`, which takes the following values:
+  * `NON_PRIMITIVE`, which converts the array to a multi-value column. _(default)_
+  * `ALL`, which converts the array of primitive values to JSON string.
+  * `NONE`, which does not do any conversion.&#x20;
 
 You can find the full spec of the table config [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling\_meetupRsvp\_realtime\_table\_config.json) and the table schema [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling\_meetupRsvp\_schema.json).
 
-With the flattening/unnesting, you can then query the table with primitive values using the SQL query like:
+You can then query the table with primitive values using the following SQL query:
 
 ```sql
 SELECT "group.group_topics.urlkey", 
@@ -123,13 +126,15 @@ FROM meetupRsvp
 LIMIT 10
 ```
 
-Note `.` is a reserved character in SQL, so you need to quote the flattened column.
+{% hint style="info" %}
+`.` is a reserved character in SQL, so you need to quote the flattened columns in the query.
+{% endhint %}
 
 ### Infer the Pinot schema from the Avro schema and JSON data
 
-When there are complex structures, it could be challenging and tedious to figure out the Pinot schema manually. To help the schema inference, Pinot provides utility tools to take the Avro schema or JSON data as input and output the inferred Pinot schema.
+When there are complex structures, it can be challenging and tedious to figure out the Pinot schema manually. To help with schema inference, Pinot provides utility tools to take the Avro schema or JSON data as input and output the inferred Pinot schema.
 
-To infer the Pinot schema from Avro schema, you can use the command like the following
+To infer the Pinot schema from Avro schema, you can use the command like the following:
 
 ```bash
 bin/pinot-admin.sh AvroSchemaToPinotSchema \
