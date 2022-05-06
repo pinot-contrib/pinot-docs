@@ -4,15 +4,24 @@ description: Complex-type handling in Apache Pinot.
 
 # Complex Type (Array, Map) Handling
 
-It's common for the ingested data to have complex structure. For example, Avro schema has [records](https://avro.apache.org/docs/current/spec.html#schema\_record) and [arrays](https://avro.apache.org/docs/current/spec.html#Arrays), and JSON data has [objects](https://json-schema.org/understanding-json-schema/reference/object.html) and [arrays](https://json-schema.org/understanding-json-schema/reference/array.html). In Apache Pinot, the data model supports primitive data types (including int, long, float, double, string, bytes), as well as limited multi-value types such as an array of primitive types. Such simple data types allow Pinot to build fast indexing structures for good query performance, but it requires some handling on the complex structures. There are in general two options for such handling: convert the complex-type data into JSON string and then build JSON index; or use the inbuilt complex-type handling rules in the ingestion config.
+It's common for ingested data to have a complex structure. For example, Avro schemas have [records](https://avro.apache.org/docs/current/spec.html#schema\_record) and [arrays](https://avro.apache.org/docs/current/spec.html#Arrays) and JSON supports [objects](https://json-schema.org/understanding-json-schema/reference/object.html) and [arrays](https://json-schema.org/understanding-json-schema/reference/array.html).&#x20;
 
-In this page, we'll show how to handle this complex-type structure with these two approaches, to process the example data in the following figure, which is a field `group` from the [Meetup events Quickstart example](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp). Note this object has two child fields, and the child `group` is a nested array with the element of object type.
+Apache Pinot's data model supports primitive data types (including int, long, float, double, string, bytes), as well as limited multi-value types such as an array of primitive types. Such simple data types allow Pinot to build fast indexing structures for good query performance, but it requires some handling ofthe complex structures.&#x20;
+
+There are in general two options for such handling:&#x20;
+
+* Convert the complex-type data into JSON string and then build a JSON index
+* Use the inbuilt complex-type handling rules in the ingestion config.
+
+On this page, we'll show how to handle this complex-type structure with these two approaches, to process the example data in the following figure, which is a field `group` from the [Meetup events Quickstart example](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp).&#x20;
+
+This object has two child fields and the child `group` is a nested array with elements of object type.
 
 ![Example JSON data](../../.gitbook/assets/complex-type-example-data.png)
 
 ## Handle the complex type with JSON indexing
 
-Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accelerate the value lookup and filtering for the column. To convert an object `group` with complex type to JSON, you can add the following config to table config.
+Apache Pinot provides a powerful [JSON index](../indexing/json-index.md) to accelerate the value lookup and filtering for the column. To convert an object `group` with complex type to JSON, you can add the following config to table config.
 
 {% code title="json_meetupRsvp_realtime_table_config.json" %}
 ```javascript
@@ -40,7 +49,9 @@ Apache Pinot provides powerful [JSON index](../indexing/json-index.md) to accele
 ```
 {% endcode %}
 
-Note the config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, see this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_realtime\_table\_config.json). Also note that `group` is a reserved keyword in SQL and therefore needs to be quoted in `transformFunction`.
+The config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with config `jsonIndexColumns`. To read the full spec, see [json\_meetupRsvp\_realtime\_table\_config.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_realtime\_table\_config.json).&#x20;
+
+Also, note that `group` is a reserved keyword in SQL and therefore needs to be quoted in `transformFunction`.
 
 {% hint style="info" %}
 The `columnName` can't use the same name as any of the fields in the source JSON data e.g. if our source data contains the field `group` and we want to transform the data in that field before persisting it, the destination column name would need to be something different, like `group_json`.
@@ -61,7 +72,7 @@ Additionally, you need to overwrite the `maxLength` of the field `group_json` on
 ```
 {% endcode %}
 
-For the full spec, please check out this [file](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_schema.json).
+For the full spec, see [json\_meetupRsvp\_schema.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_schema.json).
 
 With this, you can start to query the nested fields under `group`. For the details about the supported JSON function, see [guide](../indexing/json-index.md)).
 
@@ -74,7 +85,7 @@ Though JSON indexing is a handy way to process the complex types, there are some
 
 Alternatively, from Pinot 0.8, you can use the complex-type handling in ingestion configurations to flatten and unnest the complex structure and convert them into primitive types. Then you can reduce the complex-type data into a flattened Pinot table, and query it via SQL. With the inbuilt processing rules, you do not need to write ETL jobs in another compute framework such as Flink or Spark.
 
-To process this complex-type, you can add the configuration `complexTypeConfig` to the `ingestionConfig`. For example:
+To process this complex type, you can add the configuration `complexTypeConfig` to the `ingestionConfig`. For example:
 
 {% code title="complexTypeHandling_meetupRsvp_realtime_table_config.json" %}
 ```javascript
