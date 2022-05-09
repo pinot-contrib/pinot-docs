@@ -19,7 +19,7 @@ This object has two child fields and the child `group` is a nested array with el
 
 ![Example JSON data](../../.gitbook/assets/complex-type-example-data.png)
 
-## Handle the complex type with JSON indexing
+## JSON indexing
 
 Apache Pinot provides a powerful [JSON index](../indexing/json-index.md) to accelerate the value lookup and filtering for the column. To convert an object `group` with complex type to JSON, you can add the following config to table config.
 
@@ -76,7 +76,7 @@ For the full spec, see [json\_meetupRsvp\_schema.json](https://github.com/apache
 
 With this, you can start to query the nested fields under `group`. For the details about the supported JSON function, see [guide](../indexing/json-index.md)).
 
-## Handle the complex type with ingestion configurations
+## Ingestion configurations
 
 Though JSON indexing is a handy way to process the complex types, there are some limitations:
 
@@ -108,11 +108,11 @@ With the `complexTypeConfig` , all the map objects will be flattened to direct f
 Note that
 
 * The nested field `group_id` under `group` is flattened to `group.group_id`. The default value of the delimiter is `.`  You can choose another delimiter by specifying the configuration `delimiter` under `complexTypeConfig`. This flattening rule also applies to maps in the collections to be unnested.
-* The nested array `group_topics` under `group` is unnested into the top-level, and converts the output to a collection of two rows. Note the handling of the nested field within `group_topics`, and the eventual top-level field of `group.group_topics.urlkey`. All the collections to unnest shall be included in configuration `fieldsToUnnest`.
-* Collections not specified in `fieldsToUnnest`will be serialized into JSON string, except for the array of primitive values, which will be ingested as a multi-value column by default. The behavior is defined by the config `collectionNotUnnestedToJson`, which takes the following values:
-  * `NON_PRIMITIVE`, which converts the array to a multi-value column. _(default)_
-  * `ALL`, which converts the array of primitive values to JSON string.
-  * `NONE`, which does not do any conversion.&#x20;
+* The nested array `group_topics` under `group` is unnested into the top-level, and converts the output to a collection of two rows. Note the handling of the nested field within `group_topics`, and the eventual top-level field of `group.group_topics.urlkey`. All the collections to unnest shall be included in the configuration `fieldsToUnnest`.
+* Collections not specified in `fieldsToUnnest`will be serialized into JSON string, except for the array of primitive values, which will be ingested as a multi-value column by default. The behavior is defined by the `collectionNotUnnestedToJson` config,  which takes the following values:
+  * `NON_PRIMITIVE`- Converts the array to a multi-value column. _(default)_
+  * `ALL`- Converts the array of primitive values to JSON string.
+  * `NONE`- Does not do any conversion.&#x20;
 
 You can find the full spec of the table config [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling\_meetupRsvp\_realtime\_table\_config.json) and the table schema [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling\_meetupRsvp\_schema.json).
 
