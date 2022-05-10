@@ -118,10 +118,21 @@ IndexingConfig -> streamConfig has been deprecated starting 0.7.0 or commit 9eae
 | stream.\[streamType].consumer.type                                                                                                                             | should be one of `lowLevel` or `highLevel` . See [Stream ingestion](../basics/data-import/pinot-stream-ingestion/) for more details                                                                                                        |
 | stream.\[streamType].topic.name                                                                                                                                | topic or equivalent datasource from which to consume data                                                                                                                                                                                  |
 | stream\[streamType].consumer.prop.auto.offset.reset                                                                                                            | offset to start consuming data from. Should be one of `smallest` , `largest` or a timestamp in millis                                                                                                                                      |
-| <p>(0.6.0 onwards) realtime.segment.flush.threshold.rows</p><p>(0.5.0 and prior) (deprecated) <del>realtime.segment.flush.threshold.size</del></p>             | Maximum number of rows to consume before persisting the consuming segment. Default is 5000000                                                                                                                                              |
+| <p>(0.6.0 onwards) realtime.segment.flush.threshold.rows</p><p>(0.5.0 and prior) (deprecated) <del>realtime.segment.flush.threshold.size</del></p>             | The maximum number of rows to consume before persisting the consuming segment. Default is 5,000,000                                                                                                                                        |
 | realtime.segment.flush.threshold.time                                                                                                                          | <p>Maximum elapsed time after which a consuming segment should be persisted.<br>The value can be set as a human readable string, such as <code>1d</code>, <code>4h30m</code><br>Default is 6 hours.</p>                                    |
 | <p>(0.6.0 onwards) realtime.segment.flush.threshold.segment.size</p><p>(0.5.0 and prior) (deprecated)</p><p><del>realtime.segment.flush.desired.size</del></p> | Desired size of the completed segments. This value can be set as a human readable string such as `150M`, or `1.1G`, etc. This value is used when `realtime.segment.flush.threshold.rows` is set to 0. Default is `200M` i.e. 200 MegaBytes |
 | realtime.segment.flush.autotune.initialRows                                                                                                                    | <p>Initial number of rows for learning.</p><p>This value is used only if <code>realtime.segment.flush.threshold.rows</code> is set o 0 and the consumer type is <code>LowLevel</code>.</p><p>Default is <code>100000 (ie 100K).</code></p> |
+
+
+
+{% hint style="info" %}
+When specifying `realtime.segment.flush.threshold.rows`, the actual number of rows per segment is computed using the following formula:\
+``\
+`realtime.segment.flush.threshold.rows / partitionsConsumedByServer`
+
+\
+This means that if we set `realtime.segment.flush.threshold.rows=1000` and each server consumes 10 partitions, the rows per segment will be:`1000/10 = 100`
+{% endhint %}
 
 All the configurations that are prefixed with the `streamType` are expected to be used by the underlying stream. So, you can set any of the configurations described in the [Kafka configuraton page](https://kafka.apache.org/documentation/#consumerconfigs) can be set using the prefix `stream.kafka` and Kafka should pay attention to it.
 
