@@ -71,7 +71,7 @@ This aggregate function returns a MULTI geometry or NON-MULTI geometry from a se
 
 ### Relationship
 
-* [**ST\_Contains(Geometry, Geometry) → boolean**](../../configuration-reference/functions/stcontains.md)   Returns true if and only if no points of the second geometry/geography lie in the exterior of the first geometry/geography, and at least one point of the interior of the first geometry lies in the interior of the second geometry.&#x20;
+* [**ST\_Contains(Geometry/Geography, Geometry/Geography) → boolean**](../../configuration-reference/functions/stcontains.md)   Returns true if and only if no points of the second geometry/geography lie in the exterior of the first geometry/geography, and at least one point of the interior of the first geometry lies in the interior of the second geometry.&#x20; **Warning: ST_Contains on Geography only give close approximation**
 * **ST\_Equals(Geometry, Geometry) → boolean**   Returns true if the given geometries represent the same geometry/geography.&#x20;
 * **ST\_Within(Geometry, Geometry) → boolean**   Returns true if first geometry is completely inside second geometry.
 

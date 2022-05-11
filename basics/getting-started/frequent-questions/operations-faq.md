@@ -4,11 +4,11 @@
 
 ### How much heap should I allocate for my Pinot instances?
 
-Typically, Pinot components try to use as much off-heap (MMAP/DirectMemory) where ever possible. For example, Pinot servers load segments in memory-mapped files in MMAP mode (recommended), or direct memory in HEAP  mode. Heap memory is used mostly for query execution and storing some metadata. We have seen production deployments with high throughput and low-latency work well with just 16 GB of heap for Pinot servers and brokers. Pinot controller may also cache some metadata (table configs etc) in heap, so if there are just a few tables in the Pinot cluster, a few GB of heap should suffice.
+Typically, Pinot components try to use as much off-heap (MMAP/DirectMemory) where ever possible. For example, Pinot servers load segments in memory-mapped files in MMAP mode (recommended), or direct memory in HEAP mode. Heap memory is used mostly for query execution and storing some metadata. We have seen production deployments with high throughput and low-latency work well with just 16 GB of heap for Pinot servers and brokers. Pinot controller may also cache some metadata (table configs etc) in heap, so if there are just a few tables in the Pinot cluster, a few GB of heap should suffice.
 
 ### Does Pinot provide any backup/restore mechanism?
 
-Pinot relies on deep-storage for storing backup copy of segments (offline as well as realtime). It relies on Zookeeper to store metadata (table configs, schema, cluster state, etc). It does not explicitly provide tools to take backups or restore these data, but relies on the deep-storage (ADLS/S3/GCP/etc), and ZK to persist these data/metadata.&#x20;
+Pinot relies on deep-storage for storing backup copy of segments (offline as well as realtime). It relies on Zookeeper to store metadata (table configs, schema, cluster state, etc). It does not explicitly provide tools to take backups or restore these data, but relies on the deep-storage (ADLS/S3/GCP/etc), and ZK to persist these data/metadata.
 
 ### Can I change a column name in my table, without losing data?
 
@@ -44,7 +44,7 @@ For REALTIME table update [replicasPerPartition](https://docs.pinot.apache.org/b
     ..
 ```
 
-After changing the replication, run a [table rebalance](./#how-to-run-a-rebalance-on-a-table).&#x20;
+After changing the replication, run a [table rebalance](./#how-to-run-a-rebalance-on-a-table).
 
 ### How to run a rebalance on a table?
 
@@ -52,11 +52,11 @@ Refer to [Rebalance](../../../operators/operating-pinot/rebalance/).
 
 ### How to control number of segments generated?
 
-The number of segments generated depends on the number of input files. If you provide only 1 input file, you will get 1 segment. If you break up the input file into multiple files, you will get as many segments as the input files.&#x20;
+The number of segments generated depends on the number of input files. If you provide only 1 input file, you will get 1 segment. If you break up the input file into multiple files, you will get as many segments as the input files.
 
 ### What are the common reasons my segment is in a BAD state ?
 
-This typically happens when the server is unable to load the segment. Possible causes: Out-Of-Memory, no-disk space, unable to download segment from deep-store, and similar other errors. Please check server logs for more information.&#x20;
+This typically happens when the server is unable to load the segment. Possible causes: Out-Of-Memory, no-disk space, unable to download segment from deep-store, and similar other errors. Please check server logs for more information.
 
 ### How to reset a segment when it runs into a BAD state?
 
@@ -68,7 +68,7 @@ curl -X POST "{host}/segments/{tableNameWithType}/{segmentName}/reset"
 
 ### What's the difference to Reset, Refresh, or Reload a segment?
 
-RESET: this gets a segment in ERROR state back to ONLINE or CONSUMING state. Behind the scenes, Pinot controller takes the segment to OFFLINE state, waits for External View to stabilize, and then moves it back to ONLINE/CONSUMING state, thus effectively resetting segments or consumers in error states.&#x20;
+RESET: this gets a segment in ERROR state back to ONLINE or CONSUMING state. Behind the scenes, Pinot controller takes the segment to OFFLINE state, waits for External View to stabilize, and then moves it back to ONLINE/CONSUMING state, thus effectively resetting segments or consumers in error states.
 
 REFRESH: this replaces the segment with a new one, with the same name but often different data. Under the hood, Pinot controller sets new segment metadata in Zookeeper, and notifies brokers and servers to check their local states about this segment and update accordingly. Servers also download the new segment to replace the old one, when both have different checksums. There is no separate rest API for refreshing, and it is done as part of SegmentUpload API today.
 
@@ -92,43 +92,14 @@ curl -X POST "http://localhost:9000/tenants"
 -H "Content-Type: application/json" 
 -d "{\"tenantRole\":\"BROKER\",\"tenantName\":\"foo\",\"numberOfInstances\":1}"
 ```
+
 ### How to I manually run a Periodic Task
 
-Use the `GET /periodictask/names` API to fetch the names of all the Periodic Tasks running on your Pinot cluster.
-
-```
-curl -X GET "http://localhost:9000/periodictask/names" -H "accept: application/json"
-
-[
-  "RetentionManager",
-  "OfflineSegmentIntervalChecker",
-  "RealtimeSegmentValidationManager",
-  "BrokerResourceValidationManager",
-  "SegmentStatusChecker",
-  "SegmentRelocator",
-  "MinionInstancesCleanupTask",
-  "TaskMetricsEmitter"
-]
-```
-
-To manually run a named Periodic Task use the `GET /periodictask/run` API
-
-```
-curl -X GET "http://localhost:9000/periodictask/run?taskname=SegmentStatusChecker&tableName=jsontypetable&type=OFFLINE" -H "accept: application/json"
-
-{
-  "Log Request Id": "api-09630c07",
-  "Controllers notified": true
-}
-```
-The `Log Request Id` (`api-09630c07`) can be used to search through pinot-controller log file to see log entries related to execution of the Periodic task that was manually run.
-
-
-If `tableName` (and its type `OFFLINE` or `REALTIME`) is not provided, the task will run against all tables.
+Refer to [Running a Periodic Task Manually](../../components/controller.md#running-the-periodic-task-manually)
 
 ## Tuning and Optimizations
 
-### Do replica groups work for real-time? <a href="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3" id="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3"></a>
+### Do replica groups work for real-time? <a href="#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3" id="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3"></a>
 
 Yes, replica groups work for realtime. There's 2 parts to enabling replica groups:
 

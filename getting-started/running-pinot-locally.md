@@ -22,7 +22,7 @@ Install Java 8 or higher.
 
 ```bash
 # define the pinot version 
-PINOT_VERSION=0.3.0
+PINOT_VERSION=0.10.0
 ```
 
 ### Build from source or Download the distribution
@@ -48,7 +48,7 @@ cd pinot
 mvn install package -DskipTests -Pbin-dist
 
 # navigate to directory containing the setup scripts
-cd pinot-distribution/target/apache-pinot-$PINOT_VERSION-bin/apache-pinot-$PINOT_VERSION-bin
+cd build
 ```
 
 {% hint style="info" %}

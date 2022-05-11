@@ -34,6 +34,8 @@ e.g.
 
 If your column names use reserved keywords (e.g. `timestamp` or `date`) or special charactesr, you will need to use double quotes when referring to them in queries.
 
+Note: Defining decimal literals within quotes preserves precision.
+
 ## Example Queries
 
 

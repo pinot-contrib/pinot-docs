@@ -6,29 +6,29 @@ Setup Pinot by starting each component individually
 
 {% tabs %}
 {% tab title="Using docker images" %}
-## Start Pinot Components using docker
+### Start Pinot Components using docker
 
-### **Prerequisites**
+#### **Prerequisites**
 
 {% hint style="info" %}
 If running locally, please ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
 
-![Sample docker resources](<../../.gitbook/assets/image (4).png>)
+![Sample docker resources](<../../.gitbook/assets/image (4) (1).png>)
 
-### Pull docker image
+#### Pull docker image
 
 You can try out pre-built Pinot all-in-one docker image.
 
 ```
-export PINOT_VERSION=0.7.0-SNAPSHOT
+export PINOT_VERSION=0.10.0
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
 
 (Optional) You can also follow the instructions [here](../../operators/tutorials/build-docker-images.md) to build your own images.
 
-### 0. Create a Network
+#### 0. Create a Network
 
 Create an isolated bridge network in docker
 
@@ -36,7 +36,7 @@ Create an isolated bridge network in docker
 docker network create -d bridge pinot-demo
 ```
 
-### 1. Start Zookeeper
+#### 1. Start Zookeeper
 
 Start Zookeeper in daemon.
 
@@ -59,7 +59,7 @@ docker run \
     -d qnib/plain-zkui:latest
 ```
 
-### 2. Start Pinot Controller
+#### 2. Start Pinot Controller
 
 Start Pinot Controller in daemon and connect to Zookeeper.
 
@@ -72,7 +72,7 @@ docker run \
     -zkAddress pinot-zookeeper:2181
 ```
 
-### 3. Start Pinot Broker
+#### 3. Start Pinot Broker
 
 Start Pinot Broker in daemon and connect to Zookeeper.
 
@@ -84,7 +84,7 @@ docker run \
     -zkAddress pinot-zookeeper:2181
 ```
 
-### 4. Start Pinot Server
+#### 4. Start Pinot Server
 
 Start Pinot Server in daemon and connect to Zookeeper.
 
@@ -120,7 +120,7 @@ a413b0013806        apachepinot/pinot:0.3.0-SNAPSHOT   "./bin/pinot-admin.s…" 
 Download Pinot Distribution from [http://pinot.apache.org/download/](http://pinot.apache.org/download/)
 
 ```
-$ export PINOT_VERSION=0.7.0
+$ export PINOT_VERSION=0.10.0
 $ tar -xvf apache-pinot-${PINOT_VERSION}-bin.tar.gz
 
 $ cd apache-pinot-${PINOT_VERSION}-bin
@@ -130,16 +130,16 @@ DISCLAIMER    LICENSE        NOTICE        bin        conf        lib        lic
 $ PINOT_INSTALL_DIR=`pwd`
 ```
 
-## Start Pinot components via launcher scripts
+### Start Pinot components via launcher scripts
 
-### Start Zookeeper
+#### Start Zookeeper
 
 ```
 cd apache-pinot-${PINOT_VERSION}-bin
 bin/pinot-admin.sh StartZookeeper
 ```
 
-### Start Pinot Controller
+#### Start Pinot Controller
 
 > See [controller page](advanced-pinot-setup.md) for more details .
 
@@ -148,14 +148,14 @@ bin/pinot-admin.sh StartController \
     -zkAddress localhost:2181
 ```
 
-### Start Pinot Broker
+#### Start Pinot Broker
 
 ```
 bin/pinot-admin.sh StartBroker \
     -zkAddress localhost:2181
 ```
 
-### Start Pinot Controller
+#### Start Pinot Controller
 
 ```
 bin/pinot-admin.sh StartServer \

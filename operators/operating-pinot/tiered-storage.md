@@ -11,6 +11,8 @@ Some example scenarios in which tiered storage can be used -&#x20;
 
 The data age based tiers is just one of the examples. The logic to split data into tiers may change depending on the use case.
 
+### Tier Config
+
 You can configured tiered storage by setting the `tieredConfigs` key in your table config json.
 
 #### Example
@@ -52,4 +54,24 @@ Following properties are supported under `tierConfigs` -&#x20;
 | segmentAge          | This property is required when `segmentSelectorType` is `time`. Set a period string, eg. 15d, 24h, 60m. Segments which are older than the age will be moved to the the specific tier                                 |
 | storageType         | The type of storage. The only supported type is `pinot_server`, which will use Pinot servers as storage for the tier. In future, we expect to have some deep store modes here                                        |
 | serverTag           | This property is required when `storageType` is `pinot_server`. Set the tag of the Pinot servers you wish to use for this tier.                                                                                      |
+
+### How does data move from one tenant to another?
+
+On adding tier config, a periodic task on the pinot-controller called "SegmentRelocator" will move segments from one tenant to another, as and when the segment crosses the segment age.&#x20;
+
+This periodic task runs every hour by default. You can configure this frequency by setting the config with any period string (60s, 2h, 5d)
+
+```
+controller.segment.relocator.frequencyPeriod=10m
+```
+
+This job can also be triggered manually
+
+```
+curl -X GET "https://localhost:9000/periodictask/run?
+    taskname=SegmentRelocator&tableName=myTable&type=OFFLINE" 
+    -H "accept: application/json"
+```
+
+Under the hood, this job runs a rebalance. So you can achieve the same effect as a manual trigger by running a [rebalance](rebalance/rebalance-servers.md#running-a-rebalance)
 

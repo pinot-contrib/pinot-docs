@@ -4,21 +4,24 @@ description: This section contains reference documentation for the JSONPATHARRAY
 
 # JSONPATHARRAY
 
-Extracts an array from <code>jsonField</code> based on <code>'jsonPath'</code>, the result type is inferred based on JSON value.
-This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
+Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
 
 ## Signature
 
 > JSONPATHARRAY(jsonField, 'jsonPath')
 
-| Arguments  | Description                                                                                                                                                                                                                                   |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `jsonField`      | An **Identifier**/**Expression** contains JSON documents.                                                                                                                                                                                         |
-| `'jsonPath'`     | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.                                                                                                                                            |
+| Arguments    | Description                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------------------ |
+| `jsonField`  | An **Identifier**/**Expression** contains JSON documents.                                              |
+| `'jsonPath'` | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents. |
 
 {% hint style="warning" %}
-**`'jsonPath'`**` is a literal. Pinot uses single quotes to distinguish them from **identifiers**.
+**`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers**.\
+\
+You can use the [Jayway JsonPath Evaluator Tool](https://jsonpath.herokuapp.com) to test JSON expressions before you import any data.&#x20;
 {% endhint %}
+
+
 
 ## Usage Examples
 
@@ -53,7 +56,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | `JSONPATHARRAY(myJsonRecord, '$.subjects[*].score')`              | `[90, 70]`             |
 | `JSONPATHARRAY(myJsonRecord, '$.subjects[*].homework_grades[1]')` | `[85, 65]`             |
 
-This function can be used in the [table config](../table.md) to extract the  `name`, `score`, and second value of `homework_grades` into their respective columns , as described below:
+This function can be used in the [table config](../table.md) to extract the `name`, `score`, and second value of `homework_grades` into their respective columns , as described below:
 
 ```json
 {

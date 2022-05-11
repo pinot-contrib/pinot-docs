@@ -45,6 +45,10 @@ This function generates an IdSet from a subquery and then filters ids based on t
 
 This function works best when the data is partitioned by the id column and each server contains all the data for a partition. The generated IdSet for the subquery will be smaller as it will only contain the ids for the partitions served by the server. This will give better performance.
 
+{% hint style="info" %}
+The query passed to `IN_SUBQUERY` and `IN__PARTITIONED__SUBQUERY` can be run on any table - they aren't restricted to the table used in the parent query.
+{% endhint %}
+
 ## Examples
 
 ### Create IdSet

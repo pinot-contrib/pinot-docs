@@ -26,7 +26,7 @@ You can build from source or download the distribution:
 Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command
 
 ```bash
-PINOT_VERSION=0.9.3 #set to the Pinot version you decide to use
+PINOT_VERSION=0.10.0 #set to the Pinot version you decide to use
 
 wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```
@@ -60,7 +60,7 @@ cd pinot
 mvn install package -DskipTests -Pbin-dist
 
 # navigate to directory containing the setup scripts
-cd pinot-distribution/target/apache-pinot-$PINOT_VERSION-bin/apache-pinot-$PINOT_VERSION-bin
+cd build
 ```
 
 {% hint style="info" %}
@@ -72,6 +72,26 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 {% endhint %}
 {% endtab %}
 {% endtabs %}
+
+### M1 Mac Support
+
+Currently Apache Pinot doesn't provide official binaries for M1 Mac. You can however build from source using the steps provided above. In addition to the steps, you will need to add the following in your `~/.m2/settings.xml`  prior to the build.
+
+```xml
+<activeProfiles>
+  <activeProfile>
+    apple-silicon
+  </activeProfile>
+</activeProfiles>
+<profiles>
+  <profile>
+    <id>apple-silicon</id>
+    <properties>
+      <os.detected.classifier>osx-x86_64</os.detected.classifier>
+    </properties>
+  </profile>
+</profiles>
+```
 
 Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this:
 
@@ -91,7 +111,7 @@ For a list of all the available quick starts, see the [Quick Start Examples](qui
 
 If you want to play with bigger datasets (more than a few MB), you can launch all the components individually.
 
-The video below is a step-by-step walk through for launching the individual components of Pinot and scaling them to multiple instances. 
+The video below is a step-by-step walk through for launching the individual components of Pinot and scaling them to multiple instances.
 
 {% embed url="https://www.youtube.com/watch?v=cNnwMF0pOJ8" %}
 Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster

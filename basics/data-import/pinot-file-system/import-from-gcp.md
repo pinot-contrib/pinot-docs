@@ -11,7 +11,7 @@ You can enable the [Google Cloud Storage](https://cloud.google.com/products/stor
 ```
 
 {% hint style="info" %}
-By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro `, `pinot-kafka-2.0...`
+By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
 {% endhint %}
 
 GCP filesystems provides the following options -
@@ -84,9 +84,9 @@ pinot.server.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.Pino
 #### Minion config
 
 ```
-storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
-storage.factory.gs.projectId=my-project
-storage.factory.gs.gcpKey=path/to/gcp/key.json
-segment.fetcher.protocols=file,http,gs
-segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+pinot.minion.storage.factory.class.gs=org.apache.pinot.plugin.filesystem.GcsPinotFS
+pinot.minion.storage.factory.gs.projectId=my-project
+pinot.minion.storage.factory.gs.gcpKey=path/to/gcp/key.json
+pinot.minion.segment.fetcher.protocols=file,http,gs
+pinot.minion.segment.fetcher.gs.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
