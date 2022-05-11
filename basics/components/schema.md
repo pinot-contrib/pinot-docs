@@ -18,20 +18,22 @@ A schema also defines what category a column belongs to. Columns in a Pinot tabl
 
 Data types determine the operations that can be performed on a column. Pinot supports the following data types:
 
-| Data Type | Default Dimension Value                                                                                         | Default Metric Value   |
-| --------- | --------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| INT       | [Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN\_VALUE)               | 0                      |
-| LONG      | [Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN\_VALUE)                     | 0                      |
-| FLOAT     | [Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE\_INFINITY)   | 0.0                    |
-| DOUBLE    | [Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE\_INFINITY) | 0.0                    |
-| BOOLEAN   | 0 (false)                                                                                                       | N/A                    |
-| TIMESTAMP | 0 (1970-01-01 00:00:00 UTC)                                                                                     | N/A                    |
-| STRING    | "null"                                                                                                          | N/A                    |
-| JSON      | "null"                                                                                                          | N/A                    |
-| BYTES     | byte array of length 0                                                                                          | byte array of length 0 |
+| Data Type   | Default Dimension Value                                                                                         | Default Metric Value   |
+| ----------- | --------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| INT         | [Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN\_VALUE)               | 0                      |
+| LONG        | [Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN\_VALUE)                     | 0                      |
+| FLOAT       | [Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE\_INFINITY)   | 0.0                    |
+| DOUBLE      | [Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE\_INFINITY) | 0.0                    |
+| BIG_DECIMAL | Not supported                                                                                                   | 0.0                    |
+| BOOLEAN     | 0 (false)                                                                                                       | N/A                    |
+| TIMESTAMP   | 0 (1970-01-01 00:00:00 UTC)                                                                                     | N/A                    |
+| STRING      | "null"                                                                                                          | N/A                    |
+| JSON        | "null"                                                                                                          | N/A                    |
+| BYTES       | byte array of length 0                                                                                          | byte array of length 0 |
 
 {% hint style="warning" %}
 `BOOLEAN`, `TIMESTAMP`, `JSON` are added after release `0.7.1`. In release `0.7.1` and older releases, `BOOLEAN` is equivalent to `STRING.`
+`BIG_DECIMAL` is added after release `0.10.0`.
 {% endhint %}
 
 Pinot also supports columns that contain lists or arrays of items, but there isn't an explicit data type to represent these lists or arrays. Instead, you can indicate that a dimension column accepts multiple values. For more information, see [DimensionFieldSpec](https://docs.pinot.apache.org/configuration-reference/schema#dimensionfieldspec) in the Schema configuration reference.
