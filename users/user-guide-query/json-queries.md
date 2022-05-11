@@ -109,3 +109,34 @@ GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
 |"dwag"|"104"|
 |"duck"|"203"|
 
+## JSON_MATCH and JSON_EXTRACT_SCALAR
+
+Note that the `JSON_MATCH` function utilizes `JsonIndex` and can only be used if a `JsonIndex` is already present on the JSON column. As shown in the examples above, the second argument of JSON_MATCH operator takes a predicate. This predicate is evaluated against the `JsonIndex` and supports `=`, `!=`, `IS NULL`, or `IS NOT NULL` operators. Relational operators, such as `>`, `<`, `>=`, and `<=' are currently not supported. However, you can combine the use of JSON_MATCH and JSON_EXTRACT_SCALAR function (which supports `>`, `<`, `>=`, and `<=' operators) to get the necessary functinoality as shown below.
+
+```text
+  SELECT json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null') last_name,
+         sum(json_extract_scalar(jsoncolumn, '$.id', 'INT', 0)) total
+    FROM myTable
+   WHERE JSON_MATCH(jsoncolumn, '"$.name.last" IS NOT NULL') AND json_extract_scalar(jsoncolumn, '$.id', 'INT', 0) > 102
+GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
+```
+|jsoncolumn.name.last|sum(jsoncolumn.score)|
+| ----------- | ----------- |
+|"mouse"|"207"|
+|"dwag"|"104"|
+
+`JSON_MATCH` function also provides the ability to use wildcard `*` JsonPath expressions even though it doesn't support full JsonPath expressions.
+
+```
+  SELECT json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null') last_name,
+         json_extract_scalar(jsoncolumn, '$.id', 'INT', 0) total
+    FROM myTable
+   WHERE JSON_MATCH(jsoncolumn, '"$.data[*]" = ''f''')
+GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
+```
+|last_name|total|
+|"duck"|"102"|
+
+While, JSON_MATCH supports `IS NULL` and `IS NOT NULL` operators, these operators should only be applied to leaf-level path elements, i.e the predicate `JSON_MATCH(jsoncolumn, '"$.data[*]" IS NOT NULL')` is not valid since `"$.data[*]"` is not address a "leaf" element of the path; however, `"$.data[0]" IS NOT NULL')` is valid since `"$.data[0]"` unambigously identifies a leaf element of the path.
+
+`JSON_EXTRACT_SCALAR` does not utilize JsonIndex and hence performs slower than `JSON_MATCH` which utilizes JsonIndex. However, `JSON_EXTRACT_SCALAR` supports a wider range for of JsonPath expressions and operators. To make the best use of fast index access (`JSON_MATCH`) along with JsonPath expressions (`JSON_EXTRACT_SCALAR) one can combine the use of these two functions in WHERE clause.
