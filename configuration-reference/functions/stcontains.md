@@ -8,7 +8,10 @@ Returns true if and only if no points of the second geometry/geography lie in th
 
 ## Signature
 
-> ST_Contains(geometry, geometry)
+> ST_Contains(geometry/geography, geometry/geography)
+
+## Warning
+ST_Contains on Geography only give close approximation: we use geometry computation on geography objects, which can give close approximation on small areas, but not work well on for areas cross the 180th meridian.
 
 ## Usage Examples
 

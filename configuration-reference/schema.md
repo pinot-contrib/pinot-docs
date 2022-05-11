@@ -44,7 +44,7 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 | Property | Description |
 | :--- | :--- |
 | name | Name of the metric column |
-| dataType | Data type of the column. Can be INT, LONG, FLOAT, DOUBLE, BYTES \(for specialized representations such as HLL, TDigest, etc, where the column stores byte serialized version of the value\) |
+| dataType | Data type of the column. Can be INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, BYTES \(for specialized representations such as HLL, TDigest, etc, where the column stores byte serialized version of the value\) |
 | defaultNullValue | Represents null values in the data. If not specified, an internal default null value is used, as listed here. |
 
 #### Internal default null values for metric
@@ -55,6 +55,7 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 | LONG | 0 |
 | FLOAT | 0.0 |
 | DOUBLE | 0.0 |
+| BIG_DECIMAL | 0.0 |
 | BYTES | byte array of length 0 |
 
 ### DateTimeFieldSpec

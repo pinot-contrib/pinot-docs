@@ -5,8 +5,8 @@ One of the primary advantage of using Pinot is its pluggable architecture. The p
 In this tutorial, we will use three such plugins to easily ingest data and push it to our pinot cluster. The plugins we will be using are -
 
 * `pinot-batch-ingestion-spark`
-* `pinot-s3`&#x20;
-* `pinot-parquet`&#x20;
+* `pinot-s3`
+* `pinot-parquet`
 
 You can check out [Batch Ingestion](../../basics/data-import/batch-ingestion/), [File systems](../../basics/data-import/pinot-file-system/) and [Input formats](../../basics/data-import/pinot-input-formats.md) for all the available plugins.
 
@@ -150,7 +150,8 @@ executionFrameworkSpec:
   segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentTarPushJobRunner'
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentUriPushJobRunner'
   segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentMetadataPushJobRunner'
-
+  extraConfigs:
+      stagingDir: s3://my-bucket/spark/staging/
 # jobType: Pinot ingestion job type.
 # Supported job types are:
 #   'SegmentCreation'
@@ -160,8 +161,6 @@ executionFrameworkSpec:
 #   'SegmentCreationAndUriPush'
 #   'SegmentCreationAndMetadataPush'
 jobType: SegmentCreationAndMetadataPush
-extraConfigs:
-    stagingDir: s3://my-bucket/spark/staging/
 inputDirURI: 's3://my-bucket/path/to/batch-input/'
 outputDirURI: 's3:///my-bucket/path/to/batch-output/'
 overwriteOutput: true
@@ -191,19 +190,24 @@ We also provide the S3 Filesystem and Parquet reader implementation in the confi
 We can now run our spark job to execute all the steps and populate data in pinot.
 
 ```bash
-export PINOT_VERSION=0.8.0
+export PINOT_VERSION=0.10.0
 export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin
 
 spark-submit //
 --class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand //
 --master local --deploy-mode client //
 --conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dplugins.include=pinot-s3,pinot-parquet -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml" //
---conf "spark.driver.extraClassPath=${PINOT_DISTRIBUTION_DIR}/plugins/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar:${PINOT_DISTRIBUTION_DIR}/plugins/pinot-file-system/pinot-s3/pinot-s3-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/plugins/pinot-input-format/pinot-parquet/pinot-parquet-${PINOT_VERSION}-shaded.jar" //
+--conf "spark.driver.extraClassPath=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar:${PINOT_DISTRIBUTION_DIR}/plugins/pinot-file-system/pinot-s3/pinot-s3-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/plugins/pinot-input-format/pinot-parquet/pinot-parquet-${PINOT_VERSION}-shaded.jar" //
+--conf "spark.executor.extraClassPath=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar:${PINOT_DISTRIBUTION_DIR}/plugins/pinot-file-system/pinot-s3/pinot-s3-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/plugins/pinot-input-format/pinot-parquet/pinot-parquet-${PINOT_VERSION}-shaded.jar" //
 local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar -jobSpecFile /path/to/spark_job_spec.yaml
 ```
 
 {% hint style="info" %}
 In the command , we have included the JARs of all the required plugins in the spark's `driver classpath`. In practice, you only need to do this if you get a `ClassNotFoundException`.
+{% endhint %}
+
+{% hint style="info" %}
+For Pinot version prior to 0.10.0, the spark plugin is located in `${PINOT_DISTRIBUTION_DIR}/plugins/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar`
 {% endhint %}
 
 Voila! Now our data is successfully ingested. Let's try to query it from Pinot's broker

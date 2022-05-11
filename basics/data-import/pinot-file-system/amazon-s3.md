@@ -7,7 +7,7 @@ You can enable [Amazon S3](https://aws.amazon.com/s3/) Filesystem backend by inc
 ```
 
 {% hint style="info" %}
-By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro `, `pinot-kafka-2.0...`
+By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
 {% endhint %}
 
 You can also configure the S3 filesystem using the following options:
@@ -96,8 +96,8 @@ pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.Pino
 ### Minion config
 
 ```
-storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
-storage.factory.s3.region=ap-southeast-1
-segment.fetcher.protocols=file,http,s3
-segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+pinot.minion.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
+pinot.minion.storage.factory.s3.region=ap-southeast-1
+pinot.minion.segment.fetcher.protocols=file,http,s3
+pinot.minion.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```

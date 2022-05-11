@@ -307,3 +307,9 @@ Here is an example config which uses SASL\_SSL based authentication to talk with
         "realtime.segment.flush.threshold.segment.size": "500M"
       },
 ```
+
+
+
+{% hint style="info" %}
+Post release 0.10.0, we have started shading kafka packages inside Pinot. If you are using our `latest` tagged docker images or `master` build, you should replace `org.apache.kafka` with `shaded.org.apache.kafka` in your table config.
+{% endhint %}

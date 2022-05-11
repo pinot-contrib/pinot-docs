@@ -32,7 +32,7 @@ If running locally, please ensure your docker cluster has enough resources, belo
 You can try out the pre-built Pinot all-in-one docker image.
 
 ```
-export PINOT_VERSION=0.9.3
+export PINOT_VERSION=0.10.0
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
@@ -242,7 +242,7 @@ Download pinot by following the instructions in [Getting Pinot](./).
 ### 1. Start Zookeeper
 
 ```
-cd apache-pinot-${PINOT_VERSION}-bin
+cd build
 bin/pinot-admin.sh StartZookeeper \
   -zkPort 2191
 ```

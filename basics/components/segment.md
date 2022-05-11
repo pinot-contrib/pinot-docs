@@ -6,7 +6,7 @@ Pinot achieves this by breaking the data into smaller chunks known as **segments
 
 Thus, a **segment is a horizontal shard representing a chunk of table data** with some number of rows.  The segment stores data for all columns of the table. Each segment packs the data in a **columnar fashion**, along with the **dictionaries and indices** for the columns. The segment is laid out in a columnar format so that it can be directly mapped into memory for serving queries.&#x20;
 
-Columns can be **single or multi-valued** and the following types are supported: **STRING, INT, LONG, FLOAT, DOUBLE or BYTES**.&#x20;
+Columns can be **single or multi-valued** and the following types are supported: **STRING, BOOLEAN, INT, LONG, FLOAT, DOUBLE, TIMESTAMP or BYTES**. Only single-valued **BIG_DECIMAL** data type is supported.&#x20;
 
 Columns may be declared to be **metric or dimension (or specifically as a time dimension)** in the schema. Columns can have default null values. For example, the default null value of a integer column can be 0. The default value for bytes columns must be hex-encoded before it's added to the schema.
 

@@ -192,7 +192,9 @@ public interface MinionEventObserver {
 
 ### SegmentGenerationAndPushTask
 
-The PushTask can fetch files from an input folder e.g. from a S3 bucket and converts them into segments. The PushTask converts one file into one segment and keeps file name in segment metadata to avoid duplicate ingestion. Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.
+The PushTask can fetch files from an input folder e.g. from a S3 bucket and converts them into segments. The PushTask converts one file into one segment and keeps file name in segment metadata to avoid duplicate ingestion. Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.&#x20;
+
+NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the task generates one segment per file, and derives segment name based on the time column of the file. If two files happen to have same time range and are ingested by tasks from different schedules, there might be segment name conflict. To overcome this issue for now, you can omit “tableMaxNumTasks” and by default it’s Integer.MAX\_VALUE, meaning to schedule as many tasks as possible to ingest all input files in a single batch. Within one batch, a sequence number suffix is used to ensure no segment name conflict. Because the sequence number suffix is scoped within one batch, tasks from different batches might encounter segment name conflict issue said above.&#x20;
 
 ```
 "ingestionConfig": {
@@ -216,7 +218,8 @@ The PushTask can fetch files from an input folder e.g. from a S3 bucket and conv
   "task": {
     "taskTypeConfigsMap": {
       "SegmentGenerationAndPushTask": {
-        "schedule": "0 */10 * * * ?"
+        "schedule": "0 */10 * * * ?",
+        "tableMaxNumTasks": 10
       }
     }
   }
