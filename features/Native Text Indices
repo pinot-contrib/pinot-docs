@@ -38,7 +38,30 @@ A new function, TEXT_CONTAINS, is introduced for supporting text search on nativ
 SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS (<column_name>, <search_expression>)
 ```
 
+Examples:
+
+```sql
+SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS (<column_name>, "foo.*")
+```
+
+```sql
+SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS (<column_name>, ".*bar")
+```
+
+```sql
+SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS (<column_name>, "foo")
+```
+
+TEXT_CONTAINS can be combined using standard boolean operators
+
+```sql
+SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS ("col1", "foo") AND TEXT_CONTAINS ("col2", "bar")
+```
+
 Note that TEXT_CONTAINS supports regex and term queries for now. Also, TEXT_CONTAINS will work only on native indices.
+
+**Note that TEXT_CONTAINS supports standard regex patterns (as used by LIKE in SQL Standard). So there might be some syntatical changes
+from Lucene queries**
 
 # Creating Native Text Indices
 Native text indices are a type of text search index that Pinot supports, hence are created through the regular way
