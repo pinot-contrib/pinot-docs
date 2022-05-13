@@ -139,7 +139,7 @@ Identify a list of tests for the changes you have made. Depending on the scope o
 
 *   **Mocking**
 
-    Use [Mockito](https://site.mockito.org) to mock classes to control specific behaviors - e.g., simulate various error conditions.
+    Use [Mockito](https://site.mockito.org/) to mock classes to control specific behaviors - e.g., simulate various error conditions.
 
 {% hint style="info" %}
 **Note**

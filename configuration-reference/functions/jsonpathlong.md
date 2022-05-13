@@ -18,7 +18,7 @@ Extracts the **Long** value from `jsonField` based on `'jsonPath'`, use optional
 {% hint style="warning" %}
 **`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers**.\
 \
-You can use the [Jayway JsonPath Evaluator Tool](https://jsonpath.herokuapp.com) to test JSON expressions before you import any data.
+You can use the [Jayway JsonPath Evaluator Tool](https://jsonpath.herokuapp.com/) to test JSON expressions before you import any data.
 {% endhint %}
 
 ## Usage Examples
