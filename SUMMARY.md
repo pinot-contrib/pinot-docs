@@ -38,6 +38,7 @@
     * [Query FAQ](basics/getting-started/frequent-questions/query-faq.md)
     * [Operations FAQ](basics/getting-started/frequent-questions/operations-faq.md)
 * [Import Data](basics/data-import/README.md)
+  * [From Query Console](basics/data-import/from-query-console.md)
   * [Batch Ingestion](basics/data-import/batch-ingestion/README.md)
     * [Spark](basics/data-import/batch-ingestion/spark.md)
     * [Hadoop](basics/data-import/batch-ingestion/hadoop.md)
