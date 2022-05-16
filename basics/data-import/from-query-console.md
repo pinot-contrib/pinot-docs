@@ -28,5 +28,12 @@ OPTION(input.fs.prop.secretKey=my-secret)
 OPTION(input.fs.prop.region=us-west-2)
 ```
 
+Screenshot
+
 ![](<../../.gitbook/assets/image (13).png>)
 
+## Insert Rows into Pinot
+
+&#x20;We are actively developing this feature...
+
+The details will be revealed soon.
