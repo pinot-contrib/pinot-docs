@@ -77,11 +77,11 @@ Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set
 **Note**: You should change the `master` to `yarn` and `deploy-mode` to `cluster` for production environments.&#x20;
 
 {% hint style="info" %}
-We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../getting-started/)or [download latest master build jars](https://repo.startreedata.io/artifactory/external-snapshots/org/apache/pinot/).
+We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../getting-started/)or download latest master build jars.
 {% endhint %}
 
 {% hint style="warning" %}
-Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the java8 version of pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/) but we are working on making the jdk8 binaries available in official distribution itself.
+Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the java8 version of pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/).
 {% endhint %}
 
 {% hint style="warning" %}
