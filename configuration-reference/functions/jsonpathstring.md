@@ -28,7 +28,7 @@ The usage examples are based on extracting fields from the following JSON docume
 ```json
 {
   "data": {
-    "name": "Pete",
+    "name": {"full.name": "Peter", "nick.name": "Pete"},
     "age": 24,
     "subjects": [
       {
@@ -48,9 +48,10 @@ The usage examples are based on extracting fields from the following JSON docume
 }
 ```
 
-| Expression                      | Value  |
-| ------------------------------- | ------ |
-| `JSONPATHSTRING(data, '$.age')` | `"24"` |
+| Expression                                    | Value  |
+| --------------------------------------------- | ------ |
+| `JSONPATHSTRING(data, '$.age')`               | `"24"` |
+| `JSONPATHSTRING(data, '$.name["nick.name"]')` | "Pete" |
 
 This function can be used in the [table config](../table.md) to extract the `age` property into the `age` column, as described below:
 
@@ -62,6 +63,10 @@ This function can be used in the [table config](../table.md) to extract the `age
             {
                "columnName":"age",
                "transformFunction":"JSONPATHSTRING(data, '$.age')"
+            },
+            {
+               "columnName":"nickName",
+               "transformFunction":"JSONPATHSTRING(data, '$.name[\"nick.name\"]')"
             }
          ]
       }
