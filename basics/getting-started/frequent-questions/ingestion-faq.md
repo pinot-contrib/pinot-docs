@@ -10,6 +10,12 @@ While Pinot can work with segments of various sizes, for optimal use of Pinot, y
 
 Yes. Each table can be independently configured to consume from any given Kafka topic, regardless of whether there are other tables that are also consuming from the same Kafka topic.
 
+### If I add a new Kafka partition, will Pinot automatically ingest data from this partition?
+
+Pinot automatically detects new partitions in the topic. It checks for new partitions whenever _RealtimeSegmentValidationManager_ periodic job runs and starts consumers for new partitions.&#x20;
+
+You can configure the interval for this job using the`controller.realtime.segment.validation.frequencyPeriod` property in controller configuration.
+
 ### How do I enable partitioning in Pinot, when using Kafka stream?
 
 Setup partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
@@ -47,7 +53,7 @@ For JSON, you can use hex encoded string to ingest BYTES
 
 ### How do I flatten my JSON Kafka stream?
 
-We have [json\_format(field)](https://docs.pinot.apache.org/developers/advanced/ingestion-level-transformations#json-functions) function which can store a top level json field as a STRING in Pinot.
+See the [json\_format(field)](https://docs.pinot.apache.org/developers/advanced/ingestion-level-transformations#json-functions) function which can store a top level json field as a STRING in Pinot.
 
 Then you can use these [json functions](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations#json-functions) during query time, to extract fields from the json string.
 
@@ -76,7 +82,7 @@ By default, Pinot limits the length of a String column to 512 bytes. If you want
 
 ### When can new events become queryable when getting ingested into a real-time table?
 
-Events are available to be read by queries as soon as they are ingested. This is because events are instantly indexed in-memory upon ingestion.
+Events are available to queries as soon as they are ingested. This is because events are instantly indexed in memory upon ingestion.
 
 The ingestion of events into the real-time table is not transactional, so replicas of the open segment are not immediately consistent. Pinot trades consistency for availability upon network partitioning (CAP theorem) to provide ultra-low ingestion latencies at high throughput.
 
@@ -88,7 +94,7 @@ However, when the open segment is closed and its in-memory indexes are flushed t
 
 Inverted indexes are set in the tableConfig's tableIndexConfig -> invertedIndexColumns list. For documentation on table config, see [Table Config Reference](../../../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../indexing/inverted-index.md).
 
-Applying inverted indexes to a table config will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to existing segments?](#how-to-apply-an-inverted-index-to-existing-segments)
+Applying inverted indexes to a table config will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to existing segments?](ingestion-faq.md#how-to-apply-an-inverted-index-to-existing-segments)
 
 ### How to apply an inverted index to existing segments?
 
@@ -120,10 +126,9 @@ The output from this API should look something like the following:
 
 ### Can I retrospectively add an index to any segment?
 
-Not all indexes can be retrospectively applied to existing segments. 
+Not all indexes can be retrospectively applied to existing segments.
 
 If you want to add or change the [sorted index column](../../indexing/inverted-index.md#sorted-inverted-index) or adjust [the dictionary encoding of the default forward index](../../indexing/forward-index.md#raw-value-forward-index) you will need to manually re-load any existing segments.
-
 
 ### How to create star-tree indexes?
 
@@ -147,6 +152,6 @@ This lets you have an old event up come in without building complex offline pipe
 
 ### **Why are segments not strictly time-partitioned?**
 
-It might seem odd that segments are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time-intervals to for performance of hybrid tables and time-filtered data.
+It might seem odd that segments are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time intervals for the performance of hybrid tables and time-filtered data.
 
-When generating offline segments, the segments generated such that segments only contain one time-interval and are well partitioned by the time column.
+When generating offline segments, the segments generated such that segments only contain one time interval and are well partitioned by the time column.
