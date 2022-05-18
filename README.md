@@ -21,24 +21,24 @@ At the heart of the system is a columnar store, with several smart indexing and 
 
 Pinot was built by engineers at LinkedIn and Uber and is designed to scale up and out with no upper bound. Performance always remains constant based on the size of your cluster and an expected query per second (QPS) threshold.
 
-### User-facing realtime analytics
+### User-Facing Real-Time Analytics
 
 **User-facing analytics**, or site-facing analytics, is the **analytical tools and applications that you would expose directly to the end-users** of your product. In a user-facing analytics application, think of the user-base as ALL end users of an App. This App could be a social networking app, or a food delivery app - anything at all. It’s not just a few analysts doing offline analysis, or a handful of data scientists in a company running ad-hoc queries. This is ALL end-users, receiving personalized analytics on their personal devices (**think 100s of 1000s of queries per second**). These queries are triggered by apps, and not written by people, and so the scale will be as much as the active users on that App (**think millions of events/sec**)
 
 And, this is for all the freshest possible data, which touches on the other aspect here - **realtime analytics**. "Yesterday" might be a long time ago for some businesses and they cannot wait for ETLs and batch jobs. The data needs to be used for analytics, as soon as it is generated (**think latencies < 1s**).
 
-### Why is user-facing realtime analytics is so challenging?
+### Why is user-facing real-time analytics is so challenging?
 
 Wanting such a user-facing analytics application, using realtime events, sounds great. But what does it mean for the underlying infrastructure, to support such an analytical workload?
 
 ![Challenges of user-facing realtime analytics](.gitbook/assets/screen-shot-2021-04-28-at-2.09.22-pm.png)
 
-1. Such applications require the freshest possible data, and so the system needs to be able to **ingest data in realtime and make it available for querying, also in realtime**.
+1. Such applications require the freshest possible data, and so the system needs to be able to **ingest data in real time and make it available for querying, also in real time**.
 2. Data for such apps tend to be event data, for a wide range of actions, coming from multiple sources, and so the data comes in at a **very high velocity and tends to be highly dimensional**.
 3. Queries are triggered by end-users interacting with apps - with **queries per second in hundreds of thousands**, with **arbitrary query patterns,** and **latencies are expected to be in milliseconds** for good user-experience.&#x20;
-4. And further do all of the above, while being **scalable**, reliable, highly available and have a low cost to serve.
+4. And further do all of the above, while being **scalable**, reliable, highly available, and having a low cost to serve.
 
-This video talks more about user-facing realtime analytics, and how Pinot is used to achieve that.
+This video talks more about user-facing real-time analytics, and how Pinot is used to achieve that.
 
 {% embed url="https://www.youtube.com/watch?v=L5b_OJVOJKo&t=576s" %}
 Using Kafka and Pinot for Real-time User-facing Analytics
@@ -54,7 +54,7 @@ Building Latency Sensitive User-facing Analytics via Apache Pinot
 
 ### **Companies using Pinot**
 
-Pinot originated at LinkedIn which currently has one of the largest deployment powering more than 50+ user facing applications such as Viewed My Profile, Talent Analytics, Company Analytics, Ad Analytics and many more. At LinkedIn, Pinot also serves as the backend for to visualize and monitor 10,000+ business metrics.
+Pinot originated at LinkedIn which currently has one of the largest deployment powering more than 50+ user facing applications such as Viewed My Profile, Talent Analytics, Company Analytics, Ad Analytics and many more. At LinkedIn, Pinot also serves as the backend to visualize and monitor 10,000+ business metrics.
 
 With Pinot's growing popularity, several companies are now using it in production to power a variety of analytics use cases. A detailed list of companies using Pinot can be found [here](https://pinot.apache.org/#who-uses).​
 
@@ -78,16 +78,16 @@ Pinot is the perfect choice for user-facing analytics products. Pinot was origin
 
 **Real-time Dashboard for Business Metrics**
 
-Pinot can be also be used to perform typical analytical operations such as **slice** and **dice**, **drill down**, **roll up**, and **pivot** on large scale multi-dimensional data. For instance, at LinkedIn, Pinot powers dashboards for thousands of business metrics. One can connect various BI tools such Superset, Tableau, or PowerBI to visualize data in Pinot.
+Pinot can be also be used to perform typical analytical operations such as **slice** and **dice**, **drill down**, **roll up**, and **pivot** on large scale multi-dimensional data. For instance, at LinkedIn, Pinot powers dashboards for thousands of business metrics. One can connect various BI tools such as Superset, Tableau, or PowerBI to visualize data in Pinot.
 
-Instructions to connect Pinot with Superset can found [here](https://docs.pinot.apache.org/integrations/superset).
+Instructions to connect Pinot with Superset can be found [here](https://docs.pinot.apache.org/integrations/superset).
 
 **Anomaly Detection**
 
-In addition to visualizing data in Pinot, one can run Machine Learning Algorithms to detect Anomalies on the data stored in Pinot. See [ThirdEye](https://docs.pinot.apache.org/integrations/thirdeye) for more information on how to use Pinot for Anomaly Detection and Root Cause Analysis.[\
+In addition to visualizing data in Pinot, one can run Machine Learning Algorithms to detect Anomalies in the data stored in Pinot. See [ThirdEye](https://docs.pinot.apache.org/integrations/thirdeye) for more information on how to use Pinot for Anomaly Detection and Root Cause Analysis.[\
 ](https://docs.pinot.apache.org/basics/concepts)
 
-### Frequently asked question when getting started
+### Frequently asked questions when getting started
 
 #### Is Pinot a data warehouse or a database? <a href="#is-pinot-a-data-warehouse-or-a-database" id="is-pinot-a-data-warehouse-or-a-database"></a>
 
@@ -99,9 +99,9 @@ For analysts and data scientists, Pinot is best viewed as a highly-scalable data
 
 **Enterprise application development**
 
-For application developers, Pinot is best viewed as an immutable aggregate store that sources events from streaming data sources, such as Kafka, and makes it available for query using SQL.
+For application developers, Pinot is best viewed as an immutable aggregate store that sources events from streaming data sources, such as Kafka, and makes it available for a query using SQL.
 
-As is the case with a microservice architecture, data encapsulation ends up requiring each application to provision its own data store, as opposed to sharing one OLTP database for reads and writes. In this case, it becomes difficult to query the complete view of a domain because it becomes stored in many different databases. This is costly in terms of performance, since it requires joins across multiple microservices that expose their data over HTTP under a REST API. To prevent this, Pinot can be used to aggregate all of the data across a microservice architecture into one easily queryable view of the domain.
+As is the case with a microservice architecture, data encapsulation ends up requiring each application to provide its own data store, as opposed to sharing one OLTP database for reads and writes. In this case, it becomes difficult to query the complete view of a domain because it becomes stored in many different databases. This is costly in terms of performance since it requires joins across multiple microservices that expose their data over HTTP under a REST API. To prevent this, Pinot can be used to aggregate all of the data across a microservice architecture into one easily queryable view of the domain.
 
 Pinot [tenants](https://docs.pinot.apache.org/basics/components/tenant) prevent any possibility of sharing ownership of database tables across microservice teams. Developers can create their own query models of data from multiple systems of record depending on their use case and needs. As with all aggregate stores, query models are eventually consistent and immutable.
 
@@ -123,7 +123,7 @@ To start importing data into Pinot, check out our guides on batch import and str
 
 ### Query example
 
-Pinot works very well for querying time series data with many dimensions and metrics over a vast unbounded space of records that scales linearly on a per node basis. Filters and aggregations are both easy and fast.
+Pinot works very well for querying time series data with many dimensions and metrics over a vast unbounded space of records that scales linearly on a per-node basis. Filters and aggregations are both easy and fast.
 
 ```sql
 SELECT sum(clicks), sum(impressions) FROM AdAnalyticsTable
