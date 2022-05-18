@@ -10,9 +10,9 @@ While Pinot can work with segments of various sizes, for optimal use of Pinot, y
 
 Yes. Each table can be independently configured to consume from any given Kafka topic, regardless of whether there are other tables that are also consuming from the same Kafka topic.
 
-### If I add a new Kafka partition, will Pinot automatically ingest data from this partition?
+### If I add a partition to a Kafka topic, will Pinot automatically ingest data from this partition?
 
-Pinot automatically detects new partitions in the topic. It checks for new partitions whenever _RealtimeSegmentValidationManager_ periodic job runs and starts consumers for new partitions.&#x20;
+Pinot automatically detects new partitions in Kafka topics. It checks for new partitions whenever _RealtimeSegmentValidationManager_ periodic job runs and starts consumers for new partitions.&#x20;
 
 You can configure the interval for this job using the`controller.realtime.segment.validation.frequencyPeriod` property in controller configuration.
 
