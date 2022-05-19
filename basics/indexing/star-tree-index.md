@@ -266,5 +266,5 @@ The algorithm to traverse the tree can be described as follows:
   * Otherwise, collect all the documents in the document range from each selected node.note
 
 {% hint style="warning" %}
-There is a known bug in Star-Tree which can mistakenly apply Star-Tree index to queries with OR predicate in the filter that cannot be solved with Star-Tree, and cause wrong results. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
+There is a known bug in Star-Tree which can mistakenly apply Star-Tree index to queries with OR operator on top of nested AND or NOT operator in the filter that cannot be solved with Star-Tree, and cause wrong results. E.g. `SELECT COUNT(*) FROM myTable WHERE (A = 1 AND B = 2) OR A = 2`. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
 {% endhint %}
