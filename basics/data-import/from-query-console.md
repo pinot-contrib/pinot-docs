@@ -6,6 +6,11 @@
 This feature is supported after the 0.11.0 release. Reference PR: [https://github.com/apache/pinot/pull/8557](https://github.com/apache/pinot/pull/8557)
 {% endhint %}
 
+### Prerequisite
+
+* Ensure you have available Pinot Minion instances deployed within the cluster.
+* Pinot version is 0.11.0 or above
+
 ### How it works
 
 1. Parse the query with the table name and directory URI along with a list of options for the ingestion job.
