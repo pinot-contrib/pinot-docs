@@ -21,6 +21,10 @@ At the heart of the system is a columnar store, with several smart indexing and 
 
 Pinot was built by engineers at LinkedIn and Uber and is designed to scale up and out with no upper bound. Performance always remains constant based on the size of your cluster and an expected query per second (QPS) threshold.
 
+{% embed url="https://youtu.be/_lqdfq2c9cQ" %}
+What is Apache Pinot? (and User-Facing Analytics) by Tim Berglund
+{% endembed %}
+
 ### User-Facing Real-Time Analytics
 
 **User-facing analytics**, or site-facing analytics, is the **analytical tools and applications that you would expose directly to the end-users** of your product. In a user-facing analytics application, think of the user-base as ALL end users of an App. This App could be a social networking app, or a food delivery app - anything at all. It’s not just a few analysts doing offline analysis, or a handful of data scientists in a company running ad-hoc queries. This is ALL end-users, receiving personalized analytics on their personal devices (**think 100s of 1000s of queries per second**). These queries are triggered by apps, and not written by people, and so the scale will be as much as the active users on that App (**think millions of events/sec**)
