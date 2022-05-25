@@ -27,7 +27,7 @@ description: >-
 Multiple string functions are supported out of the box from release-0.5.0 .
 
 | Function                                                                                                                                                                                                                                                                         |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <p><a href="../../configuration-reference/functions/upper.md"><strong>UPPER</strong></a>(col)<br>convert string to upper case</p>                                                                                                                                                |
 | <p><a href="../../configuration-reference/functions/lower.md"><strong>LOWER</strong></a>(col)<br>convert string to lower case</p>                                                                                                                                                |
 | <p><a href="../../configuration-reference/functions/reverse.md"><strong>REVERSE</strong></a>(col)<br>reverse the string</p>                                                                                                                                                      |
@@ -46,6 +46,8 @@ Multiple string functions are supported out of the box from release-0.5.0 .
 | <p><a href="../../configuration-reference/functions/chr.md"><strong>CHR(codepoint)</strong></a><br>the character corresponding to the Unicode codepoint</p>                                                                                                                      |
 | <p><a href="../../configuration-reference/functions/regexpextract.md"><strong>regexpExtract(value, regexp)</strong></a><br>Extracts values that match the provided regular expression</p>                                                                                        |
 | <p><a href="../../configuration-reference/functions/remove.md"><strong>remove(input, search)</strong></a><br>removes all instances of search from string</p>                                                                                                                     |
+| <p><a href="../../configuration-reference/functions/url.md"><strong>urlEncoding(string)</strong></a><br>url-encode a string with UTF-8 format</p>                                                                                                                                |
+| <p><a href="../../configuration-reference/functions/url.md"><strong>urlDecoding(string)</strong></a><br>decode a url to plaintext string</p>                                                                                                                                     |
 
 ## DateTime Functions
 
