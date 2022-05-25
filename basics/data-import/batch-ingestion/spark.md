@@ -80,11 +80,29 @@ Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set
 We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../getting-started/)or download latest master build jars.
 {% endhint %}
 
-{% hint style="warning" %}
-Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the java8 version of pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/).
-{% endhint %}
+### FAQ?
 
-{% hint style="warning" %}
-For Pinot version prior to 0.10.0, the spark plugin is located in `${PINOT_DISTRIBUTION_DIR}/plugins/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar`
-{% endhint %}
+Q - **I am getting the following exception - `Class has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0`**
+
+Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the java8 version of pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/).
+
+
+
+Q - **I am not able to find `pinot-batch-ingestion-spark` jar.**&#x20;
+
+For Pinot version prior to 0.10.0, the spark plugin is located in `plugin` dir of binary distribution. For 0.10.0 and later, it is located in `pinot-external` dir.&#x20;
+
+
+
+Q - **Spark is not able to find the jars** **leading to**  **`java.nio.file.NoSuchFileException`**
+
+This means the classpath for spark job has not been configured properly. If you are running spark in a distributed environment such as Yarn or k8s, make sure both `spark.driver.classpath` and `spark.executor.classpath` are set. Also, the `pinot-all` jar should be added to `--jars` argument in `spark-submit`
+
+``
+
+Q - **Spark job failing while pushing the segments.**&#x20;
+
+It can be because of misconfigured `controllerURI` in job spec yaml file. If the controllerURI is correct, make sure it is accessible from all the nodes of your YARN or k8s cluster,
+
+
 
