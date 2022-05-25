@@ -54,6 +54,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="floor.md" %}
 {% page-ref page="fromEpoch.md" %}
 {% page-ref page="fromEpochBucket.md" %}
+{% page-ref page="histogram.md" %}
 {% page-ref page="hour.md" %}
 {% page-ref page="jsonextractkey.md" %}
 {% page-ref page="jsonextractscalar.md" %}
@@ -131,6 +132,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="tosphericalgeography.md" %}
 {% page-ref page="trim.md" %}
 {% page-ref page="upper.md" %}
+{% page-ref page="url.md" %}
 {% page-ref page="valuein.md" %}
 {% page-ref page="week.md" %}
 {% page-ref page="year.md" %}
