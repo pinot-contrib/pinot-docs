@@ -3,6 +3,7 @@
 Query execution within Pinot is modelled as a sequence of operators that are executed in a pipelined manner to produce the final result. The output of the EXPLAIN PLAN statement can be used to see how queries are being run or to further optimize queries.
 
 ## Introduction
+
 EXPLAN PLAN can be run in two modes: verbose and non-verbose (default) via the use of a query option. To enable verbose mode the query option `explainPlanVerbose=true` must be passed.
 
 ```
@@ -43,7 +44,7 @@ Reading the EXPLAIN PLAN output from bottom to top will show how data flows from
 
 The rest of this document illustrates the EXPLAIN PLAN output with examples and describe the operators that show up in the output of the EXPLAIN PLAN.
 
-## EXPLAIN PLAN ON INDEX ACCESS QUERY
+## EXPLAIN PLAN using verbose mode for a query that evaluates filters with and without index
 
 ```
 EXPLAIN PLAN FOR
@@ -72,7 +73,6 @@ BROKER_REDUCE(limit:10)
 
 Since verbose mode is enabled, the EXPLAIN PLAN output returns two plans matching one segment each (assuming 2 segments for this table). The first EXPLAIN PLAN output above shows that Pinot used an inverted index to evaluate the predicate "playerID = 'aardsda01'" (`FILTER_INVERTED_INDEX`). The result was then fully scanned (`FILTER_FULL_SCAN`) to evaluate the second predicate "playerName = 'David Allan'". Note that the two predicates are being combined using `AND` in the query; hence, only the data that satsified the first predicate needs to be scanned for evaluating the second predicate. However, if the predicates were being combined using `OR`, the query would run very slowly because the entire "playerName" column would need to be scanned from top to bottom to look for values satisfying the second predicate. To improve query efficiency in such cases, one should consider indexing the "playerName" column as well. The second plan output shows a `FILTER_EMPTY` indicating that no matching documents were found for one segment.
 
-
 ## EXPLAIN PLAN ON GROUP BY QUERY
 
 ```
@@ -96,4 +96,4 @@ The EXPLAIN PLAN output above shows how GROUP BY queries are evaluated in Pinot.
 
 ## EXPLAIN PLAN OPERATORS
 
-The root operator of the EXPLAIN PLAN output is `BROKER_REDUCE`. `BROKER_REDUCE` indicates that Broker is processing and combining server results into final result that is sent back to the user. `BROKER_REDUCE` has a COMBINE operator as its child. Combine operator combines the results of query evaluation from each segment on the server and sends the combined result to the Broker. There are several combine operators (`COMBINE_GROUPBY_ORDERBY`, `COMBINE_DISTINCT`, `COMBINE_AGGREGATE`, etc.) that run depending upon the operations being performed by the query. Under the Combine operator, either a Select (`SELECT`, `SELECT_ORDERBY`, etc.) or an Aggregate (`AGGREGATE`, `AGGREGATE_GROUPBY_ORDERBY`, etc.) can appear. Aggreate operator is present when query performs aggregation (`count(*)`, `min`, `max`, etc.); otherwise, a Select operator is present. If the query performs scalar transformations (Addition, Multiplication, Concat, etc.), then one would see TRANSFORM operator appear under the SELECT operator. Often a `TRANSFORM_PASSTHROUGH` operator is present instead of the TRANSFORM operator. `TRANSFORM_PASSTHROUGH` just passes results from operators that appear lower in the operator execution heirarchy to the SELECT operator. `DOC_ID_SET` operator usually appear above FILTER operators and indicate that a list of matching document IDs are assessed. FILTER operators usually appear at the bottom of the operator heirarchy and show index use. For example, the presence of FILTER_FULL_SCAN indicates that index was not used (and hence the query is likely to run relatively slow). However, if the query used an index one of the indexed filter operators (`FILTER_SORTED_INDEX`, `FILTER_RANGE_INDEX`, `FILTER_INVERTED_INDEX`, `FILTER_JSON_INDEX`, etc.) will show up.
+The root operator of the EXPLAIN PLAN output is `BROKER_REDUCE`. `BROKER_REDUCE` indicates that Broker is processing and combining server results into final result that is sent back to the user. `BROKER_REDUCE` has a COMBINE operator as its child. Combine operator combines the results of query evaluation from each segment on the server and sends the combined result to the Broker. There are several combine operators (`COMBINE_GROUPBY_ORDERBY`, `COMBINE_DISTINCT`, `COMBINE_AGGREGATE`, etc.) that run depending upon the operations being performed by the query. Under the Combine operator, either a Select (`SELECT`, `SELECT_ORDERBY`, etc.) or an Aggregate (`AGGREGATE`, `AGGREGATE_GROUPBY_ORDERBY`, etc.) can appear. Aggreate operator is present when query performs aggregation (`count(*)`, `min`, `max`, etc.); otherwise, a Select operator is present. If the query performs scalar transformations (Addition, Multiplication, Concat, etc.), then one would see TRANSFORM operator appear under the SELECT operator. Often a `TRANSFORM_PASSTHROUGH` operator is present instead of the TRANSFORM operator. `TRANSFORM_PASSTHROUGH` just passes results from operators that appear lower in the operator execution heirarchy to the SELECT operator. `DOC_ID_SET` operator usually appear above FILTER operators and indicate that a list of matching document IDs are assessed. FILTER operators usually appear at the bottom of the operator heirarchy and show index use. For example, the presence of FILTER\_FULL\_SCAN indicates that index was not used (and hence the query is likely to run relatively slow). However, if the query used an index one of the indexed filter operators (`FILTER_SORTED_INDEX`, `FILTER_RANGE_INDEX`, `FILTER_INVERTED_INDEX`, `FILTER_JSON_INDEX`, etc.) will show up.
