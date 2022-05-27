@@ -1,6 +1,6 @@
 # Explain Plan
 
-Query execution within Pinot is modelled as a sequence of operators that are executed in a pipelined manner to produce the final result. The output of the EXPLAIN PLAN statement can be used to see how queries are being run or to further optimize queries.
+Query execution within Pinot is modeled as a sequence of operators that are executed in a pipelined manner to produce the final result. The output of the EXPLAIN PLAN statement can be used to see how queries are being run or to further optimize queries.
 
 ## Introduction
 
@@ -23,7 +23,11 @@ EXPLAIN PLAN FOR SELECT playerID, playerName FROM baseballStats
 +---------------------------------------------|------------|---------|
 ```
 
-In the non-verbose EXPLAIN PLAN output above, the `Operator` column describes the operator that Pinot will run; while as, the `Operator_Id` and `Parent_Id` columns show the parent-child relationship between operators. This parent-child relationship shows the order in which operators execute. For example, `FILTER_MATCH_ENTIRE_SEGMENT` will execute before and pass its output to `PROJECT`. Similarly, `PROJECT` will execute before and pass its output to `TRANSFORM_PASSTHROUGH` operator and so on. Although the EXPLAIN PLAN query produces tabular output, in this document, we show a tree representation of the EXPLAIN PLAN output so that parent-child relationship between operators are easy to see.
+In the non-verbose EXPLAIN PLAN output above, the `Operator` column describes the operator that Pinot will run where as, the `Operator_Id` and `Parent_Id` columns show the parent-child relationship between operators.&#x20;
+
+This parent-child relationship shows the order in which operators execute. For example, `FILTER_MATCH_ENTIRE_SEGMENT` will execute before and pass its output to `PROJECT`. Similarly, `PROJECT` will execute before and pass its output to `TRANSFORM_PASSTHROUGH` operator and so on.&#x20;
+
+Although the EXPLAIN PLAN query produces tabular output, in this document, we show a tree representation of the EXPLAIN PLAN output so that parent-child relationship between operators are easy to see and user can visualize the **bottom-up flow of data** in the operator tree execution.
 
 ```
 BROKER_REDUCE(limit:10)
