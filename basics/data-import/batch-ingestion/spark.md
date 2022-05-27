@@ -114,3 +114,7 @@ If already set to `APPEND`, this is likely due to a missing `timeColumnName` in 
 
 
 
+Q - **I am getting `java.lang.RuntimeException: java.io.IOException: Failed to create directory: pinot-plugins-dir-0/plugins/*`**
+
+Removing `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins` from `spark.driver.extraJavaOptions`  should fix this. As long as plugins are mentioned in classpath and `jars` argument it should not be an issue.
+
