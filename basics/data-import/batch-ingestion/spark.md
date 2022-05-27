@@ -102,7 +102,15 @@ This means the classpath for spark job has not been configured properly. If you 
 
 Q - **Spark job failing while pushing the segments.**&#x20;
 
-It can be because of misconfigured `controllerURI` in job spec yaml file. If the controllerURI is correct, make sure it is accessible from all the nodes of your YARN or k8s cluster,
+It can be because of misconfigured `controllerURI` in job spec yaml file. If the controllerURI is correct, make sure it is accessible from all the nodes of your YARN or k8s cluster.
+
+
+
+Q - **My data gets overwritten during ingestion.**
+
+Set [segmentPushType](../../../configuration-reference/table.md#segments-config) to `APPEND` in the tableConfig.
+
+If already set to `APPEND`, this is likely due to a missing `timeColumnName` in your table config. If you can't provide a time column, please use our[ segment name generation configs](../../../configuration-reference/job-specification.md#segment-name-generator-spec) in ingestion spec. Generally using `inputFile` segment name generator should fix your issue.
 
 
 
