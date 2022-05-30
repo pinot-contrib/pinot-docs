@@ -197,6 +197,10 @@ Putting these together, you can find the table configurations of the quick start
 ```
 {% endcode %}
 
+{% hint style="info" %}
+Pinot server maintains a primary key to record location map across all the segments served in an upsert-enabled table. As a result, when updating the config for an existing upsert table (e.g. change the columns in the primary key, change the comparison column), servers need to be restarted in order to apply the changes and rebuild the map.
+{% endhint %}
+
 ## Quick Start
 
 To illustrate how the full upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a realtime upsert table `meetupRSVP`.
