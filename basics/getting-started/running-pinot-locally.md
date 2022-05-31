@@ -93,6 +93,10 @@ Currently Apache Pinot doesn't provide official binaries for M1 Mac. You can how
 </profiles>
 ```
 
+Also make sure to install rosetta
+
+`softwareupdate --install-rosetta`
+
 Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this:
 
 ## Quick Start
