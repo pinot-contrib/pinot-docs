@@ -181,6 +181,7 @@
 * [Table](configuration-reference/table.md)
 * [Schema](configuration-reference/schema.md)
 * [Ingestion Job Spec](configuration-reference/job-specification.md)
+* [Monitoring Metrics](configuration-reference/monitoring-metrics.md)
 * [Functions](configuration-reference/functions/README.md)
   * [ABS](configuration-reference/functions/abs.md)
   * [ADD](configuration-reference/functions/add.md)
