@@ -10,7 +10,7 @@ To enable dedup on a Pinot table, there are a couple of table configuration and 
 
 ## Prerequisites for enabling dedup
 
-There are certain mandatory configurations needed in order to be able to use dedup as describe below.
+There are certain mandatory configurations needed in order to be able to enable dedup.
 
 ### Define the primary key in the schema
 To be able to dedup records, a primary key is needed to uniquely identify a given record. To define a primary key, add the field `primaryKeyColumns` to the schema definition.
@@ -49,6 +49,7 @@ The dedup Pinot table can use only the low-level consumer for the input streams.
 ### Other limitations
 
 * The high-level consumer is not allowed for the input stream ingestion, which means `stream.kafka.consumer.type` must be `lowLevel`.
+* The incoming stream must be partitioned by the primary key such that, all records with a given primaryKey must be consumed by the same Pinot server instance.
 
 ## Enable dedup in the table configurations
 
