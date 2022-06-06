@@ -2,7 +2,7 @@
 description: Deduplication support in Apache Pinot.
 ---
 
-# Stream Ingestion with Deduplication
+# Stream Ingestion with Dedup
 
 Pinot provides native support of Deduplication during the real-time ingestion (v0.11.0+).
 
@@ -13,6 +13,7 @@ To enable dedup on a Pinot table, there are a couple of table configuration and 
 There are certain mandatory configurations needed in order to be able to enable dedup.
 
 ### Define the primary key in the schema
+
 To be able to dedup records, a primary key is needed to uniquely identify a given record. To define a primary key, add the field `primaryKeyColumns` to the schema definition.
 
 {% code title="schemaWithPK.json" %}
@@ -31,13 +32,12 @@ While ingesting a record, if its primary key is found to be already present, the
 
 An important requirement for the Pinot dedup table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (e.g. Flink) is needed to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
 
-
 ### Use strictReplicaGroup for routing
 
 The dedup Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover, dedup poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
 
 {% code title="routing" %}
-```javascript
+```json
 {
   "routing": {
     "instanceSelectorType": "strictReplicaGroup"
@@ -56,14 +56,17 @@ The dedup Pinot table can use only the low-level consumer for the input streams.
 To enable dedup for a REALTIME table, add the following to the table config.
 
 {% code title="tableConfigWithDedup.json" %}
-```javascript
-{
-    "dedupConfig": {
-      "dedupEnabled": true,
-      "hashFunction": "NONE"
-  },
+```json
+{ 
+ ...
+  "dedupConfig": { 
+        "dedupEnabled": true, 
+        "hashFunction": "NONE" 
+   }, 
+ ...
 }
 ```
+{% endcode %}
 
 Supported values for `hashFunction` are `NONE`, `MD5` and `MURMUR3`, with the default being `NONE`.
 
