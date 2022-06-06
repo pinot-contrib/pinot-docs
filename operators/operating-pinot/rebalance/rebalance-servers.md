@@ -1,12 +1,12 @@
 # Rebalance Servers
 
-Rebalance operation is used to recompute assignment of brokers or servers in the cluster. This is not a single command, but more of a series of steps that need to be taken.
+The rebalance operation is used to recompute the assignment of brokers or servers in the cluster. This is not a single command, but rather a series of steps that need to be taken.
 
-In case of servers, rebalance operation is used to balance the distribution of the segments amongst the servers being used by a Pinot table. This is typically done after capacity changes, or config changes such as replication or segment assignment strategies or table migration to a different tenant.
+In the case of servers, rebalance operation is used to balance the distribution of the segments amongst the servers being used by a Pinot table. This is typically done after capacity changes or config changes such as replication or segment assignment strategies or table migration to a different tenant.
 
-## Changes that need to be followed by a rebalance&#x20;
+## Changes that require a rebalance&#x20;
 
-Here's some common scenarios where the changes need to be followed by a rebalance.
+Below are changes that need to be followed by a rebalance.
 
 1. Capacity changes
 2. Increasing/decreasing replication for a table
@@ -15,15 +15,19 @@ Here's some common scenarios where the changes need to be followed by a rebalanc
 
 ### Capacity changes
 
-These are typically done when downsizing/uplifting a cluster, or replacing nodes of a cluster.
+These are typically done when downsizing/uplifting a cluster or replacing nodes of a cluster.
 
 #### Tenants and tags
 
-Every server added to the Pinot cluster, has tags associated with it. A group of servers with the same tag forms a Server Tenant. By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets tagged as `DefaultTenant_OFFLINE` and `DefaultTenant_REALTIME`. Below is an example of how this looks in the znode, as seen in ZooInspector.
+Every server added to the Pinot cluster, has tags associated with it. A group of servers with the same tag forms a Server Tenant.&#x20;
+
+By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets tagged as `DefaultTenant_OFFLINE` and `DefaultTenant_REALTIME`.&#x20;
+
+Below is an example of how this looks in the znode, as seen in ZooInspector.
 
 ![](../../../.gitbook/assets/screen-shot-2020-09-08-at-2.05.29-pm.png)
 
-A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. More details about this in the [Tenants](../../../basics/components/tenant.md) section.
+A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/tenant.md) section.
 
 ```
  {   
@@ -47,7 +51,7 @@ In order to change the server tags, the following API can be used.
 
 _**0.5.0 and prior**_
 
-UpdateTags API is not available in 0.5.0 and prior. Instead use this API to update the Instance.
+UpdateTags API is not available in 0.5.0 and prior. Instead, use this API to update the Instance.
 
 `PUT /instances/{instanceName}`
 
@@ -68,7 +72,7 @@ The output of GET and input of PUT don't match for this API. Please make sure to
 
 ### Replication changes
 
-In order to make change to the replication factor of a table, update the table config as follows
+In order to change the replication factor of a table, update the table config as follows:
 
 OFFLINE table - update the `replication` field
 
@@ -76,15 +80,11 @@ REALTIME table - update the `replicasPerPartition` field
 
 ### Segment Assignment changes&#x20;
 
-The most common segment assignment change would be to move from the default segment assignment to replica group segment assignment. Discussing the details of the segment assignment is beyond the scope of this page. More details can be found in [Routing](../tuning/routing.md#replica-group-segment-assignment-and-query-routing) and in this [FAQ question](../../../basics/getting-started/frequent-questions/#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3).
+The most common segment assignment change is moving from the default segment assignment to replica group segment assignment. Discussing the details of the segment assignment is beyond the scope of this page. More details can be found in [Routing](../tuning/routing.md#replica-group-segment-assignment-and-query-routing) and in this [FAQ question](../../../basics/getting-started/frequent-questions/#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3).
 
 ### Table Migration to a different tenant
 
 In a scenario where you need to move table across tenants, for e.g table was assigned earlier to a different Pinot tenant and now you want to move it to a separate one, then you need to call the rebalance API with reassignInstances set to true.
-
-
-
-
 
 ## Running a Rebalance
 
@@ -96,7 +96,7 @@ To run a rebalance, use the following API.&#x20;
 
 ![](../../../.gitbook/assets/screen-shot-2020-09-08-at-2.53.48-pm.png)
 
-This API has a lot of knobs to control various behaviors. Make sure to go over them and change the defaults as needed.
+This API has a lot of parameters to control its behavior. Make sure to go over them and change the defaults as needed.
 
 {% hint style="warning" %}
 **Note**
