@@ -41,7 +41,7 @@ A Pinot table config has a tenants section, to define the tenant to be used by t
 
 #### Updating tags
 
-_**Using master or 0.6.0 onwards**_
+_**0.6.0 onwards**_
 
 In order to change the server tags, the following API can be used.
 
@@ -69,6 +69,12 @@ curl -X PUT "http://localhost:9000/instances/Server_10.1.10.51_7000"
 
 The output of GET and input of PUT don't match for this API. Please make sure to use the right payload as shown in example above. Particularly, notice that instance name "Server\_host\_port" gets split up into their own fields in this PUT API.
 {% endhint %}
+
+When upsizing/downsizing a cluster, you will need to make sure that the host names of servers are consistent. You can do this by setting the following config parameter:
+
+```
+pinot.set.instance.id.to.hostname=true
+```
 
 ### Replication changes
 
