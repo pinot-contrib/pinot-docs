@@ -80,7 +80,7 @@ Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set
 We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../getting-started/)or download latest master build jars.
 {% endhint %}
 
-### FAQ?
+### FAQ
 
 Q - **I am getting the following exception - `Class has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0`**
 
@@ -118,3 +118,10 @@ Q - **I am getting `java.lang.RuntimeException: java.io.IOException: Failed to c
 
 Removing `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins` from `spark.driver.extraJavaOptions`  should fix this. As long as plugins are mentioned in classpath and `jars` argument it should not be an issue.
 
+
+
+Q - Getting `Class not found:` exception
+
+Please check if `extraClassPath` arguments contain all the plugin jars for both driver and executors. Also, all the plugin jars are mentioned in the `--jars` argument. If both of these are correct, please check if the `extraClassPath` contains local filesystem classpaths and not s3 or hdfs or any other distributed file system classpaths.&#x20;
+
+``
