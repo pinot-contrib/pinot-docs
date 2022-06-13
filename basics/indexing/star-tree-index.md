@@ -203,7 +203,7 @@ We may config the star-tree index as follows:
     "functionColumnPairs": [
       "SUM__Impressions"
     ],
-    "maxLeafRecords": 1
+    "maxLeafRecords": 10000
   }],
   ...
 }
