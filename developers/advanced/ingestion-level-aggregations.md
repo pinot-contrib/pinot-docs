@@ -27,7 +27,23 @@ Below is a description of the config, which is defined in the ingestion config o
 ## Example Scenario
 Here is an example of sales data, where only the daily sales aggregates per product are needed. 
 
+### Example Input Data
+
+```json
+{"customerID":205,"product_name": "car","price":"1500.00","timestamp":1571900400000}
+{"customerID":206,"product_name": "truck","price":"2200.00","timestamp":1571900400000}
+{"customerID":207,"product_name": "car","price":"1300.00","timestamp":1571900400000}
+{"customerID":208,"product_name": "truck","price":"700.00","timestamp":1572418800000}
+{"customerID":209,"product_name": "car","price":"1100.00","timestamp":1572505200000}
+{"customerID":210,"product_name": "car","price":"2100.00","timestamp":1572505200000}
+{"customerID":211,"product_name": "truck","price":"800.00","timestamp":1572678000000}
+{"customerID":212,"product_name": "car","price":"800.00","timestamp":1572678000000}
+{"customerID":213,"product_name": "car","price":"1900.00","timestamp":1572678000000}
+{"customerID":214,"product_name": "car","price":"1000.00","timestamp":1572678000000}
+```
+
 ### Schema
+Note that the schema only reflects the final table structure.
 
 ```json
 {
@@ -85,21 +101,6 @@ Here is an example of sales data, where only the daily sales aggregates per prod
 }
 ```
 
-### Example Input Data
-
-```json
-{"customerID":205,"product_name": "car","price":"1500.00","timestamp":1571900400000}  
-{"customerID":206,"product_name": "truck","price":"2200.00","timestamp":1571900400000} 
-{"customerID":207,"product_name": "car","price":"1300.00","timestamp":1571900400000} 
-{"customerID":208,"product_name": "truck","price":"700.00","timestamp":1572418800000} 
-{"customerID":209,"product_name": "car","price":"1100.00","timestamp":1572505200000}
-{"customerID":210,"product_name": "car","price":"2100.00","timestamp":1572505200000} 
-{"customerID":211,"product_name": "truck","price":"800.00","timestamp":1572678000000}
-{"customerID":212,"product_name": "car","price":"800.00","timestamp":1572678000000} 
-{"customerID":213,"product_name": "car","price":"1900.00","timestamp":1572678000000}
-{"customerID":214,"product_name": "car","price":"1000.00","timestamp":1572678000000}
-```
-
 ### Example Final Table
 
 | product_name | sales_count | total_sales | daysSinceEpoch | 
@@ -143,9 +144,14 @@ The `aggregateMetrics` works the same as Ingestion Aggregation, but only allows 
 
 The current changes are backward compatible, so no need to change your table config unless you need a different aggregation function. 
 
-### Offline data aggregation
-Ingestion Aggregation only works for realtime ingestion. For offline data, the offline process needs to generate the aggregates separately. 
+### Does this config work for offline data?
 
+Ingestion Aggregation only works for realtime ingestion. For offline data, the offline process needs to generate the
+aggregates separately.
+
+### Why do all metrics need to be aggregated?
+
+If a metric isn't aggregated then it will result in more than one row per unique set of dimensions.
 
 
 
