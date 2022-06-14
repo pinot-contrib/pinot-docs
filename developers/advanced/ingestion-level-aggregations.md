@@ -131,7 +131,7 @@ The following are required for ingestion aggregation to work:
 ## Frequently Asked Questions
 
 ### Why not use a Startree? 
-Startrees can only be added to realtime segments after the segments has sealed, and creating startrees is CPU-intensive. Ingestion Aggregation works for consuming segments, and take no additional CPU. 
+Startrees can only be added to realtime segments after the segments has sealed, and creating startrees is CPU-intensive. Ingestion Aggregation works for consuming segments and uses no additional CPU. 
 
 Startrees take additional memory to store, while ingestion aggregation stores less data than the original dataset. 
 
