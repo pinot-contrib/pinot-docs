@@ -14,10 +14,10 @@ You can check out [Batch Ingestion](../../basics/data-import/batch-ingestion/), 
 
 We are using the following tools and frameworks for this tutorial -
 
-* [Apache Spark](https://spark.apache.org) 2.2.3 (Although any spark 2.X should work)
+* [Apache Spark](https://spark.apache.org) 2.4.0 (Although any spark 2.X should work)
 * [Apache Parquet](https://parquet.apache.org) 1.8.2
 * [Amazon S3](https://aws.amazon.com/s3/)
-* [Apache Pinot 0.4.0](https://pinot.apache.org)
+* [Apache Pinot 0.10.0](http://pinot.apache.org)
 
 ## Input Data
 
@@ -202,12 +202,8 @@ spark-submit //
 local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar -jobSpecFile /path/to/spark_job_spec.yaml
 ```
 
-{% hint style="info" %}
-In the command , we have included the JARs of all the required plugins in the spark's `driver classpath`. In practice, you only need to do this if you get a `ClassNotFoundException`.
-{% endhint %}
-
-{% hint style="info" %}
-For Pinot version prior to 0.10.0, the spark plugin is located in `${PINOT_DISTRIBUTION_DIR}/plugins/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar`
+{% hint style="success" %}
+You can go through the[ FAQ section ](../../basics/data-import/batch-ingestion/spark.md#faq)of our Spark ingestion guide in case you face any errors.
 {% endhint %}
 
 Voila! Now our data is successfully ingested. Let's try to query it from Pinot's broker

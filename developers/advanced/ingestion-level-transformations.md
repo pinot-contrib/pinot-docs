@@ -155,8 +155,9 @@ Transform functions can be defined on columns in the ingestion config of the tab
         "transformConfigs": [{
           "columnName": "fieldName",
           "transformFunction": "<expression>"
-        }
-    ],
+        }]
+    },
+    ...
 }
 ```
 

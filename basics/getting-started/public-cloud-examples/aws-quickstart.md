@@ -77,7 +77,7 @@ brew install weaveworks/tap/eksctl
 
 ## 2. (Optional) **Login to your AWS account.**
 
-For first time AWS user, please register your account at [https://aws.amazon.com/](https://aws.amazon.com).
+For first time AWS user, please register your account at [https://aws.amazon.com/](https://aws.amazon.com/).
 
 Once created the account, you can go to [AWS Identity and Access Management (IAM)](https://console.aws.amazon.com/iam/home#/home) to create a user and create access keys under Security Credential tab.&#x20;
 

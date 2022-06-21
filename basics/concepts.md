@@ -53,7 +53,7 @@ A Pinot cluster comprises multiple distributed system components. These componen
 * Broker
 * Minion (optional)
 
-The benefits of scale that make Pinot linearly scalable for an unbounded number of nodes is made possible through its integration with [Apache Zookeeper](https://zookeeper.apache.org) and [Apache Helix](http://helix.apache.org).&#x20;
+The benefits of scale that make Pinot linearly scalable for an unbounded number of nodes is made possible through its integration with [Apache Zookeeper](https://zookeeper.apache.org/) and [Apache Helix](http://helix.apache.org/).&#x20;
 
 {% hint style="info" %}
 Helix is a cluster management solution that was designed and created by the authors of Pinot at LinkedIn. Helix drives the state of a Pinot cluster from a transient state to an ideal state, acting as the fault-tolerant distributed state store that guarantees consistency. Helix is embedded as agents that operate within a controller, broker, and server, and does not exist as an independent and horizontally scaled component.

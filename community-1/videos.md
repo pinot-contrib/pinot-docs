@@ -1,6 +1,10 @@
 # Videos
 
-#### Youtube Channel: [Apache Pinot](https://www.youtube.com/channel/UCHTiKyGonqyMhXBd3uTpu0g)
+## Introduction
+
+{% embed url="https://youtu.be/_lqdfq2c9cQ" %}
+What is Apache Pinot?
+{% endembed %}
 
 ## Operations
 

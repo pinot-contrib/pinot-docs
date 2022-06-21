@@ -2,14 +2,11 @@
 
 Unlike other index techniques which work on single column, the Star-Tree index is built on multiple columns, and utilizes pre-aggregated results to significantly reduce the number of values to be processed, thus improving query performance.
 
-One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. 
-Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results.
-On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
+One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
 Here we introduce **star-tree** index to utilize the pre-aggregated documents in a smart way to achieve low query latencies but also use the storage space efficiently for aggregation/group-by queries.
 
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
-
 
 ### Existing solutions
 
@@ -56,8 +53,7 @@ Below are the inverted indexes for columns ‘Browser’ and ‘Locale’ for ou
 
 For example, if we want to get all the documents where ‘Browser’ is ‘Firefox’, we can look up the inverted index for ‘Browser’ and identify that it appears in documents \[1, 5, 6].
 
-Using an inverted index, we can reduce the search time to constant time _O(1)_. 
-The query latency, however, is still a function of the selectivity of the query, i.e. it increases with the number of documents that need to be processed to answer the query.
+Using an inverted index, we can reduce the search time to constant time _O(1)_. The query latency, however, is still a function of the selectivity of the query, i.e. it increases with the number of documents that need to be processed to answer the query.
 
 #### Pre-aggregation
 
@@ -71,8 +67,7 @@ In the example below, we have pre-aggregated the total impressions for each coun
 | MX      | 400         |
 | USA     | 1200        |
 
-With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. 
-However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential explosion in storage space.
+With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential explosion in storage space.
 
 ### Star-tree solution
 
@@ -82,8 +77,7 @@ On one end of the spectrum we have indexing techniques that improve search times
 
 Space-Time Trade Off Between Different Techniques
 
-The Star-Tree data structure offers a configurable trade-off between space and time and lets us achieve hard upper bound for query latencies for a given use case. 
-In the following sections we will define the Star-Tree data structure, and explains how Pinot uses it to achieve low latencies with high throughput.
+The Star-Tree data structure offers a configurable trade-off between space and time and lets us achieve hard upper bound for query latencies for a given use case. In the following sections we will define the Star-Tree data structure, and explains how Pinot uses it to achieve low latencies with high throughput.
 
 ### Definitions
 
@@ -147,7 +141,7 @@ All types of aggregation function that have a bounded-sized intermediate result 
 
 * DISTINCT\_COUNT
   * Intermediate result _Set_ is unbounded
-* SEGMENT\_PARTITIONED\_DISTINCT\_COUNT:&#x20;
+* SEGMENT\_PARTITIONED\_DISTINCT\_COUNT:
   * Intermediate result _Set_ is unbounded
 * PERCENTILE
   * Intermediate result _List_ is unbounded
@@ -173,14 +167,14 @@ Multiple index generation configurations can be provided to generate multiple st
 
 #### **Default index generation configuration**
 
-A default star-tree index can be added to a segment by using the boolean config _**enableDefaultStarTree**_ under the _tableIndexConfig_.&#x20;
+A default star-tree index can be added to a segment by using the boolean config _**enableDefaultStarTree**_ under the _tableIndexConfig_.
 
 A default star-tree will have the following configuration:
 
 * All dictionary-encoded single-value dimensions with cardinality smaller or equal to a threshold (10000) will be included in the _dimensionsSplitOrder_, sorted by their cardinality in descending order.
-* All dictionary-encoded Time/DateTime columns will be appended to the _dimensionsSplitOrder _following the dimensions, sorted by their cardinality in descending order. Here we assume that time columns will be included in most queries as the range filter column and/or the group by column, so for better performance, we always include them as the last elements in the _dimensionsSplitOrder_.
+* All dictionary-encoded Time/DateTime columns will be appended to the \_dimensionsSplitOrder \_following the dimensions, sorted by their cardinality in descending order. Here we assume that time columns will be included in most queries as the range filter column and/or the group by column, so for better performance, we always include them as the last elements in the _dimensionsSplitOrder_.
 * Include COUNT(\*) and SUM for all numeric metrics in the _functionColumnPairs._
-* Use default _maxLeafRecords_** **(10000).
+* Use default _maxLeafRecords_ (10000).
 
 #### Example
 
@@ -209,7 +203,7 @@ We may config the star-tree index as follows:
     "functionColumnPairs": [
       "SUM__Impressions"
     ],
-    "maxLeafRecords": 1
+    "maxLeafRecords": 10000
   }],
   ...
 }
@@ -269,4 +263,8 @@ The algorithm to traverse the tree can be described as follows:
 * Recursively repeat the previous step until all leaf nodes are reached, or all predicates are satisfied.
 * Collect all the documents pointed by the selected nodes.
   * If all predicates and group-by's are satisfied, pick the single aggregated document from each selected node.
-  * Otherwise, collect all the documents in the document range from each selected node.
+  * Otherwise, collect all the documents in the document range from each selected node.note
+
+{% hint style="warning" %}
+There is a known bug in Star-Tree which can mistakenly apply Star-Tree index to queries with OR operator on top of nested AND or NOT operator in the filter that cannot be solved with Star-Tree, and cause wrong results. E.g. `SELECT COUNT(*) FROM myTable WHERE (A = 1 AND B = 2) OR A = 2`. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
+{% endhint %}
