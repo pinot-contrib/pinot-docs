@@ -80,6 +80,30 @@ Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set
 We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../getting-started/)or download latest master build jars.
 {% endhint %}
 
+### Running in Cluster Mode on YARN
+
+If you want to run the spark job in cluster mode on YARN/EMR cluster, the following needs to be done -
+
+* Build Pinot from source with option `-DuseProvidedHadoop`
+* Copy Pinot binaries to S3, HDFS or any other distributed storage that is accessible from all nodes.
+* Copy Ingestion spec YAML file to S3, HDFS or any other distributed storage. Mention this path as part of `--files` argument in the command&#x20;
+* Add `--jars` options that contain the s3/hdfs paths to all the required plugin and pinot-all jar
+* Point `classPath` to spark working directory.  Generally, just specifying the jar names without any paths works. Same should be done for main jar as well as the spec YAML file
+
+**Example**
+
+```
+spark-submit //
+--class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand //
+--master yarn --deploy-mode cluster //
+--conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins" //
+--conf "spark.driver.extraClassPath=pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" //
+--conf "spark.executor.extraClassPath=pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" //
+--jars "${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark/pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar,${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar"
+--files s3://path/to/spark_job_spec.yaml
+local://pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar -jobSpecFile spark_job_spec.yaml
+```
+
 ### FAQ
 
 Q - **I am getting the following exception - `Class has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0`**
