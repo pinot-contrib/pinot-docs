@@ -17,12 +17,11 @@ The below diagram shows the dictionary encoding for two columns with `integer` a
 
 On the other hand, `colB` has no duplicated data. Dictionary encoding will not compress much data in this case where there are a lot of unique values in the column. For the `string` type, we pick the length of the longest value and use it as the length for the dictionary’s fixed-length value array. The padding overhead can be high if there are a large number of unique values for a column.
 
-![](../../.gitbook/assets/dictionary.png)
+![](<../../.gitbook/assets/dictionary (1).png>)
 
 ## Sorted forward index with run-length encoding
 
-When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. 
-Instead of saving dictionary ids for each document id, Pinot will store a pair of start and end document ids for each value.
+When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, Pinot will store a pair of start and end document ids for each value.
 
 ![Sorted forward index](../../.gitbook/assets/sorted-forward.png)
 
@@ -73,7 +72,6 @@ column.memberId.isSorted = true
 Alternatively, for offline tables and for committed segments in real-time tables, you can retrieve the sorted status from the _getServerMetadata_ endpoint. The following example is based on the [Batch Quick Start](../getting-started/quick-start.md#batch):
 
 ```
-
 curl -X GET \
   "http://localhost:9000/segments/baseballStats/metadata?columns=playerID&columns=teamID" \
   -H "accept: application/json" 2>/dev/null | \
@@ -117,9 +115,9 @@ A raw value forward index can be configured for a table by configuring the [tabl
 
 When working out whether a column should use dictionary encoded or raw value encoding, the following comparison table may help:
 
-| Dictionary | Raw Value   |
-| --------- | ---------------------- |
-| Provides compression when low to medium cardinality.       | Eliminates padding overhead |
-| Allows for indexing (esp inv index).      | No inv index (only JSON/Text/FST index) |
-| Adds one level of dereferencing, so can increase disk seeks     | Eliminates additional dereferencing, so good when all docs of interest are contiguous|
-| For Strings, adds padding to make all values equal length in the dictionary      | Chunk de-compression overhead with docs selected don't have spatial locality |
+| Dictionary                                                                  | Raw Value                                                                             |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Provides compression when low to medium cardinality.                        | Eliminates padding overhead                                                           |
+| Allows for indexing (esp inv index).                                        | No inv index (only JSON/Text/FST index)                                               |
+| Adds one level of dereferencing, so can increase disk seeks                 | Eliminates additional dereferencing, so good when all docs of interest are contiguous |
+| For Strings, adds padding to make all values equal length in the dictionary | Chunk de-compression overhead with docs selected don't have spatial locality          |
