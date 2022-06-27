@@ -88,6 +88,15 @@ The ingestion of events into the real-time table is not transactional, so replic
 
 However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent, with the [commit protocol](https://docs.pinot.apache.org/operators/operating-pinot/decoupling-controller-from-the-data-path).
 
+### How to reset a CONSUMING segment stuck on an offset which has expired from the stream?
+
+This typically happens if
+
+1. The consumer is lagging a lot
+2. The consumer was down (server down, cluster down), and the stream moved on, resulting in offset not found when consumer comes back up.
+
+In case of Kafka, to recover, set property "auto.offset.reset":"earliest" in the streamConfigs section and reset the CONSUMING segment. See [Realtime table configs](https://docs.pinot.apache.org/configuration-reference/table#indexing-config) for more details about the config.
+
 ## Indexing
 
 ### How to set inverted indexes?
