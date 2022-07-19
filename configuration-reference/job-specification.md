@@ -9,6 +9,10 @@ To use the JSON format, add the property`job-spec-format=json`in the properties 
 ```
 pinot-admin.sh LaunchDataIngestionJob -jobSpecFile /path/to/job_spec.json -propertyFile /path/to/job.properties
 ```
+The values for the template strings in the jobSpecFile can be passed in one of the following three ways mentioned in their order of precedence,
+1. Values from the -values array passed See [Launch Data Ingestion Job](../operators/cli.md#launch-data-ingestion-job)
+2. Values from the environment variable
+3. Values from the propertyFile
 
 The following configurations are supported by Pinot
 
