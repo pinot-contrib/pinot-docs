@@ -92,6 +92,34 @@ The most common segment assignment change is moving from the default segment ass
 
 In a scenario where you need to move table across tenants, for e.g table was assigned earlier to a different Pinot tenant and now you want to move it to a separate one, then you need to call the rebalance API with reassignInstances set to true.
 
+## Rebalance Algorithms
+
+Currently, two rebalance algorithms are supported; one is the default algorithm and the other one is minimal data movement algorithm.
+
+### The Default Algorithm
+
+This algorithm is used for most of the cases. When `reassignInstances` parameter is set to true,
+ the final lists of instance assignment will be re-computed, and the list of instances is sorted per partition per replica group.
+ Whenever the table rebalance is run, segment assignment will respect the sequence in the sorted list and pick up the relevant instances.
+
+### Minimal Data Movement Algorithm
+
+This algorithm focuses more on minimizing the data movement during table rebalance.
+ When `reassignInstances` parameter is set to true and this algorithm gets enabled,
+ the position of instances which are still alive remains the same, and vacant seats are filled with newly added instances or last instances in the existing alive instance candidate.
+ So only the instances which change the position will involve in data movement.
+
+In order to switch to this table rebalance algorithm, just simply set the following config to the table config before triggering table rebalance:
+
+```text
+"segmentsConfig": {
+    ...
+    "minimizeDataMovement": true,
+    ...
+}
+```
+
+
 ## Running a Rebalance
 
 After any of the above described changes are done, a rebalance is needed to make those changes take effect.
