@@ -49,6 +49,7 @@ Multiple string functions are supported out of the box from release-0.5.0 .
 | <p><a href="../../configuration-reference/functions/remove.md"><strong>remove(input, search)</strong></a><br>removes all instances of search from string</p>                                                                                                                     |
 | <p><a href="../../configuration-reference/functions/url.md"><strong>urlEncoding(string)</strong></a><br>url-encode a string with UTF-8 format</p>                                                                                                                                |
 | <p><a href="../../configuration-reference/functions/url.md"><strong>urlDecoding(string)</strong></a><br>decode a url to plaintext string</p>                                                                                                                                     |
+| <p><a href="../../configuration-reference/functions/base64.md"><strong>fromBase64(string)</strong></a><br>decode a Base64-encoded to bytes represented as a hex string</p>                                                                                                       |
 
 ## DateTime Functions
 
@@ -124,11 +125,12 @@ These functions can be used for column transformation in table ingestion configs
 ## Binary Functions
 
 | Function                                                                                                                                                                                  |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <p><a href="../../configuration-reference/functions/sha.md"><strong>SHA(bytesCol)</strong></a><br>Return SHA-1 digest of binary column(<code>bytes</code> type) as hex string</p>         |
 | <p><a href="../../configuration-reference/functions/sha256.md"><strong>SHA256(bytesCol)</strong></a><br>Return SHA-256 digest of binary column(<code>bytes</code> type) as hex string</p> |
 | <p><a href="../../configuration-reference/functions/sha512.md"><strong>SHA512(bytesCol)</strong></a><br>Return SHA-512 digest of binary column(<code>bytes</code> type) as hex string</p> |
 | <p><a href="../../configuration-reference/functions/md5.md"><strong>MD5(bytesCol)</strong></a><br>Return MD5 digest of binary column(<code>bytes</code> type) as hex string</p>           |
+| <p><a href="../../configuration-reference/functions/base64.md"><strong>toBase64(bytesCol)</strong></a><br>Return the Base64-encoded string of binary column(<code>bytes</code> type)</p>  |
 
 ## Multi-value Column Functions
 
