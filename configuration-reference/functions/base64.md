@@ -6,8 +6,8 @@ description: This section contains reference documentation for base64 encode and
 
 Encoding scheme follows [java.util.Base64.Encoder](https://docs.oracle.com/javase/8/docs/api/java/util/Base64.Encoder.html)
 
-`toBase64` returns Base64-encoded string of input binary data (`bytes` type). 
-`fromBase64` returns binary data (represented as a Hex string) from Base64-encoded string.
+* `toBase64` returns Base64 encoded string of input binary data (`bytes` type). 
+* `fromBase64` returns binary data (represented as a Hex string) from Base64-encoded string.
 
 ## Signature
 
@@ -18,8 +18,8 @@ Encoding scheme follows [java.util.Base64.Encoder](https://docs.oracle.com/javas
 ## Usage Examples
 
 {% hint style="info" %}
-For better readability, the following examples converts string `hello!` into BYTES using [toUtf8]() function 
-and converts the decoded BYTES into string using [fromUtf8]().
+For better readability, the following examples converts string `hello!` into BYTES using [toUtf8](https://docs.pinot.apache.org/configuration-reference/functions/utf8) function 
+and converts the decoded BYTES into string using [fromUtf8](https://docs.pinot.apache.org/configuration-reference/functions/utf8).
 {% endhint %}
 
 ```sql
