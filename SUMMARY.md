@@ -320,6 +320,7 @@
   * [trim](configuration-reference/functions/trim.md)
   * [upper](configuration-reference/functions/upper.md)
   * [Url](configuration-reference/functions/url.md)
+  * [UTF8](configuration-reference/functions/utf8.md)
   * [VALUEIN](configuration-reference/functions/valuein.md)
   * [week](configuration-reference/functions/week.md)
   * [year](configuration-reference/functions/year.md)
