@@ -236,10 +236,10 @@ connectionProperties.setProperty("brokerConnectTimeoutMs", "10");
 // Register new Pinot JDBC driver
 DriverManager.registerDriver(new PinotDriver());
 
-// Get a client connection and set the encoded authorization header
+// Get a client connection and set the connection timeouts
 Connection connection = DriverManager.getConnection(DB_URL, connectionProperties);
 
-// Test that your query successfully authenticates
+// Test that your query successfully times out
 Statement statement = connection.createStatement();
 ResultSet rs = statement.executeQuery("SELECT count(*) FROM baseballStats LIMIT 1;");
 
