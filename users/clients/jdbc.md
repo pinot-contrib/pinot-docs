@@ -8,6 +8,7 @@ You can include the JDBC dependency in your code as follows -
 
 {% tabs %}
 {% tab title="Maven" %}
+
 ```java
 <dependency>
     <groupId>org.apache.pinot</groupId>
@@ -15,12 +16,15 @@ You can include the JDBC dependency in your code as follows -
     <version>0.8.0</version>
 </dependency>
 ```
+
 {% endtab %}
 
 {% tab title="Gradle" %}
+
 ```java
 include 'org.apache.pinot:pinot-jdbc-client:0.8.0'
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -104,16 +108,27 @@ while (rs.next()) {
 
 The following timeouts can be set:
 
-* brokerConnectTimeoutMs (default 2000)
-* brokerReadTimeoutMs (default 60000)
-* brokerHandshakeTimeoutMs (default 2000)
-* controllerConnectTimeoutMs (default 2000)
-* controllerReadTimeoutMs (default 60000)
-* controllerHandshakeTimeoutMs (default 2000)
+- brokerConnectTimeoutMs (default 2000)
+- brokerReadTimeoutMs (default 60000)
+- brokerHandshakeTimeoutMs (default 2000)
+- controllerConnectTimeoutMs (default 2000)
+- controllerReadTimeoutMs (default 60000)
+- controllerHandshakeTimeoutMs (default 2000)
 
 Timeouts for the JDBC connector can be added as a parameter to the JDBC Connection URL. The following example enables https and configures a very low timeout of 10ms:
 
+## Configuring client time-out
 
+The following timeouts can be set:
+
+- brokerConnectTimeoutMs (default 2000)
+- brokerReadTimeoutMs (default 60000)
+- brokerHandshakeTimeoutMs (default 2000)
+- controllerConnectTimeoutMs (default 2000)
+- controllerReadTimeoutMs (default 60000)
+- controllerHandshakeTimeoutMs (default 2000)
+
+Timeouts for the JDBC connector can be added as a parameter to the JDBC Connection URL. The following example enables https and sets a very low timeout of 10ms:
 
 ```java
 final String DB_URL = "jdbc:pinot://hostname?brokersList=broker.pinot.demo-test.demo.startree-staging.cloud&brokerConnectTimeoutMs=10&brokerReadTimeoutMs=10&brokerHandshakeTimeoutMs=10&controllerConnectTimeoutMs=10&controllerReadTimeoutMs=10&scheme=https";
