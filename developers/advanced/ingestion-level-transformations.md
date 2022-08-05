@@ -31,13 +31,13 @@ Groovy({groovy script}, argument1, argument2...argumentN)
 
 Any valid Groovy expression can be used.
 
-{% hint style="warning" %}
-Allowing executable Groovy in ingestion transformation can be a security vulnerability, thus is disabled by default.
-{% endhint %}
+:warning: **Enabling Groovy**
 
-To enable Groovy for ingestion, you can set the following controller config.
+Allowing execuatable Groovy in ingestion transformation can be a security vulnerability. If you would like to enable Groovy for ingestion, you can set the following controller config.
 
 `controller.disable.ingestion.groovy=false`
+
+If not set, Groovy for ingestion transformation is disabled by default.
 
 ### Inbuilt Pinot functions
 
@@ -101,7 +101,7 @@ Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/j
 
 | Function name | Description                                                                                                                                                                                                                                                                                                       |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| json\_format  | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
+| json_format   | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
 
 ## Types of transformation
 
@@ -164,6 +164,7 @@ Transform functions can be defined on columns in the ingestion config of the tab
 For example, imagine that our source data contains the `prices` and `timestamp` fields. We want to extract the maximum price and store that in the `maxPrices` field and convert the timestamp into the number of hours since the epoch and store it in the `hoursSinceEpoch` field. You can do this by applying the following transformation:
 
 {% code title="pinot-table-offline.json" %}
+
 ```javascript
 {
 "tableName": "myTable",
@@ -180,6 +181,7 @@ For example, imagine that our source data contains the `prices` and `timestamp` 
   }
 }
 ```
+
 {% endcode %}
 
 Below are some examples of commonly used functions.
@@ -192,7 +194,7 @@ Concat `firstName` and `lasName` to get `fullName`
 "ingestionConfig": {
     "transformConfigs": [{
       "columnName": "fullName",
-      "transformFunction": "Groovy({firstName+' '+lastName}, firstName, lastName)" 
+      "transformFunction": "Groovy({firstName+' '+lastName}, firstName, lastName)"
     }]
 }
 ```
@@ -205,7 +207,7 @@ Find max value in array `bids`
 "ingestionConfig": {
     "transformConfigs": [{
       "columnName": "maxBid",
-      "transformFunction": "Groovy({bids.max{ it.toBigDecimal() }}, bids)" 
+      "transformFunction": "Groovy({bids.max{ it.toBigDecimal() }}, bids)"
     }]
 }
 ```
@@ -218,7 +220,7 @@ Convert `timestamp` from `MILLISECONDS` to `HOURS`
 "ingestionConfig": {
     "transformConfigs": [{
       "columnName": "hoursSinceEpoch",
-      "transformFunction": "Groovy({timestamp/(1000*60*60)}, timestamp)" 
+      "transformFunction": "Groovy({timestamp/(1000*60*60)}, timestamp)"
     }]
 }
 ```
@@ -231,7 +233,7 @@ Change name of the column from `user_id` to `userId`
 "ingestionConfig": {
     "transformConfigs": [{
       "columnName": "userId",
-      "transformFunction": "Groovy({user_id}, user_id)" 
+      "transformFunction": "Groovy({user_id}, user_id)"
     }]
 }
 ```
@@ -244,7 +246,7 @@ Pinot doesn't support columns that have spaces, so if a source data column has a
 "ingestionConfig": {
     "transformConfigs": [{
       "columnName": "firstName",
-      "transformFunction": "\"first Name \"" 
+      "transformFunction": "\"first Name \""
     }]
 }
 ```
@@ -257,11 +259,11 @@ If `eventType` is `IMPRESSION` set `impression` to `1`. Similar for `CLICK`.
 "ingestionConfig": {
     "transformConfigs": [{
       "columnName": "impressions",
-      "transformFunction": "Groovy({eventType == 'IMPRESSION' ? 1: 0}, eventType)" 
+      "transformFunction": "Groovy({eventType == 'IMPRESSION' ? 1: 0}, eventType)"
     },
     {
       "columnName": "clicks",
-      "transformFunction": "Groovy({eventType == 'CLICK' ? 1: 0}, eventType)" 
+      "transformFunction": "Groovy({eventType == 'CLICK' ? 1: 0}, eventType)"
     }]
 }
 ```
@@ -276,11 +278,11 @@ Store an AVRO Map in Pinot as two multi-value columns. Sort the keys, to maintai
 "ingestionConfig": {
     "transformConfigs": [{
       "columnName": "map2_keys",
-      "transformFunction": "Groovy({map2.sort()*.key}, map2)" 
+      "transformFunction": "Groovy({map2.sort()*.key}, map2)"
     },
     {
       "columnName": "map2_values",
-      "transformFunction": "Groovy({map2.sort()*.value}, map2)" 
+      "transformFunction": "Groovy({map2.sort()*.value}, map2)"
     }]
 }
 ```
