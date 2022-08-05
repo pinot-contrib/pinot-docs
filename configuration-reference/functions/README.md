@@ -26,6 +26,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="arrayunionint.md" %}
 {% page-ref page="arrayunionstring.md" %}
 {% page-ref page="avgmv.md" %}
+{% page-ref page="base64.md" %}
 {% page-ref page="ceil.md" %}
 {% page-ref page="chr.md" %}
 {% page-ref page="codepoint.md" %}
@@ -133,6 +134,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% page-ref page="trim.md" %}
 {% page-ref page="upper.md" %}
 {% page-ref page="url.md" %}
+{% page-ref page="utf8.md" %}
 {% page-ref page="valuein.md" %}
 {% page-ref page="week.md" %}
 {% page-ref page="year.md" %}
