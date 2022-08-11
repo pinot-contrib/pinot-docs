@@ -8,6 +8,11 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% page-ref page="abs.md" %}
 {% page-ref page="add.md" %}
+{% page-ref page="arrayconcatdouble.md" %}
+{% page-ref page="arrayconcatfloat.md" %}
+{% page-ref page="arrayconcatint.md" %}
+{% page-ref page="arrayconcatlong.md" %}
+{% page-ref page="arrayconcatstring.md" %}
 {% page-ref page="arraycontainsint.md" %}
 {% page-ref page="arraycontainsstring.md" %}
 {% page-ref page="arraydistinctint.md" %}
