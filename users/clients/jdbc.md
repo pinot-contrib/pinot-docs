@@ -131,7 +131,7 @@ The following timeouts can be set:
 Timeouts for the JDBC connector can be added as a parameter to the JDBC Connection URL. The following example enables https and configures a very low timeout of 10ms:
 
 ```java
-final String DB_URL = "jdbc:pinot://hostname?brokersList=broker.pinot.demo-test.demo.startree-staging.cloud&brokerConnectTimeoutMs=10&brokerReadTimeoutMs=10&brokerHandshakeTimeoutMs=10&controllerConnectTimeoutMs=10&controllerReadTimeoutMs=10&scheme=https";
+final String DB_URL = "jdbc:pinot://hostname?brokerConnectTimeoutMs=10&brokerReadTimeoutMs=10&brokerHandshakeTimeoutMs=10&controllerConnectTimeoutMs=10&controllerReadTimeoutMs=10&scheme=https";
 ```
 
 ## Limitation
