@@ -78,6 +78,8 @@ You can set the offset to -
 * `smallest` to start consumer from the earliest offset
 * `largest` to start consumer from the latest offset
 * `timestamp in milliseconds` to start the consumer from the offset after the timestamp.
+* `timestamp in format yyyy-MM-dd'T'HH:mm:ss.SSSZ` to start the consumer from the offset after the timestamp.
+* `datetime duration or period` to start the consumer from the offset after the period eg., 'P2D'.
 
 The resulting configuration should look as follows -
 
