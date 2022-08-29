@@ -16,13 +16,13 @@ The first screen that you'll see when you open the Pinot Data Explorer is the Cl
 
 If you want to view the contents of a server, click on its instance name. You'll then see the following:
 
-![Pinot Server](<../../.gitbook/assets/image (28) (2).png>)
+![Pinot Server](<../../.gitbook/assets/image (46).png>)
 
 To view the _baseballStats_ table, click on its name, which will show the following screen:
 
-![baseballStats Table](<../../.gitbook/assets/image (13) (2).png>)
+![baseballStats Table](<../../.gitbook/assets/image (47).png>)
 
-From this screen, we can edit or delete the table, edit or adjust its schema, as well as several other operations.&#x20;
+From this screen, we can edit or delete the table, edit or adjust its schema, as well as several other operations.
 
 For example, if we want to add _yearID_ to the list of inverted indexes, click on **Edit Table,** add the extra column, and click **Save:**
 
@@ -38,7 +38,7 @@ You can also execute a sample query `select * from baseballStats limit 10` by ty
 
 `Cmd + Enter` can also be used to run the query when focused on the console.
 
-![](../../.gitbook/assets/pinot\_query\_console\_cropped.png)
+![](../../.gitbook/assets/Pinot\_query\_console\_cropped.png)
 
 You can also try out the following queries:
 
@@ -67,21 +67,21 @@ Pinot supports a subset of standard SQL. For more information, see [Pinot Query 
 
 The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
-![](../../.gitbook/assets/screen-shot-2020-02-28-at-10.00.43-am.png)
+![](<../../.gitbook/assets/Screen Shot 2020-02-28 at 10.00.43 AM.png>)
 
 Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#/Table/listTables), click **Try it out**, and then click **Execute**. We can see the`baseballStats` table listed here. We can also see the exact cURL call made to the controller API.
 
-![List all tables in cluster](<../../.gitbook/assets/image (23) (1).png>)
+![List all tables in cluster](<../../.gitbook/assets/image (61).png>)
 
 You can look at the configuration of this table by going to [Tables -> Get/Enable/Disable/Drop a table](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig), click **Try it out**, type `baseballStats` in the table name, and then click **Execute**.
 
 Let's check out the schemas in the cluster by going to [Schema -> List all schemas in the cluster](http://localhost:9000/help#!/Schema/listSchemaNames), click **Try it out**, and then click **Execute**. We can see a schema called `baseballStats` in this list.
 
-![List all schemas in the cluster](<../../.gitbook/assets/image (28) (2) (1).png>)
+![List all schemas in the cluster](<../../.gitbook/assets/image (50).png>)
 
 Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), click **Try it out**, type `baseballStats` in the schema name, and then click **Execute**.
 
-![baseballStats Schema](<../../.gitbook/assets/image (13) (1).png>)
+![baseballStats Schema](<../../.gitbook/assets/image (45).png>)
 
 Finally, let's check out the data segments in the cluster by going to [Segment -> List all segments](http://localhost:9000/help#!/Segment/getSegments), click **Try it out**, type in `baseballStats` in the table name, and then click **Execute**. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 

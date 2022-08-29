@@ -90,15 +90,19 @@ This is a common scenario for development clusters and an intermediate phase dur
 | controller.access.protocols.https.port            | 9443                                                      |
 | pinot.broker.tls.keystore.path                    | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
 | pinot.broker.tls.keystore.password                | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
+| pinot.broker.tls.keystore.type                    | <p>PKCS12<br>(unset for JVM default)</p>                  |
 | pinot.broker.tls.truststore.path                  | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
 | pinot.broker.tls.truststore.password              | <p>mytruststorepassword</p><p>(unset for JVM default)</p> |
+| pinot.server.tls.truststore.type                  | <p>PKCS12 </p><p>(unset for JVM default)</p>              |
 | pinot.broker.client.access.protocols              | http,https                                                |
 | pinot.broker.client.access.protocols.http.port    | 8099                                                      |
 | pinot.broker.client.access.protocols.https.port   | 8443                                                      |
 | pinot.server.tls.keystore.path                    | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
 | pinot.server.tls.keystore.password                | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
+| pinot.server.tls.keystore.type                    | <p>PKCS12</p><p>(unset for JVM default)</p>               |
 | pinot.server.tls.truststore.path                  | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
 | pinot.server.tls.truststore.password              | <p>mytruststorepassword</p><p>(unset JVM default)</p>     |
+| pinot.server.tls.truststore.type                  | <p>PKCS12</p><p>(unset for JVM default)</p>               |
 | pinot.server.netty.enabled                        | true                                                      |
 | pinot.server.netty.port                           | 8098                                                      |
 | pinot.server.nettytls.enabled                     | true                                                      |

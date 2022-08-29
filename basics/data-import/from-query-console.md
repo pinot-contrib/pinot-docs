@@ -35,7 +35,7 @@ OPTION(input.fs.prop.region=us-west-2)
 
 Screenshot
 
-![](<../../.gitbook/assets/image (13).png>)
+![](<../../.gitbook/assets/image (63).png>)
 
 ## Insert Rows into Pinot
 

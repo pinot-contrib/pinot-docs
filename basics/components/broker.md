@@ -2,7 +2,7 @@
 
 Brokers handle Pinot queries. They **accept queries from clients and forward them to the right servers**. They collect results back from the servers and **consolidate them into a single response**, to **send back to the client**.
 
-![Broker interaction with other components](../../.gitbook/assets/broker-1.jpg)
+![Broker interaction with other components](<../../.gitbook/assets/Broker (1).jpg>)
 
 Pinot Brokers are modeled as Helix **Spectators**. They need to know the location of each segment of a table (and each replica of the segments) and route requests to the appropriate server that hosts the segments of the table being queried.&#x20;
 
@@ -15,7 +15,7 @@ In the case of hybrid tables, the brokers ensure that the overlap between real-t
 \
 Let's take this example, we have real-time data for 5 days - March 23 to March 27, and offline data has been pushed until Mar 25, which is 2 days behind real-time. The brokers maintain this time boundary.&#x20;
 
-![](../../.gitbook/assets/timeboundary.jpg)
+![](../../.gitbook/assets/TimeBoundary.jpg)
 
 Suppose, we get a query to this table : `select sum(metric) from table`. The broker will split the query into 2 queries based on this time boundary - one for offline and one for realtime. This query becomes - `select sum(metric) from table_REALTIME where date >= Mar 25`\
 and `select sum(metric) from table_OFFLINE where date < Mar 25`&#x20;

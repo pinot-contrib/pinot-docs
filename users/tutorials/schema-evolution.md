@@ -57,31 +57,6 @@ Please note: this will not be reflected immediately. You can use the following c
 
 ```
 $ curl -X POST localhost:9000/segments/baseballStats/reload
-
-{"baseballStats_OFFLINE":{"reloadJobId":"98ad3705-58f3-47d0-a02d-d66dc66a9567","reloadJobMetaZKStorageStatus":"SUCCESS","numMessagesSent":"3"}}
-```
-
-This will trigger a reload operation on each of the servers hosting the table's segemnts.
-The API response has a reloadJobId which can be used to monitor the status of the reload operation using the segment reload status API.
-
-```
-$ curl -X GET localhost:9000/segments/segmentReloadStatus/98ad3705-58f3-47d0-a02d-d66dc66a9567
-
-{
-  "estimatedTimeRemainingInMinutes": 0,
-  "timeElapsedInMinutes": 0.17655,
-  "totalServersQueried": 3,
-  "successCount": 12,
-  "totalSegmentCount": 12,
-  "totalServerCallsFailed": 0,
-  "metadata": {
-    "jobId": "98ad3705-58f3-47d0-a02d-d66dc66a9567",
-    "messageCount": "3",
-    "submissionTimeMs": "1661753088066",
-    "jobType": "RELOAD_ALL_SEGMENTS",
-    "tableName": "baseballStats_OFFLINE"
-  }
-}
 ```
 
 After the reload, now you can query the new column as shown below:

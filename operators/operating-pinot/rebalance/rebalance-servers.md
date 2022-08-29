@@ -25,7 +25,7 @@ By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets 
 
 Below is an example of how this looks in the znode, as seen in ZooInspector.
 
-![](../../../.gitbook/assets/screen-shot-2020-09-08-at-2.05.29-pm.png)
+![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.05.29 PM.png>)
 
 A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/tenant.md) section.
 
@@ -47,7 +47,7 @@ In order to change the server tags, the following API can be used.
 
 `PUT /instances/{instanceName}/updateTags?tags=<comma separated tags>`
 
-![](../../../.gitbook/assets/screen-shot-2020-09-08-at-2.29.44-pm.png)
+![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.29.44 PM.png>)
 
 _**0.5.0 and prior**_
 
@@ -92,34 +92,6 @@ The most common segment assignment change is moving from the default segment ass
 
 In a scenario where you need to move table across tenants, for e.g table was assigned earlier to a different Pinot tenant and now you want to move it to a separate one, then you need to call the rebalance API with reassignInstances set to true.
 
-## Rebalance Algorithms
-
-Currently, two rebalance algorithms are supported; one is the default algorithm and the other one is minimal data movement algorithm.
-
-### The Default Algorithm
-
-This algorithm is used for most of the cases. When `reassignInstances` parameter is set to true,
- the final lists of instance assignment will be re-computed, and the list of instances is sorted per partition per replica group.
- Whenever the table rebalance is run, segment assignment will respect the sequence in the sorted list and pick up the relevant instances.
-
-### Minimal Data Movement Algorithm
-
-This algorithm focuses more on minimizing the data movement during table rebalance.
- When `reassignInstances` parameter is set to true and this algorithm gets enabled,
- the position of instances which are still alive remains the same, and vacant seats are filled with newly added instances or last instances in the existing alive instance candidate.
- So only the instances which change the position will involve in data movement.
-
-In order to switch to this table rebalance algorithm, just simply set the following config to the table config before triggering table rebalance:
-
-```text
-"segmentsConfig": {
-    ...
-    "minimizeDataMovement": true,
-    ...
-}
-```
-
-
 ## Running a Rebalance
 
 After any of the above described changes are done, a rebalance is needed to make those changes take effect.
@@ -128,7 +100,7 @@ To run a rebalance, use the following API.&#x20;
 
 `POST /tables/{tableName}/rebalance?type=<OFFLINE/REALTIME>`
 
-![](../../../.gitbook/assets/screen-shot-2020-09-08-at-2.53.48-pm.png)
+![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.53.48 PM.png>)
 
 This API has a lot of parameters to control its behavior. Make sure to go over them and change the defaults as needed.
 

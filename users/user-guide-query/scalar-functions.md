@@ -42,13 +42,13 @@ This function will execute the groovy script using the arguments provided and re
 
 :warning: Note that Groovy script doesn't accept Built-In ScalarFunction that's specific to Pinot queries. See the section below for more information.
 
-:warning: **Enabling Groovy**
+:warning: **Disabling Groovy**
 
-Allowing execuatable Groovy in queries can be a security vulnerability. If you would like to enable Groovy in Pinot queries, you can set the following broker config.
+Allowing execuatable Groovy in queries can be a security vulnerability. If you would like to disable Groovy in Pinot queries, you can set the following broker config.
 
-`pinot.broker.disable.query.groovy=false`
+`pinot.broker.disable.query.groovy=true`
 
-If not set, Groovy in queries is disabled by default.
+If not set, Groovy in queries is enabled by default.
 
 The above configuration applies across the entire Pinot cluster. If you want a table level override to enable/disable Groovy queries, the following property can be set in the query table config.
 
@@ -58,7 +58,7 @@ The above configuration applies across the entire Pinot cluster. If you want a t
   "tableType": "OFFLINE",
  
   "queryConfig" : {
-    "disableGroovy": false
+    "disableGroovy": true
   }
 }
 ```

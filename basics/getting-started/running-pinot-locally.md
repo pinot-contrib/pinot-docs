@@ -75,24 +75,22 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 
 ### M1 Mac Support
 
-Currently Apache Pinot doesn't provide official binaries for M1 Mac. You can however build from source using the steps provided above. In addition to the steps, you will need to add the following in your `~/.m2/settings.xml`  prior to the build.
+Currently Apache Pinot doesn't provide official binaries for M1 Mac. You can however build from source using the steps provided above. In addition to the steps, you will need to add the following in your `~/.m2/settings.xml` prior to the build.
 
 ```xml
-<settings>
-  <activeProfiles>
-    <activeProfile>
-      apple-silicon
-    </activeProfile>
-  </activeProfiles>
-  <profiles>
-    <profile>
-      <id>apple-silicon</id>
-      <properties>
-        <os.detected.classifier>osx-x86_64</os.detected.classifier>
-      </properties>
-    </profile>
-  </profiles>
-</settings>  
+<activeProfiles>
+  <activeProfile>
+    apple-silicon
+  </activeProfile>
+</activeProfiles>
+<profiles>
+  <profile>
+    <id>apple-silicon</id>
+    <properties>
+      <os.detected.classifier>osx-x86_64</os.detected.classifier>
+    </properties>
+  </profile>
+</profiles>
 ```
 
 Also make sure to install rosetta

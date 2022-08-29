@@ -30,10 +30,10 @@ Regarding AWS Credential, we also follow the convention of [DefaultAWSCredential
 
 You can specify AccessKey and Secret using:
 
-* Environment Variables - `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` \(RECOMMENDED since they are recognized by all the AWS SDKs and CLI except for .NET\), or `AWS_ACCESS_KEY` and `AWS_SECRET_KEY` \(only recognized by Java SDK\)
+* Environment Variables - `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (RECOMMENDED since they are recognized by all the AWS SDKs and CLI except for .NET), or `AWS_ACCESS_KEY` and `AWS_SECRET_KEY` (only recognized by Java SDK)
 * Java System Properties - `aws.accessKeyId` and `aws.secretKey`
-* Credential profiles file at the default location \(`~/.aws/credentials`\) shared by all AWS SDKs and the AWS CLI
-* Configure AWS credential in pinot config files, e.g. set `pinot.controller.storage.factory.s3.accessKey` and `pinot.controller.storage.factory.s3.secretKey` in the config file. \(Not recommended\)
+* Credential profiles file at the default location (`~/.aws/credentials`) shared by all AWS SDKs and the AWS CLI
+* Configure AWS credential in pinot config files, e.g. set `pinot.controller.storage.factory.s3.accessKey` and `pinot.controller.storage.factory.s3.secretKey` in the config file. (Not recommended)
 
 ```bash
 pinot.controller.storage.factory.s3.accessKey=****************LFVX
@@ -69,7 +69,7 @@ pinot.controller.storage.factory.s3.disableAcl=false
 
 Then start pinot controller with:
 
-```text
+```
 bin/pinot-admin.sh StartController -configFileName conf/controller.conf
 ```
 
@@ -77,7 +77,7 @@ bin/pinot-admin.sh StartController -configFileName conf/controller.conf
 
 Broker is a simple one you can just start it with default:
 
-```text
+```
 bin/pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName pinot-s3-example
 ```
 
@@ -110,7 +110,7 @@ pinot.controller.storage.factory.s3.disableAcl=false
 
 Then start pinot controller with:
 
-```text
+```
 bin/pinot-admin.sh StartServer -configFileName conf/server.conf -zkAddress localhost:2181 -clusterName pinot-s3-example
 ```
 
@@ -120,7 +120,7 @@ In this demo, we just use `airlineStats` table as an example.
 
 Create table with below command:
 
-```text
+```
 bin/pinot-admin.sh AddTable  -schemaFile examples/batch/airlineStats/airlineStats_schema.json -tableConfigFile examples/batch/airlineStats/airlineStats_offline_table_config.json -exec
 ```
 
@@ -131,22 +131,21 @@ bin/pinot-admin.sh AddTable  -schemaFile examples/batch/airlineStats/airlineStat
 Below is a sample standalone ingestion job spec with certain notable changes:
 
 * **jobType** is **SegmentCreationAndUriPush**
-* **inputDirURI** is set to a s3 location  **s3://my.bucket/batch/airlineStats/rawdata/**
-* **outputDirURI** is set to a s3 location  **s3://my.bucket/output/airlineStats/segments**
-* Add a new PinotFs under **pinotFSSpecs**
+* **inputDirURI** is set to a s3 location **s3://my.bucket/batch/airlineStats/rawdata/**
+* **outputDirURI** is set to a s3 location **s3://my.bucket/output/airlineStats/segments**
+*   Add a new PinotFs under **pinotFSSpecs**
 
-  ```text
-  - scheme: s3
-    className: org.apache.pinot.plugin.filesystem.S3PinotFS
-    configs:
-      region: 'us-west-2'
-  ```
-
-* For library version &lt; **0.6.0**, please set `segmentUriPrefix` to `[scheme]://[bucket.name]`, e.g. `s3://my.bucket` , from version **0.6.0**, you can put empty string or just ignore `segmentUriPrefix`.
+    ```
+    - scheme: s3
+      className: org.apache.pinot.plugin.filesystem.S3PinotFS
+      configs:
+        region: 'us-west-2'
+    ```
+* For library version < **0.6.0**, please set `segmentUriPrefix` to `[scheme]://[bucket.name]`, e.g. `s3://my.bucket` , from version **0.6.0**, you can put empty string or just ignore `segmentUriPrefix`.
 
 Sample `ingestionJobSpec.yaml`
 
-```text
+```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
 executionFrameworkSpec:
 
@@ -276,7 +275,7 @@ Below is a sample job output:
 bin/pinot-admin.sh LaunchDataIngestionJob -jobSpecFile  ~/temp/pinot/pinot-s3-test/ingestionJobSpec.yaml
 ```
 
-```text
+```
 2020/08/18 16:11:03.521 INFO [IngestionJobLauncher] [main] SegmentGenerationJobSpec:
 !!org.apache.pinot.spi.ingestion.batch.spec.SegmentGenerationJobSpec
 excludeFileNamePattern: null
@@ -404,7 +403,7 @@ tableSpec: {schemaURI: 'http://localhost:9000/tables/airlineStats/schema', table
 
 ### Spark Job
 
-#### Setup Spark Cluster \(Skip if you already have one\)
+#### Setup Spark Cluster (Skip if you already have one)
 
 Please follow this [page](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/operators/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
 
@@ -412,7 +411,7 @@ Please follow this [page](https://app.gitbook.com/@apache-pinot/s/apache-pinot-c
 
 Below is a sample Spark Ingestion job
 
-```text
+```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
 executionFrameworkSpec:
 
@@ -548,7 +547,7 @@ pushJobSpec:
 
 Submit spark job with the ingestion job:
 
-```text
+```
 ${SPARK_HOME}/bin/spark-submit \
   --class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand \
   --master "local[2]" \
@@ -563,9 +562,8 @@ ${SPARK_HOME}/bin/spark-submit \
 
 Below is the sample snapshot of s3 location for controller:
 
-![Sample S3 Controller Storage](../../.gitbook/assets/image%20%2832%29.png)
+![Sample S3 Controller Storage](<../../.gitbook/assets/image (12).png>)
 
 Below is a sample download URI in PropertyStore, we expect the segment download uri is started with `s3://`
 
-![Sample segment download URI in PropertyStore](../../.gitbook/assets/image%20%2833%29.png)
-
+![Sample segment download URI in PropertyStore](<../../.gitbook/assets/image (40).png>)

@@ -2,11 +2,11 @@
 
 ## Creating Pinot segments
 
-Pinot segments can be created offline on Hadoop, or via command line from data files. Controller REST endpoint can then be used to add the segment to the table to which the segment belongs. Pinot segments can also be created by ingesting data from realtime resources \(such as Kafka\).
+Pinot segments can be created offline on Hadoop, or via command line from data files. Controller REST endpoint can then be used to add the segment to the table to which the segment belongs. Pinot segments can also be created by ingesting data from realtime resources (such as Kafka).
 
 ### Creating segments using hadoop
 
-![](../../.gitbook/assets/pinot-offline-only-flow.png)
+![](../../.gitbook/assets/Pinot-Offline-only-flow.png)
 
 Offline Pinot workflow
 
@@ -16,13 +16,13 @@ To create Pinot segments on Hadoop, a workflow can be created to complete the fo
 2. Create segments
 3. Upload segments to the Pinot cluster
 
-Step one can be done using your favorite tool \(such as Pig, Hive or Spark\), Pinot provides two MapReduce jobs to do step two and three.
+Step one can be done using your favorite tool (such as Pig, Hive or Spark), Pinot provides two MapReduce jobs to do step two and three.
 
 #### Configuring the job
 
 Create a job properties configuration file, such as one below:
 
-```text
+```
 # === Index segment creation job config ===
 
 # path.to.input: Input directory containing Avro files
@@ -50,14 +50,14 @@ push.to.port=8888
 
 The Pinot Hadoop module contains a job that you can incorporate into your workflow to generate Pinot segments.
 
-```text
+```
 mvn clean install -DskipTests -Pbuild-shaded-jar
 hadoop jar pinot-hadoop-<version>-SNAPSHOT-shaded.jar SegmentCreation job.properties
 ```
 
 You can then use the SegmentTarPush job to push segments via the controller REST API.
 
-```text
+```
 hadoop jar pinot-hadoop-<version>-SNAPSHOT-shaded.jar SegmentTarPush job.properties
 ```
 
@@ -67,13 +67,13 @@ Here is how you can create Pinot segments from standard formats like CSV/JSON/AV
 
 1. Follow the steps described in the section on [Compiling the code](../../basics/getting-started/#running-pinot) to build pinot. Locate `pinot-admin.sh` in `pinot-tools/target/pinot-tools=pkg/bin/pinot-admin.sh`.
 2. Create a top level directory containing all the CSV/JSON/AVRO files that need to be converted into segments.
-3. The file name extensions are expected to be the same as the format name \(_i.e_ `.csv`, `.json` or `.avro`\), and are case insensitive. Note that the converter expects the `.csv` extension even if the data is delimited using tabs or spaces instead.
+3. The file name extensions are expected to be the same as the format name (_i.e_ `.csv`, `.json` or `.avro`), and are case insensitive. Note that the converter expects the `.csv` extension even if the data is delimited using tabs or spaces instead.
 4. Prepare a schema file describing the schema of the input data. The schema needs to be in JSON format. See example later in this section.
-5. Specifically for CSV format, an optional csv config file can be provided \(also in JSON format\). This is used to configure parameters like the delimiter/header for the CSV file etc. A detailed description of this follows below.
+5. Specifically for CSV format, an optional csv config file can be provided (also in JSON format). This is used to configure parameters like the delimiter/header for the CSV file etc. A detailed description of this follows below.
 
-Run the pinot-admin command to generate the segments. The command can be invoked as follows. Options within “\[ \]” are optional. For -format, the default value is AVRO.
+Run the pinot-admin command to generate the segments. The command can be invoked as follows. Options within “\[ ]” are optional. For -format, the default value is AVRO.
 
-```text
+```
 bin/pinot-admin.sh CreateSegment -dataDir <input_data_dir> [-format [CSV/JSON/AVRO]] [-readerConfigFile <csv_config_file>] [-generatorConfigFile <generator_config_file>] -segmentName <segment_name> -schemaFile <input_schema_file> -tableName <table_name> -outDir <output_data_dir> [-overwrite]
 ```
 
@@ -90,7 +90,7 @@ To configure various parameters for CSV a config file in JSON format can be prov
 
 Below is a sample config file.
 
-```text
+```
 {
   "fileFormat": "EXCEL",
   "header": "col1,col2,col3,col4",
@@ -101,7 +101,7 @@ Below is a sample config file.
 
 Sample Schema:
 
-```text
+```
 {
   "schemaName": "flights",
   "dimensionFieldSpecs": [
@@ -135,15 +135,14 @@ Sample Schema:
 
 You can use curl to push a segment to pinot:
 
-```text
+```
 curl -X POST -F segment=@<segment-tar-file-path> http://controllerHost:controllerPort/segments
 ```
 
 Alternatively you can use the pinot-admin.sh utility to upload one or more segments:
 
-```text
+```
 pinot-tools/target/pinot-tools-pkg/bin//pinot-admin.sh UploadSegment -controllerHost <hostname> -controllerPort <port> -segmentDir <segmentDirectoryPath>
 ```
 
-The command uploads all the segments found in `segmentDirectoryPath`. The segments could be either tar-compressed \(in which case it is a file under `segmentDirectoryPath`\) or uncompressed \(in which case it is a directory under `segmentDirectoryPath`\).
-
+The command uploads all the segments found in `segmentDirectoryPath`. The segments could be either tar-compressed (in which case it is a file under `segmentDirectoryPath`) or uncompressed (in which case it is a directory under `segmentDirectoryPath`).

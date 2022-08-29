@@ -93,6 +93,18 @@ curl -X POST "http://localhost:9000/tenants"
 -d "{\"tenantRole\":\"BROKER\",\"tenantName\":\"foo\",\"numberOfInstances\":1}"
 ```
 
+### How to tune minion task timeout and parallelism on each worker
+
+There are two task configs but set as part of cluster configs like below. One controls task's overall timeout (1hr by default) and one for how many tasks to run on a single minion worker (1 by default). The \<taskType> is the task to tune, e.g. MergeRollupTask or RealtimeToOfflineSegmentsTask etc.
+
+```
+Using "POST /cluster/configs" API on CLUSTER tab in Swagger, with this payload
+{
+	"<taskType>.timeoutMs": "600000",
+	"<taskType>.numConcurrentTasksPerInstance": "4"
+}
+```
+
 ### How to I manually run a Periodic Task
 
 Refer to [Running a Periodic Task Manually](../../components/controller.md#running-the-periodic-task-manually)

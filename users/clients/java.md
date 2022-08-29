@@ -181,7 +181,7 @@ This section is only applicable for PQL endpoint, which is deprecated and will b
 
 ## Authentication
 
-Pinot supports [basic HTTP authorization](../../operators/tutorials/authentication-authorization-and-acls.md#controller-authentication-and-authorization), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
+Pinot supports [basic HTTP authorization](../../operators/tutorials/authentication-authorization-and-acls.md#controller-authentication-and-authorization), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side Java applications, make sure you are using Pinot Java Client 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the Java client.
 
 ```java
 final String username = "admin";
@@ -189,38 +189,38 @@ final String password = "verysecret";
 
 // Concatenate username and password and use base64 to encode the concatenated string
 String plainCredentials = username + ":" + password;
-String base64Credentials = new String(Base64.getEncoder().encode(plainCredentials.getBytes()));
+String base64Credentials = new String(
+    Base64.getEncoder().encode(plainCredentials.getBytes()));
 
-// Create authorization header
 String authorizationHeader = "Basic " + base64Credentials;
-Properties connectionProperties = new Properties();
-connectionProperties.setProperty("headers.Authorization", authorizationHeader);
 
-// Register new Pinot JDBC driver
-DriverManager.registerDriver(new PinotDriver());
+Map<String, String> headers = new HashMap();
+headers.put("Authorization", authorizationHeader);
+JsonAsyncHttpPinotClientTransportFactory factory = 
+    new JsonAsyncHttpPinotClientTransportFactory();
+factory.setHeaders(headers);
+PinotClientTransport clientTransport = factory
+    .buildTransport();
 
-// Get a client connection and set the encoded authorization header
-Connection connection = DriverManager.getConnection(DB_URL, connectionProperties);
+Connection connection = ConnectionFactory.fromProperties(
+        Collections.singletonList("localhost:8000"), clientTransport);
+String query = "select count(*) FROM baseballStats limit 1";
 
-// Test that your query successfully authenticates
-Statement statement = connection.createStatement();
-ResultSet rs = statement.executeQuery("SELECT count(*) FROM baseballStats LIMIT 1;");
-
-while (rs.next()) {
-    String result = rs.getString("count(*)");
-    System.out.println(result);
-}
+ResultSetGroup rs = connection.execute(query);
+System.out.println(rs);
+connection.close();
 ```
 
 ## Configuring client time-out
 
 The following timeouts can be set:
-- brokerConnectTimeoutMs (default 2000)
-- brokerReadTimeoutMs (default 60000)
-- brokerHandshakeTimeoutMs (default 2000)
-- controllerConnectTimeoutMs (default 2000)
-- controllerReadTimeoutMs (default 60000)
-- controllerHandshakeTimeoutMs (default 2000)
+
+* brokerConnectTimeoutMs (default 2000)
+* brokerReadTimeoutMs (default 60000)
+* brokerHandshakeTimeoutMs (default 2000)
+* controllerConnectTimeoutMs (default 2000)
+* controllerReadTimeoutMs (default 60000)
+* controllerHandshakeTimeoutMs (default 2000)
 
 Timeouts for the Java connector can be added as a connection properties. The following example configures a very low timeout of 10ms:
 

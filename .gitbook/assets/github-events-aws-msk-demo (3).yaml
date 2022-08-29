@@ -4,7 +4,7 @@ metadata:
   name: examples-aws-msk-demo
   namespace: pinot-quickstart
 data:
-  pullRequestMergedEventsAwsMskDemo_realtime_table_config.json: |-
+  pullRequestMergedEvents_realtime_table_config.json: |-
     {
       "tableName": "pullRequestMergedEventsAwsMskDemo",
       "tableType": "REALTIME",
@@ -13,7 +13,7 @@ data:
         "timeType": "MILLISECONDS",
         "retentionTimeUnit": "DAYS",
         "retentionTimeValue": "60",
-        "schemaName": "pullRequestMergedEventsAwsMskDemo",
+        "schemaName": "pullRequestMergedEvents",
         "replication": "1",
         "replicasPerPartition": "1"
       },
@@ -23,11 +23,11 @@ data:
         "streamConfigs": {
           "streamType": "kafka",
           "stream.kafka.consumer.type": "simple",
-          "stream.kafka.topic.name": "pullRequestMergedEventsAwsMskDemo",
+          "stream.kafka.topic.name": "pullRequestMergedEvents",
           "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
           "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-          "stream.kafka.zk.broker.url": "${ZOOKEEPER_CONNECT_STRING}",
-          "stream.kafka.broker.list": "${BROKER_LIST_STRING}",
+          "stream.kafka.zk.broker.url": "z-3.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:2181,z-1.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:2181,z-2.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:2181",
+          "stream.kafka.broker.list": "b-1.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:9092,b-2.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:9092",
           "realtime.segment.flush.threshold.time": "12h",
           "realtime.segment.flush.threshold.rows": "100000",
           "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
@@ -37,9 +37,9 @@ data:
         "customConfigs": {}
       }
     }
-  pullRequestMergedEventsAwsMskDemo_schema.json: |-
+  pullRequestMergedEvents_schema.json: |-
     {
-      "schemaName": "pullRequestMergedEventsAwsMskDemo",
+      "schemaName": "pullRequestMergedEvents",
       "dimensionFieldSpecs": [
         {
           "name": "title",
@@ -217,18 +217,18 @@ spec:
       - args:
         - StreamGithubEvents
         - -topic
-        - pullRequestMergedEventsAwsMskDemo
+        - pullRequestMergedEvents
         - -personalAccessToken
         - 8643c3a182dd3c387a429787087b2f3a9536af27
         - -kafkaBrokerList
-        - ${BROKER_LIST_STRING}
+        - b-1.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:9092,b-2.pinot-quickstart-msk-d.ky727f.c3.kafka.us-west-2.amazonaws.com:9092
         - -schemaFile
-        - /var/pinot/examples/pullRequestMergedEventsAwsMskDemo_schema.json
+        - /var/pinot/examples/pullRequestMergedEvents_schema.json
         env:
         - name: JAVA_OPTS
           value: -Dlog4j2.configurationFile=/opt/pinot/conf/pinot-admin-log4j2.xml
             -Dplugins.dir=/opt/pinot/plugins
-        image: apachepinot/pinot:latest
+        image: apachepinot/pinot:stream_github_events_demo
         imagePullPolicy: Always
         name: pinot-github-events-data-into-msk-kafka
         resources: {}

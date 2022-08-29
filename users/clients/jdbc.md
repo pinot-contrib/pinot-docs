@@ -67,20 +67,56 @@ while(rs.next()){
 conn.close();
 ```
 
+## Authentication
+
+Pinot supports [basic HTTP authorization](../../operators/tutorials/authentication-authorization-and-acls.md#controller-authentication-and-authorization), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
+
+```java
+final String username = "admin";
+final String password = "verysecret";
+
+// Concatenate username and password and use base64 to encode the concatenated string
+String plainCredentials = username + ":" + password;
+String base64Credentials = new String(Base64.getEncoder().encode(plainCredentials.getBytes()));
+
+// Create authorization header
+String authorizationHeader = "Basic " + base64Credentials;
+Properties connectionProperties = new Properties();
+connectionProperties.setProperty("headers.Authorization", authorizationHeader);
+
+// Register new Pinot JDBC driver
+DriverManager.registerDriver(new PinotDriver());
+
+// Get a client connection and set the encoded authorization header
+Connection connection = DriverManager.getConnection(DB_URL, connectionProperties);
+
+// Test that your query successfully authenticates
+Statement statement = connection.createStatement();
+ResultSet rs = statement.executeQuery("SELECT count(*) FROM baseballStats LIMIT 1;");
+
+while (rs.next()) {
+    String result = rs.getString("count(*)");
+    System.out.println(result);
+}
+```
+
 ## Configuring client time-out
 
 The following timeouts can be set:
-- brokerConnectTimeoutMs (default 2000)
-- brokerReadTimeoutMs (default 60000)
-- brokerHandshakeTimeoutMs (default 2000)
-- controllerConnectTimeoutMs (default 2000)
-- controllerReadTimeoutMs (default 60000)
-- controllerHandshakeTimeoutMs (default 2000)
+
+* brokerConnectTimeoutMs (default 2000)
+* brokerReadTimeoutMs (default 60000)
+* brokerHandshakeTimeoutMs (default 2000)
+* controllerConnectTimeoutMs (default 2000)
+* controllerReadTimeoutMs (default 60000)
+* controllerHandshakeTimeoutMs (default 2000)
 
 Timeouts for the JDBC connector can be added as a parameter to the JDBC Connection URL. The following example enables https and configures a very low timeout of 10ms:
 
+
+
 ```java
-final String DB_URL = "jdbc:pinot://hostname?brokerConnectTimeoutMs=10&brokerReadTimeoutMs=10&brokerHandshakeTimeoutMs=10&controllerConnectTimeoutMs=10&controllerReadTimeoutMs=10&scheme=https";
+final String DB_URL = "jdbc:pinot://hostname?brokersList=broker.pinot.demo-test.demo.startree-staging.cloud&brokerConnectTimeoutMs=10&brokerReadTimeoutMs=10&brokerHandshakeTimeoutMs=10&controllerConnectTimeoutMs=10&controllerReadTimeoutMs=10&scheme=https";
 ```
 
 ## Limitation

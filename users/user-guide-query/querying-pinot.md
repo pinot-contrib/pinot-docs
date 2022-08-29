@@ -4,26 +4,22 @@ description: Learn how to query Pinot using SQL
 
 # Querying Pinot
 
-## SQL Dialect
+## SQL Interface
 
-Pinot uses the **Calcite SQL** parser to parse queries and uses **MYSQL\_ANSI** dialect. 
-You can see the grammar [in the Calcite documentation](https://calcite.apache.org/docs/reference.html).
+Pinot provides SQL interface for querying. It uses the **Calcite SQL** parser to parse queries and uses **MYSQL\_ANSI** dialect. You can see the grammar [in the Calcite documentation](https://calcite.apache.org/docs/reference.html).
 
 ## Limitations
 
-Pinot does not support joins or nested subqueries.
-We recommend using **Presto** for queries that span multiple tables. 
-For more information, see [Engineering Full SQL support for Pinot at Uber](https://eng.uber.com/engineering-sql-support-on-apache-pinot/).
+Pinot does not support joins or nested subqueries. We recommend using **Presto** for queries that span multiple tables. For more information, see [Engineering Full SQL support for Pinot at Uber](https://eng.uber.com/engineering-sql-support-on-apache-pinot/).
 
-There is no DDL support. 
-Tables can be created via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
+There is no DDL support. Tables can be created via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
 ## Identifier vs Literal
 
 In Pinot SQL:
 
 * **Double quotes(")** are used to force string identifiers, e.g. column names
-* **Single quotes(')** are used to enclose string literals. If the string literal also contains a single quote, escape this with a single quote e.g  `'''Pinot'''` to match the string literal `'Pinot'`
+* **Single quotes(')** are used to enclose string literals. If the string literal also contains a single quote, escape this with a single quote e.g `'''Pinot'''` to match the string literal `'Pinot'`
 
 Mis-using those might cause unexpected query results:
 
@@ -37,7 +33,6 @@ If your column names use reserved keywords (e.g. `timestamp` or `date`) or speci
 Note: Defining decimal literals within quotes preserves precision.
 
 ## Example Queries
-
 
 ### Selection
 
@@ -105,8 +100,6 @@ FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
-
-
 ### Selection (Projection)
 
 ```sql
@@ -127,7 +120,6 @@ FROM myTable
 ```
 
 ### Pagination on Selection
-
 
 > Results might not be consistent if the order by column has the same value in multiple rows.
 
@@ -183,7 +175,7 @@ FROM myTable
 
 ### UDF
 
-Functions have to be implemented within Pinot. Injecting functions is not yet supported. The example below demonstrate the use of UDFs. 
+Functions have to be implemented within Pinot. Injecting functions is not yet supported. The example below demonstrate the use of UDFs.
 
 ```sql
 SELECT COUNT(*)
@@ -195,8 +187,7 @@ For more examples, see [Transform Function in Aggregation Grouping](https://docs
 
 ### BYTES column
 
-Pinot supports queries on BYTES column using HEX string. 
-The query response also uses HEX string to represent bytes values.
+Pinot supports queries on BYTES column using HEX string. The query response also uses HEX string to represent bytes values.
 
 e.g. the query below fetches all the rows for a given UID.
 

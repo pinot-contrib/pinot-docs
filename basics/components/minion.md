@@ -43,7 +43,7 @@ bin/pinot-admin.sh StartMinion \
 
 ## Interfaces
 
-![](../../.gitbook/assets/screen-shot-2021-05-26-at-3.22.55-pm.png)
+![](<../../.gitbook/assets/Screen Shot 2021-05-26 at 3.22.55 PM.png>)
 
 ### PinotTaskGenerator
 

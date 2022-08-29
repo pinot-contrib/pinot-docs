@@ -68,7 +68,7 @@ Splits: 17 total, 17 done (100.00%)
 
 Meanwhile you can access [Presto Cluster UI](http://localhost:8080/ui/) to see query stats.
 
-![Presto Cluster UI](<../.gitbook/assets/image (16).png>)
+![Presto Cluster UI](<../.gitbook/assets/image (16) (1).png>)
 {% endtab %}
 {% endtabs %}
 
@@ -92,7 +92,5 @@ Then you can enable the streaming connector in Presto(>=0.244) by adding the bel
 ```
 pinot.use-streaming-for-segment-queries=true
 ```
-
-
 
 (Disclaimer: Presto is a third-party software that is not part of the Apache Software Foundation).

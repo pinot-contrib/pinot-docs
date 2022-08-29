@@ -319,4 +319,4 @@ Check that your segment made it to the table using the [Rest API](http://localho
 
 You're all set! You should see your table in the [Query Console](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/exploring-pinot#query-console) and be able to run queries against it now.
 
-![](../../.gitbook/assets/pinot\_query\_transcript\_table.png)
+![](../../.gitbook/assets/Pinot\_query\_transcript\_table.png)

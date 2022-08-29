@@ -6,7 +6,7 @@ description: The Docker instructions on this page are still WIP
 
 So far, we setup our cluster, ran some queries on the demo tables and explored the admin endpoints. We also uploaded some sample batch data for transcript table.
 
-Now, it's time to ingest from a sample stream into Pinot. The rest of the instructions assume you're using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).&#x20;
+Now, it's time to ingest from a sample stream into Pinot. The rest of the instructions assume you're using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).
 
 ## Data Stream
 
@@ -97,7 +97,6 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you l
     "customConfigs": {}
   }
 }
-
 ```
 {% endcode %}
 
@@ -164,4 +163,4 @@ bin/kafka-console-producer.sh \
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the [Query Console ](http://localhost:9000/query)to checkout the realtime data
 
-![](../../.gitbook/assets/pinot\_query\_transcript\_table.png)
+![](../../.gitbook/assets/Pinot\_query\_transcript\_table.png)

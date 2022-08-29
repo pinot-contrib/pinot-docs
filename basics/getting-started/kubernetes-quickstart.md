@@ -58,13 +58,13 @@ Only use Amazon EBS/GCP Persistent Disk/Azure Disk style disks.
 {% endtab %}
 
 {% tab title="Run Helm Script within Git Repo" %}
-### 2.1.1 Update helm dependency
+#### 2.1.1 Update helm dependency
 
 ```
 helm dependency update
 ```
 
-### 2.1.2 Start Pinot with Helm
+#### 2.1.2 Start Pinot with Helm
 
 * For Helm **v2.12.1**
 
@@ -87,7 +87,7 @@ kubectl create ns pinot-quickstart
 helm install -n pinot-quickstart pinot pinot
 ```
 
-### **2.1.3 Troubleshooting (For helm v2.12.1)**
+#### **2.1.3 Troubleshooting (For helm v2.12.1)**
 
 * Error: Please run the below command if encountering the following issue:
 
@@ -169,11 +169,11 @@ kubectl -n pinot-quickstart exec kafka-0 -- kafka-topics --zookeeper kafka-zooke
 
 The script below will deploy 3 batch jobs.
 
-* Ingest 19492 JSON messages to Kafka topic `flights-realtime`  at a speed of 1 msg/sec
-* Ingest 19492 Avro messages to Kafka topic `flights-realtime-avro`  at a speed of 1 msg/sec
+* Ingest 19492 JSON messages to Kafka topic `flights-realtime` at a speed of 1 msg/sec
+* Ingest 19492 Avro messages to Kafka topic `flights-realtime-avro` at a speed of 1 msg/sec
 * Upload Pinot schema `airlineStats`
 * Create Pinot table `airlineStats` to ingest data from JSON encoded Kafka topic `flights-realtime`
-* Create Pinot table `airlineStatsAvro`  to ingest data from Avro encoded Kafka topic `flights-realtime-avro`
+* Create Pinot table `airlineStatsAvro` to ingest data from Avro encoded Kafka topic `flights-realtime-avro`
 
 ```
 kubectl apply -f pinot/pinot-realtime-quickstart.yml
@@ -211,11 +211,11 @@ Edit `/tmp/superset-values.yaml` file and add `pinotdb` pip dependency into `boo
 
 You can also build your own image with this dependency or just use image: `apachepinot/pinot-superset:latest` instead.
 
-![](<../../.gitbook/assets/image (40).png>)
+![](<../../.gitbook/assets/image (31).png>)
 
 Also remember to change the admin credential inside the `init` section with meaningful user profile and stronger password.
 
-![](<../../.gitbook/assets/image (28).png>)
+![](<../../.gitbook/assets/image (8).png>)
 
 Install Superset using helm
 
@@ -242,7 +242,7 @@ Create Pinot Database using URI:
 
 `pinot+http://pinot-broker.pinot-quickstart:8099/query?controller=http://pinot-controller.pinot-quickstart:9000/`
 
-![](<../../.gitbook/assets/image (29).png>)
+![](<../../.gitbook/assets/image (42).png>)
 
 Once the database is added, you can add more data sets and explore the dashboarding.
 
@@ -294,7 +294,7 @@ Once you deployed the Trino, You can check Trino deployment status by:
 kubectl get pods -n trino-quickstart
 ```
 
-![](<../../.gitbook/assets/image (1).png>)
+![](<../../.gitbook/assets/image (60).png>)
 
 ### 6.2 Query Trino using Trino CLI
 
@@ -321,7 +321,7 @@ kubectl port-forward service/my-trino 18080:8080 -n trino-quickstart
 
 **6.2.4 Query Pinot data using Trino CLI**
 
-****![](<../../.gitbook/assets/image (18) (1).png>)****
+![](<../../.gitbook/assets/image (6).png>)
 
 ### 6.3 Sample queries to execute
 
@@ -552,3 +552,5 @@ Splits: 17 total, 17 done (100.00%)
 ```
 kubectl delete ns pinot-quickstart
 ```
+
+<mark style="color:red;">Note:</mark> These are sample configs to be used as reference. For production setup, you may want to customize it to your needs.

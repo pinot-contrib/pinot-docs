@@ -35,7 +35,7 @@ And, this is for all the freshest possible data, which touches on the other aspe
 
 Wanting such a user-facing analytics application, using realtime events, sounds great. But what does it mean for the underlying infrastructure, to support such an analytical workload?
 
-![Challenges of user-facing realtime analytics](.gitbook/assets/screen-shot-2021-04-28-at-2.09.22-pm.png)
+![Challenges of user-facing realtime analytics](<.gitbook/assets/Screen Shot 2021-04-28 at 2.09.22 PM.png>)
 
 1. Such applications require the freshest possible data, and so the system needs to be able to **ingest data in real time and make it available for querying, also in real time**.
 2. Data for such apps tend to be event data, for a wide range of actions, coming from multiple sources, and so the data comes in at a **very high velocity and tends to be highly dimensional**.

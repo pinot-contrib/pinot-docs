@@ -110,7 +110,7 @@ Apache Pinot's Basic Auth follows the established standards for HTTP Basic Auth.
 
 If you're using pinot's CLI clients you can provide your credentials either via dedicated username and password arguments, or as pre-serialized token for the HTTP Authorization header. Note, that while most of Apache Pinot's CLI commands support auth, not all of them have been back-fitted yet. If you encounter any such case, you can access the REST API directly, e.g. via curl.
 
-![](../../.gitbook/assets/screen-shot-2021-05-25-at-3.35.05-pm.png)
+![](<../../.gitbook/assets/Screen Shot 2021-05-25 at 3.35.05 PM.png>)
 
 {% tabs %}
 {% tab title="CLI Arguments" %}

@@ -34,13 +34,24 @@ Users can configure the most useful granularities for a Timestamp data type colu
 Example query usage:
 
 ```
-select count(*), datetrunc('WEEK', ts) as tsWeek from airlineStats WHERE tsWeek > fromDateTime('2014-01-16', 'yyyy-MM-dd') group by tsWeek  limit 10
+select count(*), 
+       datetrunc('WEEK', ts) as tsWeek 
+from airlineStats 
+WHERE tsWeek > fromDateTime('2014-01-16', 'yyyy-MM-dd') 
+group by tsWeek
+limit 10
 ```
 
 Some preliminary benchmark shows the query perf over 2.7 billion records improved from 45 secs to 4.2 secs
 
 ```
-select dateTrunc('YEAR', event_time) as y, dateTrunc('MONTH', event_time) as m,  sum(pull_request_commits) from githubEvents group by y, m limit 1000  Option(timeoutMs=3000000)
+select dateTrunc('YEAR', event_time) as y, 
+       dateTrunc('MONTH', event_time) as m,  
+       sum(pull_request_commits) 
+from githubEvents 
+group by y, m 
+limit 1000
+Option(timeoutMs=3000000)
 ```
 
 

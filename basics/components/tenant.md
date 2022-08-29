@@ -6,11 +6,11 @@ In order to support multi-tenancy, Pinot has first-class support for tenants. Ev
 
 The concept of tenants is very important when the multiple use cases are using Pinot and there is a need to provide quotas or some sort of isolation across tenants. For example, consider we have two tables `Table A` and `Table B` in the same Pinot cluster.
 
-![Defining tenants for tables](../../.gitbook/assets/tabletenant.jpg)
+![Defining tenants for tables](../../.gitbook/assets/TableTenant.jpg)
 
-We can configure `Table A` with server tenant `Tenant A` and `Table B` with server tenant `Tenant B`. We can tag some of the server nodes for `Tenant A` and some for `Tenant B`. This will ensure that segments of `Table A` only reside on servers tagged with `Tenant A`, and segment of `Table B `only reside on servers tagged with `Tenant B`. The same isolation can be achieved at the broker level, by configuring broker tenants to the tables.
+We can configure `Table A` with server tenant `Tenant A` and `Table B` with server tenant `Tenant B`. We can tag some of the server nodes for `Tenant A` and some for `Tenant B`. This will ensure that segments of `Table A` only reside on servers tagged with `Tenant A`, and segment of `Table B` only reside on servers tagged with `Tenant B`. The same isolation can be achieved at the broker level, by configuring broker tenants to the tables.
 
-![Table isolation using tenants](../../.gitbook/assets/tenantisolation.jpg)
+![Table isolation using tenants](../../.gitbook/assets/TenantIsolation.jpg)
 
 &#x20;No need to create separate clusters for every table or use case!&#x20;
 

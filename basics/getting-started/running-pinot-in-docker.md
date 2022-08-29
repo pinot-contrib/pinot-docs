@@ -62,7 +62,7 @@ Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper
 ```
 docker run \
     --network=pinot-demo_default \
-    --name  manual-pinot-zookeeper \
+    --name pinot-zookeeper \
     --restart always \
     -p 2181:2181 \
     -d zookeeper:3.5.6
@@ -79,7 +79,7 @@ The command below expects a 4GB memory container. Tune`-Xms` and`-Xmx` if your m
 ```
 docker run --rm -ti \
     --network=pinot-demo_default \
-    --name manual-pinot-controller \
+    --name pinot-controller \
     -p 9000:9000 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log" \
     -d ${PINOT_IMAGE} StartController \
@@ -97,7 +97,7 @@ The command below expects a 4GB memory container. Tune`-Xms` and`-Xmx` if your m
 ```
 docker run --rm -ti \
     --network=pinot-demo_default \
-    --name manual-pinot-broker \
+    --name pinot-broker \
     -p 8099:8099 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log" \
     -d ${PINOT_IMAGE} StartBroker \
@@ -115,7 +115,7 @@ The command below expects a 16GB memory container. Tune`-Xms` and`-Xmx` if your 
 ```
 docker run --rm -ti \
     --network=pinot-demo_default \
-    --name manual-pinot-server \
+    --name pinot-server \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log" \
     -d ${PINOT_IMAGE} StartServer \
     -zkAddress pinot-zookeeper:2181
@@ -164,7 +164,7 @@ services:
   zookeeper:
     image: zookeeper:3.5.6
     hostname: zookeeper
-    container_name: manual-zookeeper
+    container_name: zookeeper
     ports:
       - "2181:2181"
     environment:
@@ -172,8 +172,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
   pinot-controller:
     image: apachepinot/pinot:0.9.3
-    command: "StartController -zkAddress manual-zookeeper:2181"
-    container_name: "manual-pinot-controller"
+    command: "StartController -zkAddress zookeeper:2181"
+    container_name: "pinot-controller"
     restart: unless-stopped
     ports:
       - "9000:9000"
@@ -183,9 +183,9 @@ services:
       - zookeeper
   pinot-broker:
     image: apachepinot/pinot:0.9.3
-    command: "StartBroker -zkAddress manual-zookeeper:2181"
+    command: "StartBroker -zkAddress zookeeper:2181"
     restart: unless-stopped
-    container_name: "manual-pinot-broker"
+    container_name: "pinot-broker"
     ports:
       - "8099:8099"
     environment:
@@ -194,9 +194,9 @@ services:
       - pinot-controller
   pinot-server:
     image: apachepinot/pinot:0.9.3
-    command: "StartServer -zkAddress manual-zookeeper:2181"
+    command: "StartServer -zkAddress zookeeper:2181"
     restart: unless-stopped
-    container_name: "manual-pinot-server" 
+    container_name: "pinot-server" 
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
     depends_on:
@@ -232,3 +232,5 @@ Once your cluster is up and running, you can head over to [Exploring Pinot](../c
 {% hint style="info" %}
 If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you could also try running the [Kubernetes quick start](kubernetes-quickstart.md).
 {% endhint %}
+
+<mark style="color:red;">Note:</mark> These are sample configs to be used as reference. For production setup, you may want to customize it to your needs.

@@ -58,6 +58,34 @@ You can add this at the end of your query: `option(timeoutMs=X)`. For eg: the fo
 SELECT COUNT(*) from myTable option(timeoutMs=20000)
 ```
 
+### How do I cancel a query?
+
+Add these two configs for Pinot server and broker to start tracking of running queries. The query tracks are added and cleaned as query starts and ends, so should not consume much resource.&#x20;
+
+```
+pinot.server.enable.query.cancellation=true // false by default
+pinot.broker.enable.query.cancellation=true // false by default
+```
+
+Then use the Rest APIs on Pinot controller to list running queries and cancel them via the query ID and broker ID (as query ID is only local to broker), like below:
+
+```
+GET /queries: to show running queries as tracked by all brokers
+Response example: `{
+  "Broker_192.168.0.105_8000": {
+    "7": "select G_old from baseballStats limit 10",
+    "8": "select G_old from baseballStats limit 100"
+  }
+}`
+
+DELETE /query/{brokerId}/{queryId}[?verbose=false/true]: to cancel a running query 
+with queryId and brokerId. The verbose is false by default, but if set to true, 
+responses from servers running the query also return.
+
+Response example: `Cancelled query: 8 with responses from servers: 
+{192.168.0.105:7501=404, 192.168.0.105:7502=200, 192.168.0.105:7500=200}`
+```
+
 ### How do I optimize my Pinot table for doing aggregations and group-by on high cardinality columns ?
 
 In order to speed up aggregations, you can enable metrics aggregation on the required column by adding a [metric field](https://docs.pinot.apache.org/configuration-reference/schema#metricfieldspecs) in the corresponding schema and setting `aggregateMetrics` to true in the table config. You can also use a star-tree index config for such columns ([read more about star-tree here](https://docs.pinot.apache.org/basics/indexing/star-tree-index)) &#x20;

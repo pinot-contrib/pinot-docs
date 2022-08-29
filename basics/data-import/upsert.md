@@ -219,7 +219,7 @@ bin/quick-start-partial-upsert-streaming.sh
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the realtime data.
 
-![Query the upsert table](../../.gitbook/assets/screen-shot-2021-06-15-at-10.02.46-am.png)
+![Query the upsert table](<../../.gitbook/assets/Screen Shot 2021-06-15 at 10.02.46 AM.png>)
 
 For partial upsert you can see only the value from configured column changed based on specified partial upsert strategy.
 
@@ -231,7 +231,7 @@ An example for partial upsert is shown below, each of the event\_id kept being u
 
 To see the difference from the append-only table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
-![Disable the upsert during query via query option](../../.gitbook/assets/screen-shot-2021-06-15-at-10.03.22-am.png)
+![Disable the upsert during query via query option](<../../.gitbook/assets/Screen Shot 2021-06-15 at 10.03.22 AM.png>)
 
 ### FAQ
 

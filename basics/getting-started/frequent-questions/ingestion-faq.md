@@ -164,13 +164,3 @@ This lets you have an old event up come in without building complex offline pipe
 It might seem odd that segments are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time intervals for the performance of hybrid tables and time-filtered data.
 
 When generating offline segments, the segments generated such that segments only contain one time interval and are well partitioned by the time column.
-
-### **I have a relational database (e.g. MySQL, PostgreSQL, etc) and want to populate data from it into Pinot. How do I transfer data when there isn't a direct integration?**
-
-Depending on the scale of the data and how frequently you have to sync, here's a rough guide to your different options:
-
-- Real-time re-syncing of small to medium datasets: use a tool like Apache Kafka paired with a CDC tool like Debezium
-- For re-syncing data multiple times an hour: use a CDC tool like Debezium, FiveTran, Airbyte, etc
-- For re-syncing a medium sized datataset multiple times an hour: write a custom, simple Python script 
-- For re-syncing large datasets once an hour or once a day: write an ETL script using something like Apache Spark
-- For syncing small to medium sized dataset once or twice total: export to parquet / CSV from the database and import directly into Pinot

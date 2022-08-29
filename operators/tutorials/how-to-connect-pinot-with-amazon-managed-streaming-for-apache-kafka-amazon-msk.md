@@ -20,7 +20,7 @@ Please go to [MSK Landing Page](https://us-west-2.console.aws.amazon.com/msk/hom
 Note:
 
 1. For demo simplicity, this MSK cluster reuses same VPC created by EKS cluster in the previous step. Otherwise a [VPC Peering](https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) is required to ensure two VPCs could talk to each other.
-2. Under **Encryption** section, choose**`Both TLS encrypted and plaintext traffic allowed`**
+2. Under **Encryption** section, choose\*\*`Both TLS encrypted and plaintext traffic allowed`\*\*
 {% endhint %}
 
 Below is a sample screenshot to create an Amazon MSK cluster.
@@ -31,15 +31,15 @@ Below is a sample screenshot to create an Amazon MSK cluster.
 
 After click on Create button, you can take a coffee break and come back.
 
-![Amazon MSK Clusters View](<../../.gitbook/assets/image (3).png>)
+![Amazon MSK Clusters View](<../../.gitbook/assets/image (38).png>)
 
 Once the cluster is created, you can view it and click **`View client information`** to see the Zookeeper and Kafka Broker list.
 
-![MSK Cluster View](<../../.gitbook/assets/image (26).png>)
+![MSK Cluster View](<../../.gitbook/assets/image (20).png>)
 
 Sample Client Information
 
-![](<../../.gitbook/assets/image (21).png>)
+![](<../../.gitbook/assets/image (36).png>)
 
 ## Connect to MSK
 
@@ -54,7 +54,7 @@ This is configured through Amazon VPC Page.
 1. Record the Amazon MSK `SecurityGroup` from the Cluster page, in the above demo, it's `sg-01e7ab1320a77f1a9`.
 2. Open [Amazon VPC Page](https://us-west-2.console.aws.amazon.com/vpc/home), click on **`SecurityGroups`** on left bar. Find the EKS Security group: `eksctl-${PINOT_EKS_CLUSTER}-cluster/ClusterSharedNodeSecurityGroup.`
 
-![Amazon EKS ClusterSharedNodeSecurityGroup](<../../.gitbook/assets/image (9) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![Amazon EKS ClusterSharedNodeSecurityGroup](<../../.gitbook/assets/image (9) (2) (2) (2) (2).png>)
 
 {% hint style="info" %}
 Please ensure you are picking **ClusterShardNodeSecurityGroup**
@@ -62,11 +62,11 @@ Please ensure you are picking **ClusterShardNodeSecurityGroup**
 
 1. In SecurityGroup, click on MSK SecurityGroup (`sg-01e7ab1320a77f1a9`), then Click on `Edit Rules` , then add above `ClusterSharedNodeSecurityGroup` (`sg-0402b59d7e440f8d1`) to it.
 
-![Add SecurityGroup to Amazon MSK](<../../.gitbook/assets/image (22).png>)
+![Add SecurityGroup to Amazon MSK](<../../.gitbook/assets/image (3).png>)
 
 1. Click EKS Security Group `ClusterSharedNodeSecurityGroup` (`sg-0402b59d7e440f8d1`), add In bound Rule for MSK Security Group (`sg-01e7ab1320a77f1a9`).
 
-![Add SecurityGroup to Amazon EKS](../../.gitbook/assets/image.png)
+![Add SecurityGroup to Amazon EKS](<../../.gitbook/assets/image (19).png>)
 
 Now, EKS cluster should be able to talk to Amazon MSK.
 
@@ -122,11 +122,11 @@ Once topic is created, we can start a simple application to produce to it.
 
 You can download below yaml file, then replace:
 
-* `${ZOOKEEPER_CONNECT_STRING}` ->  MSK Zookeeper String
-* `${BROKER_LIST_STRING}` ->  MSK **Plaintext** Broker String in the deployment
+* `${ZOOKEEPER_CONNECT_STRING}` -> MSK Zookeeper String
+* `${BROKER_LIST_STRING}` -> MSK **Plaintext** Broker String in the deployment
 * `${GITHUB_PERSONAL_ACCESS_TOKEN}` -> A personal Github Personal Access Token generated from [here](https://github.com/settings/tokens), please grant all read permissions to it. Here is the [source code](https://github.com/apache/pinot/commit/1baede8e760d593fcd539d61a147185816c44fc9) to generate Github Events.
 
-{% file src="../../.gitbook/assets/github-events-aws-msk-demo.yaml" %}
+{% file src="../../.gitbook/assets/github-events-aws-msk-demo (1).yaml" %}
 github-events-aws-msk-demo.yaml
 {% endfile %}
 
@@ -193,4 +193,4 @@ Sending request: http://pinot-controller:9000/schemas to controller: pinot-contr
 
 * Then you can open Pinot Query Console to browse the data
 
-![](<../../.gitbook/assets/image (12).png>)
+![](<../../.gitbook/assets/image (2).png>)

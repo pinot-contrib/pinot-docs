@@ -36,7 +36,7 @@ Only completed (ONLINE) segments of the realtime table are used for movement. If
 
 This feature uses the **pinot-minions** and **the Helix Task Executor framework**. This feature consists of 2 parts
 
-![RealtimeToOfflineSegmentsTask](../../.gitbook/assets/paper.journal.15.png)
+![RealtimeToOfflineSegmentsTask](../../.gitbook/assets/Paper.Journal.15.png)
 
 1. **RealtimeToOfflineSegmentsTaskGenerator** - This is the minion task scheduler, which schedules tasks of type "**RealtimeToOfflineSegmentsTask**". This task is scheduled by the controller periodic task - **PinotTaskManager**.\
    A **watermark is maintained in zookeeper**, which is the end time of the time window last successfully processed. The task generator  refers to this watermark, to determine the start of the time window, for the next task it generates. The end time is calculated based on the window length (configurable, 1d default). The task generator will find all segments which have data in \[start, end), and set it into the **task configs**, along with the start and end.\

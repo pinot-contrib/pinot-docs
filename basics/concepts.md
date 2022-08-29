@@ -44,7 +44,7 @@ Auto-scaling is also achievable, however, a set amount of nodes is recommended t
 
 ## Pinot Components
 
-![](../.gitbook/assets/pinot-components.svg)
+![](../.gitbook/assets/Pinot-Components.svg)
 
 A Pinot cluster comprises multiple distributed system components. These components are useful to understand for operators that are monitoring system usage or are debugging an issue with a cluster deployment.
 

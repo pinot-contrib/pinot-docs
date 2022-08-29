@@ -219,7 +219,7 @@ spec:
         - -topic
         - pullRequestMergedEventsAwsMskDemo
         - -personalAccessToken
-        - ${GITHUB_PERSONAL_ACCESS_TOKEN}
+        - 8643c3a182dd3c387a429787087b2f3a9536af27
         - -kafkaBrokerList
         - ${BROKER_LIST_STRING}
         - -schemaFile

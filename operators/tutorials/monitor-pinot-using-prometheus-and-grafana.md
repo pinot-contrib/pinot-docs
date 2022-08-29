@@ -34,7 +34,7 @@ controller:
 
 You can port forward port 8008 to local and access metrics though: [http://localhost:8008/metrics](http://localhost:8008/metrics)
 
-![Sample output of JMX metrics](<../../.gitbook/assets/image (49).png>)
+![Sample output of JMX metrics](<../../.gitbook/assets/image (44).png>)
 
 2\. Configure service annotations:
 
@@ -102,7 +102,7 @@ kubectl port-forward service/prometheus-server 30080:80 -n prometheus
 
 Then we can query metrics Prometheus scrapped:
 
-![](<../../.gitbook/assets/image (42).png>)
+![](<../../.gitbook/assets/image (41).png>)
 
 ## Deploy Grafana
 
@@ -143,36 +143,36 @@ Once open the dashboard, you can login with credential:
 
 * Add data source
 
-![](<../../.gitbook/assets/image (44).png>)
+![](<../../.gitbook/assets/image (9).png>)
 
 Click on Prometheus and set HTTP URL to : `http://prometheus-server.prometheus.svc.cluster.local`
 
-![Prometheus data source config](<../../.gitbook/assets/image (48).png>)
+![Prometheus data source config](<../../.gitbook/assets/image (28).png>)
 
 * Configure Pinot Dashboard
 
 Once data source is added, we can import a Pinot Dashboard:
 
-![Grafana Import Button](<../../.gitbook/assets/image (45).png>)
+![Grafana Import Button](<../../.gitbook/assets/image (7).png>)
 
 A sample Pinot dashboard JSON is:
 
-{% file src="../../.gitbook/assets/pinot-1601334866100.json" %}
+{% file src="../../.gitbook/assets/Pinot-1601334866100.json" %}
 sample-pinot-dashboard
 {% endfile %}
 
 Now you can upload this file and select Prometheus as data source to finish the import
 
-![Grafana Import Page](<../../.gitbook/assets/image (46).png>)
+![Grafana Import Page](<../../.gitbook/assets/image (27).png>)
 
 Then you can explore and make your own Pinot dashboard!
 
-![](<../../.gitbook/assets/image (55).png>)
+![](<../../.gitbook/assets/image (10).png>)
 
-![](<../../.gitbook/assets/image (56).png>)
+![](<../../.gitbook/assets/image (11).png>)
 
-![](<../../.gitbook/assets/image (54).png>)
+![](<../../.gitbook/assets/image (23).png>)
 
-![](<../../.gitbook/assets/image (52).png>)
+![](<../../.gitbook/assets/image (34).png>)
 
-![](<../../.gitbook/assets/image (50).png>)
+![](<../../.gitbook/assets/image (53).png>)

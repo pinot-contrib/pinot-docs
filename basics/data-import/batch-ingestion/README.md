@@ -285,6 +285,48 @@ Metadata push is light-weight on the controller side, there is no deep store dow
 
 1. Add the segment to the table based on the metadata.
 
+**4. Segment Metadata Push with copyToDeepStore**
+
+This extends the original Segment Metadata Push for cases, where the segments are pushed to a location not used as deep store. The ingestion job can still do metadata push but ask Pinot Controller to copy the segments into deep store. Those use cases usually happen when the ingestion jobs don't have direct access to deep store but still want to use metadata push for its efficiency, thus using a staging location to keep the segments temporarily.
+
+NOTE: the staging location and deep store have to use same storage scheme, like both on s3. This is because the copy is done via PinotFS.copyDir interface that assumes so; but also because this does copy at storage system side, so segments don't need to go through Pinot Controller at all.
+
+To make this work, firstly, grant Pinot controllers access to the staging location. e.g. on AWS, this may be to add access policy like below for the controller EC2 instances
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:ListAllMyBuckets",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::metadata-push-staging",
+                "arn:aws:s3:::metadata-push-staging/*"
+            ]
+        }
+    ]
+}
+```
+
+Then use metadata push but add one extra config like below:
+
+```
+...
+jobType: SegmentCreationAndMetadataPush
+...
+outputDirURI: 's3://metadata-push-staging/stagingDir/'
+...
+pushJobSpec:
+  copyToDeepStoreForMetadataPush: true
+...
+```
+
 ### Segment Fetchers
 
 When pinot segment files are created in external systems (Hadoop/spark/etc), there are several ways to push those data to the Pinot Controller and Server:
