@@ -6,7 +6,7 @@ Pinot offers various ways to assist with troubleshooting and debugging problems 
 
 The table debug api can be invoked via the Swagger UI as follows:
 
-![Swagger - Table Debug Api](<../../.gitbook/assets/image (11) (2).png>)
+![Swagger - Table Debug Api](<../../.gitbook/assets/image (11) (1).png>)
 
 It can also be invoked directly by accessing the URL as follows. The api requires the `tableName`, and can optionally take `tableType (offline|realtime)` and `verbosity` level.
 
