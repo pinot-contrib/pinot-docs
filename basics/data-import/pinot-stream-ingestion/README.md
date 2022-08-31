@@ -114,7 +114,7 @@ You can also specify additional configs for the consumer directly into the strea
 
 For our sample data and schema, the table config will look like this:
 
-```javascript
+```json
 {
   "tableName": "transcript",
   "tableType": "REALTIME",
@@ -178,3 +178,35 @@ bin/pinot-admin.sh AddTable \
 ### Custom Ingestion Support
 
 We are working on support for other ingestion platforms, but you can also write your own ingestion plugin if it is not supported out of the box. For a walkthrough, see [Stream Ingestion Plugin](../../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
+
+### Pause Stream Ingestion
+
+There are some scenarios in which you may want to pause the realtime ingestion while your table is available for queries. For example if there is a problem with the stream ingestion, while you are troubleshooting the issue, you still want the queries to be executed on the already ingested data. For these scenarios, you can first issue a Pause request to a Controller host. After troubleshooting with the stream is done, you can issue another request to Controller to resume the consumption.
+
+```bash
+$ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
+$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
+```
+
+When a Pause request is issued, Controller instructs the realtime servers hosting your table to commit their consuming segments immediately. However, the commit process may take some time to complete. Please note that Pause and Resume requests are async. OK response means that instructions for pausing or resuming has been successfully sent to the realtime server. If you want to know if the consumptions actually stopped or resumed, you can issue a pause status request.
+
+```bash
+$ curl -X POST {controllerHost}/tables/{tableName}/pauseStatus
+```
+
+It's worth noting that consuming segments on realtime servers are stored in volatile memory, and their resources are allocated when the consuming segments are first created. These resources cannot be altered if consumption parameters are changed midway through consumption. It may therefore take hours before these changes take effect. Furthermore, if the parameters are changed in an incompatible way (for example, changing the underlying stream with a completely new set of offsets, or changing the stream endpoint from which to consume messages, etc.), it will result in the table getting into an error state.
+
+Pause and resume feature comes to the rescue here. When a Pause request is issued by the operator, consuming segments are committed without starting new mutables ones. Instead, new mutable segments are started only when the Resume request is issued. This mechanism provides the operators as well as developers with more flexibility. It also enables Pinot to be more resilient to the operational and functional constraints imposed by underlying streams.
+
+There is another feature called "Force Commit" which utilizes the primitives of pause and resume feature. When the operator issues a force commit request, the current mutable segments will be committed and new ones started right away. Operators can now use this feature for all compatible table config parameter changes to take effect immediately.
+
+```bash
+$ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
+```
+
+For incompatible parameter changes, an option is added to the resume request to handle the case of a completely new set of offsets. Operators can now follow a three-step process: First, issue a Pause request. Second, change the consumption parameters. Finally, issue the Resume request with the appropriate option. These steps will preserve the old data and allow the new data to be consumed immediately. All through the operation, queries will continue to be served.
+
+```bash
+$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=smallest
+$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=largest
+```
