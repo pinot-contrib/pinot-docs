@@ -66,6 +66,10 @@ Use the segment reset controller REST API to reset the segment:
 curl -X POST "{host}/segments/{tableNameWithType}/{segmentName}/reset"
 ```
 
+### How to pause realtime ingestion?
+
+Refer to [Pause Stream Ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion).
+
 ### What's the difference to Reset, Refresh, or Reload a segment?
 
 RESET: this gets a segment in ERROR state back to ONLINE or CONSUMING state. Behind the scenes, Pinot controller takes the segment to OFFLINE state, waits for External View to stabilize, and then moves it back to ONLINE/CONSUMING state, thus effectively resetting segments or consumers in error states.
