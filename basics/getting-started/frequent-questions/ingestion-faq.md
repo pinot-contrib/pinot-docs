@@ -97,6 +97,8 @@ This typically happens if
 
 In case of Kafka, to recover, set property "auto.offset.reset":"earliest" in the streamConfigs section and reset the CONSUMING segment. See [Realtime table configs](https://docs.pinot.apache.org/configuration-reference/table#indexing-config) for more details about the config.
 
+You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). Refer to [Pause Stream Ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
+
 ## Indexing
 
 ### How to set inverted indexes?
