@@ -4,7 +4,11 @@
 
 The new multi-stage query engine (a.k.a V2 query engine) is designed to support more complex SQL semantics such as `JOIN`, `OVER` window, `MATCH_RECOGNIZE` and eventually, make Pinot support closer to full ANSI SQL semantics.&#x20;
 
-![](https://www.datocms-assets.com/75153/1661707313-query-execution-model.png)-->![](https://www.datocms-assets.com/75153/1661533401-screenshot\_1.png)
+<figure><img src="https://www.datocms-assets.com/75153/1661707313-query-execution-model.png" alt=""><figcaption><p>Scatter-Gather Query Engine</p></figcaption></figure>
+
+
+
+<figure><img src="https://www.datocms-assets.com/75153/1661533401-screenshot_1.png" alt=""><figcaption><p>Multi-Stage Query Engine</p></figcaption></figure>
 
 It also resolves the bottleneck effect for the broker reduce stage where only a single machine is dedicated to perform heavy lifting such as high cardinality `GROUP BY` result merging; `ORDER BY` sorting, etc.
 
@@ -22,8 +26,9 @@ To enable the V2 engine,&#x20;
      "pinot.query.server.port": "8421",
      "pinot.query.runner.port": "8442"
      ```
-3. Start the cluster normally, you should see the following window in the controller query page:
-   * <img src="../../.gitbook/assets/image (51).png" alt="" data-size="original">
+3.  Start the cluster normally, you should see the following window in the controller query page:
+
+    <figure><img src="../../.gitbook/assets/image (51).png" alt=""><figcaption><p>Sample Query Screenshot</p></figcaption></figure>
 
 
 
