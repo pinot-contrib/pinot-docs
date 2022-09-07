@@ -18,8 +18,8 @@ recordReaderSpec:
   className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
   configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
   configs: 
-			key1 : 'value1'
-			key2 : 'value2'
+    key1 : 'value1'
+    key2 : 'value2'
 ```
 
 The config consists of the following keys:
@@ -29,12 +29,27 @@ The config consists of the following keys:
 * `configClassName` - name of the class that implements the `RecordReaderConfig` interface. This class is used the parse the values mentioned in `configs`
 * `configs` - Key value pair for format specific configs. This field can be left out.
 
+
+
+To configure input format for realtime ingestion, you can add the following to the table config json
+
+```
+"streamConfigs": {
+    "streamType": "foo_bar",
+    "stream.foo_bar.decoder.class.name": "org.apache.pinot.plugin.inputformat.csv.CSVMessageDecoder"
+    "stream.foo_bar.decoder.prop.key1": "value1" ,
+    "stream.foo_bar.decoder.prop.key2" : "value2"
+}
+```
+
 ## Supported input formats
 
 Pinot supports the multiple input formats out of the box. You just need to specify the corresponding readers and the associated custom configs to switch between the formats.
 
 ### CSV
 
+{% tabs %}
+{% tab title="Batch" %}
 ```
 dataFormat: 'csv'
 className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
@@ -45,8 +60,19 @@ configs:
   delimiter: ','
   multiValueDelimiter: '-'
 ```
+{% endtab %}
 
-CSV Record Reader supports the following configs -
+{% tab title="Realtime" %}
+```
+"streamType": "kafka",
+"stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.csv.CSVMessageDecoder"
+"stream.kafka.decoder.prop.delimiter": "," ,
+"stream.kafka.decoder.prop.multiValueDelimiter" : "-"
+```
+{% endtab %}
+{% endtabs %}
+
+#### Supported Configs
 
 `fileFormat` - can be one of default, rfc4180, excel, tdf, mysql
 
@@ -56,6 +82,8 @@ CSV Record Reader supports the following configs -
 
 `multiValueDelimiter` - The character seperating multiple values in a single column. This can be used to split a column into a list.
 
+`nullValueString` - use this to specify how NULL values are represented in your csv files. Default is empty string interpreted as NULL.
+
 {% hint style="info" %}
 Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config. \
 \
@@ -64,28 +92,57 @@ Your CSV file may have raw text fields that cannot be reliably delimited using a
 
 ### AVRO
 
+{% tabs %}
+{% tab title="Batch" %}
 ```
 dataFormat: 'avro'
 className: 'org.apache.pinot.plugin.inputformat.avro.AvroRecordReader'
 ```
+{% endtab %}
 
-The Avro record reader converts the data in file to a `GenericRecord`. A java class or `.avro` file is not required.
+{% tab title="Realtime" %}
+```
+"streamType": "kafka",
+"stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaAvroMessageDecoder",
+"stream.kafka.decoder.prop.schema.registry.rest.url": "http://localhost:2222/schemaRegistry",
+```
+{% endtab %}
+{% endtabs %}
+
+The Avro record reader converts the data in file to a `GenericRecord`. A java class or `.avro` file is not required.&#x20;
+
+You can also specify Kafka schema registry for avro records in stream.
 
 ### JSON
 
+{% tabs %}
+{% tab title="Batch" %}
 ```
 dataFormat: 'json'
 className: 'org.apache.pinot.plugin.inputformat.json.JSONRecordReader'
 ```
+{% endtab %}
+
+{% tab title="Realtime" %}
+```
+"streamType": "kafka",
+"stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+```
+{% endtab %}
+{% endtabs %}
 
 ### Thrift
 
+{% tabs %}
+{% tab title="Batch" %}
 ```
 dataFormat: 'thrift'
 className: 'org.apache.pinot.plugin.inputformat.thrift.ThriftRecordReader'
 configs:
-	thriftClass: 'ParserClassName'
+    thriftClass: 'ParserClassName'
 ```
+{% endtab %}
+{% endtabs %}
 
 {% hint style="info" %}
 Thrift requires the generated class using `.thrift` file to parse the data. The .class file should be available in the Pinot's classpath. You can put the files in the `lib/` folder of pinot distribution directory.
@@ -93,10 +150,14 @@ Thrift requires the generated class using `.thrift` file to parse the data. The 
 
 ### Parquet
 
+{% tabs %}
+{% tab title="Batch" %}
 ```
 dataFormat: 'parquet'
 className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader'
 ```
+{% endtab %}
+{% endtabs %}
 
 {% hint style="warning" %}
 The above class doesn't read the Parquet `INT96` and `Decimal`type.
@@ -116,10 +177,16 @@ className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReade
 
 ### ORC
 
+{% tabs %}
+{% tab title="Batch" %}
 ```
 dataFormat: 'orc'
 className: 'org.apache.pinot.plugin.inputformat.orc.ORCRecordReader'
 ```
+{% endtab %}
+{% endtabs %}
+
+
 
 ORC record reader supports the following data types -
 
@@ -147,12 +214,26 @@ In LIST and MAP types, the object should only belong to one of the data types su
 
 ### Protocol Buffers
 
+{% tabs %}
+{% tab title="Batch" %}
 ```
 dataFormat: 'proto'
 className: 'org.apache.pinot.plugin.inputformat.protobuf.ProtoBufRecordReader'
 configs:
-	descriptorFile: 'file:///path/to/sample.desc'
+    descriptorFile: 'file:///path/to/sample.desc'
+    protoClassName: 'Metrics'
 ```
+{% endtab %}
+
+{% tab title="Realtime" %}
+```
+"streamType": "kafka",
+"stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder",
+"stream.kafka.decoder.prop.descriptorFile": "file:///tmp/Workspace/protobuf/metrics.desc",
+"stream.kafka.decoder.prop.protoClassName": "Metrics"
+```
+{% endtab %}
+{% endtabs %}
 
 The reader requires a descriptor file to deserialize the data present in the files. You can generate the descriptor file (`.desc`) from the `.proto` file using the command -
 
@@ -162,8 +243,10 @@ protoc --include_imports --descriptor_set_out=/absolute/path/to/output.desc /abs
 
 #### Descriptor file in DFS
 
-The descriptorFile needs to be present on all pinot server machines for ingestion to work. You can also upload the descriptor file to a DFS such as S3, GCS etc. and mention that path in the configs. Do note that you'll also need to specify [filesystem config](pinot-file-system/) for the directory in the table as well.&#x20;
+The descriptorFile needs to be present on all pinot server machines for ingestion to work. You can also upload the descriptor file to a DFS such as S3, GCS etc. and mention that path in the configs. Do note that you'll also need to specify [filesystem config](pinot-file-system/) for the directory in the pinot configuration  or ingestion spec as well.&#x20;
 
+{% tabs %}
+{% tab title="Batch" %}
 <pre><code>recordReaderSpec:
 <strong>  dataFormat: 'proto'
 </strong>  className: 'org.apache.pinot.plugin.inputformat.protobuf.ProtoBufRecordReader'
@@ -173,7 +256,19 @@ pinotFSSpecs:
   - scheme: s3
     className: org.apache.pinot.plugin.filesystem.S3PinotFS
     configs:
-      region: 'us-west-1'	</code></pre>
+      region: 'us-west-1'</code></pre>
+{% endtab %}
+
+{% tab title="Realtime" %}
+```
+dataFormat: 'proto'
+className: 'org.apache.pinot.plugin.inputformat.protobuf.ProtoBufRecordReader'
+configs:
+    descriptorFile: 's3://path/to/sample.desc'
+    protoClassName: 'Metrics'	
+```
+{% endtab %}
+{% endtabs %}
 
 Both `proto2` and `proto3` formats are supported by the reader.
 
@@ -181,9 +276,11 @@ Both `proto2` and `proto3` formats are supported by the reader.
 
 Protobuf reader also supports Confluent schema registry. Using schema registry allows you to not create and upload any descriptor file. The schema is fetched from the registry itself using the metadata present in the Kafka message. The only pre-requisite for it to work is that your messages should be serialized using `io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer` in producer.
 
-```
-dataformat: 'proto'
-className: 'org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder'
-configs:
-   cached.schema.map.capacity: 1000
-```
+{% tabs %}
+{% tab title="Realtime" %}
+<pre><code>"streamType": "kafka",
+<strong>"stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder",
+</strong>"stream.kafka.decoder.prop.schema.registry.rest.url": "http://localhost:2222/schemaRegistry",
+"stream.kafka.decoder.prop.cached.schema.map.capacity": 1000</code></pre>
+{% endtab %}
+{% endtabs %}
