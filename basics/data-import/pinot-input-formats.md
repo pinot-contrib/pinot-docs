@@ -159,3 +159,31 @@ The reader requires a descriptor file to deserialize the data present in the fil
 ```
 protoc --include_imports --descriptor_set_out=/absolute/path/to/output.desc /absolute/path/to/input.proto
 ```
+
+#### Descriptor file in DFS
+
+The descriptorFile needs to be present on all pinot server machines for ingestion to work. You can also upload the descriptor file to a DFS such as S3, GCS etc. and mention that path in the configs. Do note that you'll also need to specify [filesystem config](pinot-file-system/) for the directory in the table as well.&#x20;
+
+<pre><code>recordReaderSpec:
+<strong>  dataFormat: 'proto'
+</strong>  className: 'org.apache.pinot.plugin.inputformat.protobuf.ProtoBufRecordReader'
+  configs:
+  	descriptorFile: 's3://path/to/sample.desc'
+pinotFSSpecs:
+  - scheme: s3
+    className: org.apache.pinot.plugin.filesystem.S3PinotFS
+    configs:
+      region: 'us-west-1'	</code></pre>
+
+Both `proto2` and `proto3` formats are supported by the reader.
+
+#### Schema Registry
+
+Protobuf reader also supports Confluent schema registry. Using schema registry allows you to not create and upload any descriptor file. The schema is fetched from the registry itself using the metadata present in the Kafka message. The only pre-requisite for it to work is that your messages should be serialized using `io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer` in producer.
+
+```
+dataformat: 'proto'
+className: 'org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder'
+configs:
+   cached.schema.map.capacity: 1000
+```
