@@ -38,7 +38,7 @@ Briefly, we categorize our columns into 3 types
 | Metrics     | Typically used in aggregations, represents the quantitative data         |
 | Time        | Optional column, represents the timestamp associated with each row       |
 
-For example, in our sample table, the `playerID, yearID, teamID, league, playerName` columns are the dimensions, the `playerStint, numberOfgames, numberOfGamesAsBatter, AtBatting, runs, hits, doules, triples, homeRuns, runsBattedIn, stolenBases, caughtStealing, baseOnBalls, strikeouts, intentionalWalks, hitsByPitch, sacrificeHits, sacrificeFlies, groundedIntoDoublePlays, G_old` columns are the metrics and there is no time column.
+For example, in our sample table, the `studentID,firstName,lastName,gender,subject` columns are the dimensions, the `score` column is the metric and `timestampInEpoch` is the time column.
 
 Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the reference below.&#x20;
 
