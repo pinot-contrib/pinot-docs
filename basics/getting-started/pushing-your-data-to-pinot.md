@@ -14,7 +14,7 @@ Let's gather our data files and put them in `pinot-quick-start/rawdata`.&#x20;
 mkdir -p /tmp/pinot-quick-start/rawdata
 ```
 
-Supported file formats are CVS, JSON, AVRO, PARQUET, THRIFT, ORC. If you don't have sample data, you can use this sample CSV.
+Supported file formats are CSV, JSON, AVRO, PARQUET, THRIFT, ORC. If you don't have sample data, you can use this sample CSV.
 
 {% code title="/tmp/pinot-quick-start/rawdata/transcript.csv" %}
 ```bash
