@@ -68,17 +68,18 @@ Here are some sample date-time formats you can use in the schema:
 
 From Pinot release 0.11.0, We have simplified date time formats for the users. The formats now follow the pattern  - `timeFormat|pattern/timeUnit|`\[`timeZone/timeSize]` . The fields present in `[]` are completely optional.  timeFormat can be one of `EPOCH` , `SIMPLE_DATE_FORMAT` or `TIMESTAMP` .&#x20;
 
+* `TIMESTAMP` - This represents timestamp in milliseconds. It is equivalent to specifying `EPOCH:MILLISECONDS:1`&#x20;
 * `EPOCH` - This represents time in `timeUnit` since `00:00:00 UTC on 1 January 1970.`  You can also specify the timeSize parameter.This size is multiplied to the value present in the time column to get an actual timestamp. e.g. if timesize is 5 and value in time column is 4996308 minutes. The value that will be converted to epoch timestamp will be 4996308 \* 5 \* 60 \* 1000 = 1498892400000 milliseconds.\
-  \
   Examples -&#x20;
   * `EPOCH|SECONDS`
   * `EPOCH|SECONDS|10`
-* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the java [SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html) representation. You can also specify optional `timeZone` parameter which is the ID for a TimeZone, either an abbreviation such as `PST`, a full name such as `America/Los_Angeles`, or a custom ID such as `GMT-8:00`. \
+* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the java [SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html) representation. If no pattern is specified, we use [ISO 8601 DateTimeFormat](https://www.iso.org/iso-8601-date-and-time-format.html) to parse the date times. Optionals are supported with ISO format so users can specify date time string in `yyyy` or `yyyy-MM` or `yyyy-MM-dd` and so on\
   \
+  You can also specify optional `timeZone` parameter which is the ID for a TimeZone, either an abbreviation such as `PST`, a full name such as `America/Los_Angeles`, or a custom ID such as `GMT-8:00`. \
   Examples -&#x20;
+  * `SIMPLE_DATE_FORMAT`
   * `SIMPLE_DATE_FORMAT:yyyy-MM-dd HH:mm:ss`&#x20;
   * `SIMPLE_DATE_FORMAT:yyyy-MM-dd:IST`
-* `TIMESTAMP` - This represents timestamp in milliseconds. It is equivalent to specifying `EPOCH:MILLISECONDS:1`&#x20;
 
 ### Built-in Virtual Columns
 
