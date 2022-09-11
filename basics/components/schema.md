@@ -64,6 +64,22 @@ Here are some sample date-time formats you can use in the schema:
 * `1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd` - when the date is in `STRING` format and has the pattern year-month-date. e.g. 2020-08-21
 * `1:HOURS:SIMPLE_DATE_FORMAT:EEE MMM dd HH:mm:ss ZZZ yyyy` - when date is in `STRING` format. e.g. Mon Aug 24 12:36:50 America/Los\_Angeles 2019
 
+#### New DateTime Formats
+
+From Pinot release 0.11.0, We have simplified date time formats for the users. The formats now follow the pattern  - `timeFormat|pattern/timeUnit|`\[`timeZone/timeSize]` . The fields present in `[]` are completely optional.  timeFormat can be one of `EPOCH` , `SIMPLE_DATE_FORMAT` or `TIMESTAMP` .&#x20;
+
+* `EPOCH` - This represents time in `timeUnit` since `00:00:00 UTC on 1 January 1970.`  You can also specify the timeSize parameter.This size is multiplied to the value present in the time column to get an actual timestamp. e.g. if timesize is 5 and value in time column is 4996308 minutes. The value that will be converted to epoch timestamp will be 4996308 \* 5 \* 60 \* 1000 = 1498892400000 milliseconds.\
+  \
+  Examples -&#x20;
+  * `EPOCH|SECONDS`
+  * `EPOCH|SECONDS|10`
+* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the java [SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html) representation. You can also specify optional `timeZone` parameter which is the ID for a TimeZone, either an abbreviation such as `PST`, a full name such as `America/Los_Angeles`, or a custom ID such as `GMT-8:00`. \
+  \
+  Examples -&#x20;
+  * `SIMPLE_DATE_FORMAT:yyyy-MM-dd HH:mm:ss`&#x20;
+  * `SIMPLE_DATE_FORMAT:yyyy-MM-dd:IST`
+* `TIMESTAMP` - This represents timestamp in milliseconds. It is equivalent to specifying `EPOCH:MILLISECONDS:1`&#x20;
+
 ### Built-in Virtual Columns
 
 There are several built-in virtual columns inside the schema the can be used for debugging purposes:
