@@ -11,7 +11,7 @@ These are the properties that be set at the cluster level.
 | pinot.broker.enable.query.limit.override | false   | This allows operators to protect the Pinot cluster against bad queries with large limits. By setting this to true, if Pinot broker override query limit when it is larger than broker config:`pinot.broker.query.response.limit (Default is 2147483647).`E.g. If set`pinot.broker.query.response.limit=1000` in Broker conf, then query`SELECT * FROM myTable LIMIT 25000`will be override to `SELECT * FROM myTable LIMIT 1000`. |
 | default.hyperloglog.log2m                | 8       | This is a special config to override for hyperloglog that is used for approximate distinct count. Default value is 8.                                                                                                                                                                                                                                                                                                             |
 | queryConsoleOnlyView                     | false   | Only show query console for controller web UI, this is useful when you don't want to expose cluster or ZK UI to Users.                                                                                                                                                                                                                                                                                                            |
-| hideQueryConsoleTab                     | false   | Hide query console tab from controller web UI, this is useful when you don't want to expose query console UI to Users.
+| hideQueryConsoleTab                      | false   | Hide query console tab from controller web UI, this is useful when you don't want to expose query console UI to Users.                                                                                                                                                                                                                                                                                                            |
 
 ## Cluster Configs APIs
 
@@ -58,4 +58,4 @@ JSON body contains the configs map for new/updated configs. E.g.
 
 Example:
 
-![](<../.gitbook/assets/image (9) (2).png>)
+![](<../.gitbook/assets/image (9) (1).png>)

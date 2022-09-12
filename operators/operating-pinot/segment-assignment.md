@@ -6,13 +6,13 @@ description: >-
 
 # Segment Assignment
 
-Segment assignment means the strategy of assigning each segment from a table to the servers hosting the table. Picking the best segment assignment strategy can help reduce the overhead of the query routing, thus providing better performance.
+Segment assignment refers to the strategy of assigning each segment from a table to the servers hosting the table. Picking the best segment assignment strategy can help reduce the overhead of the query routing, thus providing better performance.
 
 ## Balanced Segment Assignment
 
 Balanced Segment Assignment is the default assignment strategy, where each segment is assigned to the server with the least segments already assigned. With this strategy, each server will have balanced query load, and each query will be routed to all the servers. It requires minimum configuration, and works well for small use cases.
 
-![](../../.gitbook/assets/balanced.png)
+![](../../.gitbook/assets/Balanced.png)
 
 ## Replica-Group Segment Assignment
 
