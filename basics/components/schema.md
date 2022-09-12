@@ -78,8 +78,8 @@ From Pinot release 0.11.0, We have simplified date time formats for the users. T
   You can also specify optional `timeZone` parameter which is the ID for a TimeZone, either an abbreviation such as `PST`, a full name such as `America/Los_Angeles`, or a custom ID such as `GMT-8:00`. \
   Examples -&#x20;
   * `SIMPLE_DATE_FORMAT`
-  * `SIMPLE_DATE_FORMAT:yyyy-MM-dd HH:mm:ss`&#x20;
-  * `SIMPLE_DATE_FORMAT:yyyy-MM-dd:IST`
+  * `SIMPLE_DATE_FORMAT|yyyy-MM-dd HH:mm:ss`&#x20;
+  * `SIMPLE_DATE_FORMAT|yyyy-MM-dd|IST`
 
 ### Built-in Virtual Columns
 
