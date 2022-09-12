@@ -14,10 +14,14 @@ You can check out [Batch Ingestion](../../basics/data-import/batch-ingestion/), 
 
 We are using the following tools and frameworks for this tutorial -
 
-* [Apache Spark](https://spark.apache.org) 2.4.0 (Although any spark 2.X should work)
+* [Apache Spark](https://spark.apache.org) 2.4.0 (Although any spark 2.X/3.X should work)
 * [Apache Parquet](https://parquet.apache.org) 1.8.2
 * [Amazon S3](https://aws.amazon.com/s3/)
 * [Apache Pinot 0.10.0](http://pinot.apache.org)
+
+{% hint style="info" %}
+Check out the [Spark Ingestion Plugin page](../../basics/data-import/batch-ingestion/spark.md) for latest configuration and FAQs &#x20;
+{% endhint %}
 
 ## Input Data
 
@@ -149,7 +153,7 @@ executionFrameworkSpec:
   segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentGenerationJobRunner'
   segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentTarPushJobRunner'
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentUriPushJobRunner'
-  segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentMetadataPushJobRunner'
+  segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentMetadataPushJobRunner'
   extraConfigs:
       stagingDir: s3://my-bucket/spark/staging/
 # jobType: Pinot ingestion job type.
