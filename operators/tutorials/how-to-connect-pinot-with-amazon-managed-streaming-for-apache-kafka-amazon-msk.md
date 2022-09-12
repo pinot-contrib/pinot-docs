@@ -31,7 +31,7 @@ Below is a sample screenshot to create an Amazon MSK cluster.
 
 After click on Create button, you can take a coffee break and come back.
 
-![Amazon MSK Clusters View](<../../.gitbook/assets/image (3).png>)
+![Amazon MSK Clusters View](<../../.gitbook/assets/image (3) (1).png>)
 
 Once the cluster is created, you can view it and click **`View client information`** to see the Zookeeper and Kafka Broker list.
 
