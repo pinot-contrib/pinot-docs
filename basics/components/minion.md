@@ -364,12 +364,17 @@ There is a controller job that runs every 5 minutes by default and emits metrics
 The controller also emits metrics about how tasks are cron scheduled:
 
 * **cronSchedulerJobScheduled:** Number of current cron schedules registered to be triggered regularly according their cron expressions. It's a Gauge.
-* **cronSchedulerJobTrigger:** Number of cron scheduled triggered, a Meter.
-* **cronSchedulerJobSkipped:** Number of late cron scheduled skipped, a Meter.
-* **cronSchedulerJobExecutionTimeMs:** Time used to complete task generation, a Timer.
+* **cronSchedulerJobTrigger:** Number of cron scheduled triggered, as a Meter.
+* **cronSchedulerJobSkipped:** Number of late cron scheduled skipped, as a Meter.
+* **cronSchedulerJobExecutionTimeMs:** Time used to complete task generation, as a Timer.
 
 For each task, the Minion will emit these metrics:
 
 * _**TASK\_QUEUEING**_: Task queueing time (task\_dequeue\_time - task\_inqueue\_time), assuming the time drift between helix controller and pinot minion is minor, otherwise the value may be negative
 * _**TASK\_EXECUTION**_: Task execution time, which is the time spent on executing the task
 * _**NUMBER\_OF\_TASKS**_: number of tasks in progress on that minion. Whenever a Minion starts a task, increase the Gauge by 1, whenever a Minion completes (either succeeded or failed) a task, decrease it by 1
+* **NUMBER\_TASKS**_**\_**_**EXECUTED:** Number of tasks executed, as a Meter.
+* **NUMBER\_TASKS**_**\_**_**COMPLETED:** Number of tasks completed, as a Meter.
+* **NUMBER\_TASKS**_**\_**_**CANCELLED:** Number of tasks cancelled, as a Meter.
+* **NUMBER\_TASKS**_**\_**_**FAILED:** Number of tasks failed, as a Meter. Different from fatal failure, the task encountered an error which can not be recovered from this run, but it may still succeed by retrying the task.
+* **NUMBER\_TASKS**_**\_**_**FATAL**_**\_**_**FAILED:** Number of tasks fatal failed, as a Meter. Different from failure, the task encountered an error, which will not be recoverable even with retrying the task.
