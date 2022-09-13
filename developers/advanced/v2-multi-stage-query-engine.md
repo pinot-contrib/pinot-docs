@@ -32,7 +32,39 @@ To enable the V2 engine,&#x20;
 
 
 
-## Design Details
+## Troubleshoot
+
+The V2 query engine is still in the beta phase, there might be various performance or feature gaps from the current query engine.&#x20;
+
+Here are the general troubleshooting steps:
+
+### Semantic / Runtime errors
+
+* Try downloading the latest docker image or building from the latest master commit
+  * We continuously pushes bug fixes for the V2 engine so bugs you encountered might have already been fixed in the latest master build
+* Try rewriting your query
+  * Some of the functions previously supported in the V1 engine might have a new way to express in the new engine. Please check and see if you are using any non-standard SQL functions or semantics.
+
+### Timeout errors
+
+* Try reducing the size of the table(s) used:
+  * Adding higher selectivity filters to the tables
+* Try executing part of the subquery or a simplified version of the query first.
+  * This helps to determine the selectivity and scale of the query being executed.
+* Try adding more servers
+  * The new V2 engine runs distributedly across the entire cluster, adding more servers to partitioned queries such as GROUP BY aggregates, equality JOINs help speed up the query runtime.
+
+### How to share feedbacks
+
+please report any bugs in Apache Pinot Slack [V2 engine feedback channel](https://apache-pinot.slack.com/archives/C03Q4A11GC9). Please include:
+
+* the table/schema config(s)&#x20;
+* the cluster config (zookeeper config, and each components config and scale)
+* the problematic SQL query string and corresponding ERROR messages.
+
+
+
+## Reference: Design Docs
 
 The overall PEP design doc and discussion can be found in the following links
 
