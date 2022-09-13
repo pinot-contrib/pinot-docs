@@ -361,6 +361,13 @@ There is a controller job that runs every 5 minutes by default and emits metrics
 * _**PercentMinionSubtasksInQueue**_: Percent of sub-tasks in waiting or running states
 * _**PercentMinionSubtasksInError**_: Percent of sub-tasks in error
 
+The controller also emits metrics about how tasks are cron scheduled:
+
+* **cronSchedulerJobScheduled:** Number of current cron schedules registered to be triggered regularly according their cron expressions. It's a Gauge.
+* **cronSchedulerJobTrigger:** Number of cron scheduled triggered, a Meter.
+* **cronSchedulerJobSkipped:** Number of late cron scheduled skipped, a Meter.
+* **cronSchedulerJobExecutionTimeMs:** Time used to complete task generation, a Timer.
+
 For each task, the Minion will emit these metrics:
 
 * _**TASK\_QUEUEING**_: Task queueing time (task\_dequeue\_time - task\_inqueue\_time), assuming the time drift between helix controller and pinot minion is minor, otherwise the value may be negative
