@@ -52,7 +52,7 @@ Instead, consistent push is built into batch ingestion jobs (**currently only su
 
 ### How to set up Ingestion Job with Consistent Push
 
-**Step 0:** Adjust the table [storage quota](https://docs.pinot.apache.org/configuration-reference/table#quota) to 2x that of the original amount. See [#undefined](consistent-push-and-rollback.md#undefined "mention")for more details.&#x20;
+**Step 0:** Adjust the table [storage quota](https://docs.pinot.apache.org/configuration-reference/table#quota) to 2x that of the original amount. See [#implications-of-enabling-consistent-push](consistent-push-and-rollback.md#implications-of-enabling-consistent-push "mention") for more details.&#x20;
 
 **Step 1:** Set up config for your OFFLINE, REFRESH table. Enable `consistentDataPush` under IngestionConfig -> BatchIngestionConfig.
 
@@ -70,7 +70,7 @@ Instead, consistent push is built into batch ingestion jobs (**currently only su
 }
 ```
 
-**Step 2:** Execute the job by following [#executing-the-job](../../users/tutorials/batch-data-ingestion-in-practice.md#executing-the-job "mention").
+**Step 2:** Execute the job by following instructions for[#executing-the-job](../../users/tutorials/batch-data-ingestion-in-practice.md#executing-the-job "mention").
 
 ### How to trigger Data Rollback
 
