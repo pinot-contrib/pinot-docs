@@ -38,37 +38,28 @@ There are a few configurations needed in the table configurations to enable upse
 
 For append-only tables, the upsert mode defaults to `NONE`. To enable the full upsert, set the `mode` to `FULL` for the full update. For example:
 
-{% code title="upsert mode: full" %}
-```javascript
+```json
 {
   "upsertConfig": {
     "mode": "FULL"
   }
 }
 ```
-{% endcode %}
 
-Pinot also added the partial update support in v0.8.0+. To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. Since v0.10.0, `defaultPartialUpsertStrategy` is introduced as the default merge strategy for columns without specified strategy. For example:
+Partial upsert support is also added in `release-0.8.0`. To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. Since `release-0.10.0`, `OVERWRITE` is used as the default strategy for columns without a specified strategy. `defaultPartialUpsertStrategy` is also introduced to change the default strategy for all columns. For example:
 
-{% code title="upsert mode: partial (v0.8.0)" %}
-```
-```
-{% endcode %}
-
-```javascript
-{
-  "upsertConfig": {
+<pre class="language-json" data-title="release-0.8.0"><code class="lang-json"><strong>{
+</strong>  "upsertConfig": {
     "mode": "PARTIAL",
     "partialUpsertStrategies":{
       "rsvp_count": "INCREMENT",
-      "group_name": "UNION",
-      "venue_name": "APPEND"
+      "group_name": "IGNORE",
+      "venue_name": "OVERWRITE"
     }
   }
-}
-```
+}</code></pre>
 
-{% code title="upsert mode: partial (v0.10.0+)" %}
+{% code title="release-0.10.0" %}
 ```javascript
 {
   "upsertConfig": {
@@ -76,15 +67,14 @@ Pinot also added the partial update support in v0.8.0+. To enable the partial up
     "defaultPartialUpsertStrategy": "OVERWRITE",
     "partialUpsertStrategies":{
       "rsvp_count": "INCREMENT",
-      "group_name": "UNION",
-      "venue_name": "APPEND"
+      "group_name": "IGNORE"
     }
   }
 }
 ```
 {% endcode %}
 
-Pinot supports the following partial upsert strategies -
+Pinot supports the following partial upsert strategies:
 
 | Strategy  | Description                                               |
 | --------- | --------------------------------------------------------- |
@@ -95,19 +85,20 @@ Pinot supports the following partial upsert strategies -
 | IGNORE    | Ignore the new value, keep the existing value (v0.10.0+)  |
 
 {% hint style="info" %}
-**Note**: If you don't specify any strategy for a given column, by default the value will always be overwritten by the new value for that column. In v0.10.0+, we added support for defaultPartialUpsertStrategy. The default value of defaultPartialUpsertStrategy is OVERWRITE.
+With partial upsert, if the value is `null` in either the existing record or the new coming record, Pinot will ignore the upsert strategy and the `null` value:
+
+(`null`, _newValue_) -> _newValue_
+
+(_oldValue_, `null`) -> _oldValue_
+
+(`null`, `null`) -> `null`
 {% endhint %}
 
 ### Comparison Column
 
 By default, Pinot uses the value in the time column to determine the latest record. That means, for two records with the same primary key, the record with the larger value of the time column is picked as the latest update. However, there are cases when users need to use another column to determine the order. In such case, you can use option `comparisonColumn` to override the column used for comparison. For example,
 
-{% code title="comparison column" %}
-```
-```
-{% endcode %}
-
-```javascript
+```json
 {
   "upsertConfig": {
     "mode": "FULL",
@@ -123,15 +114,13 @@ For partial upsert table, the out-of-order events won't be consumed and indexed.
 
 The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover,upsert poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
 
-{% code title="routing" %}
-```javascript
+```json
 {
   "routing": {
     "instanceSelectorType": "strictReplicaGroup"
   }
 }
 ```
-{% endcode %}
 
 ### Limitations
 
@@ -154,8 +143,7 @@ Unlike other real-time tables, Upsert table takes up more memory resources as it
 
 Putting these together, you can find the table configurations of the quick start example as the following:
 
-{% code title="upsert_meetupRsvp_realtime_table_config.json" %}
-```javascript
+```json
 {
   "tableName": "meetupRsvp",
   "tableType": "REALTIME",
@@ -195,7 +183,6 @@ Putting these together, you can find the table configurations of the quick start
   }
 }
 ```
-{% endcode %}
 
 {% hint style="info" %}
 Pinot server maintains a primary key to record location map across all the segments served in an upsert-enabled table. As a result, when updating the config for an existing upsert table (e.g. change the columns in the primary key, change the comparison column), servers need to be restarted in order to apply the changes and rebuild the map.

@@ -197,8 +197,6 @@ services:
     command: "StartServer -zkAddress zookeeper:2181"
     restart: unless-stopped
     container_name: "pinot-server" 
-    ports:
-      - "8098:8098"
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
     depends_on:
