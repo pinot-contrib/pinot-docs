@@ -26,7 +26,10 @@ To enable the V2 engine,&#x20;
      "pinot.query.server.port": "8421",
      "pinot.query.runner.port": "8442"
      ```
-3.  Start the cluster normally, you should see the following window in the controller query page:
+3.  Start the cluster normally.&#x20;
+
+    _<mark style="color:red;">**NOTE:**</mark> <mark style="color:red;"></mark><mark style="color:red;">If the cluster has already been started, please restart all the controller/broker/server components so that they pick up the new cluster config.</mark>_
+4.  You should now see the following window in the controller query page:
 
     <figure><img src="../../.gitbook/assets/image (51).png" alt=""><figcaption><p>Sample Query Screenshot</p></figcaption></figure>
 
