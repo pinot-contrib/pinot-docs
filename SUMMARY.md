@@ -63,6 +63,7 @@
   * [Star-Tree Index](basics/indexing/star-tree-index.md)
   * [Bloom Filter](basics/indexing/bloom-filter.md)
   * [Range Index](basics/indexing/range-index.md)
+  * [Native Text Index](basics/indexing/native-text-index.md)
   * [Text search support](basics/indexing/text-search-support.md)
   * [JSON Index](basics/indexing/json-index.md)
   * [Geospatial](basics/indexing/geospatial-support.md)

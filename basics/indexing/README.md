@@ -16,7 +16,9 @@ Pinot supports the following indexing techniques:
 * [Star-tree Index](star-tree-index.md)
 * [Bloom Filter](bloom-filter.md)
 * [Range Index](range-index.md)
-* [Text Index](text-search-support.md)
+* Text Index
+  * [Native Text Index](native-text-index.md)
+  * [Text Search Support](text-search-support.md)
 * [Geospatial](geospatial-support.md)
 * [JSON Index](json-index.md)
 * [Timestamp Index](timestamp-index.md)
