@@ -4,7 +4,7 @@
 
 The new multi-stage query engine (a.k.a V2 query engine) is designed to support more complex SQL semantics such as `JOIN`, `OVER` window, `MATCH_RECOGNIZE` and eventually, make Pinot support closer to full ANSI SQL semantics.&#x20;
 
-<figure><img src="../../.gitbook/assets/Multi-Stage-Pinot-Execution-1.png" alt="Scatter-Gather Query Engine"><figcaption><p>Scatter-Gather Query Engine</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Multi-Stage-Pinot-Query-Engine-v1.png" alt="Scatter-Gather Query Engine"><figcaption><p>Scatter-Gather Query Engine</p></figcaption></figure>
 
 
 
