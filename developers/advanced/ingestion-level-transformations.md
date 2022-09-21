@@ -188,7 +188,7 @@ Below are some examples of commonly used functions.
 
 #### String concatenation
 
-Concat `firstName` and `lasName` to get `fullName`
+Concat `firstName` and `lastName` to get `fullName`
 
 ```javascript
 "ingestionConfig": {
