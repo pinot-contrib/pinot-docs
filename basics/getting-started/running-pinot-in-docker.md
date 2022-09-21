@@ -116,6 +116,7 @@ The command below expects a 16GB memory container. Tune`-Xms` and`-Xmx` if your 
 docker run --rm -ti \
     --network=pinot-demo_default \
     --name pinot-server \
+    -p 8098:8098 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log" \
     -d ${PINOT_IMAGE} StartServer \
     -zkAddress pinot-zookeeper:2181
@@ -197,6 +198,8 @@ services:
     command: "StartServer -zkAddress zookeeper:2181"
     restart: unless-stopped
     container_name: "pinot-server" 
+    ports:
+      - "8098:8098"
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
     depends_on:
