@@ -4,11 +4,11 @@
 
 The new multi-stage query engine (a.k.a V2 query engine) is designed to support more complex SQL semantics such as `JOIN`, `OVER` window, `MATCH_RECOGNIZE` and eventually, make Pinot support closer to full ANSI SQL semantics.&#x20;
 
-<figure><img src="https://www.datocms-assets.com/75153/1661707313-query-execution-model.png" alt=""><figcaption><p>Scatter-Gather Query Engine</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Multi-Stage-Pinot-Query-Engine-1.png" alt=""><figcaption><p>Scatter-Gather Query Engine</p></figcaption></figure>
 
 
 
-<figure><img src="https://www.datocms-assets.com/75153/1661533401-screenshot_1.png" alt=""><figcaption><p>Multi-Stage Query Engine</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Multi-Stage-Query-Engine-2.png" alt=""><figcaption><p>Multi-Stage Query Engine</p></figcaption></figure>
 
 It also resolves the bottleneck effect for the broker reduce stage where only a single machine is dedicated to perform heavy lifting such as high cardinality `GROUP BY` result merging; `ORDER BY` sorting, etc.
 
