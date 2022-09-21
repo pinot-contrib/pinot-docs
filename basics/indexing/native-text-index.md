@@ -34,27 +34,27 @@ Native text indices come with a custom in memory text index, which allows for re
 
 A new function, TEXT\_CONTAINS, is introduced for supporting text search on native text indices.
 
-```
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS (<column_name>, <search_expression>)
 ```
 
 Examples:
 
-```
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS (<column_name>, "foo.*")
 ```
 
-```
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS (<column_name>, ".*bar")
 ```
 
-```
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS (<column_name>, "foo")
 ```
 
 TEXT\_CONTAINS can be combined using standard boolean operators
 
-```
+```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_CONTAINS ("col1", "foo") AND TEXT_CONTAINS ("col2", "bar")
 ```
 
@@ -66,10 +66,9 @@ Note that TEXT\_CONTAINS supports regex and term queries for now. Also, TEXT\_CO
 
 Native text indices are a type of text search index that Pinot supports, hence are created through the regular way of using field configs to configure a text index on a given field. To indicate that the index type is native, an additional property in the field config has to be specified:
 
-```
+```jsonp
 "fieldConfigList":[
   {
-
      "name":"text_col_1",
      "encodingType":"RAW",
      "indexType":"TEXT",
