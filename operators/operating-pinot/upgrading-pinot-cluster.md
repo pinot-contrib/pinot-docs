@@ -20,10 +20,11 @@ As of release 0.8.0, Pinot has a compatibility tester that you can run before up
 
 We recommend that you upgrade Pinot components in the following order (if you need to roll back a release, do it in the reverse order).
 
-1. Controller
-2. Broker
-3. Server
-4. Minion
+1. Helix Controller (if separate from Pinot controller, else do step 2)
+2. Pinot Controller
+3. Broker
+4. Server
+5. Minion
 
 The test suite runs through an upgrade sequence of upgrading each component one at a time (Controller, Broker, and Server in that order), and then reverting the new versions back to old version (Server, Broker and Controller, in that order). In between each upgrade or downgrade (referred to as a "phase"), a set of test operations (as specified in the test suite) is executed. The operations are specified in a declarative way in yaml files. At present the following operations are supported:
 
