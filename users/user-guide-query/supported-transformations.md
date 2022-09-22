@@ -106,7 +106,8 @@ These functions can only be used in Pinot SQL queries.
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <p><a href="../../configuration-reference/functions/jsonextractscalar.md"><strong>JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', [defaultValue])</strong></a><br>Evaluates the <code>'jsonPath'</code> on <code>jsonField</code>, returns the result as the type <code>'resultsType'</code>, use optional <code>defaultValue</code>for null or parsing error.</p> |
 | <p><a href="../../configuration-reference/functions/jsonextractkey.md"><strong>JSONEXTRACTKEY</strong></a><a href="../../configuration-reference/functions/jsonextractkey.md"><strong>(</strong>jsonField, 'jsonPath'<strong>)</strong></a><br>Extracts all matched JSON field keys based on <code>'jsonPath'</code> into a <code>STRING_ARRAY.</code></p>                 |
-
+| <p><a href="../../configuration-reference/functions/extract.md"><strong>EXTRACT(dateTimeField FROM dateTimeExpression)</strong></a><br>Extracts the field from the DATETIME expression of the format <code>'YYYY-MM-DD HH:MM:SS'</code>. Currently this transformation function supports <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>HOUR</code>, <code>MINUTE</code>, and <code>SECOND</code> fields.|
+  
 ### **Scalar Functions**
 
 These functions can be used for column transformation in table ingestion configs.
