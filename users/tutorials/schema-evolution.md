@@ -33,7 +33,7 @@ Let's add a new column at the end of the schema, something like this (by editing
 }
 ```
 
-In this example, we're adding a new column called `yearsOfExperience` with a default value of 1.&#x20;
+In this example, we're adding a new column called `yearsOfExperience` with a default value of 1.
 
 ### Update the schema
 
@@ -61,8 +61,11 @@ $ curl -X POST localhost:9000/segments/baseballStats/reload
 {"baseballStats_OFFLINE":{"reloadJobId":"98ad3705-58f3-47d0-a02d-d66dc66a9567","reloadJobMetaZKStorageStatus":"SUCCESS","numMessagesSent":"3"}}
 ```
 
-This will trigger a reload operation on each of the servers hosting the table's segemnts.
-The API response has a reloadJobId which can be used to monitor the status of the reload operation using the segment reload status API.
+This will trigger a reload operation on each of the servers hosting the table's segments. The API response has a reloadJobId which can be used to monitor the status of the reload operation using the segment reload status API
+
+{% hint style="warning" %}
+The reloadJobId and the segmentReloadStatus API below is only available starting 0.11.0 or from [this](https://github.com/apache/pinot/commit/3d2b6f3429957e47c3de1764b9f87743a0770ce5) commit.
+{% endhint %}
 
 ```
 $ curl -X GET localhost:9000/segments/segmentReloadStatus/98ad3705-58f3-47d0-a02d-d66dc66a9567
