@@ -8,18 +8,19 @@ This page contains links to all the design documents
 
 ### 2022
 
-| Name                                                                                                                                     | Authors                          | Date      |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
-| [Adaptive Server Selection](https://docs.google.com/document/d/1w8YVpKIj0S62NvwDpf1HgruwxJYJ6ODuKQLjGXupH8w/edit#heading=h.u87pirlgxhmf) | Vivek Iyer                       | June 2022 |
-| [MV column compression evaluation](https://docs.google.com/document/d/1BWtNKvxL1Uaydni\_BJCgWN8i9\_WeSdgL3Ksh4IpY\_K0/edit)              | Sonam Mandal                     | June 2022 |
-| [Minimize Data Movement for Instance Assignment](https://docs.google.com/document/d/1\_Fn-yNjt9Ih0SQiIqIhCEvE9BvYugvAhB4tgWH-VoWE/edit)  | Jialiang Li                      | June 2022 |
-| [Server Failure Detector](https://docs.google.com/document/d/1X32OMT6lC4pCveQVzK6OvRlaW0kE9HZ2vn\_EHzesM1w/edit?usp=sharing)             | Jackie Jiang                     | Apr 2022  |
-| [Generalized Pre-Aggregation](https://docs.google.com/document/d/17nMXwmDa7-eopzSaQ4XhbfnbF7myQMzDshanSPXLK0s/edit?usp=sharing)          | Evan Noon                        | Mar 2022  |
-| [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)            | Rong Rong                        | Feb 2022  |
-| [Pause/Resume Stream](https://docs.google.com/document/d/1uuXuif0SfMTnH3ykfuzXXNjh-LyszjilodD\_mdlilZg/edit)                             | Sajjad Moradi, Subbu Subramaniam | Feb 2022  |
-| [Fault Domain Awareness](https://docs.google.com/document/d/1KmJ1DsYXVdzrojj\_JYBHRJ2gRMQ5y-o63YqPs7ei7nI/edit)                          | Jia Guo, Sidd                    | Feb 2022  |
-| [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo)     | Yupeng Fu                        | Jan 2022  |
-| [Pluggable Indexes](https://docs.google.com/document/d/1Slu7klgQn\_3RcEJWUuHq9AF0v5ZDA9M2Y0dy8iqrtLQ/edit)                               | Richard Startin                  | Jan 2022  |
+| Name                                                                                                                                                     | Authors                          | Date      |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
+| [Forward Index Handler in Segment Reload](https://docs.google.com/document/d/1Gai0DHBnyR4joG\_8AcoR-27\_exEBTpVfTFU04HyPdd8/edit#heading=h.liwwtls82n1z) | Vivek Iyer                       | Sep 2022  |
+| [Adaptive Server Selection](https://docs.google.com/document/d/1w8YVpKIj0S62NvwDpf1HgruwxJYJ6ODuKQLjGXupH8w/edit#heading=h.u87pirlgxhmf)                 | Vivek Iyer                       | June 2022 |
+| [MV column compression evaluation](https://docs.google.com/document/d/1BWtNKvxL1Uaydni\_BJCgWN8i9\_WeSdgL3Ksh4IpY\_K0/edit)                              | Sonam Mandal                     | June 2022 |
+| [Minimize Data Movement for Instance Assignment](https://docs.google.com/document/d/1\_Fn-yNjt9Ih0SQiIqIhCEvE9BvYugvAhB4tgWH-VoWE/edit)                  | Jialiang Li                      | June 2022 |
+| [Server Failure Detector](https://docs.google.com/document/d/1X32OMT6lC4pCveQVzK6OvRlaW0kE9HZ2vn\_EHzesM1w/edit?usp=sharing)                             | Jackie Jiang                     | Apr 2022  |
+| [Generalized Pre-Aggregation](https://docs.google.com/document/d/17nMXwmDa7-eopzSaQ4XhbfnbF7myQMzDshanSPXLK0s/edit?usp=sharing)                          | Evan Noon                        | Mar 2022  |
+| [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)                            | Rong Rong                        | Feb 2022  |
+| [Pause/Resume Stream](https://docs.google.com/document/d/1uuXuif0SfMTnH3ykfuzXXNjh-LyszjilodD\_mdlilZg/edit)                                             | Sajjad Moradi, Subbu Subramaniam | Feb 2022  |
+| [Fault Domain Awareness](https://docs.google.com/document/d/1KmJ1DsYXVdzrojj\_JYBHRJ2gRMQ5y-o63YqPs7ei7nI/edit)                                          | Jia Guo, Sidd                    | Feb 2022  |
+| [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo)                     | Yupeng Fu                        | Jan 2022  |
+| [Pluggable Indexes](https://docs.google.com/document/d/1Slu7klgQn\_3RcEJWUuHq9AF0v5ZDA9M2Y0dy8iqrtLQ/edit)                                               | Richard Startin                  | Jan 2022  |
 
 ### 2021
 
