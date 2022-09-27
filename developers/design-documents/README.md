@@ -11,6 +11,7 @@ This page contains links to all the design documents
 | Name                                                                                                                                     | Authors                          | Date      |
 | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
 | [Adaptive Server Selection](https://docs.google.com/document/d/1w8YVpKIj0S62NvwDpf1HgruwxJYJ6ODuKQLjGXupH8w/edit#heading=h.u87pirlgxhmf) | Vivek Iyer                       | June 2022 |
+| [MV column compression evaluation](https://docs.google.com/document/d/1BWtNKvxL1Uaydni\_BJCgWN8i9\_WeSdgL3Ksh4IpY\_K0/edit)              | Sonam Mandal                     | June 2022 |
 | [Server Failure Detector](https://docs.google.com/document/d/1X32OMT6lC4pCveQVzK6OvRlaW0kE9HZ2vn\_EHzesM1w/edit?usp=sharing)             | Jackie Jiang                     | Apr 2022  |
 | [Generalized Pre-Aggregation](https://docs.google.com/document/d/17nMXwmDa7-eopzSaQ4XhbfnbF7myQMzDshanSPXLK0s/edit?usp=sharing)          | Evan Noon                        | Mar 2022  |
 | [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)            | Rong Rong                        | Feb 2022  |
