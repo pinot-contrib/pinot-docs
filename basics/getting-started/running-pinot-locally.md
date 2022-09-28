@@ -184,3 +184,29 @@ export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:g
 ```
 
 Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
+
+## Start Pinot Component in Debug Mode with IntelliJ
+
+Starting a pinot component of interest in IntelliJ using debug mode can be useful for development purposes. You can set break points and inspect variables. Take debugging server for example, one can start `zookeeper` , `controller`, and `broker` using the steps in [Manual Cluster](running-pinot-locally.md#manual-cluster). Then use the following configuration  put under `$PROJECT_DIR$\.run` ) to start server. This [commit](https://github.com/apache/pinot/commit/83fc63720cdf2a5470073d43183ae8710d0ecc51) is an example of how it can be used. Please replace the metrics-core version and cluster name as needed.
+
+```xml
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="HelixServerStarter" type="Application" factoryName="Application" nameIsGenerated="true">
+    <classpathModifications>
+      <entry path="$PROJECT_DIR$/pinot-plugins/pinot-metrics/pinot-yammer/target/classes" />
+      <entry path="$MAVEN_REPOSITORY$/com/yammer/metrics/metrics-core/2.2.0/metrics-core-2.2.0.jar" />
+    </classpathModifications>
+    <option name="MAIN_CLASS_NAME" value="org.apache.pinot.server.starter.helix.HelixServerStarter" />
+    <module name="pinot-server" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.apache.pinot.server.starter.helix.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+```
