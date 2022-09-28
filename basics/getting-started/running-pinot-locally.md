@@ -99,6 +99,9 @@ Also make sure to install rosetta
 
 `softwareupdate --install-rosetta`
 
+Note that some installations of the JDK do not contain the JNI bindings that are necessary to run all tests, if you see any `java.lang.UnsatisfiedLinkError` while running tests, you may need to change your JDK. If using Homebrew, you may install AdoptOpenJDK 11 using:
+`brew install --cask adoptopenjdk11`
+
 Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this:
 
 ## Quick Start
