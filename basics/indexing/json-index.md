@@ -64,6 +64,8 @@ To enable the JSON index, set the following config in the table config:
 
 Note that JSON index can only be applied to `STRING` columns whose values are JSON strings.
 
+When you're using a JSON index, we would recommend that you add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead. For instructions on that config property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+
 ## How to use JSON index
 
 JSON index can be used via the `JSON_MATCH` predicate: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find all persons whose name is "adam", the query will look like:
