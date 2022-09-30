@@ -2,17 +2,27 @@
 
 ## Operations
 
+## Memory
+
 ### How much heap should I allocate for my Pinot instances?
 
 Typically, Pinot components try to use as much off-heap (MMAP/DirectMemory) wherever possible. For example, Pinot servers load segments in memory-mapped files in MMAP mode (recommended), or direct memory in HEAP mode. Heap memory is used mostly for query execution and storing some metadata. We have seen production deployments with high throughput and low-latency work well with just 16 GB of heap for Pinot servers and brokers. Pinot controller may also cache some metadata (table configs etc) in heap, so if there are just a few tables in the Pinot cluster, a few GB of heap should suffice.
+
+## DR
 
 ### Does Pinot provide any backup/restore mechanism?
 
 Pinot relies on deep-storage for storing backup copy of segments (offline as well as realtime). It relies on Zookeeper to store metadata (table configs, schema, cluster state, etc). It does not explicitly provide tools to take backups or restore these data, but relies on the deep-storage (ADLS/S3/GCP/etc), and ZK to persist these data/metadata.
 
+## Alter Table
+
 ### Can I change a column name in my table, without losing data?
 
 Changing a column name or data type is considered backward incompatible change. While Pinot does support schema evolution for backward compatible changes, it does not support backward incompatible changes like changing name/data-type of a column.
+
+
+
+## Rebalance
 
 ### How to change number of replicas of a table?
 
@@ -50,6 +60,28 @@ After changing the replication, run a [table rebalance](./#how-to-run-a-rebalanc
 
 Refer to [Rebalance](../../../operators/operating-pinot/rebalance/).
 
+### Why does my REALTIME table not use the new nodes I added to the cluster?
+
+Likely explanation: num partitions \* num replicas < num servers
+
+In realtime tables, **segments of the same partition always continue to remain on the same node**. This sticky assignment is needed for replica groups and is critical if using upserts. For instance, if you have 3 partitions, 1 replica, and 4 nodes, only ¾ nodes will be used, and all of p0 segments will be on 1 node, p1 on 1 node, and p2 on 1 node. One server will be unused, and will remain unused through rebalances.
+
+There’s nothing we can do about CONSUMING segments, they will continue to use only 3 nodes if you have 3 partitions. But we can rebalance such that completed segments use all nodes. If you want to **force the completed segments of the table to use the new server**, use this config
+
+```
+"instanceAssignmentConfigMap": {
+      "COMPLETED": {
+        "tagPoolConfig": {
+          "tag": "DefaultTenant_OFFLINE"
+        },
+        "replicaGroupPartitionConfig": {
+        }
+      }
+    },
+```
+
+## Segments
+
 ### How to control number of segments generated?
 
 The number of segments generated depends on the number of input files. If you provide only 1 input file, you will get 1 segment. If you break up the input file into multiple files, you will get as many segments as the input files.
@@ -80,6 +112,8 @@ RELOAD: this reloads the segment, often to generate a new index as updated in ta
 
 In addition, RESET brings the segment OFFLINE temporarily; while REFRESH and RELOAD swap the segment on server atomically without bringing down the segment or affecting ongoing queries.
 
+## Tenants
+
 ### How can I make brokers/servers join the cluster without the DefaultTenant tag?
 
 Set this property in your controller.conf file
@@ -96,6 +130,8 @@ curl -X POST "http://localhost:9000/tenants"
 -H "Content-Type: application/json" 
 -d "{\"tenantRole\":\"BROKER\",\"tenantName\":\"foo\",\"numberOfInstances\":1}"
 ```
+
+## Minion
 
 ### How to tune minion task timeout and parallelism on each worker
 
