@@ -20,10 +20,6 @@ Pinot relies on deep-storage for storing backup copy of segments (offline as wel
 
 Changing a column name or data type is considered backward incompatible change. While Pinot does support schema evolution for backward compatible changes, it does not support backward incompatible changes like changing name/data-type of a column.
 
-
-
-## Rebalance
-
 ### How to change number of replicas of a table?
 
 You can change the number of replicas by updating the table config's [segmentsConfig](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
@@ -55,6 +51,8 @@ For REALTIME table update [replicasPerPartition](https://docs.pinot.apache.org/b
 ```
 
 After changing the replication, run a [table rebalance](./#how-to-run-a-rebalance-on-a-table).
+
+## Rebalance
 
 ### How to run a rebalance on a table?
 
