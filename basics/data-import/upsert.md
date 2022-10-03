@@ -94,7 +94,7 @@ With partial upsert, if the value is `null` in either the existing record or the
 (`null`, `null`) -> `null`
 {% endhint %}
 
-### Comparison Column
+### Comparison column
 
 By default, Pinot uses the value in the time column to determine the latest record. That means, for two records with the same primary key, the record with the larger value of the time column is picked as the latest update. However, there are cases when users need to use another column to determine the order. In such case, you can use option `comparisonColumn` to override the column used for comparison. For example,
 
@@ -121,6 +121,34 @@ The upsert Pinot table can use only the low-level consumer for the input streams
   }
 }
 ```
+
+### Enable validDocIds snapshots for upsert metadata recovery
+
+Upsert snapshot support is also added in `release-0.12.0`. To enable the snapshot, set the `enableSnapshot` to `true`. For example:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "hashFunction": "NONE",
+    "enableSnapshot": true
+  }
+}
+```
+
+Pinot upsert requires to have full history of metadata data when recovering validDocsIndexes after server restart. ValidDocIndexes can not be recovered easily after out-of-TTL primary keys get removed.
+ValidDocIds Snapshots address the requirement by adding functions to persist, load, delete validDocIds snapshot for Immutable Segments recover validDocIndex.
+
+{% hint style="info" %}
+The lifecycle for validDocIds snapshots are shows as follows,
+
+If snapshot is enabled, load validDocIds from snapshot during add segments.
+
+If snapshot is not enabled, delete validDocIds snapshots during add segments if exists.
+
+If snapshot is enabled, persist validDocIds snapshot for immutable segments when removing segment.
+{% endhint %}
+
 
 ### Limitations
 
