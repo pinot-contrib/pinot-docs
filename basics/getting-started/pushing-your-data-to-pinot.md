@@ -204,6 +204,8 @@ inputDirURI: '/tmp/pinot-quick-start/rawdata/'
 includeFileNamePattern: 'glob:**/*.csv'
 outputDirURI: '/tmp/pinot-quick-start/segments/'
 overwriteOutput: true
+pushJobSpec:
+  pushFileNamePattern: 'glob:**/*.tar.gz'
 pinotFSSpecs:
   - scheme: file
     className: org.apache.pinot.spi.filesystem.LocalPinotFS
