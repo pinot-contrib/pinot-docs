@@ -20,7 +20,7 @@ Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-
 
 ```
 docker run \
-    --network pinot-demo_default --name=kafka \
+    --network pinot-demo --name=kafka \
     -e KAFKA_ZOOKEEPER_CONNECT=manual-zookeeper:2181/kafka \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
@@ -108,7 +108,7 @@ Now that we have our table and schema, let's upload them to the cluster. As soon
 {% tab title="Docker" %}
 ```bash
 docker run \
-    --network=pinot-demo_default \
+    --network=pinot-demo \
     -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
     --name pinot-streaming-table-creation \
     apachepinot/pinot:latest AddTable \

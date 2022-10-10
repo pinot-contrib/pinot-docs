@@ -19,9 +19,10 @@ Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-
 ```bash
 docker run \
     --network pinot-demo --name=kafka \
-    -e KAFKA_ZOOKEEPER_CONNECT=pinot-quickstart:2123/kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+    -p 2181:2181 \
     -d wurstmeister/kafka:latest
 ```
 
@@ -31,7 +32,7 @@ docker run \
 docker exec \
   -t kafka \
   /opt/kafka/bin/kafka-topics.sh \
-  --zookeeper pinot-quickstart:2123/kafka \
+  --zookeeper pinot-zookeeper:2181/kafka \
   --partitions=1 --replication-factor=1 \
   --create --topic transcript-topic
 ```
@@ -40,10 +41,10 @@ docker exec \
 {% tab title="Using launcher scripts" %}
 **Start Kafka**
 
-Start Kafka cluster on port `9876` using the same Zookeeper from the [quick-start examples](../../getting-started/running-pinot-in-docker.md).
+Start Kafka cluster on port `9092` using the same Zookeeper from the [quick-start examples](../../getting-started/running-pinot-in-docker.md).
 
 ```
-bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2123/kafka -port 9876
+bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2181/kafka -port 9092
 ```
 
 **Create a Kafka topic**
@@ -51,7 +52,7 @@ bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2123/kafka -port 9876
 Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart\_download). Create a topic.
 
 ```css
-bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-factor 1 --partitions 1 --topic transcript-topic
+bin/kafka-topics.sh --create --bootstrap-server kafka:9092 --replication-factor 1 --partitions 1 --topic transcript-topic
 ```
 {% endtab %}
 {% endtabs %}
@@ -102,7 +103,7 @@ The resulting configuration should look as follows -
       "stream.kafka.topic.name": "transcript-topic",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-      "stream.kafka.broker.list": "localhost:9876",
+      "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.time": "3600000",
       "realtime.segment.flush.threshold.rows": "50000",
       "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
@@ -181,9 +182,15 @@ We will publish data in the following format to Kafka. Let us save the data in a
 
 Push sample JSON into the `transcript-topic` Kafka topic, using the Kafka console producer. This will add 12 records to the topic described in the `transcript.json` file.
 
-```css
+Checkin Kafka docker container
+```bash
+docker exec -ti kafka bash
+```
+
+Publish messages to the target topic
+```bash
 bin/kafka-console-producer.sh \
-    --broker-list localhost:9876 \
+    --broker-list localhost:9092 \
     --topic transcript-topic < transcript.json
 ```
 
@@ -220,8 +227,8 @@ Here is an example config which uses SSL based authentication to talk with kafka
         "stream.kafka.topic.name": "transcript-topic",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-        "stream.kafka.zk.broker.url": "localhost:2191/kafka",
-        "stream.kafka.broker.list": "localhost:9876",
+        "stream.kafka.zk.broker.url": "pinot-zookeeper:2191/kafka",
+        "stream.kafka.broker.list": "localhost:9092",
         "schema.registry.url": "",
         "security.protocol": "SSL",
         "ssl.truststore.location": "",
@@ -269,8 +276,8 @@ With Kafka consumer 2.0, you can ingest transactionally committed messages only 
         "stream.kafka.topic.name": "transcript-topic",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-        "stream.kafka.zk.broker.url": "localhost:2191/kafka",
-        "stream.kafka.broker.list": "localhost:9876",
+        "stream.kafka.zk.broker.url": "pinot-zookeeper:2191/kafka",
+        "stream.kafka.broker.list": "kafka:9092",
         "stream.kafka.isolation.level": "read_committed"
       }
     },
@@ -293,7 +300,7 @@ Here is an example config which uses SASL\_SSL based authentication to talk with
         "stream.kafka.topic.name": "mytopic",
         "stream.kafka.consumer.prop.auto.offset.reset": "largest",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-        "stream.kafka.broker.list": "kafka-broker-host:9092",
+        "stream.kafka.broker.list": "kafka:9092",
         "stream.kafka.schema.registry.url": "https://xxx",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
         "stream.kafka.decoder.prop.schema.registry.rest.url": "https://xxx",
