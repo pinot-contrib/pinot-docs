@@ -52,7 +52,7 @@ The quick start scripts launch Pinot with minimal resources. If you want to play
 Create an isolated bridge network in docker
 
 ```
-docker network create -d bridge pinot-demo_default
+docker network create -d bridge pinot-demo
 ```
 
 #### Start Zookeeper
@@ -61,7 +61,7 @@ Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper
 
 ```
 docker run \
-    --network=pinot-demo_default \
+    --network=pinot-demo \
     --name pinot-zookeeper \
     --restart always \
     -p 2181:2181 \
@@ -78,7 +78,7 @@ The command below expects a 4GB memory container. Tune`-Xms` and`-Xmx` if your m
 
 ```
 docker run --rm -ti \
-    --network=pinot-demo_default \
+    --network=pinot-demo \
     --name pinot-controller \
     -p 9000:9000 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log" \
@@ -96,7 +96,7 @@ The command below expects a 4GB memory container. Tune`-Xms` and`-Xmx` if your m
 
 ```
 docker run --rm -ti \
-    --network=pinot-demo_default \
+    --network=pinot-demo \
     --name pinot-broker \
     -p 8099:8099 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log" \
@@ -114,7 +114,7 @@ The command below expects a 16GB memory container. Tune`-Xms` and`-Xmx` if your 
 
 ```
 docker run --rm -ti \
-    --network=pinot-demo_default \
+    --network=pinot-demo \
     --name pinot-server \
     -p 8098:8098 \
     -e JAVA_OPTS="-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log" \
@@ -128,10 +128,11 @@ Optionally, you can also start Kafka for setting up realtime streams. This bring
 
 ```
 docker run --rm -ti \
-    --network pinot-demo_default --name=kafka \
+    --network pinot-demo --name=kafka \
     -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+    -p 9092:9092 \
     -d wurstmeister/kafka:latest
 ```
 
@@ -162,29 +163,28 @@ Create a file called _docker-compose.yml_ that contains the following:
 ```yaml
 version: '3.7'
 services:
-  zookeeper:
+  pinot-zookeeper:
     image: zookeeper:3.5.6
-    hostname: zookeeper
-    container_name: zookeeper
+    container_name: pinot-zookeeper
     ports:
       - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-  pinot-controller:
+  pinot-quickstart:
     image: apachepinot/pinot:0.9.3
-    command: "StartController -zkAddress zookeeper:2181"
-    container_name: "pinot-controller"
+    command: "StartController -zkAddress pinot-zookeeper:2181"
+    container_name: pinot-quickstart
     restart: unless-stopped
     ports:
       - "9000:9000"
     environment:
-      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
+      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-quickstart.log"
     depends_on:
-      - zookeeper
+      - pinot-zookeeper
   pinot-broker:
     image: apachepinot/pinot:0.9.3
-    command: "StartBroker -zkAddress zookeeper:2181"
+    command: "StartBroker -zkAddress pinot-zookeeper:2181"
     restart: unless-stopped
     container_name: "pinot-broker"
     ports:
@@ -192,19 +192,18 @@ services:
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
     depends_on:
-      - pinot-controller
+      - pinot-quickstart
   pinot-server:
     image: apachepinot/pinot:0.9.3
-    command: "StartServer -zkAddress zookeeper:2181"
+    command: "StartServer -zkAddress pinot-zookeeper:2181"
     restart: unless-stopped
-    container_name: "pinot-server" 
+    container_name: "pinot-server"
     ports:
       - "8098:8098"
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
     depends_on:
       - pinot-broker
-  
 ```
 {% endcode %}
 
@@ -224,10 +223,10 @@ docker container ls
 
 ```
 CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                                     NAMES
-ba5cb0868350   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   manual-pinot-server
-698f160852f9   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        manual-pinot-broker
-b1ba8cf60d69   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  manual-pinot-controller
-54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   manual-zookeeper
+ba5cb0868350   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   pinot-server
+698f160852f9   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        pinot-broker
+b1ba8cf60d69   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  pinot-quickstart
+54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
 Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.

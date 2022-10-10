@@ -132,7 +132,7 @@ Upload the table config using the following command
 {% tab title="Docker" %}
 ```bash
 docker run --rm -ti \
-    --network=pinot-demo_default \
+    --network=pinot-demo \
     -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
     --name pinot-batch-table-creation \
     apachepinot/pinot:latest AddTable \
@@ -230,7 +230,7 @@ Use the following command to generate a segment and upload it
 {% tab title="Docker" %}
 ```
 docker run --rm -ti \
-    --network=pinot-demo_default \
+    --network=pinot-demo \
     -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
     --name pinot-data-ingestion-job \
     apachepinot/pinot:latest LaunchDataIngestionJob \
