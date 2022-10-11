@@ -17,9 +17,9 @@ SELECT timezoneMinute('America/Toronto') AS minute
 FROM ignoreMe
 ```
 
-| hour |
-| ---- |
-| 0    |
+| minute |
+| ------ |
+| 0      |
 
 ```sql
 SELECT timezoneMinute('Asia/Colombo') AS minute
