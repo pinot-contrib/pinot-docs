@@ -60,8 +60,8 @@ If the query has a `HAVING` clause, it is applied on the merged `GROUP BY` resul
 SELECT SUM(colA) 
 FROM myTable 
 GROUP BY colB 
-ORDER BY SUM(colA) DESC 
 HAVING SUM(colA) < 100 
+ORDER BY SUM(colA) DESC 
 LIMIT 10
 ```
 
