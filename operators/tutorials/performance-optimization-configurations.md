@@ -1,5 +1,17 @@
 # Performance Optimization Configurations
 
+#### Query Option to Enable \`AND\` Predicate Reordering
+
+An optional optimization for queries with  long `AND` predicate will be to let execution engine reorder the predicates based on cardinality, so as to do minimum scanning for un-indexed operators. To use it, simply add the following option to the original query&#x20;
+
+```
+SET AndScanReordering = 'True'; SELECT FOO from BAR WHERE predicate1 AND predicate2 AND predicate3 AND predicate4 ...
+```
+
+This feature cannot guarantee optimization for all the cases but on average it can help. So please try with some before/after comparison.
+
+PR: [https://github.com/apache/pinot/pull/9420](https://github.com/apache/pinot/pull/9420)
+
 #### Enabling Server Side Segment Stream Download-Untar with rate limiter:
 
 Pinot server supports segment download-untar with rate limiter, which reduces the bytes written to disk and optimizes disk bandwidth usage [https://github.com/apache/pinot/pull/8753](https://github.com/apache/pinot/pull/8753). This feature involves the following server level configs
