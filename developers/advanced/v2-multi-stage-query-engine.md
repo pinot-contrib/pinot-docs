@@ -65,7 +65,21 @@ please report any bugs in Apache Pinot Slack [V2 engine feedback channel](https:
 * the cluster config (zookeeper config, and each components config and scale)
 * the problematic SQL query string and corresponding ERROR messages.
 
+## Limitations
 
+We are continuously improving the V2 engine. However, since the V2 engine is still in beta-testing phase, there are some limitations to call out:
+
+* Incomplete data type support: multi-value columns and some other non-primitive data types are not supported. For example `SELECT *` with multi-value columns will fail.
+* The intermediate stages of the V2 engine are running purely on heap memory, thus executing a large table join will cause potential out-of-memory errors
+  * Because of this, the table scan phase for join queries is limited to 10 million rows.
+* Currently, it doesn't incorporate table statistics into plan optimization.
+* Currently, it doesn't support complex aggregation functions, such as `COVAR_POP`.
+* Some functions that lack implementation with `@ScalarFunction` annotation will not be supported in intermediate stages.
+
+For more up-to-date tracking of feature and performance support please follow the Github tracking issues:
+
+* SQL feature tracker: [https://github.com/apache/pinot/issues/9223](https://github.com/apache/pinot/issues/9223)
+* Performance and stability tracker: [https://github.com/apache/pinot/issues/9273](https://github.com/apache/pinot/issues/9273)
 
 ## Reference: Design Docs
 
