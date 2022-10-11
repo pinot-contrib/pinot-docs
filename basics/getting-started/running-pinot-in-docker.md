@@ -171,15 +171,15 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-  pinot-quickstart:
+  pinot-controller:
     image: apachepinot/pinot:0.9.3
     command: "StartController -zkAddress pinot-zookeeper:2181"
-    container_name: pinot-quickstart
+    container_name: pinot-controller
     restart: unless-stopped
     ports:
       - "9000:9000"
     environment:
-      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-quickstart.log"
+      JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
     depends_on:
       - pinot-zookeeper
   pinot-broker:
@@ -192,7 +192,7 @@ services:
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
     depends_on:
-      - pinot-quickstart
+      - pinot-controller
   pinot-server:
     image: apachepinot/pinot:0.9.3
     command: "StartServer -zkAddress pinot-zookeeper:2181"
@@ -225,7 +225,7 @@ docker container ls
 CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                                     NAMES
 ba5cb0868350   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   pinot-server
 698f160852f9   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        pinot-broker
-b1ba8cf60d69   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  pinot-quickstart
+b1ba8cf60d69   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  pinot-controller
 54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
