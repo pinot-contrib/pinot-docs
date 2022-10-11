@@ -10,8 +10,8 @@ Pinot provides SQL interface for querying. It uses the **Calcite SQL** parser to
 
 ## Limitations
 
-* The latest Pinot supports inner join, left-outer, semi-join, and nested queries out of the box. It is optimized for in-memory process and latency.&#x20;
-  * For queries that require a large amount of data shuffling, or require spill-to-disk, or hitting any other limitations of the V2 engine, we still recommend using **Presto**. For more information, see [V2 Query Engine Page](../../developers/advanced/v2-multi-stage-query-engine.md).
+* The latest Pinot multi-stage supports inner join, left-outer, semi-join, and nested queries out of the box. It is optimized for in-memory process and latency.&#x20;
+  * For queries that require a large amount of data shuffling, or require spill-to-disk, or hitting any other limitations of the multi-stage engine, we still recommend using **Presto**. For more information, see [Multi-Stage Query Engine Page](../../developers/advanced/v2-multi-stage-query-engine.md).
 * The latest Pinot also supports simple DDL to insert data into a table from file directly. For more info please see the [0.11.0 release note](https://docs.pinot.apache.org/basics/releases/0.11.0#adding-dml-definition-and-parse-sql-insertfile-8557).&#x20;
   * More DDL supports will be added in the future. But for now, the most common way for data definition is via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 

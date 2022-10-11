@@ -1,8 +1,8 @@
-# V2 Multi-Stage Query Engine
+# Multi-Stage Query Engine
 
 ## Overview
 
-The new multi-stage query engine (a.k.a V2 query engine) is designed to support more complex SQL semantics such as `JOIN`, `OVER` window, `MATCH_RECOGNIZE` and eventually, make Pinot support closer to full ANSI SQL semantics.&#x20;
+The new Pinot query engine version 2 (a.k.a Multi-Stage V2 query engine) is designed to support more complex SQL semantics such as `JOIN`, `OVER` window, `MATCH_RECOGNIZE` and eventually, make Pinot support closer to full ANSI SQL semantics.&#x20;
 
 <figure><img src="../../.gitbook/assets/Multi-Stage-Pinot-Query-Engine-v1.png" alt=""><figcaption><p>Scatter-Gather Query Engine</p></figcaption></figure>
 
@@ -12,9 +12,9 @@ The new multi-stage query engine (a.k.a V2 query engine) is designed to support 
 
 It also resolves the bottleneck effect for the broker reduce stage where only a single machine is dedicated to perform heavy lifting such as high cardinality `GROUP BY` result merging; `ORDER BY` sorting, etc.
 
-## How to use the V2 query engine
+## How to use the multi-stage query engine
 
-To enable the V2 engine,&#x20;
+To enable the multi-stage engine,&#x20;
 
 1. please make sure to either&#x20;
    * [Building Apache Pinot](https://github.com/apache/pinot#building-pinot) using the latest master commit.
@@ -44,9 +44,9 @@ Here are the general troubleshooting steps:
 ### Semantic / Runtime errors
 
 * Try downloading the latest docker image or building from the latest master commit
-  * We continuously pushes bug fixes for the V2 engine so bugs you encountered might have already been fixed in the latest master build
+  * We continuously push bug fixes for the multi-stage engine so bugs you encountered might have already been fixed in the latest master build
 * Try rewriting your query
-  * Some of the functions previously supported in the V1 engine might have a new way to express in the new engine. Please check and see if you are using any non-standard SQL functions or semantics.
+  * Some of the functions previously supported in the original engine might have a new way to express in the new engine. Please check and see if you are using any non-standard SQL functions or semantics.
 
 ### Timeout errors
 
@@ -55,11 +55,11 @@ Here are the general troubleshooting steps:
 * Try executing part of the subquery or a simplified version of the query first.
   * This helps to determine the selectivity and scale of the query being executed.
 * Try adding more servers
-  * The new V2 engine runs distributedly across the entire cluster, adding more servers to partitioned queries such as GROUP BY aggregates, equality JOINs help speed up the query runtime.
+  * The new multi-stage engine runs distributedly across the entire cluster, adding more servers to partitioned queries such as GROUP BY aggregates, equality JOINs help speed up the query runtime.
 
 ### How to share feedbacks
 
-please report any bugs in Apache Pinot Slack [V2 engine feedback channel](https://apache-pinot.slack.com/archives/C03Q4A11GC9). Please include:
+please report any bugs in Apache Pinot Slack [multi-stage engine feedback channel](https://apache-pinot.slack.com/archives/C03Q4A11GC9). Please include:
 
 * the table/schema config(s)&#x20;
 * the cluster config (zookeeper config, and each components config and scale)
@@ -67,13 +67,14 @@ please report any bugs in Apache Pinot Slack [V2 engine feedback channel](https:
 
 ## Limitations
 
-We are continuously improving the V2 engine. However, since the V2 engine is still in beta-testing phase, there are some limitations to call out:
+We are continuously improving the multi-stage engine. However, since the multi-stage engine is still in beta-testing phase, there are some limitations to call out:
 
 * Incomplete data type support: multi-value columns and some other non-primitive data types are not supported. For example `SELECT *` with multi-value columns will fail.
-* The intermediate stages of the V2 engine are running purely on heap memory, thus executing a large table join will cause potential out-of-memory errors
+* The intermediate stages of the multi-stage engine are running purely on heap memory, thus executing a large table join will cause potential out-of-memory errors
   * Because of this, the table scan phase for join queries is limited to 10 million rows.
 * Currently, it doesn't incorporate table statistics into plan optimization.
 * Currently, it doesn't support complex aggregation functions, such as `COVAR_POP`.
+* Currently, it doens't support tenant isolation, only `DEFAULT_TENANT` is visible to the multi-stage engine.
 * Some functions that lack implementation with `@ScalarFunction` annotation will not be supported in intermediate stages.
 
 For more up-to-date tracking of feature and performance support please follow the Github tracking issues:

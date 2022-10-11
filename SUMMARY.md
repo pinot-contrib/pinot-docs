@@ -134,7 +134,7 @@
   * [Ingestion Aggregations](developers/advanced/ingestion-level-aggregations.md)
   * [Ingestion Transformations](developers/advanced/ingestion-level-transformations.md)
   * [Null Value Support](developers/advanced/null-value-support.md)
-  * [V2 Multi-Stage Query Engine](developers/advanced/v2-multi-stage-query-engine.md)
+  * [Multi-Stage Query Engine](developers/advanced/v2-multi-stage-query-engine.md)
   * [Advanced Pinot Setup](developers/advanced/advanced-pinot-setup.md)
 * [Plugins](developers/plugin-architecture/README.md)
   * [Write Custom Plugins](developers/plugin-architecture/write-custom-plugins/README.md)
