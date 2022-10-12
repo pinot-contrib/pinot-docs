@@ -50,6 +50,235 @@ JSON index is designed to accelerate the filtering on JSON string columns withou
 
 To enable the JSON index, set the following config in the table config:
 
+### Config since release `0.12.0`:
+
+```json
+{
+  "tableIndexConfig": {
+    "jsonIndexConfigs": {
+      "person": {
+        "maxLevels": 2,
+        "excludeArray": false,
+        "disableCrossArrayUnnest": true,
+        "includePaths": null,
+        "excludePaths": null,
+        "excludeFields": null
+      },
+      ...
+    },
+    ...
+  }
+}
+```
+
+| Config Key                  | Desciprtion                                                                                                                                                                                                                            | Type         | Default                                              |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------------------------- |
+| **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                             | int          | -1 (unlimited)                                       |
+| **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                    | boolean      | false (include array)                                |
+| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements)                                                                                                                                                             | boolean      | false (calculate unique combination of all elements) |
+| **includePaths**            | Only include the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "_$.a.b.c_" will be included when "_$.a.b_" is configured to be included. | Set\<String> | null (include all paths)                             |
+| **excludePaths**            | Exclude the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "_$.a.b.c_" will be excluded when "_$.a.b_" is configured to be excluded. | Set\<String> | null (include all paths)                             |
+| **excludeFields**           | Exclude the given fields, e.g. "_b_", "_c_", even if it is under the included paths.                                                                                                                                                   | Set\<String> | null (include all fields)                            |
+
+#### Example:
+
+With the following JSON document:
+
+```json
+{
+  "name": "adam",
+  "age": 20,
+  "addresses": [
+    {
+      "country": "us",
+      "street": "main st",
+      "number": 1
+    },
+    {
+      "country": "ca",
+      "street": "second st",
+      "number": 2
+    }
+  ],
+  "skills": [
+    "english",
+    "programming"
+  ]
+}
+```
+
+With the default setting, we will flatten the document into the following records:
+
+```json
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].street": "main st",
+  "addresses[0].number": 1,
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].street": "main st",
+  "addresses[0].number": 1,
+  "skills[1]": "programming"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+  "addresses[1].street": "second st",
+  "addresses[1].number": 2,
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+  "addresses[1].street": "second st",
+  "addresses[1].number": 2,
+  "skills[1]": "programming"
+}
+```
+
+With **maxLevels** set to 1:
+
+```json
+{
+  "name": "adam",
+  "age": 20son
+}
+```
+
+With **maxLevels** set to 2:
+
+```json
+{
+  "name": "adam",
+  "age": 20,
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "skills[1]": "programming"
+}
+```
+
+With **excludeArray** set to true:
+
+```json
+{
+  "name": "adam",
+  "age": 20
+}
+```
+
+With **disableCrossArrayUnnest** set to true:
+
+```json
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].street": "main st",
+  "addresses[0].number": 1
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].street": "main st",
+  "addresses[0].number": 1
+},
+{
+  "name": "adam",
+  "age": 20,
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "skills[1]": "programming"
+}
+```
+
+With **includePaths** set to \["$.name", "$.addresses\[\*].country"]:
+
+```json
+{
+  "name": "adam",
+  "addresses[0].country": "us"
+},
+{
+  "name": "adam",
+  "addresses[1].country": "ca"
+}
+```
+
+With **excludePaths** set to \["$.age", "$.addresses\[\*].number"]:
+
+```json
+{
+  "name": "adam",
+  "addresses[0].country": "us",
+  "addresses[0].street": "main st",
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "addresses[0].country": "us",
+  "addresses[0].street": "main st",
+  "skills[1]": "programming"
+},
+{
+  "name": "adam",
+  "addresses[1].country": "ca",
+  "addresses[1].street": "second st",
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "addresses[1].country": "ca",
+  "addresses[1].street": "second st",
+  "skills[1]": "programming"
+}
+```
+
+With **excludeFields** set to \["age", "street"]:
+
+```json
+{
+  "name": "adam",
+  "addresses[0].country": "us",
+  "addresses[0].number": 1,
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "addresses[0].country": "us",
+  "addresses[0].number": 1,
+  "skills[1]": "programming"
+},
+{
+  "name": "adam",
+  "addresses[1].country": "ca",
+  "addresses[1].number": 2,
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "addresses[1].country": "ca",
+  "addresses[1].number": 2,
+  "skills[1]": "programming"
+}
+```
+
+### Legacy config before release `0.12.0`:
+
 ```javascript
 {
   "tableIndexConfig": {        
@@ -62,7 +291,11 @@ To enable the JSON index, set the following config in the table config:
 }
 ```
 
-Note that JSON index can only be applied to `STRING` columns whose values are JSON strings.
+The legacy config has the same behavior as the default settings in the new config.
+
+
+
+Note that JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
 
 When you're using a JSON index, we would recommend that you add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead. For instructions on that config property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
 
