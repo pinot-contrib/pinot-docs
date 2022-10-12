@@ -224,6 +224,7 @@
   * [count](configuration-reference/functions/count.md)
   * [COUNTMV](configuration-reference/functions/countmv.md)
   * [COVAR\_POP](configuration-reference/functions/covar\_pop.md)
+  * [COVAR\_SAMP](configuration-reference/functions/covar\_samp.md)
   * [day](configuration-reference/functions/day.md)
   * [dayOfWeek](configuration-reference/functions/dayofweek.md)
   * [dayOfYear](configuration-reference/functions/dayofyear.md)
