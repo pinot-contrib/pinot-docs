@@ -24,7 +24,7 @@ docker run \
     -e KAFKA_ZOOKEEPER_CONNECT=manual-zookeeper:2181/kafka \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
-    -d wurstmeister/kafka:latest
+    -d bitnami/kafka:latest
 ```
 
 **Create a Kafka Topic**

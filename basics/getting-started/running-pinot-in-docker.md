@@ -133,7 +133,7 @@ docker run --rm -ti \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
     -p 9092:9092 \
-    -d wurstmeister/kafka:latest
+    -d bitnami/kafka:latest
 ```
 
 Now all Pinot related components are started as an empty cluster.
@@ -148,7 +148,7 @@ docker container ls -a
 
 ```
 CONTAINER ID        IMAGE                       COMMAND                  CREATED             STATUS              PORTS                                                  NAMES
-9ec20e4463fa        wurstmeister/kafka:latest   "start-kafka.sh"         43 minutes ago      Up 43 minutes                                                              kafka
+9ec20e4463fa        bitnami/kafka:latest        "start-kafka.sh"         43 minutes ago      Up 43 minutes                                                              kafka
 0775f5d8d6bf        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   44 minutes ago      Up 44 minutes       8096-8099/tcp, 9000/tcp                                pinot-server
 64c6392b2e04        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   44 minutes ago      Up 44 minutes       8096-8099/tcp, 9000/tcp                                pinot-broker
 b6d0f2bd26a3        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   45 minutes ago      Up 45 minutes       8096-8099/tcp, 0.0.0.0:9000->9000/tcp                  pinot-quickstart

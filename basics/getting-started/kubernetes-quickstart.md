@@ -58,13 +58,13 @@ Only use Amazon EBS/GCP Persistent Disk/Azure Disk style disks.
 {% endtab %}
 
 {% tab title="Run Helm Script within Git Repo" %}
-#### 2.1.1 Update helm dependency
+**2.1.1 Update helm dependency**
 
 ```
 helm dependency update
 ```
 
-#### 2.1.2 Start Pinot with Helm
+**2.1.2 Start Pinot with Helm**
 
 * For Helm **v2.12.1**
 
@@ -87,7 +87,7 @@ kubectl create ns pinot-quickstart
 helm install -n pinot-quickstart pinot pinot
 ```
 
-#### **2.1.3 Troubleshooting (For helm v2.12.1)**
+**2.1.3 Troubleshooting (For helm v2.12.1)**
 
 * Error: Please run the below command if encountering the following issue:
 
@@ -128,8 +128,8 @@ kubectl get all -n pinot-quickstart
 {% tabs %}
 {% tab title="For Helm v3.0.0" %}
 ```
-helm repo add incubator https://charts.helm.sh/incubator
-helm install -n pinot-quickstart kafka incubator/kafka --set replicas=1,zookeeper.image.tag=latest
+helm repo add kafka https://charts.bitnami.com/bitnami
+helm install -n pinot-quickstart kafka kafka/kafka --set replicas=1,zookeeper.image.tag=latest
 ```
 {% endtab %}
 
