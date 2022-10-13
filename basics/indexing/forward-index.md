@@ -126,11 +126,13 @@ When working out whether a column should use dictionary encoded or raw value enc
 
 ## Disabling the forward index
 
-Traditionally the forward index has been a mandatory index for all columns. Certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index may not be necessary as essentially other indexes should be able to provide the required query functionality. In such scenarios the forward index just takes up extra storage space which can ideally be freed up. Thus, to provide users an option to tradeoff the flexibility to query with storage space savings a knob to disable the forward index is now available. The following limitations exist today to disable the forward index:
+Traditionally the forward index has been a mandatory index for all columns. Certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index may not be necessary as essentially other indexes should be able to provide the required query functionality. In such scenarios the forward index just takes up extra storage space which can ideally be freed up. Thus, to provide users an option to tradeoff the flexibility to query with storage space savings a knob to disable the forward index is now available.&#x20;
+
+Forward index on one or more columns(s) in your Pinot table can be disabled with the following limitations.
 
 * Only supported for immutable (offline) segments.&#x20;
-* The inverted index must be enabled
-* Dictionary must be enabled
+* Inverted index must be enabled on the particular column(s)
+* Dictionary must be enabled on the particular column(s)
 * If the column has a range index then the column must be of single-value type and use range index version 2
 
 Sorted columns will allow the forward index to be disabled, but this operation will be treated as a no-op and the index (which acts as both a forward index and inverted index) will be created.
