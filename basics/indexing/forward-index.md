@@ -9,6 +9,8 @@ The values for every column are stored in a forward index, of which there are th
 * [Raw value forward index](forward-index.md#raw-value-forward-index)\
   Builds a forward index of the column's values.
 
+To save segment storage space the forward index can now be [disabled](forward-index.md#undefined) while creating new tables.
+
 ## Dictionary-encoded forward index with bit compression (default)
 
 Each unique value from a column is assigned an id and a dictionary is built that maps the id to the value. The forward index stores bit-compressed ids instead of the values. If you have few unique values, dictionary-encoding can significantly improve space efficiency.
@@ -121,3 +123,32 @@ When working out whether a column should use dictionary encoded or raw value enc
 | Allows for indexing (esp inv index).                                        | No inv index (only JSON/Text/FST index)                                               |
 | Adds one level of dereferencing, so can increase disk seeks                 | Eliminates additional dereferencing, so good when all docs of interest are contiguous |
 | For Strings, adds padding to make all values equal length in the dictionary | Chunk de-compression overhead with docs selected don't have spatial locality          |
+
+## Disabling the forward index
+
+Traditionally the forward index has been a mandatory index for all columns. Certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index may not be necessary as essentially other indexes should be able to provide the required query functionality. In such scenarios the forward index just takes up extra storage space which can ideally be freed up. Thus, to provide users an option to tradeoff the flexibility to query with storage space savings a knob to disable the forward index is now available. The following limitations exist today to disable the forward index:
+
+* The inverted index must be enabled
+* Dictionary must be enabled
+* If the column has a range index then the column must be of single-value type and use range index version 2
+
+Sorted columns will allow the forward index to be disabled, but this operation will be treated as a no-op and the index (which acts as both a forward index and inverted index) will be created.
+
+To disable the forward index for a given column the `fieldConfigList` can be modified within the  [table config](../../configuration-reference/table.md), as shown below:
+
+```javascript
+"fieldConfigList":[
+  {
+     "name":"columnA",
+     "encodingType":"DICTIONARY",
+     "indexTypes":["INVERTED"]
+     "properties":[{"forwardIndexDisabled":"true"}]
+  }
+]
+```
+
+Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
+
+{% hint style="danger" %}
+Warning: Today the `forwardIndexDisabled` flag cannot be toggled for an existing column or added to a new column on an existing table. For such scenarios a refresh / backfill will be required until support is added.
+{% endhint %}
