@@ -157,7 +157,7 @@
   * [Rebalance](operators/operating-pinot/rebalance/README.md)
     * [Rebalance Servers](operators/operating-pinot/rebalance/rebalance-servers.md)
     * [Rebalance Brokers](operators/operating-pinot/rebalance/rebalance-brokers.md)
-  * [Tiered Storage](operators/operating-pinot/tiered-storage.md)
+  * [Moving data from one tenant to another based on segment age](operators/operating-pinot/tiered-storage.md)
   * [Pinot managed Offline flows](operators/operating-pinot/pinot-managed-offline-flows.md)
   * [Minion merge rollup task](operators/operating-pinot/minion-merge-rollup-task.md)
   * [Consistent Push and Rollback](operators/operating-pinot/consistent-push-and-rollback.md)

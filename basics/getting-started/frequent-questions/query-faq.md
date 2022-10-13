@@ -58,10 +58,6 @@ You can add this at the end of your query: `option(timeoutMs=X)`. For eg: the fo
 SELECT COUNT(*) from myTable option(timeoutMs=20000)
 ```
 
-You can also use `SET "timeoutMs" = 20000; SELECT COUNT(*) from myTable`
-
-For changing timeout on the entire cluster, set this property `pinot.broker.timeoutMs`  in either broker configs or cluster configs (using POST /cluster/configs API from swagger)
-
 ### How do I cancel a query?
 
 Add these two configs for Pinot server and broker to start tracking of running queries. The query tracks are added and cleaned as query starts and ends, so should not consume much resource.&#x20;
