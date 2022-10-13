@@ -128,6 +128,7 @@ When working out whether a column should use dictionary encoded or raw value enc
 
 Traditionally the forward index has been a mandatory index for all columns. Certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index may not be necessary as essentially other indexes should be able to provide the required query functionality. In such scenarios the forward index just takes up extra storage space which can ideally be freed up. Thus, to provide users an option to tradeoff the flexibility to query with storage space savings a knob to disable the forward index is now available. The following limitations exist today to disable the forward index:
 
+* Only supported for immutable (offline) segments.&#x20;
 * The inverted index must be enabled
 * Dictionary must be enabled
 * If the column has a range index then the column must be of single-value type and use range index version 2
@@ -150,5 +151,7 @@ To disable the forward index for a given column the `fieldConfigList` can be mod
 Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
 
 {% hint style="danger" %}
-Warning: Today the `forwardIndexDisabled` flag cannot be toggled for an existing column or added to a new column on an existing table. For such scenarios a refresh / backfill will be required until support is added.
+Warning: Today the `forwardIndexDisabled` flag cannot be toggled for an existing column. After making the above mentioned FieldConfig changes to use this feature, please regenerate the segments (without forward index) via your offline jobs and re-push / refresh the data.&#x20;
+
+We are working on making this easier to use for existing column or a new column on an existing table via the segment reload path which will not require to re-push the data.
 {% endhint %}
