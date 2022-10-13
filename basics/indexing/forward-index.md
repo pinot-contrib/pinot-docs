@@ -151,7 +151,11 @@ To disable the forward index for a given column the `fieldConfigList` can be mod
 Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
 
 {% hint style="danger" %}
-Warning: Today the `forwardIndexDisabled` flag cannot be toggled for an existing column. After making the above mentioned FieldConfig changes to use this feature, please regenerate the segments (without forward index) via your offline jobs and re-push / refresh the data.&#x20;
+**Warning:**&#x20;
 
-We are working on making this easier to use for existing column or a new column on an existing table via the segment reload path which will not require to re-push the data.
+Today the `forwardIndexDisabled` flag cannot be toggled for an existing column.&#x20;
+
+After making the above mentioned FieldConfig changes to use this feature, please regenerate the segments via your offline jobs and re-push / refresh the data. The refreshed segments will not have the forward index.&#x20;
+
+We are working on making this feature easier to use for existing column or a new column on an existing table via the segment reload path which will not require to re-push the data
 {% endhint %}
