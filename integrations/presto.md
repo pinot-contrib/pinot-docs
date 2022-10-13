@@ -76,9 +76,17 @@ Meanwhile you can access [Presto Cluster UI](http://localhost:8080/ui/) to see q
 
 ### Using Pinot Streaming/gRPC connector
 
+For Pinot version \[0.6.0, 0.10.0] and Presto Version \[0.244, 0.277].
+
+{% hint style="info" %}
+Pinot >=0.11.0 has enabled server gRPC by default;
+
+Presto >=0.278 only supports gRPC for server queries, so this is supported by default.
+{% endhint %}
+
 Presto supports aggregation and predicate push down to Pinot. However, for certain queries that Pinot doesn't handle, Presto tries to fetch all the rows from the Pinot table segment by segment. This is definitely not an ideal access pattern for Pinot.
 
-In order to support large data scanning, Pinot (>=0.6.0) introduces a gRPC server for on-demand data scanning with a reasonable smaller memory footprint.
+In order to support large data scanning, Pinot \[0.6.0, 0.10.0] introduces a gRPC server for on-demand data scanning with a reasonably smaller memory footprint.
 
 You can enable it by adding the below configs to the Pinot server config file:
 
@@ -87,10 +95,14 @@ pinot.server.grpc.enable=true
 pinot.server.grpc.port=8090
 ```
 
-Then you can enable the streaming connector in Presto(>=0.244) by adding the below config to the Pinot catalog configs.
+Then you can enable the streaming connector in Presto \[0.244, 0.277] by adding the below config to the Pinot catalog configs.
 
 ```
 pinot.use-streaming-for-segment-queries=true
 ```
+
+{% hint style="info" %}
+This config: `pinot.use-streaming-for-segment-queries` is removed from prestodb 0.278, and will raise an error if you add it.
+{% endhint %}
 
 (Disclaimer: Presto is a third-party software that is not part of the Apache Software Foundation).

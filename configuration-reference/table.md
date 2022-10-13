@@ -96,7 +96,7 @@ Specify the columns and the type of indices to be created on those columns. Curr
 | properties   | <p>JSON of key-value pairs containing additional properties associated with the index. The following properties are supported currently -</p><ul><li><code>enableQueryCacheForTextIndex</code> - set to <code>true</code> to enable caching for text index in Lucene</li><li><code>rawIndexWriterVersion</code></li><li><code>deriveNumDocsPerChunkForRawIndex</code></li><li><code>forwardIndexDisabled</code> - set to <code>true</code> to disable the forward index, defaults to <code>false</code></li></ul> |
 
 {% hint style="danger" %}
-After making the above mentioned FieldConfig changes to use this feature, please regenerate the segments via your offline jobs and re-push / refresh the data. The refreshed segments will not have the forward index.&#x20;
+If using the `fowardIndexDisabled` flag to disable the forward index as described above, please regenerate the segments via your offline jobs and re-push / refresh the data. The refreshed segments will not have the forward index.&#x20;
 
 We are working on making this feature easier to use for existing column or a new column on an existing table via the segment reload path which will not require to re-push the data
 {% endhint %}
