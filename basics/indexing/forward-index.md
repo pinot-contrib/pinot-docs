@@ -126,9 +126,13 @@ When working out whether a column should use dictionary encoded or raw value enc
 
 ## Disabling the forward index
 
-Traditionally the forward index has been a mandatory index for all columns. Certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index may not be necessary as essentially other indexes should be able to provide the required query functionality. In such scenarios the forward index just takes up extra storage space which can ideally be freed up. Thus, to provide users an option to tradeoff the flexibility to query with storage space savings a knob to disable the forward index is now available.&#x20;
+Traditionally the forward index has been a mandatory index for all columns in the on-disk segment file format.&#x20;
 
-Forward index on one or more columns(s) in your Pinot table can be disabled with the following limitations.
+However, certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index is not necessary as essentially other indexes and structures in the segments can provide the required SQL query functionality. Forward index just takes up extra storage space for such scenarios and can ideally be freed up.&#x20;
+
+Thus, to provide users an option to save storage space, a knob to disable the forward index is now available.&#x20;
+
+Forward index on one or more columns(s) in your Pinot table can be disabled with the following limitations:
 
 * Only supported for immutable (offline) segments.&#x20;
 * Inverted index must be enabled on the particular column(s)
@@ -154,8 +158,6 @@ Enabling / disabling other indexes on the column can be done via the usual [tabl
 
 {% hint style="danger" %}
 **Warning:**&#x20;
-
-Today the `forwardIndexDisabled` flag cannot be toggled for an existing column.&#x20;
 
 After making the above mentioned FieldConfig changes to use this feature, please regenerate the segments via your offline jobs and re-push / refresh the data. The refreshed segments will not have the forward index.&#x20;
 
