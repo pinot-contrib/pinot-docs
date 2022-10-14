@@ -9,7 +9,7 @@ The values for every column are stored in a forward index, of which there are th
 * [Raw value forward index](forward-index.md#raw-value-forward-index)\
   Builds a forward index of the column's values.
 
-To save segment storage space the forward index can now be [disabled](forward-index.md#undefined) while creating new tables.
+To save segment storage space the forward index can now be [disabled](forward-index.md#disabling-the-forward-index) while creating new tables.
 
 ## Dictionary-encoded forward index with bit compression (default)
 
