@@ -166,6 +166,7 @@
   * [Tuning](operators/operating-pinot/tuning/README.md)
     * [Realtime](operators/operating-pinot/tuning/realtime.md)
     * [Routing](operators/operating-pinot/tuning/routing.md)
+    * [Query Routing using Adaptive Server Selection](operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection.md)
   * [Upgrading Pinot with confidence](operators/operating-pinot/upgrading-pinot-cluster.md)
 * [Command-Line Interface (CLI)](operators/cli.md)
 * [Configuration Recommendation Engine](operators/configuration-recommendation-engine.md)
