@@ -163,3 +163,78 @@ After making the above mentioned FieldConfig changes to use this feature, please
 
 We are working on making this feature easier to use for existing column or a new column on an existing table via the segment reload path which will not require to re-push the data
 {% endhint %}
+
+Examples of queries which will fail after disabling the forward index for an example column, `columnA`, can be found below:
+
+### Select
+
+Forward index disabled columns cannot be present in the `SELECT` clause even if filters are added on it.
+
+```
+SELECT columnA
+FROM myTable
+    WHERE columnA = 10
+```
+
+```
+SELECT *
+FROM myTable
+```
+
+### Group By Order By
+
+Forward index disabled columns cannot be present in the `GROUP BY` and `ORDER BY` clauses. They also cannot be part of the `HAVING` clause.
+
+```
+SELECT SUM(columnB)
+FROM myTable
+GROUP BY columnA
+```
+
+```
+SELECT SUM(columnB), columnA
+FROM myTable
+GROUP BY columnA
+ORDER BY columnA
+```
+
+```
+SELECT MIN(columnA)
+FROM myTable
+GROUP BY columnB
+HAVING MIN(columnA) > 100
+ORDER BY columnB
+```
+
+### Aggregation Queries
+
+A subset of the aggregation functions do work when the forward index is disabled such as `MIN`, `MAX`, `DISTINCTCOUNT`, `DISTINCTCOUNTHLL` and more. Some of the other aggregation functions will not work such as the below:&#x20;
+
+```
+SELECT SUM(columnA), AVG(columnA)
+FROM myTable
+```
+
+```
+SELECT MAX(ADD(columnA, columnB))
+FROM myTable
+```
+
+### Distinct
+
+Forward index disabled columns cannot be present in the `SELECT DISTINCT` clause.
+
+```
+SELECT DISTINCT columnA
+FROM myTable
+```
+
+### Range Queries
+
+To run queries on single-value columns where the filter clause contains operators such as `>`, `<`, `>=`, `<=` a version 2 range index must be present. Without the range index such queries will fail as shown below:
+
+```
+SELECT columnB
+FROM myTable
+    WHERE columnA > 1000
+```
