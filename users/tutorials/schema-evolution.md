@@ -6,6 +6,20 @@ So far, you've seen how to [create a new schema](https://docs.pinot.apache.org/b
 Pinot only allows adding new columns to the schema. In order to drop a column, change the column name or data type, a new table has to be created.
 {% endhint %}
 
+## **Key takeaways**
+
+1. For a newly added column to become queryable in Pinot, you would need to reload all segments using reload segments API.
+2. As far as values for this newly added column are concerned, all existing records in the table will get defaultNullValue configured for this column.
+3. If you have a scenario to backfill actual values, re-ingestion would be needed.
+4. If newly added column is a derived column, the values will be auto-derived from the dependent columns.
+
+### **A few gotchas around segment reload operation**
+
+1. Reloading of each segment is expected to happen gracefully without impacting in-flight queries; a segment becomes eligible for reload only after reaching the reference count of 0; (i.e: when the segment is not serving any in-flight queries).
+2. Assuming that you have segment replicas in place (recommendation is to have at least 3), all new queries entering the system during the segment reload operation are routed to healthy segment replicas. If you don’t have enough replicas in place, it could result in empty results
+
+## &#x20;Add Column Guide
+
 ### Get the existing schema
 
 Let's begin by first fetching the existing schema. We can do this using the controller API:
