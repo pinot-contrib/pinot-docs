@@ -18,6 +18,7 @@ description: This document contains all the available query options
 | **minServerGroupTrimSize**  | Minimum groups to keep when trimming groups at the server level for group-by queries. See [#configuration-parameters](grouping-algorithm.md#configuration-parameters "mention")  | Server level config                                                                |
 | **skipUpsert**              | For upsert-enabled table, skip the effect of upsert and query all the records. See [upsert.md](../../basics/data-import/upsert.md "mention")                                     | `false` (exclude the replaced records)                                             |
 | **useStarTree**             | Useful to debug the star-tree index (introduced in 0.11.0)                                                                                                                       | `true` (use star-tree if available)                                                |
+| **AndScanReordering**       | [See detailed description](https://docs.pinot.apache.org/operators/tutorials/performance-optimization-configurations?q=andoperator)                                              | disabled                                                                           |
 
 
 
