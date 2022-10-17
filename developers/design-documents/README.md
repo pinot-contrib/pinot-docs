@@ -14,6 +14,8 @@ This page contains links to all the design documents
 | [Runtime query killing](https://docs.google.com/document/d/1Z9DYAfKznHQI9Wn8BjTWZYTcNRVGiPP0B8aEP3w\_1jQ/edit#heading=h.o3jia8j0k10u)                               | Jia Guo                          | Oct 2022  |
 | [Forward Index Handler in Segment Reload](https://docs.google.com/document/d/1Gai0DHBnyR4joG\_8AcoR-27\_exEBTpVfTFU04HyPdd8/edit#heading=h.liwwtls82n1z)            | Vivek Iyer                       | Sep 2022  |
 | [Support multiple data directories for Pinot server](https://docs.google.com/document/d/1B\_8k2XGMrxfFAo\_g-MEjEPGj84Xy8YW4-yUiZ2BQkuE/edit#heading=h.2ic29gs71g43) | Xiaobing Li                      | Aug 2022  |
+| [Reload status API](https://docs.google.com/document/d/1Eqn2FDDIhCr8G2JFlifs5FjT0LsVPfpPTpdJIJvorwI/edit?usp=sharing)												  | Saurabh Dubey					 | Aug 2022  |
+| [Deduplication during realtime ingestion](https://docs.google.com/document/d/17sOSRQ1slff30z7jDc0ec5qKwv0xSfPkDjpMOY07POQ/edit?usp=sharing)						  | Saurabh Dubey					 | June 2022 |
 | [Adaptive Server Selection](https://docs.google.com/document/d/1w8YVpKIj0S62NvwDpf1HgruwxJYJ6ODuKQLjGXupH8w/edit#heading=h.u87pirlgxhmf)                            | Vivek Iyer                       | June 2022 |
 | [MV column compression evaluation](https://docs.google.com/document/d/1BWtNKvxL1Uaydni\_BJCgWN8i9\_WeSdgL3Ksh4IpY\_K0/edit)                                         | Sonam Mandal                     | June 2022 |
 | [Minimize Data Movement for Instance Assignment](https://docs.google.com/document/d/1\_Fn-yNjt9Ih0SQiIqIhCEvE9BvYugvAhB4tgWH-VoWE/edit)                             | Jialiang Li                      | June 2022 |
