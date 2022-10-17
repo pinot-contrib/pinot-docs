@@ -44,7 +44,7 @@ Data types determine the operations that can be performed on a column. Pinot sup
 {% endhint %}
 
 {% hint style="warning" %}
-The lowest granularity TIMESTAMP type supports is milliseconds epoch
+The lowest granularity TIMESTAMP type supports is milliseconds epoch, nanoseconds is not supported.
 {% endhint %}
 
 Pinot also supports columns that contain lists or arrays of items, but there isn't an explicit data type to represent these lists or arrays. Instead, you can indicate that a dimension column accepts multiple values. For more information, see [DimensionFieldSpec](https://docs.pinot.apache.org/configuration-reference/schema#dimensionfieldspec) in the Schema configuration reference.
