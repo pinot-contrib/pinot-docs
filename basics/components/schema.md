@@ -43,6 +43,10 @@ Data types determine the operations that can be performed on a column. Pinot sup
 `BOOLEAN`, `TIMESTAMP`, `JSON` are added after release `0.7.1`. In release `0.7.1` and older releases, `BOOLEAN` is equivalent to `STRING.` `BIG_DECIMAL` is added after release `0.10.0`.
 {% endhint %}
 
+{% hint style="warning" %}
+The lowest granularity TIMESTAMP type supports is milliseconds epoch
+{% endhint %}
+
 Pinot also supports columns that contain lists or arrays of items, but there isn't an explicit data type to represent these lists or arrays. Instead, you can indicate that a dimension column accepts multiple values. For more information, see [DimensionFieldSpec](https://docs.pinot.apache.org/configuration-reference/schema#dimensionfieldspec) in the Schema configuration reference.
 
 ### Date Time Fields
