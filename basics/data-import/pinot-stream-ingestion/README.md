@@ -218,3 +218,57 @@ If a Pinot table is configured to consume using a [Low Level](./#create-table-co
 Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monitors such changes and starts consumption on new partitions (or stops consumptions from old ones) as necessary. Since this is a [periodic task](../../components/controller.md#controller-periodic-tasks) that is run on the controller, it may take some time for Pinot to recognize new partitions and start consuming from them. This may delay the data in new partitions appearing in the results that pinot returns.
 
 If it is desired to recognize the new partitions sooner, then you can [manually trigger](../../components/controller.md#running-the-periodic-task-manually) the periodic task so as to recognize such data immediately.
+
+### Inferring Ingestion Status of Realtime Tables
+
+Often, it is important to understand the rate of ingestion of data into your realtime table. This is commonly done by looking at the consumption "lag" of the consumer. The lag itself can be observed in many dimensions. Pinot supports observing consumption lag along the offset dimension and time dimension, whenever applicable (as it depends on the specifics of the connector).&#x20;
+
+The ingestion status of a connector can be observed by querying either the `/consumingSegmentsInfo` API or the table's `/debug` API, as shown below:
+
+{% code overflow="wrap" lineNumbers="true" %}
+```shell
+# GET /tables/{tableName}/consumingSegmentsInfo
+curl -X GET "http://<controller_url:controller_admin_port>/tables/meetupRsvp/consumingSegmentsInfo" -H "accept: application/json"
+
+# GET /debug/tables/{tableName}
+curl -X GET "http://localhost:9000/debug/tables/meetupRsvp?type=REALTIME&verbosity=1" -H "accept: application/json"
+```
+{% endcode %}
+
+A sample response from a Kafka based realtime table is shown below. The ingestion status is displayed for each of the CONSUMING segments in the table. &#x20;
+
+```json
+{
+  "_segmentToConsumingInfoMap": {
+    "meetupRsvp__0__0__20221019T0639Z": [
+      {
+        "serverName": "Server_192.168.0.103_7000",
+        "consumerState": "CONSUMING",
+        "lastConsumedTimestamp": 1666161593904,
+        "partitionToOffsetMap": { // <<-- Deprecated. See currentOffsetsMap for same info
+          "0": "6"
+        },
+        "partitionOffsetInfo": {
+          "currentOffsetsMap": {
+            "0": "6" // <-- Current consumer position
+          },
+          "latestUpstreamOffsetMap": {
+            "0": "6"  // <-- Upstream latest position
+          },
+          "recordsLagMap": {
+            "0": "0"  // <-- Lag, in terms of #records behind latest
+          },
+          "recordsAvailabilityLagMap": {
+            "0": "2"  // <-- Lag, in terms of time
+          }
+        }
+      }
+    ],
+```
+
+| Term                      | Description                                                                                                                                                                                                                                                                |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| currentOffsetsMap         | Current consuming offset position per partition                                                                                                                                                                                                                            |
+| latestUpstreamOffsetMap   | (Wherever applicable) Latest offset found in the upstream topic partition                                                                                                                                                                                                  |
+| recordsLagMap             | (Whenever applicable) Defines how far behind the current record's offset / pointer is from upstream latest record. This is calculated as the difference between the `latestUpstreamOffset` and `currentOffset` for the partition when the lag computation request is made. |
+| recordsAvailabilityLagMap | (Whenever applicable) Defines how soon after record ingestion was the record consumed by Pinot. This is calculated as the difference between the time the record was consumed and the time at which the record was ingested upstream.                                      |
