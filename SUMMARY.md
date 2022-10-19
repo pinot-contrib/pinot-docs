@@ -41,6 +41,7 @@
   * [From Query Console](basics/data-import/from-query-console.md)
   * [Batch Ingestion](basics/data-import/batch-ingestion/README.md)
     * [Spark](basics/data-import/batch-ingestion/spark.md)
+    * [Flink](basics/data-import/batch-ingestion/flink.md)
     * [Hadoop](basics/data-import/batch-ingestion/hadoop.md)
     * [Backfill Data](basics/data-import/batch-ingestion/backfill-data.md)
     * [Dimension Table](basics/data-import/batch-ingestion/dim-table.md)
