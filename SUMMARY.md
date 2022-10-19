@@ -173,6 +173,7 @@
 * [Tutorials](operators/tutorials/README.md)
   * [Authentication, Authorization, and ACLs](operators/tutorials/authentication-authorization-and-acls.md)
   * [Configuring TLS/SSL](operators/tutorials/configuring-tls-ssl.md)
+  * [Dynamic Log Configuration](operators/tutorials/dynamic-log-configuration.md)
   * [Build Docker Images](operators/tutorials/build-docker-images.md)
   * [Running Pinot in Production](operators/tutorials/running-pinot-in-production.md)
   * [Kubernetes Deployment](operators/tutorials/deployment-pinot-on-kubernetes.md)
