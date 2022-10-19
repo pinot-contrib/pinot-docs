@@ -78,6 +78,7 @@ The client provides a `ConnectionFactory` class to create connections to a Pinot
 
 * **Zookeeper (Recommended)** - Comma seperated list of zookeeper of the cluster. This is the recommended method which can redirect queries to appropriate brokers based on tenant/table.
 * **Broker list** - Comma seperated list of the brokers in the cluster. This should only be used in standalone setups or for POC, unless you have a load balancer setup for brokers.
+* **Controller URL** - (v 0.11.0+) Controller URL. This will use periodic controller API calls to keep the table level broker list updated (hence there might be delay b/w the broker mapping changing and the client state getting updated).
 * **Properties file** -  You can also put the broker list as `brokerList` in a properties file and provide the path to that file to the factory.  This should only be used in standalone setups or for POC, unless you have a load balancer setup for brokers.
 
 Here's an example demonstrating all methods of Connection factory -
@@ -90,6 +91,9 @@ Connection connection = ConnectionFactory.fromProperties("demo.properties");
 
 Connection connection = ConnectionFactory.fromHostList
   ("broker-1:1234", "broker-2:1234", ...);
+
+Connection connection = ConnectionFactory.fromController
+    ("http", "controller-url", 9000)
 ```
 
 ## Query Methods

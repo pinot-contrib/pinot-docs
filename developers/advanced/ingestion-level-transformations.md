@@ -143,6 +143,16 @@ Consider a table that has a string column `campaign` and a multi-value column do
 }
 ```
 
+Filter config also supports SQL-like expression of inbuilt functions for filtering records (starting v 0.11.0+).
+Example:
+```javascript
+"ingestionConfig": {
+    "filterConfig": {
+        "filterFunction": "campaign = 'X' OR campaign = 'Y' OR timestamp < 1589007600000"
+    }
+}
+```
+
 ### Column Transformation
 
 Transform functions can be defined on columns in the ingestion config of the table config.
