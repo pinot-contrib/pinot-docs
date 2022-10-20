@@ -51,22 +51,7 @@ Pinot also supports columns that contain lists or arrays of items, but there isn
 
 ### Date Time Fields
 
-Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations.
-
-To achieve this conversion, you will need to provide the format of the date along with the data type in the schema. The format is described using the following syntax: `timeSize:timeUnit:timeFormat:pattern` .
-
-* **time size** - the size of the time unit. This size is multiplied to the value present in the time column to get an actual timestamp. e.g. if timesize is 5 and value in time column is 4996308 minutes. The value that will be converted to epoch timestamp will be 4996308 \* 5 \* 60 \* 1000 = 1498892400000 milliseconds.\
-  If your date is not in `EPOCH` format, this value is not used and can be set to 1 or any other integer.\\
-* **time unit** - one of [TimeUnit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html) enum values. e.g. `HOURS` , `MINUTES` etc. If your date is not in `EPOCH` format, this value is not used and can be set to `MILLISECONDS` or any other unit.\\
-* **timeFormat** - can be either `EPOCH` or `SIMPLE_DATE_FORMAT`. If it is `SIMPLE_DATE_FORMAT`, the pattern string is also specified. \\
-* **pattern** - This is optional and is only specified when the date is in `SIMPLE_DATE_FORMAT` . The pattern should be specified using the java [SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html) representation. e.g. 2020-08-21 can be represented as `yyyy-MM-dd`.\\
-
-Here are some sample date-time formats you can use in the schema:
-
-* `1:MILLISECONDS:EPOCH` - used when timestamp is in the epoch milliseconds and stored in `LONG` format
-* `1:HOURS:EPOCH` - used when timestamp is in the epoch hours and stored in `LONG` or `INT` format
-* `1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd` - when the date is in `STRING` format and has the pattern year-month-date. e.g. 2020-08-21
-* `1:HOURS:SIMPLE_DATE_FORMAT:EEE MMM dd HH:mm:ss ZZZ yyyy` - when date is in `STRING` format. e.g. Mon Aug 24 12:36:50 America/Los\_Angeles 2019
+Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations. You can refer to [DateTime field spec configs](../../configuration-reference/schema.md#datetimefieldspec) for more details on supported formats.
 
 ### Built-in Virtual Columns
 
