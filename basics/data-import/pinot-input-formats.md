@@ -56,6 +56,20 @@ CSV Record Reader supports the following configs -
 
 `multiValueDelimiter` - The character seperating multiple values in a single column. This can be used to split a column into a list.
 
+Supported from 0.11 release - \
+`skipHeader` - skip header record in the file. Boolean
+
+`ignoreEmptyLines` - ignore empty lines instead of consuming them and filling with default values. Boolean
+
+`ignoreSurroundingSpaces` - ignore spaces around column names and values. Boolean
+
+`quoteCharacter` - single character that is being used for quotes in CSV files
+
+`recordSeparator` - character used to seperate records in the input file. Default is `\n` or `\r\n` depending on the platform.
+
+`nullStringValue` - string value the represents null in CSV files. Default is empty string. \
+
+
 {% hint style="info" %}
 Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config. \
 \
@@ -67,9 +81,36 @@ Your CSV file may have raw text fields that cannot be reliably delimited using a
 ```
 dataFormat: 'avro'
 className: 'org.apache.pinot.plugin.inputformat.avro.AvroRecordReader'
+configs:
+    enableLogicalTypes: true
 ```
 
-The Avro record reader converts the data in file to a `GenericRecord`. A java class or `.avro` file is not required.
+The Avro record reader converts the data in file to a `GenericRecord`. A java class or `.avro` file is not required.  By default the avro record reader only supports primitive types. You can set `enableLogicalTypes` to `true` to enable support for rest of the avro data types.
+
+We use the following conversion table to translate between avro and pinot data types. The conversions are done using the offical avro methods present in `org.apache.avro.Conversions`
+
+| Avro Data Type    | Pinot Data Type | Comment                  |
+| ----------------- | --------------- | ------------------------ |
+| INT               | INT             |                          |
+| LONG              | LONG            |                          |
+| FLOAT             | FLOAT           |                          |
+| DOUBLE            | DOUBLE          |                          |
+| BOOLEAN           | BOOLEAN         |                          |
+| STRING            | STRING          |                          |
+| ENUM              | STRING          |                          |
+| BYTES             | BYTES           |                          |
+| FIXED             | BYTES           |                          |
+| MAP               | JSON            |                          |
+| ARRAY             | JSON            |                          |
+| RECORD            | JSON            |                          |
+| UNION             | JSON            |                          |
+| DECIMAL           | BYTES           |                          |
+| UUID              | STRING          |                          |
+| DATE              | STRING          | `yyyy-MM-dd` format      |
+| TIME\_MILLIS      | STRING          | `HH:mm:ss.SSS` format    |
+| TIME\_MICROS      | STRING          | `HH:mm:ss.SSSSSS` format |
+| TIMESTAMP\_MILLIS | TIMESTAMP       |                          |
+| TIMESTAMP\_MICROS | TIMESTAMP       |                          |
 
 ### JSON
 
@@ -98,21 +139,33 @@ dataFormat: 'parquet'
 className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader'
 ```
 
-{% hint style="warning" %}
-The above class doesn't read the Parquet `INT96` and `Decimal`type.
-{% endhint %}
+Since 0.11.0 release, The Parquet record reader determines whether to use `ParquetAvroRecordReader` or `ParquetNativeRecordReader`  to read records. The reader looks for `parquet.avro.schema` or `avro.schema` key in the parquet file footer and if present uses the Avro reader.&#x20;
 
-Please use the below class to handle  `INT96` and `Decimal`type.
+Users can however change the record reader manually in case of a misconfiguration.&#x20;
 
 ```
 dataFormat: 'parquet'
 className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReader'
 ```
 
-| Parquet Data Type | Java Data Type | Comment                                                                                                                                              |
-| ----------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| INT96             | INT64          | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p> to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |
-| DECIMAL           | DOUBLE         |                                                                                                                                                      |
+{% hint style="warning" %}
+For the support of DECIMAL and other parquet native data types, always use `ParquetNativeRecordReader`&#x20;
+{% endhint %}
+
+| INT96                 | LONG                               | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p> to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |
+| --------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| INT64                 | LONG                               |                                                                                                                                                      |
+| INT32                 | INT                                |                                                                                                                                                      |
+| FLOAT                 | FLOAT                              |                                                                                                                                                      |
+| DOUBLE                | DOUBLE                             |                                                                                                                                                      |
+| BINARY                | BYTES                              |                                                                                                                                                      |
+| FIXED-LEN-BYTE-ARRAY  | BYTES                              |                                                                                                                                                      |
+| DECIMAL               | DOUBLE                             |                                                                                                                                                      |
+| ENUM                  | STRING                             |                                                                                                                                                      |
+| UTF8                  | STRING                             |                                                                                                                                                      |
+| REPEATED              | MULTIVALUE/MAP (represented as MV  | if parquet original type is LIST, then it is converted to MULTIVALUE column otherwise a MAP column.                                                  |
+
+For `ParquetAvroRecordReader` , you can refer to the [Avro section above](pinot-input-formats.md#avro) for the type conversions.
 
 ### ORC
 
