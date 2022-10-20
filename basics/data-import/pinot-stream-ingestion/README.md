@@ -175,6 +175,29 @@ bin/pinot-admin.sh AddTable \
 {% endtab %}
 {% endtabs %}
 
+### Tuning Stream Config
+
+#### Throttling Stream Consumption&#x20;
+
+There are some scenarios where the message rate in the input stream has a bursty nature which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other realtime tables on the same server. In such scenarios, you should throttle the consumption rate during stream ingestion.&#x20;
+
+Stream consumption throttling can be tuned using the stream config `topic.consumption.rate.limit` which indicates the upper bound on the message rate for the entire topic. &#x20;
+
+Some things to keep in mind while tuning this config are:
+
+1. Since this config applied to the entire topic, internally, this rate is divided by the number of partitions in the topic and applied to each partition's consumer.
+2. In case of multi-tenant deployment (where you have more than 1 table in the same server instance), you need to make sure that the rate limit on one table doesn't step on/starve the rate limiting of another table. So, when there is more than 1 table on the same server (which is most likely to happen), you may need to re-tune the throttling threshold for all the streaming tables.
+
+Once throttling is enabled for a table, you can verify by searching for a log that looks similar to:
+
+{% code overflow="wrap" %}
+```markdown
+A consumption rate limiter is set up for topic <topic_name> in table <tableName> with rate limit: <rate_limit> (topic rate limit: <topic_rate_limit>, partition count: <partition_count>)
+```
+{% endcode %}
+
+In addition, you can monitor the consumption rate utilization with the metric `COSUMPTION_QUOTA_UTILIZATION`.
+
 ### Custom Ingestion Support
 
 We are working on support for other ingestion platforms, but you can also write your own ingestion plugin if it is not supported out of the box. For a walkthrough, see [Stream Ingestion Plugin](../../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
