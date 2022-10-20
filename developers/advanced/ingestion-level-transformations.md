@@ -143,7 +143,7 @@ Consider a table that has a string column `campaign` and a multi-value column do
 }
 ```
 
-Filter config also supports SQL-like expression of inbuilt functions for filtering records (starting v 0.11.0+).
+Filter config also supports SQL-like expression of inbuilt [scalar functions](../../users/user-guide-query/scalar-functions.md#scalar-functions) for filtering records (starting v 0.11.0+).
 Example:
 ```javascript
 "ingestionConfig": {
