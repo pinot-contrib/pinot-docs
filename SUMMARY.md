@@ -106,6 +106,7 @@
   * [Broker Query API](users/api/querying-pinot-using-standard-sql/README.md)
     * [Query Response Format](users/api/querying-pinot-using-standard-sql/response-format.md)
   * [Controller Admin API](users/api/pinot-rest-admin-interface.md)
+  * [Controller API Reference](users/api/controller-api-reference.md)
 * [External Clients](users/clients/README.md)
   * [JDBC](users/clients/jdbc.md)
   * [Java](users/clients/java.md)
