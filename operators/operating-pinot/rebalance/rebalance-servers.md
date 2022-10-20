@@ -4,7 +4,7 @@ The rebalance operation is used to recompute the assignment of brokers or server
 
 In the case of servers, rebalance operation is used to balance the distribution of the segments amongst the servers being used by a Pinot table. This is typically done after capacity changes or config changes such as replication or segment assignment strategies or table migration to a different tenant.
 
-## Changes that require a rebalance&#x20;
+## Changes that require a rebalance
 
 Below are changes that need to be followed by a rebalance.
 
@@ -19,9 +19,9 @@ These are typically done when downsizing/uplifting a cluster or replacing nodes 
 
 #### Tenants and tags
 
-Every server added to the Pinot cluster, has tags associated with it. A group of servers with the same tag forms a Server Tenant.&#x20;
+Every server added to the Pinot cluster, has tags associated with it. A group of servers with the same tag forms a Server Tenant.
 
-By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets tagged as `DefaultTenant_OFFLINE` and `DefaultTenant_REALTIME`.&#x20;
+By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets tagged as `DefaultTenant_OFFLINE` and `DefaultTenant_REALTIME`.
 
 Below is an example of how this looks in the znode, as seen in ZooInspector.
 
@@ -84,7 +84,7 @@ OFFLINE table - update the `replication` field
 
 REALTIME table - update the `replicasPerPartition` field
 
-### Segment Assignment changes&#x20;
+### Segment Assignment changes
 
 The most common segment assignment change is moving from the default segment assignment to replica group segment assignment. Discussing the details of the segment assignment is beyond the scope of this page. More details can be found in [Routing](../tuning/routing.md#replica-group-segment-assignment-and-query-routing) and in this [FAQ question](../../../basics/getting-started/frequent-questions/#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3).
 
@@ -98,20 +98,15 @@ Currently, two rebalance algorithms are supported; one is the default algorithm 
 
 ### The Default Algorithm
 
-This algorithm is used for most of the cases. When `reassignInstances` parameter is set to true,
- the final lists of instance assignment will be re-computed, and the list of instances is sorted per partition per replica group.
- Whenever the table rebalance is run, segment assignment will respect the sequence in the sorted list and pick up the relevant instances.
+This algorithm is used for most of the cases. When `reassignInstances` parameter is set to true, the final lists of instance assignment will be re-computed, and the list of instances is sorted per partition per replica group. Whenever the table rebalance is run, segment assignment will respect the sequence in the sorted list and pick up the relevant instances.
 
 ### Minimal Data Movement Algorithm
 
-This algorithm focuses more on minimizing the data movement during table rebalance.
- When `reassignInstances` parameter is set to true and this algorithm gets enabled,
- the position of instances which are still alive remains the same, and vacant seats are filled with newly added instances or last instances in the existing alive instance candidate.
- So only the instances which change the position will involve in data movement.
+This algorithm focuses more on minimizing the data movement during table rebalance. When `reassignInstances` parameter is set to true and this algorithm gets enabled, the position of instances which are still alive remains the same, and vacant seats are filled with newly added instances or last instances in the existing alive instance candidate. So only the instances which change the position will involve in data movement.
 
 In order to switch to this table rebalance algorithm, just simply set the following config to the table config before triggering table rebalance:
 
-```text
+```
 "segmentsConfig": {
     ...
     "minimizeDataMovement": true,
@@ -119,12 +114,11 @@ In order to switch to this table rebalance algorithm, just simply set the follow
 }
 ```
 
-
 ## Running a Rebalance
 
 After any of the above described changes are done, a rebalance is needed to make those changes take effect.
 
-To run a rebalance, use the following API.&#x20;
+To run a rebalance, use the following API.
 
 `POST /tables/{tableName}/rebalance?type=<OFFLINE/REALTIME>`
 
@@ -135,22 +129,24 @@ This API has a lot of parameters to control its behavior. Make sure to go over t
 {% hint style="warning" %}
 **Note**
 
-Typically, the flags that need to be changed from defaults are&#x20;
+Typically, the flags that need to be changed from defaults are
 
-**includeConsuming=true** for REALTIME&#x20;
+**includeConsuming=true** for REALTIME
 
 **downtime=true** if you have only 1 replica, or prefer faster rebalance at the cost of a momentary downtime
 {% endhint %}
 
-| Query param          | Default value | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| -------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dryRun               | false         | If set to true, **rebalance is run as a dry-run** so that you can see the expected changes to the ideal state and instance partition assignment.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| includeConsuming     | false         | <p>Applicable for REALTIME tables. <strong>CONSUMING segments are rebalanced only if this is set to true</strong>. <br>Moving a CONSUMING segment involves dropping the data consumed so far on old server, and re-consuming on the new server. If an application is sensitive to <strong>increased memory utilization due to re-consumption or to a momentary data staleness</strong>, they may choose to not include consuming in the rebalance. Whenever the CONSUMING segment completes, the completed segment will be assigned to the right instances, and the new CONSUMING segment will also be started on the correct instances. If you choose to includeConsuming=false and let the segments move later on, any downsized nodes need to remain untagged in the cluster, until the segment completion happens.</p> |
-| downtime             | false         | <p><strong>This controls whether Pinot allows downtime while rebalancing.</strong><br>If downtime = true, all replicas of a segment can be moved around in one go, which could result in a momentary downtime for that segment (time gap between ideal state updated to new servers and new servers downloading the segments).<br>If downtime = false, Pinot will make sure to keep certain number of replicas (config in next row) always up. The rebalance will be done in multiple iterations under the hood, in order to fulfill this constraint.   </p><p><strong>Note</strong>: <em>If you have only 1 replica for your table,  rebalance with downtime=false is not possible.</em></p>                                                                                                                              |
-| minAvailableReplicas | 1             | <p>Applicable for rebalance with downtime=false.</p><p>This is the <strong>minimum number of replicas that are expected to stay alive</strong> through the rebalance.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| bestEfforts          | false         | <p>Applicable for rebalance with downtime=false.</p><p>If a no-downtime rebalance cannot be performed successfully, this flag <strong>controls whether to fail the rebalance or do a best-effort rebalance</strong>.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| reassignInstances    | false         | Applicable to tables where the instance assignment has been persisted to zookeeper. Setting this to true will make the rebalance **first update the instance assignment, and then rebalance the segments**.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| bootstrap            | false         | Rebalances all segments again, **as if adding segments to an empty table**. If this is false, then the rebalance will try to minimize segment movements.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Query param          | Default value | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| -------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dryRun               | false         | If set to true, **rebalance is run as a dry-run** so that you can see the expected changes to the ideal state and instance partition assignment.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| includeConsuming     | false         | <p>Applicable for REALTIME tables. </p><p><strong>CONSUMING segments are rebalanced only if this is set to true</strong>.<br>Moving a CONSUMING segment involves dropping the data consumed so far on old server, and re-consuming on the new server. If an application is sensitive to <strong>increased memory utilization due to re-consumption or to a momentary data staleness</strong>, they may choose to not include consuming in the rebalance. Whenever the CONSUMING segment completes, the completed segment will be assigned to the right instances, and the new CONSUMING segment will also be started on the correct instances. If you choose to includeConsuming=false and let the segments move later on, any downsized nodes need to remain untagged in the cluster, until the segment completion happens.</p> |
+| downtime             | false         | <p><strong>This controls whether Pinot allows downtime while rebalancing.</strong><br>If downtime = true, all replicas of a segment can be moved around in one go, which could result in a momentary downtime for that segment (time gap between ideal state updated to new servers and new servers downloading the segments).<br>If downtime = false, Pinot will make sure to keep certain number of replicas (config in next row) always up. The rebalance will be done in multiple iterations under the hood, in order to fulfill this constraint.</p><p><strong>Note</strong>: <em>If you have only 1 replica for your table, rebalance with downtime=false is not possible.</em></p>                                                                                                                                        |
+| minAvailableReplicas | 1             | <p>Applicable for rebalance with downtime=false.</p><p>This is the <strong>minimum number of replicas that are expected to stay alive</strong> through the rebalance.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| bestEfforts          | false         | <p>Applicable for rebalance with downtime=false.</p><p>If a no-downtime rebalance cannot be performed successfully, this flag <strong>controls whether to fail the rebalance or do a best-effort rebalance</strong>.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| reassignInstances    | false         | Applicable to tables where the instance assignment has been persisted to zookeeper. Setting this to true will make the rebalance **first update the instance assignment, and then rebalance the segments**.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| bootstrap            | false         | Rebalances all segments again, **as if adding segments to an empty table**. If this is false, then the rebalance will try to minimize segment movements.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+
+### Checking status
 
 You can check the status of the rebalance by
 
