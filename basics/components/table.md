@@ -83,7 +83,7 @@ You can create multiple indices on a table to increase the performance of the qu
 
 For more details on each indexing mechanism and corresponding configurations, see [Indexing](../indexing/).
 
-You can also set up [Bloomfilters](../../operators/operating-pinot/tuning/routing.md#bloom-filter-for-dictionary) on columns to make queries faster. Further, you can also keep segments in off-heap instead of on-heap memory for faster queries.
+You can also set up [Bloomfilters](indexing/bloom-filter.md) on columns to make queries faster. Further, you can also keep segments in off-heap instead of on-heap memory for faster queries.
 
 ### Pre-aggregation
 
