@@ -20,7 +20,7 @@ If you want to view the contents of a server, click on its instance name. You'll
 
 To view the _baseballStats_ table, click on its name, which will show the following screen:
 
-![baseballStats Table](<../../.gitbook/assets/image (2) (1) (1).png>)
+![baseballStats Table](<../../.gitbook/assets/image (2) (1).png>)
 
 From this screen, we can edit or delete the table, edit or adjust its schema, as well as several other operations.
 
