@@ -293,11 +293,13 @@ With **excludeFields** set to \["age", "street"]:
 
 The legacy config has the same behavior as the default settings in the new config.
 
-
-
 Note that JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
 
-When you're using a JSON index, we would recommend that you add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead. For instructions on that config property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+{% hint style="info" %}
+When you're using a JSON index, we would recommend that you add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.&#x20;
+
+For instructions on that config property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+{% endhint %}
 
 ## How to use JSON index
 
