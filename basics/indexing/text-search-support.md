@@ -238,6 +238,12 @@ The above mechanism can be used to configure text indexes in the following scena
 * Adding a new column with text index enabled to an existing table.
 * Enabling text index on an existing column.
 
+{% hint style="info" %}
+When you're using a Text index, we would recommend that you add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.&#x20;
+
+For instructions on that config property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+{% endhint %}
+
 ## Text Index Creation
 
 Once the text index is enabled on one or more columns through table config, our segment generation code will pick up the config and automatically create text index (per column). This is exactly how other indexes in Pinot are created.
