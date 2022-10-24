@@ -313,5 +313,5 @@ Check out the table config in the [Rest API](http://localhost:9000/help#!/Table/
 ```
 
 {% hint style="warning" %}
-Note that creating a hybrid table has to be done in 2 separate steps of creating an offline and real-time table individually.
+Creating a hybrid table has to be done in 2 separate steps of creating an offline and real-time table individually. You don't need to create a separate overlay/hybrid table.
 {% endhint %}
