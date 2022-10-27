@@ -14,7 +14,7 @@ Pinot servers have several endpoints for determining the health of the servers.
 
 `GET /health` performs the same check as the readiness endpoint.
 
-## No Checkers (default behavior)
+## No Consuming Status Check (Default Behavior)
 
 It's possible to operate Pinot with no checkers at all by disabling the following configurations, but this is not recommended. Instead, the defaults here are the following:
 
