@@ -1,7 +1,5 @@
 # Server Startup Status Checkers
 
-
-
 ## Overview
 
 When operating Pinot in a production environment, it's not always desirable to have servers immediately available for querying when they have started up. This is especially so for realtime servers that may have to re-consume some amount of data before they are "caught up". Pinot offers several strategies for determining when a server is up, healthy, and available for querying.
@@ -10,11 +8,11 @@ When operating Pinot in a production environment, it's not always desirable to h
 
 Pinot servers have several endpoints for determining the health of the servers.
 
-`/health/liveness` answers "is this server up." This only ensures that the server was able to start, and you can connect to it.
+`GET /health/liveness` answers "is this server up." This only ensures that the server was able to start, and you can connect to it.
 
-`/health/readiness` answers "is this server up and ready to server data." The checkers below determine if the "readiness" aspect returns `OK`.
+`GET /health/readiness` answers "is this server up and ready to server data." The checkers below determine if the "readiness" aspect returns `OK`.
 
-`/health` is a combination of the two endpoints above. It returns `OK` when the server started with no errors and is ready to serve data
+`GET /health` performs the same check as the readiness endpoint.
 
 ## No Checkers (default behavior)
 
