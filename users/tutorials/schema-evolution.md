@@ -15,8 +15,9 @@ Pinot only allows adding new columns to the schema. In order to drop a column, c
 
 ### **A few gotchas around segment reload operation**
 
-1. Reloading of each segment is expected to happen gracefully without impacting in-flight queries; a segment becomes eligible for reload only after reaching the reference count of 0; (i.e: when the segment is not serving any in-flight queries).
-2. Assuming that you have segment replicas in place (recommendation is to have at least 3), all new queries entering the system during the segment reload operation are routed to healthy segment replicas. If you don’t have enough replicas in place, it could result in empty results
+1. Reloading of each segment is expected to happen gracefully without impacting in-flight queries. When reloading a segment, a new segment will be loaded, and replace the existing segment. The replaced segment will be dropped only after reaching the reference count of 0; (i.e: when the segment is not serving any in-flight queries).
+2. For real-time consuming segment, reload is performed as force commit, which commits the current consuming segment and load it as immutable segment. A new consuming segment will be created after the current one is committed, and will pickup the changes in table config and schema.
+3. Upsert and dedup config change cannot be applied via reload because they will change the table level (cross segments) metadata management. In order to apply these changes, server needs to be restarted.
 
 ## &#x20;Add Column Guide
 
@@ -113,9 +114,7 @@ Result: {"resultTable":{"dataSchema":{"columnNames":["playerID","yearsOfExperien
 ```
 
 {% hint style="info" %}
-**Real-Time Pinot table:** In case of real-time tables, make sure the "_pinot.server.instance.reload.consumingSegment_" config is set to true inside [Server config](https://docs.pinot.apache.org/configuration-reference/server). Without this, the current consuming segment(s) will not reflect the default null value for newly added columns.
-
-Note that the real values for the newly added columns won't be reflected within the current consuming segment(s). The next consuming segment(s) will start consuming the real values.
+**Real-Time Pinot table:** In case of real-time tables, make sure the "_pinot.server.instance.reload.consumingSegment_" config is set to true inside [Server config](https://docs.pinot.apache.org/configuration-reference/server). Without this, the current consuming segment(s) won't be reloaded (force committed).
 {% endhint %}
 
 ### Derived Column
