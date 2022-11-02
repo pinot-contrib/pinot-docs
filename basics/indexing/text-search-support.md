@@ -256,6 +256,34 @@ The original text document (a value in the column with text index enabled) is pa
 
 Pinot's text index is built on top of Lucene. Lucene's **standard english text tokenizer** generally works well for most classes of text. We might want to build custom text parser and tokenizer to suit particular user requirements. Accordingly, we can make this configurable for the user to specify on per column text index basis.
 
+There is a default set of "stop words" built in Pinot's text index. This is a set of high frequency words in English that are excluded for search efficiency and index size, including:
+
+```
+"a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it",
+"no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "than", "there", "these", "they",
+"this", "to", "was", "will", "with", "those"
+```
+
+Any occurrence of these words in will be ignored by the tokenizer during index creation and search.&#x20;
+
+In some cases, users might want to customize the set. A good example would be when `IT` (Information Technology) appears in the text that collides with "it", or some context-specific words that are not informative in the search. To do this, one can config the words in `fieldConfig` to include/exclude from the default stop words:
+
+```
+"fieldConfigList":[
+  {
+     "name":"text_col_1",
+     "encodingType":"RAW",
+     "indexType":"TEXT",
+     "properties": {
+        "stopWordInclude": "incl1, incl2, incl3",
+        "stopWordExclude": "it"
+     }
+  }
+]
+```
+
+The words should be **comma separated** and in **lowercase**. Duplicated words in both list will end up get excluded.
+
 ## Writing Text Search Queries
 
 A new built-in function TEXT\_MATCH has been introduced for using text search in SQL/PQL.
