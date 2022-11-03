@@ -260,8 +260,8 @@ There is a default set of "stop words" built in Pinot's text index. This is a se
 
 ```
 "a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it",
-"no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "than", "there", "these", "they",
-"this", "to", "was", "will", "with", "those"
+"no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "than", "there", "these", 
+"they", "this", "to", "was", "will", "with", "those"
 ```
 
 Any occurrence of these words in will be ignored by the tokenizer during index creation and search.&#x20;
