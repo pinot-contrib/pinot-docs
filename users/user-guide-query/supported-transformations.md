@@ -51,7 +51,8 @@ Multiple string functions are supported out of the box from release-0.5.0 .
 | <p><a href="../../configuration-reference/functions/url.md"><strong>urlDecoding(string)</strong></a><br>decode a url to plaintext string</p>                                                                                                                                     |
 | <p><a href="../../configuration-reference/functions/base64.md"><strong>fromBase64(string)</strong></a><br>decode a Base64-encoded string to bytes represented as a hex string</p>                                                                                                |
 | <p><a href="../../configuration-reference/functions/utf8.md"><strong>toUtf8(string)</strong></a><br>decode a UTF8-encoded string to bytes represented as a hex string</p>                                                                                                        |
-## DateTime Functions
+| <p><strong></strong><a href="../../configuration-reference/functions/issubnetof.md"><strong>isSubnetOf(ipPrefix, ipAddress)</strong></a><strong></strong><br><strong></strong>checks if ipAddress is in the subnet of the ipPrefix</p>                                           |
+| ## DateTime Functions                                                                                                                                                                                                                                                            |
 
 Date time functions allow you to perform transformations on columns that contain timestamps or dates.
 
@@ -102,12 +103,12 @@ Date time functions allow you to perform transformations on columns that contain
 
 These functions can only be used in Pinot SQL queries.
 
-| Function                                                                                                                                                                                                                                                                                                                                                                   |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <p><a href="../../configuration-reference/functions/jsonextractscalar.md"><strong>JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', [defaultValue])</strong></a><br>Evaluates the <code>'jsonPath'</code> on <code>jsonField</code>, returns the result as the type <code>'resultsType'</code>, use optional <code>defaultValue</code>for null or parsing error.</p> |
-| <p><a href="../../configuration-reference/functions/jsonextractkey.md"><strong>JSONEXTRACTKEY</strong></a><a href="../../configuration-reference/functions/jsonextractkey.md"><strong>(</strong>jsonField, 'jsonPath'<strong>)</strong></a><br>Extracts all matched JSON field keys based on <code>'jsonPath'</code> into a <code>STRING_ARRAY.</code></p>                 |
-| <p><a href="../../configuration-reference/functions/extract.md"><strong>EXTRACT(dateTimeField FROM dateTimeExpression)</strong></a><br>Extracts the field from the DATETIME expression of the format <code>'YYYY-MM-DD HH:MM:SS'</code>. Currently this transformation function supports <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>HOUR</code>, <code>MINUTE</code>, and <code>SECOND</code> fields.|
-  
+| Function                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><a href="../../configuration-reference/functions/jsonextractscalar.md"><strong>JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', [defaultValue])</strong></a><br>Evaluates the <code>'jsonPath'</code> on <code>jsonField</code>, returns the result as the type <code>'resultsType'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                    |
+| <p><a href="../../configuration-reference/functions/jsonextractkey.md"><strong>JSONEXTRACTKEY</strong></a><a href="../../configuration-reference/functions/jsonextractkey.md"><strong>(</strong>jsonField, 'jsonPath'<strong>)</strong></a><br>Extracts all matched JSON field keys based on <code>'jsonPath'</code> into a <code>STRING_ARRAY.</code></p>                                                                    |
+| <p><a href="../../configuration-reference/functions/extract.md"><strong>EXTRACT(dateTimeField FROM dateTimeExpression)</strong></a><br>Extracts the field from the DATETIME expression of the format <code>'YYYY-MM-DD HH:MM:SS'</code>. Currently this transformation function supports <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>HOUR</code>, <code>MINUTE</code>, and <code>SECOND</code> fields.</p> |
+
 ### **Scalar Functions**
 
 These functions can be used for column transformation in table ingestion configs.
@@ -126,7 +127,7 @@ These functions can be used for column transformation in table ingestion configs
 ## Binary Functions
 
 | Function                                                                                                                                                                                  |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <p><a href="../../configuration-reference/functions/sha.md"><strong>SHA(bytesCol)</strong></a><br>Return SHA-1 digest of binary column(<code>bytes</code> type) as hex string</p>         |
 | <p><a href="../../configuration-reference/functions/sha256.md"><strong>SHA256(bytesCol)</strong></a><br>Return SHA-256 digest of binary column(<code>bytes</code> type) as hex string</p> |
 | <p><a href="../../configuration-reference/functions/sha512.md"><strong>SHA512(bytesCol)</strong></a><br>Return SHA-512 digest of binary column(<code>bytes</code> type) as hex string</p> |

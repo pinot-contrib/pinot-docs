@@ -255,6 +255,7 @@
   * [FromEpochBucket](configuration-reference/functions/fromepochbucket.md)
   * [Histogram](configuration-reference/functions/histogram.md)
   * [hour](configuration-reference/functions/hour.md)
+  * [isSubnetOf](configuration-reference/functions/issubnetof.md)
   * [JSONFORMAT](configuration-reference/functions/jsonformat.md)
   * [JSONPATH](configuration-reference/functions/jsonpath.md)
   * [JSONPATHARRAY](configuration-reference/functions/jsonpatharray.md)
