@@ -183,6 +183,27 @@ There are some scenarios where the message rate in the input stream has a bursty
 
 Stream consumption throttling can be tuned using the stream config `topic.consumption.rate.limit` which indicates the upper bound on the message rate for the entire topic. &#x20;
 
+Here is the sample configuration on how to configure the consumption throttling:
+
+```json
+{
+  "tableName": "transcript",
+  "tableType": "REALTIME",
+  ...
+  "tableIndexConfig": {
+    "loadMode": "MMAP",
+    "streamConfigs": {
+      "streamType": "kafka",
+      "stream.kafka.consumer.type": "lowlevel",
+      "stream.kafka.topic.name": "transcript-topic",
+      ...
+      "topic.consumption.rate.limit": 1000
+    }
+  },
+  ...
+}
+```
+
 Some things to keep in mind while tuning this config are:
 
 1. Since this config applied to the entire topic, internally, this rate is divided by the number of partitions in the topic and applied to each partition's consumer.
@@ -197,6 +218,15 @@ A consumption rate limiter is set up for topic <topic_name> in table <tableName>
 {% endcode %}
 
 In addition, you can monitor the consumption rate utilization with the metric `COSUMPTION_QUOTA_UTILIZATION`.
+
+Note that any configuration change for `topic.consumption.rate.limit` in the stream config will not take effect immediately. The new configuration will be picked up from the next consuming segment. In order to enforce the new configuration, you need to trigger pauseConsumption & resumeConsumption APIs.
+
+```
+$ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
+$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
+```
+
+Please refer to Pause Stream Ingestion for more details.
 
 ### Custom Ingestion Support
 
