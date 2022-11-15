@@ -219,14 +219,11 @@ A consumption rate limiter is set up for topic <topic_name> in table <tableName>
 
 In addition, you can monitor the consumption rate utilization with the metric `COSUMPTION_QUOTA_UTILIZATION`.
 
-Note that any configuration change for `topic.consumption.rate.limit` in the stream config will **NOT** take effect immediately. The new configuration will be picked up from the next consuming segment. In order to enforce the new configuration, you need to trigger pauseConsumption & resumeConsumption APIs.
+Note that any configuration change for `topic.consumption.rate.limit` in the stream config will **NOT** take effect immediately. The new configuration will be picked up from the next consuming segment. In order to enforce the new configuration, you need to trigger forceCommit APIs. Please refer to [Pause Stream Ingestion](./#pause-stream-ingestion) for more details.
 
 ```
-$ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
-$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
+$ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 ```
-
-Please refer to [Pause Stream Ingestion](./#pause-stream-ingestion) for more details.
 
 ### Custom Ingestion Support
 
