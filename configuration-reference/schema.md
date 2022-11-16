@@ -11,7 +11,54 @@ The Pinot schema is composed of:
 | **metricFieldSpec**    | A metricFieldSpec is defined for each metric column. For more details, scroll down to [MetricFieldSpec](schema.md#metricfieldspec).                                         |
 | **dateTimeFieldSpec**  | A dateTimeFieldSpec is defined for the time columns. There can be multiple time columns. For more details, scroll down to [DateTimeFieldSpec](schema.md#datetimefieldspec). |
 
-Below is a detailed description of each type of field spec.
+{% code title="flights-schema.json" %}
+```javascript
+{
+  "schemaName": "flights",
+  "dimensionFieldSpecs": [
+    {
+      "name": "flightNumber",
+      "dataType": "LONG"
+    },
+    {
+      "name": "tags",
+      "dataType": "STRING",
+      "singleValueField": false,
+      "defaultNullValue": "null"
+    }
+  ],
+  "metricFieldSpecs": [
+    {
+      "name": "price",
+      "dataType": "DOUBLE",
+      "defaultNullValue": 0
+    }
+  ],
+  "dateTimeFieldSpecs": [
+    {
+      "name": "millisSinceEpoch",
+      "dataType": "LONG",
+      "format": "1:MILLISECONDS:EPOCH",
+      "granularity": "15:MINUTES"
+    },
+    {
+      "name": "hoursSinceEpoch",
+      "dataType": "INT",
+      "format": "1:HOURS:EPOCH",
+      "granularity": "1:HOURS"
+    },
+    {
+      "name": "dateString",
+      "dataType": "STRING",
+      "format": "1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd",
+      "granularity": "1:DAYS"
+    }
+  ]
+}
+```
+{% endcode %}
+
+The above json configuration is the example of Pinot schema derived from the flight data. As seen in the example, the schema is composed of 4 parts: `schemaName`, `dimensionFieldSpec`, `metricFieldSpec`, and  `dateTimeFieldSpec`. Below is a detailed description of each type of field spec.&#x20;
 
 ### DimensionFieldSpec
 
