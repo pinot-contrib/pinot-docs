@@ -24,13 +24,13 @@ This feature is supported after the 0.11.0 release. Reference PR: [https://githu
 ### Example
 
 ```
+SET taskName = 'myTask-s3';
+SET input.fs.className = 'org.apache.pinot.plugin.filesystem.S3PinotFS';
+SET input.fs.prop.accessKey = 'my-key';
+SET input.fs.prop.secretKey = 'my-secret';
+SET input.fs.prop.region = 'us-west-2';
 INSERT INTO "baseballStats"
 FROM FILE 's3://my-bucket/public_data_set/baseballStats/rawdata/'
-OPTION(taskName=myTask-s3)
-OPTION(input.fs.className=org.apache.pinot.plugin.filesystem.S3PinotFS)
-OPTION(input.fs.prop.accessKey=my-key)
-OPTION(input.fs.prop.secretKey=my-secret)
-OPTION(input.fs.prop.region=us-west-2)
 ```
 
 Screenshot
