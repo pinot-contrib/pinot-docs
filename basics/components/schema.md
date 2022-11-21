@@ -102,19 +102,19 @@ For more details on constructing a schema file, see the [Schema configuration re
     {
       "name": "millisSinceEpoch",
       "dataType": "LONG",
-      "format": "1:MILLISECONDS:EPOCH",
+      "format": "EPOCH",
       "granularity": "15:MINUTES"
     },
     {
       "name": "hoursSinceEpoch",
       "dataType": "INT",
-      "format": "1:HOURS:EPOCH",
+      "format": "EPOCH|HOURS",
       "granularity": "1:HOURS"
     },
     {
       "name": "dateString",
       "dataType": "STRING",
-      "format": "1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd",
+      "format": "SIMPLE_DATE_FORMAT|yyyy-MM-dd",
       "granularity": "1:DAYS"
     }
   ]

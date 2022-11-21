@@ -38,19 +38,19 @@ The Pinot schema is composed of:
     {
       "name": "millisSinceEpoch",
       "dataType": "LONG",
-      "format": "1:MILLISECONDS:EPOCH",
+      "format": "EPOCH",
       "granularity": "15:MINUTES"
     },
     {
       "name": "hoursSinceEpoch",
       "dataType": "INT",
-      "format": "1:HOURS:EPOCH",
+      "format": "EPOCH|HOURS",
       "granularity": "1:HOURS"
     },
     {
       "name": "dateString",
       "dataType": "STRING",
-      "format": "1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd",
+      "format": "SIMPLE_DATE_FORMAT|yyyy-MM-dd",
       "granularity": "1:DAYS"
     }
   ]
@@ -119,7 +119,7 @@ A dateTimeFieldSpec is used to define time columns of the table. The following f
 
 #### New DateTime Formats
 
-From Pinot release 0.11.0, We have simplified date time formats for the users. The formats now follow the pattern  - `timeFormat|pattern/timeUnit|`\[`timeZone/timeSize]` . The fields present in `[]` are completely optional.  timeFormat can be one of `EPOCH` , `SIMPLE_DATE_FORMAT` or `TIMESTAMP` .&#x20;
+In the pinot master (0.12.0-SNAPSHOT), We have simplified date time formats for the users. The formats now follow the pattern  - `timeFormat|pattern/timeUnit|`\[`timeZone/timeSize]` . The fields present in `[]` are completely optional.  timeFormat can be one of `EPOCH` , `SIMPLE_DATE_FORMAT` or `TIMESTAMP` .&#x20;
 
 * `TIMESTAMP` - This represents timestamp in milliseconds. It is equivalent to specifying `EPOCH:MILLISECONDS:1` \
   Examples -
@@ -143,7 +143,7 @@ Only datetime timeformats in lexicographical order are support in Pinot. so `yyy
 The order is decided as year > month > day > hour > minutes > second.
 {% endhint %}
 
-#### Old date time formats (before pinot 0.11)
+#### Old date time formats
 
 These date-time formats are still supported in Pinot for backward compatibility. However, new users should prefer to use the formats mentioned in the previous sections.
 
