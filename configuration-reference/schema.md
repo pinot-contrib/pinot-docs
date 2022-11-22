@@ -130,7 +130,7 @@ In the pinot master (0.12.0-SNAPSHOT), We have simplified date time formats for 
   * `EPOCH` - Defaults to MILLISECONDS (only in `master` branch)
   * `EPOCH|SECONDS`
   * `EPOCH|SECONDS|5`
-* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the java [SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html) representation. In the master branch build, if no pattern is specified, we use [ISO 8601 DateTimeFormat](https://www.iso.org/iso-8601-date-and-time-format.html) to parse the date times. Optionals are supported with ISO format so users can specify date time string in `yyyy` or `yyyy-MM` or `yyyy-MM-dd` and so on \
+* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the Joda's [DateTimeFormat](https://www.joda.org/joda-time/key\_format.html) representation. In the master branch build, if no pattern is specified, we use [ISO 8601 DateTimeFormat](https://www.iso.org/iso-8601-date-and-time-format.html) to parse the date times. Optionals are supported with ISO format so users can specify date time string in `yyyy` or `yyyy-MM` or `yyyy-MM-dd` and so on \
   \
   You can also specify optional `timeZone` parameter which is the ID for a TimeZone, either an abbreviation such as `PST`, a full name such as `America/Los_Angeles`, or a custom ID such as `GMT-8:00`. \
   Examples -&#x20;
