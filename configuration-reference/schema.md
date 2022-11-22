@@ -153,7 +153,7 @@ You will need to provide the format of the date along with the data type in the 
   If your date is not in `EPOCH` format, this value is not used and can be set to 1 or any other integer.\\
 * **time unit** - one of [TimeUnit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html) enum values. e.g. `HOURS` , `MINUTES` etc. If your date is not in `EPOCH` format, this value is not used and can be set to `MILLISECONDS` or any other unit.\\
 * **timeFormat** - can be either `EPOCH` or `SIMPLE_DATE_FORMAT`. If it is `SIMPLE_DATE_FORMAT`, the pattern string is also specified. \\
-* **pattern** - This is optional and is only specified when the date is in `SIMPLE_DATE_FORMAT` . The pattern should be specified using the java [SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html) representation. e.g. 2020-08-21 can be represented as `yyyy-MM-dd`.\\
+* **pattern** - This is optional and is only specified when the date is in `SIMPLE_DATE_FORMAT` . The pattern should be specified using Joda's [DateTimeFormat](https://www.joda.org/joda-time/key\_format.html) representation. e.g. 2020-08-21 can be represented as `yyyy-MM-dd`.\\
 
 Here are some sample date-time formats you can use in the schema:
 
