@@ -75,6 +75,10 @@ FROM MyTable WHERE COL3 > 50
 
 In the above query, `COL1` is aggregated only for the non-null values. Without NULL value support, we would have to filter using the default null value.
 
+<mark style="color:red;">NOTE:</mark> The`FILTER` clause is currently supported for aggregation-only queries, i.e., `GROUP BY`
+
+is not supported.
+
 Deprecated functions:
 
 | Function                   | Description                                                                                                                                                    | Example                  |
