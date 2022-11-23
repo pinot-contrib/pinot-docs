@@ -54,6 +54,27 @@ The following aggregation functions can be used for multi-value columns
 | <p><a href="../../configuration-reference/functions/distinctcounthllmv.md"><strong>DISTINCTCOUNTHLLMV</strong></a><br>Returns an approximate distinct count using <em>HyperLogLog</em> as <code>Long</code></p>                                                                                                                                                                                                        |
 | <p><a href="../../configuration-reference/functions/distinctcountrawhllmv.md"><strong>DISTINCTCOUNTRAWHLLMV</strong></a><br>Returns <em>HyperLogLog</em> response serialized as string. The serialized HLL can be converted back into an HLL and then aggregated with other HLLs. A common use case may be to merge HLL responses from different Pinot tables, or to allow aggregation after client-side batching.</p> |
 
+## FILTER Clause in aggregation
+
+Pinot supports FILTER clause in aggregation queries as follows:
+
+```
+SELECT SUM(COL1) FILTER (WHERE COL2 > 300),
+       AVG(COL2) FILTER (WHERE COL2 < 50) 
+FROM MyTable WHERE COL3 > 50
+```
+
+In the query above, `COL1` is aggregated only for rows where `COL2 > 300 and COL3 > 50` . Similarly, `COL2` is aggregated where `COL2 < 50 and COL3 > 50`.
+
+With [NULL Value Support](https://docs.pinot.apache.org/developers/advanced/null-value-support) enabled, this allows to filter out the null values while performing aggregation as follows:
+
+```
+SELECT SUM(COL1) FILTER (WHERE COL1 IS NOT NULL)
+FROM MyTable WHERE COL3 > 50
+```
+
+In the above query, `COL1` is aggregated only for the non-null values. Without NULL value support, we would have to filter using the default null value.
+
 Deprecated functions:
 
 | Function                   | Description                                                                                                                                                    | Example                  |
