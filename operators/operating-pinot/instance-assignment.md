@@ -195,7 +195,7 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 {% code title="TableConfig for Table 1:" %}
 ```javascript
 {
-  "instanceAssignmentConfigMap": {
+  "instanceAssignmentConfigMap": {jav
     "OFFLINE": {
       "tagPoolConfig": {
         "tag": "Tag1_OFFLINE",
@@ -224,6 +224,38 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 {% hint style="info" %}
 In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `replicaGroupStrategyConfig` is required.
 {% endhint %}
+
+## Fault-Domain-Aware Instance Assignment
+
+This strategy is to maximize Fault Domain diversity for replica-group based assignment strategy. Specifically, data center and cloud service (e.g. Azure) today provides the idea of rack or fault domain, as to ensure hardware resiliency to power/network failure.&#x20;
+
+Specifically, if a table has R partitions and the underlying infrastructure provides F fault domains, then we guarantee that with the Fault-Domain-Aware Instance Assignment algorithm, if a fault domain is down, at most Ceil(R/F) instances from R mirrored machines can go down.
+
+To used this, one has to do two things:
+
+1. Tag the servers of a specific Fault Domain with a pool ID (see instance config tagging in [pool based assignment](https://docs.pinot.apache.org/operators/operating-pinot/instance-assignment#pool-based-instance-assignment)).&#x20;
+2. Specify partitionSelector in instanceAssignmentConfigMap to use FD\_AWARE\_INSTANCE\_PARTITION\_SELECTOR
+
+```javascript
+{
+  "instanceAssignmentConfigMap": {
+    "OFFLINE": {
+      "partitionSelector": "FD_AWARE_INSTANCE_PARTITION_SELECTOR",
+      "tagPoolConfig": {
+        "tag": "Tag1_OFFLINE",
+        "poolBased": true
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 2,
+        "numPartitions": 2,
+        "numInstancesPerPartition": 2
+      }
+    }
+  },
+  ...
+}
+```
 
 ## Change the Instance Assignment
 
