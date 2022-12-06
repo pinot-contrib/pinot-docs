@@ -24,7 +24,7 @@ In large scale installations, data in streams is typically split across multiple
 
 A pinot table can be configured to consume from streams in one of two modes:
 
-> * `LowLevel`: This is the preferred mode of consumption. Pinot creates independent partition-level consumers for each partition. Depending on the the configured number of replicas, multiple consumers may be created for each partition, taking care that no two replicas exist on the same server host. Therefore you need to provision _at least_ as many hosts as the number of replcias configured.
+> * `LowLevel`: This is the preferred mode of consumption. Pinot creates independent partition-level consumers for each partition. Depending on the the configured number of replicas, multiple consumers may be created for each partition, taking care that no two replicas exist on the same server host. Therefore you need to provision _at least_ as many hosts as the number of replicas configured.
 > * `HighLevel`: Pinot creates _one_ stream-level consumer that consumes from all partitions. Each message consumed could be from any of the partitions of the stream. Depending on the configured number of replicas, multiple stream-level consumers are created, taking care that no two replicas exist on the same server host. Therefore you need to provision exactly as many hosts as the number of replicas configured.
 
 Of course, the underlying stream should support either mode of consumption in order for a Pinot table to use that mode. Kafka has support for both of these modes. See [Stream ingestion](../../basics/data-import/pinot-stream-ingestion/) for more information on the support of other data streams in Pinot.
