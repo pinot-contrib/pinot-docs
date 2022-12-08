@@ -4,7 +4,7 @@ description: This section contains reference documentation for the VAR_POP funct
 
 # VAR\_POP
 
-Returns the population variance of a numerical column.
+Returns the population variance a numerical column.
 
 ## Signatures
 

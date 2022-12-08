@@ -15,6 +15,6 @@ Returns the population standard deviation of a numerical column.
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
 
 ```sql
-SELECT STDDEV_POP(numberOfGames) AS variance 
+SELECT STDDEV_POP(numberOfGames) AS stddev 
 FROM baseballStats
 ```
