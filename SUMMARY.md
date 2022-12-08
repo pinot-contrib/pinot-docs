@@ -342,6 +342,7 @@
   * [week](configuration-reference/functions/week.md)
   * [year](configuration-reference/functions/year.md)
   * [yearOfWeek](configuration-reference/functions/yearofweek.md)
+  * [VAR\_POP](configuration-reference/functions/var\_pop.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
