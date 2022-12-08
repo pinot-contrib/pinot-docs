@@ -344,6 +344,7 @@
   * [yearOfWeek](configuration-reference/functions/yearofweek.md)
   * [VAR\_POP](configuration-reference/functions/var\_pop.md)
   * [VAR\_SAMP](configuration-reference/functions/var\_samp.md)
+  * [STDDEV\_POP](configuration-reference/functions/stddev\_pop.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
