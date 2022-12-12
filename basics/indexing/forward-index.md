@@ -138,6 +138,7 @@ Forward index on one or more columns(s) in your Pinot table can be disabled with
 * Inverted index must be enabled on the particular column(s)
 * Dictionary must be enabled on the particular column(s)
 * If the column has a range index then the column must be of single-value type and use range index version 2
+* MV columns with duplicates within a row will lose the duplicated entries on forward index regeneration. A backfill is required in such scenarios.
 
 Sorted columns will allow the forward index to be disabled, but this operation will be treated as a no-op and the index (which acts as both a forward index and inverted index) will be created.
 
@@ -154,14 +155,19 @@ To disable the forward index for a given column the `fieldConfigList` can be mod
 ]
 ```
 
-Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
+A table reload operation must be performed for the above config to take effect. Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
+
+The forward index can also be regenerated for a column where it is disabled by removing the property `forwardIndexDisabled` from the `fieldConfigList` properties bucket and reloading the segment.
 
 {% hint style="danger" %}
 **Warning:**&#x20;
 
-After making the above mentioned FieldConfig changes to use this feature, please regenerate the segments via your offline jobs and re-push / refresh the data. The refreshed segments will not have the forward index.&#x20;
+For multi-value (MV) columns the following invariants cannot be maintained after regenerating the forward index for a forward index disabled column:
 
-We are working on making this feature easier to use for existing column or a new column on an existing table via the segment reload path which will not require to re-push the data
+* Ordering guarantees of the MV values within a row
+* If entries within an MV row are duplicated, the duplicates will be lost. Please regenerate the segments via your offline jobs and re-push / refresh the data to get back the original MV data with duplicates.
+
+We will work on removing the second invariant in the future.
 {% endhint %}
 
 Examples of queries which will fail after disabling the forward index for an example column, `columnA`, can be found below:
