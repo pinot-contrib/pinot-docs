@@ -17,7 +17,7 @@ Returns HLL response serialized as string. The serialized HLL can be converted b
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
 
 ```sql
-select DISTINCTCOUNTHLL(teamID) AS value
+select DISTINCTCOUNTRAWHLL(teamID) AS value
 from baseballStats 
 ```
 
