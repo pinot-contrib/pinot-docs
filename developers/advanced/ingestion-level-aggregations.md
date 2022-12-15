@@ -24,9 +24,18 @@ Below is a description of the config, which is defined in the ingestion config o
 }
 ```
 
+## Requirements
+
+The following are required for ingestion aggregation to work:
+
+* [Stream ingestion](../../basics/data-import/pinot-stream-ingestion/) type must be lowLevel.
+* All metrics must have aggregation configs.
+* All metrics must be noDictionaryColumns.
+* `aggregatedFieldName` must be in the Pinot schema and `originalFieldName` must not exist in Pinot schema
+
 ## Example Scenario
 
-Here is an example of sales data, where only the daily sales aggregates per product are needed.
+Here is an example of sales data, where only the daily sales aggregates per product are needed.&#x20;
 
 ### Example Input Data
 
@@ -79,6 +88,8 @@ Note that the schema only reflects the final table structure.
 
 ### Table Config
 
+From the below aggregation config example, please note that `price`  exists in the input data while `total_sales` exists in the Pinot Schema.
+
 ```json
 {
   "tableName": "daily_sales",
@@ -100,6 +111,12 @@ Note that the schema only reflects the final table structure.
       }
     ]
   }
+  "tableIndexConfig": {
+    "noDictionaryColumns": [
+      "sales_count",
+      "total_sales"
+    ]
+  }
 }
 ```
 
@@ -114,13 +131,7 @@ Note that the schema only reflects the final table structure.
 | truck         | 1            | 800.00       | 18202          |
 | car           | 3            | 3700.00      | 18202          |
 
-## Requirements
 
-The following are required for ingestion aggregation to work:
-
-* [Stream ingestion](../../basics/data-import/pinot-stream-ingestion/) type must be lowLevel.
-* All metrics must have aggregation configs.
-* All metrics must be noDictionaryColumns.
 
 ## Allowed Aggregation Functions
 
