@@ -6,7 +6,7 @@ To contribute to Pinot, please follow the instructions below.
 
 ### Git
 
-Pinot uses git for source code management. If you are new to Git, it will be good to review [basics](https://git-scm.com/book/en/v1/Getting-Started-Git-Basics) of Git and a common tasks like [managing branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) and [rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing).
+Pinot uses git for source code management. If you are new to Git, it will be good to review [basics](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control) of Git and a common tasks like [managing branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) and [rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing).
 
 ### Getting the Source Code
 
