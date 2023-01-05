@@ -49,6 +49,8 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 | controller.tls.truststore.path                       |                                                                          | Path to controller TLS truststore                                                        |
 | controller.tls.truststore.password                   |                                                                          | truststore password                                                                      |
 | controller.tls.client.auth                           | false                                                                    | toggle for requiring TLS client auth                                                     |
+| controller.http.server.thread.pool.corePoolSize      | 2 * cores                                                                | Config for the thread-pool used by pinot-controller's http-server.                       |
+| controller.http.server.thread.pool.maxPoolSize       | 2 * cores                                                                | Config for the thread-pool used by pinot-controller's http-server.                       |
 
 ## Periodic Tasks Configuration
 
