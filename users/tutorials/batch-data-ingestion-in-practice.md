@@ -98,6 +98,12 @@ outputDirURI: 'examples/batch/airlineStats/segments'
 # overwriteOutput: Overwrite output segments if existed.
 overwriteOutput: true
 
+# Create a separated metadata only tar gz file to reduce the data transfer of segment metadata push job.
+createMetadataTarGz: true
+
+# Job parallelism for segment creation
+segmentCreationJobParallelism: 4
+
 # pinotFSSpecs: defines all related Pinot file systems.
 pinotFSSpecs:
 
@@ -169,11 +175,21 @@ pinotClusterSpecs:
 # pushJobSpec: defines segment push job related configuration.
 pushJobSpec:
 
+  # Job parallelism for segment push
+  pushParallelism: 4
+
   # pushAttempts: number of attempts for push job, default is 1, which means no retry.
   pushAttempts: 2
 
   # pushRetryIntervalMillis: retry wait Ms, default to 1 second.
   pushRetryIntervalMillis: 1000
+  
+  # Applicable for URI and METADATA push types.
+  #If true, and if segment was not already in the deep store, move it to deep store.
+  copyToDeepStoreForMetadataPush: false
+  
+  # Prefer using segment metadata tar gz file to push segment if exists.
+  preferMetadataTarGz: true
 ```
 
 ## Executing the job
