@@ -26,7 +26,7 @@ This task rebuilds the BrokerResource if the instance set has changed.
 | controller.broker.resource.validation.frequencyPeriod       | 1h            |
 | controller.broker.resource.validation.initialDelayInSeconds | between 2m-5m |
 
-## StaleInstancesCleanupTask
+### StaleInstancesCleanupTask
 
 This task periodically cleans up stale Pinot broker/server/minion instances.
 
@@ -109,7 +109,7 @@ This task manages segment status metrics such as realtimeTableCount, offlineTabl
 
 TBD
 
-### Running the periodic task manually
+## Running the periodic task manually
 
 Use the `GET /periodictask/names` API to fetch the names of all the Periodic Tasks running on your Pinot cluster.
 
@@ -123,7 +123,7 @@ curl -X GET "http://localhost:9000/periodictask/names" -H "accept: application/j
   "BrokerResourceValidationManager",
   "SegmentStatusChecker",
   "SegmentRelocator",
-  "MinionInstancesCleanupTask",
+  "StaleInstancesCleanupTask",
   "TaskMetricsEmitter"
 ]
 ```
