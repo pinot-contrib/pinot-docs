@@ -187,5 +187,12 @@ Once replica group segment assignment is in effect, the query routing can take a
 }
 ```
 
+## Credential
 
+### How to update credential for realtime upstream without downtime
+
+1. [Pause the stream ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion)
+2. Wait for the pause status to success
+3. Update the credential in the table config
+4. Resume the consumption
 
