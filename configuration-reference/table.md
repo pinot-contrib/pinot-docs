@@ -147,7 +147,11 @@ When specifying `realtime.segment.flush.threshold.rows`, the actual number of ro
 This means that if we set `realtime.segment.flush.threshold.rows=1000` and each server consumes 10 partitions, the rows per segment will be:`1000/10 = 100`
 {% endhint %}
 
-Any additional properties set here will be directly available to the stream consumers. For example, in case of Kafka stream, you could put any of the configs described in [Kafka configuraton page](https://kafka.apache.org/documentation/#consumerconfigs), and it will be automatically passed to the KafkaConsumer.
+{% hint style="info" %}
+The desired segment size refers to the size of the segments that are loaded in Pinot Servers. Normally compressed version of the segments with tar.gz format are kept in the deep store which has smaller size than the specified parameter.
+{% endhint %}
+
+Any additional properties set here will be directly available to the stream consumers. For example, in case of Kafka stream, you could put any of the configs described in [Kafka configuration page](https://kafka.apache.org/documentation/#consumerconfigs), and it will be automatically passed to the KafkaConsumer.
 
 Some of the properties you might want to set:
 
