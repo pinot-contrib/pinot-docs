@@ -233,10 +233,6 @@ See [Pinot managed Offline flows](../../operators/operating-pinot/pinot-managed-
 
 See [Minion merge rollup task](../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
 
-### ConvertToRawIndexTask
-
-To be added
-
 ## Enable Tasks
 
 Tasks are enabled on a per-table basis. To enable a certain task type (e.g. `myTask`) on a table, update the table config to include the task type:
