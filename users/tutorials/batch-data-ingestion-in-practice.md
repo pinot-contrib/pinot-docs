@@ -573,7 +573,7 @@ hadoop jar  \
         -jobSpecFile ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/hadoopIngestionJobSpec.yaml
 ```
 
-## Tunning
+## Tuning
 
 You can set Environment Variable: `JAVA_OPTS` to modify:
 
