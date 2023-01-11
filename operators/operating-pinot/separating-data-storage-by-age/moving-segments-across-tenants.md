@@ -1,6 +1,4 @@
-# Moving data from one tenant to another based on segment age
-
-In order to optimize for low latency, we often recommend using high performance SSDs as server nodes. But if such a use case has vast amount of data, and need the high performance only when querying few recent days of data, it might become desirable to keep only the recent time ranges on SSDs, and keep the less frequently queried ones on cheaper nodes such as HDDs.
+# Using multiple tenants
 
 With this feature, **you can create multiple tenants, such that each tenant has servers of different specs**, and use them in the same table. In this way, you'll bring down the cost of the historical data by using a lower spec of node such as HDDs instead of SSDs for storage and compute, while trading off slight latency.\
 
@@ -27,9 +25,9 @@ You can configured separate tenants for the table by setting this config in your
     "serverTag": "ssd_OFFLINE"
   }, {
     "name": "hddGroup",
-    "segmentSelectorType": "TIME",
+    "segmentSelectorType": "time",
     "segmentAge": "15d",
-    "storageType": "PINOT_SERVER",
+    "storageType": "pinot_server",
     "serverTag": "hdd_OFFLINE"
   }] 
 }
@@ -49,5 +47,5 @@ In this example, the table uses servers tagged with `base_OFFLINE`. We have crea
 
 On adding this config, the [Segment Relocator](https://docs.pinot.apache.org/basics/components/controller#segmentrelocator) periodic task will move segments from one tenant to another, as and when the segment crosses the segment age.&#x20;
 
-Under the hood, this job runs a rebalance. So you can achieve the same effect as a manual trigger by running a [rebalance](rebalance/rebalance-servers.md#running-a-rebalance)
+Under the hood, this job runs a rebalance. So you can achieve the same effect as a manual trigger by running a [rebalance](../rebalance/rebalance-servers.md#running-a-rebalance)
 

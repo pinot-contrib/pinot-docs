@@ -139,7 +139,7 @@ Once open the dashboard, you can login with credential:
 
 `admin`/`[ PASSWORD GET FROM PREVIOUS STEP]`
 
-![Grafana Dashboard](<../../.gitbook/assets/image (47) (1) (1).png>)
+![Grafana Dashboard](<../../.gitbook/assets/image (47) (1).png>)
 
 * Add data source
 
