@@ -2,11 +2,9 @@
 
 ## Overview
 
-The new Pinot query engine version 2 (a.k.a Multi-Stage V2 query engine) is designed to support more complex SQL semantics such as `JOIN`, `OVER` window, `MATCH_RECOGNIZE` and eventually, make Pinot support closer to full ANSI SQL semantics.&#x20;
+The new Pinot query engine version 2 (a.k.a Multi-Stage V2 query engine) is designed to support more complex SQL semantics such as `JOIN`, `OVER` window, `MATCH_RECOGNIZE` and eventually, make Pinot support closer to full ANSI SQL semantics.
 
 <figure><img src="../../.gitbook/assets/Multi-Stage-Pinot-Query-Engine-v1.png" alt=""><figcaption><p>Scatter-Gather Query Engine</p></figcaption></figure>
-
-
 
 <figure><img src="../../.gitbook/assets/Multi-Stage-Query-Engine-2.png" alt=""><figcaption><p>Multi-Stage Query Engine</p></figcaption></figure>
 
@@ -14,30 +12,28 @@ It also resolves the bottleneck effect for the broker reduce stage where only a 
 
 ## How to use the multi-stage query engine
 
-To enable the multi-stage engine,&#x20;
+To enable the multi-stage engine,
 
-1. please make sure to either&#x20;
+1. please make sure to either
    * [Building Apache Pinot](https://github.com/apache/pinot#building-pinot) using the latest master commit.
    * Download the latest Apache Pinot docker image using the [official guide](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker).
-2. Please add the following configurations to your cluster config:
+2. Please add the following configurations to your cluster config:. Cluster configs can be edited using the POST API under [this](https://docs.pinot.apache.org/users/api/controller-api-reference#cluster) section (you can find it on Swagger under Cluster section)
    * ```
      "pinot.multistage.engine.enabled": "true",
      "pinot.server.instance.currentDataTableVersion": "4",
      "pinot.query.server.port": "8421",
      "pinot.query.runner.port": "8442"
      ```
-3.  Start the cluster normally.&#x20;
+3.  Start the cluster normally.
 
-    _<mark style="color:red;">**NOTE:**</mark> <mark style="color:red;"></mark><mark style="color:red;">If the cluster has already been started, please restart all the controller/broker/server components so that they pick up the new cluster config.</mark>_
+    _<mark style="color:red;">**NOTE:**</mark>  <mark style="color:red;">If the cluster has already been started, please restart all the controller/broker/server components so that they pick up the new cluster config.</mark>_
 4.  You should now see the following window in the controller query page:
 
     <figure><img src="../../.gitbook/assets/image (51).png" alt=""><figcaption><p>Sample Query Screenshot</p></figcaption></figure>
 
-
-
 ## Troubleshoot
 
-The V2 query engine is still in the beta phase, there might be various performance or feature gaps from the current query engine.&#x20;
+The V2 query engine is still in the beta phase, there might be various performance or feature gaps from the current query engine.
 
 Here are the general troubleshooting steps:
 
@@ -61,7 +57,7 @@ Here are the general troubleshooting steps:
 
 please report any bugs in Apache Pinot Slack [multi-stage engine feedback channel](https://apache-pinot.slack.com/archives/C03Q4A11GC9). Please include:
 
-* the table/schema config(s)&#x20;
+* the table/schema config(s)
 * the cluster config (zookeeper config, and each components config and scale)
 * the problematic SQL query string and corresponding ERROR messages.
 
@@ -86,8 +82,5 @@ For more up-to-date tracking of feature and performance support please follow th
 
 The overall PEP design doc and discussion can be found in the following links
 
-* [PEP discussion Github Issue](https://github.com/apache/pinot/issues/8260)  and
+* [PEP discussion Github Issue](https://github.com/apache/pinot/issues/8260) and
 * [PEP design doc](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit)
-
-
-
