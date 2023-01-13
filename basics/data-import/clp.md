@@ -10,11 +10,13 @@ This is an experimental feature. Configuration options and usage may change freq
 
 When performing stream ingestion of JSON records using [Kafka](pinot-stream-ingestion/import-from-apache-kafka.md), users can encode specific fields with [CLP](https://github.com/y-scope/clp) by using a CLP-specific StreamMessageDecoder.
 
-CLP is a compressor designed to encode unstructured log messages in a way that makes them more compressible. It does this by decomposing the message into three fields:
+CLP is a compressor designed to encode unstructured log messages in a way that makes them more compressible while retaining the ability to search them. It does this by decomposing the message into three fields:
 
 * the message's static text, called a log type;
 * repetitive variable values, called dictionary variables; and
 * non-repetitive variable values (called encoded variables since we encode them specially if possible).
+
+Searches are similarly decomposed into queries on the individual fields.
 
 {% hint style="info" %}
 Although CLP is designed for log messages, other unstructured text like file paths may also benefit from its encoding.
@@ -129,3 +131,7 @@ For the table's schema, users should configure the CLP-encoded fields as follows
 
 * We use the maximum possible length for the logtype and dictionary variable columns.
 * The dictionary and encoded variable columns are multi-valued columns.
+
+## Searching and decoding CLP-encoded fields
+
+There is currently no built-in support within Pinot for searching and decoding CLP-encoded fields. This will be added in future commits, potentially as a set of UDFs. The development of these features is being tracked in this [design doc](https://docs.google.com/document/d/1nHZb37re4mUwEA258x3a2pgX13EWLWMJ0uLEDk1dUyU/edit).
