@@ -51,6 +51,7 @@
     * [Apache Pulsar](basics/data-import/pinot-stream-ingestion/apache-pulsar.md)
   * [Stream Ingestion with Upsert](basics/data-import/upsert.md)
   * [Stream Ingestion with Dedup](basics/data-import/dedup.md)
+  * [Stream Ingestion with CLP](basics/data-import/clp.md)
   * [File Systems](basics/data-import/pinot-file-system/README.md)
     * [Amazon S3](basics/data-import/pinot-file-system/amazon-s3.md)
     * [Azure Data Lake Storage](basics/data-import/pinot-file-system/import-from-adls-azure.md)
