@@ -347,10 +347,12 @@
   * [week](configuration-reference/functions/week.md)
   * [year](configuration-reference/functions/year.md)
   * [yearOfWeek](configuration-reference/functions/yearofweek.md)
-  * [VAR\_POP](configuration-reference/functions/var\_pop.md)
-  * [VAR\_SAMP](configuration-reference/functions/var\_samp.md)
-  * [STDDEV\_POP](configuration-reference/functions/stddev\_pop.md)
-  * [STDDEV\_SAMP](configuration-reference/functions/stddev\_samp.md)
+* [Plugin Reference](configuration-reference/plugin-reference/README.md)
+  * [Stream Ingestion Connectors](configuration-reference/plugin-reference/stream-ingestion-connectors.md)
+  * [VAR\_POP](configuration-reference/plugin-reference/var\_pop.md)
+  * [VAR\_SAMP](configuration-reference/plugin-reference/var\_samp.md)
+  * [STDDEV\_POP](configuration-reference/plugin-reference/stddev\_pop.md)
+  * [STDDEV\_SAMP](configuration-reference/plugin-reference/stddev\_samp.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 

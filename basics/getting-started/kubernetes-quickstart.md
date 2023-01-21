@@ -321,7 +321,7 @@ kubectl port-forward service/my-trino 18080:8080 -n trino-quickstart
 
 **6.2.4 Query Pinot data using Trino CLI**
 
-![](<../../.gitbook/assets/image (43).png>)
+![](<../../.gitbook/assets/image (5) (1).png>)
 
 ### 6.3 Sample queries to execute
 
