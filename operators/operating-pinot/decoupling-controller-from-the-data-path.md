@@ -6,11 +6,21 @@ description: For Real Time Pinot tables
 
 ## Ingestion bottleneck on the Pinot Controller
 
-In case of RealTime Pinot tables, whenever a Pinot server finishes consuming a segment, it goes through a segment completion protocol sequence. The default approach is to upload this segment to the lead Pinot controller which in turn will persist it in the segment store (eg: NFS, S3 or HDFS). As a result, since all the realtime segments flow through the controller, it can become a bottleneck and slow down the overall ingestion rate. To overcome this limitation, we've added a new policy which allows bypassing the controller in the segment completion protocol. This is internally named as "Peer Download policy".
+In case of RealTime Pinot tables, whenever a Pinot server finishes consuming a segment, it goes through a segment completion protocol sequence. The default approach is to upload this segment to the lead Pinot controller which in turn will persist it in the segment store (eg: NFS, S3 or HDFS). As a result, since all the realtime segments flow through the controller, it can become a bottleneck and slow down the overall ingestion rate. To overcome this limitation, we've added a new stream-level configuration which allows bypassing the controller in the segment completion protocol.&#x20;
+
+### Stream Config
+
+Add the following stream-level config to allow the server to upload the completed segment to the deep store directly.&#x20;
+
+```
+realtime.segment.serverUploadToDeepStore = true
+```
+
+When this is enabled, the Pinot servers will attempt to upload the completed segment to the segment store directly, thus by-passing the controller. Once this is finished, it will update the controller with the corresponding segment metadata.&#x20;
 
 ## Overview of Peer Download policy
 
-When this is enabled, the Pinot servers will attempt to upload the completed segment to the segment store directly, thus by-passing the controller. Once this is finished, it will update the controller with the corresponding segment metadata. The reason this policy is named `peer download` is because if the segment store is unavailable for whatever reason, the corresponding segments can still be downloaded directly from the Pinot servers.
+Peer download policy is introduced to allow failure recovery, incase of a failure to upload the completed segment to the deep store. If the segment store is unavailable for whatever reason, the corresponding segments can still be downloaded directly from the Pinot servers. Hence, the policy  is called `peer download`.
 
 **Please Note:** This is available in the latest master (not in 0.5.0 release)
 
