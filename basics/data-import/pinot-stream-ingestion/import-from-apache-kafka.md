@@ -65,7 +65,7 @@ We will publish the data in the same format as mentioned in the [Stream ingestio
 
 The real-time table configuration for the `transcript` table described in the schema from the previous step.
 
-For Kafka, we use streamType as `kafka` . Currently only JSON format is supported but you can easily write your own decoder by extending the `StreamMessageDecoder` interface. You can then access your decoder class by putting the jar file in `plugins` directory
+For Kafka, we use streamType as `kafka` . See [#create-table-configuration](./#create-table-configuration "mention") for available decoder class options. You can also write your own decoder by extending the `StreamMessageDecoder` interface and putting the jar file in `plugins` directory.
 
 The `lowLevel` consumer reads data per partition whereas the `highLevel` consumer utilises Kafka high level consumer to read data from the whole stream. It doesn't have the control over which partition to read at a particular momemt.
 
