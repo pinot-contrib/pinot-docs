@@ -254,6 +254,28 @@ There is another feature called "Force Commit" which utilizes the primitives of 
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 ```
 
+(v 0.12.0+) Once submitted, the foceCommit API returns a jobId that, can be used to get the current progress of the forceCommit operation. A sample response and status API call:
+```bash
+$ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
+{
+  "forceCommitJobId": "6757284f-b75b-45ce-91d8-a277bdbc06ae",
+  "forceCommitStatus": "SUCCESS",
+  "jobMetaZKWriteStatus": "SUCCESS"
+}
+
+$ curl -X GET {controllerHost}/tables/forceCommitStatus/6757284f-b75b-45ce-91d8-a277bdbc06ae
+{
+  "jobId": "6757284f-b75b-45ce-91d8-a277bdbc06ae",
+  "segmentsForceCommitted": "[\"airlineStats__0__0__20230119T0700Z\",\"airlineStats__1__0__20230119T0700Z\",\"airlineStats__2__0__20230119T0700Z\"]",
+  "submissionTimeMs": "1674111682977",
+  "numberOfSegmentsYetToBeCommitted": 0,
+  "jobType": "FORCE_COMMIT",
+  "segmentsYetToBeCommitted": [],
+  "tableName": "airlineStats_REALTIME"
+}
+```
+
+
 For incompatible parameter changes, an option is added to the resume request to handle the case of a completely new set of offsets. Operators can now follow a three-step process: First, issue a Pause request. Second, change the consumption parameters. Finally, issue the Resume request with the appropriate option. These steps will preserve the old data and allow the new data to be consumed immediately. All through the operation, queries will continue to be served.
 
 ```bash
