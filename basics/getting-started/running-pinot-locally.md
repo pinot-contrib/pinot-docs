@@ -26,19 +26,28 @@ You can build from source or download the distribution:
 Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command
 
 ```bash
-PINOT_VERSION=0.10.0 #set to the Pinot version you decide to use
+PINOT_VERSION=0.12.0 #set to the Pinot version you decide to use
 
 wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```
 
-Once you have the tar file,
+Once you have the tar file:
 
-```bash
+```
 # untar it
 tar -zxvf apache-pinot-$PINOT_VERSION-bin.tar.gz
 
 # navigate to directory containing the launcher scripts
 cd apache-pinot-$PINOT_VERSION-bin
+```
+
+
+
+You can find older versions of Apache Pinot at [https://archive.apache.org/dist/pinot/](https://archive.apache.org/dist/pinot/apache-pinot-0.11.0/). For example, if you wanted to download Pinot 0.10.0, you could run the following command:
+
+```
+OLDER_VERSION="0.10.0"
+wget https://archive.apache.org/dist/pinot/apache-pinot-$OLDER_VERSION/apache-pinot-$OLDER_VERSION-bin.tar.gz
 ```
 {% endtab %}
 
@@ -73,6 +82,8 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 {% endtab %}
 {% endtabs %}
 
+
+
 ### M1 Mac Support
 
 Currently Apache Pinot doesn't provide official binaries for M1 Mac. You can however build from source using the steps provided above. In addition to the steps, you will need to add the following in your `~/.m2/settings.xml` prior to the build.
@@ -99,8 +110,7 @@ Also make sure to install rosetta
 
 `softwareupdate --install-rosetta`
 
-Note that some installations of the JDK do not contain the JNI bindings that are necessary to run all tests, if you see any `java.lang.UnsatisfiedLinkError` while running tests, you may need to change your JDK. If using Homebrew, you may install AdoptOpenJDK 11 using:
-`brew install --cask adoptopenjdk11`
+Note that some installations of the JDK do not contain the JNI bindings that are necessary to run all tests, if you see any `java.lang.UnsatisfiedLinkError` while running tests, you may need to change your JDK. If using Homebrew, you may install AdoptOpenJDK 11 using: `brew install --cask adoptopenjdk11`
 
 Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this:
 
@@ -190,7 +200,7 @@ Once your cluster is up and running, you can head over to [Exploring Pinot](../c
 
 ## Start Pinot Component in Debug Mode with IntelliJ
 
-Starting a pinot component of interest in IntelliJ using debug mode can be useful for development purposes. You can set break points and inspect variables. Take debugging server for example, one can start `zookeeper` , `controller`, and `broker` using the steps in [Manual Cluster](running-pinot-locally.md#manual-cluster). Then use the following configuration  put under `$PROJECT_DIR$\.run` ) to start server. This [commit](https://github.com/apache/pinot/commit/83fc63720cdf2a5470073d43183ae8710d0ecc51) is an example of how it can be used. Please replace the metrics-core version and cluster name as needed.
+Starting a pinot component of interest in IntelliJ using debug mode can be useful for development purposes. You can set break points and inspect variables. Take debugging server for example, one can start `zookeeper` , `controller`, and `broker` using the steps in [Manual Cluster](running-pinot-locally.md#manual-cluster). Then use the following configuration put under `$PROJECT_DIR$\.run` ) to start server. This [commit](https://github.com/apache/pinot/commit/83fc63720cdf2a5470073d43183ae8710d0ecc51) is an example of how it can be used. Please replace the metrics-core version and cluster name as needed.
 
 ```xml
 <component name="ProjectRunConfigurationManager">
