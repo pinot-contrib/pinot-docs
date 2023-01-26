@@ -21,7 +21,7 @@ docker pull apachepinot/pinot:latest
 Or if you want to use a specific version:
 
 ```bash
-docker pull apachepinot/pinot:0.9.3
+docker pull apachepinot/pinot:0.12.0
 ```
 
 Now that we've downloaded the Pinot Docker image, it's time to set up a cluster. There are two ways to do this:
@@ -35,7 +35,7 @@ For example, the following quick-start launches Pinot with a baseball dataset pr
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:0.12.0 QuickStart \
     -type batch
 ```
 
@@ -172,7 +172,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
   pinot-controller:
-    image: apachepinot/pinot:0.9.3
+    image: apachepinot/pinot:0.12.0
     command: "StartController -zkAddress pinot-zookeeper:2181"
     container_name: pinot-controller
     restart: unless-stopped
@@ -183,7 +183,7 @@ services:
     depends_on:
       - pinot-zookeeper
   pinot-broker:
-    image: apachepinot/pinot:0.9.3
+    image: apachepinot/pinot:0.12.0
     command: "StartBroker -zkAddress pinot-zookeeper:2181"
     restart: unless-stopped
     container_name: "pinot-broker"
@@ -194,7 +194,7 @@ services:
     depends_on:
       - pinot-controller
   pinot-server:
-    image: apachepinot/pinot:0.9.3
+    image: apachepinot/pinot:0.12.0
     command: "StartServer -zkAddress pinot-zookeeper:2181"
     restart: unless-stopped
     container_name: "pinot-server"
@@ -213,7 +213,7 @@ Run the following command to launch all the components:
 docker-compose --project-name pinot-demo up
 ```
 
-You can run the below command to check container status.
+You can run the below command to check the container status.
 
 ```
 docker container ls 
@@ -235,4 +235,4 @@ Once your cluster is up and running, you can head over to [Exploring Pinot](../c
 If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you could also try running the [Kubernetes quick start](kubernetes-quickstart.md).
 {% endhint %}
 
-<mark style="color:red;">Note:</mark> These are sample configs to be used as reference. For production setup, you may want to customize it to your needs.
+<mark style="color:red;">Note:</mark> These are sample configs to be used as references. For production setup, you may want to customize it to your needs.
