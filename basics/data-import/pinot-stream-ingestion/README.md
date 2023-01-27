@@ -177,11 +177,11 @@ bin/pinot-admin.sh AddTable \
 
 ### Tuning Stream Config
 
-#### Throttling Stream Consumption&#x20;
+#### Throttling Stream Consumption
 
-There are some scenarios where the message rate in the input stream has a bursty nature which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other realtime tables on the same server. In such scenarios, you should throttle the consumption rate during stream ingestion.&#x20;
+There are some scenarios where the message rate in the input stream has a bursty nature which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other realtime tables on the same server. In such scenarios, you should throttle the consumption rate during stream ingestion.
 
-Stream consumption throttling can be tuned using the stream config `topic.consumption.rate.limit` which indicates the upper bound on the message rate for the entire topic. &#x20;
+Stream consumption throttling can be tuned using the stream config `topic.consumption.rate.limit` which indicates the upper bound on the message rate for the entire topic.
 
 Here is the sample configuration on how to configure the consumption throttling:
 
@@ -255,6 +255,7 @@ $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 ```
 
 (v 0.12.0+) Once submitted, the foceCommit API returns a jobId that, can be used to get the current progress of the forceCommit operation. A sample response and status API call:
+
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 {
@@ -275,7 +276,6 @@ $ curl -X GET {controllerHost}/tables/forceCommitStatus/6757284f-b75b-45ce-91d8-
 }
 ```
 
-
 For incompatible parameter changes, an option is added to the resume request to handle the case of a completely new set of offsets. Operators can now follow a three-step process: First, issue a Pause request. Second, change the consumption parameters. Finally, issue the Resume request with the appropriate option. These steps will preserve the old data and allow the new data to be consumed immediately. All through the operation, queries will continue to be served.
 
 ```bash
@@ -293,7 +293,7 @@ If it is desired to recognize the new partitions sooner, then you can [manually 
 
 ### Inferring Ingestion Status of Realtime Tables
 
-Often, it is important to understand the rate of ingestion of data into your realtime table. This is commonly done by looking at the consumption "lag" of the consumer. The lag itself can be observed in many dimensions. Pinot supports observing consumption lag along the offset dimension and time dimension, whenever applicable (as it depends on the specifics of the connector).&#x20;
+Often, it is important to understand the rate of ingestion of data into your realtime table. This is commonly done by looking at the consumption "lag" of the consumer. The lag itself can be observed in many dimensions. Pinot supports observing consumption lag along the offset dimension and time dimension, whenever applicable (as it depends on the specifics of the connector).
 
 The ingestion status of a connector can be observed by querying either the `/consumingSegmentsInfo` API or the table's `/debug` API, as shown below:
 
@@ -307,7 +307,7 @@ curl -X GET "http://localhost:9000/debug/tables/meetupRsvp?type=REALTIME&verbosi
 ```
 {% endcode %}
 
-A sample response from a Kafka based realtime table is shown below. The ingestion status is displayed for each of the CONSUMING segments in the table. &#x20;
+A sample response from a Kafka based realtime table is shown below. The ingestion status is displayed for each of the CONSUMING segments in the table.
 
 ```json
 {
@@ -344,3 +344,21 @@ A sample response from a Kafka based realtime table is shown below. The ingestio
 | latestUpstreamOffsetMap   | (Wherever applicable) Latest offset found in the upstream topic partition                                                                                                                                                                                                  |
 | recordsLagMap             | (Whenever applicable) Defines how far behind the current record's offset / pointer is from upstream latest record. This is calculated as the difference between the `latestUpstreamOffset` and `currentOffset` for the partition when the lag computation request is made. |
 | recordsAvailabilityLagMap | (Whenever applicable) Defines how soon after record ingestion was the record consumed by Pinot. This is calculated as the difference between the time the record was consumed and the time at which the record was ingested upstream.                                      |
+
+### Monitoring Realtime Ingestion
+
+Realtime ingestion includes 3 stages of message processing: Decode, Transform and Index.&#x20;
+
+In each of these stages, a failure can happen which may or may not result in an ingestion failure. The following metrics are available to investigation ingestion issues:
+
+1. Decode stage -> error here is recorded as `INVALID_REALTIME_ROWS_DROPPED`
+2. Transform stage -> possible errors here are:
+   1. When a message gets dropped due to the [FILTER](../../../developers/advanced/ingestion-level-transformations.md#filtering) transform, it is recorded as `REALTIME_ROWS_FILTERED`
+   2. When the transform pipeline sets the `$INCOMPLETE_RECORD_KEY$` key in the message, it is recorded as `INCOMPLETE_REALTIME_ROWS_CONSUMED` , only when `continueOnError` configuration is enabled. If the `continueOnError` is not enabled, the ingestion fails.&#x20;
+3. Index stage -> When there is failure at this stage, the ingestion typically stops and marks the partition as ERROR.
+
+There is yet another metric called `ROWS_WITH_ERROR` which is the sum of all error counts in the 3 stages above.&#x20;
+
+Furthermore, the metric `REALTIME_CONSUMPTION_EXCEPTIONS` gets incremented whenever there is a transient/permanent stream exception seen during consumption. &#x20;
+
+These metrics can be used to understand why ingestion failed for a particular table partition before diving into the server logs.&#x20;
