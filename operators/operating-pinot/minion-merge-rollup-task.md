@@ -6,7 +6,7 @@
 **Issue**: [https://github.com/apache/pinot/issues/2715](https://github.com/apache/pinot/issues/2715)
 {% endhint %}
 
-The Minion merge/rollup task allows a user to **merge small segments into larger ones, through which Pinot can potentially benefit from improved disk storage and the query performance**. For complete motivation and reasoning, please refer to the design doc above. Currently, we only support **OFFLINE table APPEND use cases**.
+The Minion merge/rollup task allows a user to **merge small segments into larger ones, through which Pinot can potentially benefit from improved disk storage and the query performance**. For complete motivation and reasoning, please refer to the design doc above. Currently, we support **OFFLINE table APPEND use cases** and **REALTIME table without upsert or dedup use cases**.
 
 ### How this works
 
