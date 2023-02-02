@@ -42,8 +42,8 @@ executionFrameworkSpec:
     segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
     segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
 jobType: SegmentCreationAndTarPush
-inputDirURI: 'abfs://path/to/input/directory/'
-outputDirURI: 'abfs://path/to/output/directory/'
+inputDirURI: 'adl2://path/to/input/directory/'
+outputDirURI: 'adl2://path/to/output/directory/'
 overwriteOutput: true
 pinotFSSpecs:
     - scheme: adl2
@@ -65,7 +65,7 @@ pinotClusterSpecs:
 #### Controller config
 
 ```
-controller.data.dir=abfs://path/to/data/directory/
+controller.data.dir=adl2://path/to/data/directory/
 controller.local.temp.dir=/path/to/local/temp/directory
 controller.enable.split.commit=true
 pinot.controller.storage.factory.class.adl2=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
