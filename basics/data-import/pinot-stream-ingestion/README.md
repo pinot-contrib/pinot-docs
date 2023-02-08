@@ -254,7 +254,7 @@ There is another feature called "Force Commit" which utilizes the primitives of 
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 ```
 
-(v 0.12.0+) Once submitted, the foceCommit API returns a jobId that, can be used to get the current progress of the forceCommit operation. A sample response and status API call:
+(v 0.12.0+) Once submitted, the forceCommit API returns a jobId that can be used to get the current progress of the forceCommit operation. A sample response and status API call:
 
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
