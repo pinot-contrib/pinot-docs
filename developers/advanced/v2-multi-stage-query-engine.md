@@ -10,7 +10,7 @@ The new Pinot query engine version 2 (a.k.a Multi-Stage V2 query engine) is desi
 
 It also resolves the bottleneck effect for the broker reduce stage where only a single machine is dedicated to perform heavy lifting such as high cardinality `GROUP BY` result merging; `ORDER BY` sorting, etc.
 
-## How to use the multi-stage query engine
+## How to enable the multi-stage query engine
 
 To enable the multi-stage engine,
 
@@ -31,11 +31,59 @@ To enable the multi-stage engine,
 
     <figure><img src="../../.gitbook/assets/image (51).png" alt=""><figcaption><p>Sample Query Screenshot</p></figcaption></figure>
 
+## How to programmatically access the multi-stage query engine
+
+There's 2 main way to make query against the multi-stage engine:
+
+### Via REST APIs
+
+Both the Controller query API and the Broker query API allows optional JSON payload for configuration. For example:
+
+* For Controller REST API
+
+```bash
+curl -X POST http://localhost:9000/sql -d 
+'
+{
+  "sql": "select * from baseballStats limit 10",
+  "trace": false,
+  "queryOptions": "useMultistageEngine=true"
+}
+'
+```
+
+* For Broker REST API
+
+```bash
+curl -X POST http://localhost:8000/query/sql -d '
+{
+  "sql": "select * from baseballStats limit 10",
+  "trace": false,
+  "queryOptions": "useMultistageEngine=true"
+}
+'
+```
+
+### Via Query Options
+
+When executing a query via a non-REST API route. we also support enabling the multi-stage engine via the query option. simply attach a query option at the top of your query will enable the multi-stage engine
+
+```sql
+SET useMultistageEngine=true; -- indicator to enable the multi-stage engine.
+SELECT * from baseballStats limit 10
+```
+
 ## Troubleshoot
 
 The V2 query engine is still in the beta phase, there might be various performance or feature gaps from the current query engine.
 
 Here are the general troubleshooting steps:
+
+### Cluster errors
+
+If you can't get the cluster to run and received an error indicating the multi-stage engine is not available:
+
+* Make sure your pinot-servers have access to the configured port: The default setting above assumes all pinot-servers are run on individual networks and all of them have access to the same port number available within that environment. If your cluster is not set up this way, you will have to manually configure them directly in your pinot-server config file.
 
 ### Semantic / Runtime errors
 
@@ -71,7 +119,6 @@ We are continuously improving the multi-stage engine. However, since the multi-s
 * Currently, it doesn't incorporate table statistics into plan optimization.
 * Currently, it doesn't support complex aggregation functions, such as `COVAR_POP`.
 * Currently, it doens't support tenant isolation, only `DEFAULT_TENANT` is visible to the multi-stage engine.
-* Some functions that lack implementation with `@ScalarFunction` annotation will not be supported in intermediate stages.
 
 For more up-to-date tracking of feature and performance support please follow the Github tracking issues:
 
