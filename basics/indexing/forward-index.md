@@ -134,11 +134,10 @@ Thus, to provide users an option to save storage space, a knob to disable the fo
 
 Forward index on one or more columns(s) in your Pinot table can be disabled with the following limitations:
 
-* Only supported for immutable (offline) segments.&#x20;
-* Inverted index must be enabled on the particular column(s)
-* Dictionary must be enabled on the particular column(s)
+* Only supported for immutable (offline) segments.
 * If the column has a range index then the column must be of single-value type and use range index version 2
-* MV columns with duplicates within a row will lose the duplicated entries on forward index regeneration. A backfill is required in such scenarios.
+* MV columns with duplicates within a row will lose the duplicated entries on forward index regeneration. The ordering of data with an MV row may also change on regeneration. A backfill is required in such scenarios (to preserve duplicates or ordering).
+* If forward index regeneration support on reload (i.e. re-enabling the forward index for a forward index disabled column) is required then the dictionary and inverted index must be enabled on that particular column.
 
 Sorted columns will allow the forward index to be disabled, but this operation will be treated as a no-op and the index (which acts as both a forward index and inverted index) will be created.
 
@@ -157,7 +156,7 @@ To disable the forward index for a given column the `fieldConfigList` can be mod
 
 A table reload operation must be performed for the above config to take effect. Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
 
-The forward index can also be regenerated for a column where it is disabled by removing the property `forwardIndexDisabled` from the `fieldConfigList` properties bucket and reloading the segment.
+The forward index can also be regenerated for a column where it is disabled by removing the property `forwardIndexDisabled` from the `fieldConfigList` properties bucket and reloading the segment. The forward index can only be regenerated if the dictionary and inverted index have been enabled for the column. If either have been disabled then the only way to get the forward index back is to regenerate the segments via the offline jobs and re-push / refresh the data.
 
 {% hint style="danger" %}
 **Warning:**&#x20;
