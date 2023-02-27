@@ -52,7 +52,8 @@ Multiple string functions are supported out of the box from release-0.5.0 .
 | <p><a href="../../configuration-reference/functions/base64.md"><strong>fromBase64(string)</strong></a><br>decode a Base64-encoded string to bytes represented as a hex string</p>                                                                                                |
 | <p><a href="../../configuration-reference/functions/utf8.md"><strong>toUtf8(string)</strong></a><br>decode a UTF8-encoded string to bytes represented as a hex string</p>                                                                                                        |
 | <p><strong></strong><a href="../../configuration-reference/functions/issubnetof.md"><strong>isSubnetOf(ipPrefix, ipAddress)</strong></a><strong></strong><br><strong></strong>checks if ipAddress is in the subnet of the ipPrefix</p>                                           |
-| ## DateTime Functions                                                                                                                                                                                                                                                            |
+
+## DateTime Functions                                                                                                                                               
 
 Date time functions allow you to perform transformations on columns that contain timestamps or dates.
 
