@@ -204,6 +204,7 @@
 * [Functions](configuration-reference/functions/README.md)
   * [ABS](configuration-reference/functions/abs.md)
   * [ADD](configuration-reference/functions/add.md)
+  * [ago](configuration-reference/functions/ago.md)
   * [arrayConcatDouble](configuration-reference/functions/arrayconcatdouble.md)
   * [arrayConcatFloat](configuration-reference/functions/arrayconcatfloat.md)
   * [arrayConcatInt](configuration-reference/functions/arrayconcatint.md)
