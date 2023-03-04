@@ -123,6 +123,85 @@ By default, Pinot uses the value in the time column (`timeColumn` in tableConfig
 
 For partial upsert table, the out-of-order events won't be consumed and indexed. For example, for two records with the same primary key, if the record with the smaller value of the comparison column came later than the other record, it will be skipped.
 
+#### Multiple Comparison columns
+
+In some cases, especially where partial upsert might be employed, there may be multiple producers of data each writing to a mutually exclusive set of columns, sharing only the primary key. In such a case, it may be helpful to use one comparison column per producer group so that each group can manage its own specific versioning semantics without the need to coordinate versioning across other producer groups.
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "comparisonColumns": ["secondsSinceEpoch", "otherComparisonColumn"],
+    "hashFunction": "NONE"
+  }
+}
+```
+
+ Documents written to Pinot are expected to have exactly 1 non-null value out of the set of comparisonColumns; if more than 1 of the columns contains a value, the document will be rejected. When new documents are written, whichever comparison column is non-null will be compared against only that same comparison column seen in prior documents with the same primary key. Consider the following examples, where the documents are assumed to arrive in the order specified in the array.
+
+```json
+[
+  {
+    "event_id": "aa",
+    "orderReceived": 1,
+    "description" : "first",
+    "secondsSinceEpoch": 1567205394
+  },
+  {
+    "event_id": "aa",
+    "orderReceived": 2,
+    "description" : "update",
+    "secondsSinceEpoch": 1567205397
+  },
+  {
+    "event_id": "aa",
+    "orderReceived": 3,
+    "description" : "update",
+    "secondsSinceEpoch": 1567205396
+  },
+  {
+    "event_id": "aa",
+    "orderReceived": 4,
+    "description" : "first arrival, other column",
+    "otherComparisonColumn": 1567205395
+  },
+  {
+    "event_id": "aa",
+    "orderReceived": 5,
+    "description" : "late arrival, other column",
+    "otherComparisonColumn": 1567205392
+  },
+  {
+    "event_id": "aa",
+    "orderReceived": 6,
+    "description" : "update, other column",
+    "otherComparisonColumn": 1567205398
+  }
+]
+```
+
+The following would occur:
+
+1. `orderReceived: 1`
+  - Result: persisted
+  - Reason: first doc seen for primary key "aa"
+2. `orderReceived: 2`
+  - Result: persisted (replacing `orderReceived: 1`)
+  - Reason: comparison column (`secondsSinceEpoch`) larger than that previously seen
+3. `orderReceived: 3`
+  - Result: rejected
+  - Reason: comparison column (`secondsSinceEpoch`) smaller than that previously seen
+4. `orderReceived: 4`
+  - Result: persisted (replacing `orderReceived: 2`)
+  - Reason: comparison column (`otherComparisonColumn`) larger than previously seen (never seen previously), despite the value being smaller than that seen for `secondsSinceEpoch`
+5. `orderReceived: 5`
+  - Result: rejected
+  - Reason: comparison column (`otherComparisonColumn`) smaller than that previously seen
+6. `orderReceived: 6`
+  - Result: persist (replacing `orderReceived: 4`)
+  - Reason: comparison column (`otherComparisonColumn`) larger than that previously seen
+
+
 ### Use strictReplicaGroup for routing
 
 The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover, upsert poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
