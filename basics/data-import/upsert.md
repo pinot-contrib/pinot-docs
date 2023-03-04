@@ -130,7 +130,9 @@ In some cases, especially where partial upsert might be employed, there may be m
 ```json
 {
   "upsertConfig": {
-    "mode": "FULL",
+    "mode": "PARTIAL",
+    "defaultPartialUpsertStrategy": "OVERWRITE",
+    "partialUpsertStrategies":{},
     "comparisonColumns": ["secondsSinceEpoch", "otherComparisonColumn"],
     "hashFunction": "NONE"
   }
