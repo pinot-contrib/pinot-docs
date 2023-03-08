@@ -89,6 +89,11 @@ pinot.controller.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.
 pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.server.storage.factory.s3.region=ap-southeast-1
+pinot.server.storage.factory.s3.httpclient.maxConnections=50
+pinot.server.storage.factory.s3.httpclient.socketTimeout=30s
+pinot.server.storage.factory.s3.httpclient.connectionTimeout=2s
+pinot.server.storage.factory.s3.httpclient.connectionTimeToLive=0s
+pinot.server.storage.factory.s3.httpclient.connectionAcquisitionTimeout=10s
 pinot.server.segment.fetcher.protocols=file,http,s3
 pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
