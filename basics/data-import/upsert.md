@@ -89,13 +89,15 @@ To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUp
 
 Pinot supports the following partial upsert strategies:
 
-| Strategy  | Description                                               |
-| --------- | --------------------------------------------------------- |
-| OVERWRITE | Overwrite the column of the last record                   |
-| INCREMENT | Add the new value to the existing values                  |
-| APPEND    | Add the new item to the Pinot unordered set               |
-| UNION     | Add the new item to the Pinot unordered set if not exists |
-| IGNORE    | Ignore the new value, keep the existing value (v0.10.0+)  |
+| Strategy  | Description                                                                |
+| --------- | -------------------------------------------------------------------------- |
+| OVERWRITE | Overwrite the column of the last record                                    |
+| INCREMENT | Add the new value to the existing values                                   |
+| APPEND    | Add the new item to the Pinot unordered set                                |
+| UNION     | Add the new item to the Pinot unordered set if not exists                  |
+| IGNORE    | Ignore the new value, keep the existing value (v0.10.0+)                   |
+| MAX       | Keep the maximum value betwen the existing value and new value (v0.12.0+)  |
+| MIN       | Keep the minimum value betwen the existing value and new value (v0.12.0+)  |
 
 {% hint style="info" %}
 With partial upsert, if the value is `null` in either the existing record or the new coming record, Pinot will ignore the upsert strategy and the `null` value:
