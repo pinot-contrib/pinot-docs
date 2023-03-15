@@ -87,9 +87,18 @@ When the data is partitioned on a dimension, each segment will contain all the r
 }
 ```
 
-Pinot currently supports `Modulo`, `Murmur`, `ByteArray` and `HashCode` hash functions. After setting the above config, data needs to be partitioned with the same partition function and number of partitions before running Pinot segment build and push job for offline push. Realtime partitioning depends on the kafka for partitioning. When emitting an event to kafka, a user need to feed partitioning key and partition function for Kafka producer API.
+Pinot currently supports `Modulo`, `Murmur`, `ByteArray` and `HashCode` hash functions. After setting the above config, data needs to be partitioned with the same partition function and number of partitions before running Pinot segment build and push job for offline push. Here's a scala Udf example of a partition function that Pinot understands, which is to be used for data partitioning.
 
-When applied correctly, partition information should be available in the segment metadata.
+```scala
+private val NUM_PARTITIONS = 8
+def getPartitionUdf: UserDefinedFunction = {
+	udf((valueIn: Any) => {
+	  (murmur2(valueIn.toString.getBytes(UTF_8)) & Integer.MAX_VALUE) % NUM_PARTITIONS
+	})
+}
+```
+
+Realtime partitioning depends on the kafka for partitioning. When emitting an event to kafka, a user need to feed partitioning key and partition function for Kafka producer API. When applied correctly, partition information should be available in the segment metadata.
 
 ```
 column.memberId.partitionFunction = Module
