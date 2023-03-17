@@ -148,8 +148,65 @@ Typically, the flags that need to be changed from defaults are
 
 ### Checking status
 
-You can check the status of the rebalance by
+The following API is used to check the progress of a rebalance Job. The API takes the jobId of the rebalance job. The API to see the jobIds of rebalance Jobs for a table is shown next.&#x20;
 
-1. Checking the controller logs
-2. Running rebalance again after a while, you should receive status `"status": "NO_OP"`
-3. Checking the External View of the table, to see the changes in capacity/replicas have taken effect.
+{% embed url="http://localhost:9000/rebalanceStatus/ffb38717-81cf-40a3-8f29-9f35892b01f9" %}
+RebalanceStatus output
+{% endembed %}
+
+```json
+{"tableRebalanceProgressStats": {
+    "startTimeMs": 1679073157779,
+    "status": "DONE", // IN_PROGRESS/DONE/FAILED    
+    "timeToFinishInSeconds": 0, // Time it took for the rebalance job after it completes/fails 
+    "completionStatusMsg": "Finished rebalancing table: airlineStats_OFFLINE with minAvailableReplicas: 1, enableStrictReplicaGroup: false, bestEfforts: false in 44 ms."
+     
+     // The total amount of work required for rebalance 
+    "initialToTargetStateConvergence": {
+      "_segmentsMissing": 0, // Number of segments missing in the current state but present in the target state
+      "_segmentsToRebalance": 31, // Number of segments that needs to be assigned to hosts so that the current state can get to the target state.
+      "_percentSegmentsToRebalance": 100, // Total number of replicas that needs to be assigned to hosts so that the current state can get to the target state.
+      "_replicasToRebalance": 279 // Remaining work to be done in %
+    },
+    
+    // The pending work for rebalance
+    "externalViewToIdealStateConvergence": {
+      "_segmentsMissing": 0,
+      "_segmentsToRebalance": 0,
+      "_percentSegmentsToRebalance": 0,
+      "_replicasToRebalance": 0
+    },
+    
+    // Additional work to catch up with the new ideal state, when the ideal 
+    // state shifts since rebalance started. 
+    "currentToTargetConvergence": {
+      "_segmentsMissing": 0,
+      "_segmentsToRebalance": 0,
+      "_percentSegmentsToRebalance": 0,
+      "_replicasToRebalance": 0
+    },
+  },
+  "timeElapsedSinceStartInSeconds": 28 // If rebalance is IN_PROGRESS, this gives the time elapsed since it started
+  }
+```
+
+
+
+Below is the API to get the jobIds of rebalance jobs for a given table. The API takes the table name and jobType which is TABLE\_REBALANCE.
+
+[http://localhost:9000/table/airlineStats\_OFFLINE/jobstype=OFFLINE\&jobTypes=TABLE\_REBALANCE](http://localhost:9000/table/airlineStats\_OFFLINE/jobs?type=OFFLINE\&jobTypes=TABLE\_REBALANCE)
+
+```json
+ "ffb38717-81cf-40a3-8f29-9f35892b01f9": {
+    "jobId": "ffb38717-81cf-40a3-8f29-9f35892b01f9",
+    "submissionTimeMs": "1679073157804",
+    "jobType": "TABLE_REBALANCE",
+    "REBALANCE_PROGRESS_STATS": "{\"initialToTargetStateConvergence\":{\"_segmentsMissing\":0,\"_segmentsToRebalance\":31,\"_percentSegmentsToRebalance\":100.0,\"_replicasToRebalance\":279},\"externalViewToIdealStateConvergence\":{\"_segmentsMissing\":0,\"_segmentsToRebalance\":0,\"_percentSegmentsToRebalance\":0.0,\"_replicasToRebalance\":0},\"currentToTargetConvergence\":{\"_segmentsMissing\":0,\"_segmentsToRebalance\":0,\"_percentSegmentsToRebalance\":0.0,\"_replicasToRebalance\":0},\"startTimeMs\":1679073157779,\"status\":\"DONE\",\"timeToFinishInSeconds\":0,\"completionStatusMsg\":\"Finished rebalancing table: airlineStats_OFFLINE with minAvailableReplicas: 1, enableStrictReplicaGroup: false, bestEfforts: false in 44 ms.\"}",
+    "tableName": "airlineStats_OFFLINE"
+
+```
+
+\
+
+
+\
