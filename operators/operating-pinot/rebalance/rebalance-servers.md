@@ -150,6 +150,10 @@ Typically, the flags that need to be changed from defaults are
 
 The following API is used to check the progress of a rebalance Job. The API takes the jobId of the rebalance job. The API to see the jobIds of rebalance Jobs for a table is shown next.&#x20;
 
+{% hint style="warning" %}
+Note that rebalanceStatus API is available from this [commit](https://github.com/apache/pinot/pull/10359)
+{% endhint %}
+
 {% embed url="http://localhost:9000/rebalanceStatus/ffb38717-81cf-40a3-8f29-9f35892b01f9" %}
 RebalanceStatus output
 {% endembed %}
@@ -189,8 +193,6 @@ RebalanceStatus output
   "timeElapsedSinceStartInSeconds": 28 // If rebalance is IN_PROGRESS, this gives the time elapsed since it started
   }
 ```
-
-
 
 Below is the API to get the jobIds of rebalance jobs for a given table. The API takes the table name and jobType which is TABLE\_REBALANCE.
 
