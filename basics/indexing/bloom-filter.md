@@ -51,5 +51,3 @@ There are 2 ways to configure a bloom filter for a table in the [table config](.
   ...
 }
 ```
-
-A Bloom Filter can only be applied to [dictionary-encoded columns](forward-index.md). Support for raw value columns is WIP.
