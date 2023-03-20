@@ -260,7 +260,6 @@
   * [DATETIMECONVERT](configuration-reference/functions/datetimeconvert.md)
   * [DATETRUNC](configuration-reference/functions/datetrunc.md)
   * [exp](configuration-reference/functions/exp.md)
-  * [EXTRACT](configuration-reference/functions/extract.md)
   * [FLOOR](configuration-reference/functions/floor.md)
   * [FromDateTime](configuration-reference/functions/fromdatetime.md)
   * [FromEpoch](configuration-reference/functions/fromepoch.md)
