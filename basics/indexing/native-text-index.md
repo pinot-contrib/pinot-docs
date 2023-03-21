@@ -71,7 +71,7 @@ Native text indices are a type of text search index that Pinot supports, hence a
   {
      "name":"text_col_1",
      "encodingType":"RAW",
-     "indexType":"TEXT",
+     "indexTypes": ["TEXT"],
      "properties":{"fstType":"native"}
   }
 ]
