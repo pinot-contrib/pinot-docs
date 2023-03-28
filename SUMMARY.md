@@ -230,6 +230,7 @@
   * [arrayUnionString](configuration-reference/functions/arrayunionstring.md)
   * [AVGMV](configuration-reference/functions/avgmv.md)
   * [Base64](configuration-reference/functions/base64.md)
+  * [caseWhen](configuration-reference/functions/caseWhen.md)
   * [ceil](configuration-reference/functions/ceil.md)
   * [CHR](configuration-reference/functions/chr.md)
   * [codepoint](configuration-reference/functions/codepoint.md)
