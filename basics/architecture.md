@@ -123,7 +123,7 @@ There are advanced routing strategies available such as ReplicaAware routing, pa
 For every query**,** a cluster's broker performs the following:
 
 * Fetches the routes that are computed for a query based on the routing strategy defined in a [table's](components/table.md) configuration.
-* Computes the list of segments to query from on each [server](components/server.md).
+* Computes the list of segments to query from on each [server](components/server.md). To learn more about this, check out [routing](operators/tuning/routing.md).
 * _Scatter-Gather:_ sends the requests to each server and gathers the responses.
 * _Merge:_ merges the query results returned from each server.
 * Sends the query result to the client.&#x20;

@@ -197,30 +197,20 @@ Text index is an addition to the type of **per-column indexes** users can create
 
 Similar to other indexes, users can enable text index on a column through table config. As part of text-search feature, we have also introduced a new generic way of specifying the per-column encoding and index information. In the [table config](../../configuration-reference/table.md), there will be a new section with the name "fieldConfigList".
 
-{% hint style="warning" %}
-`fieldConfigList`is currently ONLY used for text indexes. Our plan is to migrate all other indexes to this model. We are going to do that in upcoming releases and accordingly modify user documentation. So **please continue** to specify other index info in table config as you have done till now and use the `fieldConfigList` **only for text indexes**.
-{% endhint %}
-
 ```javascript
 "fieldConfigList":[
   {
      "name":"text_col_1",
      "encodingType":"RAW",
-     "indexType":"TEXT"
+     "indexTypes":["TEXT"]
   },
   {
      "name":"text_col_2",
      "encodingType":"RAW",
-     "indexType":"TEXT"
+     "indexTypes":["TEXT"]
   }
 ]
 ```
-
-"fieldConfigList" will be a new section in table config. It is essentially a list of per-column encoding and index information. In the above example, the list contains text index information for two columns text\_col\_1 and text\_col\_2. Each object in fieldConfigList contains the following information
-
-* name - Name of the column text index is enabled on
-* encodingType - As mentioned earlier, we can store a column either as RAW or dictionary encoded. Since for now we have a restriction on the text index, this should always be RAW.
-* indexType - This should be TEXT.
 
 Since we haven't yet removed the old way of specifying the index info, each column that has a text index should also be specified as `noDictionaryColumns` in `tableIndexConfig`:
 

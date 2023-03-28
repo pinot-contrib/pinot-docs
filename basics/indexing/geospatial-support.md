@@ -109,7 +109,7 @@ Next, declare the geospatial index in the [table config](../../configuration-ref
   {
     "name": "location_st_point",
     "encodingType":"RAW",
-    "indexType":"H3",
+    "indexTypes":["H3"],
     "properties": {
     "resolutions": "5"
      }

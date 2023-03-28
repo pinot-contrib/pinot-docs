@@ -45,7 +45,7 @@ and also set
     }
 ```
 
-More details about how partitioner works in Pinot [here](../../../operators/operating-pinot/tuning/routing.md#partitioning).
+To learn how partition works, check out the [routing tuning](operators/operating-pinot/tuning/routing.md).
 
 ### How do I store BYTES column in JSON data?
 
