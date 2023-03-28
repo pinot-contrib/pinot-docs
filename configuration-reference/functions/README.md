@@ -110,9 +110,14 @@ This page contains reference documentation for functions in Apache Pinot.
 [base64.md](base64.md)
 {% endcontent-ref %}
 
+{% content-ref url="caseWhen.md" %}
+[caseWhen.md](caseWhen.md)
+{% endcontent-ref %}
+
 {% content-ref url="ceil.md" %}
 [ceil.md](ceil.md)
 {% endcontent-ref %}
+
 
 {% content-ref url="chr.md" %}
 [chr.md](chr.md)
