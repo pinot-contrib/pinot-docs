@@ -211,6 +211,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [exp.md](exp.md)
 {% endcontent-ref %}
 
+{% content-ref url="extract.md" %}
+[extract.md](extract.md)
+{% endcontent-ref %}
+
 {% content-ref url="fromdatetime.md" %}
 [fromdatetime.md](fromdatetime.md)
 {% endcontent-ref %}
