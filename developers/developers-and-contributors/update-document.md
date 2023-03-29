@@ -1,27 +1,35 @@
 # Update Documentation
 
-Pinot documentation is powered by Gitbook, and a bi-directional Github integration is set up to back up all the changes.&#x20;
+Pinot documentation is powered by [GitBook](https://www.gitbook.com/).
 
-The git repo is here: [https://github.com/pinot-contrib/pinot-docs](https://github.com/pinot-contrib/pinot-docs)
+A bidirectional GitHub integration exists to back up all  changes at [https://github.com/pinot-contrib/pinot-docs](https://github.com/pinot-contrib/pinot-docs).
 
-For Pinot Contributor, there are majorly two ways to update the documentations.
+If you would like to contribute changes or additions, two methods are available: you can submit a pull request or edit directly on GitBook.
 
 ### Submit a Pull Request
 
-This follows the old fashion of updating documentations.
+If you are familiar with using Git and GitHub, you can fork the [pinot-docs](https://github.com/pinot-contrib/pinot-docs) repo. This will create your own version of the repository, which you can find at `https://github.com/{yourusername}/pinot-docs`, where ~~{yourusername}~~ is the username you created in GitHub.
 
-You can checkout [pinot-docs](https://github.com/pinot-contrib/pinot-docs) repo and modify the documentation accordingly then submit a PullRequest for review.
+Clone from the fork to your local machine.
 
-Once the PR got merged, the changes will automatically applied to corresponding Gitbook pages.
+Then, modify the documentation locally on your machine. When you commit, please write a meaningful and clear commit message, such as:
 
-Please note that all Gitbook documentation follows [Markdown Syntax](https://www.markdownguide.org/basic-syntax/).
+`git commit -m 'Fixes a typo on the Update Documentation page'`
 
-### Directly Edit on Gitbook
+Then push your changes to your fork on GitHub.
 
-Once granted edit permission, contributors could edit any page on Gitbook and then save and merge the changes by themselves. This is one example commit on Github repo to reflect the updates coming from Git book: [Adding Update Document Page Commit](https://github.com/pinot-contrib/pinot-docs/commit/76261ec9d7a7e533315459554b3bd7272a1e00c7).
+Use the GitHub web interface to create a pull request (PR) for review.
 
-Usually we grant edit permission to committers and active contributors.
+Wait. The Pinot documentation team will usually review pull requests within a few days. Suggestions or changes may be requested. You can make these by updating in your local branch and pushing those changes.
 
-Please contact admin(Email to [dev@pinot.apache.org](mailto:dev@pinot.apache.org) with the content you wanna add) to ask for edit permission for Pinot Gitbook.
+Once the PR is approved, it will be merged by one of the code owners. When that happens, the changes will automatically applied to the corresponding GitBook pages.
 
-Once granted the permission, you can directly working on [Pinot Gitbook UI](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/) to modify the documentation, and merge changes.
+Please note that all GitBook documentation follows [Markdown Syntax](https://www.markdownguide.org/basic-syntax/).
+
+### Edit Directly on GitBook
+
+Some trusted contributors are given the ability to edit any page via the [Pinot GitBook UI](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/) and then save and merge the changes themselves. This permission is typically granted to active contributors and committers, by request (and review).
+
+Please contact the site admin by emailing [dev@pinot.apache.org](mailto:dev@pinot.apache.org) with your request for edit permission and a description of the content you would like to edit or add.
+
+Changes made using this method are automatically reflected in the GitHub repo, such as can be seen in this commit: [Adding Update Document Page Commit](https://github.com/pinot-contrib/pinot-docs/commit/76261ec9d7a7e533315459554b3bd7272a1e00c7).
