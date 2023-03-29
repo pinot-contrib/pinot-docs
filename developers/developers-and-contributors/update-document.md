@@ -2,7 +2,7 @@
 
 Pinot documentation is powered by [GitBook](https://www.gitbook.com/).
 
-A bidirectional GitHub integration exists as a back end for content. You can find it at [https://github.com/pinot-contrib/pinot-docs](https://github.com/pinot-contrib/pinot-docs).
+A bidirectional GitHub integration exists as a back up for content. You can find it at [https://github.com/pinot-contrib/pinot-docs](https://github.com/pinot-contrib/pinot-docs).
 
 If you would like to contribute changes or additions, two methods are available: you can submit a pull request or edit directly on GitBook.
 
