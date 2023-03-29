@@ -2,13 +2,13 @@
 
 Pinot documentation is powered by [GitBook](https://www.gitbook.com/).
 
-A bidirectional GitHub integration exists to back up all  changes at [https://github.com/pinot-contrib/pinot-docs](https://github.com/pinot-contrib/pinot-docs).
+A bidirectional GitHub integration exists as a back end for content. You can find it at [https://github.com/pinot-contrib/pinot-docs](https://github.com/pinot-contrib/pinot-docs).
 
 If you would like to contribute changes or additions, two methods are available: you can submit a pull request or edit directly on GitBook.
 
 ### Submit a Pull Request
 
-If you are familiar with using Git and GitHub, you can fork the [pinot-docs](https://github.com/pinot-contrib/pinot-docs) repo. This will create your own version of the repository, which you can find at `https://github.com/{yourusername}/pinot-docs`, where ~~{yourusername}~~ is the username you created in GitHub.
+If you are familiar with using Git and GitHub, you can fork the [pinot-docs](https://github.com/pinot-contrib/pinot-docs) repo. This will create your own version of the repository, which you can find at `https://github.com/{yourusername}/pinot-docs`, where `{yourusername}` is the username you created in GitHub.
 
 Clone from the fork to your local machine.
 
