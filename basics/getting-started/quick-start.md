@@ -30,6 +30,10 @@ java.lang.RuntimeException: java.net.BindException: Address already in use
 If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
 {% endhint %}
 
+## Stopping a running example
+
+To stop a running example, enter `Ctrl+C` in the same terminal where you ran the `docker run` command to start the example.
+
 ## Batch
 
 This example demonstrates how to do batch processing with Pinot. The command:
