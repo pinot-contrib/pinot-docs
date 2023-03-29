@@ -32,4 +32,4 @@ Some trusted contributors are given the ability to edit any page via the [Pinot 
 
 Please contact the site admin by emailing [dev@pinot.apache.org](mailto:dev@pinot.apache.org) with your request for edit permission and a description of the content you would like to edit or add.
 
-Changes made using this method are automatically reflected in the GitHub repo, such as can be seen in this commit: [Adding Update Document Page Commit](https://github.com/pinot-contrib/pinot-docs/commit/76261ec9d7a7e533315459554b3bd7272a1e00c7).
+Changes made using this method are automatically merged into the GitHub repo, such as can be seen in [this commit](https://github.com/pinot-contrib/pinot-docs/commit/40184fd7563402a7527674991b6abbf9ae2ce7c3).
