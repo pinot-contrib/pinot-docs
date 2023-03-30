@@ -71,7 +71,7 @@ To enable the JSON index, set the following config in the table config:
 }
 ```
 
-| Config Key                  | Desciprtion                                                                                                                                                                                                                            | Type         | Default                                              |
+| Config Key                  | Description                                                                                                                                                                                                                            | Type         | Default                                              |
 | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------------------------- |
 | **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                             | int          | -1 (unlimited)                                       |
 | **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                    | boolean      | false (include array)                                |
