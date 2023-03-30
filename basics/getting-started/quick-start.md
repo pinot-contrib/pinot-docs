@@ -11,7 +11,7 @@ Pinot ships with `QuickStart` commands that launch Pinot components in a single 
 {% hint style="info" %}
 **Prerequisites**
 
-You must have either [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md).
+You must have either [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md). The examples are available in each option and work the same. The decision of which to choose depends on your installation preference and how you generally like to work. If you don't know which to choose, using Docker will make your cleanup easier after you are done with the examples.
 {% endhint %}
 
 {% hint style="warning" %}
