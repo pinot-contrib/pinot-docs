@@ -44,6 +44,19 @@ The Docker-based examples on this page use `pinot:latest`, which instructs Docke
 The local install-based examples that are run using the launcher scripts will use the Apache Pinot version you installed.
 {% endhint %}
 
+{% hint style="info" %}
+**Running examples with Docker on Mac M1**
+
+Add the `-arm64` suffix to the `run` commands, like this:
+
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest-arm64 QuickStart \
+    -type batch
+```
+{% endhint %}
+
 ## Batch Processing
 
 This example demonstrates how to do batch processing with Pinot. The command:
