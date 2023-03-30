@@ -45,7 +45,7 @@ The local install-based examples that are run using the launcher scripts will us
 {% endhint %}
 
 {% hint style="info" %}
-**Running examples with Docker on Mac M1**
+**Running examples with Docker on a Mac with an M1 or M2 CPU**
 
 Add the `-arm64` suffix to the `run` commands, like this:
 
