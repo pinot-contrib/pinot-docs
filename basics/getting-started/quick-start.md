@@ -6,12 +6,12 @@ description: >-
 
 # Quick Start Examples
 
-Pinot ships with QuickStart commands that launch Pinot components in a single process and import pre-built datasets. These QuickStarts are a good place if you're just getting started with Pinot.
+Pinot ships with `QuickStart` commands that launch Pinot components in a single process and import pre-built datasets. These quick start examples are a good place if you're just getting started with Pinot. The examples begin with the [Batch Processing](quick-start.md#batch-processing) example, after the following notes.
 
 {% hint style="info" %}
 **Prerequisites**
 
-You will need to have [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md).
+You must have either [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md).
 {% endhint %}
 
 {% hint style="warning" %}
@@ -30,9 +30,11 @@ java.lang.RuntimeException: java.net.BindException: Address already in use
 If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
 {% endhint %}
 
-## Stopping a running example
+{% hint style="info" %}
+**Stopping a running example**
 
 To stop a running example, enter `Ctrl+C` in the same terminal where you ran the `docker run` command to start the example.
+{% endhint %}
 
 {% hint style="info" %}
 **Pinot versions in examples**
@@ -42,7 +44,7 @@ The Docker-based examples on this page use `pinot:latest`, which instructs Docke
 The local install-based examples will use the Apache Pinot version you installed.
 {% endhint %}
 
-## Batch
+## Batch Processing
 
 This example demonstrates how to do batch processing with Pinot. The command:
 
