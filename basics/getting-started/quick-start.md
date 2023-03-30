@@ -34,6 +34,14 @@ If you disable the Airplay receiver server and try again, you shouldn't see this
 
 To stop a running example, enter `Ctrl+C` in the same terminal where you ran the `docker run` command to start the example.
 
+{% hint style="info" %}
+**Pinot versions in examples**
+
+The Docker-based examples on this page use `pinot:latest`, which instructs Docker to pull and use the most recent release of Apache Pinot. If you prefer to use a specific release instead, you can designate it by replacing `latest` with the release number, like this: `pinot:0.12.1`.
+
+The local install-based examples will use the Apache Pinot version you installed.
+{% endhint %}
+
 ## Batch
 
 This example demonstrates how to do batch processing with Pinot. The command:
@@ -48,7 +56,7 @@ This example demonstrates how to do batch processing with Pinot. The command:
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type batch
 ```
 {% endtab %}
@@ -74,7 +82,7 @@ This example demonstrates how to import and query JSON documents in Pinot. The c
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type batch_json_index
 ```
 {% endtab %}
@@ -100,7 +108,7 @@ This example demonstrates how to do batch processing in Pinot where the the data
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type batch_json_index
 ```
 {% endtab %}
@@ -127,7 +135,7 @@ This example demonstrates how to do stream processing with Pinot. The command:
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type stream
 ```
 {% endtab %}
@@ -154,7 +162,7 @@ This example demonstrates how to do stream processing with JSON documents in Pin
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type stream_json_index
 ```
 {% endtab %}
@@ -181,7 +189,7 @@ This example demonstrates how to do stream processing in Pinot with RealtimeToOf
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type realtime_minion
 ```
 {% endtab %}
@@ -208,7 +216,7 @@ This example demonstrates how to do stream processing in Pinot where the stream 
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type stream_complex_type
 ```
 {% endtab %}
@@ -235,7 +243,7 @@ This example demonstrates how to do [stream processing with upsert](../data-impo
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type upsert
 ```
 {% endtab %}
@@ -262,7 +270,7 @@ This example demonstrates how to do [stream processing with upsert](../data-impo
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type upsert_json_index
 ```
 {% endtab %}
@@ -290,7 +298,7 @@ This example demonstrates how to do hybrid stream and batch processing with Pino
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type hybrid
 ```
 {% endtab %}
@@ -318,7 +326,7 @@ This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../
 ```
 docker run \
     -p 9000:9000 \
-    apachepinot/pinot:0.9.3 QuickStart \
+    apachepinot/pinot:latest QuickStart \
     -type join
 ```
 {% endtab %}
