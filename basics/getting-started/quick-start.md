@@ -6,13 +6,29 @@ description: >-
 
 # Quick Start Examples
 
-Pinot ships with `QuickStart` commands that launch Pinot components in a single process and import pre-built datasets. These quick start examples are a good place if you're just getting started with Pinot. The examples begin with the [Batch Processing](quick-start.md#batch-processing) example, after the following notes.
+Pinot ships with `QuickStart` commands that launch Pinot components in a single process and import pre-built datasets. These quick start examples are a good place if you're just getting started with Pinot. The examples begin with the [Batch Processing](quick-start.md#batch-processing) example, after the following notes:
 
-{% hint style="info" %}
-**Prerequisites**
+*   **Prerequisites**
 
-You must have either [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md). The examples are available in each option and work the same. The decision of which to choose depends on your installation preference and how you generally like to work. If you don't know which to choose, using Docker will make your cleanup easier after you are done with the examples.
-{% endhint %}
+    You must have either [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md). The examples are available in each option and work the same. The decision of which to choose depends on your installation preference and how you generally like to work. If you don't know which to choose, using Docker will make your cleanup easier after you are done with the examples.
+*   **Pinot versions in examples**
+
+    The Docker-based examples on this page use `pinot:latest`, which instructs Docker to pull and use the most recent release of Apache Pinot. If you prefer to use a specific release instead, you can designate it by replacing `latest` with the release number, like this: `pinot:0.12.1`.
+
+    The local install-based examples that are run using the launcher scripts will use the Apache Pinot version you installed.
+*   **Running examples with Docker on a Mac with an M1 or M2 CPU**
+
+    Add the `-arm64` suffix to the `run` commands, like this:
+
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest-arm64 QuickStart \
+        -type batch
+    ```
+*   **Stopping a running example**
+
+    To stop a running example, enter `Ctrl+C` in the same terminal where you ran the `docker run` command to start the example.
 
 {% hint style="warning" %}
 **macOS Monterey Users**
@@ -28,33 +44,6 @@ java.lang.RuntimeException: java.net.BindException: Address already in use
 ```
 
 If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
-{% endhint %}
-
-{% hint style="info" %}
-**Stopping a running example**
-
-To stop a running example, enter `Ctrl+C` in the same terminal where you ran the `docker run` command to start the example.
-{% endhint %}
-
-{% hint style="info" %}
-**Pinot versions in examples**
-
-The Docker-based examples on this page use `pinot:latest`, which instructs Docker to pull and use the most recent release of Apache Pinot. If you prefer to use a specific release instead, you can designate it by replacing `latest` with the release number, like this: `pinot:0.12.1`.
-
-The local install-based examples that are run using the launcher scripts will use the Apache Pinot version you installed.
-{% endhint %}
-
-{% hint style="info" %}
-**Running examples with Docker on a Mac with an M1 or M2 CPU**
-
-Add the `-arm64` suffix to the `run` commands, like this:
-
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest-arm64 QuickStart \
-    -type batch
-```
 {% endhint %}
 
 ## Batch Processing
