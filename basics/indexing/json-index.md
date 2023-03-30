@@ -149,7 +149,7 @@ With **maxLevels** set to 1:
 ```json
 {
   "name": "adam",
-  "age": 20son
+  "age": 20
 }
 ```
 
