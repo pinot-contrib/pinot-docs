@@ -41,7 +41,7 @@ To stop a running example, enter `Ctrl+C` in the same terminal where you ran the
 
 The Docker-based examples on this page use `pinot:latest`, which instructs Docker to pull and use the most recent release of Apache Pinot. If you prefer to use a specific release instead, you can designate it by replacing `latest` with the release number, like this: `pinot:0.12.1`.
 
-The local install-based examples will use the Apache Pinot version you installed.
+The local install-based examples that are run using the launcher scripts will use the Apache Pinot version you installed.
 {% endhint %}
 
 ## Batch Processing
