@@ -58,7 +58,7 @@ The PinotTaskManager periodic task is disabled by default. Enable it by adding t
 
 ```
 controller.task.scheduler.enabled=true
-controller.task.frequencyPeriod=3600
+controller.task.frequencyPeriod=1h
 ```
 
 **Step 3**: Advanced configs
