@@ -19,7 +19,15 @@ Install JDK11 or higher (JDK16 is not yet supported)\
 For JDK 8 support use Pinot 0.7.1 or compile from the source code.
 {% endhint %}
 
-You can build from source or download the distribution:
+If you have an M1 or M2 Mac, read the following note before proceeding.
+
+{% hint style="info" %}
+Support for M1 and M2 Mac systems
+
+Currently Apache Pinot doesn't provide official binaries for M1 or M2 Macs. You can however build from source using the steps provided while also including additional instructions listed in [M1 and M2 Mac Support](running-pinot-locally.md#m1-and-m2-mac-support).
+{% endhint %}
+
+You can build from source or download the distribution by selecting one of the following tabs:
 
 {% tabs %}
 {% tab title="Download the release" %}
@@ -82,11 +90,9 @@ Note that Pinot scripts is located under **pinot-distribution/target** not **tar
 {% endtab %}
 {% endtabs %}
 
+### M1 and M2 Mac Support
 
-
-### M1 Mac Support
-
-Currently Apache Pinot doesn't provide official binaries for M1 Mac. You can however build from source using the steps provided above. In addition to the steps, you will need to add the following in your `~/.m2/settings.xml` prior to the build.
+Currently Apache Pinot doesn't provide official binaries for M1 or M2 Mac systems. However, you can build from source using the steps provided above while adding the following in your `~/.m2/settings.xml` prior to the build.
 
 ```xml
 <settings>
@@ -106,7 +112,7 @@ Currently Apache Pinot doesn't provide official binaries for M1 Mac. You can how
 </settings>  
 ```
 
-Also make sure to install rosetta
+You must also install rosetta
 
 `softwareupdate --install-rosetta`
 
