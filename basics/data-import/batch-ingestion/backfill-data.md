@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Pinot batch ingestion involves two parts: routing ingestion job(hourly/daily) and backfill. Here are some tutorials on how routine batch ingestion works in Pinot Offline Table:
+Pinot batch ingestion involves two parts: routine ingestion job(hourly/daily) and backfill. Here are some tutorials on how routine batch ingestion works in Pinot Offline Table:
 
 * [Batch Ingestion Overview](https://docs.pinot.apache.org/basics/data-import/batch-ingestion)
 * [Batch Ingestion in Practice](https://docs.pinot.apache.org/users/tutorials/batch-data-ingestion-in-practice)
