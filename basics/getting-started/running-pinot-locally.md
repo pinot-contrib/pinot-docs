@@ -22,7 +22,7 @@ For JDK 8 support use Pinot 0.7.1 or compile from the source code.
 If you have an M1 or M2 Mac, read the following note before proceeding.
 
 {% hint style="info" %}
-Support for M1 and M2 Mac systems
+**Support for M1 and M2 Mac systems**
 
 Currently Apache Pinot doesn't provide official binaries for M1 or M2 Macs. You can however build from source using the steps provided while also including additional instructions listed in [M1 and M2 Mac Support](running-pinot-locally.md#m1-and-m2-mac-support).
 {% endhint %}
