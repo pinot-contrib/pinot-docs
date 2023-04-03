@@ -1,12 +1,12 @@
 ---
 description: >-
-  This page covers everything you need to know about how queries are computed in
-  Pinot's distributed systems architecture.
+  Everything you need to know about how queries are computed in Pinot's
+  distributed systems architecture.
 ---
 
 # Architecture
 
-This page will introduce you to the guiding principles behind the design of Apache Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale the performance of queries linearly based on the number of nodes in a cluster. You'll also be introduced to the two different types of tables used to ingest and query data in offline (batch) or real-time (stream) mode.
+This page introduces you to the guiding principles behind the design of Apache Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale the performance of queries linearly based on the number of nodes in a cluster. You'll also be introduced to the two different types of tables used to ingest and query data in offline (batch) or real-time (stream) mode.
 
 {% hint style="info" %}
 It's recommended that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
@@ -18,7 +18,7 @@ Pinot was designed by engineers at LinkedIn and Uber to scale query performance 
 
 * **Highly available**: Pinot is built to serve low latency analytical queries for customer facing applications. By design, there is no single point of failure in Pinot. The system continues to serve queries when a node goes down.
 * **Horizontally scalable**: Ability to scale by adding new nodes as a workload changes.
-* **Latency vs Storage:** Pinot is built to provide low latency even at high-throughput. Features such as segment assignment strategy, routing strategy, star-tree indexing were developed to achieve this.&#x20;
+* **Latency vs Storage:** Pinot is built to provide low latency even at high-throughput. Features such as segment assignment strategy, routing strategy, star-tree indexing were developed to achieve this.
 * **Immutable data**: Pinot assumes that all data stored is immutable. For GDPR compliance, we provide an add-on solution for purging data while maintaining performance guarantees.
 * **Dynamic configuration changes**: Operations such as adding new tables, expanding a cluster, ingesting data, modifying indexing config, and re-balancing must be performed without impacting query availability or performance.
 
@@ -120,13 +120,13 @@ There are advanced routing strategies available such as ReplicaAware routing, pa
 
 **Query processing**
 
-For every query**,** a cluster's broker performs the following:
+For every query\*\*,\*\* a cluster's broker performs the following:
 
 * Fetches the routes that are computed for a query based on the routing strategy defined in a [table's](components/table.md) configuration.
 * Computes the list of segments to query from on each [server](components/server.md). To learn more about this, check out [routing](operators/tuning/routing.md).
 * _Scatter-Gather:_ sends the requests to each server and gathers the responses.
 * _Merge:_ merges the query results returned from each server.
-* Sends the query result to the client.&#x20;
+* Sends the query result to the client.
 
 ```javascript
 // Query: select count(*) from baseballStats limit 10
