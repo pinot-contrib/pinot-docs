@@ -16,6 +16,10 @@ Pinot uses a variety of terms that can refer to either abstractions that model t
 
 ![Pinot Storage Model Abstraction](../.gitbook/assets/pinot\_entities.jpg)
 
+### **Segment**
+
+Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/segment.md) **** (similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.&#x20;
+
 ### **Table**
 
 Similar to traditional databases, Pinot has the concept of a [**table**](components/table.md)—a logical abstraction to refer to a collection of related data.&#x20;
@@ -23,10 +27,6 @@ Similar to traditional databases, Pinot has the concept of a [**table**](compone
 As is the case with RDBMS, a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](components/schema.md) that defines the columns in a table as well as their data types.&#x20;
 
 In contrast to RDBMS schemas, multiple tables in Pinot (real-time or batch) can inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, and/or replication.
-
-### **Segment**
-
-Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/segment.md) **** (similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.&#x20;
 
 ### **Tenant**
 
@@ -49,8 +49,8 @@ Auto-scaling is also achievable, however, a set amount of nodes is recommended t
 A Pinot cluster comprises multiple distributed system components. These components are useful to understand for operators that are monitoring system usage or are debugging an issue with a cluster deployment.
 
 * Controller
-* Server
 * Broker
+* Server
 * Minion (optional)
 
 The benefits of scale that make Pinot linearly scalable for an unbounded number of nodes is made possible through its integration with [Apache Zookeeper](https://zookeeper.apache.org/) and [Apache Helix](http://helix.apache.org/).&#x20;
