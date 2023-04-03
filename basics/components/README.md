@@ -4,9 +4,9 @@ description: Learn about the different components and logical abstractions
 
 # Components
 
-This section is a reference for the definition of major components and logical abstractions used in Pinot.&#x20;
+Pages in this section define and describe the major components and logical abstractions used in Pinot.&#x20;
 
-For a general overview that ties together all of the reference material in this section, see [Basic Concepts](../concepts.md).
+For a general overview that ties all these components together, see [Basic Concepts](../concepts.md).
 
 ![](../../.gitbook/assets/pinot-system-architecture.png)
 
