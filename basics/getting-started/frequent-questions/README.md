@@ -10,6 +10,14 @@ description: >-
 This is a list of questions frequently asked in our troubleshooting channel on Slack. Please feel free to contribute your questions and answers here and make a pull request.
 {% endhint %}
 
+{% content-ref url="genaral.md" %}
+[genaral.md](genaral.md)
+{% endcontent-ref %}
+
+{% content-ref url="pinot-on-kubernetes-faq.md" %}
+[pinot-on-kubernetes-faq.md](pinot-on-kubernetes-faq.md)
+{% endcontent-ref %}
+
 {% content-ref url="ingestion-faq.md" %}
 [ingestion-faq.md](ingestion-faq.md)
 {% endcontent-ref %}
