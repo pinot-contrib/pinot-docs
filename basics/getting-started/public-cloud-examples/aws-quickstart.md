@@ -52,7 +52,7 @@ This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick 
 
 ### **1.3 Install AWS CLI**
 
-__
+
 
 Please follow this link ([https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html#install-tool-bundled](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html#install-tool-bundled)) to install _AWS CLI_.
 

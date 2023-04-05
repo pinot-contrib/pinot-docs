@@ -18,7 +18,7 @@ Pinot uses a variety of terms that can refer to either abstractions that model t
 
 ### **Segment**
 
-Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/segment.md) **** (similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.&#x20;
+Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/segment.md) (similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.&#x20;
 
 ### **Table**
 

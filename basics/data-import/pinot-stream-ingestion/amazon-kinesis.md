@@ -36,15 +36,15 @@ To ingest events from an Amazon Kinesis stream into Pinot, set the following con
 
 where the Kinesis specific properties are:
 
-| Property                  | Description                                                                                                                                                                                               |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| streamType                | This should be set to "kinesis"                                                                                                                                                                           |
-| stream.kinesis.topic.name | Kinesis stream name                                                                                                                                                                                       |
-| region                    | Kinesis region e.g. us-west-1                                                                                                                                                                             |
-| accessKey                 | Kinesis access key                                                                                                                                                                                        |
-| secretKey                 | Kinesis secret key                                                                                                                                                                                        |
-| shardIteratorType         | Set to LATEST to consume only new records, TRIM\_HORIZON __ for earliest sequence __ number_,_ AT_\__SEQUENCE\_NUMBER and AFTER\_SEQUENCE\_NUMBER to start consumptions from a particular sequence number |
-| maxRecordsToFetch         | ... Default is 20.                                                                                                                                                                                        |
+| Property                  | Description                                                                                                                                                                                         |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| streamType                | This should be set to "kinesis"                                                                                                                                                                     |
+| stream.kinesis.topic.name | Kinesis stream name                                                                                                                                                                                 |
+| region                    | Kinesis region e.g. us-west-1                                                                                                                                                                       |
+| accessKey                 | Kinesis access key                                                                                                                                                                                  |
+| secretKey                 | Kinesis secret key                                                                                                                                                                                  |
+| shardIteratorType         | Set to LATEST to consume only new records, TRIM\_HORIZON for earliest sequence number_,_ AT_\__SEQUENCE\_NUMBER and AFTER\_SEQUENCE\_NUMBER to start consumptions from a particular sequence number |
+| maxRecordsToFetch         | ... Default is 20.                                                                                                                                                                                  |
 
 Kinesis supports authentication using the [DefaultCredentialsProviderChain](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html). The credential provider looks for the credentials in the following order -
 

@@ -52,7 +52,7 @@ This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick 
 
 ### **1.3 Install Google Cloud SDK**
 
-__
+
 
 Please follow this link ([https://cloud.google.com/sdk/install](https://cloud.google.com/sdk/install)) to install Google Cloud SDK.
 

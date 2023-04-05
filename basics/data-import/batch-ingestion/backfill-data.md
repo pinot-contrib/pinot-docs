@@ -35,7 +35,7 @@ Backfill jobs expect the same number of (or more) data files on the backfill dat
 E.g. assuming table airlineStats has 2 segments(airlineStats\_2014-01-01\_2014-01-01\_0, airlineStats\_2014-01-01\_2014-01-01\_1) on date 2014/01/01 and the backfill input directory contains only 1 input file. Then the segment generation job will create just one segment: airlineStats\_2014-01-01\_2014-01-01\_0. After the segment push job, only segment airlineStats\_2014-01-01\_2014-01-01\_0 got replaced and stale data in segment airlineStats\_2014-01-01\_2014-01-01\_1 are still there.
 
 **In case the raw data is modified in such a way that the original time bucket has fewer input files than the first ingestion run, backfill will fail.**\
-****
+
 
 
 
