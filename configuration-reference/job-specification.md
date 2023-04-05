@@ -195,12 +195,13 @@ pinotClusterSpecs:
 ### Push Job Spec
 
 | Property                | Description                                                                                                                             |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| pushAttempts            | Number of attempts for push job. Default is 1, which means no retry                                                                     |
-| pushParallelism         | Workers to use for push job. Default is 1                                                                                               |
-| pushRetryIntervalMillis | Time in milliseconds to wait for between retry attempts Default is 1 second.                                                            |
-| segmentUriPrefix        | append this string before the path of the push destination. Generally, it is the scheme of the filesystem e.g. `s3://` , `file://` etc. |
-| segmentUriSuffix        | append this string after the path of the push destination.                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| pushAttempts            | Number of attempts for push job. Default is 1, which means no retry                                                                                                                              |
+| pushParallelism         | Workers to use for push job. Default is 1                                                                                                                                                        |
+| pushRetryIntervalMillis | Time in milliseconds to wait for between retry attempts Default is 1 second.                                                                                                                     |
+| segmentUriPrefix        | append this string before the path of the push destination. Generally, it is the scheme of the filesystem e.g. `s3://` , `file://` etc.                                                          |
+| segmentUriSuffix        | append this string after the path of the push destination.                                                                                                                                       |
+| pushFileNamePattern     | segment name pattern for which segments to push, supported glob and regex patterns. E.g. 'glob:**2023-01*' will push all the segment files under the outputDirURI whose names contain '2023-01'. |
 
 #### Example
 
@@ -211,4 +212,5 @@ pushJobSpec:
   pushRetryIntervalMillis: 1000
   segmentUriPrefix : 'file://'
   segmentUriSuffix : my-dir/
+  pushFileNamePattern : glob:**2023-01*
 ```
