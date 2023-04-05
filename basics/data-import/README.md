@@ -1,12 +1,12 @@
 ---
 description: >-
-  This section is an overview of the various options for importing data into
-  Pinot.
+  This section provides an overview of the various options for importing data
+  into Pinot.
 ---
 
 # Import Data
 
-There are multiple options for importing data into Pinot. These guides are ready-made examples that show you step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../developers/plugin-architecture/).
+There are multiple options for importing data into Pinot. The guides in this section offer step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../developers/plugin-architecture/).
 
 These guides are meant to get you up and running with imported data as quick as possible. Pinot supports multiple file input formats without needing to change anything other than the file name. Each example imports a ready-made dataset so you can see how things work without needing to bring your own dataset.
 
@@ -48,7 +48,7 @@ This guide will show you how to import data using stream ingestion with CLP.
 
 ## Pinot File Systems
 
-By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add a deep storage. Checkout [File systems](pinot-file-system/) for all the info and related configs.
+By default, Pinot does not come with a storage layer, so all the data sent won't be stored in case of system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add a deep storage. Checkout [File systems](pinot-file-system/) for all the info and related configs.
 
 These guides will show you how to import data as well as persist it in the file systems.
 
