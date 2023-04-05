@@ -1,6 +1,6 @@
 # Spark
 
-Pinot supports Apache spark as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
+Pinot supports Apache Spark as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
 
 We support both Spark 2.X and 3.X
 
@@ -158,4 +158,3 @@ Q - Getting `Class not found:` exception
 
 Please check if `extraClassPath` arguments contain all the plugin jars for both driver and executors. Also, all the plugin jars are mentioned in the `--jars` argument. If both of these are correct, please check if the `extraClassPath` contains local filesystem classpaths and not s3 or hdfs or any other distributed file system classpaths.&#x20;
 
-``
