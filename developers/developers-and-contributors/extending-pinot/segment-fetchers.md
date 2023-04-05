@@ -1,11 +1,11 @@
 # Segment Fetchers
 
-When Pinot segment files are created in external systems (hadoop/spark/etc), there are several ways to push those data to Pinot Controller and Server:
+When Pinot segment files are created in external systems (Hadoop/Spark/etc), there are several ways to push those data to Pinot Controller and Server:
 
-1. push segment to shared NFS and let Pinot pull segment files from the location of that NFS.
-2. push segment to a Web server and let Pinot pull segment files from the Web server with http/https link.
-3. push segment to HDFS and let Pinot pull segment files from HDFS with hdfs location uri.
-4. push segment to other system and implement your own segment fetcher to pull data from those systems.
+1. Push segment to shared NFS and let Pinot pull segment files from the location of that NFS.
+2. Push segment to a Web server and let Pinot pull segment files from the Web server with http/https link.
+3. Push segment to HDFS and let Pinot pull segment files from HDFS with hdfs location uri.
+4. Push segment to other system and implement your own segment fetcher to pull data from those systems.
 
 The first two options should be supported out of the box with Pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files it will pick up the file and allocate it to proper Pinot Servers and brokers. To enable Pinot support for HDFS, you will need to provide Pinot Hadoop configuration and proper Hadoop dependencies.
 
