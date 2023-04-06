@@ -3,8 +3,8 @@
 ## Top-level fields
 
 | Property             | Description                                                                                                                                                                                                                                                                           |
-| -------------------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **tableName**        | Specifies the name of the table. Should only contain alpha-numeric characters, hyphens (‘-‘), or underscores (‘\__’). (Using a double-underscore (‘\_\__’) is not allowed and reserved for other features within Pinot)                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **tableName**        | Specifies the name of the table. Should only contain alpha-numeric characters, hyphens (‘-‘), or underscores (‘\__’). (Using a double-underscore (‘\_\__’) is not allowed as it is reserved for other features within Pinot)                                                          |
 | **tableType**        | Defines the table type - `OFFLINE` for offline table, `REALTIME` for realtime table. A hybrid table is essentially 2 table configs one of each type, with the same table name.                                                                                                        |
 | **isDimTable**       | Boolean field to indicate whether the table is a [dimension table](../basics/data-import/batch-ingestion/dim-table.md).                                                                                                                                                               |
 | **quota**            | This section defines properties related to quotas, such as storage quota and query quota. For more details scroll down to [quota](table.md#quota).                                                                                                                                    |
@@ -34,12 +34,12 @@ The following properties can be nested inside the top-level configs.
 
 ### Routing
 
- For more details on how to configure this check out [routing tuning](operators/operating-pinot/tuning/routing.md)
+For more details on how to configure this check out [routing tuning](operators/operating-pinot/tuning/routing.md)
 
-| Property             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| -------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| segmentPrunerTypes   | <p>The list of segment pruners to be enabled.</p><p>The segment pruner prunes the selected segments based on the query. Supported values currently are<br><code>partition</code> - prunes segments based on the partition metadata stored in zookeeper. By default, there is no pruner. <br><code>time</code> - prunes segments for queries filtering on <code>timeColumnName</code> that do not contain data in the query's time range.</p>                                                                          |
-| instanceSelectorType | <p>The instance selector selects server instances to serve the query based on selected segments. Supported values are<br><code>balanced</code> - balances the number of segments served by each selected instance. Default.<br><code>replicaGroup</code> - instance selector for replica group routing strategy.</p>  |
+| Property             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| segmentPrunerTypes   | <p>The list of segment pruners to be enabled.</p><p>The segment pruner prunes the selected segments based on the query. Supported values currently are<br><code>partition</code> - prunes segments based on the partition metadata stored in zookeeper. By default, there is no pruner.<br><code>time</code> - prunes segments for queries filtering on <code>timeColumnName</code> that do not contain data in the query's time range.</p> |
+| instanceSelectorType | <p>The instance selector selects server instances to serve the query based on selected segments. Supported values are<br><code>balanced</code> - balances the number of segments served by each selected instance. Default.<br><code>replicaGroup</code> - instance selector for replica group routing strategy.</p>                                                                                                                        |
 
 ### Query
 
@@ -89,26 +89,24 @@ The following properties can be nested inside the top-level configs.
 
 ### Field Config List
 
-Specify the columns and the type of indices to be created on those columns. 
-Currently, not all index types can be using this property.
-The list of indexes that are supported are:
-  - [Text](../basics/indexing/text-search-support.md).
-  - [FST](../basics/indexing/native-text-index.md).
-  - [Timestamp](../basics/indexing/timestamp-index.md).
-  - [H3 (also known as geospatial)](../basics/indexing/geospatial-support.md)
+Specify the columns and the type of indices to be created on those columns. Currently, not all index types can be using this property. The list of indexes that are supported are:
+
+* [Text](../basics/indexing/text-search-support.md).
+* [FST](../basics/indexing/native-text-index.md).
+* [Timestamp](../basics/indexing/timestamp-index.md).
+* [H3 (also known as geospatial)](../basics/indexing/geospatial-support.md)
 
 | Property     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | name         | name of the column                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | encodingType | Should be one of `RAW` or `DICTIONARY`                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | indexTypes   | a list of indexes to create on this column. Valid values are the ids of the index types (text, fst, h3, etc)                                                                                                                                                                                                                                                                                                                                                                                                      |
 | properties   | <p>JSON of key-value pairs containing additional properties associated with the index. The following properties are supported currently -</p><ul><li><code>enableQueryCacheForTextIndex</code> - set to <code>true</code> to enable caching for text index in Lucene</li><li><code>rawIndexWriterVersion</code></li><li><code>deriveNumDocsPerChunkForRawIndex</code></li><li><code>forwardIndexDisabled</code> - set to <code>true</code> to disable the forward index, defaults to <code>false</code></li></ul> |
 
-The property `indexType` (in singular, accepting a single index id as string) is also supported for compatibility 
-reasons, but it is recommended to use the plural in order to be able to define several indexes for the same column.
+The property `indexType` (in singular, accepting a single index id as string) is also supported for compatibility reasons, but it is recommended to use the plural in order to be able to define several indexes for the same column.
 
 {% hint style="danger" %}
-**Warning:**&#x20;
+**Warning:**
 
 If removing the `forwardIndexDisabled` property above to regenerate the forward index for multi-value (MV) columns note that the following invariants cannot be maintained after regenerating the forward index for a forward index disabled column:
 
