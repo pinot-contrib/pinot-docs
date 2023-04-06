@@ -6,13 +6,13 @@ description: Learn how to query Pinot using SQL
 
 ## SQL Interface
 
-Pinot provides SQL interface for querying. It uses the **Calcite SQL** parser to parse queries and uses **MYSQL\_ANSI** dialect. You can see the grammar [in the Calcite documentation](https://calcite.apache.org/docs/reference.html).
+Pinot provides a SQL interface for querying. It uses the **Calcite SQL** parser to parse queries and the **MYSQL\_ANSI** dialect. For details on the grammar, see the the [Calcite documentation](https://calcite.apache.org/docs/reference.html).&#x20;
 
 ## Limitations
 
-* The latest Pinot multi-stage supports inner join, left-outer, semi-join, and nested queries out of the box. It is optimized for in-memory process and latency.&#x20;
-  * For queries that require a large amount of data shuffling, or require spill-to-disk, or hitting any other limitations of the multi-stage engine, we still recommend using **Presto**. For more information, see [Multi-Stage Query Engine Page](../../developers/advanced/v2-multi-stage-query-engine.md).
-* The latest Pinot also supports simple DDL to insert data into a table from file directly. For more info please see the [0.11.0 release note](https://docs.pinot.apache.org/basics/releases/0.11.0#adding-dml-definition-and-parse-sql-insertfile-8557).&#x20;
+* The latest Pinot multi-stage supports inner join, left-outer, semi-join, and nested queries out of the box. It's optimized for in-memory process and latency.
+  * For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage engine, we still recommend using **Presto**. For more information, see [Multi-Stage Query Engine](../../developers/advanced/v2-multi-stage-query-engine.md).
+* The latest Pinot also supports simple DDL to insert data into a table from file directly. For details, see [Multi-Stage Query Engine](../../developers/advanced/v2-multi-stage-query-engine.md).
   * More DDL supports will be added in the future. But for now, the most common way for data definition is via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
 ## Identifier vs Literal
@@ -22,16 +22,14 @@ In Pinot SQL:
 * **Double quotes(")** are used to force string identifiers, e.g. column names
 * **Single quotes(')** are used to enclose string literals. If the string literal also contains a single quote, escape this with a single quote e.g `'''Pinot'''` to match the string literal `'Pinot'`
 
-Mis-using those might cause unexpected query results:
-
-e.g.
+Misusing those might cause unexpected query results, like the following examples:
 
 * `WHERE a='b'` means the predicate on the column `a` equals to a string literal value `'b'`
 * `WHERE a="b"` means the predicate on the column `a` equals to the value of the column `b`
 
-If your column names use reserved keywords (e.g. `timestamp` or `date`) or special charactesr, you will need to use double quotes when referring to them in queries.
+If your column names use reserved keywords (e.g. `timestamp` or `date`) or special characters, you will need to use double quotes when referring to them in queries.
 
-Note: Defining decimal literals within quotes preserves precision.
+Note: Define decimal literals within quotes to preserve precision.
 
 ## Example Queries
 
@@ -88,7 +86,7 @@ FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
-For performant filtering of ids in a list, see [Filtering with IdSet](https://docs.pinot.apache.org/users/user-guide-query/filtering-with-idset).
+For performant filtering of IDs in a list, see [Filtering with IdSet](https://docs.pinot.apache.org/users/user-guide-query/filtering-with-idset).
 
 ### Filtering with NULL predicate
 
@@ -122,7 +120,7 @@ FROM myTable
 
 ### Pagination on Selection
 
-> Results might not be consistent if the order by column has the same value in multiple rows.
+Note that results might not be consistent if the `ORDER BY` column has the same value in multiple rows.
 
 ```sql
 SELECT foo, bar 
@@ -134,7 +132,7 @@ FROM myTable
 
 ### Wild-card match (in WHERE clause only)
 
-To count rows where the column `airlineName` starts with `U`
+The example below counts rows where the column `airlineName` starts with `U`:
 
 ```sql
 SELECT COUNT(*) 
@@ -145,9 +143,7 @@ FROM myTable
 
 ### Case-When Statement
 
-Pinot supports the CASE-WHEN-ELSE statement.
-
-Example 1:
+Pinot supports the `CASE-WHEN-ELSE` statement, as shown in the following two examples:
 
 ```sql
 SELECT
@@ -159,8 +155,6 @@ SELECT
     END AS price_category
 FROM myTable
 ```
-
-Example 2:
 
 ```sql
 SELECT
@@ -176,7 +170,7 @@ FROM myTable
 
 ### UDF
 
-Functions have to be implemented within Pinot. Injecting functions is not yet supported. The example below demonstrate the use of UDFs.
+Pinot doesn't currently support injecting functions.  Functions have to be implemented within Pinot, as shown below:
 
 ```sql
 SELECT COUNT(*)
@@ -188,9 +182,9 @@ For more examples, see [Transform Function in Aggregation Grouping](https://docs
 
 ### BYTES column
 
-Pinot supports queries on BYTES column using HEX string. The query response also uses HEX string to represent bytes values.
+Pinot supports queries on BYTES column using hex strings. The query response also uses hex strings to represent bytes values.
 
-e.g. the query below fetches all the rows for a given UID.
+The query below fetches all the rows for a given UID:
 
 ```sql
 SELECT * 
