@@ -148,8 +148,10 @@ To disable the forward index for a given column the `fieldConfigList` can be mod
   {
      "name":"columnA",
      "encodingType":"DICTIONARY",
-     "indexTypes":["INVERTED"]
-     "properties":[{"forwardIndexDisabled":"true"}]
+     "indexTypes":["INVERTED"],
+     "properties": {
+        "forwardIndexDisabled": "true"
+      }
   }
 ]
 ```
