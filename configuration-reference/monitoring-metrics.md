@@ -1,6 +1,6 @@
 # Monitoring Metrics
 
-Pinot provides metrics out of the box so that you can monitor every aspect of performance and robustness of the Pinot cluster. Most of the metrics are available either at table level or instance level. The metrics can be divided into the following major types when plotting -
+Pinot provides metrics out of the box so that you can monitor every aspect of performance and robustness of the Pinot cluster. Most of the metrics are available either at table level or instance level. The metrics can be divided into the following major types when plotting:
 
 * **Gauge** - These represent a single value at any point in time.
 * **Meter** - These represent rates of the metric per minute, per 5 minute etc.
