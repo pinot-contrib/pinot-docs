@@ -8,30 +8,34 @@ description: >-
 
 In this guide, you'll learn how to download and install Apache Pinot as a standalone instance.
 
+* [Download Apache Pinot](running-pinot-locally.md#download-apache-pinot)
+* [Set up a cluster](running-pinot-locally.md#set-up-a-cluster)
+* [Start a Pinot component in debug mode with IntelliJ](running-pinot-locally.md#start-a-pinot-component-in-debug-mode-with-intellij)
+
 ## Download Apache Pinot
 
-First, let's download the Pinot distribution for this tutorial. You can either download a packaged release or build a distribution from the source code.
+First, download the Pinot distribution for this tutorial. You can either download a packaged release or build a distribution from the source code.
 
-{% hint style="info" %}
-**Prerequisites**
+### Prerequisites
 
-Install JDK11 or higher (JDK16 is not yet supported)\
-For JDK 8 support use Pinot 0.7.1 or compile from the source code.
-{% endhint %}
+* Install JDK11 or higher (JDK16 is not yet supported).
+* For JDK 8 support, use Pinot 0.7.1 or compile from the source code.
 
-If you have an M1 or M2 Mac, read the following note before proceeding.
+Note that some installations of the JDK do not contain the JNI bindings necessary to run all tests. If you see an error like `java.lang.UnsatisfiedLinkError` while running tests, you might need to change your JDK.&#x20;
+
+If using Homebrew, install AdoptOpenJDK 11 using `brew install --cask adoptopenjdk11`.
 
 {% hint style="info" %}
 **Support for M1 and M2 Mac systems**
 
-Currently Apache Pinot doesn't provide official binaries for M1 or M2 Macs. You can however build from source using the steps provided while also including additional instructions listed in [M1 and M2 Mac Support](running-pinot-locally.md#m1-and-m2-mac-support).
+Currently, Apache Pinot doesn't provide official binaries for M1 or M2 Macs. For instructions, see [M1 and M2 Mac Support](running-pinot-locally.md#m1-and-m2-mac-support).
 {% endhint %}
 
-You can build from source or download the distribution by selecting one of the following tabs:
+Download the distribution or build from source by selecting one of the following tabs:
 
 {% tabs %}
 {% tab title="Download the release" %}
-Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command
+Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command:
 
 ```bash
 PINOT_VERSION=0.12.0 #set to the Pinot version you decide to use
@@ -39,19 +43,19 @@ PINOT_VERSION=0.12.0 #set to the Pinot version you decide to use
 wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```
 
-Once you have the tar file:
+Extract the TAR file:
 
 ```
-# untar it
 tar -zxvf apache-pinot-$PINOT_VERSION-bin.tar.gz
+```
 
-# navigate to directory containing the launcher scripts
+Navigate to the directory containing the launcher scripts:
+
+```
 cd apache-pinot-$PINOT_VERSION-bin
 ```
 
-
-
-You can find older versions of Apache Pinot at [https://archive.apache.org/dist/pinot/](https://archive.apache.org/dist/pinot/apache-pinot-0.11.0/). For example, if you wanted to download Pinot 0.10.0, you could run the following command:
+You can also find older versions of Apache Pinot at [https://archive.apache.org/dist/pinot/](https://archive.apache.org/dist/pinot/apache-pinot-0.11.0/). For example, to download Pinot 0.10.0, run the following command:
 
 ```
 OLDER_VERSION="0.10.0"
@@ -68,31 +72,40 @@ Follow these steps to checkout code from [Github](https://github.com/apache/pino
 Install [Apache Maven](https://maven.apache.org/install.html) 3.6 or higher
 {% endhint %}
 
+{% hint style="info" %}
+For M1 and M2 Macs, first follow [the steps below](running-pinot-locally.md#m1-and-m2-mac-support) first.
+{% endhint %}
+
+Check out Pinot:
+
 ```bash
-# checkout pinot
 git clone https://github.com/apache/pinot.git
 cd pinot
-
-# build pinot
-mvn install package -DskipTests -Pbin-dist
-
-# navigate to directory containing the setup scripts
-cd build
 ```
 
-{% hint style="info" %}
-Add maven option `-Djdk.version=8` when building with JDK 8
-{% endhint %}
+Build Pinot:
 
 {% hint style="info" %}
-Note that Pinot scripts is located under **pinot-distribution/target** not **target** directory under root.
+If you're building with JDK 8, add Maven option `-Djdk.version=8.`
 {% endhint %}
+
+```bash
+mvn install package -DskipTests -Pbin-dist
+```
+
+Navigate to the directory containing the setup scripts. Note that Pinot scripts are located under `pinot-distribution/target`**,** not  the `target` directory under `root`.
+
+```bash
+cd build
+```
 {% endtab %}
 {% endtabs %}
 
 ### M1 and M2 Mac Support
 
-Currently Apache Pinot doesn't provide official binaries for M1 or M2 Mac systems. However, you can build from source using the steps provided above while adding the following in your `~/.m2/settings.xml` prior to the build.
+Currently, Apache Pinot doesn't provide official binaries for M1 or M2 Mac systems. Follow the instructions below to run on an M1 or M2 Mac:
+
+1. Add the following to your `~/.m2/settings.xml`:
 
 ```xml
 <settings>
@@ -112,48 +125,50 @@ Currently Apache Pinot doesn't provide official binaries for M1 or M2 Mac system
 </settings>  
 ```
 
-You must also install rosetta
+2. Install Rosetta:
 
-`softwareupdate --install-rosetta`
+```
+softwareupdate --install-rosetta
+```
 
-Note that some installations of the JDK do not contain the JNI bindings that are necessary to run all tests, if you see any `java.lang.UnsatisfiedLinkError` while running tests, you may need to change your JDK. If using Homebrew, you may install AdoptOpenJDK 11 using: `brew install --cask adoptopenjdk11`
+## Set up a cluster
 
-Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this:
+Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this: through quick start or through setting up a cluster manually.&#x20;
 
-## Quick Start
+### Quick start
 
-Pinot comes with quick-start commands that launch instances of Pinot components in the same process and import pre-built datasets.
+Pinot comes with quick start commands that launch instances of Pinot components in the same process and import pre-built datasets.
 
-For example, the following quick-start launches Pinot with a baseball dataset pre-loaded:
+For example, the following quick start command launches Pinot with a baseball dataset pre-loaded:
 
 ```
 ./bin/pinot-admin.sh QuickStart -type batch
 ```
 
-For a list of all the available quick starts, see the [Quick Start Examples](quick-start.md).
+For a list of all the available quick start commands, see the [Quick Start Examples](quick-start.md).
 
-## Manual Cluster
+### Manual cluster
 
-If you want to play with bigger datasets (more than a few MB), you can launch all the components individually.
+If you want to play with bigger datasets (more than a few megabytes), you can launch each  component individually.
 
 The video below is a step-by-step walk through for launching the individual components of Pinot and scaling them to multiple instances.
 
 {% embed url="https://www.youtube.com/watch?v=cNnwMF0pOJ8" %}
-Neha Pawar from the Apache Pinot team shows you how to setup a Pinot cluster
+Neha Pawar from the Apache Pinot team shows you how to set up a Pinot cluster
 {% endembed %}
 
-You can find the commands that are shown in this video in the [github.com/npawar/pinot-tutorial](https://github.com/npawar/pinot-tutorial) GitHub repository.
+You can find the commands that are shown in this video in the [this Github repository](https://github.com/npawar/pinot-tutorial).
 
 {% hint style="info" %}
 The examples below assume that you are using Java 8.
 
-If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS.` So, for example, instead of:
+If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS`. So, for example, instead of this:
 
 ```bash
 export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
 ```
 
-You'd have:
+Use the following:
 
 ```bash
 export JAVA_OPTS="-Xms4G -Xmx8G"
@@ -204,9 +219,15 @@ export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:g
 
 Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
 
-## Start Pinot Component in Debug Mode with IntelliJ
+## Start a Pinot component in debug mode with IntelliJ
 
-Starting a pinot component of interest in IntelliJ using debug mode can be useful for development purposes. You can set break points and inspect variables. Take debugging server for example, one can start `zookeeper` , `controller`, and `broker` using the steps in [Manual Cluster](running-pinot-locally.md#manual-cluster). Then use the following configuration put under `$PROJECT_DIR$\.run` ) to start server. This [commit](https://github.com/apache/pinot/commit/83fc63720cdf2a5470073d43183ae8710d0ecc51) is an example of how it can be used. Please replace the metrics-core version and cluster name as needed.
+Set break points and inspect variables by starting a Pinot component with debug mode in IntelliJ.
+
+The following example demonstrates server debugging:
+
+1. First, start`zookeeper` , `controller`, and `broker` using the [steps described above](running-pinot-locally.md#manual-cluster).&#x20;
+2. Then, use the following configuration under `$PROJECT_DIR$\.run` ) to start the server, replacing the `metrics-core` version and cluster name as needed.\
+   This [commit](https://github.com/apache/pinot/commit/83fc63720cdf2a5470073d43183ae8710d0ecc51) is an example of how to use it.&#x20;
 
 ```xml
 <component name="ProjectRunConfigurationManager">
