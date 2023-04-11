@@ -1,30 +1,28 @@
 ---
-description: >-
-  Everything you need to know about how queries are computed in Pinot's
-  distributed systems architecture.
+description: Learn how queries are computed in Pinot's distributed systems architecture
 ---
 
 # Architecture
 
-This page introduces you to the guiding principles behind the design of Apache Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale the performance of queries linearly based on the number of nodes in a cluster. You'll also be introduced to the two different types of tables used to ingest and query data in offline (batch) or real-time (stream) mode.
+This page introduces you to the guiding principles behind the design of Apache Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale the performance of queries linearly based on the number of nodes in a cluster. You'll also learn about the two different types of tables used to ingest and query data in offline (batch) or real-time (stream) mode.
 
 {% hint style="info" %}
-It's recommended that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
+We recommend that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
 {% endhint %}
 
 ## Guiding design principles
 
-Pinot was designed by engineers at LinkedIn and Uber to scale query performance based on the number of nodes in a cluster. As you add more nodes, query performance will always improve based on the expected query volume per second quota. To achieve horizontal scalability to an unbounded number of nodes and data storage, without performance degradation, the following guiding design principles were established.
+Engineers at LinkedIn and Uber designed Pinot to scale query performance based on the number of nodes in a cluster. As you add more nodes, query performance improves based on the expected query volume per second quota. To achieve horizontal scalability to an unbounded number of nodes and data storage, without performance degradation, we used the following principles:
 
-* **Highly available**: Pinot is built to serve low latency analytical queries for customer facing applications. By design, there is no single point of failure in Pinot. The system continues to serve queries when a node goes down.
-* **Horizontally scalable**: Ability to scale by adding new nodes as a workload changes.
-* **Latency vs Storage:** Pinot is built to provide low latency even at high-throughput. Features such as segment assignment strategy, routing strategy, star-tree indexing were developed to achieve this.
+* **Highly available**: Pinot is built to serve low latency analytical queries for customer-facing applications. By design, there is no single point of failure in Pinot. The system continues to serve queries when a node goes down.
+* **Horizontally scalable**: Pinot scales by adding new nodes as a workload changes.
+* **Latency vs. storage:** Pinot is built to provide low latency even at high-throughput. Features such as segment assignment strategy, routing strategy, star-tree indexing were developed to achieve this.
 * **Immutable data**: Pinot assumes that all data stored is immutable. For GDPR compliance, we provide an add-on solution for purging data while maintaining performance guarantees.
-* **Dynamic configuration changes**: Operations such as adding new tables, expanding a cluster, ingesting data, modifying indexing config, and re-balancing must be performed without impacting query availability or performance.
+* **Dynamic configuration changes**: Operations such as adding new tables, expanding a cluster, ingesting data, modifying indexing config, and re-balancing must not impact query availability or performance.
 
 ## Core components
 
-As described in the [concepts](concepts.md), Pinot has multiple distributed system components:[ Controller](components/controller.md), [Broker](components/broker.md), [Server](components/server.md), and [Minion](components/minion.md).
+As described in the [concepts](concepts.md), Pinot has multiple distributed system components:[ controller](components/controller.md), [broker](components/broker.md), [server](components/server.md), and [minion](components/minion.md).
 
 Pinot uses [Apache Helix](http://helix.apache.org/) for cluster management. Helix is embedded as an agent within the different components and uses [Apache Zookeeper](https://zookeeper.apache.org/) for coordination and maintaining the overall cluster state and health.
 
@@ -32,33 +30,33 @@ Pinot uses [Apache Helix](http://helix.apache.org/) for cluster management. Heli
 
 ### Apache Helix and Zookeeper
 
-All Pinot [servers](components/server.md) and [brokers](components/broker.md) are managed by Helix. Helix is a generic cluster management framework to manage partitions and replicas in a distributed system. It's helpful to think of Helix as an event-driven discovery service with push and pull notifications that drives the state of a cluster to an ideal configuration. A finite-state machine maintains a contract of stateful operations that drives the health of the cluster towards its optimal configuration. Query load is optimized as Helix updates routing configurations between nodes based on where data is stored in the cluster.
+Helix, a generic cluster management framework to manage partitions and replicas in a distributed system, manages all Pinot [servers](components/server.md) and [brokers](components/broker.md). It's helpful to think of Helix as an event-driven discovery service with push and pull notifications that drives the state of a cluster to an ideal configuration. A finite-state machine maintains a contract of stateful operations that drives the health of the cluster towards its optimal configuration. Helix optimizes query load by updating routing configurations between nodes based on where data is stored in the cluster.
 
 Helix divides nodes into three logical components based on their responsibilities:
 
-1. **Participant**: These are the nodes in the cluster that actually host the distributed storage resources.
-2. **Spectator**: These nodes observe the current state of each _**participant**_ and routes requests accordingly. Routers, for example, need to know the instance on which a partition is hosted and its state in order to route the request to the appropriate endpoint. Routing is continually being changed to optimize cluster performance as storage primitives are added and changed.
-3. **Controller**: The [controller](components/controller.md) observes and manages the state of _**participant**_ nodes. The controller is responsible for coordinating all state transitions in the cluster and ensures that state constraints are satisfied while maintaining cluster stability.
+* **Participant**: These are the nodes in the cluster that actually host the distributed storage resources.
+* **Spectator**: These nodes observe the current state of each _**participant**_ and route requests accordingly. Routers, for example, need to know the instance on which a partition is hosted and its state to route the request to the appropriate endpoint. Routing is continually updated to optimize cluster performance as storage primitives are added and changed.
+* **Controller**: The [controller](components/controller.md) observes and manages the state of _**participant**_ nodes. The controller is responsible for coordinating all state transitions in the cluster and ensures that state constraints are satisfied while maintaining cluster stability.
 
-Helix uses Zookeeper to maintain cluster state. Each component in a Pinot cluster takes a Zookeeper address as a startup parameter. The various components that are distributed in a Pinot cluster will watch Zookeeper notifications and issue updates via its embedded Helix-defined agent.
+Helix uses Zookeeper to maintain cluster state. Each component in a Pinot cluster takes a Zookeeper address as a startup parameter. The various components distributed in a Pinot cluster watch Zookeeper notifications and issue updates via its embedded Helix-defined agent.
 
-| Component  | Helix Mapping                                                                                                                                                                                                 |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Segment    | Modeled as a **Helix Partition.** Each [segment](components/segment.md) can have multiple copies referred to as **Replicas**.                                                                                 |
-| Table      | Modeled as a **Helix Resource.** Multiple segments are grouped into a [table](components/table.md). All segments belonging to a Pinot Table have the same schema.                                             |
-| Controller | Embeds the Helix agent that drives the overall state of the cluster.                                                                                                                                          |
-| Server     | [Server](components/server.md) is modeled as a **Helix Participant** and hosts [segments](components/segment.md).                                                                                             |
-| Broker     | Broker is modeled as a **Helix Spectator** that observes the cluster for changes in the state of segments and servers. In order to support multi-tenancy, brokers are also modeled as **Helix Participants**. |
-| Minion     | Pinot Minion is modeled as a **Helix Participant**.                                                                                                                                                           |
+| Component  | Helix Mapping                                                                                                                                                                                       |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Segment    | Modeled as a **Helix Partition.** Each [segment](components/segment.md) can have multiple copies referred to as **replicas.**                                                                       |
+| Table      | Modeled as a **Helix Resource.** Multiple segments are grouped into a [table](components/table.md). All segments belonging to a Pinot Table have the same schema.                                   |
+| Controller | Embeds the Helix agent that drives the overall state of the cluster                                                                                                                                 |
+| Server     | Modeled as a **Helix Participant** and hosts [segments](components/segment.md)                                                                                                                      |
+| Broker     | Modeled as a **Helix Spectator** that observes the cluster for changes in the state of segments and servers. In order to support multi-tenancy, brokers are also modeled as **Helix Participants**. |
+| Minion     | Modeled as a **Helix Participant**                                                                                                                                                                  |
 
 Helix agents use Zookeeper to store and update configurations, as well as for distributed coordination. Zookeeper stores the following information about the cluster:
 
-| Resource        | Stored Properties                                                                                                                                                           |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Controller      | <ul><li>The controller that is assigned as the current leader</li></ul>                                                                                                     |
-| Servers/Brokers | <ul><li>A list of servers/brokers and their configuration</li><li>Health status</li></ul>                                                                                   |
-| Tables          | <ul><li>List of tables</li><li>Table configurations</li><li>Table schema information</li><li>List of segments within a table</li></ul>                                      |
-| Segment         | <ul><li>Exact server location(s) of a segment (routing table)</li><li>State of each segment (online/offline/error/consuming)</li><li>Meta data about each segment</li></ul> |
+| Resource        | Stored Properties                                                                                                                                                          |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Controller      | <ul><li>Controller that is assigned as the current leader</li></ul>                                                                                                        |
+| Servers/Brokers | <ul><li>List of servers/brokers and their configuration</li><li>Health status</li></ul>                                                                                    |
+| Tables          | <ul><li>List of tables</li><li>Table configurations</li><li>Table schema information</li><li>List of segments within a table</li></ul>                                     |
+| Segment         | <ul><li>Exact server location(s) of a segment (routing table)</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul> |
 
 Knowing the `ZNode` layout structure in Zookeeper for Helix agents in a cluster is useful for operations and/or troubleshooting cluster state and health.
 
@@ -66,40 +64,40 @@ Knowing the `ZNode` layout structure in Zookeeper for Helix agents in a cluster 
 
 ### Controller
 
-Pinot's [controller](components/controller.md) acts as the driver of the cluster's overall state and health. Because of its role as a Helix participant and spectator, which drives the state of other components, it is the first component that is typically started after Zookeeper. Two parameters are required for starting a controller: Zookeeper address and cluster name. The controller will automatically create a cluster via Helix if it does not yet exist.
+Pinot's [controller](components/controller.md) acts as the driver of the cluster's overall state and health. Because of its role as a Helix participant and spectator, which drives the state of other components, it's the first component that is typically started after Zookeeper.&#x20;
+
+Starting a controller requires two parameters: Zookeeper address and cluster name. The controller will automatically create a cluster via Helix if it does not yet exist.
 
 #### Fault tolerance
 
-To achieve fault tolerance, one can start multiple controllers (typically three) and one of them will act as a leader. If the leader crashes or dies, another leader is automatically elected. Leader election is achieved using Apache Helix. Having at-least one controller is required to perform any DDL equivalent operation on the cluster, such as adding a table or a segment.
+To configure fault tolerance, start multiple controllers (typically three) and one of them will act as a leader. If the leader crashes or dies, another leader is automatically elected. Leader election is achieved using Apache Helix. Having at-least one controller is required to perform any DDL equivalent operation on the cluster, such as adding a table or a segment.
 
-The controller does not interfere with query execution. Query execution is not impacted even when all controllers nodes are offline. If all controller nodes are offline, the state of the cluster will stay as it was when the last leader went down. When a new leader comes online, a cluster resumes re-balancing activity and can accept new tables or segments.
+The controller does not interfere with query execution. Query execution is not impacted even when all controllers nodes are offline. If all controller nodes are offline, the state of the cluster will stay as it was when the last leader went down. When a new leader comes online, a cluster resumes rebalancing activity and can accept new tables or segments.
 
 #### Controller REST interface
 
-The [controller](components/controller.md) provides a REST interface to perform CRUD operations on all logical storage resources (servers, brokers, tables, and segments).
+The controller provides a REST interface to perform CRUD operations on all logical storage resources (servers, brokers, tables, and segments).
 
-{% hint style="info" %}
 See [Pinot Data Explorer](components/exploring-pinot.md) for more information on the web-based admin tool.
-{% endhint %}
 
 ### Broker
 
-The responsibility of the [broker](components/broker.md) is to route a given query to an appropriate [server](components/server.md) instance. A broker will collect and merge the responses from all servers into a final result and send it back to the requesting client. The broker provides HTTP endpoints that accept SQL queries and returns the response in JSON format.
+The [broker's](components/broker.md) responsibility is to route a given query to an appropriate [server](components/server.md) instance. A broker collects and merges the responses from all servers into a final result, then sends it back to the requesting client. The broker provides HTTP endpoints that accept SQL queries and returns the response in JSON format.
 
-Brokers need three key things to start.
+Brokers need three key things to start:
 
 * Cluster name
 * Zookeeper address
 * Broker instance name
 
-At the start, a broker registers as a **Helix Participant** and awaits notifications from other Helix agents. These notifications will be handled for table creation, a new segment being loaded, or a server starting up/or going down, in addition to any configuration changes.
+Initially, the broker registers as a **Helix Participant** and waits for notifications from other Helix agents. The broker handles these notifications for table creation, a new segment being loaded, or a server starting up or going down, in addition to any configuration changes.
 
 **Service Discovery/Routing Table**
 
-Irrespective of the kind of notification, the key responsibility of a broker is to maintain the query routing table. The query routing table is simply a mapping between segments and the servers that a segment resides on. Typically, a segment resides on more than one server. The broker computes multiple routing tables depending on the configured routing strategy for a table. The default strategy is to balance the query load across all available servers.
+Regardless of the kind of notification, the key responsibility of a broker is to maintain the query routing table. The query routing table is simply a mapping between segments and the servers that a segment resides on. Typically, a segment resides on more than one server. The broker computes multiple routing tables depending on the configured routing strategy for a table. The default strategy is to balance the query load across all available servers.
 
 {% hint style="info" %}
-There are advanced routing strategies available such as ReplicaAware routing, partition-based routing, and minimal server selection routing. These strategies are meant for special or generic cases that are meant to serve very high throughput queries.
+For special or generic cases that serve very high throughput queries, there are advanced routing strategies available such as ReplicaAware routing, partition-based routing, and minimal server selection routing.&#x20;
 {% endhint %}
 
 ```javascript
@@ -120,11 +118,11 @@ There are advanced routing strategies available such as ReplicaAware routing, pa
 
 **Query processing**
 
-For every query\*\*,\*\* a cluster's broker performs the following:
+For every query, a cluster's broker performs the following:
 
 * Fetches the routes that are computed for a query based on the routing strategy defined in a [table's](components/table.md) configuration.
 * Computes the list of segments to query from on each [server](components/server.md). To learn more about this, check out [routing](operators/tuning/routing.md).
-* _Scatter-Gather:_ sends the requests to each server and gathers the responses.
+* Scatter-gather: sends the requests to each server and gathers the responses.
 * _Merge:_ merges the query results returned from each server.
 * Sends the query result to the client.
 
@@ -207,7 +205,7 @@ Tables for real-time and offline can be configured differently depending on usag
 
 ![](<../.gitbook/assets/OfflineServer (4).jpg>)
 
-In _batch mode_, data is ingested into Pinot via an [ingestion job](data-import/batch-ingestion/). An ingestion job transforms a raw data source (such as a CSV file) into [segments](components/segment.md). Once segments are generated for the imported data, an ingestion job stores them into the cluster's segment store (a.k.a deep store) and notifies the [controller](components/controller.md). The notification is processed and the result is that the Helix agent on the controller updates the ideal state configuration in Zookeeper. Helix will then notify the offline [server](components/server.md) that there are new segments available. In response to the notification from the controller, the offline server downloads the newly created segments directly from the cluster's segment store. The cluster's broker, which watches for state changes in Helix, detects the new segments and adds them to the list of segments to query (segment-to-server routing table).
+In _batch mode_, Pinot ingests data via an [ingestion job](data-import/batch-ingestion/). An ingestion job transforms a raw data source (such as a CSV file) into [segments](components/segment.md). Once segments are generated for the imported data, an ingestion job stores them into the cluster's segment store (a.k.a deep store) and notifies the [controller](components/controller.md). The controller processes the notification, resulting in the Helix agent on the controller updating the ideal state configuration in Zookeeper. Helix will then notify the offline [server](components/server.md) that there are new segments available. In response to the notification from the controller, the offline server downloads the newly created segments directly from the cluster's segment store. The cluster's broker, which watches for state changes in Helix, detects the new segments and adds them to the list of segments to query (segment-to-server routing table).
 
 ### Real-time data flow
 
