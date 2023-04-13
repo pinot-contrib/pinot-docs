@@ -1,36 +1,34 @@
 ---
-description: >-
-  Learn about the various components of Pinot and terminologies used to describe
-  data stored in Pinot
+description: Learn about Pinot's components and terminology.
 ---
 
 # Concepts
 
-Pinot is designed to deliver low latency queries on large datasets. In order to achieve this performance, Pinot stores data in a columnar format and adds additional indices to perform fast filtering, aggregation and group by.
+Pinot is designed to deliver low latency queries on large datasets. To achieve this performance, Pinot stores data in a columnar format and adds additional indices to perform fast filtering, aggregation and group by.
 
-Raw data is broken into small data shards and each shard is converted into a unit known as a [segment](https://docs.pinot.apache.org/pinot-components/segment). One or more segments together form a [table](https://docs.pinot.apache.org/pinot-components/table), which is the logical container for querying Pinot using [SQL/PQL](https://docs.pinot.apache.org/user-guide/user-guide-query/pinot-query-language).
+Raw data is broken into small data shards. Each shard is converted into a unit called a [segment](https://docs.pinot.apache.org/pinot-components/segment). One or more segments together form a [table](https://docs.pinot.apache.org/pinot-components/table), which is the logical container for querying Pinot using [SQL/PQL](https://docs.pinot.apache.org/user-guide/user-guide-query/pinot-query-language).
 
-## Pinot Storage Model
+## Pinot storage model
 
-Pinot uses a variety of terms that can refer to either abstractions that model the storage of data or infrastructure components that drive the functionality of the system.&#x20;
+The terms below describe Pinot's storage model and infrastructure components.
 
 ![Pinot Storage Model Abstraction](../.gitbook/assets/pinot\_entities.jpg)
 
 ### **Segment**
 
-Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/segment.md) (similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.&#x20;
+Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/segment.md) (similar to shards/partitions in high-availability (HA) relational databases). Another way to describe segments is as time-based partitions.&#x20;
 
 ### **Table**
 
-Similar to traditional databases, Pinot has the concept of a [**table**](components/table.md)—a logical abstraction to refer to a collection of related data.&#x20;
+Similar to traditional databases, Pinot has the concept of a [**table**](components/table.md) – a logical abstraction that refers to a collection of related data.&#x20;
 
-As is the case with RDBMS, a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](components/schema.md) that defines the columns in a table as well as their data types.&#x20;
+As is the case with relational database management systems (RDBMS), a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](components/schema.md) that defines the columns in a table as well as their data types.&#x20;
 
-In contrast to RDBMS schemas, multiple tables in Pinot (real-time or batch) can inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, and/or replication.
+In contrast to RDBMS schemas, multiple tables in Pinot (real-time or batch) can inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, or replication.
 
 ### **Tenant**
 
-In order to support multi-tenancy, Pinot has first class support for tenants. A table is associated with a [tenant.](components/tenant.md) This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications will never have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.&#x20;
+In order to support multi-tenancy, Pinot has first-class support for tenants. A table is associated with a [tenant.](components/tenant.md) This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications will never have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.&#x20;
 
 By default, all tables belong to a default tenant named "default". The concept of tenants is very important, as it satisfies the architectural principle of a "database per service/application" without having to operate many independent data stores. Further, tenants will schedule resources so that segments (shards) are able to restrict a table's data to reside only on a specified set of nodes. Similar to the kind of isolation that is ubiquitously used in Linux containers, compute resources in Pinot can be scheduled to prevent resource contention between tenants.
 
@@ -39,24 +37,24 @@ By default, all tables belong to a default tenant named "default". The concept o
 Logically, a [cluster ](components/cluster.md)is simply a group of tenants. As with the classical definition of a cluster, it is also a grouping of a set of compute nodes. Typically, there is only one cluster per environment/data center. There is no needed to create multiple clusters since Pinot supports the concept of tenants. At LinkedIn, the largest Pinot cluster consists of 1000+ nodes distributed across a data center. The number of nodes in a cluster can be added in a way that will linearly increase performance and availability of queries. The number of nodes and the compute resources per node will reliably predict the QPS for a Pinot cluster, and as such, capacity planning can be easily achieved using SLAs that assert performance expectations for end-user applications.&#x20;
 
 {% hint style="info" %}
-Auto-scaling is also achievable, however, a set amount of nodes is recommended to keep QPS consistent when query loads vary in sudden unpredictable end-user usage scenarios.
+Auto-scaling is also achievable, however, we recommend a set amount of nodes to keep QPS consistent when query loads vary in sudden unpredictable end-user usage scenarios.
 {% endhint %}
 
-## Pinot Components
+## Pinot components
 
 ![](../.gitbook/assets/Pinot-Components.svg)
 
-A Pinot cluster comprises multiple distributed system components. These components are useful to understand for operators that are monitoring system usage or are debugging an issue with a cluster deployment.
+A Pinot cluster consists of multiple distributed system components. These components are useful to understand for operators that are monitoring system usage or are debugging an issue with a cluster deployment.
 
 * Controller
 * Broker
 * Server
 * Minion (optional)
 
-The benefits of scale that make Pinot linearly scalable for an unbounded number of nodes is made possible through its integration with [Apache Zookeeper](https://zookeeper.apache.org/) and [Apache Helix](http://helix.apache.org/).&#x20;
+Pinot's integration with  [Apache Zookeeper](https://zookeeper.apache.org/) and [Apache Helix](http://helix.apache.org/) allow it to be linearly scalable for an unbounded number of nodes.
 
 {% hint style="info" %}
-Helix is a cluster management solution that was designed and created by the authors of Pinot at LinkedIn. Helix drives the state of a Pinot cluster from a transient state to an ideal state, acting as the fault-tolerant distributed state store that guarantees consistency. Helix is embedded as agents that operate within a controller, broker, and server, and does not exist as an independent and horizontally scaled component.
+Helix is a cluster management solution designed and created by the authors of Pinot at LinkedIn. Helix drives the state of a Pinot cluster from a transient state to an ideal state, acting as the fault-tolerant distributed state store that guarantees consistency. Helix is embedded as agents that operate within a controller, broker, and server, and does not exist as an independent and horizontally scaled component.
 {% endhint %}
 
 ### Pinot Controller
@@ -67,7 +65,7 @@ In addition to cluster management, resource allocation, and scheduling, the cont
 
 ### Pinot Broker
 
-A [broker](components/broker.md) receives queries from a client and routes their execution to one or more Pinot servers before returning a consolidated response.
+A [broker](components/broker.md) receives queries from a client and routes its execution to one or more Pinot servers before returning a consolidated response.
 
 ### Pinot Server
 
