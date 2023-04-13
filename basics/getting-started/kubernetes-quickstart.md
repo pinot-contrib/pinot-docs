@@ -4,23 +4,30 @@ description: Pinot quick start in Kubernetes
 
 # Running in Kubernetes
 
-## 1. Prerequisites
+Get started running Pinot in Kubernetes.&#x20;
 
 {% hint style="info" %}
-This quickstart assumes that you already have a running Kubernetes cluster. Please follow the links below to set up a Kubernetes cluster.
-
-* [Enable Kubernetes on Docker-Desktop](https://docs.docker.com/docker-for-mac/kubernetes/)
-* [Install Minikube for local setup](https://kubernetes.io/docs/tasks/tools/install-minikube/) (make sure to run with enough resources e.g. `minikube start --vm=true --cpus=4 --memory=8g --disk-size=50g)`
-* [Setup a Kubernetes Cluster using Amazon Elastic Kubernetes Service (Amazon EKS)](public-cloud-examples/aws-quickstart.md)
-* [Setup a Kubernetes Cluster using Google Kubernetes Engine (GKE)](public-cloud-examples/gcp-quickstart.md)
-* [Setup a Kubernetes Cluster using Azure Kubernetes Service (AKS)](public-cloud-examples/azure-quickstart.md)
+<mark style="color:red;">Note:</mark> The examples in this guide are sample configurations to be used as reference. For production setup, you may want to customize it to your needs.
 {% endhint %}
 
-## 2. Setting up a Pinot cluster in Kubernetes
+## Prerequisites
 
-Before continuing, please make sure that you've downloaded Apache Pinot. The scripts for the setup in this guide can be found in our open source project on GitHub.
+### Kubernetes
 
-The scripts can be found in the Pinot source at `./pinot/kubernetes/helm`
+This guide assumes that you already have a running Kubernetes cluster.&#x20;
+
+If you haven't yet set up a Kubernetes cluster, see the links below for instructions:&#x20;
+
+* [Enable Kubernetes on Docker-Desktop](https://docs.docker.com/docker-for-mac/kubernetes/)
+* [Install Minikube for local setup](https://kubernetes.io/docs/tasks/tools/install-minikube/)&#x20;
+  * Make sure to run with enough resources: `minikube start --vm=true --cpus=4 --memory=8g --disk-size=50g`
+* [Set up a Kubernetes Cluster using Amazon Elastic Kubernetes Service (Amazon EKS)](public-cloud-examples/aws-quickstart.md)
+* [Set up a Kubernetes Cluster using Google Kubernetes Engine (GKE)](public-cloud-examples/gcp-quickstart.md)
+* [Set up a Kubernetes Cluster using Azure Kubernetes Service (AKS)](public-cloud-examples/azure-quickstart.md)
+
+### Pinot
+
+Make sure that you've downloaded Apache Pinot. The scripts for the setup in this guide can be found in our[ open source project on GitHub](https://github.com/apache/pinot).
 
 {% tabs %}
 {% tab title="Git clone project source" %}
@@ -32,11 +39,13 @@ cd pinot/kubernetes/helm
 {% endtab %}
 {% endtabs %}
 
-### 2.1 Start Pinot with Helm
+## Set up a Pinot cluster in Kubernetes
+
+### Start Pinot with Helm
 
 {% tabs %}
-{% tab title="Run Helm with Pre-installed Package" %}
-Pinot repo has pre-packaged HelmCharts for Pinot and Presto. Helm Repo index file is [here](https://github.com/apache/pinot/blob/master/kubernetes/helm/index.yaml).
+{% tab title="Run Helm with pre-installed package" %}
+The Pinot repository has pre-packaged Helm charts for Pinot and Presto. The Helm repository index file is [here](https://github.com/apache/pinot/blob/master/kubernetes/helm/index.yaml).
 
 ```
 helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/kubernetes/helm
@@ -47,9 +56,7 @@ helm install pinot pinot/pinot \
     --set server.replicaCount=2
 ```
 
-**NOTE**: Please specify **StorageClass** based on your cloud vendor. For Pinot Server, please don't mount blob store like AzureFile/GoogleCloudStorage/S3 as the data serving file system.
-
-Only use Amazon EBS/GCP Persistent Disk/Azure Disk style disks.
+**Note**: Specify **StorageClass** based on your cloud vendor. Don't mount a blob store (such as AzureFile, GoogleCloudStorage, or S3) as the data serving file system. Use only Amazon EBS/GCP Persistent Disk/Azure Disk-style disks.
 
 * For AWS: "**gp2**"
 * For GCP: "**pd-ssd**" or "**standard**"
@@ -57,16 +64,16 @@ Only use Amazon EBS/GCP Persistent Disk/Azure Disk style disks.
 * For Docker-Desktop: "**hostpath**"
 {% endtab %}
 
-{% tab title="Run Helm Script within Git Repo" %}
-**2.1.1 Update helm dependency**
+{% tab title="Run Helm script within Git repo" %}
+**1.1.1 Update Helm dependency**
 
 ```
 helm dependency update
 ```
 
-**2.1.2 Start Pinot with Helm**
+**1.1.2 Start Pinot with Helm**
 
-* For Helm **v2.12.1**
+For Helm **v2.12.1:**
 
 If your Kubernetes cluster is recently provisioned, ensure Helm is initialized by running:
 
@@ -80,22 +87,22 @@ Then deploy a new HA Pinot cluster using the following command:
 helm install --namespace "pinot-quickstart" --name "pinot" pinot
 ```
 
-* For Helm **v3.0.0**
+For Helm **v3.0.0:**
 
 ```
 kubectl create ns pinot-quickstart
 helm install -n pinot-quickstart pinot pinot
 ```
 
-**2.1.3 Troubleshooting (For helm v2.12.1)**
+**1.1.3 Troubleshooting (For helm v2.12.1)**
 
-* Error: Please run the below command if encountering the following issue:
+If you see the error below:
 
 ```
 Error: could not find tiller.
 ```
 
-* Resolution:
+Run the following:
 
 ```
 kubectl -n kube-system delete deployment tiller-deploy
@@ -103,11 +110,11 @@ kubectl -n kube-system delete service/tiller-deploy
 helm init --service-account tiller
 ```
 
-* Error: Please run the command below if encountering a permission issue:
+If you encounter a permission issue, like the following:
 
 `Error: release pinot failed: namespaces "pinot-quickstart" is forbidden: User "system:serviceaccount:kube-system:default" cannot get resource "namespaces" in API group "" in the namespace "pinot-quickstart"`
 
-* Resolution:
+Run the command below:
 
 ```
 kubectl apply -f helm-rbac.yaml
@@ -115,15 +122,15 @@ kubectl apply -f helm-rbac.yaml
 {% endtab %}
 {% endtabs %}
 
-### **2.2 Check Pinot deployment status**
+### **Check Pinot deployment status**
 
 ```
 kubectl get all -n pinot-quickstart
 ```
 
-## 3. Load data into Pinot using Kafka
+## Load data into Pinot using Kafka
 
-### **3.1 Bring up a Kafka cluster for real-time data ingestion**
+### **Bring up a Kafka cluster for real-time data ingestion**
 
 {% tabs %}
 {% tab title="For Helm v3.0.0" %}
@@ -141,13 +148,15 @@ helm install --namespace "pinot-quickstart"  --name kafka incubator/kafka --set 
 {% endtab %}
 {% endtabs %}
 
-### 3.2 Check Kafka deployment status
+### Check Kafka deployment status
+
+Ensure the Kafka deployment is ready before executing the scripts in the following steps. Run the following command:
 
 ```
 kubectl get all -n pinot-quickstart | grep kafka
 ```
 
-Ensure the Kafka deployment is ready before executing the scripts in the following next steps.
+Below is an example output showing the deployment is ready:
 
 ```
 pod/kafka-0                                                 1/1     Running     0          2m
@@ -156,119 +165,109 @@ pod/kafka-zookeeper-1                                       1/1     Running     
 pod/kafka-zookeeper-2                                       1/1     Running     0          8m
 ```
 
-### **3.3 Create Kafka topics**
+### **Create Kafka topics**
 
-The scripts below will create two Kafka topics for data ingestion:
+Run the scripts below to create two Kafka topics for data ingestion:
 
 ```
 kubectl -n pinot-quickstart exec kafka-0 -- kafka-topics.sh --bootstrap-server kafka-0:9092 --topic flights-realtime --create --partitions 1 --replication-factor 1
 kubectl -n pinot-quickstart exec kafka-0 -- kafka-topics.sh --bootstrap-server kafka-0:9092 --topic flights-realtime-avro --create --partitions 1 --replication-factor 1
 ```
 
-### **3.4 Load data into Kafka and create Pinot schema/tables**
+### **Load data into Kafka and create Pinot schema/tables**
 
-The script below will deploy 3 batch jobs.
+The script below does the following:
 
-* Ingest 19492 JSON messages to Kafka topic `flights-realtime` at a speed of 1 msg/sec
-* Ingest 19492 Avro messages to Kafka topic `flights-realtime-avro` at a speed of 1 msg/sec
-* Upload Pinot schema `airlineStats`
-* Create Pinot table `airlineStats` to ingest data from JSON encoded Kafka topic `flights-realtime`
-* Create Pinot table `airlineStatsAvro` to ingest data from Avro encoded Kafka topic `flights-realtime-avro`
+* Ingests 19492 JSON messages to Kafka topic `flights-realtime` at a speed of 1 msg/sec
+* Ingests 19492 Avro messages to Kafka topic `flights-realtime-avro` at a speed of 1 msg/sec
+* Uploads Pinot schema `airlineStats`
+* Creates Pinot table `airlineStats` to ingest data from JSON encoded Kafka topic `flights-realtime`
+* Creates Pinot table `airlineStatsAvro` to ingest data from Avro encoded Kafka topic `flights-realtime-avro`
 
 ```
 kubectl apply -f pinot/pinot-realtime-quickstart.yml
 ```
 
-## 4. Query using Pinot Data Explorer
+## Query with the Pinot Data Explorer
 
-### 4.1 Pinot Data Explorer
+### Pinot Data Explorer
 
-Please use the script below to perform local port-forwarding, which will also open Pinot query console in your default web browser.
-
-This script can be found in the Pinot source at `./pinot/kubernetes/helm/pinot`
+The script below, located at `./pinot/kubernetes/helm/pinot`, performs local port forwarding, and opens the Pinot query console in your default web browser.
 
 ```
 ./query-pinot-data.sh
 ```
 
-## 5. Using Superset to query Pinot
+## Query Pinot with Superset&#x20;
 
-### 5.1 Bring up Superset using helm
+### Bring up Superset using Helm
 
-Install SuperSet Helm Repo
+1. Install the SuperSet Helm repository:
 
 ```
 helm repo add superset https://apache.github.io/superset
 ```
 
-Get Helm values config file:
+2. Get the Helm values configuration file:
 
 ```
 helm inspect values superset/superset > /tmp/superset-values.yaml
 ```
 
-Edit `/tmp/superset-values.yaml` file and add `pinotdb` pip dependency into `bootstrapScript` field, so Superset will install pinot dependencies during bootstrap time.
-
-You can also build your own image with this dependency or just use image: `apachepinot/pinot-superset:latest` instead.
+3. For Superset to install Pinot dependencies, edit `/tmp/superset-values.yaml` file to add a`pinotdb` pip dependency into `bootstrapScript` field.
+4. You can also build your own image with this dependency or use the image `apachepinot/pinot-superset:latest` instead.
 
 ![](<../../.gitbook/assets/image (57).png>)
 
-Also remember to change the admin credential inside the `init` section with meaningful user profile and stronger password.
-
-![](<../../.gitbook/assets/image (44).png>)
-
-Install Superset using helm
+5. Replace the default admin credentials inside the `init` section with a meaningful user profile and stronger password.
+6. Install Superset using Helm:
 
 ```
 kubectl create ns superset
 helm upgrade --install --values /tmp/superset-values.yaml superset superset/superset -n superset
 ```
 
-Ensure your cluster is up by running:
+7. Ensure your cluster is up by running:
 
 ```
 kubectl get all -n superset
 ```
 
-### 5.2 Access Superset UI
+### Access the Superset UI
 
-You can run the below command to port forward superset to your `localhost:18088`. Then you can navigate superset in your browser with the previous set admin credential.
+1. Run the below command to port forward Superset to your `localhost:18088`.&#x20;
 
 ```
 kubectl port-forward service/superset 18088:8088 -n superset
 ```
 
-Create Pinot Database using URI:
+2. Navigate to Superset in your browser with the admin credentials you set in the previous section.
+3. Create a new database connection with the following URI: `pinot+http://pinot-broker.pinot-quickstart:8099/query?controller=http://pinot-controller.pinot-quickstart:9000/`
+4. Once the database is added, you can add more data sets and explore the dashboard options.
 
-`pinot+http://pinot-broker.pinot-quickstart:8099/query?controller=http://pinot-controller.pinot-quickstart:9000/`
+## Access Pinot with Trino
 
-![](<../../.gitbook/assets/image (26).png>)
+### Deploy Trino
 
-Once the database is added, you can add more data sets and explore the dashboarding.
-
-## 6. Access Pinot using Trino
-
-### 6.1 Deploy Trino
-
-You can run the command below to deploy Trino with the Pinot plugin installed.
+1. Deploy Trino with the Pinot plugin installed:
 
 ```
 helm repo add trino https://trinodb.github.io/charts/
 ```
 
-The above command adds Trino HelmChart repo. You can then run the below command to see the charts.
+2. &#x20;See the charts in the Trino Helm chart repository:
 
 ```
 helm search repo trino
 ```
 
-In order to connect Trino to Pinot, we need to add Pinot catalog, which requires extra configurations. You can run the below command to get all the configurable values.
+3. In order to connect Trino to Pinot, you'll need to add the Pinot catalog, which requires extra configurations. Run the below command to get all the configurable values.
 
 ```
 helm inspect values trino/trino > /tmp/trino-values.yaml
 ```
 
-To add Pinot catalog, you can edit the `additionalCatalogs` section by adding:
+4. To add the Pinot catalog, edit the `additionalCatalogs` section by adding:
 
 ```
 additionalCatalogs:
@@ -281,14 +280,14 @@ additionalCatalogs:
 Pinot is deployed at namespace `pinot-quickstart`, so the controller serviceURL is `pinot-controller.pinot-quickstart:9000`
 {% endhint %}
 
-After modifying the `/tmp/trino-values.yaml` file, you can deploy Trino with:
+5. After modifying the `/tmp/trino-values.yaml` file, deploy Trino with:
 
 ```
 kubectl create ns trino-quickstart
 helm install my-trino trino/trino --version 0.2.0 -n trino-quickstart --values /tmp/trino-values.yaml
 ```
 
-Once you deployed the Trino, You can check Trino deployment status by:
+6. Once you've deployed Trino, check the deployment status:
 
 ```
 kubectl get pods -n trino-quickstart
@@ -296,36 +295,34 @@ kubectl get pods -n trino-quickstart
 
 ![](<../../.gitbook/assets/image (31).png>)
 
-### 6.2 Query Trino using Trino CLI
+### Query Pinot with the Trino CLI
 
-Once Trino is deployed, you can run the below command to get a runnable Trino CLI.
+Once Trino is deployed, run the below command to get a runnable Trino CLI.
 
-#### **6.2.1 Download Trino CLI**
+1. Download the Trino CLI:
 
 ```
 curl -L https://repo1.maven.org/maven2/io/trino/trino-cli/363/trino-cli-363-executable.jar -o /tmp/trino && chmod +x /tmp/trino
 ```
 
-**6.2.2 Port forward Trino service to your local if it's not already exposed**
+2. Port forward Trino service to your local if it's not already exposed:
 
 ```
 echo "Visit http://127.0.0.1:18080 to use your application"
 kubectl port-forward service/my-trino 18080:8080 -n trino-quickstart
 ```
 
-**6.2.3 Use Trino console client to connect to Trino service**
+3. Use the Trino console client to connect to the Trino service:
 
 ```
 /tmp/trino --server localhost:18080 --catalog pinot --schema default
 ```
 
-**6.2.4 Query Pinot data using Trino CLI**
+4. Query Pinot data using the Trino CLI, like in the sample queries below.
 
-![](<../../.gitbook/assets/image (5) (1).png>)
+### Sample queries to execute
 
-### 6.3 Sample queries to execute
-
-* List all catalogs
+#### List all catalogs
 
 ```
 trino:default> show catalogs;
@@ -345,7 +342,7 @@ Splits: 36 total, 36 done (100.00%)
 0.70 [0 rows, 0B] [0 rows/s, 0B/s]
 ```
 
-* List All tables
+#### List all tables
 
 ```
 trino:default> show tables;
@@ -362,7 +359,7 @@ Splits: 36 total, 36 done (100.00%)
 0.28 [1 rows, 29B] [3 rows/s, 104B/s]
 ```
 
-* Show schema
+#### Show schema
 
 ```
 trino:default> DESCRIBE airlinestats;
@@ -385,7 +382,7 @@ Splits: 36 total, 36 done (100.00%)
 0.37 [79 rows, 5.96KB] [212 rows/s, 16KB/s]
 ```
 
-* Count total documents
+#### Count total documents
 
 ```
 trino:default> select count(*) as cnt from airlinestats limit 10;
@@ -402,11 +399,11 @@ Splits: 17 total, 17 done (100.00%)
 0.24 [1 rows, 9B] [4 rows/s, 38B/s]
 ```
 
-## 7. Access Pinot using Presto
+## Access Pinot with Presto
 
-### 7.1 Deploy Presto using Pinot plugin
+### Deploy Presto with the Pinot plugin
 
-You can run the command below to deploy a customized Presto with the Pinot plugin installed.
+1. First, deploy Presto with default configurations:
 
 {% tabs %}
 {% tab title="Helm" %}
@@ -422,19 +419,19 @@ kubectl apply -f presto-coordinator.yaml
 {% endtab %}
 {% endtabs %}
 
-The above command deploys Presto with default configs. For customizing your deployment, you can run the below command to get all the configurable values.
+2. To customize your deployment, run the below command to get all the configurable values.
 
 ```
 helm inspect values pinot/presto > /tmp/presto-values.yaml
 ```
 
-After modifying the `/tmp/presto-values.yaml` file, you can deploy Presto with:
+3. After modifying the `/tmp/presto-values.yaml` file, deploy Presto:
 
 ```
 helm install presto pinot/presto -n pinot-quickstart --values /tmp/presto-values.yaml
 ```
 
-Once you deployed the Presto, You can check Presto deployment status by:
+4. Once you've deployed the Presto instance, check the deployment status:
 
 ```
 kubectl get pods -n pinot-quickstart
@@ -442,39 +439,37 @@ kubectl get pods -n pinot-quickstart
 
 ![Sample Output of K8s Deployment Status](https://lh3.googleusercontent.com/t4LnQL4xalac-ObeF37LvtrroHzfgr84lYv3av\_MI1NWIcUG1Kuc9uDmJHdYbyJiEfLuBdvT3451VS49lGO\_i167m82EM2ZfWk84Zvj-Hib8hHLI8mZt20akpdEh3BLV1Q4ETaL\_)
 
-### 7.2 Query Presto using Presto CLI
+### Query Presto using the Presto CLI
 
-Once Presto is deployed, you can run the below command from [here](https://github.com/apache/pinot/blob/master/kubernetes/helm/presto/pinot-presto-cli.sh), or just follow steps 6.2.1 to 6.2.3.
+Once Presto is deployed, you can run the below command from [here](https://github.com/apache/pinot/blob/master/kubernetes/helm/presto/pinot-presto-cli.sh), or follow the steps below.
 
 ```
 ./pinot-presto-cli.sh
 ```
 
-#### **6.2.1 Download Presto CLI**
+1. Download the Presto CLI:
 
 ```
 curl -L https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.246/presto-cli-0.246-executable.jar -o /tmp/presto-cli && chmod +x /tmp/presto-cli
 ```
 
-**6.2.2 Port forward presto-coordinator port 8080 to localhost port 18080**
+2. Port forward `presto-coordinator` port 8080 to `localhost` port 18080:
 
 ```
 kubectl port-forward service/presto-coordinator 18080:8080 -n pinot-quickstart> /dev/null &
 ```
 
-#### **6.2.3 Start Presto CLI with pinot catalog to query it then query it**
+3. Start the Presto CLI with the Pinot catalog:
 
 ```
 /tmp/presto-cli --server localhost:18080 --catalog pinot --schema default
 ```
 
-6.2.4 Query Pinot data using Presto CLI
+4. Query Pinot data with the Presto CLI, like in the sample queries below.
 
-![](https://lh3.googleusercontent.com/e5h4FIpvLjSiLi9J2WeABD8CAhtxj-vjyzjgj4pgmtkY-0o3uVr-qNHlOrFV3RGTu8ah4VFtLw5vqAABTATvTjLF5g2E6VnpDKRweAp\_akfD7EeabgXVr2ObbUMIsDZ9pibO1a9j)
+### Sample queries to execute
 
-### 7.3 Sample queries to execute
-
-* List all catalogs
+#### List all catalogs
 
 ```
 presto:default> show catalogs;
@@ -492,7 +487,7 @@ Splits: 19 total, 19 done (100.00%)
 0:01 [0 rows, 0B] [0 rows/s, 0B/s]
 ```
 
-* List All tables
+#### List all tables
 
 ```
 presto:default> show tables;
@@ -509,7 +504,7 @@ Splits: 19 total, 19 done (100.00%)
 0:01 [1 rows, 29B] [1 rows/s, 41B/s]
 ```
 
-* Show schema
+#### Show schema
 
 ```
 presto:default> DESCRIBE pinot.dontcare.airlinestats;
@@ -530,7 +525,7 @@ Splits: 19 total, 19 done (100.00%)
 0:02 [80 rows, 6.06KB] [35 rows/s, 2.66KB/s]
 ```
 
-* Count total documents
+#### Count total documents
 
 ```
 presto:default> select count(*) as cnt from pinot.dontcare.airlinestats limit 10;
@@ -547,10 +542,11 @@ Splits: 17 total, 17 done (100.00%)
 0:00 [1 rows, 8B] [2 rows/s, 19B/s]
 ```
 
-## 8. Deleting the Pinot cluster in Kubernetes
+## Delete a Pinot cluster in Kubernetes
+
+To delete your Pinot cluster in Kubernetes, run the following command:
 
 ```
 kubectl delete ns pinot-quickstart
 ```
 
-<mark style="color:red;">Note:</mark> These are sample configs to be used as reference. For production setup, you may want to customize it to your needs.
