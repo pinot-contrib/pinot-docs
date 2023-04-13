@@ -1,36 +1,43 @@
 ---
-description: This guide will show you to run a Pinot Cluster using Docker.
+description: This guide will show you to run a Pinot cluster using Docker.
 ---
 
 # Running Pinot in Docker
 
-In this guide we will learn about running Pinot in Docker.
+Get started setting up a Pinot cluster with Docker using the guide below.
 
-This guide assumes that you have installed [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac) and have configured it with enough memory. A sample config is shown below:
+**Prerequisites:**
 
-![Sample Docker resources](<../../.gitbook/assets/image (4) (1).png>)
+* Install [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
+* Configure Docker memory with the following minimum resources:
+  * CPUs: 8
+  * Memory: 16.00 GB
+  * Swap: 4 GB
+  * Disk Image size: 60 GB
 
-The latest Pinot Docker image is published at `apachepinot/pinot:latest` and you can see a list of [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
+The latest Pinot Docker image is published at `apachepinot/pinot:latest`. View a list of [all published tags on Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
 
-You can pull the Docker image onto your machine by running the following command:
+Pull the latest Docker image onto your machine by running the following command:
 
 ```bash
 docker pull apachepinot/pinot:latest
 ```
 
-Or if you want to use a specific version:
+To pull a specific version, modify the command like below:
 
 ```bash
 docker pull apachepinot/pinot:0.12.0
 ```
 
-Now that we've downloaded the Pinot Docker image, it's time to set up a cluster. There are two ways to do this:
+## Set up a cluster
 
-## Quick Start
+Once you've downloaded the Pinot Docker image, it's time to set up a cluster. There are two ways to do this.
 
-Pinot comes with quick-start commands that launch instances of Pinot components in the same process and import pre-built datasets.
+### Quick start
 
-For example, the following quick-start launches Pinot with a baseball dataset pre-loaded:
+Pinot comes with quick start commands that launch instances of Pinot components in the same process and import pre-built datasets.
+
+For example, the following quick start command launches Pinot with a baseball dataset pre-loaded:
 
 ```
 docker run \
@@ -39,11 +46,15 @@ docker run \
     -type batch
 ```
 
-For a list of all the available quick starts, see the [Quick Start Examples](quick-start.md).
+For a list of all available quick start commands, see [Quick Start Examples](quick-start.md).
 
-## Manual Cluster
+### Manual cluster
 
 The quick start scripts launch Pinot with minimal resources. If you want to play with bigger datasets (more than a few MB), you can launch each of the Pinot components individually.
+
+{% hint style="info" %}
+Note that these are sample configurations to be used as references. You will likely want to customize them to meet your needs for production use.
+{% endhint %}
 
 ### Docker
 
@@ -124,7 +135,7 @@ docker run --rm -ti \
 
 #### Start Kafka
 
-Optionally, you can also start Kafka for setting up realtime streams. This brings up the Kafka broker on port 9092.
+Optionally, you can also start Kafka for setting up real-time streams. This brings up the Kafka broker on port 9092.
 
 ```
 docker run --rm -ti \
@@ -138,7 +149,7 @@ docker run --rm -ti \
 
 Now all Pinot related components are started as an empty cluster.
 
-You can run the below command to check container status.
+Run the below command to check container status:
 
 ```
 docker container ls -a
@@ -213,7 +224,7 @@ Run the following command to launch all the components:
 docker-compose --project-name pinot-demo up
 ```
 
-You can run the below command to check the container status.
+Run the below command to check the container status:
 
 ```
 docker container ls 
@@ -229,10 +240,6 @@ b1ba8cf60d69   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minu
 54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
-Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
+Once your cluster is up and running, see [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
 
-{% hint style="info" %}
-If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you could also try running the [Kubernetes quick start](kubernetes-quickstart.md).
-{% endhint %}
-
-<mark style="color:red;">Note:</mark> These are sample configs to be used as references. For production setup, you may want to customize it to your needs.
+If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you can also try running the [Kubernetes quick start](kubernetes-quickstart.md).
