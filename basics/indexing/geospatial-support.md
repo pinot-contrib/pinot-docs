@@ -91,36 +91,54 @@ To use the geoindex, first declare the geolocation field as bytes in the schema,
 {% code title="geoindex schema" %}
 ```javascript
 {
-      "dataType": "BYTES",
-      "name": "location_st_point",
-      "transformFunction": "toSphericalGeography(stPoint(lon,lat))"
+  "dataType": "BYTES",
+  "name": "location_st_point",
+  "transformFunction": "toSphericalGeography(stPoint(lon,lat))"
 }
 ```
 {% endcode %}
 
 Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed by the `ST_Distance` function.
 
-Next, declare the geospatial index in the [table config](../../configuration-reference/table.md):
+Next, declare the geospatial index in the [table config](../../configuration-reference/table.md) you need to
+- Make sure the dictionary is disabled (see [dictionary documentation page](dictionary-index.md)).
+- Enable the H3 index.
+
+It is recommended to do the latter by using the `indexes` section:
 
 {% code title="geoindex tableConfig" %}
 ```javascript
 {
   "fieldConfigList": [
-  {
-    "name": "location_st_point",
-    "encodingType":"RAW",
-    "indexTypes":["H3"],
-    "properties": {
-    "resolutions": "5"
-     }
+    {
+      "name": "location_st_point",
+      "encodingType":"RAW", // this actually disables the dictionary
+      "indexes": {
+        "h3": {
+          "resolutions": [13, 5, 6]
+        }
+      }
     }
   ],
-  "tableIndexConfig": {
-    "loadMode": "MMAP",
-    "noDictionaryColumns": [
-      "location_st_point"
-    ]
-  },
+  ...
+}
+```
+{% endcode %}
+
+Alternative the older way to configure H3 indexes is still supported: 
+
+{% code title="geoindex tableConfig" %}
+```javascript
+{
+  "fieldConfigList": [{
+    "name": "location_st_point",
+    "encodingType":"RAW", // this actually disables the dictionary
+    "indexTypes":["H3"],
+    "properties": {
+      "resolutions": "13, 5, 6" // Here resolutions must be a string with ints separated by commas 
+    }
+  }],
+  ...
 }
 ```
 {% endcode %}

@@ -66,27 +66,25 @@ vs.
 
 Timestamp index is configured per column basis inside the fieldConfigList section in table config.
 
-Users need to specify `TIMESTAMP` as part of the `indexTypes`. Then in the field timestampConfig, specify the granularities that you want to index.
+Users need to define the field `timestampConfig` and specify the granularities that you want to index.
+Valid granularities are:
+  - MILLISECOND 
+  - SECOND 
+  - MINUTE
+  - HOUR
+  - DAY
+  - WEEK
+  - MONTH
+  - QUARTER
+  - YEAR
 
 Sample config:
 
-```
+```js
 {
-  "tableName": "airlineStats",
-  "tableType": "OFFLINE",
-  "segmentsConfig": {
-    "timeColumnName": "DaysSinceEpoch",
-    "timeType": "DAYS",
-    "segmentPushType": "APPEND",
-    "segmentAssignmentStrategy": "BalanceNumSegmentAssignmentStrategy",
-    "replication": "1"
-  },
-  "tenants": {},
   "fieldConfigList": [
     {
       "name": "ts",
-      "encodingType": "DICTIONARY",
-      "indexTypes": ["TIMESTAMP"],
       "timestampConfig": {
         "granularities": [
           "DAY",
@@ -95,15 +93,9 @@ Sample config:
         ]
       }
     }
-  ],
-  "tableIndexConfig": {
-    "loadMode": "MMAP"
-  },
-  "metadata": {
-    "customConfigs": {}
-  },
-  "ingestionConfig": {}
+    ...
+  ]
+  ...
 }
-
 ```
 

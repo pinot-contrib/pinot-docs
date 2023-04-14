@@ -50,8 +50,68 @@ JSON index is designed to accelerate the filtering on JSON string columns withou
 
 To enable the JSON index, set the following config in the table config:
 
-### Config since release `0.12.0`:
+| Config Key                  | Description                                                                                                                                                                                                                            | Type         | Default                                              |
+| --------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------ | ---------------------------------------------------- |
+| **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                             | int          | -1 (unlimited)                                       |
+| **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                    | boolean      | false (include array)                                |
+| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements)                                                                                                                                                             | boolean      | false (calculate unique combination of all elements) |
+| **includePaths**            | Only include the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "_$.a.b.c_" will be included when "_$.a.b_" is configured to be included. | Set\<String> | null (include all paths)                             |
+| **excludePaths**            | Exclude the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "_$.a.b.c_" will be excluded when "_$.a.b_" is configured to be excluded. | Set\<String> | null (include all paths)                             |
+| **excludeFields**           | Exclude the given fields, e.g. "_b_", "_c_", even if it is under the included paths.                                                                                                                                                   | Set\<String> | null (include all fields)                            |
 
+### Recommended way to configure
+
+The recommended way to configure a JSON index is in the `fieldConfigList.indexes` object, within the `json` key.
+
+{% code title="json index defined in tableConfig" %}
+```javascript
+{
+  "fieldConfigList": [
+    {
+      "name": "person",
+      "indexes": {
+        "json": {
+          "maxLevels": 2,
+          "excludeArray": false,
+          "disableCrossArrayUnnest": true,
+          "includePaths": null,
+          "excludePaths": null,
+          "excludeFields": null
+        }
+      }
+    }
+  ],
+  ...
+}
+```
+{% endcode %}
+
+All options are optional, so the following is a valid configuration that use the default parameter values:
+
+{% code title="json index defined in tableConfig" %}
+```javascript
+{
+  "fieldConfigList": [
+    {
+      "name": "person",
+      "indexes": {
+        "json": {}
+      }
+    }
+  ],
+  ...
+}
+```
+{% endcode %}
+
+### Deprecated ways to configure JSON indexes
+
+There are two older ways to configure the indexes that can be configured in the `tableIndexConfig` section inside table 
+config.
+
+The first one uses the same JSON explained above, but it is defined inside `tableIndexConfig.jsonIndexConfigs.<column name>`:
+
+{% code title="older way to configure json indexes in table config" %}
 ```json
 {
   "tableIndexConfig": {
@@ -70,15 +130,40 @@ To enable the JSON index, set the following config in the table config:
   }
 }
 ```
+{% endcode %}
 
-| Config Key                  | Description                                                                                                                                                                                                                            | Type         | Default                                              |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------------------------- |
-| **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                             | int          | -1 (unlimited)                                       |
-| **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                    | boolean      | false (include array)                                |
-| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements)                                                                                                                                                             | boolean      | false (calculate unique combination of all elements) |
-| **includePaths**            | Only include the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "_$.a.b.c_" will be included when "_$.a.b_" is configured to be included. | Set\<String> | null (include all paths)                             |
-| **excludePaths**            | Exclude the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "_$.a.b.c_" will be excluded when "_$.a.b_" is configured to be excluded. | Set\<String> | null (include all paths)                             |
-| **excludeFields**           | Exclude the given fields, e.g. "_b_", "_c_", even if it is under the included paths.                                                                                                                                                   | Set\<String> | null (include all fields)                            |
+Like in the previous case, all parameters are optional, so the following is also valid:
+
+{% code title="json index with default config" %}
+```json
+{
+  "tableIndexConfig": {
+    "jsonIndexConfigs": {
+      "person": {},
+      ...
+    },
+    ...
+  }
+}
+```
+{% endcode %}
+
+The last option does not support to configure any parameter.
+In order to use this option, add the name of the column in `tableIndexConfig.jsonIndexColumns` like in this example:
+
+{% code title="json index with default config" %}
+```javascript
+{
+  "tableIndexConfig": {        
+    "jsonIndexColumns": [
+      "person",
+      ...
+    ],
+    ...
+  }
+}
+```
+{% endcode %}
 
 #### Example:
 
@@ -277,21 +362,6 @@ With **excludeFields** set to \["age", "street"]:
 }
 ```
 
-### Legacy config before release `0.12.0`:
-
-```javascript
-{
-  "tableIndexConfig": {        
-    "jsonIndexColumns": [
-      "person",
-      ...
-    ],
-    ...
-  }
-}
-```
-
-The legacy config has the same behavior as the default settings in the new config.
 
 Note that JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
 

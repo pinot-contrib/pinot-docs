@@ -1,15 +1,29 @@
 # Forward Index
 
-The values for every column are stored in a forward index, of which there are three types:
+At conceptual level, the forward index is a map from document id (aka row index) to the actual column value of the row.
+How this map is implemented depends on the index encoding and on whether the column is sorted or not.
 
-* [Dictionary encoded forward index](forward-index.md#dictionary-encoded-forward-index-with-bit-compression-default)\
-  Builds a dictionary mapping 0 indexed ids to each unique value in a column and a forward index that contains the bit-compressed ids.
-* [Sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding)\
-  Builds a dictionary mapping from each unique value to a pair of start and end document id and a forward index on top of the dictionary encoding.
-* [Raw value forward index](forward-index.md#raw-value-forward-index)\
-  Builds a forward index of the column's values.
+When encoding is `RAW`, the forward index is implemented as an array whose indexes are the document ids and the values
+are the actual row value. 
+Read the [raw value forward type](forward-index.md#raw-value-forward-index) to learn more about that.
 
-To save segment storage space the forward index can now be [disabled](forward-index.md#disabling-the-forward-index) while creating new tables.
+When the encoding is `DICTIONARY`, the forward index does not physically store the actual row values but the dictionary ids.
+This means that there is an extra indirection each time a value has to be read, but enable two more efficient physical 
+layouts depending on whether the segment is sorted by this column or not.
+The [dictionary encoded forward index](forward-index.md#dictionary-encoded-forward-index-with-bit-compression-default) 
+and [sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding) explain each option in detail.
+
+## Configuration
+
+Forward indexes are enabled by default.
+This means that columns will contain a forward index unless they are explicitly disabled.
+By doing so, most scanning access to the data will be disabled, but this is useful when other indexes are sufficient to cover the required data patterns.
+Read the [disabling forward index section](forward-index.md#disabling-the-forward-index) in order to have some examples.
+
+As explained bellow, the encoding and whether the segment is sorted by the indexed column are two important properties.
+They can be configured in [table config](../../configuration-reference/table.md).
+
+When encoding is raw, forward indexes can be extra customized, as explained in the [raw encoding section](forward-index.md#raw-value-forward-index).
 
 ## Dictionary-encoded forward index with bit compression (default)
 
@@ -31,10 +45,24 @@ When a column is physically sorted, Pinot uses a sorted forward index with run-l
 
 The Sorted forward index has the advantages of both good compression and data locality. The Sorted forward index can also be used as an inverted index.
 
-### Real-time tables
+Sorted forward index are active when:
+* The segment is sorted by this column
+* The dictionary is enabled for that column (see [dictionary documentation page](dictionary-index.md)).
 
-A sorted index can be configured for a table by setting it in the table config:
+If you are ingesting multiple segments you will need to make sure that data is sorted within each segment - you don't need to sort the data across segments.
 
+How to make sure that a segment is sorted by the column depends on the type of table:
+* In real-time tables `tableIndexConfig.sortedColumn` can be used.
+  If there is exactly one column in that array, Pinot will sort the segment by that column when it is committed.
+* In offline tables, `tableIndexConfig.sortedColumn` is ignored and you will need to sort the data by that column before
+  ingesting it into Pinot.
+
+When a real-time segment is committed and when an offline segment created, Pinot will do a pass over the data in each 
+column and consider sorted any column that contains sorted data, even if they aren't specified as the `sortedColumn`.
+
+Use the following table config as an example:
+
+{% code title="Part of a tableConfig" %}
 ```javascript
 {
     "tableIndexConfig": {
@@ -45,22 +73,15 @@ A sorted index can be configured for a table by setting it in the table config:
     }
 }
 ```
+{% endcode %}
 
 {% hint style="info" %}
-**Note**: A Pinot table can only have 1 sorted column
+**Remember that**: 
+* Although `sortedColumns` expects an array, only 1 sorted column can be added.
+* `tableIndexConfig.sortedColumn` is only honored in real-time tables
+* The sorted property affects Pinot behavior beyond forward index.
+  For example, sorted segments behaves better on queries that order by in-segment sorted columns.
 {% endhint %}
-
-Real-time data ingestion will sort data by the `sortedColumn` when generating segments - you don't need to pre-sort the data.
-
-When a segment is committed, Pinot will do a pass over the data in each column and create a sorted index for any other columns that contain sorted data, even if they aren't specified as the `sortedColumn`.
-
-### Offline tables
-
-For offline data ingestion, Pinot will do a pass over the data in each column and create a sorted index for columns that contain sorted data.
-
-This means that if you want a column to have a sorted index, you will need to sort the data by that column before ingesting it into Pinot.
-
-If you are ingesting multiple segments you will need to make sure that data is sorted within each segment - you don't need to sort the data across segments.
 
 ### Checking sort status
 
@@ -99,19 +120,99 @@ As seen in the above diagram, using dictionary encoding will require a lot of ra
 
 ![](../../.gitbook/assets/no-dictionary.png)
 
-A raw value forward index can be configured for a table by configuring the [table config](../../configuration-reference/table.md), as shown below:
+The raw format will be used either:
+* The dictionary is disabled for that column (see [dictionary documentation page](dictionary-index.md)).
+* The encoding is set to `RAW` in [field config list](../../configuration-reference/table.md#field-config-list).
 
+Also when this format is used, the following parameters can be configured:
+
+| Parameter              | Default | Description                                                                      |
+|------------------------|---------|----------------------------------------------------------------------------------|
+| chunkCompressionType   | null    | The compression that will be used.                                               |
+| deriveNumDocsPerChunk  | false   | Modifies the behavior when storing variable length values (like string or bytes) |
+| rawIndexWriterVersion  | 2       | The version initially used                                                       |
+
+The `chunkCompressionType` parameter has the following valid values:
+- `PASS_THROUGH`
+- `SNAPPY`
+- `ZSTANDARD`
+- `LZ4`
+- `LZ4_LENGTH_PREFIXED`
+- `null` (the JSON null value, not `"null"`), which is the default.
+  In this case `PASS_THROUGH` will be used for metrics and `LZ4` for other columns
+
+`deriveNumDocsPerChunk` is only used when the datatype may have a variable length.
+For example with `string`, `big decimal`, `bytes`, etc.
+By default, Pinot uses a fixed number of elements that was chosen empirically.
+If changed to true, Pinot will use a heuristic value that depends on the column data.
+
+`rawIndexWriterVersion` changes the algorithm used under the hood to create the index.
+This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions.
+The latest version right now is 4.
+
+### Configuration
+
+The recommended way to configure the forward index using raw format is the following:
+
+{% code title="Configured in tableConfig fieldConfigList" %}
 ```javascript
 {
-    "tableIndexConfig": {
-        "noDictionaryColumns": [
-            "column_name",
-            ...
-        ],
-        ...
-    }
+  "tableName": "somePinotTable",
+  "fieldConfigList": [
+    {
+      "name": "playerID",
+      "encodingType": "RAW",
+      "indexes": {
+        "forward": {
+          "chunkCompressionType": "PASS_THROUGH", // or "SNAPPY", "ZSTANDARD", "LZ4" or "LZ4_LENGTH_PREFIXED"
+          "deriveNumDocsPerChunk": false,
+          "rawIndexWriterVersion": 2
+        }
+      }
+    },
+    ...
+  ],
+...
 }
 ```
+{% endcode %}
+
+Remember this format can be enabled even if `encodingType` is not defined by explicitly disabling the dictionary index
+(see [dictionary documentation page](dictionary-index.md)).  
+
+#### Deprecated
+
+There is another way to configure the raw format parameters:
+* chunkCompressionType: Can be defined as a sibling of `name` and `encodingType` in fieldConfigList section.
+* deriveNumDocsPerChunk: Can be configured with the property `deriveNumDocsPerChunkForRawIndex`. 
+  Remember that in `properties` all values have to be strings, so valid values are `"true"` and `"false"`. 
+* rawIndexWriterVersion: Can be configured with the property `rawIndexWriterVersion`.
+  Remember that in `properties` all values have to be strings, so valid values are `"2"`, `"3"`, etc.
+
+This is the older way to configure these parameters and although it is not recommended, it can still be used and there 
+is no plans to remove it.
+In case new parameters are added, they may only be configured in the `forward` JSON object.
+
+{% code title="Configured in tableConfig fieldConfigList" %}
+```javascript
+{
+  "tableName": "somePinotTable",
+  "fieldConfigList": [
+    {
+      "name": "playerID",
+      "encodingType": "RAW",
+      "chunkCompressionType": "PASS_THROUGH", // it can also be defined here
+      "properties": {
+        "deriveNumDocsPerChunkForRawIndex": "false", // here the string value has to be used
+        "rawIndexWriterVersion": "2" // here the string value has to be used
+      }
+    },
+    ...
+  ],
+...
+}
+```
+{% endcode %}
 
 ## Dictionary encoded vs raw value
 
@@ -135,30 +236,53 @@ Thus, to provide users an option to save storage space, a knob to disable the fo
 Forward index on one or more columns(s) in your Pinot table can be disabled with the following limitations:
 
 * Only supported for immutable (offline) segments.
-* If the column has a range index then the column must be of single-value type and use range index version 2
+* If the column has a [range index](./range-index.md) then the column must be of single-value type and use range index version 2.
 * MV columns with duplicates within a row will lose the duplicated entries on forward index regeneration. The ordering of data with an MV row may also change on regeneration. A backfill is required in such scenarios (to preserve duplicates or ordering).
 * If forward index regeneration support on reload (i.e. re-enabling the forward index for a forward index disabled column) is required then the dictionary and inverted index must be enabled on that particular column.
 
 Sorted columns will allow the forward index to be disabled, but this operation will be treated as a no-op and the index (which acts as both a forward index and inverted index) will be created.
 
-To disable the forward index for a given column the `fieldConfigList` can be modified within the  [table config](../../configuration-reference/table.md), as shown below:
+Like all indexes, forward index can be disabled in `fieldConfigList` explicitly setting the `disabled` property to true:
 
+{% code title="Configured in tableConfig fieldConfigList" %}
+```javascript
+{
+  "tableName": "somePinotTable",
+  "fieldConfigList": [
+    {
+      "name":"columnA",
+      "indexes": {
+        "forward": {
+          "disabled": true
+        }
+      }
+    },
+    ...
+  ],
+  ...
+}
+```
+{% endcode %}
+
+The older way to do so is still supported, but not recommended.
+
+{% code title="Configured in tableConfig fieldConfigList" %}
 ```javascript
 "fieldConfigList":[
   {
      "name":"columnA",
-     "encodingType":"DICTIONARY",
-     "indexTypes":["INVERTED"],
      "properties": {
         "forwardIndexDisabled": "true"
       }
   }
 ]
 ```
+{% endcode %}
+
 
 A table reload operation must be performed for the above config to take effect. Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
 
-The forward index can also be regenerated for a column where it is disabled by removing the property `forwardIndexDisabled` from the `fieldConfigList` properties bucket and reloading the segment. The forward index can only be regenerated if the dictionary and inverted index have been enabled for the column. If either have been disabled then the only way to get the forward index back is to regenerate the segments via the offline jobs and re-push / refresh the data.
+The forward index can also be regenerated for a column where it is disabled by removing enable the index again and reloading the segment. The forward index can only be regenerated if the dictionary and inverted index have been enabled for the column. If either have been disabled then the only way to get the forward index back is to regenerate the segments via the offline jobs and re-push / refresh the data.
 
 {% hint style="danger" %}
 **Warning:**&#x20;

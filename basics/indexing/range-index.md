@@ -1,5 +1,7 @@
 # Range Index
 
+TODO: Add note when forward is disabled
+
 Range indexing allows you to get better performance for queries that involve filtering over a range.
 
 It would be useful for a query like the following:
