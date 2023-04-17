@@ -148,7 +148,7 @@ Example:
 ```javascript
 "ingestionConfig": {
     "filterConfig": {
-        "filterFunction": "(strCmp(campaign, 'X') = 0) OR (strCmp(campaign, 'Y') = 0) OR timestamp < 1589007600000"
+        "filterFunction": "strcmp(campaign, 'X') = 0 OR strcmp(campaign, 'Y') = 0 OR timestamp < 1589007600000"
     }
 }
 ```
