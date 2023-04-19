@@ -74,9 +74,11 @@ Additionally, you need to overwrite the `maxLength` of the field `group_json` on
     ...
 }
 ```
+
 {% endcode %}
 
-For the full spec, see [json\_meetupRsvp\_schema.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_schema.json).
+For the full spec, see [json\_meetupRsvp\_schema.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpJson/meetupRsvpJson_schema.json).
+
 
 With this, you can start to query the nested fields under `group`. For the details about the supported JSON function, see [guide](../indexing/json-index.md)).
 
