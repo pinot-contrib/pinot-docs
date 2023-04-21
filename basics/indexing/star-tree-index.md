@@ -1,10 +1,10 @@
-# Star-Tree Index
+# StarTree Index
 
-Unlike other index techniques which work on single column, the Star-Tree index is built on multiple columns, and utilizes pre-aggregated results to significantly reduce the number of values to be processed, thus improving query performance.
+Unlike other index techniques which work on single column, the star-tree index is built on multiple columns, and utilizes pre-aggregated results to significantly reduce the number of values to be processed, thus improving query performance.
 
 One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
-Here we introduce **star-tree** index to utilize the pre-aggregated documents in a smart way to achieve low query latencies but also use the storage space efficiently for aggregation/group-by queries.
+Here we introduce the **star-tree** index to utilize the pre-aggregated documents in a smart way to achieve low query latencies but also use the storage space efficiently for aggregation/group-by queries.
 
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
 
@@ -77,17 +77,17 @@ On one end of the spectrum we have indexing techniques that improve search times
 
 Space-Time Trade Off Between Different Techniques
 
-The Star-Tree data structure offers a configurable trade-off between space and time and lets us achieve hard upper bound for query latencies for a given use case. In the following sections we will define the Star-Tree data structure, and explains how Pinot uses it to achieve low latencies with high throughput.
+The star-tree data structure offers a configurable trade-off between space and time and lets us achieve hard upper bound for query latencies for a given use case. In the following sections we will define the star-tree data structure, and explains how Pinot uses it to achieve low latencies with high throughput.
 
 ### Definitions
 
 **Tree structure**
 
-Star-tree is a tree data structure that consists of the following properties:
+Star tree is a tree data structure that consists of the following properties:
 
 ![](../../.gitbook/assets/structure.png)
 
-Star-tree Structure
+Star tree Structure
 
 * **Root Node** (Orange): Single root node, from which the rest of the tree can be traversed.
 * **Leaf Node** (Blue): A leaf node can containing at most _T_ records, where _T_ is configurable.
@@ -107,11 +107,11 @@ The properties stored in each node are as follows:
 
 Star-tree index is generated in the following steps:
 
-* The data is first projected as per the _dimensionsSplitOrder_. Only the dimensions from the split order are reserved, others are dropped. For each unique combination of reserved dimensions, metrics are aggregated per configuration. The aggregated documents are written to a file and served as the initial Star-Tree documents (separate from the original documents).
-* Sort the Star-Tree documents based on the _dimensionsSplitOrder_. It is primary-sorted on the first dimension in this list, and then secondary sorted on the rest of the dimensions based on their order in the list. Each node in the tree points to a range in the sorted documents.
+* The data is first projected as per the _dimensionsSplitOrder_. Only the dimensions from the split order are reserved, others are dropped. For each unique combination of reserved dimensions, metrics are aggregated per configuration. The aggregated documents are written to a file and served as the initial star-tree documents (separate from the original documents).
+* Sort the star-tree documents based on the _dimensionsSplitOrder_. It is primary-sorted on the first dimension in this list, and then secondary sorted on the rest of the dimensions based on their order in the list. Each node in the tree points to a range in the sorted documents.
 * The tree structure can be created recursively (starting at root node) as follows:
   * If a node has more than _T_ records, it is split into multiple children nodes, one for each value of the dimension in the split order corresponding to current level in the tree.
-  *   A Star-Node can be created (per configuration) for the current node, by dropping the dimension being split on, and aggregating the metrics for rows containing dimensions with identical values. These aggregated documents are appended to the end of the Star-Tree documents.
+  *   A star node can be created (per configuration) for the current node, by dropping the dimension being split on, and aggregating the metrics for rows containing dimensions with identical values. These aggregated documents are appended to the end of the star-tree documents.
 
       If there is only one value for the current dimension, Star-Node won’t be created because the documents under the Star-Node are identical to the single node.
 * The above step is repeated recursively until there are no more nodes to split.
@@ -251,7 +251,7 @@ The values in the parentheses are the aggregated sum of _Impressions_ for all th
 
 ### Query execution
 
-For query execution, the idea is to first check metadata to determine whether the query can be solved with the Star-Tree documents, then traverse the Star-Tree to identify documents that satisfy all the predicates. After applying any remaining predicates that were missed while traversing the Star-Tree to the identified documents, apply aggregation/group-by on the qualified documents.
+For query execution, the idea is to first check metadata to determine whether the query can be solved with the star-tree documents, then traverse the Star-Tree to identify documents that satisfy all the predicates. After applying any remaining predicates that were missed while traversing the star-tree to the identified documents, apply aggregation/group-by on the qualified documents.
 
 The algorithm to traverse the tree can be described as follows:
 
