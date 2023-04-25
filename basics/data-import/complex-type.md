@@ -61,7 +61,11 @@ Also, note that `group` is a reserved keyword in SQL and therefore needs to be q
 The `columnName` can't use the same name as any of the fields in the source JSON data e.g. if our source data contains the field `group` and we want to transform the data in that field before persisting it, the destination column name would need to be something different, like `group_json`.
 {% endhint %}
 
-Additionally, you need to overwrite the `maxLength` of the field `group_json` on the schema, because by default, a string column has a limited length. For example,
+{% hint style="info" %}
+Note that you do _not_ need to worry about the `maxLength` of the field `group_json` on the schema, because `"JSON"` data type does not have a `maxLength` and will not be truncated.  This is true even though `"JSON"` is stored as a string internally. 
+{% endhint %}
+
+So the schema will look like the below,
 
 {% code title="json_meetupRsvp_realtime_table_schema.json" %}
 ```javascript
@@ -69,7 +73,6 @@ Additionally, you need to overwrite the `maxLength` of the field `group_json` on
   {
       "name": "group_json",
       "dataType": "JSON",
-      "maxLength": 2147483647
     }
     ...
 }
