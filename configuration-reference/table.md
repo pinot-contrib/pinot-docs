@@ -23,7 +23,7 @@ description: The table below shows the properties available to set at the table 
 | upsertConfig     | Set upset configurations. For details, see [Stream ingestion with upsert](../basics/data-import/upsert.md).                                                                                                                                                                      |
 | dedupConfig      | Set deduplication configurations. For details, see [Stream ingestion with Dedup](../basics/data-import/dedup.md).                                                                                                                                                                |
 | tierConfigs      | Defines configurations for tiered storage. For details, see [Tiered Storage](../operators/operating-pinot/separating-data-storage-by-age/moving-segments-across-tenants.md).                                                                                                     |
-| metadata         | Keeps custom configurations, which are expressed as key-value pairs.                                                                                                                                                                                                             |
+| metadata         | Contains other metadata of the table. There is a string to string map field "_customConfigs"_ under it which is expressed as key-value pairs to hold the custom configurations.                                                                                                  |
 
 ## Second-level fields
 
