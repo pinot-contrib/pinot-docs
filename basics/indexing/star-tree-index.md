@@ -1,6 +1,6 @@
-# StarTree Index
+# Star-Tree Index
 
-Unlike other index techniques which work on single column, the star-tree index is built on multiple columns, and utilizes pre-aggregated results to significantly reduce the number of values to be processed, thus improving query performance.
+Unlike other index techniques which work on a single column, the star-tree index is built on multiple columns and utilizes pre-aggregated results to significantly reduce the number of values to be processed, resulting in improved query performance.
 
 One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
@@ -53,7 +53,7 @@ Below are the inverted indexes for columns ‘Browser’ and ‘Locale’ for ou
 
 For example, if we want to get all the documents where ‘Browser’ is ‘Firefox’, we can look up the inverted index for ‘Browser’ and identify that it appears in documents \[1, 5, 6].
 
-Using an inverted index, we can reduce the search time to constant time _O(1)_. The query latency, however, is still a function of the selectivity of the query, i.e. it increases with the number of documents that need to be processed to answer the query.
+Using an inverted index, we can reduce the search time to constant time _O(1)_. The query latency, however, is still a function of the selectivity of the query: it increases with the number of documents that need to be processed to answer the query.
 
 #### Pre-aggregation
 
@@ -71,11 +71,11 @@ With this approach, answering queries about total impressions for a country is a
 
 ### Star-tree solution
 
-On one end of the spectrum we have indexing techniques that improve search times with a limited increase in space, but do not guarantee a hard upper bound on query latencies. On the other end of the spectrum we have pre-aggregation techniques that offer hard upper bound on query latencies, but suffer from exponential explosion of storage space
+On one end of the spectrum we have indexing techniques that improve search times with a limited increase in space, but don't guarantee a hard upper bound on query latencies. On the other end of the spectrum, we have pre-aggregation techniques that offer a hard upper bound on query latencies, but suffer from exponential explosion of storage space
 
 ![](../../.gitbook/assets/space-time.png)
 
-Space-Time Trade Off Between Different Techniques
+Space-Time Trade-Off Between Different Techniques
 
 The star-tree data structure offers a configurable trade-off between space and time and lets us achieve hard upper bound for query latencies for a given use case. In the following sections we will define the star-tree data structure, and explains how Pinot uses it to achieve low latencies with high throughput.
 
@@ -105,7 +105,7 @@ The properties stored in each node are as follows:
 
 ### Index generation
 
-Star-tree index is generated in the following steps:
+The star-tree index is generated in the following steps:
 
 * The data is first projected as per the _dimensionsSplitOrder_. Only the dimensions from the split order are reserved, others are dropped. For each unique combination of reserved dimensions, metrics are aggregated per configuration. The aggregated documents are written to a file and served as the initial star-tree documents (separate from the original documents).
 * Sort the star-tree documents based on the _dimensionsSplitOrder_. It is primary-sorted on the first dimension in this list, and then secondary sorted on the rest of the dimensions based on their order in the list. Each node in the tree points to a range in the sorted documents.
