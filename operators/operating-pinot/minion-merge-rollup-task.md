@@ -109,10 +109,6 @@ This metric keeps track of the task delay in the number of time buckets. For exa
 
 ### **Future works**
 
-#### Realtime support
-
-If we can apply the feature to REALTIME tables, users can potential use long retention REALTIME tables instead of HYBRID tables for convenience. To add the support, we need to allow segment upload for realtime tables and handle potential corner cases.
-
 #### Backfill support
 
 Currently, Pinot data backfill is at segment level (replace segments with the same names), but the output segments have different names compared to the original segments. We need to introduce a new way to backfill the processed data, one potential approach:
