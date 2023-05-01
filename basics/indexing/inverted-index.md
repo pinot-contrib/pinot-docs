@@ -2,7 +2,7 @@
 
 ### Bitmap inverted index
 
-When an inverted index is enabled for a column, Pinot maintains a map from each value to a bitmap of rows, which makes value lookup take constant time. If you have a column that is frequently used for filtering, adding an inverted index will improve performance greatly.
+When an inverted index is enabled for a column, Pinot maintains a map from each value to a bitmap of rows, which makes value lookup take constant time. If you have a column that is frequently used for filtering, adding an inverted index will improve performance greatly. You can create an inverted index on a multi-value column.
 
 An inverted index can be configured for a table by setting it in the [table config](../../configuration-reference/table.md):
 
