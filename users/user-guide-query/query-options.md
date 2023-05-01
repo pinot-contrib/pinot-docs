@@ -34,7 +34,7 @@ SET key2 = 123;
 SELECT * FROM myTable
 ```
 
-### OPTION keyword (**deprecated**)
+### OPTION keyword (deprecated)
 
 Before release 0.11.0, query options can be appended to the query with the `OPTION` keyword:
 
