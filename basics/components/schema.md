@@ -4,6 +4,10 @@ Each table in Pinot is associated with a Schema. A schema defines what fields ar
 
 The schema is stored in the Zookeeper, along with the table configuration.
 
+{% hint style="info" %}
+Schema naming in Pinot follows typical database table naming conventions, such as starting names with a letter, not ending with an underscore, and using only alphanumeric characters
+{% endhint %}
+
 ### Categories
 
 A schema also defines what category a column belongs to. Columns in a Pinot table can be categorized into three categories:

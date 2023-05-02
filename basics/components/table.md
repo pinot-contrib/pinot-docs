@@ -10,6 +10,10 @@ Pinot breaks a table into multiple [segments](segment.md) and stores these segme
 
 In the Pinot cluster, a table is modeled as a [Helix resource](https://helix.apache.org/Concepts.html) and each segment of a table is modeled as a [Helix Partition](https://helix.apache.org/Concepts.html).
 
+{% hint style="info" %}
+Table naming in Pinot follows typical naming conventions, such as starting names with a letter, not ending with an underscore, and using only alphanumeric characters.
+{% endhint %}
+
 Pinot supports the following types of tables:
 
 | Type          | Description                                                                                                                   |
