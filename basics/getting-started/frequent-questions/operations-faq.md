@@ -187,6 +187,93 @@ Once replica group segment assignment is in effect, the query routing can take a
 }
 ```
 
+### Overwrite index configs at tier level
+
+When using [tiered storage](https://docs.pinot.apache.org/operators/operating-pinot/separating-data-storage-by-age), user may want to have different encoding and indexing types for a column in different tiers to balance query latency and cost saving more flexibly. For example, segments in the hot tier can use dict-encoding, bloom filter and all kinds of relevant index types for very fast query execution. But for segments in the cold tier, where cost saving matters more than low query latency, one may want to use raw values and bloom filters only.
+
+The following two examples show how to overwrite encoding type and index configs for tiers. Similar changes are also demonstrated in the [MultiDirQuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/java/org/apache/pinot/tools/MultiDirQuickstart.java).&#x20;
+
+1. Overwriting single-column index configs using fieldConfigList. All fields allowed in [FieldConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/FieldConfig.java#L88) (except column name) can be overwritten at tier level.
+
+```
+{
+  ...
+  "fieldConfigList": [    
+    {
+      "name": "ArrTimeBlk",
+      "encodingType": "DICTIONARY",
+      "indexes": {
+        "inverted": {
+          "enabled": "true"
+        }
+      },
+      "tierOverwrites": {
+        "hotTier": {
+          "encodingType": "DICTIONARY",
+          "indexes": { // change index types for this tier
+            "bloom": {
+              "enabled": "true"
+            }
+          }
+        },
+        "coldTier": {
+          "encodingType": "RAW", // change encoding type for this tier
+          "indexes": { } // remove all indexes
+        }
+      }
+    }
+  ],
+```
+
+2. Overwriting StarTree index configs using tableIndexConfig. All fields allowed in [StarTreeIndexConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/StarTreeIndexConfig.java#L41) can be overwritten at tier level.
+
+```
+  "tableIndexConfig": {
+    "starTreeIndexConfigs": [
+      {
+        "dimensionsSplitOrder": [
+          "AirlineID",
+          "Origin",
+          "Dest"
+        ],
+        "skipStarNodeCreationForDimensions": [],
+        "functionColumnPairs": [
+          "COUNT__*",
+          "MAX__ArrDelay"
+        ],
+        "maxLeafRecords": 10
+      }
+    ],
+...
+    "tierOverwrites": {
+      "hotTier": {
+        "starTreeIndexConfigs": [ // create different STrTree index on this tier
+          {
+            "dimensionsSplitOrder": [
+              "Carrier",
+              "CancellationCode",
+              "Origin",
+              "Dest"
+            ],
+            "skipStarNodeCreationForDimensions": [],
+            "functionColumnPairs": [
+              "MAX__CarrierDelay",
+              "AVG__CarrierDelay"
+            ],
+            "maxLeafRecords": 10
+          }
+        ]
+      },
+      "coldTier": {
+        "starTreeIndexConfigs": [] // removes ST index for this tier
+      }
+    }
+  },
+ ...
+```
+
+Note that overwrite is done at granularity of entire FieldConfig or StarTreeIndexConfig, so the tier specific configs should be well defined FieldConfig or StarTreeIndexConfig JSON blob.
+
 ## Credential
 
 ### How to update credential for realtime upstream without downtime
