@@ -353,6 +353,7 @@
   * [week](configuration-reference/functions/week.md)
   * [year](configuration-reference/functions/year.md)
   * [yearOfWeek](configuration-reference/functions/yearofweek.md)
+  * [Extract](configuration-reference/functions/extract.md)
 * [Plugin Reference](configuration-reference/plugin-reference/README.md)
   * [Stream Ingestion Connectors](configuration-reference/plugin-reference/stream-ingestion-connectors.md)
   * [VAR\_POP](configuration-reference/plugin-reference/var\_pop.md)
