@@ -193,7 +193,7 @@ When using [tiered storage](https://docs.pinot.apache.org/operators/operating-pi
 
 The following two examples show how to overwrite encoding type and index configs for tiers. Similar changes are also demonstrated in the [MultiDirQuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/java/org/apache/pinot/tools/MultiDirQuickstart.java).&#x20;
 
-1. Overwriting single-column index configs using fieldConfigList. All fields allowed in [FieldConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/FieldConfig.java#L88) (except column name) can be overwritten at tier level.
+1. Overwriting single-column index configs using `fieldConfigList`. All top level fields in [FieldConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/FieldConfig.java#L88) can be overwritten, and fields not overwritten are kept intact.
 
 ```
 {
@@ -225,7 +225,7 @@ The following two examples show how to overwrite encoding type and index configs
   ],
 ```
 
-2. Overwriting StarTree index configs using tableIndexConfig. All fields allowed in [StarTreeIndexConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/StarTreeIndexConfig.java#L41) can be overwritten at tier level.
+2. Overwriting StarTree index configs using `tableIndexConfig`. The StarTreeIndexConfigs is overwritten as a whole. In fact, all top level fields defined in [IndexingConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/IndexingConfig.java#L29) can be overwritten, so single-column index configs defined in `tableIndexConfig` can also be overwritten but it's less clear than using `fieldConfigList`. &#x20;
 
 ```
   "tableIndexConfig": {
@@ -271,8 +271,6 @@ The following two examples show how to overwrite encoding type and index configs
   },
  ...
 ```
-
-Note that overwrite is done at granularity of entire FieldConfig or StarTreeIndexConfig, so the tier specific configs should be well defined FieldConfig or StarTreeIndexConfig JSON blob.
 
 ## Credential
 
