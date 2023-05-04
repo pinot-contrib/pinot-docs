@@ -6,7 +6,7 @@ description: Learn about the table component in Pinot.
 
 A **table** is a logical abstraction that represents a collection of related data. It is composed of columns and rows (known as documents in Pinot). The columns, data types, and other metadata related to the table are defined using a [schema](../../configuration-reference/schema.md).
 
-Pinot breaks a table into multiple [segments](segment.md) and stores these segments in a deep-store such as HDFS as well as Pinot servers.
+Pinot breaks a table into multiple [segments](segment.md) and stores these segments in a deep-store such as Hadoop Distributed File System (HDFS) as well as Pinot servers.
 
 In the Pinot cluster, a table is modeled as a [Helix resource](https://helix.apache.org/Concepts.html) and each segment of a table is modeled as a [Helix Partition](https://helix.apache.org/Concepts.html).
 
@@ -45,31 +45,31 @@ You can use the following properties to make your tables faster or leaner:
 
 A table is comprised of small chunks of data known as segments. Learn more about how Pinot creates and manages segments [here](https://docs.pinot.apache.org/basics/components/segment).
 
-For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For more details, see [Batch Ingestion](../data-import/batch-ingestion/).
+For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../data-import/batch-ingestion/).
 
-For real-time tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments:
+For real-time tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments.
 
 ### Flush
 
 The Pinot real-time consumer ingests the data, creates the segment, and then flushes the in-memory segment to disk. Pinot allows you to configure when to flush the segment in the following ways:
 
-* **Number of consumed rows**: After consuming X no. of rows from the stream, Pinot will persist the segment to disk
-* **Number of desired rows per segment**[:](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/diff/\~/changes/1650/basics/concepts) Pinot learns and then estimates the number of rows that need to be consumed so that the persisted segment is approximately the size. The learning phase starts by setting the number of rows to 100,000 (this value can be changed) and adjusts it to reach the desired segment size. The segment size may go significantly over the desired size during the learning phase. Pinot corrects the estimation as it goes along, so it is not guaranteed that the resulting completed segments are of the exact size as configured. You should set this value to optimize the performance of queries.
-* **Max time duration to wait** - Pinot consumers wait for the configured time duration after which segments are persisted to the disk.
+* **Number of consumed rows**: After consuming the specified number of rows from the stream, Pinot will persist the segment to disk.
+* **Number of desired rows per segment**[:](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/diff/\~/changes/1650/basics/concepts) Pinot learns and then estimates the number of rows that need to be consumed. The learning phase starts by setting the number of rows to 100,000 (this value can be changed) and adjusts it to reach the appropriate segment size. Because Pinot corrects the estimate as it goes along, the segment size might go significantly over the correct size during the learning phase. You should set this value to optimize the performance of queries.
+* **Max time duration to wait**: Pinot consumers wait for the configured time duration after which segments are persisted to the disk.
 
 **Replicas**\
-A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment using
+A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment [using the CLI](https://docs.pinot.apache.org/operators/cli#change-num-replicas).
 
 **Completion Mode**\
-By default, if the in-memory segment in the [non-winner server](server.md) is equivalent to the committed segment, then the non-winner server builds and replaces the segment. If the available segment is not equivalent to the committed segment, the server simply downloads the committed segment from the controller.
+By default, if the in-memory segment in the [non-winner server](server.md) is equivalent to the committed segment, then the non-winner server builds and replaces the segment. If the available segment is not equivalent to the committed segment, the server just downloads the committed segment from the controller.
 
-However, in certain scenarios, the segment build can get very memory intensive. It might be desirable to enforce the non-committer servers to just download the segment from the controller, instead of building it again. You can do this by setting `completionMode: "DOWNLOAD"` in the table configuration
+However, in certain scenarios, the segment build can get very memory-intensive. In these cases, you might want to enforce the non-committer servers to just download the segment from the controller instead of building it again. You can do this by setting `completionMode: "DOWNLOAD"` in the table configuration.
 
 For details, see [Completion Config](../../operators/operating-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers).
 
 **Download Scheme**
 
-A Pinot server may fail to download segments from the deep store such as HDFS after its completion. However, you can configure servers to download these segments from peer servers instead of the deep store. Currently, only HTTP and HTTPS download schemes are supported. More methods such as gRPC/Thrift can be added in the future.
+A Pinot server might fail to download segments from the deep store, such as HDFS, after its completion. However, you can configure servers to download these segments from peer servers instead of the deep store. Currently, only HTTP and HTTPS download schemes are supported. More methods, such as gRPC/Thrift, are planned be added in the future.
 
 For more details about peer segment download during real-time ingestion, refer to this design doc on [bypass deep store for segment completion.](https://cwiki.apache.org/confluence/display/PINOT/By-passing+deep-store+requirement+for+Realtime+segment+completion#BypassingdeepstorerequirementforRealtimesegmentcompletion-Configchange)
 
@@ -91,19 +91,19 @@ You can create multiple indices on a table to increase the performance of the qu
 
 For more details on each indexing mechanism and corresponding configurations, see [Indexing](../indexing/).
 
-You can also set up [Bloomfilters](indexing/bloom-filter.md) on columns to make queries faster. Further, you can also keep segments in off-heap instead of on-heap memory for faster queries.
+Set up [Bloomfilters](indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
 
 ### Pre-aggregation
 
-You can aggregate the real-time stream data as it is consumed to reduce segment sizes. We sum the metric column values of all rows that have the same values for all dimension and time columns and create a single row in the segment. This feature is only available on `REALTIME` tables.
+Aggregate the real-time stream data as it is consumed to reduce segment sizes. We add the metric column values of all rows that have the same values for all dimension and time columns and create a single row in the segment. This feature is only available on `REALTIME` tables.
 
-The only supported aggregation is `SUM`. The columns on which pre-aggregation is to be done need to satisfy the following requirements:
+The only supported aggregation is `SUM`. The columns to pre-aggregate need to satisfy the following requirements:
 
-* All metrics should be listed in `noDictionaryColumns` .
-* There should not be any multi-value dimensions.
+* All metrics should be listed in `noDictionaryColumns`.
+* No multi-value dimensions
 * All dimension columns are treated to have a dictionary, even if they appear as `noDictionaryColumns` in the config.
 
-The following table config snippet shows an example of enabling pre-aggregation during real-time ingestion.
+The following table config snippet shows an example of enabling pre-aggregation during real-time ingestion:
 
 {% code title="pinot-table-realtime.json" %}
 ```javascript
@@ -117,11 +117,9 @@ The following table config snippet shows an example of enabling pre-aggregation 
 
 ## Tenants
 
-Each table is associated with a tenant. A segment resides on the server, which has the same tenant as itself. For more details on how tenants work, see [Tenant](tenant.md).
+Each table is associated with a tenant. A segment resides on the server, which has the same tenant as itself. For details, see [Tenant](tenant.md).
 
-You can also override if a table should move to a server with different tenant based on segment status.
-
-A `tagOverrideConfig` can be added under the `tenants` section for realtime tables, to override tags for consuming and completed segments. For example:
+Optionally, override if a table should move to a server with different tenant based on segment status. The example below adds a `tagOverrideConfig` under the `tenants` section for real-time tables to override tags for consuming and completed segments.&#x20;
 
 ```javascript
   "broker": "brokerTenantName",
@@ -133,17 +131,19 @@ A `tagOverrideConfig` can be added under the `tenants` section for realtime tabl
 }
 ```
 
-In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`. It is possible to specify the full name of _any_ tag in this section (so, for example, you could decide that completed segments for this table should be in pinot servers tagged as `allTables_COMPLETED`). To learn more about this config, see the [Moving Completed Segments](../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
+In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`.&#x20;
+
+You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
 
 ## Hybrid table
 
-A hybrid table is a table composed of 2 tables, one offline and one real-time that share the same name. In such a table, offline segments may be pushed periodically. The retention on the offline table can be set to a high value since segments are coming in on a periodic basis, whereas the retention on the real-time part can be small.
+A hybrid table is a table composed of two tables, one offline and one real-time, that share the same name. In a hybrid table, offline segments can be pushed periodically. The retention on the offline table can be set to a high value because segments are coming in on a periodic basis, whereas the retention on the real-time part can be small.
 
 Once an offline segment is pushed to cover a recent time period, the brokers automatically switch to using the offline table for segments for that time period and use the real-time table only for data not available in the offline table.
 
-**To understand how time boundaries work in the case of a hybrid table, see** [**Broker**](https://docs.pinot.apache.org/basics/components/broker)**.**
+To learn how time boundaries work for hybrid tables, see [Broker](https://docs.pinot.apache.org/basics/components/broker).
 
-A typical scenario is pushing deduplicated, cleaned-up data into an offline table every day while consuming real-time data as and when it arrives. The data can be kept in offline tables for even a few years, while the real-time data would be cleaned every few days.
+A typical use case for hybrid tables is pushing deduplicated, cleaned-up data into an offline table every day while consuming real-time data as it arrives. Data can remain in offline tables for as long as a few years, while the real-time data would be cleaned every few days.
 
 ## Examples
 
@@ -170,7 +170,7 @@ docker run \
     -exec
 ```
 
-**Sample Console Output**
+**Sample console output**
 
 ```bash
 Executing command: AddTable -tableConfigFile examples/batch/airlineStats/airlineStats_offline_table_config.json -schemaFile examples/batch/airlineStats/airlineStats_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
@@ -279,7 +279,7 @@ Check out the table config in the [Rest API](http://localhost:9000/help#!/Table/
 
 ## Hybrid table creation
 
-Creating a hybrid table has to be done in two separate steps of creating an offline and real-time table individually. You don't need to create a separate overlay/hybrid table.
+To create a hybrid table, you have to create the offline and real-time tables individually. You don't need to create a separate hybrid table.
 
 ```javascript
 "OFFLINE": {
