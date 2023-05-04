@@ -225,7 +225,3 @@ Below is the API to get the jobIds of rebalance jobs for a given table. The API 
     "tableName": "airlineStats_OFFLINE"
 
 ```
-
-\\
-
-\\
