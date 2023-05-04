@@ -376,3 +376,4 @@
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)
 * [Presto](integrations/presto.md)
+* [Spark-Pinot Connector](integrations/spark-pinot-connector.md)
