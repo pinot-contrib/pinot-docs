@@ -16,7 +16,7 @@ Below is a description of the config, which is defined in the ingestion config o
     "tableName": "...",
     "ingestionConfig": {
       "aggregationConfigs": [{
-        "columeName": "aggregatedFieldName",
+        "columnName": "aggregatedFieldName",
         "aggregationFunction": "<aggregationFunction>(<originalFieldName>)"
       }]
     }
