@@ -172,9 +172,9 @@ The following API is used to check the progress of a rebalance Job. The API take
 Note that rebalanceStatus API is available from this [commit](https://github.com/apache/pinot/pull/10359)
 {% endhint %}
 
-{% embed url="http://localhost:9000/rebalanceStatus/ffb38717-81cf-40a3-8f29-9f35892b01f9" %}
-RebalanceStatus output
-{% endembed %}
+```
+curl -X GET "https://localhost:9000/rebalanceStatus/ffb38717-81cf-40a3-8f29-9f35892b01f9" -H "accept: application/json"
+```
 
 ```json
 {"tableRebalanceProgressStats": {
@@ -214,7 +214,9 @@ RebalanceStatus output
 
 Below is the API to get the jobIds of rebalance jobs for a given table. The API takes the table name and jobType which is TABLE\_REBALANCE.
 
-[http://localhost:9000/table/airlineStats\_OFFLINE/jobstype=OFFLINE\&jobTypes=TABLE\_REBALANCE](http://localhost:9000/table/airlineStats\_OFFLINE/jobs?type=OFFLINE\&jobTypes=TABLE\_REBALANCE)
+```
+curl -X GET "https://localhost:9000/table/airlineStats_OFFLINE/jobstype=OFFLINE&jobTypes=TABLE_REBALANCE" -H "accept: application/json"
+```
 
 ```json
  "ffb38717-81cf-40a3-8f29-9f35892b01f9": {
