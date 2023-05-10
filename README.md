@@ -11,13 +11,18 @@ description: >-
 We'd love to hear from you! [Join us in our Slack channel](https://communityinviter.com/apps/apache-pinot/apache-pinot) to ask questions, troubleshoot, and share feedback.
 {% endhint %}
 
-Pinot is a real-time distributed online analytical processing (OLAP) datastore, purpose-built to provide ultra low-latency analytics, even at extremely high throughput. It can **ingest directly from streaming data sources – such as Apache Kafka and Amazon Kinesis – and make the events available for querying instantly**. It can also ingest from batch data sources such as Hadoop HDFS, Amazon S3, Azure ADLS, and Google Cloud Storage.
+Apache Pinot is a real-time distributed online analytical processing (OLAP) datastore. Use Pinot to **ingest** and **immediately query** data from **streaming** or **batch** data sources (including, Apache Kafka, Amazon Kinesis, Hadoop HDFS, Amazon S3, Azure ADLS, and Google Cloud Storage).&#x20;
 
-At the heart of the system is a columnar store, with several smart indexing and pre-aggregation techniques for low latency. **This makes Pinot a perfect fit for user-facing realtime analytics**. At the same time, Pinot is also a great choice for other analytical use cases, such as internal dashboards, anomaly detection, and ad hoc data exploration.
+Because Pinot includes the following:
+
+* **Ultra low-latency analytics** even at extremely high throughput.&#x20;
+* **Columnar data store** with several smart indexing and pre-aggregation techniques.
+* **Scaling up and out with no upper bound**
+* **Consistent performance** based on the size of your cluster and an expected query per second (QPS) threshold.
+
+It's **perfect for user-facing realtime analytics** and other analytical use cases, including internal dashboards, anomaly detection, and ad hoc data exploration.
 
 ![](https://gblobscdn.gitbook.com/assets%2F-LtH6nl58DdnZnelPdTc%2F-M69C48fK2BhCoou1REr%2F-M69DbDfcATcZOAgyX7k%2Fpinot-overview-graphic.png?alt=media\&token=3552722e-8d1d-4397-972e-a81917ced182)
-
-Pinot is designed to scale up and out with no upper bound. Performance always remains constant based on the size of your cluster and an expected query per second (QPS) threshold.
 
 {% embed url="https://youtu.be/_lqdfq2c9cQ" %}
 What is Apache Pinot? (and User-Facing Analytics) by Tim Berglund
@@ -58,19 +63,9 @@ Building Latency Sensitive User-facing Analytics via Apache Pinot
 
 LinkedIn, where Pinot originated, currently has one of the largest Pinot deployments, powering more than 50+ user-facing applications (such as Viewed My Profile, Talent Analytics, Company Analytics, Ad Analytics and many more). At LinkedIn, Pinot also serves as the backend to visualize and monitor 10,000+ business metrics.
 
-Pinot also powers a wide variety of real time analytical use cases across several other big players, including Uber, Walmart, WePay, Factual, Weibo and more. A detailed list of companies using Pinot can be found [here](https://pinot.apache.org/who\_uses).​
+Pinot also powers a wide variety of real time analytical use cases across several other big players, including Uber, Walmart, WePay, Factual, Weibo and more. Find a detailed list of companies using Pinot [here](https://pinot.apache.org/who\_uses).​
 
-### Features
-
-* A column-oriented database with various compression schemes, such as run length and fixed bit length
-* Pluggable [indexing technologies](https://docs.pinot.apache.org/basics/indexing)
-* Ability to optimize query/execution plan based on query and segment metadata
-* Near real-time ingestion from streams such as Kafka and Kinesis and batch ingestion from sources such as Hadoop, S3, Azure, GCS
-* SQL-like language that supports selection, aggregation, filtering, grouping, ordering, and distinct queries on data
-* Support for multi-valued fields
-* Horizontally scalable and fault-tolerant
-
-## When should I use it?
+## When should I use Pinot?
 
 Pinot is designed to execute OLAP queries with low latency. It works well where you need fast analytics, such as aggregations, on immutable data.
 
@@ -84,7 +79,7 @@ Pinot can be also be used to perform typical analytical operations such as **sli
 
 Instructions to connect Pinot with Superset can be found [here](https://docs.pinot.apache.org/integrations/superset).
 
-**Anomaly Detection**
+**Anomaly detection**
 
 In addition to visualizing data in Pinot, one can run machine learning algorithms to detect anomalies in the data stored in Pinot. See [ThirdEye](https://docs.pinot.apache.org/integrations/thirdeye) for more information on how to use Pinot for anomaly detection and root cause analysis.[\
 ](https://docs.pinot.apache.org/basics/concepts)
