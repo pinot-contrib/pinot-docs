@@ -10,7 +10,7 @@ Typically, Pinot components try to use as much off-heap (MMAP/DirectMemory) wher
 
 ### Does Pinot provide any backup/restore mechanism?
 
-Pinot relies on deep-storage for storing backup copy of segments (offline as well as realtime). It relies on Zookeeper to store metadata (table configs, schema, cluster state, etc). It does not explicitly provide tools to take backups or restore these data, but relies on the deep-storage (ADLS/S3/GCP/etc), and ZK to persist these data/metadata.
+Pinot relies on deep-storage for storing backup copy of segments (offline as well as real-time). It relies on Zookeeper to store metadata (table configs, schema, cluster state, etc). It does not explicitly provide tools to take backups or restore these data, but relies on the deep-storage (ADLS/S3/GCP/etc), and ZK to persist these data/metadata.
 
 ## Alter Table
 
@@ -22,7 +22,7 @@ Changing a column name or data type is considered backward incompatible change. 
 
 You can change the number of replicas by updating the table config's [segmentsConfig](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
 
-For OFFLINE table, update [replication](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1)
+For offline tables, update [replication](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1)
 
 ```
 { 
@@ -35,7 +35,7 @@ For OFFLINE table, update [replication](https://docs.pinot.apache.org/basics/com
     ..
 ```
 
-For REALTIME table update [replicasPerPartition](https://docs.pinot.apache.org/basics/components/table#segmentsconfig)
+For real-time tables, update [replicasPerPartition](https://docs.pinot.apache.org/basics/components/table#segmentsconfig)
 
 ```
 { 
@@ -56,11 +56,11 @@ After changing the replication, run a [table rebalance](./#how-to-run-a-rebalanc
 
 Refer to [Rebalance](../../../operators/operating-pinot/rebalance/).
 
-### Why does my REALTIME table not use the new nodes I added to the cluster?
+### Why does my real-time table not use the new nodes I added to the cluster?
 
 Likely explanation: num partitions \* num replicas < num servers
 
-In realtime tables, **segments of the same partition always continue to remain on the same node**. This sticky assignment is needed for replica groups and is critical if using upserts. For instance, if you have 3 partitions, 1 replica, and 4 nodes, only ¾ nodes will be used, and all of p0 segments will be on 1 node, p1 on 1 node, and p2 on 1 node. One server will be unused, and will remain unused through rebalances.
+In real-time tables, **segments of the same partition always continue to remain on the same node**. This sticky assignment is needed for replica groups and is critical if using upserts. For instance, if you have 3 partitions, 1 replica, and 4 nodes, only ¾ nodes will be used, and all of p0 segments will be on 1 node, p1 on 1 node, and p2 on 1 node. One server will be unused, and will remain unused through rebalances.
 
 There’s nothing we can do about CONSUMING segments, they will continue to use only 3 nodes if you have 3 partitions. But we can rebalance such that completed segments use all nodes. If you want to **force the completed segments of the table to use the new server**, use this config
 
@@ -94,11 +94,11 @@ Use the segment reset controller REST API to reset the segment:
 curl -X POST "{host}/segments/{tableNameWithType}/{segmentName}/reset"
 ```
 
-### How to pause realtime ingestion?
+### How do I pause real-time ingestion?
 
 Refer to [Pause Stream Ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion).
 
-### What's the difference to Reset, Refresh, or Reload a segment?
+### What's the difference between Reset, Refresh, and Reload?
 
 RESET: this gets a segment in ERROR state back to ONLINE or CONSUMING state. Behind the scenes, Pinot controller takes the segment to OFFLINE state, waits for External View to stabilize, and then moves it back to ONLINE/CONSUMING state, thus effectively resetting segments or consumers in error states.
 
@@ -129,7 +129,7 @@ curl -X POST "http://localhost:9000/tenants"
 
 ## Minion
 
-### How to tune minion task timeout and parallelism on each worker
+### How do I tune minion task timeout and parallelism on each worker?
 
 There are two task configs but set as part of cluster configs like below. One controls task's overall timeout (1hr by default) and one for how many tasks to run on a single minion worker (1 by default). The \<taskType> is the task to tune, e.g. MergeRollupTask or RealtimeToOfflineSegmentsTask etc.
 
@@ -141,7 +141,7 @@ Using "POST /cluster/configs" API on CLUSTER tab in Swagger, with this payload
 }
 ```
 
-### How to I manually run a Periodic Task
+### How to I manually run a Periodic Task?
 
 Refer to [Running a Periodic Task Manually](../../components/controller.md#running-the-periodic-task-manually)
 
@@ -149,14 +149,14 @@ Refer to [Running a Periodic Task Manually](../../components/controller.md#runni
 
 ### Do replica groups work for real-time? <a href="#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3" id="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3"></a>
 
-Yes, replica groups work for realtime. There's 2 parts to enabling replica groups:
+Yes, replica groups work for real-time. There's 2 parts to enabling replica groups:
 
 1. Replica groups segment assignment
 2. Replica group query routing
 
 **Replica group segment assignment**
 
-Replica group segment assignment is achieved in realtime, if number of servers is a multiple of number of replicas. The partitions get uniformly sprayed across the servers, creating replica groups.\
+Replica group segment assignment is achieved in real-time, if number of servers is a multiple of number of replicas. The partitions get uniformly sprayed across the servers, creating replica groups.\
 \
 For example, consider we have 6 partitions, 2 replicas, and 4 servers.
 
@@ -274,7 +274,7 @@ The following two examples show how to overwrite encoding type and index configs
 
 ## Credential
 
-### How to update credential for realtime upstream without downtime
+### How do I update credentials for real-time upstream without downtime?
 
 1. [Pause the stream ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion)
 2. Wait for the pause status to success

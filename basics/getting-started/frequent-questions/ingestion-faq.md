@@ -12,7 +12,7 @@ Yes. Each table can be independently configured to consume from any given Kafka 
 
 ### If I add a partition to a Kafka topic, will Pinot automatically ingest data from this partition?
 
-Pinot automatically detects new partitions in Kafka topics. It checks for new partitions whenever _RealtimeSegmentValidationManager_ periodic job runs and starts consumers for new partitions.&#x20;
+Pinot automatically detects new partitions in Kafka topics. It checks for new partitions whenever _RealtimeSegmentValidationManager_ periodic job runs and starts consumers for new partitions.
 
 You can configure the interval for this job using the`controller.realtime.segment.validation.frequencyPeriod` property in controller configuration.
 
@@ -95,7 +95,7 @@ This typically happens if
 1. The consumer is lagging a lot
 2. The consumer was down (server down, cluster down), and the stream moved on, resulting in offset not found when consumer comes back up.
 
-In case of Kafka, to recover, set property "auto.offset.reset":"earliest" in the streamConfigs section and reset the CONSUMING segment. See [Realtime table configs](https://docs.pinot.apache.org/configuration-reference/table#indexing-config) for more details about the config.
+In case of Kafka, to recover, set property "auto.offset.reset":"earliest" in the streamConfigs section and reset the CONSUMING segment. See [Real-time table configs](https://docs.pinot.apache.org/configuration-reference/table#indexing-config) for more details about the config.
 
 You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). Refer to [Pause Stream Ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
 

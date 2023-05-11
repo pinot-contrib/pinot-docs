@@ -1,5 +1,5 @@
 ---
-description: For Real Time Pinot tables
+description: Decouple the controller from the data path for real-time Pinot tables.
 ---
 
 # Decoupling Controller from the Data Path

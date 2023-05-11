@@ -1,12 +1,12 @@
 ---
 description: >-
   This page introduces all the instance assignment strategies, when to use them,
-  and how to configure them
+  and how to configure them.
 ---
 
 # Instance Assignment
 
-Instance Assignment means the strategy of assigning the servers to host a table. Each instance assignment strategy is associated with one segment assignment strategy (read more about [Segment Assignment](segment-assignment.md)).
+Instance assignment is the strategy of assigning the servers to host a table. Each instance assignment strategy is associated with one segment assignment strategy (read more about [Segment Assignment](segment-assignment.md)).
 
 Instance assignment is configured via the **InstanceAssignmentConfig**. Based on the config, Pinot can assign servers to a table, then assign segments to servers using the segment assignment strategy associated with the instance assignment strategy.
 

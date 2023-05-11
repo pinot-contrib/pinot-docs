@@ -178,11 +178,11 @@ This ingestion job only generates segments for date `2014-01-03`
 
 **Prerequisites**
 
-1. [Setup a cluster](cluster.md#setup-a-pinot-cluster)
+1. [Set up a cluster](cluster.md#setup-a-pinot-cluster)
 2. [Create broker and server tenants](tenant.md#creating-a-tenant)
-3. [Create a realtime table and setup a realtime stream](table.md#streaming-table-creation)
+3. [Create a real-time table and set up a real-time stream](table.md#streaming-table-creation)
 
-Below is an example of how to publish sample data to your stream. As soon as data is available to the realtime stream, it starts getting consumed by the realtime servers
+Below is an example of how to publish sample data to your stream. As soon as data is available to the real-time stream, it starts getting consumed by the real-time servers.
 
 #### Kafka
 

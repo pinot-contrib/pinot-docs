@@ -10,9 +10,9 @@ This document provides the basic instruction to set up a Kubernetes Cluster on [
 
 ### **1.1 Install Kubectl**
 
-Please follow this link ([https://kubernetes.io/docs/tasks/tools/install-kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)) to install kubectl.
+Follow this link ([https://kubernetes.io/docs/tasks/tools/install-kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)) to install kubectl.
 
-_For Mac User_
+_For Mac users_
 
 ```bash
 brew install kubernetes-cli
@@ -30,9 +30,9 @@ QuickStart scripts are tested under kubectl client version v1.16.3 and server ve
 
 ### **1.2 Install Helm**
 
-Please follow this link ([https://helm.sh/docs/using\_helm/#installing-helm](https://helm.sh/docs/using\_helm/#installing-helm)) to install helm.
+Follow this link ([https://helm.sh/docs/using\_helm/#installing-helm](https://helm.sh/docs/using\_helm/#installing-helm)) to install helm.
 
-_For Mac User_
+_For Mac users_
 
 ```bash
 brew install kubernetes-helm
@@ -50,17 +50,17 @@ This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick 
 
 ### **1.3 Install** Azure CLI
 
-Please follow this link ([https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)) to install _Azure CLI_.
+Follow this link ([https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)) to install _Azure CLI_.
 
-_For Mac User_
+_For Mac users_
 
 ```bash
 brew update && brew install azure-cli
 ```
 
-## 2. (Optional) **Login to your Azure account**
+## 2. (Optional) **Log in to your Azure account**
 
-Below script will open default browser to sign-in to your Azure Account.
+The below script will open default browser to sign-in to your Azure Account.
 
 ```bash
 az login
@@ -68,7 +68,7 @@ az login
 
 ## 3. (Optional) Create a Resource Group
 
-Below script will create a resource group in location **eastus**.
+The below script will create a resource group in location **eastus**.
 
 ```
 AKS_RESOURCE_GROUP=pinot-demo
@@ -79,9 +79,9 @@ az group create --name ${AKS_RESOURCE_GROUP} \
 
 ## 4. (Optional) Create a Kubernetes cluster(AKS) in Azure&#x20;
 
-Below script will create a **3** nodes cluster named **pinot-quickstart** for demo purposes.
+The below script will create a **3** nodes cluster named **pinot-quickstart** for demo purposes.
 
-Please modify the parameters in the example command below:
+Modify the parameters in the example command below:
 
 ```bash
 AKS_RESOURCE_GROUP=pinot-demo
@@ -91,11 +91,11 @@ az aks create --resource-group ${AKS_RESOURCE_GROUP} \
               --node-count 3
 ```
 
-Once the command is succeed, it's ready to be used.
+Once the command succeeds, it's ready to be used.
 
 ## **5. Connect to an existing cluster**
 
-Simply run below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster.&#x20;
+Run the below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster.&#x20;
 
 ```
 AKS_RESOURCE_GROUP=pinot-demo
@@ -112,7 +112,7 @@ kubectl get nodes
 
 ## 6. Pinot Quickstart
 
-Please follow this [Kubernetes QuickStart](../kubernetes-quickstart.md) to deploy your Pinot Demo.
+Follow this [Kubernetes QuickStart](../kubernetes-quickstart.md) to deploy your Pinot Demo.
 
 ## 7. Delete a Kubernetes Cluster
 

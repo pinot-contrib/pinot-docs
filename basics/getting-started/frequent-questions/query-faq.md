@@ -96,7 +96,7 @@ In order to speed up aggregations, you can enable metrics aggregation on the req
 
 ### How do I verify that an index is created on a particular column ?
 
-There are 2 ways to verify this:
+There are two ways to verify this:
 
 1. Log in to a server that hosts segments of this table. Inside the data directory, locate the segment directory for this table. In this directory, there is a file named `index_map` which lists all the indexes and other data structures created for each segment. Verify that the requested index is present here.
 2. During query: Use the column in the filter predicate and check the value of `numEntriesScannedInFilter` . If this value is 0, then indexing is working as expected (works for Inverted index)
@@ -107,9 +107,9 @@ Yes, Pinot uses a default value of _LIMIT 10_ in queries. The reason behind this
 
 ### Does Pinot cache query results?
 
-Pinot does not cache query results, each query is computed in its entirety. Note though, running the same or similar query multiple times will naturally pull in segment pages into memory making subsequent calls faster. Also, for realtime systems, the data is changing in realtime, so results cannot be cached. For offline-only systems, caching layer can be built on top of Pinot, with invalidation mechanism built-in to invalidate the cache when data is pushed into Pinot.
+Pinot does not cache query results. Each query is computed in its entirety. Note though, running the same or similar query multiple times will naturally pull in segment pages into memory making subsequent calls faster. Also, for real-time systems, the data is changing in real-time, so results cannot be cached. For offline-only systems, caching layer can be built on top of Pinot, with invalidation mechanism built-in to invalidate the cache when data is pushed into Pinot.
 
-### I'm noticing that the first query is slower than subsequent queries, why is that?
+### I'm noticing that the first query is slower than subsequent queries. Why is that?
 
 Pinot memory maps segments. It warms up during the first query, when segments are pulled into the memory by the OS. Subsequent queries will have the segment already loaded in memory, and hence will be faster. The OS is responsible for bringing the segments into memory, and also removing them in favor of other segments when other segments not already in memory are accessed.&#x20;
 

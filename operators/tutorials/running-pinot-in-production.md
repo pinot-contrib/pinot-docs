@@ -107,9 +107,9 @@ Pinot exposes several metrics to monitor the service and ensure that pinot users
   * Total time to take from receiving to finishing executing the query.
 * Query Execution Exceptions - [QUERY\_EXECUTION\_EXCEPTIONS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerMeter.java)
   * The number of exception which might have occurred during query execution.
-* Realtime Consumption Status - [LLC\_PARTITION\_CONSUMING](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerGauge.java)
+* Real-time Consumption Status - [LLC\_PARTITION\_CONSUMING](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerGauge.java)
   * This gives a binary value based on whether low-level consumption is healthy (1) or unhealthy (0). It’s important to ensure at least a single replica of each partition is consuming.
-* Realtime Highest Offset Consumed - [HIGHEST\_STREAM\_OFFSET\_CONSUMED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerGauge.java)
+* Real-time Highest Offset Consumed - [HIGHEST\_STREAM\_OFFSET\_CONSUMED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerGauge.java)
   * The highest offset which has been consumed so far.
 
 ### Pinot Broker

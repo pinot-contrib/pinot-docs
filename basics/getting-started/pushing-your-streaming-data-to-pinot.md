@@ -10,7 +10,7 @@ Now, it's time to ingest from a sample stream into Pinot. The rest of the instru
 
 ## Data Stream
 
-First, we need to setup a stream. Pinot has out-of-the-box realtime ingestion support for Kafka. Other streams can be plugged in, more details in [Pluggable Streams](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
+First, we need to setup a stream. Pinot has out-of-the-box real-time ingestion support for Kafka. Other streams can be plugged in, more details in [Pluggable Streams](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
 
 Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
 
@@ -58,13 +58,13 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-fac
 {% endtab %}
 {% endtabs %}
 
-## Creating a Schema
+## Creating a schema
 
-If you followed the [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, head over to [Creating a schema](../data-import/pinot-stream-ingestion/#create-schema-configuration) on that page, to learn how to create a schema for your sample data.
+If you followed the [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, head over to [Creating a schema](../data-import/pinot-stream-ingestion/#create-schema-configuration) to learn how to create a schema for your sample data.
 
 ## Creating a table config
 
-If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you learnt how to push an offline table and schema. Similar to the offline table config, we will create a realtime table config for the sample. Here's the realtime table config for the transcript table. For a more detailed overview about table, checkout [Table](../components/table.md).
+If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you learnt how to push an offline table and schema. Similar to the offline table config, we will create a real-time table config for the sample. Here's the real-time table config for the transcript table. For a more detailed overview about table, checkout [Table](../components/table.md).
 
 {% code title="/tmp/pinot-quick-start/transcript-table-realtime.json" %}
 ```javascript
@@ -102,7 +102,7 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you l
 
 ## Uploading your schema and table config
 
-Now that we have our table and schema, let's upload them to the cluster. As soon as the realtime table is created, it will begin ingesting from the Kafka topic.
+Now that we have our table and schema, let's upload them to the cluster. As soon as the real-time table is created, it will begin ingesting from the Kafka topic.
 
 {% tabs %}
 {% tab title="Docker" %}

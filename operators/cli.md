@@ -55,16 +55,16 @@ pinot-admin.sh AddTenant -name myTenant -role SERVER -instanceCount 10 -controll
 
 All the options should be prefixed with `-` (hyphen)&#x20;
 
-| Option                | Description                                                                                                     |
-| --------------------- | --------------------------------------------------------------------------------------------------------------- |
-| controllerHost        | controllerHost on which to send the upload requests                                                             |
-| controllerPort        | controllerPort on which to send the upload requests                                                             |
-| name                  | name of the tenant                                                                                              |
-| role                  | where the tenant should reside. can be `BROKER` or `SERVER`                                                     |
-| instanceCount         | total number of instances to assign to this tenant                                                              |
-| offlineInstanceCount  | (only applicable for `SERVER`) total number of instances which can host offline tables belonging to this tenant |
-| realTimeInstanceCount | (only applicable for `SERVER`)total number of instances which can host realtime tables belonging to this tenant |
-| exec                  | If not specified, a dry run will be done but configs won't actually be uploaded.                                |
+| Option                | Description                                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| controllerHost        | controllerHost on which to send the upload requests                                                              |
+| controllerPort        | controllerPort on which to send the upload requests                                                              |
+| name                  | name of the tenant                                                                                               |
+| role                  | where the tenant should reside. can be `BROKER` or `SERVER`                                                      |
+| instanceCount         | total number of instances to assign to this tenant                                                               |
+| offlineInstanceCount  | (only applicable for `SERVER`) total number of instances which can host offline tables belonging to this tenant  |
+| realTimeInstanceCount | (only applicable for `SERVER`)total number of instances which can host real-time tables belonging to this tenant |
+| exec                  | If not specified, a dry run will be done but configs won't actually be uploaded.                                 |
 
 ### Check Offline Segment Intervals
 

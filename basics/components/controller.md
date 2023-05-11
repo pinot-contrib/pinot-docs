@@ -52,13 +52,13 @@ TBD
 
 ### RealtimeSegmentValidationManager
 
-This task validates the ideal state and segment zk metadata of realtime tables,&#x20;
+This task validates the ideal state and segment zk metadata of real-time tables,&#x20;
 
 1. fixing any partitions which have stopped consuming
 2. starting consumption from new partitions
 3. uploading segments to deep store if segment download url is missing
 
-This task ensures that the consumption of the realtime tables gets fixed and keeps going when met with erroneous conditions.
+This task ensures that the consumption of the real-time tables gets fixed and keeps going when met with erroneous conditions.
 
 {% hint style="danger" %}
 This task does not fix consumption stalled due to

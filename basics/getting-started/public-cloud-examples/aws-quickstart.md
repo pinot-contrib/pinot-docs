@@ -12,15 +12,15 @@ This document provides the basic instruction to set up a Kubernetes Cluster on [
 
 ### **1.1 Install Kubectl**
 
-Please follow this link ([https://kubernetes.io/docs/tasks/tools/install-kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)) to install kubectl.
+Follow this link ([https://kubernetes.io/docs/tasks/tools/install-kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)) to install kubectl.
 
-_For Mac User_
+_For Mac users_
 
 ```bash
 brew install kubernetes-cli
 ```
 
-Please check kubectl version after installation.
+Check kubectl version after installation.
 
 ```
 kubectl version
@@ -32,15 +32,15 @@ QuickStart scripts are tested under kubectl client version v1.16.3 and server ve
 
 ### **1.2 Install Helm**
 
-Please follow this link ([https://helm.sh/docs/using\_helm/#installing-helm](https://helm.sh/docs/using\_helm/#installing-helm)) to install helm.
+Follow this link ([https://helm.sh/docs/using\_helm/#installing-helm](https://helm.sh/docs/using\_helm/#installing-helm)) to install helm.
 
-_For Mac User_
+_For Mac users_
 
 ```bash
 brew install kubernetes-helm
 ```
 
-Please check helm version after installation.
+Check helm version after installation.
 
 ```
 helm version
@@ -52,11 +52,9 @@ This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick 
 
 ### **1.3 Install AWS CLI**
 
+Follow this link ([https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html#install-tool-bundled](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html#install-tool-bundled)) to install _AWS CLI_.
 
-
-Please follow this link ([https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html#install-tool-bundled](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html#install-tool-bundled)) to install _AWS CLI_.
-
-_For Mac User_
+_For Mac users_
 
 ```bash
 curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-macos.zip" -o "awscliv2.zip"
@@ -66,18 +64,18 @@ sudo ./aws/install
 
 ### **1.4 Install Eksctl**
 
-Please follow this link ([https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl)) to install _AWS CLI_.
+Follow this link ([https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl)) to install _AWS CLI_.
 
-_For Mac User_
+_For Mac users_
 
 ```bash
 brew tap weaveworks/tap
 brew install weaveworks/tap/eksctl
 ```
 
-## 2. (Optional) **Login to your AWS account.**
+## 2. (Optional) **Log in to your AWS account**
 
-For first time AWS user, please register your account at [https://aws.amazon.com/](https://aws.amazon.com/).
+For first-time AWS users, register your account at [https://aws.amazon.com/](https://aws.amazon.com/).
 
 Once created the account, you can go to [AWS Identity and Access Management (IAM)](https://console.aws.amazon.com/iam/home#/home) to create a user and create access keys under Security Credential tab.&#x20;
 
@@ -106,7 +104,7 @@ eksctl create cluster \
 --nodes-max 1
 ```
 
-You can monitor the cluster status via this command:
+Monitor the cluster status via this command:
 
 ```
 EKS_CLUSTER_NAME=pinot-quickstart

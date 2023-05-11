@@ -1,4 +1,4 @@
-# Setup table
+# Set up table
 
-For more details on how to setup a table, refer to [Creating a table](../../basics/components/table.md#creating-a-table)
+For details on how to set up a table, refer to [Creating a table](../../basics/components/table.md#creating-a-table).
 

@@ -153,10 +153,10 @@
 ## For Operators <a href="#operators" id="operators"></a>
 
 * [Deployment and Monitoring](operators/operating-pinot/README.md)
-  * [Setup cluster](operators/operating-pinot/setup-cluster.md)
+  * [Set up cluster](operators/operating-pinot/setup-cluster.md)
   * [Server Startup Status Checkers](operators/operating-pinot/server-startup-status-checkers.md)
-  * [Setup table](operators/operating-pinot/setup-table.md)
-  * [Setup ingestion](operators/operating-pinot/setup-ingestion.md)
+  * [Set up table](operators/operating-pinot/setup-table.md)
+  * [Set up ingestion](operators/operating-pinot/setup-ingestion.md)
   * [Decoupling Controller from the Data Path](operators/operating-pinot/decoupling-controller-from-the-data-path.md)
   * [Segment Assignment](operators/operating-pinot/segment-assignment.md)
   * [Instance Assignment](operators/operating-pinot/instance-assignment.md)
@@ -172,7 +172,7 @@
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Monitoring](operators/operating-pinot/monitoring.md)
   * [Tuning](operators/operating-pinot/tuning/README.md)
-    * [Realtime](operators/operating-pinot/tuning/realtime.md)
+    * [Real-time](operators/operating-pinot/tuning/realtime.md)
     * [Routing](operators/operating-pinot/tuning/routing.md)
     * [Query Routing using Adaptive Server Selection](operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection.md)
     * [Query Scheduling](operators/operating-pinot/tuning/query-scheduling.md)

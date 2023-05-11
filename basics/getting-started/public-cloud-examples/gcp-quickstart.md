@@ -12,9 +12,9 @@ This document provides the basic instruction to set up a Kubernetes Cluster on [
 
 ### **1.1 Install Kubectl**
 
-Please follow this link ([https://kubernetes.io/docs/tasks/tools/install-kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)) to install kubectl.
+Follow this link ([https://kubernetes.io/docs/tasks/tools/install-kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)) to install kubectl.
 
-_For Mac User_
+_For Mac users_
 
 ```bash
 brew install kubernetes-cli
@@ -32,15 +32,15 @@ QuickStart scripts are tested under kubectl client version v1.16.3 and server ve
 
 ### **1.2 Install Helm**
 
-Please follow this link ([https://helm.sh/docs/using\_helm/#installing-helm](https://helm.sh/docs/using\_helm/#installing-helm)) to install helm.
+Follow this link ([https://helm.sh/docs/using\_helm/#installing-helm](https://helm.sh/docs/using\_helm/#installing-helm)) to install helm.
 
-_For Mac User_
+_For Mac users_
 
 ```bash
 brew install kubernetes-helm
 ```
 
-Please check helm version after installation.
+Check helm version after installation.
 
 ```
 helm version
@@ -56,7 +56,7 @@ This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick 
 
 Please follow this link ([https://cloud.google.com/sdk/install](https://cloud.google.com/sdk/install)) to install Google Cloud SDK.
 
-#### _1.3.1 For Mac User_
+#### _1.3.1 For Mac users_
 
 * _Install Google Cloud SDK_
 
@@ -80,7 +80,7 @@ gcloud init
 
 Below script will create a 3 nodes cluster named **pinot-quickstart** in **us-west1-b** with **n1-standard-2** machines for demo purposes.
 
-Please modify the parameters in the example command below:
+Modify the parameters in the example command below:
 
 ```bash
 GCLOUD_PROJECT=[your gcloud project name]
@@ -95,7 +95,7 @@ gcloud container clusters create ${GCLOUD_CLUSTER} \
   --project=${GCLOUD_PROJECT}
 ```
 
-You can monitor cluster status by command:
+Monitor cluster status by running the following command:
 
 ```
 gcloud compute instances list
@@ -105,7 +105,7 @@ Once the cluster is in **RUNNING** status, it's ready to be used.
 
 ## **4. Connect to an existing cluster**
 
-Simply run below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster.
+Simply run the below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster.
 
 ```
 GCLOUD_PROJECT=[your gcloud project name]
@@ -122,7 +122,7 @@ kubectl get nodes
 
 ## 5. Pinot Quickstart
 
-Please follow this [Kubernetes QuickStart](../kubernetes-quickstart.md) to deploy your Pinot Demo.
+Follow this [Kubernetes QuickStart](../kubernetes-quickstart.md) to deploy your Pinot Demo.
 
 ## 6. Delete a Kubernetes Cluster
 

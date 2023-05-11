@@ -1,5 +1,5 @@
 ---
-description: This page describes the pinot cross-release compatibility test suite.
+description: This page describes the Pinot cross-release compatibility test suite.
 ---
 
 # Upgrading Pinot with confidence
@@ -12,7 +12,7 @@ Pinot is highly configurable, so it is possible that there are few installations
 
 In practice, installations upgrade their deployments to newer versions periodically, or when an urgent bug-fix is needed, or when a new release is published. It is also possible that an installation has not upgraded Pinot for a long time. Either way, it is usually the case that installations will pull in a lot more new/modified software than the feature or bug fix they need.
 
-In a mission-critical pinot installation, the administrators require that during (and certainly after) the upgrade, correctness of normal operations (segment pushes, ingestion from streams, queries, monitoring, etc.) is not compromised..
+In a mission-critical Pinot installation, the administrators require that during (and certainly after) the upgrade, correctness of normal operations (segment pushes, ingestion from streams, queries, monitoring, etc.) is not compromised..
 
 For the reasons stated above, it is useful to have a way to test an upgrade before applying to the production cluster. Further, it is useful to be able to customize the tests to run using the unique table/schema/configurations/queries combination that an installation is using. If an installation has not upgraded pinot for a long time, it is useful to know what parts may be incompatible during the upgrade process, and schedule downtime if required.
 
@@ -161,7 +161,7 @@ NOTE:
 
 ## Query and Data files
 
-So we can use the same data files and queries, upload them as new set of rows (both in Realtime and Offline tables), we encourage you to modify your table schema by adding an integer column called `generationNumber`. Each time data is uploaded, the values written as `__GENERATION_NUMBER__` in your input data files (or in the query files) are substituted with a new integer value.
+So we can use the same data files and queries, upload them as new set of rows (both in real-time and offline tables), we encourage you to modify your table schema by adding an integer column called `generationNumber`. Each time data is uploaded, the values written as `__GENERATION_NUMBER__` in your input data files (or in the query files) are substituted with a new integer value.
 
 This allows the test suite to upload the same data as different segments, and verify that the current data as well as the previously uploaded ones are all working correctly in terms of responding to queries. The test driver automatically tests all previous generation numbers as well.
 
