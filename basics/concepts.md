@@ -12,7 +12,11 @@ Raw data is broken into small data shards. Each shard is converted into a unit c
 
 The terms below describe Pinot's storage model and infrastructure components.
 
-![Pinot Storage Model Abstraction](../.gitbook/assets/pinot\_entities.jpg)
+<div align="center">
+
+<img src="../.gitbook/assets/pinot_entities.jpg" alt="Pinot Storage Model Abstraction">
+
+</div>
 
 ### **Segment**
 

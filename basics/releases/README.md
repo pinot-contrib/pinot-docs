@@ -12,14 +12,14 @@ Before upgrading from one version to another one, please read the release notes.
 
 ## 0.12.1 (March 2023)
 
-{% content-ref url="0.12.0.md" %}
-[0.12.0.md](0.12.0.md)
+{% content-ref url="0.12.1.md" %}
+[0.12.1.md](0.12.1.md)
 {% endcontent-ref %}
 
 ## 0.12.0 (December 2022)
 
-{% content-ref url="0.12.0-1.md" %}
-[0.12.0-1.md](0.12.0-1.md)
+{% content-ref url="0.12.0.md" %}
+[0.12.0.md](0.12.0.md)
 {% endcontent-ref %}
 
 ## 0.11.0 (September 2022)
@@ -105,4 +105,3 @@ Before upgrading from one version to another one, please read the release notes.
 {% content-ref url="1.0.md" %}
 [1.0.md](1.0.md)
 {% endcontent-ref %}
-
