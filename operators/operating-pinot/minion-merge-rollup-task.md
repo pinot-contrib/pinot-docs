@@ -1,41 +1,38 @@
 # Minion merge rollup task
 
-{% hint style="info" %}
-**Original design doc**: [https://docs.google.com/document/d/1-AKCfXNXdoNjFIvJ87wjWwFM\_38gS0NCwFrIYjYsqp8/edit?usp=sharing](https://docs.google.com/document/d/1-AKCfXNXdoNjFIvJ87wjWwFM\_38gS0NCwFrIYjYsqp8/edit?usp=sharing)
+The Minion merge/rollup task allows a user to merge small segments into larger ones. This aggregates data at a courser granularity to improve query performance by reducing the amount of data that must be processed during query execution. This means that Pinot can benefit from improved disk storage and the query performance.
 
-**Issue**: [https://github.com/apache/pinot/issues/2715](https://github.com/apache/pinot/issues/2715)
-{% endhint %}
-
-The Minion merge/rollup task allows a user to **merge small segments into larger ones, through which Pinot can potentially benefit from improved disk storage and the query performance**. For complete motivation and reasoning, please refer to the design doc above. Currently, we support **OFFLINE table APPEND use cases** and **REALTIME table without upsert or dedup use cases**.
+Currently, we support OFFLINE table APPEND use cases and REALTIME table without upsert or dedup use cases
 
 ### How this works
 
-The Pinot merge/rollup task will **merge segments, k `time buckets` (configurable, default 1) at best effort at a time from the oldest to the newest records**. After processing, the segments will be time aligned according to the bucket. For example, if the table has hourly records starting 11-01-2021T13:56:00, and is configured to use bucket time of 1 day, then the merge/rollup task will merge the records for the window \[11-01-2021, 11-02-2021) in the first run, followed by \[11-02-2021, 11-03-2021) in the next run, followed by \[11-03-2021, 11-04-2021) in the next run, and so on.
+Pinot merge/rollup will merge segments, k `time buckets` (configurable, default 1) at best effort at a time from the oldest to the newest records After processing, the segments will be time aligned according to the bucket.
 
-**Multi-level merge** is also allowed to achieve different compressions for different time ranges. For example, if the table has hourly records, we can keep them as is for the last day, rollup the data to daily granularity from 1 week ago to 1 day ago, rollup the data before 1 week to monthly granularity.
+For example, if the table has hourly records starting with `11-01-2021T13:56:00`, and is configured to use bucket time of 1 day, then the merge/rollup task will merge the records for the window `\[11-01-2021, 11-02-2021)` in the first run, followed by `\[11-02-2021, 11-03-2021)` in the next run, followed by `\[11-03-2021, 11-04-2021)` in the next run, and so on.
+
+Multi-level merge is also allowed to achieve different compressions for different time ranges. For example, if the table has hourly records, we can keep them as is for the last day, rollup the data to daily granularity from 1 week ago to 1 day ago, rollup the data before 1 week to monthly granularity.
 
 This feature uses the following metadata in zookeeper:
 
-* **CustomMap of SegmentZKMetadata** keeps the mapping of { "MergeRollupTask.mergeLevel" : {mergeLevel} }. This field indicates that the segment is the result of merge/rollup task. This field is used to skip time buckets that have all merged segments to avoid reprocessing.
-* **MergeRollupTaskMetadata** stored in the path: **MINION\_TASK\_METADATA/MergeRollupTask/{tableNameWithType}**. This metadata keeps the mapping from mergeLevel to waterMarkMs. The watermark is the start time of current processing buckets. All data before the watermark are merged, time aligned and need to use new backfill approaches (not supported yet). This metadata is useful to determine the next scheduling buckets.
-* Merge/rollup task uses **SegmentReplacementProtocol** to achieve Broker level atomic swap between the input segments and result segments. Broker refers to the **SegmentLineage** metadata to determine which segments should be routed.
+* **CustomMap of SegmentZKMetadata** keeps the mapping of `{ "MergeRollupTask.mergeLevel" : {mergeLevel} }`. This field indicates that the segment is the result of merge/rollup task. This field is used to skip time buckets that have all merged segments to avoid reprocessing.
+* **MergeRollupTaskMetadata** stored in the path: `MINION\_TASK\_METADATA/MergeRollupTask/{tableNameWithType` This metadata keeps the mapping from mergeLevel to waterMarkMs. The watermark is the start time of current processing buckets. All data before the watermark are merged, time aligned and need to use new backfill approaches (not supported yet). This metadata is useful to determine the next scheduling buckets.
+* Merge/rollup task uses `SegmentReplacementProtocol` to achieve Broker level atomic swap between the input segments and result segments. Broker refers to the `SegmentLineage` metadata to determine which segments should be routed.
 
-This feature uses the **pinot-minions and the Helix Task Executor framework**. It consists of 2 parts:
+This feature uses the pinot-minions and the Helix Task Executor framework, which consists of 2 parts:
 
-1. **MergeRollupTaskGenerator** - This is the minion task scheduler, which schedules tasks of type "**MergeRollupTask**". This task is scheduled by the controller periodic task - **PinotTaskManager**.\
+1. **MergeRollupTaskGenerator** - This is the minion task scheduler, which schedules tasks of type `MergeRollupTask`. This task is scheduled by the controller periodic task - `PinotTaskManager`.\
    For each `mergeLevel` from the highest to the lowest granualrity (hourly -> daily -> monthly):
    * **Time buckets calculation** - Starting from the watermark, calculate up to k time buckets that has un-merged segments at best effort. Bump up the watermark if necessary.
    * **Segments scheduling** - For each time bucket, select all overlapping segments and create minion tasks.
-2. **MergeRollupTaskExecutor** - This is a minion task executor to execute the MergeRollupTask generated by the task generator. These **tasks are run by the pinot-minion** component.
+1. **MergeRollupTaskExecutor** - This is a minion task executor to execute the MergeRollupTask generated by the task generator. These tasks are run by the pinot-minion component.
    * **Process segments** - Download input segments as indicated in the task config. The segment processor framework will partition the data based on time value and rollup if configured.
    * **Upload segments** - Upload output segments with the segment replacement protocol. Once completed, the input segments are ready to be deleted, and will be cleaned up by the retention manager.
 
 ### Config
 
-**Step 0**: Start a pinot-minion
+1. Start a pinot-minion.
 
-**Step 1**: Setup your OFFLINE table. Add "MergeRollupTask" in the task configs
-
+2. Setup your OFFLINE table. Add "MergeRollupTask" in the task configs, like this:
 ```
 "tableName": "myTable_OFFLINE",
 "tableType": "OFFLINE",
@@ -52,19 +49,15 @@ This feature uses the **pinot-minions and the Helix Task Executor framework**. I
   }
 ```
 
-**Step 2**: Enable PinotTaskManager
-
+3. Enable PinotTaskManager
 The PinotTaskManager periodic task is disabled by default. Enable it by adding this property to your controller conf. Set the frequency to some reasonable value (frequently is better, as extra tasks will not be scheduled unless required). The controller will need a restart after setting this config.
-
 ```
 controller.task.scheduler.enabled=true
 controller.task.frequencyPeriod=1h
 ```
 
-**Step 3**: Advanced configs
-
+4. Advanced configs
 If needed, add more configs such as
-
 ```
 "task": {
     "taskTypeConfigsMap": {
@@ -107,11 +100,9 @@ where,
 
 This metric keeps track of the task delay in the number of time buckets. For example, if we see this number to be 7, and the merge task is configured with "bucketTimePeriod = 1d", this means that we have 7 days of delay. It's useful to monitor if the merge task stuck in production.
 
-### **Future works**
 
-#### Backfill support
+{% hint style="info" %}
+**Original design doc**: [https://docs.google.com/document/d/1-AKCfXNXdoNjFIvJ87wjWwFM\_38gS0NCwFrIYjYsqp8/edit?usp=sharing](https://docs.google.com/document/d/1-AKCfXNXdoNjFIvJ87wjWwFM\_38gS0NCwFrIYjYsqp8/edit?usp=sharing)
 
-Currently, Pinot data backfill is at segment level (replace segments with the same names), but the output segments have different names compared to the original segments. We need to introduce a new way to backfill the processed data, one potential approach:
-
-* Introduce a new API to get the list of segments for a given time window.
-* Use segment replacement protocol to swap the group of segments with the backfill ones.
+**Issue**: [https://github.com/apache/pinot/issues/2715](https://github.com/apache/pinot/issues/2715)
+{% endhint %}
