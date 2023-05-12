@@ -25,10 +25,10 @@ FROM userEngagmentTable
 
 Note:&#x20;
 
-1. When there are ties, all the rows associated with the extremum measuring column(s) will be returned.&#x20;
-2. If one wants to project multiple columns associated with the same set of measuring columns, simply repeat the function for a few times with different projectionCols.&#x20;
-3. This impl does not work with AS clause (e.g. SELECT argmin(longCol, doubleCol) AS argmin won't work)
+1. In cases where multiple rows share the same extreme values in the measuring columns, all such rows will be returned by the function.&#x20;
+2. If the goal is to project multiple different columns that correspond to the same set of measuring columns, you can achieve this by invoking the function multiple times, each time specifying a different projection column.
+3. This impl does not work with AS clause (e.g. `SELECT argmin(longCol, doubleCol) AS argmin` won't work)
 4. Putting `argmin/argmax` column inside order by clause (e.g. `SELECT intCol, argmin(longCol, doubleCol) FROM table GROUP BY intCol ORDER BY argmin(longCol, doubleCol)`) is not supported as semantically ordering multi-column multi-row `argmin/argmax` results doesn't make sense
-5. Currently projecting MV bytes column doesn't work because DataBlock is not able to serialize it correctly
+5. Currently projecting MV bytes column doesn't work for now due to an issue
 
 For more detailed examples please see: [https://github.com/apache/pinot/pull/10636](https://github.com/apache/pinot/pull/10636)  &#x20;
