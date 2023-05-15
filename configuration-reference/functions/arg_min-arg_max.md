@@ -23,10 +23,11 @@ SELECT ARG_MAX(activity, last_activity_date, user_id, user_id)
 FROM userEngagmentTable
 ```
 
-More useful is that this aggregation function can be used with GROUP BY
+More useful is that this multiple such aggregation function can be used with GROUP BY
 
 ```sql
-SELECT ARG_MAX(activity, last_activity_date, user_id, user_id)
+SELECT user_region, ARG_MAX(activity, last_activity_date, user_id, user_id),
+    ARG_MIN(user_satisfaction, user_id)
 FROM userEngagmentTable
 GROUP BY user_region
 ```
