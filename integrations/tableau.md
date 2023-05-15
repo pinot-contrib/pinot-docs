@@ -98,20 +98,18 @@ The output of the command should be something like the following: `#.#.#-SNAPSHO
 ```
 cd ~/Library/Tableau/Drivers
 cp ~/.m2/repository/com/ning/async-http-client/1.9.21/async-http-client-1.9.21.jar .
-cp ~/.m2/repository/org/apache/pinot/pinot-jdbc-client/$PINOT_VERSION/pinot-jdbc-client-$PINOT_VERSION.jar .
-cp ~/.m2/repository/org/apache/pinot/pinot-java-client/$PINOT_VERSION/pinot-java-client-$PINOT_VERSION.jar .
+cp ~/.m2/repository/org/apache/pinot/pinot-jdbc-shaded/$PINOT_VERSION/pinot-jdbc-client-$PINOT_VERSION.jar .
 ```
 
-Now, verify that the three binaries are present in your `Drivers` directory.
+Now, verify that the binaries are present in your `Drivers` directory.
 
 ```
 ls ~/Library/Tableau/Drivers
 ...
-async-http-client-1.9.21.jar         pinot-jdbc-client-0.9.0-SNAPSHOT.jar
-pinot-java-client-0.9.0-SNAPSHOT.jar
+async-http-client-1.9.21.jar         pinot-jdbc-shaded-0.13.0-SNAPSHOT.jar
 ```
 
-If the output from the command on the first line of the previous snippet matches the three JAR files listed on lines 3 and 4 in the above output, then you've successfully installed the Pinot connector for Tableau Desktop.
+If the output from the command on the first line of the previous snippet matches the JAR files listed here, then you've successfully installed the Pinot connector for Tableau Desktop.
 
 #### Installing Pinot for Tableau Desktop on Windows
 
@@ -134,6 +132,3 @@ The result of the previous steps should result in a successful connection to Pin
 
 For any other error messages or connection issues, please contact us on our community Slack and report your issue on the `Troubleshooting` channel.
 
-## Pinot for Tableau Roadmap
-
-The Pinot Connector for Tableau is currently available using the steps listed in this guide. In the future, we plan to make this much easier by allowing you to connect to Pinot using a JDBC driver available directly from your Tableau Desktop installation. Please continue to check back here in the following months to see our progress. You can also help us by requesting Pinot as an embedded data source from Tableau support.
