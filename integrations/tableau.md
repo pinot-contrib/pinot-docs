@@ -98,7 +98,7 @@ The output of the command should be something like the following: `#.#.#-SNAPSHO
 ```
 cd ~/Library/Tableau/Drivers
 cp ~/.m2/repository/com/ning/async-http-client/1.9.21/async-http-client-1.9.21.jar .
-cp ~/.m2/repository/org/apache/pinot/pinot-jdbc-shaded/$PINOT_VERSION/pinot-jdbc-client-$PINOT_VERSION.jar .
+cp ~/.m2/repository/org/apache/pinot/pinot-jdbc-shaded/$PINOT_VERSION/pinot-jdbc-shaded-$PINOT_VERSION.jar .
 ```
 
 Now, verify that the binaries are present in your `Drivers` directory.
