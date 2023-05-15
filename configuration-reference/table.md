@@ -282,9 +282,9 @@ Below is an example of setting AWS credential as part of table config using envi
 ```
 {% endcode %}
 
-### Realtime Table
+### Real-time Table
 
-Here's an example table config for a realtime table. **All the fields from the offline table config are valid for the real-time table**. Additionally, real-time tables use **some extra fields**.
+Here's an example table config for a real-time table. **All the fields from the offline table config are valid for the real-time table**. Additionally, real-time tables use **some extra fields**.
 
 {% code title="pinot-table-realtime.json" %}
 ```json
