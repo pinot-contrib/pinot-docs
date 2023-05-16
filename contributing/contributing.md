@@ -26,7 +26,7 @@ Use the GitHub web interface to create a pull request (PR) for review.
 ### Get and incorporate review 
 Wait. The Pinot documentation team will usually review pull requests within a few days. Suggestions or changes may be requested. You can make these by updating in your local branch and pushing those changes.
 
-Once the PR is approved, it will be merged by one of the code owners. When that happens, the changes will automatically applied to the corresponding GitBook pages.
+Once the PR is approved, one of the code owners will merge it. When that happens, the changes automatically appear on the corresponding GitBook pages.
 
 Note that all GitBook documentation follows [Markdown Syntax](https://www.markdownguide.org/basic-syntax/).
 
