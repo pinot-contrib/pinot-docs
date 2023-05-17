@@ -331,7 +331,7 @@ Here's an example table config for a real-time table. **All the fields from the 
       }
     ]
     },
-    "tenants":{[
+    "tenants":{
       "broker": "myBrokerTenant",
       "server": "myServerTenant",
       "tagOverrideConfig": {}
