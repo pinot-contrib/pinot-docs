@@ -125,7 +125,7 @@ We will work on removing the second invariant in the future.
 
 ## Real-time table config
 
-We will now discuss the sections that are only applicable to real-time tables.
+The sections below apply to real-time tables only. 
 
 ### segmentsConfig
 
@@ -137,75 +137,7 @@ We will now discuss the sections that are only applicable to real-time tables.
 
 ### Indexing config
 
-Below is the list of fields in `streamConfigs` section.
-
-{% hint style="danger" %}
-IndexingConfig -> streamConfig has been deprecated starting 0.7.0 or commit 9eaea9. Use IngestionConfig -> StreamIngestionConfig -> streamConfigMaps instead.
-{% endhint %}
-
-| Property                                                                                                                                                       | Description                                                                                                                                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| streamType                                                                                                                                                     | only `kafka` is supported at the moment                                                                                                                                                                                                    |
-| stream.\[streamType].consumer.type                                                                                                                             | should be one of `lowLevel` or `highLevel` . See [Stream ingestion](../basics/data-import/pinot-stream-ingestion/) for more details                                                                                                        |
-| stream.\[streamType].topic.name                                                                                                                                | topic or equivalent datasource from which to consume data                                                                                                                                                                                  |
-| stream\[streamType].consumer.prop.auto.offset.reset                                                                                                            | offset to start consuming data from. Should be one of `smallest` , `largest`, timestamp in format 'yyyy-MM-dd'T'HH:mm:ss.SSSZ' or Valid Datetime interval Eg., '2d', '1m' etc,.                                                            |
-| <p>(0.6.0 onwards) realtime.segment.flush.threshold.rows</p><p>(0.5.0 and prior) (deprecated) <del>realtime.segment.flush.threshold.size</del></p>             | The maximum number of rows to consume before persisting the consuming segment. Default is 5,000,000                                                                                                                                        |
-| realtime.segment.flush.threshold.time                                                                                                                          | <p>Maximum elapsed time after which a consuming segment should be persisted.<br>The value can be set as a human readable string, such as <code>1d</code>, <code>4h30m</code><br>Default is 6 hours.</p>                                    |
-| <p>(0.6.0 onwards) realtime.segment.flush.threshold.segment.size</p><p>(0.5.0 and prior) (deprecated)</p><p><del>realtime.segment.flush.desired.size</del></p> | Desired size of the completed segments. This value can be set as a human readable string such as `150M`, or `1.1G`, etc. This value is used when `realtime.segment.flush.threshold.rows` is set to 0. Default is `200M` i.e. 200 MegaBytes |
-| realtime.segment.flush.autotune.initialRows                                                                                                                    | <p>Initial number of rows for learning.</p><p>This value is used only if <code>realtime.segment.flush.threshold.rows</code> is set o 0 and the consumer type is <code>LowLevel</code>.</p><p>Default is <code>100000 (ie 100K).</code></p> |
-
-{% hint style="info" %}
-When specifying `realtime.segment.flush.threshold.rows`, the actual number of rows per segment is computed using the following formula:\
-\`\`\
-`realtime.segment.flush.threshold.rows / partitionsConsumedByServer`
-
-\
-This means that if we set `realtime.segment.flush.threshold.rows=1000` and each server consumes 10 partitions, the rows per segment will be:`1000/10 = 100`
-{% endhint %}
-
-{% hint style="info" %}
-The desired segment size refers to the size of the segments that are loaded in Pinot Servers. Normally compressed version of the segments with tar.gz format are kept in the deep store which has smaller size than the specified parameter.
-{% endhint %}
-
-Any additional properties set here will be directly available to the stream consumers. For example, in case of Kafka stream, you could put any of the configs described in [Kafka configuration page](https://kafka.apache.org/documentation/#consumerconfigs), and it will be automatically passed to the KafkaConsumer.
-
-Some of the properties you might want to set:
-
-| Config            | Description                                                                                                                                                                                                                                                                                                                        | Values                                                                                                 |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| auto.offset.reset | <p>If Kafka Consumer encounters an offset which is not in range (resulting in Kafka OffsetOutOfRange), the strategy to use to reset the offset<br><br>Default value is latest, as a result of which, if the consumer seeks for an offset which has already expired, the consumer will reset to latest, resulting in data loss.</p> | <p>earliest - reset to earliest available offset<br>latest - reset to latest available offset.<br></p> |
-
-### Example
-
-Here is a minimal example of what the `streamConfigs` section may look like:
-
-0.6.0 onwards:
-
-```
-"streamConfigs" : {
-  "realtime.segment.flush.threshold.rows": "0",
-  "realtime.segment.flush.threshold.time": "24h",
-  "realtime.segment.flush.threshold.segment.size": "150M",
-  "streamType": "kafka",
-  "stream.kafka.consumer.type": "LowLevel",
-  "stream.kafka.topic.name": "ClickStream",
-  "stream.kafka.consumer.prop.auto.offset.reset" : "largest"
-}
-```
-
-0.5.0 and prior:
-
-```
-"streamConfigs" : {
-  "realtime.segment.flush.threshold.size": "0",
-  "realtime.segment.flush.threshold.time": "24h",
-  "realtime.segment.flush.desired.size": "150M",
-  "streamType": "kafka",
-  "stream.kafka.consumer.type": "LowLevel",
-  "stream.kafka.topic.name": "ClickStream",
-  "stream.kafka.consumer.prop.auto.offset.reset" : "largest"
-}
-```
+The `streamConfigs` section has been deprecated as of release 0.7.0. See [`streamConfigMaps`](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#create-ingestion-configuration) instead. 
 
 ## Tenants
 
@@ -279,7 +211,7 @@ Below is an example of setting AWS credential as part of table config using envi
 ### Offline table
 
 {% code title="pinot-table-offline.json" %}
-```javascript
+```json
 "OFFLINE": {
     "tableName": "pinotTable",
     "tableType": "OFFLINE",
@@ -350,12 +282,12 @@ Below is an example of setting AWS credential as part of table config using envi
 ```
 {% endcode %}
 
-### Realtime Table
+### Real-time Table
 
-Here's an example table config for a realtime table. **All the fields from the offline table config are valid for the realtime table**. Additionally, realtime tables use **some extra fields**.
+Here's an example table config for a real-time table. **All the fields from the offline table config are valid for the real-time table**. Additionally, real-time tables use **some extra fields**.
 
 {% code title="pinot-table-realtime.json" %}
-```javascript
+```json
 "REALTIME": {
     "tableName": "pinotTable",
     "tableType": "REALTIME",
@@ -378,8 +310,11 @@ Here's an example table config for a realtime table. **All the fields from the o
       "noDictionaryColumns": ["metric1", "metric2"],
       "loadMode": "MMAP",
       "nullHandlingEnabled": false,
-      "streamConfigs": {
-        "realtime.segment.flush.threshold.rows": "0",
+    },
+    "ingestionConfig:" {
+      "streamIngestionConfig": {
+       "streamConfigMaps":[
+        { "realtime.segment.flush.threshold.rows": "0",
         "realtime.segment.flush.threshold.time": "24h",
         "realtime.segment.flush.threshold.segment.size": "150M",
         "stream.kafka.broker.list": "XXXX",
@@ -394,14 +329,14 @@ Here's an example table config for a realtime table. **All the fields from the o
         "stream.kafka.zk.broker.url": "XXXX",
         "streamType": "kafka"
       }
+    ]
     },
-    "tenants": {
+    "tenants":{
       "broker": "myBrokerTenant",
       "server": "myServerTenant",
       "tagOverrideConfig": {}
     },
-    "metadata": {
-    }
+    "metadata": {}
 }
 ```
 {% endcode %}

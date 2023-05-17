@@ -8,7 +8,8 @@ Setting up Stream ingestion involves the following steps:
 
 1. Create schema configuration
 2. Create table configuration
-3. Upload table and schema spec
+3. Create ingestion configuration
+4. Upload table and schema spec
 
 Let's take a look at each of the steps in more detail.
 
@@ -29,7 +30,7 @@ Let us assume the data to be ingested is in the following format:
 {"studentID":212,"firstName":"Nick","lastName":"Young","gender":"Male","subject":"History","score":3.6,"timestamp":1572854400000}
 ```
 
-### Create Schema Configuration
+### Create schema configuration
 
 Schema defines the fields along with their data types. The schema also defines whether fields serve as `dimensions` , `metrics` or `timestamp`. For more details on schema configuration, see [creating a schema](../../getting-started/pushing-your-data-to-pinot.md#creating-a-schema).
 
@@ -77,40 +78,31 @@ For our sample data, the schema configuration looks like this:
 ```
 {% endcode %}
 
-### Create Table Configuration
+### Create table configuration
 
-The next step is to create a table where all the ingested data will flow and can be queried. Unlike batch ingestion, table configuration for real-time ingestion also triggers the data ingestion job. For a more detailed overview of tables, see the [table](../../components/table.md) reference.
+The next step is to create a table where all the ingested data will flow and can be queried. For details about each table component, see the [table](../../components/table.md) reference.
 
-The real-time table configuration consists of the following fields:
 
-* **tableName** - The name of the table where the data should flow
-* **tableType** - The internal type for the table. Should always be set to `REALTIME` for realtime ingestion
-* **segmentsConfig** -
-* **tableIndexConfig** - defines which column to use for indexing along with the type of index. For full configuration, see \[Indexing Configs]. It has the following _**required**_ fields -
-  * **loadMode** - specifies how the segments should be loaded. Should be`heap` or `mmap`. Here's the difference between both the configs
-    * _mmap_: Segments are loaded onto memory-mapped files. This is the default mode.
-    * _heap_: Segments are loaded into direct memory. Note, 'heap' here is a legacy misnomer, and it does not imply JVM heap. This mode should only be used when we want faster performance than memory-mapped files, and are also sure that we will never run into OOM.
-  * **streamConfig** - specifies the data source along with the necessary configs to start consuming the real-time data. The streamConfig can be thought of as the equivalent to the job spec for batch ingestion. The following options are supported:
+### Create ingestion configuration
 
-| Config key                                           | Description                                                                                                                                                                                                                                                                                                                                    | Supported values                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| streamType                                           | The streaming platform from which to consume the data                                                                                                                                                                                                                                                                                          | `kafka`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| stream.\[streamType].consumer.type                   | Whether to use per partition low-level consumer or high-level stream consumer                                                                                                                                                                                                                                                                  | <ul><li><code>lowLevel</code> - Consume data from each partition with offset management</li><li><code>highLevel</code> - Consume data without control over the partitions</li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| stream.\[streamType].topic.name                      | The datasource (e.g. topic, data stream) from which to consume the data                                                                                                                                                                                                                                                                        | String                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| stream.\[streamType].decoder.class.name              | Name of the class to be used for parsing the data. The class should implement `org.apache.pinot.spi.stream.StreamMessageDecoder` interface                                                                                                                                                                                                     | <p>String. Available options:</p><ul><li><code>org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder</code></li><li><code>org.apache.pinot.plugin.inputformat.avro.KafkaAvroMessageDecoder</code></li><li><code>org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder</code></li><li><code>org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder</code></li><li><code>org.apache.pinot.plugin.inputformat.csv.CSVMessageDecoder</code></li><li><code>org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder</code></li></ul> |
-| stream.\[streamType].consumer.factory.class.name     | Name of the factory class to be used to provide the appropriate implementation of low level and high level consumer as well as the metadata                                                                                                                                                                                                    | <p>String. Available options:</p><ul><li>org.apache.pinot.plugin.<code>stream.kafka09.KafkaConsumerFactory</code></li><li><code>org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory</code></li><li><code>org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory</code></li><li><code>org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory</code></li></ul>                                                                                                                                                                                                                        |
-| stream.\[streamType].consumer.prop.auto.offset.reset | Determines the offset from which to start the ingestion                                                                                                                                                                                                                                                                                        | <ul><li><code>smallest</code></li><li><code>largest</code> or</li><li>timestamp in milliseconds</li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| topic.consumption.rate.limit                         | <p>Determines the upper bound for consumption rate for the whole topic.<br>Having a consumption rate limiter is beneficial in case the stream message rate has a bursty pattern which leads to long GC pauses on the Pinot servers. The rate limiter can also be considered as a safeguard against excessive ingestion of realtime tables.</p> | Double. The values should be greater than zero.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+The ingestion configuration determines how data should be ingested into the Pinot data ingestion pipeline in the `streamConfigMaps` section. `streamConfigMaps` contains the following fields:
 
-The following flush threshold settings are also supported:
 
-| Config key                                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Supported values |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| realtime.segment.flush.threshold.time         | Time threshold that will keep the realtime segment open for before we complete the segment. Noted that this time should be smaller than the Kafka retention period configured for the corresponding topic.                                                                                                                                                                                                                                                                                                                                                                                                                                |                  |
-| realtime.segment.flush.threshold.rows         | <p>Row count flush threshold for realtime segments. This behaves in a similar way for HLC and LLC. For HLC,</p><p>since there is only one consumer per server, this size is used as the size of the consumption buffer and determines after how many rows we flush to disk. For example, if this threshold is set to two million rows,</p><p>then a high level consumer would have a buffer size of two million.</p><p>If this value is set to 0, then the consumers adjust the number of rows consumed by a partition such that the size of the completed segment is the desired size (unless</p><p>threshold.time is reached first)</p> |                  |
-| realtime.segment.flush.threshold.segment.size | The desired size of a completed realtime segment. This config is used only if `realtime.segment.flush.threshold.rows` is set to 0.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |                  |
+| **Config key**                                        | **Description**                                                                                                                                                                       | **Supported values**                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|-------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `streamType`                                          | The streaming platform to ingest data from                                                                                                                                            | `kafka`                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `stream.[streamType].consumer.type`                   | Whether to use per partition low-level consumer or high-level stream consumer                                                                                                         |  - `lowLevel`: Consume data from each partition with offset management.  - `highLevel`: Consume data without control over the partitions.                                                                                                                                                                                                                                                                                                                                             |
+| `stream.[streamType].topic.name`                      | Topic or data source to ingest data from                                                                                                                                              | String                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `stream.[streamType].broker.list`                     | List of brokers                                                                                                                                                                       |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `stream.[streamType].decoder.class.name`              | Name of class to parse the data. The class should implement the `org.apache.pinot.spi.stream.StreamMessageDecoder` interface.                                                         | String. Available options:  - `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder`  - `org.apache.pinot.plugin.inputformat.avro.KafkaAvroMessageDecoder` - `org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder` - `org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder`  - `org.apache.pinot.plugin.inputformat.csv.CSVMessageDecoder`  - `org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder` |
+| `stream.[streamType].consumer.factory.class.name`     | Name of factory class to provide the appropriate implementation of low-level and high-level consumer, as well as the metadata                                                         | String. Available options:  - `org.apache.pinot.plugin.stream.kafka09.KafkaConsumerFactory` - `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory` - `org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory` - `org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory`                                                                                                                                                                                         |
+| `stream.[streamType].consumer.prop.auto.offset.reset` | Determines the offset from which to start the ingestion                                                                                                                               | - `smallest` - `largest` - timestamp in milliseconds                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `stream.[streamType].decoder.prop.format`             | Specifies the data format to ingest via a stream. The value of this property should match the format of the data in the stream.                                                                                                                                                                                       | - `JSON`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `realtime.segment.flush.threshold.time`               | Maximum elapsed time after which a consuming segment persist. Note that this time should be smaller than the Kafka retention period configured for the corresponding topic.           | String, such `1d` or `4h30m`. Default is `6h` (six hours).                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `realtime.segment.flush.threshold.rows`               | The maximum number of rows to consume before persisting the consuming segment.   If this value is set to 0, the configuration looks to `realtime.segment.flush.threshold.rows` below. | Default is 5,000,000                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `realtime.segment.flush.threshold.segment.size`       | Desired size of the completed segments. This value is used when  `realtime.segment.flush.threshold.rows` is set to 0.                                                                 | String, such as `150M` or `1.1G`., etc.  Default is `200M` (200 megabytes).                                                                                                                                                                                                                                                                                                                                                                                                          |
 
-You can also specify additional configs for the consumer directly into the streamConfigs.
+You can also specify additional configurations for the consumer directly into `streamConfigMaps`. For example, for Kafka streams, add any of the configs described in [Kafka configuration page](https://kafka.apache.org/documentation/#consumerconfigs) to pass them directly to the Kafka consumer.
 
 For our sample data and schema, the table config will look like this:
 
@@ -127,21 +119,30 @@ For our sample data and schema, the table config will look like this:
   "tenants": {},
   "tableIndexConfig": {
     "loadMode": "MMAP",
-    "streamConfigs": {
-      "streamType": "kafka",
-      "stream.kafka.consumer.type": "lowlevel",
-      "stream.kafka.topic.name": "transcript-topic",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-      "stream.kafka.broker.list": "localhost:9876",
-      "realtime.segment.flush.threshold.time": "3600000",
-      "realtime.segment.flush.threshold.rows": "50000",
-      "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
-    }
   },
   "metadata": {
     "customConfigs": {}
-  }
+  },
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+        "streamConfigMaps": [
+          {
+            "realtime.segment.flush.threshold.rows": "0",
+            "stream.kafka.decoder.prop.format": "JSON",
+            "key.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
+            "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+            "streamType": "kafka",
+            "value.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
+            "stream.kafka.consumer.type": "LOWLEVEL",
+            "realtime.segment.flush.threshold.segment.rows": "50000",
+            "stream.kafka.broker.list": "localhost:9876",
+            "realtime.segment.flush.threshold.time": "3600000",
+            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+            "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
+            "stream.kafka.topic.name": "transcript-topic"
+          }
+        ]
+      }
 }
 ```
 
@@ -175,9 +176,9 @@ bin/pinot-admin.sh AddTable \
 {% endtab %}
 {% endtabs %}
 
-### Tuning Stream Config
+### Tuning stream config
 
-#### Throttling Stream Consumption
+#### Throttling stream consumption
 
 There are some scenarios where the message rate in the input stream has a bursty nature which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other realtime tables on the same server. In such scenarios, you should throttle the consumption rate during stream ingestion.
 
@@ -190,9 +191,9 @@ Here is the sample configuration on how to configure the consumption throttling:
   "tableName": "transcript",
   "tableType": "REALTIME",
   ...
-  "tableIndexConfig": {
-    "loadMode": "MMAP",
-    "streamConfigs": {
+  "ingestionConfig": {
+    "streamIngestionConfig":,
+    "streamConfigMaps": {
       "streamType": "kafka",
       "stream.kafka.consumer.type": "lowlevel",
       "stream.kafka.topic.name": "transcript-topic",
@@ -201,13 +202,12 @@ Here is the sample configuration on how to configure the consumption throttling:
     }
   },
   ...
-}
 ```
 
 Some things to keep in mind while tuning this config are:
 
-1. Since this config applied to the entire topic, internally, this rate is divided by the number of partitions in the topic and applied to each partition's consumer.
-2. In case of multi-tenant deployment (where you have more than 1 table in the same server instance), you need to make sure that the rate limit on one table doesn't step on/starve the rate limiting of another table. So, when there is more than 1 table on the same server (which is most likely to happen), you may need to re-tune the throttling threshold for all the streaming tables.
+- Since this configuration applied to the entire topic, internally, this rate is divided by the number of partitions in the topic and applied to each partition's consumer.
+- In case of multi-tenant deployment (where you have more than 1 table in the same server instance), you need to make sure that the rate limit on one table doesn't step on/starve the rate limiting of another table. So, when there is more than 1 table on the same server (which is most likely to happen), you may need to re-tune the throttling threshold for all the streaming tables.
 
 Once throttling is enabled for a table, you can verify by searching for a log that looks similar to:
 
