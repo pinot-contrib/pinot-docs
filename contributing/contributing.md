@@ -21,7 +21,7 @@ Modify the documentation locally on your machine. When you commit, write a meani
 Then, push your changes to your fork on GitHub.
 
 ### Submit a pull request
-Use the GitHub web interface to create a pull request (PR) for review.
+Use the GitHub web interface to [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) (PR) for review.
 
 ### Get and incorporate review 
 Wait. The Pinot documentation team will usually review pull requests within a few days. Suggestions or changes may be requested. You can make these by updating in your local branch and pushing those changes.
