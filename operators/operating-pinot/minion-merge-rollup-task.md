@@ -3,8 +3,8 @@
 The Minion merge rollup task lets you merge small segments into larger ones. This helps to improve query performance and disk storage by aggregating data at a courser granularity to reduce the data processed during query execution. 
 
 This task is supported for the following use cases:
-- OFFLINE tables APPEND only
-- REALTIME tables without upsert or dedup
+- OFFLINE tables, APPEND only
+- REALTIME tables, without upsert or dedup
 
 ### Task overview
 
