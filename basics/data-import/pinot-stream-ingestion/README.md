@@ -1,8 +1,8 @@
 # Stream ingestion
 
-Apache Pinot lets users consume data from streams and push it directly into the database, in a process known as stream ingestion. Stream Ingestion makes it possible to query data within seconds of publication.
+Apache Pinot lets users consume data from streams and push it directly into the database, in a process known as stream ingestion. Stream ingestion makes it possible to query data within seconds of publication.
 
-Stream Ingestion provides support for checkpoints for preventing data loss.
+Stream ingestion provides support for checkpoints for preventing data loss.
 
 Setting up Stream ingestion involves the following steps:
 
@@ -85,8 +85,9 @@ The next step is to create a table where all the ingested data will flow and can
 
 ### Create ingestion configuration
 
-The ingestion configuration determines how data should be ingested into the Pinot data ingestion pipeline in the `streamConfigMaps` section. `streamConfigMaps` contains the following fields:
+The ingestion configuration (`ingestionConfig`) specifies how to ingest streaming data into Pinot. First, include a subsection for `streamConfigMaps`. Next, decide whether to skip table errors with `_continueOnError` and whether to validate time values with `rowTimeValueCheck` and `_segmentTimeValueCheck`. See details about these `ingestionConfig` configuration options the **streamConfigMaps** and **Additional ingestion configs** tables below:
 
+#### streamConfigMaps
 
 | **Config key**                                        | **Description**                                                                                                                                                                       | **Supported values**                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 |-------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -100,9 +101,18 @@ The ingestion configuration determines how data should be ingested into the Pino
 | `stream.[streamType].decoder.prop.format`             | Specifies the data format to ingest via a stream. The value of this property should match the format of the data in the stream.                                                                                                                                                                                       | - `JSON`                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `realtime.segment.flush.threshold.time`               | Maximum elapsed time after which a consuming segment persist. Note that this time should be smaller than the Kafka retention period configured for the corresponding topic.           | String, such `1d` or `4h30m`. Default is `6h` (six hours).                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `realtime.segment.flush.threshold.rows`               | The maximum number of rows to consume before persisting the consuming segment.   If this value is set to 0, the configuration looks to `realtime.segment.flush.threshold.rows` below. | Default is 5,000,000                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `realtime.segment.flush.threshold.segment.size`       | Desired size of the completed segments. This value is used when  `realtime.segment.flush.threshold.rows` is set to 0.                                                                 | String, such as `150M` or `1.1G`., etc.  Default is `200M` (200 megabytes).                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `realtime.segment.flush.threshold.segment.size`       | Desired size of the completed segments. This value is used when  `realtime.segment.flush.threshold.rows` is set to 0.                                                                 | String, such as `150M` or `1.1G`., etc.  Default is `200M` (200 megabytes).                                                                                                                                                                                                                                                                                                                                   You can also specify additional configurations for the consumer directly into `streamConfigMaps`. For example, for Kafka streams, add any of the configs described in [Kafka configuration page](https://kafka.apache.org/documentation/#consumerconfigs) to pass them directly to the Kafka consumer.                                                                      |
 
-You can also specify additional configurations for the consumer directly into `streamConfigMaps`. For example, for Kafka streams, add any of the configs described in [Kafka configuration page](https://kafka.apache.org/documentation/#consumerconfigs) to pass them directly to the Kafka consumer.
+#### Additional ingestion configurations
+
+| **Config key**   | **Description** |
+                                                                                                                 
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `_continueOnError`| Set to true to skip any row indexing error and move on to the next row. Otherwise, an error when evaluating a transform or filter function may block ingestion (realtime or offline), and segment generation would fail. Note, setting this value to true may result in data loss or corruption. Consider your use case to determine if it may be more appropriate to fail the ingestion to maintain data integrity.|                                                                                                                                    |
+| `rowTimeValueCheck`| Set to true to validate the time column values being ingested during segment upload. Validates whether the value can be parsed with the given time format and falls within a valid time range between 1971 and 2071, and if not, replaces invalid values with null.  
+| `_segmentTimeValueCheck`| Set to true to validate the time range of the segment falls between 1971 and 2071. |
+
+#### Example table config with `ingestionConfig`
 
 For our sample data and schema, the table config will look like this:
 
@@ -142,7 +152,14 @@ For our sample data and schema, the table config will look like this:
             "stream.kafka.topic.name": "transcript-topic"
           }
         ]
-      }
+      },
+      "transformConfigs": [],
+      "continueOnError": true,
+      "rowTimeValueCheck": true,
+      "segmentTimeValueCheck": false
+    },
+    "isDimTable": false
+  }
 }
 ```
 
