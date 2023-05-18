@@ -1,5 +1,8 @@
 ---
-description: Learn how queries are computed in Pinot's distributed systems architecture
+description: >-
+  Uncover the efficient data processing architecture of Apache Pinot, empowering
+  impactful analytics. Explore its powerful components and design principles for
+  actionable insights.
 ---
 
 # Architecture

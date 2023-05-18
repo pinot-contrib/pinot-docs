@@ -1,5 +1,8 @@
 ---
-description: Learn about the different components and logical abstractions
+description: >-
+  Discover the core components of Apache Pinot, enabling efficient data
+  processing and analytics. Unleash the power of Pinot's building blocks for
+  high-performance data-driven applications.
 ---
 
 # Components

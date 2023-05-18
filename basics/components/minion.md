@@ -1,6 +1,12 @@
+---
+description: >-
+  Explore the minion component in Apache Pinot, empowering efficient data
+  movement and segment generation within Pinot clusters.
+---
+
 # Minion
 
-A Minion is a standby component that leverages the [Helix Task Framework](https://engineering.linkedin.com/blog/2019/01/managing-distributed-tasks-with-helix-task-framework) to offload computationally intensive tasks from other components.&#x20;
+A minion is a standby component that leverages the [Helix Task Framework](https://engineering.linkedin.com/blog/2019/01/managing-distributed-tasks-with-helix-task-framework) to offload computationally intensive tasks from other components.&#x20;
 
 It can be attached to an existing Pinot cluster and then execute tasks as provided by the controller. Custom tasks can be plugged via annotations into the cluster. Some typical minion tasks are:
 
@@ -10,7 +16,7 @@ It can be attached to an existing Pinot cluster and then execute tasks as provid
 
 ## Starting a Minion
 
-Make sure you've [setup Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using docker, make sure to [pull the pinot docker image](cluster.md#setup-a-pinot-cluster). To start a minion
+Make sure you've [set up Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using Docker, make sure to [pull the Pinot Docker image](cluster.md#setup-a-pinot-cluster). To start a minion:
 
 ```
 Usage: StartMinion
@@ -188,7 +194,7 @@ public interface MinionEventObserver {
 }
 ```
 
-## Built-in Tasks
+## Built-in tasks
 
 ### SegmentGenerationAndPushTask
 
@@ -233,7 +239,7 @@ See [Pinot managed Offline flows](../../operators/operating-pinot/pinot-managed-
 
 See [Minion merge rollup task](../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
 
-## Enable Tasks
+## Enable tasks
 
 Tasks are enabled on a per-table basis. To enable a certain task type (e.g. `myTask`) on a table, update the table config to include the task type:
 
@@ -263,9 +269,9 @@ Using "POST /cluster/configs" API on CLUSTER tab in Swagger, with this payload
 }
 ```
 
-## Schedule Tasks
+## Schedule tasks
 
-### Auto-Schedule
+### Auto-schedule
 
 There are 2 ways to enable task scheduling:
 
@@ -291,7 +297,7 @@ As shown below, the RealtimeToOfflineSegmentsTask will be scheduled at the first
   },
 ```
 
-### Manual Schedule
+### Manual schedule
 
 Tasks can be manually scheduled using the following controller rest APIs:
 
@@ -302,7 +308,7 @@ Tasks can be manually scheduled using the following controller rest APIs:
 | **POST /tasks/schedule?tableName=myTable\_OFFLINE**                  | Schedule tasks for all task types on the given table         |
 | **POST /tasks/schedule?taskType=myTask\&tableName=myTable\_OFFLINE** | Schedule tasks for the given task type on the given table    |
 
-## Plug-in Custom Tasks
+## Plug-in custom tasks
 
 To plug in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` (optional) for the task type (all of them should return the same string for `getTaskType()`), and annotate them with the following annotations:
 
@@ -320,7 +326,7 @@ See [SimpleMinionClusterIntegrationTest](https://github.com/apache/pinot/blob/ma
 
 ## Task Manager UI
 
-In Pinot UI, there is **Minion Task Manager** tab under **Cluster Manager** page. From that minion task manager tab, one can find a lot of task related info for troubleshooting. Those info are mainly collected from the Pinot controller that schedules tasks or Helix that tracks task runtime status. There are also buttons to schedule tasks in an ad hoc way. Below are some brief introductions to some pages under the minion task manager tab.
+In the Pinot UI, there is **Minion Task Manager** tab under **Cluster Manager** page. From that minion task manager tab, one can find a lot of task related info for troubleshooting. Those info are mainly collected from the Pinot controller that schedules tasks or Helix that tracks task runtime status. There are also buttons to schedule tasks in an ad hoc way. Below are some brief introductions to some pages under the minion task manager tab.
 
 This one shows which types of Minion Task have been used. Essentially which task types have created their task queues in Helix.&#x20;
 
@@ -336,7 +342,7 @@ Then clicking into any table in this list, one can see how the task is configure
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-At the bottom of this page, one can see a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed.&#x20;
+At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed.&#x20;
 
 Clicking into a task from that list, we can see start/end time for it, and the sub tasks generated for that task (as context, one minion task can have multiple sub-tasks to process data in parallel). In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
 
@@ -364,7 +370,7 @@ The controller also emits metrics about how tasks are cron scheduled:
 * **cronSchedulerJobSkipped:** Number of late cron scheduled skipped, as a Meter.
 * **cronSchedulerJobExecutionTimeMs:** Time used to complete task generation, as a Timer.
 
-For each task, the Minion will emit these metrics:
+For each task, the minion will emit these metrics:
 
 * _**TASK\_QUEUEING**_: Task queueing time (task\_dequeue\_time - task\_inqueue\_time), assuming the time drift between helix controller and pinot minion is minor, otherwise the value may be negative
 * _**TASK\_EXECUTION**_: Task execution time, which is the time spent on executing the task

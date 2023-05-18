@@ -1,10 +1,17 @@
+---
+description: >-
+  Discover the segment component in Apache Pinot for efficient data storage and
+  querying within Pinot clusters, enabling optimized data processing and
+  analysis.
+---
+
 # Segment
 
 Pinot has the concept of a [**table**](table.md), which is a logical abstraction to refer to a collection of related data. Pinot has a distributed architecture and scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, the entire data needs to be distributed across multiple nodes.
 
 Pinot achieves this by breaking the data into smaller chunks known as **segments** (similar to **shards/partitions** in relational databases). Segments can be seen as **time-based partitions**.
 
-Thus, a **segment is a horizontal shard representing a chunk of table data** with some number of rows. The segment stores data for all columns of the table. Each segment packs the data in a **columnar fashion**, along with the **dictionaries and indices** for the columns. The segment is laid out in a columnar format so that it can be directly mapped into memory for serving queries.
+A **segment is a horizontal shard representing a chunk of table data** with some number of rows. The segment stores data for all columns of the table. Each segment packs the data in a **columnar fashion**, along with the **dictionaries and indices** for the columns. The segment is laid out in a columnar format so that it can be directly mapped into memory for serving queries.
 
 Columns can be **single or multi-valued** and the following types are supported: **STRING, BOOLEAN, INT, LONG, FLOAT, DOUBLE, TIMESTAMP or BYTES**. Only single-valued **BIG\_DECIMAL** data type is supported.
 
@@ -18,11 +25,11 @@ A **forward index** is built for each column and compressed for efficient memory
 
 Once the table is configured, we can load some data. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster. Data can be loaded in batch mode or streaming mode. For more details, see the[ ingestion overview](../../developers/advanced/data-ingestion.md) page.
 
-### Load Data in Batch
+### Load data in batch
 
 #### **Prerequisites**
 
-1. [Setup a cluster](cluster.md#setup-a-pinot-cluster)
+1. [Set up a cluster](cluster.md#setup-a-pinot-cluster)
 2. [Create broker and server tenants](tenant.md#creating-a-tenant)
 3. [Create an offline table](table.md#offline-table-creation)
 
@@ -76,7 +83,7 @@ pushJobSpec:
 
 #### Create and push segment
 
-To create and push the segment in one go, use
+To create and push the segment in one go, use the following:
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -174,7 +181,7 @@ docker run \
 
 This ingestion job only generates segments for date `2014-01-03`
 
-### Load Data in Streaming
+### Load data in streaming
 
 **Prerequisites**
 

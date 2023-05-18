@@ -1,3 +1,9 @@
+---
+description: >-
+  Discover the Tenant component of Apache Pinot, which facilitates efficient
+  data isolation and resource management within Pinot clusters.
+---
+
 # Tenant
 
 A tenant is a logical component defined as a **group of server/broker nodes with the same Helix tag**. &#x20;

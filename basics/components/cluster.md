@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn to build and manage Apache Pinot clusters, uncovering key components for
+  efficient data processing and optimized analysis.
+---
+
 # Cluster
 
 A cluster is a set of nodes comprising of servers, brokers, controllers and minions.
@@ -14,7 +20,7 @@ Helix divides nodes into logical components based on their responsibilities:
 
 The nodes that host distributed, partitioned resources
 
-_**Pinot Servers**_ are modeled as Participants. For more details about server nodes, see [Server](server.md).
+_**Pinot servers**_ are modeled as Participants. For more details about server nodes, see [Server](server.md).
 
 ### Spectator
 
@@ -26,7 +32,7 @@ _**Pinot Brokers**_ are modeled as Spectators. For more details about broker nod
 
 The node that observes and controls the Participant nodes. It is responsible for coordinating all transitions in the cluster and ensuring that state constraints are satisfied while maintaining cluster stability.
 
-_**Pinot Controllers**_ are modeled as Controllers. For more details about controller nodes, see [Controller](controller.md).
+_**Pinot controllers**_ are modeled as controllers. For details about controller nodes, see [Controller](controller.md).
 
 ## Logical view
 
@@ -38,9 +44,9 @@ Another way to visualize the cluster is a logical view, where:
 
 ![](../../.gitbook/assets/ClusterLogical.jpg)
 
-## Setup a Pinot Cluster
+## Set up a Pinot cluster
 
-Typically, there is only one cluster per environment/data center. There is no need to create multiple Pinot clusters since Pinot supports the concept of [tenants](tenant.md). At LinkedIn, the largest Pinot cluster consists of 1000+ nodes.
+Typically, there is only one cluster per environment/data center. There is no need to create multiple Pinot clusters because Pinot supports [tenants](tenant.md). At LinkedIn, the largest Pinot cluster consists of 1000+ nodes.
 
 To set up a cluster, see one of the following guides:
 

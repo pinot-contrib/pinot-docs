@@ -1,5 +1,8 @@
 ---
-description: Learn about the table component in Pinot.
+description: >-
+  Explore the table component in Apache Pinot, a fundamental building block for
+  organizing and managing data in Pinot clusters, enabling effective data
+  processing and analysis.
 ---
 
 # Table
@@ -33,9 +36,9 @@ from myTable
 ```
 {% endhint %}
 
-[Table Configuration](../../configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, retention etc. It is written in JSON format and is stored in Zookeeper, along with the table schema.
+[Table configuration](../../configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, and retention. It is written in JSON format and is stored in Zookeeper, along with the table schema.
 
-You can use the following properties to make your tables faster or leaner:
+Use the following properties to make your tables faster or leaner:
 
 * Segment
 * Indexing

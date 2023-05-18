@@ -1,12 +1,14 @@
 ---
-description: Explore the data on our Pinot cluster
+description: >-
+  Pinot Data Explorer is a user-friendly interface in Apache Pinot for
+  interactive data exploration, querying, and visualization.
 ---
 
 # Pinot Data Explorer
 
-Once you have set up the Cluster, you can start exploring the data and the APIs using the Pinot Data Explorer.
+Once you have set up a cluster, you can start exploring the data and the APIs using the Pinot Data Explorer.
 
-Navigate to [http://localhost:9000](http://localhost:9000) in your browser to open the controller UI.
+Navigate to [http://localhost:9000](http://localhost:9000) in your browser to open the Data Explorer UI.
 
 ## Cluster Manager
 

@@ -1,8 +1,15 @@
+---
+description: >-
+  Explore the Schema component in Apache Pinot, vital for defining the structure
+  and data types of Pinot tables, enabling efficient data processing and
+  analysis.
+---
+
 # Schema
 
-Each table in Pinot is associated with a Schema. A schema defines what fields are present in the table along with the data types.
+Each table in Pinot is associated with a schema. A schema defines what fields are present in the table along with the data types.
 
-The schema is stored in the Zookeeper, along with the table configuration.
+The schema is stored in Zookeeper along with the table configuration.
 
 {% hint style="info" %}
 Schema naming in Pinot follows typical database table naming conventions, such as starting names with a letter, not ending with an underscore, and using only alphanumeric characters
@@ -53,11 +60,11 @@ The lowest granularity TIMESTAMP type supports is milliseconds epoch, nanosecond
 
 Pinot also supports columns that contain lists or arrays of items, but there isn't an explicit data type to represent these lists or arrays. Instead, you can indicate that a dimension column accepts multiple values. For more information, see [DimensionFieldSpec](https://docs.pinot.apache.org/configuration-reference/schema#dimensionfieldspec) in the Schema configuration reference.
 
-### Date Time Fields
+### Date and time fields
 
 Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations. You can refer to [DateTime field spec configs](../../configuration-reference/schema.md#datetimefieldspec) for more details on supported formats.
 
-### Built-in Virtual Columns
+### Built-in virtual columns
 
 There are several built-in virtual columns inside the schema the can be used for debugging purposes:
 
@@ -69,7 +76,7 @@ There are several built-in virtual columns inside the schema the can be used for
 
 These virtual columns can be used in queries in a similar way to regular columns.
 
-### Creating a Schema
+### Creating a schema
 
 First, Make sure your [cluster is up](cluster.md#setup-a-pinot-cluster) and running.
 

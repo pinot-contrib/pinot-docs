@@ -1,5 +1,8 @@
 ---
-description: Learn about Pinot's components and terminology.
+description: >-
+  Explore the fundamental concepts of Apache Pinot for efficient data processing
+  and analysis. Gain insights into the core principles and foundational ideas
+  behind Pinot's capabilities.
 ---
 
 # Concepts

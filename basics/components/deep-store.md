@@ -1,7 +1,7 @@
 ---
 description: >-
-  Learn about the deep store that stores a compressed copy of segment files in
-  Pinot.
+  Leverage Apache Pinot's deep store component for efficient large-scale data
+  storage and management, enabling impactful data processing and analysis.
 ---
 
 # Deep Store
@@ -12,9 +12,9 @@ It is used for backup and restore operations. New [server](server.md) nodes in a
 
 The deep store stores a compressed version of the segment files and it typically won't include any indexes. These compressed files can be stored on a local file system or on a variety of other file systems. For more details on supported file systems, see [File Systems](../data-import/pinot-file-system/).
 
-<mark style="color:red;">Note:</mark> Deep Store by itself is not sufficient for restore operations. Pinot stores metadata such as table config, schema, segment metadata in Zookeeper. For restore operations, both Deep Store as well as Zookeeper metadata are required.
+<mark style="color:red;">Note:</mark> Deep store by itself is not sufficient for restore operations. Pinot stores metadata such as table config, schema, segment metadata in Zookeeper. For restore operations, both Deep Store as well as Zookeeper metadata are required.
 
-## How do segments get into the Deep Store?
+## How do segments get into the deep store?
 
 There are several different ways that segments are persisted in the deep store.
 
@@ -30,11 +30,11 @@ For real-time tables, by default, a segment is first built-in memory by the serv
 
 Having all segments go through the controller can become a system bottleneck under heavy load, in which case you can use the peer download policy, as described in [Decoupling Controller from the Data Path](../../operators/operating-pinot/decoupling-controller-from-the-data-path.md).
 
-When using this configuration the server will directly write a completed segment to the deep store, as shown in the diagram below:
+When using this configuration, the server will directly write a completed segment to the deep store, as shown in the diagram below:
 
 ![Server writing a segment into the deep store](<../../.gitbook/assets/server-deep-store (1).png>)
 
-## Configuring the Deep Store
+## Configuring the deep store
 
 For hands-on examples of how to configure the deep store, see the following tutorials:
 
