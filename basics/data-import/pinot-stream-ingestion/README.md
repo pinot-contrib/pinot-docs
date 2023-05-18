@@ -105,12 +105,12 @@ The ingestion configuration (`ingestionConfig`) specifies how to ingest streamin
 
 #### Additional ingestion configurations
 
-| **Config key**   | **Description** |
+| **Config key**    | **Description** |
                                                                                                                  
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| `_continueOnError`| Set to true to skip any row indexing error and move on to the next row. Otherwise, an error when evaluating a transform or filter function may block ingestion (realtime or offline), and segment generation would fail. Note, setting this value to true may result in data loss or corruption. Consider your use case to determine if it may be more appropriate to fail the ingestion to maintain data integrity.|                                                                                                                                    |
-| `rowTimeValueCheck`| Set to true to validate the time column values being ingested during segment upload. Validates whether the value can be parsed with the given time format and falls within a valid time range between 1971 and 2071, and if not, replaces invalid values with null.  
-| `_segmentTimeValueCheck`| Set to true to validate the time range of the segment falls between 1971 and 2071. |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `_continueOnError`| Set to `true` to skip any row indexing error and move on to the next row. Otherwise, an error evaluating a transform or filter function may block ingestion (realtime or offline), and result in data loss or corruption. Consider your use case to determine if it's preferable to set this option to `false`, and fail the ingestion if an error occurs to maintain data integrity. |
+| `rowTimeValueCheck`| Set to `true` to validate the time column values ingested during segment upload. Validates each row of data in a segment matches the specified time format, and falls within a valid time range (1971-2071). If the value doesn't meet both criteria, Pinot replaces the value with null. This option ensures that the time values are strictly increasing and that there are no duplicates or gaps in the data. |
+| `_segmentTimeValueCheck`| Set to `true` to validate the time range of the segment falls between 1971 and 2071. This option ensures data segments stored in the system are correct and consistent.|
 
 #### Example table config with `ingestionConfig`
 
