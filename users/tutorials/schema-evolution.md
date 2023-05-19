@@ -1,40 +1,28 @@
 # Schema Evolution
 
-So far, you've seen how to [create a new schema](https://docs.pinot.apache.org/basics/components/schema#creating-a-schema) for a Pinot table. In this tutorial, we'll see how to evolve the schema (e.g. add a new column to the schema). This guide assumes you have a Pinot cluster up and running (eg: as mentioned in [https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally)). We will also assume there's an existing table `baseballStats` created as part of the [batch quick start](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch).
+Schema evolution occurs over time. As business requirements evolve, and data formats or structures need to change, use Pinot to keep your schemas up-to-date. If you're just starting out with schemas in Pinot, see how to [create a new schema](https://docs.pinot.apache.org/basics/components/schema#creating-a-schema) for a Pinot table.&#x20;
+
+In this tutorial, you'll learn how to add a new column to your schema, load data to the updated schema, run a query to test the updated schema, and backfill data.
 
 {% hint style="info" %}
-Pinot only allows adding new columns to the schema. In order to drop a column, change the column name or data type, a new table has to be created.
+Pinot only supports adding new columns to a schema. To drop a column or change the column name or data type, you must create a new table.
 {% endhint %}
 
-## **Key takeaways**
+## Prerequisites
 
-1. For a newly added column to become queryable in Pinot, you would need to reload all segments using reload segments API.
-2. As far as values for this newly added column are concerned, all existing records in the table will get defaultNullValue configured for this column.
-3. If you have a scenario to backfill actual values, re-ingestion would be needed.
-4. If newly added column is a derived column, the values will be auto-derived from the dependent columns.
+Before you get started, you must have a Pinot cluster up and running, and a `baseballStats` table (created when you set up a Pinot cluster using the Quickstart option). For more information, see how to [start running Pinot and set up a cluster using the Quickstart](https://docs.pinot.apache.org/basics/getting-started#running-pinot) option.
 
-### **A few gotchas around segment reload operation**
+## **Add a new column to your schema**
 
-1. Reloading of each segment is expected to happen gracefully without impacting in-flight queries. When reloading a segment, a new segment will be loaded, and replace the existing segment. The replaced segment will be dropped only after reaching the reference count of 0; (i.e: when the segment is not serving any in-flight queries).
-2. For real-time consuming segment, reload is performed as force commit, which commits the current consuming segment and load it as immutable segment. A new consuming segment will be created after the current one is committed, and will pickup the changes in table config and schema.
-3. Upsert and dedup config change cannot be applied via reload because they will change the table level (cross segments) metadata management. In order to apply these changes, server needs to be restarted.
-4. In some cases, reload operation may not be able to succesfully apply transform functions. This could be if the transform function evaluation fails or if transform function references a column that isn't part of the segment being reloaded. In all those cases, reload status API will still report sucess but querying the new columns may not work. Server reload logs must be looked into to indetify such cases.
+1.  Fetch the existing schema using the controller API:
 
-## &#x20;Add Column Guide
+    ```sh
+    $ curl localhost:9000/schemas/baseballStats > baseballStats.schema
+    ```
+2. Edit the `baseballStats.schema` file to include a new column at the end of the schema. For example, here we're adding a new column called `yearsOfExperience` with a `dataType` of `INT` and `defaultNullValue` of `1`.
 
-### Get the existing schema
-
-Let's begin by first fetching the existing schema. We can do this using the controller API:
-
-```
-$ curl localhost:9000/schemas/baseballStats > baseballStats.schema
-```
-
-### Add a new column
-
-Let's add a new column at the end of the schema, something like this (by editing `baseballStats.schema`
-
-```
+{% code title="baseballStats.schema" %}
+```markup
 {
   "schemaName" : "baseballStats",
   "dimensionFieldSpecs" : [ {
@@ -42,18 +30,15 @@ Let's add a new column at the end of the schema, something like this (by editing
     ...
     
     }, {
-    "name" : "myNewColumn",
+    "name" : "yearsOfExperience",
     "dataType" : "INT",
     "defaultNullValue": 1
   } ]
 }
 ```
+{% endcode %}
 
-In this example, we're adding a new column called `yearsOfExperience` with a default value of 1.
-
-### Update the schema
-
-You can now update the schema using the following command
+3. Update the schema using the following command:
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
@@ -69,23 +54,40 @@ $ curl -F schemaName=@baseballStats.schema localhost:9000/schemas
 {% endtab %}
 {% endtabs %}
 
-Please note: this will not be reflected immediately. You can use the following command to reload the table segments for this column to show up. This can be done as follows:
+## Reload table segments
+
+After you add the new column to your schema, reload the consuming segments.
+
+1. (Real-time tables only): Open [Server config](https://docs.pinot.apache.org/configuration-reference/server), and set `pinot.server.instance.reload.consumingSegment` to `true`.
+2. To ensure the `baseballStats` column shows up, run the following command to reload the table segments--**be sure to replace** **the accurate** `reloadJobId` **for your schema:**
+
+**Command**&#x20;
 
 ```
 $ curl -X POST localhost:9000/segments/baseballStats/reload
-
-{"baseballStats_OFFLINE":{"reloadJobId":"98ad3705-58f3-47d0-a02d-d66dc66a9567","reloadJobMetaZKStorageStatus":"SUCCESS","numMessagesSent":"3"}}
 ```
 
-This will trigger a reload operation on each of the servers hosting the table's segments. The API response has a reloadJobId which can be used to monitor the status of the reload operation using the segment reload status API
+**Response**
 
-{% hint style="warning" %}
-The reloadJobId and the segmentReloadStatus API below is only available starting 0.11.0 or from [this](https://github.com/apache/pinot/commit/3d2b6f3429957e47c3de1764b9f87743a0770ce5) commit.
+```
+{"baseballStats_OFFLINE":{"reloadJobId":"c3989a04-9fd1-46af-85e8-00f484759ef2","reloadJobMetaZKStorageStatus":"SUCCESS","numMessagesSent":"3"}}
+```
+
+This triggers a reload operation on each of the servers hosting the table's segments. The API response has a `reloadJobId` that you can use to monitor the status of the reload operation using the segment reload status API.&#x20;
+
+{% hint style="info" %}
+Reloading a segment shouldn't impact in-flight queries. New segments are reloaded to replace existing segments only after an existing segment isn't serving any in-flight queries.
 {% endhint %}
 
-```
-$ curl -X GET localhost:9000/segments/segmentReloadStatus/98ad3705-58f3-47d0-a02d-d66dc66a9567
+**Command**
 
+```
+$ curl -X GET localhost:9000/segments/segmentReloadStatus/c3989a04-9fd1-46af-85e8-00f484759ef2
+```
+
+**Response**
+
+```
 {
   "estimatedTimeRemainingInMinutes": 0,
   "timeElapsedInMinutes": 0.17655,
@@ -94,7 +96,7 @@ $ curl -X GET localhost:9000/segments/segmentReloadStatus/98ad3705-58f3-47d0-a02
   "totalSegmentCount": 12,
   "totalServerCallsFailed": 0,
   "metadata": {
-    "jobId": "98ad3705-58f3-47d0-a02d-d66dc66a9567",
+    "jobId": "c3989a04-9fd1-46af-85e8-00f484759ef2",
     "messageCount": "3",
     "submissionTimeMs": "1661753088066",
     "jobType": "RELOAD_ALL_SEGMENTS",
@@ -103,29 +105,37 @@ $ curl -X GET localhost:9000/segments/segmentReloadStatus/98ad3705-58f3-47d0-a02
 }
 ```
 
-After the reload, now you can query the new column as shown below:
+{% hint style="info" %}
+* For real-time consuming segments, the reload is performed as force commit, which commits the current consuming segment and loads it as an immutable segment. A new consuming segment is created after the current one is committed, and picks up the changes in the table config and schema.
+* Upsert and dedup config change cannot be applied via reload because they will change the table level (cross segments) metadata management. To apply these changes, server needs to be restarted.
+* In some cases, for example, if the transform function evaluation fails or references a column that isn't part of the segment being reloaded, the reload operation may not succesfully apply the transform. In these cases, the reload status API will still report sucess, but querying the new columns may not work. Review server reload logs to identify these cases.
+{% endhint %}
+
+## **Query and backfill data**
+
+1. After reloading the segments, run the the following to query the new column:
+
+**Command**
 
 ```
 $ bin/pinot-admin.sh PostQuery \
   -queryType sql \
   -brokerPort 8000 \
   -query "select playerID, yearsOfExperience from baseballStats limit 10" 2>/dev/null
+```
+
+**Response**
+
+```
 Executing command: PostQuery -brokerHost 192.168.86.234 -brokerPort 8000 -queryType sql -query select playerID, yearsOfExperience from baseballStats limit 10
 Result: {"resultTable":{"dataSchema":{"columnNames":["playerID","yearsOfExperience"],"columnDataTypes":["STRING","INT"]},"rows":[["aardsda01",1],["aardsda01",1],["aardsda01",1],["aardsda01",1],["aardsda01",1],["aardsda01",1],["aardsda01",1],["aaronha01",1],["aaronha01",1],["aaronha01",1]]},"exceptions":[],"numServersQueried":1,"numServersResponded":1,"numSegmentsQueried":1,"numSegmentsProcessed":1,"numSegmentsMatched":1,"numConsumingSegmentsQueried":0,"numDocsScanned":10,"numEntriesScannedInFilter":0,"numEntriesScannedPostFilter":20,"numGroupsLimitReached":false,"totalDocs":97889,"timeUsedMs":3,"segmentStatistics":[],"traceInfo":{},"minConsumingFreshnessTimeMs":0}
 ```
 
-{% hint style="info" %}
-**Real-Time Pinot table:** In case of real-time tables, make sure the "_pinot.server.instance.reload.consumingSegment_" config is set to true inside [Server config](https://docs.pinot.apache.org/configuration-reference/server). Without this, the current consuming segment(s) won't be reloaded (force committed).
+2. As you can see, the query returns the `defaultNullValue` for the newly added column. To populate this column with real values, re-run the batch ingestion job for the past datesBackfill data.
+
+{% hint style="warning" %}
+Backfilling data does not work for real-time tables. You can convert a real-time table to a hybrid table by adding an offline table that uses the same counterpart, and then backfilling the offline table to fill in values for the newly added column. For more information, see [hybrid tables](https://docs.pinot.apache.org/basics/components/table#hybrid-table).
 {% endhint %}
 
-### Derived Column
 
-New columns can be added with [ingestion transforms](../../developers/advanced/ingestion-level-transformations.md). If all the source columns for the new column exist in the schema, the transformed values will be generated for the new column instead of filling default values. Note that derived column as well as corresponding data type needs to be first defined in the schema before making changes in table config for ingestion transform.
 
-### Backfilling the Data
-
-As you can observe, the current query returns the `defaultNullValue` for the newly added column. In order to populate this column with real values, you will need to re-run the batch ingestion job for the past dates.
-
-{% hint style="info" %}
-**Real-Time Pinot table:** Backfilling data does not work for real-time tables. If you only have a real-time table, you can convert it to a hybrid table, by adding an offline counterpart that uses the same schema. Then you can backfill the offline table and fill in values for the newly added column. More on [hybrid tables here](https://docs.pinot.apache.org/basics/components/table#hybrid-table).
-{% endhint %}
