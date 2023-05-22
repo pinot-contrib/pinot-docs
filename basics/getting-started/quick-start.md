@@ -113,13 +113,13 @@ This example demonstrates how to do batch processing in Pinot where the the data
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type batch_json_index
+    -type batch_complex_type
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type batch_json_index
+./bin/pinot-admin.sh QuickStart -type batch_complex_type
 ```
 {% endtab %}
 {% endtabs %}
