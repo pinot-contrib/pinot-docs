@@ -44,7 +44,7 @@
     * [Flink](basics/data-import/batch-ingestion/flink.md)
     * [Hadoop](basics/data-import/batch-ingestion/hadoop.md)
     * [Backfill Data](basics/data-import/batch-ingestion/backfill-data.md)
-    * [Dimension Table](basics/data-import/batch-ingestion/dim-table.md)
+    * [Dimension table](basics/data-import/batch-ingestion/dim-table.md)
   * [Stream ingestion](basics/data-import/pinot-stream-ingestion/README.md)
     * [Apache Kafka](basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
     * [Amazon Kinesis](basics/data-import/pinot-stream-ingestion/amazon-kinesis.md)
