@@ -202,6 +202,8 @@ The PushTask can fetch files from an input folder e.g. from a S3 bucket and conv
 
 NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the task generates one segment per file, and derives segment name based on the time column of the file. If two files happen to have same time range and are ingested by tasks from different schedules, there might be segment name conflict. To overcome this issue for now, you can omit “tableMaxNumTasks” and by default it’s Integer.MAX\_VALUE, meaning to schedule as many tasks as possible to ingest all input files in a single batch. Within one batch, a sequence number suffix is used to ensure no segment name conflict. Because the sequence number suffix is scoped within one batch, tasks from different batches might encounter segment name conflict issue said above.&#x20;
 
+{% hint style="info" %} When performing ingestion at scale remember that pinot will list all the files contained in the `inputDirURI` every time a `SegmentGenerationAndPushTask` job gets scheduled. This could become a bottleneck when fetching files from a cloud bucket like GCS.
+To prevent this make `inputDirURI` point to the least number of files possible. {% endhint %}
 ```
 "ingestionConfig": {
     "batchIngestionConfig": {
