@@ -1,0 +1,9 @@
+root: ./
+
+structure:
+    readme: README.md
+    summary: SUMMARY.md
+
+redirects:  
+    developers/developers-and-contributors/update-document: contributing/contributing.md
+    user-guide/user-guide-query/pinot-query-language: users/user-guide-query/querying-pinot.md
