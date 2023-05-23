@@ -378,3 +378,7 @@
 * [Superset](integrations/superset.md)
 * [Presto](integrations/presto.md)
 * [Spark-Pinot Connector](integrations/spark-pinot-connector.md)
+
+## Contributing
+* [Contributing to the Apache Pinot documentation](contributing/contributing.md)
+* [Apache Pinot documentation style guide](contributing/style-guide.md)
