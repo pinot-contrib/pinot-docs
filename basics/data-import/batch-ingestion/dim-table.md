@@ -2,7 +2,7 @@
 description: Dimension tables in Apache Pinot.
 ---
 
-# Dimension Table
+# Dimension table
 
 Dimension tables are a special kind of offline tables from which data can be looked up via the [lookup UDF](../../../users/user-guide-query/lookup-udf-join.md), providing join like functionality.
 
