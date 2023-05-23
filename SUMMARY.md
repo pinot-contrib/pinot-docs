@@ -380,5 +380,5 @@
 * [Spark-Pinot Connector](integrations/spark-pinot-connector.md)
 
 ## Contributing
-* [Contributing to the Apache Pinot documentation](contributing/contributing.md)
-* [Apache Pinot documentation style guide](contributing/style-guide.md)
+* [Contribute Pinot documentation](contributing/contributing.md)
+* [Style guide](contributing/style-guide.md)
