@@ -133,7 +133,7 @@
   * [Contribution Guidelines](developers/developers-and-contributors/contribution-guidelines.md)
   * [Code Setup](developers/developers-and-contributors/code-setup.md)
   * [Code Modules and Organization](developers/developers-and-contributors/code-modules-and-organization.md)
-  * [Update Documentation](developers/developers-and-contributors/update-document.md)
+  * [Update documentation](developers/developers-and-contributors/update-document.md)
 * [Advanced](developers/advanced/README.md)
   * [Data Ingestion Overview](developers/advanced/data-ingestion.md)
   * [Ingestion Aggregations](developers/advanced/ingestion-level-aggregations.md)
