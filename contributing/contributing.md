@@ -1,4 +1,4 @@
-# Contributing to the Pinot docs
+# Contributing to the Apache Pinot documentation
 
 Pinot documentation is powered by [GitBook](https://www.gitbook.com/).
 
