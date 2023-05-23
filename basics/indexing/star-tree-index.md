@@ -83,17 +83,15 @@ The star-tree data structure offers a configurable trade-off between space and t
 
 **Tree structure**
 
-Star tree is a tree data structure that consists of the following properties:
+The star-tree index stores data in a structure that consists of the following properties:
 
-![](../../.gitbook/assets/structure.png)
+![Star-tree index structure](../../.gitbook/assets/structure.png)
 
-Star tree Structure
-
-* **Root Node** (Orange): Single root node, from which the rest of the tree can be traversed.
-* **Leaf Node** (Blue): A leaf node can containing at most _T_ records, where _T_ is configurable.
-* **Non-leaf Node** (Green): Nodes with more than _T_ records are further split into children nodes.
-* **Star-Node** (Yellow): Non-leaf nodes can also have a special child node called the Star-Node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
-* **Dimensions Split Order** (\[D1, D2]): Nodes at a given level in the tree are split into children nodes on all values of a particular dimension. The dimensions split order is an ordered list of dimensions that is used to determine the dimension to split on for a given level in the tree.
+* **Root node** (Orange): Single root node, from which the rest of the tree can be traversed.
+* **Leaf node** (Blue): A leaf node can containing at most _T_ records, where _T_ is configurable.
+* **Non-leaf node** (Green): Nodes with more than _T_ records are further split into children nodes.
+* **Star-node** (Yellow): Non-leaf nodes can also have a special child node called the Star-Node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
+* **Dimensions split order** (\[D1, D2]): Nodes at a given level in the tree are split into children nodes on all values of a particular dimension. The dimensions split order is an ordered list of dimensions that is used to determine the dimension to split on for a given level in the tree.
 
 **Node properties**
 
