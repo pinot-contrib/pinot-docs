@@ -27,30 +27,19 @@ Here's a list of all the periodic tasks
 
 This task rebuilds the BrokerResource if the instance set has changed.
 
-| Config                                                      | Default Value |
-| ----------------------------------------------------------- | ------------- |
-| controller.broker.resource.validation.frequencyPeriod       | 1h            |
-| controller.broker.resource.validation.initialDelayInSeconds | between 2m-5m |
+<table><thead><tr><th width="539.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.broker.resource.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.broker.resource.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
 
 ### StaleInstancesCleanupTask
 
 This task periodically cleans up stale Pinot broker/server/minion instances.
 
-| Config                                                                     | Default Value |
-| -------------------------------------------------------------------------- | ------------- |
-| controller.stale.instances.cleanup.task.frequencyPeriod                    | 1h            |
-| controller.stale.instances.cleanup.task.initialDelaySeconds                | between 2m-5m |
-| controller.stale.instances.cleanup.task.minOfflineTimeBeforeDeletionPeriod | 1h            |
+<table><thead><tr><th width="539.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.stale.instances.cleanup.task.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.stale.instances.cleanup.task.initialDelaySeconds</td><td>between 2m-5m</td></tr><tr><td>controller.stale.instances.cleanup.task.minOfflineTimeBeforeDeletionPeriod</td><td>1h</td></tr></tbody></table>
 
 ### OfflineSegmentIntervalChecker
 
 This task manages the segment ValidationMetrics (missingSegmentCount, offlineSegmentDelayHours, lastPushTimeDelayHours, TotalDocumentCount, NonConsumingPartitionCount, SegmentCount), to ensure that all offline segments are contiguous (no missing segments) and that the offline push delay isn't too high.
 
-| Config                                                         | Default Value |
-| -------------------------------------------------------------- | ------------- |
-| controller.offline.segment.interval.checker.frequencyPeriod    | 24h           |
-| controller.statuschecker.waitForPushTimePeriod                 | 10m           |
-| controller.offlineSegmentIntervalChecker.initialDelayInSeconds | between 2m-5m |
+<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.offline.segment.interval.checker.frequencyPeriod</td><td>24h</td></tr><tr><td>controller.statuschecker.waitForPushTimePeriod</td><td>10m</td></tr><tr><td>controller.offlineSegmentIntervalChecker.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
 
 ### PinotTaskManager
 
@@ -73,20 +62,13 @@ This task does not fix consumption stalled due to
 * Kafka OOR exceptions
 {% endhint %}
 
-| Config                                                       | Default Value |
-| ------------------------------------------------------------ | ------------- |
-| controller.realtime.segment.validation.frequencyPeriod       | 1h            |
-| controller.realtime.segment.validation.initialDelayInSeconds | between 2m-5m |
+<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.realtime.segment.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.realtime.segment.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
 
 ### RetentionManager
 
 This task manages retention of segments for all tables. During the run, it looks at the `retentionTimeUnit` and `retentionTimeValue` inside the `segmentsConfig` of every table, and deletes segments which are older than the retention. The deleted segments are moved to a DeletedSegments folder colocated with the dataDir on segment store, and permanently deleted from that folder in a configurable number of days.
 
-| Config                                            | Default Value |
-| ------------------------------------------------- | ------------- |
-| controller.retention.frequencyPeriod              | 6h            |
-| controller.retentionManager.initialDelayInSeconds | between 2m-5m |
-| controller.deleted.segments.retentionInDays       | 7d            |
+<table><thead><tr><th width="501.62051915945614">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.retention.frequencyPeriod</td><td>6h</td></tr><tr><td>controller.retentionManager.initialDelayInSeconds</td><td>between 2m-5m</td></tr><tr><td>controller.deleted.segments.retentionInDays</td><td>7d</td></tr></tbody></table>
 
 ### SegmentRelocator
 
@@ -97,19 +79,13 @@ This task is applicable only if you have tierConfig or tagOverrideConfig. It run
 
 At most one replica is allowed to be unavailable during rebalance.
 
-| Config                                            | Default Value |
-| ------------------------------------------------- | ------------- |
-| controller.segment.relocator.frequencyPeriod      | 1h            |
-| controller.segmentRelocator.initialDelayInSeconds | between 2m-5m |
+<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.segment.relocator.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.segmentRelocator.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
 
 ### SegmentStatusChecker
 
 This task manages segment status metrics such as realtimeTableCount, offlineTableCount, disableTableCount, numberOfReplicas, percentOfReplicas, percentOfSegments, idealStateZnodeSize, idealStateZnodeByteSize, segmentCount, segmentsInErrorState, tableCompressedSize.
 
-| Config                                         | Default Value |
-| ---------------------------------------------- | ------------- |
-| controller.statuschecker.frequencyPeriod       | 5m            |
-| controller.statusChecker.initialDelayInSeconds | between 2m-5m |
+<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.statuschecker.frequencyPeriod</td><td>5m</td></tr><tr><td>controller.statusChecker.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
 
 ### TaskMetricsEmitter
 

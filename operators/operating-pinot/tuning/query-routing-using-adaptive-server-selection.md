@@ -59,9 +59,4 @@ The following configs are already set to default values that work well for most 
 Prefix all the below properties with  `pinot.broker.adaptive.server.selector.`
 {% endhint %}
 
-| Property                        | Description                                                                                                                                    | Default Value |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `ewma.alpha`                    | Alpha value for Exponential Moving Average. A higher value would provide more weightage to incoming values and lower weightage to older values | 0.666         |
-| `autodecay.window.ms`           | If the EWMA value has not been updated for a while, the duration after which the value should be decayed                                       | 10000         |
-| `avg.initialization.val`        | Initial value for EWMA average                                                                                                                 | 1.0           |
-| `stats.manager.threadpool.size` | Number of threads reserved to process Adaptive Server Selection Stats.                                                                         | 2             |
+<table><thead><tr><th width="280">Property</th><th width="300">Description</th><th>Default Value</th></tr></thead><tbody><tr><td><code>ewma.alpha</code></td><td>Alpha value for Exponential Moving Average. A higher value would provide more weightage to incoming values and lower weightage to older values</td><td>0.666</td></tr><tr><td><code>autodecay.window.ms</code></td><td>If the EWMA value has not been updated for a while, the duration after which the value should be decayed</td><td>10000</td></tr><tr><td><code>avg.initialization.val</code></td><td>Initial value for EWMA average</td><td>1.0</td></tr><tr><td><code>stats.manager.threadpool.size</code></td><td>Number of threads reserved to process Adaptive Server Selection Stats.</td><td>2</td></tr></tbody></table>
