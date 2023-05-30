@@ -130,16 +130,10 @@ Similar to the Replica-Group Segment Assignment, in order to use the [Partitione
         "replicaGroupBased": true,
         "numReplicaGroups": 2,
         "numPartitions": 2,
-        "numInstancesPerPartition": 2
+        "numInstancesPerPartition": 2,
+        "partitionColumn": "memberId"
       }
     }
-  },
-  "segmentsConfig": {
-    "replicaGroupStrategyConfig": {
-      "partitionColumn": "memberId",
-      "numInstancesPerPartition": 2
-    },
-    ...
   },
   ...
 }
@@ -147,7 +141,7 @@ Similar to the Replica-Group Segment Assignment, in order to use the [Partitione
 {% endcode %}
 
 {% hint style="info" %}
-In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `replicaGroupStrategyConfig` is required.
+In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `partitionColumn` is required in `replicaGroupPartitionConfig`.
 {% endhint %}
 
 ## Instance Assignment for Low Level Consumer (LLC) Real-time Table
@@ -205,16 +199,10 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
         "replicaGroupBased": true,
         "numReplicaGroups": 2,
         "numPartitions": 2,
-        "numInstancesPerPartition": 2
+        "numInstancesPerPartition": 2,
+        "partitionColumn": "memberId"
       }
     }
-  },
-  "segmentsConfig": {
-    "replicaGroupStrategyConfig": {
-      "partitionColumn": "memberId",
-      "numInstancesPerPartition": 2
-    },
-    ...
   },
   ...
 }
@@ -222,7 +210,7 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 {% endcode %}
 
 {% hint style="info" %}
-In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `replicaGroupStrategyConfig` is required.
+In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `partitionColumn` is required in `replicaGroupPartitionConfig`.
 {% endhint %}
 
 ## Fault-Domain-Aware Instance Assignment
