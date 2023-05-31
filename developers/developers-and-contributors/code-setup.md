@@ -63,20 +63,28 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 
 ### **Starting Pinot via IDE**
 
-Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for realtime mode.
+Once the IDE is set up, you can run `Batch QuickStart` for batch mode or `Realtime QuickStart` for realtime mode.
 
 **Batch Quickstart**
+
+```
+./build/bin/pinot-admin.sh QuickStart -type batch
+```
 
 * start all Pinot components (ZK, Controller, Server, Broker) in the same JVM
 * create Baseball Stats table
 
-Go to localhost:9000 in your browser and play with the query console.
+Go to http://localhost:9000 in your browser and play with the query console.
 
 **Realtime Quickstart**
+
+```
+./build/bin/pinot-admin.sh QuickStart -type stream
+```
 
 * start all Pinot components (ZK, Controller, Server, Broker) in the same JVM
 * Start Kafka in the same JVM
 * create MeetUpRSVP table.
 * Live stream meetup events into Kafka
 
-Go to localhost:9000 in your browser and play with the meetup RSVP table.
+Go to http://localhost:9000 in your browser and play with the meetup RSVP table.
