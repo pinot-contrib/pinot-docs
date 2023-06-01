@@ -504,11 +504,11 @@ This page contains reference documentation for functions in Apache Pinot.
 {% endcontent-ref %}
 
 {% content-ref url="timezoneHour.md" %}
-[timezoneHour.md](timezoneHour.md)
+[timezoneHour.md](timezonehour.md)
 {% endcontent-ref %}
 
 {% content-ref url="timezoneMinute.md" %}
-[timezoneMinute.md](timezoneMinute.md)
+[timezoneMinute.md](timezoneminute.md)
 {% endcontent-ref %}
 
 {% content-ref url="todatetime.md" %}
@@ -516,15 +516,15 @@ This page contains reference documentation for functions in Apache Pinot.
 {% endcontent-ref %}
 
 {% content-ref url="toEpoch.md" %}
-[toEpoch.md](toEpoch.md)
+[toEpoch.md](toepoch.md)
 {% endcontent-ref %}
 
 {% content-ref url="toEpochBucket.md" %}
-[toEpochBucket.md](toEpochBucket.md)
+[toEpochBucket.md](toepochbucket.md)
 {% endcontent-ref %}
 
 {% content-ref url="toEpochRounded.md" %}
-[toEpochRounded.md](toEpochRounded.md)
+[toEpochRounded.md](toepochrounded.md)
 {% endcontent-ref %}
 
 {% content-ref url="tojsonmapstr.md" %}
@@ -564,5 +564,5 @@ This page contains reference documentation for functions in Apache Pinot.
 {% endcontent-ref %}
 
 {% content-ref url="yearOfWeek.md" %}
-[yearOfWeek.md](yearOfWeek.md)
+[yearOfWeek.md](yearofweek.md)
 {% endcontent-ref %}
