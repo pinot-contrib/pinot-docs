@@ -1,6 +1,10 @@
+---
+description: Insert a file into Pinot from Query Console
+---
+
 # From Query Console
 
-## Insert a file into Pinot from Query Console
+
 
 {% hint style="info" %}
 This feature is supported after the 0.11.0 release. Reference PR: [https://github.com/apache/pinot/pull/8557](https://github.com/apache/pinot/pull/8557)
