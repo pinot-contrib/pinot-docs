@@ -33,48 +33,11 @@ The categories are also relevant when doing segment merge and rollups. Pinot use
 
 Metrics aggregation is another example where Pinot uses dimensions and time are used as the key, and automatically aggregates values for the metric columns.
 
-### Data Types
-
-Data types determine the operations that can be performed on a column. Pinot supports the following data types:
-
-| Data Type    | Default Dimension Value                                                                                         | Default Metric Value   |
-| ------------ | --------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| INT          | [Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN\_VALUE)               | 0                      |
-| LONG         | [Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN\_VALUE)                     | 0                      |
-| FLOAT        | [Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE\_INFINITY)   | 0.0                    |
-| DOUBLE       | [Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE\_INFINITY) | 0.0                    |
-| BIG\_DECIMAL | Not supported                                                                                                   | 0.0                    |
-| BOOLEAN      | 0 (false)                                                                                                       | N/A                    |
-| TIMESTAMP    | 0 (1970-01-01 00:00:00 UTC)                                                                                     | N/A                    |
-| STRING       | "null"                                                                                                          | N/A                    |
-| JSON         | "null"                                                                                                          | N/A                    |
-| BYTES        | byte array of length 0                                                                                          | byte array of length 0 |
-
-{% hint style="warning" %}
-`BOOLEAN`, `TIMESTAMP`, `JSON` are added after release `0.7.1`. In release `0.7.1` and older releases, `BOOLEAN` is equivalent to `STRING.` `BIG_DECIMAL` is added after release `0.10.0`.
-{% endhint %}
-
-{% hint style="warning" %}
-The lowest granularity TIMESTAMP type supports is milliseconds epoch, nanoseconds is not supported.
-{% endhint %}
-
-Pinot also supports columns that contain lists or arrays of items, but there isn't an explicit data type to represent these lists or arrays. Instead, you can indicate that a dimension column accepts multiple values. For more information, see [DimensionFieldSpec](https://docs.pinot.apache.org/configuration-reference/schema#dimensionfieldspec) in the Schema configuration reference.
+For configuration details, see [Schema configuration reference](https://docs.pinot.apache.org/configuration-reference/schema).&#x20;
 
 ### Date and time fields
 
 Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations. You can refer to [DateTime field spec configs](../../configuration-reference/schema.md#datetimefieldspec) for more details on supported formats.
-
-### Built-in virtual columns
-
-There are several built-in virtual columns inside the schema the can be used for debugging purposes:
-
-| Column Name  | Column Type | Data Type | Description                                  |
-| ------------ | ----------- | --------- | -------------------------------------------- |
-| $hostName    | Dimension   | STRING    | Name of the server hosting the data          |
-| $segmentName | Dimension   | STRING    | Name of the segment containing the record    |
-| $docId       | Dimension   | INT       | Document id of the record within the segment |
-
-These virtual columns can be used in queries in a similar way to regular columns.
 
 ### Creating a schema
 

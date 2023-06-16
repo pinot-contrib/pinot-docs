@@ -163,6 +163,18 @@ Here are some sample date-time formats you can use in the schema:
 * `1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd` - when the date is in `STRING` format and has the pattern year-month-date. e.g. 2020-08-21
 * `1:HOURS:SIMPLE_DATE_FORMAT:EEE MMM dd HH:mm:ss ZZZ yyyy` - when date is in `STRING` format. e.g. Mon Aug 24 12:36:50 America/Los\_Angeles 2019
 
+### Built-in virtual columns
+
+There are several built-in virtual columns inside the schema the can be used for debugging purposes:
+
+| Column Name  | Column Type | Data Type | Description                                  |
+| ------------ | ----------- | --------- | -------------------------------------------- |
+| $hostName    | Dimension   | STRING    | Name of the server hosting the data          |
+| $segmentName | Dimension   | STRING    | Name of the segment containing the record    |
+| $docId       | Dimension   | INT       | Document id of the record within the segment |
+
+These virtual columns can be used in queries in a similar way to regular columns.
+
 ### Advanced fields
 
 Apart from these, there's some advanced fields. These are common to all field specs.
