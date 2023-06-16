@@ -7,3 +7,4 @@ structure:
 redirects:  
     developers/developers-and-contributors/update-document: contributing/contributing.md
     user-guide/user-guide-query/pinot-query-language: users/user-guide-query/querying-pinot.md
+    basics/components/controller#controller-periodic-tasks: configuration-reference/controller.md
