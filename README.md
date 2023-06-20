@@ -67,7 +67,7 @@ Pinot also powers a wide variety of real time analytical use cases across severa
 
 ## When should I use Pinot?
 
-Pinot is designed to execute OLAP queries with low latency. It works well where you need fast analytics, such as aggregations, on immutable data.
+Pinot is designed to execute OLAP queries with low latency. It works well where you need fast analytics, such as aggregations, on both mutable and immutable data.
 
 **User-facing analytics products**
 
