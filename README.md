@@ -30,9 +30,9 @@ What is Apache Pinot? (and User-Facing Analytics) by Tim Berglund
 
 ### User-Facing Real-Time Analytics
 
-**User-facing analytics**, or site-facing analytics, refers to the analytical tools and applications exposed directly to the end users of your product. In a user-facing analytics application, the user base is _all_ end users of an app – not just a few analysts doing offline analysis or a handful of data scientists in a company running ad hoc queries. Each end user receives personalized analytics on their personal devices (think hundreds of thousands of queries per second). Because these queries are triggered by apps, and not written by people, the scale grows in proportion to the number of active users on the app (think millions of events per second).
+**User-facing analytics**, or site-facing analytics, refers to the analytical tools and applications exposed directly to the end users of your product. In a user-facing analytics application, all users receive personalized analytics on their devices (think hundreds of thousands of queries per second). Because these queries are triggered by apps, and not written by people, the scale grows in proportion to the number of active users on the app (millions of events per second).
 
-This is designed for when you need the freshest possible data, which leads into the second aspect – **real-time analytics**. For some use cases, data from yesterday is no longer useful. The data needs to be available for analytics as soon as it is generated (think latencies under one second).
+Pinot is designed to provide the freshest possible data and supports **real-time analytics**. Data generated in Pinot is immediately available for analytics in latencies under one second.
 
 ### Why is user-facing real-time analytics is so challenging?
 
