@@ -36,7 +36,7 @@ Pinot is designed to provide the freshest possible data and supports **real-time
 
 ### Why is user-facing real-time analytics is so challenging?
 
-What does the user-facing real-time analytics app described above require from the underlying infrastructure?
+User-facing real-time analytics is challenging because it requires some very specific things from the underlying infrastructure.
 
 ![Challenges of user-facing real-time analytics](<.gitbook/assets/Screen Shot 2021-04-28 at 2.09.22 PM.png>)
 
@@ -61,9 +61,7 @@ Building Latency Sensitive User-facing Analytics via Apache Pinot
 
 ### Companies using Pinot
 
-LinkedIn, where Pinot originated, currently has one of the largest Pinot deployments, powering more than 50+ user-facing applications (such as Viewed My Profile, Talent Analytics, Company Analytics, Ad Analytics and many more). At LinkedIn, Pinot also serves as the backend to visualize and monitor 10,000+ business metrics.
-
-Pinot also powers a wide variety of real time analytical use cases across several other big players, including Uber, Walmart, WePay, Factual, Weibo and more. Find a detailed list of companies using Pinot [here](https://pinot.apache.org/who\_uses).​
+Pinot powers a wide variety of real time analytical use cases across several big players, including LinkedIn, Uber, Walmart, WePay, Factual, Weibo and more. Find a detailed list of companies using Pinot [here](https://pinot.apache.org/who\_uses).​
 
 ## When should I use Pinot?
 
@@ -75,9 +73,9 @@ Pinot is the perfect choice for user-facing analytics products. Pinot was origin
 
 **Real-time dashboard for business metrics**
 
-Pinot can be also be used to perform typical analytical operations such as slice and dice, drill down, roll up, and pivot on large scale multi-dimensional data. For instance, at LinkedIn, Pinot powers dashboards for thousands of business metrics. You can also connect various BI tools such as Superset, Tableau, or PowerBI to visualize data in Pinot.
+Pinot can be also be used to perform typical analytical operations such as slice and dice, drill down, roll up, and pivot on large scale multi-dimensional data. For instance, at LinkedIn, Pinot powers dashboards for thousands of business metrics. You can also connect various BI tools such as [Superset](https://superset.apache.org/docs/intro/), [Tableau](https://www.tableau.com/resource/business-intelligence), or [PowerBI](https://powerbi.microsoft.com/en-us/) to visualize data in Pinot.
 
-Instructions to connect Pinot with Superset can be found [here](https://docs.pinot.apache.org/integrations/superset).
+To integrate Pinot and Superset, see [the Superset integration page](https://docs.pinot.apache.org/integrations/superset).
 
 **Anomaly detection**
 
