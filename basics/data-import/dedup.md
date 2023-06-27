@@ -6,11 +6,9 @@ description: Deduplication support in Apache Pinot.
 
 Pinot provides native support for deduplication (dedup) during the real-time ingestion (v0.11.0+).
 
-To enable dedup on a Pinot table, make the following table configuration and schema changes.
-
 ## Prerequisites for enabling dedup
 
-To enable dedup, update the following: 
+To enable dedup on a Pinot table, make the following table configuration and schema changes:
 
 ### Define the primary key in the schema
 

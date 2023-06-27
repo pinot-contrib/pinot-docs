@@ -8,7 +8,7 @@ description: >-
 
 Pinot supports consuming data from [Apache Pulsar](https://pulsar.apache.org) via the `pinot-pulsar` plugin. You need to enable this plugin so that Pulsar specific libraries are present in the classpath.
 
-Enable the pulsar plugin with the following config at the time of Pinot setup\
+Enable the Pulsar plugin with the following config at the time of Pinot setup:
 `-Dplugins.include=pinot-pulsar`
 
 {% hint style="info" %}
@@ -17,7 +17,7 @@ The `pinot-pulsar` plugin is not part of official 0.10.0 binary. You can downloa
 
 ## Set up Pulsar table
 
-A sample Pulsar stream config to ingest data should look as follows. You can use the `streamConfigs` section from this sample and make changes for your corresponding table.
+Here is a sample Pulsar stream config. You can use the `streamConfigs` section from this sample and make changes for your corresponding table.
 
 ```json
 {
