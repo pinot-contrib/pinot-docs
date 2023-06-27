@@ -47,7 +47,7 @@ This guide shows you how to import data using stream ingestion with CLP.
 [clp.md](clp.md)
 {% endcontent-ref %}
 
-## Pinot File Systems
+## Pinot file systems
 
 By default, Pinot does not come with a storage layer, so all the data sent won't be stored in case of system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add a deep storage. See [File systems](pinot-file-system/) for all the info and related configs.
 
@@ -69,7 +69,7 @@ These guides show you how to import data and persist it in these file systems.
 [import-from-hdfs.md](pinot-file-system/import-from-hdfs.md)
 {% endcontent-ref %}
 
-## Pinot Input Formats
+## Pinot input formats
 
 This guide shows you how to import data from various Pinot-supported input formats.
 

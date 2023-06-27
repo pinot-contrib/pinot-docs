@@ -1,6 +1,6 @@
 ---
 description: >-
-  This guide shows you how to import data from files stored in Amazon S3
+  This guide shows you how to import data from files stored in Amazon S3.
 ---
 
 # Amazon S3
