@@ -2,7 +2,7 @@
 description: Upsert support in Apache Pinot.
 ---
 
-# Stream ingestion with upsert
+# Stream Ingestion with Upsert
 
 Pinot provides native support of upsert during real-time ingestion. There are scenarios where records need modifications, such as correcting a ride fare or updating a delivery status.
 
@@ -89,15 +89,15 @@ To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUp
 
 Pinot supports the following partial upsert strategies:
 
-| Strategy  | Description                                                                |
-| --------- | -------------------------------------------------------------------------- |
-| OVERWRITE | Overwrite the column of the last record                                    |
-| INCREMENT | Add the new value to the existing values                                   |
-| APPEND    | Add the new item to the Pinot unordered set                                |
-| UNION     | Add the new item to the Pinot unordered set if not exists                  |
-| IGNORE    | Ignore the new value, keep the existing value (v0.10.0+)                   |
-| MAX       | Keep the maximum value betwen the existing value and new value (v0.12.0+)  |
-| MIN       | Keep the minimum value betwen the existing value and new value (v0.12.0+)  |
+| Strategy  | Description                                                               |
+| --------- | ------------------------------------------------------------------------- |
+| OVERWRITE | Overwrite the column of the last record                                   |
+| INCREMENT | Add the new value to the existing values                                  |
+| APPEND    | Add the new item to the Pinot unordered set                               |
+| UNION     | Add the new item to the Pinot unordered set if not exists                 |
+| IGNORE    | Ignore the new value, keep the existing value (v0.10.0+)                  |
+| MAX       | Keep the maximum value betwen the existing value and new value (v0.12.0+) |
+| MIN       | Keep the minimum value betwen the existing value and new value (v0.12.0+) |
 
 {% hint style="info" %}
 With partial upsert, if the value is `null` in either the existing record or the new coming record, Pinot will ignore the upsert strategy and the `null` value:
@@ -141,7 +141,7 @@ In some cases, especially where partial upsert might be employed, there may be m
 }
 ```
 
- Documents written to Pinot are expected to have exactly 1 non-null value out of the set of comparisonColumns; if more than 1 of the columns contains a value, the document will be rejected. When new documents are written, whichever comparison column is non-null will be compared against only that same comparison column seen in prior documents with the same primary key. Consider the following examples, where the documents are assumed to arrive in the order specified in the array.
+Documents written to Pinot are expected to have exactly 1 non-null value out of the set of comparisonColumns; if more than 1 of the columns contains a value, the document will be rejected. When new documents are written, whichever comparison column is non-null will be compared against only that same comparison column seen in prior documents with the same primary key. Consider the following examples, where the documents are assumed to arrive in the order specified in the array.
 
 ```json
 [
@@ -187,24 +187,66 @@ In some cases, especially where partial upsert might be employed, there may be m
 The following would occur:
 
 1. `orderReceived: 1`
-  - Result: persisted
-  - Reason: first doc seen for primary key "aa"
-2. `orderReceived: 2`
-  - Result: persisted (replacing `orderReceived: 1`)
-  - Reason: comparison column (`secondsSinceEpoch`) larger than that previously seen
-3. `orderReceived: 3`
-  - Result: rejected
-  - Reason: comparison column (`secondsSinceEpoch`) smaller than that previously seen
-4. `orderReceived: 4`
-  - Result: persisted (replacing `orderReceived: 2`)
-  - Reason: comparison column (`otherComparisonColumn`) larger than previously seen (never seen previously), despite the value being smaller than that seen for `secondsSinceEpoch`
-5. `orderReceived: 5`
-  - Result: rejected
-  - Reason: comparison column (`otherComparisonColumn`) smaller than that previously seen
-6. `orderReceived: 6`
-  - Result: persist (replacing `orderReceived: 4`)
-  - Reason: comparison column (`otherComparisonColumn`) larger than that previously seen
 
+* Result: persisted
+* Reason: first doc seen for primary key "aa"
+
+2. `orderReceived: 2`
+
+* Result: persisted (replacing `orderReceived: 1`)
+* Reason: comparison column (`secondsSinceEpoch`) larger than that previously seen
+
+3. `orderReceived: 3`
+
+* Result: rejected
+* Reason: comparison column (`secondsSinceEpoch`) smaller than that previously seen
+
+4. `orderReceived: 4`
+
+* Result: persisted (replacing `orderReceived: 2`)
+* Reason: comparison column (`otherComparisonColumn`) larger than previously seen (never seen previously), despite the value being smaller than that seen for `secondsSinceEpoch`
+
+5. `orderReceived: 5`
+
+* Result: rejected
+* Reason: comparison column (`otherComparisonColumn`) smaller than that previously seen
+
+6. `orderReceived: 6`
+
+* Result: persist (replacing `orderReceived: 4`)
+* Reason: comparison column (`otherComparisonColumn`) larger than that previously seen
+
+### Delete column
+
+Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the realtime engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable docs. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.&#x20;
+
+```json
+{ 
+    "upsertConfig": {  
+        ... 
+        "deleteColumn": <column_name>
+    } 
+}
+```
+
+Please note that the `delete` column has to be a single-value boolean column.&#x20;
+
+<pre class="language-json"><code class="lang-json">// In the Schema
+{
+    ...
+    {
+      "name": "&#x3C;delete_column_name>",
+      "dataType": "BOOLEAN"
+    },
+    ...
+<strong>}
+</strong></code></pre>
+
+{% hint style="info" %}
+Please note that when `deleteColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.&#x20;
+{% endhint %}
+
+A deleted primary key can be revived by ingesting a record with the same primary, but with higher comparison column value(s).&#x20;
 
 ### Use strictReplicaGroup for routing
 
@@ -232,9 +274,9 @@ Upsert snapshot support is also added in `release-0.12.0`. To enable the snapsho
 }
 ```
 
-Upsert maintains metadata in memory containing which docIds are valid in a particular segment (ValidDocIndexes). This metadata gets lost during server restarts and needs to be recreated again.  \
+Upsert maintains metadata in memory containing which docIds are valid in a particular segment (ValidDocIndexes). This metadata gets lost during server restarts and needs to be recreated again.\
 \
-ValidDocIndexes can not be recovered easily after out-of-TTL primary keys get removed. Enabling snapshots addresses this problem by adding functions to store and recover validDocIds snapshot for Immutable Segments \
+ValidDocIndexes can not be recovered easily after out-of-TTL primary keys get removed. Enabling snapshots addresses this problem by adding functions to store and recover validDocIds snapshot for Immutable Segments\
 \
 We recommend that you enable this feature so as to speed up server boot times during restarts.
 
@@ -268,11 +310,11 @@ Upsert table maintains an in-memory map from the primary key to the record locat
 
 #### Monitoring
 
-Set up a dashboard over the metric `pinot.server.upsertPrimaryKeysCount.tableName` to watch the number of primary keys in a table partition. It's useful for tracking its growth which is proportional to the memory usage growth.  ****  The total memory usage by upsert is roughly `(primaryKeysCount * (sizeOfKeyInBytes + 24))`
+Set up a dashboard over the metric `pinot.server.upsertPrimaryKeysCount.tableName` to watch the number of primary keys in a table partition. It's useful for tracking its growth which is proportional to the memory usage growth. \*\*\*\* The total memory usage by upsert is roughly `(primaryKeysCount * (sizeOfKeyInBytes + 24))`
 
 #### Capacity planning
 
-It's useful to plan the capacity beforehand to ensure you will not run into resource constraints later. A simple way is to measure the rate  of the primary keys in the input stream per partition and extrapolate the data to a specific time period (based on table retention) to approximate the memory usage. A heap dump is also useful to check the memory usage so far on an upsert table instance.
+It's useful to plan the capacity beforehand to ensure you will not run into resource constraints later. A simple way is to measure the rate of the primary keys in the input stream per partition and extrapolate the data to a specific time period (based on table retention) to approximate the memory usage. A heap dump is also useful to check the memory usage so far on an upsert table instance.
 
 ### Example
 
