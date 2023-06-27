@@ -10,7 +10,7 @@ To enable dedup on a Pinot table, make the following table configuration and sch
 
 ## Prerequisites for enabling dedup
 
-These mandatory configurations are needed in order to be able to enable dedup.
+To enable dedup, update the following: 
 
 ### Define the primary key in the schema
 
