@@ -25,7 +25,7 @@ Each of these properties should be prefixed by `pinot.[node].storage.factory.cla
 
 The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Please check [Hadoop Kerberos guide ](https://docs.cloudera.com/documentation/enterprise/5-8-x/topics/cdh\_sg\_kerberos\_prin\_keytab\_deploy.html#topic\_3\_4)on how to generate Kerberos security identification.
 
-You will also need to provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
+You need to provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
 
 ```
 export HADOOP_HOME=/local/hadoop/

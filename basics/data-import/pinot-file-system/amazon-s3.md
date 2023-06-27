@@ -1,3 +1,8 @@
+---
+description: >-
+  This guide shows you how to import data from files stored in Amazon S3
+---
+
 # Amazon S3
 
 You can enable [Amazon S3](https://aws.amazon.com/s3/) Filesystem backend by including the plugin `pinot-s3` .
