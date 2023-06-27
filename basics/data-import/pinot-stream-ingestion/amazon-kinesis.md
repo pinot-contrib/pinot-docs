@@ -1,8 +1,14 @@
-# Amazon Kinesis
+---
+description: >-
+  This guide shows you how to ingest a stream of records from an Amazon Kinesis
+  topic into a Pinot table.
+---
 
-To ingest events from an Amazon Kinesis stream into Pinot, set the following configs into the table config
+# Import from Amazon Kinesis
 
-```
+To ingest events from an Amazon Kinesis stream into Pinot, set the following configs into the table config:
+
+```json
 {
   "tableName": "kinesisTable",
   "tableType": "REALTIME",
@@ -55,9 +61,9 @@ Kinesis supports authentication using the [DefaultCredentialsProviderChain](http
 * Credentials delivered through the Amazon EC2 container service if `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` environment variable is set and security manager has permission to access the variable,
 * Instance profile credentials delivered through the Amazon EC2 metadata service
 
-You can also specify the accessKey and secretKey using the properties. However, this method is not secure and should be used only for POC setups. You can also specify other aws fields such as AWS\_SESSION\_TOKEN as environment variables and config and it will work.
+Although you can also specify the `accessKey` and `secretKey` in the properties above, we don't recommend this unsecure method. We recommend using it only for non-production proof-of-concept (POC) setups. You can also specify other AWS fields such as AWS\_SESSION\_TOKEN as environment variables and config and it will work.
 
 #### Limitations
 
-1. ShardID is of the format "**shardId-000000000001**". We use the numeric part as partitionId. Our partitionId variable is integer. If shardIds grow beyond Integer.MAX\_VALUE, we will overflow
+1. `ShardID` is of the format "**shardId-000000000001**". We use the numeric part as `partitionId`. Our `partitionId` variable is integer. If shardIds grow beyond `Integer.MAX\_VALUE`, we will overflow into the partitionId space.
 2. Segment size based thresholds for segment completion will not work. It assumes that partition "0" always exists. However, once the shard 0 is split/merged, we will no longer have partition 0.
