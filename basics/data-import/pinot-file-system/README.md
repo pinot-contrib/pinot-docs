@@ -6,12 +6,12 @@ description: >-
 
 # File Systems
 
-FileSystem is an abstraction provided by Pinot to access data in distributed file systems (DFS).
+FileSystem is an abstraction provided by Pinot to access data stored in distributed file systems (DFS).
 
-Pinot uses distributed file systems for the following purposes:
+Pinot uses distributed file systems for:
 
-* Batch Ingestion Job - To read the input data (CSV, Avro, Thrift, etc.) and to write generated segments to DFS
-* Controller - When a segment is uploaded to the controller, the controller saves it in the DFS configured.
+* Batch Ingestion Job - To read the input data (CSV, Avro, Thrift, etc.) and to write generated segments to DFS.
+* Controller - When a segment is uploaded to the controller, the controller saves it in the configured DFS.
 * Server - When a server(s) is notified of a new segment, the server copies the segment from remote DFS to their local node using the DFS abstraction.
 
 ## Supported File Systems
@@ -25,18 +25,18 @@ Pinot lets you choose a distributed file system provider. The following file sys
 
 ## Enabling a File System
 
-To use a distributed file system, you need to enable plugins. To do that, specify the plugin directory and include the required plugins -
+To use a distributed file system, you need to enable plugins. To do that, specify the plugin directory and include the required plugins:
 
 ```
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-plugin-to-include-1,pinot-plugin-to-include-2
 ```
 
-Now, You can proceed to change the filesystem in the `controller` and `server` config as shown below:
+You can change the filesystem in the `controller` and `server` config as shown here, where `scheme` refers to the prefix used in the URI of the filesystem, such as in the URI `s3://bucket/path/to/file`, where the scheme is `s3`.
 
 ```
 #CONTROLLER
 
-pinot.controller.storage.factory.class.[scheme]=className of the pinot file systems
+pinot.controller.storage.factory.class.[scheme]=className of the pinot file system
 pinot.controller.segment.fetcher.protocols=file,http,[scheme]
 pinot.controller.segment.fetcher.[scheme].class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
@@ -44,14 +44,12 @@ pinot.controller.segment.fetcher.[scheme].class=org.apache.pinot.common.utils.fe
 ```
 #SERVER
 
-pinot.server.storage.factory.class.[scheme]=className of the pinotfile systems
+pinot.server.storage.factory.class.[scheme]=className of the pinot file system
 pinot.server.segment.fetcher.protocols=file,http,[scheme]
 pinot.server.segment.fetcher.[scheme].class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
 
-`scheme` refers to the prefix used in the URI of the filesystem. e.g. for the URI `s3://bucket/path/to/file` , the scheme is `s3`
-
-You can also change the filesystem during ingestion. In the ingestion job spec, specify the filesystem with the following config:
+You can also change the file system during ingestion. In the ingestion job spec, specify the file system with the following config:
 
 ```
 pinotFSSpecs
