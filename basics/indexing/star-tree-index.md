@@ -1,5 +1,5 @@
 ---
-description: Learn what a star-tree index is and how one works.
+description: Learn what a star-tree index is and the concept of how one works.
 ---
 
 # Star-Tree Index
