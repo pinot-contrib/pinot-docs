@@ -14,12 +14,12 @@ Enable the [Google Cloud Storage](https://cloud.google.com/products/storage/) us
 By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
 {% endhint %}
 
-GCP filesystems provides the following options:
+GCP file systems provides the following options:
 
 * `projectId` - The name of the Google Cloud Platform project under which you have created your storage bucket.
 * `gcpKey` - Location of the json file containing GCP keys. You can refer [Creating and managing service account keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) to download the keys.
 
-Each of these properties should be prefixed by `pinot.[node].storage.factory.class.gs.` where `node` is either `controller` or `server` depending on the config, like this:
+Each of these properties should be prefixed by `pinot.[node].storage.factory.class.gs.` where `node` is either `controller` or `server` depending on the configuration, like this:
 
 ```
 pinot.controller.storage.factory.class.gs.projectId=test-project

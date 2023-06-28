@@ -5,7 +5,7 @@ description: >-
 
 # Amazon S3
 
-Enable the [Amazon S3](https://aws.amazon.com/s3/) Filesystem backend by including the `pinot-s3` plugin. In the controller or server, add the config:
+Enable the [Amazon S3](https://aws.amazon.com/s3/) file system backend by including the `pinot-s3` plugin. In the controller or server configuration, add the config:
 
 ```
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-s3
@@ -15,7 +15,7 @@ Enable the [Amazon S3](https://aws.amazon.com/s3/) Filesystem backend by includi
 By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
 {% endhint %}
 
-You can configure the S3 filesystem using the following options:
+You can configure the S3 file system using the following options:
 
 | Configuration            | Description                                                                                                                                                                                                                           |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
