@@ -117,9 +117,9 @@ The star-tree index is generated in the following steps:
   * If a node has more than _T_ records, it is split into multiple children nodes, one for each value of the dimension in the split order corresponding to current level in the tree.
   *   A star node can be created (per configuration) for the current node, by dropping the dimension being split on, and aggregating the metrics for rows containing dimensions with identical values. These aggregated documents are appended to the end of the star-tree documents.
 
-      If the current dimension only has one value, a star node isn't created because its documents would be identical to the single node.
+      If there is only one value for the current dimension, a star node won’t be created because the documents under the star node are identical to the single node.
 * The above step is repeated recursively until there are no more nodes to split.
-* Multiple star-tree nodes can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
+* Multiple star-trees can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
 
 ### Aggregation
 
