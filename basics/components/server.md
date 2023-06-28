@@ -57,18 +57,3 @@ bin/pinot-admin.sh StartServer \
 ```
 {% endtab %}
 {% endtabs %}
-
-USAGE
-
-```
-Usage: StartServer
-	-serverHost               <String>                      : Host name for controller. (required=false)
-	-serverPort               <int>                         : Port number to start the server at. (required=false)
-	-serverAdminPort          <int>                         : Port number to serve the server admin API at. (required=false)
-	-dataDir                  <string>                      : Path to directory containing data. (required=false)
-	-segmentDir               <string>                      : Path to directory containing segments. (required=false)
-	-zkAddress                <http>                        : Http address of Zookeeper. (required=false)
-	-clusterName              <String>                      : Pinot cluster name. (required=false)
-	-configFileName           <Config File Name>            : Server Starter Config file. (required=false)
-	-help                                                   : Print this message. (required=false)
-```
