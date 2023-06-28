@@ -16,14 +16,14 @@ By default Pinot loads all the plugins, so you can just drop this plugin there. 
 
 HDFS implementation provides the following options:
 
-* `hadoop.conf.path` : Absolute path of the directory containing hadoop XML configuration files, such as **hdfs-site.xml, core-site.xml** .
-* `hadoop.write.checksum` : create checksum while pushing an object. Default is `false`
+* `hadoop.conf.path`: Absolute path of the directory containing Hadoop XML configuration files, such as **hdfs-site.xml, core-site.xml** .
+* `hadoop.write.checksum`: Create checksum while pushing an object. Default is `false`
 * `hadoop.kerberos.principle`
 * `hadoop.kerberos.keytab`
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.class.hdfs.` where `node` is either `controller` or `server` depending on the config
 
-The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Refer to the [Hadoop Kerberos guide ](https://docs.cloudera.com/documentation/enterprise/5-8-x/topics/cdh\_sg\_kerberos\_prin\_keytab\_deploy.html#topic\_3\_4) for information on how to generate Kerberos security identification.
+The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Refer to the [Hadoop in secure mode documentation](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SecureMode.html) for information on how to secure Hadoop using Kerberos.
 
 You must provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
 
@@ -37,7 +37,7 @@ export CLASSPATH_PREFIX="${HADOOP_HOME}/share/hadoop/hdfs/hadoop-hdfs-${HADOOP_V
 
 ## Push HDFS segment to Pinot Controller
 
-To push HDFS segment files to Pinot controller, send the HDFS path of your newly created segment files to the Pinot Controller and let it download the files.
+To push HDFS segment files to Pinot controller, send the HDFS path of your newly created segment files to the Pinot Controller. The controller will download the files.
 
 This curl example requests tells the controller to download segment files to the proper table:
 

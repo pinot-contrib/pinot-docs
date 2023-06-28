@@ -18,10 +18,10 @@ By default Pinot loads all the plugins, so you can just drop this plugin there. 
 
 Azure Blob Storage provides the following options:
 
-* `accountName` : Name of the azure account under which the storage is created
-* `accessKey` : access key required for the authentication
-* `fileSystemName` - name of the filesystem to use i.e. container name (container name is similar to bucket name in S3)
-* `enableChecksum` - enable MD5 checksum for verification. Default is `false`.
+* `accountName`: Name of the Azure account under which the storage is created.
+* `accessKey`: Access key required for the authentication.
+* `fileSystemName`: Name of the file system to use, for example, the container name (similar to the bucket name in S3).
+* `enableChecksum`: Enable MD5 checksum for verification. Default is `false`.
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.class.adl2.` where `node` is either `controller` or `server` depending on the config, like this:
 
