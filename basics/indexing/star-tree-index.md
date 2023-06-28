@@ -98,7 +98,7 @@ The star-tree index stores data in a structure that consists of the following pr
 * **Root node** (Orange): Single root node, from which the rest of the tree can be traversed.
 * **Leaf node** (Blue): A leaf node can containing at most _T_ records, where _T_ is configurable.
 * **Non-leaf node** (Green): Nodes with more than _T_ records are further split into children nodes.
-* **Star node** (Yellow): Non-leaf nodes can have a special child node called the star node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
+* **Star node** (Yellow): Non-leaf nodes can also have a special child node called the star node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
 * **Dimensions split order** (\[D1, D2]): Nodes at a given level in the tree are split into children nodes on all values of a particular dimension. The dimensions split order is an ordered list of dimensions that is used to determine the dimension to split on for a given level in the tree.
 
 **Node properties**
@@ -119,9 +119,9 @@ The star-tree index is generated in the following steps:
   * If a node has more than _T_ records, it is split into multiple children nodes, one for each value of the dimension in the split order corresponding to current level in the tree.
   *   A star node can be created (per configuration) for the current node, by dropping the dimension being split on, and aggregating the metrics for rows containing dimensions with identical values. These aggregated documents are appended to the end of the star-tree documents.
 
-If the current dimension only has one value, a star node isn't created because its documents would be identical to the single node.
+      If there is only one value for the current dimension, a star node won’t be created because the documents under the star node are identical to the single node.
 * The above step is repeated recursively until there are no more nodes to split.
-* Multiple star-tree nodes can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
+* Multiple star-trees can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
 
 ### Aggregation
 
