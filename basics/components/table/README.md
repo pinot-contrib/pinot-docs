@@ -7,9 +7,9 @@ description: >-
 
 # Table
 
-A **table** is a logical abstraction that represents a collection of related data. It is composed of columns and rows (known as documents in Pinot). The columns, data types, and other metadata related to the table are defined using a [schema](../../configuration-reference/schema.md).
+A **table** is a logical abstraction that represents a collection of related data. It is composed of columns and rows (known as documents in Pinot). The columns, data types, and other metadata related to the table are defined using a [schema](../../../configuration-reference/schema.md).
 
-Pinot breaks a table into multiple [segments](segment.md) and stores these segments in a deep-store such as Hadoop Distributed File System (HDFS) as well as Pinot servers.
+Pinot breaks a table into multiple [segments](segment/) and stores these segments in a deep-store such as Hadoop Distributed File System (HDFS) as well as Pinot servers.
 
 In the Pinot cluster, a table is modeled as a [Helix resource](https://helix.apache.org/Concepts.html) and each segment of a table is modeled as a [Helix Partition](https://helix.apache.org/Concepts.html).
 
@@ -36,7 +36,7 @@ from myTable
 ```
 {% endhint %}
 
-[Table configuration](../../configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, and retention. It is written in JSON format and is stored in Zookeeper, along with the table schema.
+[Table configuration](../../../configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, and retention. It is written in JSON format and is stored in Zookeeper, along with the table schema.
 
 Use the following properties to make your tables faster or leaner:
 
@@ -48,7 +48,7 @@ Use the following properties to make your tables faster or leaner:
 
 A table is comprised of small chunks of data known as segments. Learn more about how Pinot creates and manages segments [here](https://docs.pinot.apache.org/basics/components/segment).
 
-For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../data-import/batch-ingestion/).
+For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../../data-import/batch-ingestion/).
 
 For real-time tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments.
 
@@ -64,11 +64,11 @@ The Pinot real-time consumer ingests the data, creates the segment, and then flu
 A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment [using the CLI](https://docs.pinot.apache.org/operators/cli#change-num-replicas).
 
 **Completion Mode**\
-By default, if the in-memory segment in the [non-winner server](server.md) is equivalent to the committed segment, then the non-winner server builds and replaces the segment. If the available segment is not equivalent to the committed segment, the server just downloads the committed segment from the controller.
+By default, if the in-memory segment in the [non-winner server](../cluster/server.md) is equivalent to the committed segment, then the non-winner server builds and replaces the segment. If the available segment is not equivalent to the committed segment, the server just downloads the committed segment from the controller.
 
 However, in certain scenarios, the segment build can get very memory-intensive. In these cases, you might want to enforce the non-committer servers to just download the segment from the controller instead of building it again. You can do this by setting `completionMode: "DOWNLOAD"` in the table configuration.
 
-For details, see [Completion Config](../../operators/operating-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers).
+For details, see [Completion Config](../../../operators/operating-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers).
 
 **Download Scheme**
 
@@ -80,21 +80,21 @@ For more details about peer segment download during real-time ingestion, refer t
 
 You can create multiple indices on a table to increase the performance of the queries. The following types of indices are supported:
 
-* [Forward Index](../indexing/forward-index.md)
+* [Forward Index](../../indexing/forward-index.md)
   * Dictionary-encoded forward index with bit compression
   * Raw value forward index
   * Sorted forward index with run-length encoding
-* [Inverted Index](../indexing/inverted-index.md)
+* [Inverted Index](../../indexing/inverted-index.md)
   * Bitmap inverted index
   * Sorted inverted index
-* [Star-tree Index](../indexing/star-tree-index.md)
-* [Range Index](../indexing/range-index.md)
-* [Text Index](../indexing/text-search-support.md)
-* [Geospatial](../indexing/geospatial-support.md)
+* [Star-tree Index](../../indexing/star-tree-index.md)
+* [Range Index](../../indexing/range-index.md)
+* [Text Index](../../indexing/text-search-support.md)
+* [Geospatial](../../indexing/geospatial-support.md)
 
-For more details on each indexing mechanism and corresponding configurations, see [Indexing](../indexing/).
+For more details on each indexing mechanism and corresponding configurations, see [Indexing](../../indexing/).
 
-Set up [Bloomfilters](indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
+Set up [Bloomfilters](../indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
 
 ### Pre-aggregation
 
@@ -120,7 +120,7 @@ The following table config snippet shows an example of enabling pre-aggregation 
 
 ## Tenants
 
-Each table is associated with a tenant. A segment resides on the server, which has the same tenant as itself. For details, see [Tenant](tenant.md).
+Each table is associated with a tenant. A segment resides on the server, which has the same tenant as itself. For details, see [Tenant](../cluster/tenant.md).
 
 Optionally, override if a table should move to a server with different tenant based on segment status. The example below adds a `tagOverrideConfig` under the `tenants` section for real-time tables to override tags for consuming and completed segments.&#x20;
 
@@ -136,7 +136,7 @@ Optionally, override if a table should move to a server with different tenant ba
 
 In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`.&#x20;
 
-You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
+You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
 
 ## Hybrid table
 
@@ -154,8 +154,8 @@ Create a table config for your data, or see [`examples`](https://github.com/apac
 
 **Prerequisites**
 
-* [Set up the cluster](cluster.md#setup-a-pinot-cluster)
-* [Create broker and server tenants](tenant.md#creating-a-tenant)
+* [Set up the cluster](../cluster/#setup-a-pinot-cluster)
+* [Create broker and server tenants](../cluster/tenant.md#creating-a-tenant)
 
 ## Offline table creation
 

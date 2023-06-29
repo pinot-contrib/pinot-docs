@@ -8,7 +8,7 @@ So far, we have set up our cluster, ran some queries, and explored the admin end
 
 ### Preparing your data
 
-Let's gather our data files and put them in `pinot-quick-start/rawdata`.&#x20;
+Let's gather our data files and put them in `pinot-quick-start/rawdata`.
 
 ```bash
 mkdir -p /tmp/pinot-quick-start/rawdata
@@ -40,7 +40,7 @@ Briefly, we categorize our columns into 3 types
 
 For example, in our sample table, the `studentID,firstName,lastName,gender,subject` columns are the dimensions, the `score` column is the metric and `timestampInEpoch` is the time column.
 
-Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the reference below.&#x20;
+Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the reference below.
 
 {% code title="/tmp/pinot-quick-start/transcript-schema.json" %}
 ```bash
@@ -86,7 +86,7 @@ Once you have identified the dimensions, metrics and time columns, create a sche
 
 ### Creating a table config
 
-A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table.md).&#x20;
+A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table/).
 
 Here's the table config for the sample CSV file. You can use this as a reference to build your own table config. Simply edit the tableName and schemaName.
 
@@ -156,7 +156,7 @@ Check out the table config and schema in the [Rest API](http://localhost:9000/he
 
 ### Creating a segment
 
-A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../components/segment.md).&#x20;
+A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../components/table/segment/).
 
 To generate a segment, we need to first create a job spec yaml file. JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. You can just copy over this job spec file. If you're using your own data, be sure to 1) replace `transcript` with your table name 2) set the right `recordReaderSpec`
 

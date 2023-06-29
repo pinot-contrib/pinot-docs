@@ -8,7 +8,7 @@ description: >-
 
 A cluster is a set of nodes comprising of servers, brokers, controllers and minions.
 
-![Pinot cluster components](../../.gitbook/assets/components.jpg)
+![Pinot cluster components](../../../.gitbook/assets/components.jpg)
 
 Pinot uses [Apache Helix](http://helix.apache.org) for cluster management. Helix is a cluster management framework that manages replicated, partitioned resources in a distributed system. Helix uses Zookeeper to store cluster state and metadata.
 
@@ -43,10 +43,10 @@ Pinot controllers are modeled as controllers. For details about controller nodes
 Another way to visualize the cluster is a logical view, where:
 
 * A cluster contains [tenants](tenant.md)
-* Tenants contain [tables](table.md)
-* Tables contain [segments](segment.md)
+* Tenants contain [tables](../table/)
+* Tables contain [segments](../table/segment/)
 
-![](../../.gitbook/assets/ClusterLogical.jpg)
+![](../../../.gitbook/assets/ClusterLogical.jpg)
 
 ## Set up a Pinot cluster
 
@@ -54,5 +54,5 @@ Typically, there is only one cluster per environment/data center. There is no ne
 
 To set up a cluster, see one of the following guides:
 
-* [Running Pinot in Docker](../getting-started/running-pinot-in-docker.md)
-* [Running Pinot locally](../getting-started/running-pinot-locally.md)
+* [Running Pinot in Docker](../../getting-started/running-pinot-in-docker.md)
+* [Running Pinot locally](../../getting-started/running-pinot-locally.md)

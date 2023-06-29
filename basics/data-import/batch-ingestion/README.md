@@ -2,7 +2,7 @@
 description: Batch ingestion of data into Apache Pinot.
 ---
 
-# Batch ingestion
+# Batch Ingestion
 
 With batch ingestion you create a table using data already present in a file system such as S3. This is particularly useful when you want to use Pinot to query across large data with minimal latency or to test out new features using a simple data file.
 
@@ -131,13 +131,13 @@ We now have an empty table in Pinot. Next, upload the CSV file to this empty tab
 
 A table is composed of multiple segments. The segments can be created in the following three ways:
 
-- Minion based ingestion\
-- Upload API\
-- Ingestion jobs
+* Minion based ingestion\\
+* Upload API\\
+* Ingestion jobs
 
 ### Minion-based ingestion
 
-Refer to [SegmentGenerationAndPushTask](../../components/minion.md#segmentgenerationandpushtask)
+Refer to [SegmentGenerationAndPushTask](../../components/cluster/minion.md#segmentgenerationandpushtask)
 
 ### Upload API
 
@@ -247,9 +247,9 @@ Once the job successfully finishes, head over to the `\[query console]` and star
 
 There are 3 ways to upload a Pinot segment:
 
-- Segment tar push
-- Segment URI push
-- Segment metadata push
+* Segment tar push
+* Segment URI push
+* Segment metadata push
 
 #### Segment tar push
 

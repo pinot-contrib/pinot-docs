@@ -15,41 +15,41 @@ For a general overview that ties all these components together, see [Basic Conce
 
 ### Operator reference
 
-{% content-ref url="cluster.md" %}
-[cluster.md](cluster.md)
+{% content-ref url="cluster/" %}
+[cluster](cluster/)
 {% endcontent-ref %}
 
-{% content-ref url="controller.md" %}
-[controller.md](controller.md)
+{% content-ref url="cluster/controller.md" %}
+[controller.md](cluster/controller.md)
 {% endcontent-ref %}
 
-{% content-ref url="broker.md" %}
-[broker.md](broker.md)
+{% content-ref url="cluster/broker.md" %}
+[broker.md](cluster/broker.md)
 {% endcontent-ref %}
 
-{% content-ref url="server.md" %}
-[server.md](server.md)
+{% content-ref url="cluster/server.md" %}
+[server.md](cluster/server.md)
 {% endcontent-ref %}
 
-{% content-ref url="minion.md" %}
-[minion.md](minion.md)
+{% content-ref url="cluster/minion.md" %}
+[minion.md](cluster/minion.md)
 {% endcontent-ref %}
 
-{% content-ref url="tenant.md" %}
-[tenant.md](tenant.md)
+{% content-ref url="cluster/tenant.md" %}
+[tenant.md](cluster/tenant.md)
 {% endcontent-ref %}
 
 ### Developer reference
 
-{% content-ref url="table.md" %}
-[table.md](table.md)
+{% content-ref url="table/" %}
+[table](table/)
 {% endcontent-ref %}
 
-{% content-ref url="schema.md" %}
-[schema.md](schema.md)
+{% content-ref url="table/schema.md" %}
+[schema.md](table/schema.md)
 {% endcontent-ref %}
 
-{% content-ref url="segment.md" %}
-[segment.md](segment.md)
+{% content-ref url="table/segment/" %}
+[segment](table/segment/)
 {% endcontent-ref %}
 
