@@ -143,7 +143,7 @@ Using "POST /cluster/configs" API on CLUSTER tab in Swagger, with this payload
 
 ### How to I manually run a Periodic Task?
 
-Refer to [Running a Periodic Task Manually](../../components/controller.md#running-the-periodic-task-manually)
+Refer to [Running a Periodic Task Manually](../../components/cluster/controller.md#running-the-periodic-task-manually)
 
 ## Tuning and Optimizations
 

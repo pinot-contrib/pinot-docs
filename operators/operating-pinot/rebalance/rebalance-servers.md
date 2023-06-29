@@ -27,7 +27,7 @@ Below is an example of how this looks in the znode, as seen in ZooInspector.
 
 ![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.05.29 PM.png>)
 
-A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/tenant.md) section.
+A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/cluster/tenant.md) section.
 
 ```
  {   
