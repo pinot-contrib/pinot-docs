@@ -1,6 +1,7 @@
 ---
 description: This page describes configuring the bloom filter for Apache Pinot
 ---
+<<<<<<< HEAD
 
 # Bloom filter
 
@@ -8,6 +9,15 @@ The bloom filter prunes segments that do not contain any record matching an **EQ
 
 This is useful for a query like the following:
 
+=======
+
+# Bloom Filter
+
+The bloom filter prunes segments that do not contain any record matching an **EQUALITY** predicate.
+
+This is useful for a query like the following:
+
+>>>>>>> 5718bf4 (Edits to five short indexing pages as part of site review)
 ```sql
 SELECT COUNT(*) 
 FROM baseballStats 
@@ -16,7 +26,11 @@ WHERE playerID = 12345
 
 There are 3 parameters to configure the bloom filter:
 
+<<<<<<< HEAD
 * **`fpp`**: False positive probability of the bloom filter (from `0` to `1`, `0.05` by default). A lower `fpp` increase both accuracy and size of the bloom filter.
+=======
+* **`fpp`**: False positive probability of the bloom filter (from `0` to `1`, `0.05` by default). The lower the `fpp` , the higher accuracy the bloom filter has, but it will also increase the size of the bloom filter.
+>>>>>>> 5718bf4 (Edits to five short indexing pages as part of site review)
 * **`maxSizeInBytes`**: Maximum size of the bloom filter (unlimited by default). If a `fpp` setting generates a bloom filter larger than this size, using this setting will increase the `fpp` to keep the bloom filter size within this limit.
 * **`loadOnHeap`**: Whether to load the bloom filter using heap memory or off-heap memory (`false` by default).
 
