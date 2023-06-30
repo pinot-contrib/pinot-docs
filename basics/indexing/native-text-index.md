@@ -10,7 +10,7 @@ Pinot supports text indexing and search by building Lucene indices as _sidecars_
 
 ## How is Pinot different?
 
-Pinot, like any other database/OLAP engine, does not need to conform to the entire full text search domain-specific language (DSL) that is traditionally used by full-text search (FTS) engines like ElasticSearch and Solr. In traditional SQL text search use cases, the majority of text searches belong to one of three patterns: prefix wildcard queries (like `pino*`), postfix or suffix wildcard queries (like `*inot`), and term queries (like `pinot`).
+Pinot, like any other database/OLAP engine, does not need to conform to the entire full text search domain-specific language (DSL) that is traditionally used by full-text search (FTS) engines like ElasticSearch and Solr. In traditional SQL text search use cases, the majority of text searches belong to one of three patterns: prefix wildcard queries (like `pino*`), suffix wildcard queries (like `*inot`), and term queries (like `pinot`).
 
 ## Native text indices in Pinot
 
