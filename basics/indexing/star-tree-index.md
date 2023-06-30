@@ -2,7 +2,7 @@
 description: Learn what a star-tree index is and how one works.
 ---
 
-# Star-Tree Index
+# Star-tree index
 
 In this page you will learn what a star-tree index is and gain a conceptual understanding of how one works.
 
