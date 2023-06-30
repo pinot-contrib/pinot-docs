@@ -1,7 +1,7 @@
 ---
 description: >-
   This page talks about native text indices and corresponding search
-  functionality in Apache Pinot
+  functionality in Apache Pinot.
 ---
 
 # Native text index
