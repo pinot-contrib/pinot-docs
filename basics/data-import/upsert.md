@@ -218,13 +218,13 @@ The following would occur:
 
 ### Delete column
 
-Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the realtime engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable docs. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.&#x20;
+Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the realtime engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable set of documents. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.&#x20;
 
 ```json
 { 
     "upsertConfig": {  
         ... 
-        "deleteColumn": <column_name>
+        "deleteRecordColumn": <column_name>
     } 
 }
 ```
@@ -243,10 +243,12 @@ Please note that the `delete` column has to be a single-value boolean column.&#x
 </strong></code></pre>
 
 {% hint style="info" %}
-Please note that when `deleteColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.&#x20;
+Please note that when `deleteRecordColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.&#x20;
 {% endhint %}
 
 A deleted primary key can be revived by ingesting a record with the same primary, but with higher comparison column value(s).&#x20;
+
+Please note that when reviving a primary key in a partial upsert table, the revived record will be treated as the source of truth for all columns. This means any previous updates to the columns will be ignored and overwritten with the new record's values.&#x20;
 
 ### Use strictReplicaGroup for routing
 
