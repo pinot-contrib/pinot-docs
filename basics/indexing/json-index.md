@@ -1,3 +1,7 @@
+---
+description:  This page describes configuring the JSON index for Apache Pinot.
+---
+
 # JSON Index
 
 JSON index can be applied to JSON string columns to accelerate the value lookup and filtering for the column.
