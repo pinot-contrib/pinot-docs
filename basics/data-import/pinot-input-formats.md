@@ -48,26 +48,25 @@ configs:
 
 CSV Record Reader supports the following configs:
 
-* **`fileFormat`**: Can be one of: default, rfc4180, excel, tdf, mysql.
+* **`fileFormat`**: `default`, `rfc4180`, `excel`, `tdf`, `mysql`
 
-* **`header`**: Header of the file. The columnNames should be seperated by the delimiter mentioned in the configuration.
+* **`header`**: Header of the file. The `columnNames` should be separated by the delimiter mentioned in the configuration.
 
 * **`delimiter`**: The character seperating the columns.
 
-* **`multiValueDelimiter`**: The character seperating multiple values in a single column. This can be used to split a column into a list.
+* **`multiValueDelimiter`**: The character separating multiple values in a single column. This can be used to split a column into a list.
 
 
-Supported from 0.11 release:
 
-* **`skipHeader`**: skip header record in the file. Boolean
+* **`skipHeader`**: Skip header record in the file. Boolean.
 
-* **`ignoreEmptyLines`**: ignore empty lines instead of consuming them and filling with default values. Boolean
+* **`ignoreEmptyLines`**: Ignore empty lines (instead of filling them with default values). Boolean.
 
 * **`ignoreSurroundingSpaces`**: ignore spaces around column names and values. Boolean
 
-* **`quoteCharacter`**: single character that is being used for quotes in CSV files
+* **`quoteCharacter`**: Single character used for quotes in CSV files.
 
-* **`recordSeparator`**: character used to seperate records in the input file. Default is `\n` or `\r\n` depending on the platform.
+* **`recordSeparator`**: Character used to separate records in the input file. Default is `\n` or `\r\n` depending on the platform.
 
 * **`nullStringValue`**: String value that represents null in CSV files. Default is empty string.
 
@@ -87,9 +86,9 @@ configs:
     enableLogicalTypes: true
 ```
 
-The Avro record reader converts the data in file to a `GenericRecord`. A Java class or `.avro` file is not required. By default the avro record reader only supports primitive types. You can set `enableLogicalTypes` to `true` to enable support for rest of the Avro data types.
+The Avro record reader converts the data in file to a `GenericRecord`. A Java class or `.avro` file is not required. By default, the Avro record reader only supports primitive types. To enable support for rest of the Avro data types, set `enableLogicalTypes` to `true` .
 
-We use the following conversion table to translate between Avro and Pinot data types. The conversions are done using the offical Avro methods present in `org.apache.avro.Conversions`
+We use the following conversion table to translate between Avro and Pinot data types. The conversions are done using the offical Avro methods present in `org.apache.avro.Conversions`.
 
 | Avro Data Type    | Pinot Data Type | Comment                  |
 | ----------------- | --------------- | ------------------------ |
@@ -131,7 +130,7 @@ configs:
 ```
 
 {% hint style="info" %}
-Thrift requires the generated class using `.thrift` file to parse the data. The .class file should be available in the Pinot's classpath. You can put the files in the `lib/` folder of Pinot distribution directory.
+Thrift requires the generated class using `.thrift` file to parse the data. The `.class` file should be available in the Pinot's `classpath`. You can put the files in the `lib/` folder of Pinot distribution directory.
 {% endhint %}
 
 ### Parquet
@@ -141,9 +140,9 @@ dataFormat: 'parquet'
 className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader'
 ```
 
-Since 0.11.0 release, The Parquet record reader determines whether to use `ParquetAvroRecordReader` or `ParquetNativeRecordReader`  to read records. The reader looks for `parquet.avro.schema` or `avro.schema` key in the parquet file footer and if present uses the Avro reader.
+Since 0.11.0 release, the Parquet record reader determines whether to use `ParquetAvroRecordReader` or `ParquetNativeRecordReader` to read records. The reader looks for the `parquet.avro.schema` or `avro.schema` key in the parquet file footer, and if present, uses the Avro reader.
 
-Users can however change the record reader manually in case of a misconfiguration.
+You can change the record reader manually in case of a misconfiguration.
 
 ```
 dataFormat: 'parquet'
@@ -151,7 +150,7 @@ className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReade
 ```
 
 {% hint style="warning" %}
-For the support of DECIMAL and other parquet native data types, always use `ParquetNativeRecordReader`
+For the support of DECIMAL and other parquet native data types, always use `ParquetNativeRecordReader`.
 {% endhint %}
 
 | INT96                 | LONG                               | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p> to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |

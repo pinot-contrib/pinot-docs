@@ -4,13 +4,10 @@ description: Complex type handling in Apache Pinot.
 
 # Complex type (array, map) handling
 
-It's common for ingested data to have a complex structure. For example, Avro schemas have [records](https://avro.apache.org/docs/current/spec.html#schema\_record) and [arrays](https://avro.apache.org/docs/current/spec.html#Arrays) while JSON supports [objects](https://json-schema.org/understanding-json-schema/reference/object.html) and [arrays](https://json-schema.org/understanding-json-schema/reference/array.html).
+Commonly, ingested data has a complex structure. For example, Avro schemas have [records](https://avro.apache.org/docs/current/specification/_print/#schema-record) and [arrays](https://avro.apache.org/docs/current/specification/_print/#arrays) while JSON supports [objects](https://json-schema.org/understanding-json-schema/reference/object.html) and [arrays](https://json-schema.org/understanding-json-schema/reference/array.html).
 
-Apache Pinot's data model supports primitive data types (including int, long, float, double, BigDecimal string, bytes), as well as limited multi-value types such as an array of primitive types (multi-valued BigDecimal type is not supported). Such simple data types allow Pinot to build fast indexing structures for good query performance, but it requires some handling of the complex structures.
+Apache Pinot's data model supports primitive data types (including int, long, float, double, BigDecimal, string, bytes), and limited multi-value types, such as an array of primitive types. Simple data types allow Pinot to build fast indexing structures for good query performance, but does require some handling of the complex structures.
 
-{% hint style="warning" %}
-Support for `BIG_DECIMAL` type is available starting with the `0.10.0` release.
-{% endhint %}
 
 There are two options for complex type handling:
 
