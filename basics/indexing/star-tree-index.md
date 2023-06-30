@@ -1,5 +1,5 @@
 ---
-description: This page describes the indexing techniques available in Apache Pinot.
+description: Learn what a star-tree index is and how one works.
 ---
 
 # Star-Tree Index
@@ -11,9 +11,11 @@ Unlike other index techniques which work on a single column, the star-tree index
 One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
 Use the **star-tree** index to utilize pre-aggregated documents to achieve both low query latencies and efficient use of storage space for aggregation and group-by queries.
+Here we introduce the **star-tree** index to utilize the pre-aggregated documents in a way that achieves low query latencies but also uses the storage space efficiently for aggregation and group-by queries.
 
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
 
+## Existing solutions
 ## Existing solutions
 
 Consider the following data set, which is used here as an example to discuss these indexes:
