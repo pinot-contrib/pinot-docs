@@ -10,12 +10,14 @@ Unlike other index techniques which work on a single column, the star-tree index
 
 One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
-Here we introduce the **star-tree** index to utilize the pre-aggregated documents in a way that achieves low query latencies but also uses the storage space efficiently for aggregation and group-by queries.
+Use the **star-tree** index to utilize pre-aggregated documents to achieve both low query latencies and efficient use of storage space for aggregation and group-by queries.
 
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
 
 ## Existing solutions
+## Existing solutions
 
+Consider the following data set, which is used here as an example to discuss the existing approaches:
 Consider the following data set, which is used here as an example to discuss the existing approaches:
 
 | Country | Browser | Locale | Impressions |
@@ -74,14 +76,16 @@ In the example below, we have pre-aggregated the total impressions for each coun
 | USA     | 1200        |
 
 With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential increase in storage space.
+With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential increase in storage space.
 
+## Star-tree solution
 ## Star-tree solution
 
 On one end of the spectrum we have indexing techniques that improve search times with a limited increase in space, but don't guarantee a hard upper bound on query latencies. On the other end of the spectrum, we have pre-aggregation techniques that offer a hard upper bound on query latencies, but suffer from exponential explosion of storage space
 
 ![](../../.gitbook/assets/space-time.png)
 
-The star-tree data structure offers a configurable trade-off between space and time and lets us achieve a hard upper bound for query latencies for a given use case. In the following sections we will define the star-tree data structure, and explain how Pinot uses it to achieve low latencies with high throughput.
+The star-tree data structure offers a configurable trade-off between space and time and lets us achieve a hard upper bound for query latencies for a given use case. The following sections cover the star-tree data structure, and explain how Pinot uses this structure to achieve low latencies with high throughput.
 
 ### Definitions
 
@@ -94,7 +98,7 @@ The star-tree index stores data in a structure that consists of the following pr
 * **Root node** (Orange): Single root node, from which the rest of the tree can be traversed.
 * **Leaf node** (Blue): A leaf node can containing at most _T_ records, where _T_ is configurable.
 * **Non-leaf node** (Green): Nodes with more than _T_ records are further split into children nodes.
-* **Star node** (Yellow): Non-leaf nodes can also have a special child node called the star node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
+* **Star node** (Yellow): Non-leaf nodes can have a special child node called the star node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
 * **Dimensions split order** (\[D1, D2]): Nodes at a given level in the tree are split into children nodes on all values of a particular dimension. The dimensions split order is an ordered list of dimensions that is used to determine the dimension to split on for a given level in the tree.
 
 **Node properties**
@@ -115,9 +119,9 @@ The star-tree index is generated in the following steps:
   * If a node has more than _T_ records, it is split into multiple children nodes, one for each value of the dimension in the split order corresponding to current level in the tree.
   *   A star node can be created (per configuration) for the current node, by dropping the dimension being split on, and aggregating the metrics for rows containing dimensions with identical values. These aggregated documents are appended to the end of the star-tree documents.
 
-      If there is only one value for the current dimension, a star node won’t be created because the documents under the star node are identical to the single node.
+If the current dimension only has one value, a star node isn't created because its documents would be identical to the single node.
 * The above step is repeated recursively until there are no more nodes to split.
-* Multiple star-trees can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
+* Multiple star-tree nodes can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
 
 ### Aggregation
 
@@ -138,14 +142,18 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * PERCENTILE\_TDIGEST
 * DISTINCT\_COUNT\_BITMAP
   * NOTE: The intermediate result _RoaringBitmap_ is not bounded-sized, use carefully on high cardinality columns.
+  * NOTE: The intermediate result _RoaringBitmap_ is not bounded-sized, use carefully on high cardinality columns.
 
 **Unsupported functions**
 
 * DISTINCT\_COUNT
   * Intermediate result _Set_ is unbounded.
+  * Intermediate result _Set_ is unbounded.
 * SEGMENT\_PARTITIONED\_DISTINCT\_COUNT:
   * Intermediate result _Set_ is unbounded.
+  * Intermediate result _Set_ is unbounded.
 * PERCENTILE
+  * Intermediate result _List_ is unbounded.
   * Intermediate result _List_ is unbounded.
 
 **Functions to be supported**
@@ -153,6 +161,7 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * DISTINCT\_COUNT\_THETA\_SKETCH
 * ST\_UNION
 
+### Index generation configuration
 ### Index generation configuration
 
 Multiple index generation configurations can be provided to generate multiple star-trees. Each configuration should contain the following properties:
@@ -178,6 +187,7 @@ A default star-tree will have the following configuration:
 * Include COUNT(\*) and SUM for all numeric metrics in the _functionColumnPairs._
 * Use default _maxLeafRecords_ (10000).
 
+### Example
 ### Example
 
 For our example data set, in order to solve the following query efficiently:
@@ -213,7 +223,7 @@ We may config the star-tree index as follows:
 
 The star-tree and documents should be something like below:
 
-### **Tree structure**
+### Tree structure
 
 The values in the parentheses are the aggregated sum of _Impressions_ for all the documents under the node.
 
@@ -252,6 +262,7 @@ The values in the parentheses are the aggregated sum of _Impressions_ for all th
 | \*      | \*      | \*     | 2200               |
 
 ## Query execution
+## Query execution
 
 For query execution, the idea is to first check metadata to determine whether the query can be solved with the star-tree documents, then traverse the Star-Tree to identify documents that satisfy all the predicates. After applying any remaining predicates that were missed while traversing the star-tree to the identified documents, apply aggregation/group-by on the qualified documents.
 
@@ -268,5 +279,6 @@ The algorithm to traverse the tree can be described as follows:
   * Otherwise, collect all the documents in the document range from each selected node.note
 
 {% hint style="warning" %}
+There is a known bug which can mistakenly apply a star-tree index to queries with the OR operator on top of nested AND or NOT operators in the filter that cannot be solved with star-tree, and cause wrong results. E.g. `SELECT COUNT(*) FROM myTable WHERE (A = 1 AND B = 2) OR A = 2`. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
 There is a known bug which can mistakenly apply a star-tree index to queries with the OR operator on top of nested AND or NOT operators in the filter that cannot be solved with star-tree, and cause wrong results. E.g. `SELECT COUNT(*) FROM myTable WHERE (A = 1 AND B = 2) OR A = 2`. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
 {% endhint %}
