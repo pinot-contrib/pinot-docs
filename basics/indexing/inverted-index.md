@@ -1,10 +1,16 @@
-# Inverted Index
+---
+description: This page describes configuring the inverted index for Apache Pinot
+---
 
-### Bitmap inverted index
+# Inverted index
+
+An inverted index stores a map of words to the documents that contain them.
+
+## Bitmap inverted index
 
 When an inverted index is enabled for a column, Pinot maintains a map from each value to a bitmap of rows, which makes value lookup take constant time. If you have a column that is frequently used for filtering, adding an inverted index will improve performance greatly. You can create an inverted index on a multi-value column.
 
-An inverted index can be configured for a table by setting it in the [table config](../../configuration-reference/table.md):
+An inverted index can be configured for a table by setting it in the [table configuration](../../configuration-reference/table.md):
 
 ```javascript
 {
@@ -18,11 +24,11 @@ An inverted index can be configured for a table by setting it in the [table conf
 }
 ```
 
-### Sorted inverted index
+## Sorted inverted index
 
 A sorted forward index can directly be used as an inverted index, with `log(n)` time lookup and it can benefit from data locality.
 
-For the below example, if the query has a filter on `memberId`, Pinot will perform a binary search on `memberId` values to find the range pair of docIds for corresponding filtering value. If the query needs to scan values for other columns after filtering, values within the range docId pair will be located together, which means we can benefit from data locality.
+For the following example, if the query has a filter on `memberId`, Pinot will perform a binary search on `memberId` values to find the range pair of docIds for corresponding filtering value. If the query needs to scan values for other columns after filtering, values within the range docId pair will be located together, which means we can benefit from data locality.
 
 ![\_images/sorted-inverted.png](../../.gitbook/assets/sorted-inverted.png)
 
