@@ -74,7 +74,6 @@ In the example below, we have pre-aggregated the total impressions for each coun
 | USA     | 1200        |
 
 With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential increase in storage space.
-With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential increase in storage space.
 
 ## Star-tree solution
 
@@ -116,9 +115,9 @@ The star-tree index is generated in the following steps:
   * If a node has more than _T_ records, it is split into multiple children nodes, one for each value of the dimension in the split order corresponding to current level in the tree.
   *   A star node can be created (per configuration) for the current node, by dropping the dimension being split on, and aggregating the metrics for rows containing dimensions with identical values. These aggregated documents are appended to the end of the star-tree documents.
 
-      If there is only one value for the current dimension, a star node won’t be created because the documents under the star node are identical to the single node.
+      If the current dimension only has one value, a star node isn't created because its documents would be identical to the single node.
 * The above step is repeated recursively until there are no more nodes to split.
-* Multiple star-trees can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
+* Multiple star-tree nodes can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
 
 ### Aggregation
 
@@ -139,18 +138,14 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * PERCENTILE\_TDIGEST
 * DISTINCT\_COUNT\_BITMAP
   * NOTE: The intermediate result _RoaringBitmap_ is not bounded-sized, use carefully on high cardinality columns.
-  * NOTE: The intermediate result _RoaringBitmap_ is not bounded-sized, use carefully on high cardinality columns.
 
 **Unsupported functions**
 
 * DISTINCT\_COUNT
   * Intermediate result _Set_ is unbounded.
-  * Intermediate result _Set_ is unbounded.
 * SEGMENT\_PARTITIONED\_DISTINCT\_COUNT:
   * Intermediate result _Set_ is unbounded.
-  * Intermediate result _Set_ is unbounded.
 * PERCENTILE
-  * Intermediate result _List_ is unbounded.
   * Intermediate result _List_ is unbounded.
 
 **Functions to be supported**
@@ -273,6 +268,5 @@ The algorithm to traverse the tree can be described as follows:
   * Otherwise, collect all the documents in the document range from each selected node.note
 
 {% hint style="warning" %}
-There is a known bug which can mistakenly apply a star-tree index to queries with the OR operator on top of nested AND or NOT operators in the filter that cannot be solved with star-tree, and cause wrong results. E.g. `SELECT COUNT(*) FROM myTable WHERE (A = 1 AND B = 2) OR A = 2`. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
 There is a known bug which can mistakenly apply a star-tree index to queries with the OR operator on top of nested AND or NOT operators in the filter that cannot be solved with star-tree, and cause wrong results. E.g. `SELECT COUNT(*) FROM myTable WHERE (A = 1 AND B = 2) OR A = 2`. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
 {% endhint %}
