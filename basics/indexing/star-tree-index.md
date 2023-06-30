@@ -1,5 +1,5 @@
 ---
-description: Learn what a star-tree index is and how one works.
+description: This page describes the indexing techniques available in Apache Pinot.
 ---
 
 # Star-Tree Index
@@ -15,10 +15,8 @@ Use the **star-tree** index to utilize pre-aggregated documents to achieve both 
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
 
 ## Existing solutions
-## Existing solutions
 
-Consider the following data set, which is used here as an example to discuss the existing approaches:
-Consider the following data set, which is used here as an example to discuss the existing approaches:
+Consider the following data set, which is used here as an example to discuss these indexes:
 
 | Country | Browser | Locale | Impressions |
 | ------- | ------- | ------ | ----------- |
@@ -78,7 +76,6 @@ In the example below, we have pre-aggregated the total impressions for each coun
 With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential increase in storage space.
 With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential increase in storage space.
 
-## Star-tree solution
 ## Star-tree solution
 
 On one end of the spectrum we have indexing techniques that improve search times with a limited increase in space, but don't guarantee a hard upper bound on query latencies. On the other end of the spectrum, we have pre-aggregation techniques that offer a hard upper bound on query latencies, but suffer from exponential explosion of storage space

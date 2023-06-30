@@ -6,28 +6,28 @@ description: This page describes the indexing techniques available in Apache Pin
 
 Apache Pinot supports the following indexing techniques:
 
-* [Bloom Filter](bloom-filter.md)
-* [Forward Index](forward-index.md)
+* [Bloom filter](bloom-filter.md)
+* [Forward index](forward-index.md)
   * Dictionary-encoded forward index with bit compression
   * Raw value forward index
   * Sorted forward index with run-length encoding
 * [Geospatial](geospatial-support.md)
-* [Inverted Index](inverted-index.md)
+* [Inverted index](inverted-index.md)
   * Bitmap inverted index
   * Sorted inverted index
-* [JSON Index](json-index.md)
-* [Range Index](range-index.md)
-* [Star-tree Index](star-tree-index.md)
+* [JSON index](json-index.md)
+* [Range index](range-index.md)
+* [Star-tree index](star-tree-index.md)
 * Text Index
-  * [Native Text Index](native-text-index.md)
-  * [Text Search Support](text-search-support.md)
-* [Timestamp Index](timestamp-index.md)
+  * [Native text index](native-text-index.md)
+  * [Text search support](text-search-support.md)
+* [Timestamp index](timestamp-index.md)
 
 By default, Pinot creates a dictionary-encoded forward index for each column.
 
 ### Enabling indexes
 
-There are two ways to create indexes for a Pinot table.
+There are two ways to enable indexes for a Pinot table.
 
 #### As part of ingestion, during Pinot segment generation
 
@@ -35,7 +35,7 @@ Indexing is enabled by specifying the desired column names in the table configur
 
 #### Dynamically added or removed
 
-Indexes can also be dynamically added to or removed from segments at any point. Update your table configuration with the latest set of indexes you wish to have.
+Indexes can also be dynamically added to or removed from segments at any point. Update your table configuration with the latest set of indexes you want to have.
 
 For example, if you have an inverted index on the `foo` field and now want to also include the `bar` field, you would update your table configuration from this:
 
@@ -75,4 +75,4 @@ Not all indexes can be retrospectively applied to existing segments. For more de
 
 The inverted index provides good performance for most use cases, especially if your use case doesn't have a strict low latency requirement.
 
-You should start by using this, and if your queries aren't fast enough, switch to advanced indices like the sorted or star-sree index.
+You should start by using this, and if your queries aren't fast enough, switch to advanced indices like the sorted or star-tree index.
