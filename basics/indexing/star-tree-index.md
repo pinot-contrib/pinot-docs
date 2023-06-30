@@ -2,7 +2,7 @@
 description: This page describes the indexing techniques available in Apache Pinot.
 ---
 
-# Star-tree index
+# Star-Tree Index
 
 In this page you will learn what a star-tree index is and gain a conceptual understanding of how one works.
 
