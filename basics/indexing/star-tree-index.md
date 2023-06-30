@@ -6,8 +6,6 @@ description: This page describes the indexing techniques available in Apache Pin
 
 In this page you will learn what a star-tree index is and gain a conceptual understanding of how one works.
 
-In this page you will learn what a star-tree index is and gain a conceptual understanding of how one works.
-
 Unlike other index techniques which work on a single column, the star-tree index is built on multiple columns and utilizes pre-aggregated results to significantly reduce the number of values to be processed, resulting in improved query performance.
 
 One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
