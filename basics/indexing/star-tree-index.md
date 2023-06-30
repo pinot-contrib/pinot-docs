@@ -159,7 +159,6 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * ST\_UNION
 
 ### Index generation configuration
-### Index generation configuration
 
 Multiple index generation configurations can be provided to generate multiple star-trees. Each configuration should contain the following properties:
 
@@ -173,7 +172,7 @@ Multiple index generation configurations can be provided to generate multiple st
   * All aggregations of a query should be included in this list in order to use the star-tree index.
 * **maxLeafRecords** (Optional, default 10000): The threshold _T_ to determine whether to further split each node.
 
-#### **Default index generation configuration**
+#### Default index generation configuration
 
 A default star-tree index can be added to a segment by using the boolean config _**enableDefaultStarTree**_ under the _tableIndexConfig_.
 
@@ -184,7 +183,6 @@ A default star-tree will have the following configuration:
 * Include COUNT(\*) and SUM for all numeric metrics in the _functionColumnPairs._
 * Use default _maxLeafRecords_ (10000).
 
-### Example
 ### Example
 
 For our example data set, in order to solve the following query efficiently:
@@ -258,7 +256,6 @@ The values in the parentheses are the aggregated sum of _Impressions_ for all th
 | \*      | \*      | fr     | 200                |
 | \*      | \*      | \*     | 2200               |
 
-## Query execution
 ## Query execution
 
 For query execution, the idea is to first check metadata to determine whether the query can be solved with the star-tree documents, then traverse the Star-Tree to identify documents that satisfy all the predicates. After applying any remaining predicates that were missed while traversing the star-tree to the identified documents, apply aggregation/group-by on the qualified documents.
