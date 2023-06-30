@@ -15,7 +15,6 @@ Use the **star-tree** index to utilize pre-aggregated documents to achieve both 
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
 
 ## Existing solutions
-## Existing solutions
 
 Consider the following data set, which is used here as an example to discuss these indexes:
 
