@@ -2,15 +2,15 @@
 description: Learn what a star-tree index is and the concept of how one works.
 ---
 
-# Star-Tree Index
+# Star-tree index
 
-In this page you will learn what a star-tree index is and gain a conceptual understanding of how one works.
+Learn what a star-tree index is and how it works.
 
 Unlike other index techniques which work on a single column, the star-tree index is built on multiple columns and utilizes pre-aggregated results to significantly reduce the number of values to be processed, resulting in improved query performance.
 
 One of the biggest challenges in realtime OLAP systems is achieving and maintaining tight SLAs on latency and throughput on large data sets. Existing techniques such as [sorted index](forward-index.md) or [inverted index](inverted-index.md) help improve query latencies, but speed-ups are still limited by the number of documents that need to be processed to compute results. On the other hand, pre-aggregating the results ensures a constant upper bound on query latencies, but can lead to storage space explosion.
 
-Here we introduce the **star-tree** index to utilize the pre-aggregated documents in a way that achieves low query latencies but also uses the storage space efficiently for aggregation and group-by queries.
+Use the **star-tree** index to utilize pre-aggregated documents to achieve both low query latencies and efficient use of storage space for aggregation and group-by queries.
 
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
 
@@ -81,7 +81,7 @@ On one end of the spectrum we have indexing techniques that improve search times
 
 ![](../../.gitbook/assets/space-time.png)
 
-The star-tree data structure offers a configurable trade-off between space and time and lets us achieve a hard upper bound for query latencies for a given use case. In the following sections we will define the star-tree data structure, and explain how Pinot uses it to achieve low latencies with high throughput.
+The star-tree data structure offers a configurable trade-off between space and time and lets us achieve a hard upper bound for query latencies for a given use case. The following sections cover the star-tree data structure, and explain how Pinot uses this structure to achieve low latencies with high throughput.
 
 ### Definitions
 
@@ -94,7 +94,7 @@ The star-tree index stores data in a structure that consists of the following pr
 * **Root node** (Orange): Single root node, from which the rest of the tree can be traversed.
 * **Leaf node** (Blue): A leaf node can containing at most _T_ records, where _T_ is configurable.
 * **Non-leaf node** (Green): Nodes with more than _T_ records are further split into children nodes.
-* **Star node** (Yellow): Non-leaf nodes can also have a special child node called the star node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
+* **Star node** (Yellow): Non-leaf nodes can have a special child node called the star node. This node contains the pre-aggregated records after removing the dimension on which the data was split for this level.
 * **Dimensions split order** (\[D1, D2]): Nodes at a given level in the tree are split into children nodes on all values of a particular dimension. The dimensions split order is an ordered list of dimensions that is used to determine the dimension to split on for a given level in the tree.
 
 **Node properties**
@@ -115,9 +115,9 @@ The star-tree index is generated in the following steps:
   * If a node has more than _T_ records, it is split into multiple children nodes, one for each value of the dimension in the split order corresponding to current level in the tree.
   *   A star node can be created (per configuration) for the current node, by dropping the dimension being split on, and aggregating the metrics for rows containing dimensions with identical values. These aggregated documents are appended to the end of the star-tree documents.
 
-      If there is only one value for the current dimension, a star node won’t be created because the documents under the star node are identical to the single node.
+If the current dimension only has one value, a star node isn't created because its documents would be identical to the single node.
 * The above step is repeated recursively until there are no more nodes to split.
-* Multiple star-trees can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
+* Multiple star-tree nodes can be generated based on different configurations (_dimensionsSplitOrder_, _aggregations_, _T_)
 
 ### Aggregation
 
@@ -213,7 +213,7 @@ We may config the star-tree index as follows:
 
 The star-tree and documents should be something like below:
 
-### **Tree structure**
+### Tree structure
 
 The values in the parentheses are the aggregated sum of _Impressions_ for all the documents under the node.
 
