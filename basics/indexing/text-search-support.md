@@ -238,7 +238,7 @@ Text index is supported for both offline and real-time segments.
 
 The original text document (denoted by a value in the column that has text index enabled) is parsed, tokenized and individual "indexable" terms are extracted. These terms are inserted into the index.
 
-Pinot's text index is built on top of Lucene. Lucene's **standard english text tokenizer** generally works well for most classes of text. Since it can be desirable to build a custom text parser and tokenizer to suit particular user requirements this can be made configurable for the user to specify on per column text index basis.
+Pinot's text index is built on top of Lucene. Lucene's **standard english text tokenizer** generally works well for most classes of text. To build a custom text parser and tokenizer to suit particular user requirements, this can be made configurable for the user to specify on a per-column text-index basis.
 
 There is a default set of "stop words" built in Pinot's text index. This is a set of high frequency words in English that are excluded for search efficiency and index size, including:
 
