@@ -206,7 +206,34 @@ NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the tas
 When performing ingestion at scale remember that Pinot will list all of the files contained in the \`inputDirURI\` every time a \`SegmentGenerationAndPushTask\` job gets scheduled. This could become a bottleneck when fetching files from a cloud bucket like GCS. To prevent this make \`inputDirURI\` point to the least number of files possible.
 {% endhint %}
 
-\`\`\` "ingestionConfig": { "batchIngestionConfig": { "segmentIngestionType": "APPEND", "segmentIngestionFrequency": "DAILY", "batchConfigMaps": \[ { "input.fs.className": "org.apache.pinot.plugin.filesystem.S3PinotFS", "input.fs.prop.region": "us-west-2", "input.fs.prop.secretKey": "....", "input.fs.prop.accessKey": "....", "inputDirURI": "s3://my.s3.bucket/batch/airlineStats/rawdata/", "includeFileNamePattern": "glob:\*\*/\*.avro", "excludeFileNamePattern": "glob:\*\*/\*.tmp", "inputFormat": "avro" } ] } }, "task": { "taskTypeConfigsMap": { "SegmentGenerationAndPushTask": { "schedule": "0 \*/10 \* \* \* ?", "tableMaxNumTasks": 10 } } } \`\`\`
+``` 
+  "ingestionConfig": {
+    "batchIngestionConfig": {
+      "segmentIngestionType": "APPEND",
+      "segmentIngestionFrequency": "DAILY",
+      "batchConfigMaps": [
+        {
+          "input.fs.className": "org.apache.pinot.plugin.filesystem.S3PinotFS",
+          "input.fs.prop.region": "us-west-2",
+          "input.fs.prop.secretKey": "....",
+          "input.fs.prop.accessKey": "....",
+          "inputDirURI": "s3://my.s3.bucket/batch/airlineStats/rawdata/",
+          "includeFileNamePattern": "glob:**/*.avro",
+          "excludeFileNamePattern": "glob:**/*.tmp",
+          "inputFormat": "avro"
+        }
+      ]
+    }
+  },
+  "task": {
+    "taskTypeConfigsMap": {
+      "SegmentGenerationAndPushTask": {
+        "schedule": "0 */10 * * * ?",
+        "tableMaxNumTasks": "10"
+      }
+    }
+  }
+```
 
 ### RealtimeToOfflineSegmentsTask
 
