@@ -230,7 +230,7 @@ For instructions on that configuration property, see the [Raw value forward inde
 
 ## Text index creation
 
-Once the text index is enabled on one or more columns through a table configuration, segment generation code will automatically create the text index (per column).
+Once the text index is enabled on one or more columns through a [table configuration](../../configuration-reference/table.md), segment generation code will automatically create the text index (per column).
 
 Text index is supported for both offline and real-time segments.
 
