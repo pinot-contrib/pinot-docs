@@ -375,6 +375,22 @@ This page contains reference documentation for functions in Apache Pinot.
 [percentilemv.md](percentilemv.md)
 {% endcontent-ref %}
 
+{% content-ref url="percentilekll.md" %}
+[percentilekll.md](percentilekll.md)
+{% endcontent-ref %}
+
+{% content-ref url="percentilerawkll.md" %}
+[percentilerawkll.md](percentilerawkll.md)
+{% endcontent-ref %}
+
+{% content-ref url="percentilekllmv.md" %}
+[percentilekllmv.md](percentilekllmv.md)
+{% endcontent-ref %}
+
+{% content-ref url="percentilerawkllmv.md" %}
+[percentilerawkllmv.md](percentilerawkllmv.md)
+{% endcontent-ref %}
+
 {% content-ref url="quarter.md" %}
 [quarter.md](quarter.md)
 {% endcontent-ref %}
