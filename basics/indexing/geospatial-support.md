@@ -136,14 +136,14 @@ limit 1000
 
 ### How geoindex works
 
-Geoindex in Pinot accelerates the query evaluation without compromising the correctness of the query result. Currently, geoindex supports the `ST_Distance` function used in the range predicates in the `WHERE` clause, as shown in the query example in the previous section.
+The Pinot geoindex accelerates query evaluation while maintaining accuracy. Currently, geoindex supports the `ST_Distance` function in the `WHERE` clause.
 
 At the high level, geoindex is used for retrieving the records within the nearby hexagons of the given location, and then use `ST_Distance` to accurately filter the matched results.
 
 ![Geoindex example](../../.gitbook/assets/geoindex-example.png)
 
-As in the example diagram above, if we want to find all relevant points within a given distance at San Francisco (represented in the area within the red circle), then the algorithm with geoindex works as the following:
+As in the example diagram above, if we want to find all relevant points within a given distance around San Francisco (area within the red circle), then the algorithm with geoindex will:
 
-* Find the H3 distance `x` that contains the range (such as, within a red circle)
-* For the points within the H3 distance (i.e. covered by the hexagons within [`kRing(x)`](https://h3geo.org/docs/api/traversal)), we can directly take those points without filtering
-* For the points falling into the H3 distance (i.e. in the hexagons of `kRing(x)`), we do filtering on them by evaluating the condition `ST_Distance(loc1, loc2) < x`
+* First find the H3 distance `x` that contains the range (for example, within a red circle).
+* Then, for the points within the H3 distance (those covered by the hexagons completely within [`kRing(x)`](https://h3geo.org/docs/api/traversal)), directly accept those points without filtering.
+* Finally, for the points contained in the hexagons of `kRing(x)` at the outer edge of the red circle H3 distance, the algorithm will filter them by evaluating the condition `ST_Distance(loc1, loc2) < x` to find only those that are within the circle.

@@ -8,7 +8,7 @@ The JSON index can be applied to JSON string columns to accelerate value lookups
 
 ## When to use JSON index
 
-JSON string can be used to represent array, map, and nested fields without forcing a fixed schema. It is flexible, but the flexibility comes with a cost - filtering on JSON string columns is very expensive.
+Use the JSON string can be used to represent array, map, and nested fields without forcing a fixed schema. While JSON strings are flexible, filtering on JSON string columns is expensive, so consider the use case.
 
 Suppose we have some JSON records similar to the following sample record stored in the `person` column:
 
@@ -38,7 +38,7 @@ Suppose we have some JSON records similar to the following sample record stored 
 }
 ```
 
-Without an index, in order to look up key and filter records based on the value, we need to scan and reconstruct the JSON object from the JSON string for every record, look up the key and then compare the value.
+Without an index, to look up the key and filter records based on the value, Pinot must scan and reconstruct the JSON object from the JSON string for every record, look up the key and then compare the value.
 
 For example, in order to find all persons whose name is "adam", the query will look like:
 
@@ -289,7 +289,7 @@ With **excludeFields** set to \["age", "street"]:
 Note that the JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
 
 {% hint style="info" %}
-When you're using a JSON index, it is recommended that you add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.
+To reduce unnecessary storage overhead when using a JSON index, we recommend that you add the indexed column to the `noDictionaryColumns` columns list.
 
 For instructions on that configuration property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
 {% endhint %}

@@ -37,11 +37,11 @@ where `<column_name>` is the column text index is created on and `<search_expres
 
 ## Current restrictions
 
-Currently we support text search in a restricted manner. More specifically, we have the following constraints:
+Pinot supports text search with the following requirements:
 
 * The column type should be STRING.
 * The column should be single-valued.
-* Co-existence of text index with other Pinot indexes is currently not supported.
+* Using a text index in coexistence with other Pinot indexes is not supported.
 
 ## Sample Datasets
 
@@ -216,14 +216,14 @@ Each column that has a text index should also be specified as `noDictionaryColum
  ]}
 ```
 
-You can configure text indexes when:
+You can configure text indexes in the following scenarios:
 
 * Adding a new table with text index enabled on one or more columns.
 * Adding a new column with text index enabled to an existing table.
 * Enabling a text index on an existing column.
 
 {% hint style="info" %}
-When you're using a text index, you should add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.
+When you're using a text index, add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.
 
 For instructions on that configuration property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
 {% endhint %}
@@ -248,7 +248,7 @@ There is a default set of "stop words" built in Pinot's text index. This is a se
 "they", "this", "to", "was", "will", "with", "those"
 ```
 
-Any occurrence of these words in will be ignored by the tokenizer during index creation and search.
+Any occurrence of these words will be ignored by the tokenizer during index creation and search.
 
 In some cases, users might want to customize the set. A good example would be when `IT` (Information Technology) appears in the text that collides with "it", or some context-specific words that are not informative in the search. To do this, one can config the words in `fieldConfig` to include/exclude from the default stop words:
 
@@ -508,7 +508,7 @@ The above query will match any text document containing "exception".
 
 ### Deciding Query Types
 
-Combining phrase and term queries using Boolean operators and grouping allows you to build a complex text search query expression.
+Combining phrase and term queries using Boolean operators and grouping lets you build a complex text search query expression.
 
 The key thing to remember is that phrases should be used when the order of terms in the document is important and when separating the phrase into individual terms doesn't make sense from end user's perspective.
 
