@@ -1,10 +1,10 @@
 ---
-description: This starter guide provides a quick start for running Pinot on Microsoft Azure
+description: This quick start guide helps you get started running Pinot on Microsoft Azure.
 ---
 
 # Running on Azure
 
-This document provides the basic instruction to set up a Kubernetes Cluster on [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/)
+In this quick start guide you will set up a Kubernetes Cluster on [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/)
 
 ## 1. Tooling Installation
 
@@ -25,7 +25,7 @@ kubectl version
 ```
 
 {% hint style="info" %}
-QuickStart scripts are tested under kubectl client version v1.16.3 and server version v1.13.12
+Quickstart scripts are tested under kubectl client version v1.16.3 and server version v1.13.12
 {% endhint %}
 
 ### **1.2 Install Helm**
@@ -45,7 +45,7 @@ helm version
 ```
 
 {% hint style="info" %}
-This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
+This Quickstart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
 {% endhint %}
 
 ### **1.3 Install** Azure CLI
@@ -60,7 +60,7 @@ brew update && brew install azure-cli
 
 ## 2. (Optional) **Log in to your Azure account**
 
-The below script will open default browser to sign-in to your Azure Account.
+This script will open your default browser to sign-in to your Azure Account.
 
 ```bash
 az login
@@ -68,7 +68,7 @@ az login
 
 ## 3. (Optional) Create a Resource Group
 
-The below script will create a resource group in location **eastus**.
+Use this script create a resource group in location **eastus**.
 
 ```
 AKS_RESOURCE_GROUP=pinot-demo
@@ -77,11 +77,11 @@ az group create --name ${AKS_RESOURCE_GROUP} \
                 --location ${AKS_RESOURCE_GROUP_LOCATION}
 ```
 
-## 4. (Optional) Create a Kubernetes cluster(AKS) in Azure&#x20;
+## 4. (Optional) Create a Kubernetes cluster(AKS) in Azure
 
-The below script will create a **3** nodes cluster named **pinot-quickstart** for demo purposes.
+This script will create a **3** node cluster named **pinot-quickstart** for demo purposes.
 
-Modify the parameters in the example command below:
+Modify the parameters in this example command with your resource group and cluster details:
 
 ```bash
 AKS_RESOURCE_GROUP=pinot-demo
@@ -91,11 +91,11 @@ az aks create --resource-group ${AKS_RESOURCE_GROUP} \
               --node-count 3
 ```
 
-Once the command succeeds, it's ready to be used.
+Once the command succeeds, the cluster is ready to be used.
 
 ## **5. Connect to an existing cluster**
 
-Run the below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster.&#x20;
+Run this command to get the credential for the cluster **pinot-quickstart** that you just created:
 
 ```
 AKS_RESOURCE_GROUP=pinot-demo
@@ -104,7 +104,7 @@ az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} \
                        --name ${AKS_CLUSTER_NAME}
 ```
 
-To verify the connection, you can run:
+To verify the connection, run:
 
 ```
 kubectl get nodes

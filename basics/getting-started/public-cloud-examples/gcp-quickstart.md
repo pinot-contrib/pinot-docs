@@ -1,12 +1,11 @@
 ---
 description: >-
-  This starter provides a quick start for running Pinot on Google Cloud Platform
-  (GCP)
+  This quick start guide helps you get started running Pinot on Google Cloud Platform (GCP).
 ---
 
 # Running on GCP
 
-This document provides the basic instruction to set up a Kubernetes Cluster on [Google Kubernetes Engine(GKE)](https://cloud.google.com/kubernetes-engine)
+In this quick start guide you will set up a Kubernetes Cluster on [Google Kubernetes Engine(GKE)](https://cloud.google.com/kubernetes-engine)
 
 ## 1. Tooling Installation
 
@@ -27,7 +26,7 @@ kubectl version
 ```
 
 {% hint style="info" %}
-QuickStart scripts are tested under kubectl client version v1.16.3 and server version v1.13.12
+Quickstart scripts are tested under kubectl client version v1.16.3 and server version v1.13.12
 {% endhint %}
 
 ### **1.2 Install Helm**
@@ -47,14 +46,12 @@ helm version
 ```
 
 {% hint style="info" %}
-This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
+This Quickstart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
 {% endhint %}
 
 ### **1.3 Install Google Cloud SDK**
 
-
-
-Please follow this link ([https://cloud.google.com/sdk/install](https://cloud.google.com/sdk/install)) to install Google Cloud SDK.
+Follow this link ([https://cloud.google.com/sdk/install](https://cloud.google.com/sdk/install)) to install Google Cloud SDK.
 
 #### _1.3.1 For Mac users_
 
@@ -64,7 +61,7 @@ Please follow this link ([https://cloud.google.com/sdk/install](https://cloud.go
 curl https://sdk.cloud.google.com | bash
 ```
 
-* Restart your shell
+Restart your shell
 
 ```
 exec -l $SHELL
@@ -78,9 +75,9 @@ gcloud init
 
 ## 3. (Optional) Create a Kubernetes cluster(GKE) in Google Cloud
 
-Below script will create a 3 nodes cluster named **pinot-quickstart** in **us-west1-b** with **n1-standard-2** machines for demo purposes.
+This script will create a 3 node cluster named **pinot-quickstart** in **us-west1-b** with **n1-standard-2** machines for demo purposes.
 
-Modify the parameters in the example command below:
+Modify the parameters in this example command with your gcloud details:
 
 ```bash
 GCLOUD_PROJECT=[your gcloud project name]
@@ -95,7 +92,7 @@ gcloud container clusters create ${GCLOUD_CLUSTER} \
   --project=${GCLOUD_PROJECT}
 ```
 
-Monitor cluster status by running the following command:
+Use this command do monitor cluster status:
 
 ```
 gcloud compute instances list
@@ -105,7 +102,7 @@ Once the cluster is in **RUNNING** status, it's ready to be used.
 
 ## **4. Connect to an existing cluster**
 
-Simply run the below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster.
+Run this command to get the credential for the cluster **pinot-quickstart** that you just created:
 
 ```
 GCLOUD_PROJECT=[your gcloud project name]
@@ -114,7 +111,7 @@ GCLOUD_CLUSTER=pinot-quickstart
 gcloud container clusters get-credentials ${GCLOUD_CLUSTER} --zone ${GCLOUD_ZONE} --project ${GCLOUD_PROJECT}
 ```
 
-To verify the connection, you can run:
+To verify the connection, run:
 
 ```
 kubectl get nodes
