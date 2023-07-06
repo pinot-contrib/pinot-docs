@@ -12,8 +12,7 @@ Raw variant of the `PERCENTILEKLL` which returns a Base64 encoded string of the 
 > PercentileRawKLL(column, percentile, kValue) -> Double
 
 * `column` (required): Name of the column to aggregate on. If the column is a multi value column, use `PERCENTILERAWKLLMV` variant.
-* `percentile` (required): Percentile value to be calculated [0..100]
-* `kValue`: Integer value which determines the size of the sketch. Default value is `200` which corresponds to a normalized rank error of about 1.65%.
+* `percentile` (required): Percentile value to be calculated [0..100]. For 'raw' versions of the function, this value is used for ordering (ORDER BY).
 
 ## Usage Examples
 

@@ -9,11 +9,10 @@ Variant of the `PERCENTILERAWKLL` aggregation function which accepts multi-value
 
 ## Signature
 
-> PercentileRAWKLLMV(column, percentile, kValue) -> Double
+> PercentileRAWKLLMV(column, percentile) -> Double
 
 * `column` (required): Name of the column to aggregate on. 
-* `percentile` (required): Percentile value to be calculated [0..100]
-* `kValue`: Integer value which determines the size of the sketch. Default value is `200` which corresponds to a normalized rank error of about 1.65%. For defails please see the [accuracy vs size chart](https://datasketches.apache.org/docs/KLL/KLLAccuracyAndSize.html).
+* `percentile` (required): Percentile value to be calculated [0..100]. For raw versions of the function, this value is used for ordering (ORDER BY).
 
 ## Usage Examples
 
