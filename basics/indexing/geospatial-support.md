@@ -86,7 +86,8 @@ For example, in the diagram below, the red hexagons are within the 1 distance of
 
 ### How to use geoindex
 
-To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores\_schema.json#L25).
+To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores\_schema.json).
+
 
 {% code title="geoindex schema" %}
 ```javascript
@@ -100,7 +101,7 @@ To use the geoindex, first declare the geolocation field as bytes in the schema,
 
 Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed by the `ST_Distance` function.
 
-Next, declare the geospatial index in the [table config](../../configuration-reference/table.md):
+Next, declare the geospatial index in the [table configuration](../../configuration-reference/table.md):
 
 {% code title="geoindex tableConfig" %}
 ```javascript
