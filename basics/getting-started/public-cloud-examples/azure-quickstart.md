@@ -1,10 +1,10 @@
 ---
-description: This quick start guide helps you get started running Pinot on Microsoft Azure.
+description: This quickstart guide helps you get started running Pinot on Microsoft Azure.
 ---
 
 # Running on Azure
 
-In this quick start guide you will set up a Kubernetes Cluster on [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/)
+In this quickstart guide, you will set up a Kubernetes Cluster on [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/)
 
 ## 1. Tooling Installation
 
@@ -30,7 +30,7 @@ Quickstart scripts are tested under kubectl client version v1.16.3 and server ve
 
 ### **1.2 Install Helm**
 
-Follow this link ([https://helm.sh/docs/using\_helm/#installing-helm](https://helm.sh/docs/using\_helm/#installing-helm)) to install helm.
+To install Helm, see [Installing Helm](https://helm.sh/docs/using\_helm/#installing-helm).
 
 _For Mac users_
 
@@ -45,7 +45,7 @@ helm version
 ```
 
 {% hint style="info" %}
-This Quickstart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
+This quickstart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
 {% endhint %}
 
 ### **1.3 Install** Azure CLI
@@ -68,7 +68,7 @@ az login
 
 ## 3. (Optional) Create a Resource Group
 
-Use this script create a resource group in location **eastus**.
+Use the following script create a resource group in location **eastus**.
 
 ```
 AKS_RESOURCE_GROUP=pinot-demo
@@ -81,7 +81,7 @@ az group create --name ${AKS_RESOURCE_GROUP} \
 
 This script will create a **3** node cluster named **pinot-quickstart** for demo purposes.
 
-Modify the parameters in this example command with your resource group and cluster details:
+Modify the parameters in the following example command with your resource group and cluster details:
 
 ```bash
 AKS_RESOURCE_GROUP=pinot-demo
@@ -95,7 +95,7 @@ Once the command succeeds, the cluster is ready to be used.
 
 ## **5. Connect to an existing cluster**
 
-Run this command to get the credential for the cluster **pinot-quickstart** that you just created:
+Run the following command to get the credential for the cluster **pinot-quickstart** that you just created:
 
 ```
 AKS_RESOURCE_GROUP=pinot-demo
@@ -104,15 +104,15 @@ az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} \
                        --name ${AKS_CLUSTER_NAME}
 ```
 
-To verify the connection, run:
+To verify the connection, run the following:
 
 ```
 kubectl get nodes
 ```
 
-## 6. Pinot Quickstart
+## 6. Pinot quickstart
 
-Follow this [Kubernetes QuickStart](../kubernetes-quickstart.md) to deploy your Pinot Demo.
+Follow this [Kubernetes quickstart](../kubernetes-quickstart.md) to deploy your Pinot demo.
 
 ## 7. Delete a Kubernetes Cluster
 

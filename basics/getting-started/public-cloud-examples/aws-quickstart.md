@@ -1,17 +1,17 @@
 ---
 description: >-
-  This quick start guide helps you get started running Pinot on Amazon Web Services (AWS).
+  This quickstart guide helps you get started running Pinot on Amazon Web Services (AWS).
 ---
 
 # Running on AWS
 
-In this quick start guide you will set up a Kubernetes Cluster on [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/)
+In this quickstart guide, you will set up a Kubernetes Cluster on [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/)
 
 ## 1. Tooling Installation
 
 ### **1.1 Install Kubectl**
 
-Follow this link ([https://kubernetes.io/docs/tasks/tools/install-kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)) to install kubectl.
+To install kubectl, see [Install kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl).
 
 _For Mac users_
 
@@ -46,7 +46,7 @@ helm version
 ```
 
 {% hint style="info" %}
-This Quickstart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
+This quickstart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
 {% endhint %}
 
 ### **1.3 Install AWS CLI**
@@ -119,7 +119,7 @@ eksctl create iamserviceaccount \
 eksctl create addon --name aws-ebs-csi-driver --cluster pinot-quickstart --service-account-role-arn arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/AmazonEKS_EBS_CSI_DriverRole --force
 ```
 
-Use this command to monitor the cluster status:
+Use the following command to monitor the cluster status:
 
 ```
 EKS_CLUSTER_NAME=pinot-quickstart
@@ -130,22 +130,22 @@ Once the cluster is in **ACTIVE** status, it's ready to be used.
 
 ## **4. Connect to an existing cluster**
 
-Run this command to get the credential for the cluster **pinot-quickstart** that you just created:
+Run the following command to get the credential for the cluster **pinot-quickstart** that you just created:
 
 ```
 EKS_CLUSTER_NAME=pinot-quickstart
 aws eks update-kubeconfig --name ${EKS_CLUSTER_NAME}
 ```
 
-To verify the connection, run:
+To verify the connection, run the following:
 
 ```
 kubectl get nodes
 ```
 
-## 5. Pinot Quickstart
+## 5. Pinot quickstart
 
-Follow this [Kubernetes QuickStart](../kubernetes-quickstart.md) to deploy your Pinot Demo.
+Follow this [Kubernetes quickstart](../kubernetes-quickstart.md) to deploy your Pinot demo.
 
 ## 6. Delete a Kubernetes Cluster
 
