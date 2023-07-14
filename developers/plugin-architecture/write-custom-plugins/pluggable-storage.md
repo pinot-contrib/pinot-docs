@@ -1,6 +1,6 @@
 # Filesystem Plugin
 
-Pinot enables its users to write a PinotFS abstraction layer to store data in a data layer of their choice for realtime and offline segments.
+Pinot enables its users to write a PinotFS abstraction layer to store data in a data layer of their choice for real-time and offline segments.
 
 Some examples of storage backends(other than local storage) currently supported are:
 
@@ -15,12 +15,12 @@ In order to add a new type of storage backend such as Amazon S3 we need to imple
 
 Once the the class is ready, you can compile it and put it in the `/plugins` directory of pinot.
 
-## Using plugin in realtime table
+## Using plugin in real-time table
 
-You can set the configuration in realtime or batch tables by using base scheme of URI (scheme://host:port/path) as suffix.\
+You can set the configuration in real time or batch tables by using base scheme of URI (scheme://host:port/path) as suffix.\
 e.g. for the path `hdfs://user/yarn/path/to/dir` , the base scheme is `hdfs` and all the config keys should have `hdfs` in them such `pinot.controller.storage.factory.hdfs`
 
-The example here uses the existing `org.apache.pinot.filesystem.HadoopPinotFS` to store realtime segments in a HDFS filesytem. In the Pinot controller config, add the following new configs:
+The example here uses the existing `org.apache.pinot.filesystem.HadoopPinotFS` to store real-time segments in a HDFS filesytem. In the Pinot controller config, add the following new configs:
 
 ```
 "controller.data.dir": "SET_TO_YOUR_HDFS_ROOT_DIR"

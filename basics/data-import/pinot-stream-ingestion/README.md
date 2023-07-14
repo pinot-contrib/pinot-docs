@@ -108,7 +108,7 @@ The ingestion configuration (`ingestionConfig`) specifies how to ingest streamin
 
 | Config key               | Description                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `_continueOnError`       | Set to `true` to skip any row indexing error and move on to the next row. Otherwise, an error evaluating a transform or filter function may block ingestion (realtime or offline), and result in data loss or corruption. Consider your use case to determine if it's preferable to set this option to `false`, and fail the ingestion if an error occurs to maintain data integrity.                            |
+| `_continueOnError`       | Set to `true` to skip any row indexing error and move on to the next row. Otherwise, an error evaluating a transform or filter function may block ingestion (real-time or offline), and result in data loss or corruption. Consider your use case to determine if it's preferable to set this option to `false`, and fail the ingestion if an error occurs to maintain data integrity.                            |
 | `rowTimeValueCheck`      | Set to `true` to validate the time column values ingested during segment upload. Validates each row of data in a segment matches the specified time format, and falls within a valid time range (1971-2071). If the value doesn't meet both criteria, Pinot replaces the value with null. This option ensures that the time values are strictly increasing and that there are no duplicates or gaps in the data. |
 | `_segmentTimeValueCheck` | Set to `true` to validate the time range of the segment falls between 1971 and 2071. This option ensures data segments stored in the system are correct and consistent                                                                                                                                                                                                                                           |
 
@@ -197,7 +197,7 @@ bin/pinot-admin.sh AddTable \
 
 ### Throttle stream consumption
 
-There are some scenarios where the message rate in the input stream can come in bursts which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other realtime tables on the same server. If this happens to you, throttle the consumption rate during stream ingestion to better manage overall performance.
+There are some scenarios where the message rate in the input stream can come in bursts which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other real-time tables on the same server. If this happens to you, throttle the consumption rate during stream ingestion to better manage overall performance.
 
 Stream consumption throttling can be tuned using the stream config `topic.consumption.rate.limit` which indicates the upper bound on the message rate for the entire topic.
 
@@ -248,20 +248,20 @@ You can also write an ingestion plugin if the platform you are using is not supp
 
 ## Pause stream ingestion
 
-There are some scenarios in which you may want to pause the realtime ingestion while your table is available for queries. For example, if there is a problem with the stream ingestion and, while you are troubleshooting the issue, you still want the queries to be executed on the already ingested data. For these scenarios, you can first issue a Pause request to a Controller host. After troubleshooting with the stream is done, you can issue another request to Controller to resume the consumption.
+There are some scenarios in which you may want to pause the real-time ingestion while your table is available for queries. For example, if there is a problem with the stream ingestion and, while you are troubleshooting the issue, you still want the queries to be executed on the already ingested data. For these scenarios, you can first issue a Pause request to a Controller host. After troubleshooting with the stream is done, you can issue another request to Controller to resume the consumption.
 
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
 $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
 ```
 
-When a `Pause` request is issued, the controller instructs the realtime servers hosting your table to commit their consuming segments immediately. However, the commit process may take some time to complete. Note that `Pause` and `Resume` requests are async. An `OK` response means that instructions for pausing or resuming has been successfully sent to the realtime server. If you want to know if the consumption has actually stopped or resumed, issue a pause status request.
+When a `Pause` request is issued, the controller instructs the real-time servers hosting your table to commit their consuming segments immediately. However, the commit process may take some time to complete. Note that `Pause` and `Resume` requests are async. An `OK` response means that instructions for pausing or resuming has been successfully sent to the real-time server. If you want to know if the consumption has actually stopped or resumed, issue a pause status request.
 
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/pauseStatus
 ```
 
-It's worth noting that consuming segments on realtime servers are stored in volatile memory, and their resources are allocated when the consuming segments are first created. These resources cannot be altered if consumption parameters are changed midway through consumption. It may take hours before these changes take effect. Furthermore, if the parameters are changed in an incompatible way (for example, changing the underlying stream with a completely new set of offsets, or changing the stream endpoint from which to consume messages), it will result in the table getting into an error state.
+It's worth noting that consuming segments on real-time servers are stored in volatile memory, and their resources are allocated when the consuming segments are first created. These resources cannot be altered if consumption parameters are changed midway through consumption. It may take hours before these changes take effect. Furthermore, if the parameters are changed in an incompatible way (for example, changing the underlying stream with a completely new set of offsets, or changing the stream endpoint from which to consume messages), it will result in the table getting into an error state.
 
 The pause and resume feature is helpful in these instances. When a pause request is issued by the operator, consuming segments are committed without starting new mutable segments. Instead, new mutable segments are started only when the resume request is issued. This mechanism provides the operators as well as developers with more flexibility. It also enables Pinot to be more resilient to the operational and functional constraints imposed by underlying streams.
 
@@ -308,9 +308,9 @@ Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monito
 
 If you want to recognize the new partitions sooner, then [manually trigger](../../components/cluster/controller.md#running-the-periodic-task-manually) the periodic task so as to recognize such data immediately.
 
-## Infer ingestion status of realtime tables
+## Infer ingestion status of real-time tables
 
-Often, it is important to understand the rate of ingestion of data into your realtime table. This is commonly done by looking at the consumption lag of the consumer. The lag itself can be observed in many dimensions. Pinot supports observing consumption lag along the offset dimension and time dimension, whenever applicable (as it depends on the specifics of the connector).
+Often, it is important to understand the rate of ingestion of data into your real-time table. This is commonly done by looking at the consumption lag of the consumer. The lag itself can be observed in many dimensions. Pinot supports observing consumption lag along the offset dimension and time dimension, whenever applicable (as it depends on the specifics of the connector).
 
 The ingestion status of a connector can be observed by querying either the `/consumingSegmentsInfo` API or the table's `/debug` API, as shown below:
 
@@ -324,7 +324,7 @@ curl -X GET "http://localhost:9000/debug/tables/meetupRsvp?type=REALTIME&verbosi
 ```
 {% endcode %}
 
-A sample response from a Kafka-based realtime table is shown below. The ingestion status is displayed for each of the CONSUMING segments in the table.
+A sample response from a Kafka-based real-time table is shown below. The ingestion status is displayed for each of the CONSUMING segments in the table.
 
 ```json
 {
@@ -362,9 +362,9 @@ A sample response from a Kafka-based realtime table is shown below. The ingestio
 | recordsLagMap             | (Whenever applicable) Defines how far behind the current record's offset / pointer is from upstream latest record. This is calculated as the difference between the `latestUpstreamOffset` and `currentOffset` for the partition when the lag computation request is made. |
 | recordsAvailabilityLagMap | (Whenever applicable) Defines how soon after record ingestion was the record consumed by Pinot. This is calculated as the difference between the time the record was consumed and the time at which the record was ingested upstream.                                      |
 
-## Monitor realtime ingestion
+## Monitor real-time ingestion
 
-Realtime ingestion includes 3 stages of message processing: Decode, Transform, and Index.
+Real-time ingestion includes 3 stages of message processing: Decode, Transform, and Index.
 
 In each of these stages, a failure can happen which may or may not result in an ingestion failure. The following metrics are available to investigation ingestion issues:
 

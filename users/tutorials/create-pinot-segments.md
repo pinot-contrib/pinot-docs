@@ -2,7 +2,7 @@
 
 ## Creating Pinot segments
 
-Pinot segments can be created offline on Hadoop, or via command line from data files. Controller REST endpoint can then be used to add the segment to the table to which the segment belongs. Pinot segments can also be created by ingesting data from realtime resources (such as Kafka).
+Pinot segments can be created offline on Hadoop, or via command line from data files. Controller REST endpoint can then be used to add the segment to the table to which the segment belongs. Pinot segments can also be created by ingesting data from real-time resources (such as Kafka).
 
 ### Creating segments using hadoop
 

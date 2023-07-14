@@ -13,9 +13,9 @@ The Pinot managed offline flows feature allows a user to **simply setup a REALTI
 There are 3 kinds of tables in Pinot
 
 * **OFFLINE only** - this feature is not relevant for this mode.
-*   **REALTIME only** - this feature is built for this mode. While having a realtime-only table setup (versus a hybrid table setup) is certainly lightweight and lesser operations, you lose some of the flexibility that comes with having a corresponding OFFLINE table.&#x20;
+*   **REALTIME only** - this feature is built for this mode. While having a real-time-only table setup (versus a hybrid table setup) is certainly lightweight and lesser operations, you lose some of the flexibility that comes with having a corresponding OFFLINE table.&#x20;
 
-    * For example, in realtime only mode, it is impossible to backfill a specific day's data, even if you have that data available offline somewhere, whereas you could've easily run a one off backfill job to correct data in an OFFLINE table.&#x20;
+    * For example, in real-time only mode, it is impossible to backfill a specific day's data, even if you have that data available offline somewhere, whereas you could've easily run a one off backfill job to correct data in an OFFLINE table.&#x20;
     * It is also not possible to re-bootstrap the table using some offline data, as data for the REALTIME table strictly must come in through a stream. In OFFLINE tables, it is very easy to run jobs and replace segments in the table.
     * In REALTIME tables, the data often tends to be highly granular and we achieve very little aggregations. OFFLINE tables let you look at bigger windows of data hence achieving rollups for time column, aggregations across common dimensions, better compression and even dedup.
 
@@ -29,7 +29,7 @@ The Pinot managed offline flows feature will **move records from the REALTIME ta
 {% hint style="warning" %}
 **Note**
 
-Only completed (ONLINE) segments of the realtime table are used for movement. If the window's data falls into the CONSUMING segment, that run will be skipped. That window will be processed in a future run when all data has made it to the completed segments.
+Only completed (ONLINE) segments of the real-time table are used for movement. If the window's data falls into the CONSUMING segment, that run will be skipped. That window will be processed in a future run when all data has made it to the completed segments.
 {% endhint %}
 
 &#x20;

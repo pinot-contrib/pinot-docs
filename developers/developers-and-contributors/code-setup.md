@@ -63,7 +63,7 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 
 ### **Starting Pinot via IDE**
 
-Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for realtime mode.
+Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for real-time mode.
 
 **Batch Quickstart**
 
@@ -72,7 +72,7 @@ Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apac
 
 Go to localhost:9000 in your browser and play with the query console.
 
-**Realtime Quickstart**
+**Real-time Quickstart**
 
 * start all Pinot components (ZK, Controller, Server, Broker) in the same JVM
 * Start Kafka in the same JVM

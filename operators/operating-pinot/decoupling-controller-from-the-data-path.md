@@ -6,7 +6,7 @@ description: Decouple the controller from the data path for real-time Pinot tabl
 
 ## Ingestion bottleneck on the Pinot Controller
 
-In case of RealTime Pinot tables, whenever a Pinot server finishes consuming a segment, it goes through a segment completion protocol sequence. The default approach is to upload this segment to the lead Pinot controller which in turn will persist it in the segment store (eg: NFS, S3 or HDFS). As a result, since all the realtime segments flow through the controller, it can become a bottleneck and slow down the overall ingestion rate. To overcome this limitation, we've added a new stream-level configuration which allows bypassing the controller in the segment completion protocol.&#x20;
+In case of RealTime Pinot tables, whenever a Pinot server finishes consuming a segment, it goes through a segment completion protocol sequence. The default approach is to upload this segment to the lead Pinot controller which in turn will persist it in the segment store (eg: NFS, S3 or HDFS). As a result, since all the real-time segments flow through the controller, it can become a bottleneck and slow down the overall ingestion rate. To overcome this limitation, we've added a new stream-level configuration which allows bypassing the controller in the segment completion protocol.&#x20;
 
 ### Stream Config
 
