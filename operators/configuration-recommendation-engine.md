@@ -72,7 +72,7 @@ In this section, lets describe the rules which generate recommendations for diff
 * **Varied Length Dictionary** - This rule recommends that for data types with varied length, i.e. STRING or BYTES, varied length dictionaries should be used. Using these dictionaries results in better performance.
 * **Flag Queries** - This rule flags query patterns that are not valid.
 * **Aggregate Metrics** - This rule checks the provided queries and suggests the value for ‘AggregateMetrics’ flag in table config. It looks at selection columns and if all of them are SUM function, the flag should be true, otherwise it’s false. It also checks if all column names appearing in sum function are in fact metric columns.
-* **Real-time Provisioning** - This rule gives some recommendations useful for provisioning real time tables. Specifically it provides some insights on optimal segments size, total memory used per host, and memory used for consuming segments per host based on the provided characteristics of the data and Kafka ingestion rate. The ultimate goal of this rule is to find out required consumption duration as well as the required number of hosts which leads to a desired real-time segment size.
+* **Real-time Provisioning** - This rule gives some recommendations useful for provisioning real-time tables. Specifically it provides some insights on optimal segments size, total memory used per host, and memory used for consuming segments per host based on the provided characteristics of the data and Kafka ingestion rate. The ultimate goal of this rule is to find out required consumption duration as well as the required number of hosts which leads to a desired real-time segment size.
 
 All rules run by default. You have the option to select the ones you want to run.
 
