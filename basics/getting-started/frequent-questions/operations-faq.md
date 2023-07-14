@@ -50,6 +50,8 @@ For real-time tables, update [replicasPerPartition](https://docs.pinot.apache.or
 
 After changing the replication, run a [table rebalance](./#how-to-run-a-rebalance-on-a-table).
 
+Note that if you are using replica groups, it's expected these configurations equal `numReplicaGroups`. If they do not match, Pinot will use `numReplicaGroups.`
+
 ## Rebalance
 
 ### How to run a rebalance on a table?
