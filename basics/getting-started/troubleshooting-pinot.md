@@ -4,7 +4,7 @@
 
 Pinot offers various ways to assist with troubleshooting and debugging problems that might happen. 
 
-Start with the debug api which will surface many of the commonly occurring problems. The debug api provides information such as tableSize, ingestion status, and error messages related to state transition in server.
+Start with the [debug api](../../users/api/controller-api-reference.md) which will surface many of the commonly occurring problems. The debug api provides information such as tableSize, ingestion status, and error messages related to state transition in server.
 
 The table debug api can be invoked via the Swagger UI, as in the following image:
 
