@@ -41,7 +41,7 @@ To enable upsert, make the following configurations in the table configurations.
 
 **Full upsert**
 
-The upsert mode defaults to `NONE` for realtime tables. To enable the full upsert, set the `mode` to `FULL` for the full update. FULL upsert means that a new record will replace the older record completely if they have same primary key. Example config:
+The upsert mode defaults to `NONE` for real-time tables. To enable the full upsert, set the `mode` to `FULL` for the full update. FULL upsert means that a new record will replace the older record completely if they have same primary key. Example config:
 
 ```json
 {
@@ -218,7 +218,7 @@ The following would occur:
 
 ### Delete column
 
-Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the realtime engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable set of documents. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.&#x20;
+Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the real-time engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable set of documents. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.&#x20;
 
 ```json
 { 
@@ -369,7 +369,7 @@ Pinot server maintains a primary key to record location map across all the segme
 
 ## Quick Start
 
-To illustrate how the full upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a realtime upsert table `meetupRSVP`.
+To illustrate how the full upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a real-time upsert table `meetupRSVP`.
 
 ```bash
 # stop previous quick start cluster, if any
@@ -383,7 +383,7 @@ You can also run partial upsert demo with the following command
 bin/quick-start-partial-upsert-streaming.sh
 ```
 
-As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the realtime data.
+As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the real-time data.
 
 ![Query the upsert table](<../../.gitbook/assets/Screen Shot 2021-06-15 at 10.02.46 AM.png>)
 

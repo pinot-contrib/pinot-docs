@@ -137,7 +137,7 @@ The number of segments generated depends on the number of input files. If you pr
 
 ### Do replica groups work for real-time? <a id="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3"></a>
 
-Yes, replica groups work for realtime. There's 2 parts to enabling replica groups:
+Yes, replica groups work for real-time. There's 2 parts to enabling replica groups:
 
 1. Replica groups segment assignment
 2. Replica group query routing

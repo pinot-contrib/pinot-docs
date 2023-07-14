@@ -2,7 +2,7 @@
 
 ## Overview
 
-When operating Pinot in a production environment, it's not always desirable to have servers immediately available for querying when they have started up. This is especially so for realtime servers that may have to re-consume some amount of data before they are "caught up". Pinot offers several strategies for determining when a server is up, healthy, and available for querying.
+When operating Pinot in a production environment, it's not always desirable to have servers immediately available for querying when they have started up. This is especially so for real-time servers that may have to re-consume some amount of data before they are "caught up". Pinot offers several strategies for determining when a server is up, healthy, and available for querying.
 
 ### Health Checks
 
@@ -46,7 +46,7 @@ In the above example, a Pinot server will wait 60 seconds for all consuming segm
 
 ## Offset Based Segment Checker
 
-The first option to determine fresher realtime data is the offset based status checker. This checker will determine the end offset of each consuming segment at the time of Pinot startup. It will then consume to that offset before marking the segment as healthy. Once all segments are healthy, this checker will return healthy.
+The first option to determine fresher real-time data is the offset based status checker. This checker will determine the end offset of each consuming segment at the time of Pinot startup. It will then consume to that offset before marking the segment as healthy. Once all segments are healthy, this checker will return healthy.
 
 ```
 # this is the default, 10 minutes.
@@ -62,11 +62,11 @@ pinot.server.starter.enableRealtimeOffsetBasedConsumptionStatusChecker=true
 There are some caveats to note here:
 
 * `realtimeConsumptionCatchupWaitMs` must still be set. This checker will only wait as long as the value for `realtimeConsumptionCatchupWaitMs`.
-* This checker will not ever recompute end offsets after it starts. With high realtime volume, you will still be behind. This means if your server takes 8 minutes to startup and have this checker become healthy, you will be 8 minutes behind and rapidly consuming data once the server starts serving queries.
+* This checker will not ever recompute end offsets after it starts. With high real-time volume, you will still be behind. This means if your server takes 8 minutes to startup and have this checker become healthy, you will be 8 minutes behind and rapidly consuming data once the server starts serving queries.
 
 ## Freshness Based Segment Checker&#x20;
 
-The strictest checker Pinot offers is the freshness based one. This works similarly to the offset checker but with an extra condition. The actual events in that stream must meet a minimum freshness before the server is marked as healthy. This checker provides the best freshness guarantees for realtime data at the expense of longer startup time.
+The strictest checker Pinot offers is the freshness based one. This works similarly to the offset checker but with an extra condition. The actual events in that stream must meet a minimum freshness before the server is marked as healthy. This checker provides the best freshness guarantees for real-time data at the expense of longer startup time.
 
 ```
 # this is the default, 10 minutes.

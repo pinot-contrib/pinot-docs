@@ -16,9 +16,9 @@ Data in offline segments are immutable (Rows cannot be added, deleted, or modifi
 
 Starting from `release-0.11.0`, Pinot supports uploading offline segments to real-time tables. This is useful when user wants to bootstrap a real-time table with some initial data, or add some offline data to a real-time table without changing the data stream. Note that this is different from the [hybrid table](../../basics/components/table/#hybrid-table) setup, and no time boundary is maintained between the offline segments and the real-time segments.
 
-## Ingesting Realtime Data
+## Ingesting Real-time Data
 
-Segments for realtime tables are constructed by Pinot servers with rows ingested from data streams such as Kafka. Rows ingested from streams are made available for query processing as soon as they are ingested, thus enabling applications such as those that need real-time charts on analytics.
+Segments for real-time tables are constructed by Pinot servers with rows ingested from data streams such as Kafka. Rows ingested from streams are made available for query processing as soon as they are ingested, thus enabling applications such as those that need real-time charts on analytics.
 
 In large scale installations, data in streams is typically split across multiple stream partitions. The underlying stream may provide consumer implementations that allow applications to consume data from any subset of partitions, including all partitions (or, just from one partition).
 

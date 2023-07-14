@@ -1,6 +1,6 @@
 ---
 description: >-
-  Steps for setting up a Pinot cluster and a realtime table which consumes from
+  Steps for setting up a Pinot cluster and a real-time table which consumes from
   the GitHub events stream.
 ---
 
@@ -21,9 +21,9 @@ In this recipe, we will
     d. Start server
 2. Set up a Kafka cluster
 3. Create a Kafka topic - pullRequestMergedEvents
-4. Create a realtime table - pullRequestMergedEvents and a schema
+4. Create a real-time table - pullRequestMergedEvents and a schema
 5. Start a task which reads from [GitHub events API ](https://developer.github.com/v3/activity/events/)and publishes events about merged pull requests to the topic.
-6. Query the realtime data
+6. Query the real-time data
 
 ## Steps
 

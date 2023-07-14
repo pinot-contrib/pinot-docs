@@ -14,7 +14,7 @@ description: Following a list of presentations centered on Pinot
 
 ## 2018
 
-* [Pinot: Realtime OLAP for 530 Million Users - Sigmod 2018 (Jun 2018)](http://www.slideshare.net/seunghyunlee1460/pinot-realtime-olap-for-530-million-users-sigmod-2018-107394584)
+* [Pinot: Real-time OLAP for 530 Million Users - Sigmod 2018 (Jun 2018)](http://www.slideshare.net/seunghyunlee1460/pinot-realtime-olap-for-530-million-users-sigmod-2018-107394584)
 
 ## 2016
 
@@ -23,4 +23,4 @@ description: Following a list of presentations centered on Pinot
 
 ## 2015
 
-* [Pinot: Realtime Distributed OLAP Datastore (Aug 2015)](http://www.slideshare.net/KishoreGopalakrishna/pinot-realtime-distributed-olap-datastore)
+* [Pinot: Real-time Distributed OLAP Datastore (Aug 2015)](http://www.slideshare.net/KishoreGopalakrishna/pinot-realtime-distributed-olap-datastore)

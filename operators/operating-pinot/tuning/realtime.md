@@ -6,7 +6,7 @@ description: Learn about tuning real-time tables.
 
 ## Tuning Real-time Performance
 
-See the section on [Ingesting Realtime Data](../../../basics/data-import/pinot-stream-ingestion/) before reading this section.
+See the section on [Ingesting Real-time Data](../../../basics/data-import/pinot-stream-ingestion/) before reading this section.
 
 Pinot servers ingest rows into a consuming segment that resides in volatile memory. Therefore, pinot servers hosting consuming segments tend to be memory bound. They may also have long garbage collection cycles when the segment is completed and memory is released.
 
@@ -175,7 +175,7 @@ You can pick the appropriate value for segment size and number of hours in the t
 
 **Case 1: Optimize for performance, high QPS**
 
-From the above output you may decide that 6 hours is an optimal consumption time given the number of active segments looked at for a query, and you can afford about 4G of active memory per host. You can choose either 8 or 10 hosts, you choose 10. In this case, the optimal segment size will be 111.98M. You can then enter your realtime table config as below:
+From the above output you may decide that 6 hours is an optimal consumption time given the number of active segments looked at for a query, and you can afford about 4G of active memory per host. You can choose either 8 or 10 hosts, you choose 10. In this case, the optimal segment size will be 111.98M. You can then enter your real-time table config as below:
 
 ```javascript
 "realtime.segment.flush.threshold.rows": "0"

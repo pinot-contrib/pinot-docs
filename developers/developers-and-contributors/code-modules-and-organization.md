@@ -20,7 +20,7 @@ Pinot depends on a number of external projects, the most notable ones are:
 
 _Helix_ is used for ClusterManagement, and Pinot code is tightly integrated with Helix and Zookeeper interfaces.
 
-_Kafka_ is the default realtime stream provider, but can be replaced with others. See customizations section for more info.
+_Kafka_ is the default real-time stream provider, but can be replaced with others. See customizations section for more info.
 
 _Thrift_ is used for message exchange between broker and server components, with _Netty_ providing the server functionality for processing messages in a non-blocking fashion.
 
@@ -58,7 +58,7 @@ The following figure provides a high-level overview of the foundational Pinot mo
 
 #### pinot-core
 
-`pinot-core` modules provides the core functionality of Pinot, specifically for handling segments, various index structures, query execution - filters, transformations, aggregations etc and support for realtime segments.
+`pinot-core` modules provides the core functionality of Pinot, specifically for handling segments, various index structures, query execution - filters, transformations, aggregations etc and support for real-time segments.
 
 #### pinot-server
 
@@ -68,7 +68,7 @@ The following figure provides a high-level overview of the foundational Pinot mo
 
 #### pinot-controller
 
-`pinot-controller` houses all the controller specific functionality, including many cluster administration APIs, segment upload (for both offline and realtime), segment assignment, retention strategies etc.
+`pinot-controller` houses all the controller specific functionality, including many cluster administration APIs, segment upload (for both offline and real-time), segment assignment, retention strategies etc.
 
 ![](../../.gitbook/assets/PinotController.png)
 
