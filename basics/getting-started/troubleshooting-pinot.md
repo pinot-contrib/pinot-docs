@@ -28,8 +28,8 @@ Use the following steps:
    1. If `numEntriesScannedInFilter` is very high, consider adding indexes for the corresponding columns being used in the filter predicates. You should also think about partitioning the incoming data based on the dimension most heavily used in your filter queries.
    2. If `numDocsScanned` is very high, that means the selectivity for the query is low and lots of documents need to be processed after the filtering. Consider refining the filter to increase the selectivity of the query.
 2. If the query is not executing, you can extend the query timeout by appending a `timeoutMs` parameter to the query, for example, `select * from mytable limit 10 option(timeoutMs=60000)`. Then repeat step 1, as needed.
-3. Look at GC stats for the corresponding Pinot servers. If a particular server seems to be running full GC all the time, you can do a couple of things such as
-   1. Increase JVM heap (Xmx)
-   2. Consider using off-heap memory for segments
-   3. Decrease the total number of segments per server (by partitioning the data in a better way)
+3. Look at garbage collection (GC) stats for the corresponding Pinot servers. If a particular server seems to be running full GC all the time, you can do a couple of things such as
+   1. Increase JVM heap (Xmx).
+   2. Consider using off-heap memory for segments.
+   3. Decrease the total number of segments per server (by partitioning the data in a more efficient way).
 
