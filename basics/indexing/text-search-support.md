@@ -433,7 +433,7 @@ CUDA, GPU, Python, Machine learning, database kernel, storage, indexing and tran
 CUDA, GPU processing, Tensor flow, Pandas, Python, Jupyter notebook, spark, Machine learning, building high performance scalable systems
 ```
 
-When using Boolean operators to combine term(s) and phrase(s) or both, please note that:
+When using Boolean operators to combine term(s) and phrase(s) or both, note that:
 
 * The matching document can contain the terms and phrases in any order.
 * The matching document may not have the terms adjacent to each other (if this is needed, use appropriate phrase query).

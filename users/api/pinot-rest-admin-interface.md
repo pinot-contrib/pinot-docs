@@ -2,7 +2,7 @@
 
 The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
-Note: The controller API's are primarily for admin tasks. Even though the UI console queries Pinot when running queries from the query console, please use the [Broker Query API](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql) for querying Pinot.
+Note: The controller API's are primarily for admin tasks. Even though the UI console queries Pinot when running queries from the query console, use the [Broker Query API](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql) for querying Pinot.
 
 ![](<../../.gitbook/assets/Screen Shot 2020-02-28 at 10.00.43 AM.png>)
 

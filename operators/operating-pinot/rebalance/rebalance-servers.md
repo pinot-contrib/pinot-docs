@@ -67,7 +67,7 @@ curl -X PUT "http://localhost:9000/instances/Server_10.1.10.51_7000"
 {% hint style="danger" %}
 **NOTE**
 
-The output of GET and input of PUT don't match for this API. Please make sure to use the right payload as shown in example above. Particularly, notice that instance name "Server\_host\_port" gets split up into their own fields in this PUT API.
+The output of GET and input of PUT don't match for this API. Make sure to use the right payload as shown in example above. Particularly, notice that instance name "Server\_host\_port" gets split up into their own fields in this PUT API.
 {% endhint %}
 
 When upsizing/downsizing a cluster, you will need to make sure that the host names of servers are consistent. You can do this by setting the following config parameter:

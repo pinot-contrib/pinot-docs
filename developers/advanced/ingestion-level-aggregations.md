@@ -89,7 +89,7 @@ Note that the schema only reflects the final table structure.
 
 ### Table Config
 
-From the below aggregation config example, please note that `price`  exists in the input data while `total_sales` exists in the Pinot Schema.
+From the below aggregation config example, note that `price`  exists in the input data while `total_sales` exists in the Pinot Schema.
 
 ```json
 {

@@ -19,7 +19,7 @@ _For Mac users_
 brew install kubernetes-cli
 ```
 
-Please check kubectl version after installation.
+Check kubectl version after installation.
 
 ```
 kubectl version

@@ -2,7 +2,7 @@
 
 ## Dev Environment Setup
 
-To contribute to Pinot, please follow the instructions below.
+To contribute to Pinot, follow the instructions below.
 
 ### Git
 
@@ -40,7 +40,7 @@ $mvn install package -DskipTests -Pbin-dist -DdownloadSources -DdownloadJavadocs
 
 ### Setup IDE
 
-Import the project into your favorite IDE. Setup stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, please ensure you use stylesheet based on [this](https://github.com/apache/pinot/blob/master/config/codestyle-intellij.xml).
+Import the project into your favorite IDE. Setup stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, ensure you use stylesheet based on [this](https://github.com/apache/pinot/blob/master/config/codestyle-intellij.xml).
 
 #### Intellij
 

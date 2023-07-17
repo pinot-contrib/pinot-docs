@@ -128,4 +128,4 @@ from billing
 ## Usage FAQ
 
 * The data return type of the UDF will be that of the `dimColToLookUp` column type.&#x20;
-* when multiple primary key columns are used for the dimension table (e.g. composite primary key), please ensure that the order of keys appearing in the lookup() UDF is the same as the order defined in the `primaryKeyColumns` from the dimension table schema.
+* when multiple primary key columns are used for the dimension table (e.g. composite primary key), ensure that the order of keys appearing in the lookup() UDF is the same as the order defined in the `primaryKeyColumns` from the dimension table schema.
