@@ -1,4 +1,14 @@
+---
+description: >-
+  This page has a collection of frequently asked questions about operations with answers from the
+  community.
+---
+
 # Operations FAQ
+
+{% hint style="info" %}
+This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](https://docs.pinot.apache.org/contributing/contributing).
+{% endhint %}
 
 ## Memory
 
