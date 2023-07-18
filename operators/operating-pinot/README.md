@@ -1,6 +1,6 @@
 # Deployment and Monitoring
 
-There are multiple different sections in the documentation to help you get started with operating a Pinot cluster. If you are new to Pinot, please start with the basics.
+There are multiple different sections in the documentation to help you get started with operating a Pinot cluster. If you are new to Pinot, start with the basics.
 
 {% content-ref url="../../basics/concepts.md" %}
 [concepts.md](../../basics/concepts.md)
@@ -10,7 +10,7 @@ There are multiple different sections in the documentation to help you get start
 [architecture.md](../../basics/architecture.md)
 {% endcontent-ref %}
 
-To get started with operating a Pinot cluster, first please look at the tutorials in [Getting Started](../../basics/getting-started/) on how to run a basic pinot cluster in various environments.
+To get started with operating a Pinot cluster, first look at the tutorials in [Getting Started](../../basics/getting-started/) on how to run a basic pinot cluster in various environments.
 
 {% content-ref url="../../basics/getting-started/running-pinot-locally.md" %}
 [running-pinot-locally.md](../../basics/getting-started/running-pinot-locally.md)

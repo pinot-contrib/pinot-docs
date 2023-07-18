@@ -14,7 +14,7 @@ Returns a boolean value checking if `ipAddress` is in the subnet of `ipPrefix`
 
 ## Usage Examples
 
-Please see the following sample queries where `isSubnetOf` is used in different parts of the query.
+See the following sample queries where `isSubnetOf` is used in different parts of the query.
 
 <pre class="language-sql"><code class="lang-sql">SELECT isSubnetOf('192.168.0.1/24', '192.168.0.225') 
 <strong>AS result

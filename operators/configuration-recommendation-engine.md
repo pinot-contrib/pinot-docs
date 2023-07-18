@@ -8,7 +8,7 @@ description: >-
 
 ## Overview
 
-Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related (e.g indexes, real-time config). Please note that not all configuration options in TableConfig are currently covered. The following table shows the ones that are currently covered.
+Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related (e.g indexes, real-time config). Note that not all configuration options in TableConfig are currently covered. The following table shows the ones that are currently covered.
 
 | Rule                                | Config Entity            | Config Name                                                                                                                                                                                                                                               | Applicable Table Type |
 | ----------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
@@ -40,7 +40,7 @@ The input needs to be provided in json format. Different fields of the input can
 Data characteristics is defined in "schema" field. The content of this field is an extended version of Pinot Schema which has some additional metadata that's inserted into the definition of each column:
 
 * **Cardinality**: Total number of unique values for this dimension. Provide cardinality to the best of your knowledge to help generate the best possible recommendations.
-* **numValuesPerEntry**: For multi-value columns only, this is the average number of values per column value. Please note that:
+* **numValuesPerEntry**: For multi-value columns only, this is the average number of values per column value. Note that:
   * For multi-value columns, other than numValuesPerEntry, singleValueField has to be defined as false.
   * For single-value columns, numValuesPerEntry and singleValueField should not be specified.
   * Metric columns cannot be defined as multi-value.

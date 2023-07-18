@@ -19,14 +19,14 @@ realtime.segment.serverUploadToDeepStore = true
 When this is enabled, the Pinot servers will attempt to upload the completed segment to the segment store directly, thus by-passing the controller. Once this is finished, it will update the controller with the corresponding segment metadata.&#x20;
 
 {% hint style="info" %}
-`pinot.server.segment.store.uri` is optional by default. However, this config is required so that the server knows where the deep store is. Hence, before enabling `realtime.segment.serverUploadToDeepStore` on the table, please make sure that the `pinot.server.segment.store.uri` is configured on the servers.
+`pinot.server.segment.store.uri` is optional by default. However, this config is required so that the server knows where the deep store is. Hence, before enabling `realtime.segment.serverUploadToDeepStore` on the table, make sure that the `pinot.server.segment.store.uri` is configured on the servers.
 {% endhint %}
 
 ## Overview of Peer Download policy
 
 Peer download policy is introduced to allow failure recovery, incase of a failure to upload the completed segment to the deep store. If the segment store is unavailable for whatever reason, the corresponding segments can still be downloaded directly from the Pinot servers. Hence, the policy  is called `peer download`.
 
-**Please Note:** This is available in the latest master (not in 0.5.0 release)
+**Note:** This is available in the latest master (not in 0.5.0 release)
 
 ## How to enable Peer Download for Segments
 

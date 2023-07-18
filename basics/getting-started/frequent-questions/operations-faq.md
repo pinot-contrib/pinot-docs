@@ -86,7 +86,7 @@ The number of segments generated depends on the number of input files. If you pr
 
 ### What are the common reasons my segment is in a BAD state ?
 
-This typically happens when the server is unable to load the segment. Possible causes: Out-Of-Memory, no-disk space, unable to download segment from deep-store, and similar other errors. Please check server logs for more information.
+This typically happens when the server is unable to load the segment. Possible causes: Out-Of-Memory, no-disk space, unable to download segment from deep-store, and similar other errors. Check server logs for more information.
 
 ### How to reset a segment when it runs into a BAD state?
 

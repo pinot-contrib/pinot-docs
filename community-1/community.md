@@ -16,16 +16,16 @@ For general questions and announcement:
 
 ## Github
 
-Star us at [apache/pinot](https://github.com/apache/pinot) to follow Pinot development, ask questions, raise issues, or contribute pull requests. Please see [Developers and Contributors](../developers/developers-and-contributors/) section if you're interested in development.
+Star us at [apache/pinot](https://github.com/apache/pinot) to follow Pinot development, ask questions, raise issues, or contribute pull requests. See [Developers and Contributors](../developers/developers-and-contributors/) section if you're interested in development.
 
 ## Slack Channel
 
-Please ask questions on [Apache Pinot Slack](https://communityinviter.com/apps/apache-pinot/apache-pinot).
+Ask questions on [Apache Pinot Slack](https://communityinviter.com/apps/apache-pinot/apache-pinot).
 
 ## Twitter
 
-Please follow us on Twitter [@ApachePinot](https://twitter.com/ApachePinot).
+Follow us on Twitter [@ApachePinot](https://twitter.com/ApachePinot).
 
 ## Meetups
 
-Please see [Apache Pinot on Meetup.com](https://www.meetup.com/apache-pinot/) for upcoming meetup events.
+See [Apache Pinot on Meetup.com](https://www.meetup.com/apache-pinot/) for upcoming meetup events.

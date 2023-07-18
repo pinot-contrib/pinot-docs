@@ -392,10 +392,10 @@ pushJobSpec:
   pushRetryIntervalMillis: 1000
 ```
 
-Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
+Ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
 {% hint style="info" %}
-Please ensure you set
+Ensure you set
 
 *   `spark.driver.extraJavaOptions =>`
 
@@ -561,7 +561,7 @@ pushJobSpec:
   pushRetryIntervalMillis: 1000
 ```
 
-Please ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
+Ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
 ```
 export PINOT_VERSION=0.10.0-SNAPSHOT
@@ -581,7 +581,7 @@ You can set Environment Variable: `JAVA_OPTS` to modify:
 * Plugin directory location with `-Dplugins.dir=/opt/pinot/plugins`
 * JVM props, like `-Xmx8g -Xms4G`
 
-Please note that you need to config above three all together in `JAVA_OPTS`. If you only config `JAVA_OPTS="-Xmx4g"` then `plugins.dir` is empty usually will cause job failure.
+Note that you need to config above three all together in `JAVA_OPTS`. If you only config `JAVA_OPTS="-Xmx4g"` then `plugins.dir` is empty usually will cause job failure.
 
 E.g.
 

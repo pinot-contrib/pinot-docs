@@ -37,7 +37,7 @@ pinot.server.segment.fetcher.hdfs.hadoop.kerberos.principle=<your kerberos princ
 pinot.server.segment.fetcher.hdfs.hadoop.kerberos.keytab=<your kerberos keytab>
 ```
 
-These two configs should be the corresponding Kerberos configuration if your Hadoop installation is secured with Kerberos. Please check Hadoop Kerberos guide on how to generate Kerberos security identification.
+These two configs should be the corresponding Kerberos configuration if your Hadoop installation is secured with Kerberos. Check Hadoop Kerberos guide on how to generate Kerberos security identification.
 
 You will also need to provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
 

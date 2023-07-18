@@ -42,7 +42,7 @@ In the Pinot controller config, add the following new configs:
 
 These properties for the stream implementation are to be set in your controller and server configurations.
 
-In your controller and server configs, please set the FS class you would like to support. `pinot.controller.storage.factory.class.${YOUR_URI_SCHEME}` to the full path of the FS class you would like to include
+In your controller and server configs, set the FS class you would like to support. `pinot.controller.storage.factory.class.${YOUR_URI_SCHEME}` to the full path of the FS class you would like to include
 
 You also need to configure `pinot.controller.local.temp.dir` for the local dir on the controller machine.
 
@@ -76,7 +76,7 @@ Sample Server Config
 
 You can find the parameters in your account as follows: [https://stackoverflow.com/questions/56349040/what-is-clientid-authtokenendpoint-clientkey-for-accessing-azure-data-lake](https://stackoverflow.com/questions/56349040/what-is-clientid-authtokenendpoint-clientkey-for-accessing-azure-data-lake)
 
-Please also make sure to set the following config with the value `adl`
+Also make sure to set the following config with the value `adl`
 
 ```
 "segment.fetcher.protocols" : "adl"
