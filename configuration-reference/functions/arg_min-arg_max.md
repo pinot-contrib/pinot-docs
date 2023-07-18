@@ -40,4 +40,4 @@ Note:&#x20;
 4. Putting `argmin/argmax` column inside order by clause (e.g. `SELECT intCol, argmin(longCol, doubleCol) FROM table GROUP BY intCol ORDER BY argmin(longCol, doubleCol)`) is not supported as semantically ordering multi-column multi-row `argmin/argmax` results doesn't make sense
 5. Currently projecting MV bytes column doesn't work for now due to an issue
 
-For more detailed examples please see: [https://github.com/apache/pinot/pull/10636](https://github.com/apache/pinot/pull/10636)  &#x20;
+For more detailed examples, see: [https://github.com/apache/pinot/pull/10636](https://github.com/apache/pinot/pull/10636)  &#x20;

@@ -10,11 +10,11 @@ This wiki documents how to connect Pinot deployed in [Amazon EKS](https://us-wes
 
 ## Prerequisite
 
-Please follow this [AWS Quickstart Wiki](https://docs.pinot.apache.org/getting-started/quickstart/aws-quickstart) to run Pinot on Amazon EKS.
+Follow this [AWS Quickstart Wiki](https://docs.pinot.apache.org/getting-started/quickstart/aws-quickstart) to run Pinot on Amazon EKS.
 
 ## Create an Amazon MSK Cluster
 
-Please go to [MSK Landing Page](https://us-west-2.console.aws.amazon.com/msk/home) to create a Kafka Cluster.
+Go to [MSK Landing Page](https://us-west-2.console.aws.amazon.com/msk/home) to create a Kafka Cluster.
 
 {% hint style="info" %}
 Note:
@@ -57,7 +57,7 @@ This is configured through Amazon VPC Page.
 ![Amazon EKS ClusterSharedNodeSecurityGroup](<../../.gitbook/assets/image (9) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 {% hint style="info" %}
-Please ensure you are picking **ClusterShardNodeSecurityGroup**
+Ensure you are picking **ClusterShardNodeSecurityGroup**
 {% endhint %}
 
 1. In SecurityGroup, click on MSK SecurityGroup (`sg-01e7ab1320a77f1a9`), then Click on `Edit Rules` , then add above `ClusterSharedNodeSecurityGroup` (`sg-0402b59d7e440f8d1`) to it.
@@ -72,7 +72,7 @@ Now, EKS cluster should be able to talk to Amazon MSK.
 
 ### Create Kafka topic
 
-To run below commands, please ensure you set two environment variable with `ZOOKEEPER_CONNECT_STRING` and `BROKER_LIST_STRING` (Use plaintext) from Amazon MSK client information, and replace the Variables accordingly.
+To run below commands, ensure you set two environment variable with `ZOOKEEPER_CONNECT_STRING` and `BROKER_LIST_STRING` (Use plaintext) from Amazon MSK client information, and replace the Variables accordingly.
 
 E.g.
 
@@ -124,7 +124,7 @@ You can download below yaml file, then replace:
 
 * `${ZOOKEEPER_CONNECT_STRING}` -> MSK Zookeeper String
 * `${BROKER_LIST_STRING}` -> MSK **Plaintext** Broker String in the deployment
-* `${GITHUB_PERSONAL_ACCESS_TOKEN}` -> A personal Github Personal Access Token generated from [here](https://github.com/settings/tokens), please grant all read permissions to it. Here is the [source code](https://github.com/apache/pinot/commit/1baede8e760d593fcd539d61a147185816c44fc9) to generate Github Events.
+* `${GITHUB_PERSONAL_ACCESS_TOKEN}` -> A personal Github Personal Access Token generated from [here](https://github.com/settings/tokens), grant all read permissions to it. Here is the [source code](https://github.com/apache/pinot/commit/1baede8e760d593fcd539d61a147185816c44fc9) to generate Github Events.
 
 {% file src="../../.gitbook/assets/github-events-aws-msk-demo (2).yaml" %}
 github-events-aws-msk-demo.yaml

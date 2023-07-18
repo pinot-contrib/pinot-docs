@@ -18,7 +18,7 @@ _For Mac users_
 brew install kubernetes-cli
 ```
 
-Please check kubectl version after installation.
+Check kubectl version after installation.
 
 ```
 kubectl version
@@ -38,14 +38,14 @@ _For Mac users_
 brew install kubernetes-helm
 ```
 
-Please check helm version after installation.
+Check helm version after installation.
 
 ```
 helm version
 ```
 
 {% hint style="info" %}
-This quickstart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
+This quickstart provides helm supports for helm v3.0.0 and v2.12.1. Pick the script based on your helm version.
 {% endhint %}
 
 ### **1.3 Install** Azure CLI

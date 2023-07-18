@@ -7,7 +7,7 @@ description: >-
 # Frequently Asked Questions \(FAQs\)
 
 {% hint style="info" %}
-This is a list of frequent questions most often asked in our troubleshooting channel on Slack. Please feel free to contribute your questions and answers here and make a pull request.
+This is a list of frequent questions most often asked in our troubleshooting channel on Slack. Feel free to contribute your questions and answers here and make a pull request.
 {% endhint %}
 
 ## Ingestion
@@ -144,7 +144,7 @@ Yes, replica groups work for real-time. There's 2 parts to enabling replica grou
 
 **Replica group segment assignment**
 
-Replica group segment assignment is achieved in realtime, if number of servers is a multiple of number of replicas. The partitions get uniformly sprayed across the servers, creating replica groups.  
+Replica group segment assignment is achieved in real time, if number of servers is a multiple of number of replicas. The partitions get uniformly sprayed across the servers, creating replica groups.  
   
 For example, consider we have 6 partitions, 2 replicas, and 4 servers.
 

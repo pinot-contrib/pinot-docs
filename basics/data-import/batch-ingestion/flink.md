@@ -41,7 +41,7 @@ execEnv.execute();
 
 As in the example shown above, the only required information from the Pinot side is the table [schema](../../../configuration-reference/schema.md) and the table [config](../../../configuration-reference/table.md).
 
-For a more detail executable please refer to the [quick start example](https://github.com/apache/pinot/blob/master/pinot-connectors/pinot-flink-connector/src/main/java/org/apache/pinot/connector/flink/FlinkQuickStart.java).
+For a more detailed executable, refer to the [quick start example](https://github.com/apache/pinot/blob/master/pinot-connectors/pinot-flink-connector/src/main/java/org/apache/pinot/connector/flink/FlinkQuickStart.java).
 
 ### Table Config
 
