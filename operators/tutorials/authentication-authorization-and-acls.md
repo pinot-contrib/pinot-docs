@@ -32,11 +32,11 @@ This is best demonstrated by example of introducing ACLs with a simple admin + u
 controller.admin.access.control.principals=admin,user
 
 # Set the user's password to "secret" and allow "READ" only
-controller.admin.access.control.principals.user.password=secret 
+controller.admin.access.control.principals.user.password=secret
 controller.admin.access.control.principals.user.permissions=READ
 
 # Set the admin's password to "verysecret"
-controller.admin.access.control.principals.admin.password=verysecret 
+controller.admin.access.control.principals.admin.password=verysecret
 
 ```
 
@@ -63,7 +63,7 @@ controller.segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 {% tab title="Minion" %}
 ```
 segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
- task.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
+task.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 
 ```
 {% endtab %}
@@ -71,7 +71,7 @@ segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 {% tab title="Server" %}
 ```
 pinot.server.segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
- pinot.server.segment.uploader.auth.token=Basic YWRtaW46dmVyeXNlY3JldA 
+pinot.server.segment.uploader.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 pinot.server.instance.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 ```
 {% endtab %}
@@ -91,13 +91,13 @@ After a controller restart, any access to controller APIs requires authenticatio
 
 ```
 # the factory class property is different for the broker
-pinot.broker.access.control.class=org.apache.pinot.broker.broker.BasicAuthAccessControlFactory 
+pinot.broker.access.control.class=org.apache.pinot.broker.broker.BasicAuthAccessControlFactory
 
 pinot.broker.access.control.principals=admin,user
- pinot.broker.access.control.principals.admin.password=verysecret 
+pinot.broker.access.control.principals.admin.password=verysecret
 pinot.broker.access.control.principals.user.password=secret
 
-# No need to set READ permissions here since broker requests are read-only 
+# No need to set READ permissions here since broker requests are read-only
 ```
 
 After restarting the broker, any access to broker APIs requires authentication information as well.
@@ -172,12 +172,12 @@ The example below again creates two users, _admin_ with password _verysecret_ an
 
 ```
 # the factory class property is different for the broker
-pinot.broker.access.control.class=org.apache.pinot.broker.broker.BasicAuthAccessControlFactory 
+pinot.broker.access.control.class=org.apache.pinot.broker.broker.BasicAuthAccessControlFactory
 
 pinot.broker.access.control.principals=admin,user
- pinot.broker.access.control.principals.admin.password=verysecret 
-pinot.broker.access.control.principals.user.password=secret 
-pinot.broker.access.control.principals.user.tables=baseballStats ,otherstuff
+pinot.broker.access.control.principals.admin.password=verysecret
+pinot.broker.access.control.principals.user.password=secret
+pinot.broker.access.control.principals.user.tables=baseballStats,otherstuff
 ```
 
 {% hint style="info" %}

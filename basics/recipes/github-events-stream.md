@@ -45,7 +45,7 @@ docker pull ${PINOT_IMAGE}
 
 #### Set up the Pinot cluster
 
-Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/getting-started/advanced-pinot-setup#start-pinot-components-using-docker) to setup the Pinot cluster with the components:
+Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/getting-started/advanced-pinot-setup#start-pinot-components-using-docker) to set up the Pinot cluster with the components:
 
 1. Zookeeper
 2. Controller
@@ -314,7 +314,7 @@ $ docker run --rm -ti \
 
 ### Short Version
 
-For a single command to setup all the above steps, use the following command. Make sure to stop any previous running Pinot services.
+For a single command to set up all the above steps, use the following command. Make sure to stop any previous running Pinot services.
 
 ```bash
 $ docker run --rm -ti \
@@ -334,7 +334,7 @@ Follow instructions in [Build from source](https://docs.pinot.apache.org/getting
 
 #### Set up the Pinot cluster
 
-Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/getting-started/advanced-pinot-setup#start-pinot-components-via-launcher-scripts) to setup the Pinot cluster with the components:
+Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/getting-started/advanced-pinot-setup#start-pinot-components-via-launcher-scripts) to set up the Pinot cluster with the components:
 
 1. Zookeeper
 2. Controller
@@ -603,7 +603,7 @@ $ bin/pinot-admin.sh GitHubEventsQuickStart \
 
 ### Kubernetes cluster
 
-If you already have a Kubernetes cluster with Pinot and Kafka (see [Running Pinot in Kubernetes](../getting-started/kubernetes-quickstart.md)), first create the topic and then setup the table and streaming using
+If you already have a Kubernetes cluster with Pinot and Kafka (see [Running Pinot in Kubernetes](../getting-started/kubernetes-quickstart.md)), first create the topic, then set up the table and streaming using
 
 ```
 $ cd kubernetes/helm

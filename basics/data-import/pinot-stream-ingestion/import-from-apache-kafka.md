@@ -8,7 +8,7 @@ description: >-
 
 In this page, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka.
 
-Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
+Let's set up a demo Kafka cluster locally, and create a sample topic `transcript-topic`
 
 {% tabs %}
 {% tab title="Docker" %}

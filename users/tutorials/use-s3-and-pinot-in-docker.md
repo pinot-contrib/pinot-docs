@@ -1,6 +1,6 @@
 # Use S3 and Pinot in Docker
 
-## Setup Pinot Cluster
+## Set up Pinot Cluster
 
 In order to setup Pinot in Docker to use S3 as deep store, we need to put extra configs for Controller and Server.
 
@@ -145,7 +145,7 @@ docker run --rm -ti \
     -configFileName /tmp/server.conf
 ```
 
-## Setup Table
+## Set up Table
 
 In this demo, we just use `airlineStats` table as an example which is already packaged inside the docker image.
 
