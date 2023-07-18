@@ -9,7 +9,7 @@ What is Apache Pinot?
 ## Operations
 
 {% embed url="https://youtu.be/cNnwMF0pOJ8" %}
-How to setup a Pinot cluster
+How to set up a Pinot cluster
 {% endembed %}
 
 {% embed url="https://youtu.be/UR6rYEMZYLA" %}

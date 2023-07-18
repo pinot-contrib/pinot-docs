@@ -6,7 +6,7 @@
 **Issue**: [https://github.com/apache/pinot/issues/5753](https://github.com/apache/pinot/issues/5753)
 {% endhint %}
 
-The Pinot managed offline flows feature allows a user to **simply setup a REALTIME table, and let Pinot manage populating the OFFLINE table**. For complete motivation and reasoning, please refer to the design doc above.
+The Pinot managed offline flows feature allows a user to **simply set up a REALTIME table, and let Pinot manage populating the OFFLINE table**. For complete motivation and reasoning, please refer to the design doc above.
 
 ### When to use
 
@@ -49,7 +49,7 @@ This feature uses the **pinot-minions** and **the Helix Task Executor framework*
 
 **Step 0:** Start a pinot-minion
 
-**Step 1**: Setup your REALTIME table. Add "RealtimeToOfflineSegmentsTask" in the task configs
+**Step 1**: Set up your REALTIME table. Add "RealtimeToOfflineSegmentsTask" in the task configs
 
 ```
 "tableName": "myTable_REALTIME",

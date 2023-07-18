@@ -2,7 +2,7 @@
 
 ## Start Pinot components (scripts or docker images)
 
-Setup Pinot by starting each component individually
+Set up Pinot by starting each component individually
 
 {% tabs %}
 {% tab title="Using docker images" %}
@@ -166,7 +166,7 @@ bin/pinot-admin.sh StartServer \
 
 ## Start Pinot Using Config Files
 
-Often times we need to customized the setup of Pinot Components. Hence user can compile a config file and use it to start Pinot Components.
+Often times we need to customized the setup of Pinot components. Hence user can compile a config file and use it to start Pinot components.
 
 Below are the examples config files and sample command to start Pinot.
 

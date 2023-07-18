@@ -12,7 +12,7 @@ This is a list of frequent questions most often asked in our troubleshooting cha
 
 ## Ingestion
 
-### How do I flatten my JSON Kafka stream?
+### Flatten my JSON Kafka stream
 
 We have [json\_format\(field\)](https://docs.pinot.apache.org/developers/advanced/ingestion-level-transformations#json-functions) function which can store a top level json field as a STRING in Pinot.
 
@@ -27,13 +27,13 @@ Support for flattening during ingestion is on the roadmap: [https://github.com/a
 
 ## Indexing
 
-### How to set inverted indexes?
+### Set inverted indexes
 
 Inverted indexes are set in the tableConfig's tableIndexConfig -&gt; invertedIndexColumns list. Here's the documentation for tableIndexConfig: [https://docs.pinot.apache.org/basics/components/table\#tableindexconfig-1](https://docs.pinot.apache.org/basics/components/table#tableindexconfig-1) along with a sample table that has set inverted indexes on some columns.
 
 Applying inverted indexes to a table config will generate inverted index to all new segments. In order to apply the inverted indexes to all existing segments, follow steps in [How to apply inverted index to existing setup?](frequent-questions.md#how-to-apply-inverted-index-to-existing-setup)
 
-### How to apply inverted index to existing setup?
+### Apply inverted index to existing setup
 
 1. Add the columns you wish to index to the tableIndexConfig-&gt; invertedIndexColumns list. This sample table config show inverted indexes set: [https://docs.pinot.apache.org/basics/components/table\#offline-table-config ](https://docs.pinot.apache.org/basics/components/table#offline-table-config)To update the table config use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig)
 2. Invoke the reload API: [http://localhost:9000/help\#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments)
@@ -41,7 +41,7 @@ Applying inverted indexes to a table config will generate inverted index to all 
 This will trigger a reload operation on each of the servers hosting the table's segments.
 The API response has a reloadJobId which can be used to monitor the status of the reload operation using the segment reload status API: [http://localhost:18998/help#/Segment/getReloadJobStatus](http://localhost:18998/help#/Segment/getReloadJobStatus)
 
-### How to create star-tree indexes?
+### Create star-tree indexes
 
 Star-tree indexes are configured in the table config under the _tableIndexConfig_ -&gt; _starTreeIndexConfigs_ \(list\) and _enableDefaultStarTree_ \(boolean\). Read more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/features/indexing\#index-generation-configuration](https://docs.pinot.apache.org/basics/features/indexing#index-generation-configuration)
 

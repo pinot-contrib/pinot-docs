@@ -6,7 +6,7 @@ Below commands are based on pinot distribution binary.
 
 ## Setup Pinot Cluster
 
-In order to setup Pinot to use S3 as deep store, we need to put extra configs for Controller and Server.
+In order to set up Pinot to use S3 as deep store, we need to put extra configs for Controller and Server.
 
 ### Start Controller
 
@@ -403,9 +403,9 @@ tableSpec: {schemaURI: 'http://localhost:9000/tables/airlineStats/schema', table
 
 ### Spark Job
 
-#### Setup Spark Cluster (Skip if you already have one)
+#### Set up Spark Cluster (Skip if you already have one)
 
-Please follow this [page](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/operators/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
+Please follow this [page](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/operators/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to set up a local spark cluster.
 
 #### Submit Spark Job
 

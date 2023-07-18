@@ -1,5 +1,5 @@
 ---
-description: This guide shows how to setup HDFS as deep storage for a Pinot segment.
+description: This guide shows how to set up HDFS as deep storage for a Pinot segment.
 ---
 
 # HDFS as Deep Storage
