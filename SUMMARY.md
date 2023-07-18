@@ -32,7 +32,7 @@
   * [HDFS as Deep Storage](basics/getting-started/hdfs-as-deepstorage.md)
   * [Troubleshooting Pinot](basics/getting-started/troubleshooting-pinot.md)
   * [Frequently Asked Questions (FAQs)](basics/getting-started/frequent-questions/README.md)
-    * [General](basics/getting-started/frequent-questions/genaral.md)
+    * [General](basics/getting-started/frequent-questions/general.md)
     * [Pinot On Kubernetes FAQ](basics/getting-started/frequent-questions/pinot-on-kubernetes-faq.md)
     * [Ingestion FAQ](basics/getting-started/frequent-questions/ingestion-faq.md)
     * [Query FAQ](basics/getting-started/frequent-questions/query-faq.md)
