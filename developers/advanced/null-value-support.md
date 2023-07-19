@@ -12,7 +12,7 @@ There is a workaround by matching with default values in the filter predicate. H
 
 ### High Level Architecture
 
-To turn on `NULL` handling, simply enable the boolean flag in the table index config called as `nullHandlingEnabled` (please see [tableIndexConfig section](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)). Please note - this will cause Pinot to use additional memory and disk space per segment. The details are as follows:
+To turn on `NULL` handling, simply enable the boolean flag in the table index config called as `nullHandlingEnabled` (see [tableIndexConfig section](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)). Note - this will cause Pinot to use additional memory and disk space per segment. The details are as follows:
 
 #### **Ingestion Phase**
 

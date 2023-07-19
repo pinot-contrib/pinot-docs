@@ -8,7 +8,7 @@ description: >-
 
 In this page, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka.
 
-Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
+Let's set up a demo Kafka cluster locally, and create a sample topic `transcript-topic`
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -202,7 +202,7 @@ Post release 0.10.0, we have started shading kafka packages inside Pinot. If you
 #### Upgrade from Kafka 0.9 connector to Kafka 2.x connector
 
 * Update table config for both high level and low level consumer: Update config: `stream.kafka.consumer.factory.class.name` from `org.apache.pinot.core.realtime.impl.kafka.KafkaConsumerFactory` to `org.apache.pinot.core.realtime.impl.kafka2.KafkaConsumerFactory`.
-* If using Stream(High) level consumer: Please also add config `stream.kafka.hlc.bootstrap.server` into `tableIndexConfig.streamConfigs`. This config should be the URI of Kafka broker lists, e.g. `localhost:9092`.
+* If using Stream(High) level consumer, also add config `stream.kafka.hlc.bootstrap.server` into `tableIndexConfig.streamConfigs`. This config should be the URI of Kafka broker lists, e.g. `localhost:9092`.
 
 #### How to consume from a Kafka version > 2.0.0
 

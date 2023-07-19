@@ -6,16 +6,14 @@ Below commands are based on pinot distribution binary.
 
 ## Setup Pinot Cluster
 
-In order to setup Pinot to use S3 as deep store, we need to put extra configs for Controller and Server.
+In order to set up Pinot to use S3 as deep store, we need to put extra configs for Controller and Server.
 
 ### Start Controller
 
 Below is a sample `controller.conf` file.
 
 {% hint style="info" %}
-Please config:
-
-`controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there.
+Configure `controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there.
 {% endhint %}
 
 {% hint style="info" %}
@@ -86,7 +84,7 @@ bin/pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName pinot-s3-e
 Below is a sample `server.conf` file
 
 {% hint style="info" %}
-Similar to controller config, please also set s3 configs in pinot server.
+Similar to controller config, also set s3 configs in pinot server.
 {% endhint %}
 
 ```bash
@@ -141,7 +139,7 @@ Below is a sample standalone ingestion job spec with certain notable changes:
       configs:
         region: 'us-west-2'
     ```
-* For library version < **0.6.0**, please set `segmentUriPrefix` to `[scheme]://[bucket.name]`, e.g. `s3://my.bucket` , from version **0.6.0**, you can put empty string or just ignore `segmentUriPrefix`.
+* For library version < **0.6.0**, set `segmentUriPrefix` to `[scheme]://[bucket.name]`, e.g. `s3://my.bucket` , from version **0.6.0**, you can put empty string or just ignore `segmentUriPrefix`.
 
 Sample `ingestionJobSpec.yaml`
 
@@ -403,9 +401,9 @@ tableSpec: {schemaURI: 'http://localhost:9000/tables/airlineStats/schema', table
 
 ### Spark Job
 
-#### Setup Spark Cluster (Skip if you already have one)
+#### Set up Spark Cluster (Skip if you already have one)
 
-Please follow this [page](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/operators/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
+Follow this [page](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/operators/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
 
 #### Submit Spark Job
 

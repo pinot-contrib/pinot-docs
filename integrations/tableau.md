@@ -116,7 +116,7 @@ If the output from the command on the first line of the previous snippet matches
 
 #### Installing Pinot for Tableau Desktop on Windows
 
-This section is coming soon. Please refer to the previous section and substitute the Windows directories using the same process.
+This section is coming soon. Refer to the previous section and substitute the Windows directories using the same process.
 
 ### Connecting to Pinot from Tableau Desktop
 
@@ -133,4 +133,4 @@ Once Tableau Desktop has restarted, you can now create a new JDBC connection to 
 
 The result of the previous steps should result in a successful connection to Pinot. If the connection fails, make sure that you note the resulting error message. If the connection to Pinot could not be established, it is likely that you do not have network access to either the Pinot controller or broker from your machine. For Tableau to be able to query Pinot, you'll need to make sure that both the controller (by default `localhost:9000`) and the broker (by default `localhost:8000`) can be accessed from your machine.
 
-For any other error messages or connection issues, please contact us on our community Slack and report your issue on the `Troubleshooting` channel.
+For any other error messages or connection issues, contact us on our community Slack and report your issue on the `Troubleshooting` channel.

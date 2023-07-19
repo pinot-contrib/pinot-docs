@@ -31,7 +31,7 @@ The PMC would use the following guideline when deciding whether a PEP requires a
 
 If the requests get at least one +1 and no -1 from the PMC to directly go to the PR stage, the requestor can then submit the PR along with a link to the Github issue.
 
-If the request requires a proposal, then the requestor is expected to provide a proposal design doc before submitting a PR for review. The design doc should have public read and comment access. (If your organization does not allow public access, please look to other freely available platforms to host your document). The design doc must include the following:
+If the request requires a proposal, then the requestor is expected to provide a proposal design doc before submitting a PR for review. The design doc should have public read and comment access. (If your organization does not allow public access, look to other freely available platforms to host your document). The design doc must include the following:
 
 * **Motivation:** Describe the problem to be solved including the details on why such as use-case, etc.
 * **Proposed Change:** Describe the new thing that needs to be done. This may be fairly extensive and have large subsections of its own. Or it may be a few sentences, depending on the scope of the change. Also, describe “How” with details and possible POC.
@@ -57,7 +57,7 @@ If your change is relatively minor, you can skip this step. If you are adding ne
 
 Create a Pinot issue [here](https://github.com/apache/pinot/issues) for the change you would like to make. Provide information on why the change is needed and how you plan to address it. Use the conversations on the issue as a way to validate assumptions and the right way to proceed. Be sure to review sections on [Backward and Forward compatibility changes](contribution-guidelines.md#backward-and-forward-compatibility-changes) and [External libraries](contribution-guidelines.md#external-libraries).
 
-If you have a design document, please refer to the design documents in your Issue. You may even want to create multiple issues depending on the extent of your change.
+If you have a design document, refer to the design documents in your Issue. You may even want to create multiple issues depending on the extent of your change.
 
 Once you are clear about what you want to do, proceed with the next steps listed below.
 
@@ -84,7 +84,7 @@ Follow the recommendations/best-practices noted here when you are making changes
 
 ### Code documentation
 
-Please ensure your code is adequately documented. Some things to consider for documentation:
+Ensure your code is adequately documented. Some things to consider for documentation:
 
 * Always include class level java docs. At the top class level, we are looking for information about what functionality is provided by the class, what state is maintained by the class, whether there are concurrency/thread-safety concerns and any exceptional behavior that the class might exhibit.
 * Document public methods and their parameters.
@@ -164,7 +164,7 @@ mvn license:format
 
 Note
 
-If you checkin third-party code or files, please make sure you review Apache guidelines:
+If you checkin third-party code or files, make sure you review Apache guidelines:
 
 * [Licences that can be included](https://www.apache.org/legal/resolved.html#what-can-we-include-in-an-asf-project-category-a)
 * [Licences that may be included](https://www.apache.org/legal/resolved.html#what-can-we-maybe-include-in-an-asf-project-category-b)
@@ -213,7 +213,7 @@ After this, create a PullRequest in `github <https://github.com/apache/pinot/pul
   * Evidence of sufficient testing. You ``MUST`` indicate the tests done, either manually or automated.
 
 Once the PR is created, the code base is compiled and all tests are run via ``travis``. Make sure you followup on any issues flagged by travis and address them.
-If you see test failures that are intermittent, ``please`` create an issue to track them.
+If you see test failures that are intermittent, create an issue to track them.
 
 Once the ``travis`` run is clear, request reviews from atleast 2 committers on the project and be sure to gently to followup on the issue with the reviewers.
 ```
@@ -248,4 +248,4 @@ $ git push origin <your issue branch>
 
 Usually for new features, functionalities, API changes, documentation update is required to keep users up to date and keep track of our development.
 
-Please follow this link to [Update Document](update-document.md) accordingly
+Follow this link to [Update Document](update-document.md) accordingly

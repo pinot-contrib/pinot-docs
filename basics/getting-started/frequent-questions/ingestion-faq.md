@@ -28,7 +28,7 @@ You can configure the interval for this job using the`controller.realtime.segmen
 
 ### How do I enable partitioning in Pinot, when using Kafka stream?
 
-Setup the partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
+Set up partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
 
 The partitioning logic in the stream should match the partitioning config in Pinot. Kafka uses `murmur2`, and the equivalent in Pinot is the `Murmur` function.
 

@@ -8,9 +8,9 @@ This example assumes you have set up your cluster using [Pinot in Docker](https:
 
 ## Data Stream
 
-First, we need to setup a stream. Pinot has out-of-the-box real-time ingestion support for Kafka. Other streams can be plugged in for use, see [Pluggable Streams](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
+First, we need to set up a stream. Pinot has out-of-the-box real-time ingestion support for Kafka. Other streams can be plugged in for use, see [Pluggable Streams](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
 
-Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`.
+Let's set up a demo Kafka cluster locally, and create a sample topic `transcript-topic`.
 
 {% tabs %}
 {% tab title="Docker" %}
