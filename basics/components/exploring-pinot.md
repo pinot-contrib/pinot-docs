@@ -32,7 +32,7 @@ For example, if we want to add _yearID_ to the list of inverted indexes, click o
 
 ## Query Console
 
-Let us run some queries on the data in the Pinot cluster. Head over to [Query Console](http://localhost:9000/#/query) to see the querying interface.
+Let's run some queries on the data in the Pinot cluster. Navigate to [Query Console](http://localhost:9000/#/query) to see the querying interface.
 
 We can see our `baseballStats` table listed on the left (you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid [quick start](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker)). Click on the table name to display all the names along with the data types of the columns of the table.
 
@@ -42,22 +42,22 @@ You can also execute a sample query `select * from baseballStats limit 10` by ty
 
 ![](../../.gitbook/assets/Pinot\_query\_console\_cropped.png)
 
-You can also try out the following queries:
+Here are some sample queries you can try:
 
-```
+```sql
 select playerName, max(hits) 
 from baseballStats 
 group by playerName 
 order by max(hits) desc
 ```
 
-```
+```sql
 select sum(hits), sum(homeRuns), sum(numberOfGames) 
 from baseballStats 
 where yearID > 2010
 ```
 
-```
+```sql
 select * 
 from baseballStats 
 order by league
