@@ -10,6 +10,7 @@ This page contains links to all the design documents
 
 | Name                                                                                                                                                                   | Authors                          | Date      |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
+| [Peer downloading for offline segments](https://docs.google.com/document/d/1HtU8NsYz84NiAKGh16Yv8WKxyhdXHx-KNsINcWZ7MEI/edit?usp=sharing)                    | Xuanyi Li                     | Nov 2022  |
 | [Segment format without forward index](https://docs.google.com/document/d/1MNLLhYCg5e-UFBQ6wTBODd41sDsbjevwRfwoGuNowWw/edit#heading=h.jwlk6va28akf)                    | Sonam Mandal                     | Oct 2022  |
 | [Runtime query killing](https://docs.google.com/document/d/1Z9DYAfKznHQI9Wn8BjTWZYTcNRVGiPP0B8aEP3w\_1jQ/edit#heading=h.o3jia8j0k10u)                                  | Jia Guo                          | Oct 2022  |
 | [Forward Index Handler in Segment Reload](https://docs.google.com/document/d/1Gai0DHBnyR4joG\_8AcoR-27\_exEBTpVfTFU04HyPdd8/edit#heading=h.liwwtls82n1z)               | Vivek Iyer                       | Sep 2022  |
