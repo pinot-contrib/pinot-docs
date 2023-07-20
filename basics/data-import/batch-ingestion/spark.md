@@ -147,7 +147,7 @@ Q - **My data gets overwritten during ingestion.**
 
 Set [segmentPushType](../../../configuration-reference/table.md#segments-config) to `APPEND` in the tableConfig.
 
-If already set to `APPEND`, this is likely due to a missing `timeColumnName` in your table config. If you can't provide a time column, please use our[ segment name generation configs](../../../configuration-reference/job-specification.md#segment-name-generator-spec) in ingestion spec. Generally using `inputFile` segment name generator should fix your issue.
+If already set to `APPEND`, this is likely due to a missing `timeColumnName` in your table config. If you can't provide a time column, use our[ segment name generation configs](../../../configuration-reference/job-specification.md#segment-name-generator-spec) in ingestion spec. Generally using `inputFile` segment name generator should fix your issue.
 
 
 
@@ -159,5 +159,5 @@ Removing `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins` from `spark.driver.ex
 
 Q - Getting `Class not found:` exception
 
-Please check if `extraClassPath` arguments contain all the plugin jars for both driver and executors. Also, all the plugin jars are mentioned in the `--jars` argument. If both of these are correct, please check if the `extraClassPath` contains local filesystem classpaths and not s3 or hdfs or any other distributed file system classpaths.
+Check if `extraClassPath` arguments contain all the plugin jars for both driver and executors. Also, all the plugin jars are mentioned in the `--jars` argument. If both of these are correct, check if the `extraClassPath` contains local filesystem classpaths and not s3 or hdfs or any other distributed file system classpaths.
 

@@ -14,5 +14,5 @@ Pinot uses Apache Helix for cluster management, which in turn is built on top of
 
 ## Why am I getting "Could not find or load class" error when running Quickstart using 0.8.0 release?
 
-Please check the JDK version you are using. The release 0.8.0 binary is on JDK 11. You may be getting this error if you are using JDK8. In that case, please consider using JDK11, or you will need to download the [source code](https://downloads.apache.org/pinot/apache-pinot-0.8.0/apache-pinot-0.8.0-src.tar.gz) for the release and [build](https://github.com/apache/pinot/pull/6424) it locally.
+Check the JDK version you are using. The release 0.8.0 binary is on JDK 11. You may be getting this error if you are using JDK8. In that case, consider using JDK11, or you will need to download the [source code](https://downloads.apache.org/pinot/apache-pinot-0.8.0/apache-pinot-0.8.0-src.tar.gz) for the release and [build](https://github.com/apache/pinot/pull/6424) it locally.
 

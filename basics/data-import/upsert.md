@@ -229,7 +229,7 @@ Upsert Pinot table can support soft-deletes of primary keys. This requires the i
 }
 ```
 
-Please note that the `delete` column has to be a single-value boolean column.&#x20;
+Note that the `delete` column has to be a single-value boolean column.&#x20;
 
 <pre class="language-json"><code class="lang-json">// In the Schema
 {
@@ -243,12 +243,12 @@ Please note that the `delete` column has to be a single-value boolean column.&#x
 </strong></code></pre>
 
 {% hint style="info" %}
-Please note that when `deleteRecordColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.&#x20;
+Note that when `deleteRecordColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.&#x20;
 {% endhint %}
 
 A deleted primary key can be revived by ingesting a record with the same primary, but with higher comparison column value(s).&#x20;
 
-Please note that when reviving a primary key in a partial upsert table, the revived record will be treated as the source of truth for all columns. This means any previous updates to the columns will be ignored and overwritten with the new record's values.&#x20;
+Note that when reviving a primary key in a partial upsert table, the revived record will be treated as the source of truth for all columns. This means any previous updates to the columns will be ignored and overwritten with the new record's values.&#x20;
 
 ### Use strictReplicaGroup for routing
 

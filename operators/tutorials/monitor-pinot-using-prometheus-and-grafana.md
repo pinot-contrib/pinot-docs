@@ -80,7 +80,7 @@ helm inspect values prometheus-community/prometheus > /tmp/prometheus-values.yam
 
 Configure Prometheus
 
-Please remember to check the configs:
+Remember to check the configs:
 
 * server.persistentVolume: data storage location/size limit/storage class
 * server.retention: how long to keep the data (default is 15d)

@@ -54,7 +54,7 @@ hadoop jar  \\
         -jobSpecFile ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/hadoopIngestionJobSpec.yaml
 ```
 
-Please ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
+Ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
 ## Data Preprocessing before Segment Creation
 
@@ -122,4 +122,4 @@ Minimum number of reducers. Optional. Fetched when partitioning gets disabled an
 
 Maximum number of records per reducer. Optional.Unlike, “preprocessing.num.reducers”, this parameter is to avoid having too few large input files for Pinot, which misses the advantage of muti-threading when querying. When not set, each reducer will finally generate one output file. When set (e.g. M), the original output file will be split into multiple files and each new output file contains at most M records. It does not matter whether partitioning is enabled or not.
 
-For more details on this MR job, please refer to this [document](https://docs.google.com/document/d/1BnjjVj3OLuo-vmOt0WjqEFbUC9AZgCDuDxCtLEFPM34/edit?usp=sharing).
+For more details on this MR job, refer to this [document](https://docs.google.com/document/d/1BnjjVj3OLuo-vmOt0WjqEFbUC9AZgCDuDxCtLEFPM34/edit?usp=sharing).

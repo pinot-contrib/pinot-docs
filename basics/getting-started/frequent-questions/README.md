@@ -7,7 +7,7 @@ description: >-
 # Frequently Asked Questions (FAQs)
 
 {% hint style="info" %}
-This is a list of questions frequently asked in our troubleshooting channel on Slack. Please feel free to contribute your questions and answers here and make a pull request.
+This is a list of questions frequently asked in our troubleshooting channel on Slack. Feel free to contribute your questions and answers here and make a pull request.
 {% endhint %}
 
 {% content-ref url="genaral.md" %}

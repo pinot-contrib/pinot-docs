@@ -14,7 +14,7 @@ Source Code Repo: [https://github.com/python-pinot-dbapi/pinot-dbapi](https://gi
 pip install pinotdb
 ```
 
-Please note:
+Note:
 
 * **pinotdb** version >= **0.3.2** uses the Pinot SQL API (added in Pinot >= 0.3.0) and drops support for PQL API. So this client requires Pinot server version >= **0.3.0** in order to access Pinot.
 * **pinotdb** version in **0.2.x** uses the Pinot PQL API, which works with pinot version <= 0.3.0, but may miss some new SQL query features added in newer Pinot version.

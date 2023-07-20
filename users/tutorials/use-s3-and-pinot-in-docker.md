@@ -36,9 +36,7 @@ Below sections will prepare 3 config files under `/tmp/pinot-s3-docker` to mount
 Below is a sample `controller.conf` file.
 
 {% hint style="info" %}
-Please config:
-
-`controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there.&#x20;
+Configure `controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there.&#x20;
 {% endhint %}
 
 {% hint style="info" %}
@@ -117,7 +115,7 @@ docker run --rm -ti \
 Below is a sample `server.conf` file
 
 {% hint style="info" %}
-Similar to controller config, please also set s3 configs in pinot server.&#x20;
+Similar to controller config, also set s3 configs in pinot server.&#x20;
 {% endhint %}
 
 ```bash

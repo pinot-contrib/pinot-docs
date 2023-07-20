@@ -39,7 +39,7 @@ The docker image is tagged as `[Docker Tag]`.
 
 `Git Branch`: The Pinot branch to build. Default is `master`.
 
-`Pinot Git URL`: The Pinot Git Repo to build, users can set it to their own fork. Please note that, the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/apache/pinot.git`.
+`Pinot Git URL`: The Pinot Git Repo to build, users can set it to their own fork. Note that the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/apache/pinot.git`.
 
 `Kafka Version`: The Kafka Version to build pinot with. Default is `2.0`
 
@@ -112,7 +112,7 @@ Script `docker-build-and-push.sh` builds and publishes this docker image to your
 
 ### Kubernetes Examples
 
-Please refer to [Kubernetes Quickstart](../../basics/getting-started/kubernetes-quickstart.md) for deployment examples.
+Refer to [Kubernetes Quickstart](../../basics/getting-started/kubernetes-quickstart.md) for deployment examples.
 
 ## Pinot Presto
 
@@ -136,7 +136,7 @@ The docker image is tagged as `[Docker Tag]`.
 
 `Git Branch`: The Presto branch to build. Default is `master`.
 
-`Presto Git URL`: The Presto Git Repo to build, users can set it to their own fork. Please note that, the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/prestodb/presto.git`.
+`Presto Git URL`: The Presto Git Repo to build, users can set it to their own fork. Note that the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/prestodb/presto.git`.
 
 ### How to push
 
@@ -158,7 +158,7 @@ The data volume is located at `/home/presto/data`.
 
 ### Kubernetes Examples
 
-Please refer to [`presto-coordinator.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/prest-coordinator.yaml) as k8s deployment example.
+Refer to [`presto-coordinator.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/prest-coordinator.yaml) as k8s deployment example.
 
 ## Pinot Superset
 
@@ -168,7 +168,7 @@ This docker build project is based on Project [docker-superset](https://github.c
 
 ### How to build
 
-Please modify file `Makefile` to change `image` and `superset_version` accordingly.
+Modify file `Makefile` to change `image` and `superset_version` accordingly.
 
 Below command will build docker image and tag it as `superset_version` and `latest`.
 
@@ -209,4 +209,4 @@ The data volume is located at `/var/lib/superset` and it is where you would moun
 
 ### Kubernetes Examples
 
-Please refer to [`superset.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/superset.yaml) as k8s deployment example.
+Refer to [`superset.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/superset.yaml) as k8s deployment example.
