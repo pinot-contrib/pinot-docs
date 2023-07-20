@@ -41,7 +41,7 @@ className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
 configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
 configs:
 	fileFormat: 'default' #should be one of default, rfc4180, excel, tdf, mysql
-	header: 'columnName seperated by delimiter'
+	header: 'columnName separated by delimiter'
   delimiter: ','
   multiValueDelimiter: '-'
 ```

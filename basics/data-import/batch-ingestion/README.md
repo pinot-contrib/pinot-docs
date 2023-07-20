@@ -366,7 +366,7 @@ By default, Pinot does not come with a storage layer, so all the data sent, won'
 
 #### **Standalone**
 
-Since pinot is written in Java, you can set the following basic java configurations to tune the segment runner job -
+Since pinot is written in Java, you can set the following basic Java configurations to tune the segment runner job -
 
 * Log4j2 file location with `-Dlog4j2.configurationFile`
 * Plugin directory location with `-Dplugins.dir=/opt/pinot/plugins`
