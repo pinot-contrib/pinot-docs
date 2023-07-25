@@ -1,25 +1,10 @@
 ---
-description: Set up HTTP basic auth and ACLs for access to controller and broker
+description: Set up BasicAuthAccessControl for access to controller and broker
 ---
 
-# Authentication, Authorization, and ACLs
+# BasicAuthAccessControl
 
-Apache Pinot 0.8.0+ comes out of the box with support for HTTP Basic Auth. While disabled by default for easier setup, authentication and authorization can be added to any environment simply via configuration. ACLs can be set on both API and table levels. This upgrade can be performed with zero downtime in any environment that provides replication.
-
-For external access, Pinot exposes two primary APIs via the following components:
-
-* **pinot-controller** handles cluster management and configuration
-* **pinot-broker** handles incoming SQL queries
-
-Both components can be protected via auth and even be configured independently. This makes it is possible to separate accounts for administrative functions such as table creation from accounts that are read the contents of tables in production.
-
-Additionally, all other Pinot components such as **pinot-server** and **pinot-minion** can be configured to authenticate themselves to pinot-controller via the same mechanism. This can be done independently of (and in addition to) using 2-way TLS/SSL to ensure intra-cluster authentication on the lower networking layer.
-
-### Quickstart
-
-If you'd rather dive directly into the action with an all-in-one running example, we provide an **AuthQuickstart** runnable with Apache Pinot. This sample app is preconfigured with the settings below but only intended as a dev-friendly, local, single-node  deployment.
-
-### Tokens and User Credentials
+# Tokens and User Credentials
 
 The configuration of HTTP Basic Auth in Apache Pinot distinguishes between **Tokens,** which are typically provided to service accounts, and **User Credentials**, which can be used by a human to log onto the web UI or issue SQL queries. While we distinguish these two concepts in the configuration of HTTP Basic Auth, they are fully-convertible formats holding the same authentication information. This distinction allows us to support future token-based authentication methods not reliant on username and password pairs. Currently, Tokens are merely base64-encoded username & password tuples, similar to those you can find in HTTP Authorization header values ([RFC 7617](https://tools.ietf.org/html/rfc7617))
 
