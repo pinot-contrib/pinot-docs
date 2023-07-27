@@ -58,6 +58,8 @@ You can change the following Pulsar specifc configurations for your tables
 | `streamType`                      | This should be set to "pulsar"                |
 | `stream.pulsar.topic.name`        | Your pulsar topic name                        |
 | `stream.pulsar.bootstrap.servers` | Comma-seperated broker list for Apache Pulsar |
+| `stream.pulsar.metadata.populate` | set to `true` to populate metadata            |
+| `stream.pulsar.metadataFields`    | set to comma separated list of metadata fields|
 
 ### Authentication
 
@@ -84,3 +86,70 @@ For other table and stream configurations, you can headover to [Table configurat
 ### Supported Pulsar versions
 
 Pinot currently relies on Pulsar client version 2.7.2. Make sure the Pulsar broker is compatible with the this client version.
+
+#### Extract record headers as Pinot table columns
+
+Pinot's Pulsar connector supports automatically extracting record headers and metadata into the Pinot table columns. Pulsar supports a large amount of per-record metadata. Please reference the Pulsar documentation for the meaning of the metadata fields: https://pulsar.apache.org/docs/en/concepts-messaging/#message-properties
+
+The following table shows the mapping for record header/metadata to Pinot table column names:
+
+
+| Pulsar Message                    | Pinot table Column                            | Comments                            | Available By Default |
+| ----------------------------------| --------------------------------------------- | ----------------------------------- | ---- |
+| key : String                      | `__key` : String                              |                                     | Yes  |
+| properties : Map<String, String>  | Each header key is listed as a separate column: `__header$HeaderKeyName` : String | | Yes  |
+| publishTime : Long                | `__metadata$publishTime` : String             | publish time as determined by the producer |  Yes  |
+| brokerPublishTime: Optional<Long> | `__metadata$brokerPublishTime` : String       | publish time as determined by the broker | Yes  |
+| eventTime : Long                  | `__metadata$eventTime` : String               |                                     | Yes  |
+| messageId : MessageId -> String   | `__metadata$messageId` : String               | String representation of the MessagId field. The format is ledgerId:entryId:partitionIndex |      |
+| messageId :  MessageId -> bytes   | `__metadata$messageBytes` : String            | Base64 encoded version of the bytes returned from calling MessageId.toByteArray() |      |
+| producerName : String             | `__metadata$producerName` : String            |                                     |      |
+| schemaVersion : byte[]            | `__metadata$schemaVersion` : String           | Base64 encoded value                |      |
+| sequenceId : Long                 | `__metadata$sequenceId` : String              |                                     |      |
+| orderingKey : byte[]              | `__metadata$orderingKey` : String             | Base64 encoded value                |      |
+| size : Integer                    | `__metadata$size` : String                    |                                     |      |
+| topicName : String                | `__metadata$topicName` : String               |                                     |      |
+| index : String                    | `__metadata$index` : String                   |                                     |      |
+| redeliveryCount : Integer         | `__metadata$redeliveryCount` : String         |                                     |      |
+
+
+In order to enable the metadata extraction in a Pulsar table, set the stream config `metadata.populate` to `true`. 
+The fields `eventTime`, `publishTime`, `brokerPublishTime`, and `key` are populated by default. If you would like to extract additional fields from the Pulsar Message, populate the `metadataFields` config with a comma separated list of fields to populate. The fields are referenced by the field name in the Pulsar Message.  For example, setting:
+
+```json
+
+"streamConfigs": {
+  ...
+        "stream.pulsar.metadata.populate": "true",
+        "stream.pulsar.metadataFields": "messageId,messageIdBytes,eventTime,topicName",
+  ...
+}
+```
+
+ Will make the `__metadata$messageId`, `__metadata$messageBytes`, `__metadata$eventTime`, and `__metadata$topicName`, fields available for mapping to columns in the Pinot schema.
+
+
+
+In addition to this, if you want to use any of these columns in your table, you have to list them explicitly in your table's schema.
+
+For example, if you want to add only the offset and key as dimension columns in your Pinot table, it can listed in the schema as follows:
+
+```json
+  "dimensionFieldSpecs": [
+    {
+      "name": "__key",
+      "dataType": "STRING"
+    },
+    {
+      "name": "__metadata$messageId",
+      "dataType": "STRING"
+    },
+    ...
+  ],
+```
+
+Once the schema is updated, these columns are similar to any other pinot column. You can apply  ingestion transforms and / or define indexes on them.
+
+{% hint style="info" %}
+Remember to follow the [schema evolution guidelines](../../../users/tutorials/schema-evolution.md) when updating schema of an existing table!
+{% endhint %}
