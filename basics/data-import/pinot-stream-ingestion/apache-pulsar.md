@@ -59,7 +59,7 @@ You can change the following Pulsar specifc configurations for your tables
 | `stream.pulsar.topic.name`        | Your pulsar topic name                        |
 | `stream.pulsar.bootstrap.servers` | Comma-seperated broker list for Apache Pulsar |
 | `stream.pulsar.metadata.populate` | set to `true` to populate metadata            |
-| `stream.pulsar.metadataFields`    | set to comma separated list of metadata fields|
+| `stream.pulsar.metadata.fields`    | set to comma separated list of metadata fields|
 
 ### Authentication
 
@@ -121,7 +121,7 @@ The fields `eventTime`, `publishTime`, `brokerPublishTime`, and `key` are popula
 "streamConfigs": {
   ...
         "stream.pulsar.metadata.populate": "true",
-        "stream.pulsar.metadataFields": "messageId,messageIdBytes,eventTime,topicName",
+        "stream.pulsar.metadata.fields": "messageId,messageIdBytes,eventTime,topicName",
   ...
 }
 ```
