@@ -1,5 +1,5 @@
 ---
-description: Integrate with Presto for ad-hoc queries with Full SQL
+description: Integrate with Presto for ad hoc queries with Full SQL
 ---
 
 # Presto
