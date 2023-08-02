@@ -21,8 +21,6 @@ Apache Pinot includes the following:
 
 It's perfect for user-facing real-time analytics and other analytical use cases, including internal dashboards, anomaly detection, and ad hoc data exploration.
 
-![](https://gblobscdn.gitbook.com/assets%2F-LtH6nl58DdnZnelPdTc%2F-M69C48fK2BhCoou1REr%2F-M69DbDfcATcZOAgyX7k%2Fpinot-overview-graphic.png?alt=media\&token=3552722e-8d1d-4397-972e-a81917ced182)
-
 {% embed url="https://youtu.be/_lqdfq2c9cQ" %}
 What is Apache Pinot? (and User-Facing Analytics) by Tim Berglund
 {% endembed %}
