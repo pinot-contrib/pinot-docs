@@ -57,7 +57,7 @@ You can change the following Pulsar specifc configurations for your tables
 | --------------------------------- | --------------------------------------------- |
 | `streamType`                      | This should be set to "pulsar"                |
 | `stream.pulsar.topic.name`        | Your pulsar topic name                        |
-| `stream.pulsar.bootstrap.servers` | Comma-seperated broker list for Apache Pulsar |
+| `stream.pulsar.bootstrap.servers` | Comma-separated broker list for Apache Pulsar |
 | `stream.pulsar.metadata.populate` | set to `true` to populate metadata            |
 | `stream.pulsar.metadata.fields`    | set to comma separated list of metadata fields|
 
