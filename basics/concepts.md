@@ -13,13 +13,7 @@ Raw data is broken into small data shards. Each shard is converted into a unit c
 
 ## Pinot storage model
 
-The terms below describe Pinot's storage model and infrastructure components.
-
-<div align="center">
-
-<img src="../.gitbook/assets/pinot_entities.jpg" alt="Pinot Storage Model Abstraction">
-
-</div>
+Pinot's storage model and infrastructure components include segments, tables, tenants, and clusters.
 
 ### **Segment**
 
@@ -27,15 +21,15 @@ Pinot has a distributed systems architecture that scales horizontally. Pinot exp
 
 ### **Table**
 
-Similar to traditional databases, Pinot has the concept of a [**table**](components/table/) – a logical abstraction that refers to a collection of related data.&#x20;
+Similar to traditional databases, Pinot has the concept of a [**table**](components/table/)—a logical abstraction that refers to a collection of related data.&#x20;
 
 As is the case with relational database management systems (RDBMS), a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](components/table/schema.md) that defines the columns in a table as well as their data types.&#x20;
 
-In contrast to RDBMS schemas, multiple tables in Pinot (real-time or batch) can inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, or replication.
+In contrast to RDBMS schemas, multiple tables in Pinot can share a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, or replication.
 
 ### **Tenant**
 
-In order to support multi-tenancy, Pinot has first-class support for tenants. A table is associated with a [tenant.](components/cluster/tenant.md) This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications will never have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.&#x20;
+Pinot supports multi-tenancy. Every Pinot table is associated with a [tenant.](components/cluster/tenant.md) This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications will never have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.&#x20;
 
 By default, all tables belong to a default tenant named "default". The concept of tenants is very important, as it satisfies the architectural principle of a "database per service/application" without having to operate many independent data stores. Further, tenants will schedule resources so that segments (shards) are able to restrict a table's data to reside only on a specified set of nodes. Similar to the kind of isolation that is ubiquitously used in Linux containers, compute resources in Pinot can be scheduled to prevent resource contention between tenants.
 
