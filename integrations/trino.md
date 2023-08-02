@@ -1,5 +1,5 @@
 ---
-description: Integrate with Trino for ad-hoc queries with Full SQL
+description: Integrate with Trino for ad hoc queries with Full SQL
 ---
 
 # Trino
