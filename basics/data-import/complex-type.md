@@ -12,7 +12,7 @@ Apache Pinot's data model supports primitive data types (including int, long, fl
 There are two options for complex type handling:
 
 * Convert the complex-type data into a JSON string and then build a JSON index.
-* Use the inbuilt complex-type handling rules in the ingestion configuration.
+* Use the built-in complex-type handling rules in the ingestion configuration.
 
 On this page, we'll show how to handle these complex-type structures with each of these two approaches. We will process some example data, consisting of the field `group` from the [Meetup events Quickstart example](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp).
 
@@ -89,7 +89,7 @@ Though JSON indexing is a handy way to process the complex types, there are some
 * It’s not performant to group by or order by a JSON field, because `JSON_EXTRACT_SCALAR` is needed to extract the values in the GROUP BY and ORDER BY clauses, which invokes the function evaluation.
 * It does not work with Pinot's [multi-column functions](https://docs.pinot.apache.org/users/user-guide-query/supported-aggregations#multi-value-column-functions) such as `DISTINCTCOUNTMV`.
 
-Alternatively, from Pinot 0.8, you can use the complex-type handling in ingestion configurations to flatten and unnest the complex structure and convert them into primitive types. Then you can reduce the complex-type data into a flattened Pinot table, and query it via SQL. With the inbuilt processing rules, you do not need to write ETL jobs in another compute framework such as Flink or Spark.
+Alternatively, from Pinot 0.8, you can use the complex-type handling in ingestion configurations to flatten and unnest the complex structure and convert them into primitive types. Then you can reduce the complex-type data into a flattened Pinot table, and query it via SQL. With the built-in processing rules, you do not need to write ETL jobs in another compute framework such as Flink or Spark.
 
 To process this complex type, you can add the configuration `complexTypeConfig` to the `ingestionConfig`. For example:
 
