@@ -10,7 +10,7 @@ description: >-
 We'd love to hear from you! [Join us in our Slack channel](https://communityinviter.com/apps/apache-pinot/apache-pinot) to ask questions, troubleshoot, and share feedback.
 {% endhint %}
 
-Apache Pinot is a real-time distributed online analytical processing (OLAP) datastore. Use Pinot to **ingest** and **immediately query** data from **streaming** or **batch** data sources (including, Apache Kafka, Amazon Kinesis, Hadoop HDFS, Amazon S3, Azure ADLS, and Google Cloud Storage).
+Apache Pinot is a real-time distributed online analytical processing (OLAP) datastore. Use Pinot to ingest and immediately query data from streaming or batch data sources (including, Apache Kafka, Amazon Kinesis, Hadoop HDFS, Amazon S3, Azure ADLS, and Google Cloud Storage).
 
 Apache Pinot includes the following:
 
@@ -27,7 +27,7 @@ What is Apache Pinot? (and User-Facing Analytics) by Tim Berglund
 
 ### User-Facing Real-Time Analytics
 
-**User-facing analytics**, or site-facing analytics, refers to the analytical tools and applications exposed directly to the end users of your product. In a user-facing analytics application, all users receive personalized analytics on their devices (think hundreds of thousands of queries per second). Because these queries are triggered by apps, and not written by people, the scale grows in proportion to the number of active users on the app (millions of events per second).
+User-facing analytics, or site-facing analytics, refers to the analytical tools and applications exposed directly to the end users of your product. In a user-facing analytics application, all users receive personalized analytics on their devices (think hundreds of thousands of queries per second). Because these queries are triggered by apps, and not written by people, the scale grows in proportion to the number of active users on the app (millions of events per second).
 
 Pinot is designed to provide the freshest possible data and supports **real-time analytics**. Data generated in Pinot is immediately available for analytics in latencies under one second.
 
@@ -37,10 +37,10 @@ User-facing real-time analytics is challenging because it requires some very spe
 
 ![Challenges of user-facing real-time analytics](<.gitbook/assets/Screen Shot 2021-04-28 at 2.09.22 PM.png>)
 
-* Such apps require the freshest possible data, so the system needs to be able to **ingest data in real time and make it available for querying, also in real time**.
-* Data for apps like this tends to be event data for a wide range of actions and from multiple sources, so the data comes in at a **very high velocity and tends to be highly dimensional**.
-* Queries are triggered by end users interacting with apps – with **queries per second in hundreds of thousands**, with **arbitrary query patterns,** and **latencies are expected to be in milliseconds** for good user-experience.
-* This type of app also needs to be **scalable**, reliable, highly available, and having a low cost to serve.
+* Such apps require the freshest possible data, so the system needs to be able to ingest data in real time and make it available for querying, also in real time.
+* Data for apps like this tends to be event data for a wide range of actions and from multiple sources, so the data comes in at a very high velocity and tends to be highly dimensional.
+* Queries are triggered by end users interacting with apps – with queries per second in hundreds of thousands, with arbitrary query patterns, and latencies are expected to be in milliseconds for good user experience.
+* This type of app also needs to be scalable, reliable, highly available, and having a low cost to serve.
 
 Watch the video below to learn more about user-facing real-time analytics and Pinot's capabilities.
 
