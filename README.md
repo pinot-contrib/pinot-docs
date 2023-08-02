@@ -1,8 +1,7 @@
 ---
 description: >-
   Apache Pinot is a real-time distributed OLAP datastore purpose-built for
-  low-latency, high-throughput analytics, and perfect for user-facing analytical
-  workloads. This page introduces Pinot, highlight
+  low-latency, high-throughput analytics.
 ---
 
 # Introduction
