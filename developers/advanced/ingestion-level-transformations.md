@@ -18,7 +18,7 @@ Pinot supports the following functions:
 2. Inbuilt functions
 
 {% hint style="warning" %}
-A transformation function cannot mix Groovy and inbuilt functions - you can only use one type of function at a time.
+A transformation function cannot mix Groovy and built-in functions - you can only use one type of function at a time.
 {% endhint %}
 
 ### Groovy functions
@@ -43,7 +43,7 @@ If not set, Groovy for ingestion transformation is disabled by default.
 
 All the functions defined in [this directory](https://github.com/apache/pinot/tree/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar) annotated with `@ScalarFunction` (e.g. [toEpochSeconds](https://github.com/apache/pinot/blob/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar/DateTimeFunctions.java#L78)) are supported ingestion transformation functions.
 
-Below are some commonly used inbuilt Pinot functions for ingestion transformations.
+Below are some commonly used built-in Pinot functions for ingestion transformations.
 
 #### DateTime functions
 
@@ -145,7 +145,7 @@ Consider a table that has a string column `campaign` and a multi-value column do
 }
 ```
 
-Filter config also supports SQL-like expression of inbuilt [scalar functions](../../users/user-guide-query/scalar-functions.md#scalar-functions) for filtering records (starting v 0.11.0+). Example:
+Filter config also supports SQL-like expression of built-in [scalar functions](../../users/user-guide-query/scalar-functions.md#scalar-functions) for filtering records (starting v 0.11.0+). Example:
 
 ```javascript
 "ingestionConfig": {
@@ -187,7 +187,7 @@ For example, imagine that our source data contains the `prices` and `timestamp` 
     },
     {
       "columnName": "hoursSinceEpoch",
-      "transformFunction": "toEpochHours(timestamp)" // inbuilt function
+      "transformFunction": "toEpochHours(timestamp)" // built-in function
     }]
   }
 }
