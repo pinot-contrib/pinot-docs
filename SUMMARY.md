@@ -182,7 +182,6 @@
 * [Command-Line Interface (CLI)](operators/cli.md)
 * [Configuration Recommendation Engine](operators/configuration-recommendation-engine.md)
 * [Tutorials](operators/tutorials/README.md)
-  * [Authentication, Authorization, and ACLs](operators/tutorials/authentication-authorization-and-acls.md)
   * [Configuring TLS/SSL](operators/tutorials/configuring-tls-ssl.md)
   * [Build Docker Images](operators/tutorials/build-docker-images.md)
   * [Running Pinot in Production](operators/tutorials/running-pinot-in-production.md)
