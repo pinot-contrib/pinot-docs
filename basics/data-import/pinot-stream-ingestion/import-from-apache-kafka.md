@@ -360,7 +360,8 @@ Remember to follow the [schema evolution guidelines](../../../users/tutorials/sc
 
 To avoid errors like `The Avro schema must be provided`, designate the location of the schema in your `streamConfigs` section. For example, if your current section contains the following:
 
-```
+```json
+...
 "streamConfigs": {
   "streamType": "kafka",
   "stream.kafka.consumer.type": "lowlevel",
@@ -369,6 +370,7 @@ To avoid errors like `The Avro schema must be provided`, designate the location 
   "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
   "stream.kafka.broker.list": "",
   "stream.kafka.consumer.prop.auto.offset.reset": "largest"
+  ...
 }
 ```
 
