@@ -355,3 +355,23 @@ Once the schema is updated, these columns are similar to any other pinot column.
 {% hint style="info" %}
 Remember to follow the [schema evolution guidelines](../../../users/tutorials/schema-evolution.md) when updating schema of an existing table!
 {% endhint %}
+
+#### Tell Pinot where to find an Avro schema
+
+To avoid errors like `The Avro schema must be provided`, designate the location of the schema in your `streamConfigs` section. For example, if your current section contains the following:
+
+```json
+...
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.consumer.type": "lowlevel",
+  "stream.kafka.topic.name": "",
+  "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.broker.list": "",
+  "stream.kafka.consumer.prop.auto.offset.reset": "largest"
+  ...
+}
+```
+
+Then add this key: `"stream.kafka.decoder.prop.schema"`followed by a value that denotes the location of your schema.
