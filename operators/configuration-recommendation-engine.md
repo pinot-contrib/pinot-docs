@@ -8,7 +8,7 @@ description: >-
 
 ## Overview
 
-Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related (e.g indexes, real-time config). Please note that not all configuration options in TableConfig are currently covered. The following table shows the ones that are currently covered.
+Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related (e.g indexes, real-time config). Note that not all configuration options in TableConfig are currently covered. The following table shows the ones that are currently covered.
 
 | Rule                                | Config Entity            | Config Name                                                                                                                                                                                                                                               | Applicable Table Type |
 | ----------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
@@ -40,7 +40,7 @@ The input needs to be provided in json format. Different fields of the input can
 Data characteristics is defined in "schema" field. The content of this field is an extended version of Pinot Schema which has some additional metadata that's inserted into the definition of each column:
 
 * **Cardinality**: Total number of unique values for this dimension. Provide cardinality to the best of your knowledge to help generate the best possible recommendations.
-* **numValuesPerEntry**: For multi-value columns only, this is the average number of values per column value. Please note that:
+* **numValuesPerEntry**: For multi-value columns only, this is the average number of values per column value. Note that:
   * For multi-value columns, other than numValuesPerEntry, singleValueField has to be defined as false.
   * For single-value columns, numValuesPerEntry and singleValueField should not be specified.
   * Metric columns cannot be defined as multi-value.
@@ -72,7 +72,7 @@ In this section, lets describe the rules which generate recommendations for diff
 * **Varied Length Dictionary** - This rule recommends that for data types with varied length, i.e. STRING or BYTES, varied length dictionaries should be used. Using these dictionaries results in better performance.
 * **Flag Queries** - This rule flags query patterns that are not valid.
 * **Aggregate Metrics** - This rule checks the provided queries and suggests the value for ‘AggregateMetrics’ flag in table config. It looks at selection columns and if all of them are SUM function, the flag should be true, otherwise it’s false. It also checks if all column names appearing in sum function are in fact metric columns.
-* **Real-time Provisioning** - This rule gives some recommendations useful for provisioning real time tables. Specifically it provides some insights on optimal segments size, total memory used per host, and memory used for consuming segments per host based on the provided characteristics of the data and Kafka ingestion rate. The ultimate goal of this rule is to find out required consumption duration as well as the required number of hosts which leads to a desired real-time segment size.
+* **Real-time Provisioning** - This rule gives some recommendations useful for provisioning real-time tables. Specifically it provides some insights on optimal segments size, total memory used per host, and memory used for consuming segments per host based on the provided characteristics of the data and Kafka ingestion rate. The ultimate goal of this rule is to find out required consumption duration as well as the required number of hosts which leads to a desired real-time segment size.
 
 All rules run by default. You have the option to select the ones you want to run.
 

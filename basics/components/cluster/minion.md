@@ -6,17 +6,17 @@ description: >-
 
 # Minion
 
-A minion is a standby component that leverages the [Helix Task Framework](https://engineering.linkedin.com/blog/2019/01/managing-distributed-tasks-with-helix-task-framework) to offload computationally intensive tasks from other components.&#x20;
+A minion is a standby component that leverages the [Helix Task Framework](https://engineering.linkedin.com/blog/2019/01/managing-distributed-tasks-with-helix-task-framework) to offload computationally intensive tasks from other components.
 
 It can be attached to an existing Pinot cluster and then execute tasks as provided by the controller. Custom tasks can be plugged via annotations into the cluster. Some typical minion tasks are:
 
 * Segment creation
 * Segment purge
-* Segment merge&#x20;
+* Segment merge
 
 ## Starting a Minion
 
-Make sure you've [set up Zookeeper](cluster.md#setup-a-pinot-cluster). If you're using Docker, make sure to [pull the Pinot Docker image](cluster.md#setup-a-pinot-cluster). To start a minion:
+Make sure you've [set up Zookeeper](./#setup-a-pinot-cluster). If you're using Docker, make sure to [pull the Pinot Docker image](./#setup-a-pinot-cluster). To start a minion:
 
 ```
 Usage: StartMinion
@@ -49,7 +49,7 @@ bin/pinot-admin.sh StartMinion \
 
 ## Interfaces
 
-![](<../../.gitbook/assets/Screen Shot 2021-05-26 at 3.22.55 PM.png>)
+![](<../../../.gitbook/assets/Screen Shot 2021-05-26 at 3.22.55 PM.png>)
 
 ### PinotTaskGenerator
 
@@ -198,14 +198,16 @@ public interface MinionEventObserver {
 
 ### SegmentGenerationAndPushTask
 
-The PushTask can fetch files from an input folder e.g. from a S3 bucket and converts them into segments. The PushTask converts one file into one segment and keeps file name in segment metadata to avoid duplicate ingestion. Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.&#x20;
+The PushTask can fetch files from an input folder e.g. from a S3 bucket and converts them into segments. The PushTask converts one file into one segment and keeps file name in segment metadata to avoid duplicate ingestion. Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.
 
-NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the task generates one segment per file, and derives segment name based on the time column of the file. If two files happen to have same time range and are ingested by tasks from different schedules, there might be segment name conflict. To overcome this issue for now, you can omit “tableMaxNumTasks” and by default it’s Integer.MAX\_VALUE, meaning to schedule as many tasks as possible to ingest all input files in a single batch. Within one batch, a sequence number suffix is used to ensure no segment name conflict. Because the sequence number suffix is scoped within one batch, tasks from different batches might encounter segment name conflict issue said above.&#x20;
+NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the task generates one segment per file, and derives segment name based on the time column of the file. If two files happen to have same time range and are ingested by tasks from different schedules, there might be segment name conflict. To overcome this issue for now, you can omit “tableMaxNumTasks” and by default it’s Integer.MAX\_VALUE, meaning to schedule as many tasks as possible to ingest all input files in a single batch. Within one batch, a sequence number suffix is used to ensure no segment name conflict. Because the sequence number suffix is scoped within one batch, tasks from different batches might encounter segment name conflict issue said above.
 
-{% hint style="info" %} When performing ingestion at scale remember that Pinot will list all of the files contained in the `inputDirURI` every time a `SegmentGenerationAndPushTask` job gets scheduled. This could become a bottleneck when fetching files from a cloud bucket like GCS.
-To prevent this make `inputDirURI` point to the least number of files possible. {% endhint %}
-```
-"ingestionConfig": {
+{% hint style="info" %}
+When performing ingestion at scale remember that Pinot will list all of the files contained in the \`inputDirURI\` every time a \`SegmentGenerationAndPushTask\` job gets scheduled. This could become a bottleneck when fetching files from a cloud bucket like GCS. To prevent this make \`inputDirURI\` point to the least number of files possible.
+{% endhint %}
+
+``` 
+  "ingestionConfig": {
     "batchIngestionConfig": {
       "segmentIngestionType": "APPEND",
       "segmentIngestionFrequency": "DAILY",
@@ -227,7 +229,7 @@ To prevent this make `inputDirURI` point to the least number of files possible. 
     "taskTypeConfigsMap": {
       "SegmentGenerationAndPushTask": {
         "schedule": "0 */10 * * * ?",
-        "tableMaxNumTasks": 10
+        "tableMaxNumTasks": "10"
       }
     }
   }
@@ -235,11 +237,11 @@ To prevent this make `inputDirURI` point to the least number of files possible. 
 
 ### RealtimeToOfflineSegmentsTask
 
-See [Pinot managed Offline flows](../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
+See [Pinot managed Offline flows](../../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
 
 ### MergeRollupTask
 
-See [Minion merge rollup task](../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
+See [Minion merge rollup task](../../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
 
 ## Enable tasks
 
@@ -259,9 +261,9 @@ Tasks are enabled on a per-table basis. To enable a certain task type (e.g. `myT
 }
 ```
 
-Under each enable task type, custom properties can be configured for the task type.&#x20;
+Under each enable task type, custom properties can be configured for the task type.
 
-There are also two task configs to be set as part of cluster configs like below. One controls task's overall timeout (1hr by default) and one for how many tasks to run on a single minion worker (1 by default).&#x20;
+There are also two task configs to be set as part of cluster configs like below. One controls task's overall timeout (1hr by default) and one for how many tasks to run on a single minion worker (1 by default).
 
 ```
 Using "POST /cluster/configs" API on CLUSTER tab in Swagger, with this payload
@@ -283,9 +285,9 @@ Tasks can be scheduled periodically for all task types on all enabled tables. En
 
 #### Per table and task level schedule
 
-Tasks can also be scheduled based on cron expressions. The cron expression is set in the `schedule` config for each task type separately. This config in the controller config, `controller.task.scheduler.enabled` should be set to `true` to enable cron scheduling.&#x20;
+Tasks can also be scheduled based on cron expressions. The cron expression is set in the `schedule` config for each task type separately. This config in the controller config, `controller.task.scheduler.enabled` should be set to `true` to enable cron scheduling.
 
-As shown below, the RealtimeToOfflineSegmentsTask will be scheduled at the first second of every minute (following the syntax [defined here](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html)).&#x20;
+As shown below, the RealtimeToOfflineSegmentsTask will be scheduled at the first second of every minute (following the syntax [defined here](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html)).
 
 ```
   "task": {
@@ -330,29 +332,29 @@ See [SimpleMinionClusterIntegrationTest](https://github.com/apache/pinot/blob/ma
 
 In the Pinot UI, there is **Minion Task Manager** tab under **Cluster Manager** page. From that minion task manager tab, one can find a lot of task related info for troubleshooting. Those info are mainly collected from the Pinot controller that schedules tasks or Helix that tracks task runtime status. There are also buttons to schedule tasks in an ad hoc way. Below are some brief introductions to some pages under the minion task manager tab.
 
-This one shows which types of Minion Task have been used. Essentially which task types have created their task queues in Helix.&#x20;
+This one shows which types of Minion Task have been used. Essentially which task types have created their task queues in Helix.
 
-<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
-Clicking into a task type, one can see the tables using that task. And a few buttons to stop the task queue, cleaning up ended tasks etc.&#x20;
+Clicking into a task type, one can see the tables using that task. And a few buttons to stop the task queue, cleaning up ended tasks etc.
 
-<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
 Then clicking into any table in this list, one can see how the task is configured for that table. And the task metadata if there is one in ZK. For example, MergeRollupTask tracks a watermark in ZK. If the task is cron scheduled, the current and next schedules are also shown in this page like below.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed.&#x20;
+At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed.
 
 Clicking into a task from that list, we can see start/end time for it, and the sub tasks generated for that task (as context, one minion task can have multiple sub-tasks to process data in parallel). In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 Clicking into this subtask, one can see more details about it like the input task configs and error info if the task failed.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Task-related metrics
 

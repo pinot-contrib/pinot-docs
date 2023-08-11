@@ -1,5 +1,5 @@
 ---
-description: Integrate with Trino for ad-hoc queries with Full SQL
+description: Integrate with Trino for ad hoc queries with Full SQL
 ---
 
 # Trino
@@ -8,7 +8,7 @@ Start running [Trino Image](https://hub.docker.com/r/trinodb/trino) with pre-bui
 
 {% tabs %}
 {% tab title="Kubernetes" %}
-### 1. Install Pinot
+#### 1. Install Pinot
 
 Run below command to install Pinot using HelmCharts.
 
@@ -17,8 +17,6 @@ helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/kubern
 kubectl create ns pinot-quickstart
 helm install pinot pinot/pinot -n pinot-quickstart --set cluster.name=pinot
 ```
-
-
 
 You can create an example table by running the command below, if you are under pinot binary directory
 
@@ -30,9 +28,7 @@ Before PR [https://github.com/trinodb/trino/pull/7630](https://github.com/trinod
 bin/pinot-admin.sh BootstrapTable -dir examples/batch/airlineStats
 ```
 
-
-
-### 2. Install Trino
+#### 2. Install Trino
 
 Run below command to add Trino Helm repo and fetch default helm config file:
 
@@ -40,8 +36,6 @@ Run below command to add Trino Helm repo and fetch default helm config file:
 helm repo add trino https://trinodb.github.io/charts/
 helm inspect values trino/trino > /tmp/trino.yaml
 ```
-
-
 
 Edit `/tmp/trino.yaml` file to add your pinot catalog:
 
@@ -54,8 +48,6 @@ additionalCatalogs:
     pinot.controller-urls=pinot-controller.pinot-quickstart:9000
 ```
 
-
-
 Install Trino HelmCharts with config file:
 
 ```
@@ -63,7 +55,7 @@ helm create ns trino-quickstart
 helm install my-trino trino/trino --version 0.2.0 --values /tmp/trino.yaml -n trino-quickstart 
 ```
 
-### 3. Connecting to Trino
+#### 3. Connecting to Trino
 
 Download Trino Client.
 

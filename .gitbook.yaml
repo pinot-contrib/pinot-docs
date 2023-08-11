@@ -7,3 +7,12 @@ structure:
 redirects:  
     developers/developers-and-contributors/update-document: contributing/contributing.md
     user-guide/user-guide-query/pinot-query-language: users/user-guide-query/querying-pinot.md
+    basics/components/controller#controller-periodic-tasks: configuration-reference/controller.md
+    basics/components/controller: basics/components/cluster/controller.md
+    basics/components/broker: basics/components/cluster/broker.md
+    basics/components/server: basics/components/cluster/server.md
+    basics/components/minion: basics/components/cluster/minion.md
+    basics/components/tenant: basics/components/cluster/tenant.md
+    basics/components/segment: basics/components/table/segment.md
+    basics/components/deep-store: basics/components/table/segment/deep-store.md
+    basics/components/schema: basics/components/table/schema.md

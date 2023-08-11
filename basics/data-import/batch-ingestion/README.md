@@ -1,8 +1,12 @@
-# Batch ingestion
+---
+description: Batch ingestion of data into Apache Pinot.
+---
 
-Batch ingestion lets you create a table using data already present in a file system such as S3. This is particularly useful for the cases where you want to use Pinot's ability to query large data with minimal latency or test out new features using a simple data file.
+# Batch Ingestion
 
-Ingesting data from a filesystem involves the following steps:
+With batch ingestion you create a table using data already present in a file system such as S3. This is particularly useful when you want to use Pinot to query across large data with minimal latency or to test out new features using a simple data file.
+
+To ingest data from a filesystem, perform the following steps, which are described in more detail in this page:
 
 1. Create schema configuration
 2. Create table configuration
@@ -15,9 +19,9 @@ Batch ingestion currently supports the following mechanisms to upload the data:
 * [Hadoop](hadoop.md)
 * [Spark](spark.md)
 
-Here, we'll take a look at the standalone local processing to get you started.
+Here's an example using standalone local processing.
 
-Let's create a table for the following CSV data source.
+First, create a table using the following CSV data.
 
 ```
 studentID,firstName,lastName,gender,subject,score,timestampInEpoch
@@ -31,7 +35,7 @@ studentID,firstName,lastName,gender,subject,score,timestampInEpoch
 
 In our data, the only column on which aggregations can be performed is `score`. Secondly, `timestampInEpoch` is the only timestamp column. So, on our schema, we keep `score` as metric and `timestampInEpoch` as timestamp column.
 
-```
+```json
 {
   "schemaName": "transcript",
   "dimensionFieldSpecs": [
@@ -77,7 +81,7 @@ Here, we have also defined two extra fields: format and granularity. The format 
 
 We define a table `transcript` and map the schema created in the previous step to the table. For batch data, we keep the `tableType` as `OFFLINE`.
 
-```
+```json
 {
   "tableName": "transcript",
   "tableType": "OFFLINE",
@@ -111,9 +115,9 @@ We define a table `transcript` and map the schema created in the previous step t
 
 ## Upload schema and table configs
 
-Now that we have both the configs, we can upload them and create a table by running the following command:
+Now that we have both the configs, upload them and create a table by running the following command:
 
-```
+```bash
 bin/pinot-admin.sh AddTable \\
   -tableConfigFile /path/to/table-config.json \\
   -schemaFile /path/to/table-schema.json -exec
@@ -123,37 +127,39 @@ Check out the table config and schema in the `\[Rest API]` to make sure it was s
 
 ## Upload data
 
-We now have an empty table in Pinot. Next, we'll upload our CSV file to this empty table.
+We now have an empty table in Pinot. Next, upload the CSV file to this empty table.
 
 A table is composed of multiple segments. The segments can be created in the following three ways:
 
-- Minion based ingestion\
-- Upload API\
-- Ingestion jobs
+* Minion based ingestion\\
+* Upload API\\
+* Ingestion jobs
 
 ### Minion-based ingestion
 
-Refer to [SegmentGenerationAndPushTask](../../components/minion.md#segmentgenerationandpushtask)
+Refer to [SegmentGenerationAndPushTask](../../components/cluster/minion.md#segmentgenerationandpushtask)
 
 ### Upload API
 
-There are 2 controller APIs that can be used for a quick ingestion test using a small file.&#x20;
+There are 2 controller APIs that can be used for a quick ingestion test using a small file.
 
 {% hint style="danger" %}
 **When these APIs are invoked, the controller has to download the file and build the segment locally.**
 
-**Hence, these APIs are NOT meant for production environments and for large input files.**&#x20;
+**Hence, these APIs are NOT meant for production environments and for large input files.**
 {% endhint %}
 
 #### /ingestFromFile
 
-This API creates a segment using the given file and pushes it to Pinot. All steps happen on the controller. Example usage:
+This API creates a segment using the given file and pushes it to Pinot. All steps happen on the controller.
 
-To upload a JSON file `data.json` to a table called `foo_OFFLINE`, use below command&#x20;
+Example usage:
 
-**Note that** query params need to be URLEncoded. For example, _{"inputFormat":"json"}_ in the command below needs to be converted to _%7B%22inputFormat%22%3A%22json%22%7D._&#x20;
+To upload a JSON file `data.json` to a table called `foo_OFFLINE`, use below command
 
-```
+**Note that** query params need to be URLEncoded. For example, _{"inputFormat":"json"}_ in the command below needs to be converted to _%7B%22inputFormat%22%3A%22json%22%7D._
+
+```bash
 curl -X POST -F file=@data.json \
   -H "Content-Type: multipart/form-data" \
   "http://localhost:9000/ingestFromFile?tableNameWithType=foo_OFFLINE&
@@ -162,7 +168,7 @@ curl -X POST -F file=@data.json \
 
 The `batchConfigMapStr` can be used to pass in additional properties needed for decoding the file. For example, in case of csv, you may need to provide the delimiter
 
-```
+```bash
 curl -X POST -F file=@data.csv \
   -H "Content-Type: multipart/form-data" \
   "http://localhost:9000/ingestFromFile?tableNameWithType=foo_OFFLINE&
@@ -175,7 +181,7 @@ batchConfigMapStr={
 #### /ingestFromURI
 
 This API creates a segment using file at the given URI and pushes it to Pinot. Properties to access the FS need to be provided in the batchConfigMap. All steps happen on the controller.\
-Example usage:&#x20;
+Example usage:
 
 ```
 curl -X POST "http://localhost:9000/ingestFromURI?tableNameWithType=foo_OFFLINE
@@ -230,7 +236,7 @@ For more detail, refer to [Ingestion job spec](../../../configuration-reference/
 
 Now that we have the job spec for our table `transcript`, we can trigger the job using the following command:
 
-```
+```bash
 bin/pinot-admin.sh LaunchDataIngestionJob \\
     -jobSpecFile /tmp/pinot-quick-start/batch-job-spec.yaml
 ```
@@ -241,9 +247,9 @@ Once the job successfully finishes, head over to the `\[query console]` and star
 
 There are 3 ways to upload a Pinot segment:
 
-- Segment tar push
-- Segment URI push
-- Segment metadata push
+* Segment tar push
+* Segment URI push
+* Segment metadata push
 
 #### Segment tar push
 
@@ -253,11 +259,11 @@ Tar push requires the segment to be stored locally or can be opened as an InputS
 
 **The push job will:**
 
-1. Upload the entire segment tar file to the Pinot controller.&#x20;
+1. Upload the entire segment tar file to the Pinot controller.
 
 **Pinot controller will:**
 
-1. Save the segment into the controller segment directory(Local or any PinotFS).&#x20;
+1. Save the segment into the controller segment directory(Local or any PinotFS).
 2. Extract segment metadata.
 3. Add the segment to the table.
 
@@ -269,7 +275,7 @@ URI push is light-weight on the client-side, and the controller side requires eq
 
 **The push job will:**
 
-1. POST this segment tar URI to the Pinot controller.&#x20;
+1. POST this segment tar URI to the Pinot controller.
 
 **Pinot controller will:**
 
@@ -299,9 +305,9 @@ This extends the original Segment Metadata Push for cases, where the segments ar
 
 NOTE: the staging location and deep store have to use same storage scheme, like both on s3. This is because the copy is done via PinotFS.copyDir interface that assumes so; but also because this does copy at storage system side, so segments don't need to go through Pinot Controller at all.
 
-To make this work, firstly, grant Pinot controllers access to the staging location. For example on AWS, this may be to add an access policy like below for the controller EC2 instances:
+To make this work, grant Pinot controllers access to the staging location. For example on AWS, this may require adding an access policy like this example for the controller EC2 instances:
 
-```
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -322,7 +328,7 @@ To make this work, firstly, grant Pinot controllers access to the staging locati
 }
 ```
 
-Then use metadata push but add one extra config like below:
+Then use metadata push to add one extra config like this one:
 
 ```
 ...
@@ -339,7 +345,7 @@ pushJobSpec:
 
 Pinot supports atomic update on segment level, which means that when data consisting of multiple segments are pushed to a table, as segments are replaced one at a time, queries to the broker during this upload phase may produce inconsistent results due to interleaving of old and new data.
 
-See [consistent-push-and-rollback.md](../../../operators/operating-pinot/consistent-push-and-rollback.md "mention") for how to enable this feature.&#x20;
+See [consistent-push-and-rollback.md](../../../operators/operating-pinot/consistent-push-and-rollback.md "mention") for how to enable this feature.
 
 ### Segment fetchers
 
@@ -360,7 +366,7 @@ By default, Pinot does not come with a storage layer, so all the data sent, won'
 
 #### **Standalone**
 
-Since pinot is written in Java, you can set the following basic java configurations to tune the segment runner job -
+Since pinot is written in Java, you can set the following basic Java configurations to tune the segment runner job -
 
 * Log4j2 file location with `-Dlog4j2.configurationFile`
 * Plugin directory location with `-Dplugins.dir=/opt/pinot/plugins`

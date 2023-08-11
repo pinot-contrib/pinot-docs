@@ -114,12 +114,19 @@ Pinot exposes several metrics to monitor the service and ensure that pinot users
 
 ### Pinot Broker
 
-* Incoming QPS (per broker) - [QUERIES](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-  * The rate which an individual broker is receiving queries. Units are in QPS.
-* Dropped Requests - [REQUEST\_DROPPED\_DUE\_TO\_SEND\_ERROR](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java), [REQUEST\_DROPPED\_DUE\_TO\_CONNECTION\_ERROR](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java), [REQUEST\_DROPPED\_DUE\_TO\_ACCESS\_ERROR](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-  * These multiple metrics will indicate if a query is dropped, ie the processing of that query has been forfeited for some reason.
-* Partial Responses - [BROKER\_RESPONSES\_WITH\_PARTIAL\_SERVERS\_RESPONDED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-  * Indicates a count of partial responses. A partial response is when at least 1 of the requested servers fails to respond to the query.
+* Incoming queries - [QUERIES](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
+  * Queries received by a broker.
+* Access denied - [REQUEST\_DROPPED\_DUE\_TO\_ACCESS\_ERROR](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
+  * Queries dropped due to access restrictions.
+* Partial Responses
+  * Unavailable segments - [BROKER\_RESPONSES\_WITH\_UNAVAILABLE\_SEGMENTS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
+    * Queries with some segments unavailable (no active server hosting them).
+  * Partial servers responded- [BROKER\_RESPONSES\_WITH\_PARTIAL\_SERVERS\_RESPONDED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
+    * Queries with not all servers responded.
+  * Processing exceptions - [BROKER\_RESPONSES\_WITH\_PROCESSING\_EXCEPTIONS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
+    * Queries with processing exceptions (including server side exceptions, unavailable segments, partial servers responded).
+  * Groups limit reached - [BROKER\_RESPONSES\_WITH\_NUM\_GROUPS\_LIMIT\_REACHED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
+    * Queries with `numGroupsLimit` reached. See [Grouping Algorithm](../../users/user-guide-query/grouping-algorithm.md) for more details.
 * Table QPS quota exceeded - [QUERY\_QUOTA\_EXCEEDED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
   * Binary metric which will indicate when the configured QPS quota for a table is exceeded (1) or if there is capacity remaining (0).
 * Table QPS quota usage percent - [QUERY\_QUOTA\_CAPACITY\_UTILIZATION\_RATE](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerGauge.java)

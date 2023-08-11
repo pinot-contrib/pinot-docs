@@ -6,11 +6,9 @@ description: >-
 
 # Apache Kafka
 
-## Introduction
+In this page, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka.
 
-In this guide, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka.
-
-Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
+Let's set up a demo Kafka cluster locally, and create a sample topic `transcript-topic`
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -26,7 +24,7 @@ docker run \
     -d wurstmeister/kafka:latest
 ```
 
-**Create a Kafka Topic**
+**Create a Kafka topic**
 
 ```bash
 docker exec \
@@ -57,11 +55,11 @@ bin/kafka-topics.sh --create --bootstrap-server kafka:9092 --replication-factor 
 {% endtab %}
 {% endtabs %}
 
-### Create Schema Configuration
+### Create schema configuration
 
 We will publish the data in the same format as mentioned in the [Stream ingestion](./) docs. So you can use the same schema mentioned under [Create Schema Configuration](./#create-schema-configuration).
 
-### Create Table Configuration
+### Create table configuration
 
 The real-time table configuration for the `transcript` table described in the schema from the previous step.
 
@@ -183,7 +181,7 @@ bin/kafka-console-producer.sh \
     --topic transcript-topic < transcript.json
 ```
 
-### Query the Table
+### Query the table
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the [Query Console ](http://localhost:9000/query)to checkout the real-time data.
 
@@ -191,11 +189,11 @@ As soon as data flows into the stream, the Pinot table will consume it and it wi
 SELECT * FROM transcript
 ```
 
-## Kafka Ingestion Guidelines&#x20;
+## Kafka ingestion guidelines
 
-### Kafka Versions in Pinot
+### Kafka versions in Pinot
 
-Pinot supports 2 major generations of Kafka library - kafka-0.9 and kafka-2.x for both high and low level consumers.&#x20;
+Pinot supports 2 major generations of Kafka library - kafka-0.9 and kafka-2.x for both high and low level consumers.
 
 {% hint style="info" %}
 Post release 0.10.0, we have started shading kafka packages inside Pinot. If you are using our `latest` tagged docker images or `master` build, you should replace `org.apache.kafka` with `shaded.org.apache.kafka` in your table config.
@@ -204,15 +202,15 @@ Post release 0.10.0, we have started shading kafka packages inside Pinot. If you
 #### Upgrade from Kafka 0.9 connector to Kafka 2.x connector
 
 * Update table config for both high level and low level consumer: Update config: `stream.kafka.consumer.factory.class.name` from `org.apache.pinot.core.realtime.impl.kafka.KafkaConsumerFactory` to `org.apache.pinot.core.realtime.impl.kafka2.KafkaConsumerFactory`.
-* If using Stream(High) level consumer: Please also add config `stream.kafka.hlc.bootstrap.server` into `tableIndexConfig.streamConfigs`. This config should be the URI of Kafka broker lists, e.g. `localhost:9092`.
+* If using Stream(High) level consumer, also add config `stream.kafka.hlc.bootstrap.server` into `tableIndexConfig.streamConfigs`. This config should be the URI of Kafka broker lists, e.g. `localhost:9092`.
 
-#### How to consume from a Kafka version > 2.0.0?
+#### How to consume from a Kafka version > 2.0.0
 
 This connector is also suitable for Kafka lib version higher than `2.0.0`. In [Kafka 2.0 connector pom.xml](https://github.com/apache/pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-2.0/pom.xml), change the `kafka.lib.version` from `2.0.0` to `2.1.1` will make this Connector working with Kafka `2.1.1`.
 
-### Kafka Configurations in Pinot
+### Kafka configurations in Pinot
 
-#### Use Kafka Partition(Low) Level Consumer with SSL
+#### Use Kafka partition (low) level consumer with SSL
 
 Here is an example config which uses SSL based authentication to talk with kafka and schema-registry. Notice there are two sets of SSL options, ones starting with `ssl.` are for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.` are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
 
@@ -261,7 +259,7 @@ Here is an example config which uses SSL based authentication to talk with kafka
   }
 ```
 
-#### Consume Transactionally-committed Messages
+#### Consume transactionally-committed messages
 
 The connector with Kafka library 2.0+ supports Kafka transactions. The transaction support is controlled by config `kafka.isolation.level` in Kafka stream config, which can be `read_committed` or `read_uncommitted` (default). Setting it to `read_committed` will ingest transactionally committed messages in Kafka stream only.
 
@@ -299,7 +297,7 @@ For example,
 
 Note that the default value of this config `read_uncommitted` to read all messages. Also, this config supports low-level consumer only.
 
-#### Use Kafka Partition(Low) Level Consumer with SASL\_SSL
+#### Use Kafka partition (low) level consumer with SASL\_SSL
 
 Here is an example config which uses SASL\_SSL based authentication to talk with kafka and schema-registry. Notice there are two sets of SSL options, some for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.` are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
 
@@ -326,15 +324,15 @@ Here is an example config which uses SASL\_SSL based authentication to talk with
       },
 ```
 
-#### Extract Record Headers as Pinot table columns
+#### Extract record headers as Pinot table columns
 
-Pinot's Kafka connector now supports automatically extracting record headers and metadata into the Pinot table columns. The following table shows the mapping for record header/metadata to Pinot table column names:
+Pinot's Kafka connector supports automatically extracting record headers and metadata into the Pinot table columns. The following table shows the mapping for record header/metadata to Pinot table column names:
 
-<table><thead><tr><th width="242">Kafka Record</th><th width="259">Pinot Table Column</th><th width="250">Description</th></tr></thead><tbody><tr><td>Record key: any type &#x3C;K></td><td><code>__key</code> : String </td><td>For simplicity of design, we assume that the record key is always a UTF-8 encoded String </td></tr><tr><td>Record Headers: Map&#x3C;String, String></td><td>Each header key is listed as a separate column:<br><code>__header$HeaderKeyName</code> : String</td><td>For simplicity of design, we directly map the string headers from kafka record to pinot table column</td></tr><tr><td>Record metadata - offset : long </td><td><code>__metadata$offset</code> : String</td><td></td></tr><tr><td>Record metadata - recordTimestamp : long</td><td><code>__metadata$recordTimestamp</code> : String</td><td></td></tr></tbody></table>
+<table><thead><tr><th width="242">Kafka Record</th><th width="259">Pinot Table Column</th><th width="250">Description</th></tr></thead><tbody><tr><td>Record key: any type &#x3C;K></td><td><code>__key</code> : String</td><td>For simplicity of design, we assume that the record key is always a UTF-8 encoded String</td></tr><tr><td>Record Headers: Map&#x3C;String, String></td><td>Each header key is listed as a separate column:<br><code>__header$HeaderKeyName</code> : String</td><td>For simplicity of design, we directly map the string headers from kafka record to pinot table column</td></tr><tr><td>Record metadata - offset : long</td><td><code>__metadata$offset</code> : String</td><td></td></tr><tr><td>Record metadata - recordTimestamp : long</td><td><code>__metadata$recordTimestamp</code> : String</td><td></td></tr></tbody></table>
 
-In order to enable the metadata extraction in a Kafka table, you can set the stream config `metadata.populate` to `true`.&#x20;
+In order to enable the metadata extraction in a Kafka table, you can set the stream config `metadata.populate` to `true`.
 
-In addition to this, if you want to actually use any of these columns in your table, you have to list them explicitly in your table's schema.
+In addition to this, if you want to use any of these columns in your table, you have to list them explicitly in your table's schema.
 
 For example, if you want to add only the offset and key as dimension columns in your Pinot table, it can listed in the schema as follows:
 
@@ -352,8 +350,30 @@ For example, if you want to add only the offset and key as dimension columns in 
   ],
 ```
 
-Once the schema is updated, these columns are similar to any other pinot column. You can apply  ingestion transforms and / or define indexes on them. &#x20;
+Once the schema is updated, these columns are similar to any other pinot column. You can apply ingestion transforms and / or define indexes on them.
 
 {% hint style="info" %}
-Don't forget to follow the [schema evolution guidelines](../../../users/tutorials/schema-evolution.md) when updating schema of an existing table!
+Remember to follow the [schema evolution guidelines](../../../users/tutorials/schema-evolution.md) when updating schema of an existing table!
 {% endhint %}
+
+#### Tell Pinot where to find an Avro schema
+
+There is a standalone utility to generate the schema from an Avro file. See \[infer the pinot schema from the avro schema and JSON data]\([https://docs.pinot.apache.org/basics/data-import/complex-type#infer-the-pinot-schema-from-the-avro-schema-and-json-data](https://docs.pinot.apache.org/basics/data-import/complex-type#infer-the-pinot-schema-from-the-avro-schema-and-json-data)) for details.
+
+To avoid errors like `The Avro schema must be provided`, designate the location of the schema in your `streamConfigs` section. For example, if your current section contains the following:
+
+```json
+...
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.consumer.type": "lowlevel",
+  "stream.kafka.topic.name": "",
+  "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.broker.list": "",
+  "stream.kafka.consumer.prop.auto.offset.reset": "largest"
+  ...
+}
+```
+
+Then add this key: `"stream.kafka.decoder.prop.schema"`followed by a value that denotes the location of your schema.

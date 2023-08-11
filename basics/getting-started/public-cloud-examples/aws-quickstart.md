@@ -1,18 +1,17 @@
 ---
 description: >-
-  This guide provides a quick start for running Pinot on Amazon Web Services
-  (AWS).
+  This quickstart guide helps you get started running Pinot on Amazon Web Services (AWS).
 ---
 
 # Running on AWS
 
-This document provides the basic instruction to set up a Kubernetes Cluster on [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/)
+In this quickstart guide, you will set up a Kubernetes Cluster on [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/)
 
 ## 1. Tooling Installation
 
 ### **1.1 Install Kubectl**
 
-Follow this link ([https://kubernetes.io/docs/tasks/tools/install-kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)) to install kubectl.
+To install kubectl, see [Install kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl).
 
 _For Mac users_
 
@@ -27,7 +26,7 @@ kubectl version
 ```
 
 {% hint style="info" %}
-QuickStart scripts are tested under kubectl client version v1.16.3 and server version v1.13.12
+Quickstart scripts are tested under kubectl client version v1.16.3 and server version v1.13.12
 {% endhint %}
 
 ### **1.2 Install Helm**
@@ -47,7 +46,7 @@ helm version
 ```
 
 {% hint style="info" %}
-This QuickStart provides helm supports for helm v3.0.0 and v2.12.1. Please pick the script based on your helm version.
+This quickstart provides helm supports for helm v3.0.0 and v2.12.1. Pick the script based on your helm version.
 {% endhint %}
 
 ### **1.3 Install AWS CLI**
@@ -77,17 +76,17 @@ brew install weaveworks/tap/eksctl
 
 For first-time AWS users, register your account at [https://aws.amazon.com/](https://aws.amazon.com/).
 
-Once created the account, you can go to [AWS Identity and Access Management (IAM)](https://console.aws.amazon.com/iam/home#/home) to create a user and create access keys under Security Credential tab.&#x20;
+Once you have created the account, go to [AWS Identity and Access Management (IAM)](https://console.aws.amazon.com/iam/home#/home) to create a user and create access keys under Security Credential tab.&#x20;
 
 ```bash
 aws configure
 ```
 
 {% hint style="info" %}
-Environment variables **`AWS_ACCESS_KEY_ID`** and **`AWS_SECRET_ACCESS_KEY`** will override  AWS configuration stored in file **`~/.aws/credentials`**
+Environment variables **`AWS_ACCESS_KEY_ID`** and **`AWS_SECRET_ACCESS_KEY`** will override the AWS configuration stored in file **`~/.aws/credentials`**
 {% endhint %}
 
-## 3. (Optional) Create a Kubernetes cluster(EKS) in AWS&#x20;
+## 3. (Optional) Create a Kubernetes cluster(EKS) in AWS
 
 The script below will create a **1** node cluster named **pinot-quickstart** in **us-west-2** with a **t3.xlarge** machine for demo purposes:
 
@@ -104,7 +103,23 @@ eksctl create cluster \
 --nodes-max 1
 ```
 
-Monitor the cluster status via this command:
+For k8s 1.23+, run the following commands to allow the containers to provision their storage:
+```
+eksctl utils associate-iam-oidc-provider --region=us-east-2 --cluster=pinot-quickstart --approve
+
+eksctl create iamserviceaccount \
+  --name ebs-csi-controller-sa \
+  --namespace kube-system \
+  --cluster pinot-quickstart \
+  --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+  --approve \
+  --role-only \
+  --role-name AmazonEKS_EBS_CSI_DriverRole
+
+eksctl create addon --name aws-ebs-csi-driver --cluster pinot-quickstart --service-account-role-arn arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/AmazonEKS_EBS_CSI_DriverRole --force
+```
+
+Use the following command to monitor the cluster status:
 
 ```
 EKS_CLUSTER_NAME=pinot-quickstart
@@ -115,22 +130,22 @@ Once the cluster is in **ACTIVE** status, it's ready to be used.
 
 ## **4. Connect to an existing cluster**
 
-Simply run below command to get the credential for the cluster **pinot-quickstart** that you just created or your existing cluster.
+Run the following command to get the credential for the cluster **pinot-quickstart** that you just created:
 
 ```
 EKS_CLUSTER_NAME=pinot-quickstart
 aws eks update-kubeconfig --name ${EKS_CLUSTER_NAME}
 ```
 
-To verify the connection, you can run:
+To verify the connection, run the following:
 
 ```
 kubectl get nodes
 ```
 
-## 5. Pinot Quickstart
+## 5. Pinot quickstart
 
-Please follow this [Kubernetes QuickStart](../kubernetes-quickstart.md) to deploy your Pinot Demo.
+Follow this [Kubernetes quickstart](../kubernetes-quickstart.md) to deploy your Pinot demo.
 
 ## 6. Delete a Kubernetes Cluster
 

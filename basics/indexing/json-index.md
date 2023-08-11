@@ -1,14 +1,18 @@
+---
+description:  This page describes configuring the JSON index for Apache Pinot.
+---
+
 # JSON Index
 
-JSON index can be applied to JSON string columns to accelerate the value lookup and filtering for the column.
+The JSON index can be applied to JSON string columns to accelerate value lookups and filtering for the column.
 
 ## When to use JSON index
 
-JSON string can be used to represent the array, map, nested field without forcing a fixed schema. It is very flexible, but the flexibility comes with a cost - filtering on JSON string columns is very expensive.
+Use the JSON string can be used to represent array, map, and nested fields without forcing a fixed schema. While JSON strings are flexible, filtering on JSON string columns is expensive, so consider the use case.
 
 Suppose we have some JSON records similar to the following sample record stored in the `person` column:
 
-```javascript
+```json
 {
   "name": "adam",
   "age": 30,
@@ -34,7 +38,7 @@ Suppose we have some JSON records similar to the following sample record stored 
 }
 ```
 
-Without an index, in order to look up a key and filter records based on the value, we need to scan and reconstruct the JSON object from the JSON string for every record, look up the key and then compare the value.
+Without an index, to look up the key and filter records based on the value, Pinot must scan and reconstruct the JSON object from the JSON string for every record, look up the key and then compare the value.
 
 For example, in order to find all persons whose name is "adam", the query will look like:
 
@@ -44,13 +48,11 @@ FROM mytable
 WHERE JSON_EXTRACT_SCALAR(person, '$.name', 'STRING') = 'adam'
 ```
 
-JSON index is designed to accelerate the filtering on JSON string columns without scanning and reconstructing all the JSON objects.
+The JSON index is designed to accelerate the filtering on JSON string columns without scanning and reconstructing all the JSON objects.
 
-## Configure JSON index
+## Enable and configure a JSON index
 
-To enable the JSON index, set the following config in the table config:
-
-### Config since release `0.12.0`:
+To enable the JSON index, set the following configuration in the table configuration:
 
 ```json
 {
@@ -100,7 +102,7 @@ With the following JSON document:
 }
 ```
 
-With the default setting, we will flatten the document into the following records:
+Using the default setting, we will flatten the document into the following records:
 
 ```json
 {
@@ -284,19 +286,17 @@ With **excludeFields** set to \["age", "street"]:
 }
 ```
 
-The legacy config has the same behavior as the default settings in the new config.
-
-Note that JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
+Note that the JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
 
 {% hint style="info" %}
-When you're using a JSON index, we would recommend that you add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.&#x20;
+To reduce unnecessary storage overhead when using a JSON index, we recommend that you add the indexed column to the `noDictionaryColumns` columns list.
 
-For instructions on that config property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+For instructions on that configuration property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
 {% endhint %}
 
-## How to use JSON index
+## How to use the JSON index
 
-JSON index can be used via the `JSON_MATCH` predicate: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find all persons whose name is "adam", the query will look like:
+The JSON index can be used via the `JSON_MATCH` predicate: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find every entry with the name "adam":
 
 ```sql
 SELECT ... 
@@ -305,10 +305,6 @@ WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
 Note that the quotes within the filter expression need to be escaped.
-
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for `filterExpression`: `'name=''adam'''`
-{% endhint %}
 
 ## Supported filter expressions
 
@@ -322,10 +318,6 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'name=''adam'''`
-{% endhint %}
-
 ### Chained key lookup
 
 Find all persons who have an address (one of the addresses) with number 112:
@@ -335,10 +327,6 @@ SELECT ...
 FROM mytable 
 WHERE JSON_MATCH(person, '"$.addresses[*].number"=112')
 ```
-
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'addresses.number=112'`
-{% endhint %}
 
 ### Nested filter expression
 
@@ -350,10 +338,6 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'name=''adam'' AND addresses.number=112'`
-{% endhint %}
-
 ### Array access
 
 Find all persons whose first address has number 112:
@@ -363,10 +347,6 @@ SELECT ...
 FROM mytable 
 WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
 ```
-
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'"addresses[0].number"=112'`
-{% endhint %}
 
 ### Existence check
 
@@ -378,10 +358,6 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.phone" IS NOT NULL')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'phone IS NOT NULL'`
-{% endhint %}
-
 Find all persons whose first address does not contain floor field within the JSON:
 
 ```sql
@@ -390,13 +366,9 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[0].floor" IS NULL')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'"addresses[0].floor" IS NULL'`
-{% endhint %}
-
 ## JSON context is maintained
 
-The JSON context is maintained for object elements within an array, i.e. the filter won't cross-match different objects in the array.
+The JSON context is maintained for object elements within an array, meaning the filter won't cross-match different objects in the array.
 
 To find all persons who live on "main st" in "ca":
 
@@ -408,7 +380,7 @@ WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st'' AND "$.addresses[*
 
 This query won't match "adam" because none of his addresses matches both the street and the country.
 
-If JSON context is not desired, use multiple separate `JSON_MATCH` predicates. E.g. to find all persons who have addresses on "main st" and have addressed in "ca" (doesn't have to be the same address):
+If JSON context is not desired, use multiple separate `JSON_MATCH` predicates. For example, to find all persons who have addresses on "main st" and have addresses in "ca" (matches need not have the same address):
 
 ```sql
 SELECT ... 
@@ -418,7 +390,7 @@ WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') AND JSON_MATCH(p
 
 This query will match "adam" because one of his addresses matches the street and another one matches the country.
 
-Note that the array index is maintained as a separate entry within the element, so in order to query different elements within an array, multiple `JSON_MATCH` predicates are required. E.g. to find all persons who have first address on "main st" and second address on "second st":
+The array index is maintained as a separate entry within the element, so in order to query different elements within an array, multiple `JSON_MATCH` predicates are required. For example, to find all persons who have first address on "main st" and second address on "second st":
 
 ```sql
 SELECT ... 
@@ -484,10 +456,6 @@ FROM mytable
 WHERE JSON_MATCH(nullableCol, '"$" IS NULL')
 ```
 
-{% hint style="warning" %}
-In release `0.7.1`, json string must be object (cannot be `null`, value or array); multi-dimensional array is not supported.
-{% endhint %}
-
 ## Limitations
 
-1. The key (left-hand side) of the filter expression must be the leaf level of the JSON object, e.g. `"$.addresses[*]"='main st'` won't work.
+1. The key (left-hand side) of the filter expression must be the leaf level of the JSON object, for example, `"$.addresses[*]"='main st'` won't work.

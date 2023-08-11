@@ -6,7 +6,7 @@ The Pinot schema is composed of:
 
 | Field                  | Description                                                                                                                                                                 |
 | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **schemaName**         | Defines the name of the schema. This is usually the same as the table name. The offline and the realtime table of a hybrid table should use the same schema.                |
+| **schemaName**         | Defines the name of the schema. This is usually the same as the table name. The offline and the real-time table of a hybrid table should use the same schema.                |
 | **dimensionFieldSpec** | A dimensionFieldSpec is defined for each dimension column. For more details, scroll down to [DimensionFieldSpec](schema.md#dimensionfieldspec).                             |
 | **metricFieldSpec**    | A metricFieldSpec is defined for each metric column. For more details, scroll down to [MetricFieldSpec](schema.md#metricfieldspec).                                         |
 | **dateTimeFieldSpec**  | A dateTimeFieldSpec is defined for the time columns. There can be multiple time columns. For more details, scroll down to [DateTimeFieldSpec](schema.md#datetimefieldspec). |
@@ -162,6 +162,18 @@ Here are some sample date-time formats you can use in the schema:
 * `1:HOURS:EPOCH` - used when timestamp is in the epoch hours and stored in `LONG` or `INT` format
 * `1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd` - when the date is in `STRING` format and has the pattern year-month-date. e.g. 2020-08-21
 * `1:HOURS:SIMPLE_DATE_FORMAT:EEE MMM dd HH:mm:ss ZZZ yyyy` - when date is in `STRING` format. e.g. Mon Aug 24 12:36:50 America/Los\_Angeles 2019
+
+### Built-in virtual columns
+
+There are several built-in virtual columns inside the schema the can be used for debugging purposes:
+
+| Column Name  | Column Type | Data Type | Description                                  |
+| ------------ | ----------- | --------- | -------------------------------------------- |
+| $hostName    | Dimension   | STRING    | Name of the server hosting the data          |
+| $segmentName | Dimension   | STRING    | Name of the segment containing the record    |
+| $docId       | Dimension   | INT       | Document id of the record within the segment |
+
+These virtual columns can be used in queries in a similar way to regular columns.
 
 ### Advanced fields
 

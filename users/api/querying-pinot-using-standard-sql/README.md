@@ -64,7 +64,7 @@ $ curl -H "Content-Type: application/json" -X POST \
 
 ### Query Console&#x20;
 
-Query Console can be used for running ad-hoc queries (checkbox available to query the PQL endpoint). The Query Console can be accessed by entering the `<controller host>:<controller port>` in your browser
+Query Console can be used for running ad hoc queries (checkbox available to query the PQL endpoint). The Query Console can be accessed by entering the `<controller host>:<controller port>` in your browser
 
 ![](../../../.gitbook/assets/Pinot\_query\_console\_cropped.png)
 

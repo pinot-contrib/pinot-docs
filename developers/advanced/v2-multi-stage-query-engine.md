@@ -12,32 +12,39 @@ It also resolves the bottleneck effect for the broker reduce stage where only a 
 
 ## How to enable the multi-stage query engine
 
-To enable the multi-stage engine,
+### Check if the multi-stage engine is enabled
 
-1. please make sure to either
-   * [Building Apache Pinot](https://github.com/apache/pinot#building-pinot) using the latest master commit.
-   * Download the latest Apache Pinot docker image using the [official guide](https://docs.pinot.apache.org/basics/getting-started/running-pinot-in-docker).
-2. Please add the following configurations to your cluster config:. Cluster configs can be edited using the POST API under [this](https://docs.pinot.apache.org/users/api/controller-api-reference#cluster) section (you can find it on Swagger under Cluster section)
-   * ```
-     "pinot.multistage.engine.enabled": "true",
-     "pinot.server.instance.currentDataTableVersion": "4",
-     "pinot.query.server.port": "8421",
-     "pinot.query.runner.port": "8442"
-     ```
-3.  Start the cluster normally.
+The multi-stage engine should be default enabled on the latest master branch. To check whether your version of Pinot has enabled the multi-stage engine, run a query via the controller console with the "use V2 Engine" flag checked and you should see results similar to the following page.
 
-    _<mark style="color:red;">**NOTE:**</mark>  <mark style="color:red;">If the cluster has already been started, please restart all the controller/broker/server components so that they pick up the new cluster config.</mark>_
-4.  You should now see the following window in the controller query page:
+<figure><img src="../../.gitbook/assets/image (51).png" alt=""><figcaption><p>Sample Query Screenshot</p></figcaption></figure>
 
-    <figure><img src="../../.gitbook/assets/image (51).png" alt=""><figcaption><p>Sample Query Screenshot</p></figcaption></figure>
+### Manually enable the multi-stage engine.
+
+For some older master release versions of Pinot, the multi-stage engine might not be default enabled. If upgrading to latest master is not an option and you see the "use V2 Engine" flag option on the controller query console, follow the instruction below to manually enable it
+
+1.  Add the following configurations to your cluster config
+
+    ```
+    "pinot.multistage.engine.enabled": "true",
+    "pinot.server.instance.currentDataTableVersion": "4",
+    "pinot.query.server.port": "8421",
+    "pinot.query.runner.port": "8442"
+    ```
+2. Restart the cluster.
+
+_<mark style="color:red;">**Noted that**</mark>_
+
+* <mark style="color:red;">Cluster configs can be edited using the POST API under</mark> [<mark style="color:blue;">this section</mark>](https://docs.pinot.apache.org/users/api/controller-api-reference#cluster) <mark style="color:red;">(you can find it on Swagger under the Cluster section)</mark>
+* <mark style="color:red;">the</mark> <mark style="color:red;"></mark><mark style="color:red;">`"pinot.query.server.port"`</mark> <mark style="color:red;"></mark><mark style="color:red;">and</mark> <mark style="color:red;"></mark><mark style="color:red;">`"pinot.query.runner.port"`</mark> <mark style="color:red;"></mark><mark style="color:red;">option should only be added if every Pinot component is launched within its own network environment, otherwise, port conflict will occur.</mark>&#x20;
+* <mark style="color:red;">If the cluster has already been started, restart all the controller/broker/server components so that they pick up the new cluster config.</mark>
 
 ## How to programmatically access the multi-stage query engine
 
-There's 2 main way to make query against the multi-stage engine:
+There are 2 main ways to make a query against the multi-stage engine:
 
 ### Via REST APIs
 
-Both the Controller query API and the Broker query API allows optional JSON payload for configuration. For example:
+The Controller query API and the Broker query API allow optional JSON payload for configuration. For example:
 
 * For Controller REST API
 
@@ -90,7 +97,7 @@ If you can't get the cluster to run and received an error indicating the multi-s
 * Try downloading the latest docker image or building from the latest master commit
   * We continuously push bug fixes for the multi-stage engine so bugs you encountered might have already been fixed in the latest master build
 * Try rewriting your query
-  * Some of the functions previously supported in the original engine might have a new way to express in the new engine. Please check and see if you are using any non-standard SQL functions or semantics.
+  * Some of the functions previously supported in the original engine might have a new way to express in the new engine. Check and see if you are using any non-standard SQL functions or semantics.
 
 ### Timeout errors
 
@@ -103,7 +110,7 @@ If you can't get the cluster to run and received an error indicating the multi-s
 
 ### How to share feedbacks
 
-please report any bugs in Apache Pinot Slack [multi-stage engine feedback channel](https://apache-pinot.slack.com/archives/C03Q4A11GC9). Please include:
+Report any bugs in Apache Pinot Slack [multi-stage engine feedback channel](https://apache-pinot.slack.com/archives/C03Q4A11GC9). Include:
 
 * the table/schema config(s)
 * the cluster config (zookeeper config, and each components config and scale)
@@ -120,7 +127,7 @@ We are continuously improving the multi-stage engine. However, since the multi-s
 * Currently, it doesn't support complex aggregation functions, such as `COVAR_POP`.
 * Currently, it doens't support tenant isolation, only `DEFAULT_TENANT` is visible to the multi-stage engine.
 
-For more up-to-date tracking of feature and performance support please follow the Github tracking issues:
+For more up-to-date tracking of feature and performance support follow the Github tracking issues:
 
 * SQL feature tracker: [https://github.com/apache/pinot/issues/9223](https://github.com/apache/pinot/issues/9223)
 * Performance and stability tracker: [https://github.com/apache/pinot/issues/9273](https://github.com/apache/pinot/issues/9273)

@@ -6,7 +6,7 @@ Doing this results in much less storage and better query performance. Configurin
 
 ## Aggregation Config
 
-The aggregation config controls the aggregations that happen during realtime data ingestion. Offline aggregations must be handled separately.
+The aggregation config controls the aggregations that happen during real-time data ingestion. Offline aggregations must be handled separately.
 
 Below is a description of the config, which is defined in the ingestion config of the table config.
 
@@ -28,7 +28,7 @@ Below is a description of the config, which is defined in the ingestion config o
 
 The following are required for ingestion aggregation to work:
 
-* Ingestion aggregation config is effective only for realtime tables. (There is no ingestion time aggregation support for offline tables. We need use [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md) or pre-process aggregations in the offline data flow using batch processing engines like Spark/MapReduce).
+* Ingestion aggregation config is effective only for real-time tables. (There is no ingestion time aggregation support for offline tables. We need use [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md) or pre-process aggregations in the offline data flow using batch processing engines like Spark/MapReduce).
 * [Stream ingestion](../../basics/data-import/pinot-stream-ingestion/) type must be lowLevel.
 * All metrics must have aggregation configs.
 * All metrics must be noDictionaryColumns.
@@ -89,7 +89,7 @@ Note that the schema only reflects the final table structure.
 
 ### Table Config
 
-From the below aggregation config example, please note that `price`  exists in the input data while `total_sales` exists in the Pinot Schema.
+From the below aggregation config example, note that `price`  exists in the input data while `total_sales` exists in the Pinot Schema.
 
 ```json
 {
@@ -148,7 +148,7 @@ From the below aggregation config example, please note that `price`  exists in t
 
 ### Why not use a Startree?
 
-Startrees can only be added to realtime segments after the segments has sealed, and creating startrees is CPU-intensive. Ingestion Aggregation works for consuming segments and uses no additional CPU.
+Startrees can only be added to real-time segments after the segments has sealed, and creating startrees is CPU-intensive. Ingestion Aggregation works for consuming segments and uses no additional CPU.
 
 Startrees take additional memory to store, while ingestion aggregation stores less data than the original dataset.
 
@@ -164,7 +164,7 @@ The current changes are backward compatible, so no need to change your table con
 
 ### Does this config work for offline data?
 
-Ingestion Aggregation only works for realtime ingestion. For offline data, the offline process needs to generate the aggregates separately.
+Ingestion Aggregation only works for real-time ingestion. For offline data, the offline process needs to generate the aggregates separately.
 
 ### Why do all metrics need to be aggregated?
 

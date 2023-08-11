@@ -4,15 +4,13 @@ description: The Docker instructions on this page are still WIP
 
 # Stream ingestion example
 
-So far, we setup our cluster, ran some queries on the demo tables and explored the admin endpoints. We also uploaded some sample batch data for transcript table.
-
-Now, it's time to ingest from a sample stream into Pinot. The rest of the instructions assume you're using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).
+This example assumes you have set up your cluster using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).
 
 ## Data Stream
 
-First, we need to setup a stream. Pinot has out-of-the-box real-time ingestion support for Kafka. Other streams can be plugged in, more details in [Pluggable Streams](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
+First, we need to set up a stream. Pinot has out-of-the-box real-time ingestion support for Kafka. Other streams can be plugged in for use, see [Pluggable Streams](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
 
-Let's setup a demo Kafka cluster locally, and create a sample topic `transcript-topic`
+Let's set up a demo Kafka cluster locally, and create a sample topic `transcript-topic`.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -42,7 +40,7 @@ docker exec \
 {% tab title="Using launcher scripts" %}
 **Start Kafka**
 
-Start Kafka cluster on port `9876` using the same Zookeeper from the quick-start examples
+Start Kafka cluster on port `9876` using the same Zookeeper from the quick-start examples.
 
 ```
 bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2123/kafka -port 9876
@@ -50,7 +48,7 @@ bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2123/kafka -port 9876
 
 **Create a Kafka topic**
 
-Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart\_download). Create a topic
+Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart\_download). Create a topic.
 
 ```css
 bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-factor 1 --partitions 1 --topic transcript-topic
@@ -60,11 +58,11 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-fac
 
 ## Creating a schema
 
-If you followed the [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, head over to [Creating a schema](../data-import/pinot-stream-ingestion/#create-schema-configuration) to learn how to create a schema for your sample data.
+If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, see [Creating a schema](../data-import/pinot-stream-ingestion/#create-schema-configuration) to learn how to create a schema for your sample data.
 
-## Creating a table config
+## Creating a table configuration
 
-If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you learnt how to push an offline table and schema. Similar to the offline table config, we will create a real-time table config for the sample. Here's the real-time table config for the transcript table. For a more detailed overview about table, checkout [Table](../components/table.md).
+If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you pushed an offline table and schema. To create a real-time table configuration for the sample use this table configuration for the transcript table. For a more detailed overview about table, see [Table](../components/table/).
 
 {% code title="/tmp/pinot-quick-start/transcript-table-realtime.json" %}
 ```javascript
@@ -100,9 +98,9 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you l
 ```
 {% endcode %}
 
-## Uploading your schema and table config
+## Uploading your schema and table configuration
 
-Now that we have our table and schema, let's upload them to the cluster. As soon as the real-time table is created, it will begin ingesting from the Kafka topic.
+Next, upload the table and schema to the cluster. As soon as the real-time table is created, it will begin ingesting from the Kafka topic.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -132,7 +130,7 @@ bin/pinot-admin.sh AddTable \
 
 ## Loading sample data into stream
 
-Here's a JSON file for transcript table data:
+Use the following sample JSON file for transcript table data in the following step.
 
 {% code title="/tmp/pinot-quick-start/rawData/transcript.json" %}
 ```css
@@ -151,7 +149,7 @@ Here's a JSON file for transcript table data:
 ```
 {% endcode %}
 
-Push sample JSON into Kafka topic, using the Kafka script from the Kafka download
+Push the sample JSON file into the Kafka topic, using the Kafka script from the Kafka download.
 
 ```css
 bin/kafka-console-producer.sh \
@@ -161,6 +159,6 @@ bin/kafka-console-producer.sh \
 
 ## Ingesting streaming data
 
-As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the [Query Console ](http://localhost:9000/query)to checkout the realtime data
+As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Browse to the [Query Console ](http://localhost:9000/query) running in your Pinot instance (we use `localhost` in this link as an example) to examine the real-time data.
 
 ![](../../.gitbook/assets/Pinot\_query\_transcript\_table.png)

@@ -7,7 +7,7 @@ description: >-
 
 # Segment
 
-Pinot has the concept of a [**table**](table.md), which is a logical abstraction to refer to a collection of related data. Pinot has a distributed architecture and scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, the entire data needs to be distributed across multiple nodes.
+Pinot has the concept of a [**table**](../), which is a logical abstraction to refer to a collection of related data. Pinot has a distributed architecture and scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, the entire data needs to be distributed across multiple nodes.
 
 Pinot achieves this by breaking the data into smaller chunks known as **segments** (similar to **shards/partitions** in relational databases). Segments can be seen as **time-based partitions**.
 
@@ -19,25 +19,25 @@ Columns may be declared to be **metric or dimension (or specifically as a time d
 
 Pinot uses **dictionary encoding** to store values as a dictionary ID. Columns may be configured to be “no-dictionary” column in which case raw values are stored. Dictionary IDs are encoded using minimum number of bits for efficient storage (_e.g._ a column with a cardinality of 3 will use only 2 bits for each dictionary ID).
 
-A **forward index** is built for each column and compressed for efficient memory use. In addition, you can optionally configure **inverted indices** for any set of columns. Inverted indices take up more storage, but improve query performance. Specialized indexes like **Star-Tree index** are also supported. For more details, see [Indexing](../indexing/).
+A **forward index** is built for each column and compressed for efficient memory use. In addition, you can optionally configure **inverted indices** for any set of columns. Inverted indices take up more storage, but improve query performance. Specialized indexes like **Star-Tree index** are also supported. For more details, see [Indexing](../../../indexing/).
 
 ## Creating a segment
 
-Once the table is configured, we can load some data. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster. Data can be loaded in batch mode or streaming mode. For more details, see the[ ingestion overview](../../developers/advanced/data-ingestion.md) page.
+Once the table is configured, we can load some data. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster. Data can be loaded in batch mode or streaming mode. For more details, see the[ ingestion overview](../../../../developers/advanced/data-ingestion.md) page.
 
 ### Load data in batch
 
 #### **Prerequisites**
 
-1. [Set up a cluster](cluster.md#setup-a-pinot-cluster)
-2. [Create broker and server tenants](tenant.md#creating-a-tenant)
-3. [Create an offline table](table.md#offline-table-creation)
+1. [Set up a cluster](../../cluster/#setup-a-pinot-cluster)
+2. [Create broker and server tenants](../../cluster/tenant.md#creating-a-tenant)
+3. [Create an offline table](../#offline-table-creation)
 
 Below are instructions to generate and push segments to Pinot via standalone scripts. For a production setup, you should use frameworks such as Hadoop or Spark. For more details on setting up data ingestion jobs, see [Import Data.](https://docs.pinot.apache.org/basics/data-import)
 
 #### Job Spec YAML
 
-To generate a segment, we need to first create a job spec YAML file. This file contains all the information regarding data format, input data location, and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. For full configurations, see [Ingestion Job Spec](../../configuration-reference/job-specification.md).
+To generate a segment, we need to first create a job spec YAML file. This file contains all the information regarding data format, input data location, and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. For full configurations, see [Ingestion Job Spec](../../../../configuration-reference/job-specification.md).
 
 {% code title="job-spec.yml" %}
 ```yaml
@@ -185,9 +185,9 @@ This ingestion job only generates segments for date `2014-01-03`
 
 **Prerequisites**
 
-1. [Set up a cluster](cluster.md#setup-a-pinot-cluster)
-2. [Create broker and server tenants](tenant.md#creating-a-tenant)
-3. [Create a real-time table and set up a real-time stream](table.md#streaming-table-creation)
+1. [Set up a cluster](../../cluster/#setup-a-pinot-cluster)
+2. [Create broker and server tenants](../../cluster/tenant.md#creating-a-tenant)
+3. [Create a real-time table and set up a real-time stream](../#streaming-table-creation)
 
 Below is an example of how to publish sample data to your stream. As soon as data is available to the real-time stream, it starts getting consumed by the real-time servers.
 

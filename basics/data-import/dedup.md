@@ -2,15 +2,13 @@
 description: Deduplication support in Apache Pinot.
 ---
 
-# Stream Ingestion with Dedup
+# Stream ingestion with deduplication
 
-Pinot provides native support of Deduplication during the real-time ingestion (v0.11.0+).
-
-To enable dedup on a Pinot table, there are a couple of table configuration and schema changes needed.
+Pinot provides native support for deduplication (dedup) during the real-time ingestion (v0.11.0+).
 
 ## Prerequisites for enabling dedup
 
-There are certain mandatory configurations needed in order to be able to enable dedup.
+To enable dedup on a Pinot table, make the following table configuration and schema changes:
 
 ### Define the primary key in the schema
 

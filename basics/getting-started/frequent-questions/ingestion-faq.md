@@ -1,10 +1,20 @@
+---
+description: >-
+  This page has a collection of frequently asked questions about ingestion with answers from the
+  community.
+---
+
 # Ingestion FAQ
+
+{% hint style="info" %}
+This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](https://docs.pinot.apache.org/contributing/contributing).
+{% endhint %}
 
 ## Data processing
 
 ### What is a good segment size?
 
-While Pinot can work with segments of various sizes, for optimal use of Pinot, you want to get your segments sized in the 100MB to 500MB (un-tarred/uncompressed) range. Please note that having too many (thousands or more) of tiny segments for a single table just creates more overhead in terms of the metadata storage in Zookeeper as well as in the Pinot servers' heap. At the same time, having too few really large (GBs) segments reduces parallelism of query execution, as on the server side, the thread parallelism of query execution is at segment level.
+While Apache Pinot can work with segments of various sizes, for optimal use of Pinot, you want to get your segments sized in the 100MB to 500MB (un-tarred/uncompressed) range. Having too many (thousands or more) tiny segments for a single table creates overhead in terms of the metadata storage in Zookeeper as well as in the Pinot servers' heap. At the same time, having too few really large (GBs) segments reduces parallelism of query execution, as on the server side, the thread parallelism of query execution is at segment level.
 
 ### Can multiple Pinot tables consume from the same Kafka topic?
 
@@ -12,19 +22,19 @@ Yes. Each table can be independently configured to consume from any given Kafka 
 
 ### If I add a partition to a Kafka topic, will Pinot automatically ingest data from this partition?
 
-Pinot automatically detects new partitions in Kafka topics. It checks for new partitions whenever _RealtimeSegmentValidationManager_ periodic job runs and starts consumers for new partitions.
+Pinot automatically detects new partitions in Kafka topics. It checks for new partitions whenever `RealtimeSegmentValidationManager` periodic job runs and starts consumers for new partitions.
 
-You can configure the interval for this job using the`controller.realtime.segment.validation.frequencyPeriod` property in controller configuration.
+You can configure the interval for this job using the`controller.realtime.segment.validation.frequencyPeriod` property in the controller configuration.
 
 ### How do I enable partitioning in Pinot, when using Kafka stream?
 
-Setup partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
+Set up partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
 
-The partitioning logic in the stream should match the partitioning config in Pinot. Kafka uses `murmur2`, and the equivalent in Pinot is `Murmur` function.
+The partitioning logic in the stream should match the partitioning config in Pinot. Kafka uses `murmur2`, and the equivalent in Pinot is the `Murmur` function.
 
-Set partitioning config as below using same column used in Kafka
+Set the partitioning configuration as below using same column used in Kafka:
 
-```
+```json
 "tableIndexConfig": {
       ..
       "segmentPartitionConfig": {
@@ -37,19 +47,19 @@ Set partitioning config as below using same column used in Kafka
       }
 ```
 
-and also set
+and also set:
 
-```
+```json
 "routing": {
       "segmentPrunerTypes": ["partition"]
     }
 ```
 
-To learn how partition works, check out the [routing tuning](operators/operating-pinot/tuning/routing.md).
+To learn how partition works, see [routing tuning](operators/operating-pinot/tuning/routing.md).
 
 ### How do I store BYTES column in JSON data?
 
-For JSON, you can use hex encoded string to ingest BYTES
+For JSON, you can use a hex encoded string to ingest BYTES.
 
 ### How do I flatten my JSON Kafka stream?
 
@@ -60,8 +70,6 @@ Then you can use these [json functions](https://docs.pinot.apache.org/users/user
 {% hint style="warning" %}
 **NOTE**\
 This works well if some of your fields are nested json, but most of your fields are top level json keys. If all of your fields are within a nested JSON key, you will have to store the entire payload as 1 column, which is not ideal.
-
-Support for flattening during ingestion is on the roadmap: [https://github.com/apache/pinot/issues/5264](https://github.com/apache/pinot/issues/5264)
 {% endhint %}
 
 ### How do I escape Unicode in my Job Spec YAML file?
@@ -72,7 +80,7 @@ To use explicit code points, you must double-quote (not single-quote) the string
 
 By default, Pinot limits the length of a String column to 512 bytes. If you want to overwrite this value, you can set the maxLength attribute in the schema as follows:
 
-```
+```json
     {
       "dataType": "STRING",
       "maxLength": 1000,
@@ -80,7 +88,7 @@ By default, Pinot limits the length of a String column to 512 bytes. If you want
     },
 ```
 
-### When can new events become queryable when getting ingested into a real-time table?
+### When are new events queryable when getting ingested into a real-time table?
 
 Events are available to queries as soon as they are ingested. This is because events are instantly indexed in memory upon ingestion.
 
@@ -90,27 +98,27 @@ However, when the open segment is closed and its in-memory indexes are flushed t
 
 ### How to reset a CONSUMING segment stuck on an offset which has expired from the stream?
 
-This typically happens if
+This typically happens if:
 
-1. The consumer is lagging a lot
+1. The consumer is lagging a lot.
 2. The consumer was down (server down, cluster down), and the stream moved on, resulting in offset not found when consumer comes back up.
 
-In case of Kafka, to recover, set property "auto.offset.reset":"earliest" in the streamConfigs section and reset the CONSUMING segment. See [Real-time table configs](https://docs.pinot.apache.org/configuration-reference/table#indexing-config) for more details about the config.
+In case of Kafka, to recover, set property `"auto.offset.reset":"earliest"` in the `streamConfigs` section and reset the `CONSUMING` segment. See [Real-time table configs](https://docs.pinot.apache.org/configuration-reference/table#indexing-config) for more details about the configuration.
 
-You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). Refer to [Pause Stream Ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
+You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). See [Pause Stream Ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
 
 ## Indexing
 
 ### How to set inverted indexes?
 
-Inverted indexes are set in the tableConfig's tableIndexConfig -> invertedIndexColumns list. For documentation on table config, see [Table Config Reference](../../../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../indexing/inverted-index.md).
+Inverted indexes are set in the `tableConfig`'s `tableIndexConfig` -> `invertedIndexColumns` list. For more info on table configuration, see [Table Config Reference](../../../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../indexing/inverted-index.md).
 
-Applying inverted indexes to a table config will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to existing segments?](ingestion-faq.md#how-to-apply-an-inverted-index-to-existing-segments)
+Applying inverted indexes to a table configuration will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to existing segments?](ingestion-faq.md#how-to-apply-an-inverted-index-to-existing-segments)
 
 ### How to apply an inverted index to existing segments?
 
-1. Add the columns you wish to index to the tableIndexConfig-> invertedIndexColumns list. To update the table config use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig)
-2. Invoke the reload API: [http://localhost:9000/help#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments)
+1. Add the columns you wish to index to the `tableIndexConfig`-> `invertedIndexColumns` list. To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
+2. Invoke the reload API: [http://localhost:9000/help#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments).
 
 Once you've done that, you can check whether the index has been applied by querying the segment metadata API at [http://localhost:9000/help#/Segment/getServerMetadata](http://localhost:9000/help#/Segment/getServerMetadata). Don't forget to include the names of the column on which you have applied the index.
 
@@ -143,9 +151,9 @@ If you want to add or change the [sorted index column](../../indexing/inverted-i
 
 ### How to create star-tree indexes?
 
-Star-tree indexes are configured in the table config under the _tableIndexConfig_ -> _starTreeIndexConfigs_ (list) and _enableDefaultStarTree_ (boolean). Read more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation](https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation)
+Star-tree indexes are configured in the table config under the `tableIndexConfig` -> `starTreeIndexConfigs` (list) and `enableDefaultStarTree` (boolean). See here for more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation](https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation)
 
-The new segments will have star-tree indexes generated after applying the star-tree index configs to the table config. Currently, Pinot does not support adding star-tree indexes to the existing segments.
+The new segments will have star-tree indexes generated after applying the star-tree index configurations to the table configuration. Currently, Pinot does not support adding star-tree indexes to the existing segments.
 
 ## Handling time in Pinot
 
@@ -157,11 +165,11 @@ See the [Components > Broker](https://docs.pinot.apache.org/basics/components/br
 
 When generating star-indexes, the time column will be part of the star-tree so the tree can still be efficiently queried for segments with multiple time intervals.
 
-### **What is the purpose of a hybrid table not using `max(OfflineTime)` to determine the time-boundary, and instead using an offset?**
+### What is the purpose of a hybrid table not using `max(OfflineTime)` to determine the time-boundary, and instead using an offset?
 
 This lets you have an old event up come in without building complex offline pipelines that perfectly partition your events by event timestamps. With this offset, even if your offline data pipeline produces segments with a maximum timestamp, Pinot will not use the offline dataset for that last chunk of segments. The expectation is if you process offline the next time-range of data, your data pipeline will include any late events.
 
-### **Why are segments not strictly time-partitioned?**
+### Why are segments not strictly time-partitioned?
 
 It might seem odd that segments are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time intervals for the performance of hybrid tables and time-filtered data.
 

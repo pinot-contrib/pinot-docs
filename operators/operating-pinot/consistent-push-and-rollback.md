@@ -16,7 +16,7 @@ Pinot supports atomic update on segment level, which means that when data consis
 
 Furthermore, Pinot currently does not support data rollback features. In case of a bad data push, the table owner needs to re-run the flow with the previous data and re-ingest data to Pinot. This end-to-end process can take hours and the Pinot table can potentially be in a bad state during this long period.&#x20;
 
-The consistent push and rollback protocol allows a user to **atomically switch between data snapshots and rollback to the previous data in the case of a bad data push**. For complete motivation and reasoning, please refer to the design doc above. Currently, we only support **OFFLINE table REFRESH use cases**.
+The consistent push and rollback protocol allows a user to **atomically switch between data snapshots and rollback to the previous data in the case of a bad data push**. For complete motivation and reasoning, refer to the design doc above. Currently, we only support **OFFLINE table REFRESH use cases**.
 
 ### How this works
 

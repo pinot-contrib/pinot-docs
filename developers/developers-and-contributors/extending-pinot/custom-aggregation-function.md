@@ -1,6 +1,6 @@
 # Writing Custom Aggregation Function
 
-Pinot has many inbuilt Aggregation Functions such as MIN, MAX, SUM, AVG etc. See [PQL](../../../users/user-guide-query/querying-pinot.md) page for the list of aggregation functions.
+Pinot has many built-in Aggregation Functions such as MIN, MAX, SUM, AVG etc. See [PQL](../../../users/user-guide-query/querying-pinot.md) page for the list of aggregation functions.
 
 Adding a new AggregationFunction requires two things
 
@@ -45,7 +45,7 @@ This is advanced topic and assumes you know Pinot [concepts](../../../basics/con
 
 This phase works on the individual segments in Pinot.
 
-* Initialization: Depending on the query type the following methods are invoked to setup the result holder.  While having different methods and return types adds complexity, it helps in performance.
+* Initialization: Depending on the query type the following methods are invoked to set up the result holder.  While having different methods and return types adds complexity, it helps in performance.
   * AGGREGATION : `createAggregationResultHolder`This must return an instance of type [AggregationResultHolder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/AggregationResultHolder.java). You can either use the [DoubleAggregationResultHolder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/DoubleAggregationResultHolder.java) or [ObjectAggregationResultHolder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/ObjectAggregationResultHolder.java)
   * GROUP BY: `createGroupByResultHolder`This method must return an instance of type [GroupByResultHolder](https://github.com/apache/pinot/blob/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/groupby/GroupByResultHolder.java). Depending on the type of result object, you might be able to use one of the existing [implementations](https://github.com/apache/pinot/tree/master/pinot-core/src/main/java/org/apache/pinot/core/query/aggregation/groupby).
 *   Callback: For every record that matches the filter condition in the query,

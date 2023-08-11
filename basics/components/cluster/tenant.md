@@ -1,6 +1,6 @@
 ---
 description: >-
-  Discover the Tenant component of Apache Pinot, which facilitates efficient
+  Discover the tenant component of Apache Pinot, which facilitates efficient
   data isolation and resource management within Pinot clusters.
 ---
 
@@ -12,19 +12,19 @@ In order to support multi-tenancy, Pinot has first-class support for tenants. Ev
 
 The concept of tenants is very important when the multiple use cases are using Pinot and there is a need to provide quotas or some sort of isolation across tenants. For example, consider we have two tables `Table A` and `Table B` in the same Pinot cluster.
 
-![Defining tenants for tables](../../.gitbook/assets/TableTenant.jpg)
+![Defining tenants for tables](../../../.gitbook/assets/TableTenant.jpg)
 
 We can configure `Table A` with server tenant `Tenant A` and `Table B` with server tenant `Tenant B`. We can tag some of the server nodes for `Tenant A` and some for `Tenant B`. This will ensure that segments of `Table A` only reside on servers tagged with `Tenant A`, and segment of `Table B` only reside on servers tagged with `Tenant B`. The same isolation can be achieved at the broker level, by configuring broker tenants to the tables.
 
-![Table isolation using tenants](../../.gitbook/assets/TenantIsolation.jpg)
+![Table isolation using tenants](../../../.gitbook/assets/TenantIsolation.jpg)
 
 &#x20;No need to create separate clusters for every table or use case!&#x20;
 
-## Tenant Config
+## Tenant configuration
 
-This tenant is defined in the [tenants](table.md#tenants) section of the table config.&#x20;
+This tenant is defined in the [tenants](../table/#tenants) section of the table config.&#x20;
 
-This section contains 2 main fields `broker` and `server` , which decide the tenants used for the broker and server components of this table.
+This section contains two main fields `broker` and `server` , which decide the tenants used for the broker and server components of this table.
 
 ```javascript
 "tenants": {
@@ -39,11 +39,11 @@ In the above example:
 * If this were an offline table, the offline segments for the table will be hosted in Pinot servers tagged in Helix as `serverTenantName_OFFLINE`
 * If this were a real-time table, the real-time segments (both consuming as well as completed ones) will be hosted in pinot servers tagged in Helix as `serverTenantName_REALTIME`.
 
-## Creating a tenant
+## Create a tenant
 
 ### Broker tenant
 
-Here's a sample broker tenant config. This will create a broker tenant `sampleBrokerTenant` by tagging 3 untagged broker nodes as `sampleBrokerTenant_BROKER`.&#x20;
+Here's a sample broker tenant config. This will create a broker tenant `sampleBrokerTenant` by tagging three untagged broker nodes as `sampleBrokerTenant_BROKER`.&#x20;
 
 {% code title="sample-broker-tenant.json" %}
 ```javascript
@@ -59,7 +59,7 @@ To create this tenant use the following command. The creation will fail if numbe
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-Follow instructions in [Getting Pinot](../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
+Follow instructions in [Getting Pinot](../../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
 
 ```bash
 bin/pinot-admin.sh AddTenant \
@@ -97,7 +97,7 @@ To create this tenant use the following command. The creation will fail if numbe
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-Follow instructions in [Getting Pinot](../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
+Follow instructions in [Getting Pinot](../../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
 
 ```bash
 bin/pinot-admin.sh AddTenant \

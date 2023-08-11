@@ -166,7 +166,7 @@ The forward index can also be regenerated for a column where it is disabled by r
 For multi-value (MV) columns the following invariants cannot be maintained after regenerating the forward index for a forward index disabled column:
 
 * Ordering guarantees of the MV values within a row
-* If entries within an MV row are duplicated, the duplicates will be lost. Please regenerate the segments via your offline jobs and re-push / refresh the data to get back the original MV data with duplicates.
+* If entries within an MV row are duplicated, the duplicates will be lost. Regenerate the segments via your offline jobs and re-push / refresh the data to get back the original MV data with duplicates.
 
 We will work on removing the second invariant in the future.
 {% endhint %}

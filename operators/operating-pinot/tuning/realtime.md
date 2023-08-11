@@ -6,7 +6,7 @@ description: Learn about tuning real-time tables.
 
 ## Tuning Real-time Performance
 
-See the section on [Ingesting Realtime Data](../../../basics/data-import/pinot-stream-ingestion/) before reading this section.
+See the section on [Ingesting Real-time Data](../../../basics/data-import/pinot-stream-ingestion/) before reading this section.
 
 Pinot servers ingest rows into a consuming segment that resides in volatile memory. Therefore, pinot servers hosting consuming segments tend to be memory bound. They may also have long garbage collection cycles when the segment is completed and memory is released.
 
@@ -103,7 +103,7 @@ This tool can help decide the optimum segment size and number of hosts for your 
 2. You can provision a test version of your table with some minimum number of hosts that can consume the stream, let it create a few segments with large enough number of rows (say, 500k to 1M rows), and use one of those segments to run the command. You can drop the test version table, and re-provision it once the command outputs some parameters to set.
 3. If you don't have a segment in hand or provisioning of a test version of your table is not an easy option, you can provide [schema which is decorated with data characteristics](../../configuration-recommendation-engine.md#1.-data-characteristics). Then the tool generates a segment based on the provided characteristics behind the scene and proceeds with the real-time analysis. In case the characteristics of real data is very different, you may need to modify the parameters. You can always change the config after you get segments from real data.
 
-As of Pinot version 0.5.0, this command has been improved to display the number of pages mapped, as well as take in the push frequency as an argument if the real-time table being provisioned is a part of a hybrid table. If you are using an older version of this command, please download a later version and re-run the command. The arguments to the command are as follows:
+As of Pinot version 0.5.0, this command has been improved to display the number of pages mapped, as well as take in the push frequency as an argument if the real-time table being provisioned is a part of a hybrid table. If you are using an older version of this command, download a later version and re-run the command. The arguments to the command are as follows:
 
 * `tableConfigFile`: This is the path to the table config file
 * `numPartitions`: Number of partitions in your stream
@@ -175,7 +175,7 @@ You can pick the appropriate value for segment size and number of hours in the t
 
 **Case 1: Optimize for performance, high QPS**
 
-From the above output you may decide that 6 hours is an optimal consumption time given the number of active segments looked at for a query, and you can afford about 4G of active memory per host. You can choose either 8 or 10 hosts, you choose 10. In this case, the optimal segment size will be 111.98M. You can then enter your realtime table config as below:
+From the above output you may decide that 6 hours is an optimal consumption time given the number of active segments looked at for a query, and you can afford about 4G of active memory per host. You can choose either 8 or 10 hosts, you choose 10. In this case, the optimal segment size will be 111.98M. You can then enter your real-time table config as below:
 
 ```javascript
 "realtime.segment.flush.threshold.rows": "0"

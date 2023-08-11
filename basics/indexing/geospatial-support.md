@@ -2,7 +2,7 @@
 description: This page talks about geospatial support in Pinot.
 ---
 
-# Geospatial
+# Geospatial 
 
 Pinot supports SQL/MM geospatial data and is compliant with the [Open Geospatial Consortium’s (OGC) OpenGIS Specifications](https://www.ogc.org/standards/sfs/). This includes:
 
@@ -12,7 +12,7 @@ Pinot supports SQL/MM geospatial data and is compliant with the [Open Geospatial
 
 ## Geospatial data types
 
-Geospatial data types abstract and encapsulate spatial structures such as boundary and dimension. In many respects, spatial data types can be understood simply as shapes. Pinot supports the Well-Known Text (WKT) and Well-Known Binary (WKB) form of geospatial objects, for example:
+Geospatial data types abstract and encapsulate spatial structures such as boundary and dimension. In many respects, spatial data types can be understood simply as shapes. Pinot supports the Well-Known Text (WKT) and Well-Known Binary (WKB) forms of geospatial objects, for example:
 
 * `POINT (0, 0)`
 * `LINESTRING (0 0, 1 1, 2 1, 2 2)`
@@ -22,7 +22,7 @@ Geospatial data types abstract and encapsulate spatial structures such as bounda
 * `MULTIPOLYGON (((0 0, 4 0, 4 4, 0 4, 0 0), (1 1, 2 1, 2 2, 1 2, 1 1)), ((-1 -1, -1 -2, -2 -2, -2 -1, -1 -1)))`
 * `GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))`
 
-### Geometry vs Geography
+## Geometry vs geography
 
 It is common to have data in which the coordinates are `geographics` or `latitude/longitude.` Unlike coordinates in Mercator or UTM, geographic coordinates are not Cartesian coordinates.
 
@@ -37,7 +37,7 @@ Pinot supports both geometry and geography types, which can be constructed by th
 
 For manipulating geospatial data, Pinot provides a set of functions for analyzing geometric components, determining spatial relationships, and manipulating geometries. In particular, geospatial functions that begin with the `ST_` prefix support the SQL/MM specification.
 
-Following geospatial functions are available out of the box in Pinot-
+Following geospatial functions are available out of the box in Pinot:
 
 ### Aggregations
 
@@ -50,7 +50,7 @@ Following geospatial functions are available out of the box in Pinot-
 * [**ST\_Point(double x, double y) → Point**](../../configuration-reference/functions/stpoint.md) Returns a geometry type point object with the given coordinate values.
 * [**ST\_Polygon(String wkt) → Polygon**](../../configuration-reference/functions/stpolygon.md) Returns a geometry type polygon object from [WKT representation](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).
 * [**ST\_GeogFromWKB(bytes wkb) → Geography**](../../configuration-reference/functions/stgeogfromwkb.md) Creates a geography instance from a [Well-Known Binary geometry representation (WKB)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry#Well-known\_binary)
-* [**ST\_GeogFromText(String wkt) → Geography**](../../configuration-reference/functions/stgeogfromtext.md) Return a specified geography value from [Well-Known Text representation or extended (WKT)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).
+* [**ST\_GeogFromText(String wkt) → Geography**](../../configuration-reference/functions/stgeogfromtext.md) Returns a specified geography value from [Well-Known Text representation or extended (WKT)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).
 
 ### Measurements
 
@@ -80,13 +80,14 @@ Geospatial functions are typically expensive to evaluate, and using geoindex can
 
 A given geospatial location (longitude, latitude) can map to one hexagon (represented as H3Index). And its neighbors in H3 can be approximated by a ring of hexagons. To quickly identify the distance between any given two geospatial locations, we can convert the two locations in the H3Index, and then check the H3 distance between them. H3 distance is measured as the number of hexagons.
 
-For example, in the diagram below, the red hexagons are within the 1 distance of the central hexagon. The size of the hexagon is determined by the resolution of the indexing. Please check this table for the level of [resolutions](https://h3geo.org/#/documentation/core-library/resolution-table) and the corresponding precision (measured in km).
+For example, in the diagram below, the red hexagons are within the 1 distance of the central hexagon. The size of the hexagon is determined by the resolution of the indexing. Check this table for the level of [resolutions](https://h3geo.org/#/documentation/core-library/resolution-table) and the corresponding precision (measured in km).
 
 ![Hexagonal grid in H3](../../.gitbook/assets/geoindex-h3.png)
 
-### How to use Geoindex
+### How to use geoindex
 
-To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores\_schema.json#L25).
+To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores\_schema.json).
+
 
 {% code title="geoindex schema" %}
 ```javascript
@@ -100,7 +101,7 @@ To use the geoindex, first declare the geolocation field as bytes in the schema,
 
 Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed by the `ST_Distance` function.
 
-Next, declare the geospatial index in the [table config](../../configuration-reference/table.md):
+Next, declare the geospatial index in the [table configuration](../../configuration-reference/table.md):
 
 {% code title="geoindex tableConfig" %}
 ```javascript
@@ -134,16 +135,16 @@ WHERE ST_DISTANCE(location_st_point, ST_Point(-122, 37, 1)) < 5000
 limit 1000
 ```
 
-### How Geoindex works
+### How geoindex works
 
-Geoindex in Pinot accelerates the query evaluation without compromising the correctness of the query result. Currently, geoindex supports the `ST_Distance` function used in the range predicates in the `WHERE` clause, as shown in the query example in the previous section.
+The Pinot geoindex accelerates query evaluation while maintaining accuracy. Currently, geoindex supports the `ST_Distance` function in the `WHERE` clause.
 
 At the high level, geoindex is used for retrieving the records within the nearby hexagons of the given location, and then use `ST_Distance` to accurately filter the matched results.
 
 ![Geoindex example](../../.gitbook/assets/geoindex-example.png)
 
-As in the example diagram above, if we want to find all relevant points within a given distance at San Francisco (represented in the area within the red circle), then the algorithm with geoindex works as the following:
+As in the example diagram above, if we want to find all relevant points within a given distance around San Francisco (area within the red circle), then the algorithm with geoindex will:
 
-* Find the H3 distance `x` that contains the range (i.e. red circle)
-* For the points within the H3 distance (i.e. covered by the hexagons within [`kRing(x)`](https://h3geo.org/docs/api/traversal)), we can directly take those points without filtering
-* For the points falling into the H3 distance (i.e. in the hexagons of `kRing(x)`), we do filtering on them by evaluating the condition `ST_Distance(loc1, loc2) < x`
+* First find the H3 distance `x` that contains the range (for example, within a red circle).
+* Then, for the points within the H3 distance (those covered by the hexagons completely within [`kRing(x)`](https://h3geo.org/docs/api/traversal)), directly accept those points without filtering.
+* Finally, for the points contained in the hexagons of `kRing(x)` at the outer edge of the red circle H3 distance, the algorithm will filter them by evaluating the condition `ST_Distance(loc1, loc2) < x` to find only those that are within the circle.

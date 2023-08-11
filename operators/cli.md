@@ -80,7 +80,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option      | Description                                                                                               |
 | ----------- | --------------------------------------------------------------------------------------------------------- |
-| zkAddress   | comma seperated host:port string of zookeeper to connect                                                  |
+| zkAddress   | comma-separated host:port string of Zookeeper to connect                                                  |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                  |
 | tableName   | Comma separated list of tables to check for invalid segment intervals. By default all tables are checked. |
 
@@ -98,7 +98,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option      | Description                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------- |
-| zkAddress   | comma seperated host:port string of zookeeper to connect                                 |
+| zkAddress   | comma-separated host:port string of zookeeper to connect                                 |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
 | tableName   | name of the table on which to perform operation                                          |
 | exec        | If not specified, a dry run will be done but configs won't actually be uploaded.         |
@@ -182,7 +182,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 | Option      | Description                                                                            |
 | ----------- | -------------------------------------------------------------------------------------- |
 | clusterName | name of the cluster to delete                                                          |
-| zkAddress   | Comma seperated host:port list of zookeeper from which to delete the cluster namespace |
+| zkAddress   | Comma separated host:port list of zookeeper from which to delete the cluster namespace |
 
 ### Launch Data Ingestion Job
 
@@ -242,7 +242,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option            | Description                                                                                        |
 | ----------------- | -------------------------------------------------------------------------------------------------- |
-| srcHosts          | path of the file with all the source hosts or comma seperated list of hostnames                    |
+| srcHosts          | path of the file with all the source hosts or comma-separated list of hostnames                    |
 | destHostsFile     | path of the file with all the destination hosts                                                    |
 | tableName         | name of the table for which replica group is to be moved. Supports only `OFFLINE` tables currently |
 | maxSegmentsToMove | maximum number of segments to move. default is `Integer.MAX_VALUE`                                 |
@@ -319,7 +319,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option               | Description                                                                                                                                                                                           |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| zkAddress            | comma seperated host:port string of zookeeper to connect                                                                                                                                              |
+| zkAddress            | comma-separated host:port string of zookeeper to connect                                                                                                                                              |
 | clusterName          | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                                                                                              |
 | tableName            | name of the table on which to perform operation                                                                                                                                                       |
 | reassignInstances    | set to reassign instances before reassigning segments (`false` by default)                                                                                                                            |
@@ -345,7 +345,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | brokerHost     | hostname of the instance on which to run the broker                                                                                  |
 | brokerPort     | port on which the broker should listen. Default 8099.                                                                                |
-| zkAddress      | comma seperated host:port string of zookeeper to connect                                                                             |
+| zkAddress      | comma-separated host:port string of Zookeeper to connect                                                                             |
 | clusterName    | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                             |
 | configFileName | path to properties file containing controller configs. See [Broker](../configuration-reference/broker.md) for complete configuration |
 
@@ -367,7 +367,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 | controllerHost | hostname of the instance on which to run the controller                                                                                      |
 | controllerPort | port on which the controller should listen. Default 9000.                                                                                    |
 | dataDir        | path to directory to store data. Default is `java.io.tmpDir` +  `PinotController`                                                            |
-| zkAddress      | comma seperated host:port string of zookeeper to connect                                                                                     |
+| zkAddress      | comma-separated host:port string of Zookeeper to connect                                                                                     |
 | clusterName    | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                                     |
 | configFileName | path to properties file containing controller configs. See [Controller](../configuration-reference/controller.md) for complete configuration |
 
@@ -390,7 +390,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 | serverAdminPort | port on which admin API should be available. Default it 8097                                                                         |
 | dataDir         | directory in which to store the data                                                                                                 |
 | segmentDir      | directory in which to download the .tar segment files temporarily                                                                    |
-| zkAddress       | comma seperated host:port string of zookeeper to connect                                                                             |
+| zkAddress       | comma-separated host:port string of zookeeper to connect                                                                             |
 | clusterName     | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                             |
 | configFileName  | path to properties file containing controller configs. See [Server](../configuration-reference/server.md) for complete configuration |
 
@@ -408,7 +408,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option               | Description                                                                                                                                                                                            |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| zkAddress            | comma seperated host:port string of zookeeper to connect                                                                                                                                               |
+| zkAddress            | comma-separated host:port string of zookeeper to connect                                                                                                                                               |
 | clusterName          | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                                                                                               |
 | port                 | set to -1 to disable, 0 to run service manager on any available port                                                                                                                                   |
 | bootstrapConfigPaths | list of Pinot config file paths. Each config file requires an extra config: `pinot.service.role` to indicate which service to start. The service role can be one of `CONTROLLER`, `BROKER` or `SERVER` |
@@ -428,7 +428,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option      | Description                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------- |
-| zkAddress   | comma seperated host:port string of zookeeper to connect                                 |
+| zkAddress   | comma-separated host:port string of zookeeper to connect                                 |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
 | tables      |                                                                                          |
 | tags        |                                                                                          |
@@ -486,7 +486,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option      | Description                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------- |
-| zkAddress   | comma seperated host:port string of zookeeper to connect                                 |
+| zkAddress   | comma-separated host:port string of Zookeeper to connect                                 |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
 | tableConfig | if set, table configs are validated                                                      |
 | tableNames  | space seperated list of table names. By default, all tables are validated                |
@@ -507,7 +507,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option      | Description                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------- |
-| zkAddress   | comma seperated host:port string of zookeeper to connect                                 |
+| zkAddress   | comma-separated host:port string of Zookeeper to connect                                 |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
 | tablePrefix | prefix of the table names for which the validation should be done                        |
 
@@ -525,7 +525,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 | Option      | Description                                                                                      |
 | ----------- | ------------------------------------------------------------------------------------------------ |
-| zkAddress   | comma seperated host:port string of zookeeper to connect                                         |
+| zkAddress   | comma-separated host:port string of Zookeeper to connect                                         |
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.         |
 | tableName   | name of the table for which the validation should be done.  By default, all tables are verified. |
 | timeoutSec  | timeout in seconds for the request to check the cluster state.                                   |

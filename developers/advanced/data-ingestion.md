@@ -14,11 +14,11 @@ Once the server has loaded (memory-mapped) the segment, Helix notifies brokers o
 
 Data in offline segments are immutable (Rows cannot be added, deleted, or modified). However, segments may be replaced with modified data.
 
-Starting from `release-0.11.0`, Pinot supports uploading offline segments to real-time tables. This is useful when user wants to bootstrap a real-time table with some initial data, or add some offline data to a real-time table without changing the data stream. Note that this is different from the [hybrid table](../../basics/components/table.md#hybrid-table) setup, and no time boundary is maintained between the offline segments and the real-time segments.
+Starting from `release-0.11.0`, Pinot supports uploading offline segments to real-time tables. This is useful when user wants to bootstrap a real-time table with some initial data, or add some offline data to a real-time table without changing the data stream. Note that this is different from the [hybrid table](../../basics/components/table/#hybrid-table) setup, and no time boundary is maintained between the offline segments and the real-time segments.
 
-## Ingesting Realtime Data
+## Ingesting Real-time Data
 
-Segments for realtime tables are constructed by Pinot servers with rows ingested from data streams such as Kafka. Rows ingested from streams are made available for query processing as soon as they are ingested, thus enabling applications such as those that need real-time charts on analytics.
+Segments for real-time tables are constructed by Pinot servers with rows ingested from data streams such as Kafka. Rows ingested from streams are made available for query processing as soon as they are ingested, thus enabling applications such as those that need real-time charts on analytics.
 
 In large scale installations, data in streams is typically split across multiple stream partitions. The underlying stream may provide consumer implementations that allow applications to consume data from any subset of partitions, including all partitions (or, just from one partition).
 
@@ -51,7 +51,7 @@ During segment completion, one winner is chosen by the controller from all the r
 1. If the in-memory segment is equivalent to the committed segment, the `non-committer` server also builds the segment locally and replaces the in-memory segment
 2. If the in-memory segment is non equivalent to the committed segment, the `non-committer` server downloads the segment from the controller.
 
-For more details on this protocol, please refer to [this doc](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime#ConsumingandIndexingrowsinRealtime-Segmentcompletionprotocol).
+For more details on this protocol, refer to [this doc](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime#ConsumingandIndexingrowsinRealtime-Segmentcompletionprotocol).
 
 In `HighLevel` mode, the servers persist the consumed rows into local store (and **not** the segment store). Since consumption of rows can be from any partition, it is not possible to guarantee equivalence of segments across replicas.
 

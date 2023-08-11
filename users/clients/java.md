@@ -191,7 +191,7 @@ This section is only applicable for PQL endpoint, which is deprecated and will b
 
 ## Authentication
 
-Pinot supports [basic HTTP authorization](../../operators/tutorials/authentication-authorization-and-acls.md#controller-authentication-and-authorization), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side Java applications, make sure you are using Pinot Java Client 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the Java client.
+Pinot supports [basic HTTP authorization](broken-reference), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side Java applications, make sure you are using Pinot Java Client 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the Java client.
 
 ```java
 final String username = "admin";
