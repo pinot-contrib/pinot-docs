@@ -268,6 +268,7 @@
   * [FromDateTime](configuration-reference/functions/fromdatetime.md)
   * [FromEpoch](configuration-reference/functions/fromepoch.md)
   * [FromEpochBucket](configuration-reference/functions/fromepochbucket.md)
+  * [FUNNELCOUNT](configuration-reference/functions/funnelcount.md)
   * [Histogram](configuration-reference/functions/histogram.md)
   * [hour](configuration-reference/functions/hour.md)
   * [isSubnetOf](configuration-reference/functions/issubnetof.md)
