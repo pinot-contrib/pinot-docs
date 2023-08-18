@@ -1,7 +1,7 @@
 ---
 description: >-
-  This page has a collection of frequently asked questions about ingestion with answers from the
-  community.
+  This page has a collection of frequently asked questions about ingestion with
+  answers from the community.
 ---
 
 # Ingestion FAQ
@@ -55,7 +55,7 @@ and also set:
     }
 ```
 
-To learn how partition works, see [routing tuning](operators/operating-pinot/tuning/routing.md).
+To learn how partition works, see [routing tuning](operations-faq.md#tuning-and-optimizations).
 
 ### How do I store BYTES column in JSON data?
 
