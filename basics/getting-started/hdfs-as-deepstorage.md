@@ -113,3 +113,13 @@ export CLASSPATH_PREFIX="${HADOOP_HOME}/share/hadoop/hdfs/hadoop-hdfs-${HADOOP_V
 export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:${GC_LOG_LOCATION}/gc-pinot-broker.log"
 ${PINOT_DISTRIBUTION_DIR}/bin/start-broker.sh -zkAddress ${ZOOKEEPER_ADDRESS} -configFileName  ${SERVER_CONF_DIR}/broker.conf
 ```
+
+## Troubleshooting
+
+If you receive an error that says `No FileSystem for scheme"hdfs"`, the problem is likely to be a class loading issue.
+
+To fix, try adding the following property to `core-site.xml`:
+
+```fs.hdfs.impl org.apache.hadoop.hdfs.DistributedFileSystem```
+
+And then export `/opt/pinot/lib/hadoop-common-<release-version>.jar` in the classpath.
