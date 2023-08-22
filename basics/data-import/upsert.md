@@ -218,7 +218,7 @@ The following would occur:
 
 ### Delete column
 
-Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the real-time engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable set of documents. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.&#x20;
+Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the real-time engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable set of documents. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.
 
 ```json
 { 
@@ -229,7 +229,7 @@ Upsert Pinot table can support soft-deletes of primary keys. This requires the i
 }
 ```
 
-Note that the `delete` column has to be a single-value boolean column.&#x20;
+Note that the `delete` column has to be a single-value boolean column.
 
 <pre class="language-json"><code class="lang-json">// In the Schema
 {
@@ -243,12 +243,12 @@ Note that the `delete` column has to be a single-value boolean column.&#x20;
 </strong></code></pre>
 
 {% hint style="info" %}
-Note that when `deleteRecordColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.&#x20;
+Note that when `deleteRecordColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.
 {% endhint %}
 
-A deleted primary key can be revived by ingesting a record with the same primary, but with higher comparison column value(s).&#x20;
+A deleted primary key can be revived by ingesting a record with the same primary, but with higher comparison column value(s).
 
-Note that when reviving a primary key in a partial upsert table, the revived record will be treated as the source of truth for all columns. This means any previous updates to the columns will be ignored and overwritten with the new record's values.&#x20;
+Note that when reviving a primary key in a partial upsert table, the revived record will be treated as the source of truth for all columns. This means any previous updates to the columns will be ignored and overwritten with the new record's values.
 
 ### Use strictReplicaGroup for routing
 
@@ -278,7 +278,9 @@ Upsert snapshot support is also added in `release-0.12.0`. To enable the snapsho
 
 Upsert maintains metadata in memory containing which docIds are valid in a particular segment (ValidDocIndexes). This metadata gets lost during server restarts and needs to be recreated again.\
 \
-ValidDocIndexes can not be recovered easily after out-of-TTL primary keys get removed. Enabling snapshots addresses this problem by adding functions to store and recover validDocIds snapshot for Immutable Segments\
+ValidDocIndexes can not be recovered easily after out-of-TTL primary keys get removed. Enabling snapshots addresses this problem by adding functions to store and recover validDocIds snapshot for Immutable Segments
+
+The snapshots are taken on every segment commit to ensure that they are consistent with the persisted data in case of abrupt shutdown. \
 \
 We recommend that you enable this feature so as to speed up server boot times during restarts.
 
@@ -289,6 +291,28 @@ The lifecycle for validDocIds snapshots are shows as follows,
 2. If snapshot is not enabled, delete validDocIds snapshots during add segments if exists.
 3. If snapshot is enabled, persist validDocIds snapshot for immutable segments when removing segment.
 {% endhint %}
+
+### Enable preload for faster restarts
+
+Upsert preload support is also added in `master`. To enable the preload, set the `enablePreload` to `true`. For example:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "hashFunction": "NONE",
+    "enablePreload": true
+  }
+}
+```
+
+For preload to improve your restart times, `enableSnapshot: true` should also we set in the table config. \
+\
+Under the hood, it uses the snapshots to quickly insert the data instead of performing a whole upsert comparison flow for all the primary keys. The flow is triggered before server is marked as ready to load segments without snapshots (hence the name preload).&#x20;
+
+The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload.\
+\
+This feature is still in beta.&#x20;
 
 ### Upsert table limitations
 
