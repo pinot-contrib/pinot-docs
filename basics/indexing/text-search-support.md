@@ -529,3 +529,6 @@ Term query using Boolean AND operator is more appropriate for such cases
 ```sql
 TEXT_MATCH(column, 'Java AND C++')
 ```
+
+### Text Index Tuning
+To improve Lucene index creation time, some configs have been provided. Field Config properties <code>luceneUseCompoundFile</code> and <code>luceneMaxBufferSizeMB</code> can provide faster index writing at but may increase file descriptors and/or memory pressure.
