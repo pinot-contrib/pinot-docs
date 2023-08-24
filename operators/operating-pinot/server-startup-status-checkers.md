@@ -79,7 +79,11 @@ pinot.server.startup.enableServiceStatusCheck=true
 pinot.server.starter.realtimeConsumptionCatchupWaitMs=60000
 
 # this is disabled by default.
-pinot.server.starter.enableRealtimeOffsetBasedConsumptionStatusChecker=true
+pinot.server.starter.enableRealtimeFreshnessBasedConsumptionStatusChecker=true
+
+# this is the default. The server wants events to be no more than 10
+# seconds old.
+pinot.server.starter.realtimeMinFreshnessMs=10000
 
 # the default is 10000. Values <=0 are not allowed.
 pinot.server.starter.realtimeConsumptionCatchupWaitMs=10000
@@ -105,15 +109,16 @@ There are still some caveats that apply here:
 
 ```
 pinot.server.startup.enableServiceStatusCheck=true
-pinot.server.starter.enableRealtimeOffsetBasedConsumptionStatusChecker=true
+pinot.server.starter.enableRealtimeFreshnessBasedConsumptionStatusChecker=true
 
 # these should be set to your environment based on how long
 # catching up typically takes.
 pinot.server.startup.timeoutMs=<your_timeout_ms>
 pinot.server.starter.realtimeConsumptionCatchupWaitMs=<your_timeout_ms>
+pinot.server.starter.realtimeMinFreshnessMs=<your_desired_freshness>
 
 pinot.server.starter.realtimeFreshnessIdleTimeoutMs=1000
-pinot.server.starter.exitServerOnStartupStatusFailure=false
+pinot.server.startup.exitOnServiceStatusCheckFailure=false
 ```
 
 The recommended configurations in QA attempt to balance performing valid checks with fast and successful startup. We do not exit the server if startup status is failing to avoid crashloops, but we also do not wait indefinitely to catch up if events are not being consumed. A stuck partition will lead to ingestion lag here.
@@ -122,15 +127,16 @@ The recommended configurations in QA attempt to balance performing valid checks 
 
 ```
 pinot.server.startup.enableServiceStatusCheck=true
-pinot.server.starter.enableRealtimeOffsetBasedConsumptionStatusChecker=true
+pinot.server.starter.enableRealtimeFreshnessBasedConsumptionStatusChecker=true
 
 # these should be set to your environment based on how long
 # catching up typically takes.
 pinot.server.startup.timeoutMs=<your_timeout_ms>
 pinot.server.starter.realtimeConsumptionCatchupWaitMs=<your_timeout_ms>
+pinot.server.starter.realtimeMinFreshnessMs=<your_desired_freshness>
 
 pinot.server.starter.realtimeFreshnessIdleTimeoutMs=0
-pinot.server.starter.exitServerOnStartupStatusFailure=true
+pinot.server.startup.exitOnServiceStatusCheckFailure=true
 ```
 
 The recommended configurations in production optimize for the highest availability, correctness, and lowest ingestion lag. We wait indefinitely for segment freshness to match the minimum criteria, and we stop the server if status checks are not met by the timeout.
