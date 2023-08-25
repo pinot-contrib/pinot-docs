@@ -6,9 +6,12 @@ description: Upload a table segment in Apache Pinot.
 
 This procedure uploads one or more table segments that have been stored as Pinot segment binary files outside of Apache Pinot, such as if you had to close an original Pinot cluster and create a new one.
 
-In this case, your data would not be in your new cluster and the source wouldn't be configured in your [table configuration](../../configuration-reference/table.md).
-
 You have two options. Use the Pinot Admin script if your data is on a host where you have SSH access. You can use the Pinot Controller API for the same use case and also when data is on an external host, such as Amazon S3.
+
+Do one of the following:
+
+* If your data is on a host where you have SSH access, use the Pinot Admin script or the Pinot Controller API.
+* If you data is on an external host, such as an Amazon S3 bucket, use the Pinot Controller API.
 
 Before you upload, do the following:
 
@@ -37,7 +40,15 @@ All options should be prefixed with `-` (hyphen)
 
 ## Use the Pinot Controller API to upload segments
 
-There are two API call versions. Use the one that corresponds to your installed version of the Pinot query engine.
+There are two API call versions. Use the one that corresponds to your installed version of the Pinot query engine, which is dependent on your Pinot release. Releases from 0.11.0 use the [multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md), which is v2.
+
+Use the API to find your Pinot version, as follows:
+
+```
+POST /version
+```
+
+This will return the versions of all installed Pinot components and plugins. The Pinot version is called `pinot-distribution` in the list.
 
 The parameters for both versions are the same, as follows:
 
