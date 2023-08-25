@@ -4,9 +4,11 @@ description: Upload a table segment in Apache Pinot.
 
 # Upload a table segment from an external source
 
-This procedure uploads one or more table segments that have been stored as Pinot segment binary files outside of Apache Pinot. This means that the data source is not configured in your [table configuration](../../configuration-reference/table.md).
+This procedure uploads one or more table segments that have been stored as Pinot segment binary files outside of Apache Pinot, such as if you had to close an original Pinot cluster and create a new one.
 
-You have two options. Use the Pinot Admin script if your data is on a local host or use the Pinot Controller API for the same use case or when data is on an external host, such as Amazon S3.
+In this case, your data would not be in your new cluster and the source wouldn't be configured in your [table configuration](../../configuration-reference/table.md).
+
+You have two options. Use the Pinot Admin script if your data is on a host where you have SSH access. You can use the Pinot Controller API for the same use case and also when data is on an external host, such as Amazon S3.
 
 Before you upload, you must first check or do the following:
 
