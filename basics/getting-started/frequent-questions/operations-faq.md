@@ -62,6 +62,14 @@ After changing the replication, run a [table rebalance](./#how-to-run-a-rebalanc
 
 Note that if you are using replica groups, it's expected these configurations equal `numReplicaGroups`. If they do not match, Pinot will use `numReplicaGroups.`
 
+### How to set or change table retention?
+
+By default there is no retention set for a table in Apache Pinot. You may however, set retention by setting the following properties in the [segmentsConfig](https://docs.pinot.apache.org/configuration-reference/table#segments-config) section inside table configs:
+* `retentionTimeUnit`
+* `retentionTimeValue`
+
+Updating the retention value in the table config should be good enough, there is no need to rebalance the table or reload its segments.
+
 ## Rebalance
 
 ### How to run a rebalance on a table?
