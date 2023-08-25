@@ -18,7 +18,7 @@ Before you upload, you must first check or do the following:
 
 ## Use the Pinot Admin script to upload segments
 
-To upload segment files to your Pinot server, use:
+Upload segment files to your Pinot server from controller using the Pinot Admin script as follows:
 
 ```bash
 pinot-admin.sh UploadSegment -controllerHost localhost -controllerPort 9000 -segmentDir /path/to/local/dir -tableName myTable
@@ -35,7 +35,7 @@ All the options should be prefixed with `-` (hyphen)
 
 ## Use the Pinot Controller API to upload segments
 
-There are two API call version. Use the one that corresponds to your installed version of the Pinot query engine.
+There are two API call versions. Use the one that corresponds to your installed version of the Pinot query engine.
 
 The parameters for both versions are the same, as follows:
 
@@ -49,7 +49,7 @@ The parameters for both versions are the same, as follows:
 
 ### v1
 
-To upload a segment, use:
+Upload a segment files to your Pinot server using the Pinot Controller API and the original API call as follows:
 
 ```
 POST /segments
@@ -57,7 +57,7 @@ POST /segments
 
 ### v2
 
-To upload a segment, use:
+Upload a segment files to your Pinot server using the Pinot Controller API and the v2 API call as follows:
 
 ```
 POST /v2/segments
@@ -74,6 +74,8 @@ Either API call will return a JSON response like this one for a successful opera
 ```
 
 ### Example of `body`
+
+See the [Controller Admin API](../../users/api/pinot-rest-admin-interface.md) for more information.
 
 ```json
 {
