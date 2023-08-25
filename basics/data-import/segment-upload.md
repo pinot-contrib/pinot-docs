@@ -10,11 +10,11 @@ In this case, your data would not be in your new cluster and the source wouldn't
 
 You have two options. Use the Pinot Admin script if your data is on a host where you have SSH access. You can use the Pinot Controller API for the same use case and also when data is on an external host, such as Amazon S3.
 
-Before you upload, you must first check or do the following:
+Before you upload, do the following:
 
-1. [Create a schema configuration](../../basics/getting-started/pushing-your-data-to-pinot#creating-a-schema) or confirm one exists that matches the segment you will upload.
+1. [Create a schema configuration](../../basics/getting-started/pushing-your-data-to-pinot#creating-a-schema) or confirm one exists that matches the segment you want to upload.
 
-1. [Create a table configuration](../../configuration-reference/table.md) or confirm one exists that matches the segment you will upload.
+1. [Create a table configuration](../../configuration-reference/table.md) or confirm one exists that matches the segment you want to upload.
 
 1. (If needed) Upload the schema and table configs.
 
@@ -26,14 +26,14 @@ Upload segment files to your Pinot server from controller using the Pinot Admin 
 pinot-admin.sh UploadSegment -controllerHost localhost -controllerPort 9000 -segmentDir /path/to/local/dir -tableName myTable
 ```
 
-All the options should be prefixed with `-` (hyphen)
+All options should be prefixed with `-` (hyphen)
 
 | Option         | Description                               |
 | -------------- | ----------------------------------------- |
-| controllerHost | hostname or ip of the controller          |
-| controllerPort | port of the controller                    |
-| segmentDir     | local directory containing segment files  |
-| tableName      | name of the table to push the segments in |
+| controllerHost | Hostname or IP address of the controller          |
+| controllerPort | Port of the controller                    |
+| segmentDir     | Local directory containing segment files  |
+| tableName      | Name of the table to push the segments into |
 
 ## Use the Pinot Controller API to upload segments
 
@@ -43,11 +43,11 @@ The parameters for both versions are the same, as follows:
 
 | Parameter Name | Description                               |
 | -------------- | ----------------------------------------- |
-| body                           | model, see example |
-| tableName                      | name of the table  |
-| tableType                      | type of the table  |
-| enableParallelPushProtection   | Whether to enable parallel push protection (true/false) |
-| allowRefresh                   | Whether to refresh if the segment already exists  |
+| body                           | Model, see example |
+| tableName                      | Name of the table  |
+| tableType                      | Type of the table  |
+| enableParallelPushProtection   | If true, enables parallel push protection; false otherwise. |
+| allowRefresh                   | If true, refreshes the existing segment; false otherwise.  |
 
 ### v1
 
