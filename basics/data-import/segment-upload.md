@@ -6,7 +6,11 @@ description: Upload a table segment in Apache Pinot.
 
 This procedure uploads one or more table segments that have been stored as Pinot segment binary files outside of Apache Pinot, such as if you had to close an original Pinot cluster and create a new one.
 
-You have two options. Use the Pinot Admin script if your data is on a host where you have SSH access. You can use the Pinot Controller API for the same use case and also when data is on an external host, such as Amazon S3.
+If the data is in a location using HDFS, you can try [segment fetchers](../../developers/developers-and-contributors/extending-pinot/segment-fetchers.md), which push segment files from external systems such as those running Hadoop or Spark. It is possible to [implement your own segment fetcher for other systems](../../developers/developers-and-contributors/extending-pinot/segment-fetchers.md) with an external jar by implementing a class that extends this interface.
+
+Otherwise, you have two options:
+* Use the Pinot Admin script if your data is on a host where you have SSH access.
+* Use the Pinot Controller API for the same use case and also when data is on an external host, such as Amazon S3.
 
 Do one of the following:
 
