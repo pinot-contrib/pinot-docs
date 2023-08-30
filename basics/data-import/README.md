@@ -82,3 +82,17 @@ This guide shows you how to handle the complex type in the ingested data, such a
 {% content-ref url="complex-type.md" %}
 [complex-type.md](complex-type.md)
 {% endcontent-ref %}
+
+## Reloading and uploading existing Pinot segments
+
+This guide shows you how to reload Pinot segments from your deep store.
+
+{% content-ref url="segment-reload.md" %}
+[segment-reload.md](segment-reload.md)
+{% endcontent-ref %}
+
+This guide shows you how to upload Pinot segments from an old, closed Pinot instance.
+
+{% content-ref url="segment-upload.md" %}
+[segment-upload](segment-upload)
+{% endcontent-ref %}

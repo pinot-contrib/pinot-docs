@@ -2,9 +2,7 @@
 description: Set up HTTP basic auth and ACLs for access to controller and broker
 ---
 
-# Authentication
-
-## Authentication, Authorization, and ACLs
+# Authentication, Authorization, and ACLs
 
 Apache Pinot 0.8.0+ comes out of the box with support for HTTP Basic Auth. While disabled by default for easier setup, authentication and authorization can be added to any environment simply via configuration. ACLs can be set on both API and table levels. This upgrade can be performed with zero downtime in any environment that provides replication.
 
@@ -17,6 +15,18 @@ Both components can be protected via auth and even be configured independently. 
 
 Additionally, all other Pinot components such as **pinot-server** and **pinot-minion** can be configured to authenticate themselves to pinot-controller via the same mechanism. This can be done independently of (and in addition to) using 2-way TLS/SSL to ensure intra-cluster authentication on the lower networking layer.
 
-### Quickstart
+## Quickstart
 
-If you'd rather dive directly into the action with an all-in-one running example, we provide an **AuthQuickstart** runnable with Apache Pinot. This sample app is preconfigured with the settings for auth, but only intended as a dev-friendly, local, single-node deployment.
+If you'd rather dive directly into the action with an all-in-one running example, we provide an **AuthQuickstart** runnable with Apache Pinot. This sample app is preconfigured with the settings below but intended only as a dev-friendly, local, single-node  deployment.
+
+{% content-ref url="basic-auth-access-control.md" %}
+[basic-auth-access-control.md](basic-auth-access-control.md)
+{% endcontent-ref %}
+
+{% content-ref url="zk-basic-auth-access-control.md" %}
+[zk-basic-auth-access-control.md](zk-basic-auth-access-control.md)
+{% endcontent-ref %}
+
+
+
+##
