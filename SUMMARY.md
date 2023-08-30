@@ -59,6 +59,8 @@
     * [Google Cloud Storage](basics/data-import/pinot-file-system/import-from-gcp.md)
   * [Input formats](basics/data-import/pinot-input-formats.md)
   * [Complex Type (Array, Map) Handling](basics/data-import/complex-type.md)
+  * [Reload a table segment](basics/data-import/segment-reload.md)
+  * [Upload a table segment](basics/data-import/segment-upload.md)
 * [Indexing](basics/indexing/README.md)
   * [Forward Index](basics/indexing/forward-index.md)
   * [Inverted Index](basics/indexing/inverted-index.md)
