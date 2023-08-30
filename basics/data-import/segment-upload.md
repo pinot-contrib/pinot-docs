@@ -66,11 +66,11 @@ All options should be prefixed with `-` (hyphen)
 
 This push mechanism requires the segment tar file stored on a deep store with a globally accessible segment tar URI.
 
-URI push is light-weight on the client-side, and the controller side requires equivalent work as the tar push.
+URI push is lightweight on the client-side, and the controller side requires equivalent work as the tar push.
 
-The push job will POST this segment tar URI to the Pinot controller.
+The push job posts this segment tar URI to the Pinot controller.
 
-The Pinot controller will save the segment into the controller segment directory (Local or any PinotFS), then extract segment metadata, and add the segment to the table.
+The Pinot controller saves the segment into the controller segment directory (local or any PinotFS), then extracts segment metadata, and adds the segment to the table.
 
 
 Upload segment files to your Pinot server using the `JobSpec` you create and the Pinot Admin script as follows:
@@ -84,11 +84,11 @@ pinot-admin.sh LaunchDataIngestionJob \\
 
 This push mechanism also requires the segment tar file stored on a deep store with a globally accessible segment tar URI.
 
-Metadata push is light-weight on the controller side, there is no deep store download involved from the controller side.
+Metadata push is lightweight on the controller side. There is no deep store download involved from the controller side.
 
-The push job will download the segment based on URI, then extract metadata, and upload metadata to the Pinot Controller.
+The push job downloads the segment based on URI, then extracts metadata, and upload metadata to the Pinot controller.
 
-The Pinot Controller will add the segment to the table based on the metadata.
+The Pinot controller adds the segment to the table based on the metadata.
 
 
 Upload segment metadata to your Pinot server using the `JobSpec` you create and the Pinot Admin script as follows:

@@ -2,11 +2,11 @@
 description: Set up BasicAuthAccessControl for access to controller and broker
 ---
 
-# BasicAuthAccessControl
+# Basic auth access control
 
-# Tokens and User Credentials
+## Set up tokens and user credentials
 
-The configuration of HTTP Basic Auth in Apache Pinot distinguishes between **Tokens,** which are typically provided to service accounts, and **User Credentials**, which can be used by a human to log onto the web UI or issue SQL queries. While we distinguish these two concepts in the configuration of HTTP Basic Auth, they are fully-convertible formats holding the same authentication information. This distinction allows us to support future token-based authentication methods not reliant on username and password pairs. Currently, Tokens are merely base64-encoded username & password tuples, similar to those you can find in HTTP Authorization header values ([RFC 7617](https://tools.ietf.org/html/rfc7617))
+The configuration of HTTP Basic Auth in Apache Pinot distinguishes between **Tokens,** which are typically provided to service accounts, and **User Credentials**, which can be used by a human to log onto the web UI or issue SQL queries. While we distinguish these two concepts in the configuration of HTTP Basic Auth, they are fully-convertible formats holding the same authentication information. This distinction allows us to support future token-based authentication methods not reliant on username and password pairs. Currently, Tokens are merely base64-encoded username & password tuples, similar to those you can find in HTTP Authorization header values ([RFC 7617](https://tools.ietf.org/html/rfc7617)).
 
 This is best demonstrated by example of introducing ACLs with a simple admin + user setup. In order to enable authentication on a cluster without interrupting operations, we'll go these steps in sequence:
 
@@ -27,7 +27,7 @@ controller.admin.access.control.principals.admin.password=verysecret
 
 **2. Distribute service tokens to pinot's components**
 
-For simplicity, we'll reuse the admin credentials as service tokens. In a production environment you'll keep them separate.
+For simplicity, we'll reuse the admin credentials as service tokens. In a production environment, you'll keep them separate.
 
 {% tabs %}
 {% tab title="Controller" %}
@@ -70,9 +70,9 @@ Restart the affected components for the configuration changes to take effect.
 controller.admin.access.control.factory.class=org.apache.pinot.controller.api.access.BasicAuthAccessControlFactory
 ```
 
-After a controller restart, any access to controller APIs requires authentication information. Whether from internal components, external users, or the Web UI.
+After a controller restart, access to controller APIs requires authentication information (from internal components, external users, or the Web UI).
 
-**4. Create users and enable ACL enforcement on the Broker**
+**4. Create users and enable ACL enforcement on the broker**
 
 ```
 # the factory class property is different for the broker
@@ -87,15 +87,13 @@ pinot.broker.access.control.principals.user.password=secret
 
 After restarting the broker, any access to broker APIs requires authentication information as well.
 
-Congratulation! You've successfully enabled authentication on Apache Pinot. Read on to learn more about the details and advanced configuration options.
+Congratulations! You've successfully enabled authentication on Apache Pinot. Read on to learn more about the details and advanced configuration options.
 
-### Authentication with Web UI and API
+#### Authentication with Web UI and API
 
 Apache Pinot's Basic Auth follows the established standards for HTTP Basic Auth. Credentials are provided via an HTTP Authorization header. The pinot-controller web ui dynamically adapts to your auth configuration and will display a login prompt when basic auth is enabled. Restricted users are still shown all available ui functions, but their operations will fail with an error message if ACLs prohibit access.
 
 If you're using pinot's CLI clients you can provide your credentials either via dedicated username and password arguments, or as pre-serialized token for the HTTP Authorization header. Note, that while most of Apache Pinot's CLI commands support auth, not all of them have been back-fitted yet. If you encounter any such case, you can access the REST API directly, e.g. via curl.
-
-![](<../../.gitbook/assets/Screen Shot 2021-05-25 at 3.35.05 PM.png>)
 
 {% tabs %}
 {% tab title="CLI Arguments" %}
@@ -123,7 +121,7 @@ $ curl http://localhost:8000/query/sql \
 {% endtab %}
 {% endtabs %}
 
-### Controller Authentication and Authorization
+#### Controller authentication and authorization
 
 Pinot-controller has supported custom access control implementations for quite some time. We expanded the scope of this support in 0.8.0+ and added a default implementation for HTTP Basic Auth. Furthermore, the controller's web UI added support for user login workflows and graceful handling of authentication and authorization messages.
 
@@ -147,7 +145,7 @@ This configuration will automatically allow other pinot components to access pin
 If `*.principals.<user>.tables`is not configured, all tables are accessible to \<user>.
 {% endhint %}
 
-### Broker Authentication and Authorization
+#### Broker authentication and authorization
 
 Pinot-Broker, similar to pinot-controller above, has supported access control for a while now and we added a default implementation for HTTP Basic Auth. Since pinot-broker does not provide a web UI by itself, authentication is only relevant for SQL queries hitting the broker's REST API.
 
@@ -169,7 +167,7 @@ pinot.broker.access.control.principals.user.tables=baseballStats,otherstuff
 If `*.principals.<user>.tables`is not configured, all tables are accessible to \<user>.
 {% endhint %}
 
-### Minion and ingestion jobs
+#### Minion and ingestion jobs
 
 Similar to any API calls, offline jobs executed via command line or minion require credentials as well if ACLs are enabled on pinot-controller. These credentials can be provided either as part of the job spec itself or using CLI arguments and as values (via **-values**) or properties (via **-propertyFile**) if Groovy templates are defined in the jobSpec.
 

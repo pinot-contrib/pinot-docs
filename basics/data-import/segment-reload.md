@@ -4,7 +4,7 @@ description: Reload a table segment in Apache Pinot.
 
 # Reload a table segment from the deep store
 
-After data is written to segments in a table, segments are saved to a deep store location specified in your [table configuration](../../configuration-reference/table.md), such as a storage drive or Amazon S3 bucket.
+When Pinot writes data to segments in a table, it saves those segments to a deep store location specified in your [table configuration](../../configuration-reference/table.md), such as a storage drive or Amazon S3 bucket.
 
 To reload segments from your deep store, use the Pinot Controller API or Pinot Admin Console.
 

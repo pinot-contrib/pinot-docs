@@ -17,7 +17,7 @@ Additionally, all other Pinot components such as **pinot-server** and **pinot-mi
 
 ## Quickstart
 
-If you'd rather dive directly into the action with an all-in-one running example, we provide an **AuthQuickstart** runnable with Apache Pinot. This sample app is preconfigured with the settings below but only intended as a dev-friendly, local, single-node  deployment.
+If you'd rather dive directly into the action with an all-in-one running example, we provide an **AuthQuickstart** runnable with Apache Pinot. This sample app is preconfigured with the settings below but intended only as a dev-friendly, local, single-node  deployment.
 
 {% content-ref url="basic-auth-access-control.md" %}
 [basic-auth-access-control.md](basic-auth-access-control.md)
