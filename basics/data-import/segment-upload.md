@@ -50,7 +50,11 @@ While you can create a `JobSpec` for this job, in simple instances you can push 
 Upload segment files to your Pinot server from controller using the Pinot Admin script as follows:
 
 ```bash
-pinot-admin.sh UploadSegment -controllerHost localhost -controllerPort 9000 -segmentDir /path/to/local/dir -tableName myTable
+pinot-admin.sh UploadSegment \\
+  -controllerHost localhost \\
+  -controllerPort 9000 \\
+  -segmentDir /path/to/local/dir \\
+  -tableName myTable
 ```
 
 All options should be prefixed with `-` (hyphen)
