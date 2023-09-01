@@ -84,7 +84,6 @@ Assuming the user wants to encode `message` and `logPath` as in the example, the
 
 * `stream.kafka.decoder.prop.fieldsForClpEncoding` is a comma-separated list of names for fields that should be encoded with CLP.
 * We use [variable-length dictionaries](../../configuration-reference/table#table-index-config) for the logtype and dictionary variables since their length can vary significantly.
-* Ideally, we would disable the dictionaries for the encoded variable columns (since they are likely to be random), but currently, a bug prevents us from doing that for multi-valued number-type columns.
 
 ### Schema
 
@@ -134,4 +133,8 @@ For the table's schema, users should configure the CLP-encoded fields as follows
 
 ## Searching and decoding CLP-encoded fields
 
-There is currently no built-in support within Pinot for searching and decoding CLP-encoded fields. This will be added in future commits, potentially as a set of UDFs. The development of these features is being tracked in this [design doc](https://docs.google.com/document/d/1nHZb37re4mUwEA258x3a2pgX13EWLWMJ0uLEDk1dUyU/edit).
+To decode CLP-encoded fields, users can use [CLPDECODE](../../configuration-reference/functions/clpdecode.md).
+
+To search CLP-encoded fields, users can combine `CLPDECODE` with `LIKE`, however this may be expensive if there are a lot of rows to query.
+
+We are working to integrate efficient searches on CLP-encoded columns as another UDF. The development of this feature is being tracked in this [design doc](https://docs.google.com/document/d/1nHZb37re4mUwEA258x3a2pgX13EWLWMJ0uLEDk1dUyU/edit).
