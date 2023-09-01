@@ -122,7 +122,7 @@ A dateTimeFieldSpec is used to define time columns of the table. The following f
 
 In the pinot master (0.12.0-SNAPSHOT), We have simplified date time formats for the users. The formats now follow the pattern  - `timeFormat|pattern/timeUnit|`\[`timeZone/timeSize]` . The fields present in `[]` are completely optional.  timeFormat can be one of `EPOCH` , `SIMPLE_DATE_FORMAT` or `TIMESTAMP` .&#x20;
 
-* `TIMESTAMP` - This represents timestamp in milliseconds. It is equivalent to specifying `EPOCH:MILLISECONDS:1` \
+* `TIMESTAMP` - This represents timestamp in milliseconds. It is equivalent to specifying `EPOCH|MILLISECONDS|1` \
   Examples -
   * `TIMESTAMP`
 * `EPOCH` - This represents time in `timeUnit` since `00:00:00 UTC on 1 January 1970`, where `timeUnit` is one of [TimeUnit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html) enum values, e.g. `HOURS` , `MINUTES` etc. You can also specify the `timeSize` parameter. This size is multiplied to the value present in the time column to get an actual timestamp. e.g. if timesize is 5 and value in time column is 4996308 minutes. The value that will be converted to epoch timestamp will be 4996308 \* 5 \* 60 \* 1000 = 1498892400000 milliseconds. In simplest terms, `EPOCH|SECONDS|5` denotes the count of intervals of length 5 seconds from epoch 0 to now.\
