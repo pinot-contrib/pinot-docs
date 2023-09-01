@@ -1,5 +1,5 @@
 ---
-description: This section contains reference documentation for the ADD function.
+description: This section contains reference documentation for the CLPDECODE function.
 ---
 
 # CLPDECODE
