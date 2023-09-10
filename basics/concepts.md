@@ -1,79 +1,82 @@
 ---
 description: >-
-  Explore the fundamental concepts of Apache Pinot for efficient data processing
-  and analysis. Gain insights into the core principles and foundational ideas
-  behind Pinot's capabilities.
+  Explore the fundamental concepts of Apache Pinot™ as a distributed OLAP database.
 ---
 
 # Concepts
 
-Pinot is designed to deliver low latency queries on large datasets. To achieve this performance, Pinot stores data in a columnar format and adds additional indices to perform fast filtering, aggregation and group by.
+Apache Pinot™ is a database designed to deliver highly concurrent, ultra-low-latency queries on large datasets through a set of data model abstractions familiar to most developers. Delivering on these goals requires several foundational architectural commitments:
 
-Raw data is broken into small data shards. Each shard is converted into a unit called a [segment](https://docs.pinot.apache.org/pinot-components/segment). One or more segments together form a [table](https://docs.pinot.apache.org/pinot-components/table), which is the logical container for querying Pinot using [SQL/PQL](https://docs.pinot.apache.org/user-guide/user-guide-query/pinot-query-language).
+* Storing data in columnar form to allow for high-performance scanning
+* Sharding of data to scale both storage and computation
+* A distributed architecture designed to scale capacity linearly
+* A tabular data model read by SQL queries
 
 ## Pinot storage model
 
-Pinot's storage model and infrastructure components include segments, tables, tenants, and clusters.
+Pinot stores data in [_tables_](https://docs.pinot.apache.org/pinot-components/table). Tables are physically represented on disk as a collection of [_segments_](https://docs.pinot.apache.org/pinot-components/segment). Client processes query tables with [SQL](https://docs.pinot.apache.org/user-guide/user-guide-query/pinot-query-language). Tables optionally belong to one or more logical [_tenants_](components/cluster/tenant.md). Tables and tenants reside in a Pinot [_cluster_](components/cluster/).
 
-### **Segment**
+### Table
 
-Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. In order to achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [**segments**](components/table/segment/) (similar to shards/partitions in high-availability (HA) relational databases). Another way to describe segments is as time-based partitions.&#x20;
+Pinot stores data in [_tables_](components/table/). While databases always differ in their details, a table in Pinot is conceptually identical to a table in any commonly-used relational database. A table is a collection of rows, and all of the rows in the table have columns of the same name and data type. The set of column names and their data types is the table's [schema](components/table/schema.md).
 
-### **Table**
+Pinot schemas are defined using a custom JSON file. Because that schema definition is in a file all its own, separate from the command to configure and create the table itself, multiple tables can share a single schema, with each table free to have its own name, indexing strategies, partitioning, data sources, and other metadata.
 
-Similar to traditional databases, Pinot has the concept of a [**table**](components/table/)—a logical abstraction that refers to a collection of related data.&#x20;
+Pinot tables can either be _real-time_, meaning they ingest data from a streaming source like Apache Kafka®, _offline_, meaning they are loaded with data from a batch source, or _hybrid_, meaning they are loaded with batch and streaming data together.
 
-As is the case with relational database management systems (RDBMS), a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](components/table/schema.md) that defines the columns in a table as well as their data types.&#x20;
+### Segment
 
-In contrast to RDBMS schemas, multiple tables in Pinot can share a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, or replication.
+Pinot tables are stored physically in one or more independent shards called [_segments_](components/table/segment/). A small table may be contained by a single segment, but because Pinot is designed to allow tables to grow to arbritrarily large row counts, it imposes no practical upper bound on the number of segments used to store a table. There are different processes for creating segments (see [_ingestion_]()), but each process creates segments that are fundamentally time-based partitions of the table data. Segments are stored on physical Pinot components called [_servers_](components/cluster/server.md), which lend horizontal scalability to both the storage and computation required to query tables.
 
-### **Tenant**
+### Tenant
 
-Pinot supports multi-tenancy. Every Pinot table is associated with a [tenant.](components/cluster/tenant.md) This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications will never have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.&#x20;
+Every table is associated with a [_tenant_](components/cluster/tenant.md), or a logical namespace that restricts where the cluster stores and performs query processing on the table. A Pinot tenant takes the form of a text tag in the logical tenant namespace. Physical cluster hardware resources (i.e., [brokers](components/cluster/broker.md) and [servers](components/cluster/server.md)) are also associated with a tenant tag in the common tenant namespace. Tables of a particular tenant tag will only be scheduled for storage and query processing on hardware resources that belong to the same tenant tag. This allows operators of a Pinot cluster to assign certain workloads to certain hardware resources, and to prevent data from separate workloads from being stored or processed on the same physical hardware.
 
-By default, all tables belong to a default tenant named "default". The concept of tenants is very important, as it satisfies the architectural principle of a "database per service/application" without having to operate many independent data stores. Further, tenants will schedule resources so that segments (shards) are able to restrict a table's data to reside only on a specified set of nodes. Similar to the kind of isolation that is ubiquitously used in Linux containers, compute resources in Pinot can be scheduled to prevent resource contention between tenants.
+Multitenancy is an optional feature in Pinot. All tables, brokers, and servers belong to a tenant called _DefaultTenant_ in the absence of explicit tenant configuration.
 
-### **Cluster**
+### Cluster
 
-Logically, a [cluster ](components/cluster/)is simply a group of tenants. As with the classical definition of a cluster, it is also a grouping of a set of compute nodes. Typically, there is only one cluster per environment/data center. There is no needed to create multiple clusters since Pinot supports the concept of tenants. At LinkedIn, the largest Pinot cluster consists of 1000+ nodes distributed across a data center. The number of nodes in a cluster can be added in a way that will linearly increase performance and availability of queries. The number of nodes and the compute resources per node will reliably predict the QPS for a Pinot cluster, and as such, capacity planning can be easily achieved using SLAs that assert performance expectations for end-user applications.&#x20;
+A Pinot [_cluster_](components/cluster/) is a complete collection of the software processes and hardware resources required for Pinot to ingest data, store it, and process queries. The components of a cluster are described in more detail under _Physical Architecture_ below.
 
-{% hint style="info" %}
-Auto-scaling is also achievable, however, we recommend a set amount of nodes to keep QPS consistent when query loads vary in sudden unpredictable end-user usage scenarios.
-{% endhint %}
 
-## Pinot components
+## Physical Architecture
 
 ![](../.gitbook/assets/Pinot-Components.svg)
 
-A Pinot cluster consists of multiple distributed system components. These components are useful to understand for operators that are monitoring system usage or are debugging an issue with a cluster deployment.
+A Pinot cluster consists of the following processes, which are typically deployed on separate hardware resources in production. In development, they can fit comfortably into Docker containers on a typical laptop.
 
-* Controller
-* Broker
-* Server
-* Minion (optional)
+* **Controller**. Maintains cluster metadata and orchestrates cluster resources.
+* **Zookeeper**. Fault-tolerant, persistent storage on behalf of the controller.
+* **Broker**. Accepts queries from client processes and forwards them to servers for processing.
+* **Server**. Provides storage for segment files and compute for query processing.
+* **Minion** (optional). Distributed compute for cluster tasks other than query processing.
 
-Pinot's integration with  [Apache Zookeeper](https://zookeeper.apache.org/) and [Apache Helix](http://helix.apache.org/) allow it to be linearly scalable for an unbounded number of nodes.
+The simplest possible Pinot cluster consists of four processes: a server, a broker, a controller, and a Zookeeper node. In production environments, these are typically run on separate server instances, and scaled out as data volume, concurrent load, availability, and latency targets dictate. Production clusters exist at sizes of fewer than ten total instances to more than 1,000.
 
-{% hint style="info" %}
-Helix is a cluster management solution designed and created by the authors of Pinot at LinkedIn. Helix drives the state of a Pinot cluster from a transient state to an ideal state, acting as the fault-tolerant distributed state store that guarantees consistency. Helix is embedded as agents that operate within a controller, broker, and server, and does not exist as an independent and horizontally scaled component.
-{% endhint %}
+Pinot uses [Apache Zookeeper](https://zookeeper.apache.org/) as a distributed metadata store and and [Apache Helix](http://helix.apache.org/) for cluster management.
 
-### Pinot Controller
+Helix is a cluster management solution created by the authors of Pinot. Helix maintains a persistent, fault-tolerant map of the intended state of the Pinot cluster. It constantly monitors the cluster to ensure that the right hardware resources are allocated to implement the present configuration. When the configuration changes, it schedules or decomissions hardware resources to reflect the new configuration. When elements of the cluster change state catastrophically, it schedules hardware resources to keep the actual cluster consistent with the ideal represented in the metadata. From a physical perspective, Helix takes the form of a controller process plus agents running on servers and brokers.
 
-A [controller](components/cluster/controller.md) is the core orchestrator that drives the consistency and routing in a Pinot cluster. Controllers are horizontally scaled as an independent component (container) and has visibility of the state of all other components in a cluster. The controller reacts and responds to state changes in the system and schedules the allocation of resources for tables, segments, or nodes. As mentioned earlier, Helix is embedded within the controller as an agent that is a participant responsible for observing and driving state changes that are subscribed to by other components.&#x20;
+### Controller
 
-In addition to cluster management, resource allocation, and scheduling, the controller is also the HTTP gateway for REST API administration of a Pinot deployment. A web-based query console is also provided for operators to quickly and easily run SQL/PQL queries.
+The Pinot [controller](components/cluster/controller.md) is responsible for orchestrating the resources of a Pinot cluster in the presence of constantly evolving metadata changes and occasional node failure. As an Apache Helix Controller, it schedules the hardware resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion) and [offline tables](data-import/batch-ingestion)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration. 
 
-### Pinot Broker
+The controller exposes a REST API endpoint for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
 
-A [broker](components/cluster/broker.md) receives queries from a client and routes its execution to one or more Pinot servers before returning a consolidated response.
+### Server
 
-### Pinot Server
+Pinot [servers](components/cluster/server.md) provide the primary storage for [segments](components/table/segment/) and perform the computation required to execute queries over them. A production Pinot cluster contains many servers. In general, the more servers, the more data the cluster can retain in tables, the lower latency it can deliver on queries, and the more concurrent queries it can process.
 
-[Servers](components/cluster/server.md) host segments (shards) that are scheduled and allocated across multiple nodes and routed on an assignment to a tenant (there is a single-tenant by default). Servers are independent containers that scale horizontally and are notified by Helix through state changes driven by the controller. A server can either be a real-time server or an offline server.&#x20;
+ Servers are typically segregated into real-time and offline workloads, with "real-time" servers hosting only real-time tables, and "offline" servers hosting only offline tables. This is a ubiquitous operational convention, not a difference or an explicit configuration in the server process itself.
 
-A real-time and offline server have very different resource usage requirements, where real-time servers are continually consuming new messages from external systems (such as Kafka topics) that are ingested and allocated on segments of a tenant. Because of this, resource isolation can be used to prioritize high-throughput real-time data streams that are ingested and then made available for query through a broker.
+### Broker
 
-### Pinot Minion
+Pinot [brokers](components/cluster/broker.md) take query requests from client processes, scatter them to applicable servers, gather the results, and return them to the client. The controller shares cluster metadata with the brokers that allows the brokers to create a plan for executing the query involving a minimal subset of servers with the source data and, when required, other servers to shuffle and consolidate results. 
 
-Pinot [minion](components/cluster/minion.md) is an optional component that can be used to run background tasks such as "purge" for GDPR (General Data Protection Regulation). As Pinot is an immutable aggregate store, records containing sensitive private data need to be purged on a request-by-request basis. Minion provides a solution for this purpose that complies with GDPR while optimizing Pinot segments and building additional indices that guarantee performance in the presence of the possibility of data deletion. One can also write a custom task that runs on a periodic basis. While it's possible to perform these tasks on the Pinot servers directly, having a separate process (Minion) lessens the overall degradation of query latency as segments are impacted by mutable writes.
+A production Pinot cluster contains many brokers. In general, the more brokers, the more concurrent queries a cluster can process, and the lower latency it can deliver on queries.
+
+### Minion
+
+Pinot [minions](components/cluster/minion.md) are an optional cluster component that executes background tasks on table data apart from the normal query mechanism performed by brokers and servers. Minions are processes that run on independent hardware resources, and are responsible for exeucting _minion tasks_ as directed by the controller. Examples of minon tasks are converting of batch data in a standard format like Avro or JSON into segment files to be loaded into an offline table, or rewriting existing segment files to purge records as required by data privacy laws like GDPR. Minion tasks can run once or be scheduled to run periodically.
+
+The minion mechanism exists to isolate the computational burden of out-of-band data processing from the servers. A production Pinot cluster can function with zero minions, but in practice there are a few several minion instances to manage the typical minion task workload. 
