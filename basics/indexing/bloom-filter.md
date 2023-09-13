@@ -1,4 +1,4 @@
-# Bloom Filter
+# Bloom filter
 
 When a column is configured to use this filter, Pinot creates one bloom filter per segment.
 Bloom filter helps prune segments that do not contain any record matching an **EQUALITY** predicate.
