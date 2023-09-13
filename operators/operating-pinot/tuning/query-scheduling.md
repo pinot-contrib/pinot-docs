@@ -1,3 +1,7 @@
+---
+description: Schedule queries to prioritize them.
+---
+
 # Query Scheduling
 
 Pinot supports various different query scheduling mechanisms to allow for more control around which queries have priority when executing on the server instances.&#x20;
@@ -22,11 +26,11 @@ Bounded query schedulers operate under a context of a single table, and addition
 
 #### Bounded First Come First Serve
 
-Similarly to the "First Come First Serve" scheduling mechanism, this option will bound the resource utilization by ensuring that only a certain number of queries are running concurrently (set using the `pinot.query.scheduler.query_runner_threads` configuration).
+Similarly to the "first come first serve" scheduling mechanism, this option will bound the resource utilization by ensuring that only a certain number of queries are running concurrently (set using the `pinot.query.scheduler.query_runner_threads` configuration).
 
 #### Token Bucket Scheduler
 
-This query scheduling mechansim will periodically grant tokens to each scheduler group, and will select the group to run with the highest number of tokens assigned to it. This can be configured using the two following configurations:
+This query scheduling mechanism will periodically grant tokens to each scheduler group, and will select the group to run with the highest number of tokens assigned to it. This can be configured using the following configurations:
 
 * `pinot.query.scheduler.tokens_per_ms` will indicate how many tokens to generate per second for each group. The default value for this is the number of threads avaialble to run queries (which will essentially attempt to schedule more queries than is possible to run)
 * `pinot.query.scheduler.token_lifetime_ms` indicates the lifetime of every allocated token

@@ -4,49 +4,49 @@ description: Pinot Client for Golang
 
 # Golang
 
-Pinot also provides [a native go client](https://github.com/fx19880617/pinot-client-go) to query database directly from go application.&#x20;
+Pinot provides [a native Go client](https://github.com/startreedata/pinot-client-go) to query database directly from go application.&#x20;
 
-### Installation
+### Install
 
-Please follow this [Pinot Quickstart](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/running-pinot-locally) link to install and start Pinot batch QuickStart locally.
+1. Follow this [Pinot quickstart](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/running-pinot-locally) link to install and start Pinot locally.
 
 ```
 bin/quick-start-batch.sh
 ```
 
-Check out Client library Github Repo
+2. Check out the [client library GitHub repository](https://github.com/startreedata/pinot-client-go/tree/master).
 
 ```
 git clone git@github.com:startreedata/pinot-client-go.git
 cd pinot-client-go
 ```
 
-Build and run the example application to query from Pinot Batch Quickstart
+3. Build and run the example application to query from the [Pinot batch quickstart](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally).
 
 ```
 go build ./examples/batch-quickstart
 ./batch-quickstart
 ```
 
-### Usage
+### Use the Golang client
 
-#### Create a Pinot Connection
+#### Create a Pinot connection
 
-Pinot client could be initialized through:
+Initialize the Pinot client using one of the methods below.
 
-#### 1. Zookeeper Path.
+#### Zookeeper Path
 
 ```
 pinotClient := pinot.NewFromZookeeper([]string{"localhost:2123"}, "", "QuickStartCluster")
 ```
 
-#### 2. A list of broker addresses.
+#### List of broker addresses
 
 ```
 pinotClient := pinot.NewFromBrokerList([]string{"localhost:8000"})
 ```
 
-#### 3. ClientConfig
+#### ClientConfig
 
 ```
 pinotClient := pinot.NewWithConfig(&pinot.ClientConfig{
@@ -63,7 +63,7 @@ pinotClient := pinot.NewWithConfig(&pinot.ClientConfig{
 
 ### Query Pinot
 
-Please see this [example](https://github.com/fx19880617/pinot-client-go/blob/master/examples/batch-quickstart/main.go) for your reference.
+The Go client repository contains an [example](https://github.com/startreedata/pinot-client-go/blob/master/examples/batch-quickstart/main.go) script.&#x20;
 
 Code snippet:
 
@@ -79,9 +79,9 @@ if err != nil {
 log.Infof("Query Stats: response time - %d ms, scanned docs - %d, total docs - %d", brokerResp.TimeUsedMs, brokerResp.NumDocsScanned, brokerResp.TotalDocs)
 ```
 
-### Response Format
+### Response format
 
-Query Response is defined as the struct of following:
+The query response has the following format:
 
 ```
 type BrokerResponse struct {
@@ -106,9 +106,9 @@ type BrokerResponse struct {
 }
 ```
 
-Note that `AggregationResults` and `SelectionResults` are holders for PQL queries.
+Note that `AggregationResults` and `SelectionResults` are holders for Pinot query language (PQL) queries.
 
-Meanwhile `ResultTable` is the holder for SQL queries. `ResultTable` is defined as:
+Meanwhile, `ResultTable` is the holder for SQL queries. `ResultTable` is defined as:
 
 ```
 // ResultTable is a ResultTable
@@ -128,7 +128,7 @@ type RespSchema struct {
 }
 ```
 
-There are multiple functions defined for `ResultTable`, like:
+There are multiple functions defined for `ResultTable`, such as the following:
 
 ```
 func (r ResultTable) GetRowCount() int
@@ -143,7 +143,7 @@ func (r ResultTable) GetFloat(rowIndex int, columnIndex int) float32
 func (r ResultTable) GetDouble(rowIndex int, columnIndex int) float64
 ```
 
-Sample Usage is [here](https://github.com/fx19880617/pinot-client-go/blob/master/examples/batch-quickstart/main.go#L58)
+See an example of a function in use [here](https://github.com/fx19880617/pinot-client-go/blob/master/examples/batch-quickstart/main.go#L58) and below:
 
 ```
 // Print Response Schema

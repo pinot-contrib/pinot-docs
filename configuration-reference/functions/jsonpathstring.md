@@ -18,7 +18,7 @@ Extracts the **String** value from `jsonField` based on `'jsonPath'`, use option
 {% hint style="warning" %}
 **`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers**.\
 \
-You can use the [Jayway JsonPath Evaluator Tool](https://jsonpath.herokuapp.com/) to test JSON expressions before you import any data.
+You can use the [JSONPath Online Evaluator](https://jsonpath.com) to test JSON expressions before you import any data.
 {% endhint %}
 
 ## Usage Examples
@@ -48,10 +48,7 @@ The usage examples are based on extracting fields from the following JSON docume
 }
 ```
 
-| Expression                                    | Value  |
-| --------------------------------------------- | ------ |
-| `JSONPATHSTRING(data, '$.age')`               | `"24"` |
-| `JSONPATHSTRING(data, '$.name["nick.name"]')` | "Pete" |
+<table><thead><tr><th width="490">Expression</th><th>Value</th></tr></thead><tbody><tr><td><code>JSONPATHSTRING(data, '$.age')</code></td><td><code>"24"</code></td></tr><tr><td><code>JSONPATHSTRING(data, '$.name["nick.name"]')</code></td><td>"Pete"</td></tr></tbody></table>
 
 This function can be used in the [table config](../table.md) to extract the `age` property into the `age` column, as described below:
 

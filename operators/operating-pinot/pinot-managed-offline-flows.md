@@ -6,16 +6,16 @@
 **Issue**: [https://github.com/apache/pinot/issues/5753](https://github.com/apache/pinot/issues/5753)
 {% endhint %}
 
-The Pinot managed offline flows feature allows a user to **simply setup a REALTIME table, and let Pinot manage populating the OFFLINE table**. For complete motivation and reasoning, please refer to the design doc above.
+The Pinot managed offline flows feature allows a user to **simply set up a REALTIME table, and let Pinot manage populating the OFFLINE table**. For complete motivation and reasoning, please refer to the design doc above.
 
 ### When to use
 
 There are 3 kinds of tables in Pinot
 
 * **OFFLINE only** - this feature is not relevant for this mode.
-*   **REALTIME only** - this feature is built for this mode. While having a realtime-only table setup (versus a hybrid table setup) is certainly lightweight and lesser operations, you lose some of the flexibility that comes with having a corresponding OFFLINE table.&#x20;
+*   **REALTIME only** - this feature is built for this mode. While having a real-time-only table setup (versus a hybrid table setup) is certainly lightweight and lesser operations, you lose some of the flexibility that comes with having a corresponding OFFLINE table.&#x20;
 
-    * For example, in realtime only mode, it is impossible to backfill a specific day's data, even if you have that data available offline somewhere, whereas you could've easily run a one off backfill job to correct data in an OFFLINE table.&#x20;
+    * For example, in real-time only mode, it is impossible to backfill a specific day's data, even if you have that data available offline somewhere, whereas you could've easily run a one off backfill job to correct data in an OFFLINE table.&#x20;
     * It is also not possible to re-bootstrap the table using some offline data, as data for the REALTIME table strictly must come in through a stream. In OFFLINE tables, it is very easy to run jobs and replace segments in the table.
     * In REALTIME tables, the data often tends to be highly granular and we achieve very little aggregations. OFFLINE tables let you look at bigger windows of data hence achieving rollups for time column, aggregations across common dimensions, better compression and even dedup.
 
@@ -29,7 +29,7 @@ The Pinot managed offline flows feature will **move records from the REALTIME ta
 {% hint style="warning" %}
 **Note**
 
-Only completed (ONLINE) segments of the realtime table are used for movement. If the window's data falls into the CONSUMING segment, that run will be skipped. That window will be processed in a future run when all data has made it to the completed segments.
+Only completed (ONLINE) segments of the real-time table are used for movement. If the window's data falls into the CONSUMING segment, that run will be skipped. That window will be processed in a future run when all data has made it to the completed segments.
 {% endhint %}
 
 &#x20;
@@ -49,7 +49,7 @@ This feature uses the **pinot-minions** and **the Helix Task Executor framework*
 
 **Step 0:** Start a pinot-minion
 
-**Step 1**: Setup your REALTIME table. Add "RealtimeToOfflineSegmentsTask" in the task configs
+**Step 1**: Set up your REALTIME table. Add "RealtimeToOfflineSegmentsTask" in the task configs
 
 ```
 "tableName": "myTable_REALTIME",
@@ -112,11 +112,11 @@ The following properties are deprecated/removed in release `0.8.0`
 #### **Late data problem**
 
 Once the time window has moved forward, it will never be processed again. If some data arrives into your stream after the window has moved on, that data will never be processed. Set the "bufferTimePeriod" accordingly, to account for late data issues in your setup.\
-We will potentially consider ability to schedule ad-hoc one-off tasks. For example, user can specify "rerun for day 10/23", which would sweep all segments again and collect data, replacing the old segments. This will help resolve the problem of data arriving very late.
+We will potentially consider ability to schedule ad hoc one-off tasks. For example, user can specify "rerun for day 10/23", which would sweep all segments again and collect data, replacing the old segments. This will help resolve the problem of data arriving very late.
 
 #### Backfill/bootstrap
 
-This feature automates the daily/hourly pushes to the offline counterpart of your hybrid table. And since you now have an OFFLINE table created, it opens up the possibility of doing an ad-hoc backfill or re-bootstrap. However, there are no mechanisms for doing an automated backfill/re-bootstrap from some offline data. You still have to write your own flows for such scenarios.&#x20;
+This feature automates the daily/hourly pushes to the offline counterpart of your hybrid table. And since you now have an OFFLINE table created, it opens up the possibility of doing an ad hoc backfill or re-bootstrap. However, there are no mechanisms for doing an automated backfill/re-bootstrap from some offline data. You still have to write your own flows for such scenarios.&#x20;
 
 #### Memory constraints
 

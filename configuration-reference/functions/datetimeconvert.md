@@ -48,7 +48,7 @@ WHERE id = 7044874134
 
 | id         | created\_at\_timestamp | timeInMs      | convertedTime |
 | ---------- | ---------------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 17532         |
+| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 17532         |
 
 `created_at_timestamp` bucketed to 15 minutes granularity:
 
@@ -68,7 +68,7 @@ WHERE id = 7044874134
 
 | id         | created\_at\_timestamp | timeInMs      | convertedTime |
 | ---------- | ---------------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 1514804400000 |
+| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 1514804400000 |
 
 `created_at_timestamp` to format `yyyy-MM-dd`, bucketed to 1 days granularity:
 
@@ -88,7 +88,7 @@ WHERE id = 7044874134
 
 | id         | created\_at\_timestamp | timeInMs      | convertedTime |
 | ---------- | ---------------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-01    |
+| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-01    |
 
 `created_at_timestamp` to format `yyyy-MM-dd HH:mm`, in timezone `Pacific/Kiritimati`:
 
@@ -108,7 +108,7 @@ WHERE id = 7044874134
 
 | id         | created\_at\_timestamp | timeInMs      | convertedTime    |
 | ---------- | ---------------------- | ------------- | ---------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 01:00 |
+| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 01:00 |
 
 `created_at_timestamp` to format `yyyy-MM-dd`, in timezone `Pacific/Kiritimati` and bucketed to 1 day granularity:
 
@@ -128,4 +128,4 @@ WHERE id = 7044874134
 
 | id         | created\_at\_timestamp | timeInMs      | convertedTime    |
 | ---------- | ---------------------- | ------------- | ---------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 00:00 |
+| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 00:00 |

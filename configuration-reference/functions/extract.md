@@ -1,16 +1,16 @@
 ---
-description: This section contains reference documentation for the EXTRACT function.
+description: This section contains reference documentation for the Extract function.
 ---
 
-# EXTRACT
+# Extract
 
 Returns the selected field from the DATETIME expression.
 
-## Signature
+### Signature
 
 > EXTRACT(field FROM expression)
 
-## Usage Examples
+### Usage Examples
 
 ```sql
 select EXTRACT(MONTH FROM '2017-06-15')
@@ -18,7 +18,7 @@ select EXTRACT(MONTH FROM '2017-06-15')
 
 | value |
 | ----- |
-| 06  |
+| 06    |
 
 ```sql
 select EXTRACT(YEAR FROM '2017-06-15 09:34:21')

@@ -2,9 +2,9 @@
 description: This guide shows you how to import data from HDFS.
 ---
 
-# HDFS
+# Hadoop DFS
 
-You can enable the [Hadoop DFS](https://hadoop.apache.org/) using the plugin `pinot-hdfs`. In the controller or server, add the config:
+Enable the [Hadoop distributed file system (HDFS)](https://hadoop.apache.org/) using the `pinot-hdfs` plugin. In the controller or server, add the config:
 
 ```
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-hdfs
@@ -14,18 +14,18 @@ You can enable the [Hadoop DFS](https://hadoop.apache.org/) using the plugin `pi
 By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
 {% endhint %}
 
-HDFS implementation provides the following options -
+HDFS implementation provides the following options:
 
-* `hadoop.conf.path` : Absolute path of the directory containing hadoop XML configuration files such as **hdfs-site.xml, core-site.xml** .
-* `hadoop.write.checksum` : create checksum while pushing an object. Default is `false`
+* `hadoop.conf.path`: Absolute path of the directory containing Hadoop XML configuration files, such as **hdfs-site.xml, core-site.xml** .
+* `hadoop.write.checksum`: Create checksum while pushing an object. Default is `false`
 * `hadoop.kerberos.principle`
 * `hadoop.kerberos.keytab`
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.class.hdfs.` where `node` is either `controller` or `server` depending on the config
 
-The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Please check [Hadoop Kerberos guide ](https://docs.cloudera.com/documentation/enterprise/5-8-x/topics/cdh\_sg\_kerberos\_prin\_keytab\_deploy.html#topic\_3\_4)on how to generate Kerberos security identification.
+The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Refer to the [Hadoop in secure mode documentation](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SecureMode.html) for information on how to secure Hadoop using Kerberos.
 
-You will also need to provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
+You must provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
 
 ```
 export HADOOP_HOME=/local/hadoop/
@@ -37,9 +37,9 @@ export CLASSPATH_PREFIX="${HADOOP_HOME}/share/hadoop/hdfs/hadoop-hdfs-${HADOOP_V
 
 ## Push HDFS segment to Pinot Controller
 
-To push HDFS segment files to Pinot controller, you just need to ensure you have proper Hadoop configuration as we mentioned in the previous part. Then your remote segment creation/push job can send the HDFS path of your newly created segment files to the Pinot Controller and let it download the files.
+To push HDFS segment files to Pinot controller, send the HDFS path of your newly created segment files to the Pinot Controller. The controller will download the files.
 
-For example, the following curl requests to Controller will notify it to download segment files to the proper table:
+This curl example requests tells the controller to download segment files to the proper table:
 
 ```
 curl -X POST -H "UPLOAD_TYPE:URI" -H "DOWNLOAD_URI:hdfs://nameservice1/hadoop/path/to/segment/file.

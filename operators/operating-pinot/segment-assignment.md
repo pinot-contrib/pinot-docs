@@ -1,7 +1,7 @@
 ---
 description: >-
   This page introduces all the segment assignment strategies, when to use them,
-  and how to configure them
+  and how to configure them.
 ---
 
 # Segment Assignment

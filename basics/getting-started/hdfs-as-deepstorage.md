@@ -1,5 +1,5 @@
 ---
-description: This guide helps to setup HDFS as deepstorage for Pinot Segment.
+description: This guide shows how to set up HDFS as deep storage for a Pinot segment.
 ---
 
 # HDFS as Deep Storage
@@ -8,7 +8,7 @@ To use HDFS as deep storage you need to include HDFS dependency jars and plugins
 
 ## Server Setup
 
-### Configuration.
+### Configuration
 
 ```
 pinot.server.instance.enable.split.commit=true
@@ -25,7 +25,7 @@ pinot.server.grpc.enable=true
 pinot.server.grpc.port=8090
 ```
 
-### Executable.
+### Executable
 
 ```
 export HADOOP_HOME=/path/to/hadoop/home
@@ -46,7 +46,7 @@ ${PINOT_DISTRIBUTION_DIR}/bin/start-server.sh  -zkAddress ${ZOOKEEPER_ADDRESS} -
 
 ## Controller Setup
 
-### Configuration.
+### Configuration
 
 ```
 controller.data.dir=hdfs://path/in/hdfs/for/controller/segment
@@ -67,7 +67,7 @@ pinot.set.instance.id.to.hostname=true
 pinot.server.grpc.enable=true
 ```
 
-### Executable.
+### Executable
 
 ```
 export HADOOP_HOME=/path/to/hadoop/home
@@ -88,14 +88,14 @@ ${PINOT_DISTRIBUTION_DIR}/bin/start-controller.sh -configFileName ${SERVER_CONF_
 
 ## Broker Setup
 
-### Configuration.
+### Configuration
 
 ```
 pinot.set.instance.id.to.hostname=true
 pinot.server.grpc.enable=true
 ```
 
-### Executable.
+### Executable
 
 ```
 export HADOOP_HOME=/path/to/hadoop/home
@@ -113,3 +113,13 @@ export CLASSPATH_PREFIX="${HADOOP_HOME}/share/hadoop/hdfs/hadoop-hdfs-${HADOOP_V
 export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:${GC_LOG_LOCATION}/gc-pinot-broker.log"
 ${PINOT_DISTRIBUTION_DIR}/bin/start-broker.sh -zkAddress ${ZOOKEEPER_ADDRESS} -configFileName  ${SERVER_CONF_DIR}/broker.conf
 ```
+
+## Troubleshooting
+
+If you receive an error that says `No FileSystem for scheme"hdfs"`, the problem is likely to be a class loading issue.
+
+To fix, try adding the following property to `core-site.xml`:
+
+```fs.hdfs.impl org.apache.hadoop.hdfs.DistributedFileSystem```
+
+And then export `/opt/pinot/lib/hadoop-common-<release-version>.jar` in the classpath.

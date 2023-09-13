@@ -34,7 +34,7 @@ Make sure that you've downloaded Apache Pinot. The scripts for the setup in this
 ```bash
 # checkout pinot
 git clone https://github.com/apache/pinot.git
-cd pinot/kubernetes/helm
+cd pinot/kubernetes/helm/pinot
 ```
 {% endtab %}
 {% endtabs %}
@@ -91,7 +91,7 @@ For Helm **v3.0.0:**
 
 ```
 kubectl create ns pinot-quickstart
-helm install -n pinot-quickstart pinot pinot
+helm install -n pinot-quickstart pinot ./pinot
 ```
 
 **1.1.3 Troubleshooting (For helm v2.12.1)**

@@ -1,14 +1,14 @@
 ---
-description: Step-by-step guide on pushing your own data into the Pinot cluster
+description: Step-by-step guide for pushing your own data into the Pinot cluster
 ---
 
 # Batch import example
 
-So far, we have set up our cluster, ran some queries, and explored the admin endpoints. Now, it's time to get our own data into Pinot. The rest of the instructions assume you're using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).
+This example assumes you have set up your cluster using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).
 
 ### Preparing your data
 
-Let's gather our data files and put them in `pinot-quick-start/rawdata`.&#x20;
+Let's gather our data files and put them in `pinot-quick-start/rawdata`.
 
 ```bash
 mkdir -p /tmp/pinot-quick-start/rawdata
@@ -30,7 +30,7 @@ studentID,firstName,lastName,gender,subject,score,timestampInEpoch
 
 Schema is used to define the columns and data types of the Pinot table. A detailed overview of the schema can be found in [Schema](../../configuration-reference/schema.md).
 
-Briefly, we categorize our columns into 3 types
+Columns are categorized into 3 types:
 
 | Column Type | Description                                                              |
 | ----------- | ------------------------------------------------------------------------ |
@@ -38,9 +38,9 @@ Briefly, we categorize our columns into 3 types
 | Metrics     | Typically used in aggregations, represents the quantitative data         |
 | Time        | Optional column, represents the timestamp associated with each row       |
 
-For example, in our sample table, the `studentID,firstName,lastName,gender,subject` columns are the dimensions, the `score` column is the metric and `timestampInEpoch` is the time column.
+In our example transcript-schema, the `studentID,firstName,lastName,gender,subject` columns are the dimensions, the `score` column is the metric and `timestampInEpoch` is the time column.
 
-Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the reference below.&#x20;
+Once you have identified the dimensions, metrics and time columns, create a schema for your data, using the following reference.
 
 {% code title="/tmp/pinot-quick-start/transcript-schema.json" %}
 ```bash
@@ -84,11 +84,11 @@ Once you have identified the dimensions, metrics and time columns, create a sche
 ```
 {% endcode %}
 
-### Creating a table config
+### Creating a table configuration
 
-A table config is used to define the config related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table.md).&#x20;
+A table configuration is used to define the configuration related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table/).
 
-Here's the table config for the sample CSV file. You can use this as a reference to build your own table config. Simply edit the tableName and schemaName.
+Here's the table configuration for the sample CSV file. You can use this as a reference to build your own table configuration. Edit the tableName and schemaName.
 
 {% code title="/tmp/pinot-quick-start/transcript-table-offline.json" %}
 ```bash
@@ -114,9 +114,9 @@ Here's the table config for the sample CSV file. You can use this as a reference
 ```
 {% endcode %}
 
-### Uploading your table config and schema
+### Uploading your table configuration and schema
 
-Check the directory structure so far
+Review the directory structure so far.
 
 ```bash
 $ ls /tmp/pinot-quick-start
@@ -126,7 +126,7 @@ $ ls /tmp/pinot-quick-start/rawdata
 transcript.csv
 ```
 
-Upload the table config using the following command
+Upload the table configuration using the following command.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -152,13 +152,13 @@ bin/pinot-admin.sh AddTable \
 {% endtab %}
 {% endtabs %}
 
-Check out the table config and schema in the [Rest API](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig) to make sure it was successfully uploaded.
+Use the [Rest API](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig) that is running on your Pinot instance to review the table configuration and schema and make sure it was successfully uploaded. This link uses `localhost` as an example.
 
 ### Creating a segment
 
-A Pinot table's data is stored as Pinot segments. A detailed overview of the segment can be found in [Segment](../components/segment.md).&#x20;
+A Pinot table's data is stored as Pinot segments. A detailed overview of segments can be found in [Segment](../components/table/segment/).
 
-To generate a segment, we need to first create a job spec yaml file. JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. You can just copy over this job spec file. If you're using your own data, be sure to 1) replace `transcript` with your table name 2) set the right `recordReaderSpec`
+To generate a segment, we need to first create a job specification (JobSpec) yaml file. A JobSpec yaml file contains all the information regarding data format, input data location, and pinot cluster coordinates. Copy the following job specification file to begin. If you're using your own data, be sure to 1) replace `transcript` with your table name and 2) set the correct `recordReaderSpec`.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -224,7 +224,7 @@ pinotClusterSpecs:
 {% endtab %}
 {% endtabs %}
 
-Use the following command to generate a segment and upload it
+Use the following command to generate a segment and upload it.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -246,7 +246,7 @@ bin/pinot-admin.sh LaunchDataIngestionJob \
 {% endtab %}
 {% endtabs %}
 
-Sample output
+Here is some sample output.
 
 ```bash
 SegmentGenerationJobSpec: 
@@ -315,10 +315,10 @@ Sending request: http://localhost:9000/v2/segments?tableName=transcript to contr
 Response for pushing table transcript segment transcript_OFFLINE_1570863600000_1572418800000_0 to location http://localhost:9000 - 200: {"status":"Successfully uploaded segment: transcript_OFFLINE_1570863600000_1572418800000_0 of table: transcript"}
 ```
 
-Check that your segment made it to the table using the [Rest API](http://localhost:9000/help#!/Segment/getSegments)
+Confirm that your segment made it into the table using the [Rest API](http://localhost:9000/help#!/Segment/getSegments).
 
 ### Querying your data
 
-You're all set! You should see your table in the [Query Console](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/exploring-pinot#query-console) and be able to run queries against it now.
+If everything worked, find your table in the [Query Console](https://apache-pinot.gitbook.io/apache-pinot-cookbook/getting-started/exploring-pinot#query-console) to run queries against it.
 
 ![](../../.gitbook/assets/Pinot\_query\_transcript\_table.png)

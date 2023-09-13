@@ -12,11 +12,11 @@ There is a workaround by matching with default values in the filter predicate. H
 
 ### High Level Architecture
 
-To turn on `NULL` handling, simply enable the boolean flag in the table index config called as `nullHandlingEnabled` (please see [tableIndexConfig section](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)). Please note - this will cause Pinot to use additional memory and disk space per segment. The details are as follows:
+To turn on `NULL` handling, simply enable the boolean flag in the table index config called as `nullHandlingEnabled` (see [tableIndexConfig section](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)). Note - this will cause Pinot to use additional memory and disk space per segment. The details are as follows:
 
 #### **Ingestion Phase**
 
-During data ingestion (either realtime/offline) each`GenericRow` object derived from the original data source record keeps track of all the column names containing null values. This is done as part of the `NullValueTransformer`. For each such column, the segment creation logic updates a NULL value vector (implemented by a roaring bitmap) with the corresponding document ID. Effectively, at the end of the segment creation process we get a per column NULL value vector which can give us the set of document IDs containing null values for that column. This per column vector is then exposed through the `DataSource` interface for use in query execution.
+During data ingestion (either real-time/offline) each`GenericRow` object derived from the original data source record keeps track of all the column names containing null values. This is done as part of the `NullValueTransformer`. For each such column, the segment creation logic updates a NULL value vector (implemented by a roaring bitmap) with the corresponding document ID. Effectively, at the end of the segment creation process we get a per column NULL value vector which can give us the set of document IDs containing null values for that column. This per column vector is then exposed through the `DataSource` interface for use in query execution.
 
 #### Query Phase
 

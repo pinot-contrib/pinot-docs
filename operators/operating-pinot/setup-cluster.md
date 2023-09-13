@@ -1,8 +1,8 @@
-# Setup cluster
+# Set up cluster
 
-To setup a Pinot cluster, follow these steps
+To set up a Pinot cluster, follow these steps
 
-1. [Create a cluster](../../basics/components/cluster.md#setup-a-pinot-cluster)
-2. [Start Controller ](../../basics/components/controller.md#starting-a-controller)instances
-3. [Start Broker](../../basics/components/broker.md#starting-a-broker) instances
-4. [Start Server](../../basics/components/server.md#starting-a-server) instances
+1. [Create a cluster](../../basics/components/cluster/#setup-a-pinot-cluster)
+2. [Start Controller ](../../basics/components/cluster/controller.md#starting-a-controller)instances
+3. [Start Broker](../../basics/components/cluster/broker.md#starting-a-broker) instances
+4. [Start Server](../../basics/components/cluster/server.md#starting-a-server) instances

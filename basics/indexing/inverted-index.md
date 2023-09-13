@@ -1,4 +1,8 @@
-# Inverted Index
+---
+description: This page describes configuring the inverted index for Apache Pinot
+---
+
+# Inverted index
 
 We can define the [forward index](./forward-index.md) as a relation from document ids (a.k.a. rows) to values.
 In a similar way, an inverted index is a relation from values to a set of document ids.
@@ -14,7 +18,9 @@ Both type of indexes require that the [dictionary](dictionary-index.md) is enabl
 
 When the column is not sorted and an inverted index is enabled for a column, Pinot maintains a map from each value to a bitmap of rows, which makes value lookup take constant time.
 
-An inverted index are disabled by default and can be enabled for a column by setting it in the [table config](../../configuration-reference/table.md):
+When an inverted index is enabled for a column, Pinot maintains a map from each value to a bitmap of rows, which makes value lookup take constant time. If you have a column that is frequently used for filtering, adding an inverted index will improve performance greatly. You can create an inverted index on a multi-value column.
+
+An inverted index are disabled by default and can be enabled for a column by setting it in the [table configuration](../../configuration-reference/table.md):
 
 {% code title="inverted index defined in tableConfig" %}
 ```javascript
@@ -79,7 +85,7 @@ As explained in [forward index](forward-index.md), a column that is sorted and h
 Therefore when these conditions fulfill, an inverted index is created for free, even if the configuration indicates otherwise.
 This sorted version of the forward index has a `log(n)` time lookup and it can benefit from data locality.
 
-For the below example, if the query has a filter on `memberId`, Pinot will perform a binary search on `memberId` values to find the range pair of docIds for corresponding filtering value. If the query needs to scan values for other columns after filtering, values within the range docId pair will be located together, which means we can benefit from data locality.
+For the following example, if the query has a filter on `memberId`, Pinot will perform a binary search on `memberId` values to find the range pair of docIds for corresponding filtering value. If the query needs to scan values for other columns after filtering, values within the range docId pair will be located together, which means we can benefit from data locality.
 
 ![\_images/sorted-inverted.png](../../.gitbook/assets/sorted-inverted.png)
 

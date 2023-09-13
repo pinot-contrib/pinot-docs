@@ -20,7 +20,7 @@ docker run \
   -d apachepinot/pinot-superset:latest
 ```
 
-2.1. (First time) Setup Admin account by running below command and follow instructions to set password.
+2.1. (First time) Set up Admin account by running below command and follow instructions to set password.
 
 ```
 docker exec -it superset superset fab create-admin \

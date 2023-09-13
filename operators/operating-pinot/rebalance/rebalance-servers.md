@@ -27,7 +27,7 @@ Below is an example of how this looks in the znode, as seen in ZooInspector.
 
 ![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.05.29 PM.png>)
 
-A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/tenant.md) section.
+A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/cluster/tenant.md) section.
 
 ```
  {   
@@ -67,7 +67,7 @@ curl -X PUT "http://localhost:9000/instances/Server_10.1.10.51_7000"
 {% hint style="danger" %}
 **NOTE**
 
-The output of GET and input of PUT don't match for this API. Please make sure to use the right payload as shown in example above. Particularly, notice that instance name "Server\_host\_port" gets split up into their own fields in this PUT API.
+The output of GET and input of PUT don't match for this API. Make sure to use the right payload as shown in example above. Particularly, notice that instance name "Server\_host\_port" gets split up into their own fields in this PUT API.
 {% endhint %}
 
 When upsizing/downsizing a cluster, you will need to make sure that the host names of servers are consistent. You can do this by setting the following config parameter:
@@ -172,9 +172,9 @@ The following API is used to check the progress of a rebalance Job. The API take
 Note that rebalanceStatus API is available from this [commit](https://github.com/apache/pinot/pull/10359)
 {% endhint %}
 
-{% embed url="http://localhost:9000/rebalanceStatus/ffb38717-81cf-40a3-8f29-9f35892b01f9" %}
-RebalanceStatus output
-{% endembed %}
+```
+curl -X GET "https://localhost:9000/rebalanceStatus/ffb38717-81cf-40a3-8f29-9f35892b01f9" -H "accept: application/json"
+```
 
 ```json
 {"tableRebalanceProgressStats": {
@@ -214,7 +214,9 @@ RebalanceStatus output
 
 Below is the API to get the jobIds of rebalance jobs for a given table. The API takes the table name and jobType which is TABLE\_REBALANCE.
 
-[http://localhost:9000/table/airlineStats\_OFFLINE/jobstype=OFFLINE\&jobTypes=TABLE\_REBALANCE](http://localhost:9000/table/airlineStats\_OFFLINE/jobs?type=OFFLINE\&jobTypes=TABLE\_REBALANCE)
+```
+curl -X GET "https://localhost:9000/table/airlineStats_OFFLINE/jobstype=OFFLINE&jobTypes=TABLE_REBALANCE" -H "accept: application/json"
+```
 
 ```json
  "ffb38717-81cf-40a3-8f29-9f35892b01f9": {
@@ -225,7 +227,3 @@ Below is the API to get the jobIds of rebalance jobs for a given table. The API 
     "tableName": "airlineStats_OFFLINE"
 
 ```
-
-\\
-
-\\

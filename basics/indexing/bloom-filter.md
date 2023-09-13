@@ -1,11 +1,15 @@
+---
+description: This page describes configuring the bloom filter for Apache Pinot
+---
+
 # Bloom filter
 
 When a column is configured to use this filter, Pinot creates one bloom filter per segment.
-Bloom filter helps prune segments that do not contain any record matching an **EQUALITY** predicate.
+The bloom filter help to prune segments that do not contain any record matching an **EQUALITY** predicate.
 
-It would be useful for a query like the following:
+This is useful for a query like the following:
 
-```
+```sql
 SELECT COUNT(*) 
 FROM baseballStats 
 WHERE playerID = 12345
@@ -74,8 +78,9 @@ For example the following table config enables the bloom filter in the _playerId
 
 ### Deprecated configuration 
 
-Although the recommended way to configure bloom filters is by using `fieldConfigList`, there are other 2 ways to 
-configure a bloom filter for a table in the [table config](../../configuration-reference/table.md):
+The recommended way to configure bloom filters is by using `fieldConfigList` as explained above.
+But in order to keep backward compatibility, there are other 2 historical ways to 
+configure a bloom filter for a table in the [table configuration](../../configuration-reference/table.md):
 
 #### Use default settings
 
