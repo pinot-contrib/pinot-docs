@@ -53,7 +53,7 @@ If you are ingesting multiple segments you will need to make sure that data is s
 
 How to make sure that a segment is sorted by the column depends on the type of table:
 * In real-time tables `tableIndexConfig.sortedColumn` can be used.
-  If there is exactly one column in that array, Pinot will sort the segment by that column when it is committed.
+  If there is exactly one column in that array, Pinot sorts the segment by that column when it is committed.
 * In offline tables, `tableIndexConfig.sortedColumn` is ignored and you will need to sort the data by that column before
   ingesting it into Pinot.
 
