@@ -18,7 +18,7 @@ dataset but they cannot be used to know if an element **is** in a dataset.
 The reason for that is that bloom filters return false positives but never return false negatives.
 
 One interesting property of these filters is that there is a mathematical formula that relates their size, 
-the cardinality of the dataset they index and the rate of false positives.
+the cardinality of the dataset they index, and the rate of false positives.
 
 In Pinot this cardinality is the number of unique values expected on each segment.
 The false positive rate and the size of the index can be configured if needed.
