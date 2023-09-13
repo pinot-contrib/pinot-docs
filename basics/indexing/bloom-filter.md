@@ -32,9 +32,9 @@ There are 3 optional parameters to configure the Bloom filter:
 
 | Parameter      | Default       | Description                                                           |
 |----------------|---------------|-----------------------------------------------------------------------|
-| fpp            | 0.05          | False positive probability of the bloom filter (from `0` to `1`).     |
-| maxSizeInBytes | 0 (unlimited) | Maximum size of the bloom filter.                                     |
-| loadOnHeap     | false         | Whether to load the bloom filter using heap memory or off-heap memory |
+| fpp            | 0.05          | False positive probability of the Bloom filter (from `0` to `1`).     |
+| maxSizeInBytes | 0 (unlimited) | Maximum size of the Bloom filter.                                     |
+| loadOnHeap     | false         | Whether to load the Bloom filter using heap memory or off-heap memory. |
 
 The lower the `fpp`, the higher accuracy the bloom filter has, but it will also increase the index size.
 `maxSizeInBytes` has more priority than `fpp`.
