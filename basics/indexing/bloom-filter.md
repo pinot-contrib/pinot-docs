@@ -38,8 +38,8 @@ There are 3 optional parameters to configure the Bloom filter:
 
 The lower the `fpp`, the higher accuracy the bloom filter has, but it will also increase the index size.
 `maxSizeInBytes` has more priority than `fpp`.
-This means that if `maxSizeInBytes` is higher than 0 and `fpp` generates a bloom filter larger than this size, we will 
-increase the `fpp` to keep the bloom filter size within this limit.
+If `maxSizeInBytes` is higher than 0 and the specified `fpp` generates a Bloom filter larger than this size, Pinot
+increases the `fpp` to keep the bloom filter size within this limit.
 
 Like all indexes, a bloom filter can be explicitly disabled by setting the special parameter `disabled` to true. 
 
