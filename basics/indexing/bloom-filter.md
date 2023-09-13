@@ -28,7 +28,7 @@ The false positive rate and the size of the index can be configured if needed.
 Bloom filters are disabled by default.
 This means that columns will not be indexed unless they are explicitly configured in the [table config](../../configuration-reference/table.md).
 
-There are 3 optional parameters to configure the Bloom Filter:
+There are 3 optional parameters to configure the Bloom filter:
 
 | Parameter      | Default       | Description                                                           |
 |----------------|---------------|-----------------------------------------------------------------------|
