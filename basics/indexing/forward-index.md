@@ -1,13 +1,13 @@
-# Forward Index
+# Forward index
 
-At conceptual level, the forward index is a map from document id (aka row index) to the actual column value of the row.
+At conceptual level, the forward index is a map from the document ID (aka row index) to the actual column value of the row.
 How this map is implemented depends on the index encoding and on whether the column is sorted or not.
 
-When encoding is `RAW`, the forward index is implemented as an array whose indexes are the document ids and the values
+When encoding is `RAW`, the forward index is implemented as an array whose indexes are the document IDs and the values
 are the actual row value. 
-Read the [raw value forward type](forward-index.md#raw-value-forward-index) to learn more about that.
+To learn more, see the [raw value forward type](forward-index.md#raw-value-forward-index).
 
-When the encoding is `DICTIONARY`, the forward index does not physically store the actual row values but the dictionary ids.
+When the encoding is `DICTIONARY`, the forward index does not physically store the actual row values but the dictionary IDs.
 This means that there is an extra indirection each time a value has to be read, but enable two more efficient physical 
 layouts depending on whether the segment is sorted by this column or not.
 The [dictionary encoded forward index](forward-index.md#dictionary-encoded-forward-index-with-bit-compression-default) 
@@ -18,12 +18,12 @@ and [sorted forward index](forward-index.md#sorted-forward-index-with-run-length
 Forward indexes are enabled by default.
 This means that columns will contain a forward index unless they are explicitly disabled.
 By doing so, most scanning access to the data will be disabled, but this is useful when other indexes are sufficient to cover the required data patterns.
-Read the [disabling forward index section](forward-index.md#disabling-the-forward-index) in order to have some examples.
+For examples, see [Disabling the forward index](forward-index.md#disabling-the-forward-index) .
 
-As explained bellow, the encoding and whether the segment is sorted by the indexed column are two important properties.
+The encoding and whether the segment is sorted by the indexed column are two important properties.
 They can be configured in [table config](../../configuration-reference/table.md).
 
-When encoding is raw, forward indexes can be extra customized, as explained in the [raw encoding section](forward-index.md#raw-value-forward-index).
+When encoding is raw, forward indexes can be customized further. For more information, see the [raw encoding section](forward-index.md#raw-value-forward-index).
 
 ## Dictionary-encoded forward index with bit compression (default)
 
@@ -45,14 +45,14 @@ When a column is physically sorted, Pinot uses a sorted forward index with run-l
 
 The Sorted forward index has the advantages of both good compression and data locality. The Sorted forward index can also be used as an inverted index.
 
-Sorted forward index are active when:
+Sorted forward index are active when the following criteria are true:
 * The segment is sorted by this column
 * The dictionary is enabled for that column (see [dictionary documentation page](dictionary-index.md)).
 
 If you are ingesting multiple segments you will need to make sure that data is sorted within each segment - you don't need to sort the data across segments.
 
-How to make sure that a segment is sorted by the column depends on the type of table:
-* In real-time tables `tableIndexConfig.sortedColumn` can be used.
+To ensure a segment is sorted by the column, do the following:
+* In real-time tables, use `tableIndexConfig.sortedColumn`.
   If there is exactly one column in that array, Pinot sorts the segment by that column when it is committed.
 * In offline tables, `tableIndexConfig.sortedColumn` is ignored and you will need to sort the data by that column before
   ingesting it into Pinot.

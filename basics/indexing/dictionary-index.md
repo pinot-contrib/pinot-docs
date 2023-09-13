@@ -1,13 +1,13 @@
-# Dictionary Index
+# Dictionary index
 
-When storing large amounts of data, most of the time the values are repeated several times.
-In order to optimize the storage and query latencies in this case, Pinot can be configured to use a dictionary.
+When storing large amounts of data, typically values are repeated several times.
+To optimize the storage and query latencies for repetitive data, we recommend using a dictionary index.
 
 ## Influence on other indexes
 
-Dictionaries are not only an index but an actual encoding in Pinot.
+Dictionaries are both an index and actual encoding in Pinot.
 That means that when they are enabled, some other indexes change their behavior or layout.
-The relation between dictionary and other indexes is the following:
+The relation between dictionary and other indexes is shown in the following table:
 
 | Index                                       | Conditional               | Description                                                         |
 |---------------------------------------------|---------------------------|---------------------------------------------------------------------|
@@ -22,12 +22,11 @@ The relation between dictionary and other indexes is the following:
 
 ## Configuration
 
-### How to enable or disable dictionaries
+### Enable or disable dictionaries
 Unlike most indexes, dictionary indexes are enabled by default, assuming that the number of unique values will
 be orders of magnitude smaller than the number of rows.
 
-If this is not the case, it is recommended to disable the dictionary for the column.
-In order to that, use the `disabled` property in `indexes.dictionary`:
+If this is not the case, disable the dictionary for the column by specifying the `disabled` property in `indexes.dictionary`:
 
 {% code title="Configured in tableConfig fieldConfigList" %}
 ```javascript
@@ -36,7 +35,7 @@ In order to that, use the `disabled` property in `indexes.dictionary`:
     {
       "name": "theTableName",
       "indexes": {
-        "dictioanry": {
+        "dictionary": {
           "disabled": true
         }
       }
@@ -79,10 +78,10 @@ The parameters that control the heuristic are:
 
 It is important to note that these parameters are configured for all columns on the table.
 When this optimization is enabled, columns explicitly marked as dictionary will actually be encoded as raw 
-if:
+if all of the following criteria are true:
 - They are not multi-valued.
 - And their column type is fixed size (like int, long, double, timestamp, etc).
-- And their ratio between the forward index size encoded as raw and the forward index size encoded as dictionary is lower than `noDictionarySizeRatioThreshold`.
+- The ratio between the forward index size encoded as raw and the forward index size encoded as dictionary is lower than `noDictionarySizeRatioThreshold`.
 
 If `optimizeDictionary` is false and `optimizeDictionaryForMetrics` is true, only columns declared as metric will be affected.
 If `optimizeDictionary` is true, all columns will be affected.
@@ -103,7 +102,7 @@ Dictionaries are always off heap, but in cases where the cardinality is small an
 small, they can be copied in memory by changing `onHeap` parameter to true.
 When they are on heap, dictionaries can be faster and some extra optimizations can be done.
 
-Parameter `useVarLengthDictionary` only affects columns whose values require variable number of bytes.
+Parameter `useVarLengthDictionary` only affects columns whose values require a variable number of bytes.
 That means that:
 * The column type requires variable number of bytes (like string, bytes or big decimal).
 * Not all values on the segment require the same number of bytes.
@@ -113,10 +112,10 @@ That means that:
 By default, this parameter is `false`, which means that Pinot will calculate the larger value contained in the segment.
 That is the length that will be used for each value.
 This guarantees that all values can be stored and produce faster access and a more compressed layout when the length of
-values are quite similar.
+values are similar.
 
-This default is not great when there are a few very large values and a lot of very small ones.
-In that case it is recommended to indicate Pinot to use a variable length encoding by setting `useVarLengthDictionary` to `true`.
+If your dataset has few very large values and a lot of very small ones, we recommend
+specifying that Pinot use a variable length encoding by setting `useVarLengthDictionary` to `true`.
 When the variable encoding is used, Pinot needs to store the entry length, so the cost of storing an entry is
 their actual size plus 4 bytes offset.
 

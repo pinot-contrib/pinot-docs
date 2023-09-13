@@ -79,7 +79,7 @@ configure a bloom filter for a table in the [table config](../../configuration-r
 
 #### Use default settings
 
-In case the default values are the ones that want to be used, include the name of the column in `tableIndexConfig.bloomFilterColumns`.
+To use default values, include the name of the column in `tableIndexConfig.bloomFilterColumns`.
 
 For example:
 
@@ -101,7 +101,7 @@ For example:
 
 #### Customized parameters
 
-When custom parameters are required, add a new entry in `tableIndexConfig.bloomFilterConfig` object.
+To specify custom parameters, add a new entry in `tableIndexConfig.bloomFilterConfig` object.
 The key should be the name of the column and the value should be an object similar to the one that can be used in the
 bloom section of `fieldConfigList`.
 
