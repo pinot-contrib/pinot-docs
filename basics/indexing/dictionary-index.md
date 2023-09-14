@@ -1,13 +1,16 @@
 # Dictionary index
 
-When storing large amounts of data, typically values are repeated several times.
-To optimize the storage and query latencies for repetitive data, we recommend using a dictionary index.
+When dealing with extensive datasets, it's common for values to be repeated multiple times.
+To enhance storage efficiency and reduce query latencies, we strongly recommend employing a 
+dictionary index for repetitive data.
+This is the reason Pinot enables dictionary encoding by default, 
+even though it is advisable to disable it for columns with high cardinality. 
 
 ## Influence on other indexes
 
-Dictionaries are both an index and actual encoding in Pinot.
-That means that when they are enabled, some other indexes change their behavior or layout.
-The relation between dictionary and other indexes is shown in the following table:
+In Pinot, dictionaries serve as both an index and actual encoding. 
+Consequently, when dictionaries are enabled, the behavior or layout of certain other indexes undergoes modification. 
+The relationship between dictionaries and other indexes is outlined in the following table:
 
 | Index                                       | Conditional               | Description                                                         |
 |---------------------------------------------|---------------------------|---------------------------------------------------------------------|
@@ -17,16 +20,17 @@ The relation between dictionary and other indexes is shown in the following tabl
 | [json](json-index.md)                       | when `optimizeDictionary` | Disables dictionary.                                                |
 | [text](text-search-support.md)              | when `optimizeDictionary` | Disables dictionary.                                                |
 | FST                                         |                           | Requires dictionary.                                                |
-| [H3 (or geospatial)](geospatial-support.md) |                           | Requires no dictionary.                                             |
+| [H3 (or geospatial)](geospatial-support.md) |                           | Incompatible with dictionary.                                       |
 
 
 ## Configuration
 
 ### Enable or disable dictionaries
-Unlike most indexes, dictionary indexes are enabled by default, assuming that the number of unique values will
-be orders of magnitude smaller than the number of rows.
+Unlike many other indexes, dictionary indexes are enabled by default, under the assumption that the count of unique 
+values will be significantly lower than the number of rows.
 
-If this is not the case, disable the dictionary for the column by specifying the `disabled` property in `indexes.dictionary`:
+If this assumption does not hold true, you can deactivate the dictionary for a specific column by setting the `disabled`
+property to true within `indexes.dictionary`:
 
 {% code title="Configured in tableConfig fieldConfigList" %}
 ```javascript
@@ -62,62 +66,71 @@ Alternatively, the `encodingType` property can be changed. For example:
 ```
 {% endcode %}
 
-Use the option you prefer, but try to be consistent, as Pinot will reject table configurations where the same column and
-index is defined in different places.
+You may choose the option you prefer, but it's essential to maintain consistency, as Pinot will reject table 
+configurations where the same column and index are defined in different locations.
 
-The decision of actually create the dictionary or not can be delegated to some included Pinot heuristics.
-This feature can be enabled in `indexingConfig` object inside table config.
-The parameters that control the heuristic are:
+The decision of whether to create the dictionary or not can be left to certain built-in Pinot heuristics.
+This functionality can be enabled within the `indexingConfig` object within the table configuration. 
+The parameters that govern these heuristics are:
 
+| Parameter                      | Default | Description                                                           |
+|--------------------------------|---------|-----------------------------------------------------------------------|
+| optimizeDictionary             | false   | Enables the heuristic for all columns and activates some extra rules. |
+| optimizeDictionaryForMetrics   | false   | Enables the heuristic for metric columns.                             |
+| noDictionarySizeRatioThreshold | 0.85    | The ratio used in the heuristics.                                     |
 
-| Parameter                      | Default | Description                                                          |
-|--------------------------------|---------|----------------------------------------------------------------------|
-| optimizeDictionary             | false   | Enables the heuristic for all columns and activate some extra rules. |
-| optimizeDictionaryForMetrics   | false   | Enables the heuristic for metric columns.                            |
-| noDictionarySizeRatioThreshold | 0.85    | The ratio used in the heuristics.                                    |
+It's important to emphasize that these parameters are configured for all columns within the table.
 
-It is important to note that these parameters are configured for all columns on the table.
-When this optimization is enabled, columns explicitly marked as dictionary will actually be encoded as raw 
-if all of the following criteria are true:
+When this optimization is enabled, columns explicitly marked as dictionaries will be encoded as raw
+if all the following criteria are true:
+
 - They are not multi-valued.
-- And their column type is fixed size (like int, long, double, timestamp, etc).
-- The ratio between the forward index size encoded as raw and the forward index size encoded as dictionary is lower than `noDictionarySizeRatioThreshold`.
+- Their column type is fixed size (such as int, long, double, timestamp, etc).
+- The ratio between the forward index size encoded as raw and the forward index size encoded as a dictionary is less
+  than `noDictionarySizeRatioThreshold`
 
-If `optimizeDictionary` is false and `optimizeDictionaryForMetrics` is true, only columns declared as metric will be affected.
-If `optimizeDictionary` is true, all columns will be affected.
-Also in this case columns indexed as [text](./text-search-support.md) or [JSON](./json-index.md) will automatically be indexed as raw.
-Note that `optimizeDictionary` has priority over `optimizeDictionaryForMetrics` and the special rule applied to text 
-and JSON indexes only applies when `optimizeDictionary` is true.
+If `optimizeDictionary` is set to false and `optimizeDictionaryForMetrics` is true, only columns declared as metrics 
+will be affected.
+
+If `optimizeDictionary` is set to true, all columns will be affected.
+In this scenario, columns indexed as [text](./text-search-support.md) or [JSON](./json-index.md) will automatically be 
+indexed as raw.
+
+Please note that `optimizeDictionary` takes precedence over `optimizeDictionaryForMetrics`, and the special rule 
+applied to text and JSON indexes only applies when `optimizeDictionary` is true.
 
 ### Parameters
 
-There are some options you can configure:
+Dictionaries can be configured with the following options 
 
-| Parameter              | Default | Description                                    |
-|------------------------|---------|------------------------------------------------|
-| onHeap                 | false   | If the index must be load on heap or off heap. |
-| useVarLengthDictionary | false   | How to store variable length values.           |
+| Parameter              | Default | Description                                                       |
+|------------------------|---------|-------------------------------------------------------------------|
+| onHeap                 | false   | Specifies whether the index should be loaded on heap or off heap. |
+| useVarLengthDictionary | false   | Determines how to store variable-length values.                   |
 
 Dictionaries are always off heap, but in cases where the cardinality is small and the footprint on heap is acceptably 
 small, they can be copied in memory by changing `onHeap` parameter to true.
 When they are on heap, dictionaries can be faster and some extra optimizations can be done.
 
-Parameter `useVarLengthDictionary` only affects columns whose values require a variable number of bytes.
-That means that:
-* The column type requires variable number of bytes (like string, bytes or big decimal).
-* Not all values on the segment require the same number of bytes.
-  For example, if the segment only contains values "a", "b" and "c", Pinot will detect that there all values
-  can be represented with the same number of bytes.
+Dictionaries are always stored off-heap. 
+However, in cases where the cardinality is small, and the on-heap memory usage is acceptable, 
+you can copy them into memory by setting the `onHeap` parameter to true. 
+When dictionaries are on-heap, they can offer improved performance, and additional optimizations become possible.
 
-By default, this parameter is `false`, which means that Pinot will calculate the larger value contained in the segment.
-That is the length that will be used for each value.
-This guarantees that all values can be stored and produce faster access and a more compressed layout when the length of
-values are similar.
+The `useVarLengthDictionary` parameter only impacts columns with values that vary in the number of bytes they occupy.
+This includes column types that require a variable number of bytes, such as strings, bytes, or big decimals, 
+and scenarios where not all values within a segment occupy the same number of bytes. 
+For example, even strings in general require a variable number of bytes to be stored, 
+if a segment contains only the values "a", "b", and "c" Pinot will identify that all values in the segment 
+can be represented with the same number of bytes.
 
-If your dataset has few very large values and a lot of very small ones, we recommend
-specifying that Pinot use a variable length encoding by setting `useVarLengthDictionary` to `true`.
-When the variable encoding is used, Pinot needs to store the entry length, so the cost of storing an entry is
-their actual size plus 4 bytes offset.
+By default, `useVarLengthDictionary` is set to `false`, which means Pinot will calculate the length of the largest value
+contained within the segment. 
+This length will then be used for all values. 
+This approach ensures that all values can be stored efficiently, resulting in faster access and a more compressed layout 
+when the lengths of values are similar.
 
-### When dictionaries are created
-Although dictionaries are enabled by default, they are usually not created at 
+If your dataset includes a few very large values and a multitude of very small ones, 
+it is advisable to instruct Pinot to utilize variable-length encoding by setting `useVarLengthDictionary` to `true`.
+When variable encoding is employed, Pinot is required to store the length of each entry.
+Consequently, the cost of storing an entry becomes its actual size plus an additional 4 bytes for the offset.

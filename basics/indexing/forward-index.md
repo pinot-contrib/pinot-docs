@@ -1,66 +1,108 @@
 # Forward index
 
-At conceptual level, the forward index is a map from the document ID (aka row index) to the actual column value of the row.
-How this map is implemented depends on the index encoding and on whether the column is sorted or not.
+The forward index is the mechanism Pinot employs to store the values of each column. 
+At a conceptual level, the forward index can be thought of as a mapping from document IDs (also known as row indices) 
+to the actual column values of each row. 
 
-When encoding is `RAW`, the forward index is implemented as an array whose indexes are the document IDs and the values
-are the actual row value. 
-To learn more, see the [raw value forward type](forward-index.md#raw-value-forward-index).
+Forward indexes are enabled by default, meaning that columns will have a forward index unless explicitly disabled.
+Disabling the forward index can save storage space when other indexes sufficiently cover the required data patterns.
+For information on how to disable the forward index and its implications, refer to
+[Disabling the Forward Index](forward-index.md#disabling-the-forward-index).
 
-When the encoding is `DICTIONARY`, the forward index does not physically store the actual row values but the dictionary IDs.
-This means that there is an extra indirection each time a value has to be read, but enable two more efficient physical 
-layouts depending on whether the segment is sorted by this column or not.
-The [dictionary encoded forward index](forward-index.md#dictionary-encoded-forward-index-with-bit-compression-default) 
-and [sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding) explain each option in detail.
+## Dictionary encoded vs raw value
 
-## Configuration
+How forward indexes are implemented depends on the index encoding and whether the column is sorted.
 
-Forward indexes are enabled by default.
-This means that columns will contain a forward index unless they are explicitly disabled.
-By doing so, most scanning access to the data will be disabled, but this is useful when other indexes are sufficient to cover the required data patterns.
-For examples, see [Disabling the forward index](forward-index.md#disabling-the-forward-index) .
+When the encoding is set to `RAW`, the forward index is implemented as an array, where the indices correspond to 
+document IDs and the values represent the actual row values. 
+For more details, refer to the [raw value forward index](forward-index.md#raw-value-forward-index) section.
 
-The encoding and whether the segment is sorted by the indexed column are two important properties.
-They can be configured in [table config](../../configuration-reference/table.md).
+In the case of `DICTIONARY` encoding, the forward index doesn't store the actual row values but instead stores 
+dictionary IDs. 
+This introduces an additional level of indirection when reading values, but it allows for more efficient physical 
+layouts when unique number of values in the column is significantly smaller than the number of rows. 
 
-When encoding is raw, forward indexes can be customized further. For more information, see the [raw encoding section](forward-index.md#raw-value-forward-index).
+The `DICTIONARY` encoding can be even more efficient if the segment is sorted by the indexed column.
+You can learn more about the 
+[dictionary encoded forward index](forward-index.md#dictionary-encoded-forward-index-with-bit-compression-default) and 
+the [sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding) in their respective sections.
 
-## Dictionary-encoded forward index with bit compression (default)
+When working out whether a column should use dictionary encoded or raw value encoding, the following comparison table may help:
 
-Each unique value from a column is assigned an id and a dictionary is built that maps the id to the value. The forward index stores bit-compressed ids instead of the values. If you have few unique values, dictionary-encoding can significantly improve space efficiency.
+| Dictionary                                                                  | Raw Value                                                                             |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Provides compression when low to medium cardinality.                        | Eliminates padding overhead                                                           |
+| Allows for indexing (esp inv index).                                        | No inv index (only JSON/Text/FST index)                                               |
+| Adds one level of dereferencing, so can increase disk seeks                 | Eliminates additional dereferencing, so good when all docs of interest are contiguous |
+| For Strings, adds padding to make all values equal length in the dictionary | Chunk de-compression overhead with docs selected don't have spatial locality          |
+
+### Dictionary-encoded forward index with bit compression (default)
+
+In this approach, each unique value in a column is assigned an ID, and a dictionary is constructed to map these IDs back
+to their corresponding values.
+Instead of storing the actual values, the default forward index stores these bit-compressed IDs.
+This method is particularly effective when dealing with columns containing few unique values, 
+as it significantly improves space efficiency.
 
 The below diagram shows the dictionary encoding for two columns with `integer` and `string` types. For`colA`, dictionary encoding saved a significant amount of space for duplicated values.
 
-On the other hand, `colB` has no duplicated data. Dictionary encoding will not compress much data in this case where there are a lot of unique values in the column. For the `string` type, we pick the length of the longest value and use it as the length for the dictionary’s fixed-length value array. The padding overhead can be high if there are a large number of unique values for a column.
+The diagram below illustrates dictionary encoding for two columns with different data types (integer and string). 
+For `colA`, dictionary encoding leads to significant space savings due to duplicated values. 
+However, for `colB`, which contains mostly unique values, the compression effect is limited, and padding overhead may 
+be high.
 
 ![](<../../.gitbook/assets/dictionary (1).png>)
 
-## Sorted forward index with run-length encoding
+To know more about dictionary encoding, see [Dictionary index](dictionary-index.md).
 
-When a column is physically sorted, Pinot uses a sorted forward index with run-length encoding on top of the dictionary-encoding. Instead of saving dictionary ids for each document id, Pinot will store a pair of start and end document ids for each value.
+### Sorted forward index with run-length encoding
+
+When a column is physically sorted, Pinot employs a sorted forward index with run-length encoding, 
+which builds upon dictionary encoding. 
+Instead of storing dictionary IDs for each document ID, this approach stores pairs of start and end document IDs for 
+each unique value.
 
 ![Sorted forward index](../../.gitbook/assets/sorted-forward.png)
 
 (For simplicity, this diagram does not include the dictionary encoding layer.)
 
-The Sorted forward index has the advantages of both good compression and data locality. The Sorted forward index can also be used as an inverted index.
+Sorted forward indexes offer the benefits of efficient compression and data locality and can also serve as an inverted 
+index. 
+They are active when two conditions are met: the segment is sorted by the column, and the dictionary is enabled for that
+column. 
+Refer to the [dictionary documentation](dictionary-index.md) for details on enabling the dictionary.
 
-Sorted forward index are active when the following criteria are true:
-* The segment is sorted by this column
-* The dictionary is enabled for that column (see [dictionary documentation page](dictionary-index.md)).
+When dealing with multiple segments, it's crucial to ensure that data is sorted within each segment. Sorting across segments is not necessary.
 
-If you are ingesting multiple segments you will need to make sure that data is sorted within each segment - you don't need to sort the data across segments.
+To guarantee that a segment is sorted by a particular column, follow these steps:
+- For real-time tables, use the `tableIndexConfig.sortedColumn` property. 
+  If there is exactly one column specified in that array, Pinot will sort the segment by that column upon committing.
+- For offline tables, you must pre-sort the data by the specified column before ingesting it into Pinot. 
 
-To ensure a segment is sorted by the column, do the following:
-* In real-time tables, use `tableIndexConfig.sortedColumn`.
-  If there is exactly one column in that array, Pinot sorts the segment by that column when it is committed.
-* In offline tables, `tableIndexConfig.sortedColumn` is ignored and you will need to sort the data by that column before
-  ingesting it into Pinot.
+{% hint style="warning" %}
+It's crucial to note that for offline tables, the `tableIndexConfig.sortedColumn` property is indeed ignored. 
 
-When a real-time segment is committed and when an offline segment created, Pinot will do a pass over the data in each 
-column and consider sorted any column that contains sorted data, even if they aren't specified as the `sortedColumn`.
+Additionally, for online tables, even though this property is specified as a JSON array, at most one column should be 
+included. 
+Using an array with more than one column is incorrect and will not result in segments being sorted by all the columns 
+listed in the array.
+{% endhint %}
 
-Use the following table config as an example:
+When a real-time segment is committed, rows will be sorted by the sorting column and it will be transformed into an
+offline segment.
+
+During the creation of an offline segment, which also applies when a real-time segment is committed, Pinot scans the 
+data in each column. 
+If it detects that all values within a column are sorted in ascending order, Pinot concludes that the segment is sorted 
+based on that particular column.
+In case this happens on more than one column, all of them are considered as sorting columns.
+Consequently, whether a segment is sorted by a column or not solely depends on the actual data distribution within the 
+segment and entirely disregards the value of the `sortedColumn` property.
+This approach also implies that two segments belonging to the same table may have a different number of sorting columns.
+In the extreme scenario where a segment contains only one row, Pinot will consider all columns within that segment as 
+sorting columns.
+
+Here is an example of a table configuration that illustrates these concepts:
 
 {% code title="Part of a tableConfig" %}
 ```javascript
@@ -75,15 +117,7 @@ Use the following table config as an example:
 ```
 {% endcode %}
 
-{% hint style="info" %}
-**Remember that**: 
-* Although `sortedColumns` expects an array, only 1 sorted column can be added.
-* `tableIndexConfig.sortedColumn` is only honored in real-time tables
-* The sorted property affects Pinot behavior beyond forward index.
-  For example, sorted segments behaves better on queries that order by in-segment sorted columns.
-{% endhint %}
-
-### Checking sort status
+#### Checking sort status
 
 You can check the sorted status of a column in a segment by running the following:
 
@@ -108,23 +142,25 @@ curl -X GET \
 ["baseballStats_OFFLINE_0","playerID",false]
 ```
 
-## Raw value forward index
+### Raw value forward index
 
-The raw value forward index directly stores values instead of ids.
+The raw value forward index stores actual values instead of IDs. 
+This means that it eliminates the need for dictionary lookups when fetching values, which can result in improved 
+query performance. 
+Raw forward index is particularly effective for columns with a large number of unique values, where dictionary encoding
+doesn't provide significant compression benefits.
 
-Without the dictionary, the dictionary lookup step can be skipped for each value fetch. The index can also take advantage of the good locality of the values, thus improving the performance of scanning a large number of values.
-
-The raw value forward index works well for columns that have a large number of unique values where a dictionary does not provide much compression.
-
-As seen in the above diagram, using dictionary encoding will require a lot of random accesses of memory to do those dictionary look-ups. With a raw value forward index, we can scan values sequentially, which can result in improved query performance when applied appropriately.
+As shown in the diagram below, dictionary encoding can lead to numerous random memory accesses for dictionary lookups. 
+In contrast, the raw value forward index allows for sequential value scanning, which can enhance query performance when
+applied appropriately.
 
 ![](../../.gitbook/assets/no-dictionary.png)
 
-The raw format will be used either:
-* The dictionary is disabled for that column (see [dictionary documentation page](dictionary-index.md)).
-* The encoding is set to `RAW` in [field config list](../../configuration-reference/table.md#field-config-list).
+The raw format is used in two scenarios:
+1. When the dictionary is disabled for a column, as specified in the [dictionary documentation](dictionary-index.md).
+2. When the encoding is set to `RAW` in the [field config list](../../configuration-reference/table.md#field-config-list).
 
-Also when this format is used, the following parameters can be configured:
+When using the raw format, you can configure the following parameters:
 
 | Parameter              | Default | Description                                                                      |
 |------------------------|---------|----------------------------------------------------------------------------------|
@@ -139,20 +175,22 @@ The `chunkCompressionType` parameter has the following valid values:
 - `LZ4`
 - `LZ4_LENGTH_PREFIXED`
 - `null` (the JSON null value, not `"null"`), which is the default.
-  In this case `PASS_THROUGH` will be used for metrics and `LZ4` for other columns
+  In this case, `PASS_THROUGH` will be used for metrics and `LZ4` for other columns.
 
-`deriveNumDocsPerChunk` is only used when the datatype may have a variable length.
-For example with `string`, `big decimal`, `bytes`, etc.
-By default, Pinot uses a fixed number of elements that was chosen empirically.
+`deriveNumDocsPerChunk` is only used when the datatype may have a variable length, 
+such as with `string`, `big decimal`, `bytes`, etc. 
+By default, Pinot uses a fixed number of elements that was chosen empirically. 
 If changed to true, Pinot will use a heuristic value that depends on the column data.
 
 `rawIndexWriterVersion` changes the algorithm used under the hood to create the index.
 This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions.
 The latest version right now is 4.
 
-### Configuration
+#### Raw forward index configuration
 
-The recommended way to configure the forward index using raw format is the following:
+The recommended way to configure the forward index using raw format is by including the parameters explained above
+in the `indexes.forward` object.
+For example:
 
 {% code title="Configured in tableConfig fieldConfigList" %}
 ```javascript
@@ -176,22 +214,20 @@ The recommended way to configure the forward index using raw format is the follo
 }
 ```
 {% endcode %}
+##### Deprecated
 
-Remember this format can be enabled even if `encodingType` is not defined by explicitly disabling the dictionary index
-(see [dictionary documentation page](dictionary-index.md)).  
+An alternative method to configure the raw format parameters is available. 
+This older approach can still be used, although it is not recommended. 
+Here are the details of this older method:
 
-#### Deprecated
+- `chunkCompressionType`: This parameter can be defined as a sibling of `name` and `encodingType` in the 
+  `fieldConfigList` section.
+- `deriveNumDocsPerChunk`: You can configure this parameter with the property `deriveNumDocsPerChunkForRawIndex`. 
+  Please note that in `properties`, all values must be strings, so valid values for this property are `"true"` and `"false"`.
+- `rawIndexWriterVersion`: This parameter can be configured using the property `rawIndexWriterVersion`. 
+  Again, in `properties`, all values must be strings, so valid values for this property are `"2"`, `"3"`, and so on.
 
-There is another way to configure the raw format parameters:
-* chunkCompressionType: Can be defined as a sibling of `name` and `encodingType` in fieldConfigList section.
-* deriveNumDocsPerChunk: Can be configured with the property `deriveNumDocsPerChunkForRawIndex`. 
-  Remember that in `properties` all values have to be strings, so valid values are `"true"` and `"false"`. 
-* rawIndexWriterVersion: Can be configured with the property `rawIndexWriterVersion`.
-  Remember that in `properties` all values have to be strings, so valid values are `"2"`, `"3"`, etc.
-
-This is the older way to configure these parameters and although it is not recommended, it can still be used and there 
-is no plans to remove it.
-In case new parameters are added, they may only be configured in the `forward` JSON object.
+For example:
 
 {% code title="Configured in tableConfig fieldConfigList" %}
 ```javascript
@@ -214,16 +250,9 @@ In case new parameters are added, they may only be configured in the `forward` J
 ```
 {% endcode %}
 
-## Dictionary encoded vs raw value
-
-When working out whether a column should use dictionary encoded or raw value encoding, the following comparison table may help:
-
-| Dictionary                                                                  | Raw Value                                                                             |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Provides compression when low to medium cardinality.                        | Eliminates padding overhead                                                           |
-| Allows for indexing (esp inv index).                                        | No inv index (only JSON/Text/FST index)                                               |
-| Adds one level of dereferencing, so can increase disk seeks                 | Eliminates additional dereferencing, so good when all docs of interest are contiguous |
-| For Strings, adds padding to make all values equal length in the dictionary | Chunk de-compression overhead with docs selected don't have spatial locality          |
+While this older method is still supported, it is not the recommended way to configure these parameters.
+There are no plans to remove support for this older method, but keep in mind that any new parameters added in the future
+may only be configurable in the `forward` JSON object.
 
 ## Disabling the forward index
 
@@ -282,7 +311,7 @@ The older way to do so is still supported, but not recommended.
 
 A table reload operation must be performed for the above config to take effect. Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
 
-The forward index can also be regenerated for a column where it is disabled by removing enable the index again and reloading the segment. The forward index can only be regenerated if the dictionary and inverted index have been enabled for the column. If either have been disabled then the only way to get the forward index back is to regenerate the segments via the offline jobs and re-push / refresh the data.
+The forward index can also be regenerated for a column where it is disabled by enabling the index and reloading the segment. The forward index can only be regenerated if the dictionary and inverted index have been enabled for the column. If either have been disabled then the only way to get the forward index back is to regenerate the segments via the offline jobs and re-push / refresh the data.
 
 {% hint style="danger" %}
 **Warning:**&#x20;

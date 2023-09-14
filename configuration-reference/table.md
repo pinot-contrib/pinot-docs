@@ -72,9 +72,12 @@ This section is used to specify some general index configuration and multi-colum
 
 {% hint style="info" %}
 
-Previous to Pinot 0.13 it was also used to configure some single column indexes.
-Although that is still supported, it is strongly recommended to specify these indexes [Field Config List](#Field Config List) section.
-The documentation page of each index type explains how this section could be used to create that index type.
+Before Pinot version 0.13, the configuration described above was also used to configure certain single-column indexes.
+While this approach is still supported, it is highly recommended to specify these indexes in the 
+[Field Config List](#Field Config List) section instead. 
+The documentation page for each index type provides guidance on how to utilize this section to create that specific 
+index type. 
+This updated method offers more flexibility and aligns with best practices for configuring single-column indexes in Pinot.
 
 {% endhint %}
 
@@ -109,40 +112,34 @@ Specify the columns and the type of indices to be created on those columns.
 | properties        | <p>JSON of key-value pairs containing additional properties associated with the index.                                                             |
 
 #### Deprecated configuration options
-There are some configuration options that are still supported but are deprecated.
-These options are still supported and therefore can be used, but it is recommended to migrate them to the new ways to configure them.
+There are several deprecated configuration options in Pinot that are still supported but recommended for migration to 
+newer ways of configuration. 
+Here's a summary of these options:
 
 ##### `indexTypes`
-An older way to define indexes enabled for a column.
-Not all index types were supported and in order to be able to configure these indexes there were some `properties` that could be used.
-
-The list of indexes that are supported are:
-* [Text](../basics/indexing/text-search-support.md).
-* [FST](../basics/indexing/native-text-index.md).
-* [Timestamp](../basics/indexing/timestamp-index.md).
-* [H3 (also known as geospatial)](../basics/indexing/geospatial-support.md)
+- Description: An older way to define indexes enabled for a column.
+- Supported Index Types: [Text](../basics/indexing/text-search-support.md), [FST](../basics/indexing/native-text-index.md), [Timestamp](../basics/indexing/timestamp-index.md), [H3 (also known as geospatial)](../basics/indexing/geospatial-support.md).
+- Note: Some index types required additional `properties` for configuration.
 
 ##### `indexType`
-Like `indexTypes`, but instead of being an array it is a string and only supports a single index type.
-In case both `indexTypes` and `indexType` are present, the latter is ignored.
+- Description: Similar to `indexTypes`, but only supports a single index type as a string.
+- Note: If both `indexTypes` and `indexType` are present, the latter is ignored.
 
 ##### `compressionCodec`
-An older way to indicate the compression to be used.
-Instead of using this, it is recommended to specify the compression in the [forward index config](../basics/indexing/forward-index.md).
+- Description: An older way to specify compression for indexes.
+- Recommendation: It's now recommended to specify compression in the [forward index config](../basics/indexing/forward-index.md).
 
 ##### Deprecated `properties`
-Before Pinot 0.13, the only way to configure some indexes was to specify some properties in this section.
-Since Pinot 0.13, each index can be configured in a type safe way in its own section in the `indexes` object.
-The documentation page of each index type includes the list of properties that were used.
+- Description: Before Pinot 0.13, certain indexes were configured using properties within this section.
+- Migration: Since Pinot 0.13, each index can be configured in a type-safe manner within its dedicated section in the `indexes` object. 
+  The documentation for each index type lists the properties that were previously used.
+- Notable Properties:
+  - Text Index Properties: `enableQueryCacheForTextIndex` (used to enable/disable the cache, with values specified as 
+  strings, e.g., "true" or "false").
+  - Forward Index Properties: `rawIndexWriterVersion`, `deriveNumDocsPerChunkForRawIndex`, `forwardIndexDisabled`.
 
-Some notable properties where:
-- Text index properties:
-  - `enableQueryCacheForTextIndex`: Enables/disables the cache. The string version of `true` or `false` had to be used
-    (so correct values were `"true"` and `"false"`)
-- Forward index properties
-  - `rawIndexWriterVersion`
-  - `deriveNumDocsPerChunkForRawIndex`
-  - `forwardIndexDisabled`
+It's strongly recommended to migrate from these deprecated options to the new, more structured configuration methods 
+introduced in Pinot 0.13 for better maintainability and compatibility.
 
 {% hint style="danger" %}
 **Warning:**

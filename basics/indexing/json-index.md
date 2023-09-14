@@ -52,7 +52,7 @@ The JSON index is designed to accelerate the filtering on JSON string columns wi
 
 ## Enable and configure a JSON index
 
-To enable the JSON index, set the following config in the table config:
+To enable the JSON index, you can configure the following options in the table configuration:
 
 | Config Key                  | Description                                                                                                                                                                                                                            | Type         | Default                                              |
 | --------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------ | ---------------------------------------------------- |
