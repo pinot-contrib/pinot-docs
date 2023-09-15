@@ -26,7 +26,30 @@ Pinot automatically detects new partitions in Kafka topics. It checks for new pa
 
 You can configure the interval for this job using the`controller.realtime.segment.validation.frequencyPeriod` property in the controller configuration.
 
-### How do I enable partitioning in Pinot, when using Kafka stream?
+### Does Pinot support multi-column partitioning?
+
+Pinot supports multi-column partitioning for offline tables. Map multiple columns under [`tableIndexConfig.segmentPartitionConfig.columnPartitionMap`](/configuration-reference/table.md#segmentPartitionConfig). When multi-column partitioning is configured, the configuration partitions the segment on each column individually. 
+
+The following example partitions the segment based on two columns, `memberID` and `caseNumber`.
+
+```json
+"tableIndexConfig": {
+      ..
+      "segmentPartitionConfig": {
+        "columnPartitionMap": {
+          "memberId": {
+            "functionName": "Modulo",
+            "numPartitions": 3 
+          },
+          "caseNumber": {
+            "functionName": "Murmur",
+            "numPartitions": 12 
+          }
+        }
+      }
+```
+
+### How do I enable partitioning in Pinot when using Kafka stream?
 
 Set up partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
 
