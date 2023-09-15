@@ -5,7 +5,7 @@ description: >-
 
 # Apache Pinot™ concepts
 
-Apache Pinot™ is a database designed to deliver highly concurrent, ultra-low-latency queries on large datasets through a set of data model abstractions familiar to most developers. Delivering on these goals requires several foundational architectural commitments:
+Apache Pinot™ is a database designed to deliver highly concurrent, ultra-low-latency queries on large datasets through a set of common data model abstractions. Delivering on these goals requires several foundational architectural commitments, including:
 
 * Storing data in columnar form to allow for high-performance scanning
 * Sharding of data to scale both storage and computation
