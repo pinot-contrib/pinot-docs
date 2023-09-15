@@ -85,7 +85,8 @@ Find details on configuring routing [here](https://docs.pinot.apache.org/operato
 | varLengthDictionaryColumns                 | The list of columns for which the variable length dictionary needs to be enabled in offline segments. This is only valid for string and bytes columns and has no impact for columns of other data types.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | jsonIndexColumns                           | The list of columns to create the JSON index. See [JSON Index](../basics/indexing/json-index.md#configure-json-index) for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | jsonIndexConfigs                           | The map from column to JSON index config. See [JSON Index](../basics/indexing/json-index.md#configure-json-index) for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| segmentPartitionConfig                     | <p> Use `segmentPartitionConfig.columnPartitionMap` to enable partitioning. For each column, configure the following options:.</p>
+| segmentPartitionConfig                     | <p> Use `segmentPartitionConfig.columnPartitionMap` along with [`routing.segementPrunerTypes`](/configuration-reference/table.md#routing)
+(/configuration-reference/table#routing) to enable partitioning. For each column, configure the following options:.</p>
 <ul>
 <li><code>functionName</code>: Specify one of the supported functions:
 <ul>
@@ -98,7 +99,17 @@ Find details on configuring routing [here](https://docs.pinot.apache.org/operato
 <code>numPartitions</code>:  Number of partitions you want per segment. Controls how data is divided within each segment. 
 </li>
 </ul>
-<p><br>Example:</p><p><code>{</code><br><code>"foo": {</code><br><code>"functionName": "Murmur",</code><br><code>"numPartitions": 32</code><br><code>}</code><br><code>}</code></p> |
+<p><br>Example:</p><p><code>
+{<br>
+"columnPartitionMap": {<br>
+"column_memberID": {<br>
+"functionName": "Murmur",<br>
+"numPartitions": 32<br>
+}<br>
+}<br>
+}
+</code>
+</p> |
 | loadMode                                   | <p>Indicates how the segments will be loaded onto the server:<br><code>heap</code> - load data directly into direct memory<br><code>mmap</code> - load data segments to off-heap memory</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | columnMinMaxValueGeneratorMode             | <p>Generate min max values for columns. Supported values:<br><code>NONE</code> - do not generate for any columns<br><code>ALL</code> - generate for all columns<br><code>TIME</code> - generate for only time column<br><code>NON_METRIC</code> - generate for time and dimension columns</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | nullHandlingEnabled                        | Boolean to indicate whether to keep track of null values as part of the segment generation. This is required when using `IS NULL` or `IS NOT NULL` predicates in the query. Enabling this will lead to additional memory and storage usage per segment. By default, this is set to _false_.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -258,7 +269,8 @@ Below is an example of setting AWS credential as part of table config using envi
       "onHeapDictionaryColumns": [],
       "varLengthDictionaryColumns": [],
       "segmentPartitionConfig": {
-        "pk": {
+        "columnPartitionMap": {
+          "column_foo": {
           "functionName": "Murmur",
           "numPartitions": 32
         }
@@ -295,7 +307,7 @@ Below is an example of setting AWS credential as part of table config using envi
 ```
 {% endcode %}
 
-### Real-time Table
+### Real-time table
 
 Here's an example table config for a real-time table. **All the fields from the offline table config are valid for the real-time table**. Additionally, real-time tables use **some extra fields**.
 
