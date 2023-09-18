@@ -372,7 +372,7 @@ A sample response from a Kafka-based real-time table is shown below. The ingesti
 
 Real-time ingestion includes 3 stages of message processing: Decode, Transform, and Index.
 
-In each of these stages, a failure can happen which may or may not result in an ingestion failure. The following metrics are available to investigation ingestion issues:
+In each of these stages, a failure can happen which may or may not result in an ingestion failure. The following metrics are available to investigate ingestion issues:
 
 1. Decode stage -> an error here is recorded as `INVALID_REALTIME_ROWS_DROPPED`
 2. Transform stage -> possible errors here are:
