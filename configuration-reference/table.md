@@ -107,7 +107,6 @@ Find details on configuring routing [here](https://docs.pinot.apache.org/operato
 "numPartitions": 32<br>
 }<br>
 }<br>
-}
 </code>
 </p> |
 | loadMode                                   | <p>Indicates how the segments will be loaded onto the server:<br><code>heap</code> - load data directly into direct memory<br><code>mmap</code> - load data segments to off-heap memory</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
