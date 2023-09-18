@@ -98,6 +98,8 @@
 * [Query](users/user-guide-query/README.md)
   * [Querying Pinot](users/user-guide-query/querying-pinot.md)
   * [Aggregation Functions](users/user-guide-query/supported-aggregations.md)
+  * [Window functions](users/user-guide-query/windows-functions.md)
+  * [JOINs](users/user-guide-query/joins.md)
   * [Transformation Functions](users/user-guide-query/supported-transformations.md)
   * [User-Defined Functions (UDFs)](users/user-guide-query/scalar-functions.md)
   * [Grouping Algorithm](users/user-guide-query/grouping-algorithm.md)
@@ -142,7 +144,8 @@
   * [Ingestion Aggregations](developers/advanced/ingestion-level-aggregations.md)
   * [Ingestion Transformations](developers/advanced/ingestion-level-transformations.md)
   * [Null Value Support](developers/advanced/null-value-support.md)
-  * [Multi-Stage Query Engine](developers/advanced/v2-multi-stage-query-engine.md)
+  * [Use the multi-stage query engine (v2)](developers/advanced/v2-multi-stage-query-engine.md)
+  * [Troubleshoot issues with the multi-stage query engine (v2)](developers/advanced/troubleshoot-multi-stage-query-engine.md)
   * [Advanced Pinot Setup](developers/advanced/advanced-pinot-setup.md)
 * [Plugins](developers/plugin-architecture/README.md)
   * [Write Custom Plugins](developers/plugin-architecture/write-custom-plugins/README.md)
@@ -320,6 +323,7 @@
   * [replace](configuration-reference/functions/replace.md)
   * [reverse](configuration-reference/functions/reverse.md)
   * [round](configuration-reference/functions/round.md)
+  * [ROW\_NUMBER](configuration-reference/functions/round-1.md)
   * [rpad](configuration-reference/functions/rpad.md)
   * [rtrim](configuration-reference/functions/rtrim.md)
   * [second](configuration-reference/functions/second.md)
@@ -371,6 +375,11 @@
   * [VAR\_SAMP](configuration-reference/plugin-reference/var\_samp.md)
   * [STDDEV\_POP](configuration-reference/plugin-reference/stddev\_pop.md)
   * [STDDEV\_SAMP](configuration-reference/plugin-reference/stddev\_samp.md)
+
+## Reference
+
+* [Single-stage query engine (v1)](reference/cluster.md)
+* [Multi-stage query engine (v2)](reference/cluster-1.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 

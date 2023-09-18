@@ -6,13 +6,17 @@ description: Learn how to query Pinot using SQL
 
 ## SQL Interface
 
-Pinot provides a SQL interface for querying. It uses the **Calcite SQL** parser to parse queries and the **MYSQL\_ANSI** dialect. For details on the grammar, see the the [Calcite documentation](https://calcite.apache.org/docs/reference.html).&#x20;
+Pinot provides a SQL interface for querying. It uses the **Calcite SQL** parser to parse queries and the **MYSQL\_ANSI** dialect. For details on the syntax, see the the [Calcite documentation](https://calcite.apache.org/docs/reference.html).&#x20;
 
-## Limitations
+## Pinot 1.0
 
-* The latest Pinot multi-stage supports inner join, left-outer, semi-join, and nested queries out of the box. It's optimized for in-memory process and latency.
-  * For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage engine, we still recommend using **Presto**. For more information, see [Multi-Stage Query Engine](../../developers/advanced/v2-multi-stage-query-engine.md).
-* The latest Pinot also supports simple DDL to insert data into a table from file directly. For details, see [Multi-Stage Query Engine](../../developers/advanced/v2-multi-stage-query-engine.md).
+In Pinot 1.0, the [multi-stage query engine](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/reference/cluster-1) supports inner join, left-outer, semi-join, and nested queries out of the box. It's optimized for in-memory process and latency. For more information, see how to [use the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md).
+
+{% hint style="info" %}
+**Note:** For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage query engine (v2), we still recommend using **Presto**.&#x20;
+{% endhint %}
+
+* Pinot also supports simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [Multi-Stage Query Engine](../../developers/advanced/v2-multi-stage-query-engine.md).
   * More DDL supports will be added in the future. But for now, the most common way for data definition is via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
 ## Identifier vs Literal
