@@ -10,11 +10,11 @@
 
 #### Data Consistency
 
-Pinot supports atomic update on segment level, which means that when data consisting of multiple segments are pushed to a table, as segments are replaced one at a time, queries to the broker during this upload phase may produce inconsistent result due to interleaving of old and new data.&#x20;
+Pinot supports atomic update on segment level, which means that when data consisting of multiple segments are pushed to a table, as segments are replaced one at a time, queries to the broker during this upload phase may produce inconsistent result due to interleaving of old and new data.
 
 #### Data Rollback
 
-Furthermore, Pinot currently does not support data rollback features. In case of a bad data push, the table owner needs to re-run the flow with the previous data and re-ingest data to Pinot. This end-to-end process can take hours and the Pinot table can potentially be in a bad state during this long period.&#x20;
+Furthermore, Pinot currently does not support data rollback features. In case of a bad data push, the table owner needs to re-run the flow with the previous data and re-ingest data to Pinot. This end-to-end process can take hours and the Pinot table can potentially be in a bad state during this long period.
 
 The consistent push and rollback protocol allows a user to **atomically switch between data snapshots and rollback to the previous data in the case of a bad data push**. For complete motivation and reasoning, refer to the design doc above. Currently, we only support **OFFLINE table REFRESH use cases**.
 
@@ -42,7 +42,7 @@ When broker answers queries from the users, it will go through the lineage entri
 
 Below are the APIs available on the controller to invoke the segment replacement protocol.
 
-1. `startReplaceSegments`: Signifies to the controller that a replacement protocol is about to atomically replace `segmentsFrom`, a source list of segments, by `segmentsTo` , a target list of segments, which then persists a segment lineage entry with "IN PROGRESS" state to Zookeeper and returns its ID.&#x20;
+1. `startReplaceSegments`: Signifies to the controller that a replacement protocol is about to atomically replace `segmentsFrom`, a source list of segments, by `segmentsTo` , a target list of segments, which then persists a segment lineage entry with "IN PROGRESS" state to Zookeeper and returns its ID.
 2. `endReplaceSegments`: Ends the replacement protocol associated with the segment lineage entry ID passed in as a parameter by changing the state to "COMPLETED".
 3. `revertReplaceSegments`: Reverts the replacement protocol associated with the segment lineage entry ID passed in as a parameter by changing the state to "REVERTED".
 
@@ -52,7 +52,7 @@ Instead, consistent push is built into batch ingestion jobs (**currently only su
 
 ### How to set up Ingestion Job with Consistent Push
 
-**Step 0:** Adjust the table [storage quota](https://docs.pinot.apache.org/configuration-reference/table#quota) to 2x that of the original amount. See [#implications-of-enabling-consistent-push](consistent-push-and-rollback.md#implications-of-enabling-consistent-push "mention") for more details.&#x20;
+**Step 0:** Adjust the table [storage quota](https://docs.pinot.apache.org/configuration-reference/table#quota) to 2x that of the original amount. See [#implications-of-enabling-consistent-push](consistent-push-and-rollback.md#implications-of-enabling-consistent-push "mention") for more details.
 
 **Step 1:** Set up config for your OFFLINE, REFRESH table. Enable `consistentDataPush` under IngestionConfig -> BatchIngestionConfig.
 
@@ -86,7 +86,7 @@ Retention manager manages the cleanup of segments as well as segment lineage dat
 
 On a high level, the cleanup logic is as follows:
 
-1. &#x20;Cleanup unused segments: For entries in "COMPLETED" state, we remove segments in `segmentsFrom`. For entries in "REVERTED" or "IN\_PROGRESS" state whose timestamp is more than 24 hours old, we remove segments in `segmentsTo`.
+1. Cleanup unused segments: For entries in "COMPLETED" state, we remove segments in `segmentsFrom`. For entries in "REVERTED" or "IN\_PROGRESS" state whose timestamp is more than 24 hours old, we remove segments in `segmentsTo`.
 2. Once all segments in step 1 are cleaned up, we remove the lineage entry.
 
 The cleanup is usually handled in 2 cycles.
@@ -94,11 +94,11 @@ The cleanup is usually handled in 2 cycles.
 Cleanup regarding `startReplaceSegment` API:
 
 1. We proactively remove the first snapshot if the client side is pushing the 3rd snapshot, so we are not exceeding the 2x disk space.
-2. &#x20;If the previous push fails in the middle (IN\_PROGRESS/REVERTED state), we also clean up the `segmentsTo`.
+2. If the previous push fails in the middle (IN\_PROGRESS/REVERTED state), we also clean up the `segmentsTo`.
 
 ### Implications of enabling Consistent Push
 
 1. Enabling consistent push can lead to up to 2x storage usage (assuming data size between snapshots are roughly equivalent) since at any time, we are potentially keeping both replacing and replaced segments.
-2. Typically, for the REFRESH use case, users would directly replace segments by uploading segments of the same name. With consistent push, however, a timestamp is injected as the segment name postfix in order to differentiate between replacing and to be replaced segments. &#x20;
+2. Typically, for the REFRESH use case, users would directly replace segments by uploading segments of the same name. With consistent push, however, a timestamp is injected as the segment name postfix in order to differentiate between replacing and to be replaced segments. The older segments will be cleaned up by the Retention manager **within a day from when the consistent push happened**.
 3. Currently, there is no way to disable consistent push for a table with consistent push enabled, due to the unique segment postfix issue mentioned above. Users will need to create a new table until support for disabling consistent push in-place is implemented.
-4. If the push job fails for any reason, the job will rollback all the uploaded segments (`revertReplaceSegments`) to maintain data equivalence prior to the push.&#x20;
+4. If the push job fails for any reason, the job will rollback all the uploaded segments (`revertReplaceSegments`) to maintain data equivalence prior to the push.
