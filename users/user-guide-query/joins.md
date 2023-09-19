@@ -17,7 +17,7 @@ description: >-
 
 ## JOINs overview
 
-Pinot 1.0 introduces support for all [JOIN types](joins.md#joins-types). JOINs in Pinot significantly reduce query latency and simplify architecture, achieving the best performance currently available for OLAP databases.&#x20;
+Pinot 1.0 introduces support for all [JOIN types](joins.md#supported-joins-types-and-examples). JOINs in Pinot significantly reduce query latency and simplify architecture, achieving the best performance currently available for OLAP databases.&#x20;
 
 Use JOINs to combine two tables (a left and right table) together, based on a related column between the tables, and other join filters. JOINs let you gain more insights from your data.&#x20;
 
