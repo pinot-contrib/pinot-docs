@@ -28,7 +28,7 @@ You can configure the interval for this job using the`controller.realtime.segmen
 
 ### Does Pinot support partition pruning on multiple partition columns?
 
-Pinot supports multi-column partitioning for offline tables. Map multiple columns under [`tableIndexConfig.segmentPartitionConfig.columnPartitionMap`](/configuration-reference/table.md#segmentPartitionConfig). Pinot assigns the input data to each partition according to the partition configuration individually for each column.
+Pinot supports multi-column partitioning for offline tables. Map multiple columns under [`tableIndexConfig.segmentPartitionConfig.columnPartitionMap`](https://docs.pinot.apache.org/configuration-reference/table#table-index-config)[.](../../../configuration-reference/table.md#second-level-fields) Pinot assigns the input data to each partition according to the partition configuration individually for each column.
 
 The following example partitions the segment based on two columns, `memberID` and `caseNumber`. Note that each partition column is handled separately, so in this case the segment is partitioned on `memberID` (partition ID 1) and also partiitoned on `caseNumber` (partition ID 2).
 
@@ -56,7 +56,6 @@ For multi-column partitioning to work, you must also set `routing.segementPruner
       "segmentPrunerTypes": ["partition"]
     }
 ```
-
 
 ### How do I enable partitioning in Pinot when using Kafka stream?
 
