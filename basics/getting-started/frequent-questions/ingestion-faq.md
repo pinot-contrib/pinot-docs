@@ -26,7 +26,7 @@ Pinot automatically detects new partitions in Kafka topics. It checks for new pa
 
 You can configure the interval for this job using the`controller.realtime.segment.validation.frequencyPeriod` property in the controller configuration.
 
-### Does Pinot support multi-column partitioning?
+### Does Pinot support partition pruning on multiple partition columns?
 
 Pinot supports multi-column partitioning for offline tables. Map multiple columns under [`tableIndexConfig.segmentPartitionConfig.columnPartitionMap`](/configuration-reference/table.md#segmentPartitionConfig). Pinot assigns the input data to each partition according to the partition configuration individually for each column.
 
