@@ -14,8 +14,8 @@ Use window functions to do the following:
 
 * [Compute averages](windows-functions.md#find-the-average-transaction-amount-by-customer-id)
 * Sort, rank, or count items
-* [Calculate sums](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/users/user-guide-query/supported-aggregations-1#sum-transactions-by-customer-id)
-* Find minimum or maximum values
+* [Calculate sums](windows-functions.md#sum-transactions-by-customer-id)
+* [Find minimum or maximum values](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)
 
 Window functions consist of a supported function and an [OVER clause](windows-functions.md#over-clause).&#x20;
 
