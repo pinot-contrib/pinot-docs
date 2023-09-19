@@ -13,7 +13,7 @@ To query using distributed joins, window functions, and other multi-stage operat
   * Query [using REST APIs](v2-multi-stage-query-engine.md#use-rest-apis)
   * Query outside of the APIs [using the query option](v2-multi-stage-query-engine.md#use-the-query-option)
 
-To learn more about what the multi-stage query engine is, see [Multi-stage query engine](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/configuration-reference/cluster-2) (v2).&#x20;
+To learn more about what the multi-stage query engine is, see [Multi-stage query engine (v2)](../../reference/cluster-1.md).&#x20;
 
 ## Enable the multi-stage query engine in the Query Console
 
