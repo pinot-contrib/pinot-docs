@@ -83,7 +83,7 @@ Let's check out the schemas in the cluster by going to [Schema -> List all schem
 
 Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), click **Try it out**, type `baseballStats` in the schema name, and then click **Execute**.
 
-![baseballStats Schema](<../../.gitbook/assets/image (64).png>)
+![baseballStats Schema](<../../.gitbook/assets/list-schema-baseball-stats.png>)
 
 Finally, let's check out the data segments in the cluster by going to [Segment -> List all segments](http://localhost:9000/help#!/Segment/getSegments), click **Try it out**, type in `baseballStats` in the table name, and then click **Execute**. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
