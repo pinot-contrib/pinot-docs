@@ -16,22 +16,6 @@ description: >-
 [supported-aggregations.md](supported-aggregations.md)
 {% endcontent-ref %}
 
-<table data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td></td><td></td><td></td><td><a href="supported-aggregations.md">supported-aggregations.md</a></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table>
-
-***
-
-{% tabs %}
-{% tab title="First Tab" %}
-
-{% endtab %}
-
-{% tab title="Second Tab" %}
-
-{% endtab %}
-{% endtabs %}
-
-*
-
 {% content-ref url="how-to-handle-unique-counting.md" %}
 [how-to-handle-unique-counting.md](how-to-handle-unique-counting.md)
 {% endcontent-ref %}
