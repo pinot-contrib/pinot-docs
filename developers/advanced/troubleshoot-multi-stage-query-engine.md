@@ -4,7 +4,7 @@ description: Troubleshoot issues with the multi-stage query engine (v2).
 
 # Troubleshoot issues with the multi-stage query engine (v2)
 
-Learn how to [troubleshoot errors](troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) when using the multi-stage query engine (v2), and see [multi-stage query engine limitations](troubleshoot-multi-stage-query-engine.md#multi-stage-query-engine-limitations).&#x20;
+Learn how to [troubleshoot errors](troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) when using the multi-stage query engine (v2), and see [multi-stage query engine limitations](troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine).&#x20;
 
 Find instructions on [how to enable the multi-stage query engine](v2-multi-stage-query-engine.md), or see a [high-level overview](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/reference/cluster-1) of how the multi-stage query engine works.
 
