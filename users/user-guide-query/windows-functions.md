@@ -7,7 +7,7 @@ description: >-
 # Window functions
 
 {% hint style="info" %}
-**Important:** To query using Windows functions, you must [use Pinot's multi-stage query engine (v2).](../../../developers/advanced/v2-multi-stage-query-engine.md)
+**Important:** To query using Windows functions, you must [use Pinot's multi-stage query engine (v2).](../../developers/advanced/v2-multi-stage-query-engine.md)
 {% endhint %}
 
 Use window functions to do the following:
@@ -78,11 +78,11 @@ Inside the over clause, there are three optional components, i.e. PARTITION BY c
 | [**AVG**](https://github.com/pinot-contrib/pinot-docs/blob/master/configuration-reference/functions/avg.md) | Returns the average of the values for a numeric column as a`Double over the specified number of rows or partition (if applicable).` | `AVG(playerScore)` | `Double.NEGATIVE_INFINITY`            |
 | BOOL\_AND                                                                                                   | Returns true if all input values are true, otherwise false                                                                          |                    |                                       |
 | BOOL\_OR                                                                                                    | Returns true if at least one input value is true, otherwise false                                                                   |                    |                                       |
-| [**COUNT**](../../../configuration-reference/functions/count.md)                                            | Returns the count of the records as `Long`                                                                                          | `COUNT(*)`         | `0`                                   |
-| [**MIN**](../../../configuration-reference/functions/min.md)                                                | Returns the minimum value of a numeric column as `Double`                                                                           | `MIN(playerScore)` | `Double.POSITIVE_INFINITY`            |
-| [**MAX**](../../../configuration-reference/functions/max.md)                                                | Returns the maximum value of a numeric column as `Double`                                                                           | `MAX(playerScore)` | `Double.NEGATIVE_INFINITY`            |
-| [**ROW\_NUMBER**](../../../configuration-reference/functions/round-1.md)                                    | Assigns a unique row number to all the rows in a specified table.                                                                   | `ROW_NUMBER()`     | `0`                                   |
-| [**SUM**](../../../configuration-reference/functions/sum.md)                                                | Returns the sum of the values for a numeric column as `Double`                                                                      | `SUM(playerScore)` | `0`                                   |
+| [**COUNT**](../../configuration-reference/functions/count.md)                                               | Returns the count of the records as `Long`                                                                                          | `COUNT(*)`         | `0`                                   |
+| [**MIN**](../../configuration-reference/functions/min.md)                                                   | Returns the minimum value of a numeric column as `Double`                                                                           | `MIN(playerScore)` | `Double.POSITIVE_INFINITY`            |
+| [**MAX**](../../configuration-reference/functions/max.md)                                                   | Returns the maximum value of a numeric column as `Double`                                                                           | `MAX(playerScore)` | `Double.NEGATIVE_INFINITY`            |
+| [**ROW\_NUMBER**](../../configuration-reference/functions/round-1.md)                                       | Assigns a unique row number to all the rows in a specified table.                                                                   | `ROW_NUMBER()`     | `0`                                   |
+| [**SUM**](../../configuration-reference/functions/sum.md)                                                   | Returns the sum of the values for a numeric column as `Double`                                                                      | `SUM(playerScore)` | `0`                                   |
 
 ## Examples of windows functions
 

@@ -7,7 +7,7 @@ description: >-
 # Lookup UDF Join
 
 {% hint style="info" %}
-Lookup UDF Join is **only supported with the single-stage query engine (v1)**. For more information about using JOINs with the multi-stage query engine, see [JOINs](joins.md).
+Lookup UDF Join is **only supported with the single-stage query engine (v1)**. For more information about using JOINs with the multi-stage query engine, see [JOINs](../joins.md).
 {% endhint %}
 
 Lookup UDF is used to get dimension data via primary key from a dimension table allowing a decoration join functionality. Lookup UDF can only be used with [a dimension table](../../../basics/data-import/batch-ingestion/dim-table.md) in Pinot.
