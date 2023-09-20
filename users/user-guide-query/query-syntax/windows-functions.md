@@ -7,7 +7,7 @@ description: >-
 # Window functions
 
 {% hint style="info" %}
-**Important:** To query using Windows functions, you must [use Pinot's multi-stage query engine (v2).](../../../developers/advanced/v2-multi-stage-query-engine.md)
+**Important:** To query using Windows functions, you must [use Pinot's multi-stage query engine (v2).](../../../reference/cluster-1.md)
 {% endhint %}
 
 Use window functions to do the following:
