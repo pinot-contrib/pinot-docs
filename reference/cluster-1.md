@@ -15,7 +15,7 @@ For more information on the multi-stage query engine (v2), see the following:
 
 * See how to [enable and use the multi-stage query engine](../developers/advanced/v2-multi-stage-query-engine.md)
 * Review [limitations](../developers/advanced/troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine) of the multi-stage query engine and [troubleshooting tips](../developers/advanced/troubleshoot-multi-stage-query-engine.md#troubleshoot-errors)
-* Query [Window functions](../users/user-guide-query/windows-functions.md) and [JOINs](../users/user-guide-query/joins.md)
+* Query [Window functions](../users/user-guide-query/query-syntax/windows-functions.md) and [JOINs](../users/user-guide-query/query-syntax/joins.md)
 
 ## Why use the multi-stage query engine?
 
