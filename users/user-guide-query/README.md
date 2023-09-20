@@ -20,16 +20,16 @@ description: >-
 
 
 
-{% content-ref url="query-syntax/json-queries.md" %}
-[json-queries.md](query-syntax/json-queries.md)
+{% content-ref url="json-queries.md" %}
+[json-queries.md](json-queries.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/supported-aggregations.md" %}
-[supported-aggregations.md](query-syntax/supported-aggregations.md)
+{% content-ref url="supported-aggregations.md" %}
+[supported-aggregations.md](supported-aggregations.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/how-to-handle-unique-counting.md" %}
-[how-to-handle-unique-counting.md](query-syntax/how-to-handle-unique-counting.md)
+{% content-ref url="how-to-handle-unique-counting.md" %}
+[how-to-handle-unique-counting.md](how-to-handle-unique-counting.md)
 {% endcontent-ref %}
 
 {% content-ref url="explain-plan.md" %}
@@ -40,8 +40,8 @@ description: >-
 [filtering-with-idset.md](query-syntax/filtering-with-idset.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/gap-fill-functions.md" %}
-[gap-fill-functions.md](query-syntax/gap-fill-functions.md)
+{% content-ref url="gap-fill-functions.md" %}
+[gap-fill-functions.md](gap-fill-functions.md)
 {% endcontent-ref %}
 
 {% content-ref url="query-syntax/grouping-algorithm.md" %}
@@ -56,8 +56,8 @@ description: >-
 [lookup-udf-join.md](query-syntax/lookup-udf-join.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/supported-transformations.md" %}
-[supported-transformations.md](query-syntax/supported-transformations.md)
+{% content-ref url="supported-transformations.md" %}
+[supported-transformations.md](supported-transformations.md)
 {% endcontent-ref %}
 
 {% content-ref url="scalar-functions.md" %}
