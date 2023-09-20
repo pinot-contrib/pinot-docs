@@ -4,8 +4,13 @@ description: An overview of the multi-stage query engine.
 
 # Multi-stage query engine (v2)
 
+This document is an overview of the new multi-stage query engine.&#x20;
+
+
+
 This document covers:
 
+* [What do you need to know about the multi-stage engine](cluster-1.md#what-do-you-need-to-know-about-the-multi-stage-engine)
 * [Why use the multi-stage query engine](cluster-1.md#why-use-the-multi-stage-query-engine)
 * [When not to use the multi-stage query engine](cluster-1.md#when-not-to-use-the-multi-stage-query-engine)
 * [An overview of the multi-stage query execution model](cluster-1.md#multi-stage-query-execution-model)
@@ -16,6 +21,15 @@ For more information on the multi-stage query engine (v2), see the following:
 * See how to [enable and use the multi-stage query engine](../developers/advanced/v2-multi-stage-query-engine.md)
 * Review [limitations](../developers/advanced/troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine) of the multi-stage query engine and [troubleshooting tips](../developers/advanced/troubleshoot-multi-stage-query-engine.md#troubleshoot-errors)
 * Query [Window functions](../users/user-guide-query/query-syntax/windows-functions.md) and [JOINs](../users/user-guide-query/query-syntax/joins.md)
+
+## What do you need to know about the multi-stage engine?
+
+The multi-stage engine is the new query execution engine released in Pinot 1.0.0. Here are some of the most useful links to get to know better about the multi-stage engine:
+
+* [Reference user manual (This page)](cluster-1.md#what-do-you-need-to-know-about-the-multi-stage-engine)
+* [How-to user guide](../developers/advanced/v2-multi-stage-query-engine.md) for getting started using multi-stage engine.
+* [Query Syntax](../users/user-guide-query/query-syntax/) includes details on newly supported syntax in multi-stage engine
+* [Troubleshooting and FAQ](../developers/advanced/troubleshoot-multi-stage-query-engine.md) about the multi-stage engine
 
 ## Why use the multi-stage query engine?
 
