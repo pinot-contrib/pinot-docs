@@ -4,23 +4,7 @@ description: An overview of the multi-stage query engine.
 
 # Multi-stage query engine (v2)
 
-This document is an overview of the new multi-stage query engine.&#x20;
-
-
-
-This document covers:
-
-* [What do you need to know about the multi-stage engine](cluster-1.md#what-do-you-need-to-know-about-the-multi-stage-engine)
-* [Why use the multi-stage query engine](cluster-1.md#why-use-the-multi-stage-query-engine)
-* [When not to use the multi-stage query engine](cluster-1.md#when-not-to-use-the-multi-stage-query-engine)
-* [An overview of the multi-stage query execution model](cluster-1.md#multi-stage-query-execution-model)
-* [How queries are processed](cluster-1.md#how-queries-are-processed)
-
-For more information on the multi-stage query engine (v2), see the following:
-
-* See how to [enable and use the multi-stage query engine](../developers/advanced/v2-multi-stage-query-engine.md)
-* Review [limitations](../developers/advanced/troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine) of the multi-stage query engine and [troubleshooting tips](../developers/advanced/troubleshoot-multi-stage-query-engine.md#troubleshoot-errors)
-* Query [Window functions](../users/user-guide-query/query-syntax/windows-functions.md) and [JOINs](../users/user-guide-query/query-syntax/joins.md)
+This document is an overview of the new multi-stage query engine:
 
 ## What do you need to know about the multi-stage engine?
 
@@ -29,7 +13,8 @@ The multi-stage engine is the new query execution engine released in Pinot 1.0.0
 * [Reference user manual (This page)](cluster-1.md#what-do-you-need-to-know-about-the-multi-stage-engine)
 * [How-to user guide](../developers/advanced/v2-multi-stage-query-engine.md) for getting started using multi-stage engine.
 * [Query Syntax](../users/user-guide-query/query-syntax/) includes details on newly supported syntax in multi-stage engine
-* [Troubleshooting and FAQ](../developers/advanced/troubleshoot-multi-stage-query-engine.md) about the multi-stage engine
+  * Check out the  [Window functions](../users/user-guide-query/query-syntax/windows-functions.md) and [JOINs](../users/user-guide-query/query-syntax/joins.md) features.
+* The [limitations](../developers/advanced/troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine) and [troubleshooting tips](../developers/advanced/troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) for the multi-stage query engine&#x20;
 
 ## Why use the multi-stage query engine?
 
@@ -65,7 +50,7 @@ The multi-stage query engine also includes a **new query plan optimizer** to pro
 
 With a multi-stage query engine, Pinot first breaks down the [single scatter-gather query plan used in v1](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/reference/cluster) into multiple query sub-plans that run across different sets of servers. We call these sub-plans “stage plans,” and refer to each execution as a “stage.”
 
-Consider the following JOIN query example, which illustrates the breakdown of a query into stages. This query joins a real-time `orderStatus` table with an `offline customer` table:
+Consider the following JOIN query example, which illustrates the breakdown of a query into stages. This query joins a real-time `orderStatus` table with an offline `customer` table:
 
 ```sql
 SELECT 
