@@ -73,7 +73,7 @@
   * [Geospatial](basics/indexing/geospatial-support.md)
   * [Timestamp Index](basics/indexing/timestamp-index.md)
 * [Releases](basics/releases/README.md)
-  * [Apache Pinot™ release notes 1.0.0](basics/releases/1.0.0.md)
+  * [Apache Pinot™ 1.0.0 release notes](basics/releases/1.0.0.md)
   * [0.12.1](basics/releases/0.12.1.md)
   * [0.12.0](basics/releases/0.12.0.md)
   * [0.11.0](basics/releases/0.11.0.md)
