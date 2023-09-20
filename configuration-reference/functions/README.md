@@ -118,7 +118,6 @@ This page contains reference documentation for functions in Apache Pinot.
 [ceil.md](ceil.md)
 {% endcontent-ref %}
 
-
 {% content-ref url="chr.md" %}
 [chr.md](chr.md)
 {% endcontent-ref %}
@@ -415,6 +414,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [round.md](round.md)
 {% endcontent-ref %}
 
+{% content-ref url="round-1.md" %}
+[round-1.md](round-1.md)
+{% endcontent-ref %}
+
 {% content-ref url="rpad.md" %}
 [rpad.md](rpad.md)
 {% endcontent-ref %}
@@ -520,11 +523,11 @@ This page contains reference documentation for functions in Apache Pinot.
 {% endcontent-ref %}
 
 {% content-ref url="timezoneHour.md" %}
-[timezoneHour.md](timezonehour.md)
+[timezoneHour.md](timezoneHour.md)
 {% endcontent-ref %}
 
 {% content-ref url="timezoneMinute.md" %}
-[timezoneMinute.md](timezoneminute.md)
+[timezoneMinute.md](timezoneMinute.md)
 {% endcontent-ref %}
 
 {% content-ref url="todatetime.md" %}
@@ -532,15 +535,15 @@ This page contains reference documentation for functions in Apache Pinot.
 {% endcontent-ref %}
 
 {% content-ref url="toEpoch.md" %}
-[toEpoch.md](toepoch.md)
+[toEpoch.md](toEpoch.md)
 {% endcontent-ref %}
 
 {% content-ref url="toEpochBucket.md" %}
-[toEpochBucket.md](toepochbucket.md)
+[toEpochBucket.md](toEpochBucket.md)
 {% endcontent-ref %}
 
 {% content-ref url="toEpochRounded.md" %}
-[toEpochRounded.md](toepochrounded.md)
+[toEpochRounded.md](toEpochRounded.md)
 {% endcontent-ref %}
 
 {% content-ref url="tojsonmapstr.md" %}
@@ -580,5 +583,5 @@ This page contains reference documentation for functions in Apache Pinot.
 {% endcontent-ref %}
 
 {% content-ref url="yearOfWeek.md" %}
-[yearOfWeek.md](yearofweek.md)
+[yearOfWeek.md](yearOfWeek.md)
 {% endcontent-ref %}

@@ -1,8 +1,19 @@
+---
+description: >-
+  Lookup UDF Join is only supported with the single-stage query engine (v1). For
+  more information about using JOINs with the multi-stage query engine, see
+  JOINs.
+---
+
 # Lookup UDF Join
 
-Lookup UDF is used to get dimension data via primary key from a dimension table allowing a decoration join functionality. Lookup UDF can only be used with [a dimension table](../../basics/data-import/batch-ingestion/dim-table.md) in Pinot.&#x20;
+{% hint style="info" %}
+Lookup UDF Join is **only supported with the single-stage query engine (v1)**. For more information about using JOINs with the multi-stage query engine, see [JOINs](joins.md).
+{% endhint %}
 
-## Syntax&#x20;
+Lookup UDF is used to get dimension data via primary key from a dimension table allowing a decoration join functionality. Lookup UDF can only be used with [a dimension table](../../basics/data-import/batch-ingestion/dim-table.md) in Pinot.
+
+## Syntax
 
 The UDF function syntax is listed as below:
 
@@ -16,9 +27,9 @@ lookupUDFSpec:
     ')'
 ```
 
-* `dimTable` Name of the dim table to perform the lookup on.&#x20;
+* `dimTable` Name of the dim table to perform the lookup on.
 * `dimColToLookUp` The column name of the dim table to be retrieved to decorate our result.
-* `dimJoinKey` The column name on which we want to perform the lookup i.e. the join column name for dim table.&#x20;
+* `dimJoinKey` The column name on which we want to perform the lookup i.e. the join column name for dim table.
 * `factJoinKey` The column name on which we want to perform the lookup against e.g. the join column name for fact table
 
 Noted that:
@@ -32,7 +43,7 @@ Here are some of the examples
 
 ### Single-partition-key-column Example
 
-Consider the table `baseballStats`&#x20;
+Consider the table `baseballStats`
 
 | Column                | Type   |
 | --------------------- | ------ |
@@ -123,9 +134,7 @@ from billing
 | 427        | Paid          | Cupertino     |
 | 435        | Paid          | Cupertino     |
 
-
-
 ## Usage FAQ
 
-* The data return type of the UDF will be that of the `dimColToLookUp` column type.&#x20;
+* The data return type of the UDF will be that of the `dimColToLookUp` column type.
 * when multiple primary key columns are used for the dimension table (e.g. composite primary key), ensure that the order of keys appearing in the lookup() UDF is the same as the order defined in the `primaryKeyColumns` from the dimension table schema.

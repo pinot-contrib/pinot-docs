@@ -10,14 +10,13 @@ Pinot provides a SQL interface for querying. It uses the **Calcite SQL** parser 
 
 ## Pinot 1.0
 
-In Pinot 1.0, the [multi-stage query engine](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/reference/cluster-1) supports inner join, left-outer, semi-join, and nested queries out of the box. It's optimized for in-memory process and latency. For more information, see how to [use the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md).
+In Pinot 1.0, the multi-stage query engine supports inner join, left-outer, semi-join, and nested queries out of the box. It's optimized for in-memory process and latency. For more information, see how to [enable and use the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md).
+
+Pinot also supports using simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [programmatically access the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md#programmatically-access-the-multi-stage-query-engine). More DDL supports will be added in the future. But for now, the most common way for data definition is using the [Controller Admin API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
 {% hint style="info" %}
-**Note:** For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage query engine (v2), we still recommend using **Presto**.&#x20;
+**Note:** For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage query engine (v2), we still recommend using **Presto**.
 {% endhint %}
-
-* Pinot also supports simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [Multi-Stage Query Engine](../../developers/advanced/v2-multi-stage-query-engine.md).
-  * More DDL supports will be added in the future. But for now, the most common way for data definition is via the [REST API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
 
 ## Identifier vs Literal
 

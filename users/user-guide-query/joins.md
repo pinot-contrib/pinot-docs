@@ -1,8 +1,8 @@
 ---
 description: >-
   Pinot supports JOINs, including left, right, full, semi, anti, lateral, and
-  equi JOINs. Use JOINs to stitch two table to generate a unified view, based on
-  a related column between the tables.
+  equi JOINs. Use JOINs to connect two table to generate a unified view, based
+  on a related column between the tables.
 ---
 
 # JOINs
@@ -17,21 +17,15 @@ description: >-
 
 ## JOINs overview
 
-Pinot 1.0 introduces support for all [JOIN types](joins.md#supported-joins-types-and-examples). JOINs in Pinot significantly reduce query latency and simplify architecture, achieving the best performance currently available for OLAP databases.&#x20;
+Pinot 1.0 introduces support for all JOIN types. JOINs in Pinot significantly reduce query latency and simplify architecture, achieving the best performance currently available for an OLAP database.&#x20;
 
-Use JOINs to combine two tables (a left and right table) together, based on a related column between the tables, and other join filters. JOINs let you gain more insights from your data.&#x20;
-
-Pinot supports three JOIN algorithms, including broadcast join, shuffle distributed hash join, and lookup join.&#x20;
-
-{% hint style="info" %}
-**Important:** To join datasets across data sources, you must use a query federation system, such as [Trino](https://trino.io/docs/current/).&#x20;
-{% endhint %}
+Use JOINs to combine two tables (a left and right table) together, based on a related column between the tables, and other join filters. JOINs let you gain more insights from your data.
 
 ## Supported JOINs types and examples
 
 ### Inner join
 
-The inner join is the default join in Pinot SQL. It selects rows that have matching values in both tables.
+The inner join selects rows that have matching values in both tables.
 
 **Syntax:**
 
@@ -119,19 +113,9 @@ FROM table1
 CROSS JOIN table2;
 ```
 
-### S**emi join**
+### Semi/A**nti join**
 
-A semi join returns values from the left side of the relation that has a match with the right. Also referred to as a left semi join.
-
-**Syntax:**
-
-```sql
-SELECT * FROM A WHERE A.key IN (SELECT B.key FROM B)
-```
-
-### A**nti join**
-
-Anti-join returns rows from the first table where no matches are found in the second table. It is opposite of a semi-join. An anti-join returns one copy of each row in the first table for which no match is found.
+Semi/anti-join returns rows from the first table where no matches are found in the second table. Returns one copy of each row in the first table for which no match is found.
 
 **Syntax:**
 
@@ -169,8 +153,6 @@ Pinot JOINs include the following optimizations:
 * Indexing and pruning to reduce scanning and speeds up query processing
 * Smart data layout considerations to minimize data shuffling
 * Query hints for fine-tuning JOIN operations.&#x20;
-
-
 
 
 

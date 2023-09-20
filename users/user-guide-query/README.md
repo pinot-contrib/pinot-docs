@@ -12,6 +12,18 @@ description: >-
 [querying-pinot.md](querying-pinot.md)
 {% endcontent-ref %}
 
+{% content-ref url="query-options.md" %}
+[query-options.md](query-options.md)
+{% endcontent-ref %}
+
+### Explore query syntax:
+
+
+
+{% content-ref url="json-queries.md" %}
+[json-queries.md](json-queries.md)
+{% endcontent-ref %}
+
 {% content-ref url="supported-aggregations.md" %}
 [supported-aggregations.md](supported-aggregations.md)
 {% endcontent-ref %}
@@ -24,6 +36,10 @@ description: >-
 [explain-plan.md](explain-plan.md)
 {% endcontent-ref %}
 
+{% content-ref url="filtering-with-idset.md" %}
+[filtering-with-idset.md](filtering-with-idset.md)
+{% endcontent-ref %}
+
 {% content-ref url="gap-fill-functions.md" %}
 [gap-fill-functions.md](gap-fill-functions.md)
 {% endcontent-ref %}
@@ -32,12 +48,12 @@ description: >-
 [grouping-algorithm.md](grouping-algorithm.md)
 {% endcontent-ref %}
 
-{% content-ref url="lookup-udf-join.md" %}
-[lookup-udf-join.md](lookup-udf-join.md)
+{% content-ref url="joins.md" %}
+[joins.md](joins.md)
 {% endcontent-ref %}
 
-{% content-ref url="json-queries.md" %}
-[json-queries.md](json-queries.md)
+{% content-ref url="lookup-udf-join.md" %}
+[lookup-udf-join.md](lookup-udf-join.md)
 {% endcontent-ref %}
 
 {% content-ref url="supported-transformations.md" %}
@@ -46,4 +62,8 @@ description: >-
 
 {% content-ref url="scalar-functions.md" %}
 [scalar-functions.md](scalar-functions.md)
+{% endcontent-ref %}
+
+{% content-ref url="windows-functions.md" %}
+[windows-functions.md](windows-functions.md)
 {% endcontent-ref %}

@@ -4,11 +4,9 @@ description: An overview of the multi-stage query engine.
 
 # Multi-stage query engine (v2)
 
-The Pinot multi-stage query engine (v2) includes an intermediate compute stage (shown in the following diagram) that shares the workload across servers, eliminating the potential bottleneck on the Pinot broker.&#x20;
-
 This document covers:
 
-* [Why to use the multi-stage query engine](cluster-1.md#why-use-the-multi-stage-query-engine)
+* [Why use the multi-stage query engine](cluster-1.md#why-use-the-multi-stage-query-engine)
 * [When not to use the multi-stage query engine](cluster-1.md#when-not-to-use-the-multi-stage-query-engine)
 * [An overview of the multi-stage query execution model](cluster-1.md#multi-stage-query-execution-model)
 * [How queries are processed](cluster-1.md#how-queries-are-processed)
@@ -21,7 +19,7 @@ For more information on the multi-stage query engine (v2), see the following:
 
 ## Why use the multi-stage query engine?
 
-You must use the multi-stage query engine (v2) to query distributed joins, window functions, other multi-stage operators in real time. See how to enable and [use the multi-stage query engine (v2)](../developers/advanced/v2-multi-stage-query-engine.md).
+You must use the multi-stage query engine (v2) to query distributed joins, window functions, and other multi-stage operators in real-time. See how to enable and [use the multi-stage query engine (v2)](../developers/advanced/v2-multi-stage-query-engine.md).
 
 The multi-stage query engine is built to run real-time facing, complex ANSI SQL. Highlights include joins and data correlations, particularly optimized for dynamic broadcast fact-dim joins, and partitioned-based or colocated table joins.
 
@@ -39,7 +37,7 @@ Some **use cases to avoid**:
 
 The multi-stage query engine improves query performance over the [single-stage scatter-gather query engine ( v1)](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/reference/cluster), effectively decoupling the data exchange layer and the query engine layer.
 
-<figure><img src="../.gitbook/assets/Multi-Stage-Query-Engine-2 (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Multi-Stage-Query-Engine-2 (2).png" alt=""><figcaption><p>Figure 1: Multi-stage query execution model</p></figcaption></figure>
 
 The intermediate compute stage includes a set of processing servers and a data exchange mechanism.&#x20;
 
@@ -90,6 +88,11 @@ SELECT c.uid c.ltv FROM customer AS c WHERE c.lto > 5
 {% endcode %}
 
 3. The data exchange service shuffles data shuffle, so all data with the same unique customer ID is sent to the same processing server for the next stage.
+4. On each processing server, an inner JOIN is performed.
+5.  Each intermediary servers (shown in [_Figure 1: Multi-stage query execution model_](cluster-1.md#multi-stage-query-execution-model)) performs a local join, and
+
+    runs the same join algorithm, but on different `uids.`
+6. On each processing server, an inner JOIN is performed.
 
 ### Stage 2
 
