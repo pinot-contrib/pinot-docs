@@ -90,6 +90,7 @@ Inside the over clause, there are three optional components, i.e. PARTITION BY c
 * [Find the minimum or maximum transaction by customer ID](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)
 * [Find the average transaction amount by customer ID](windows-functions.md#find-the-average-transaction-amount-by-customer-id)
 * [Rank year-to-date sales for a sales team](windows-functions.md#rank-year-to-date-sales-for-a-sales-team)
+* [Count the number of transactions by customer ID](windows-functions.md#count-the-number-of-transactions-by-customer-id)
 
 ### Sum transactions by customer ID
 
