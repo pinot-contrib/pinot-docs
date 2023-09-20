@@ -1,34 +1,54 @@
 ---
 description: >-
-  Use window functions to compute averages, sort, rank, or count items,
-  calculate sums, and find minimum or maximum values.
+  Use window aggregate to compute averages, sort, rank, or count items,
+  calculate sums, and find minimum or maximum values across window.
 ---
 
-# Window functions
+# Window Aggregate
 
 {% hint style="info" %}
 **Important:** To query using Windows functions, you must [use Pinot's multi-stage query engine (v2).](../../../reference/cluster-1.md)
 {% endhint %}
 
-Use window functions to do the following:
+## Window Aggregate Overview
 
-* [Compute averages](windows-functions.md#find-the-average-transaction-amount-by-customer-id)
-* [Rank items](windows-functions.md#rank-year-to-date-sales-for-a-sales-team)
-* [Calculate sums](windows-functions.md#sum-transactions-by-customer-id)
-* [Find minimum or maximum values](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)
+This is an overview of the window aggregate feature
 
-### Window functions overview
+### Window Aggregate Syntax
 
-* Window functions consist of a supported function and an [OVER clause](windows-functions.md#over-clause).&#x20;
-* To learn more about syntax, see [Windows function query syntax](windows-functions.md#window-function-query-syntax), and read about the [OVER clause](windows-functions.md#over-clause).&#x20;
-* To see Windows functions you can use in Pinot, see [Supported Pinot window functions](windows-functions.md#supported-pinot-window-functions).
-* To query with Windows functions in Pinot, see [examples for supported Windows functions.](windows-functions.md#examples-of-windows-functions)
+The full syntax definition of Pinot's supported window function (`windowedAggCall`) is as follows:
 
-## Window function query syntax
+{% code overflow="wrap" %}
+```sql
+windowedAggCall:
+      windowAggFunction
+      OVER 
+      window
 
-For information about the Window function query syntax, see [Calcite documentation](https://calcite.apache.org/docs/reference.html#window-functions).
+windowAggFunction:
+      agg '(' [ ALL | DISTINCT ] value [, value ]* ')'
+   |
+      agg '(' '*' ')'
 
-### Example query layout
+window:
+      '('
+      [ PARTITION BY expression [, expression ]* ]
+      [ ORDER BY orderItem [, orderItem ]* ]
+      [
+          RANGE numericOrIntervalExpression { PRECEDING | FOLLOWING }
+      |   ROWS numericExpression { PRECEDING | FOLLOWING }
+      ]
+      ')'
+```
+{% endcode %}
+
+* `windowAggCall` refers to the actual windowed agg operation.
+* `windowAggFunction` refers to the aggregation function supported to be used inside a windowed aggregate, see [Supported window functions](windows-functions.md#supported-pinot-window-functions).
+* `window` is the window definition / windowing mechanism, see [Supported window mechanism](windows-functions.md#supported-window-mechanism-over-clause).
+
+You can jump to the [examples](windows-functions.md#examples-of-windows-functions) section to see more concrete use cases of window aggregate on Pinot.
+
+### Example window aggregate query layout
 
 The following query shows the complete components of the window function. Note, `PARTITION BY` and `ORDER BY` are optional.
 
@@ -40,7 +60,7 @@ SELECT FUNC(column1) OVER (PARTITION BY column2 ORDER BY column3 ROWS 2 PRECEDIN
 ```
 {% endcode %}
 
-## OVER clause
+## Window mechanism (OVER clause)
 
 #### Partition by clause
 
@@ -69,9 +89,16 @@ The OVER clause applies a specified[ supported Windows function](windows-functio
 
 Inside the over clause, there are three optional components, i.e. PARTITION BY clause, ORDER BY clause, and FRAME clause.
 
-## Supported Pinot window functions
+## Window aggregate functions
 
+Here are some of the most commonly used of window aggregate functions are:
 
+* [Compute averages](windows-functions.md#find-the-average-transaction-amount-by-customer-id)
+* [Rank items](windows-functions.md#rank-year-to-date-sales-for-a-sales-team)
+* [Calculate sums](windows-functions.md#sum-transactions-by-customer-id)
+* [Find minimum or maximum values](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)
+
+Here are the full list of supported window aggregate functions.
 
 | Function                                                                                                    | Description                                                                                                                         | Example            | Default Value When No Record Selected |
 | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------- |
@@ -84,7 +111,7 @@ Inside the over clause, there are three optional components, i.e. PARTITION BY c
 | [**ROW\_NUMBER**](../../../configuration-reference/functions/round-1.md)                                    | Assigns a unique row number to all the rows in a specified table.                                                                   | `ROW_NUMBER()`     | `0`                                   |
 | [**SUM**](../../../configuration-reference/functions/sum.md)                                                | Returns the sum of the values for a numeric column as `Double`                                                                      | `SUM(playerScore)` | `0`                                   |
 
-## Examples of windows functions
+## Window aggregate query Examples
 
 * [Sum transactions by customer ID](windows-functions.md#sum-transactions-by-customer-id)
 * [Find the minimum or maximum transaction by customer ID](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)

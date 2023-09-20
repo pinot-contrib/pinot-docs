@@ -109,7 +109,7 @@
     * [Lookup UDF Join](users/user-guide-query/query-syntax/lookup-udf-join.md)
     * [Querying JSON data](users/user-guide-query/query-syntax/json-queries.md)
     * [Transformation Functions](users/user-guide-query/query-syntax/supported-transformations.md)
-    * [Window functions](users/user-guide-query/query-syntax/windows-functions.md)
+    * [Window Aggregate](users/user-guide-query/query-syntax/windows-functions.md)
   * [Query Options](users/user-guide-query/query-options.md)
   * [User-Defined Functions (UDFs)](users/user-guide-query/scalar-functions.md)
 * [APIs](users/api/README.md)
