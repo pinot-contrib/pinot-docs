@@ -4,7 +4,7 @@ description: Batch ingestion of data into Apache Pinot using dimension tables.
 
 # Dimension table
 
-Dimension tables are a special kind of offline tables from which data can be looked up via the [lookup UDF](../../../users/user-guide-query/lookup-udf-join.md), providing join-like functionality.
+Dimension tables are a special kind of offline tables from which data can be looked up via the [lookup UDF](../../../users/user-guide-query/query-syntax/lookup-udf-join.md), providing join-like functionality.
 
 Dimension tables are replicated on all the hosts for a given tenant to allow faster lookups.
 

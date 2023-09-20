@@ -1,7 +1,5 @@
 ---
-description: >-
-  Learn how to look up IDs in a list of values. Filtering with IdSet is only
-  supported with the single-stage query engine (v1).
+description: Learn how to write fast queries for looking up IDs in a list of values.
 ---
 
 # Filtering with IdSet

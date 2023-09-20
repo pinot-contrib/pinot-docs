@@ -8,7 +8,7 @@ description: >-
 # JOINs
 
 {% hint style="info" %}
-**Important:** To query using JOINs, you must [use Pinot's multi-stage query engine (v2).](../../developers/advanced/v2-multi-stage-query-engine.md)
+**Important:** To query using JOINs, you must [use Pinot's multi-stage query engine (v2).](../../../developers/advanced/v2-multi-stage-query-engine.md)
 {% endhint %}
 
 * [Overview of JOINs in Pinot 1.0](joins.md#joins-overview)
