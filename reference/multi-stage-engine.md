@@ -86,15 +86,11 @@ SELECT c.uid c.ltv FROM customer AS c WHERE c.lto > 5
 
 3. The data exchange service shuffles data shuffle, so all data with the same unique customer ID is sent to the same processing server for the next stage.
 4. On each processing server, an inner JOIN is performed.
-5.  Each intermediary servers (shown in [_Figure 1: Multi-stage query execution model_](cluster-1.md#multi-stage-query-execution-model)) performs a local join, and
-
-    runs the same join algorithm, but on different `uids.`
-6. On each processing server, an inner JOIN is performed.
 
 ### Stage 2
 
 1. On each processing server, an inner JOIN is performed.
-2.  Each intermediary servers (shown in [_Figure 1: Multi-stage query execution model_](cluster-1.md#multi-stage-query-execution-model)) performs a local join, and
+2.  Each intermediary servers (shown in [_Figure 1: Multi-stage query execution model_](multi-stage-engine.md#multi-stage-query-execution-model)) performs a local join, and
 
     runs the same join algorithm, but on different `uids.`
 

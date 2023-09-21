@@ -103,12 +103,12 @@
     * [Explain Plan (Single-Stage)](users/user-guide-query/explain-plan.md)
     * [Explain Plan (Multi-Stage)](users/user-guide-query/query-syntax/explain-plan-multi-stage.md)
     * [Filtering with IdSet](users/user-guide-query/query-syntax/filtering-with-idset.md)
-    * [GapFill Function For Time-Series Dataset](users/user-guide-query/query-syntax/gap-fill-functions.md)
+    * [GapFill Function For Time-Series Dataset](users/user-guide-query/gap-fill-functions.md)
     * [Grouping Algorithm](users/user-guide-query/grouping-algorithm.md)
     * [JOINs](users/user-guide-query/query-syntax/joins.md)
     * [Lookup UDF Join](users/user-guide-query/query-syntax/lookup-udf-join.md)
     * [Querying JSON data](users/user-guide-query/json-queries.md)
-    * [Transformation Functions](users/user-guide-query/query-syntax/supported-transformations.md)
+    * [Transformation Functions](users/user-guide-query/supported-transformations.md)
     * [Window aggregate](users/user-guide-query/query-syntax/windows-functions.md)
   * [Query Options](users/user-guide-query/query-options.md)
   * [User-Defined Functions (UDFs)](users/user-guide-query/scalar-functions.md)
@@ -380,8 +380,8 @@
 
 ## Reference
 
-* [Single-stage query engine (v1)](reference/cluster.md)
-* [Multi-stage query engine (v2)](reference/cluster-1.md)
+* [Single-stage query engine (v1)](reference/single-stage-engine.md)
+* [Multi-stage query engine (v2)](reference/multi-stage-engine.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
