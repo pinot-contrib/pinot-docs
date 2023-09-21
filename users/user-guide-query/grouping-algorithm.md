@@ -12,7 +12,7 @@ If the number of groups of a segment reaches this value, the extra groups will b
 
 After the inner segment groups have been computed, the Pinot query engine optionally trims tail groups. Tail groups are ones that have a lower rank based on the `ORDER BY` clause used in the query.
 
-This configuration is disabled by default, but can be enabled by configuring the `pinot.server.query.executor.min.segment.group.trim.size` property.&#x20;
+This configuration is disabled by default, but can be enabled by configuring the `pinot.server.query.executor.min.segment.group.trim.size` property.
 
 When segment group trim is enabled, the query engine will trim the tail groups and keep `max(<minSegmentGroupTrimSize>, 5 * LIMIT)` groups if it gets more groups. Pinot keeps at least `5 * LIMIT` groups when trimming tail groups to ensure the accuracy of results.
 
@@ -40,9 +40,9 @@ FROM ...
 OPTION(minServerGroupTrimSize=<minServerGroupTrimSize>)
 ```
 
-When cross segments trim is enabled, the server will trim the tail groups before sending the results back to the broker. It will also trim the tail groups when the number of groups reaches the `<trimThreshold>`.&#x20;
+When cross segments trim is enabled, the server will trim the tail groups before sending the results back to the broker. It will also trim the tail groups when the number of groups reaches the `<trimThreshold>`.
 
-This configuration is set to 1,000,000 by default and can be adjusted by configuring the `pinot.server.query.executor.groupby.trim.threshold` property.&#x20;
+This configuration is set to 1,000,000 by default and can be adjusted by configuring the `pinot.server.query.executor.groupby.trim.threshold` property.
 
 A higher threshold reduces the amount of trimming done, but consumes more heap memory. If the threshold is set to more than 1,000,000,000, the server will only trim the groups once before returning the results to the broker.
 
@@ -76,4 +76,3 @@ Increase min trim size to keep more groups in these cases.
 | <p><code>pinot.server.query.executor.min.server.group.trim.size</code><br>The minimum number of groups to keep when trimming groups at the server level.</p>         | 5,000                          | `OPTION(minServerGroupTrimSize=<minServerGroupTrimSize>)`   |             |
 | <p><code>pinot.server.query.executor.groupby.trim.threshold</code><br>The number of groups to trigger the server level trim.</p>                                     | 1,000,000                      | N/A                                                         |             |
 | <p><code>pinot.server.query.executor.max.execution.threads</code><br>The maximum number of execution threads (parallelism of segment processing) used per query.</p> | -1 (use all execution threads) | `OPTION(maxExecutionThreads=<maxExecutionThreads>)`         |             |
-

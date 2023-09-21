@@ -126,7 +126,7 @@ Pinot exposes several metrics to monitor the service and ensure that pinot users
   * Processing exceptions - [BROKER\_RESPONSES\_WITH\_PROCESSING\_EXCEPTIONS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
     * Queries with processing exceptions (including server side exceptions, unavailable segments, partial servers responded).
   * Groups limit reached - [BROKER\_RESPONSES\_WITH\_NUM\_GROUPS\_LIMIT\_REACHED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-    * Queries with `numGroupsLimit` reached. See [Grouping Algorithm](../../users/user-guide-query/query-syntax/grouping-algorithm.md) for more details.
+    * Queries with `numGroupsLimit` reached. See [Grouping Algorithm](../../users/user-guide-query/grouping-algorithm.md) for more details.
 * Table QPS quota exceeded - [QUERY\_QUOTA\_EXCEEDED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
   * Binary metric which will indicate when the configured QPS quota for a table is exceeded (1) or if there is capacity remaining (0).
 * Table QPS quota usage percent - [QUERY\_QUOTA\_CAPACITY\_UTILIZATION\_RATE](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerGauge.java)
