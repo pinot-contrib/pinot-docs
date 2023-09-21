@@ -83,7 +83,7 @@ User can edit table/column definition by clicking the `edit` button left to the 
 
 User can configure an existing column `mergedTimeMillis` as temporal and set `Datetime Format` accordingly.
 
-![Configure time column](<../.gitbook/assets/image (9).png>)
+![Configure time column](<../.gitbook/assets/superset-configure-time-column.png>)
 
 ### Adding a derived column
 
