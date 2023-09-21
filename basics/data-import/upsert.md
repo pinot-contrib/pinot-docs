@@ -362,7 +362,6 @@ Putting these together, you can find the table configurations of the quick start
   "tenants": {},
   "segmentsConfig": {
     "timeColumnName": "mtime",
-    "timeType": "MILLISECONDS",
     "retentionTimeUnit": "DAYS",
     "retentionTimeValue": "1",
     "replication": "1"
@@ -439,7 +438,6 @@ Putting these together, you can find the table configurations of the quick start
   "tenants": {},
   "segmentsConfig": {
     "timeColumnName": "mtime",
-    "timeType": "MILLISECONDS",
     "retentionTimeUnit": "DAYS",
     "retentionTimeValue": "1",
     "replication": "1"
