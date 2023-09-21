@@ -54,7 +54,7 @@ The following query shows the complete components of the window function. Note, 
 
 {% code overflow="wrap" %}
 ```sql
-SELECT FUNC(column1) OVER (PARTITION BY column2 ORDER BY column3 ROWS 2 PRECEDING)
+SELECT FUNC(column1) OVER (PARTITION BY column2 ORDER BY column3)
     FROM tableName
     WHERE filter_clause  
 ```
@@ -74,6 +74,12 @@ SELECT FUNC(column1) OVER (PARTITION BY column2 ORDER BY column3 ROWS 2 PRECEDIN
 
 #### Frame clause
 
+
+
+{% hint style="warning" %}
+**Important Note**: in release 1.0.0 window aggregate only supports `UNBOUND PRECEDING`, `UNBOUND FOLLOWING` and `CURRENT ROW`. frame and row count support have not been implemented yet.
+{% endhint %}
+
 * {RANGE|ROWS} frame\_start OR
 * {RANGE|ROWS} BETWEEN frame\_start AND frame\_end; frame\_start and frame\_end can be any of:
   * UNBOUNDED PRECEDING: expression PRECEDING. May only be allowed in ROWS mode \[depends on DB, some support some don’t]
@@ -85,7 +91,7 @@ SELECT FUNC(column1) OVER (PARTITION BY column2 ORDER BY column3 ROWS 2 PRECEDIN
 
 If there is no FRAME, no PARTITION BY, and no ORDER BY clause specified in the OVER clause (empty OVER), the whole result set is regarded as one partition, and there's one frame in the window.
 
-The OVER clause applies a specified supported [windows aggregate function](windows-functions.md#window-aggregate-functions) to compute values over a group of rows, and return a single result for each row. The OVER clause specifies how the rows are arranged and how the aggregation is done on those rows.
+The OVER clause applies a specified supported [windows aggregate function](windows-functions.md#window-aggregate-functions) to compute values over a group of rows and return a single result for each row. The OVER clause specifies how the rows are arranged and how the aggregation is done on those rows.
 
 Inside the over clause, there are three optional components: PARTITION BY clause, ORDER BY clause, and FRAME clause.
 
