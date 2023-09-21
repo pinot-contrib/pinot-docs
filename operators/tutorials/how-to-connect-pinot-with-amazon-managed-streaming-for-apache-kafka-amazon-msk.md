@@ -193,4 +193,4 @@ Sending request: http://pinot-controller:9000/schemas to controller: pinot-contr
 
 * Then you can open Pinot Query Console to browse the data
 
-![](<../../.gitbook/assets/image (29).png>)
+![](<../../.gitbook/assets/amazon-msk-query-console-browse.png>)
