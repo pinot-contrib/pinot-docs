@@ -40,8 +40,8 @@ description: >-
 [filtering-with-idset.md](query-syntax/filtering-with-idset.md)
 {% endcontent-ref %}
 
-{% content-ref url="gap-fill-functions.md" %}
-[gap-fill-functions.md](gap-fill-functions.md)
+{% content-ref url="query-syntax/gap-fill-functions.md" %}
+[gap-fill-functions.md](query-syntax/gap-fill-functions.md)
 {% endcontent-ref %}
 
 {% content-ref url="grouping-algorithm.md" %}
@@ -60,8 +60,8 @@ description: >-
 [lookup-udf-join.md](query-syntax/lookup-udf-join.md)
 {% endcontent-ref %}
 
-{% content-ref url="supported-transformations.md" %}
-[supported-transformations.md](supported-transformations.md)
+{% content-ref url="query-syntax/supported-transformations.md" %}
+[supported-transformations.md](query-syntax/supported-transformations.md)
 {% endcontent-ref %}
 
 {% content-ref url="scalar-functions.md" %}
