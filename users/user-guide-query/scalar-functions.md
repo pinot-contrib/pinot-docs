@@ -65,7 +65,7 @@ The above configuration applies across the entire Pinot cluster. If you want a t
 
 ### Scalar Functions
 
-Since the 0.5.0 release, Pinot supports custom functions that return a single output for multiple inputs. Examples of scalar functions can be found in [StringFunctions](query-syntax/gap-fill-functions/supported-transformations.md#string-functions) and [DateTimeFunctions](query-syntax/gap-fill-functions/supported-transformations.md#datetime-functions)
+Since the 0.5.0 release, Pinot supports custom functions that return a single output for multiple inputs. Examples of scalar functions can be found in [StringFunctions](supported-transformations.md#string-functions) and [DateTimeFunctions](supported-transformations.md#datetime-functions)
 
 Pinot automatically identifies and registers all the functions that have the `@ScalarFunction` annotation.
 

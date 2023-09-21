@@ -4,19 +4,19 @@ description: >-
   calculate sums, and find minimum or maximum values across window.
 ---
 
-# Window Aggregate
+# Window aggregate
 
 {% hint style="info" %}
-**Important:** To query using Windows functions, you must [use Pinot's multi-stage query engine (v2).](../../../reference/cluster-1.md)
+**Important:** To query using Windows functions, you must enable Pinot's [multi-stage query engine (v2)](https://docs.pinot.apache.org/reference/cluster-1). See how to [enable and use the multi-stage query engine (v2](https://docs.pinot.apache.org/developers/advanced/v2-multi-stage-query-engine)).
 {% endhint %}
 
-## Window Aggregate Overview
+## Window aggregate overview
 
-This is an overview of the window aggregate feature
+This is an overview of the window aggregate feature.
 
-### Window Aggregate Syntax
+### Window aggregate syntax
 
-The full syntax definition of Pinot's supported window function (`windowedAggCall`) is as follows:
+Pinot's window function (`windowedAggCall`) includes the following syntax definition:
 
 {% code overflow="wrap" %}
 ```sql
@@ -43,8 +43,8 @@ window:
 {% endcode %}
 
 * `windowAggCall` refers to the actual windowed agg operation.
-* `windowAggFunction` refers to the aggregation function supported to be used inside a windowed aggregate, see [Supported window functions](windows-functions.md#supported-pinot-window-functions).
-* `window` is the window definition / windowing mechanism, see [Supported window mechanism](windows-functions.md#supported-window-mechanism-over-clause).
+* `windowAggFunction` refers to the aggregation function used inside a windowed aggregate, see supported [window aggregate functions](windows-functions.md).
+* `window` is the window definition / windowing mechanism, see supported [window mechanism](windows-functions.md#window-mechanism-over-clause).
 
 You can jump to the [examples](windows-functions.md#examples-of-windows-functions) section to see more concrete use cases of window aggregate on Pinot.
 
@@ -85,20 +85,21 @@ SELECT FUNC(column1) OVER (PARTITION BY column2 ORDER BY column3 ROWS 2 PRECEDIN
 
 If there is no FRAME, no PARTITION BY, and no ORDER BY clause specified in the OVER clause (empty OVER), the whole result set is regarded as one partition, and there's one frame in the window.
 
-The OVER clause applies a specified[ supported Windows function](windows-functions.md#supported-pinot-window-functions) to compute values over a group of rows, and return a single result for each row. The OVER clause specifies how the rows are arranged and how the aggregation is done on those rows.
+The OVER clause applies a specified supported [windows aggregate function](windows-functions.md#window-aggregate-functions) to compute values over a group of rows, and return a single result for each row. The OVER clause specifies how the rows are arranged and how the aggregation is done on those rows.
 
-Inside the over clause, there are three optional components, i.e. PARTITION BY clause, ORDER BY clause, and FRAME clause.
+Inside the over clause, there are three optional components: PARTITION BY clause, ORDER BY clause, and FRAME clause.
 
 ## Window aggregate functions
 
-Here are some of the most commonly used of window aggregate functions are:
+Window aggregate functions are commonly used to do the following:
 
 * [Compute averages](windows-functions.md#find-the-average-transaction-amount-by-customer-id)
 * [Rank items](windows-functions.md#rank-year-to-date-sales-for-a-sales-team)
+* [Count items](windows-functions.md#count-the-number-of-transactions-by-customer-id)
 * [Calculate sums](windows-functions.md#sum-transactions-by-customer-id)
 * [Find minimum or maximum values](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)
 
-Here are the full list of supported window aggregate functions.
+Supported window aggregate functions are listed in the following table.
 
 | Function                                                                                                    | Description                                                                                                                         | Example            | Default Value When No Record Selected |
 | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------- |
@@ -111,7 +112,7 @@ Here are the full list of supported window aggregate functions.
 | [**ROW\_NUMBER**](../../../configuration-reference/functions/round-1.md)                                    | Assigns a unique row number to all the rows in a specified table.                                                                   | `ROW_NUMBER()`     | `0`                                   |
 | [**SUM**](../../../configuration-reference/functions/sum.md)                                                | Returns the sum of the values for a numeric column as `Double`                                                                      | `SUM(playerScore)` | `0`                                   |
 
-## Window aggregate query Examples
+## Window aggregate query examples
 
 * [Sum transactions by customer ID](windows-functions.md#sum-transactions-by-customer-id)
 * [Find the minimum or maximum transaction by customer ID](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)
