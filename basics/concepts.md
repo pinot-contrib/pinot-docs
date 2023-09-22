@@ -39,7 +39,7 @@ Multitenancy is an optional feature in Pinot. All tables, brokers, and servers b
 
 ### Cluster
 
-A Pinot [_cluster_](components/cluster/) is a complete collection of the software processes and hardware resources required for Pinot to ingest data, store it, and process queries. The components of a cluster are described in more detail under _Physical Architecture_ below.
+A Pinot [_cluster_](components/cluster/) is a collection of the software processes and hardware resources required to ingest, store, and process data. For detail about Pinot cluster components, see [Physical architecture](#physical-architecture).
 
 
 ## Physical Architecture
