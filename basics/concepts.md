@@ -20,7 +20,7 @@ Pinot stores data in [_tables_](https://docs.pinot.apache.org/pinot-components/t
 
 Pinot stores data in [_tables_](components/table/). A Pinot table is conceptually identical to a relational database table with rows and columns. Columns have the same name and data type, known as the table's [schema](components/table/schema.md).
 
-Pinot schemas are defined using a custom JSON file. Because that schema definition is in a file all its own, separate from the command to configure and create the table itself, multiple tables can share a single schema, with each table free to have its own name, indexing strategies, partitioning, data sources, and other metadata.
+Pinot schemas are defined in a JSON file. Because that schema definition is in its own file, multiple tables can share a single schema. Each table can have a unique name, indexing strategy, partitioning, data sources, and other metadata.
 
 Pinot tables can either be _real-time_, meaning they ingest data from a streaming source like Apache Kafka®, _offline_, meaning they are loaded with data from a batch source, or _hybrid_, meaning they are loaded with batch and streaming data together.
 
