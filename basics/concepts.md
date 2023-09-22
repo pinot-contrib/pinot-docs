@@ -29,7 +29,7 @@ Pinot table types include:
 
 ### Segment
 
-Pinot tables are stored physically in one or more independent shards called [_segments_](components/table/segment/). A small table may be contained by a single segment, but because Pinot is designed to allow tables to grow to arbritrarily large row counts, it imposes no practical upper bound on the number of segments used to store a table. There are different processes for creating segments (see [_ingestion_]()), but each process creates segments that are fundamentally time-based partitions of the table data. Segments are stored on physical Pinot components called [_servers_](components/cluster/server.md), which lend horizontal scalability to both the storage and computation required to query tables.
+Pinot tables are stored in one or more independent shards called [segments](components/table/segment/). A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](/developers/advanced/data-ingestion)). Segments have time-based partitions of table data, and are stored on Pinot [servers](components/cluster/server) that scale horizontally as needed for both storage and computation.
 
 ### Tenant
 
