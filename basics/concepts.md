@@ -54,7 +54,7 @@ A Pinot cluster consists of the following processes, which are typically deploye
 * **Server**: Provides storage for segment files and compute for query processing.
 * (Optional) **Minion**: Computes background tasks other than query processing, minimizing impact on query latency. Optimizes segments, and builds additional indexes to ensure performance (even if data is deleted). 
 
-The simplest possible Pinot cluster consists of four processes: a server, a broker, a controller, and a Zookeeper node. In production environments, these are typically run on separate server instances, and scaled out as data volume, concurrent load, availability, and latency targets dictate. Production clusters exist at sizes of fewer than ten total instances to more than 1,000.
+The simplest possible Pinot cluster consists of four components: a server, a broker, a controller, and a Zookeeper node. In production environments, these components typically run on separate server instances, and scale out as needed for data volume, load, availability, and latency. Pinot clusters in production range from fewer than ten total instances to more than 1,000.
 
 Pinot uses [Apache Zookeeper](https://zookeeper.apache.org/) as a distributed metadata store and and [Apache Helix](http://helix.apache.org/) for cluster management.
 
