@@ -31,7 +31,7 @@ Below is a sample screenshot to create an Amazon MSK cluster.
 
 3. Click **Create**.
 
-![Amazon MSK Clusters View](<../../.gitbook/assets/amazon-msk-cluster-in-progress.png>)
+![Amazon MSK Clusters View](../../.gitbook/assets/amazon-msk-cluster-in-progress.png)
 
 Once the cluster is created, click **`View client information`** to see the Zookeeper and Kafka Broker list.
 
@@ -54,7 +54,7 @@ This is configured through Amazon VPC Page.
 1. Record the Amazon MSK `SecurityGroup` from the Cluster page, in the above demo, it's `sg-01e7ab1320a77f1a9`.
 2. Open [Amazon VPC Page](https://us-west-2.console.aws.amazon.com/vpc/home), click on **`SecurityGroups`** on left bar. Find the EKS Security group: `eksctl-${PINOT_EKS_CLUSTER}-cluster/ClusterSharedNodeSecurityGroup.`
 
-![Amazon EKS ClusterSharedNodeSecurityGroup](<../../.gitbook/assets/amazon_eks_cluster.png>)
+![Amazon EKS ClusterSharedNodeSecurityGroup](<../../.gitbook/assets/amazon\_eks\_cluster (3).png>)
 
 {% hint style="info" %}
 Ensure you are picking **ClusterShardNodeSecurityGroup**
@@ -193,4 +193,4 @@ Sending request: http://pinot-controller:9000/schemas to controller: pinot-contr
 
 * Then you can open Pinot Query Console to browse the data
 
-![](<../../.gitbook/assets/amazon-msk-query-console-browse.png>)
+![](../../.gitbook/assets/amazon-msk-query-console-browse.png)

@@ -6,7 +6,7 @@ Set up Pinot by starting each component individually
 
 {% tabs %}
 {% tab title="Using docker images" %}
-#### Start Pinot Components using docker
+**Start Pinot Components using docker**
 
 **Prerequisites**
 
@@ -14,7 +14,7 @@ Set up Pinot by starting each component individually
 If running locally, ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
 
-![Sample Docker resources](<../../.gitbook/assets/docker-resource-setup.png>)
+![Sample Docker resources](<../../.gitbook/assets/docker-resource-setup (1).png>)
 
 **Pull Docker image**
 
@@ -130,7 +130,7 @@ DISCLAIMER    LICENSE        NOTICE        bin        conf        lib        lic
 $ PINOT_INSTALL_DIR=`pwd`
 ```
 
-#### Start Pinot components via launcher scripts
+**Start Pinot components via launcher scripts**
 
 **Start Zookeeper**
 

@@ -2,13 +2,13 @@
 
 ## Find debug information in Pinot
 
-Pinot offers various ways to assist with troubleshooting and debugging problems that might happen. 
+Pinot offers various ways to assist with troubleshooting and debugging problems that might happen.
 
 Start with the [debug API](../../users/api/controller-api-reference.md) which will surface many of the commonly occurring problems. The debug api provides information such as tableSize, ingestion status, and error messages related to state transition in server.
 
 The table debug API can be invoked via the Swagger UI, as in the following image:
 
-![Swagger - Table Debug Api](<../../.gitbook/assets/swagger-table-debug-api.png>)
+![Swagger - Table Debug Api](<../../.gitbook/assets/swagger-table-debug-api (1).png>)
 
 It can also be invoked directly by accessing the URL as follows. The api requires the `tableName`, and can optionally take `tableType (offline|realtime)` and `verbosity` level.
 
@@ -16,7 +16,7 @@ It can also be invoked directly by accessing the URL as follows. The api require
 curl -X GET "http://localhost:9000/debug/tables/airlineStats?verbosity=0" -H "accept: application/json"
 ```
 
-Pinot also provides a variety of operational metrics that can be used for creating dashboards, alerting and [monitoring](https://docs.pinot.apache.org/operators/operating-pinot/monitoring). 
+Pinot also provides a variety of operational metrics that can be used for creating dashboards, alerting and [monitoring](https://docs.pinot.apache.org/operators/operating-pinot/monitoring).
 
 Finally, all pinot components log debug information related to error conditions.
 
@@ -32,4 +32,3 @@ Use the following steps:
    1. Increase Java Virtual Machine (JVM) heap (`java -Xmx<size>`).
    2. Consider using off-heap memory for segments.
    3. Decrease the total number of segments per server (by partitioning the data in a more efficient way).
-
