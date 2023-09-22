@@ -64,7 +64,7 @@ Helix is a cluster management solution created by the authors of Pinot. Helix ma
 
 The Pinot [controller](components/cluster/controller.md) adjusts resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the hardware resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion) and [offline tables](data-import/batch-ingestion)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration. 
 
-The controller exposes a REST API endpoint for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
+The controller exposes a [REST API endpoint](/users/api/controller-api-reference) for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
 
 ### Server
 
