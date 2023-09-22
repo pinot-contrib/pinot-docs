@@ -19,7 +19,7 @@ The below diagram shows the dictionary encoding for two columns with `integer` a
 
 On the other hand, `colB` has no duplicated data. Dictionary encoding will not compress much data in this case where there are a lot of unique values in the column. For the `string` type, we pick the length of the longest value and use it as the length for the dictionary’s fixed-length value array. The padding overhead can be high if there are a large number of unique values for a column.
 
-![](<../../.gitbook/assets/dictionary (1).png>)
+![](<../../.gitbook/assets/dictionary-encoded-forward-index.png>)
 
 ## Sorted forward index with run-length encoding
 

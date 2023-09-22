@@ -26,7 +26,7 @@ The ingestion job then sends a notification about the new segment to the control
 
 For real-time tables, by default, a segment is first built-in memory by the server. It is then uploaded to the lead controller (as part of the Segment Completion Protocol sequence), which writes the segment into the deep store, as shown in the diagram below:
 
-![Server sends segment to Controller, which writes segments into the deep store](<../../../../.gitbook/assets/server-controller-deep-store (1).png>)
+![Server sends segment to Controller, which writes segments into the deep store](<../../../../.gitbook/assets/server-controller-deep-store.png>)
 
 Having all segments go through the controller can become a system bottleneck under heavy load, in which case you can use the peer download policy, as described in [Decoupling Controller from the Data Path](../../../../operators/operating-pinot/decoupling-controller-from-the-data-path.md).
 
