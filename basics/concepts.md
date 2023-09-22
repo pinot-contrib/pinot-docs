@@ -48,11 +48,11 @@ A Pinot [_cluster_](components/cluster/) is a collection of the software process
 
 A Pinot cluster consists of the following processes, which are typically deployed on separate hardware resources in production. In development, they can fit comfortably into Docker containers on a typical laptop.
 
-* **Controller**. Maintains cluster metadata and orchestrates cluster resources.
-* **Zookeeper**. Fault-tolerant, persistent storage on behalf of the controller.
-* **Broker**. Accepts queries from client processes and forwards them to servers for processing.
-* **Server**. Provides storage for segment files and compute for query processing.
-* **Minion** (optional). Distributed compute for cluster tasks other than query processing.
+* **Controller**: Maintains cluster metadata and manages cluster resources.
+* **Zookeeper**: Manages the Pinot cluster on behalf of the controller. Provides fault-tolerant, persistent storage of metadata, including table configurations, schemas, segment metadata, and cluster state.
+* **Broker**: Accepts queries from client processes and forwards them to servers for processing.
+* **Server**: Provides storage for segment files and compute for query processing.
+* (Optional) **Minion**: Computes background tasks other than query processing, minimizing impact on query latency. Optimizes segments, and builds additional indexes to ensure performance (even if data is deleted). 
 
 The simplest possible Pinot cluster consists of four processes: a server, a broker, a controller, and a Zookeeper node. In production environments, these are typically run on separate server instances, and scaled out as data volume, concurrent load, availability, and latency targets dictate. Production clusters exist at sizes of fewer than ten total instances to more than 1,000.
 
