@@ -14,11 +14,11 @@ Set up Pinot by starting each component individually
 If running locally, ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
 
-![Sample docker resources](<../../.gitbook/assets/image (4) (1).png>)
+![Sample Docker resources](<../../.gitbook/assets/docker-resource-setup.png>)
 
-**Pull docker image**
+**Pull Docker image**
 
-You can try out pre-built Pinot all-in-one docker image.
+You can try out pre-built Pinot all-in-one Docker image.
 
 ```
 export PINOT_VERSION=0.10.0
@@ -28,9 +28,9 @@ docker pull ${PINOT_IMAGE}
 
 (Optional) You can also follow the instructions [here](../../operators/tutorials/build-docker-images.md) to build your own images.
 
-**0. Create a Network**
+**0. Create a network**
 
-Create an isolated bridge network in docker
+Create an isolated bridge network in Docker.
 
 ```
 docker network create -d bridge pinot-demo
