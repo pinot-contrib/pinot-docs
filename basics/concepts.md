@@ -42,7 +42,7 @@ By default, all tables, brokers, and servers belong to a tenant called _DefaultT
 A Pinot [_cluster_](components/cluster/) is a collection of the software processes and hardware resources required to ingest, store, and process data. For detail about Pinot cluster components, see [Physical architecture](#physical-architecture).
 
 
-## Physical Architecture
+## Physical architecture
 
 ![](../.gitbook/assets/Pinot-Components.svg)
 
