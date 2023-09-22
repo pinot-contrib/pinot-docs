@@ -564,4 +564,4 @@ Below is the sample snapshot of s3 location for controller:
 
 Below is a sample download URI in PropertyStore. We expect the segment download URI to start with `s3://`
 
-![Sample segment download URI in PropertyStore](<../../.gitbook/assets/sample-segment-download-uri.png>)
+![Sample segment download URI in PropertyStore](<../../.gitbook/assets/image (7).png>)

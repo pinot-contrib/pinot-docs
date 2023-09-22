@@ -75,7 +75,7 @@ User can add an existing table into Superset:
 
 ![Add Table Definition](<../.gitbook/assets/image (47).png>)
 
-![Table Definition](<../.gitbook/assets/superset-table-definition-baseball-stats.png>)
+![Table Definition](<../.gitbook/assets/image (61).png>)
 
 User can edit table/column definition by clicking the `edit` button left to the table name.
 
@@ -83,7 +83,7 @@ User can edit table/column definition by clicking the `edit` button left to the 
 
 User can configure an existing column `mergedTimeMillis` as temporal and set `Datetime Format` accordingly.
 
-![Configure time column](<../.gitbook/assets/superset-configure-time-column.png>)
+![Configure time column](<../.gitbook/assets/image (9).png>)
 
 ### Adding a derived column
 
@@ -93,4 +93,4 @@ User can also add a new column by setting the expression.
 
 Another example:
 
-![Add a derived column with Pinot UDFs](<../.gitbook/assets/add-derived-column-udf.png>)
+![Add a derived column with Pinot UDFs](<../.gitbook/assets/image (59).png>)
