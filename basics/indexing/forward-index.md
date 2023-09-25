@@ -114,7 +114,7 @@ A raw value forward index can be configured for a table by configuring the [tabl
 ```
 
 {% hint style="info" %}
-**Note**: By default only dimensions in `"noDictionaryColumns"` are compressed with `LZ4`. Compression can be enabled on metrics columns by adding the following to the table index config. This will apply only to new segments. Old segments will have to be refreshed in order to enable compression.
+**Note**: By default only dimensions in `"noDictionaryColumns"` are compressed with `LZ4`. Compression can be enabled on metrics columns by adding the following to the table index config. This changes will apply only to new segments. Old segments will have to be refreshed.
 ```javascript
 
 {
