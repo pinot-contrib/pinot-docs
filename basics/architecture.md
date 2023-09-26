@@ -1,65 +1,84 @@
 ---
 description: >-
-  Uncover the efficient data processing architecture of Apache Pinot, empowering
-  impactful analytics. Explore its powerful components and design principles for
-  actionable insights.
+  Understand how the components of Apache Pinot™ work together to create a scalable OLAP database that can delivery low-latency, high-concurrecy queries at scale.
 ---
 
 # Architecture
-
-This page introduces you to the guiding principles behind the design of Apache Pinot. Here you will learn the distributed systems architecture that allows Pinot to scale the performance of queries linearly based on the number of nodes in a cluster. You'll also learn about the two different types of tables used to ingest and query data in offline (batch) or real-time (stream) mode.
 
 {% hint style="info" %}
 We recommend that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
 {% endhint %}
 
-## Guiding design principles
+Apache Pinot™ is a distributed OLAP database designed to serve real-time, user-facing use cases. This goal imposes some unique and demanding requirements:
 
-Engineers at LinkedIn and Uber designed Pinot to scale query performance based on the number of nodes in a cluster. As you add more nodes, query performance improves based on the expected query volume per second quota. To achieve horizontal scalability to an unbounded number of nodes and data storage, without performance degradation, we used the following principles:
+* Ultra low-latency queries (as low as 10ms P95)
+* High query concurrency (as many as 100,000 queries per second)
+* High data freshness (streaming data availble for query immediately upon ingestion)
+* Large data volume (up to petabytes)
 
-* **Highly available**: Pinot is built to serve low latency analytical queries for customer-facing applications. By design, there is no single point of failure in Pinot. The system continues to serve queries when a node goes down.
-* **Horizontally scalable**: Pinot scales by adding new nodes as a workload changes.
-* **Latency vs. storage:** Pinot is built to provide low latency even at high-throughput. Features such as segment assignment strategy, routing strategy, star-tree indexing were developed to achieve this.
-* **Immutable data**: Pinot assumes that all data stored is immutable. For GDPR compliance, we provide an add-on solution for purging data while maintaining performance guarantees.
-* **Dynamic configuration changes**: Operations such as adding new tables, expanding a cluster, ingesting data, modifying indexing config, and re-balancing must not impact query availability or performance.
+This document describes the architectural choices the designers of Pinot have made to achieve these goals.
+
+## Distributed design principles
+
+To accommodate large data volumes with stringent latency and concurrency requirements, Pinot is designed as a distributed database. As a distributed system, it has these goals:
+
+* **Highly available**: Pinot has no single point of failure. When operators choose data replication, the cluster can continue to serve queries when a node goes down.
+* **Horizontally scalable**: Operators can scale a Pinot cluster by adding new nodes when the workload increases. There are even two node types to scale query volume, query complexity, and data size independently.
+* **Immutable data**: Pinot treats all stored data as if it is immutable. This helps it make simplifying assumptions about replication, and in return drives some complexity into operations like purging user data to comply with user privacy regulations.
+* **Dynamic configuration changes**: Operations like adding new tables, expanding a cluster, ingesting data, modifying an existing table, and adding indexes must not impact query availability or performance.
 
 ## Core components
 
-As described in the [concepts](concepts.md), Pinot has multiple distributed system components:[ controller](components/cluster/controller.md), [broker](components/cluster/broker.md), [server](components/cluster/server.md), and [minion](components/cluster/minion.md).
+As described in [Apache Pinot™ Concepts](concepts.md), Pinot has four node types:
 
-Pinot uses [Apache Helix](http://helix.apache.org/) for cluster management. Helix is embedded as an agent within the different components and uses [Apache Zookeeper](https://zookeeper.apache.org/) for coordination and maintaining the overall cluster state and health.
+* [Controller](components/cluster/controller.md)
+* [Broker](components/cluster/broker.md)
+* [Server](components/cluster/server.md)
+* [Minion](components/cluster/minion.md)
 
 ![](<../.gitbook/assets/Pinot-architecture (1).svg>)
 
 ### Apache Helix and Zookeeper
 
-Helix, a generic cluster management framework to manage partitions and replicas in a distributed system, manages all Pinot [servers](components/cluster/server.md) and [brokers](components/cluster/broker.md). It's helpful to think of Helix as an event-driven discovery service with push and pull notifications that drives the state of a cluster to an ideal configuration. A finite-state machine maintains a contract of stateful operations that drives the health of the cluster towards its optimal configuration. Helix optimizes query load by updating routing configurations between nodes based on where data is stored in the cluster.
+Distributed systems do not maintain themselves, and in fact require sophisticated scheduling and resource management frameworks to function. Pinot uses [Apache Helix](http://helix.apache.org/) for cluster management. Helix exists as an independent project, but it was designed by the original creators of Pinot for Pinot's own cluster management purposes, so the architectures of the two systems are well-aligned. From a physical perspective, Helix takes the form of a process on the controller, plus embedded agents on the brokers and servers. It uses [Apache Zookeeper](https://zookeeper.apache.org/) as a fault-tolerant, strongly consistent, durable state store.
 
-Helix divides nodes into three logical components based on their responsibilities:
+From a logical perspective, Helix as an event-driven discovery service that drives the state of a distributed system from its current state to an ideal configuration in its state store. In a cluster's quiescent state, the current state and the configured state are identical. Two things can alter this equilibrium:
 
-* **Participant**: These are the nodes in the cluster that actually host the distributed storage resources.
-* **Spectator**: These nodes observe the current state of each _**participant**_ and route requests accordingly. Routers, for example, need to know the instance on which a partition is hosted and its state to route the request to the appropriate endpoint. Routing is continually updated to optimize cluster performance as storage primitives are added and changed.
-* **Controller**: The [controller](components/cluster/controller.md) observes and manages the state of _**participant**_ nodes. The controller is responsible for coordinating all state transitions in the cluster and ensures that state constraints are satisfied while maintaining cluster stability.
+* The configuration can change. This causes the ideal state of the cluster to become different from the actual state of the cluster.
+* Cluster hardware resources can fail. This causes the actual state of the cluster to become different from the ideal state of the cluster.
 
-Helix uses Zookeeper to maintain cluster state. Each component in a Pinot cluster takes a Zookeeper address as a startup parameter. The various components distributed in a Pinot cluster watch Zookeeper notifications and issue updates via its embedded Helix-defined agent.
+Both scenarios require Helix to schedule new resources stand down existing resources to get the ideal and actual states to align again.
 
-| Component  | Helix Mapping                                                                                                                                                                                       |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Segment    | Modeled as a **Helix Partition.** Each [segment](components/table/segment/) can have multiple copies referred to as **replicas.**                                                                   |
-| Table      | Modeled as a **Helix Resource.** Multiple segments are grouped into a [table](components/table/). All segments belonging to a Pinot Table have the same schema.                                     |
-| Controller | Embeds the Helix agent that drives the overall state of the cluster                                                                                                                                 |
-| Server     | Modeled as a **Helix Participant** and hosts [segments](components/table/segment/)                                                                                                                  |
-| Broker     | Modeled as a **Helix Spectator** that observes the cluster for changes in the state of segments and servers. In order to support multi-tenancy, brokers are also modeled as **Helix Participants**. |
-| Minion     | Modeled as a **Helix Participant**                                                                                                                                                                  |
+There are three physical node types in a Helix cluster:
 
-Helix agents use Zookeeper to store and update configurations, as well as for distributed coordination. Zookeeper stores the following information about the cluster:
+* **Participant**: These nodes _do_ things, like store data or perform computation. Participants host _resources_, which are Helix's fundamental storage abstraction. Because Pinot servers store segment data, they are participants.
+* **Spectator**: These nodes _see_ things, observing the evolving state of the _participants_ through an event push mechanism. Because Pinot brokers need to know which servers host which segments, they are spectators.
+* **Controller**: This node observes and manages the state of participant nodes. The controller is responsible for coordinating all state transitions in the cluster and ensures that state constraints are satisfied while maintaining cluster stability. TODO: does it manage spectators?
 
-| Resource        | Stored Properties                                                                                                                                                          |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Controller      | <ul><li>Controller that is assigned as the current leader</li></ul>                                                                                                        |
-| Servers/Brokers | <ul><li>List of servers/brokers and their configuration</li><li>Health status</li></ul>                                                                                    |
-| Tables          | <ul><li>List of tables</li><li>Table configurations</li><li>Table schema information</li><li>List of segments within a table</li></ul>                                     |
-| Segment         | <ul><li>Exact server location(s) of a segment (routing table)</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul> |
+In addition, Helix defines two logical components to express its storage abstraction:
+
+* **Partition**. A unit of data storage that lives on at least one participant. Partitions may be replicated across multiple participants. A Pinot segment is a partition.
+* **Resource**. A logical collection of partitions, providing a single view over a potentially large set of data stored across a distributed system. A Pinot table is a resource.
+
+The Pinot architecture maps onto Helix components as follows:
+
+|Pinot Component|Helix Component|
+|----------|-----------|
+|Segment|**Helix Partition**|
+|Table|**Helix Resource**|
+|Controller|Runs the Helix agent that drives the overall state of the cluster (also called the Helix Controller)|
+|Server|**Helix Participant**|
+|Broker|A **Helix Spectator** that observes the cluster for changes in the state of segments and servers. In order to support multi-tenancy, brokers are also modeled as **Helix Participants**. TODO: y tho?|
+|Minion|**Helix Participant** that performs computation rather than store data|
+
+Helix uses Zookeeper to maintain cluster state. The components of a Pinot cluster watch Zookeeper notifications and issue updates via their embedded Helix agents. Zookeeper stores the following information about the cluster:
+
+|Resource|Stored Properties|
+|--------|-----------------|
+|Controller|<ul><li>Controller that is assigned as the current leader</li></ul>|
+|Servers/Brokers|<ul><li>List of servers/brokers and their configuration</li><li>Health status</li></ul>|
+|Tables|<ul><li>List of tables</li><li>Table configurations</li><li>Table schema information</li><li>List of segments within a table</li></ul>|
+|Segment|<ul><li>Exact server location(s) of a segment (routing table)</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul>|
 
 Knowing the `ZNode` layout structure in Zookeeper for Helix agents in a cluster is useful for operations and/or troubleshooting cluster state and health.
 
