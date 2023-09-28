@@ -10,24 +10,15 @@ Get the first value of `dataColumn` where the `timeColumn` is used to define the
 
 > FIRSTWITHTIME(dataColumn, timeColumn, 'dataType')
 
-## Usage Examples
+## Usage Example
 
-This example is based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
-
-```sql
-select FIRSTWITHTIME(Dest, ArrTime, 'STRING')
-from airlineStats 
-```
-
-| value |
-| ----- |
-| CPR   | * need to re-run quickstart and update this
+This example is based on the [Streaming Quick Start](../../basics/getting-started/quick-start.md#streaming).
 
 ```sql
-select FIRSTWITHTIME(AirTime, ArrTime, 'INT')
-from airlineStats 
+select FIRSTWITHTIME(group_name, __metadata$recordTimestamp, 'STRING')
+from meetupRsvp 
 ```
 
-| value |
-| ----- |
-| 38    | * need to re-run quickstart and update this
+| value                |
+| -------------------- |
+| group_name1016303453 | 
