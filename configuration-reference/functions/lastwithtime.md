@@ -4,7 +4,11 @@ description: This section contains reference documentation for the lastwithtime 
 
 # lastwithtime
 
-Get the last value of `dataColumn` where the `timeColumn` is used to define the time of `dataColumn` and the `dataType` specifies the type of `dataColumn`, which can be `BOOLEAN`, `INT`, `LONG`, `FLOAT`, `DOUBLE`, `STRING`
+This function is used for LastWithTime calculations.
+
+The function will return the value of `dataColumn` with the largest `timeColumn` value where:
+- `timeColumn` is used to define the time of `dataColumn`, which can be of type `TIMESTAMP`, `INT`, `LONG`
+- `dataType` specifies the type for `dataColumn`, which can be `BOOLEAN`, `INT`, `LONG`, `FLOAT`, `DOUBLE`, `STRING`
 
 ## Signature
 
