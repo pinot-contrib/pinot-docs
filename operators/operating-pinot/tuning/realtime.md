@@ -18,9 +18,7 @@ By default the files are created under the directory where the table’s segment
 
 If memory-mapping is not desirable, you can set `pinot.server.instance.realtime.alloc.offheap.direct` to `true`. In this case, pinot allocates direct [ByteBuffer](https://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html) objects for consuming segments. Using direct allocation can potentially result in address space fragmentation.
 
-Note
-
-We still use heap memory to store inverted indices for consuming segments.
+**Note that** we still use heap memory to store inverted indices for consuming segments.
 
 ### Controlling number of rows in consuming segment
 
