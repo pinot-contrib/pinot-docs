@@ -274,6 +274,26 @@ A TABLE in regular database world is represented as \<TABLE>\_OFFLINE and/or \<T
 
 See [`examples`](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables.
 
+### Add an inverted index to your table automatically
+
+It is possible to force the creation of an inverted index automatically by adding an entry to your [table index config](../../configuration-reference/table.md#table-index-config) in the table configuration file. This works whether you are creating a [batch (offline) table](#batch-table-creation) or a [streaming (real-time) table](#streaming-table-creation) and is accomplished by setting the `createInvertedIndexDuringSegmentGeneration` flag to `true` in your table config, as follows:
+
+```json
+...
+"tableIndexConfig": {
+    ...
+    "createInvertedIndexDuringSegmentGeneration": true,
+    ...
+}
+...
+```
+
+During the segment generation process, Pinot checks to see if this is `true`. The setting is `false` by default. If true, Pinot creates an inverted index for the columns that you specify in the `invertedIndexColumns` list in the table configuration. If false, no inverted index is created.
+
+If you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted incex to all existing segments.
+
+You cannot apply an inverted index to a consuming or non-consuming segment.
+
 ### Batch Table Creation
 
 See [Batch Tables](advanced-pinot-setup.md) for table configuration details and how to customize it.
