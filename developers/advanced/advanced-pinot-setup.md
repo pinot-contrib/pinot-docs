@@ -290,7 +290,7 @@ It is possible to force the creation of an inverted index automatically by addin
 
 During the segment generation process, Pinot checks to see if this is `true`. The setting is `false` by default. If true, Pinot creates an inverted index for the columns that you specify in the `invertedIndexColumns` list in the table configuration. If false, no inverted index is created.
 
-If you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted incex to all existing segments.
+If you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted index to all existing segments.
 
 You cannot apply an inverted index to a consuming or non-consuming segment.
 
