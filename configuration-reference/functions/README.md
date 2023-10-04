@@ -214,6 +214,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [extract.md](extract.md)
 {% endcontent-ref %}
 
+{% content-ref url="firstwithtime.md" %}
+[firstwithtime.md](firstwithtime.md)
+{% endcontent-ref %}
+
 {% content-ref url="fromdatetime.md" %}
 [fromdatetime.md](fromdatetime.md)
 {% endcontent-ref %}
@@ -272,6 +276,10 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% content-ref url="jsonpathstring.md" %}
 [jsonpathstring.md](jsonpathstring.md)
+{% endcontent-ref %}
+
+{% content-ref url="lastwithtime.md" %}
+[lastwithtime.md](lastwithtime.md)
 {% endcontent-ref %}
 
 {% content-ref url="length.md" %}
