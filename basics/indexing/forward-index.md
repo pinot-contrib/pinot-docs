@@ -113,6 +113,26 @@ A raw value forward index can be configured for a table by configuring the [tabl
 }
 ```
 
+{% hint style="info" %}
+**Note**: By default only dimensions in `"noDictionaryColumns"` are compressed with `LZ4`. Compression can be enabled on metrics columns by adding the following to the table index config. This changes will apply only to new segments. Old segments will have to be refreshed.
+```javascript
+
+{
+    "tableIndexConfig": {
+        "noDictionaryColumns": [
+            "column_name",
+            ...
+        ],
+        "noDictionaryConfig":
+        {
+            "column_name": "LZ4",
+            ...
+        }
+    }
+}
+```
+{% endhint %}
+
 ## Dictionary encoded vs raw value
 
 When working out whether a column should use dictionary encoded or raw value encoding, the following comparison table may help:
