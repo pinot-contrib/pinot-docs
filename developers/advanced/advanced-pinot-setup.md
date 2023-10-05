@@ -294,6 +294,10 @@ If you update this setting in your table configuration, you must [reload the tab
 
 You cannot apply an inverted index to a consuming or non-consuming [segment](../../basics/components/table/segment/).
 
+{% hint style="info" %}
+A consuming segment in Apache Pinot is an in-memory segment that stores the rows ingested from a data stream, such as Kafka. It resides in volatile memory and is used for real-time data processing and analysis. The consuming segment is periodically flushed to disk to create completed segments, which are then available for querying.
+{% endhint %}
+
 ### Batch Table Creation
 
 See [Batch Tables](advanced-pinot-setup.md) for table configuration details and how to customize it.
