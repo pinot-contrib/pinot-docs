@@ -292,7 +292,7 @@ During the segment generation process, Pinot checks to see if this is `true`. Th
 
 If you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted index to all existing segments.
 
-You cannot apply an inverted index to a consuming or non-consuming segment.
+You cannot apply an inverted index to a consuming or non-consuming [segment](../../basics/components/table/segment/).
 
 ### Batch Table Creation
 
