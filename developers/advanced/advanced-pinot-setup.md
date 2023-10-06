@@ -313,9 +313,17 @@ bin/pinot-admin.sh AddTable \
 
 ### Automatically add an inverted index to your batch table
 
-It is possible to force the creation of an inverted index during segment generation by adding an entry to your [table index config](../../configuration-reference/table.md#table-index-config) in the table configuration file.
+By default, the inverted index type is the only type of index that isn't created automatically during segment generation. Instead, they are generated when the segments are loaded on the server. But, waiting to build indexes until load time increases the startup time and takes up resources with every new segment push, which increases the time for other operations such as rebalance.
 
-This setting works with [batch (offline) tables](#batch-table-creation). This setting is `false` by default but you can set `createInvertedIndexDuringSegmentGeneration` to `true` in your table config, as follows:
+To automatically create an inverted index during segment generation, add an entry to your [table index config](../../configuration-reference/table.md#table-index-config) in the table configuration file. 
+
+This setting works with [batch (offline) tables](#batch-table-creation).
+
+When set to `true`, Pinot creates an inverted index for the columns that you specify in the `invertedIndexColumns` list in the table configuration.
+
+This setting is `false` by default.
+
+Set `createInvertedIndexDuringSegmentGeneration` to `true` in your table config, as follows:
 
 ```json
 ...
@@ -327,16 +335,7 @@ This setting works with [batch (offline) tables](#batch-table-creation). This se
 ...
 ```
 
-When set to `true`, Pinot creates an inverted index for the columns that you specify in the `invertedIndexColumns` list in the table configuration. If `false`, no inverted index is created.
-
 When you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted index to all existing segments.
-
-{% hint style="info" %}
-All other index types are created during the segment generation by default, and that is the preferred thing to do. However, since this is not the default for inverted indexes, this setting enables you to also create them at segment generation time.
-
-Waiting to build indexes until load time increases the startup time and takes up resources with every new segment push, which increases the time for other operations such as rebalance.
-{% endhint %}
-
 
 ### Streaming Table Creation
 
@@ -415,7 +414,7 @@ bin/pinot-admin.sh AddTable \
 
 ### Use `sortedColumn` with streaming tables
 
-For [streaming](#streaming-table-creation) tables, you can use a sorted index with `sortedColumn`. This will sort data when generating segments as the segment is committed. See [Real-time tables](../../basics/indexing/forward-index.md#real-time-tables) for more information.
+For [streaming](#streaming-table-creation) tables, you can use a sorted index with `sortedColumn` to sort data when generating segments as the segment is created. See [Real-time tables](../../basics/indexing/forward-index.md#real-time-tables) for more information.
 
 A sorted forward index can be used as an inverted index with better performance, but with the limitation that the search is only applied to one column per table. See [Sorted inverted index](../../basics/indexing/inverted-index.md#sorted-inverted-index) to learn more.
 
