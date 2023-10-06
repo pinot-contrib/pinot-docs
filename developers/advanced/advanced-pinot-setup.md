@@ -274,30 +274,6 @@ A TABLE in regular database world is represented as \<TABLE>\_OFFLINE and/or \<T
 
 See [`examples`](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples) for all possible batch/streaming tables.
 
-### Add an inverted index to your table automatically
-
-It is possible to force the creation of an inverted index automatically by adding an entry to your [table index config](../../configuration-reference/table.md#table-index-config) in the table configuration file. This works whether you are creating a [batch (offline) table](#batch-table-creation) or a [streaming (real-time) table](#streaming-table-creation) and is accomplished by setting the `createInvertedIndexDuringSegmentGeneration` flag to `true` in your table config, as follows:
-
-```json
-...
-"tableIndexConfig": {
-    ...
-    "createInvertedIndexDuringSegmentGeneration": true,
-    ...
-}
-...
-```
-
-During the segment generation process, Pinot checks to see if this is `true`. The setting is `false` by default. If true, Pinot creates an inverted index for the columns that you specify in the `invertedIndexColumns` list in the table configuration. If false, no inverted index is created.
-
-If you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted index to all existing segments.
-
-You cannot apply an inverted index to a consuming or non-consuming [segment](../../basics/components/table/segment/).
-
-{% hint style="info" %}
-A consuming segment in Apache Pinot is an in-memory segment that stores the rows ingested from a data stream, such as Kafka. It resides in volatile memory and is used for real-time data processing and analysis. The consuming segment is periodically flushed to disk to create completed segments, which are then available for querying.
-{% endhint %}
-
 ### Batch Table Creation
 
 See [Batch Tables](advanced-pinot-setup.md) for table configuration details and how to customize it.
@@ -334,6 +310,33 @@ bin/pinot-admin.sh AddTable \
 ```
 {% endtab %}
 {% endtabs %}
+
+### Automatically add an inverted index to your batch table
+
+It is possible to force the creation of an inverted index during segment generation by adding an entry to your [table index config](../../configuration-reference/table.md#table-index-config) in the table configuration file.
+
+This setting works with [batch (offline) tables](#batch-table-creation). This setting is `false` by default but you can set `createInvertedIndexDuringSegmentGeneration` to `true` in your table config, as follows:
+
+```json
+...
+"tableIndexConfig": {
+    ...
+    "createInvertedIndexDuringSegmentGeneration": true,
+    ...
+}
+...
+```
+
+When set to `true`, Pinot creates an inverted index for the columns that you specify in the `invertedIndexColumns` list in the table configuration. If `false`, no inverted index is created.
+
+When you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted index to all existing segments.
+
+{% hint style="info" %}
+All other index types are created during the segment generation by default, and that is the preferred thing to do. However, since this is not the default for inverted indexes, this setting enables you to also create them at segment generation time.
+
+Waiting to build indexes until load time increases the startup time and takes up resources with every new segment push, which increases the time for other operations such as rebalance.
+{% endhint %}
+
 
 ### Streaming Table Creation
 
@@ -409,6 +412,12 @@ bin/pinot-admin.sh AddTable \
 ```
 {% endtab %}
 {% endtabs %}
+
+### Use `sortedColumn` with streaming tables
+
+For [streaming](#streaming-table-creation) tables, you can use a sorted index with `sortedColumn`. This will sort data when generating segments as the segment is committed. See [Real-time tables](../../basics/indexing/forward-index.md#real-time-tables) for more information.
+
+A sorted forward index can be used as an inverted index with better performance, but with the limitation that the search is only applied to one column per table. See [Sorted inverted index](../../basics/indexing/inverted-index.md#sorted-inverted-index) to learn more.
 
 ## Load Data
 
