@@ -1,14 +1,24 @@
 ---
-description: Batch ingestion of data into Apache Pinot using dimension tables.
+description: Batch ingest data into Apache Pinot using dimension tables.
 ---
 
 # Dimension table
 
 Dimension tables are a special kind of offline tables from which data can be looked up via the [lookup UDF](../../../users/user-guide-query/query-syntax/lookup-udf-join.md), providing join-like functionality.
 
-Dimension tables are replicated on all the hosts for a given tenant to allow faster lookups.
+Dimension tables are replicated on all the hosts for a given tenant to allow faster lookups. When a table is marked as a dimension table, it will be replicated on all the hosts, which means that these tables must be small in size.
 
-To mark an offline table as a dimension table, `isDimTable` should be set to _true_ and `segmentsConfig.segementPushType` should be set to _REFRESH_ in the table config, like this:
+A dimension table cannot be part of a [hybrid table](../../components/table/#hybrid-table).
+
+Configure dimension tables using following properties in the table configuration:
+
+* `isDimTable`: Set to `true.`
+* `segmentsConfig.segmentPushType`: Set to `REFRESH`.
+* `dimensionTableConfig.disablePreload`: By default, dimension tables are preloaded to allow for fast lookups. Set to `true` to trade off speed for memory by storing only the segment reference and docID. Otherwise, the whole row is stored in the Dimension table hash map.
+* `controller.dimTable.maxSize`: Determines the maximum size quota for a dimesion table in a cluster. Table creation will fail if the storage quota exceeds this maximum size.
+* `dimensionFieldSpecs`: To look up dimension values, dimension tables need a primary key. For details, see [`dimensionFieldSpecs`](https://docs.pinot.apache.org/configuration-reference/schema#dimensionfieldspec).
+
+### Example dimension table configuration
 
 ```json
 {
@@ -24,13 +34,13 @@ To mark an offline table as a dimension table, `isDimTable` should be set to _tr
       "storage": "200M"
     },
     "isDimTable": true
+    }.
+    "dimensionTableConfig": {
+      "disablePreload": true
+      }
   }
 }
-```
-
-As dimension tables are used to perform lookups of dimension values, they are required to have a primary key (can be a composite key).
-
-```json
+...
 {
   "dimensionFieldSpecs": [
     {
@@ -47,8 +57,3 @@ As dimension tables are used to perform lookups of dimension values, they are re
 }
 ```
 
-When a table is marked as a dimension table, it will be replicated on all the hosts, which means that these tables must be small in size.
-
-The maximum size quota for a dimension table in a cluster is controlled by the `controller.dimTable.maxSize` controller property. Table creation will fail if the storage quota exceeds this maximum size.
-
-A dimension table cannot be part of a [hybrid table](../../components/table/#hybrid-table).
