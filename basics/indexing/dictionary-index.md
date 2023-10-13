@@ -16,7 +16,7 @@ The relationship between dictionaries and other indexes is outlined in the follo
 |---------------------------------------------|---------------------------|---------------------------------------------------------------------|
 | [forward](forward-index.md)                 |                           | Implementation depends on whether the dictionary is enabled or not. |
 | [range](range-index.md)                     |                           | Implementation depends on whether the dictionary is enabled or not. |
-| [inverted](inverted-index.md)               |                           | Requires dictionary.                                                |
+| [inverted](inverted-index.md)               |                           | Requires the dictionary index to be enabled.                                                |
 | [json](json-index.md)                       | when `optimizeDictionary` | Disables dictionary.                                                |
 | [text](text-search-support.md)              | when `optimizeDictionary` | Disables dictionary.                                                |
 | FST                                         |                           | Requires dictionary.                                                |

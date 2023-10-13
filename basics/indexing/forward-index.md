@@ -182,7 +182,7 @@ such as with `string`, `big decimal`, `bytes`, etc.
 By default, Pinot uses a fixed number of elements that was chosen empirically. 
 If changed to true, Pinot will use a heuristic value that depends on the column data.
 
-`rawIndexWriterVersion` changes the algorithm used under the hood to create the index.
+`rawIndexWriterVersion` changes the algorithm used to create the index.
 This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions.
 The latest version right now is 4.
 
