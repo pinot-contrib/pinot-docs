@@ -28,7 +28,7 @@ From this screen, we can edit or delete the table, edit or adjust its schema, as
 
 For example, if we want to add _yearID_ to the list of inverted indexes, click on **Edit Table,** add the extra column, and click **Save:**
 
-![Edit Table](<../../.gitbook/assets/Screenshot from 2021-11-25 10-57-48.png>)
+![Edit Table](../../.gitbook/assets/edit-baseball-stats-table-config.png)
 
 ## Query Console
 

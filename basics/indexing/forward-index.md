@@ -256,11 +256,11 @@ may only be configurable in the `forward` JSON object.
 
 ## Disabling the forward index
 
-Traditionally the forward index has been a mandatory index for all columns in the on-disk segment file format.&#x20;
+Traditionally the forward index has been a mandatory index for all columns in the on-disk segment file format.
 
-However, certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index is not necessary as essentially other indexes and structures in the segments can provide the required SQL query functionality. Forward index just takes up extra storage space for such scenarios and can ideally be freed up.&#x20;
+However, certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index is not necessary as essentially other indexes and structures in the segments can provide the required SQL query functionality. Forward index just takes up extra storage space for such scenarios and can ideally be freed up.
 
-Thus, to provide users an option to save storage space, a knob to disable the forward index is now available.&#x20;
+Thus, to provide users an option to save storage space, a knob to disable the forward index is now available.
 
 Forward index on one or more columns(s) in your Pinot table can be disabled with the following limitations:
 
@@ -314,7 +314,7 @@ A table reload operation must be performed for the above config to take effect. 
 The forward index can also be regenerated for a column where it is disabled by enabling the index and reloading the segment. The forward index can only be regenerated if the dictionary and inverted index have been enabled for the column. If either have been disabled then the only way to get the forward index back is to regenerate the segments via the offline jobs and re-push / refresh the data.
 
 {% hint style="danger" %}
-**Warning:**&#x20;
+**Warning:**
 
 For multi-value (MV) columns the following invariants cannot be maintained after regenerating the forward index for a forward index disabled column:
 
@@ -368,7 +368,7 @@ ORDER BY columnB
 
 ### Aggregation Queries
 
-A subset of the aggregation functions do work when the forward index is disabled such as `MIN`, `MAX`, `DISTINCTCOUNT`, `DISTINCTCOUNTHLL` and more. Some of the other aggregation functions will not work such as the below:&#x20;
+A subset of the aggregation functions do work when the forward index is disabled such as `MIN`, `MAX`, `DISTINCTCOUNT`, `DISTINCTCOUNTHLL` and more. Some of the other aggregation functions will not work such as the below:
 
 ```
 SELECT SUM(columnA), AVG(columnA)

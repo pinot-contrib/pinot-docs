@@ -29,11 +29,11 @@ Below is a sample screenshot to create an Amazon MSK cluster.
                                                        ![](../../.gitbook/assets/snapshot-msk.png)
 ```
 
-After click on Create button, you can take a coffee break and come back.
+3. Click **Create**.
 
 ![Amazon MSK Clusters View](<../../.gitbook/assets/image (3) (1).png>)
 
-Once the cluster is created, you can view it and click **`View client information`** to see the Zookeeper and Kafka Broker list.
+Once the cluster is created, click **`View client information`** to see the Zookeeper and Kafka Broker list.
 
 ![MSK Cluster View](<../../.gitbook/assets/image (34).png>)
 
@@ -193,4 +193,4 @@ Sending request: http://pinot-controller:9000/schemas to controller: pinot-contr
 
 * Then you can open Pinot Query Console to browse the data
 
-![](<../../.gitbook/assets/image (29).png>)
+![](../../.gitbook/assets/amazon-msk-query-console-browse.png)

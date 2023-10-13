@@ -55,7 +55,13 @@ The upsert mode defaults to `NONE` for real-time tables. To enable the full upse
 
 Partial upsert lets you choose to update only specific columns and ignore the rest.
 
-To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. Since `release-0.10.0`, `OVERWRITE` is used as the default strategy for columns without a specified strategy. `defaultPartialUpsertStrategy` is also introduced to change the default strategy for all columns. For example:
+To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. Since `release-0.10.0`, `OVERWRITE` is used as the default strategy for columns without a specified strategy. `defaultPartialUpsertStrategy` is also introduced to change the default strategy for all columns.
+
+{% hint style="info" %}
+Note that **null handling** must be enabled for partial upsert to work.
+{% endhint %}
+
+For example:
 
 {% code title="release-0.8.0" %}
 ```json
@@ -67,6 +73,9 @@ To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUp
       "group_name": "IGNORE",
       "venue_name": "OVERWRITE"
     }
+  },
+  "tableIndexConfig": {
+    "nullHandlingEnabled": true
   }
 }
 ```
@@ -82,6 +91,9 @@ To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUp
       "rsvp_count": "INCREMENT",
       "group_name": "IGNORE"
     }
+  },
+  "tableIndexConfig": {
+    "nullHandlingEnabled": true
   }
 }
 ```
@@ -117,8 +129,7 @@ By default, Pinot uses the value in the time column (`timeColumn` in tableConfig
 {
   "upsertConfig": {
     "mode": "FULL",
-    "comparisonColumn": "anotherTimeColumn",
-    "hashFunction": "NONE"
+    "comparisonColumn": "anotherTimeColumn"
   }
 }
 ```
@@ -135,8 +146,7 @@ In some cases, especially where partial upsert might be employed, there may be m
     "mode": "PARTIAL",
     "defaultPartialUpsertStrategy": "OVERWRITE",
     "partialUpsertStrategies":{},
-    "comparisonColumns": ["secondsSinceEpoch", "otherComparisonColumn"],
-    "hashFunction": "NONE"
+    "comparisonColumns": ["secondsSinceEpoch", "otherComparisonColumn"]
   }
 }
 ```
@@ -252,7 +262,7 @@ Note that when reviving a primary key in a partial upsert table, the revived rec
 
 ### Use strictReplicaGroup for routing
 
-The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover, upsert poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
+The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) implicitly for the segments. Moreover, upsert poses the additional requirement that **all segments of the same partition must be served from the same server** to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
 
 ```json
 {
@@ -262,6 +272,12 @@ The upsert Pinot table can use only the low-level consumer for the input streams
 }
 ```
 
+{% hint style="warning" %}
+Using implicit partitioned replica-group assignment from low-level consumer won't persist the instance assignment (mapping from partition to servers) to the ZooKeeper, and new added servers will be automatically included without explicit reassigning instances (usually through rebalance). This can cause new segments of the same partition assigned to a different server and break the requirement of upsert.
+
+To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../operators/operating-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.&#x20;
+{% endhint %}
+
 ### Enable validDocIds snapshots for upsert metadata recovery
 
 Upsert snapshot support is also added in `release-0.12.0`. To enable the snapshot, set the `enableSnapshot` to `true`. For example:
@@ -270,7 +286,6 @@ Upsert snapshot support is also added in `release-0.12.0`. To enable the snapsho
 {
   "upsertConfig": {
     "mode": "FULL",
-    "hashFunction": "NONE",
     "enableSnapshot": true
   }
 }
@@ -300,7 +315,7 @@ Upsert preload support is also added in `master`. To enable the preload, set the
 {
   "upsertConfig": {
     "mode": "FULL",
-    "hashFunction": "NONE",
+    "enableSnapshot": true,
     "enablePreload": true
   }
 }
@@ -344,45 +359,160 @@ It's useful to plan the capacity beforehand to ensure you will not run into reso
 
 ### Example
 
-Putting these together, you can find the table configurations of the quick start example as the following:
+Putting these together, you can find the table configurations of the quick start examples as the following:
 
 ```json
 {
-  "tableName": "meetupRsvp",
+  "tableName": "upsertMeetupRsvp",
   "tableType": "REALTIME",
+  "tenants": {},
   "segmentsConfig": {
     "timeColumnName": "mtime",
-    "timeType": "MILLISECONDS",
     "retentionTimeUnit": "DAYS",
     "retentionTimeValue": "1",
-    "segmentPushType": "APPEND",
-    "segmentAssignmentStrategy": "BalanceNumSegmentAssignmentStrategy",
-    "schemaName": "meetupRsvp",
-    "replicasPerPartition": "1"
+    "replication": "1"
   },
-  "tenants": {},
   "tableIndexConfig": {
-    "loadMode": "MMAP",
-    "streamConfigs": {
-      "streamType": "kafka",
-      "stream.kafka.consumer.type": "lowLevel",
-      "stream.kafka.topic.name": "meetupRSVPEvents",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
-      "stream.kafka.hlc.zk.connect.string": "localhost:2191/kafka",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-      "stream.kafka.zk.broker.url": "localhost:2191/kafka",
-      "stream.kafka.broker.list": "localhost:19092",
-      "realtime.segment.flush.threshold.rows": 30
+    "segmentPartitionConfig": {
+      "columnPartitionMap": {
+        "event_id": {
+          "functionName": "Hashcode",
+          "numPartitions": 2
+        }
+      }
     }
   },
-  "metadata": {
-    "customConfigs": {}
+  "instanceAssignmentConfigMap": {
+    "CONSUMING": {
+      "tagPoolConfig": {
+        "tag": "DefaultTenant_REALTIME"
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 1,
+        "partitionColumn": "event_id",
+        "numPartitions": 2,
+        "numInstancesPerPartition": 1
+      }
+    }
   },
   "routing": {
+    "segmentPrunerTypes": [
+      "partition"
+    ],
     "instanceSelectorType": "strictReplicaGroup"
   },
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+      "streamConfigMaps": [
+        {
+          "streamType": "kafka",
+          "stream.kafka.topic.name": "upsertMeetupRSVPEvents",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.zk.broker.url": "localhost:2191/kafka",
+          "stream.kafka.broker.list": "localhost:19092"
+        }
+      ]
+    }
+  },
   "upsertConfig": {
-    "mode": "FULL"
+    "mode": "FULL",
+    "enableSnapshot": true,
+    "enablePreload": true
+  },
+  "fieldConfigList": [
+    {
+      "name": "location",
+      "encodingType": "RAW",
+      "indexType": "H3",
+      "properties": {
+        "resolutions": "5"
+      }
+    }
+  ],
+  "metadata": {
+    "customConfigs": {}
+  }
+}
+```
+
+```json
+{
+  "tableName": "upsertPartialMeetupRsvp",
+  "tableType": "REALTIME",
+  "tenants": {},
+  "segmentsConfig": {
+    "timeColumnName": "mtime",
+    "retentionTimeUnit": "DAYS",
+    "retentionTimeValue": "1",
+    "replication": "1"
+  },
+  "tableIndexConfig": {
+    "segmentPartitionConfig": {
+      "columnPartitionMap": {
+        "event_id": {
+          "functionName": "Hashcode",
+          "numPartitions": 2
+        }
+      }
+    },
+    "nullHandlingEnabled": true
+  },
+  "instanceAssignmentConfigMap": {
+    "CONSUMING": {
+      "tagPoolConfig": {
+        "tag": "DefaultTenant_REALTIME"
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 1,
+        "partitionColumn": "event_id",
+        "numPartitions": 2,
+        "numInstancesPerPartition": 1
+      }
+    }
+  },
+  "routing": {
+    "segmentPrunerTypes": [
+      "partition"
+    ],
+    "instanceSelectorType": "strictReplicaGroup"
+  },
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+      "streamConfigMaps": [
+        {
+          "streamType": "kafka",
+          "stream.kafka.topic.name": "upsertPartialMeetupRSVPEvents",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.zk.broker.url": "localhost:2191/kafka",
+          "stream.kafka.broker.list": "localhost:19092"
+        }
+      ]
+    }
+  },
+  "upsertConfig": {
+    "mode": "PARTIAL",
+    "partialUpsertStrategies": {
+      "rsvp_count": "INCREMENT",
+      "group_name": "UNION",
+      "venue_name": "APPEND"
+    }
+  },
+  "fieldConfigList": [
+    {
+      "name": "location",
+      "encodingType": "RAW",
+      "indexType": "H3",
+      "properties": {
+        "resolutions": "5"
+      }
+    }
+  ],
+  "metadata": {
+    "customConfigs": {}
   }
 }
 ```

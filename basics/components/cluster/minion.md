@@ -51,9 +51,9 @@ bin/pinot-admin.sh StartMinion \
 
 ![](<../../../.gitbook/assets/Screen Shot 2021-05-26 at 3.22.55 PM.png>)
 
-### PinotTaskGenerator
+### Pinot task generator
 
-PinotTaskGenerator interface defines the APIs for the controller to generate tasks for minions to execute.
+The Pinot task generator interface defines the APIs for the controller to generate tasks for minions to execute.
 
 ```java
 public interface PinotTaskGenerator {
@@ -206,7 +206,7 @@ NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the tas
 When performing ingestion at scale remember that Pinot will list all of the files contained in the \`inputDirURI\` every time a \`SegmentGenerationAndPushTask\` job gets scheduled. This could become a bottleneck when fetching files from a cloud bucket like GCS. To prevent this make \`inputDirURI\` point to the least number of files possible.
 {% endhint %}
 
-``` 
+```
   "ingestionConfig": {
     "batchIngestionConfig": {
       "segmentIngestionType": "APPEND",
@@ -348,7 +348,7 @@ Then clicking into any table in this list, one can see how the task is configure
 
 At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed.
 
-Clicking into a task from that list, we can see start/end time for it, and the sub tasks generated for that task (as context, one minion task can have multiple sub-tasks to process data in parallel). In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
+Clicking into a task from that list, we can see start/end time for it, and the subtasks generated for that task (as context, one minion task can have multiple subtasks to process data in parallel). In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
 
 <figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
