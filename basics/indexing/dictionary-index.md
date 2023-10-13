@@ -25,7 +25,7 @@ The relationship between dictionaries and other indexes is outlined in the follo
 
 ## Configuration
 
-### Enable or disable dictionaries
+### Deterministically enable or disable dictionaries
 Unlike many other indexes, dictionary indexes are enabled by default, under the assumption that the count of unique 
 values will be significantly lower than the number of rows.
 
@@ -69,7 +69,29 @@ Alternatively, the `encodingType` property can be changed. For example:
 You may choose the option you prefer, but it's essential to maintain consistency, as Pinot will reject table 
 configurations where the same column and index are defined in different locations.
 
-The decision of whether to create the dictionary or not can be left to certain built-in Pinot heuristics.
+### Heuristically enable dictionaries
+
+Most of the time the domain expert that creates the table knows whether a dictionary will be useful or not.
+For example, a column with random values or public IPs will probably have a large cardinality, so they can be 
+immediately be targeted as raw encoded while columns like employee ids will have a small cardinality and therefore can
+be easily be recognized as good dictionary candidates.
+But sometimes the decision may not be clear.
+To help in these situations, Pinot can be configured to heuristically create the dictionary depending on the actual
+values and a relation factor.
+
+When this heuristic is enabled, Pinot calculates a saving factor for each _candidate_ column.
+This factor is the ratio between the forward index size encoded as raw and the same index encoded as a dictionary.
+If the saving factor for a _candidate_ column is less than a saving ratio, the dictionary is not created.
+
+In order to be considered as a _candidate_ for the heuristic, a column must:
+* Be marked as dictionary encoded (columns marked as raw are always encoded as raw).
+* Be single valued (multi-valued columns are never considered by the heuristic).
+* Be of a fixed size type such as int, long, double, timestamp, etc. Variable size types like json, strings or bytes
+are never considered by the heuristic.
+* Not indexed by [text index](./text-search-support.md) or [JSON index](./json-index.md) (as they are only useful when cardinality is very large).
+
+Optionally this feature can be applied only to metric columns, skipping dimension columns.
+
 This functionality can be enabled within the `indexingConfig` object within the table configuration. 
 The parameters that govern these heuristics are:
 
@@ -77,27 +99,11 @@ The parameters that govern these heuristics are:
 |--------------------------------|---------|-----------------------------------------------------------------------|
 | optimizeDictionary             | false   | Enables the heuristic for all columns and activates some extra rules. |
 | optimizeDictionaryForMetrics   | false   | Enables the heuristic for metric columns.                             |
-| noDictionarySizeRatioThreshold | 0.85    | The ratio used in the heuristics.                                     |
+| noDictionarySizeRatioThreshold | 0.85    | The saving ratio used in the heuristics.                              |
 
-It's important to emphasize that these parameters are configured for all columns within the table.
-
-When this optimization is enabled, columns explicitly marked as dictionaries will be encoded as raw
-if all the following criteria are true:
-
-- They are not multi-valued.
-- Their column type is fixed size (such as int, long, double, timestamp, etc).
-- The ratio between the forward index size encoded as raw and the forward index size encoded as a dictionary is less
-  than `noDictionarySizeRatioThreshold`
-
-If `optimizeDictionary` is set to false and `optimizeDictionaryForMetrics` is true, only columns declared as metrics 
-will be affected.
-
-If `optimizeDictionary` is set to true, all columns will be affected.
-In this scenario, columns indexed as [text](./text-search-support.md) or [JSON](./json-index.md) will automatically be 
-indexed as raw.
-
-Please note that `optimizeDictionary` takes precedence over `optimizeDictionaryForMetrics`, and the special rule 
-applied to text and JSON indexes only applies when `optimizeDictionary` is true.
+It's important to emphasize that:
+- These parameters are configured for all columns within the table.
+- `optimizeDictionary` takes precedence over `optimizeDictionaryForMetrics`.
 
 ### Parameters
 
