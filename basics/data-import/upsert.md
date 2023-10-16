@@ -4,13 +4,26 @@ description: Upsert support in Apache Pinot.
 
 # Stream Ingestion with Upsert
 
-Pinot provides native support of upsert during real-time ingestion. There are scenarios where records need modifications, such as correcting a ride fare or updating a delivery status.
+Pinot provides native support of upserts during real-time ingestion. There are scenarios where records need modifications, such as correcting a ride fare or updating a delivery status.
 
-Partial upsert is convenient as you only need to specify the columns where values change, and you ignore the rest.
+Partial upserts are convenient as you only need to specify the columns where values change, and you ignore the rest.
 
-To enable upsert on a Pinot table, make some configuration changes in the table configurations and on the input stream.
+## Overview of upserts in Pinot
 
-## Define the primary key in the schema
+See an overview of how upserts work in Pinot 1.0.
+
+{% embed url="https://youtu.be/byzF91PQ6hE" %}
+Apache Pinot 1.0 Upserts overview
+{% endembed %}
+
+## Enable upserts in Pinot
+
+To enable upserts on a Pinot table, do the following:
+
+1. [Define the primary key in the schema](upsert.md#define-the-primary-key-in-the-schema)
+2. [Enable upserts in the table configurations](upsert.md#enable-upsert-in-the-table-configurations)
+
+### Define the primary key in the schema
 
 To update a record, you need a primary key to uniquely identify the record. To define a primary key, add the field `primaryKeyColumns` to the schema definition. For example, the schema definition of `UpsertMeetupRSVP` in the quick start example has this definition.
 
@@ -33,7 +46,7 @@ When two records of the same primary key are ingested, _the record with the grea
 An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (such as with Flink) is needed to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
 {% endhint %}
 
-## Enable upsert in the table configurations
+### Enable upsert in the table configurations
 
 To enable upsert, make the following configurations in the table configurations.
 
