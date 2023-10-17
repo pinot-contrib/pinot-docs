@@ -8,7 +8,7 @@ Start with the [debug API](../../users/api/controller-api-reference.md) which wi
 
 The table debug API can be invoked via the Swagger UI, as in the following image:
 
-![Swagger - Table Debug Api](<../../.gitbook/assets/image (11) (1).png>)
+![Swagger - Table Debug Api](<../../.gitbook/assets/swagger-table-debug-api (1).png>)
 
 It can also be invoked directly by accessing the URL as follows. The api requires the `tableName`, and can optionally take `tableType (offline|realtime)` and `verbosity` level.
 

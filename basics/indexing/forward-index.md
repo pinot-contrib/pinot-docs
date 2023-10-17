@@ -19,7 +19,7 @@ The below diagram shows the dictionary encoding for two columns with `integer` a
 
 On the other hand, `colB` has no duplicated data. Dictionary encoding will not compress much data in this case where there are a lot of unique values in the column. For the `string` type, we pick the length of the longest value and use it as the length for the dictionary’s fixed-length value array. The padding overhead can be high if there are a large number of unique values for a column.
 
-![](<../../.gitbook/assets/dictionary (1).png>)
+![](<../../.gitbook/assets/dictionary-encoded-forward-index.png>)
 
 ## Sorted forward index with run-length encoding
 
@@ -146,11 +146,11 @@ When working out whether a column should use dictionary encoded or raw value enc
 
 ## Disabling the forward index
 
-Traditionally the forward index has been a mandatory index for all columns in the on-disk segment file format.
+Traditionally the forward index has been a mandatory index for all columns in the on-disk segment file format.&#x20;
 
-However, certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index is not necessary as essentially other indexes and structures in the segments can provide the required SQL query functionality. Forward index just takes up extra storage space for such scenarios and can ideally be freed up.
+However, certain columns may only be used as a filter in the `WHERE` clause for all queries. In such scenarios the forward index is not necessary as essentially other indexes and structures in the segments can provide the required SQL query functionality. Forward index just takes up extra storage space for such scenarios and can ideally be freed up.&#x20;
 
-Thus, to provide users an option to save storage space, a knob to disable the forward index is now available.
+Thus, to provide users an option to save storage space, a knob to disable the forward index is now available.&#x20;
 
 Forward index on one or more columns(s) in your Pinot table can be disabled with the following limitations:
 
@@ -161,7 +161,7 @@ Forward index on one or more columns(s) in your Pinot table can be disabled with
 
 Sorted columns will allow the forward index to be disabled, but this operation will be treated as a no-op and the index (which acts as both a forward index and inverted index) will be created.
 
-To disable the forward index for a given column the `fieldConfigList` can be modified within the [table config](../../configuration-reference/table.md), as shown below:
+To disable the forward index for a given column the `fieldConfigList` can be modified within the  [table config](../../configuration-reference/table.md), as shown below:
 
 ```javascript
 "fieldConfigList":[
@@ -181,7 +181,7 @@ A table reload operation must be performed for the above config to take effect. 
 The forward index can also be regenerated for a column where it is disabled by removing the property `forwardIndexDisabled` from the `fieldConfigList` properties bucket and reloading the segment. The forward index can only be regenerated if the dictionary and inverted index have been enabled for the column. If either have been disabled then the only way to get the forward index back is to regenerate the segments via the offline jobs and re-push / refresh the data.
 
 {% hint style="danger" %}
-**Warning:**
+**Warning:**&#x20;
 
 For multi-value (MV) columns the following invariants cannot be maintained after regenerating the forward index for a forward index disabled column:
 
@@ -235,7 +235,7 @@ ORDER BY columnB
 
 ### Aggregation Queries
 
-A subset of the aggregation functions do work when the forward index is disabled such as `MIN`, `MAX`, `DISTINCTCOUNT`, `DISTINCTCOUNTHLL` and more. Some of the other aggregation functions will not work such as the below:
+A subset of the aggregation functions do work when the forward index is disabled such as `MIN`, `MAX`, `DISTINCTCOUNT`, `DISTINCTCOUNTHLL` and more. Some of the other aggregation functions will not work such as the below:&#x20;
 
 ```
 SELECT SUM(columnA), AVG(columnA)

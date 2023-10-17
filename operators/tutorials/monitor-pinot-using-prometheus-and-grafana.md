@@ -167,4 +167,5 @@ Upload this file and select Prometheus as data source to finish the import:
 
 Then you can explore and make your own Pinot dashboard.
 
-![](<../../.gitbook/assets/image (12).png>)
+![](<../../.gitbook/assets/grafana-dashboard-example.png>)
+
