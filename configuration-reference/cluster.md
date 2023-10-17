@@ -58,4 +58,4 @@ JSON body contains the configs map for new/updated configs. E.g.
 
 Example:
 
-![](<../.gitbook/assets/image (9) (2).png>)
+![](<../.gitbook/assets/swagger-cluster-config (1).png>)
