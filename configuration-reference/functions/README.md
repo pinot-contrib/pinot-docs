@@ -246,6 +246,14 @@ This page contains reference documentation for functions in Apache Pinot.
 [firstwithtime.md](firstwithtime.md)
 {% endcontent-ref %}
 
+{% content-ref url="freqeuentlongssketch.md" %}
+[freqeuentlongssketch.md](freqeuentlongssketch.md)
+{% endcontent-ref %}
+
+{% content-ref url="frequentstringsketch.md" %}
+[frequentstringsketch.md](frequentstringsketch.md)
+{% endcontent-ref %}
+
 {% content-ref url="fromdatetime.md" %}
 [fromdatetime.md](fromdatetime.md)
 {% endcontent-ref %}

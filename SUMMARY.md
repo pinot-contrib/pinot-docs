@@ -275,6 +275,8 @@
   * [exp](configuration-reference/functions/exp.md)
   * [FIRSTWITHTIME](configuration-reference/functions/firstwithtime.md)
   * [FLOOR](configuration-reference/functions/floor.md)
+  * [FrequentLongsSketch](configuration-reference/functions/frequentlongssketch.md)
+  * [FrequentStringsSketch](configuration-reference/functions/frequentstringssketch.md)
   * [FromDateTime](configuration-reference/functions/fromdatetime.md)
   * [FromEpoch](configuration-reference/functions/fromepoch.md)
   * [FromEpochBucket](configuration-reference/functions/fromepochbucket.md)
