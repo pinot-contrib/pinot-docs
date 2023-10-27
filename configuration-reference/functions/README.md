@@ -106,6 +106,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [avgmv.md](avgmv.md)
 {% endcontent-ref %}
 
+{% content-ref url="avgvalueintegersumtuplesketch.md" %}
+[avgvalueintegersumtuplesketch.md](avgvalueintegersumtuplesketch.md)
+{% endcontent-ref %}
+
 {% content-ref url="base64.md" %}
 [base64.md](base64.md)
 {% endcontent-ref %}
@@ -194,12 +198,36 @@ This page contains reference documentation for functions in Apache Pinot.
 [distinctcountrawhllmv.md](distinctcountrawhllmv.md)
 {% endcontent-ref %}
 
+{% content-ref url="distinctcountrawcpcsketch.md" %}
+[distinctcountrawcpcsketch.md](distinctcountrawcpcsketch.md)
+{% endcontent-ref %}
+
 {% content-ref url="distinctcountrawthetasketch.md" %}
 [distinctcountrawthetasketch.md](distinctcountrawthetasketch.md)
 {% endcontent-ref %}
 
+{% content-ref url="distinctcountrawintegersumtuplesketch.md" %}
+[distinctcountrawintegersumtuplesketch.md](distinctcountrawintegersumtuplesketch.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcountrawull.md" %}
+[distinctcountrawull.md](distinctcountrawull.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcountcpcsketch.md" %}
+[distinctcountcpcsketch.md](distinctcountcpcsketch.md)
+{% endcontent-ref %}
+
 {% content-ref url="distinctcountthetasketch.md" %}
 [distinctcountthetasketch.md](distinctcountthetasketch.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcounttuplesketch.md" %}
+[distinctcounttuplesketch.md](distinctcounttuplesketch.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcountull.md" %}
+[distinctcountull.md](distinctcountull.md)
 {% endcontent-ref %}
 
 {% content-ref url="div.md" %}
@@ -524,6 +552,10 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% content-ref url="sum.md" %}
 [sum.md](sum.md)
+{% endcontent-ref %}
+
+{% content-ref url="sumvaluesintegersumtuplesketch.md" %}
+[sumvaluesintegersumtuplesketch.md](sumvaluesintegersumtuplesketch.md)
 {% endcontent-ref %}
 
 {% content-ref url="timeconvert.md" %}

@@ -138,6 +138,18 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * PERCENTILE\_TDIGEST
 * DISTINCT\_COUNT\_BITMAP
   * NOTE: The intermediate result _RoaringBitmap_ is not bounded-sized, use carefully on high cardinality columns.
+* DISTINCT\_COUNT\_HLL
+* DISTINCT\_COUNT\_RAW\_HLL
+* DISTINCT\_COUNT\_THETA\_SKETCH
+* DISTINCT\_COUNT\_RAW\_THETA\_SKETCH
+* DISTINCT\_COUNT\_TUPLE\_SKETCH
+* DISTINCT\_COUNT\_RAW\_INTEGER\_SUM\_TUPLE\_SKETCH
+* SUM\_VALUES\_INTEGER\_SUM\_TUPLE\_SKETCH
+* AVG\_VALUE\_INTEGER\_SUM\_TUPLE\_SKETCH
+* DISTINCT\_COUNT\_CPC\_SKETCH
+* DISTINCT\_COUNT\_RAW\_CPC\_SKETCH
+* DISTINCT\_COUNT\_ULL
+* DISTINCT\_COUNT\_RAW\_ULL
 
 **Unsupported functions**
 
@@ -150,7 +162,6 @@ All types of aggregation function that have a bounded-sized intermediate result 
 
 **Functions to be supported**
 
-* DISTINCT\_COUNT\_THETA\_SKETCH
 * ST\_UNION
 
 ### Index generation configuration
