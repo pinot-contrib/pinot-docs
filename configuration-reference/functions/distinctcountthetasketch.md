@@ -6,11 +6,11 @@ description: >-
 
 # DISTINCTCOUNTTHETASKETCH
 
-The [Theta Sketch](https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html) framework enables set operations over a stream of data, and can also be used for cardinality estimation. Pinot leverages the [Sketch Class](https://github.com/apache/incubator-datasketches-java/blob/master/src/main/java/org/apache/datasketches/theta/Sketch.java) and its extensions from the library `org.apache.datasketches:datasketches-java:1.2.0-incubating` to perform distinct counting as well as evaluating set operations.
+The [Theta Sketch](https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html) framework enables set operations over a stream of data, and can also be used for cardinality estimation. Pinot leverages the [Sketch Class](https://github.com/apache/datasketches-java/blob/master/src/main/java/org/apache/datasketches/theta/Sketch.java) and its extensions from the library `org.apache.datasketches:datasketches-java:4.2.0` to perform distinct counting as well as evaluating set operations.
 
 ## Signature
 
-> DistinctCountThetaSketch(**\<thetaSketchColumn>, \<thetaSketchParams>, predicate1, predicate2..., postAggregationExpressionToEvaluate**) -> Long
+> distinctCountThetaSketch(**\<thetaSketchColumn>, \<thetaSketchParams>, predicate1, predicate2..., postAggregationExpressionToEvaluate**) -> Long
 
 * `thetaSketchColumn` (required): Name of the column to aggregate on.
 * `thetaSketchParams` (required): Parameters for constructing the intermediate theta-sketches.
