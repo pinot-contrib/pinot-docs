@@ -4,15 +4,19 @@ description: An overview of the multi-stage query engine.
 
 # Multi-stage query engine (v2)
 
-This document is an overview of the new multi-stage query engine:
+This document is an overview of the new multi-stage query engine.
 
 ## What do you need to know about the multi-stage engine?
 
 The multi-stage engine is the new query execution engine released in Pinot 1.0.0. Here are some useful links:
 
 * Get started [using multi-stage engine](../developers/advanced/v2-multi-stage-query-engine.md)
-* Find supported [query syntax](../users/user-guide-query/query-syntax/) to query the multi-stage engine, including [Window functions](../users/user-guide-query/query-syntax/windows-functions.md) and [JOINs](../users/user-guide-query/query-syntax/joins.md) features
+* Find supported [query syntax](../users/user-guide-query/query-syntax/) to query the multi-stage engine, including [Window functions](../users/user-guide-query/query-syntax/windows-functions.md) and [JOIN](../users/user-guide-query/query-syntax/joins.md) features
 * See [limitations](../developers/advanced/troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine) and [troubleshooting tips](../developers/advanced/troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) for the multi-stage query engine&#x20;
+
+{% embed url="https://www.youtube.com/watch?v=wbo_vPVIBkA" fullWidth="false" %}
+Apache Pinot 1.0 Multi-Stage Query Engine overview
+{% endembed %}
 
 ## Why use the multi-stage query engine?
 

@@ -14,7 +14,7 @@ Set up Pinot by starting each component individually
 If running locally, ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
 
-![Sample Docker resources](<../../.gitbook/assets/image (4) (2).png>)
+![Sample Docker resources](<../../.gitbook/assets/docker-resource-setup (1) (1).png>)
 
 **Pull Docker image**
 
@@ -315,9 +315,9 @@ bin/pinot-admin.sh AddTable \
 
 By default, the inverted index type is the only type of index that isn't created automatically during segment generation. Instead, they are generated when the segments are loaded on the server. But, waiting to build indexes until load time increases the startup time and takes up resources with every new segment push, which increases the time for other operations such as rebalance.
 
-To automatically create an inverted index during segment generation, add an entry to your [table index config](../../configuration-reference/table.md#table-index-config) in the table configuration file. 
+To automatically create an inverted index during segment generation, add an entry to your [table index config](../../configuration-reference/table.md#table-index-config) in the table configuration file.
 
-This setting works with [batch (offline) tables](#batch-table-creation).
+This setting works with [batch (offline) tables](advanced-pinot-setup.md#batch-table-creation).
 
 When set to `true`, Pinot creates an inverted index for the columns that you specify in the `invertedIndexColumns` list in the table configuration.
 
@@ -414,7 +414,7 @@ bin/pinot-admin.sh AddTable \
 
 ### Use `sortedColumn` with streaming tables
 
-For [streaming](#streaming-table-creation) tables, you can use a sorted index with `sortedColumn` to sort data when generating segments as the segment is created. See [Real-time tables](../../basics/indexing/forward-index.md#real-time-tables) for more information.
+For [streaming](advanced-pinot-setup.md#streaming-table-creation) tables, you can use a sorted index with `sortedColumn` to sort data when generating segments as the segment is created. See [Real-time tables](../../basics/indexing/forward-index.md#real-time-tables) for more information.
 
 A sorted forward index can be used as an inverted index with better performance, but with the limitation that the search is only applied to one column per table. See [Sorted inverted index](../../basics/indexing/inverted-index.md#sorted-inverted-index) to learn more.
 
