@@ -10,10 +10,10 @@ The [Tuple Sketch](https://datasketches.apache.org/docs/Tuple/TupleOverview.html
 
 ## Signature
 
-> distinctCountRawIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchParam>**) -> HexEncoded
+> distinctCountRawIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> HexEncoded
 
 * `tupleSketchColumn` (required): Name of the column to aggregate on.  This must be an existing tuple sketch serialized as bytes.
-* `tupleSketchParam` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
+* `tupleSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).  A new Tuple Sketch metric called `playerHomeRuns` was created during ingestion by updating the ingestion config as follows:
 

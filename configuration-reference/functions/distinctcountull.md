@@ -14,10 +14,10 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).
 
 ## Signature
 
-> distinctCountULL(**\<ullSketchColumn>, \<ullSketchParam>**) -> Long
+> distinctCountULL(**\<ullSketchColumn>, \<ullSketchPrecision>**) -> Long
 
 * `ullSketchColumn` (required): Name of the column to aggregate on.
-* `ullSketchParam` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
+* `ullSketchPrecision` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
 
 ## Usage Examples
 

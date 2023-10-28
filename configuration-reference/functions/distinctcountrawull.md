@@ -14,10 +14,10 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).  This functi
 
 ## Signature
 
-> distinctCountRawULL(**\<ullSketchColumn>, \<ullSketchParam>**) -> Long
+> distinctCountRawULL(**\<ullSketchColumn>, \<ullSketchPrecision>**) -> HexEncoded
 
 * `ullSketchColumn` (required): Name of the column to aggregate on.
-* `ullSketchParam` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
+* `ullSketchPrecision` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
 
 ## Usage Examples
 

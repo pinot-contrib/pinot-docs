@@ -66,25 +66,25 @@ The [Tuple Sketch](https://datasketches.apache.org/docs/Tuple/TupleOverview.html
 
 Functions:
 
-* **avgValueIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchParam>**) -> Long
+* **avgValueIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> Long
   * tupleSketchColumn (required): Name of the column to aggregate on.
-  * tupleSketchParam (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+  * tupleSketchLgK (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
 
 This function can be used to combine the summary values from the random sample stored within the Tuple sketch and formulate an estimate for an average that applies to the entire dataset.  The average should be interpreted as applying to each key tracked by the sketch and is rounded to the nearest whole number.
 
-* **distinctCountTupleSketch(**\<tupleSketchColumn>, \<tupleSketchParam>**) -> LONG
+* **distinctCountTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> LONG
   * tupleSketchColumn (required): Name of the column to aggregate on.
-  * tupleSketchParam (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+  * tupleSketchLgK (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
 
 This returns the cardinality estimate for a column where the values are already encoded as Tuple sketches, stored as BYTES.
 
-* **distinctCountRawIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchParam>**) -> HexEncoded Serialized Sketch Bytes
+* **distinctCountRawIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> HexEncoded Serialized Sketch Bytes
 
 This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
 
-* **sumValueIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchParam>**) -> Long
+* **sumValueIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> Long
   * tupleSketchColumn (required): Name of the column to aggregate on.
-  * tupleSketchParam (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+  * tupleSketchLgK (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
 
 This function can be used to combine the summary values (using `sum`) from the random sample stored within the Tuple sketch and formulate an estimate that applies to the entire dataset.  See `avgValueIntegerSumTupleSketch` for extracting an average for integer summaries.  If other merging options are required, it is best to extract the raw sketches directly or to implement a new Pinot aggregation function to support these.
 
@@ -94,15 +94,15 @@ The [Compressed Probability Counting(CPC) Sketch](https://datasketches.apache.or
 
 Functions:
 
-* **distinctCountCpcSketch(**\<cpcSketchColumn>, \<cpcSketchParam>**) -> Long
+* **distinctCountCpcSketch(**\<cpcSketchColumn>, \<cpcSketchLgK>**) -> Long
   * `cpcSketchColumn` (required): Name of the column to aggregate on.
-  * `cpcSketchParam` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+  * `cpcSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
 
 This returns the cardinality estimate for a column.
 
-* **distinctCountRawCpcSketch(**\<cpcSketchColumn>, \<cpcSketchParam>**) -> Long
+* **distinctCountRawCpcSketch(**\<cpcSketchColumn>, \<cpcSketchLgK>**) -> HexEncoded Serialized Sketch Bytes
   * `cpcSketchColumn` (required): Name of the column to aggregate on.
-  * `cpcSketchParam` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+  * `cpcSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
 
 This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
 
@@ -114,14 +114,14 @@ Pinot uses an production-ready Java implementation available in [Hash4j](https:/
 
 Functions:
 
-* **distinctCountULL(**\<ullSketchColumn>, \<ullSketchParam>**) -> Long
+* **distinctCountULL(**\<ullSketchColumn>, \<ullSketchPrecision>**) -> Long
   * `ullSketchColumn` (required): Name of the column to aggregate on.
-  * `ullSketchParam` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.
+  * `ullSketchPrecision` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.
 
 This returns the cardinality estimate for a column.
 
-* **distinctCountRawULL(**\<cpcSketchColumn>, \<cpcSketchParam>**) -> Long
+* **distinctCountRawULL(**\<cpcSketchColumn>, \<ullSketchPrecision>**) -> HexEncoded Serialized Sketch Bytes
   * `ullSketchColumn` (required): Name of the column to aggregate on.
-  * `ullSketchParam` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.
+  * `ullSketchPrecision` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.
 
 This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
