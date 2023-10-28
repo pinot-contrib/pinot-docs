@@ -10,10 +10,10 @@ The [Compressed Probability Counting(CPC) Sketch](https://datasketches.apache.or
 
 ## Signature
 
-> distinctCountRawCpcSketch(**\<cpcSketchColumn>, \<cpcSketchParam>**) -> HexEncoded
+> distinctCountRawCpcSketch(**\<cpcSketchColumn>, \<cpcSketchLgK>**) -> HexEncoded
 
 * `cpcSketchColumn` (required): Name of the column to aggregate on.
-* `cpcSketchParam` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
+* `cpcSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
 
 ## Usage Examples
 

@@ -12,10 +12,10 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).
 
 ## Signature
 
-> distinctCountCpcSketch(**\<cpcSketchColumn>, \<cpcSketchParam>**) -> Long
+> distinctCountCpcSketch(**\<cpcSketchColumn>, \<cpcSketchLgK>**) -> Long
 
 * `cpcSketchColumn` (required): Name of the column to aggregate on.
-* `cpcSketchParam` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
+* `cpcSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
 
 ## Usage Examples
 
