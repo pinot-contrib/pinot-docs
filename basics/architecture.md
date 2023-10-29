@@ -5,15 +5,17 @@ description: >-
 
 # Architecture
 
+Learn the guiding principles behind the distributed architecture of Apache Pinot. Pinot is designed to handle large volumes of data with very low query latencies in the face of many concurrent queries, scaling query performance linearly with the number of nodes in a cluster.
+
 {% hint style="info" %}
 We recommend that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
 {% endhint %}
 
-Apache Pinot™ is a distributed OLAP database designed to serve real-time, user-facing use cases. This goal imposes some unique and demanding requirements:
+Apache Pinot™ is a distributed OLAP database designed to serve real-time, user-facing use cases. This imposes some unique and demanding requirements:
 
 * Ultra low-latency queries (as low as 10ms P95)
 * High query concurrency (as many as 100,000 queries per second)
-* High data freshness (streaming data availble for query immediately upon ingestion)
+* High data freshness (streaming data available for query immediately upon ingestion)
 * Large data volume (up to petabytes)
 
 This document describes the architectural choices the designers of Pinot have made to achieve these goals.
@@ -24,7 +26,7 @@ To accommodate large data volumes with stringent latency and concurrency require
 
 * **Highly available**: Pinot has no single point of failure. When operators choose data replication, the cluster can continue to serve queries when a node goes down.
 * **Horizontally scalable**: Operators can scale a Pinot cluster by adding new nodes when the workload increases. There are even two node types to scale query volume, query complexity, and data size independently.
-* **Immutable data**: Pinot treats all stored data as if it is immutable. This helps it make simplifying assumptions about replication, and in return drives some complexity into operations like purging user data to comply with user privacy regulations.
+* **Immutable data**: Pinot treats all stored data as if it is immutable, which gives designers the ability to make simplifying assumptions elsewhere in the system. However, Pinot still supports upserts on streaming entity data and background purges of data to comply with data privacy regulations.
 * **Dynamic configuration changes**: Operations like adding new tables, expanding a cluster, ingesting data, modifying an existing table, and adding indexes must not impact query availability or performance.
 
 ## Core components
@@ -40,7 +42,14 @@ As described in [Apache Pinot™ Concepts](concepts.md), Pinot has four node typ
 
 ### Apache Helix and Zookeeper
 
-Distributed systems do not maintain themselves, and in fact require sophisticated scheduling and resource management frameworks to function. Pinot uses [Apache Helix](http://helix.apache.org/) for cluster management. Helix exists as an independent project, but it was designed by the original creators of Pinot for Pinot's own cluster management purposes, so the architectures of the two systems are well-aligned. From a physical perspective, Helix takes the form of a process on the controller, plus embedded agents on the brokers and servers. It uses [Apache Zookeeper](https://zookeeper.apache.org/) as a fault-tolerant, strongly consistent, durable state store.
+Distributed systems do not maintain themselves, and in fact require sophisticated scheduling and resource management frameworks to function. Pinot uses [Apache Helix](http://helix.apache.org/) for this purpose. Helix exists as an independent project, but it was designed by the original creators of Pinot for Pinot's own cluster management purposes, so the architectures of the two systems are well-aligned. Helix takes the form of a process on the controller, plus embedded agents on the brokers and servers. It uses [Apache Zookeeper](https://zookeeper.apache.org/) as a fault-tolerant, strongly consistent, durable state store.
+
+Helix maintains a picture of the intended state of the cluster, including the number of servers and brokers, the configuration and schema of all tables, connections to streaming ingest sources, currently executing batch ingestion jobs, the assignment of table segments to the servers in the cluster, and more. All of these configuration items are potentially mutable quantities, 
+
+It's helpful to think of Helix as an event-driven discovery service with push and pull notifications that drives the state of a cluster to an ideal configuration. A finite-state machine maintains a contract of stateful operations that drives the health of the cluster towards its optimal configuration. Helix optimizes query load by updating routing configurations between nodes based on where data is stored in the cluster.
+
+
+
 
 From a logical perspective, Helix as an event-driven discovery service that drives the state of a distributed system from its current state to an ideal configuration in its state store. In a cluster's quiescent state, the current state and the configured state are identical. Two things can alter this equilibrium:
 
