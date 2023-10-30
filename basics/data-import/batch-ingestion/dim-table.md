@@ -1,5 +1,5 @@
 ---
-description: Batch ingest data into Apache Pinot using dimension tables.
+description: Batch ingestion of data into Apache Pinot using dimension tables.
 ---
 
 # Dimension table

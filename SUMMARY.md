@@ -50,6 +50,7 @@
     * [Amazon Kinesis](basics/data-import/pinot-stream-ingestion/amazon-kinesis.md)
     * [Apache Pulsar](basics/data-import/pinot-stream-ingestion/apache-pulsar.md)
   * [Stream Ingestion with Upsert](basics/data-import/upsert.md)
+  * [Segment compaction on upserts](basics/data-import/segment-compaction-on-upserts.md)
   * [Stream Ingestion with Dedup](basics/data-import/dedup.md)
   * [Stream Ingestion with CLP](basics/data-import/clp.md)
   * [File Systems](basics/data-import/pinot-file-system/README.md)
