@@ -2,7 +2,7 @@
 description:  This page describes configuring the JSON index for Apache Pinot.
 ---
 
-# JSON Index
+# JSON index
 
 The JSON index can be applied to JSON string columns to accelerate value lookups and filtering for the column.
 
@@ -52,8 +52,70 @@ The JSON index is designed to accelerate the filtering on JSON string columns wi
 
 ## Enable and configure a JSON index
 
-To enable the JSON index, set the following configuration in the table configuration:
+To enable the JSON index, you can configure the following options in the table configuration:
 
+| Config Key                  | Description                                                                                                                                                                                                                            | Type         | Default                                              |
+| --------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------ | ---------------------------------------------------- |
+| **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                             | int          | -1 (unlimited)                                       |
+| **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                    | boolean      | false (include array)                                |
+| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements)                                                                                                                                                             | boolean      | false (calculate unique combination of all elements) |
+| **includePaths**            | Only include the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "_$.a.b.c_" will be included when "_$.a.b_" is configured to be included. | Set\<String> | null (include all paths)                             |
+| **excludePaths**            | Exclude the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "_$.a.b.c_" will be excluded when "_$.a.b_" is configured to be excluded. | Set\<String> | null (include all paths)                             |
+| **excludeFields**           | Exclude the given fields, e.g. "_b_", "_c_", even if it is under the included paths.                                                                                                                                                   | Set\<String> | null (include all fields)                            |
+
+### Recommended way to configure
+
+The recommended way to configure a JSON index is in the `fieldConfigList.indexes` object, within the `json` key.
+
+{% code title="json index defined in tableConfig" %}
+```javascript
+{
+  "fieldConfigList": [
+    {
+      "name": "person",
+      "indexes": {
+        "json": {
+          "maxLevels": 2,
+          "excludeArray": false,
+          "disableCrossArrayUnnest": true,
+          "includePaths": null,
+          "excludePaths": null,
+          "excludeFields": null
+        }
+      }
+    }
+  ],
+  ...
+}
+```
+{% endcode %}
+
+All options are optional, so the following is a valid configuration that use the default parameter values:
+
+{% code title="json index defined in tableConfig" %}
+```javascript
+{
+  "fieldConfigList": [
+    {
+      "name": "person",
+      "indexes": {
+        "json": {}
+      }
+    }
+  ],
+  ...
+}
+```
+{% endcode %}
+
+### Deprecated ways to configure JSON indexes
+
+There are two older ways to configure the indexes that can be configured in the `tableIndexConfig` section inside table 
+config.
+
+The first one uses the same JSON explained above, but it is defined inside `tableIndexConfig.jsonIndexConfigs.<column name>`:
+
+{% code title="older way to configure json indexes in table config" %}
 ```json
 {
   "tableIndexConfig": {
@@ -72,8 +134,40 @@ To enable the JSON index, set the following configuration in the table configura
   }
 }
 ```
+{% endcode %}
 
-<table><thead><tr><th width="157">Config Key</th><th width="315">Description</th><th width="124">Type</th><th>Default</th></tr></thead><tbody><tr><td><strong>maxLevels</strong></td><td>Max levels to flatten the json object (array is also counted as one level)</td><td>int</td><td>-1 (unlimited)</td></tr><tr><td><strong>excludeArray</strong></td><td>Whether to exclude array when flattening the object</td><td>boolean</td><td>false (include array)</td></tr><tr><td><strong>disableCrossArrayUnnest</strong></td><td>Whether to not unnest multiple arrays (unique combination of all elements)</td><td>boolean</td><td>false (calculate unique combination of all elements)</td></tr><tr><td><strong>includePaths</strong></td><td>Only include the given paths, e.g. "<em>$.a.b</em>", "<em>$.a.c[*]</em>" (mutual exclusive with <strong>excludePaths</strong>). Paths under the included paths will be included, e.g. "<em>$.a.b.c</em>" will be included when "<em>$.a.b</em>" is configured to be included.</td><td>Set&#x3C;String></td><td>null (include all paths)</td></tr><tr><td><strong>excludePaths</strong></td><td>Exclude the given paths, e.g. "<em>$.a.b</em>", "<em>$.a.c[*]</em>" (mutual exclusive with <strong>includePaths</strong>). Paths under the excluded paths will also be excluded, e.g. "<em>$.a.b.c</em>" will be excluded when "<em>$.a.b</em>" is configured to be excluded.</td><td>Set&#x3C;String></td><td>null (include all paths)</td></tr><tr><td><strong>excludeFields</strong></td><td>Exclude the given fields, e.g. "<em>b</em>", "<em>c</em>", even if it is under the included paths.</td><td>Set&#x3C;String></td><td>null (include all fields)</td></tr></tbody></table>
+Like in the previous case, all parameters are optional, so the following is also valid:
+
+{% code title="json index with default config" %}
+```json
+{
+  "tableIndexConfig": {
+    "jsonIndexConfigs": {
+      "person": {},
+      ...
+    },
+    ...
+  }
+}
+```
+{% endcode %}
+
+The last option does not support to configure any parameter.
+In order to use this option, add the name of the column in `tableIndexConfig.jsonIndexColumns` like in this example:
+
+{% code title="json index with default config" %}
+```javascript
+{
+  "tableIndexConfig": {        
+    "jsonIndexColumns": [
+      "person",
+      ...
+    ],
+    ...
+  }
+}
+```
+{% endcode %}
 
 #### Example:
 
@@ -272,19 +366,6 @@ With **excludeFields** set to \["age", "street"]:
 }
 ```
 
-### Legacy config before release `0.12.0`:
-
-```javascript
-{
-  "tableIndexConfig": {        
-    "jsonIndexColumns": [
-      "person",
-      ...
-    ],
-    ...
-  }
-}
-```
 
 Note that the JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
 
