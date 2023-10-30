@@ -85,9 +85,6 @@ pinot.server.starter.enableRealtimeFreshnessBasedConsumptionStatusChecker=true
 # seconds old.
 pinot.server.starter.realtimeMinFreshnessMs=10000
 
-# the default is 10000. Values <=0 are not allowed.
-pinot.server.starter.realtimeConsumptionCatchupWaitMs=10000
-
 # this is the default. the server will keep waiting for segments to catch up
 # even if they are not making progress.
 pinot.server.starter.realtimeFreshnessIdleTimeoutMs=0
