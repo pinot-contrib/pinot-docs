@@ -4,7 +4,7 @@ description: >-
   topic into a Pinot table.
 ---
 
-# Import from Apache Kafka
+# Apache Kafka
 
 In this page, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka.
 
@@ -328,7 +328,7 @@ Here is an example config which uses SASL\_SSL based authentication to talk with
 
 Pinot's Kafka connector supports automatically extracting record headers and metadata into the Pinot table columns. The following table shows the mapping for record header/metadata to Pinot table column names:
 
-<table><thead><tr><th width="242">Kafka Record</th><th width="259">Pinot Table Column</th><th width="250">Description</th></tr></thead><tbody><tr><td>Record key: any type &#x3C;K></td><td><code>__key</code> : String </td><td>For simplicity of design, we assume that the record key is always a UTF-8 encoded String </td></tr><tr><td>Record Headers: Map&#x3C;String, String></td><td>Each header key is listed as a separate column:<br><code>__header$HeaderKeyName</code> : String</td><td>For simplicity of design, we directly map the string headers from kafka record to pinot table column</td></tr><tr><td>Record metadata - offset : long </td><td><code>__metadata$offset</code> : String</td><td></td></tr><tr><td>Record metadata - recordTimestamp : long</td><td><code>__metadata$recordTimestamp</code> : String</td><td></td></tr></tbody></table>
+<table><thead><tr><th width="242">Kafka Record</th><th width="259">Pinot Table Column</th><th width="250">Description</th></tr></thead><tbody><tr><td>Record key: any type &#x3C;K></td><td><code>__key</code> : String</td><td>For simplicity of design, we assume that the record key is always a UTF-8 encoded String</td></tr><tr><td>Record Headers: Map&#x3C;String, String></td><td>Each header key is listed as a separate column:<br><code>__header$HeaderKeyName</code> : String</td><td>For simplicity of design, we directly map the string headers from kafka record to pinot table column</td></tr><tr><td>Record metadata - offset : long</td><td><code>__metadata$offset</code> : String</td><td></td></tr><tr><td>Record metadata - recordTimestamp : long</td><td><code>__metadata$recordTimestamp</code> : String</td><td></td></tr></tbody></table>
 
 In order to enable the metadata extraction in a Kafka table, you can set the stream config `metadata.populate` to `true`.
 
@@ -350,8 +350,30 @@ For example, if you want to add only the offset and key as dimension columns in 
   ],
 ```
 
-Once the schema is updated, these columns are similar to any other pinot column. You can apply  ingestion transforms and / or define indexes on them.
+Once the schema is updated, these columns are similar to any other pinot column. You can apply ingestion transforms and / or define indexes on them.
 
 {% hint style="info" %}
 Remember to follow the [schema evolution guidelines](../../../users/tutorials/schema-evolution.md) when updating schema of an existing table!
 {% endhint %}
+
+#### Tell Pinot where to find an Avro schema
+
+There is a standalone utility to generate the schema from an Avro file. See \[infer the pinot schema from the avro schema and JSON data]\([https://docs.pinot.apache.org/basics/data-import/complex-type#infer-the-pinot-schema-from-the-avro-schema-and-json-data](https://docs.pinot.apache.org/basics/data-import/complex-type#infer-the-pinot-schema-from-the-avro-schema-and-json-data)) for details.
+
+To avoid errors like `The Avro schema must be provided`, designate the location of the schema in your `streamConfigs` section. For example, if your current section contains the following:
+
+```json
+...
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.consumer.type": "lowlevel",
+  "stream.kafka.topic.name": "",
+  "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.broker.list": "",
+  "stream.kafka.consumer.prop.auto.offset.reset": "largest"
+  ...
+}
+```
+
+Then add this key: `"stream.kafka.decoder.prop.schema"`followed by a value that denotes the location of your schema.

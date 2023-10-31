@@ -1,4 +1,4 @@
-# Explain Plan
+# Explain Plan (Single-Stage)
 
 Query execution within Pinot is modeled as a sequence of operators that are executed in a pipelined manner to produce the final result. The output of the EXPLAIN PLAN statement can be used to see how queries are being run or to further optimize queries.
 

@@ -122,6 +122,12 @@ This task manages segment status metrics such as realtimeTableCount, offlineTabl
 
 <table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.statuschecker.frequencyPeriod</td><td>5m</td></tr><tr><td>controller.statusChecker.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
 
+### RebalanceChecker
+
+Currently, table rebalance triggered by user runs at best effort. It could fail if the controller running it got restarted; or some servers were not stable, making the rebalance timed out while waiting for external view to converge with ideal state, etc. This task checks for failed rebalance and retry them  automatically, up to certain times as configured.
+
+<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.rebalance.checker.frequencyPeriod</td><td>5m</td></tr><tr><td>controller.rebalanceChecker.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+
 ### TaskMetricsEmitter
 
 TBD

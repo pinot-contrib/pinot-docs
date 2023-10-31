@@ -1,10 +1,16 @@
 ---
-description: Learn how to write fast queries for looking up ids in a list of values.
+description: Learn how to write fast queries for looking up IDs in a list of values.
 ---
 
 # Filtering with IdSet
 
-A common use case is filtering on an id field with a list of values. This can be done with the IN clause, but this approach doesn't perform well with large lists of ids. In these cases, you can use an IdSet.
+
+
+{% hint style="info" %}
+Filtering with IdSet is **only supported with the single-stage query engine (v1)**.
+{% endhint %}
+
+A common use case is filtering on an id field with a list of values. This can be done with the IN clause, but using IN doesn't perform well with large lists of IDs. For large lists of IDs, we recommend using an IdSet.
 
 ## Functions
 

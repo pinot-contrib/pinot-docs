@@ -4,7 +4,7 @@ description: >-
   the GitHub events stream.
 ---
 
-# GitHub events stream recipe
+# GitHub Events Stream
 
 In this recipe you will set up an Apache Pinot cluster and a real-time table which consumes data flowing from a GitHub events stream. The stream is based on GitHub pull requests and uses Kafka.
 
@@ -31,7 +31,7 @@ In this recipe you will perform the following steps:
 
 {% tabs %}
 {% tab title="Docker" %}
-#### Pull the Docker image
+**Pull the Docker image**
 
 Get the latest Docker image.
 
@@ -41,19 +41,19 @@ export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
 
-### Long version
+#### Long version
 
-#### Set up the Pinot cluster
+**Set up the Pinot cluster**
 
 Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/getting-started/advanced-pinot-setup#start-pinot-components-using-docker) to set up a Pinot cluster with the components:
 
-- Zookeeper
-- Controller
-- Broker
-- Server
-- Kafka
+* Zookeeper
+* Controller
+* Broker
+* Server
+* Kafka
 
-#### Create a Kafka topic
+**Create a Kafka topic**
 
 Create a Kafka topic called `pullRequestMergedEvents` for the demo.
 
@@ -66,7 +66,7 @@ docker exec \
   --create --topic pullRequestMergedEvents
 ```
 
-#### Add a Pinot table and schema
+**Add a Pinot table and schema**
 
 The schema is present at `examples/stream/githubEvents/pullRequestMergedEvents_schema.json` and is also pasted below
 
@@ -291,7 +291,7 @@ Sending request: http://pinot-controller:9000/schemas to controller: 20c241022a9
 {"status":"Table pullRequestMergedEvents_REALTIME succesfully added"}
 ```
 
-#### Publish events
+**Publish events**
 
 Start streaming GitHub events into the Kafka topic:
 
@@ -312,7 +312,7 @@ $ docker run --rm -ti \
     -kafkaBrokerList kafka:9092
 ```
 
-### Short version
+#### Short version
 
 The short method of setting things up is to use the following command. Make sure to stop any previously running Pinot services.
 
@@ -326,23 +326,23 @@ $ docker run --rm -ti \
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
-#### Get Pinot
+**Get Pinot**
 
 Follow the instructions in [Build from source](https://docs.pinot.apache.org/getting-started/running-pinot-locally#build-from-source-or-download-the-distribution) to get the latest Pinot code
 
-### Long version
+#### Long version
 
-#### Set up the Pinot cluster
+**Set up the Pinot cluster**
 
 Follow the instructions in [Advanced Pinot Setup](https://docs.pinot.apache.org/getting-started/advanced-pinot-setup#start-pinot-components-via-launcher-scripts) to set up the Pinot cluster with the components:
 
-- Zookeeper
-- Controller
-- Broker
-- Server
-- Kafka
+* Zookeeper
+* Controller
+* Broker
+* Server
+* Kafka
 
-#### Create a Kafka topic
+**Create a Kafka topic**
 
 Download [Apache Kafka](https://kafka.apache.org/downloads).
 
@@ -357,7 +357,7 @@ $ bin/kafka-topics.sh \
   --topic pullRequestMergedEvents
 ```
 
-#### Add a Pinot table and schema
+**Add a Pinot table and schema**
 
 Schema can be found at `/examples/stream/githubevents/` in the release, and is also pasted below:
 
@@ -572,7 +572,7 @@ $ bin/pinot-admin.sh AddTable \
   -exec
 ```
 
-#### Publish events
+**Publish events**
 
 Start streaming GitHub events into the Kafka topic
 
@@ -590,7 +590,7 @@ $ bin/pinot-admin.sh StreamGitHubEvents \
   -schemaFile $PATH_TO_CONFIGS/examples/stream/githubEvents/pullRequestMergedEvents_schema.json
 ```
 
-### Short version
+#### Short version
 
 For a single command to setup all the above steps
 

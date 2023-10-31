@@ -1,7 +1,7 @@
 ---
 description: >-
-  This page has a collection of frequently asked questions about ingestion with answers from the
-  community.
+  This page has a collection of frequently asked questions about ingestion with
+  answers from the community.
 ---
 
 # Ingestion FAQ
@@ -26,7 +26,38 @@ Pinot automatically detects new partitions in Kafka topics. It checks for new pa
 
 You can configure the interval for this job using the`controller.realtime.segment.validation.frequencyPeriod` property in the controller configuration.
 
-### How do I enable partitioning in Pinot, when using Kafka stream?
+### Does Pinot support partition pruning on multiple partition columns?
+
+Pinot supports multi-column partitioning for offline tables. Map multiple columns under [`tableIndexConfig.segmentPartitionConfig.columnPartitionMap`](https://docs.pinot.apache.org/configuration-reference/table#table-index-config)[.](../../../configuration-reference/table.md#second-level-fields) Pinot assigns the input data to each partition according to the partition configuration individually for each column.
+
+The following example partitions the segment based on two columns, `memberID` and `caseNumber`. Note that each partition column is handled separately, so in this case the segment is partitioned on `memberID` (partition ID 1) and also partiitoned on `caseNumber` (partition ID 2).
+
+```json
+"tableIndexConfig": {
+      ..
+      "segmentPartitionConfig": {
+        "columnPartitionMap": {
+          "memberId": {
+            "functionName": "Modulo",
+            "numPartitions": 3 
+          },
+          "caseNumber": {
+            "functionName": "Murmur",
+            "numPartitions": 12 
+          }
+        }
+      }
+```
+
+For multi-column partitioning to work, you must also set `routing.segementPrunerTypes` as follows:
+
+```json
+"routing": {
+      "segmentPrunerTypes": ["partition"]
+    }
+```
+
+### How do I enable partitioning in Pinot when using Kafka stream?
 
 Set up partitioner in the Kafka producer: [https://docs.confluent.io/current/clients/producer.html](https://docs.confluent.io/current/clients/producer.html)
 
@@ -55,7 +86,7 @@ and also set:
     }
 ```
 
-To learn how partition works, see [routing tuning](operators/operating-pinot/tuning/routing.md).
+To learn how partition works, see [routing tuning](operations-faq.md#tuning-and-optimizations).
 
 ### How do I store BYTES column in JSON data?
 

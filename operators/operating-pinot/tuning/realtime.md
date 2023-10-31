@@ -18,9 +18,7 @@ By default the files are created under the directory where the table’s segment
 
 If memory-mapping is not desirable, you can set `pinot.server.instance.realtime.alloc.offheap.direct` to `true`. In this case, pinot allocates direct [ByteBuffer](https://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html) objects for consuming segments. Using direct allocation can potentially result in address space fragmentation.
 
-Note
-
-We still use heap memory to store inverted indices for consuming segments.
+**Note that** we still use heap memory to store inverted indices for consuming segments.
 
 ### Controlling number of rows in consuming segment
 
@@ -72,9 +70,7 @@ This feature is available only if the consumption type is `LowLevel`.
 
 When a real-time segment completes, a winner server is chosen as a committer amongst all replicas by the controller. That committer builds the segment and uploads to the controller. The non-committer servers are asked to catchup to the winning offset. If the non-committer servers are able to catch up, they are asked to build the segment and replace the in-memory segment. If they are unable to catchup, they are asked to download the segment from the controller.
 
-Building a segment can cause excessive garbage and may result in GC pauses on the server. Long GC pauses can affect query processing. In order to avoid this, we have a configuration that allows you to control whether
-
-It might become desirable to force the non-committer servers to download the segment from the controller, instead of building it again. The `completionConfig` as described in [Table Config](../../../configuration-reference/table.md) can be used to configure this.
+Building a segment can cause excessive garbage and may result in GC pauses on the server. Long GC pauses can affect query processing. It might become desirable to force the non-committer servers to download the segment from the controller, instead of building it again. The `completionConfig` as described in [Table Config](../../../configuration-reference/table.md) can be used to configure this.
 
 ### Fine tuning the segment commit protocol
 
@@ -99,7 +95,7 @@ This method of committing can be useful if the network bandwidth on the lead con
 
 This tool can help decide the optimum segment size and number of hosts for your table. You will need one sample Pinot segment from your table before you run this command. There are three ways to get a sample segment:
 
-1. &#x20;If you have an offline segment, you can use that.&#x20;
+1. If you have an offline segment, you can use that.
 2. You can provision a test version of your table with some minimum number of hosts that can consume the stream, let it create a few segments with large enough number of rows (say, 500k to 1M rows), and use one of those segments to run the command. You can drop the test version table, and re-provision it once the command outputs some parameters to set.
 3. If you don't have a segment in hand or provisioning of a test version of your table is not an easy option, you can provide [schema which is decorated with data characteristics](../../configuration-recommendation-engine.md#1.-data-characteristics). Then the tool generates a segment based on the provided characteristics behind the scene and proceeds with the real-time analysis. In case the characteristics of real data is very different, you may need to modify the parameters. You can always change the config after you get segments from real data.
 

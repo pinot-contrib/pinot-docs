@@ -75,7 +75,7 @@ Helix uses Zookeeper to maintain cluster state. Helix spectators receive notific
 
 Zookeeper is a first-class citizen of a Pinot cluster, so it is appropriate to use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 
-![Pinot's Zookeeper Browser UI](../.gitbook/assets/Zookeeper\_UI.png)
+![Pinot's Zookeeper Browser UI](../.gitbook/assets/.unused/Zookeeper\_UI.png)
 
 ### Controller
 

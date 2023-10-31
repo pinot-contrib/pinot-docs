@@ -49,30 +49,19 @@ configs:
 CSV Record Reader supports the following configs:
 
 * **`fileFormat`**: `default`, `rfc4180`, `excel`, `tdf`, `mysql`
-
 * **`header`**: Header of the file. The `columnNames` should be separated by the delimiter mentioned in the configuration.
-
 * **`delimiter`**: The character seperating the columns.
-
 * **`multiValueDelimiter`**: The character separating multiple values in a single column. This can be used to split a column into a list.
-
-
-
 * **`skipHeader`**: Skip header record in the file. Boolean.
-
 * **`ignoreEmptyLines`**: Ignore empty lines (instead of filling them with default values). Boolean.
-
 * **`ignoreSurroundingSpaces`**: ignore spaces around column names and values. Boolean
-
 * **`quoteCharacter`**: Single character used for quotes in CSV files.
-
-* **`recordSeparator`**: Character used to separate records in the input file. Default is `\n` or `\r\n` depending on the platform.
-
+* **`recordSeparator`**: Character used to separate records in the input file. Default is  or `\r` depending on the platform.
 * **`nullStringValue`**: String value that represents null in CSV files. Default is empty string.
-
+* **`skipUnParseableLines`** : Skip lines that cannot be parsed. Note that this would result in data loss. Boolean.
 
 {% hint style="info" %}
-Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config. \
+Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config.\
 \
 `multiValueDelimiter: ''`
 {% endhint %}
@@ -153,18 +142,18 @@ className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReade
 For the support of DECIMAL and other parquet native data types, always use `ParquetNativeRecordReader`.
 {% endhint %}
 
-| INT96                 | LONG                               | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p> to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |
-| --------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| INT64                 | LONG                               |                                                                                                                                                      |
-| INT32                 | INT                                |                                                                                                                                                      |
-| FLOAT                 | FLOAT                              |                                                                                                                                                      |
-| DOUBLE                | DOUBLE                             |                                                                                                                                                      |
-| BINARY                | BYTES                              |                                                                                                                                                      |
-| FIXED-LEN-BYTE-ARRAY  | BYTES                              |                                                                                                                                                      |
-| DECIMAL               | DOUBLE                             |                                                                                                                                                      |
-| ENUM                  | STRING                             |                                                                                                                                                      |
-| UTF8                  | STRING                             |                                                                                                                                                      |
-| REPEATED              | MULTIVALUE/MAP (represented as MV  | if parquet original type is LIST, then it is converted to MULTIVALUE column otherwise a MAP column.                                                  |
+| INT96                | LONG                              | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p>to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |
+| -------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| INT64                | LONG                              |                                                                                                                                                     |
+| INT32                | INT                               |                                                                                                                                                     |
+| FLOAT                | FLOAT                             |                                                                                                                                                     |
+| DOUBLE               | DOUBLE                            |                                                                                                                                                     |
+| BINARY               | BYTES                             |                                                                                                                                                     |
+| FIXED-LEN-BYTE-ARRAY | BYTES                             |                                                                                                                                                     |
+| DECIMAL              | DOUBLE                            |                                                                                                                                                     |
+| ENUM                 | STRING                            |                                                                                                                                                     |
+| UTF8                 | STRING                            |                                                                                                                                                     |
+| REPEATED             | MULTIVALUE/MAP (represented as MV | if parquet original type is LIST, then it is converted to MULTIVALUE column otherwise a MAP column.                                                 |
 
 For `ParquetAvroRecordReader` , you can refer to the [Avro section above](pinot-input-formats.md#avro) for the type conversions.
 
