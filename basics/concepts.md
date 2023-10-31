@@ -62,7 +62,7 @@ Helix is a cluster management solution created by the authors of Pinot. Helix ma
 
 ### Controller
 
-The Pinot [controller](components/cluster/controller.md) adjusts resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the hardware resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion) and [offline tables](data-import/batch-ingestion)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration. 
+The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion) and [offline tables](data-import/batch-ingestion)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration. 
 
 The controller exposes a [REST API endpoint](/users/api/controller-api-reference) for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
 
@@ -82,4 +82,4 @@ A production Pinot cluster contains many brokers. In general, the more brokers, 
 
 A Pinot [minion](components/cluster/minion.md) is an optional cluster component that executes background tasks on table data apart from the query processes performed by brokers and servers. Minions run on independent hardware resources, and are responsible for executing _minion tasks_ as directed by the controller. Examples of minon tasks include converting batch data from a standard format like Avro or JSON into segment files to be loaded into an offline table, and rewriting existing segment files to purge records as required by data privacy laws like GDPR. Minion tasks can run once or be scheduled to run periodically.
 
-Minions isolate the computational burden of out-of-band data processing from the servers. Although a Pinot cluster can function with without minions, we recommend using minions to offload processing and improve performance. 
+Minions isolate the computational burden of out-of-band data processing from the servers. Although a Pinot cluster can function with without minions, they are typically present to support routine tasks like batch data ingest. 
