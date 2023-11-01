@@ -92,7 +92,7 @@ The controller provides a REST interface that allows read and write access to al
 
 The [broker's](components/cluster/broker.md) responsibility is to route queries to the appropriate [server](components/cluster/server.md) instances, or in the case of multi-stage queries, to compute a complete query plan and distribute it to the servers required to execute it. The broker collects and merges the responses from all servers into a final result, then sends the result back to the requesting client. The broker exposes an HTTP endpoint that accepts SQL queries in JSON format and returns the response in JSON.
 
-Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](operators/tuning/routing.md) strategy for a table. The default strategy is to balance the query load across all available servers.
+Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](operators/operating-pinot/tuning/routing.md) strategy for a table. The default strategy is to balance the query load across all available servers.
 
 {% hint style="info" %}
 Advanced routing strategies are available, such as replica-aware routing, partition-based routing, and minimal server selection routing.
