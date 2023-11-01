@@ -206,7 +206,7 @@ Pinot [tables](components/table/) exist in two varieties: offline (or batch) and
 Pinot ingests batch data using an [ingestion job](data-import/batch-ingestion/), which follows a process like this:
 
 1. The job transforms a raw data source (such as a CSV file) into [segments](components/table/segment/). This is a potentially complex process resulting in a file that is typically several hundred megabytes in size.
-2. The job then transfers the file to the cluster's [deep store](components/table/segment/deep-store) and notifies the [controller](components/cluster/controller.md) that a new segment exists.
+2. The job then transfers the file to the cluster's [deep store](components/table/segment/deep-store.md) and notifies the [controller](components/cluster/controller.md) that a new segment exists.
 3. The controller (in its capacity as a Helix controller) updates the ideal state of the cluster in its cluster metadata map.
 4. The controller then assigns the segment to one or more "offline" [servers](components/cluster/server.md) (depending on replication factor) and notifies them that new segments are available.
 5. The servers then download the newly created segments directly from the deep store.
