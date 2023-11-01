@@ -168,7 +168,7 @@ For multi-stage queries, the broker performs the following:
 
 ### Server
 
-[Servers](components/cluster/server.md) host [segments](components/table/segment/) on locally attached storage and perform the computational work of query processing on those segments. By convention, operators speak of "real-time" and "offline" servers, although there is no difference in the server process itself or even its configuration that distinguishes between the two. This is merely a convention reflected in the [table](components/table/) assignment strategy to confine the two different kinds of workloads to two groups of physical instances, since the performance-limiting factors differ between the two kinds of workloads. For example, offline servers might optimize for larger storage capacity, whereas real-time servers might optimize for memory and CPU cores.
+[Servers](components/cluster/server.md) host [segments](components/table/segment/) on locally attached storage and process queries on those segments. By convention, operators speak of "real-time" and "offline" servers, although there is no difference in the server process itself or even its configuration that distinguishes between the two. This is merely a convention reflected in the [table](components/table/) assignment strategy to confine the two different kinds of workloads to two groups of physical instances, since the performance-limiting factors differ between the two kinds of workloads. For example, offline servers might optimize for larger storage capacity, whereas real-time servers might optimize for memory and CPU cores.
 
 #### Offline servers
 
