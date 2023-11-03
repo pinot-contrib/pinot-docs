@@ -45,7 +45,7 @@ cd pinot/kubernetes/helm/pinot
 
 {% tabs %}
 {% tab title="Run Helm with pre-installed package" %}
-The Pinot repository has pre-packaged Helm charts for Pinot and Presto. The Helm repository index file is [here](https://github.com/apache/pinot/blob/master/kubernetes/helm/index.yaml).
+The Pinot repository has pre-packaged Helm charts for Pinot and Presto. The Helm repository index file is [here](https://github.com/apache/pinot/blob/master/helm/index.yaml).
 
 ```bash
 helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/helm
