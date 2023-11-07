@@ -12,13 +12,23 @@ Find instructions on [how to enable the multi-stage query engine](v2-multi-stage
 
 We are continuously improving the v2 multi-stage query engine. A few limitations to call out:
 
-### Support for multi value columns is limited
+### Support for multi-value columns is limited
 
-Support for multi value columns is limited to projections, and predicates must use the `arrayToMv` function. For example, to successfully run the following query:
+Support for multi-value columns is limited to projections, and predicates must use the `arrayToMv` function. For example, to successfully run the following query:
 
 {% code overflow="wrap" %}
 ```sql
-SELECT count(*), RandomAirports FROM airlineStats GROUP BY RandomAirports
+-- example 1: used in GROUP-BY
+SELECT count(*), RandomAirports FROM airlineStats 
+GROUP BY RandomAirports
+
+-- example 2: used in PREDICATE
+SELECT * FROM airlineStats WHERE RandomAirports IN ('SFO', 'JFK')
+
+-- example 3: used in ORDER-BY
+SELECT count(*), RandomAirports FROM airlineStats 
+GROUP BY RandomAirports
+ORDER BY RandomAirports DESC
 ```
 {% endcode %}
 
@@ -26,7 +36,17 @@ You must include `arrayToMv` in the query as follows:
 
 {% code overflow="wrap" %}
 ```sql
-SELECT count(*), arrayToMv(RandomAirports) FROM airlineStats GROUP BY arrayToMv(RandomAirports)
+-- example 1: used in GROUP-BY
+SELECT count(*), arrayToMv(RandomAirports) FROM airlineStats 
+GROUP BY arrayToMv(RandomAirports)
+
+-- example 2: used in PREDICATE
+SELECT * FROM airlineStats WHERE arrayToMv(RandomAirports) IN ('SFO', 'JFK')
+
+-- example 3: used in ORDER-BY
+SELECT count(*), arrayToMV(RandomAirports) FROM airlineStats 
+GROUP BY arrayToMV(RandomAirports)
+ORDER BY arrayToMV(RandomAirports) DESC
 ```
 {% endcode %}
 
