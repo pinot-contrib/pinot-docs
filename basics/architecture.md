@@ -173,8 +173,7 @@ For multi-stage queries, the broker performs the following:
 
 #### Offline servers
 
-Offline servers host segments created by ingesting batch data. The controller writes these segments to the offline server according to the table's replication factor and segment assignment strategy. 
-Typically, the controller writes new segments to the [deep store](https://docs.pinot.apache.org/basics/components/table/segment/deep-store), and affected servers download the segment from deep store. The controller then notifies brokers that a new segment exists, and is available to participate in queries.
+Offline servers host segments created by ingesting batch data. The controller writes these segments to the offline server according to the table's replication factor and segment assignment strategy. Typically, the controller writes new segments to the [deep store](https://docs.pinot.apache.org/basics/components/table/segment/deep-store), and affected servers download the segment from deep store. The controller then notifies brokers that a new segment exists, and is available to participate in queries.
 
 Because offline tables tend to have long retention periods, offline servers tend to scale based on the size of the data they store.
 
