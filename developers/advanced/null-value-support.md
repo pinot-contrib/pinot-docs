@@ -1,25 +1,60 @@
 # Null Value Support
 
-### Need for special NULL value handling
+{% hint style="danger" %}
+Multi-stage engine warning
 
-By default, Pinot transforms null values coming from the data source to a default value determined by the type of the corresponding column (or as specified in the schema). Eg: for INT column, the default will be 0 and for STRING column, the default is `"null"`. This transformation is necessary to ensure all the indices can be built correctly during segment creation. However, we're now unable to keep track of the null values in the Pinot table and hence cannot support queries such as:
+Document above describes the null handling in the single-stage environment. At this time, **multi-stage environment does not support null handling**. Queries involving null in multi-stage environment may return unexpected results.
+{% endhint %}
+
+### Basic null handling support
+
+Null handling support provided by Pinot by default is very basic. In fact by default Pinot does not store null values. Instead, they are transformed into a default value that can be specified in the [schema](../../configuration-reference/schema.md).
+
+This means that queries like:
 
 ```sql
 select count(*) from my_table where column IS NOT NULL
 ```
 
-There is a workaround by matching with default values in the filter predicate. However, this is error prone since oftentimes it's difficult to distinguish valid values from the default null values. Therefore, we added first class NULL value support in Pinot for overcoming this limitation. As of today, the latest version supports **NULL filter predicates** only. Generic support for NULL handling in query execution is in progress (eg: within aggregation functions such as `count` or `sum`).
+Are translated to:
 
-### High Level Architecture
+```sql
+select count(*) from my_table where column = <default value>
+```
 
-To turn on `NULL` handling, simply enable the boolean flag in the table index config called as `nullHandlingEnabled` (see [tableIndexConfig section](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)). Note - this will cause Pinot to use additional memory and disk space per segment. The details are as follows:
+This is a workaround that is error prone since oftentimes it's difficult to distinguish valid values from the default null values.
 
-#### **Ingestion Phase**
+{% hint style="warning" %}
+If null handling semantics are important in your use case, it is strongly recommended to apply changes explained above.
+{% endhint %}
 
-During data ingestion (either real-time/offline) each`GenericRow` object derived from the original data source record keeps track of all the column names containing null values. This is done as part of the `NullValueTransformer`. For each such column, the segment creation logic updates a NULL value vector (implemented by a roaring bitmap) with the corresponding document ID. Effectively, at the end of the segment creation process we get a per column NULL value vector which can give us the set of document IDs containing null values for that column. This per column vector is then exposed through the `DataSource` interface for use in query execution.
+### Advanced null handling support
 
-#### Query Phase
+Pinot provides an advanced null handling support that is closer to standard SQL null handling. This support is **not active** by default given it carries a notable performance impact even if query does not actually contain null values. The developer team is working on reducing this performance impact and it is planned to enable the advanced null handling support once its performance is good enough.
 
-During Query execution, if the query includes a `IS NULL` or `IS NOT NULL` predicate as shown above, we fetch the NULL value vector for the corresponding column within `FilterPlanNode` and retrieve the corresponding bitmap which represents all document IDs containing NULL values for that column. This bitmap is then used to create a `BitmapBasedFilterOperator`which does the actual filtering operation.
+To turn `NULL` handling, users have to apply two changes (both are required):
 
-### &#x20;
+1. Enable null handling at ingestion time by setting `nullHandlingEnabled` in [tableIndexConfig section](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1).
+2. Enable null handling support at query time by setting `enableNullHandling` query option.
+
+{% hint style="warning" %}
+Remember that `nullHandlingEnabled` is the ingestion property while `enableNullHandling` is the query option
+{% endhint %}
+
+#### **Ingestion time**
+
+In order to store the null values in the segment, users need to enable the `nullHandlingEnabled` in [tableIndexConfig section](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1) before ingesting the data.
+
+During data ingestion (either real-time/offline) this property is checked. In case it is enabled, null values will be stored in the segment itself. Remember that data that was ingested when this property was disabled (the default value) does not store which values were null and therefore should be re-ingested.
+
+This property affects all columns in the table. That means that a table in Pinot can define all or none columns as nullable.
+
+#### Query time
+
+In order to enable null handling at query execution time the option `enableNullHandling` must be enabled. This option can be configured in different ways:
+
+1. By adding `SET enableNullHandling` at the beginning of the query
+2. By adding `OPTION(enableNullHandling=true)` at the end of the query.
+3. If using JDBC, by setting the connection option `enableNullHandling=true` (either in the URL or as a property)
+
+When this option is enabled, Pinot query engine will use a different execution path that needs to check null predicates. Sometimes this means that some indexes may not be usable, in which case the query is usually significantly more expensive. This is the main reason why null handling is not enabled by default. The developer team is working on optimizing these cases in order to provide a better user experience.
