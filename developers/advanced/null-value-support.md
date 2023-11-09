@@ -25,7 +25,7 @@ This is a workaround, and it works well when the default null value is not used 
 
 However this could be error pruning when default null value is also a valid value in the dataset.
 
-E.g. in order to calcaute the average age, instead of writing:
+E.g. in order to calculate the average age, instead of writing:
 
 ```sql
 select avg(Age) from my_table
@@ -68,9 +68,7 @@ Column level null support is being actively developing right now
 
 #### Query time
 
-By default, Null usage in the predicate is enabled by default.
-
-e.g.
+By default, Null usage in the predicate is enabled by default. E.g.
 
 <pre class="language-sql"><code class="lang-sql"><strong>select count(*) from my_table where column IS NOT NULL
 </strong></code></pre>
