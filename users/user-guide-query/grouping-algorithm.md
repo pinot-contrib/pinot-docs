@@ -46,6 +46,12 @@ This configuration is set to 1,000,000 by default and can be adjusted by configu
 
 A higher threshold reduces the amount of trimming done, but consumes more heap memory. If the threshold is set to more than 1,000,000,000, the server will only trim the groups once before returning the results to the broker.
 
+## At Broker
+
+When broker performs the final merge of the groups returned by various servers, there is another level of trimming that takes place. The tail groups are trimmed and  `max(<minBrokerGroupTrimSize>, 5 * LIMIT)` groups are retained.&#x20;
+
+Default value of `<minBrokerGroupTrimSize>` is set to 5000. This can be adjusted by configuring  `pinot.broker.min.group.trim.size` property.
+
 ## GROUP BY behavior
 
 Pinot sets a default `LIMIT` of 10 if one isn't defined and this applies to `GROUP BY` queries as well. Therefore, if no limit is specified, Pinot will return 10 groups.
