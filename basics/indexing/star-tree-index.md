@@ -176,6 +176,7 @@ Multiple index generation configurations can be provided to generate multiple st
 * **functionColumnPairs**: A list of aggregation function and column pairs (split by double underscore “\_\_”). E.g. **SUM\_\_Impressions** (_SUM_ of column _Impressions_) or **COUNT\_\_\***.
   * The column within the function-column pair can be either dictionary encoded or raw.
   * All aggregations of a query should be included in this list in order to use the star-tree index.
+* **aggregationConfigs**: Alternative to **functionColumnPairs**, allows to configure additional parameters like `compressionCodec` to enable compression on the index.
 * **maxLeafRecords** (Optional, default 10000): The threshold _T_ to determine whether to further split each node.
 
 #### Default index generation configuration
@@ -221,6 +222,33 @@ We may config the star-tree index as follows:
   ...
 }
 ```
+
+{% hint style="info" %} When aggregating on columns containing big values, like `BYTES` column containing **HLL counters serialisations** used to calculate `DISTINCTCOUNTHLL`, setting `"compressionCodec": "LZ4"` can significantly reduce the space used by the index. {% endhint %}  
+
+Alternatively using `aggregationConfigs` instead of `functionColumnPairs` and enabling compression on the aggregation:
+```javascript
+"tableIndexConfig": {
+  "starTreeIndexConfigs": [{
+    "dimensionsSplitOrder": [
+      "Country",
+      "Browser",
+      "Locale"
+    ],
+    "skipStarNodeCreationForDimensions": [
+    ],
+    "aggregationConfigs": [
+      {
+        "columnName": "Impressions",
+        "aggregationFunction": "SUM",
+        "compressionCodec": "LZ4"
+      }
+    ],
+    "maxLeafRecords": 10000
+  }],
+  ...
+}
+```
+
 
 The star-tree and documents should be something like below:
 
