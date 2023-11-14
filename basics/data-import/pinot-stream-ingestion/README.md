@@ -105,13 +105,9 @@ The ingestion configuration (`ingestionConfig`) specifies how to ingest streamin
 | `realtime.segment.flush.threshold.segment.size`       | Desired size of the completed segments. This value is used when `realtime.segment.flush.threshold.rows` is set to 0.                                                                        | String, such as `150M` or `1.1G`., etc. Default is `200M` (200 megabytes). You can also specify additional configurations for the consumer directly into `streamConfigMaps`. For example, for Kafka streams, add any of the configs described in [Kafka configuration page](https://kafka.apache.org/documentation/#consumerconfigs) to pass them directly to the Kafka consumer.                                                                                                 |
 
 {% hint style="info" %}
-When specifying `realtime.segment.flush.threshold.rows`, the actual number of rows per segment is computed using the following formula:
-
-```
-realtime.segment.flush.threshold.rows / partitionsConsumedByServer
-```
-
-This means that if we set `realtime.segment.flush.threshold.rows=1000` and each server consumes 10 partitions, the rows per segment will be `1000/10 = 100`.
+The number of rows per segment is computed using the following formula:
+`realtime.segment.flush.threshold.rows /partitionsConsumedByServer`
+For example, if you set `realtime.segment.flush.threshold.rows=1000` and each server consumes 10 partitions, the rows per segment is `1000/10 = 100`.
 {% endhint %}
 
 
