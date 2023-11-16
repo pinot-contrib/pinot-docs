@@ -172,8 +172,12 @@ select add(1, add(2,add(3, add(4,5)))) from table
 
 ### NULL function support
 
-* `IS NULL` and `IS NOT NULL` functions do not work correctly in v2
-* Using the `COUNT` function on a `NULL` column does not work correctly in v2
+* `IS NULL` and `IS NOT NULL` functions do not work correctly in v2.
+* Using the `COUNT` function on a `NULL` column does not work correctly in v2.
+
+### Histogram function support
+
+* The `histogram` function is not supported in v2.
 
 ## Troubleshoot errors
 
