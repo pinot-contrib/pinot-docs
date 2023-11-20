@@ -342,6 +342,47 @@ The feature also requires you to specify `pinot.server.instance.max.segment.prel
 \
 This feature is still in beta.&#x20;
 
+### Handle out-of-order events
+
+There are 2 configs added related to handling out-of-order events.
+
+#### dropOutOfOrderRecord
+
+To enable dropping of out-of-order record, set the `dropOutOfOrderRecord` to `true`. For example:
+
+```json
+{
+  "upsertConfig": {
+    ...,
+    "dropOutOfOrderRecord": true
+  }
+}
+```
+
+This feature doesn't persist any out-of-order event to the consuming segment. If not specified, the default value is `false`. 
+* When `false`, the out-of-order record gets persisted to the consuming segment, but the MetadataManager mapping is not updated thus this record is not referenced in query or in any future updates. You can still see the records when using `skipUpsert` query option.
+* When `true`, the out-of-order record doesn't get persisted at all and the MetadataManager mapping is not updated so this record is not referenced in query or in any future updates. You **cannot** see the records when using `skipUpsert` query option.
+
+#### outOfOrderRecordColumn
+
+This is to identify out-of-order events programmatically. To enable this config, add a boolean field in your table schema, say `isOutOfOrder` and enable via this config. For example:
+
+```json
+{
+  "upsertConfig": {
+    ...,
+    "outOfOrderRecordColumn": "isOutOfOrder"
+  }
+}
+```
+
+This feature persists a `true` / `false` value to the `isOutOfOrder` field based on the orderness of the event. You can filter out out-of-order events while using `skipUpsert` to avoid any confusion. For example:
+
+```json
+select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
+```
+
+
 ### Upsert table limitations
 
 There are some limitations for the upsert Pinot tables.
