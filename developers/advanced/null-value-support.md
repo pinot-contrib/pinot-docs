@@ -17,7 +17,13 @@ By default, null handling is disabled (`nullHandlingEnabled=false`) in the Table
 
 To enable basic null support (`IS NULL` and `IS NOT NULL`) and generate the null index, in the Table index configuration ([tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)), set **`nullHandlingEnabled=true`**.
 
-When null support is enabled, `IS NOT NULL` and `IS NULL` evaluate to `true` or `false` according to whether a null is detected.&#x20;
+When null support is enabled, `IS NOT NULL` and `IS NULL` evaluate to `true` or `false` according to whether a null is detected.
+
+{% hint style="info" %}
+**Important**
+
+You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query.
+{% endhint %}
 
 ### Example workarounds to handle null values
 
