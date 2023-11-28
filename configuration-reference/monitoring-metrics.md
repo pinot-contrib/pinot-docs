@@ -1,10 +1,10 @@
 # Monitoring Metrics
 
-Pinot provides metrics out of the box so that you can monitor every aspect of performance and robustness of the Pinot cluster. Most of the metrics are available either at table level or instance level. There are three main categories of metrics:
+Pinot provides metrics out of the box so that you can monitor every aspect of performance and robustness of the Pinot cluster. Most of the metrics are available either at table level or instance level. The metrics can be divided into the following major types when plotting:
 
-* **Gauge** – A single value at any point in time
-* **Meter** – Rates of the metric per unit of time
-* **Timer** – Record durations and can be used to fetch average duration per unit of time, percentile values, minimum or maximum values, etc.
+* **Gauge** - These represent a single value at any point in time.
+* **Meter** - These represent rates of the metric per minute, per 5 minute etc.
+* **Timer** - These metrics record durations and can be used to fetch average last 5 minute duration, 75, 99, 999 percentile values, min-max values etc.
 
 ### Pinot Server
 
