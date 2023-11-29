@@ -63,10 +63,20 @@ You can change the following Pulsar specifc configurations for your tables
 
 ### Authentication
 
-The Pinot-Pulsar connector supports authentication using the security tokens. You can generate the token by following the [official Pulsar documentaton](https://pulsar.apache.org/docs/en/security-token-client/). Once generated, you can add the following property to `streamConfigs` to add auth token for each request
+The Pinot-Pulsar connector supports authentication using the security tokens. You can generate the token by following the [official Pulsar documentation](https://pulsar.apache.org/docs/en/security-token-client/). Once generated, you can add the following property to `streamConfigs` to add auth token for each request
 
 ```
 "stream.pulsar.authenticationToken":"your-auth-token"
+```
+
+### OAuth2 Authentication
+
+The Pinot-Pulsar connector support authentication using OAuth2, for example if connecting to a StreamNative Pulsar cluster. This is covered in the [official Pulsar documentation](https://pulsar.apache.org/docs/en/security-oauth2/#configure-oauth2-authentication-in-pulsar-clients). Once configured, you can add the following properties to `streamConfigs`:
+
+```
+"stream.pulsar.issuerUrl": "https://auth.streamnative.cloud"
+"stream.pulsar.credsFilePath": "file:///path/to/private_creds_file
+"stream.pulsar.audience": "urn:sn:pulsar:test:test-cluster"
 ```
 
 ### TLS support
