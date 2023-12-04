@@ -288,7 +288,7 @@ The upsert Pinot table can use only the low-level consumer for the input streams
 {% hint style="warning" %}
 Using implicit partitioned replica-group assignment from low-level consumer won't persist the instance assignment (mapping from partition to servers) to the ZooKeeper, and new added servers will be automatically included without explicit reassigning instances (usually through rebalance). This can cause new segments of the same partition assigned to a different server and break the requirement of upsert.
 
-To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../operators/operating-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.&#x20;
+To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../operators/operating-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.
 {% endhint %}
 
 ### Enable validDocIds snapshots for upsert metadata recovery
@@ -308,7 +308,7 @@ Upsert maintains metadata in memory containing which docIds are valid in a parti
 \
 ValidDocIndexes can not be recovered easily after out-of-TTL primary keys get removed. Enabling snapshots addresses this problem by adding functions to store and recover validDocIds snapshot for Immutable Segments
 
-The snapshots are taken on every segment commit to ensure that they are consistent with the persisted data in case of abrupt shutdown. \
+The snapshots are taken on every segment commit to ensure that they are consistent with the persisted data in case of abrupt shutdown.\
 \
 We recommend that you enable this feature so as to speed up server boot times during restarts.
 
@@ -334,13 +334,33 @@ Upsert preload support is also added in `master`. To enable the preload, set the
 }
 ```
 
-For preload to improve your restart times, `enableSnapshot: true` should also we set in the table config. \
+For preload to improve your restart times, `enableSnapshot: true` should also we set in the table config.\
 \
-Under the hood, it uses the snapshots to quickly insert the data instead of performing a whole upsert comparison flow for all the primary keys. The flow is triggered before server is marked as ready to load segments without snapshots (hence the name preload).&#x20;
+Under the hood, it uses the snapshots to quickly insert the data instead of performing a whole upsert comparison flow for all the primary keys. The flow is triggered before server is marked as ready to load segments without snapshots (hence the name preload).
 
 The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload.\
 \
-This feature is still in beta.&#x20;
+This feature is still in beta.
+
+### Metadata time-to-live (TTL)
+
+In Pinot, the metadata map is stored in heap memory. To decrease in-memory data and improve performance, minimize the time primary key entries are stored in the metadata map (metadata time-to-live (TTL)). Limiting the TTL is especially useful for primary keys with high cardinality and frequent updates.
+
+#### Configure how long primary keys are stored in metadata
+
+To configure how long primary keys are stored in metadata, specify the length of time in `upsertTTL.` For example:{
+
+```
+  "upsertConfig": {
+    "mode": "FULL",
+    "enableSnapshot": true,
+    "enablePreload": true,
+    "upsertTTL": 3d
+  }
+}
+```
+
+In this example, Pinot will retain primary keys in metadata for 3 days.
 
 ### Handle out-of-order events
 
@@ -359,7 +379,8 @@ To enable dropping of out-of-order record, set the `dropOutOfOrderRecord` to `tr
 }
 ```
 
-This feature doesn't persist any out-of-order event to the consuming segment. If not specified, the default value is `false`. 
+This feature doesn't persist any out-of-order event to the consuming segment. If not specified, the default value is `false`.
+
 * When `false`, the out-of-order record gets persisted to the consuming segment, but the MetadataManager mapping is not updated thus this record is not referenced in query or in any future updates. You can still see the records when using `skipUpsert` query option.
 * When `true`, the out-of-order record doesn't get persisted at all and the MetadataManager mapping is not updated so this record is not referenced in query or in any future updates. You **cannot** see the records when using `skipUpsert` query option.
 
@@ -381,7 +402,6 @@ This feature persists a `true` / `false` value to the `isOutOfOrder` field based
 ```json
 select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
 ```
-
 
 ### Upsert table limitations
 
