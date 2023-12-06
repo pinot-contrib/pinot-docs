@@ -54,7 +54,7 @@ To enable upsert, make the following configurations in the table configurations.
 
 **Full upsert**
 
-The upsert mode defaults to `NONE` for real-time tables. To enable the full upsert, set the `mode` to `FULL` for the full update. FULL upsert means that a new record will replace the older record completely if they have same primary key. Example config:
+The upsert mode defaults to `FULL` . FULL upsert means that a new record will replace the older record completely if they have same primary key. Example config:
 
 ```json
 {
@@ -133,6 +133,10 @@ With partial upsert, if the value is `null` in either the existing record or the
 
 (`null`, `null`) -> `null`
 {% endhint %}
+
+**None upserts**
+
+If set mode to `NONE`, the upsert is disabled.
 
 ### Comparison column
 
