@@ -20,7 +20,7 @@ Apache Pinot™ is a distributed OLAP database designed to serve real-time, user
 
 To accommodate large data volumes with stringent latency and concurrency requirements, Pinot is designed as a distributed database. As a distributed system, it has these goals:
 
-* **Highly available**: Pinot has no single point of failure. When operators choose data replication, the cluster can continue to serve queries when a node goes down.
+* **Highly available**: Pinot has no single point of failure. When tables are configured for replication, and a node goes down, the cluster is able to continue processing queries.
 * **Horizontally scalable**: Operators can scale a Pinot cluster by adding new nodes when the workload increases. There are even two node types ([servers](components/cluster/server.md) and [brokers](components/cluster/broker.md)) to scale query volume, query complexity, and data size independently.
 * **Immutable data**: Pinot assumes all stored data is immutable, which helps simplify the parts of the system that handle data storage and replication. However, Pinot still supports upserts on streaming entity data and background purges of data to comply with data privacy regulations.
 * **Dynamic configuration changes**: Operations like adding new tables, expanding a cluster, ingesting data, modifying an existing table, and adding indexes do not impact query availability or performance.
