@@ -161,18 +161,11 @@ A sample Pinot dashboard JSON is:
 sample-pinot-dashboard
 {% endfile %}
 
-Now you can upload this file and select Prometheus as data source to finish the import
+Upload this file and select Prometheus as data source to finish the import:
 
 ![Grafana Import Page](<../../.gitbook/assets/image (15).png>)
 
-Then you can explore and make your own Pinot dashboard!
+Then you can explore and make your own Pinot dashboard.
 
-![](<../../.gitbook/assets/image (12).png>)
+![](<../../.gitbook/assets/grafana-dashboard-example.png>)
 
-![](<../../.gitbook/assets/image (14).png>)
-
-![](<../../.gitbook/assets/image (28).png>)
-
-![](<../../.gitbook/assets/image (55).png>)
-
-![](<../../.gitbook/assets/image (16).png>)

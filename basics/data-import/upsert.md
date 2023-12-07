@@ -4,13 +4,26 @@ description: Upsert support in Apache Pinot.
 
 # Stream Ingestion with Upsert
 
-Pinot provides native support of upsert during real-time ingestion. There are scenarios where records need modifications, such as correcting a ride fare or updating a delivery status.
+Pinot provides native support of upserts during real-time ingestion. There are scenarios where records need modifications, such as correcting a ride fare or updating a delivery status.
 
-Partial upsert is convenient as you only need to specify the columns where values change, and you ignore the rest.
+Partial upserts are convenient as you only need to specify the columns where values change, and you ignore the rest.
 
-To enable upsert on a Pinot table, make some configuration changes in the table configurations and on the input stream.
+## Overview of upserts in Pinot
 
-## Define the primary key in the schema
+See an overview of how upserts work in Pinot 1.0.
+
+{% embed url="https://youtu.be/byzF91PQ6hE" %}
+Apache Pinot 1.0 Upserts overview
+{% endembed %}
+
+## Enable upserts in Pinot
+
+To enable upserts on a Pinot table, do the following:
+
+1. [Define the primary key in the schema](upsert.md#define-the-primary-key-in-the-schema)
+2. [Enable upserts in the table configurations](upsert.md#enable-upsert-in-the-table-configurations)
+
+### Define the primary key in the schema
 
 To update a record, you need a primary key to uniquely identify the record. To define a primary key, add the field `primaryKeyColumns` to the schema definition. For example, the schema definition of `UpsertMeetupRSVP` in the quick start example has this definition.
 
@@ -33,7 +46,7 @@ When two records of the same primary key are ingested, _the record with the grea
 An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (such as with Flink) is needed to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
 {% endhint %}
 
-## Enable upsert in the table configurations
+### Enable upsert in the table configurations
 
 To enable upsert, make the following configurations in the table configurations.
 
@@ -41,7 +54,7 @@ To enable upsert, make the following configurations in the table configurations.
 
 **Full upsert**
 
-The upsert mode defaults to `NONE` for real-time tables. To enable the full upsert, set the `mode` to `FULL` for the full update. FULL upsert means that a new record will replace the older record completely if they have same primary key. Example config:
+The upsert mode defaults to `FULL` . FULL upsert means that a new record will replace the older record completely if they have same primary key. Example config:
 
 ```json
 {
@@ -55,7 +68,13 @@ The upsert mode defaults to `NONE` for real-time tables. To enable the full upse
 
 Partial upsert lets you choose to update only specific columns and ignore the rest.
 
-To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. Since `release-0.10.0`, `OVERWRITE` is used as the default strategy for columns without a specified strategy. `defaultPartialUpsertStrategy` is also introduced to change the default strategy for all columns. For example:
+To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUpsertStrategies` for partial upsert columns. Since `release-0.10.0`, `OVERWRITE` is used as the default strategy for columns without a specified strategy. `defaultPartialUpsertStrategy` is also introduced to change the default strategy for all columns.
+
+{% hint style="info" %}
+Note that **null handling** must be enabled for partial upsert to work.
+{% endhint %}
+
+For example:
 
 {% code title="release-0.8.0" %}
 ```json
@@ -67,6 +86,9 @@ To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUp
       "group_name": "IGNORE",
       "venue_name": "OVERWRITE"
     }
+  },
+  "tableIndexConfig": {
+    "nullHandlingEnabled": true
   }
 }
 ```
@@ -82,6 +104,9 @@ To enable the partial upsert, set the `mode` to `PARTIAL` and specify `partialUp
       "rsvp_count": "INCREMENT",
       "group_name": "IGNORE"
     }
+  },
+  "tableIndexConfig": {
+    "nullHandlingEnabled": true
   }
 }
 ```
@@ -109,6 +134,10 @@ With partial upsert, if the value is `null` in either the existing record or the
 (`null`, `null`) -> `null`
 {% endhint %}
 
+**None upserts**
+
+If set mode to `NONE`, the upsert is disabled.
+
 ### Comparison column
 
 By default, Pinot uses the value in the time column (`timeColumn` in tableConfig) to determine the latest record. That means, for two records with the same primary key, the record with the larger value of the time column is picked as the latest update. However, there are cases when users need to use another column to determine the order. In such case, you can use option `comparisonColumn` to override the column used for comparison. For example,
@@ -117,8 +146,7 @@ By default, Pinot uses the value in the time column (`timeColumn` in tableConfig
 {
   "upsertConfig": {
     "mode": "FULL",
-    "comparisonColumn": "anotherTimeColumn",
-    "hashFunction": "NONE"
+    "comparisonColumn": "anotherTimeColumn"
   }
 }
 ```
@@ -135,8 +163,7 @@ In some cases, especially where partial upsert might be employed, there may be m
     "mode": "PARTIAL",
     "defaultPartialUpsertStrategy": "OVERWRITE",
     "partialUpsertStrategies":{},
-    "comparisonColumns": ["secondsSinceEpoch", "otherComparisonColumn"],
-    "hashFunction": "NONE"
+    "comparisonColumns": ["secondsSinceEpoch", "otherComparisonColumn"]
   }
 }
 ```
@@ -252,7 +279,7 @@ Note that when reviving a primary key in a partial upsert table, the revived rec
 
 ### Use strictReplicaGroup for routing
 
-The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover, upsert poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
+The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) implicitly for the segments. Moreover, upsert poses the additional requirement that **all segments of the same partition must be served from the same server** to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
 
 ```json
 {
@@ -262,6 +289,12 @@ The upsert Pinot table can use only the low-level consumer for the input streams
 }
 ```
 
+{% hint style="warning" %}
+Using implicit partitioned replica-group assignment from low-level consumer won't persist the instance assignment (mapping from partition to servers) to the ZooKeeper, and new added servers will be automatically included without explicit reassigning instances (usually through rebalance). This can cause new segments of the same partition assigned to a different server and break the requirement of upsert.
+
+To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../operators/operating-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.
+{% endhint %}
+
 ### Enable validDocIds snapshots for upsert metadata recovery
 
 Upsert snapshot support is also added in `release-0.12.0`. To enable the snapshot, set the `enableSnapshot` to `true`. For example:
@@ -270,7 +303,6 @@ Upsert snapshot support is also added in `release-0.12.0`. To enable the snapsho
 {
   "upsertConfig": {
     "mode": "FULL",
-    "hashFunction": "NONE",
     "enableSnapshot": true
   }
 }
@@ -280,7 +312,7 @@ Upsert maintains metadata in memory containing which docIds are valid in a parti
 \
 ValidDocIndexes can not be recovered easily after out-of-TTL primary keys get removed. Enabling snapshots addresses this problem by adding functions to store and recover validDocIds snapshot for Immutable Segments
 
-The snapshots are taken on every segment commit to ensure that they are consistent with the persisted data in case of abrupt shutdown. \
+The snapshots are taken on every segment commit to ensure that they are consistent with the persisted data in case of abrupt shutdown.\
 \
 We recommend that you enable this feature so as to speed up server boot times during restarts.
 
@@ -300,19 +332,80 @@ Upsert preload support is also added in `master`. To enable the preload, set the
 {
   "upsertConfig": {
     "mode": "FULL",
-    "hashFunction": "NONE",
+    "enableSnapshot": true,
     "enablePreload": true
   }
 }
 ```
 
-For preload to improve your restart times, `enableSnapshot: true` should also we set in the table config. \
+For preload to improve your restart times, `enableSnapshot: true` should also we set in the table config.\
 \
-Under the hood, it uses the snapshots to quickly insert the data instead of performing a whole upsert comparison flow for all the primary keys. The flow is triggered before server is marked as ready to load segments without snapshots (hence the name preload).&#x20;
+Under the hood, it uses the snapshots to quickly insert the data instead of performing a whole upsert comparison flow for all the primary keys. The flow is triggered before server is marked as ready to load segments without snapshots (hence the name preload).
 
 The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload.\
 \
-This feature is still in beta.&#x20;
+This feature is still in beta.
+
+### Metadata time-to-live (TTL)
+
+In Pinot, the metadata map is stored in heap memory. To decrease in-memory data and improve performance, minimize the time primary key entries are stored in the metadata map (metadata time-to-live (TTL)). Limiting the TTL is especially useful for primary keys with high cardinality and frequent updates.
+
+#### Configure how long primary keys are stored in metadata
+
+To configure how long primary keys are stored in metadata, specify the length of time in `upsertTTL.` For example:{
+
+```
+  "upsertConfig": {
+    "mode": "FULL",
+    "enableSnapshot": true,
+    "enablePreload": true,
+    "upsertTTL": 3d
+  }
+}
+```
+
+In this example, Pinot will retain primary keys in metadata for 3 days.
+
+### Handle out-of-order events
+
+There are 2 configs added related to handling out-of-order events.
+
+#### dropOutOfOrderRecord
+
+To enable dropping of out-of-order record, set the `dropOutOfOrderRecord` to `true`. For example:
+
+```json
+{
+  "upsertConfig": {
+    ...,
+    "dropOutOfOrderRecord": true
+  }
+}
+```
+
+This feature doesn't persist any out-of-order event to the consuming segment. If not specified, the default value is `false`.
+
+* When `false`, the out-of-order record gets persisted to the consuming segment, but the MetadataManager mapping is not updated thus this record is not referenced in query or in any future updates. You can still see the records when using `skipUpsert` query option.
+* When `true`, the out-of-order record doesn't get persisted at all and the MetadataManager mapping is not updated so this record is not referenced in query or in any future updates. You **cannot** see the records when using `skipUpsert` query option.
+
+#### outOfOrderRecordColumn
+
+This is to identify out-of-order events programmatically. To enable this config, add a boolean field in your table schema, say `isOutOfOrder` and enable via this config. For example:
+
+```json
+{
+  "upsertConfig": {
+    ...,
+    "outOfOrderRecordColumn": "isOutOfOrder"
+  }
+}
+```
+
+This feature persists a `true` / `false` value to the `isOutOfOrder` field based on the orderness of the event. You can filter out out-of-order events while using `skipUpsert` to avoid any confusion. For example:
+
+```json
+select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
+```
 
 ### Upsert table limitations
 
@@ -344,45 +437,160 @@ It's useful to plan the capacity beforehand to ensure you will not run into reso
 
 ### Example
 
-Putting these together, you can find the table configurations of the quick start example as the following:
+Putting these together, you can find the table configurations of the quick start examples as the following:
 
 ```json
 {
-  "tableName": "meetupRsvp",
+  "tableName": "upsertMeetupRsvp",
   "tableType": "REALTIME",
+  "tenants": {},
   "segmentsConfig": {
     "timeColumnName": "mtime",
-    "timeType": "MILLISECONDS",
     "retentionTimeUnit": "DAYS",
     "retentionTimeValue": "1",
-    "segmentPushType": "APPEND",
-    "segmentAssignmentStrategy": "BalanceNumSegmentAssignmentStrategy",
-    "schemaName": "meetupRsvp",
-    "replicasPerPartition": "1"
+    "replication": "1"
   },
-  "tenants": {},
   "tableIndexConfig": {
-    "loadMode": "MMAP",
-    "streamConfigs": {
-      "streamType": "kafka",
-      "stream.kafka.consumer.type": "lowLevel",
-      "stream.kafka.topic.name": "meetupRSVPEvents",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
-      "stream.kafka.hlc.zk.connect.string": "localhost:2191/kafka",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-      "stream.kafka.zk.broker.url": "localhost:2191/kafka",
-      "stream.kafka.broker.list": "localhost:19092",
-      "realtime.segment.flush.threshold.rows": 30
+    "segmentPartitionConfig": {
+      "columnPartitionMap": {
+        "event_id": {
+          "functionName": "Hashcode",
+          "numPartitions": 2
+        }
+      }
     }
   },
-  "metadata": {
-    "customConfigs": {}
+  "instanceAssignmentConfigMap": {
+    "CONSUMING": {
+      "tagPoolConfig": {
+        "tag": "DefaultTenant_REALTIME"
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 1,
+        "partitionColumn": "event_id",
+        "numPartitions": 2,
+        "numInstancesPerPartition": 1
+      }
+    }
   },
   "routing": {
+    "segmentPrunerTypes": [
+      "partition"
+    ],
     "instanceSelectorType": "strictReplicaGroup"
   },
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+      "streamConfigMaps": [
+        {
+          "streamType": "kafka",
+          "stream.kafka.topic.name": "upsertMeetupRSVPEvents",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.zk.broker.url": "localhost:2191/kafka",
+          "stream.kafka.broker.list": "localhost:19092"
+        }
+      ]
+    }
+  },
   "upsertConfig": {
-    "mode": "FULL"
+    "mode": "FULL",
+    "enableSnapshot": true,
+    "enablePreload": true
+  },
+  "fieldConfigList": [
+    {
+      "name": "location",
+      "encodingType": "RAW",
+      "indexType": "H3",
+      "properties": {
+        "resolutions": "5"
+      }
+    }
+  ],
+  "metadata": {
+    "customConfigs": {}
+  }
+}
+```
+
+```json
+{
+  "tableName": "upsertPartialMeetupRsvp",
+  "tableType": "REALTIME",
+  "tenants": {},
+  "segmentsConfig": {
+    "timeColumnName": "mtime",
+    "retentionTimeUnit": "DAYS",
+    "retentionTimeValue": "1",
+    "replication": "1"
+  },
+  "tableIndexConfig": {
+    "segmentPartitionConfig": {
+      "columnPartitionMap": {
+        "event_id": {
+          "functionName": "Hashcode",
+          "numPartitions": 2
+        }
+      }
+    },
+    "nullHandlingEnabled": true
+  },
+  "instanceAssignmentConfigMap": {
+    "CONSUMING": {
+      "tagPoolConfig": {
+        "tag": "DefaultTenant_REALTIME"
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 1,
+        "partitionColumn": "event_id",
+        "numPartitions": 2,
+        "numInstancesPerPartition": 1
+      }
+    }
+  },
+  "routing": {
+    "segmentPrunerTypes": [
+      "partition"
+    ],
+    "instanceSelectorType": "strictReplicaGroup"
+  },
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+      "streamConfigMaps": [
+        {
+          "streamType": "kafka",
+          "stream.kafka.topic.name": "upsertPartialMeetupRSVPEvents",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.zk.broker.url": "localhost:2191/kafka",
+          "stream.kafka.broker.list": "localhost:19092"
+        }
+      ]
+    }
+  },
+  "upsertConfig": {
+    "mode": "PARTIAL",
+    "partialUpsertStrategies": {
+      "rsvp_count": "INCREMENT",
+      "group_name": "UNION",
+      "venue_name": "APPEND"
+    }
+  },
+  "fieldConfigList": [
+    {
+      "name": "location",
+      "encodingType": "RAW",
+      "indexType": "H3",
+      "properties": {
+        "resolutions": "5"
+      }
+    }
+  ],
+  "metadata": {
+    "customConfigs": {}
   }
 }
 ```

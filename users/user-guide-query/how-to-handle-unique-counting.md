@@ -2,7 +2,7 @@
 
 Cardinality estimation is a classic problem. Pinot solves it with multiple ways each of which has a trade-off between accuracy and latency.
 
-## Accurate Results
+## Exact Results
 
 Functions:
 
@@ -12,9 +12,9 @@ Returns accurate count for all unique values in a column.
 
 The underlying implementation is using a IntOpenHashSet in library: `it.unimi.dsi:fastutil:8.2.3` to hold all the unique values.
 
-## Approximation Results
+## Approximate Results
 
-It usually takes a lot of resources and time to compute accurate results for unique counting on large datasets. In some circumstances, we can tolerate a certain error rate, in which case we can use approximation functions to tackle this problem.
+It usually takes a lot of resources and time to compute exact results for unique counting on large datasets. In some circumstances, we can tolerate a certain error rate, in which case we can use approximation functions to tackle this problem.
 
 ### HyperLogLog
 
@@ -34,7 +34,7 @@ All deserialized HyperLogLog object will be merged into one then calling method 
 
 ### Theta Sketches
 
-The [Theta Sketch](https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html) framework enables set operations over a stream of data, and can also be used for cardinality estimation. Pinot leverages the [Sketch Class](https://github.com/apache/incubator-datasketches-java/blob/master/src/main/java/org/apache/datasketches/theta/Sketch.java) and its extensions from the library `org.apache.datasketches:datasketches-java:1.2.0-incubating` to perform distinct counting as well as evaluating set operations.
+The [Theta Sketch](https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html) framework enables set operations over a stream of data, and can also be used for cardinality estimation. Pinot leverages the [Sketch Class](https://github.com/apache/datasketches-java/blob/master/src/main/java/org/apache/datasketches/theta/Sketch.java) and its extensions from the library `org.apache.datasketches:datasketches-java:4.2.0` to perform distinct counting as well as evaluating set operations.
 
 Functions:
 
@@ -57,5 +57,71 @@ where country = 'USA' or device = 'mobile...'
 ```
 
 * **DistinctCountRawThetaSketch(**\<thetaSketchColumn>, \<thetaSketchParams>, predicate1, predicate2..., postAggregationExpressionToEvaluate\*\*)\*\* -> HexEncoded Serialized Sketch Bytes
+
+This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
+
+### Tuple Sketches
+
+The [Tuple Sketch](https://datasketches.apache.org/docs/Tuple/TupleOverview.html) is an extension of the [Theta Sketch](https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html).  Tuple sketches store an additional summary value with each retained entry which makes the sketch ideal for summarizing attributes such as impressions or clicks.  Tuple sketches are interoperable with the Theta Sketch and enable set operations over a stream of data, and can also be used for cardinality estimation.
+
+Functions:
+
+* **avgValueIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> Long
+  * tupleSketchColumn (required): Name of the column to aggregate on.
+  * tupleSketchLgK (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+
+This function can be used to combine the summary values from the random sample stored within the Tuple sketch and formulate an estimate for an average that applies to the entire dataset.  The average should be interpreted as applying to each key tracked by the sketch and is rounded to the nearest whole number.
+
+* **distinctCountTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> LONG
+  * tupleSketchColumn (required): Name of the column to aggregate on.
+  * tupleSketchLgK (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+
+This returns the cardinality estimate for a column where the values are already encoded as Tuple sketches, stored as BYTES.
+
+* **distinctCountRawIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> HexEncoded Serialized Sketch Bytes
+
+This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
+
+* **sumValueIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> Long
+  * tupleSketchColumn (required): Name of the column to aggregate on.
+  * tupleSketchLgK (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+
+This function can be used to combine the summary values (using `sum`) from the random sample stored within the Tuple sketch and formulate an estimate that applies to the entire dataset.  See `avgValueIntegerSumTupleSketch` for extracting an average for integer summaries.  If other merging options are required, it is best to extract the raw sketches directly or to implement a new Pinot aggregation function to support these.
+
+### Compressed Probability Counting (CPC) Sketches
+
+The [Compressed Probability Counting(CPC) Sketch](https://datasketches.apache.org/docs/CPC/CPC.html) enables extremely space-efficient cardinality estimation.  The stored CPC sketch can consume about 40% less space than an HLL sketch of comparable accuracy.  Pinot can aggregate multiple existing CPC sketches together to get a total distinct count or estimated directly from raw values.
+
+Functions:
+
+* **distinctCountCpcSketch(**\<cpcSketchColumn>, \<cpcSketchLgK>**) -> Long
+  * `cpcSketchColumn` (required): Name of the column to aggregate on.
+  * `cpcSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+
+This returns the cardinality estimate for a column.
+
+* **distinctCountRawCpcSketch(**\<cpcSketchColumn>, \<cpcSketchLgK>**) -> HexEncoded Serialized Sketch Bytes
+  * `cpcSketchColumn` (required): Name of the column to aggregate on.
+  * `cpcSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
+
+This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
+
+### UltraLogLog (ULL) Sketches
+
+The [UltraLogLog Sketch](https://arxiv.org/abs/2308.16862) from Dynatrace is a variant of _HyperLogLog_ and is used for approximate distinct counts.  The UltraLogLog sketch shares many of the same properties of a typical HyperLogLog sketch but requires less space and also provides a simpler and faster estimator.
+
+Pinot uses an production-ready Java implementation available in [Hash4j](https://github.com/dynatrace-oss/hash4j/tree/main) available under the Apache license.  
+
+Functions:
+
+* **distinctCountULL(**\<ullSketchColumn>, \<ullSketchPrecision>**) -> Long
+  * `ullSketchColumn` (required): Name of the column to aggregate on.
+  * `ullSketchPrecision` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.
+
+This returns the cardinality estimate for a column.
+
+* **distinctCountRawULL(**\<cpcSketchColumn>, \<ullSketchPrecision>**) -> HexEncoded Serialized Sketch Bytes
+  * `ullSketchColumn` (required): Name of the column to aggregate on.
+  * `ullSketchPrecision` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch.
 
 This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.

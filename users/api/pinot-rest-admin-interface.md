@@ -8,7 +8,7 @@ Note: The controller API's are primarily for admin tasks. Even though the UI con
 
 Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#!/Table/listTableConfigs) and click on `Try it out!`. We can see the `baseballStats` table listed here. We can also see the exact `curl` call made to the controller API.
 
-![List all tables in cluster](<../../.gitbook/assets/Screen Shot 2020-02-28 at 10.00.26 AM.png>)
+![List all tables in cluster](<../../.gitbook/assets/.unused/Screen Shot 2020-02-28 at 10.00.26 AM.png>)
 
 You can look at the configuration of this table by going to [Tables -> Get/Enable/Disable/Drop a table](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig), type in `baseballStats` in the table name, and click `Try it out!`
 
