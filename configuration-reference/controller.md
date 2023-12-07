@@ -97,7 +97,7 @@ This task does not fix consumption stalled due to
 * Kafka OOR exceptions
 {% endhint %}
 
-<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.realtime.segment.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.realtime.segment.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.realtime.segment.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.realtime.segment.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetryEnabled</td><td>false</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.timeoutMs</td><td>-1</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.parallelism</td><td>1</td></tr></tbody></table>
 
 ### RetentionManager
 
