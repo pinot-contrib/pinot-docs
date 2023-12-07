@@ -22,7 +22,7 @@ To accommodate large data volumes with stringent latency and concurrency require
 
 * **Highly available**: Pinot has no single point of failure. When operators choose data replication, the cluster can continue to serve queries when a node goes down.
 * **Horizontally scalable**: Operators can scale a Pinot cluster by adding new nodes when the workload increases. There are even two node types ([servers](components/cluster/server.md) and [brokers](components/cluster/broker.md)) to scale query volume, query complexity, and data size independently.
-* **Immutable data**: Pinot treats all stored data as if it is immutable, which gives designers the ability to make simplifying assumptions elsewhere in the system. However, Pinot still supports upserts on streaming entity data and background purges of data to comply with data privacy regulations.
+* **Immutable data**: Pinot assumes all stored data is immutable, which helps simplify the parts of the system that handle data storage and replication. However, Pinot still supports upserts on streaming entity data and background purges of data to comply with data privacy regulations.
 * **Dynamic configuration changes**: Operations like adding new tables, expanding a cluster, ingesting data, modifying an existing table, and adding indexes do not impact query availability or performance.
 
 ## Core components
