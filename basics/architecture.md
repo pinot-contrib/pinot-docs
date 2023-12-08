@@ -36,7 +36,7 @@ As described in [Apache Pinot™ Concepts](concepts.md), Pinot has four node typ
 
 ![](<../.gitbook/assets/Pinot-architecture (1).svg>)
 
-### Apache Helix and Zookeeper
+### Apache Helix and ZooKeeper
 
 Distributed systems do not maintain themselves, and in fact require sophisticated scheduling and resource management to function. Pinot uses [Apache Helix](http://helix.apache.org/) for this purpose. Helix exists as an independent project, but it was designed by the original creators of Pinot for Pinot's own cluster management purposes, so the architectures of the two systems are well-aligned. Helix takes the form of a process on the controller, plus embedded agents on the brokers and servers. It uses [Apache Zookeeper](https://zookeeper.apache.org/) as a fault-tolerant, strongly consistent, durable state store.
 
