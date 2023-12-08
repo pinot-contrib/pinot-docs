@@ -121,7 +121,7 @@ Pinot single-stage query engine automatically do implicit type casts in many of 
 timestampCol >= longCol
 ```
 
-it will automatically convert both values to long datatypes before comparison. This is however a non-standard SQL behavior and it is not supported in the v2 engine. In the v2 engine, a stricter type-conformance is enforced. the example above must be written as:
+it will automatically convert both values to long datatypes before comparison. This behavior however could cause issues and thus it is not so widely applied in the v2 engine. In the v2 engine, a stricter datatype conformance is enforced. the example above should be explicitly written as:
 
 ```
 CAST(timestampCol AS BITINT) >= longCol 
