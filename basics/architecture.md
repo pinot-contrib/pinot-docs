@@ -1,6 +1,6 @@
 ---
 description: >-
-  Understand how the components of Apache Pinot™ work together to create a scalable OLAP database that can delivery low-latency, high-concurrecy queries at scale.
+  Understand how the components of Apache Pinot™ work together to create a scalable OLAP database that can deliver low-latency, high-concurrency queries at scale.
 ---
 
 # Architecture
