@@ -22,7 +22,7 @@ When null support is enabled, `IS NOT NULL` and `IS NULL` evaluate to `true` or 
 {% hint style="info" %}
 **Important**
 
-You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query.
+You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query. Basic null handling only supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatiblilty.
 {% endhint %}
 
 ### Example workarounds to handle null values
@@ -70,6 +70,12 @@ To enable `NULL` handling, do the following:
 
 1. `To enable` null handling during ingestion, in [tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1), set**`nullHandlingEnabled=true`**.
 2. To enable null handling for queries, set the**`enableNullHandling`** [query option](https://docs.pinot.apache.org/users/user-guide-query/query-options).
+
+{% hint style="info" %}
+**Important**
+
+You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query. Basic null handling only supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatiblilty.
+{% endhint %}
 
 #### **Ingestion time**
 
