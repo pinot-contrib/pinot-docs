@@ -113,6 +113,20 @@ is_distinct_from(...)
 isDistinctFrom(...)
 ```
 
+### Tightened restriction on function signature and type matching
+
+Pinot single-stage query engine automatically do implicit type casts in many of the situations, for example when running  the following:&#x20;
+
+```
+timestampCol >= longCol
+```
+
+it will automatically convert both values to long datatypes before comparison. This is however a non-standard SQL behavior and it is not supported in the v2 engine. In the v2 engine, a stricter type-conformance is enforced. the example above must be written as:
+
+```
+CAST(timestampCol AS BITINT) >= longCol 
+```
+
 ### Default names for projections with function calls
 
 Default names for projections with function calls are different between v1 and v2.&#x20;
