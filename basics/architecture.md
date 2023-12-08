@@ -64,7 +64,7 @@ In summary, the Pinot architecture maps onto Helix components as follows:
 |Broker|A **Helix Spectator** that observes the cluster for changes in the state of segments and servers. To support multi-tenancy, brokers are also modeled as **Helix Participants**.|
 |Minion|**Helix Participant** that performs computation rather than storing data|
 
-Helix uses Zookeeper to maintain cluster state. Helix spectators receive notifications directly from Zookeeper of changes in cluster state (which correspond to changes in ZNodes). Zookeeper stores the following information about the cluster:
+Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators notifications of changes in cluster state (which correspond to changes in ZNodes). Zookeeper stores the following information about the cluster:
 
 |Resource|Stored Properties|
 |--------|-----------------|
