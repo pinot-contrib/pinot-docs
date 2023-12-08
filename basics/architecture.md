@@ -59,7 +59,7 @@ In summary, the Pinot architecture maps onto Helix components as follows:
 |----------|-----------|
 |Segment|**Helix Partition**|
 |Table|**Helix Resource**|
-|Controller|Runs the Helix agent that drives the overall state of the cluster (also called the Helix Controller)|
+|Controller| **Helix Controller** or Helix agent that drives the overall state of the cluster|
 |Server|**Helix Participant**|
 |Broker|A **Helix Spectator** that observes the cluster for changes in the state of segments and servers. To support multi-tenancy, brokers are also modeled as **Helix Participants**.|
 |Minion|**Helix Participant** that performs computation rather than storing data|
