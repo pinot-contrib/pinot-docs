@@ -22,7 +22,7 @@ When null support is enabled, `IS NOT NULL` and `IS NULL` evaluate to `true` or 
 {% hint style="info" %}
 **Important**
 
-You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query. Basic null handling only supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatiblilty.
+You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query. Basic null handling supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatibility.
 {% endhint %}
 
 ### Example workarounds to handle null values
@@ -74,7 +74,7 @@ To enable `NULL` handling, do the following:
 {% hint style="info" %}
 **Important**
 
-You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query. Basic null handling only supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatiblilty.
+You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query. Basic null handling supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatibility.
 {% endhint %}
 
 #### **Ingestion time**
