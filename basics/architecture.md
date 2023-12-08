@@ -162,7 +162,7 @@ Every query processed by a broker uses the single-stage engine or the [multi-sta
 For multi-stage queries, the broker performs the following:
 
 * Computes a query plan that runs on multiple sets of servers. The servers selected for the first stage are selected based on the segments required to execute the query, which are determined in a process similar to single-stage queries.
-* Sends the relevant portions of the query plan to each stage of servers in the cluster. A stage may involve one or many servers.
+* Sends the relevant portions of the query plan to one or more servers in the cluster for each stage of the query plan. 
 * The servers that received query plans each execute their part of the query. For more details on this process, read about the [multi-stage engine](https://docs.pinot.apache.org/reference/multi-stage-engine).
 * The broker receives a complete result set from the final stage of the query, which is always a single server.
 * The broker sends the query result to the client.
