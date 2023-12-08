@@ -73,7 +73,7 @@ Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators
 |Tables|<ul><li>List of tables</li><li>Table configurations</li><li>Table schema</li><li>List of the table's segments</li></ul>|
 |Segment|<ul><li>Exact server locations of a segment</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul>|
 
-Zookeeper is a first-class citizen of a Pinot cluster, so it is appropriate to use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
+Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 
 ![Pinot's Zookeeper Browser UI](../.gitbook/assets/.unused/Zookeeper\_UI.png)
 
