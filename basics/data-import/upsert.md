@@ -279,7 +279,7 @@ The above config `deleteRecordColumn` only soft-deletes the primary key. To decr
 
 #### Configure how long deleted-primary-keys are stored in metadata
 
-To configure how long primary keys are stored in metadata, specify the length of time in `deletedKeysTTL` For example:{
+To configure how long primary keys are stored in metadata, specify the length of time in `deletedKeysTTL` For example:
 
 ```
   "upsertConfig": {
