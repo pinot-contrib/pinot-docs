@@ -51,7 +51,7 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 | controller.tls.client.auth                                   | false                                                                    | toggle for requiring TLS client auth                                                     |
 | pinot.controller.http.server.thread.pool.corePoolSize        | 2 \* cores                                                               | Config for the thread-pool used by pinot-controller's http-server.                       |
 | pinot.controller.http.server.thread.pool.maxPoolSize         | 2 \* cores                                                               | Config for the thread-pool used by pinot-controller's http-server.                       |
-| pinot.controller.segment.fetcher.http.client.maxTotalConn    |                                                                          | Config for the http-client used by HttpSegmentFetcher for downloading segments           |
+| pinot.controller.segment.fetcher.http.client.maxConnTotal    |                                                                          | Config for the http-client used by HttpSegmentFetcher for downloading segments           |
 | pinot.controller.segment.fetcher.http.client.maxConnPerRoute |                                                                          | Config for the http-client used by HttpSegmentFetcher for downloading segments           |
 
 ## Periodic task configuration
