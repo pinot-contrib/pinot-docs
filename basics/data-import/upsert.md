@@ -277,6 +277,29 @@ A deleted primary key can be revived by ingesting a record with the same primary
 
 Note that when reviving a primary key in a partial upsert table, the revived record will be treated as the source of truth for all columns. This means any previous updates to the columns will be ignored and overwritten with the new record's values.
 
+### Deleted Keys time-to-live (TTL)
+
+The above config `deleteRecordColumn` only soft-deletes the primary key. To decrease in-memory data and improve performance, minimize the time deleted-primary-key entries are stored in the metadata map (deletedKeys time-to-live (TTL)). Limiting the TTL is especially useful for deleted-primary-keys where there are no future updates foreseen.
+
+#### Configure how long deleted-primary-keys are stored in metadata
+
+To configure how long primary keys are stored in metadata, specify the length of time in `deletedKeysTTL` For example:
+
+```
+  "upsertConfig": {
+    "mode": "FULL",
+    "deleteRecordColumn": <column_name>,
+    "deletedKeysTTL": 86400
+  }
+}
+```
+
+In this example, Pinot will retain the deleted-primary-keys in metadata for 1 day.
+
+{% hint style="info" %}
+Note that the value of this field `deletedKeysTTL` should be the same as the unit of comparison column. If your comparison column is having values which corresponds to seconds, this config should also have values in seconds (see above example).
+{% endhint %}
+
 ### Use strictReplicaGroup for routing
 
 The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) implicitly for the segments. Moreover, upsert poses the additional requirement that **all segments of the same partition must be served from the same server** to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
