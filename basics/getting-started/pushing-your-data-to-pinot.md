@@ -154,28 +154,6 @@ bin/pinot-admin.sh AddTable \
 
 Use the [Rest API](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig) that is running on your Pinot instance to review the table configuration and schema and make sure it was successfully uploaded. This link uses `localhost` as an example.
 
-### Creating a segment
-
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run --rm -ti \
-    --network=pinot-demo \
-    -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
-    --name pinot-data-ingestion-job \
-    apachepinot/pinot:latest LaunchDataIngestionJob \
-    -jobSpecFile /tmp/pinot-quick-start/docker-job-spec.yml
-```
-{% endtab %}
-
-{% tab title="Using launcher scripts" %}
-```
-bin/pinot-admin.sh LaunchDataIngestionJob \
-    -jobSpecFile /tmp/pinot-quick-start/batch-job-spec.yml
-```
-{% endtab %}
-{% endtabs %}
-
 Here is some sample output.
 
 ```bash
