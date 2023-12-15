@@ -154,6 +154,66 @@ bin/pinot-admin.sh AddTable \
 
 Use the [Rest API](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig) that is running on your Pinot instance to review the table configuration and schema and make sure it was successfully uploaded. This link uses `localhost` as an example.
 
+### Creating a segment
+
+Pinot table data is stored as Pinot segments. A detailed overview of segments can be found in [Segment](../components/table/segment/).
+
+1. To generate a segment, first create a job specification (JobSpec) yaml file. A JobSpec yaml file contains all the information regarding data format, input data location, and pinot cluster coordinates. Copy the following job specification file (example from Pinot quickstart file). If you're using your own data, be sure to do the following:
+    - Replace `transcript` with your table name
+    - Set the correct `recordReaderSpec`   
+
+    ```yaml
+    // /tmp/pinot-quick-start/docker-job-spec.yml or /tmp/pinot-quick-start/batch-job-spec.yml
+    
+    executionFrameworkSpec:
+      name: 'standalone'
+      segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
+      segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
+      segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
+    jobType: SegmentCreationAndTarPush
+    inputDirURI: '/tmp/pinot-quick-start/rawdata/'
+    includeFileNamePattern: 'glob:**/*.csv'
+    outputDirURI: '/tmp/pinot-quick-start/segments/'
+    overwriteOutput: true
+    pushJobSpec:
+      pushFileNamePattern: 'glob:**/*.tar.gz'
+    pinotFSSpecs:
+      - scheme: file
+        className: org.apache.pinot.spi.filesystem.LocalPinotFS
+    recordReaderSpec:
+      dataFormat: 'csv'
+      className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
+      configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
+    tableSpec:
+      tableName: 'transcript'
+      schemaURI: 'http://localhost:9000/tables/transcript/schema'
+      tableConfigURI: 'http://localhost:9000/tables/transcript'
+    pinotClusterSpecs:
+      - controllerURI: 'http://localhost:9000'
+    ```
+
+2.  Depending if you're using Docker or a launcher script, choose one of the following commands to generate a segment to upload to Pinot:
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run --rm -ti \
+    --network=pinot-demo \
+    -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
+    --name pinot-data-ingestion-job \
+    apachepinot/pinot:latest LaunchDataIngestionJob \
+    -jobSpecFile /tmp/pinot-quick-start/docker-job-spec.yml
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+bin/pinot-admin.sh LaunchDataIngestionJob \
+    -jobSpecFile /tmp/pinot-quick-start/batch-job-spec.yml
+```
+{% endtab %}
+{% endtabs %}
+
 Here is some sample output.
 
 ```bash
