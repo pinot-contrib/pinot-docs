@@ -14,9 +14,9 @@ Assigns a row number to all the rows in a specified table.
 
 
 
-* [Order transactions by payment date](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/configuration-reference/functions/round-1#order-transactions-by-payment-date)
-* [Identify the top two transactions by customer, ordered by transaction amount](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/configuration-reference/functions/round-1#identify-the-top-two-transactions-by-customer-ordered-by-transaction-amount)
-* [Identify customers with the highest number of transactions](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/configuration-reference/functions/round-1#identify-customers-with-the-highest-number-of-transactions)
+* [Order transactions by payment date](#order-transactions-by-payment-date)
+* [Identify the top two transactions by customer, ordered by transaction amount](#identify-the-top-two-transactions-by-customer-ordered-by-transaction-amount)
+* [Identify customers with the highest number of transactions](#identify-customers-with-the-highest-number-of-transactions)
 
 ### Order transactions by payment date
 
