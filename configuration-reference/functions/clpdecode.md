@@ -24,7 +24,8 @@ where `<field>` is the field's name before encoding. We refer to such a set of c
 > 
 > CLPDECODE(colGroupName_logtype, colGroupName_dictionaryVars, colGroupName_encodedVars, defaultValue)
 
-* The syntax lets you specify the name of a column group or all columns within the column group. 
+* The syntax lets you specify the name of a column group or all columns within the column group.
+  * To use the syntax where you only specify the column group's name, you need to enable an additional query-rewriter as described [below](#enable-the-column-group-syntax).   
 * `defaultValue` is optional and used when a column group can't be decoded for some reason (e.g., it's null).
 
 ## Usage Examples
@@ -49,3 +50,13 @@ FROM myTable
 | message                                                                                                               |
 |-----------------------------------------------------------------------------------------------------------------------|
 | INFO Task task_12 assigned to container: [ContainerID:container_15], operation took 0.335 seconds. 8 tasks remaining. |
+
+# Enable the column-group syntax
+
+To use the `CLPDECODE` syntax that only specifies the column group name, you must configure the Pinot broker with an additional query rewriter as follows:
+
+```properties
+pinot.broker.query.rewriter.class.names=org.apache.pinot.sql.parsers.rewriter.CompileTimeFunctionsInvoker,org.apache.pinot.sql.parsers.rewriter.SelectionsRewriter,org.apache.pinot.sql.parsers.rewriter.PredicateComparisonRewriter,org.apache.pinot.sql.parsers.rewriter.CLPDecodeRewriter,org.apache.pinot.sql.parsers.rewriter.AliasApplier,org.apache.pinot.sql.parsers.rewriter.OrdinalsUpdater,org.apache.pinot.sql.parsers.rewriter.NonAggregationGroupByToDistinctQueryRewriter
+```
+
+This adds the `CLPDecodeRewriter` to the default set of query rewriters. Note that the `CLPDecodeRewriter` is placed before the `AliasApplier` so that any aliasing of CLP-encoded fields happens only after the `CLPDECODE` rewrite.
