@@ -135,6 +135,6 @@ For the table's schema, users should configure the CLP-encoded fields as follows
 
 To decode CLP-encoded fields, use [CLPDECODE](../../configuration-reference/functions/clpdecode.md).
 
-To search CLP-encoded fields, users can combine `CLPDECODE` with `LIKE`, however this may be expensive if there are a lot of rows to query.
+To search CLP-encoded fields, you can combine `CLPDECODE` with `LIKE`. Note, this may decrease performance when querying a large number of rows.
 
 We are working to integrate efficient searches on CLP-encoded columns as another UDF. The development of this feature is being tracked in this [design doc](https://docs.google.com/document/d/1nHZb37re4mUwEA258x3a2pgX13EWLWMJ0uLEDk1dUyU/edit).
