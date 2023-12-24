@@ -25,7 +25,7 @@ where `<field>` is the field's name before encoding. We refer to such a set of c
 > CLPDECODE(colGroupName_logtype, colGroupName_dictionaryVars, colGroupName_encodedVars, defaultValue)
 
 * The syntax lets you specify the name of a column group or all columns within the column group.
-  * To use the syntax where you only specify the column group's name, you need to enable an additional query-rewriter as described [below](#enable-the-column-group-syntax).   
+  * To use the syntax where you only specify the column group's name, you need to enable an additional query rewriter as described [below](#enable-the-column-group-syntax).   
 * `defaultValue` is optional and used when a column group can't be decoded for some reason (e.g., it's null).
 
 ## Usage Examples
