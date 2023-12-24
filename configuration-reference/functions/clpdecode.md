@@ -24,16 +24,16 @@ where `<field>` is the field's name before encoding. We refer to such a set of c
 > 
 > CLPDECODE(colGroupName_logtype, colGroupName_dictionaryVars, colGroupName_encodedVars, defaultValue)
 
-* The syntax allows you to specify just the name of a column group or all columns within the column group. 
-* `defaultValue` is optional and is used when a column group can't be decoded for some reason (e.g., it's null).
+* The syntax lets you specify the name of a column group or all columns within the column group. 
+* `defaultValue` is optional and used when a column group can't be decoded for some reason (e.g., it's null).
 
 ## Usage Examples
 
-Consider a record that contains a "message" field with this value:
+Consider a record that contains a "message" field with the following value:
 
 > INFO Task task_12 assigned to container: [ContainerID:container_15], operation took 0.335 seconds. 8 tasks remaining.
 
-[CLPLogMessageDecoder](../../basics/data-import/clp.md) will encode it into 3 columns:
+[CLPLogMessageDecoder](../../basics/data-import/clp.md) encodes this information into 3 columns:
 
 | message_logtype                                                                                              | message_dictionaryVars      | message_encodedVars     |
 |--------------------------------------------------------------------------------------------------------------|-----------------------------|-------------------------|
