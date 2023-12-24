@@ -2,7 +2,7 @@
 description: Storing records with dynamic schemas in a table with a fixed schema.
 ---
 
-# Ingesting Records with Dynamic Schemas
+# Ingest records with dynamic schemas
 
 Some domains (e.g., logging) generate records where each record can have a different set of keys, whereas Pinot tables have a relatively static schema. Since these records have varying keys, it is impractical to store each field in its own table column. At the same time, most (if not all) fields may be important to the user, so we should not drop any field unnecessarily.
 
@@ -31,7 +31,7 @@ For example, consider this record:
 }
 ```
 
-And let's say the table's schema contains these fields:
+Let's say the table's schema contains the following fields:
 * timestamp
 * hostname
 * level
@@ -69,9 +69,9 @@ Without this transformer, the `HOSTNAME` field and the entire `tags` field would
 }
 ```
 
-Notice that the transformer:
+Notice that the transformer does the following:
 * Flattens nested fields which exist in the schema, like `tags.platform`
-* Drops some fields like `HOSTNAME`, where `HOSTNAME` must be listed as a field in the config option `fieldPathsToDrop`.
+* Drops some fields like `HOSTNAME`, where `HOSTNAME` must be listed as a field in the config option `fieldPathsToDrop`
 * Moves fields which don't exist in the schema and have the suffix `_noIndex` into the `unindexableExtras` field (the field name is configurable)
 * Moves any remaining fields which don't exist in the schema into the `indexableExtras` field (the field name is configurable)
 
@@ -79,7 +79,7 @@ The `unindexableExtras` field allows the transformer to separate fields which do
 
 ## SchemaConformingTransformer Configuration
 
-Users can use the transformer by specifying it in the `ingestionConfig` section of their table's configuration.
+To use the transformer, add the `schemaConformingTransformerConfig` option in the `ingestionConfig` section of your table configuration, as shown in the following example.
 
 For example:
 
@@ -98,4 +98,4 @@ For example:
 }
 ```
 
-All possible configuration options are listed in [SchemaConformingTransformerConfig](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/ingestion/SchemaConformingTransformerConfig.java).
+Available configuration options are listed in [SchemaConformingTransformerConfig](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/ingestion/SchemaConformingTransformerConfig.java).
