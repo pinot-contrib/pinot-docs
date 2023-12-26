@@ -72,8 +72,8 @@ Without this transformer, the `HOSTNAME` field and the entire `tags` field would
 Notice that the transformer does the following:
 * Flattens nested fields which exist in the schema, like `tags.platform`
 * Drops some fields like `HOSTNAME`, where `HOSTNAME` must be listed as a field in the config option `fieldPathsToDrop`
-* Moves fields which don't exist in the schema and have the suffix `_noIndex` into the `unindexableExtras` field (the field name is configurable)
-* Moves any remaining fields which don't exist in the schema into the `indexableExtras` field (the field name is configurable)
+* Moves fields that don't exist in the schema and have the suffix `_noIndex` into the `unindexableExtras` field (the field name is configurable)
+* Moves any remaining fields that don't exist in the schema into the `indexableExtras` field (the field name is configurable)
 
 The `unindexableExtras` field allows the transformer to separate fields that don't need indexing (because they are only retrieved, not searched) from those that do.
 
