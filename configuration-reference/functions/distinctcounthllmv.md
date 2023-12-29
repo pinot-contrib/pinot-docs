@@ -6,7 +6,7 @@ function.
 
 # DISTINCTCOUNTHLLMV
 
-Returns an approximate distinct count using HyperLogLog in a group
+Returns an approximate distinct count using HyperLogLog in a group.
 
 ## Signature
 
