@@ -6,7 +6,7 @@ function.
 
 # DISTINCTCOUNTBITMAPMV
 
-Returns the count of distinct row values in a group. This function is accurate for INT or dictionary encoded column, but approximate for other cases where hash codes are used in distinct counting and there may be hash collision.
+Returns the count of distinct row values in a group. This function is accurate for an INT or dictionary encoded column, but approximate for other cases where hash codes are used in distinct counting and there may be hash collision.
 
 ## Signature
 
