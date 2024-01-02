@@ -6,7 +6,7 @@ description: >-
 
 # DISTINCTCOUNTHLLPLUSMV
 
-Returns an approximate distinct count using HyperLogLogPlusPlus in a group
+Returns an approximate distinct count using HyperLogLogPlusPlus in a group.
 
 ## Signature
 
