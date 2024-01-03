@@ -189,7 +189,7 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 {% code title="TableConfig for Table 1:" %}
 ```javascript
 {
-  "instanceAssignmentConfigMap": {jav
+  "instanceAssignmentConfigMap":
     "OFFLINE": {
       "tagPoolConfig": {
         "tag": "Tag1_OFFLINE",

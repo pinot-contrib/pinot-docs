@@ -36,7 +36,7 @@ Some **use cases to avoid**:
 
 ## Multi-stage query execution model
 
-The multi-stage query engine improves query performance over the [single-stage scatter-gather query engine ( v1)](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/reference/cluster), effectively decoupling the data exchange layer and the query engine layer.
+The multi-stage query engine improves query performance over the [single-stage scatter-gather query engine ( v1)](https://docs.pinot.apache.org/reference/single-stage-engine), effectively decoupling the data exchange layer and the query engine layer.
 
 <figure><img src="../.gitbook/assets/Multi-Stage-Query-Engine-2 (2).png" alt=""><figcaption><p>Figure 1: Multi-stage query execution model</p></figcaption></figure>
 
@@ -50,7 +50,7 @@ The multi-stage query engine also includes a **new query plan optimizer** to pro
 
 ## How queries are processed
 
-With a multi-stage query engine, Pinot first breaks down the [single scatter-gather query plan used in v1](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/\~/changes/1760/reference/cluster) into multiple query sub-plans that run across different sets of servers. We call these sub-plans “stage plans,” and refer to each execution as a “stage.”
+With a multi-stage query engine, Pinot first breaks down the [single scatter-gather query plan used in v1](https://docs.pinot.apache.org/reference/single-stage-engine) into multiple query sub-plans that run across different sets of servers. We call these sub-plans “stage plans,” and refer to each execution as a “stage.”
 
 Consider the following JOIN query example, which illustrates the breakdown of a query into stages. This query joins a real-time `orderStatus` table with an offline `customer` table.
 

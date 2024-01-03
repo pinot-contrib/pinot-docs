@@ -126,6 +126,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [chr.md](chr.md)
 {% endcontent-ref %}
 
+{% content-ref url="clpdecode.md" %}
+[clpdecode.md](clpdecode.md)
+{% endcontent-ref %}
+
 {% content-ref url="codepoint.md" %}
 [codepoint.md](codepoint.md)
 {% endcontent-ref %}
