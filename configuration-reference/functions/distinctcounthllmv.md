@@ -1,7 +1,6 @@
 ---
 description: >-
-This section contains reference documentation for the DISTINCTCOUNTHLLMV
-function.
+  This section contains reference documentation for the DISTINCTCOUNTHLLMV function.
 ---
 
 # DISTINCTCOUNTHLLMV
