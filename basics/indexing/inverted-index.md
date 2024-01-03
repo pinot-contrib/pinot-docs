@@ -4,11 +4,6 @@ description: This page describes configuring the inverted index for Apache Pinot
 
 # Inverted index
 
-We can define the [forward index](./forward-index.md) as a relation from document ids (a.k.a. rows) to values.
-In a similar way, an inverted index is a relation from values to a set of document ids.
-Therefore they are the _inverted_ version of the forward index.
-If you have a column that is frequently used for filtering by EQ, IN, GT, etc adding an inverted index will improve performance greatly.
-
 We can define the [forward index](./forward-index.md) as a mapping from document IDs (also known as rows) to values.
 Similarly, an inverted index establishes a mapping from values to a set of document IDs, 
 making it the "inverted" version of the forward index. 
