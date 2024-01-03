@@ -10,11 +10,6 @@ making it the "inverted" version of the forward index.
 When you frequently use a column for filtering operations like EQ (equal), IN (membership check), GT (greater than), 
 etc., incorporating an inverted index can significantly enhance query performance.
 
-Pinot supports two different inverted indexes: bitmap inverted indexes and sorted inverted indexes.
-Bitmap inverted index are the _actual_ inverted index type, while the sorted type is a free index you get when the 
-column is sorted.
-Both type of indexes require that the [dictionary](dictionary-index.md) is enabled for the column.
-
 Pinot supports two distinct types of inverted indexes: bitmap inverted indexes and sorted inverted indexes. 
 Bitmap inverted indexes represent the _actual_ inverted index type, whereas the sorted type is automatically available 
 when the column is sorted. 
