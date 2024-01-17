@@ -15,8 +15,6 @@ These are the properties that be set at the cluster level.
 
 ## Cluster Configs APIs
 
-![](<../.gitbook/assets/Screen Shot 2020-07-01 at 10.29.33 PM.png>)
-
 {% swagger baseUrl="http://<controller>:<port>/cluster/configs" path="" method="get" summary="List All Cluster Configs" %}
 {% swagger-description %}
 **Description**

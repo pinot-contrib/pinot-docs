@@ -22,7 +22,7 @@ If you want to view the contents of a server, click on its instance name. You'll
 
 To view the _baseballStats_ table, click on its name, which will show the following screen:
 
-![baseballStats Table](<../../.gitbook/assets/view-table-baseball-stats (1) (1).png>)
+![baseballStats Table](<../../.gitbook/assets/view-table-baseball-stats.png>)
 
 From this screen, we can edit or delete the table, edit or adjust its schema, as well as several other operations.
 
@@ -69,7 +69,7 @@ Pinot supports a subset of standard SQL. For more information, see [Pinot Query 
 
 The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
-![](<../../.gitbook/assets/Screen Shot 2020-02-28 at 10.00.43 AM.png>)
+![](<../../.gitbook/assets/pinot-admin-ui.png>)
 
 Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#/Table/listTables), click **Try it out**, and then click **Execute**. We can see the`baseballStats` table listed here. We can also see the exact cURL call made to the controller API.
 
