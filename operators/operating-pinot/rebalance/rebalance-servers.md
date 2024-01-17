@@ -19,13 +19,13 @@ These are typically done when downsizing/uplifting a cluster or replacing nodes 
 
 #### Tenants and tags
 
-Every server added to the Pinot cluster, has tags associated with it. A group of servers with the same tag forms a Server Tenant.
+Every server added to the Pinot cluster has tags associated with it. A group of servers with the same tag forms a server tenant.
 
 By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets tagged as `DefaultTenant_OFFLINE` and `DefaultTenant_REALTIME`.
 
 Below is an example of how this looks in the znode, as seen in ZooInspector.
 
-![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.05.29 PM.png>)
+![](<../../../.gitbook/assets/zookeeper-browser-server-tenant.png>)
 
 A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/cluster/tenant.md) section.
 
@@ -43,11 +43,9 @@ A Pinot table config has a tenants section, to define the tenant to be used by t
 
 _**0.6.0 onwards**_
 
-In order to change the server tags, the following API can be used.
+In order to change the server tags, use the following API.
 
 `PUT /instances/{instanceName}/updateTags?tags=<comma separated tags>`
-
-![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.29.44 PM.png>)
 
 _**0.5.0 and prior**_
 
@@ -139,8 +137,6 @@ After any of the above described changes are done, a rebalance is needed to make
 To run a rebalance, use the following API.
 
 `POST /tables/{tableName}/rebalance?type=<OFFLINE/REALTIME>`
-
-![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.53.48 PM.png>)
 
 This API has a lot of parameters to control its behavior. Make sure to go over them and change the defaults as needed.
 

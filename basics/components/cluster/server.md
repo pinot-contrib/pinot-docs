@@ -16,7 +16,7 @@ Offline servers are responsible for downloading segments from the segment store,
 **Real-time**\
 Real-time servers directly ingest from a real-time stream (such as Kafka or EventHubs). Periodically, they make segments of the in-memory ingested data, based on certain thresholds. This segment is then persisted onto the segment store.
 
-![](<../../../.gitbook/assets/RealtimeServer (1).jpg>)
+![](<../../../.gitbook/assets/RealtimeServer.jpg>)
 
 Pinot servers are modeled as Helix participants, hosting Pinot tables (referred to as _resources_ in Helix terminology). Segments of a table are modeled as Helix partitions (of a resource). Thus, a Pinot server hosts one or more Helix partitions of one or more helix resources (_i.e._ one or more segments of one or more tables).
 

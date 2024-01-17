@@ -19,7 +19,7 @@ To learn more about what the multi-stage query engine is, see [Multi-stage query
 
 * To enable the multi-stage query engine, in the Pinot Query Console, select the **Use Multi-Stage Engine** check box.
 
-<figure><img src="../../.gitbook/assets/Screenshot 2023-09-14 at 9.59.22 AM.png" alt=""><figcaption><p>Pinot Query Console with Use Multi Stage Engine enabled</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pinot-query-console-multi-stage-enabled.png" alt=""><figcaption><p>Pinot Query Console with Use Multi Stage Engine enabled</p></figcaption></figure>
 
 ## Programmatically access the multi-stage query engine
 
