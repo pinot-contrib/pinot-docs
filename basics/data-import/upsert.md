@@ -434,6 +434,8 @@ select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
 
 There are some limitations for the upsert Pinot tables.
 
+* The upsert feature is supported for Real-time tables only, and not for Hybrid or Offline tables.
+* The high-level consumer is not allowed for the input stream ingestion, which means `stream.[consumerName].consumer.type` must always be `lowLevel`.
 * The star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 * Unlike append-only tables, out-of-order events (with comparison value in incoming record less than the latest available value) won't be consumed and indexed by Pinot partial upsert table, these late events will be skipped.
 
