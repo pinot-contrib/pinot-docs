@@ -73,13 +73,13 @@ The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you 
 
 Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#/Table/listTables), click **Try it out**, and then click **Execute**. We can see the`baseballStats` table listed here. We can also see the exact cURL call made to the controller API.
 
-![List all tables in cluster](<../../.gitbook/assets/image (32).png>)
+![List all tables in cluster](<../../.gitbook/assets/list-all-tables.png>)
 
 You can look at the configuration of this table by going to [Tables -> Get/Enable/Disable/Drop a table](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig), click **Try it out**, type `baseballStats` in the table name, and then click **Execute**.
 
 Let's check out the schemas in the cluster by going to [Schema -> List all schemas in the cluster](http://localhost:9000/help#!/Schema/listSchemaNames), click **Try it out**, and then click **Execute**. We can see a schema called `baseballStats` in this list.
 
-![List all schemas in the cluster](<../../.gitbook/assets/image (25).png>)
+![List all schemas in the cluster](<../../.gitbook/assets/list-all-schemas.png>)
 
 Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), click **Try it out**, type `baseballStats` in the schema name, and then click **Execute**.
 
