@@ -16,7 +16,7 @@ There are 3 types of instances for the InstanceAssignmentConfig: `OFFLINE`, `CON
 
 The default instance assignment strategy simply assigns all the servers in the cluster to each table, and uses the [Balanced Segment Assignment](segment-assignment.md#balanced-segment-assignment) for the table. This strategy requires no extra configurations for the cluster, and it works well for small clusters with few tables where all the resources can be shared among all the tables.
 
-![](../../.gitbook/assets/default.png)
+![](../../.gitbook/assets/default-instance-assignment.png)
 
 ## Tag-Based Instance Assignment
 
