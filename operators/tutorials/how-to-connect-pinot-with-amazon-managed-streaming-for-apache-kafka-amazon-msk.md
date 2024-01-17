@@ -54,11 +54,11 @@ Ensure you are picking **ClusterShardNodeSecurityGroup**
 
 1. In SecurityGroup, click on MSK SecurityGroup (`sg-01e7ab1320a77f1a9`), then Click on `Edit Rules` , then add above `ClusterSharedNodeSecurityGroup` (`sg-0402b59d7e440f8d1`) to it.
 
-![Add SecurityGroup to Amazon MSK](<../../.gitbook/assets/image (33).png>)
+![Add SecurityGroup to Amazon MSK](<../../.gitbook/assets/msk-add-security-group.png>)
 
 1. Click EKS Security Group `ClusterSharedNodeSecurityGroup` (`sg-0402b59d7e440f8d1`), add In bound Rule for MSK Security Group (`sg-01e7ab1320a77f1a9`).
 
-![Add SecurityGroup to Amazon EKS](<../../.gitbook/assets/image (30).png>)
+![Add SecurityGroup to Amazon EKS](<../../.gitbook/assets/eks-add-security-group.png>)
 
 Now, EKS cluster should be able to talk to Amazon MSK.
 

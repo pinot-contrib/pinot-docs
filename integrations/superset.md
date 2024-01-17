@@ -65,9 +65,7 @@ E.g.
 
 > `pinot://pinot-broker:8099/query/sql?controller=http://pinot-controller:9000/`
 
-Below is an example for the QuickStart cluster, you can click `TEST CONNECTION` button to check if Pinot cluster is successfully connected.
-
-![Add Pinot cluster as a new Database](<../.gitbook/assets/image (18).png>)
+Click `TEST CONNECTION` to check if the Pinot cluster is successfully connected.
 
 ### Adding Pinot Table
 

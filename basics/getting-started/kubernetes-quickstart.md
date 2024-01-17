@@ -240,7 +240,7 @@ helm install my-trino trino/trino --version 0.2.0 -n trino-quickstart --values /
 kubectl get pods -n trino-quickstart
 ```
 
-![](<../../.gitbook/assets/image (31).png>)
+![](<../../.gitbook/assets/trino-deployment-status.png>)
 
 ### Query Pinot with the Trino CLI
 
