@@ -20,7 +20,7 @@ There are several different ways that segments are persisted in the deep store.
 
 For offline tables, the batch ingestion job writes the segment directly into the deep store, as shown in the diagram below:
 
-![Batch job writing a segment into the deep store](<../../../../.gitbook/assets/batch-deep-store (1).png>)
+![Batch job writing a segment into the deep store](<../../../../.gitbook/assets/batch-deep-store.png>)
 
 The ingestion job then sends a notification about the new segment to the controller, which in turn notifies the appropriate server to pull down that segment.
 
