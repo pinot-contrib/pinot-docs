@@ -71,7 +71,7 @@ Click `TEST CONNECTION` to check if the Pinot cluster is successfully connected.
 
 User can add an existing table into Superset:
 
-![Add Table Definition](<../.gitbook/assets/image (47).png>)
+![Add Table Definition](<../.gitbook/assets/add-table-definition.png>)
 
 ![Table Definition](<../.gitbook/assets/superset-table-definition-baseball-stats.png>)
 
@@ -87,7 +87,7 @@ User can configure an existing column `mergedTimeMillis` as temporal and set `Da
 
 User can also add a new column by setting the expression.
 
-![Add a simple derived column](<../.gitbook/assets/image (50).png>)
+![Add a simple derived column](<../.gitbook/assets/superset-add-derived-column.png>)
 
 Another example:
 
