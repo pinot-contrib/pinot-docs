@@ -14,32 +14,24 @@ Follow this [AWS Quickstart Wiki](https://docs.pinot.apache.org/getting-started/
 
 ## Create an Amazon MSK Cluster
 
-Go to [MSK Landing Page](https://us-west-2.console.aws.amazon.com/msk/home) to create a Kafka Cluster.
+1. Go to [MSK Landing Page](https://us-west-2.console.aws.amazon.com/msk/home) to create a Kafka Cluster.
 
 {% hint style="info" %}
 Note:
 
-1. For demo simplicity, this MSK cluster reuses same VPC created by EKS cluster in the previous step. Otherwise a [VPC Peering](https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) is required to ensure two VPCs could talk to each other.
-2. Under **Encryption** section, choose\*\*`Both TLS encrypted and plaintext traffic allowed`\*\*
+- For demo simplicity, this MSK cluster reuses same VPC created by EKS cluster in the previous step. Otherwise a [VPC Peering](https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) is required to ensure two VPCs could talk to each other.
+- Under **Encryption** section, choose **`Both TLS encrypted and plaintext traffic allowed`**
 {% endhint %}
 
-Below is a sample screenshot to create an Amazon MSK cluster.
+ 2. Click **Create**. b
 
-```
-                                                       ![](../../.gitbook/assets/snapshot-msk.png)
-```
+3. Once the cluster is created, click **`View client information`** to see the Zookeeper and Kafka Broker list.
 
-3. Click **Create**.
-
-![Amazon MSK Clusters View](../../.gitbook/assets/amazon-msk-cluster-in-progress.png)
-
-Once the cluster is created, click **`View client information`** to see the Zookeeper and Kafka Broker list.
-
-![MSK Cluster View](<../../.gitbook/assets/image (34).png>)
+![MSK Cluster View](<../../.gitbook/assets/msk-cluster-view.png>)
 
 Sample Client Information
 
-![](<../../.gitbook/assets/image (13).png>)
+![](<../../.gitbook/assets/msk-sample-client-info.png>)
 
 ## Connect to MSK
 
