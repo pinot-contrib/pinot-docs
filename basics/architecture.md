@@ -34,7 +34,7 @@ As described in [Apache Pinot™ Concepts](concepts.md), Pinot has four node typ
 * [Server](components/cluster/server.md)
 * [Minion](components/cluster/minion.md)
 
-![](<../.gitbook/assets/Pinot-architecture (1).svg>)
+![](<../.gitbook/assets/Pinot-architecture.svg>)
 
 ### Apache Helix and ZooKeeper
 
@@ -177,7 +177,7 @@ Offline servers host segments created by ingesting batch data. The controller wr
 
 Because offline tables tend to have long retention periods, offline servers tend to scale based on the size of the data they store.
 
-![](<../.gitbook/assets/OfflineServer (4).jpg>)
+![](<../.gitbook/assets/OfflineServer.jpg>)
 
 
 #### Real-time servers
@@ -202,7 +202,7 @@ Pinot [tables](components/table/) exist in two varieties: offline (or batch) and
 
 ### Offline (batch) ingest
 
-![](<../.gitbook/assets/OfflineServer (4).jpg>)
+![](<../.gitbook/assets/OfflineServer.jpg>)
 
 Pinot ingests batch data using an [ingestion job](data-import/batch-ingestion/), which follows a process like this:
 
