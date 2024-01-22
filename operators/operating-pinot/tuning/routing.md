@@ -51,9 +51,9 @@ Apart from the ascending time, Apache Pinot can also take advantage of other dis
 In order to make this pruning more efficient, segments should have the least number of partitions possible, which ideally is 1. More formally, given a function `p`, for all segments `s`, given any pair of rows `r1` and `r2`, it should be true that `p(r1) = p(r2)`. For example, in a table configured to have 3 partitions by `memberId` column, using `modulo` as the partition function, a segment that contains a row with `memberId` = 101 may also contain another row with `memberId` = 2 and another with `memberId` = 335, but it should not contain a row with `memberId` = 336 or `memberId` = 334.
 {% endhint %}
 
-Data cannot always be partitioned by a dimension column or even when it is, not all queries can take advantage of the distribution. But when this optimization can be applied, a lot of segments can be pruned. The current implementation for partitioning only works for **EQUALITY** and **IN** filter (e.g. `memberId = xx`, `memberId IN (x, y, z)`). Below diagram gives the example of data partitioned on member id while the query includes an equality filter on member id.
+Data cannot always be partitioned by a dimension column or even when it is, not all queries can take advantage of the distribution. But when this optimization can be applied, a lot of segments can be pruned. The current implementation for partitioning only works for **EQUALITY** and **IN** filter (e.g. `memberId = xx`, `memberId IN (x, y, z)`). Below diagram gives the example of data partitioned on member ID while the query includes an equality filter on member ID.
 
-![](../../../.gitbook/assets/partitioning.png)
+![](../../../.gitbook/assets/partition-on-member-id.png)
 
 Apache Pinot currently supports `Modulo`, `Murmur`, `ByteArray` and `HashCode` hash functions and partitioning can be enabled by setting the following configuration in the table config.
 
