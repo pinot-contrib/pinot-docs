@@ -6,7 +6,8 @@ description: >-
 
 # DISTINCTCOUNTHLLPLUSMV
 
-Returns an approximate distinct count using HyperLogLogPlusPlus in a group.
+Returns an approximate distinct count using HyperLogLogPlusPlus in a group.\
+The optional parameter _p_ defines the normal set precision and the parameter _sp_ defines the sparse set precision.
 
 ## Signature
 

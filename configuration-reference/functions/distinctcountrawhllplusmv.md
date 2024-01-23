@@ -6,7 +6,8 @@ description: >-
 
 # DISTINCTCOUNTRAWHLLPLUSMV
 
-Returns HLLPlus response serialized as string. The serialized HLLPlus can be converted back into an HLLPlus and then aggregated with other HLLPluses. A common use case may be to merge HLLPlus responses from different Pinot tables, or to allow aggregation after client-side batching.
+Returns HLLPlus response serialized as string. The serialized HLLPlus can be converted back into an HLLPlus and then aggregated with other HLLPluses. A common use case may be to merge HLLPlus responses from different Pinot tables, or to allow aggregation after client-side batching.\
+The optional parameter _p_ defines the normal set precision and the parameter _sp_ defines the sparse set precision.
 
 ## Signature
 
@@ -19,7 +20,7 @@ Returns HLLPlus response serialized as string. The serialized HLLPlus can be con
 These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
-select DISTINCTCOUNTRAWHLLMVPLUS(DivAirports) AS value
+select DISTINCTCOUNTRAWHLLPLUSMV(DivAirports) AS value
 from airlineStats 
 where arraylength(DivAirports) > 1
 ```
