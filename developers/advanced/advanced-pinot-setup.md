@@ -14,7 +14,7 @@ Set up Pinot by starting each component individually
 If running locally, ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
 
-![Sample Docker resources](<../../.gitbook/assets/docker-resource-setup.png>)
+![Sample Docker resources](<../../.gitbook/assets/docker-resource-setup (1).png>)
 
 **Pull Docker image**
 

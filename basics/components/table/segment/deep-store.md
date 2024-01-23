@@ -20,19 +20,19 @@ There are several different ways that segments are persisted in the deep store.
 
 For offline tables, the batch ingestion job writes the segment directly into the deep store, as shown in the diagram below:
 
-![Batch job writing a segment into the deep store](<../../../../.gitbook/assets/batch-deep-store.png>)
+![Batch job writing a segment into the deep store](<../../../../.gitbook/assets/batch-deep-store (1).png>)
 
 The ingestion job then sends a notification about the new segment to the controller, which in turn notifies the appropriate server to pull down that segment.
 
 For real-time tables, by default, a segment is first built-in memory by the server. It is then uploaded to the lead controller (as part of the Segment Completion Protocol sequence), which writes the segment into the deep store, as shown in the diagram below:
 
-![Server sends segment to Controller, which writes segments into the deep store](<../../../../.gitbook/assets/server-controller-deep-store.png>)
+![Server sends segment to Controller, which writes segments into the deep store](<../../../../.gitbook/assets/server-controller-deep-store (1).png>)
 
 Having all segments go through the controller can become a system bottleneck under heavy load, in which case you can use the peer download policy, as described in [Decoupling Controller from the Data Path](../../../../operators/operating-pinot/decoupling-controller-from-the-data-path.md).
 
 When using this configuration, the server will directly write a completed segment to the deep store, as shown in the diagram below:
 
-![Server writing a segment into the deep store](<../../../../.gitbook/assets/server-deep-store.png>)
+![Server writing a segment into the deep store](<../../../../.gitbook/assets/server-deep-store (1).png>)
 
 ## Configuring the deep store
 

@@ -13,13 +13,13 @@ To query using distributed joins, window functions, and other multi-stage operat
   * Query [using REST APIs](v2-multi-stage-query-engine.md#use-rest-apis)
   * Query outside of the APIs [using the query option](v2-multi-stage-query-engine.md#use-the-query-option)
 
-To learn more about what the multi-stage query engine is, see [Multi-stage query engine (v2)](../../reference/multi-stage-engine.md).&#x20;
+To learn more about what the multi-stage query engine is, see [Multi-stage query engine (v2)](../../reference/multi-stage-engine.md).
 
 ## Enable the multi-stage query engine in the Query Console
 
 * To enable the multi-stage query engine, in the Pinot Query Console, select the **Use Multi-Stage Engine** check box.
 
-<figure><img src="../../.gitbook/assets/pinot-query-console-multi-stage-enabled.png" alt=""><figcaption><p>Pinot Query Console with Use Multi Stage Engine enabled</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pinot-query-console-multi-stage-enabled (2).png" alt=""><figcaption><p>Pinot Query Console with Use Multi Stage Engine enabled</p></figcaption></figure>
 
 ## Programmatically access the multi-stage query engine
 
@@ -56,7 +56,7 @@ curl -X POST http://localhost:8000/query/sql -d '
 
 ### Use the query option
 
-To enable the multi-stage engine via a query outside of the API, add the `useMultistageEngine=true` option to the top of your query.&#x20;
+To enable the multi-stage engine via a query outside of the API, add the `useMultistageEngine=true` option to the top of your query.
 
 For example:
 
