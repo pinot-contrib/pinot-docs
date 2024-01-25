@@ -16,16 +16,6 @@ Pinot ships with `QuickStart` commands that launch Pinot components in a single 
     The Docker-based examples on this page use `pinot:latest`, which instructs Docker to pull and use the most recent release of Apache Pinot. If you prefer to use a specific release instead, you can designate it by replacing `latest` with the release number, like this: `pinot:0.12.1`.
 
     The local install-based examples that are run using the launcher scripts will use the Apache Pinot version you installed.
-*   **Running examples with Docker on a Mac with an M1 or M2 CPU**
-
-    Add the `-arm64` suffix to the `run` commands, like this:
-
-    ```
-    docker run \
-        -p 9000:9000 \
-        apachepinot/pinot:latest-arm64 QuickStart \
-        -type batch
-    ```
 *   **Stopping a running example**
 
     To stop a running example, enter `Ctrl+C` in the same terminal where you ran the `docker run` command to start the example.

@@ -46,6 +46,12 @@ This configuration is set to 1,000,000 by default and can be adjusted by configu
 
 A higher threshold reduces the amount of trimming done, but consumes more heap memory. If the threshold is set to more than 1,000,000,000, the server will only trim the groups once before returning the results to the broker.
 
+## At Broker
+
+When broker performs the final merge of the groups returned by various servers, there is another level of trimming that takes place. The tail groups are trimmed and  `max(<minBrokerGroupTrimSize>, 5 * LIMIT)` groups are retained.&#x20;
+
+Default value of `<minBrokerGroupTrimSize>` is set to 5000. This can be adjusted by configuring  `pinot.broker.min.group.trim.size` property.
+
 ## GROUP BY behavior
 
 Pinot sets a default `LIMIT` of 10 if one isn't defined and this applies to `GROUP BY` queries as well. Therefore, if no limit is specified, Pinot will return 10 groups.
@@ -71,8 +77,9 @@ Increase min trim size to keep more groups in these cases.
 
 | Parameter                                                                                                                                                            | Default                        | Query Override                                              | Description |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ----------------------------------------------------------- | ----------- |
-| <p><code>pinot.server.query.executor.num.groups.limit</code><br>The maximum number of groups allowed per segment.</p>                                                | 100,000                        | N/A                                                         |             |
+| <p><code>pinot.server.query.executor.num.groups.limit</code><br>The maximum number of groups allowed per segment.</p>                                                | 100,000                        | `OPTION(numGroupsLimit=<numGroupsLimit>)`                   |             |
 | <p><code>pinot.server.query.executor.min.segment.group.trim.size</code><br>The minimum number of groups to keep when trimming groups at the segment level.</p>       | -1 (trim disabled)             | `OPTION(minSegmentGroupTrimSize=<minSegmentGroupTrimSize>)` |             |
 | <p><code>pinot.server.query.executor.min.server.group.trim.size</code><br>The minimum number of groups to keep when trimming groups at the server level.</p>         | 5,000                          | `OPTION(minServerGroupTrimSize=<minServerGroupTrimSize>)`   |             |
-| <p><code>pinot.server.query.executor.groupby.trim.threshold</code><br>The number of groups to trigger the server level trim.</p>                                     | 1,000,000                      | N/A                                                         |             |
+| <p><code>pinot.server.query.executor.groupby.trim.threshold</code><br>The number of groups to trigger the server level trim.</p>                                     | 1,000,000                      | `OPTION(groupTrimThreshold=<groupTrimThreshold>)`           |             |
 | <p><code>pinot.server.query.executor.max.execution.threads</code><br>The maximum number of execution threads (parallelism of segment processing) used per query.</p> | -1 (use all execution threads) | `OPTION(maxExecutionThreads=<maxExecutionThreads>)`         |             |
+| <p><code>pinot.broker.min.group.trim.size</code><br><br>The minimum number of groups to keep when trimming groups at the broker.</p>                                 | 5000                           | OPTION(minBrokerGroupTrimSize=\<minBrokerGroupTrimSize>     |             |

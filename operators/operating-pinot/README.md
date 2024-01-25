@@ -30,8 +30,6 @@ You can then proceed to the more advanced Pinot setup in production environment.
 
 Here are some related blog posts from the Apache Pinot community. You can find all of our blog posts on our [developer blog on Medium](https://medium.com/apache-pinot-developer-blog).
 
-<img src="../../.gitbook/assets/image (19).png" alt="" data-size="original"> [\
-**Monitoring Apache Pinot with JMX, Prometheus and Grafana**](https://medium.com/apache-pinot-developer-blog/monitoring-apache-pinot-99034050c1a5)
+* [**Monitoring Apache Pinot with JMX, Prometheus and Grafana**](https://medium.com/apache-pinot-developer-blog/monitoring-apache-pinot-99034050c1a5)
 
-<img src="../../.gitbook/assets/image (51) (1).png" alt="" data-size="original"> \
-[**Achieving 99th percentile latency SLA using Apache Pinot**](https://medium.com/apache-pinot-developer-blog/achieving-99th-percentile-latency-sla-using-apache-pinot-2ba4ce1d9eff)
+* [**Achieving 99th percentile latency SLA using Apache Pinot**](https://medium.com/apache-pinot-developer-blog/achieving-99th-percentile-latency-sla-using-apache-pinot-2ba4ce1d9eff)

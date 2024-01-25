@@ -14,32 +14,23 @@ Follow this [AWS Quickstart Wiki](https://docs.pinot.apache.org/getting-started/
 
 ## Create an Amazon MSK Cluster
 
-Go to [MSK Landing Page](https://us-west-2.console.aws.amazon.com/msk/home) to create a Kafka Cluster.
+1. Go to [MSK Landing Page](https://us-west-2.console.aws.amazon.com/msk/home) to create a Kafka Cluster.
 
 {% hint style="info" %}
 Note:
 
-1. For demo simplicity, this MSK cluster reuses same VPC created by EKS cluster in the previous step. Otherwise a [VPC Peering](https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) is required to ensure two VPCs could talk to each other.
-2. Under **Encryption** section, choose\*\*`Both TLS encrypted and plaintext traffic allowed`\*\*
+* For demo simplicity, this MSK cluster reuses same VPC created by EKS cluster in the previous step. Otherwise a [VPC Peering](https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html) is required to ensure two VPCs could talk to each other.
+* Under **Encryption** section, choose **`Both TLS encrypted and plaintext traffic allowed`**
 {% endhint %}
 
-Below is a sample screenshot to create an Amazon MSK cluster.
+2. Click **Create**. b
+3. Once the cluster is created, click **`View client information`** to see the Zookeeper and Kafka Broker list.
 
-```
-                                                       ![](../../.gitbook/assets/snapshot-msk.png)
-```
-
-3. Click **Create**.
-
-![Amazon MSK Clusters View](../../.gitbook/assets/amazon-msk-cluster-in-progress.png)
-
-Once the cluster is created, click **`View client information`** to see the Zookeeper and Kafka Broker list.
-
-![MSK Cluster View](<../../.gitbook/assets/image (34).png>)
+![MSK Cluster View](../../.gitbook/assets/msk-cluster-view.png)
 
 Sample Client Information
 
-![](<../../.gitbook/assets/image (13).png>)
+![](../../.gitbook/assets/msk-sample-client-info.png)
 
 ## Connect to MSK
 
@@ -54,7 +45,7 @@ This is configured through Amazon VPC Page.
 1. Record the Amazon MSK `SecurityGroup` from the Cluster page, in the above demo, it's `sg-01e7ab1320a77f1a9`.
 2. Open [Amazon VPC Page](https://us-west-2.console.aws.amazon.com/vpc/home), click on **`SecurityGroups`** on left bar. Find the EKS Security group: `eksctl-${PINOT_EKS_CLUSTER}-cluster/ClusterSharedNodeSecurityGroup.`
 
-![Amazon EKS ClusterSharedNodeSecurityGroup](<../../.gitbook/assets/amazon\_eks\_cluster (3).png>)
+![Amazon EKS ClusterSharedNodeSecurityGroup](<../../.gitbook/assets/.unused/amazon\_eks\_cluster (1) (1) (4).png>)
 
 {% hint style="info" %}
 Ensure you are picking **ClusterShardNodeSecurityGroup**
@@ -62,11 +53,11 @@ Ensure you are picking **ClusterShardNodeSecurityGroup**
 
 1. In SecurityGroup, click on MSK SecurityGroup (`sg-01e7ab1320a77f1a9`), then Click on `Edit Rules` , then add above `ClusterSharedNodeSecurityGroup` (`sg-0402b59d7e440f8d1`) to it.
 
-![Add SecurityGroup to Amazon MSK](<../../.gitbook/assets/image (33).png>)
+![Add SecurityGroup to Amazon MSK](../../.gitbook/assets/msk-add-security-group.png)
 
 1. Click EKS Security Group `ClusterSharedNodeSecurityGroup` (`sg-0402b59d7e440f8d1`), add In bound Rule for MSK Security Group (`sg-01e7ab1320a77f1a9`).
 
-![Add SecurityGroup to Amazon EKS](<../../.gitbook/assets/image (30).png>)
+![Add SecurityGroup to Amazon EKS](../../.gitbook/assets/eks-add-security-group.png)
 
 Now, EKS cluster should be able to talk to Amazon MSK.
 
@@ -126,7 +117,7 @@ You can download below yaml file, then replace:
 * `${BROKER_LIST_STRING}` -> MSK **Plaintext** Broker String in the deployment
 * `${GITHUB_PERSONAL_ACCESS_TOKEN}` -> A personal Github Personal Access Token generated from [here](https://github.com/settings/tokens), grant all read permissions to it. Here is the [source code](https://github.com/apache/pinot/commit/1baede8e760d593fcd539d61a147185816c44fc9) to generate Github Events.
 
-{% file src="../../.gitbook/assets/github-events-aws-msk-demo (2).yaml" %}
+{% file src="../../.gitbook/assets/.unused/github-events-aws-msk-demo (2).yaml" %}
 github-events-aws-msk-demo.yaml
 {% endfile %}
 

@@ -51,7 +51,7 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 | controller.tls.client.auth                                   | false                                                                    | toggle for requiring TLS client auth                                                     |
 | pinot.controller.http.server.thread.pool.corePoolSize        | 2 \* cores                                                               | Config for the thread-pool used by pinot-controller's http-server.                       |
 | pinot.controller.http.server.thread.pool.maxPoolSize         | 2 \* cores                                                               | Config for the thread-pool used by pinot-controller's http-server.                       |
-| pinot.controller.segment.fetcher.http.client.maxTotalConn    |                                                                          | Config for the http-client used by HttpSegmentFetcher for downloading segments           |
+| pinot.controller.segment.fetcher.http.client.maxConnTotal    |                                                                          | Config for the http-client used by HttpSegmentFetcher for downloading segments           |
 | pinot.controller.segment.fetcher.http.client.maxConnPerRoute |                                                                          | Config for the http-client used by HttpSegmentFetcher for downloading segments           |
 
 ## Periodic task configuration
@@ -97,7 +97,7 @@ This task does not fix consumption stalled due to
 * Kafka OOR exceptions
 {% endhint %}
 
-<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.realtime.segment.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.realtime.segment.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.realtime.segment.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.realtime.segment.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetryEnabled</td><td>false</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.timeoutMs</td><td>-1</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.parallelism</td><td>1</td></tr></tbody></table>
 
 ### RetentionManager
 

@@ -114,10 +114,6 @@ Dictionaries can be configured with the following options
 | onHeap                 | false   | Specifies whether the index should be loaded on heap or off heap. |
 | useVarLengthDictionary | false   | Determines how to store variable-length values.                   |
 
-Dictionaries are always off heap, but in cases where the cardinality is small and the footprint on heap is acceptably 
-small, they can be copied in memory by changing `onHeap` parameter to true.
-When they are on heap, dictionaries can be faster and some extra optimizations can be done.
-
 Dictionaries are always stored off-heap. 
 However, in cases where the cardinality is small, and the on-heap memory usage is acceptable, 
 you can copy them into memory by setting the `onHeap` parameter to true. 

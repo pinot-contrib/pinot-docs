@@ -11,12 +11,12 @@ Servers host the data segments and serve queries off the data they host. There a
 **Offline**\
 Offline servers are responsible for downloading segments from the segment store, to host and serve queries off. When a new segment is uploaded to the controller, the controller decides the servers (as many as replication) that will host the new segment and notifies them to download the segment from the segment store. On receiving this notification, the servers download the segment file and load the segment onto the server, to server queries off them.
 
-![](<../../../.gitbook/assets/OfflineServer (4).jpg>)
+![](<../../../.gitbook/assets/OfflineServer.jpg>)
 
 **Real-time**\
 Real-time servers directly ingest from a real-time stream (such as Kafka or EventHubs). Periodically, they make segments of the in-memory ingested data, based on certain thresholds. This segment is then persisted onto the segment store.
 
-![](<../../../.gitbook/assets/RealtimeServer (1).jpg>)
+![](<../../../.gitbook/assets/RealtimeServer.jpg>)
 
 Pinot servers are modeled as Helix participants, hosting Pinot tables (referred to as _resources_ in Helix terminology). Segments of a table are modeled as Helix partitions (of a resource). Thus, a Pinot server hosts one or more Helix partitions of one or more helix resources (_i.e._ one or more segments of one or more tables).
 

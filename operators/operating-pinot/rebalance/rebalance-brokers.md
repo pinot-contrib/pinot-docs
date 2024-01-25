@@ -12,7 +12,7 @@ These are typically done when downsizing/uplifting a cluster, or replacing nodes
 
 Every broker added to the Pinot cluster, has tags associated with it. A group of brokers with the same tag forms a Broker Tenant. By default, a broker in the cluster gets added to the `DefaultTenant` i.e. gets tagged as `DefaultTenant_BROKER`. Below is an example of how this tag looks in the znode, as seen in ZooInspector.
 
-![Broker tag](<../../../.gitbook/assets/Screen Shot 2020-09-15 at 11.24.58 AM.png>)
+![Broker tag](<../../../.gitbook/assets/zookeeper-browser-broker-tenant.png>)
 
 A Pinot table config has a tenants section, to define the tenant to be used by the table. More details about this in the [Tenants](../../../basics/components/cluster/tenant.md) section.
 
@@ -28,7 +28,7 @@ A Pinot table config has a tenants section, to define the tenant to be used by t
 
 Using the tenant defined above, a mapping is created, from table name to brokers and stored in the `IDEALSTATES/brokerResource`. This mapping can be used by external services that need to pick a broker for querying.&#x20;
 
-![brokerResource IDEALSTATE](<../../../.gitbook/assets/Screen Shot 2020-09-15 at 11.26.12 AM.png>)
+![brokerResource IDEALSTATE](<../../../.gitbook/assets/zookeeper-browser-broker-resource.png>)
 
 #### Updating tags
 
@@ -40,7 +40,7 @@ To update the tags on the broker, use the following API:
 
 `PUT /instances/{instanceName}/updateTags?tags=<comma separated tags>`
 
-![updateTags API](<../../../.gitbook/assets/Screen Shot 2020-09-15 at 11.31.47 AM.png>)
+![updateTags API](<../../../.gitbook/assets/update-tags-api.png>)
 
 Example for tagging the broker as per your custom tenant:
 
@@ -56,7 +56,7 @@ After making any capacity changes to the broker, the brokerResource needs to be 
 
 `POST /tables/{tableNameWithType}/rebuildBrokerResourceFromHelixTags`
 
-![rebuildBrokerResource API](<../../../.gitbook/assets/Screen Shot 2020-09-15 at 11.35.29 AM.png>)
+![rebuildBrokerResource API](<../../../.gitbook/assets/rebuild-broker-resource-api.png>)
 
 ### Drop nodes
 
@@ -66,7 +66,7 @@ First, shutdown the broker. Then, use API below to remove the node from the clus
 
 `DELETE /instances/{instanceName}`
 
-![](<../../../.gitbook/assets/Screen Shot 2020-09-15 at 11.38.37 AM.png>)
+![](<../../../.gitbook/assets/delete-instances-api.png>)
 
 ### Troubleshooting
 

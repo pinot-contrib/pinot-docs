@@ -126,6 +126,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [chr.md](chr.md)
 {% endcontent-ref %}
 
+{% content-ref url="clpdecode.md" %}
+[clpdecode.md](clpdecode.md)
+{% endcontent-ref %}
+
 {% content-ref url="codepoint.md" %}
 [codepoint.md](codepoint.md)
 {% endcontent-ref %}
@@ -244,6 +248,14 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% content-ref url="firstwithtime.md" %}
 [firstwithtime.md](firstwithtime.md)
+{% endcontent-ref %}
+
+{% content-ref url="freqeuentlongssketch.md" %}
+[freqeuentlongssketch.md](freqeuentlongssketch.md)
+{% endcontent-ref %}
+
+{% content-ref url="frequentstringsketch.md" %}
+[frequentstringsketch.md](frequentstringsketch.md)
 {% endcontent-ref %}
 
 {% content-ref url="fromdatetime.md" %}

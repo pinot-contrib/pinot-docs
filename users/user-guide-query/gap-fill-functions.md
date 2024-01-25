@@ -1,5 +1,9 @@
 # GapFill Function For Time-Series Dataset
 
+{% hint style="info" %}
+GapFill Function is **only supported with the single-stage query engine (v1)**.&#x20;
+{% endhint %}
+
 Many of the datasets are time series in nature, tracking state change of an entity over time. The granularity of recorded data points might be sparse or the events could be missing due to network and other device issues in the IOT environment. But analytics applications which are tracking the state change of these entities over time, might be querying for values at lower granularity than the metric interval.
 
 Here is the sample data set tracking the status of parking lots in parking space.
