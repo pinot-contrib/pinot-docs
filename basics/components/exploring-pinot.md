@@ -22,7 +22,7 @@ If you want to view the contents of a server, click on its instance name. You'll
 
 To view the _baseballStats_ table, click on its name, which will show the following screen:
 
-![baseballStats Table](<../../.gitbook/assets/view-table-baseball-stats (1) (1).png>)
+![baseballStats Table](<../../.gitbook/assets/view-table-baseball-stats (1).png>)
 
 From this screen, we can edit or delete the table, edit or adjust its schema, as well as several other operations.
 
@@ -69,17 +69,17 @@ Pinot supports a subset of standard SQL. For more information, see [Pinot Query 
 
 The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
-![](<../../.gitbook/assets/Screen Shot 2020-02-28 at 10.00.43 AM.png>)
+![](../../.gitbook/assets/pinot-admin-ui.png)
 
 Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#/Table/listTables), click **Try it out**, and then click **Execute**. We can see the`baseballStats` table listed here. We can also see the exact cURL call made to the controller API.
 
-![List all tables in cluster](<../../.gitbook/assets/image (32).png>)
+![List all tables in cluster](../../.gitbook/assets/list-all-tables.png)
 
 You can look at the configuration of this table by going to [Tables -> Get/Enable/Disable/Drop a table](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig), click **Try it out**, type `baseballStats` in the table name, and then click **Execute**.
 
 Let's check out the schemas in the cluster by going to [Schema -> List all schemas in the cluster](http://localhost:9000/help#!/Schema/listSchemaNames), click **Try it out**, and then click **Execute**. We can see a schema called `baseballStats` in this list.
 
-![List all schemas in the cluster](<../../.gitbook/assets/image (25).png>)
+![List all schemas in the cluster](../../.gitbook/assets/list-all-schemas.png)
 
 Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), click **Try it out**, type `baseballStats` in the schema name, and then click **Execute**.
 

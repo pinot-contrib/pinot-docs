@@ -614,7 +614,7 @@ $ kubectl apply -f pinot-github-realtime-events.yml
 
 Browse to the [Query Console](http://localhost:9000/query) to view the data.
 
-![](<../../.gitbook/assets/Screen Shot 2020-03-26 at 6.27.43 PM.png>)
+![](<../../.gitbook/assets/events-stream-view-data.png>)
 
 ### Visualize with SuperSet
 
@@ -622,10 +622,10 @@ You can use SuperSet to visualize this data. Some of the interesting insights we
 
 #### List the most active organizations during the lockdown
 
-![](<../../.gitbook/assets/Screen Shot 2020-04-08 at 9.28.57 AM.png>)
+![](<../../.gitbook/assets/superset-most-active-organizations-example.png>)
 
 Repositories by number of commits in the Apache organization
 
-![](<../../.gitbook/assets/Screen Shot 2020-04-08 at 9.29.12 AM.png>)
+![](<../../.gitbook/assets/superset-repos-with-most-commits-example.png>)
 
 To integrate with SuperSet you can check out the [SuperSet Integrations](../../integrations/superset.md) page.

@@ -42,7 +42,6 @@ $mvn install package -DskipTests -Pbin-dist -DdownloadSources -DdownloadJavadocs
 
 Import the project into your favorite IDE. Set up stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, please ensure you use stylesheet based on [this](https://github.com/apache/pinot/blob/master/config/codestyle-intellij.xml).
 
-
 #### Intellij
 
 To import the Pinot stylesheet this launch intellij and navigate to `Preferences` (on Mac) or `Settings` on Linux.
@@ -51,7 +50,7 @@ To import the Pinot stylesheet this launch intellij and navigate to `Preferences
 * Select `Import Scheme` -> `Intellij IDES code style XML`
 * Choose `codestyle-intellij.xml` from `pinot/config` folder of your workspace. Click Apply.
 
-![](../../.gitbook/assets/import\_scheme.png)
+![](../../.gitbook/assets/.unused/import\_scheme.png)
 
 #### Eclipse
 
@@ -60,7 +59,7 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 * Navigate to Java->Code Style->Formatter
 * Choose `codestyle-eclipse.xml` from `pinot/config folder` of your workspace. Click Apply.
 
-![](../../.gitbook/assets/eclipse\_style.png)
+![](../../.gitbook/assets/.unused/eclipse\_style.png)
 
 ### **Starting Pinot via IDE**
 

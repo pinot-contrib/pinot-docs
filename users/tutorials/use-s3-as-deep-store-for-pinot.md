@@ -560,7 +560,7 @@ ${SPARK_HOME}/bin/spark-submit \
 
 Below is the sample snapshot of s3 location for controller:
 
-![Sample S3 Controller Storage](<../../.gitbook/assets/image (37).png>)
+![Sample S3 Controller Storage](<../../.gitbook/assets/sample-s3-controller-storage.png>)
 
 Below is a sample download URI in PropertyStore. We expect the segment download URI to start with `s3://`
 

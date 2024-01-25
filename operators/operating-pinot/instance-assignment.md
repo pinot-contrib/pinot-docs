@@ -16,7 +16,7 @@ There are 3 types of instances for the InstanceAssignmentConfig: `OFFLINE`, `CON
 
 The default instance assignment strategy simply assigns all the servers in the cluster to each table, and uses the [Balanced Segment Assignment](segment-assignment.md#balanced-segment-assignment) for the table. This strategy requires no extra configurations for the cluster, and it works well for small clusters with few tables where all the resources can be shared among all the tables.
 
-![](../../.gitbook/assets/default.png)
+![](../../.gitbook/assets/default-instance-assignment.png)
 
 ## Tag-Based Instance Assignment
 
@@ -64,7 +64,7 @@ After configuring the server tags, the Tag-Based Instance Assignment can be enab
 
 On top of the Tag-Based Instance Assignment, we can also control the number of servers assigned to each table by configuring the `numInstances` in the InstanceAssignmentConfig. This is useful when we want to serve multiple tables of different sizes on the same set of servers. For example, suppose we have 30 servers hosting hundreds of tables for different analytics, we don’t want to use all 30 servers for each table, especially the tiny tables with only megabytes of data.
 
-![](../../.gitbook/assets/control.png)
+![](../../.gitbook/assets/control-instance-assigment.png)
 
 {% code title="TableConfig for Table 1:" %}
 ```javascript
@@ -88,7 +88,7 @@ On top of the Tag-Based Instance Assignment, we can also control the number of s
 
 In order to use the [Replica-Group Segment Assignment](segment-assignment.md#replica-group-segment-assignment), the servers need to be assigned to multiple replica-groups of the table, where the Replica-Group Instance Assignment comes into the picture. Enable it and configure the `numReplicaGroups` and `numInstancesPerReplicaGroup` in the InstanceAssignmentConfig, and Pinot will assign the instances accordingly.
 
-![](../../.gitbook/assets/replica.png)
+![](../../.gitbook/assets/replica-instance-assignment.png)
 
 {% code title="TableConfig for Table 1:" %}
 ```javascript
@@ -116,7 +116,7 @@ Similar to the Replica-Group Segment Assignment, in order to use the [Partitione
 
 (Note: The `numPartitions` configured here does not have to match the actual number of partitions for the table in case the partitions of the table changed for some reason. If they do not match, the table partition will be assigned to the server partition in a round-robin fashion. For example, if there are 2 server partitions, but 4 table partitions, table partition 1 and 3 will be assigned to server partition 1, and table partition 2 and 4 will be assigned to server partition 2.)
 
-![](../../.gitbook/assets/partition.png)
+![](../../.gitbook/assets/partition-instance-assignment.png)
 
 {% code title="TableConfig for Table 1:" %}
 ```javascript
@@ -150,11 +150,10 @@ For LLC real-time table, all the stream events are split into several stream par
 
 Without explicitly configuring the replica-group based instance assignment, the replicas of the stream partitions will be evenly spread over all the available instances as shown in the following diagram:
 
-![](../../.gitbook/assets/llc.png)
+![](../../.gitbook/assets/low-level-consumer-assignment.png)
 
-With replica-group based instance assignment, the stream partitions will be evenly spread over the instances within the replica-group:
+With replica-group based instance assignment, the stream partitions will be evenly spread over the instances within the replica group.
 
-![](../../.gitbook/assets/llc\_replica.png)
 
 ## Pool-Based Instance Assignment
 
@@ -166,7 +165,7 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 
 (Note: A table can have more replicas than the number of pools for the cluster, in which case the replica-group will be assigned to the pools in a round-robin fashion, and the servers within a pool can host more than one replicas of the table. It is still okay to shut down the whole pool without bringing down the table because there are other replicas hosted by servers from other pools.)
 
-![](../../.gitbook/assets/pool.png)
+![](../../.gitbook/assets/pool-instance-assignment.png)
 
 {% code title="Helix InstanceConfig for Server 1:" %}
 ```javascript

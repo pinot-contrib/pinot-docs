@@ -434,6 +434,7 @@ select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
 
 There are some limitations for the upsert Pinot tables.
 
+* The upsert feature is supported for Real-time tables only, and not for Hybrid or Offline tables.
 * The high-level consumer is not allowed for the input stream ingestion, which means `stream.[consumerName].consumer.type` must always be `lowLevel`.
 * The star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 * Unlike append-only tables, out-of-order events (with comparison value in incoming record less than the latest available value) won't be consumed and indexed by Pinot partial upsert table, these late events will be skipped.
@@ -638,21 +639,21 @@ You can also run partial upsert demo with the following command
 bin/quick-start-partial-upsert-streaming.sh
 ```
 
-As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the real-time data.
+As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to check out the real-time data.
 
-![Query the upsert table](<../../.gitbook/assets/Screen Shot 2021-06-15 at 10.02.46 AM.png>)
+![Query the upsert table](<../../.gitbook/assets/query-upsert-table.png>)
 
 For partial upsert you can see only the value from configured column changed based on specified partial upsert strategy.
 
-![Query the partial upsert table](../../.gitbook/assets/screen-shot-2021-07-13-at-12.40.24-pm.png)
+![Query the partial upsert table](../../.gitbook/assets/query-partial-upsert-table.png)
 
 An example for partial upsert is shown below, each of the event\_id kept being unique during ingestion, meanwhile the value of rsvp\_count incremented.
 
-![Explain partial upsert table](../../.gitbook/assets/screen-shot-2021-07-13-at-12.41.42-pm.png)
+![Explain partial upsert table](../../.gitbook/assets/explain-partial-upsert-table.png)
 
 To see the difference from the non-upsert table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
-![Disable the upsert during query via query option](<../../.gitbook/assets/Screen Shot 2021-06-15 at 10.03.22 AM.png>)
+![Disable the upsert during query via query option](<../../disable_upsert_during_query.png>)
 
 ### FAQ
 

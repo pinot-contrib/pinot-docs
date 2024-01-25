@@ -6,7 +6,11 @@
 This document describes null handling for the [single-stage query engine](../../reference/single-stage-engine.md). At this time, the [**multi-stage query engine**](../../reference/multi-stage-engine.md) **(v2) does not support null handling**. Queries involving null values in a multi-stage environment may return unexpected results.
 {% endhint %}
 
-## Basic null support
+Null handling is defined in two different parts: at ingestion and at query time.
+* [Basic null handling support](#basic-null-handling-support) means that you have enabled null handling at ingestion.
+* [Advanced null support](#advanced-null-handling-support) means that you have also enabled null handling at query time.
+
+## Basic null handling support
 
 By default, null handling is disabled (`nullHandlingEnabled=false`) in the Table index configuration ([tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)). When null support is disabled, `IS NOT NULL` evaluates to `true,` and `IS NULL` evaluates to `false`. For example, the predicate in the query below matches all records.
 
@@ -91,14 +95,14 @@ Column-level null support is under development.
 
 #### Query time
 
-By default, null usage in the predicate is disabled.&#x20;
+By default, null usage in the predicate is disabled.
 
 For handling nulls in aggregation functions, explicitly enable the null support by setting the query option `enableNullHandling` to `true`. Configure this option in one of the following ways:
 
 1. `Set enableNullHandling=true` at the beginning of the query.
 2. If using JDBC, set the connection option `enableNullHandling=true` (either in the URL or as a property).
 
-When this option is enabled, the Pinot query engine uses a different execution path that checks null predicates. Therefore, some indexes may not be usable, and the query is significantly more expensive. This is the main reason why null handling is not enabled by default.&#x20;
+When this option is enabled, the Pinot query engine uses a different execution path that checks null predicates. Therefore, some indexes may not be usable, and the query is significantly more expensive. This is the main reason why null handling is not enabled by default.
 
 If the query includes a `IS NULL` or `IS NOT NULL` predicate, Pinot fetches the `NULL` value vector for the corresponding column within `FilterPlanNode` and retrieves the corresponding bitmap that represents all document IDs containing `NULL` values for that column. This bitmap is then used to create a `BitmapBasedFilterOperator` to do the filtering operation.
 

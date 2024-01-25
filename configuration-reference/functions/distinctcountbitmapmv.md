@@ -1,7 +1,6 @@
 ---
 description: >-
-This section contains reference documentation for the DISTINCTCOUNTBITMAPMV
-function.
+  This section contains reference documentation for the DISTINCTCOUNTBITMAPMV function.
 ---
 
 # DISTINCTCOUNTBITMAPMV
