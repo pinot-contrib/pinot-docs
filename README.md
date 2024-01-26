@@ -1,3 +1,10 @@
+---
+description: >-
+  Apache Pinot is a real-time distributed OLAP datastore purpose-built for
+  low-latency, high-throughput analytics, and perfect for user-facing analytical
+  workloads.
+---
+
 # Introduction
 
 Apache Pinot is a real-time distributed online analytical processing (OLAP) datastore. Use Pinot to ingest and immediately query data from streaming or batch data sources (including, Apache Kafka, Amazon Kinesis, Hadoop HDFS, Amazon S3, Azure ADLS, and Google Cloud Storage).
