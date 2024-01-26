@@ -18,7 +18,7 @@ First, download the Pinot distribution for this tutorial. You can either downloa
 
 ### Prerequisites
 
-* Install JDK11 or higher (JDK16 is not yet supported).
+* Install with JDK 11 or 17. JDK 21 is still ongoing.
 * For JDK 8 support,  Pinot 0.12.1 is the last version compilable from the source code.
 * Pinot 1.0+ doesn't support JDK 8 anymore, please build with JDK 11+
 
