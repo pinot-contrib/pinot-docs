@@ -4,7 +4,7 @@ description: Pinot Client for Golang
 
 # Golang
 
-Pinot provides [a native Go client](https://github.com/startreedata/pinot-client-go) to query database directly from go application.&#x20;
+Pinot provides [a native Go client](https://github.com/startreedata/pinot-client-go) to query the database directly from Go application.&#x20;
 
 ### Install
 
@@ -48,6 +48,10 @@ pinotClient := pinot.NewFromBrokerList([]string{"localhost:8000"})
 
 #### ClientConfig
 
+The Go client repository contains an [example](https://github.com/startreedata/pinot-client-go/blob/master/examples/pinot-client-withconfig/main.go) script.
+
+Note: You need not configure `“content-type”` as a header in `ExtraHTTPHeader`.
+
 ```
 pinotClient := pinot.NewWithConfig(&pinot.ClientConfig{
 	ZkConfig: &pinot.ZookeeperConfig{
@@ -56,10 +60,12 @@ pinotClient := pinot.NewWithConfig(&pinot.ClientConfig{
 		SessionTimeoutSec: defaultZkSessionTimeoutSec,
 	},
     ExtraHTTPHeader: map[string]string{
-        "extra-header":"value",
+        "extra-header": "value",
     },
 })
 ```
+
+
 
 ### Query Pinot
 
