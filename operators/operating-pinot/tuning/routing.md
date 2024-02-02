@@ -149,7 +149,7 @@ As seen above, replica groups give you the control on the number of servers to s
 
 ## Single replica routing
 
-It is possible to have the Pinot broker route all queries for a specific table to the same server for a given segment. You might do this if you are finding inconsistencies in query results due to an offset for consuming segments across different replicas.
+By default, the Pinot broker will route queries to the segment replica that is currently under the least load. It is possible to have the Pinot broker route all queries for a specific table to the same server for a given segment. You might do this if you are finding inconsistencies in query results due to an offset for consuming segments across different replicas.
 
 You can enable this feature at different levels, as shown in the following examples.
 
