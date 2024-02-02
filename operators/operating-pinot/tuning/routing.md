@@ -148,16 +148,19 @@ As seen above, you can use `numReplicaGroups` to control the number of replica g
 As seen above, replica groups give you the control on the number of servers to span for each query. When you try to decide the proper number of `numReplicaGroups` and `numInstancesPerReplicaGroup`, consider the trade-off between throughput and latency. Given a fixed number of servers, increasing `numReplicaGroups` factor while decreasing `numInstancesPerReplicaGroup` will make each query use less servers, which may reduce the possibility of one of them having a full GC. However, each server will need to process more number of segments per query, reducing the throughput, to the point that extreme values may even increase the average latency. Similarly, decreasing `numReplicaGroups` while increasing `numInstancesPerReplicaGroup` will make each query use more servers, increasing the possibility of one of them having a full GC but making each server process less number of segments per query. So, this number has to be decided based on the use case requirements.
 
 ## Single replica routing
-In certain scenarios, it's desirable to have the Pinot broker route all queries for a specific table to a same set of servers. This approach mitigates potential inconsistencies in query results arising from variations in the latest consumed offset for CONSUMING segments across different replicas. The implementation of the single replica routing feature ensures that, when enabled, the broker consistently routes queries the same server for a given segment.
 
-Users can enable this feautre at various different levels Eg:
+It is possible to have the Pinot broker route all queries for a specific table to the same server for a given segment. You might do this if you are finding inconsistencies in query results due to an offset for consuming segments across different replicas.
 
-Enable for a specific query via query options (overrides the table / broker level configuration)
+You can enable this feature at different levels, as shown in the following examples.
+
+To enable for a specific query via _query options_, which overrides the table/broker level configuration:
+
 ```
 SET "useFixedReplica"=true;
 ```
 
-Enable for a specific table using table configs settings (overrides the broker level configuration)
+To enable for a specific table using _table config settings_, which overrides the broker level configuration, add the following in your table config:
+
 ```
 // Table config
 {
@@ -169,12 +172,14 @@ Enable for a specific table using table configs settings (overrides the broker l
 }
 ```
 
-Enable for all tables in the cluster using broker config setting
+To enable for all tables in the cluster using _broker config settings_:
+
 ```
 pinot.broker.use.fixed.replica=true
 ```
 
 {% hint style="info" %}
-It's important to note that at present, this feature operates on a best-effort basis and might revert to routing to other replicas if there are alterations in segment assignments or if one or more servers become unavailable.
-Additionally, adopting this feature could lead to potential skew in server resource utilization, particularly in clusters with a smaller number of tables, as the query load may not be evenly distributed across servers anymore.
+It's important to note that this feature operates on a best-effort basis and routing may revert to routing to other replicas if there are alterations in segment assignments or if one or more servers become unavailable.
+
+Additionally, adopting this feature could lead to potential skew in server resource utilization, particularly in clusters with a smaller number of tables, as the query load may no longer be evenly distributed across servers.
 {% endhint %}
