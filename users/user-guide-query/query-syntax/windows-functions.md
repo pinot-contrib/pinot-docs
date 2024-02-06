@@ -69,8 +69,8 @@ SELECT FUNC(column1) OVER (PARTITION BY column2 ORDER BY column3)
 
 #### Order by clause
 
-* If an ORDER BY clause is specified, all the rows within the same partition will be sorted based on the values of the columns appearing in the window ORDER BY clause. The ORDER BY clause decides the order in which the rows within a partition are to be processed.
-* If no ORDER BY clause is specified while a PARTITION BY clause is specified, the order of the rows is undefined. If output ordering is desired a global ORDER BY clause should be used in the query.
+* If an ORDER BY clause is specified, all the rows within the same partition will be sorted based on the values of the columns appearing in the window `ORDER BY` clause. The ORDER BY clause decides the order in which the rows within a partition are to be processed.
+* If no ORDER BY clause is specified while a PARTITION BY clause is specified, the order of the rows is undefined. To order the output, use a global `ORDER BY` clause in the query.
 
 #### Frame clause
 

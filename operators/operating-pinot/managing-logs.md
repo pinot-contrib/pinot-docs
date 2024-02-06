@@ -2,7 +2,7 @@
 
 ## Dynamic Log Levels
 
-Pinot supports inspecting and modifying Log4J log levels dynamically in production environments through REST. This can often be helpful when debugging an issue that is transient in nature and restarting the server with new configurations files may alter the desired behavior.
+Pinot supports inspecting and modifying Log4J log levels dynamically in production environments through REST. This can often be helpful when debugging an issue that is transient in nature and restarting the server with new configurations files could alter the behavior.
 
 ### Supported Operations
 

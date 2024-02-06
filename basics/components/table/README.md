@@ -57,7 +57,7 @@ For real-time tables, segments are built in a specific interval inside Pinot. Yo
 The Pinot real-time consumer ingests the data, creates the segment, and then flushes the in-memory segment to disk. Pinot allows you to configure when to flush the segment in the following ways:
 
 * **Number of consumed rows**: After consuming the specified number of rows from the stream, Pinot will persist the segment to disk.
-* **Number of desired rows per segment**: Pinot learns and then estimates the number of rows that need to be consumed. The learning phase starts by setting the number of rows to 100,000 (this value can be changed) and adjusts it to reach the appropriate segment size. Because Pinot corrects the estimate as it goes along, the segment size might go significantly over the correct size during the learning phase. You should set this value to optimize the performance of queries.
+* **Number of rows per segment**: Pinot learns and then estimates the number of rows that need to be consumed. The learning phase starts by setting the number of rows to 100,000 (this value can be changed) and adjusts it to reach the appropriate segment size. Because Pinot corrects the estimate as it goes along, the segment size might go significantly over the correct size during the learning phase. You should set this value to optimize the performance of queries.
 * **Max time duration to wait**: Pinot consumers wait for the configured time duration after which segments are persisted to the disk.
 
 **Replicas**\

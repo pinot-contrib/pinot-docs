@@ -5,7 +5,7 @@ description: Set up ZkBasicAuthAccessControl for access to controller and broker
 # ZkBasicAuthAccessControl
 
 {% hint style="info" %}
-<mark style="color:red;">Note:</mark> Please be sure to keep your password safe, as encrypted passwords cannot be decrypted.
+<mark style="color:red;">Note:</mark> Be sure to keep your password safe, as encrypted passwords cannot be decrypted.
 {% endhint %}
 
 Apache Pinot 0.10.0+ includes built-in support for Enhanced HTTP Basic Auth using ZooKeeper. Although it is disabled by default for simplified setup, authentication and authorization can be easily added to any environment through configuration. ACLs (Access Control Lists) can be set for both API and table levels. This upgrade can be seamlessly performed in any environment without requiring replication, ensuring zero downtime.

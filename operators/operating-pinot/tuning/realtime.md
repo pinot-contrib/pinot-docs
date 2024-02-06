@@ -14,9 +14,9 @@ Pinot servers ingest rows into a consuming segment that resides in volatile memo
 
 You can configure Pinot servers to use off-heap memory for dictionary and forward indices of consuming segments by setting the value of `pinot.server.instance.realtime.alloc.offheap` to `true`. With this configuration in place, the server allocates off-heap memory by memory-mapping files. These files are never flushed to stable storage by Pinot (the Operating System may do so depending on demand for memory on the host). The files are discarded when the consuming segment is turned into a completed segment.
 
-By default the files are created under the directory where the table’s segments are stored in local disk attached to the consuming server. You can set a specific directory for consuming segments with the configuration `pinot.server.consumerDir`. Given that there is no control over flushing of pages from the memory mapped for consuming segments, you may want to set the directory to point to a memory-based file system, eliminating wasteful disk I/O.
+By default, the files are created under the directory where the table’s segments are stored in local disk attached to the consuming server. You can set a specific directory for consuming segments with the configuration `pinot.server.consumerDir`. Given that there is no control over flushing of pages from the memory mapped for consuming segments, you may want to set the directory to point to a memory-based file system, eliminating wasteful disk I/O.
 
-If memory-mapping is not desirable, you can set `pinot.server.instance.realtime.alloc.offheap.direct` to `true`. In this case, pinot allocates direct [ByteBuffer](https://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html) objects for consuming segments. Using direct allocation can potentially result in address space fragmentation.
+If you don't want to use memory-mapping, set `pinot.server.instance.realtime.alloc.offheap.direct` to `true`. In this case, pinot allocates direct [ByteBuffer](https://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html) objects for consuming segments. Using direct allocation can potentially result in address space fragmentation.
 
 **Note that** we still use heap memory to store inverted indices for consuming segments.
 
@@ -70,7 +70,7 @@ This feature is available only if the consumption type is `LowLevel`.
 
 When a real-time segment completes, a winner server is chosen as a committer amongst all replicas by the controller. That committer builds the segment and uploads to the controller. The non-committer servers are asked to catchup to the winning offset. If the non-committer servers are able to catch up, they are asked to build the segment and replace the in-memory segment. If they are unable to catchup, they are asked to download the segment from the controller.
 
-Building a segment can cause excessive garbage and may result in GC pauses on the server. Long GC pauses can affect query processing. It might become desirable to force the non-committer servers to download the segment from the controller, instead of building it again. The `completionConfig` as described in [Table Config](../../../configuration-reference/table.md) can be used to configure this.
+Building a segment can cause excessive garbage and may result in GC pauses on the server. Long GC pauses can affect query processing. You might want to force the non-committer servers to download the segment from the controller instead of building it again. The `completionConfig` as described in [Table Config](../../../configuration-reference/table.md) can be used to configure this.
 
 ### Fine tuning the segment commit protocol
 
