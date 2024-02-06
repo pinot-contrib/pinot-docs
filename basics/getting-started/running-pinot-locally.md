@@ -100,6 +100,15 @@ Navigate to the directory containing the setup scripts. Note that Pinot scripts 
 cd build
 ```
 {% endtab %}
+{% tab title="Homebrew" %}
+
+Pinot can also be installed on Mac OS using the Brew package manager. For instructions on installing Brew, see the [Brew documentation](https://brew.sh/).
+
+```bash
+brew install pinot
+```
+
+{% endtab %}
 {% endtabs %}
 
 ### M1 and M2 Mac Support
