@@ -60,6 +60,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type batch
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type batch
+```
+{% endtab %}
 {% endtabs %}
 
 ## Batch JSON
@@ -86,6 +91,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type batch_json_index
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type batch_json_index
+```
+{% endtab %}
 {% endtabs %}
 
 ## Batch with complex data types
@@ -110,6 +120,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type batch_complex_type
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type batch_complex_type
 ```
 {% endtab %}
 {% endtabs %}
@@ -139,6 +154,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type stream
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type stream
+```
+{% endtab %}
 {% endtabs %}
 
 ## Streaming JSON
@@ -164,6 +184,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type stream_json_index
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type stream_json_index
 ```
 {% endtab %}
 {% endtabs %}
@@ -193,6 +218,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type realtime_minion
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type realtime_minion
+```
+{% endtab %}
 {% endtabs %}
 
 ## Streaming with complex data types
@@ -218,6 +248,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type stream_complex_type
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type stream_complex_type
 ```
 {% endtab %}
 {% endtabs %}
@@ -247,6 +282,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type upsert
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type upsert
+```
+{% endtab %}
 {% endtabs %}
 
 ## Upsert JSON
@@ -272,6 +312,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type upsert_json_index
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type upsert_json_index
 ```
 {% endtab %}
 {% endtabs %}
@@ -302,6 +347,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type hybrid
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type hybrid
+```
+{% endtab %}
 {% endtabs %}
 
 ## Join
@@ -328,6 +378,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type join
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type join
 ```
 {% endtab %}
 {% endtabs %}
