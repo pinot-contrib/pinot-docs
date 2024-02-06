@@ -136,7 +136,7 @@ Pinot exposes several metrics to monitor the service and ensure that pinot users
 
 Many of the controller metrics include a table name and thus are dynamically generated in the code. The metrics below point to the classes which generate the corresponding metrics.
 
-To get the real metric name, the easiest route is to spin up a controller instance, create a table with the desired name and look through the generated metrics.
+To get the real metric name, the easiest route is to spin up a controller instance, create a table with the name you want and look through the generated metrics.
 
 Todo
 

@@ -31,7 +31,7 @@ There are two ways to enable indexes for a Pinot table.
 
 #### As part of ingestion, during Pinot segment generation
 
-Indexing is enabled by specifying the desired column names in the table configuration. More details about how to configure each type of index can be found in the respective index's section linked above or in the [table configuration reference](../../configuration-reference/table.md).
+Indexing is enabled by specifying the column names in the table configuration. More details about how to configure each type of index can be found in the respective index's section linked above or in the [table configuration reference](../../configuration-reference/table.md).
 
 #### Dynamically added or removed
 

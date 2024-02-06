@@ -6,7 +6,7 @@
 **Issue**: [https://github.com/apache/pinot/issues/5753](https://github.com/apache/pinot/issues/5753)
 {% endhint %}
 
-The Pinot managed offline flows feature allows a user to **simply set up a REALTIME table, and let Pinot manage populating the OFFLINE table**. For complete motivation and reasoning, please refer to the design doc above.
+The Pinot managed offline flows feature allows a user to **simply set up a REALTIME table, and let Pinot manage populating the OFFLINE table**. For complete motivation and reasoning, refer to the design doc above.
 
 ### When to use
 
