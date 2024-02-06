@@ -176,7 +176,7 @@ The recommended way to configure the forward index using raw format is by includ
 An alternative method to configure the raw format parameters is available. This older approach can still be used, although it is not recommended. Here are the details of this older method:
 
 * `chunkCompressionType`: This parameter can be defined as a sibling of `name` and `encodingType` in the `fieldConfigList` section.
-* `deriveNumDocsPerChunk`: You can configure this parameter with the property `deriveNumDocsPerChunkForRawIndex`. Please note that in `properties`, all values must be strings, so valid values for this property are `"true"` and `"false"`.
+* `deriveNumDocsPerChunk`: You can configure this parameter with the property `deriveNumDocsPerChunkForRawIndex`. Note that in `properties`, all values must be strings, so valid values for this property are `"true"` and `"false"`.
 * `rawIndexWriterVersion`: This parameter can be configured using the property `rawIndexWriterVersion`. Again, in `properties`, all values must be strings, so valid values for this property are `"2"`, `"3"`, and so on.
 
 For example:

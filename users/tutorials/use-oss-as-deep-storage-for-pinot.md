@@ -6,7 +6,7 @@ description: Configure AliCloud Object Storage Service (OSS) as Pinot deep stora
 
 OSS can be used as HDFS deep storage for Apache Pinot without implement OSS file system plugin. You should follow the steps below;\
 \
-**1.** Configure _**hdfs-site.xml**_ and _**core-site.xml**_ files. After that, put these configurations under any desired path, then set the value of `pinot.<node>.storage.factory.oss.hadoop.conf` config on the controller/server configs to this path.
+**1.** Configure _**hdfs-site.xml**_ and _**core-site.xml**_ files. After that, put these configurations under any path, then set the value of `pinot.<node>.storage.factory.oss.hadoop.conf` config on the controller/server configs to this path.
 
 For **hdfs-site.xml**; you do not have to give any configuration;
 

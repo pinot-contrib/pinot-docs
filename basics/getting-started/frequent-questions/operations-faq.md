@@ -138,7 +138,7 @@ Set this property in your controller.conf file:
 cluster.tenant.isolation.enable=false
 ```
 
-Now your brokers and servers should join the cluster as `broker_untagged` and `server_untagged`. You can then directly use the `POST /tenants` API to create the desired tenants, as in the following:
+Now your brokers and servers should join the cluster as `broker_untagged` and `server_untagged`. You can then directly use the `POST /tenants` API to create the tenants you want, as in the following:
 
 ```bash
 curl -X POST "http://localhost:9000/tenants" 

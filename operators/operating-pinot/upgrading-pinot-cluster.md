@@ -60,7 +60,7 @@ See the [yaml files](https://github.com/apache/pinot/tree/master/compatibility-v
 
 ## Running the compatibility test suite
 
-There are two commands available. The first one allows you to identify the versions or builds between which you wish to ascertain compatibility. The second one runs the test suite.
+There are two commands available. The first one allows you to identify the versions or builds between which you want to ascertain compatibility. The second one runs the test suite.
 
 ```
 $ # This is the tool to check out and build the versions to test
@@ -125,7 +125,7 @@ Here are the steps to follow before you upgrade your installation
 
 This can be a commit hash, or a release tag (such as `release-0.7.1`). You can obtain the commit hash from the controller URI `/version`.
 
-### Determine the version of pinot that you wish to upgrade to
+### Decide the version of Pinot you want to upgrade to
 
 This can be a tag or a commit hash.
 

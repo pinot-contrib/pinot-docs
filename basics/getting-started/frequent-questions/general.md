@@ -20,7 +20,7 @@ Pinot uses Apache Helix for cluster management, which in turn is built on top of
 
 ## Why am I getting "Could not find or load class" error when running Quickstart using 0.8.0 release?
 
-Please check the JDK version you are using. You may be getting this error if you are using an older version than the current Pinot binary release was built on. If so, you have two options: switch to the same JDK release as Pinot was built with or download the [source code](https://downloads.apache.org/pinot/apache-pinot-0.8.0/apache-pinot-0.8.0-src.tar.gz) for the Pinot release and [build](https://github.com/apache/pinot/pull/6424) it locally.
+Check the JDK version you are using. You may be getting this error if you are using an older version than the current Pinot binary release was built on. If so, you have two options: switch to the same JDK release as Pinot was built with or download the [source code](https://downloads.apache.org/pinot/apache-pinot-0.8.0/apache-pinot-0.8.0-src.tar.gz) for the Pinot release and [build](https://github.com/apache/pinot/pull/6424) it locally.
 
 ## How to change TimeZone when running Pinot?
 

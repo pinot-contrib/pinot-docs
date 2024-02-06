@@ -99,7 +99,7 @@ Pinot currently relies on Pulsar client version 2.7.2. Make sure the Pulsar brok
 
 #### Extract record headers as Pinot table columns
 
-Pinot's Pulsar connector supports automatically extracting record headers and metadata into the Pinot table columns. Pulsar supports a large amount of per-record metadata. Please reference the [official Pulsar documentation](https://pulsar.apache.org/docs/en/concepts-messaging/#message-properties) for the meaning of the metadata fields.
+Pinot's Pulsar connector supports automatically extracting record headers and metadata into the Pinot table columns. Pulsar supports a large amount of per-record metadata. Reference the [official Pulsar documentation](https://pulsar.apache.org/docs/en/concepts-messaging/#message-properties) for the meaning of the metadata fields.
 
 The following table shows the mapping for record header/metadata to Pinot table column names:
 
