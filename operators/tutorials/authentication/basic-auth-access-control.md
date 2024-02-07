@@ -8,7 +8,10 @@ description: Set up BasicAuthAccessControl for access to controller and broker
 
 The configuration of HTTP Basic Auth in Apache Pinot distinguishes between **Tokens,** which are typically provided to service accounts, and **User Credentials**, which can be used by a human to log onto the web UI or issue SQL queries. While we distinguish these two concepts in the configuration of HTTP Basic Auth, they are fully-convertible formats holding the same authentication information. This distinction allows us to support future token-based authentication methods not reliant on username and password pairs. Currently, Tokens are merely base64-encoded username & password tuples, similar to those you can find in HTTP Authorization header values ([RFC 7617](https://tools.ietf.org/html/rfc7617)).
 
-This is best demonstrated by example of introducing ACLs with a simple admin + user setup. In order to enable authentication on a cluster without interrupting operations, we'll go these steps in sequence:
+This is best demonstrated by example of introducing ACLs with a simple admin user setup. In order to enable authentication on a cluster without interrupting operations, we'll go these steps in sequence:
+
+{% hint style="warning" %} In order to keep secret tokens safe in production when using Kubernetes please use [Dynamic Environment Configuration](../../configuration-reference/dynamic-environment.md) {% endhint %}
+
 
 **1. Create "admin" and "user" in the controller properties**
 
@@ -203,3 +206,5 @@ $ bin/pinot-admin.sh LaunchDataIngestionJob \
 ```
 {% endtab %}
 {% endtabs %}
+
+
