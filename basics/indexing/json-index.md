@@ -461,7 +461,7 @@ WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st'' AND "$.addresses[*
 
 This query won't match "adam" because none of his addresses matches both the street and the country.
 
-If JSON context is not desired, use multiple separate `JSON_MATCH` predicates. For example, to find all persons who have addresses on "main st" and have addresses in "ca" (matches need not have the same address):
+If you don't want JSON context, use multiple separate `JSON_MATCH` predicates. For example, to find all persons who have addresses on "main st" and have addresses in "ca" (matches need not have the same address):
 
 ```sql
 SELECT ... 

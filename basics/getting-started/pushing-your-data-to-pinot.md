@@ -4,7 +4,7 @@ description: Step-by-step guide for pushing your own data into the Pinot cluster
 
 # Batch import example
 
-This example assumes you have set up your cluster using [Pinot in Docker](https://docs.pinot.apache.org/basics/getting-started/advanced-pinot-setup).
+This example assumes you have set up your cluster using [Pinot in Docker](running-pinot-in-docker).
 
 ### Preparing your data
 
@@ -156,75 +156,43 @@ Use the [Rest API](http://localhost:9000/help#!/Table/alterTableStateOrListTable
 
 ### Creating a segment
 
-A Pinot table's data is stored as Pinot segments. A detailed overview of segments can be found in [Segment](../components/table/segment/).
+Pinot table data is stored as Pinot segments. A detailed overview of segments can be found in [Segment](../components/table/segment/).
 
-To generate a segment, we need to first create a job specification (JobSpec) yaml file. A JobSpec yaml file contains all the information regarding data format, input data location, and pinot cluster coordinates. Copy the following job specification file to begin. If you're using your own data, be sure to 1) replace `transcript` with your table name and 2) set the correct `recordReaderSpec`.
+1. To generate a segment, first create a job specification (JobSpec) yaml file. A JobSpec yaml file contains all the information regarding data format, input data location, and pinot cluster coordinates. Copy the following job specification file (example from Pinot quickstart file). If you're using your own data, be sure to do the following:
+    - Replace `transcript` with your table name
+    - Set the correct `recordReaderSpec`   
 
-{% tabs %}
-{% tab title="Docker" %}
-{% code title="/tmp/pinot-quick-start/docker-job-spec.yml" %}
-```yaml
-executionFrameworkSpec:
-  name: 'standalone'
-  segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
-  segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
-  segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
-jobType: SegmentCreationAndTarPush
-inputDirURI: '/tmp/pinot-quick-start/rawdata/'
-includeFileNamePattern: 'glob:**/*.csv'
-outputDirURI: '/tmp/pinot-quick-start/segments/'
-overwriteOutput: true
-pinotFSSpecs:
-  - scheme: file
-    className: org.apache.pinot.spi.filesystem.LocalPinotFS
-recordReaderSpec:
-  dataFormat: 'csv'
-  className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
-  configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
-tableSpec:
-  tableName: 'transcript'
-  schemaURI: 'http://manual-pinot-controller:9000/tables/transcript/schema'
-  tableConfigURI: 'http://manual-pinot-controller:9000/tables/transcript'
-pinotClusterSpecs:
-  - controllerURI: 'http://manual-pinot-controller:9000'
-```
-{% endcode %}
-{% endtab %}
+    ```yaml
+    // /tmp/pinot-quick-start/docker-job-spec.yml or /tmp/pinot-quick-start/batch-job-spec.yml
+    
+    executionFrameworkSpec:
+      name: 'standalone'
+      segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
+      segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
+      segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
+    jobType: SegmentCreationAndTarPush
+    inputDirURI: '/tmp/pinot-quick-start/rawdata/'
+    includeFileNamePattern: 'glob:**/*.csv'
+    outputDirURI: '/tmp/pinot-quick-start/segments/'
+    overwriteOutput: true
+    pushJobSpec:
+      pushFileNamePattern: 'glob:**/*.tar.gz'
+    pinotFSSpecs:
+      - scheme: file
+        className: org.apache.pinot.spi.filesystem.LocalPinotFS
+    recordReaderSpec:
+      dataFormat: 'csv'
+      className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
+      configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
+    tableSpec:
+      tableName: 'transcript'
+      schemaURI: 'http://localhost:9000/tables/transcript/schema'
+      tableConfigURI: 'http://localhost:9000/tables/transcript'
+    pinotClusterSpecs:
+      - controllerURI: 'http://localhost:9000'
+    ```
 
-{% tab title="Launcher Script" %}
-{% code title="/tmp/pinot-quick-start/batch-job-spec.yml" %}
-```yaml
-executionFrameworkSpec:
-  name: 'standalone'
-  segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
-  segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
-  segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
-jobType: SegmentCreationAndTarPush
-inputDirURI: '/tmp/pinot-quick-start/rawdata/'
-includeFileNamePattern: 'glob:**/*.csv'
-outputDirURI: '/tmp/pinot-quick-start/segments/'
-overwriteOutput: true
-pushJobSpec:
-  pushFileNamePattern: 'glob:**/*.tar.gz'
-pinotFSSpecs:
-  - scheme: file
-    className: org.apache.pinot.spi.filesystem.LocalPinotFS
-recordReaderSpec:
-  dataFormat: 'csv'
-  className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
-  configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
-tableSpec:
-  tableName: 'transcript'
-  schemaURI: 'http://localhost:9000/tables/transcript/schema'
-  tableConfigURI: 'http://localhost:9000/tables/transcript'
-pinotClusterSpecs:
-  - controllerURI: 'http://localhost:9000'
-```
-{% endcode %}
-{% endtab %}
-{% endtabs %}
-
-Use the following command to generate a segment and upload it.
+2.  Depending if you're using Docker or a launcher script, choose one of the following commands to generate a segment to upload to Pinot:
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -238,7 +206,7 @@ docker run --rm -ti \
 ```
 {% endtab %}
 
-{% tab title="Using launcher scripts" %}
+{% tab title="Launcher scripts" %}
 ```
 bin/pinot-admin.sh LaunchDataIngestionJob \
     -jobSpecFile /tmp/pinot-quick-start/batch-job-spec.yml
@@ -314,8 +282,6 @@ Pushing segment: transcript_OFFLINE_1570863600000_1572418800000_0 to location: h
 Sending request: http://localhost:9000/v2/segments?tableName=transcript to controller: nehas-mbp.hsd1.ca.comcast.net, version: Unknown
 Response for pushing table transcript segment transcript_OFFLINE_1570863600000_1572418800000_0 to location http://localhost:9000 - 200: {"status":"Successfully uploaded segment: transcript_OFFLINE_1570863600000_1572418800000_0 of table: transcript"}
 ```
-
-Confirm that your segment made it into the table using the [Rest API](http://localhost:9000/help#!/Segment/getSegments).
 
 ### Querying your data
 

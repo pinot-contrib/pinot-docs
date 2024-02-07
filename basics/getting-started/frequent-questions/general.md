@@ -1,7 +1,7 @@
 ---
 description: >-
-  This page has a collection of frequently asked questions of a general nature with answers from the
-  community.
+  This page has a collection of frequently asked questions of a general nature
+  with answers from the community.
 ---
 
 # General
@@ -20,4 +20,26 @@ Pinot uses Apache Helix for cluster management, which in turn is built on top of
 
 ## Why am I getting "Could not find or load class" error when running Quickstart using 0.8.0 release?
 
-Please check the JDK version you are using.  You may be getting this error if you are using an older version than the current Pinot binary release was built on. If so, you have two options: switch to the same JDK release as Pinot was built with or download the [source code](https://downloads.apache.org/pinot/apache-pinot-0.8.0/apache-pinot-0.8.0-src.tar.gz) for the Pinot release and [build](https://github.com/apache/pinot/pull/6424) it locally.
+Check the JDK version you are using. You may be getting this error if you are using an older version than the current Pinot binary release was built on. If so, you have two options: switch to the same JDK release as Pinot was built with or download the [source code](https://downloads.apache.org/pinot/apache-pinot-0.8.0/apache-pinot-0.8.0-src.tar.gz) for the Pinot release and [build](https://github.com/apache/pinot/pull/6424) it locally.
+
+## How to change TimeZone when running Pinot?
+
+There are 2 ways to do it:
+
+1. Setting an environment variable: `TZ=UTC`.
+
+E.g.
+
+```
+export TZ=UTC
+```
+
+2. Setting JVM argument: `user.timezone`
+
+```
+-Duser.timezone=UTC
+```
+
+3. TODO: [https://github.com/apache/pinot/issues/12299](https://github.com/apache/pinot/issues/12299)
+
+Plan to add a configuration to change time zone using cluster config or pinot component config

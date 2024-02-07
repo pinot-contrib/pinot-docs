@@ -83,6 +83,12 @@ This guide shows you how to handle the complex type in the ingested data, such a
 [complex-type.md](complex-type.md)
 {% endcontent-ref %}
 
+This guide shows you how to handle records with dynamic schemas, like JSON log events.
+
+{% content-ref url="schema-conforming-transformer.md" %}
+[schema-conforming-transformer.md](schema-conforming-transformer.md)
+{% endcontent-ref %}
+
 ## Reloading and uploading existing Pinot segments
 
 This guide shows you how to reload Pinot segments from your deep store.

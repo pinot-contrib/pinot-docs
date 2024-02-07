@@ -65,15 +65,13 @@ E.g.
 
 > `pinot://pinot-broker:8099/query/sql?controller=http://pinot-controller:9000/`
 
-Below is an example for the QuickStart cluster, you can click `TEST CONNECTION` button to check if Pinot cluster is successfully connected.
-
-![Add Pinot cluster as a new Database](<../.gitbook/assets/image (18).png>)
+Click `TEST CONNECTION` to check if the Pinot cluster is successfully connected.
 
 ### Adding Pinot Table
 
 User can add an existing table into Superset:
 
-![Add Table Definition](<../.gitbook/assets/image (47).png>)
+![Add Table Definition](<../.gitbook/assets/add-table-definition.png>)
 
 ![Table Definition](<../.gitbook/assets/superset-table-definition-baseball-stats.png>)
 
@@ -89,7 +87,7 @@ User can configure an existing column `mergedTimeMillis` as temporal and set `Da
 
 User can also add a new column by setting the expression.
 
-![Add a simple derived column](<../.gitbook/assets/image (50).png>)
+![Add a simple derived column](<../.gitbook/assets/superset-add-derived-column.png>)
 
 Another example:
 

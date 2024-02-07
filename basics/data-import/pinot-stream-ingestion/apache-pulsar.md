@@ -63,10 +63,20 @@ You can change the following Pulsar specifc configurations for your tables
 
 ### Authentication
 
-The Pinot-Pulsar connector supports authentication using the security tokens. You can generate the token by following the [official Pulsar documentaton](https://pulsar.apache.org/docs/en/security-token-client/). Once generated, you can add the following property to `streamConfigs` to add auth token for each request
+The Pinot-Pulsar connector supports authentication using security tokens. To generate a token, follow the instructions in [Pulsar documentation](https://pulsar.apache.org/docs/en/security-jwt). Once generated, add the following property to `streamConfigs` to add an authentication token for each request:
 
 ```
 "stream.pulsar.authenticationToken":"your-auth-token"
+```
+
+### OAuth2 Authentication
+
+The Pinot-Pulsar connector supports authentication using OAuth2, for example, if connecting to a StreamNative Pulsar cluster. For more information, see how to [Configure OAuth2 authentication in Pulsar clients](https://pulsar.apache.org/docs/en/security-oauth2/#configure-oauth2-authentication-in-pulsar-clients). Once configured, you can add the following properties to `streamConfigs`:
+
+```
+"stream.pulsar.issuerUrl": "https://auth.streamnative.cloud"
+"stream.pulsar.credsFilePath": "file:///path/to/private_creds_file
+"stream.pulsar.audience": "urn:sn:pulsar:test:test-cluster"
 ```
 
 ### TLS support
@@ -89,7 +99,7 @@ Pinot currently relies on Pulsar client version 2.7.2. Make sure the Pulsar brok
 
 #### Extract record headers as Pinot table columns
 
-Pinot's Pulsar connector supports automatically extracting record headers and metadata into the Pinot table columns. Pulsar supports a large amount of per-record metadata. Please reference the [official Pulsar documentation](https://pulsar.apache.org/docs/en/concepts-messaging/#message-properties) for the meaning of the metadata fields.
+Pinot's Pulsar connector supports automatically extracting record headers and metadata into the Pinot table columns. Pulsar supports a large amount of per-record metadata. Reference the [official Pulsar documentation](https://pulsar.apache.org/docs/en/concepts-messaging/#message-properties) for the meaning of the metadata fields.
 
 The following table shows the mapping for record header/metadata to Pinot table column names:
 

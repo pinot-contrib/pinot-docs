@@ -27,7 +27,7 @@ This function returns a base 64 encoded IdSet of the values for a single column.
 The following parameters are used to configure the Bloom Filter:
 
 * _expectedInsertions_ - Number of expected insertions for the BloomFilter, must be positive
-* _fpp_ - Desired false positive probability for the BloomFilter, must be positive and < 1.0
+* _fpp_ - False positive probability to use for the BloomFilter. Must be positive and less than 1.0.
 
 Note that when a Bloom Filter is used, the filter results are approximate - you can get false-positive results (for membership in the set), leading to potentially unexpected results.
 

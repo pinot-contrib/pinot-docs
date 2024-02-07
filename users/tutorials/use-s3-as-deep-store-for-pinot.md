@@ -403,7 +403,7 @@ tableSpec: {schemaURI: 'http://localhost:9000/tables/airlineStats/schema', table
 
 #### Set up Spark Cluster (Skip if you already have one)
 
-Follow this [page](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/operators/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
+Follow this [page](https://docs.pinot.apache.org/users/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
 
 #### Submit Spark Job
 
@@ -560,7 +560,7 @@ ${SPARK_HOME}/bin/spark-submit \
 
 Below is the sample snapshot of s3 location for controller:
 
-![Sample S3 Controller Storage](<../../.gitbook/assets/image (37).png>)
+![Sample S3 Controller Storage](<../../.gitbook/assets/sample-s3-controller-storage.png>)
 
 Below is a sample download URI in PropertyStore. We expect the segment download URI to start with `s3://`
 

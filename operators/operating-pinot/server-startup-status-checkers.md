@@ -2,7 +2,7 @@
 
 ## Overview
 
-When operating Pinot in a production environment, it's not always desirable to have servers immediately available for querying when they have started up. This is especially so for real-time servers that may have to re-consume some amount of data before they are "caught up". Pinot offers several strategies for determining when a server is up, healthy, and available for querying.
+When operating Pinot in a production environment, it's not always ideal to have servers immediately available for querying when they have started up. This is especially so for real-time servers that may have to re-consume some amount of data before they are "caught up". Pinot offers several strategies for determining when a server is up, healthy, and available for querying.
 
 ### Health Checks
 

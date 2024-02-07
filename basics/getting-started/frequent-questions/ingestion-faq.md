@@ -148,7 +148,7 @@ Applying inverted indexes to a table configuration will generate an inverted ind
 
 ### How to apply an inverted index to existing segments?
 
-1. Add the columns you wish to index to the `tableIndexConfig`-> `invertedIndexColumns` list. To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
+1. Add the columns you want to index to the `tableIndexConfig`-> `invertedIndexColumns` list. To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
 2. Invoke the reload API: [http://localhost:9000/help#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments).
 
 Once you've done that, you can check whether the index has been applied by querying the segment metadata API at [http://localhost:9000/help#/Segment/getServerMetadata](http://localhost:9000/help#/Segment/getServerMetadata). Don't forget to include the names of the column on which you have applied the index.

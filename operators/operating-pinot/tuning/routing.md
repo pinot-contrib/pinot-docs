@@ -51,9 +51,9 @@ Apart from the ascending time, Apache Pinot can also take advantage of other dis
 In order to make this pruning more efficient, segments should have the least number of partitions possible, which ideally is 1. More formally, given a function `p`, for all segments `s`, given any pair of rows `r1` and `r2`, it should be true that `p(r1) = p(r2)`. For example, in a table configured to have 3 partitions by `memberId` column, using `modulo` as the partition function, a segment that contains a row with `memberId` = 101 may also contain another row with `memberId` = 2 and another with `memberId` = 335, but it should not contain a row with `memberId` = 336 or `memberId` = 334.
 {% endhint %}
 
-Data cannot always be partitioned by a dimension column or even when it is, not all queries can take advantage of the distribution. But when this optimization can be applied, a lot of segments can be pruned. The current implementation for partitioning only works for **EQUALITY** and **IN** filter (e.g. `memberId = xx`, `memberId IN (x, y, z)`). Below diagram gives the example of data partitioned on member id while the query includes an equality filter on member id.
+Data cannot always be partitioned by a dimension column or even when it is, not all queries can take advantage of the distribution. But when this optimization can be applied, a lot of segments can be pruned. The current implementation for partitioning only works for **EQUALITY** and **IN** filter (e.g. `memberId = xx`, `memberId IN (x, y, z)`). Below diagram gives the example of data partitioned on member ID while the query includes an equality filter on member ID.
 
-![](../../../.gitbook/assets/partitioning.png)
+![](../../../.gitbook/assets/partition-on-member-id.png)
 
 Apache Pinot currently supports `Modulo`, `Murmur`, `ByteArray` and `HashCode` hash functions and partitioning can be enabled by setting the following configuration in the table config.
 
@@ -146,3 +146,40 @@ To use replica groups, the table configuration must be changed in the following 
 As seen above, you can use `numReplicaGroups` to control the number of replica groups (replications), and use `numInstancesPerReplicaGroup` to control the number of servers to span. For instance, let’s say that you have 12 servers in the cluster. Above configuration will generate 3 replica groups (`numReplicaGroups=3`), and each replica group will contain 4 servers (`numInstancesPerPartition=4`). In this example, each query will span to a single replica group (4 servers).
 
 As seen above, replica groups give you the control on the number of servers to span for each query. When you try to decide the proper number of `numReplicaGroups` and `numInstancesPerReplicaGroup`, consider the trade-off between throughput and latency. Given a fixed number of servers, increasing `numReplicaGroups` factor while decreasing `numInstancesPerReplicaGroup` will make each query use less servers, which may reduce the possibility of one of them having a full GC. However, each server will need to process more number of segments per query, reducing the throughput, to the point that extreme values may even increase the average latency. Similarly, decreasing `numReplicaGroups` while increasing `numInstancesPerReplicaGroup` will make each query use more servers, increasing the possibility of one of them having a full GC but making each server process less number of segments per query. So, this number has to be decided based on the use case requirements.
+
+## Single replica routing
+
+By default, the Pinot broker will route queries to the segment replica that is currently under the least load. It is possible to have the Pinot broker route all queries for a specific table to the same server for a given segment. You might do this if you are finding inconsistencies in query results due to an offset for consuming segments across different replicas.
+
+You can enable this feature at different levels, as shown in the following examples.
+
+To enable for a specific query via _query options_, which overrides the table/broker level configuration:
+
+```
+SET "useFixedReplica"=true;
+```
+
+To enable for a specific table using _table config settings_, which overrides the broker level configuration, add the following in your table config:
+
+```
+// Table config
+{
+  ...
+  "routing": {
+    "useFixedReplica": true
+  },
+  ...
+}
+```
+
+To enable for all tables in the cluster using _broker config settings_:
+
+```
+pinot.broker.use.fixed.replica=true
+```
+
+{% hint style="info" %}
+It's important to note that this feature operates on a best-effort basis and routing may revert to routing to other replicas if there are alterations in segment assignments or if one or more servers become unavailable.
+
+Additionally, adopting this feature could lead to potential skew in server resource utilization, particularly in clusters with a smaller number of tables, as the query load may no longer be evenly distributed across servers.
+{% endhint %}

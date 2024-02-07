@@ -37,9 +37,6 @@ INSERT INTO "baseballStats"
 FROM FILE 's3://my-bucket/public_data_set/baseballStats/rawdata/'
 ```
 
-Screenshot
-
-![](<../../.gitbook/assets/image (49).png>)
 
 ## Insert Rows into Pinot
 

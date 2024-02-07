@@ -4,21 +4,11 @@ description: This page describes configuring the inverted index for Apache Pinot
 
 # Inverted index
 
-We can define the [forward index](./forward-index.md) as a relation from document ids (a.k.a. rows) to values.
-In a similar way, an inverted index is a relation from values to a set of document ids.
-Therefore they are the _inverted_ version of the forward index.
-If you have a column that is frequently used for filtering by EQ, IN, GT, etc adding an inverted index will improve performance greatly.
-
 We can define the [forward index](./forward-index.md) as a mapping from document IDs (also known as rows) to values.
 Similarly, an inverted index establishes a mapping from values to a set of document IDs, 
 making it the "inverted" version of the forward index. 
 When you frequently use a column for filtering operations like EQ (equal), IN (membership check), GT (greater than), 
 etc., incorporating an inverted index can significantly enhance query performance.
-
-Pinot supports two different inverted indexes: bitmap inverted indexes and sorted inverted indexes.
-Bitmap inverted index are the _actual_ inverted index type, while the sorted type is a free index you get when the 
-column is sorted.
-Both type of indexes require that the [dictionary](dictionary-index.md) is enabled for the column.
 
 Pinot supports two distinct types of inverted indexes: bitmap inverted indexes and sorted inverted indexes. 
 Bitmap inverted indexes represent the _actual_ inverted index type, whereas the sorted type is automatically available 

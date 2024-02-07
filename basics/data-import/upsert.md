@@ -54,7 +54,7 @@ To enable upsert, make the following configurations in the table configurations.
 
 **Full upsert**
 
-The upsert mode defaults to `NONE` for real-time tables. To enable the full upsert, set the `mode` to `FULL` for the full update. FULL upsert means that a new record will replace the older record completely if they have same primary key. Example config:
+The upsert mode defaults to `FULL` . FULL upsert means that a new record will replace the older record completely if they have same primary key. Example config:
 
 ```json
 {
@@ -133,6 +133,10 @@ With partial upsert, if the value is `null` in either the existing record or the
 
 (`null`, `null`) -> `null`
 {% endhint %}
+
+**None upserts**
+
+If set mode to `NONE`, the upsert is disabled.
 
 ### Comparison column
 
@@ -273,6 +277,29 @@ A deleted primary key can be revived by ingesting a record with the same primary
 
 Note that when reviving a primary key in a partial upsert table, the revived record will be treated as the source of truth for all columns. This means any previous updates to the columns will be ignored and overwritten with the new record's values.
 
+### Deleted Keys time-to-live (TTL)
+
+The above config `deleteRecordColumn` only soft-deletes the primary key. To decrease in-memory data and improve performance, minimize the time deleted-primary-key entries are stored in the metadata map (deletedKeys time-to-live (TTL)). Limiting the TTL is especially useful for deleted-primary-keys where there are no future updates foreseen.
+
+#### Configure how long deleted-primary-keys are stored in metadata
+
+To configure how long primary keys are stored in metadata, specify the length of time in `deletedKeysTTL` For example:
+
+```
+  "upsertConfig": {
+    "mode": "FULL",
+    "deleteRecordColumn": <column_name>,
+    "deletedKeysTTL": 86400
+  }
+}
+```
+
+In this example, Pinot will retain the deleted-primary-keys in metadata for 1 day.
+
+{% hint style="info" %}
+Note that the value of this field `deletedKeysTTL` should be the same as the unit of comparison column. If your comparison column is having values which corresponds to seconds, this config should also have values in seconds (see above example).
+{% endhint %}
+
 ### Use strictReplicaGroup for routing
 
 The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) implicitly for the segments. Moreover, upsert poses the additional requirement that **all segments of the same partition must be served from the same server** to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
@@ -288,7 +315,7 @@ The upsert Pinot table can use only the low-level consumer for the input streams
 {% hint style="warning" %}
 Using implicit partitioned replica-group assignment from low-level consumer won't persist the instance assignment (mapping from partition to servers) to the ZooKeeper, and new added servers will be automatically included without explicit reassigning instances (usually through rebalance). This can cause new segments of the same partition assigned to a different server and break the requirement of upsert.
 
-To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../operators/operating-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.&#x20;
+To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../operators/operating-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.
 {% endhint %}
 
 ### Enable validDocIds snapshots for upsert metadata recovery
@@ -308,7 +335,7 @@ Upsert maintains metadata in memory containing which docIds are valid in a parti
 \
 ValidDocIndexes can not be recovered easily after out-of-TTL primary keys get removed. Enabling snapshots addresses this problem by adding functions to store and recover validDocIds snapshot for Immutable Segments
 
-The snapshots are taken on every segment commit to ensure that they are consistent with the persisted data in case of abrupt shutdown. \
+The snapshots are taken on every segment commit to ensure that they are consistent with the persisted data in case of abrupt shutdown.\
 \
 We recommend that you enable this feature so as to speed up server boot times during restarts.
 
@@ -334,18 +361,80 @@ Upsert preload support is also added in `master`. To enable the preload, set the
 }
 ```
 
-For preload to improve your restart times, `enableSnapshot: true` should also we set in the table config. \
+For preload to improve your restart times, `enableSnapshot: true` should also we set in the table config.\
 \
-Under the hood, it uses the snapshots to quickly insert the data instead of performing a whole upsert comparison flow for all the primary keys. The flow is triggered before server is marked as ready to load segments without snapshots (hence the name preload).&#x20;
+Under the hood, it uses the snapshots to quickly insert the data instead of performing a whole upsert comparison flow for all the primary keys. The flow is triggered before server is marked as ready to load segments without snapshots (hence the name preload).
 
 The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload.\
 \
-This feature is still in beta.&#x20;
+This feature is still in beta.
+
+### Metadata time-to-live (TTL)
+
+In Pinot, the metadata map is stored in heap memory. To decrease in-memory data and improve performance, minimize the time primary key entries are stored in the metadata map (metadata time-to-live (TTL)). Limiting the TTL is especially useful for primary keys with high cardinality and frequent updates.
+
+#### Configure how long primary keys are stored in metadata
+
+To configure how long primary keys are stored in metadata, specify the length of time in `upsertTTL.` For example:{
+
+```
+  "upsertConfig": {
+    "mode": "FULL",
+    "enableSnapshot": true,
+    "enablePreload": true,
+    "upsertTTL": 3d
+  }
+}
+```
+
+In this example, Pinot will retain primary keys in metadata for 3 days.
+
+### Handle out-of-order events
+
+There are 2 configs added related to handling out-of-order events.
+
+#### dropOutOfOrderRecord
+
+To enable dropping of out-of-order record, set the `dropOutOfOrderRecord` to `true`. For example:
+
+```json
+{
+  "upsertConfig": {
+    ...,
+    "dropOutOfOrderRecord": true
+  }
+}
+```
+
+This feature doesn't persist any out-of-order event to the consuming segment. If not specified, the default value is `false`.
+
+* When `false`, the out-of-order record gets persisted to the consuming segment, but the MetadataManager mapping is not updated thus this record is not referenced in query or in any future updates. You can still see the records when using `skipUpsert` query option.
+* When `true`, the out-of-order record doesn't get persisted at all and the MetadataManager mapping is not updated so this record is not referenced in query or in any future updates. You **cannot** see the records when using `skipUpsert` query option.
+
+#### outOfOrderRecordColumn
+
+This is to identify out-of-order events programmatically. To enable this config, add a boolean field in your table schema, say `isOutOfOrder` and enable via this config. For example:
+
+```json
+{
+  "upsertConfig": {
+    ...,
+    "outOfOrderRecordColumn": "isOutOfOrder"
+  }
+}
+```
+
+This feature persists a `true` / `false` value to the `isOutOfOrder` field based on the orderness of the event. You can filter out out-of-order events while using `skipUpsert` to avoid any confusion. For example:
+
+```json
+select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
+```
 
 ### Upsert table limitations
 
 There are some limitations for the upsert Pinot tables.
 
+* The upsert feature is supported for Real-time tables only, and not for Hybrid or Offline tables.
 * The high-level consumer is not allowed for the input stream ingestion, which means `stream.[consumerName].consumer.type` must always be `lowLevel`.
 * The star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 * Unlike append-only tables, out-of-order events (with comparison value in incoming record less than the latest available value) won't be consumed and indexed by Pinot partial upsert table, these late events will be skipped.
@@ -550,21 +639,21 @@ You can also run partial upsert demo with the following command
 bin/quick-start-partial-upsert-streaming.sh
 ```
 
-As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to checkout the real-time data.
+As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to check out the real-time data.
 
-![Query the upsert table](<../../.gitbook/assets/Screen Shot 2021-06-15 at 10.02.46 AM.png>)
+![Query the upsert table](<../../.gitbook/assets/query-upsert-table.png>)
 
 For partial upsert you can see only the value from configured column changed based on specified partial upsert strategy.
 
-![Query the partial upsert table](../../.gitbook/assets/screen-shot-2021-07-13-at-12.40.24-pm.png)
+![Query the partial upsert table](../../.gitbook/assets/query-partial-upsert-table.png)
 
 An example for partial upsert is shown below, each of the event\_id kept being unique during ingestion, meanwhile the value of rsvp\_count incremented.
 
-![Explain partial upsert table](../../.gitbook/assets/screen-shot-2021-07-13-at-12.41.42-pm.png)
+![Explain partial upsert table](../../.gitbook/assets/explain-partial-upsert-table.png)
 
 To see the difference from the non-upsert table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
-![Disable the upsert during query via query option](<../../.gitbook/assets/Screen Shot 2021-06-15 at 10.03.22 AM.png>)
+![Disable the upsert during query via query option](<../../disable_upsert_during_query.png>)
 
 ### FAQ
 

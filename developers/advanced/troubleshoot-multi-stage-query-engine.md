@@ -113,6 +113,20 @@ is_distinct_from(...)
 isDistinctFrom(...)
 ```
 
+### Tightened restriction on function signature and type matching
+
+Pinot single-stage query engine automatically do implicit type casts in many of the situations, for example when running  the following:&#x20;
+
+```
+timestampCol >= longCol
+```
+
+it will automatically convert both values to long datatypes before comparison. This behavior however could cause issues and thus it is not so widely applied in the v2 engine. In the v2 engine, a stricter datatype conformance is enforced. the example above should be explicitly written as:
+
+```
+CAST(timestampCol AS BITINT) >= longCol 
+```
+
 ### Default names for projections with function calls
 
 Default names for projections with function calls are different between v1 and v2.&#x20;
@@ -172,8 +186,19 @@ select add(1, add(2,add(3, add(4,5)))) from table
 
 ### NULL function support
 
-* `IS NULL` and `IS NOT NULL` functions do not work correctly in v2
-* Using the `COUNT` function on a `NULL` column does not work correctly in v2
+* `IS NULL` and `IS NOT NULL` functions do not work correctly in v2.
+* Using the `COUNT` function on a `NULL` column does not work correctly in v2.
+
+### Custom transform function support
+
+* The `histogram` function is not supported in v2.
+* The `timeConvert` function is not supported in v2, see `dateTimeConvert` for more details.
+* The `dateTimeConvertWindowHop` function is not supported in v2.
+* Array & Map-related functions are not supported in v2.
+
+### Custom aggregate function support
+
+* aggregate function that requires literal input (such as `percentile`, `firstWithTime`) might result in a non-compilable query plan when used in v2.&#x20;
 
 ## Troubleshoot errors
 

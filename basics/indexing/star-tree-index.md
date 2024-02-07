@@ -262,7 +262,7 @@ The star-tree and documents should be something like below:
 
 The values in the parentheses are the aggregated sum of _Impressions_ for all the documents under the node.
 
-![](../../.gitbook/assets/example.png)
+![](../../.gitbook/assets/startree-example.png)
 
 **Star-tree documents**
 

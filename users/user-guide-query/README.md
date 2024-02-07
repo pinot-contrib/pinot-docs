@@ -6,7 +6,7 @@ description: >-
 
 # Query
 
-<figure><img src="../../.gitbook/assets/Screen Shot 2023-09-13 at 2.42.17 AM.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pinot-query-console.png" alt="Pinot Query Console"><figcaption></figcaption></figure>
 
 {% content-ref url="querying-pinot.md" %}
 [querying-pinot.md](querying-pinot.md)
