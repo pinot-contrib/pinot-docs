@@ -35,6 +35,7 @@ To compact segments on upserts, complete the following steps:
 * `bufferTimePeriod:` To compact segments once they are complete, set to `“0d”`. To delay compaction (as the configuration above shows by 7 days (`"7d"`)), specify the number of days to delay compaction after a segment completes.
 * `invalidRecordsThresholdPercent` (Optional) Limits the older records allowed in the completed segment as a percentage of the total number of records in the segment. In the example above, the completed segment may be selected for compaction when 30% of the records in the segment are old.
 * `invalidRecordsThresholdCount` (Optional) Limits the older records allowed in the completed segment by record count. In the example above, if the segment contains more than 100K records, it may be selected for compaction.
+* `tableMaxNumTasks` (Optional) Limits the number of tasks allowed to be scheduled.
 * `validDocIdsType` (Optional) Specifies the source of validDocIds to fetch when running the data compaction. The valid types are `SNAPSHOT`, `IN_MEMORY`, `IN_MEMORY_WITH_DELETE`
   * `SNAPSHOT`: Default validDocIds type. This indicates that the validDocIds bitmap is loaded from the snapshot from the Pinot segment. UpsertConfig's `enableSnapshot` must be enabled for this type.
   * `IN_MEMORY`: This indicates that the validDocIds bitmap is loaded from the real-time server's in-memory.&#x20;
@@ -82,5 +83,3 @@ Once segment compaction has completed, the total number of segments remain the s
 {% hint style="info" %}
 To further improve query latency, merge small segments into larger one.
 {% endhint %}
-
-\\
