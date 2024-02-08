@@ -24,7 +24,9 @@ To compact segments on upserts, complete the following steps:
       "schedule": "0 */5 * ? * *",
       "bufferTimePeriod": "7d",
       "invalidRecordsThresholdPercent": "30",
-      "invalidRecordsThresholdCount": "100000"
+      "invalidRecordsThresholdCount": "100000",
+      "tableMaxNumTasks": "100",
+      "validDocIdsType": "SNAPSHOT"
     }
   }
 }
@@ -33,6 +35,15 @@ To compact segments on upserts, complete the following steps:
 * `bufferTimePeriod:` To compact segments once they are complete, set to `“0d”`. To delay compaction (as the configuration above shows by 7 days (`"7d"`)), specify the number of days to delay compaction after a segment completes.
 * `invalidRecordsThresholdPercent` (Optional) Limits the older records allowed in the completed segment as a percentage of the total number of records in the segment. In the example above, the completed segment may be selected for compaction when 30% of the records in the segment are old.
 * `invalidRecordsThresholdCount` (Optional) Limits the older records allowed in the completed segment by record count. In the example above, if the segment contains more than 100K records, it may be selected for compaction.
+* `validDocIdsType` (Optional) Specifies the source of validDocIds to fetch when running the data compaction. The valid types are `SNAPSHOT`, `IN_MEMORY`, `IN_MEMORY_WITH_DELETE`
+  * `SNAPSHOT`: Default validDocIds type. This indicates that the validDocIds bitmap is loaded from the snapshot from the Pinot segment. UpsertConfig's `enableSnapshot` must be enabled for this type.
+  * `IN_MEMORY`: This indicates that the validDocIds bitmap is loaded from the real-time server's in-memory.&#x20;
+  * `IN_MEMORY_WITH_DELETE`: This indicates that the validDocIds bitmap is read from the real-time server's in-memory. The valid document ids here does take account into the deleted records. UpsertConfig's `deleteRecordColumn` must be provided for this type.
+
+{% hint style="warning" %}
+**WARNING**\
+Using in-memory based validDocids type (`IN_MEMORY`, `IN_MEMORY_WITH_DELETE`) is  dangerous as it will not guarantee us the consistency in some edge cases (e.g. fetching validDocIds bitmap while the server is restarting & updating validDocIds).&#x20;
+{% endhint %}
 
 {% hint style="info" %}
 Because segment compaction is an expensive operation, we **do not recommend** setting `invalidRecordsThresholdPercent and invalidRecordsThresholdCount` too low (close to 1). By default, all configurations above are `0`, so no thresholds are applied.

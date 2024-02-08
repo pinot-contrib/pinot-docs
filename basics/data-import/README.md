@@ -1,13 +1,14 @@
 ---
 description: >-
-  This page lists options for importing data into Pinot with links to detailed instructions with examples.
+  This page lists options for importing data into Pinot with links to detailed
+  instructions with examples.
 ---
 
 # Import Data
 
 There are multiple options for importing data into Pinot. The pages in this section provide step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../developers/plugin-architecture/). The intent is to get you up and running with imported data as quickly as possible.
 
-Pinot supports multiple file input formats without needing to change anything other than the file name. Each example imports a ready-made dataset so you can see how things work without needing to find or create your own dataset.
+Pinot supports multiple file input formats without needing to change anything other than the file name. Each example imports a readsdsdy-made dataset so you can see how things work without needing to find or create your own dataset.
 
 ## Pinot Batch Ingestion
 
@@ -100,5 +101,5 @@ This guide shows you how to reload Pinot segments from your deep store.
 This guide shows you how to upload Pinot segments from an old, closed Pinot instance.
 
 {% content-ref url="segment-upload.md" %}
-[segment-upload](segment-upload)
+[segment-upload.md](segment-upload.md)
 {% endcontent-ref %}
