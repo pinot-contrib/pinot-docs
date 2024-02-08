@@ -20,7 +20,7 @@ First, download the Pinot distribution for this tutorial. You can either downloa
 
 * Install with JDK 11 or 17. JDK 21 is still ongoing.
 * For JDK 8 support,  Pinot 0.12.1 is the last version compilable from the source code.
-* Pinot 1.0+ doesn't support JDK 8 anymore, please build with JDK 11+
+* Pinot 1.0+ doesn't support JDK 8 anymore, build with JDK 11+
 
 Note that some installations of the JDK do not contain the JNI bindings necessary to run all tests. If you see an error like `java.lang.UnsatisfiedLinkError` while running tests, you might need to change your JDK.&#x20;
 
