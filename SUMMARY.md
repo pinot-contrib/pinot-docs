@@ -94,6 +94,8 @@
   * [0.2.0](basics/releases/0.2.0.md)
   * [0.1.0](basics/releases/1.0.md)
 * [Recipes](basics/recipes/README.md)
+  * [Connect to Streamlit](basics/recipes/streamlit.md)
+  * [Connect to Dash](basics/recipes/dash.md)
   * [GitHub Events Stream](basics/recipes/github-events-stream.md)
 
 ## For Users <a href="#users" id="users"></a>

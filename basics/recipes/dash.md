@@ -2,7 +2,7 @@
 description: In this Apache Pinot guide, we'll learn how visualize data using the Dash web framework.
 ---
 
-# How to connect to Dash
+# Connect to Dash
 
 In this guide you'll learn how to visualize data from Apache Pinot using Plotly's [Dash](https://github.com/plotly/dash) web framework.
 Dash is the most downloaded, trusted Python framework for building ML & data science web apps.
