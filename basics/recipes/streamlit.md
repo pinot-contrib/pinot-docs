@@ -2,7 +2,7 @@
 description: In this Apache Pinot guide, we'll learn how visualize data using the Streamlit web framework.
 ---
 
-# How to connect to Streamlit
+# Connect to Streamlit
 
 In this guide you'll learn how to visualize data from Apache Pinot using [Streamlit](https://streamlit.io).
 Streamlit is a Python library that makes it easy to build interactive data based web applications.
