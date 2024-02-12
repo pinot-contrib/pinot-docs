@@ -27,6 +27,7 @@
     * [Running on Azure](basics/getting-started/public-cloud-examples/azure-quickstart.md)
     * [Running on GCP](basics/getting-started/public-cloud-examples/gcp-quickstart.md)
     * [Running on AWS](basics/getting-started/public-cloud-examples/aws-quickstart.md)
+  * [Create and update a table configuration](basics/getting-started/public-cloud-examples/create-and-update-table-config.md)
   * [Batch import example](basics/getting-started/pushing-your-data-to-pinot.md)
   * [Stream ingestion example](basics/getting-started/pushing-your-streaming-data-to-pinot.md)
   * [HDFS as Deep Storage](basics/getting-started/hdfs-as-deepstorage.md)
@@ -96,6 +97,7 @@
 * [Recipes](basics/recipes/README.md)
   * [Connect to Streamlit](basics/recipes/streamlit.md)
   * [Connect to Dash](basics/recipes/dash.md)
+  * [Visualize data with Redash](basics/recipes/redash.md)
   * [GitHub Events Stream](basics/recipes/github-events-stream.md)
 
 ## For Users <a href="#users" id="users"></a>
