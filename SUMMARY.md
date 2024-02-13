@@ -216,6 +216,7 @@
 * [Broker](configuration-reference/broker.md)
 * [Server](configuration-reference/server.md)
 * [Table](configuration-reference/table.md)
+* [Ingestion](configuration-reference/ingestion.md)
 * [Schema](configuration-reference/schema.md)
 * [Ingestion Job Spec](configuration-reference/job-specification.md)
 * [Monitoring Metrics](configuration-reference/monitoring-metrics.md)
