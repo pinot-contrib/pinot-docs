@@ -184,7 +184,7 @@ If you want to add or change the [sorted index column](../../indexing/inverted-i
 
 Star-tree indexes are configured in the table config under the `tableIndexConfig` -> `starTreeIndexConfigs` (list) and `enableDefaultStarTree` (boolean). See here for more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation](https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation)
 
-The new segments will have star-tree indexes generated after applying the star-tree index configurations to the table configuration. Currently, Pinot does not support adding star-tree indexes to the existing segments.
+The new segments will have star-tree indexes generated after applying the star-tree index configurations to the table configuration.
 
 ## Handling time in Pinot
 
