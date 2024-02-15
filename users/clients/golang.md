@@ -65,7 +65,11 @@ pinotClient := pinot.NewWithConfig(&pinot.ClientConfig{
 })
 ```
 
+#### ClientConfig with HTTP client
 
+If you require a specialized HTTP client, you have the option to create your own HTTP client and utilize the `NewWithConfigAndClient` function to establish a Pinot client that can accommodate a custom HTTP client.
+
+The Go client repository contains an [example](https://github.com/startreedata/pinot-client-go/blob/master/examples/pinot-client-with-config-and-http-client/main.go) script.
 
 ### Query Pinot
 
