@@ -6,7 +6,9 @@ description: >-
 
 # Broker
 
-Brokers handle Pinot queries. They accept queries from clients and forward them to the right servers. They collect results back from the servers and consolidate them into a single response, to send back to the client.
+Pinot brokers take query requests from client processes, scatter them to applicable servers, gather the results, and return them to the client. The controller shares cluster metadata with the brokers that allows the brokers to create a plan for executing the query involving a minimal subset of servers with the source data and, when required, other servers to shuffle and consolidate results. 
+
+A production Pinot cluster contains many brokers. In general, the more brokers, the more concurrent queries a cluster can process, and the lower latency it can deliver on queries.
 
 ![Broker interaction with other components](<../../../.gitbook/assets/broker-diagram.jpg>)
 
