@@ -16,3 +16,5 @@ redirects:
     basics/components/segment: basics/components/table/segment.md
     basics/components/deep-store: basics/components/table/segment/deep-store.md
     basics/components/schema: basics/components/table/schema.md
+    basics/concepts: basics/concepts/readme.md
+    
