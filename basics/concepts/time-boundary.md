@@ -34,7 +34,7 @@ curl -X POST \
   "http://localhost:9000/tables/{tableName}/timeBoundary" \
   -H "accept: application/json"
 ```
-Note that this will not automatically update the timeboundary as more segments are added to the offline table and must be called each time a segment with more recent end time is uploaded to the offline table. Users can revert back to using the derived timeboundary by calling API:
+Note that this will not automatically update the time boundary as more segments are added to the offline table, and must be called each time a segment with more recent end time is uploaded to the offline table. You can revert back to using the derived time boundary by calling API:
 
 ```
 curl -X DELETE \
