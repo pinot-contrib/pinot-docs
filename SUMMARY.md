@@ -4,7 +4,10 @@
 
 ## Basics
 
-* [Concepts](basics/concepts.md)
+* [Concepts](basics/concepts/README.md)
+  * [Segment threshold](basics/concepts/segment-threshold.md)
+  * [Segment retention](/basics/concepts/segment-retention.md)
+  * [Time boundary](/basics/concepts/time-boundary.md)
 * [Architecture](basics/architecture.md)
 * [Components](basics/components/README.md)
   * [Cluster](basics/components/cluster/README.md)
