@@ -6,7 +6,7 @@ description: >-
 
 # Server
 
-Pinot servers provide the primary storage for [segments](components/table/segment/) and perform the computation required to execute queries over them. A production Pinot cluster contains many servers. In general, the more servers, the more data the cluster can retain in tables, the lower latency it can deliver on queries, and the more concurrent queries it can process.
+Pinot servers provide the primary storage for [segments](components/table/segment/) and perform the computation required to execute queries. A production Pinot cluster contains many servers. In general, the more servers, the more data the cluster can retain in tables, the lower latency the cluster can deliver on queries, and the more concurrent queries the cluster can process.
 
 Servers are typically segregated into real-time and offline workloads, with "real-time" servers hosting only real-time tables, and "offline" servers hosting only offline tables. This is a ubiquitous operational convention, not a difference or an explicit configuration in the server process itself.There are two types of servers:
 
