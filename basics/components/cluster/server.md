@@ -6,14 +6,16 @@ description: >-
 
 # Server
 
-Servers host the data segments and serve queries off the data they host. There are two types of servers:
+Pinot servers provide the primary storage for [segments](components/table/segment/) and perform the computation required to execute queries. A production Pinot cluster contains many servers. In general, the more servers, the more data the cluster can retain in tables, the lower latency the cluster can deliver on queries, and the more concurrent queries the cluster can process.
 
-**Offline**\
+Servers are typically segregated into real-time and offline workloads, with "real-time" servers hosting only real-time tables, and "offline" servers hosting only offline tables. This is a ubiquitous operational convention, not a difference or an explicit configuration in the server process itself. There are two types of servers:
+
+## Offline
 Offline servers are responsible for downloading segments from the segment store, to host and serve queries off. When a new segment is uploaded to the controller, the controller decides the servers (as many as replication) that will host the new segment and notifies them to download the segment from the segment store. On receiving this notification, the servers download the segment file and load the segment onto the server, to server queries off them.
 
 ![](<../../../.gitbook/assets/OfflineServer.jpg>)
 
-**Real-time**\
+## Real-time
 Real-time servers directly ingest from a real-time stream (such as Kafka or EventHubs). Periodically, they make segments of the in-memory ingested data, based on certain thresholds. This segment is then persisted onto the segment store.
 
 ![](<../../../.gitbook/assets/RealtimeServer.jpg>)

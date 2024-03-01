@@ -7,7 +7,14 @@ description: >-
 
 # Table
 
-A **table** is a logical abstraction that represents a collection of related data. It is composed of columns and rows (known as documents in Pinot). The columns, data types, and other metadata related to the table are defined using a [schema](../../../configuration-reference/schema.md).
+Pinot stores data in tables. A Pinot table is conceptually identical to a relational database table with rows and columns. Columns have the same name and data type, known as the table's [schema](components/table/schema.md).
+
+Pinot schemas are defined in a JSON file. Because that schema definition is in its own file, multiple tables can share a single schema. Each table can have a unique name, indexing strategy, partitioning, data sources, and other metadata.
+
+Pinot table types include:
+- **real-time:** Ingests data from a streaming source like Apache Kafka®
+- **offline:** Loads data from a batch source
+- **hybrid:** Loads data from both a batch source and a streaming source
 
 Pinot breaks a table into multiple [segments](segment/) and stores these segments in a deep-store such as Hadoop Distributed File System (HDFS) as well as Pinot servers.
 
