@@ -2,7 +2,7 @@
 description: Learn about time boundaries in hybrid tables.
 ---
 
-# Time Boundary
+# Time boundary
 
 In this guide we'll learn about time boundaries in hybrid tables.
 Hybrid tables are when we have offline and real-time tables with the same name.
