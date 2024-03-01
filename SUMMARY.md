@@ -6,8 +6,8 @@
 
 * [Concepts](basics/concepts/README.md)
   * [Segment threshold](basics/concepts/segment-threshold.md)
-  * [Segment retention](/basics/concepts/segment-retention.md)
-  * [Time boundary](/basics/concepts/time-boundary.md)
+  * [Segment retention](basics/concepts/segment-retention.md)
+  * [Time boundary](basics/concepts/time-boundary.md)
 * [Architecture](basics/architecture.md)
 * [Components](basics/components/README.md)
   * [Cluster](basics/components/cluster/README.md)
@@ -80,6 +80,7 @@
   * [Text search support](basics/indexing/text-search-support.md)
   * [Timestamp index](basics/indexing/timestamp-index.md)
 * [Releases](basics/releases/README.md)
+  * [Placeholder release docs](basics/releases/placeholder-release-docs.md)
   * [Apache Pinot™ 1.0.0 release notes](basics/releases/1.0.0.md)
   * [0.12.1](basics/releases/0.12.1.md)
   * [0.12.0](basics/releases/0.12.0.md)
