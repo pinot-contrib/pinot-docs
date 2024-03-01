@@ -3,7 +3,7 @@
 {% hint style="danger" %}
 **Multi-stage engine warning**
 
-This document describes null handling for the [single-stage query engine](../../reference/single-stage-engine.md). At this time, the [**multi-stage query engine**](../../reference/multi-stage-engine.md) **(v2) does not support null handling**. Queries involving null values in a multi-stage environment may return unexpected results.
+This document describes null handling for the [single-stage query engine](../../reference/single-stage-engine.md). At this time, the [multi-stage query engine](../../reference/multi-stage-engine.md) (v2) does not support null handling. Queries involving null values in a multi-stage environment may return unexpected results.
 {% endhint %}
 
 Null handling is defined in two different parts: at ingestion and at query time.
@@ -19,7 +19,7 @@ By default, null handling is disabled (`nullHandlingEnabled=false`) in the Table
 
 ### Enable basic null support
 
-To enable basic null support (`IS NULL` and `IS NOT NULL`) and generate the null index, in the Table index configuration ([tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)), set **`nullHandlingEnabled=true`**.
+To enable basic null support (`IS NULL` and `IS NOT NULL`) and generate the null index, in the Table index configuration ([tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)), set `nullHandlingEnabled=true`.
 
 When null support is enabled, `IS NOT NULL` and `IS NULL` evaluate to `true` or `false` according to whether a null is detected.
 
@@ -72,8 +72,8 @@ Pinot provides advanced null handling support similar to standard SQL null handl
 
 To enable `NULL` handling, do the following:
 
-1. `To enable` null handling during ingestion, in [tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1), set**`nullHandlingEnabled=true`**.
-2. To enable null handling for queries, set the**`enableNullHandling`** [query option](https://docs.pinot.apache.org/users/user-guide-query/query-options).
+1. `To enable` null handling during ingestion, in [tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1), set `nullHandlingEnabled=true`.
+2. To enable null handling for queries, set the `enableNullHandling` [query option](https://docs.pinot.apache.org/users/user-guide-query/query-options).
 
 {% hint style="info" %}
 **Important**
@@ -81,7 +81,7 @@ To enable `NULL` handling, do the following:
 You MUST `SET enableNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableNullHandling=true` when you execute a query. Basic null handling supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatibility.
 {% endhint %}
 
-#### **Ingestion time**
+#### Ingestion time
 
 To store the null values in a segment, you must enable the `nullHandlingEnabled` in [tableIndexConfig section](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1) before ingesting the data.
 
