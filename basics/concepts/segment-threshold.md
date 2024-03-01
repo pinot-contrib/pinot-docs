@@ -15,12 +15,11 @@ The segment threshold decides when that should happen.
 
 ## Why is the segment threshold important?
 
-We care about the segment threshold because we want to make sure that our segments are a reasonable size.
+The segment threshold is important because it ensures segments are a reasonable size. 
 
-* Queries are processed at the segment level, so if segments are too small it may result in higher query latencies as there is increased overhead when processing queries (in terms of number of threads spawned, meta data processing, etc).
+When queries are processed, smaller segments may increase query latency due to more overhead (number of threads spawned, meta data processing, and so on). 
 
-
-* If they're too big, this may result in servers running out of memory. If a server is restarted the consuming segment will need to start consuming from the first row again, which will cause lag between Pinot and the streaming provider.
+Larger segments may cause servers to run out of memory. When a server is restarted, the consuming segment must start consuming from the first row again, causing a lag between Pinot and the streaming provider.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qBMv3CcKVsI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
