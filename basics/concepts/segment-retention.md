@@ -4,7 +4,7 @@ description: In this Apache Pinot concepts guide, we'll learn how segment retent
 
 # Segment Retention
 
-Segments in Pinot tables have a retention time, after which they will be deleted. 
+Segments in Pinot tables have a retention time, after which the segments are deleted. 
 Typically, offline tables will retain segments for a longer period of time than real-time tables.
 
 The removal of segments is done by the retention manager.
