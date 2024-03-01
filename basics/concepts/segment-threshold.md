@@ -1,5 +1,5 @@
 ---
-description: In this Apache Pinot concepts guide, we'll learn how segment threshold works.
+description: Learn how segment thresholds work in Pinot.
 ---
 
 # Segment Threshold
