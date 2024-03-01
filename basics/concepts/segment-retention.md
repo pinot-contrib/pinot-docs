@@ -22,7 +22,7 @@ There are a couple of scenarios where segments in offline tables won't be purged
 This would happen if the segment doesn't contain a time column.
 * If the segment's table has a `segmentIngestionType` of `REFRESH`. 
 
-In addition, segments will not be purged in real-time or offline tables if the retention period isn't specified.
+If the retention period isn't specified, segments aren't purged from tables.
 </Callout>
 
 The retention manager initially moves these segments into a _Deleted Segments_ area, from where they will eventually be permanently removed.
