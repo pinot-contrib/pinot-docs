@@ -1,5 +1,5 @@
 ---
-description: In this Apache Pinot concepts guide, we'll learn about time boundaries in hybrid tables.
+description: Learn about time boundaries in hybrid tables.
 ---
 
 # Time Boundary
