@@ -2,7 +2,7 @@
 description: Learn how segment thresholds work in Pinot.
 ---
 
-# Segment Threshold
+# Segment threshold
 
 The segment threshold determines when a segment is committed in real-time tables.
 
