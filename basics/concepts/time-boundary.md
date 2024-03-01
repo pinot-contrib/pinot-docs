@@ -7,7 +7,7 @@ description: Learn about time boundaries in hybrid tables.
 Learn about time boundaries in hybrid tables.
 Hybrid tables are when we have offline and real-time tables with the same name.
 
-When querying these tables, the Pinot Broker needs to decide which records to read from the offline table and which to read from the real-time table.
+When querying these tables, the Pinot broker decides which records to read from the offline table and which to read from the real-time table.
 It does this using the time boundary.
 
 
