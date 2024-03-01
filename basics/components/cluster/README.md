@@ -11,7 +11,7 @@ A Pinot [_cluster_](components/cluster/) is a collection of the software process
 
 ![](../.gitbook/assets/Pinot-Components.svg)
 
-A Pinot cluster consists of the following processes, which are typically deployed on separate hardware resources in production. In development, they can fit comfortably into Docker containers on a typical laptop.
+A Pinot cluster consists of the following processes, which are typically deployed on separate hardware resources in production. In development, they can fit comfortably into Docker containers on a typical laptop:
 
 * **Controller**: Maintains cluster metadata and manages cluster resources.
 * **Zookeeper**: Manages the Pinot cluster on behalf of the controller. Provides fault-tolerant, persistent storage of metadata, including table configurations, schemas, segment metadata, and cluster state.
