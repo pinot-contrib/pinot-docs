@@ -12,8 +12,8 @@ By default, the retention manager runs once every 6 hours.
 
 The retention manager purges two types of segments:
 
-* Expired segments - Segments whose end time has exceeded the retention period.
-* Replaced segments - Segments that have been replaced as part of the [merge roll-up](../recipes/merge-small-segments.md) process.
+* Expired segments: Segments whose end time has exceeded the retention period.
+* Replaced segments: Segments that have been replaced as part of the [merge roll-up](../recipes/merge-small-segments.md) process.
 
 <Callout type="info">
 There are a couple of scenarios where segments in offline tables won't be purged:
