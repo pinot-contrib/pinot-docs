@@ -44,7 +44,7 @@ curl -X DELETE \
 
 ## Querying
 
-When a query for a hybrid table is received by a Pinot Broker, the broker sends a time boundary annotated version of the query to the offline and real-time tables. 
+When a Pinot broker receives a query for a hybrid table, the broker sends a time boundary annotated version of the query to the offline and real-time tables. 
 
 For example, if we executed the following query:
 
