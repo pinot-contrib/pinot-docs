@@ -6,8 +6,9 @@ description: Learn how segment thresholds work in Pinot.
 
 The segment threshold determines when a segment is committed in real-time tables.
 
-When data is first ingested from a streaming provider like Kafka, it gets stored in a consuming segment. 
-The data in the consuming segment is stored on the disk of the server(s) that are processing a particular partition from the streaming provider.
+When data is first ingested from a streaming provider like Kafka, Pinot stores the data in a consuming segment. 
+
+This segment is on the disk of the server(s) processing a particular partition from the streaming provider.
 
 However, it's not until a segment is committed that the segment is written to the [deep store](https://docs.pinot.apache.org/basics/components/deep-store). 
 The segment threshold decides when that should happen.
