@@ -13,7 +13,7 @@ This segment is on the disk of the server(s) processing a particular partition f
 However, it's not until a segment is committed that the segment is written to the [deep store](https://docs.pinot.apache.org/basics/components/deep-store). 
 The segment threshold decides when that should happen.
 
-## Why should we care about it?
+## Why is the segment threshold important?
 
 We care about the segment threshold because we want to make sure that our segments are a reasonable size.
 
