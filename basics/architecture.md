@@ -1,12 +1,14 @@
 ---
 description: >-
-  Understand how the components of Apache Pinot™ work together to create a scalable OLAP database that can deliver low-latency, high-concurrency queries at scale.
+  Understand how the components of Apache Pinot™ work together to create a
+  scalable OLAP database that can deliver low-latency, high-concurrency queries
+  at scale.
 ---
 
 # Architecture
 
 {% hint style="info" %}
-We recommend that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
+We recommend that you read [Basic Concepts](concepts/) to better understand the terms used in this guide.
 {% endhint %}
 
 Apache Pinot™ is a distributed OLAP database designed to serve real-time, user-facing use cases, which means handling large volumes of data and many concurrent queries with very low query latencies. Pinot supports the following requirements:
@@ -27,14 +29,14 @@ To accommodate large data volumes with stringent latency and concurrency require
 
 ## Core components
 
-As described in [Apache Pinot™ Concepts](concepts.md), Pinot has four node types:
+As described in [Apache Pinot™ Concepts](concepts/), Pinot has four node types:
 
 * [Controller](components/cluster/controller.md)
 * [Broker](components/cluster/broker.md)
 * [Server](components/cluster/server.md)
 * [Minion](components/cluster/minion.md)
 
-![](<../.gitbook/assets/Pinot-architecture.svg>)
+![](../.gitbook/assets/Pinot-architecture.svg)
 
 ### Apache Helix and ZooKeeper
 
@@ -55,23 +57,23 @@ In addition, Helix defines two logical components to express its storage abstrac
 
 In summary, the Pinot architecture maps onto Helix components as follows:
 
-|Pinot Component|Helix Component|
-|----------|-----------|
-|Segment|**Helix Partition**|
-|Table|**Helix Resource**|
-|Controller| **Helix Controller** or Helix agent that drives the overall state of the cluster|
-|Server|**Helix Participant**|
-|Broker|A **Helix Spectator** that observes the cluster for changes in the state of segments and servers. To support multi-tenancy, brokers are also modeled as **Helix Participants**.|
-|Minion|**Helix Participant** that performs computation rather than storing data|
+| Pinot Component | Helix Component                                                                                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Segment         | **Helix Partition**                                                                                                                                                             |
+| Table           | **Helix Resource**                                                                                                                                                              |
+| Controller      | **Helix Controller** or Helix agent that drives the overall state of the cluster                                                                                                |
+| Server          | **Helix Participant**                                                                                                                                                           |
+| Broker          | A **Helix Spectator** that observes the cluster for changes in the state of segments and servers. To support multi-tenancy, brokers are also modeled as **Helix Participants**. |
+| Minion          | **Helix Participant** that performs computation rather than storing data                                                                                                        |
 
 Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators notifications of changes in cluster state (which correspond to changes in ZNodes). Zookeeper stores the following information about the cluster:
 
-|Resource|Stored Properties|
-|--------|-----------------|
-|Controller|<ul><li>Controller that is assigned as the current leader</li></ul>|
-|Servers and Brokers|<ul><li>List of servers and brokers</li><li>Configuration of all current servers and brokers</li><li>Health status of all current servers and brokers</li></ul>|
-|Tables|<ul><li>List of tables</li><li>Table configurations</li><li>Table schema</li><li>List of the table's segments</li></ul>|
-|Segment|<ul><li>Exact server locations of a segment</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul>|
+| Resource            | Stored Properties                                                                                                                                               |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Controller          | <ul><li>Controller that is assigned as the current leader</li></ul>                                                                                             |
+| Servers and Brokers | <ul><li>List of servers and brokers</li><li>Configuration of all current servers and brokers</li><li>Health status of all current servers and brokers</li></ul> |
+| Tables              | <ul><li>List of tables</li><li>Table configurations</li><li>Table schema</li><li>List of the table's segments</li></ul>                                         |
+| Segment             | <ul><li>Exact server locations of a segment</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul>        |
 
 Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 
@@ -79,11 +81,11 @@ Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `
 
 ### Controller
 
-The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion) and [offline tables](data-import/batch-ingestion)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
+The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion/) and [offline tables](data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
 #### Fault tolerance
 
-Only one controller can be active at a time, so when multiple controllers are present in a cluster, they elect a leader. When that controller instance becomes unavailable, the remaining instances automatically elect a new leader. Leader election is achieved using Apache Helix. A Pinot cluster can serve queries without an active controller, but it can't perform any metadata-modifying operations, like adding a table or consuming a new segment.  
+Only one controller can be active at a time, so when multiple controllers are present in a cluster, they elect a leader. When that controller instance becomes unavailable, the remaining instances automatically elect a new leader. Leader election is achieved using Apache Helix. A Pinot cluster can serve queries without an active controller, but it can't perform any metadata-modifying operations, like adding a table or consuming a new segment.
 
 #### Controller REST interface
 
@@ -162,7 +164,7 @@ Every query processed by a broker uses the single-stage engine or the [multi-sta
 For multi-stage queries, the broker performs the following:
 
 * Computes a query plan that runs on multiple sets of servers. The servers selected for the first stage are selected based on the segments required to execute the query, which are determined in a process similar to single-stage queries.
-* Sends the relevant portions of the query plan to one or more servers in the cluster for each stage of the query plan. 
+* Sends the relevant portions of the query plan to one or more servers in the cluster for each stage of the query plan.
 * The servers that received query plans each execute their part of the query. For more details on this process, read about the [multi-stage engine](https://docs.pinot.apache.org/reference/multi-stage-engine).
 * The broker receives a complete result set from the final stage of the query, which is always a single server.
 * The broker sends the query result to the client.
@@ -177,17 +179,15 @@ Offline servers host segments created by ingesting batch data. The controller wr
 
 Because offline tables tend to have long retention periods, offline servers tend to scale based on the size of the data they store.
 
-![](<../.gitbook/assets/OfflineServer.jpg>)
-
+![](../.gitbook/assets/OfflineServer.jpg)
 
 #### Real-time servers
 
-Real-time servers ingest data from streaming sources, like Apache Kafka®, Apache Pulsar®, or AWS Kinesis. Streaming data ends up in conventional segment files just like batch data, but is first accumulated in an in-memory data structure known as a consuming segment. Each message consumed from a streaming source is written immediately to the relevant consuming segment, and is available for query processing from the consuming segment immediately, since consuming segments participate  in query processing as first-class citizens. Consuming segments get flushed to disk periodically based on a completion threshold, which can be calculated by row count, ingestion time, or segment size. A flushed segment on a real-time table is called a _completed_ segment, and is functionally equivalent to a segment created during offline ingest.
+Real-time servers ingest data from streaming sources, like Apache Kafka®, Apache Pulsar®, or AWS Kinesis. Streaming data ends up in conventional segment files just like batch data, but is first accumulated in an in-memory data structure known as a consuming segment. Each message consumed from a streaming source is written immediately to the relevant consuming segment, and is available for query processing from the consuming segment immediately, since consuming segments participate in query processing as first-class citizens. Consuming segments get flushed to disk periodically based on a completion threshold, which can be calculated by row count, ingestion time, or segment size. A flushed segment on a real-time table is called a _completed_ segment, and is functionally equivalent to a segment created during offline ingest.
 
 Real-time servers tend to be scaled based on the rate at which they ingest streaming data.
 
 ![](../.gitbook/assets/real-time-flow.svg)
-
 
 ### Minion
 
@@ -195,14 +195,13 @@ A Pinot [minion](components/cluster/minion.md) is an optional cluster component 
 
 Minions isolate the computational burden of out-of-band data processing from the servers. Although a Pinot cluster can function without minions, they are typically present to support routine tasks like ingesting batch data.
 
-
 ## Data ingestion overview
 
 Pinot [tables](components/table/) exist in two varieties: offline (or batch) and real-time. Offline tables contain data from batch sources like CSV, Avro, or Parquet files, and real-time tables contain data from streaming sources like like Apache Kafka®, Apache Pulsar®, or AWS Kinesis.
 
 ### Offline (batch) ingest
 
-![](<../.gitbook/assets/OfflineServer.jpg>)
+![](../.gitbook/assets/OfflineServer.jpg)
 
 Pinot ingests batch data using an [ingestion job](data-import/batch-ingestion/), which follows a process like this:
 
@@ -222,7 +221,7 @@ Ingestion is established at the time a real-time table is created, and continues
 3. Through Helix functionality on the controller and the relevant servers, the servers proceed to create consuming segments in memory and establish a connection to the streaming input source. When this input source is Kafka, each server acts as a Kafka consumer directly, with no other components involved in the integration.
 4. Through Helix functionality on the controller and all of the cluster's brokers, the brokers become aware of the consuming segments, and begin including them in query routing immediately.
 5. The consuming servers simultaneously begin consuming messages from the streaming input source, storing them in the consuming segment.
-6. When a server decides its consuming segment is _complete_, it commits the in-memory consuming segment to a conventional segment file, uploads it to the deep store, and notifies the controller. 
+6. When a server decides its consuming segment is _complete_, it commits the in-memory consuming segment to a conventional segment file, uploads it to the deep store, and notifies the controller.
 7. The controller and the server create a new consuming segment to continue real-time ingestion.
 8. The controller marks the newly committed segment as online. Brokers then discover the new segment through the Helix notification mechanism, allowing them to route queries to it in the usual fashion.
 
