@@ -60,6 +60,29 @@ The Pinot schema is composed of:
 
 The above json configuration is the example of Pinot schema derived from the flight data. As seen in the example, the schema is composed of 4 parts: `schemaName`, `dimensionFieldSpec`, `metricFieldSpec`, and `dateTimeFieldSpec`. Below is a detailed description of each type of field spec.
 
+
+### Data Types
+Data types determine the operations that can be performed on a column. Pinot supports the following data types:
+
+| Data Type    | Default Dimension Value                                                                                         | Default Metric Value   |
+| ------------ | --------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| INT          | [Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN\_VALUE)               | 0                      |
+| LONG         | [Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN\_VALUE)                     | 0                      |
+| FLOAT        | [Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE\_INFINITY)   | 0.0                    |
+| DOUBLE       | [Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE\_INFINITY) | 0.0                    |
+| BIG\_DECIMAL | Not supported                                                                                                   | 0.0                    |
+| BOOLEAN      | 0 (false)                                                                                                       | N/A                    |
+| TIMESTAMP    | 0 (1970-01-01 00:00:00 UTC)                                                                                     | N/A                    |
+| STRING       | "null"                                                                                                          | N/A                    |
+| JSON         | "null"                                                                                                          | N/A                    |
+| BYTES        | byte array of length 0                                                                                          | byte array of length 0 |
+
+{% hint style="warning" %}
+The lowest granularity TIMESTAMP type supports is milliseconds epoch, nanoseconds is not supported.
+{% endhint %}
+
+Read the following sections for details on how data types are used in various parts of a schema.
+
 ### DimensionFieldSpec
 
 A dimensionFieldSpec is defined for each dimension column. Here's a list of the fields in the dimensionFieldSpec:
