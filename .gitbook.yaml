@@ -17,4 +17,5 @@ redirects:
     basics/components/deep-store: basics/components/table/segment/deep-store.md
     basics/components/schema: basics/components/table/schema.md
     basics/concepts: basics/concepts/readme.md
+    developers/advanced/troubleshoot-multi-stage-query-engine: reference/troubleshooting/troubleshoot-multi-stage-query-engine.md
     
