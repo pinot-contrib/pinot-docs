@@ -4,7 +4,7 @@
 **Version warning**
 
 This document describes null handling for Apache Pinot 1.0.0.
-This version includes two important limitations that have been addressed in the next (yet to release) version:
+This version includes two important limitations that have been addressed in the next (unreleased) version:
 1. Null handling is not supported in the [multi-stage query engine](../../reference/multi-stage-engine.md).
 2. At ingestion time, null handling is a table-level configuration and does not support column-level configuration.
 {% endhint %}
