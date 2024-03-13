@@ -44,7 +44,7 @@ configuration by setting the `defaultNullValue` field spec.
 Remember that in the JSON used as table configuration, `defaultNullValue` must always be a String.
 If the column type is not String, Pinot will convert that value to the column type automatically.
 
-## Storing nulls at ingestion time
+## Store nulls at ingestion time
 
 In order to actually store nulls in your segments, you have to enable the `nullHandlingEnabled` configuration in table 
 configuration the [tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table#table-index-config) before 
