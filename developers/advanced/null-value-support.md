@@ -18,7 +18,7 @@ For example, the predicate in the query below matches all records.
 <pre class="language-sql"><code class="lang-sql"><strong>select count(*) from my_table where column IS NOT NULL
 </strong></code></pre>
 
-In order to handle null values in your data, you must first indicate Pinot to store nulls in your tables.
+To handle null values in your data, you must configure your tables to [store nulls at ingestion time](#store-nulls-at-ingestion-time).
 This has to be done before ingesting the data.
 Tables where null values are stored support basic null handling, 
 which is limited to `IS NULL` and `IS NOT NULL` predicates,
