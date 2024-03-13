@@ -18,9 +18,7 @@ Apache Pinot supports the following indexing techniques:
 * [JSON index](json-index.md)
 * [Range index](range-index.md)
 * [Star-tree index](star-tree-index.md)
-* Text Index
-  * [Native text index](native-text-index.md)
-  * [Text search support](text-search-support.md)
+* [Text search support](text-search-support.md)
 * [Timestamp index](timestamp-index.md)
 
 By default, Pinot creates a dictionary-encoded forward index for each column.
