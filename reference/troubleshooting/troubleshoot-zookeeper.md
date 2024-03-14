@@ -16,7 +16,9 @@ If this happens, you will see an error message similar to the following:
 java.io.ioexception: packet len 1250829 is out of range!
 ```
 
-There are broadly two ways that we can address this problem.
+To address the size limit is exceeded error, do the following:
+- Reduce the number of segments
+- Adjust ZooKeeper znode size
 
 ## Reduce the number of segments
 
