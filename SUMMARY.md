@@ -399,7 +399,7 @@
 * [Multi-stage query engine (v2)](reference/multi-stage-engine.md)
 * [Troubleshooting](reference/troubleshooting/README.md)
   * [Troubleshoot issues with the multi-stage query engine (v2)](/reference/troubleshooting/troubleshoot-multi-stage-query-engine.md)
-  * [Troubleshoot issues with Zookeeper znodes](/reference/troubleshooting/troubleshoot-zookeeper.md)
+  * [Troubleshoot issues with ZooKeeper znodes](/reference/troubleshooting/troubleshoot-zookeeper.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
