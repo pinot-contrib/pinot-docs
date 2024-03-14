@@ -6,7 +6,7 @@ description: Troubleshoot issues with Zookeeper znodes.
 
 Pinot stores cluster metadata, including schema definitions, table configuration, and segment assignment, in ZooKeeper.
 Internally, Zookeeper uses a hierarchical namespace, similar to a file system.
-The nodes in this hierarchy are called znodes and they can store data and have children.
+The nodes in this hierarchy are called znodes and they can store data and have child nodes.
 
 The default maximum size of znodes is 1MB, which is sufficient for most deployments.
 However, if you have 100s of thousands of segments, it's possible that this size limit is exceeded.
