@@ -1,14 +1,5 @@
 # Null value support
 
-{% hint style="danger" %}
-**Version warning**
-
-This document describes null handling for Apache Pinot 1.0.0.
-This version includes two important limitations that have been addressed in the next (unreleased) version:
-1. Null handling is not supported in the [multi-stage query engine](../../reference/multi-stage-engine.md).
-2. At ingestion time, null handling is a table-level configuration and does not support column-level configuration.
-{% endhint %}
-
 For performance reasons, null handling support is disabled by default in Apache Pinot.
 When null support is disabled, all columns are treated as not null.
 Predicates like `IS NOT NULL` evaluates to `true,` and `IS NULL` evaluates to `false`.
@@ -35,20 +26,90 @@ The following table summarizes the behavior of null handling support in Pinot:
 
 ## Default behavior
 
-Pinot always stores column values in a [forward index](forward-index.md).
-Forward index does never store null values.
-They have to store a value for each row.
+Pinot always stores column values in a [forward index](../../basics/indexing/forward-index.md).
+Forward index never stores null values but have to store a value for each row.
 Therefore independent of the null handling configuration, Pinot always stores a default value for nulls rows in the forward index.
 The default value used in a column can be specified in the [schema](../../configuration-reference/schema.md) 
 configuration by setting the `defaultNullValue` field spec.
+
+{% hint style="info" %}
 Remember that in the JSON used as table configuration, `defaultNullValue` must always be a String.
 If the column type is not String, Pinot will convert that value to the column type automatically.
+{% endhint %}
 
 ## Store nulls at ingestion time
 
-In order to actually store nulls in your segments, you have to enable the `nullHandlingEnabled` configuration in table 
-configuration the [tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table#table-index-config) before 
-ingesting the data.
+In order to support any kind of null handling, the first thing that must be done is to store null values in the segments.
+As said above, independently on whether null storing is enabled or not, the forward index will always store the default
+value for null rows.
+When null storing is enabled, Pinot will create a new index called the _null index_ or _null vector index_.
+This index stores the document ids of the rows that have null values for the column.
+
+{% hint style="danger" %}
+Although storing null handling can be enabled after data has been ingested, data ingested before this mode is enabled
+will not store the null index and therefore it will be treated as not null.
+{% endhint %}
+
+Null storing support is defined per table. 
+This means that one table may be configured to store nulls while another table may not.
+There are two ways to define null storing support in Pinot:
+
+1. [Column based null handling](#column-based-null-handling), where each column inside the table can be configured as 
+nullable or not nullable. 
+This is the recommended way to enable null storing support and only way to support null handling in 
+[multi-stage query engine](../../reference/multi-stage-engine.md).
+2. [Table based null handling](#table-based-null-handling), where all columns in the table are considered nullable.
+This was the only way to handle null values in Pinot before 1.1.0, but it is considered deprecated.
+
+### Column based null storing
+
+Column based null storing was introduced in Pinot 1.1.0 and since then it is the recommended way to configure null 
+storing in Pinot given it allows you to specify null storing at column basis.
+It is also the only way to support null handling in multi-stage query engine.
+
+In order to enable column based null handling, you have to set 
+[enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) to `true` in the schema configuration
+before ingesting the data. 
+Then you have to specify which columns are not nullable using the `notNull` field spec, which defaults to false.
+
+```json
+{
+  "schemaName": "my_table",
+  "enableColumnBasedNullHandling": true,
+  "dimensionFieldSpecs": [
+    {
+      "name": "notNullColumn",
+      "dataType": "STRING",
+      "notNull": true
+    },
+    {
+      "name": "explicitNullableColumn",
+      "dataType": "STRING",
+      "notNull": false
+    },
+    {
+      "name": "implicitNullableColumn",
+      "dataType": "STRING"
+    }
+  ]
+}
+```
+
+### Table based null storing
+
+This is the only way to enable null storing in Pinot before 1.1.0, but it is deprecated since then.
+Table based null storing is more expensive in terms of disk space and query performance than column based null storing.
+Also, it is not possible to support null handling in multi-stage query engine using table based null storing.
+
+In order to enable table based null storing, you have to enable the `nullHandlingEnabled` configuration in 
+[tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table#table-index-config) before ingesting the data.
+Once that is done, all columns of the table are considered nullable.
+
+{% hint style="warning" %}
+Remember `nullHandlingEnabled` table configuration enables table based null handling
+while `enableNullHandling` is the query option that enables advanced null handling at query time.
+{% endhint %}
+
 As an example:
 
 ```json
@@ -59,28 +120,22 @@ As an example:
 }
 ```
 
-{% hint style="danger" %}
-Data ingested when null handling is disabled does not store null values, and should be ingested again.
+## Null handling at query time
+
+In order to use null handling at query time, it is first necessary to enable [store nulls at ingestion time](#store-nulls-at-ingestion-time).
+Then basic null handling will be enabled by default and advanced null handling support can be optionally enabled.
+
+{% hint style="warn" %}
+Remember that multi-stage query engine requires column based null storing.
+Tables that use table based null storing will be considered not nullable when using multi-stage query engine.
 {% endhint %}
 
-When this table configuration is enabled, Pinot will store null values in the forward index.
-As said above, the forward index will always store the default value for null rows. 
-What Pinot does when `nullHandlingEnabled` is set to `true`, is to also store the document ids of the rows that have 
-null values for the column in a separate index called the _null index_ or _null vector index_.
+### Basic null support
 
-{% hint style="info" %}
-Table configuration `nullHandlingEnabled` is a table-level configuration.
-This means that either all columns of the table are considered nullable or none of them are.
-Column level null support will be included in the next Pinot release.
-{% endhint %}
+The basic null support is automatically enabled when null values are stored on a segment
+(see [storing nulls at ingestion time](#store-nulls-at-ingestion-time)).
 
-## Basic null support
-
-The basic null support is automatically enabled when null values are stored for a segment 
-(see [storing nulls at ingestion time](#storing-nulls-at-ingestion-time)).
-
-In this mode, Pinot is able to handle simple predicates like `IS NULL` or `IS NOT NULL`. In order to do so, Pinot reads
-the null index and uses it to evaluate the predicate. 
+In this mode, Pinot is able to handle simple predicates like `IS NULL` or `IS NOT NULL`.
 Other transformation functions (like `CASE`, `COALESCE`, `+`, etc.) and aggregations functions (like `COUNT`, `SUM`, 
 `AVG`, etc.) will use the default value specified in the schema for null values.
 
@@ -136,7 +191,6 @@ Will return
 | 1     | 1    |
 | 4     | null |
 
-
 Also
 ```sql
 select count(col1)  as count, mode(col1) as mode from my_table
@@ -151,14 +205,8 @@ Given that neither `count` or `mode` function will ignore `null` values as expec
 
 ## Advanced null handling support
 
-{% hint style="info" %}
-Pinot provides advanced null handling support similar to standard SQL null handling.
-Because this feature carries a notable performance impact (even queries without null values), this feature **is not enabled** by default.
-For optimal query latency, we recommend [enabling basic null support](null-value-support.md#to-enable-basic-null-support).
-{% endhint %}
-
 Advanced null handling has two requirements:
-1. Segments must store null values (see [storing nulls at ingestion time](#storing-nulls-at-ingestion-time)).
+1. Segments must store null values (see [storing nulls at ingestion time](#store-nulls-at-ingestion-time)).
 2. The query must enable null handling by setting the `enableNullHandling` [query option](query-options.md#enable-null-handling) to `true`.
 
 The later can be done in one of the following ways:
@@ -168,17 +216,18 @@ The later can be done in one of the following ways:
 {% hint style="warn" %}
 Even they have similar names, the `nullHandlingEnabled` table configuration and the `enableNullHandling` query option are different.
 Remember `nullHandlingEnabled` table configuration modifies how segments are stored and `enableNullHandling` query option modifies how queries are executed.
-
-In order to use the advanced null handling support, both the table configuration and the query option must be set.
 {% endhint %}
 
-When this option is enabled, the Pinot query engine uses a different execution path that interprets nulls in a standard SQL way.
-This means that `IS NULL` and `IS NOT NULL` predicates will evaluate to `true` or `false` according to whether a null is detected
-but also aggregation functions like `COUNT`, `SUM`, `AVG`, `MODE`, etc. will ignore null values as expected.
+When this `enableNullHandling` option is set to true, Pinot query engine uses a different execution path that interprets
+nulls in a standard SQL way.
+This means that `IS NULL` and `IS NOT NULL` predicates will evaluate to `true` or `false` according to whether a null 
+is detected (like in basic null support mode) but also aggregation functions like `COUNT`, `SUM`, `AVG`, `MODE`, etc. 
+will deal with null values as expected (usually ignoring null values).
 
-In this mode, some indexes may not be usable, and the queries may be significantly more expensive.
-Remember that in Apache Pinot 1.0.0 null handling is a table-level configuration and does not support column-level configuration.
-Therefore the performance degradation will impact all the columns in the table, even if columns that intervene in the query do not actually contain null values.
+In this mode, some indexes may not be usable, and queries may be significantly more expensive.
+Performance degradation will impact all the columns in the table, even if columns that intervene in the query do not 
+actually contain null values.
+This happens even when table uses column base null storing.
 
 ### Examples queries
 

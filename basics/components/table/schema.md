@@ -7,7 +7,11 @@ description: >-
 
 # Schema
 
-Each table in Pinot is associated with a schema. A schema defines what fields are present in the table along with the data types.
+Each table in Pinot is associated with a schema. A schema defines:
+- What fields are present in the table along with the data types.
+- Whether the table uses column-based or table-based null handling.
+  See [Null value support](../../developers/advanced/null-value-support.md) for more information about this.
+
 
 The schema is stored in Zookeeper along with the table configuration.
 
@@ -53,10 +57,12 @@ For more details on constructing a schema file, see the [Schema configuration re
 ```javascript
 {
   "schemaName": "flights",
+  "enableColumnBasedNullHandling": true,
   "dimensionFieldSpecs": [
     {
       "name": "flightNumber",
-      "dataType": "LONG"
+      "dataType": "LONG",
+      "notNull": true
     },
     {
       "name": "tags",
@@ -69,6 +75,7 @@ For more details on constructing a schema file, see the [Schema configuration re
     {
       "name": "price",
       "dataType": "DOUBLE",
+      "notNull": true,
       "defaultNullValue": 0
     }
   ],
@@ -82,6 +89,7 @@ For more details on constructing a schema file, see the [Schema configuration re
     {
       "name": "hoursSinceEpoch",
       "dataType": "INT",
+      "notNull": true,
       "format": "EPOCH|HOURS",
       "granularity": "1:HOURS"
     },

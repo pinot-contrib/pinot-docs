@@ -4,7 +4,7 @@ description: An overview of the multi-stage query engine.
 
 # Multi-stage query engine (v2)
 
-This document is an overview of the new multi-stage query engine.
+This document is an overview of the new multi-stage query engine (also known as v2 query engine).
 
 ## What do you need to know about the multi-stage engine?
 
@@ -17,6 +17,11 @@ The multi-stage engine is the new query execution engine released in Pinot 1.0.0
 {% embed url="https://www.youtube.com/watch?v=wbo_vPVIBkA" fullWidth="false" %}
 Apache Pinot 1.0 Multi-Stage Query Engine overview
 {% endembed %}
+
+## How does the multi-stage handle nulls?
+Before Pinot 1.1.0, the multi-stage query engine did not support null handling, treating all columns as non-nullable.
+In Pinot 1.1.0, the multi-stage query engine supports null handling if and only column base null storing is enabled.
+You can read more about that in the [Null value support](../developers/advanced/null-value-support.md) section.
 
 ## Why use the multi-stage query engine?
 
