@@ -4,7 +4,7 @@ description: Troubleshoot issues with Zookeeper znodes.
 
 # Troubleshoot issues with Zookeeper
 
-Pinot stores cluster metadata, including schema defintions, table config, and segment assigment, in Zookeeper.
+Pinot stores cluster metadata, including schema definitions, table configuration, and segment assignment, in ZooKeeper.
 Internally, Zookeeper uses a hierarchical namespace, similar to a file system.
 The nodes in this hierarchy are called znodes and they can store data and have children.
 
