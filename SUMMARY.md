@@ -157,7 +157,7 @@
   * [Ingestion Transformations](developers/advanced/ingestion-level-transformations.md)
   * [Null value support](developers/advanced/null-value-support.md)
   * [Use the multi-stage query engine (v2)](developers/advanced/v2-multi-stage-query-engine.md)
-  * [Troubleshoot issues with the multi-stage query engine (v2)](developers/advanced/troubleshoot-multi-stage-query-engine.md)
+  * [Troubleshoot issues with the multi-stage query engine (v2)](developers/advanced/troubleshoot-issues-with-the-multi-stage-query-engine-v2.md)
   * [Advanced Pinot Setup](developers/advanced/advanced-pinot-setup.md)
 * [Plugins](developers/plugin-architecture/README.md)
   * [Write Custom Plugins](developers/plugin-architecture/write-custom-plugins/README.md)
@@ -398,8 +398,8 @@
 * [Single-stage query engine (v1)](reference/single-stage-engine.md)
 * [Multi-stage query engine (v2)](reference/multi-stage-engine.md)
 * [Troubleshooting](reference/troubleshooting/README.md)
-  * [Troubleshoot issues with the multi-stage query engine (v2)](/reference/troubleshooting/troubleshoot-multi-stage-query-engine.md)
-  * [Troubleshoot issues with ZooKeeper znodes](/reference/troubleshooting/troubleshoot-zookeeper.md)
+  * [Troubleshoot issues with the multi-stage query engine (v2)](reference/troubleshooting/troubleshoot-multi-stage-query-engine.md)
+  * [Troubleshoot issues with ZooKeeper znodes](reference/troubleshooting/troubleshoot-zookeeper.md)
 
 ## RESOURCES <a href="#community-1" id="community-1"></a>
 
