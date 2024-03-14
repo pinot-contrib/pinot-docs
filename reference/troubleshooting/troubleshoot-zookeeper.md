@@ -29,8 +29,8 @@ For existing segments, we'll need to run the [Minion merge rollup task](../recip
 
 ## Adjust Zookeeper znode size
 
-The other way is to adjust the maximum size of znodes in Zookeeper.
-This is done by configuring the `jute.maxbuffer` Java system property, which defines the maximum znode size in bytes.
-To read more about this property, see the [Zookeeper documentation](https://zookeeper.apache.org/doc/r3.6.2/zookeeperAdmin.html).
+Adjust the maximum size of znodes in ZooKeeper.
+To do this, configure the `jute.maxbuffer` Java system property, which defines the maximum znode size in bytes.
+To read more about this property, see the [ZooKeeper documentation](https://zookeeper.apache.org/doc/r3.6.2/zookeeperAdmin.html).
 
-A reasonable value to try out would be 4MB and the parameter should be set to the same value on the Zookeeper node as well as clients that are interacting with Zookeeper i.e. all of the Pinot components
+We recommend setting this value to 4MB. Set this parameter to the same value on the ZooKeeper node and clients that are interacting with ZooKeeper (all Pinot components).
