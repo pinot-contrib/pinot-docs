@@ -11,7 +11,7 @@ The removal of segments is done by the retention manager. By default, the retent
 The retention manager purges two types of segments:
 
 * Expired segments: Segments whose end time has exceeded the retention period.
-* Replaced segments: Segments that have been replaced as part of the [merge rollup](../../operators/operating-pinot/minion-merge-rollup-task.md) process.
+* Replaced segments: Segments that have been replaced as part of the
 
 There are a couple of scenarios where segments in offline tables won't be purged:
 
