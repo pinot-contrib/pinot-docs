@@ -50,8 +50,7 @@ Although storing null handling can be enabled after data has been ingested, data
 will not store the null index and therefore it will be treated as not null.
 {% endhint %}
 
-Null storing support is defined per table. 
-This means that one table may be configured to store nulls while another table may not.
+Null support is configured per table. You can configure one table to store nulls, and configure another table to not store nulls.
 There are two ways to define null storing support in Pinot:
 
 1. [Column based null handling](#column-based-null-handling), where each column inside the table can be configured as 
