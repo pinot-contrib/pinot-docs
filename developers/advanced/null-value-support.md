@@ -53,22 +53,17 @@ will not store the null index and therefore it will be treated as not null.
 Null support is configured per table. You can configure one table to store nulls, and configure another table to not store nulls.
 There are two ways to define null storing support in Pinot:
 
-1. [Column based null handling](#column-based-null-handling), where each column inside the table can be configured as 
-nullable or not nullable. 
-This is the recommended way to enable null storing support and only way to support null handling in 
+1. [Column based null handling](#column-based-null-handling), where each column in a table is configured as nullable or not nullable. 
+We recommend enabling null storing support by column. This is the only way to support null handling in the 
 [multi-stage query engine](../../reference/multi-stage-engine.md).
 2. [Table based null handling](#table-based-null-handling), where all columns in the table are considered nullable.
-This was the only way to handle null values in Pinot before 1.1.0, but it is considered deprecated.
+This is how null values were handled before Pinot 1.1.0 and now deprecated.
 
 ### Column based null storing
 
-Column based null storing was introduced in Pinot 1.1.0 and since then it is the recommended way to configure null 
-storing in Pinot given it allows you to specify null storing at column basis.
-It is also the only way to support null handling in multi-stage query engine.
+We recommend configuring column based null storing, which lets you specify null handling per column and supports null handling in the multi-stage query engine.
 
-In order to enable column based null handling, you have to set 
-[enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) to `true` in the schema configuration
-before ingesting the data. 
+To enable column based null handling, set [enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) to `true` in the schema configuration before ingesting data. 
 Then you have to specify which columns are not nullable using the `notNull` field spec, which defaults to false.
 
 ```json
@@ -125,8 +120,7 @@ In order to use null handling at query time, it is first necessary to enable [st
 Then basic null handling will be enabled by default and advanced null handling support can be optionally enabled.
 
 {% hint style="warn" %}
-Remember that multi-stage query engine requires column based null storing.
-Tables that use table based null storing will be considered not nullable when using multi-stage query engine.
+The multi-stage query engine requires column based null storing. Tables with table based null storing are considered not nullable.
 {% endhint %}
 
 ### Basic null support
@@ -217,8 +211,7 @@ Even they have similar names, the `nullHandlingEnabled` table configuration and 
 Remember `nullHandlingEnabled` table configuration modifies how segments are stored and `enableNullHandling` query option modifies how queries are executed.
 {% endhint %}
 
-When this `enableNullHandling` option is set to true, Pinot query engine uses a different execution path that interprets
-nulls in a standard SQL way.
+When the `enableNullHandling` option is set to `true`, the Pinot query engine uses a different execution path that interprets nulls in a standard SQL way.
 This means that `IS NULL` and `IS NOT NULL` predicates will evaluate to `true` or `false` according to whether a null 
 is detected (like in basic null support mode) but also aggregation functions like `COUNT`, `SUM`, `AVG`, `MODE`, etc. 
 will deal with null values as expected (usually ignoring null values).

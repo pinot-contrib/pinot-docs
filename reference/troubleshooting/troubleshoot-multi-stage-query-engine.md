@@ -186,7 +186,7 @@ select add(1, add(2,add(3, add(4,5)))) from table
 
 ### NULL function support
 
-Null handling is not supported when tables use table base null storing.
+Null handling is not supported when tables use table based null storing.
 See [null handling support](null-value-support.md)
 
 ### Custom transform function support

@@ -20,12 +20,12 @@ Apache Pinot 1.0 Multi-Stage Query Engine overview
 
 ## How does the multi-stage handle nulls?
 Before Pinot 1.1.0, the multi-stage query engine did not support null handling, treating all columns as non-nullable.
-In Pinot 1.1.0, the multi-stage query engine supports null handling if and only column base null storing is enabled.
-You can read more about that in the [Null value support](../developers/advanced/null-value-support.md) section.
+In Pinot 1.1.0, the multi-stage query engine supports null handling if column based null storing is enabled.
+For more information, see the [Null value support](../developers/advanced/null-value-support.md) section.
 
 ## Why use the multi-stage query engine?
 
-You must use the multi-stage query engine (v2) to query distributed joins, window functions, and other multi-stage operators in real-time.&#x20;
+You must use the multi-stage query engine (v2) to query distributed joins, window functions, and other multi-stage operators in real-time.
 
 The multi-stage query engine is built to run real-time, complex ANSI SQL ([ISO/IEC 9075](https://en.wikipedia.org/wiki/ISO/IEC\_9075)). Highlights include joins and data correlations, particularly optimized for dynamic broadcast fact-dim joins, and partitioned-based or colocated table joins.
 
