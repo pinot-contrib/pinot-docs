@@ -8,9 +8,9 @@ description: >-
 # Schema
 
 Each table in Pinot is associated with a schema. A schema defines:
-- What fields are present in the table along with the data types.
+- Fields in the table with their data types.
 - Whether the table uses column-based or table-based null handling.
-  See [Null value support](../../developers/advanced/null-value-support.md) for more information about this.
+  For more information, see [Null value support](../../developers/advanced/null-value-support.md).
 
 
 The schema is stored in Zookeeper along with the table configuration.

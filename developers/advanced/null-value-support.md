@@ -42,8 +42,8 @@ If the column type is not String, Pinot will convert that value to the column ty
 In order to support any kind of null handling, the first thing that must be done is to store null values in the segments.
 As said above, independently on whether null storing is enabled or not, the forward index will always store the default
 value for null rows.
-When null storing is enabled, Pinot will create a new index called the _null index_ or _null vector index_.
-This index stores the document ids of the rows that have null values for the column.
+When null storing is enabled, Pinot creates a new index called the _null index_ or _null vector index_.
+This index stores the document IDs of the rows that have null values for the column.
 
 {% hint style="danger" %}
 Although storing null handling can be enabled after data has been ingested, data ingested before this mode is enabled
