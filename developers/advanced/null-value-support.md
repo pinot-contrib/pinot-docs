@@ -46,7 +46,7 @@ When null storing is enabled, Pinot creates a new index called the _null index_ 
 This index stores the document IDs of the rows that have null values for the column.
 
 {% hint style="danger" %}
-Although storing null handling can be enabled after data has been ingested, data ingested before this mode is enabled
+Although null storing can be enabled after data has been ingested, data ingested before this mode is enabled
 will not store the null index and therefore it will be treated as not null.
 {% endhint %}
 
@@ -63,8 +63,9 @@ This is how null values were handled before Pinot 1.1.0 and now deprecated.
 
 We recommend configuring column based null storing, which lets you specify null handling per column and supports null handling in the multi-stage query engine.
 
-To enable column based null handling, set [enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) to `true` in the schema configuration before ingesting data. 
-Then you have to specify which columns are not nullable using the `notNull` field spec, which defaults to false.
+To enable column based null handling:
+1. Set [enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) to `true` in the schema configuration before ingesting data.
+2. Then specify which columns are not nullable using the `notNull` field spec, which defaults to false.
 
 ```json
 {
@@ -95,13 +96,14 @@ This is the only way to enable null storing in Pinot before 1.1.0, but it is dep
 Table based null storing is more expensive in terms of disk space and query performance than column based null storing.
 Also, it is not possible to support null handling in multi-stage query engine using table based null storing.
 
-In order to enable table based null storing, you have to enable the `nullHandlingEnabled` configuration in 
-[tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table#table-index-config) before ingesting the data.
-Once that is done, all columns of the table are considered nullable.
+To enable table based null storing, enable the `nullHandlingEnabled` configuration in
+[tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table#table-index-config) before ingesting data.
+All columns in the table are now nullable.
 
 {% hint style="warning" %}
 Remember `nullHandlingEnabled` table configuration enables table based null handling
 while `enableNullHandling` is the query option that enables advanced null handling at query time.
+See [advanced null handling support](#advanced-null-handling-support) for more information.
 {% endhint %}
 
 As an example:
@@ -116,8 +118,8 @@ As an example:
 
 ## Null handling at query time
 
-In order to use null handling at query time, it is first necessary to enable [store nulls at ingestion time](#store-nulls-at-ingestion-time).
-Then basic null handling will be enabled by default and advanced null handling support can be optionally enabled.
+To enable basic null handling by at query time, enable Pinot to [store nulls at ingestion time](#store-nulls-at-ingestion-time).
+Advanced null handling support can be optionally enabled.
 
 {% hint style="warn" %}
 The multi-stage query engine requires column based null storing. Tables with table based null storing are considered not nullable.
@@ -217,9 +219,8 @@ is detected (like in basic null support mode) but also aggregation functions lik
 will deal with null values as expected (usually ignoring null values).
 
 In this mode, some indexes may not be usable, and queries may be significantly more expensive.
-Performance degradation will impact all the columns in the table, even if columns that intervene in the query do not 
-actually contain null values.
-This happens even when table uses column base null storing.
+Performance degradation impacts all the columns in the table, including columns in the query that do not contain null values.
+This degradation happens even when table uses column base null storing.
 
 ### Examples queries
 
