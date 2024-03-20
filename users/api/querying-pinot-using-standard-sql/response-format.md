@@ -1,8 +1,26 @@
+---
+description: >-
+  See examples of the Pinot broker query response format, which returns data in
+  a SQL-like tabular structure. Includes details about each field included in
+  the query response.
+---
+
 # Query Response Format
+
+Find Pinot query response format examples for selection, aggregation, and group by queries formatted in a [SQL-like structure](response-format.md#standard-sql-response). Also find details about each field included in the Pinot [broker query response](response-format.md#broker-query-response-fields).
+
+To learn more about how a Pinot broker routes and processes queries, computes the query explain plan, and ways to optimize queries, see the following topics:
+
+* [Processing queries](../../../basics/architecture.md#query-processing)
+* Query explain plans:
+  * [Single-stage query engine](../../user-guide-query/explain-plan.md)
+  * [Multi-stage query engine](../../user-guide-query/query-syntax/explain-plan-multi-stage.md)
+* [Optimizing query routing](../../../operators/operating-pinot/tuning/routing.md#optimizing-routing)
+  * [Use adaptive server selection](../../../operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection.md)
 
 ### Standard-SQL response
 
-Response is returned in a **SQL-like tabular structure.** Note, this is the response returned from the standard-SQL endpoint. For PQL endpoint response, skip to [PQL endpoint response](response-format.md#pql-endpoint-response)
+The query response is returned in a **SQL-like tabular structure** from the standard-SQL endpoint.&#x20;
 
 {% tabs %}
 {% tab title="Selections" %}
@@ -182,169 +200,13 @@ $ curl -X POST \
 {% endtab %}
 {% endtabs %}
 
-| Response Field                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| resultTable                            | This contains everything needed to process the response                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| resultTable.dataSchema                 | This describes schema of the response (columnNames and their dataTypes)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| resultTable.dataSchema.columnNames     | columnNames in the response.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| resultTable.dataSchema.columnDataTypes | DataTypes for each column                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| resultTable.rows                       | Actual content with values. This is an array of arrays. number of rows depends on the limit value in the query. The number of columns in each row is equal to the length of (resultTable.dataSchema.columnNames)                                                                                                                                                                                                                                                                                                                                                                       |
-| timeUsedms                             | Total time taken as seen by the broker before sending the response back to the client                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| totalDocs                              | This is number of documents/records in the table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| numServersQueried                      | represents the number of servers queried by the broker (note that this may be less than the total number of servers since broker can apply some optimizations to minimize the number of servers)                                                                                                                                                                                                                                                                                                                                                                                       |
-| numServersResponded                    | This should be equal to the numServersQueried. If this is not the same, then one of more servers might have timed out. If numServersQueried != numServersResponded the results can be considered partial and clients can retry the query with exponential back off.                                                                                                                                                                                                                                                                                                                    |
-| numSegmentsQueried                     | Total number of segmentsQueried for this query. it may be less than the total number of segments since broker can apply optimizations.                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| numSegmentsMatched                     | This is the number of segments processed with at least one document matched query response. In general numSegmentsQueried <= numSegmentsProcessed <= numSegmentsMatched.                                                                                                                                                                                                                                                                                                                                                                                                               |
-| numSegmentsProcessed                   | Number of segment operators used to process segments. This is indicates the effectiveness of the pruning logic.                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| numDocScanned                          | The number of docs/records that were selected after filter phase.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| numEntriesScannedInFilter              | <p>The number of entries scanned in the filtering phase of query execution. </p><p>It could be larger than the total scanned doc count because of multiple filtering predicate and/or multi-value entries. </p><p>It can also be smaller than the total scanned doc count if indexing is used for filtering. </p><p> </p><p>This along with numEntriesScannedInPostFilter should give an idea on where most of the time is spent during query processing. If this is high, enabling indexing for columns in tableConfig can be one way to bring it down.</p>                           |
-| numEntriesScannedPostFilter            | <p>The number of entries scanned after the filtering phase of query execution, ie. aggregation and/or group-by phases. This is equivalent to numDocScanned * number of projected columns. </p><p></p><p>This along with numEntriesScannedInFilter should give an idea on where most of the time is spent during query processing. </p><p></p><p>A high number for this means the selectivity is low (i.e. pinot needs to scan a lot of records to answer the query). If this is high, adding regular inverted/bitmap index will not help. However, consider using star-tree index.</p> |
-| numGroupsLimitReached                  | If the query has group by clause and top K, pinot drops new entries after the numGroupsLimit is reached. If this boolean is set to true then the query result may not be accurate. Note that the default value for numGroupsLimit is 100k and should be sufficient for most use cases.                                                                                                                                                                                                                                                                                                 |
-| exceptions                             | Will contain the stack trace if there is any exception processing the query.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| segmentStatistics                      | N/A                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| traceInfo                              | If trace is enabled (can be enabled for each query), this will contain the timing for each stage and each segment. Advanced feature and intended for dev/debugging purposes                                                                                                                                                                                                                                                                                                                                                                                                            |
+### Broker query response fields
 
-### PQL response
-
-{% hint style="warning" %}
-**Note**
-
-PQL endpoint is deprecated, and will soon be removed. The standard sql endpoint is the recommended endpoint.
-{% endhint %}
-
-The response received from PQL endpoint is different depending on the type of the query.
-
-{% tabs %}
-{% tab title="Selections" %}
-```javascript
-curl -X POST \
-  -d '{"pql":"select * from flights limit 3"}' \
-  http://localhost:8099/query
+<table><thead><tr><th width="362.5">Response Field</th><th>Description</th></tr></thead><tbody><tr><td>resultTable</td><td>Contains everything needed to process the response</td></tr><tr><td>resultTable.dataSchema</td><td>Describes the schema of the response, including <code>columnNames</code> and their <code>dataTypes</code></td></tr><tr><td>resultTable.dataSchema.columnNames</td><td><code>columnNames</code> in the response</td></tr><tr><td>resultTable.dataSchema.columnDataTypes</td><td><code>dataTypes</code> for each column</td></tr><tr><td>resultTable.rows</td><td>Actual content with values. This is an array of arrays. The number of rows depends on the limit value in the query. The number of columns in each row is equal to the length of <code>resultTable.dataSchema.columnNames</code></td></tr><tr><td>timeUsedms</td><td>Total time taken as seen by the broker before sending the response back to the client.</td></tr><tr><td>totalDocs</td><td>Number of documents/records in the table.</td></tr><tr><td>numServersQueried</td><td>Represents the number of servers queried by the broker (may be less than the total number of servers since the broker can apply some optimizations to minimize the number of servers).</td></tr><tr><td>numServersResponded</td><td>This should be equal to the <code>numServersQueried</code>. If this is not the same, then one of more servers might have timed out. If <code>numServersQueried != numServersResponded,</code> the results can be considered partial and clients can retry the query with exponential back off.</td></tr><tr><td>numSegmentsQueried</td><td><p>The total number of <code>segmentsQueried</code> for a query. May be less than the total number of segments if the broker applies optimizations. </p><p></p><p>The broker decides how many segments to query on each server, based on broker pruning logic. The server decides how many of these segments to actually look at, based on server pruning logic. After processing segments for a query, fewer may have the matching records. <br><br>In general, <code>numSegmentsQueried >= numSegmentsProcessed >= numSegmentsMatched.</code></p></td></tr><tr><td>numSegmentsMatched</td><td>The number of segments processed with at least one document matched in the query response. </td></tr><tr><td>numSegmentsProcessed</td><td><p>The number of segment operators used to process segments. Indicates the effectiveness of the pruning logic. For more information, see query plans for:</p><ul><li><a href="../../user-guide-query/explain-plan.md">Single-stage query engine</a></li><li><a href="../../user-guide-query/query-syntax/explain-plan-multi-stage.md">Multi-stage query engine</a></li></ul></td></tr><tr><td>numDocScanned</td><td>The number of docs/records selected <em>after</em> the filter phase.</td></tr><tr><td>numEntriesScannedInFilter</td><td><p>The number of entries scanned in the filtering phase of query execution. </p><p>Can be larger than the total scanned doc count because of multiple filtering predicates or multi-value entries. </p><p>Can also be smaller than the total scanned doc count if indexing is used for filtering. </p><p> </p><p>This along with <code>numEntriesScannedInPostFilter</code> indicates where most of the time is spent during query processing. If this value is high, enabling indexing for columns in <code>tableConfig</code> is a way to bring it down.</p></td></tr><tr><td>numEntriesScannedPostFilter</td><td><p>The number of entries scanned after the filtering phase of query execution, ie. aggregation and/or group-by phases. This is equivalent to <code>numDocScanned</code> * number of projected columns. </p><p></p><p>This along with <code>numEntriesScannedInFilter</code> indicates where most of the time is spent during query processing. </p><p></p><p>A high number for this means the selectivity is low (that is, Pinot needs to scan a lot of records to answer the query). If this is high, consider using star-tree index. (A regular inverted/bitmap index won't improve performance.)</p></td></tr><tr><td>numGroupsLimitReached</td><td>If the query has a <code>group by</code> clause and top K, Pinot drops new entries after the <code>numGroupsLimit</code> is reached. If this boolean is set to true, the query result may not be accurate. The default value for <code>numGroupsLimit</code> is 100k, and should be sufficient for most use cases.</td></tr><tr><td>exceptions</td><td>Will contain the stack trace if there is any exception processing the query.</td></tr><tr><td>segmentStatistics</td><td>N/A</td></tr><tr><td>traceInfo</td><td>If trace is enabled (can be enabled for each query), this contains the timing for each stage and each segment. Use for development and debugging purposes.</td></tr></tbody></table>
 
 
-{
- "selectionResults":{
-    "columns":[
-       "Cancelled",
-       "Carrier",
-       "DaysSinceEpoch",
-       "Delayed",
-       "Dest",
-       "DivAirports",
-       "Diverted",
-       "Month",
-       "Origin",
-       "Year"
-    ],
-    "results":[
-       [
-          "0",
-          "AA",
-          "16130",
-          "0",
-          "SFO",
-          [],
-          "0",
-          "3",
-          "LAX",
-          "2014"
-       ],
-       [
-          "0",
-          "AA",
-          "16130",
-          "0",
-          "LAX",
-          [],
-          "0",
-          "3",
-          "SFO",
-          "2014"
-       ],
-       [
-          "0",
-          "AA",
-          "16130",
-          "0",
-          "SFO",
-          [],
-          "0",
-          "3",
-          "LAX",
-          "2014"
-       ]
-    ]
- },
- "traceInfo":{},
- "numDocsScanned":3,
- "aggregationResults":[],
- "timeUsedMs":10,
- "segmentStatistics":[],
- "exceptions":[],
- "totalDocs":102
-}
-```
-{% endtab %}
-
-{% tab title="Aggregations" %}
-```javascript
-curl -X POST \
-  -d '{"pql":"select count(*) from flights"}' \
-  http://localhost:8099/query
 
 
-{
- "traceInfo":{},
- "numDocsScanned":17,
- "aggregationResults":[
-    {
-       "function":"count_star",
-       "value":"17"
-    }
- ],
- "timeUsedMs":27,
- "segmentStatistics":[],
- "exceptions":[],
- "totalDocs":17
-}
-```
-{% endtab %}
-
-{% tab title="Group By" %}
-```javascript
-curl -X POST \
-  -d '{"pql":"select count(*) from flights group by Carrier"}' \
-  http://localhost:8099/query
 
 
-{
- "traceInfo":{},
- "numDocsScanned":23,
- "aggregationResults":[
-    {
-       "groupByResult":[
-          {
-             "value":"10",
-             "group":["AA"]
-          },
-          {
-             "value":"9",
-             "group":["VX"]
-          },
-          {
-             "value":"4",
-             "group":["WN"]
-          }
-       ],
-       "function":"count_star",
-       "groupByColumns":["Carrier"]
-    }
- ],
- "timeUsedMs":47,
- "segmentStatistics":[],
- "exceptions":[],
- "totalDocs":23
-}
-```
-{% endtab %}
-{% endtabs %}
+
