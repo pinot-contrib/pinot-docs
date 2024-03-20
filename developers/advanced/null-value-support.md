@@ -30,7 +30,7 @@ Pinot always stores column values in a [forward index](../../basics/indexing/for
 Forward index never stores null values but have to store a value for each row.
 Therefore independent of the null handling configuration, Pinot always stores a default value for nulls rows in the forward index.
 The default value used in a column can be specified in the [schema](../../configuration-reference/schema.md) 
-configuration by setting the `defaultNullValue` field spec.
+configuration by setting the `defaultNullValue` field spec. The `defaultNullValue` depends on the type of data.
 
 {% hint style="info" %}
 Remember that in the JSON used as table configuration, `defaultNullValue` must always be a String.
