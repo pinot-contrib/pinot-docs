@@ -6,14 +6,14 @@ description: >-
 
 # Controller
 
-The Pinot controller schedules and reschedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, the Pinot controller schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (for example, ingest of [real-time tables](data-import/pinot-stream-ingestion) and [offline tables](data-import/batch-ingestion)). The Pinot controller can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration. 
+The Pinot controller schedules and reschedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, the Pinot controller schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (for example, ingest of [real-time tables](../../../configuration-reference/table.md#real-time-table-config) and [offline tables](../../../configuration-reference/table.md#offline-table)). The Pinot controller can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
-The controller exposes a [REST API endpoint](/users/api/controller-api-reference) for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
+The controller exposes a [REST API endpoint](../../../users/api/controller-api-reference.md) for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
 
 The Pinot controller is responsible for the following:
 
 * Maintaining **global metadata** (e.g., configs and schemas) of the system with the help of Zookeeper which is used as the persistent metadata store.
-* Hosting the **Helix Controller** and managing other Pinot components (brokers, servers, minions)&#x20;
+* Hosting the **Helix Controller** and managing other Pinot components (brokers, servers, minions)
 * Maintaining the **mapping of which servers are responsible for which segments**. This mapping is used by the servers to download the portion of the segments that they are responsible for. This mapping is also used by the broker to decide which servers to route the queries to.
 * Serving **admin endpoints** for viewing, creating, updating, and deleting configs, which are used to manage and operate the cluster.
 * Serving endpoints for **segment uploads**, which are used in offline data pushes. They are responsible for initializing **real-time consumption** and coordination of persisting real-time segments into the segment store periodically.
@@ -23,9 +23,9 @@ For redundancy, there can be multiple instances of Pinot controllers. Pinot expe
 
 ## Running the periodic task manually
 
-The controller runs several periodic tasks in the background, to perform activities such as management and validation. Each periodic task has [its own configuration](https://docs.pinot.apache.org/configuration-reference/controller#periodic-tasks-configuration) to define the run frequency and default frequency. Each task runs at its own schedule or can also be triggered manually if needed. The task runs on the lead controller for each table.&#x20;
+The controller runs several periodic tasks in the background, to perform activities such as management and validation. Each periodic task has [its own configuration](https://docs.pinot.apache.org/configuration-reference/controller#periodic-tasks-configuration) to define the run frequency and default frequency. Each task runs at its own schedule or can also be triggered manually if needed. The task runs on the lead controller for each table.
 
-For period task configuration details, see [Controller configuration reference](https://docs.pinot.apache.org/configuration-reference/controller#periodic-tasks-configuration).&#x20;
+For period task configuration details, see [Controller configuration reference](https://docs.pinot.apache.org/configuration-reference/controller#periodic-tasks-configuration).
 
 Use the `GET /periodictask/names` API to fetch the names of all the periodic tasks running on your Pinot cluster.
 
