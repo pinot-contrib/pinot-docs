@@ -156,7 +156,7 @@ We're using the [jq command line JSON processor](https://stedolan.github.io/jq/)
 
 ## Querying
 
-You can now run some queries that filter on the `uuid` column., as shown below:
+You can now run some queries that filter on the `uuid` column, as shown below:
 
 ```sql
 SELECT * 
