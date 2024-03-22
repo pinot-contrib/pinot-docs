@@ -41,9 +41,7 @@ To update existing data and segments, after you update and save the changes to t
 * In the Pinot UI, from the table page, click **Reload All Segments**.
 * Using the Pinot API, send `POST /segments/{tableName}/reload`.
 
-**When you re-partition data**, perform a segment [refresh](https://docs.pinot.apache.org/basics/getting-started/frequent-questions/operations-faq#whats-the-difference-between-reset-refresh-and-reload). To refresh, replace an existing segment with a new one by uploading a segment reusing the existing filename.
-* Using the Pinot API, send `POST /segments?tableName={yourTableName}`.
-* Automate this action by including `SegmentRefreshTask` in your table configuration to make Pinot refresh segments if they are not consistent with the table configuration. See the [SegmentRefreshTask](../getting-started/table-config-file-usage.md) documentation for limitations to using this.
+**When you re-partition data**, perform a segment [refresh](https://docs.pinot.apache.org/basics/getting-started/frequent-questions/operations-faq#whats-the-difference-between-reset-refresh-and-reload). To refresh, replace an existing segment with a new one by uploading a segment reusing the existing filename. Use the Pinot API, send `POST /segments?tableName={yourTableName}`.
 
 **When you change the transform function used to populate a derived field** or **increase the number of partitions in an upsert-enabled table**, perform a table re-bootstrap. One way to do this is to delete and recreate the table:
 * Using the Pinot API, first send `DELETE /tables/{tableName}` followed by `POST /tables` with the new table configuration.
