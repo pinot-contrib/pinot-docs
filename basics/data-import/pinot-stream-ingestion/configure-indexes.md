@@ -171,5 +171,4 @@ You'll need to change the actual `uuid` value to a value that exists in your dat
 
 You've now learned how to add an index to a real-time table, and refresh all the segments to recognize the new index.
 
-It's probably now time to try ingesting your own dataset.
-There are [recipes](../recipes) to help you solve common problems and you can always [join the community](../../community) to get any questions answered.
+Next up, learn how to ingest your own dataset. Check out [recipes](../recipes) designed to help you solve common problems and [join the community](../../community) to find answers to your questions.
