@@ -2,7 +2,7 @@
 
 Learn how to apply indexes to a Pinot table. This guide assumes that you have followed the [Ingest data from Apache Kafka](/basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md) guide.
 
-Pinot supports a series of different indexes that can be used to optimise query performance. In this guide we'll learn
+Pinot supports a series of different indexes that can be used to optimize query performance. In this guide, we'll learn
 how to add indexes to the `events` table that we set up in the [Ingest data from Apache Kafka](/basics/data-import/pinot-stream-ingestion/import-from-apache-kafka.md) guide.
 
 ### Why do we need indexes?
