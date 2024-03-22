@@ -165,7 +165,7 @@ WHERE uuid = 'f4a4f'
 LIMIT 10
 ```
 
-You'll need to change the actual `uuid` value to a value that exists in your database, since the UUIDs are generated randomly by our script.
+You'll need to change the actual `uuid` value to a value that exists in your database, because the UUIDs are generated randomly by our script.
 
 ## Next steps
 
