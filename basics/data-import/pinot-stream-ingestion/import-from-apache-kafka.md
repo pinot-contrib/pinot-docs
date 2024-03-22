@@ -4,92 +4,219 @@ description: >-
   topic into a Pinot table.
 ---
 
-# Apache Kafka
+# Ingest streaming data from Apache Kafka
 
-In this page, you'll learn how to import data into Pinot using Apache Kafka for real-time stream ingestion. Pinot has out-of-the-box real-time ingestion support for Kafka.
+Learn how to ingest data from Kafka, a stream processing platform.
+You should have a local cluster up and running, following the instructions in [Set up a cluster](/operators/operating-pinot/setup-cluster.md).
 
-Let's set up a demo Kafka cluster locally, and create a sample topic `transcript-topic`
+## Install and Launch Kafka
 
-{% tabs %}
-{% tab title="Docker" %}
-**Start Kafka**
+Let's start by downloading Kafka to our local machine.
+
+<Tabs items={['Docker', 'Launcher Scripts']}>  
+  <Tabs.Tab>
+    To pull down the latest Docker image, run the following command:
+
+    ```bash
+    docker pull wurstmeister/kafka:latest
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    Download Kafka from [kafka.apache.org/quickstart#quickstart_download](https://kafka.apache.org/quickstart#quickstart_download) and then extract it:
+
+    **Unpack Kafka**
+    ```bash
+    tar -xzf kafka_2.13-3.1.0.tgz
+    cd kafka_2.13-3.1.0
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+
+Next we'll spin up a Kafka broker:
+
+
+<Tabs items={['Docker', 'Launcher Scripts']}>  
+  <Tabs.Tab>
+    ```bash
+    docker run \
+        --network pinot-demo \
+        --name=kafka \
+        -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181/kafka \
+        -e KAFKA_BROKER_ID=0 \
+        -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+        wurstmeister/kafka:latest
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    On one terminal window run this command:
+
+    **Start Zookeeper**
+    ```bash
+    bin/zookeeper-server-start.sh config/zookeeper.properties
+    ```
+
+    And on another window, run this command:
+
+    **Start Kafka Broker**
+    ```bash
+    bin/kafka-server-start.sh config/server.properties
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+
+
+## Data Source
+
+We're going to generate some JSON messages from the terminal using the following script:
 
 ```bash
-docker run \
-    --network pinot-demo --name=kafka \
-    -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
-    -e KAFKA_BROKER_ID=0 \
-    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
-    -p 2181:2181 \
-    -d wurstmeister/kafka:latest
-```
+import datetime
+import uuid
+import random
+import json
 
-**Create a Kafka topic**
-
-```bash
-docker exec \
-  -t kafka \
-  /opt/kafka/bin/kafka-topics.sh \
-  --zookeeper pinot-zookeeper:2181/kafka \
-  --partitions=1 --replication-factor=1 \
-  --create --topic transcript-topic
-```
-{% endtab %}
-
-{% tab title="Using launcher scripts" %}
-**Start Kafka**
-
-Start Kafka cluster on port `9092` using the same Zookeeper from the [quick-start examples](../../getting-started/running-pinot-in-docker.md).
+while True:
+    ts = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    id = str(uuid.uuid4())
+    count = random.randint(0, 1000)
+    print(
+        json.dumps({"ts": ts, "uuid": id, "count": count})
+    )
 
 ```
-bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2181/kafka -port 9092
+*datagen.py*
+
+If you run this script (`python datagen.py`), you'll see the following output:
+
+```json
+{"ts": 1644586485807, "uuid": "93633f7c01d54453a144", "count": 807}
+{"ts": 1644586485836, "uuid": "87ebf97feead4e848a2e", "count": 41}
+{"ts": 1644586485866, "uuid": "960d4ffa201a4425bb18", "count": 146}
 ```
 
-**Create a Kafka topic**
+## Ingesting Data into Kafka
 
-Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart\_download). Create a topic.
+Let's now pipe that stream of messages into Kafka, by running the following command:
 
-```css
-bin/kafka-topics.sh --create --bootstrap-server kafka:9092 --replication-factor 1 --partitions 1 --topic transcript-topic
+
+<Tabs items={['Docker', 'Launcher Scripts']}>  
+  <Tabs.Tab>
+    ```bash
+    python datagen.py | 
+    docker exec -i kafka /opt/kafka/bin/kafka-console-producer.sh \
+        --bootstrap-server localhost:9092 \
+        --topic events;
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash
+    python datagen.py | 
+    bin/kafka-console-producer.sh \
+        --bootstrap-server localhost:9092 \
+        --topic events;
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+We can check how many messages have been ingested by running the following command:
+
+<Tabs items={['Docker', 'Launcher Scripts']}>  
+  <Tabs.Tab>
+    ```bash
+    docker exec -i kafka kafka-run-class.sh kafka.tools.GetOffsetShell \
+      --broker-list localhost:9092 \
+      --topic events
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash
+    kafka-run-class.sh kafka.tools.GetOffsetShell \
+      --broker-list localhost:9092 \
+      --topic events
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+**Output**
+```text
+events:0:11940
 ```
-{% endtab %}
-{% endtabs %}
 
-### Create schema configuration
+And we can print out the messages themselves by running the following command
 
-We will publish the data in the same format as mentioned in the [Stream ingestion](./) docs. So you can use the same schema mentioned under [Create Schema Configuration](./#create-schema-configuration).
+<Tabs items={['Docker', 'Launcher Scripts']}>  
+  <Tabs.Tab>
+    ```bash
+    docker exec -i kafka /opt/kafka/bin/kafka-console-consumer.sh \
+      --bootstrap-server localhost:9092 \
+      --topic events
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash
+    bin/kafka-console-consumer.sh \
+      --bootstrap-server localhost:9092 \
+      --topic events
+    ```
+  </Tabs.Tab>
+</Tabs>
 
-### Create table configuration
+**Output**
+```json
+...
+{"ts": 1644586485807, "uuid": "93633f7c01d54453a144", "count": 807}
+{"ts": 1644586485836, "uuid": "87ebf97feead4e848a2e", "count": 41}
+{"ts": 1644586485866, "uuid": "960d4ffa201a4425bb18", "count": 146}
+...
+```
 
-The real-time table configuration for the `transcript` table described in the schema from the previous step.
+## Schema
 
-For Kafka, we use streamType as `kafka` . See [#create-table-configuration](./#create-table-configuration "mention") for available decoder class options. You can also write your own decoder by extending the `StreamMessageDecoder` interface and putting the jar file in `plugins` directory.
+A schema defines what fields are present in the table along with their data types in JSON format. 
 
-The `lowLevel` consumer reads data per partition whereas the `highLevel` consumer utilises Kafka high level consumer to read data from the whole stream. It doesn't have the control over which partition to read at a particular momemt.
+Create a file called `/tmp/pinot/schema-stream.json` and add the following content to it.
 
-For Kafka versions below 2.X, use `org.apache.pinot.plugin.stream.kafka09.KafkaConsumerFactory`
+```json
+{
+  "schemaName": "events",
+  "dimensionFieldSpecs": [
+    {
+      "name": "uuid",
+      "dataType": "STRING"
+    }
+  ],
+  "metricFieldSpecs": [
+    {
+      "name": "count",
+      "dataType": "INT"
+    }
+  ],
+  "dateTimeFieldSpecs": [{
+    "name": "ts",
+    "dataType": "TIMESTAMP",
+    "format" : "1:MILLISECONDS:EPOCH",
+    "granularity": "1:MILLISECONDS"
+  }]
+}
+```
 
-For Kafka version 2.X and above, use\
-`org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`
+## Table Config
 
-You can set the offset to -
+A table is a logical abstraction that represents a collection of related data. 
+It is composed of columns and rows (known as documents in Pinot). 
+The table config defines the table's properties in JSON format.
 
-* `smallest` to start consumer from the earliest offset
-* `largest` to start consumer from the latest offset
-* `timestamp in format yyyy-MM-dd'T'HH:mm:ss.SSSZ` to start the consumer from the offset after the timestamp.
-* `datetime duration or period` to start the consumer from the offset after the period eg., '2d'.
+Create a file called `/tmp/pinot/table-config-stream.json` and add the following content to it.
 
-The resulting configuration should look as follows -
-
-{% code title="/tmp/pinot-quick-start/transcript-table-realtime.json" %}
-```css
- {
-  "tableName": "transcript",
+```json
+{
+  "tableName": "events",
   "tableType": "REALTIME",
   "segmentsConfig": {
-    "timeColumnName": "timestamp",
-    "timeType": "MILLISECONDS",
-    "schemaName": "transcript",
+    "timeColumnName": "ts",
+    "schemaName": "events",
     "replicasPerPartition": "1"
   },
   "tenants": {},
@@ -98,12 +225,13 @@ The resulting configuration should look as follows -
     "streamConfigs": {
       "streamType": "kafka",
       "stream.kafka.consumer.type": "lowlevel",
-      "stream.kafka.topic.name": "transcript-topic",
+      "stream.kafka.topic.name": "events",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.broker.list": "kafka:9092",
-      "realtime.segment.flush.threshold.time": "3600000",
-      "realtime.segment.flush.threshold.rows": "50000",
+      "realtime.segment.flush.threshold.rows": "0",
+      "realtime.segment.flush.threshold.time": "24h",
+      "realtime.segment.flush.threshold.segment.size": "50M",
       "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
     }
   },
@@ -112,83 +240,43 @@ The resulting configuration should look as follows -
   }
 }
 ```
-{% endcode %}
 
-### Upload schema and table
+## Create schema and table
 
-Now that we have our table and schema configurations, let's upload them to the Pinot cluster. As soon as the real-time table is created, it will begin ingesting available records from the Kafka topic.
+Create the table and schema by running the appropriate command below:
 
-{% tabs %}
-{% tab title="Docker" %}
-```bash
-docker run \
-    --network=pinot-demo \
-    -v /tmp/pinot-quick-start:/tmp/pinot-quick-start \
-    --name pinot-streaming-table-creation \
-    apachepinot/pinot:latest AddTable \
-    -schemaFile /tmp/pinot-quick-start/transcript-schema.json \
-    -tableConfigFile /tmp/pinot-quick-start/transcript-table-realtime.json \
-    -controllerHost pinot-quickstart \
-    -controllerPort 9000 \
-    -exec
-```
-{% endtab %}
+<Tabs items={['Docker', 'Launcher Scripts']}>  
+  <Tabs.Tab>
+      ```bash
+    docker run --rm -ti \
+        --network=pinot-demo \
+        -v /tmp/pinot:/tmp/pinot \
+        apachepinot/pinot:1.0.0 AddSchema \
+        -schemaFile /tmp/pinot/schema-stream.json \
+        -tableConfigFile /tmp/pinot/table-config-stream.json \
+        -controllerHost pinot-controller \
+        -controllerPort 9000 -exec
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+      ```bash
+    bin/pinot-admin.sh AddTable \
+      -schemaFile /tmp/pinot/schema-stream.json \
+      -tableConfigFIle /tmp/pinot/table-config-stream.json
+    ```
+  </Tabs.Tab>
+</Tabs>
 
-{% tab title="Launcher Script" %}
-```bash
-bin/pinot-admin.sh AddTable \
-    -schemaFile /tmp/pinot-quick-start/transcript-schema.json \
-    -tableConfigFile /tmp/pinot-quick-start/transcript-table-realtime.json \
-    -exec
-```
-{% endtab %}
-{% endtabs %}
 
-### Add sample data to the Kafka topic
+## Querying
 
-We will publish data in the following format to Kafka. Let us save the data in a file named as `transcript.json`.
+Navigate to [localhost:9000/#/query](http://localhost:9000/#/query) and click on the `events` table to run a query that shows the first 10 rows in this table.
 
-{% code title="transcript.json" %}
-```css
-{"studentID":205,"firstName":"Natalie","lastName":"Jones","gender":"Female","subject":"Maths","score":3.8,"timestamp":1571900400000}
-{"studentID":205,"firstName":"Natalie","lastName":"Jones","gender":"Female","subject":"History","score":3.5,"timestamp":1571900400000}
-{"studentID":207,"firstName":"Bob","lastName":"Lewis","gender":"Male","subject":"Maths","score":3.2,"timestamp":1571900400000}
-{"studentID":207,"firstName":"Bob","lastName":"Lewis","gender":"Male","subject":"Chemistry","score":3.6,"timestamp":1572418800000}
-{"studentID":209,"firstName":"Jane","lastName":"Doe","gender":"Female","subject":"Geography","score":3.8,"timestamp":1572505200000}
-{"studentID":209,"firstName":"Jane","lastName":"Doe","gender":"Female","subject":"English","score":3.5,"timestamp":1572505200000}
-{"studentID":209,"firstName":"Jane","lastName":"Doe","gender":"Female","subject":"Maths","score":3.2,"timestamp":1572678000000}
-{"studentID":209,"firstName":"Jane","lastName":"Doe","gender":"Female","subject":"Physics","score":3.6,"timestamp":1572678000000}
-{"studentID":211,"firstName":"John","lastName":"Doe","gender":"Male","subject":"Maths","score":3.8,"timestamp":1572678000000}
-{"studentID":211,"firstName":"John","lastName":"Doe","gender":"Male","subject":"English","score":3.5,"timestamp":1572678000000}
-{"studentID":211,"firstName":"John","lastName":"Doe","gender":"Male","subject":"History","score":3.2,"timestamp":1572854400000}
-{"studentID":212,"firstName":"Nick","lastName":"Young","gender":"Male","subject":"History","score":3.6,"timestamp":1572854400000}
-```
-{% endcode %}
 
-Push sample JSON into the `transcript-topic` Kafka topic, using the Kafka console producer. This will add 12 records to the topic described in the `transcript.json` file.
-
-Checkin Kafka docker container
-
-```bash
-docker exec -ti kafka bash
-```
-
-Publish messages to the target topic
-
-```bash
-bin/kafka-console-producer.sh \
-    --broker-list localhost:9092 \
-    --topic transcript-topic < transcript.json
-```
-
-### Query the table
-
-As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the [Query Console ](http://localhost:9000/query)to checkout the real-time data.
-
-```sql
-SELECT * FROM transcript
-```
-
+<p>
+    <img src="/img/events-kafka-query.png" width="600px" alt="Querying the events table" />
+    <em>Querying the events table</em>
+</p>
 ## Kafka ingestion guidelines
 
 ### Kafka versions in Pinot
