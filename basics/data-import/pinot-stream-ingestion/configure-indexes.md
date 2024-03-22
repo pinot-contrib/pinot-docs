@@ -29,7 +29,7 @@ data is sorted, Pinot creates a sorted (forward) index for that column instead o
 
 For filtering documents within a segment, Pinot supports the following indexing techniques:
 
-* Inverted index - Used for exact lookups
+* Inverted index: Used for exact lookups.
 * Range index - Used for range queries.
 * Text index - Used for phrase, term, boolean, prefix, or regex queries.
 * Geospatial index - Based on H3, a hexagon-based hierarchical gridding. 
