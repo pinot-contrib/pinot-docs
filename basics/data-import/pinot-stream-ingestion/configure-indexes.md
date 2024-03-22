@@ -20,7 +20,7 @@ By default, Pinot creates a forward index for every column. The forward index ge
 order.
 
 However, before flushing the segment, Pinot does a single pass over every column to see whether the data is sorted. If
-it is then Pinot instead creates a sorted (forward) index for that column.
+data is sorted, Pinot creates a sorted (forward) index for that column instead of the forward index.
 
 <Callout>
   For real-time tables you can also explicitly tell Pinot that one of the columns should be sorted. For more details,
