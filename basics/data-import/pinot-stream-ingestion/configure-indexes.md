@@ -118,6 +118,8 @@ curl -X GET "http://localhost:9000/segments/events/metadata?columns=uuid" \
 
 ##### Output
 
+We're using the [jq command line JSON processor](https://stedolan.github.io/jq/) to extract the fields that we're interested in.
+
 ```json
 [
   "events__0__1__20220214T1106Z",
@@ -152,8 +154,6 @@ curl -X GET "http://localhost:9000/segments/events/metadata?columns=uuid" \
 We can see from looking at the `inverted-index` property that the index has been applied.
 
 
-We're using the [jq command line JSON processor](https://stedolan.github.io/jq/) to extract the fields that we're interested in.
-
 ## Querying
 
 You can now run some queries that filter on the `uuid` column, as shown below:
@@ -166,9 +166,3 @@ LIMIT 10
 ```
 
 You'll need to change the actual `uuid` value to a value that exists in your database, because the UUIDs are generated randomly by our script.
-
-## Next steps
-
-You've now learned how to add an index to a real-time table, and refresh all the segments to recognize the new index.
-
-Next up, learn how to ingest your own dataset. Check out [recipes](../recipes) designed to help you solve common problems and [join the community](../../community) to find answers to your questions.
