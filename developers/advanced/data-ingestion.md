@@ -14,7 +14,7 @@ Once the server has loaded (memory-mapped) the segment, Helix notifies brokers o
 
 Data in offline segments are immutable (Rows cannot be added, deleted, or modified). However, segments may be replaced with modified data.
 
-Starting from `release-0.11.0`, Pinot supports uploading offline segments to real-time tables. This is useful when user wants to bootstrap a real-time table with some initial data, or add some offline data to a real-time table without changing the data stream. Note that this is different from the [hybrid table](../../basics/concepts/components/table/#hybrid-table) setup, and no time boundary is maintained between the offline segments and the real-time segments.
+Starting from `release-0.11.0`, Pinot supports uploading offline segments to real-time tables. This is useful when user wants to bootstrap a real-time table with some initial data, or add some offline data to a real-time table without changing the data stream. Note that this is different from the [hybrid table](../../basics/components/table/#hybrid-table) setup, and no time boundary is maintained between the offline segments and the real-time segments.
 
 ## Ingesting Real-time Data
 
@@ -44,7 +44,7 @@ Upon reaching either one of these limits, the servers do the following:
 
 The persisted rows form what we call a _completed_ segment (as opposed to a _consuming_ segment that resides in volatile memory).
 
-In `LowLevel` mode, the completed segments are persisted the into local non-volatile store of pinot server _as well as_ the segment store of the pinot cluster (See [Pinot Architecture Overview](../../basics/concepts/architecture.md)). This allows for easy and automated mechanisms for replacing pinot servers, or expanding capacity, etc. Pinot has [special mechanisms](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime#ConsumingandIndexingrowsinRealtime-Segmentcompletionprotocol) that ensure that the completed segment is equivalent across all replicas.
+In `LowLevel` mode, the completed segments are persisted the into local non-volatile store of pinot server _as well as_ the segment store of the pinot cluster (See [Pinot Architecture Overview](../../basics/architecture.md)). This allows for easy and automated mechanisms for replacing pinot servers, or expanding capacity, etc. Pinot has [special mechanisms](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime#ConsumingandIndexingrowsinRealtime-Segmentcompletionprotocol) that ensure that the completed segment is equivalent across all replicas.
 
 During segment completion, one winner is chosen by the controller from all the replicas as the `committer server`. The `committer server` builds the segment and uploads it to the controller. All the other `non-committer servers` follow one of these two paths:
 

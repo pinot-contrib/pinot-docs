@@ -6,8 +6,8 @@ There are multiple different sections in the documentation to help you get start
 [concepts](../../basics/concepts/)
 {% endcontent-ref %}
 
-{% content-ref url="../../basics/concepts/architecture.md" %}
-[architecture.md](../../basics/concepts/architecture.md)
+{% content-ref url="../../basics/architecture.md" %}
+[architecture.md](../../basics/architecture.md)
 {% endcontent-ref %}
 
 To get started with operating a Pinot cluster, first look at the tutorials in [Getting Started](../../basics/getting-started/) on how to run a basic pinot cluster in various environments.

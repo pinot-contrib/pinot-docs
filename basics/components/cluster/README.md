@@ -6,7 +6,7 @@ description: >-
 
 # Cluster
 
-A Pinot [_cluster_](../../../components/cluster/components/cluster/) is a collection of the software processes and hardware resources required to ingest, store, and process data. For detail about Pinot cluster components, see [Physical architecture](./#physical-architecture).
+A Pinot [_cluster_](components/cluster/) is a collection of the software processes and hardware resources required to ingest, store, and process data. For detail about Pinot cluster components, see [Physical architecture](./#physical-architecture).
 
 A Pinot cluster consists of the following processes, which are typically deployed on separate hardware resources in production. In development, they can fit comfortably into Docker containers on a typical laptop:
 
@@ -56,7 +56,7 @@ Another way to visualize the cluster is a logical view, where:
 * Tenants contain [tables](../table/)
 * Tables contain [segments](../table/segment/)
 
-![](../../../../.gitbook/assets/ClusterLogical.jpg)
+![](../../../.gitbook/assets/ClusterLogical.jpg)
 
 ## Set up a Pinot cluster
 
@@ -64,5 +64,5 @@ Typically, there is only one cluster per environment/data center. There is no ne
 
 To set up a cluster, see one of the following guides:
 
-* [Running Pinot in Docker](../../../getting-started/running-pinot-in-docker.md)
-* [Running Pinot locally](../../../getting-started/running-pinot-locally.md)
+* [Running Pinot in Docker](../../getting-started/running-pinot-in-docker.md)
+* [Running Pinot locally](../../getting-started/running-pinot-locally.md)

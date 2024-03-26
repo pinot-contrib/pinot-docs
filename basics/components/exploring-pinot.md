@@ -14,21 +14,21 @@ Navigate to [http://localhost:9000](http://localhost:9000) in your browser to op
 
 The first screen that you'll see when you open the Pinot Data Explorer is the Cluster Manager. The Cluster Manager provides a UI to operate and manage your cluster.
 
-![Pinot Cluster Manager](../../../.gitbook/assets/cluster-manager.png)
+![Pinot Cluster Manager](../../.gitbook/assets/cluster-manager.png)
 
 If you want to view the contents of a server, click on its instance name. You'll then see the following:
 
-![Pinot Server](../../../.gitbook/assets/view-server-contents.png)
+![Pinot Server](../../.gitbook/assets/view-server-contents.png)
 
 To view the _baseballStats_ table, click on its name, which will show the following screen:
 
-![baseballStats Table](<../../../.gitbook/assets/view-table-baseball-stats (1).png>)
+![baseballStats Table](<../../.gitbook/assets/view-table-baseball-stats (1).png>)
 
 From this screen, we can edit or delete the table, edit or adjust its schema, as well as several other operations.
 
 For example, if we want to add _yearID_ to the list of inverted indexes, click on **Edit Table,** add the extra column, and click **Save:**
 
-![Edit Table](../../../.gitbook/assets/edit-baseball-stats-table-config.png)
+![Edit Table](../../.gitbook/assets/edit-baseball-stats-table-config.png)
 
 ## Query Console
 
@@ -40,7 +40,7 @@ You can also execute a sample query `select * from baseballStats limit 10` by ty
 
 `Cmd + Enter` can also be used to run the query when focused on the console.
 
-![](../../../.gitbook/assets/query-console.png)
+![](../../.gitbook/assets/query-console.png)
 
 Here are some sample queries you can try:
 
@@ -63,28 +63,28 @@ from baseballStats
 order by league
 ```
 
-Pinot supports a subset of standard SQL. For more information, see [Pinot Query Language](../../../users/user-guide-query/querying-pinot.md).
+Pinot supports a subset of standard SQL. For more information, see [Pinot Query Language](../../users/user-guide-query/querying-pinot.md).
 
 ## Rest API
 
 The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
-![](../../../.gitbook/assets/pinot-admin-ui.png)
+![](../../.gitbook/assets/pinot-admin-ui.png)
 
 Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#/Table/listTables), click **Try it out**, and then click **Execute**. We can see the`baseballStats` table listed here. We can also see the exact cURL call made to the controller API.
 
-![List all tables in cluster](../../../.gitbook/assets/list-all-tables.png)
+![List all tables in cluster](../../.gitbook/assets/list-all-tables.png)
 
 You can look at the configuration of this table by going to [Tables -> Get/Enable/Disable/Drop a table](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig), click **Try it out**, type `baseballStats` in the table name, and then click **Execute**.
 
 Let's check out the schemas in the cluster by going to [Schema -> List all schemas in the cluster](http://localhost:9000/help#!/Schema/listSchemaNames), click **Try it out**, and then click **Execute**. We can see a schema called `baseballStats` in this list.
 
-![List all schemas in the cluster](../../../.gitbook/assets/list-all-schemas.png)
+![List all schemas in the cluster](../../.gitbook/assets/list-all-schemas.png)
 
 Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), click **Try it out**, type `baseballStats` in the schema name, and then click **Execute**.
 
-![baseballStats Schema](../../../.gitbook/assets/list-schema-baseball-stats.png)
+![baseballStats Schema](../../.gitbook/assets/list-schema-baseball-stats.png)
 
 Finally, let's check out the data segments in the cluster by going to [Segment -> List all segments](http://localhost:9000/help#!/Segment/getSegments), click **Try it out**, type in `baseballStats` in the table name, and then click **Execute**. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
-To learn how to upload your own data and schema, see [Batch Ingestion](../../data-import/batch-ingestion/) or [Stream ingestion](../../data-import/pinot-stream-ingestion/).
+To learn how to upload your own data and schema, see [Batch Ingestion](../data-import/batch-ingestion/) or [Stream ingestion](../data-import/pinot-stream-ingestion/).

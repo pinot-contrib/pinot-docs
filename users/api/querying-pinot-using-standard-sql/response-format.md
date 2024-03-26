@@ -11,7 +11,7 @@ Find Pinot query response format examples for selection, aggregation, and group 
 
 To learn more about how a Pinot broker routes and processes queries, computes the query explain plan, and ways to optimize queries, see the following topics:
 
-* [Processing queries](../../../basics/concepts/architecture.md#query-processing)
+* [Processing queries](../../../basics/architecture.md#query-processing)
 * Query explain plans:
   * [Single-stage query engine](../../user-guide-query/explain-plan.md)
   * [Multi-stage query engine](../../user-guide-query/query-syntax/explain-plan-multi-stage.md)

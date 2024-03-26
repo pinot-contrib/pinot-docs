@@ -22,7 +22,7 @@ The default instance assignment strategy simply assigns all the servers in the c
 
 For performance critical use cases, we might not want to share the server resources for multiple use cases to prevent the use case being impacted by other use cases hosted on the same set of servers. We can use the Tag-Based Instance Assignment to achieve isolation for tables.
 
-(Note: Logically the Tag-Based Instance Assignment is identical to the [Tenant](../../basics/concepts/components/cluster/tenant.md) concept in Pinot, but just a different way of configuring the table. We recommend using the instance assignment over the tenant config because it can achieve more complex assignment strategies, as described below.)
+(Note: Logically the Tag-Based Instance Assignment is identical to the [Tenant](../../basics/components/cluster/tenant.md) concept in Pinot, but just a different way of configuring the table. We recommend using the instance assignment over the tenant config because it can achieve more complex assignment strategies, as described below.)
 
 In order to use the Tag-Based Instance Assignment, the servers should be tagged via the Helix **InstanceConfig**, where the tag suffix (`_OFFLINE` or `_REALTIME`) denotes the type of table the server is going to serve. Each server can have multiple tags if necessary.
 

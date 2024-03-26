@@ -14,7 +14,7 @@ Every broker added to the Pinot cluster, has tags associated with it. A group of
 
 ![Broker tag](../../../.gitbook/assets/zookeeper-browser-broker-tenant.png)
 
-A Pinot table config has a tenants section, to define the tenant to be used by the table. More details about this in the [Tenants](../../../basics/concepts/components/cluster/tenant.md) section.
+A Pinot table config has a tenants section, to define the tenant to be used by the table. More details about this in the [Tenants](../../../basics/components/cluster/tenant.md) section.
 
 ```
  {   

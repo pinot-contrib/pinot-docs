@@ -45,7 +45,7 @@ bin/pinot-admin.sh StartMinion \
 
 ## Interfaces
 
-![](../../../../.gitbook/assets/task-interface-diagram.png)
+![](../../../.gitbook/assets/task-interface-diagram.png)
 
 ### Pinot task generator
 
@@ -233,11 +233,11 @@ When performing ingestion at scale remember that Pinot will list all of the file
 
 ### RealtimeToOfflineSegmentsTask
 
-See [Pinot managed Offline flows](../../../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
+See [Pinot managed Offline flows](../../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
 
 ### MergeRollupTask
 
-See [Minion merge rollup task](../../../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
+See [Minion merge rollup task](../../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
 
 ## Enable tasks
 
@@ -330,27 +330,27 @@ In the Pinot UI, there is **Minion Task Manager** tab under **Cluster Manager** 
 
 This one shows which types of Minion Task have been used. Essentially which task types have created their task queues in Helix.
 
-<figure><img src="../../../../.gitbook/assets/minion-task-manager-overview.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/minion-task-manager-overview.png" alt=""><figcaption></figcaption></figure>
 
 Clicking into a task type, one can see the tables using that task. And a few buttons to stop the task queue, cleaning up ended tasks etc.
 
-<figure><img src="../../../../.gitbook/assets/minion-task-manager-task-details.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/minion-task-manager-task-details.png" alt=""><figcaption></figcaption></figure>
 
 Then clicking into any table in this list, one can see how the task is configured for that table. And the task metadata if there is one in ZK. For example, MergeRollupTask tracks a watermark in ZK. If the task is cron scheduled, the current and next schedules are also shown in this page like below.
 
-<figure><img src="../../../../.gitbook/assets/minion-rollup-task-scheduled.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/minion-rollup-task-scheduled.png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../../../.gitbook/assets/minion-rollup-task-completed.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/minion-rollup-task-completed.png" alt=""><figcaption></figcaption></figure>
 
 At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed.
 
 Clicking into a task from that list, we can see start/end time for it, and the subtasks generated for that task (as context, one minion task can have multiple subtasks to process data in parallel). In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
 
-<figure><img src="../../../../.gitbook/assets/minion-task-manager-subtask.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/minion-task-manager-subtask.png" alt=""><figcaption></figcaption></figure>
 
 Clicking into this subtask, one can see more details about it like the input task configs and error info if the task failed.
 
-<figure><img src="../../../../.gitbook/assets/minion-task-manager-subtask-config.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/minion-task-manager-subtask-config.png" alt=""><figcaption></figcaption></figure>
 
 ## Task-related metrics
 

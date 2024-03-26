@@ -8,7 +8,7 @@ description: >-
 # Architecture
 
 {% hint style="info" %}
-We recommend that you read [Basic Concepts](./) to better understand the terms used in this guide.
+We recommend that you read [Basic Concepts](concepts/) to better understand the terms used in this guide.
 {% endhint %}
 
 Apache Pinot™ is a distributed OLAP database designed to serve real-time, user-facing use cases, which means handling large volumes of data and many concurrent queries with very low query latencies. Pinot supports the following requirements:
@@ -29,14 +29,14 @@ To accommodate large data volumes with stringent latency and concurrency require
 
 ## Core components
 
-As described in [Apache Pinot™ Concepts](./), Pinot has four node types:
+As described in [Apache Pinot™ Concepts](concepts/), Pinot has four node types:
 
 * [Controller](components/cluster/controller.md)
 * [Broker](components/cluster/broker.md)
 * [Server](components/cluster/server.md)
 * [Minion](components/cluster/minion.md)
 
-![](../../.gitbook/assets/Pinot-architecture.svg)
+![](../.gitbook/assets/Pinot-architecture.svg)
 
 ### Apache Helix and ZooKeeper
 
@@ -77,11 +77,11 @@ Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators
 
 Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 
-![Pinot's Zookeeper Browser UI](../../.gitbook/assets/.unused/Zookeeper\_UI.png)
+![Pinot's Zookeeper Browser UI](../.gitbook/assets/.unused/Zookeeper\_UI.png)
 
 ### Controller
 
-The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../data-import/pinot-stream-ingestion/) and [offline tables](../data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
+The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion/) and [offline tables](data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
 #### Fault tolerance
 
@@ -95,7 +95,7 @@ The controller provides a REST interface that allows read and write access to al
 
 The [broker's](components/cluster/broker.md) responsibility is to route queries to the appropriate [server](components/cluster/server.md) instances, or in the case of multi-stage queries, to compute a complete query plan and distribute it to the servers required to execute it. The broker collects and merges the responses from all servers into a final result, then sends the result back to the requesting client. The broker exposes an HTTP endpoint that accepts SQL queries in JSON format and returns the response in JSON.
 
-Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](../operators/operating-pinot/tuning/routing.md) strategy for a table. The default strategy is to balance the query load across all available servers.
+Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](operators/operating-pinot/tuning/routing.md) strategy for a table. The default strategy is to balance the query load across all available servers.
 
 {% hint style="info" %}
 Advanced routing strategies are available, such as replica-aware routing, partition-based routing, and minimal server selection routing.
@@ -122,7 +122,7 @@ Advanced routing strategies are available, such as replica-aware routing, partit
 Every query processed by a broker uses the single-stage engine or the [multi-stage engine](https://docs.pinot.apache.org/reference/multi-stage-engine). For single-stage queries, the broker does the following:
 
 * Computes query routes based on the routing strategy defined in the [table](components/table/) configuration.
-* Computes the list of segments to query on each [server](components/cluster/server.md). (See [routing](../operators/operating-pinot/tuning/routing.md) for further details on this process.)
+* Computes the list of segments to query on each [server](components/cluster/server.md). (See [routing](operators/operating-pinot/tuning/routing.md) for further details on this process.)
 * Sends the query to each of those servers for local execution against their segments.
 * Receives the results from each server and merges them.
 * Sends the query result to the client.
@@ -179,7 +179,7 @@ Offline servers host segments created by ingesting batch data. The controller wr
 
 Because offline tables tend to have long retention periods, offline servers tend to scale based on the size of the data they store.
 
-![](../../.gitbook/assets/OfflineServer.jpg)
+![](../.gitbook/assets/OfflineServer.jpg)
 
 #### Real-time servers
 
@@ -187,7 +187,7 @@ Real-time servers ingest data from streaming sources, like Apache Kafka®, Apach
 
 Real-time servers tend to be scaled based on the rate at which they ingest streaming data.
 
-![](../../.gitbook/assets/real-time-flow.svg)
+![](../.gitbook/assets/real-time-flow.svg)
 
 ### Minion
 
@@ -201,9 +201,9 @@ Pinot [tables](components/table/) exist in two varieties: offline (or batch) and
 
 ### Offline (batch) ingest
 
-![](../../.gitbook/assets/OfflineServer.jpg)
+![](../.gitbook/assets/OfflineServer.jpg)
 
-Pinot ingests batch data using an [ingestion job](../data-import/batch-ingestion/), which follows a process like this:
+Pinot ingests batch data using an [ingestion job](data-import/batch-ingestion/), which follows a process like this:
 
 1. The job transforms a raw data source (such as a CSV file) into [segments](components/table/segment/). This is a potentially complex process resulting in a file that is typically several hundred megabytes in size.
 2. The job then transfers the file to the cluster's [deep store](components/table/segment/deep-store.md) and notifies the [controller](components/cluster/controller.md) that a new segment exists.
@@ -225,4 +225,4 @@ Ingestion is established at the time a real-time table is created, and continues
 7. The controller and the server create a new consuming segment to continue real-time ingestion.
 8. The controller marks the newly committed segment as online. Brokers then discover the new segment through the Helix notification mechanism, allowing them to route queries to it in the usual fashion.
 
-![](../../.gitbook/assets/real-time-flow.svg)
+![](../.gitbook/assets/real-time-flow.svg)

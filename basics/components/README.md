@@ -18,7 +18,7 @@ Apache Pinot™ is a database designed to deliver highly concurrent, ultra-low-l
 
 Learn about the major components and logical abstractions used in Pinot.
 
-![](../../../.gitbook/assets/pinot-system-architecture.png)
+![](../../.gitbook/assets/pinot-system-architecture.png)
 
 #### Operator reference
 

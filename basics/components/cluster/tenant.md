@@ -6,7 +6,7 @@ description: >-
 
 # Tenant
 
-Every table is associated with a _tenant_, or a logical namespace that restricts where the cluster processes queries on the table. A Pinot tenant takes the form of a text tag in the logical tenant namespace. Physical cluster hardware resources (i.e., [brokers](../../../components/cluster/components/cluster/broker.md) and [servers](../../../components/cluster/components/cluster/server.md)) are also associated with a tenant tag in the common tenant namespace. Tables of a particular tenant tag will only be scheduled for storage and query processing on hardware resources that belong to the same tenant tag. This lets Pinot cluster operators assign specified workloads to certain hardware resources, preventing data in separate workloads from being stored or processed on the same physical hardware.
+Every table is associated with a _tenant_, or a logical namespace that restricts where the cluster processes queries on the table. A Pinot tenant takes the form of a text tag in the logical tenant namespace. Physical cluster hardware resources (i.e., [brokers](components/cluster/broker.md) and [servers](components/cluster/server.md)) are also associated with a tenant tag in the common tenant namespace. Tables of a particular tenant tag will only be scheduled for storage and query processing on hardware resources that belong to the same tenant tag. This lets Pinot cluster operators assign specified workloads to certain hardware resources, preventing data in separate workloads from being stored or processed on the same physical hardware.
 
 By default, all tables, brokers, and servers belong to a tenant called _DefaultTenant_, but you can configure multiple tenants in a Pinot cluster.
 
@@ -14,11 +14,11 @@ To support multi-tenancy, Pinot has first-class support for tenants. Every table
 
 The concept of tenants is very important when the multiple use cases are using Pinot and there is a need to provide quotas or some sort of isolation across tenants. For example, consider we have two tables `Table A` and `Table B` in the same Pinot cluster.
 
-![Defining tenants for tables](../../../../.gitbook/assets/TableTenant.jpg)
+![Defining tenants for tables](../../../.gitbook/assets/TableTenant.jpg)
 
 We can configure `Table A` with server tenant `Tenant A` and `Table B` with server tenant `Tenant B`. We can tag some of the server nodes for `Tenant A` and some for `Tenant B`. This will ensure that segments of `Table A` only reside on servers tagged with `Tenant A`, and segment of `Table B` only reside on servers tagged with `Tenant B`. The same isolation can be achieved at the broker level, by configuring broker tenants to the tables.
 
-![Table isolation using tenants](../../../../.gitbook/assets/TenantIsolation.jpg)
+![Table isolation using tenants](../../../.gitbook/assets/TenantIsolation.jpg)
 
 No need to create separate clusters for every table or use case!
 
@@ -61,7 +61,7 @@ To create this tenant use the following command. The creation will fail if numbe
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-Follow instructions in [Getting Pinot](../../../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
+Follow instructions in [Getting Pinot](../../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
 
 ```bash
 bin/pinot-admin.sh AddTenant \
@@ -99,7 +99,7 @@ To create this tenant use the following command. The creation will fail if numbe
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-Follow instructions in [Getting Pinot](../../../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
+Follow instructions in [Getting Pinot](../../getting-started/running-pinot-locally.md#getting-pinot) to get Pinot locally, and then
 
 ```bash
 bin/pinot-admin.sh AddTenant \

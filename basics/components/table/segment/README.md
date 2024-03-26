@@ -7,7 +7,7 @@ description: >-
 
 # Segment
 
-Pinot tables are stored in one or more independent shards called segments. A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](../../../../../developers/advanced/data-ingestion/)). Segments have time-based partitions of table data, and are stored on Pinot [servers](../../../../components/table/segment/components/cluster/server/) that scale horizontally as needed for both storage and computation.
+Pinot tables are stored in one or more independent shards called segments. A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](../../../../developers/advanced/data-ingestion/)). Segments have time-based partitions of table data, and are stored on Pinot [servers](components/cluster/server/) that scale horizontally as needed for both storage and computation.
 
 Pinot achieves this by breaking the data into smaller chunks known as **segments** (similar to **shards/partitions** in relational databases). Segments can be seen as **time-based partitions**.
 
@@ -19,11 +19,11 @@ Columns may be declared to be **metric or dimension (or specifically as a time d
 
 Pinot uses **dictionary encoding** to store values as a dictionary ID. Columns may be configured to be “no-dictionary” column in which case raw values are stored. Dictionary IDs are encoded using minimum number of bits for efficient storage (_e.g._ a column with a cardinality of 3 will use only 2 bits for each dictionary ID).
 
-A **forward index** is built for each column and compressed for efficient memory use. In addition, you can optionally configure **inverted indices** for any set of columns. Inverted indices take up more storage, but improve query performance. Specialized indexes like **Star-Tree index** are also supported. For more details, see [Indexing](../../../../indexing/).
+A **forward index** is built for each column and compressed for efficient memory use. In addition, you can optionally configure **inverted indices** for any set of columns. Inverted indices take up more storage, but improve query performance. Specialized indexes like **Star-Tree index** are also supported. For more details, see [Indexing](../../../indexing/).
 
 ## Creating a segment
 
-Once the table is configured, we can load some data. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster. Data can be loaded in batch mode or streaming mode. For more details, see the[ ingestion overview](../../../../../developers/advanced/data-ingestion.md) page.
+Once the table is configured, we can load some data. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster. Data can be loaded in batch mode or streaming mode. For more details, see the[ ingestion overview](../../../../developers/advanced/data-ingestion.md) page.
 
 ### Load data in batch
 
@@ -37,7 +37,7 @@ Below are instructions to generate and push segments to Pinot via standalone scr
 
 #### Job Spec YAML
 
-To generate a segment, we need to first create a job spec YAML file. This file contains all the information regarding data format, input data location, and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. For full configurations, see [Ingestion Job Spec](../../../../../configuration-reference/job-specification.md).
+To generate a segment, we need to first create a job spec YAML file. This file contains all the information regarding data format, input data location, and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. For full configurations, see [Ingestion Job Spec](../../../../configuration-reference/job-specification.md).
 
 {% code title="job-spec.yml" %}
 ```yaml

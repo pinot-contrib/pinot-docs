@@ -62,7 +62,7 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you h
 
 ## Creating a table configuration
 
-If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you pushed an offline table and schema. To create a real-time table configuration for the sample use this table configuration for the transcript table. For a more detailed overview about table, see [Table](../concepts/components/table/).
+If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you pushed an offline table and schema. To create a real-time table configuration for the sample use this table configuration for the transcript table. For a more detailed overview about table, see [Table](../components/table/).
 
 {% code title="/tmp/pinot-quick-start/transcript-table-realtime.json" %}
 ```javascript

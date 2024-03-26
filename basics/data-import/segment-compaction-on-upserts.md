@@ -8,7 +8,7 @@ description: Use segment compaction on upsert-enabled real-time tables.
 
 Compacting a segment replaces the completed segment with a compacted segment that only contains the latest version of records. For more information about how to use upserts on a real-time table in Pinot, see [Stream Ingestion with Upsert](upsert.md).
 
-The Pinot upsert feature stores all versions of the record ingested into immutable segments on disk. Even though the previous versions are not queried, they continue to add to the storage overhead. To remove older records (no longer used in query results) and reclaim storage space, we need to compact Pinot segments periodically. Segment compaction is done via a new minion task. To schedule Pinot tasks periodically, see the [Minion documentation](../concepts/components/cluster/minion.md).
+The Pinot upsert feature stores all versions of the record ingested into immutable segments on disk. Even though the previous versions are not queried, they continue to add to the storage overhead. To remove older records (no longer used in query results) and reclaim storage space, we need to compact Pinot segments periodically. Segment compaction is done via a new minion task. To schedule Pinot tasks periodically, see the [Minion documentation](../components/cluster/minion.md).
 
 ## Compact segments on upserts in a real-time table
 
@@ -64,7 +64,7 @@ Submitting the query `“set skipUpsert=true; select count(*) from transcript_up
 
 </div>
 
-After the compaction tasks are complete, the [Minion Task Manager UI](../concepts/components/cluster/minion.md#task-manager-ui) reports the following.
+After the compaction tasks are complete, the [Minion Task Manager UI](../components/cluster/minion.md#task-manager-ui) reports the following.
 
 <figure><img src="../../.gitbook/assets/minion-task-completed.png" alt=""><figcaption><p>Minion compaction task completed</p></figcaption></figure>
 

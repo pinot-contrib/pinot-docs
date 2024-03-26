@@ -11,5 +11,5 @@ Pinot is designed to deliver low latency queries on large datasets. To achieve t
 To learn about Pinot components, terminology, and gain a conceptual understanding of how data is stored in Pinot, review the following sections:
 
 * Pinot storage model
-* [Pinot architecture](architecture.md)
-* [Pinot components](components/)
+* [Pinot architecture](../architecture.md)
+* [Pinot components](../components/)

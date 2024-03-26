@@ -91,6 +91,6 @@ For a conceptual overview that explains how Pinot works, check out the Concepts 
 
 To understand the distributed systems architecture that explains Pinot's operating model, take a look at our basic architecture section:
 
-{% content-ref url="basics/concepts/architecture.md" %}
-[architecture.md](basics/concepts/architecture.md)
+{% content-ref url="basics/architecture.md" %}
+[architecture.md](basics/architecture.md)
 {% endcontent-ref %}

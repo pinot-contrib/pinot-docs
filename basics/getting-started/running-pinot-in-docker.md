@@ -258,6 +258,6 @@ b1ba8cf60d69   apachepinot/pinot:1.0.0   "./bin/pinot-admin.s…"   About a minu
 54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
-Once your cluster is up and running, see [Exploring Pinot](../concepts/components/exploring-pinot.md) to learn how to run queries against the data.
+Once your cluster is up and running, see [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
 
 If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you can also try running the [Kubernetes quick start](kubernetes-quickstart.md).

@@ -124,7 +124,7 @@ pinot-admin.sh AddTable -tableConfigFile /path/to/student_table.json -schemaFile
 
 You can check out [Command-Line Interface (CLI)](../../operators/cli.md) for all the available commands.
 
-Our table will now be available in the [Pinot data explorer](../../basics/concepts/components/exploring-pinot.md)
+Our table will now be available in the [Pinot data explorer](../../basics/components/exploring-pinot.md)
 
 ## Ingest Data
 

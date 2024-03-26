@@ -86,7 +86,7 @@ Once you have identified the dimensions, metrics and time columns, create a sche
 
 ### Creating a table configuration
 
-A table configuration is used to define the configuration related to the Pinot table. A detailed overview of the table can be found in [Table](../concepts/components/table/).
+A table configuration is used to define the configuration related to the Pinot table. A detailed overview of the table can be found in [Table](../components/table/).
 
 Here's the table configuration for the sample CSV file. You can use this as a reference to build your own table configuration. Edit the tableName and schemaName.
 
@@ -156,7 +156,7 @@ Use the [Rest API](http://localhost:9000/help#!/Table/alterTableStateOrListTable
 
 ### Creating a segment
 
-Pinot table data is stored as Pinot segments. A detailed overview of segments can be found in [Segment](../concepts/components/table/segment/).
+Pinot table data is stored as Pinot segments. A detailed overview of segments can be found in [Segment](../components/table/segment/).
 
 1.  To generate a segment, first create a job specification (JobSpec) yaml file. A JobSpec yaml file contains all the information regarding data format, input data location, and pinot cluster coordinates. Copy the following job specification file (example from Pinot quickstart file). If you're using your own data, be sure to do the following:
 

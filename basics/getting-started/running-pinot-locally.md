@@ -226,7 +226,7 @@ export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:g
   -port 19092
 ```
 
-Once your cluster is up and running, you can head over to [Exploring Pinot](../concepts/components/exploring-pinot.md) to learn how to run queries against the data.
+Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
 
 ## Start a Pinot component in debug mode with IntelliJ
 
