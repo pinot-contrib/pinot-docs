@@ -6,7 +6,12 @@ description: >-
 
 # Concepts
 
-Pinot is designed to deliver low latency queries on large datasets. To achieve this performance, Pinot stores data in a columnar format and adds additional indexes to perform fast filtering, aggregation and group by. Pinot breaks raw data into small data shards, and each shard is converted into a [segment](https://docs.pinot.apache.org/pinot-components/segment). One or more segments together form a [table](https://docs.pinot.apache.org/pinot-components/table), which is the logical container for querying Pinot using [SQL](https://docs.pinot.apache.org/user-guide/user-guide-query/pinot-query-language).
+Apache Pinot™ is a database designed to deliver highly concurrent, ultra-low-latency queries on large datasets through a set of common data model abstractions. Delivering on these goals requires several foundational architectural commitments, including:
+
+* Storing data in columnar form to support high-performance scanning
+* Sharding of data to scale both storage and computation
+* A distributed architecture designed to scale capacity linearly
+* A tabular data model read by SQL queries
 
 To learn about Pinot components, terminology, and gain a conceptual understanding of how data is stored in Pinot, review the following sections:
 
