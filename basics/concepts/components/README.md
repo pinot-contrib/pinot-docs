@@ -4,6 +4,9 @@ description: >-
   processing and analytics. Unleash the power of Pinot's building blocks for
   high-performance data-driven applications.
 ---
+
+# Components
+
 Apache Pinot™ is a database designed to deliver highly concurrent, ultra-low-latency queries on large datasets through a set of common data model abstractions. Delivering on these goals requires several foundational architectural commitments, including:
 
 * Storing data in columnar form to support high-performance scanning
@@ -11,14 +14,13 @@ Apache Pinot™ is a database designed to deliver highly concurrent, ultra-low-l
 * A distributed architecture designed to scale capacity linearly
 * A tabular data model read by SQL queries
 
+## Components
 
-# Components
+Learn about the major components and logical abstractions used in Pinot.
 
-Learn about the major components and logical abstractions used in Pinot. 
+![](../../../.gitbook/assets/pinot-system-architecture.png)
 
-![](../../.gitbook/assets/pinot-system-architecture.png)
-
-### Operator reference
+#### Operator reference
 
 {% content-ref url="cluster/" %}
 [cluster](cluster/)
@@ -44,7 +46,7 @@ Learn about the major components and logical abstractions used in Pinot.
 [tenant.md](cluster/tenant.md)
 {% endcontent-ref %}
 
-### Developer reference
+#### Developer reference
 
 {% content-ref url="table/" %}
 [table](table/)
@@ -57,4 +59,3 @@ Learn about the major components and logical abstractions used in Pinot.
 {% content-ref url="table/segment/" %}
 [segment](table/segment/)
 {% endcontent-ref %}
-

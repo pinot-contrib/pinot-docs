@@ -25,9 +25,9 @@ By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets 
 
 Below is an example of how this looks in the znode, as seen in ZooInspector.
 
-![](<../../../.gitbook/assets/zookeeper-browser-server-tenant.png>)
+![](../../../.gitbook/assets/zookeeper-browser-server-tenant.png)
 
-A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/cluster/tenant.md) section.
+A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/concepts/components/cluster/tenant.md) section.
 
 ```
  {   

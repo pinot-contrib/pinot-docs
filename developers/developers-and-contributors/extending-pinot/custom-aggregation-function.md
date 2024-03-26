@@ -39,7 +39,7 @@ interface AggregationFunction {
 
 Before getting into the implementation, it's important to understand how Aggregation works in Pinot.
 
-This is advanced topic and assumes you know Pinot [concepts](../../../basics/concepts.md). All the data in Pinot is stored in segments across multiple nodes. The query plan at a high level comprises of 3 phases
+This is advanced topic and assumes you know Pinot [concepts](../../../basics/concepts/). All the data in Pinot is stored in segments across multiple nodes. The query plan at a high level comprises of 3 phases
 
 **1. Map phase**
 

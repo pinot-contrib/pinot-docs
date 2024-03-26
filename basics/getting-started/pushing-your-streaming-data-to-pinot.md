@@ -62,7 +62,7 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you h
 
 ## Creating a table configuration
 
-If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you pushed an offline table and schema. To create a real-time table configuration for the sample use this table configuration for the transcript table. For a more detailed overview about table, see [Table](../components/table/).
+If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you pushed an offline table and schema. To create a real-time table configuration for the sample use this table configuration for the transcript table. For a more detailed overview about table, see [Table](../concepts/components/table/).
 
 {% code title="/tmp/pinot-quick-start/transcript-table-realtime.json" %}
 ```javascript
@@ -159,6 +159,6 @@ bin/kafka-console-producer.sh \
 
 ## Ingesting streaming data
 
-As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Browse to the [Query Console ](http://localhost:9000/query) running in your Pinot instance (we use `localhost` in this link as an example) to examine the real-time data.
+As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Browse to the [Query Console ](http://localhost:9000/query)running in your Pinot instance (we use `localhost` in this link as an example) to examine the real-time data.
 
 ![](../../.gitbook/assets/Pinot\_query\_transcript\_table.png)

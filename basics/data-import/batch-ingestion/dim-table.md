@@ -8,7 +8,7 @@ Dimension tables are a special kind of offline tables from which data can be loo
 
 Dimension tables are replicated on all the hosts for a given tenant to allow faster lookups. When a table is marked as a dimension table, it will be replicated on all the hosts, which means that these tables must be small in size.
 
-A dimension table cannot be part of a [hybrid table](../../components/table/#hybrid-table).
+A dimension table cannot be part of a [hybrid table](../../concepts/components/table/#hybrid-table).
 
 Configure dimension tables using following properties in the table configuration:
 

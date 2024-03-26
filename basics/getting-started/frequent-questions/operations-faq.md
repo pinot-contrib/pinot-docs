@@ -1,7 +1,7 @@
 ---
 description: >-
-  This page has a collection of frequently asked questions about operations with answers from the
-  community.
+  This page has a collection of frequently asked questions about operations with
+  answers from the community.
 ---
 
 # Operations FAQ
@@ -65,6 +65,7 @@ Note that if you are using replica groups, it's expected these configurations eq
 ### How to set or change table retention?
 
 By default there is no retention set for a table in Apache Pinot. You may however, set retention by setting the following properties in the [segmentsConfig](https://docs.pinot.apache.org/configuration-reference/table#segments-config) section inside table configs:
+
 * `retentionTimeUnit`
 * `retentionTimeValue`
 
@@ -120,11 +121,9 @@ Refer to [Pause Stream Ingestion](https://docs.pinot.apache.org/basics/data-impo
 
 ### What's the difference between Reset, Refresh, and Reload?
 
-- **Reset**: Gets a segment in `ERROR` state back to `ONLINE` or `CONSUMING` state. Behind the scenes, the Pinot controller takes the segment to the `OFFLINE` state, waits for `External View` to stabilize, and then moves it back to `ONLINE` or `CONSUMING` state, thus effectively resetting segments or consumers in error states.
-
-- **Refresh**: Replaces the segment with a new one, with the same name but often different data. Under the hood, the Pinot controller sets new segment metadata in Zookeeper, and notifies brokers and servers to check their local states about this segment and update accordingly. Servers also download the new segment to replace the old one, when both have different checksums. There is no separate rest API for refreshing, and it is done as part of the `SegmentUpload API`.
-
-- **Reload**: Loads the segment again, often to generate a new index as updated in the table configuration. Underlying, the Pinot server gets the new table configuration from Zookeeper, and uses it to guide the segment reloading. In fact, the last step of `REFRESH` as explained above is to load the segment into memory to serve queries. There is a dedicated rest API for reloading. By default, it doesn't download segments, but the option is provided to force the server to download the segment to replace the local one cleanly.
+* **Reset**: Gets a segment in `ERROR` state back to `ONLINE` or `CONSUMING` state. Behind the scenes, the Pinot controller takes the segment to the `OFFLINE` state, waits for `External View` to stabilize, and then moves it back to `ONLINE` or `CONSUMING` state, thus effectively resetting segments or consumers in error states.
+* **Refresh**: Replaces the segment with a new one, with the same name but often different data. Under the hood, the Pinot controller sets new segment metadata in Zookeeper, and notifies brokers and servers to check their local states about this segment and update accordingly. Servers also download the new segment to replace the old one, when both have different checksums. There is no separate rest API for refreshing, and it is done as part of the `SegmentUpload API`.
+* **Reload**: Loads the segment again, often to generate a new index as updated in the table configuration. Underlying, the Pinot server gets the new table configuration from Zookeeper, and uses it to guide the segment reloading. In fact, the last step of `REFRESH` as explained above is to load the segment into memory to serve queries. There is a dedicated rest API for reloading. By default, it doesn't download segments, but the option is provided to force the server to download the segment to replace the local one cleanly.
 
 In addition, `RESET` brings the segment `OFFLINE` temporarily; while `REFRESH` and `RELOAD` swap the segment on server atomically without bringing down the segment or affecting ongoing queries.
 
@@ -163,7 +162,7 @@ Using "POST /cluster/configs API" on CLUSTER tab in Swagger, with this payload:
 
 ### How to I manually run a Periodic Task?
 
-See [Running a Periodic Task Manually](../../components/cluster/controller.md#running-the-periodic-task-manually).
+See [Running a Periodic Task Manually](../../concepts/components/cluster/controller.md#running-the-periodic-task-manually).
 
 ## Tuning and Optimizations
 
@@ -300,4 +299,3 @@ The following two examples show how to overwrite encoding type and index configs
 2. Wait for the pause status to change to success.
 3. Update the credential in the table config.
 4. Resume the consumption.
-
