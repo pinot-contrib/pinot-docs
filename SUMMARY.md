@@ -4,10 +4,7 @@
 
 ## Basics
 
-* [Concepts](basics/concepts/README.md)
-  * [Segment threshold](basics/concepts/segment-threshold.md)
-  * [Segment retention](basics/concepts/segment-retention.md)
-  * [Time boundary](basics/concepts/time-boundary.md)
+* [Concepts](basics/concepts.md)
 * [Architecture](basics/architecture.md)
 * [Components](basics/components/README.md)
   * [Cluster](basics/components/cluster/README.md)
@@ -19,7 +16,10 @@
   * [Table](basics/components/table/README.md)
     * [Segment](basics/components/table/segment/README.md)
       * [Deep Store](basics/components/table/segment/deep-store.md)
+      * [Segment threshold](basics/components/table/segment/segment-threshold.md)
+      * [Segment retention](basics/components/table/segment/segment-retention.md)
     * [Schema](basics/components/table/schema.md)
+    * [Time boundary](basics/components/table/time-boundary.md)
   * [Pinot Data Explorer](basics/components/exploring-pinot.md)
 * [Getting Started](basics/getting-started/README.md)
   * [Running Pinot locally](basics/getting-started/running-pinot-locally.md)

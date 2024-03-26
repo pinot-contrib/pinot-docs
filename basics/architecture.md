@@ -8,7 +8,7 @@ description: >-
 # Architecture
 
 {% hint style="info" %}
-We recommend that you read [Basic Concepts](concepts/) to better understand the terms used in this guide.
+We recommend that you read [Basic Concepts](concepts.md) to better understand the terms used in this guide.
 {% endhint %}
 
 Apache Pinot™ is a distributed OLAP database designed to serve real-time, user-facing use cases, which means handling large volumes of data and many concurrent queries with very low query latencies. Pinot supports the following requirements:
@@ -29,7 +29,7 @@ To accommodate large data volumes with stringent latency and concurrency require
 
 ## Core components
 
-As described in [Apache Pinot™ Concepts](concepts/), Pinot has four node types:
+As described in [Apache Pinot™ Concepts](concepts.md), Pinot has four node types:
 
 * [Controller](components/cluster/controller.md)
 * [Broker](components/cluster/broker.md)

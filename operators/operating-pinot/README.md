@@ -2,8 +2,8 @@
 
 There are multiple different sections in the documentation to help you get started with operating a Pinot cluster. If you are new to Pinot, start with the basics.
 
-{% content-ref url="../../basics/concepts/" %}
-[concepts](../../basics/concepts/)
+{% content-ref url="../../basics/concepts.md" %}
+[concepts.md](../../basics/concepts.md)
 {% endcontent-ref %}
 
 {% content-ref url="../../basics/architecture.md" %}

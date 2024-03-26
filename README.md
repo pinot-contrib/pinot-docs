@@ -85,8 +85,8 @@ To start querying data in Pinot, check out our Query guide:
 
 For a conceptual overview that explains how Pinot works, check out the Concepts guide:
 
-{% content-ref url="basics/concepts/" %}
-[concepts](basics/concepts/)
+{% content-ref url="basics/concepts.md" %}
+[concepts.md](basics/concepts.md)
 {% endcontent-ref %}
 
 To understand the distributed systems architecture that explains Pinot's operating model, take a look at our basic architecture section:
