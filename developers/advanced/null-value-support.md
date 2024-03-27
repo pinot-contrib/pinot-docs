@@ -46,7 +46,9 @@ If the column type is not String, Pinot will convert that value to the column ty
 
 To enable basic null support (`IS NULL` and `IS NOT NULL`) and generate the null index, in the Table index configuration ([tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)), set `enableColumnBasedNullHandling=true`.
 
-If you are converting from null support for the single-stage query engine, you can simplify your model by removing `nullHandlingEnabled` at the same time you set `enableColumnBasedNullHandling`.
+*If you are converting from null support for the single-stage query engine*, you can simplify your model by removing `nullHandlingEnabled` at the same time you set `enableColumnBasedNullHandling`. Also, when converting:
+- No reingestion is needed.
+- If the columns are changed from nullable to not nullable and there is a value that was previously null, the default value will be used instead.
 
 Optional: Add `notNull: true` on the columns you want to consider not nullable.
 
