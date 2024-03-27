@@ -1,9 +1,9 @@
 # Null value support
 
-{% hint style="danger" %}
-**Multi-stage engine warning**
+{% hint style="info" %}
+**Multi-stage engine**
 
-This document begins with null handling for the [single-stage query engine](../../reference/single-stage-engine.md). For the [multi-stage query engine](../../reference/multi-stage-engine.md) (v2), see the [Enable basic null support for the multi-stage query engine](#enable-basic-null-support-for-the-multi) section.
+This document begins with null handling for the [single-stage query engine](../../reference/single-stage-engine.md). For the [multi-stage query engine](../../reference/multi-stage-engine.md) (v2), see the [Enable basic null support for the multi-stage query engine](#enable-basic-null-support-for-the-multi-stage-query-engine) section.
 {% endhint %}
 
 Null handling is defined in two different parts: at ingestion and at query time.
@@ -17,8 +17,6 @@ By default, null handling is disabled (`nullHandlingEnabled=false`) in the Table
 For example, the predicate in the query below matches all records.
 <pre class="language-sql"><code class="lang-sql"><strong>select count(*) from my_table where column IS NOT NULL
 </strong></code></pre>
-
-### Enable basic null support for the single-stage query engine
 
 The following table summarizes the behavior of null handling support in Pinot:
 
@@ -42,11 +40,21 @@ Remember that in the JSON used as table configuration, `defaultNullValue` must a
 If the column type is not String, Pinot will convert that value to the column type automatically.
 {% endhint %}
 
+### Enable basic null support for the single-stage query engine
+
+To enable basic null support (`IS NULL` and `IS NOT NULL`) and generate the null index, in the Table index configuration ([tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)), set `nullHandlingEnabled=true`.
+
+{% hint style="info" %}
+**Important**
+
+You MUST `SET enableColumnBasedNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableColumnBasedNullHandling=true` when you execute a query. Basic null handling supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatibility.
+{% endhint %}
+
 ### Enable basic null support for the multi-stage query engine
 
 To enable basic null support (`IS NULL` and `IS NOT NULL`) and generate the null index, in the Table index configuration ([tableIndexConfig](https://docs.pinot.apache.org/configuration-reference/table#tableindexconfig-1)), set `enableColumnBasedNullHandling=true`.
 
-*If you are converting from null support for the single-stage query engine*, you can simplify your model by removing `nullHandlingEnabled` at the same time you set `enableColumnBasedNullHandling`. Also, when converting:
+**If you are converting from null support for the single-stage query engine**, you can simplify your model by removing `nullHandlingEnabled` at the same time you set `enableColumnBasedNullHandling`. Also, when converting:
 - No reingestion is needed.
 - If the columns are changed from nullable to not nullable and there is a value that was previously null, the default value will be used instead.
 
@@ -59,7 +67,6 @@ When null support is enabled, `IS NOT NULL` and `IS NULL` evaluate to `true` or 
 
 You MUST `SET enableColumnBasedNullHandling=true;` before you query. Just having `"nullHandlingEnabled: true,"` set in your table config does not automatically provide `enableColumnBasedNullHandling=true` when you execute a query. Basic null handling supports `IS NOT NULL` and `IS NULL` predicates. Advanced null handling adds SQL compatibility.
 {% endhint %}
-
 
 ### Example workarounds to handle null values
 
