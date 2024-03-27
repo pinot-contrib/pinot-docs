@@ -1,12 +1,12 @@
 ---
 description: >-
-  This page lists options for importing data into Pinot with links to detailed
-  instructions with examples.
+  This page lists options for importing data into Apache Pinot™ with links to
+  detailed instructions with examples.
 ---
 
 # Import Data
 
-There are multiple options for importing data into Pinot. The pages in this section provide step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../developers/plugin-architecture/). The intent is to get you up and running with imported data as quickly as possible.
+There are multiple options for importing data into Apache Pinot™. The pages in this section provide step-by-step instructions for importing records into Pinot, supported by our [plugin architecture](../../developers/plugin-architecture/). The intent is to get you up and running with imported data as quickly as possible.
 
 Pinot supports multiple file input formats without needing to change anything other than the file name. Each example imports a readsdsdy-made dataset so you can see how things work without needing to find or create your own dataset.
 

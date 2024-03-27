@@ -1,9 +1,9 @@
 # Pinot storage model
 
-Pinot uses a variety of terms which can refer to either abstractions that model the storage of data or infrastructure components that drive the functionality of the system, including:
+Apache Pinot™ uses a variety of terms which can refer to either abstractions that model the storage of data or infrastructure components that drive the functionality of the system, including:
 
-* [Segments](pinot-storage-model.md#segment) to partition data
 * [Tables](pinot-storage-model.md#table) to store data
+* [Segments](pinot-storage-model.md#segment) to partition data
 * [Tenants](pinot-storage-model.md#tenant) to isolate data
 * [Clusters](pinot-storage-model.md#cluster) to manage data
 

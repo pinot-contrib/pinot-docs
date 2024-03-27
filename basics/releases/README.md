@@ -1,7 +1,7 @@
 ---
 description: >-
-  The following summarizes Pinot's releases, from the latest one to the earliest
-  one.
+  The following summarizes Apache Pinot™ releases, from the latest one to the
+  earliest one.
 ---
 
 # Releases

@@ -1,10 +1,10 @@
 ---
-description: This page describes the indexing techniques available in Apache Pinot
+description: This page describes the indexing techniques available in Apache Pinot™
 ---
 
 # Indexing
 
-Apache Pinot supports the following indexing techniques:
+Apache Pinot™ supports the following indexing techniques:
 
 * [Bloom filter](bloom-filter.md)
 * [Forward index](forward-index.md)

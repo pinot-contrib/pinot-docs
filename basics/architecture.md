@@ -7,10 +7,6 @@ description: >-
 
 # Architecture
 
-{% hint style="info" %}
-We recommend that you read [Basic Concepts](concepts/) to better understand the terms used in this guide.
-{% endhint %}
-
 Apache Pinot™ is a distributed OLAP database designed to serve real-time, user-facing use cases, which means handling large volumes of data and many concurrent queries with very low query latencies. Pinot supports the following requirements:
 
 * Ultra low-latency queries (as low as 10ms P95)
