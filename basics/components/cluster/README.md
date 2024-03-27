@@ -6,7 +6,7 @@ description: >-
 
 # Cluster
 
-A Pinot [_cluster_](components/cluster/) is a collection of the software processes and hardware resources required to ingest, store, and process data. For detail about Pinot cluster components, see [Physical architecture](./#physical-architecture).
+A Pinot cluster is a collection of the software processes and hardware resources required to ingest, store, and process data. For detail about Pinot cluster components, see [Physical architecture](../../concepts/pinot-storage-model.md#physical-architecture).
 
 A Pinot cluster consists of the following processes, which are typically deployed on separate hardware resources in production. In development, they can fit comfortably into Docker containers on a typical laptop:
 
