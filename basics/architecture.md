@@ -25,7 +25,7 @@ To accommodate large data volumes with stringent latency and concurrency require
 
 ## Core components
 
-As described in [Apache Pinot™ Concepts](concepts/), Pinot has four node types:
+As described in the Pinot [Components](components/), Pinot has four node types:
 
 * [Controller](components/cluster/controller.md)
 * [Broker](components/cluster/broker.md)
