@@ -4,7 +4,7 @@ description: >-
   earliest one.
 ---
 
-# Releases
+# Release notes
 
 ## Note
 
