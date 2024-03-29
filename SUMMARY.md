@@ -99,7 +99,7 @@
   * [0.4.0](basics/releases/0.4.0.md)
   * [0.3.0](basics/releases/0.3.0.md)
   * [0.2.0](basics/releases/0.2.0.md)
-  * [0.1.0](basics/releases/1.0.md)
+  * [0.1.0](basics/releases/0.1.0.md)
 * [Recipes](basics/recipes/README.md)
   * [Connect to Streamlit](basics/recipes/streamlit.md)
   * [Connect to Dash](basics/recipes/dash.md)
