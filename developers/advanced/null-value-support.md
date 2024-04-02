@@ -123,6 +123,10 @@ Advanced null handling support can be optionally enabled.
 The multi-stage query engine requires column based null storing. Tables with table based null storing are considered not nullable.
 {% endhint %}
 
+**If you are converting from null support for the single-stage query engine**, you can simplify your model by removing `nullHandlingEnabled` at the same time you set `enableColumnBasedNullHandling`. Also, when converting:
+- No reingestion is needed.
+- If the columns are changed from nullable to not nullable and there is a value that was previously null, the default value will be used instead.
+
 ### Basic null support
 
 The basic null support is automatically enabled when null values are stored on a segment
