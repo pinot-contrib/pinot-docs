@@ -6,7 +6,7 @@ description: >-
 
 # Import from Amazon Kinesis
 
-To ingest events from an Amazon Kinesis stream into Pinot, set the following configs into the table config:
+To ingest events from an Amazon Kinesis stream into Pinot, set the following configs into your table config:
 
 ```json
 {
@@ -52,7 +52,7 @@ where the Kinesis specific properties are:
 | shardIteratorType         | Set to LATEST to consume only new records, TRIM\_HORIZON for earliest sequence number_,_ AT_\__SEQUENCE\_NUMBER and AFTER\_SEQUENCE\_NUMBER to start consumptions from a particular sequence number |
 | maxRecordsToFetch         | ... Default is 20.                                                                                                                                                                                  |
 
-Kinesis supports authentication using the [DefaultCredentialsProviderChain](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html). The credential provider looks for the credentials in the following order -
+Kinesis supports authentication using the [DefaultCredentialsProviderChain](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html). The credential provider looks for the credentials in the following order:
 
 * Environment Variables - `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (RECOMMENDED since they are recognized by all the AWS SDKs and CLI except for .NET), or `AWS_ACCESS_KEY` and `AWS_SECRET_KEY` (only recognized by Java SDK)
 * Java System Properties - `aws.accessKeyId` and `aws.secretKey`
@@ -61,7 +61,11 @@ Kinesis supports authentication using the [DefaultCredentialsProviderChain](http
 * Credentials delivered through the Amazon EC2 container service if `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` environment variable is set and security manager has permission to access the variable,
 * Instance profile credentials delivered through the Amazon EC2 metadata service
 
-Although you can also specify the `accessKey` and `secretKey` in the properties above, we don't recommend this unsecure method. We recommend using it only for non-production proof-of-concept (POC) setups. You can also specify other AWS fields such as AWS\_SESSION\_TOKEN as environment variables and config and it will work.
+{% hint style="info" %}
+You must provide all `read` `access level` permissions for Pinot to work with an AWS Kinesis data stream. See the [AWS documentation](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion/amazon-kinesis) for details.
+{% endhint %}
+
+Although you can also specify the `accessKey` and `secretKey` in the properties above, we don't recommend this insecure method. We recommend using it only for non-production proof-of-concept (POC) setups. You can also specify other AWS fields such as AWS\_SESSION\_TOKEN as environment variables and config and it will work.
 
 #### Limitations
 
