@@ -93,9 +93,12 @@ pinot.server.adminapi.port=8097
 pinot.server.instance.dataDir=/tmp/pinot-tmp/server/index
 pinot.server.instance.segmentTarDir=/tmp/pinot-tmp/server/segmentTars
 
-
 pinot.server.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
-pinot.server.storage.factory.s3.region=us-west-2
+pinot.server.storage.factory.s3.region=us-east-1
+pinot.server.storage.factory.s3.accessKey=myAccessKeyChangeMe
+pinot.server.storage.factory.s3.secretKey=mySecretKeyChangeMe
+pinot.server.storage.factory.s3.disableAcl=false
+pinot.server.storage.factory.s3.endpoint=http://minio:9000
 pinot.server.segment.fetcher.protocols=file,http,s3
 pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
