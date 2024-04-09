@@ -10,10 +10,13 @@ The [Compressed Probability Counting(CPC) Sketch](https://datasketches.apache.or
 
 ## Signature
 
-> distinctCountRawCpcSketch(**\<cpcSketchColumn>, \<cpcSketchLgK>**) -> HexEncoded
+> distinctCountRawCpcSketch(**\<cpcSketchColumn>, \<cpcSketchParams>**) -> HexEncoded
 
 * `cpcSketchColumn` (required): Name of the column to aggregate on.
-* `cpcSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
+* `cpcSketchParams` (required): Semicolon-separated parameter string for constructing the intermediate CPC sketches.
+  * Currently, the supported parameter are:
+   * `nominalEntries`: The nominal entries used to create the sketch. (Default 4096)
+   * `accumulatorThreshold`: How many sketches should be kept in memory before merging. (Default 2)
 
 ## Usage Examples
 
@@ -29,7 +32,7 @@ from baseballStats
 | CAEQDAAOzJOVAAAAJwAAAAAAAAAMm69Al... |
 
 ```sql
-select distinctCountRawCpcSketch(teamID, 8) AS value
+select distinctCountRawCpcSketch(teamID, 'nominalEntries=256;accumulatorThreshold=10') AS value
 from baseballStats 
 ```
 
