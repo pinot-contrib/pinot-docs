@@ -20,10 +20,17 @@ The ingestion configuration ('ingestionConfig') is a section of the [table confi
 | `stream.[streamType].decoder.prop.format`             | Specifies the data format to ingest via a stream. The value of this property should match the format of the data in the stream.                                                                                                             | - `JSON`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `realtime.segment.flush.threshold.time`               | Maximum elapsed time after which a consuming segment persist. Note that this time should be smaller than the Kafka retention period configured for the corresponding topic.                                                                 | String, such `1d` or `4h30m`. Default is `6h` (six hours).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `realtime.segment.flush.threshold.rows`               | The maximum number of rows to consume before persisting the consuming segment. If this value is set to 0, the configuration looks to `realtime.segment.flush.threshold.segment.size` below. See note below this table for more information. | Default is 5,000,000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `realtime.segment.flush.threshold.segment.rows`       | The maximum number of rows to consume before persisting the consuming segment. Added since `release-1.2.0`. See note below this table for more information.                                                                                 | Int                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `realtime.segment.flush.threshold.segment.size`       | Size the completed segments should be. This value is used when `realtime.segment.flush.threshold.rows` is set to 0.                                                                                                                         | String, such as `150M` or `1.1G`., etc. Default is `200M` (200 megabytes). You can also specify additional configurations for the consumer directly into `streamConfigMaps`. For example, for Kafka streams, add any of the configs described in [Kafka configuration page](https://kafka.apache.org/documentation/#consumerconfigs) to pass them directly to the Kafka consumer.                                                                                                                                                                                                     |
 
 {% hint style="info" %}
-The number of rows per segment is computed using the following formula: `realtime.segment.flush.threshold.rows /partitionsConsumedByServer` For example, if you set `realtime.segment.flush.threshold.rows=1000` and each server consumes 10 partitions, the rows per segment is `1000/10 = 100`.
+The number of rows per segment is computed using the following formula: `realtime.segment.flush.threshold.rows / maxPartitionsConsumedByServer` For example, if you set `realtime.segment.flush.threshold.rows = 1000` and each server consumes 10 partitions, the rows per segment is `1000/10 = 100`.
+{% endhint %}
+
+{% hint style="info" %}
+Since `release-1.2.0`, we introduced `realtime.segment.flush.threshold.segment.rows`, which is directly used as the number of rows per segment.
+
+Take the above example, if you set `realtime.segment.flush.threshold.segment.rows = 1000` and each server consumes 10 partitions, the rows per segment is `1000`.
 {% endhint %}
 
 ### Example table config with `ingestionConfig`
@@ -49,15 +56,14 @@ The number of rows per segment is computed using the following formula: `realtim
     "streamIngestionConfig": {
         "streamConfigMaps": [
           {
-            "realtime.segment.flush.threshold.rows": "0",
             "stream.kafka.decoder.prop.format": "JSON",
             "key.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
             "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
             "streamType": "kafka",
             "value.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
             "stream.kafka.consumer.type": "LOWLEVEL",
-            "realtime.segment.flush.threshold.segment.rows": "50000",
             "stream.kafka.broker.list": "localhost:9876",
+            "realtime.segment.flush.threshold.segment.rows": "500000",
             "realtime.segment.flush.threshold.time": "3600000",
             "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
             "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
