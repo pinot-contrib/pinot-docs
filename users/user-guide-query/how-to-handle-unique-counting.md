@@ -82,7 +82,7 @@ This returns the cardinality estimate for a column where the values are already 
 
 This is the same as the previous function, except it returns the byte serialized sketch instead of the cardinality sketch. Since Pinot returns responses as JSON strings, bytes are returned as hex encoded strings. The hex encoded string can be deserialized into sketch by using the library `org.apache.commons.codec.binary`as `Hex.decodeHex(stringValue.toCharArray())`.
 
-* **sumValueIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> Long
+* **sumValuesIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> Long
   * tupleSketchColumn (required): Name of the column to aggregate on.
   * tupleSketchLgK (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.
 
