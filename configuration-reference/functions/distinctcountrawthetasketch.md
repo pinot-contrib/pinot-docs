@@ -14,7 +14,7 @@ The [Theta Sketch](https://datasketches.apache.org/docs/Theta/ThetaSketchFramewo
 
 * `thetaSketchColumn` (required): Name of the column to aggregate on.
 * `thetaSketchParams` (required): Semicolon-separated parameter string for constructing the intermediate theta-sketches.
-  * Currently, the supported parameter are:
+  * The supported parameters are:
    * `nominalEntries`: The nominal entries used to create the sketch. (Default 4096)
    * `samplingProbability`: Sets the upfront uniform sampling probability, p. (Default 1.0)
    * `accumulatorThreshold`: How many sketches should be kept in memory before merging. (Default 2)
