@@ -16,7 +16,7 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).
 
 * `cpcSketchColumn` (required): Name of the column to aggregate on.
 * `cpcSketchParams` (required): Semicolon-separated parameter string for constructing the intermediate CPC sketches.
-  * Currently, the supported parameter are:
+  * The supported parameters are:
    * `nominalEntries`: The nominal entries used to create the sketch. (Default 4096)
    * `accumulatorThreshold`: How many sketches should be kept in memory before merging. (Default 2)
 
