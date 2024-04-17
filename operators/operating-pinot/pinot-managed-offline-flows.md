@@ -1,19 +1,57 @@
 # Managed offline flows
 
 
-Managed offline flows allow you to transition data from real-time to offline tables.
+Managed offline flows allow you to transition data from real-time to offline tables. This feature automatically manage the movement of the data to a corresponding OFFLINE table, so you don't have to write any offline jobs.
 
 The most common use case for Pinot is providing real-time analytics based on streaming data with a real-time table. However, there's a few reasons you might want to also have that data available in an offline table, including the following examples:
 
-    * For example, in real-time only mode, it is impossible to backfill a specific day's data, even if you have that data available offline somewhere, whereas you could've easily run a one off backfill job to correct data in an OFFLINE table.
-    * It is also not possible to re-bootstrap the table using some offline data, as data for the REALTIME table strictly must come in through a stream. In OFFLINE tables, it is very easy to run jobs and replace segments in the table.
-    * In REALTIME tables, the data often tends to be highly granular and we achieve very little aggregations. OFFLINE tables let you look at bigger windows of data hence achieving rollups for time column, aggregations across common dimensions, better compression and even dedup.
+  * In real-time tables, you can't easily replace segments or remove duplicate columns because all data must come in through streaming.
+  * In real-time tables, there's no way to backfill a specific day's data, whereas for offline tables, you can run a one-off backfill job.
+  * In real-time tables, the data tends to be highly granular. Offline tables let you look at bigger windows of data, including rollups for the time column, aggregations across common dimensions, better compression, and dedup.
 
-    This feature will **automatically manage the movement of the data to a corresponding OFFLINE table, so you don't have to write any offline jobs.**
+## How it works
 
-### How this works
+There are two parts to the process: task generation and task execution.
+Let's look at each in turn.
 
-The Pinot managed offline flows feature will **move records from the REALTIME table to the OFFLINE table, one `time window` at a time**. For example, if the REALTIME table has records with timestamp starting 10-24-2020T13:56:00, then the Pinot managed offline flows will move records for the time window \[10-24-2020, 10-25-2020) in the first run, followed by \[10-25-2020, 10-26-2020) in the next run, followed by \[10-26-2020, 10-27-2020) in the next run, and so on. This **window length** of 1d is just the default, and it can be configured to any length of your choice.
+### Task generation
+
+Once the real-time to offline job has been scheduled, the task generator (running on the Pinot Controller) will create tasks to be run by a [Pinot Minion](https://docs.pinot.apache.org/basics/components/minion).
+
+The generator determines the window start and end time based on the provided configuration.
+It will then check to see if any of the completed segments are eligible by checking their start and end time, starting from the segment with the earliest time.
+Eligible segments must overlap with that window, as shown in the diagram below:
+
+<p>
+    <img src="/img/realtime-offline.png" alt="Real-Time to Offline Job - Selecting eligible segments" />
+    <em>Real-Time to Offline Job - Selecting eligible segments</em>
+</p>
+
+<Callout>
+There must be at least one completed/flushed segment in the real-time table, otherwise the task won't try to create any offline segments.
+</Callout> 
+
+As long as some segments match the window, a task will be created and sent to the Minion. 
+If no matching segments are found for the window, the generator will move to the next time window and repeat the process.
+
+<Callout type="info">
+When the generator is checking the most recently completed segment, it will make sure that the segment crosses over the end of the window to make sure that the consuming segment doesn't contain some portion of the window.
+</Callout>
+
+### Task Execution
+
+Once the Minion receives a task to execute, it does the following steps:
+
+1. Downloads the existing segments.
+2. Filter records based on the time window
+3. Round the time value in the records (optional)
+4. Partition the records if partitioning is enabled in the table config
+5. Merge records based on the merge type
+6. Sort records if sorting is enabled in the table config
+7. Uploads new segments to the Pinot Controller.
+Managed offline flows moves records from the real-time table to the offline table one `time window` at a time. 
+
+For example, if the real-time table has records with timestamp starting 10-24-2020T13:56:00, then the Pinot managed offline flows will move records for the time window \[10-24-2020, 10-25-2020) in the first run, followed by \[10-25-2020, 10-26-2020) in the next run, followed by \[10-26-2020, 10-27-2020) in the next run, and so on. This **window length** of one day is just the default, and it can be configured to any length of your choice.
 
 {% hint style="warning" %}
 **Note**
