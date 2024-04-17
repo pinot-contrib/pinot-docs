@@ -12,6 +12,16 @@ Find instructions on [how to enable the multi-stage query engine](v2-multi-stage
 
 We are continuously improving the v2 multi-stage query engine. A few limitations to call out:
 
+### Zero downtime upgrade is not supported for multi-stage queries
+Pinot supports zero downtime upgrades in ingestion and queries running in single-stage engine. 
+However, it is not supported in multi-stage queries.
+This engine is still being actively developed and some of the new features require to break protocol compatibility.
+
+This basically means that two servers or one server and one broker using different Pinot versions may not be able to
+communicate with each other.
+Therefore during the upgrade process, multi-stage queries may fail with GRPC errors failing due to protocol
+incompatibility or bad requests.
+
 ### Support for multi-value columns is limited
 
 Support for multi-value columns is limited to projections, and predicates must use the `arrayToMv` function. For example, to successfully run the following query:
