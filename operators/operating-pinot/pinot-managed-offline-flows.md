@@ -1,26 +1,15 @@
-# Pinot managed Offline flows
+# Managed offline flows
 
-{% hint style="info" %}
-**Original design doc**: [https://docs.google.com/document/d/1-e\_9aHQB4HXS38ONtofdxNvMsGmAoYfSnc2LP88MbIc/edit#](https://docs.google.com/document/d/1-e\_9aHQB4HXS38ONtofdxNvMsGmAoYfSnc2LP88MbIc/edit)
 
-**Issue**: [https://github.com/apache/pinot/issues/5753](https://github.com/apache/pinot/issues/5753)
-{% endhint %}
+Managed offline flows allow you to transition data from real-time to offline tables.
 
-The Pinot managed offline flows feature allows a user to **simply set up a REALTIME table, and let Pinot manage populating the OFFLINE table**. For complete motivation and reasoning, refer to the design doc above.
-
-### When to use
-
-There are 3 kinds of tables in Pinot
-
-* **OFFLINE only** - this feature is not relevant for this mode.
-*   **REALTIME only** - this feature is built for this mode. While having a real-time-only table setup (versus a hybrid table setup) is certainly lightweight and lesser operations, you lose some of the flexibility that comes with having a corresponding OFFLINE table.
+The most common use case for Pinot is providing real-time analytics based on streaming data with a real-time table. However, there's a few reasons you might want to also have that data available in an offline table, including the following examples:
 
     * For example, in real-time only mode, it is impossible to backfill a specific day's data, even if you have that data available offline somewhere, whereas you could've easily run a one off backfill job to correct data in an OFFLINE table.
     * It is also not possible to re-bootstrap the table using some offline data, as data for the REALTIME table strictly must come in through a stream. In OFFLINE tables, it is very easy to run jobs and replace segments in the table.
     * In REALTIME tables, the data often tends to be highly granular and we achieve very little aggregations. OFFLINE tables let you look at bigger windows of data hence achieving rollups for time column, aggregations across common dimensions, better compression and even dedup.
 
     This feature will **automatically manage the movement of the data to a corresponding OFFLINE table, so you don't have to write any offline jobs.**
-* **HYBRID table** - If you already have a hybrid table this feature again may not be relevant to you. But you could explore using this to replace your offline push jobs, and simply keep them for backfills.
 
 ### How this works
 
