@@ -92,7 +92,7 @@ kubectl get all -n pinot-quickstart
 
 ```bash
 helm repo add kafka https://charts.bitnami.com/bitnami
-helm install -n pinot-quickstart kafka kafka/kafka --set replicas=1,zookeeper.image.tag=latest
+helm install -n pinot-quickstart kafka kafka/kafka --set replicas=1,zookeeper.image.tag=latest,listeners.client.protocol=PLAINTEXT
 ```
 
 ### Check Kafka deployment status
@@ -106,10 +106,9 @@ kubectl get all -n pinot-quickstart | grep kafka
 Below is an example output showing the deployment is ready:
 
 ```
-pod/kafka-0                                                 1/1     Running     0          2m
-pod/kafka-zookeeper-0                                       1/1     Running     0          10m
-pod/kafka-zookeeper-1                                       1/1     Running     0          9m
-pod/kafka-zookeeper-2                                       1/1     Running     0          8m
+pod/kafka-controller-0                   1/1     Running     0          2m
+pod/kafka-controller-1                   1/1     Running     0          2m
+pod/kafka-controller-2                   1/1     Running     0          2m
 ```
 
 ### **Create Kafka topics**
@@ -132,14 +131,14 @@ The script below does the following:
 * Creates Pinot table `airlineStatsAvro` to ingest data from Avro encoded Kafka topic `flights-realtime-avro`
 
 ```bash
-kubectl apply -f pinot/pinot-realtime-quickstart.yml
+kubectl apply -f pinot/helm/pinot/pinot-realtime-quickstart.yml
 ```
 
 ## Query with the Pinot Data Explorer
 
 ### Pinot Data Explorer
 
-The script below, located at `./pinot/helm/pinot`, performs local port forwarding, and opens the Pinot query console in your default web browser.
+The following script (located at `./pinot/helm/pinot`) performs local port forwarding, and opens the Pinot query console in your default web browser.
 
 ```bash
 ./query-pinot-data.sh
