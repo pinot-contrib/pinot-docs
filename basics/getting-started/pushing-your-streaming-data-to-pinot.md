@@ -159,6 +159,6 @@ bin/kafka-console-producer.sh \
 
 ## Ingesting streaming data
 
-As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Browse to the [Query Console ](http://localhost:9000/query) running in your Pinot instance (we use `localhost` in this link as an example) to examine the real-time data.
+As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Browse to the [Query Console ](http://localhost:9000/query)running in your Pinot instance (we use `localhost` in this link as an example) to examine the real-time data.
 
 ![](../../.gitbook/assets/Pinot\_query\_transcript\_table.png)

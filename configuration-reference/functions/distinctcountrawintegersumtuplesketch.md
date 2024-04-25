@@ -10,10 +10,13 @@ The [Tuple Sketch](https://datasketches.apache.org/docs/Tuple/TupleOverview.html
 
 ## Signature
 
-> distinctCountRawIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchLgK>**) -> HexEncoded
+> distinctCountRawIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchParams>**) -> HexEncoded
 
 * `tupleSketchColumn` (required): Name of the column to aggregate on.  This must be an existing tuple sketch serialized as bytes.
-* `tupleSketchLgK` (optional): lgK which is the the log2 of K, which controls both the size and accuracy of the sketch.  If not supplied, the Helix default is used.
+* `tupleSketchParams` (required): Semicolon-separated parameter string for constructing the intermediate tuple-sketches.
+  * The supported parameters are:
+   * `nominalEntries`: The nominal entries used to create the sketch. (Default 65536)
+   * `accumulatorThreshold`: How many sketches should be kept in memory before merging. (Default 2)
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).  A new Tuple Sketch metric called `playerHomeRuns` was created during ingestion by updating the ingestion config as follows:
 
@@ -40,7 +43,7 @@ from baseballStats
 | AgMJAQAKzJONRAAAAAAAAAcADPv9ido0XwAAAAAP... |
 
 ```sql
-select distinctCountRawIntegerSumTupleSketch(playerHomeRuns, 16) as value
+select distinctCountRawIntegerSumTupleSketch(playerHomeRuns, 'nominalEntries=4096;accumulatorThreshold=10') as value
 from baseballStats 
 ```
 

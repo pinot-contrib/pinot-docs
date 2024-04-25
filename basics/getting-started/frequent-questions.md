@@ -34,7 +34,7 @@ Applying inverted indexes to a table configuration will generate an inverted ind
 
 ### Apply inverted index to existing setup
 
-1. Add the columns you wish to index to the `tableIndexConfig-&gt; invertedIndexColumns` list. This sample table config shows inverted indexes set: [https://docs.pinot.apache.org/basics/components/table\#offline-table-config ](https://docs.pinot.apache.org/basics/components/table#offline-table-config). To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
+1. Add the columns you want to index to the `tableIndexConfig-&gt; invertedIndexColumns` list. This sample table config shows inverted indexes set: [https://docs.pinot.apache.org/basics/components/table\#offline-table-config ](https://docs.pinot.apache.org/basics/components/table#offline-table-config). To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
 2. Invoke the reload API: [http://localhost:9000/help\#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments).
 
 This will trigger a reload operation on each of the servers hosting the table's segments.

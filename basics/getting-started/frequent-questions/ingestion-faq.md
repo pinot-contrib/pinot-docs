@@ -148,7 +148,7 @@ Applying inverted indexes to a table configuration will generate an inverted ind
 
 ### How to apply an inverted index to existing segments?
 
-1. Add the columns you wish to index to the `tableIndexConfig`-> `invertedIndexColumns` list. To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
+1. Add the columns you want to index to the `tableIndexConfig`-> `invertedIndexColumns` list. To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
 2. Invoke the reload API: [http://localhost:9000/help#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments).
 
 Once you've done that, you can check whether the index has been applied by querying the segment metadata API at [http://localhost:9000/help#/Segment/getServerMetadata](http://localhost:9000/help#/Segment/getServerMetadata). Don't forget to include the names of the column on which you have applied the index.
@@ -184,7 +184,7 @@ If you want to add or change the [sorted index column](../../indexing/inverted-i
 
 Star-tree indexes are configured in the table config under the `tableIndexConfig` -> `starTreeIndexConfigs` (list) and `enableDefaultStarTree` (boolean). See here for more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation](https://docs.pinot.apache.org/basics/indexing/star-tree-index#index-generation)
 
-The new segments will have star-tree indexes generated after applying the star-tree index configurations to the table configuration. Currently, Pinot does not support adding star-tree indexes to the existing segments.
+The new segments will have star-tree indexes generated after applying the star-tree index configurations to the table configuration.
 
 ## Handling time in Pinot
 

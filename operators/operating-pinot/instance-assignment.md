@@ -154,7 +154,6 @@ Without explicitly configuring the replica-group based instance assignment, the 
 
 With replica-group based instance assignment, the stream partitions will be evenly spread over the instances within the replica group.
 
-
 ## Pool-Based Instance Assignment
 
 This strategy is designed for accelerating the no-downtime rolling restart of the large shared cluster.

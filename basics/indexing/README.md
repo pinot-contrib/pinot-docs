@@ -1,10 +1,10 @@
 ---
-description: This page describes the indexing techniques available in Apache Pinot
+description: This page describes the indexing techniques available in Apache Pinot™
 ---
 
 # Indexing
 
-Apache Pinot supports the following indexing techniques:
+Apache Pinot™ supports the following indexing techniques:
 
 * [Bloom filter](bloom-filter.md)
 * [Forward index](forward-index.md)
@@ -18,9 +18,7 @@ Apache Pinot supports the following indexing techniques:
 * [JSON index](json-index.md)
 * [Range index](range-index.md)
 * [Star-tree index](star-tree-index.md)
-* Text Index
-  * [Native text index](native-text-index.md)
-  * [Text search support](text-search-support.md)
+* [Text search support](text-search-support.md)
 * [Timestamp index](timestamp-index.md)
 
 By default, Pinot creates a dictionary-encoded forward index for each column.
@@ -31,7 +29,7 @@ There are two ways to enable indexes for a Pinot table.
 
 #### As part of ingestion, during Pinot segment generation
 
-Indexing is enabled by specifying the desired column names in the table configuration. More details about how to configure each type of index can be found in the respective index's section linked above or in the [table configuration reference](../../configuration-reference/table.md).
+Indexing is enabled by specifying the column names in the table configuration. More details about how to configure each type of index can be found in the respective index's section linked above or in the [table configuration reference](../../configuration-reference/table.md).
 
 #### Dynamically added or removed
 

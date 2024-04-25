@@ -7,7 +7,15 @@ description: >-
 
 # Table
 
-A **table** is a logical abstraction that represents a collection of related data. It is composed of columns and rows (known as documents in Pinot). The columns, data types, and other metadata related to the table are defined using a [schema](../../../configuration-reference/schema.md).
+Pinot stores data in tables. A Pinot table is conceptually identical to a relational database table with rows and columns. Columns have the same name and data type, known as the table's [schema](schema.md).
+
+Pinot schemas are defined in a JSON file. Because that schema definition is in its own file, multiple tables can share a single schema. Each table can have a unique name, indexing strategy, partitioning, data sources, and other metadata.
+
+Pinot table types include:
+
+* **real-time:** Ingests data from a streaming source like Apache Kafka®
+* **offline:** Loads data from a batch source
+* **hybrid:** Loads data from both a batch source and a streaming source
 
 Pinot breaks a table into multiple [segments](segment/) and stores these segments in a deep-store such as Hadoop Distributed File System (HDFS) as well as Pinot servers.
 
@@ -57,7 +65,7 @@ For real-time tables, segments are built in a specific interval inside Pinot. Yo
 The Pinot real-time consumer ingests the data, creates the segment, and then flushes the in-memory segment to disk. Pinot allows you to configure when to flush the segment in the following ways:
 
 * **Number of consumed rows**: After consuming the specified number of rows from the stream, Pinot will persist the segment to disk.
-* **Number of desired rows per segment**: Pinot learns and then estimates the number of rows that need to be consumed. The learning phase starts by setting the number of rows to 100,000 (this value can be changed) and adjusts it to reach the appropriate segment size. Because Pinot corrects the estimate as it goes along, the segment size might go significantly over the correct size during the learning phase. You should set this value to optimize the performance of queries.
+* **Number of rows per segment**: Pinot learns and then estimates the number of rows that need to be consumed. The learning phase starts by setting the number of rows to 100,000 (this value can be changed) and adjusts it to reach the appropriate segment size. Because Pinot corrects the estimate as it goes along, the segment size might go significantly over the correct size during the learning phase. You should set this value to optimize the performance of queries.
 * **Max time duration to wait**: Pinot consumers wait for the configured time duration after which segments are persisted to the disk.
 
 **Replicas**\
@@ -122,7 +130,7 @@ The following table config snippet shows an example of enabling pre-aggregation 
 
 Each table is associated with a tenant. A segment resides on the server, which has the same tenant as itself. For details, see [Tenant](../cluster/tenant.md).
 
-Optionally, override if a table should move to a server with different tenant based on segment status. The example below adds a `tagOverrideConfig` under the `tenants` section for real-time tables to override tags for consuming and completed segments.&#x20;
+Optionally, override if a table should move to a server with different tenant based on segment status. The example below adds a `tagOverrideConfig` under the `tenants` section for real-time tables to override tags for consuming and completed segments.
 
 ```javascript
   "broker": "brokerTenantName",
@@ -134,7 +142,7 @@ Optionally, override if a table should move to a server with different tenant ba
 }
 ```
 
-In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`.&#x20;
+In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`.
 
 You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
 

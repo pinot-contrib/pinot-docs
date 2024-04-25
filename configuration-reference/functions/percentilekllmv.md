@@ -13,7 +13,7 @@ Variant of the `PERCENTILEKLL` aggregation function which accepts multi-value co
 
 * `column` (required): Name of the column to aggregate on. 
 * `percentile` (required): Percentile value to be calculated [0..100]
-* `kValue`: Integer value which determines the size of the sketch. Default value is `200` which corresponds to a normalized rank error of about 1.65%. For details please see the [accuracy vs size chart](https://datasketches.apache.org/docs/KLL/KLLAccuracyAndSize.html).
+* `kValue`: Integer value which determines the size of the sketch. Default value is `200` which corresponds to a normalized rank error of about 1.65%. For details, see the [accuracy vs size chart](https://datasketches.apache.org/docs/KLL/KLLAccuracyAndSize.html).
 
 ## Usage Examples
 

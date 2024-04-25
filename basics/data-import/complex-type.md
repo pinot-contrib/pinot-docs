@@ -50,7 +50,7 @@ Apache Pinot provides a powerful [JSON index](../indexing/json-index.md) to acce
 ```
 {% endcode %}
 
-The config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with configuration `jsonIndexColumns`. To read the full spec, see [json\_meetupRsvp\_realtime\_table\_config.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/json\_meetupRsvp\_realtime\_table\_config.json).
+The config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with configuration `jsonIndexColumns`. To read the full spec, see [meetupRsvpJson\_realtime\_table\_config.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpJson/meetupRsvpJson\_realtime\_table\_config.json).
 
 Also, note that `group` is a reserved keyword in SQL and therefore needs to be quoted in `transformFunction`.
 
@@ -120,7 +120,7 @@ Note that:
   * `ALL`- Converts the array of primitive values to JSON string.
   * `NONE`- Does not do any conversion.
 
-You can find the full specifications of the table config [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling\_meetupRsvp\_realtime\_table\_config.json) and the table schema [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp/complexTypeHandling\_meetupRsvp\_schema.json).
+You can find the full specifications of the table config [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpComplexType/meetupRsvpComplexType\_realtime\_table\_config.json) and the table schema [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpComplexType/meetupRsvpComplexType\_schema.json).
 
 You can then query the table with primitive values using the following SQL query:
 

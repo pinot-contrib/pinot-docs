@@ -4,6 +4,12 @@ description: This page talks about support for text search in Pinot.
 
 # Text search support
 
+{% hint style="note" %}
+This text index method is recommended over the experimental [native text index](native-text-index.md).
+
+Click to skip the background info and go straight to the procedure [to enable this text index](#enable-a-text-index).
+{% endhint %}
+
 ## Why do we need text search?
 
 Pinot supports super-fast query processing through its indexes on non-BLOB like columns. Queries with exact match filters are run efficiently through a combination of dictionary encoding, inverted index, and sorted index.
@@ -17,7 +23,7 @@ WHERE STRING_COL = 'ABCDCD'
 AND INT_COL > 2000
 ```
 
-For arbitrary text data that falls into the BLOB/CLOB territory, we need more than exact matches. This often involves using regex, phrase, fuzzy queries on BLOB like data. Text indexes can efficiently perform arbitrary search on STRING columns where each column value is a large BLOB of text using the `TEXT\_MATCH` function, like this:
+For arbitrary text data that falls into the BLOB/CLOB territory, we need more than exact matches. This often involves using regex, phrase, fuzzy queries on BLOB like data. Text indexes can efficiently perform arbitrary search on STRING columns where each column value is a large BLOB of text using the `TEXT_MATCH` function, like this:
 
 ```sql
 SELECT COUNT(*) 
@@ -270,7 +276,7 @@ The words should be **comma separated** and in **lowercase**. Words appearing in
 
 ## Writing text search queries
 
-The `TEXT\_MATCH` function enables using text search in SQL/PQL.
+The `TEXT_MATCH` function enables using text search in SQL/PQL.
 
 TEXT\_MATCH(text\_column\_name, search\_expression)
 
@@ -284,27 +290,27 @@ SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(...)
 SELECT * FROM Foo WHERE TEXT_MATCH(...)
 ```
 
-You can also use the `TEXT\_MATCH` filter clause with other filter operators. For example:
+You can also use the `TEXT_MATCH` filter clause with other filter operators. For example:
 
 ```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(...) AND some_other_column_1 > 20000
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(...) AND some_other_column_1 > 20000 AND some_other_column_2 < 100000
 ```
 
-You can combine multiple `TEXT\_MATCH` filter clauses:
+You can combine multiple `TEXT_MATCH` filter clauses:
 
 ```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(text_col_1, ....) AND TEXT_MATCH(text_col_2, ...)
 ```
 
-`TEXT\_MATCH` can be used in WHERE clause of all kinds of queries supported by Pinot.
+`TEXT_MATCH` can be used in WHERE clause of all kinds of queries supported by Pinot.
 
 * Selection query which projects one or more columns
   * User can also include the text column name in select list
 * Aggregation query
 * Aggregation GROUP BY query
 
-The search expression (the second argument to `TEXT\_MATCH` function) is the query string that Pinot will use to perform text search on the column's text index.
+The search expression (the second argument to `TEXT_MATCH` function) is the query string that Pinot will use to perform text search on the column's text index.
 
 ### Phrase query
 
@@ -344,9 +350,9 @@ WHERE TEXT_MATCH(SKILLS_COL, '"Distributed systems"')
 
 The search expression is '\\"Distributed systems\\"'
 
-* The search expression is **always specified within single quotes** \'\<your expression>\'
+* The search expression is **always specified within single quotes** '\<your expression>'
 * Since we are doing a phrase search, the **phrase should be specified within double quotes** inside the single quotes and the **double quotes should be escaped**
-  * \'\\"\<your phrase>\\"\'
+  * '\\"\<your phrase>\\"'
 
 The above query will match the following documents:
 
@@ -531,4 +537,5 @@ TEXT_MATCH(column, 'Java AND C++')
 ```
 
 ### Text Index Tuning
-To improve Lucene index creation time, some configs have been provided. Field Config properties <code>luceneUseCompoundFile</code> and <code>luceneMaxBufferSizeMB</code> can provide faster index writing at but may increase file descriptors and/or memory pressure.
+
+To improve Lucene index creation time, some configs have been provided. Field Config properties `luceneUseCompoundFile` and `luceneMaxBufferSizeMB` can provide faster index writing at but may increase file descriptors and/or memory pressure.

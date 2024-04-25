@@ -6,15 +6,11 @@ description: >-
 
 # Minion
 
-A minion is a standby component that leverages the [Helix Task Framework](https://engineering.linkedin.com/blog/2019/01/managing-distributed-tasks-with-helix-task-framework) to offload computationally intensive tasks from other components.
+A Pinot minion is an optional cluster component that executes background tasks on table data apart from the query processes performed by brokers and servers. Minions run on independent hardware resources, and are responsible for executing _minion tasks_ as directed by the controller. Examples of minon tasks include converting batch data from a standard format like Avro or JSON into segment files to be loaded into an offline table, and rewriting existing segment files to purge records as required by data privacy laws like GDPR. Minion tasks can run once or be scheduled to run periodically.
 
-It can be attached to an existing Pinot cluster and then execute tasks as provided by the controller. Custom tasks can be plugged via annotations into the cluster. Some typical minion tasks are:
+Minions isolate the computational burden of out-of-band data processing from the servers. Although a Pinot cluster can function with or without minions, they are typically present to support routine tasks like batch data ingest.
 
-* Segment creation
-* Segment purge
-* Segment merge
-
-## Starting a Minion
+## Starting a minion
 
 Make sure you've [set up Zookeeper](./#setup-a-pinot-cluster). If you're using Docker, make sure to [pull the Pinot Docker image](./#setup-a-pinot-cluster). To start a minion:
 
@@ -49,7 +45,7 @@ bin/pinot-admin.sh StartMinion \
 
 ## Interfaces
 
-![](<../../../.gitbook/assets/task-interface-diagram.png>)
+![](../../../.gitbook/assets/task-interface-diagram.png)
 
 ### Pinot task generator
 
@@ -206,7 +202,7 @@ NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the tas
 When performing ingestion at scale remember that Pinot will list all of the files contained in the \`inputDirURI\` every time a \`SegmentGenerationAndPushTask\` job gets scheduled. This could become a bottleneck when fetching files from a cloud bucket like GCS. To prevent this make \`inputDirURI\` point to the least number of files possible.
 {% endhint %}
 
-``` 
+```
   "ingestionConfig": {
     "batchIngestionConfig": {
       "segmentIngestionType": "APPEND",

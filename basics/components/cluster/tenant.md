@@ -6,9 +6,11 @@ description: >-
 
 # Tenant
 
-A tenant is a logical component defined as a **group of server/broker nodes with the same Helix tag**. &#x20;
+Every table is associated with a _tenant_, or a logical namespace that restricts where the cluster processes queries on the table. A Pinot tenant takes the form of a text tag in the logical tenant namespace. Physical cluster hardware resources (i.e., [brokers](components/cluster/broker.md) and [servers](components/cluster/server.md)) are also associated with a tenant tag in the common tenant namespace. Tables of a particular tenant tag will only be scheduled for storage and query processing on hardware resources that belong to the same tenant tag. This lets Pinot cluster operators assign specified workloads to certain hardware resources, preventing data in separate workloads from being stored or processed on the same physical hardware.
 
-In order to support multi-tenancy, Pinot has first-class support for tenants. Every table is associated with a server tenant and a broker tenant. This controls the nodes that will be used by this table as servers and brokers. This allows all tables belonging to a particular use case to be grouped under a single tenant name.&#x20;
+By default, all tables, brokers, and servers belong to a tenant called _DefaultTenant_, but you can configure multiple tenants in a Pinot cluster.
+
+To support multi-tenancy, Pinot has first-class support for tenants. Every table is associated with a server tenant and a broker tenant, which controls the nodes used by the table as servers and brokers. Multi-tenancy lets Pinot group all tables belonging to a particular use case under a single tenant name.
 
 The concept of tenants is very important when the multiple use cases are using Pinot and there is a need to provide quotas or some sort of isolation across tenants. For example, consider we have two tables `Table A` and `Table B` in the same Pinot cluster.
 
@@ -18,11 +20,11 @@ We can configure `Table A` with server tenant `Tenant A` and `Table B` with serv
 
 ![Table isolation using tenants](../../../.gitbook/assets/TenantIsolation.jpg)
 
-&#x20;No need to create separate clusters for every table or use case!&#x20;
+No need to create separate clusters for every table or use case!
 
 ## Tenant configuration
 
-This tenant is defined in the [tenants](../table/#tenants) section of the table config.&#x20;
+This tenant is defined in the [tenants](../table/#tenants) section of the table config.
 
 This section contains two main fields `broker` and `server` , which decide the tenants used for the broker and server components of this table.
 
@@ -43,7 +45,7 @@ In the above example:
 
 ### Broker tenant
 
-Here's a sample broker tenant config. This will create a broker tenant `sampleBrokerTenant` by tagging three untagged broker nodes as `sampleBrokerTenant_BROKER`.&#x20;
+Here's a sample broker tenant config. This will create a broker tenant `sampleBrokerTenant` by tagging three untagged broker nodes as `sampleBrokerTenant_BROKER`.
 
 {% code title="sample-broker-tenant.json" %}
 ```javascript
@@ -76,11 +78,11 @@ curl -i -X POST -H 'Content-Type: application/json' -d @sample-broker-tenant.jso
 {% endtab %}
 {% endtabs %}
 
-Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded.&#x20;
+Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded.
 
 ### Server tenant
 
-Here's a sample server tenant config. This will create a server tenant `sampleServerTenant` by tagging 1 untagged server node as `sampleServerTenant_OFFLINE` and 1 untagged server node as `sampleServerTenant_REALTIME`.&#x20;
+Here's a sample server tenant config. This will create a server tenant `sampleServerTenant` by tagging 1 untagged server node as `sampleServerTenant_OFFLINE` and 1 untagged server node as `sampleServerTenant_REALTIME`.
 
 {% code title="sample-server-tenant.json" %}
 ```javascript
@@ -115,4 +117,4 @@ curl -i -X POST -H 'Content-Type: application/json' -d @sample-server-tenant.jso
 {% endtab %}
 {% endtabs %}
 
-Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded.&#x20;
+Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded.

@@ -102,9 +102,9 @@ column.memberId.partitionValues = 1
 
 In order to maximize the partition pruning efficiency, it is important to reduce the number of partitions contained on each segment. Pinot will not move rows between segments to maximize partition efficiency, so when possible, rows should be correctly distribute before ingesting them into Pinot.
 
-When using real-time tables, usually the input source can be used to do this partition. For example, one very usual input source in real-time tables is Kafka. In this case, in order to achieve maximum partition efficiency, Pinot and Kafka should use the same partition configuration.&#x20;
+When using real-time tables, usually the input source can be used to do this partition. For example, one very usual input source in real-time tables is Kafka. In this case, in order to achieve maximum partition efficiency, Pinot and Kafka should use the same partition configuration.
 
-When using offline tables, each input file should be crafted to contain rows on the same partition. Imagine we are creating a table from a list of CSV files. Ideally all rows in the csv should belong to the same partition. In the example above where we used `modulo`  and 3 partitions, the value `memberId = 101` will be associated with partition 2 (`memberId % 3 = 2`). Therefore to maximize the partition efficiency other rows in the same CSVv should have a `memberId` equal to 2, 5 or 104 but should not have values like 1, 3, 100 or 102.
+When using offline tables, each input file should be crafted to contain rows on the same partition. Imagine we are creating a table from a list of CSV files. Ideally all rows in the csv should belong to the same partition. In the example above where we used `modulo` and 3 partitions, the value `memberId = 101` will be associated with partition 2 (`memberId % 3 = 2`). Therefore to maximize the partition efficiency other rows in the same CSVv should have a `memberId` equal to 2, 5 or 104 but should not have values like 1, 3, 100 or 102.
 
 {% hint style="info" %}
 Remember that Pinot does not impose a hard requirement here. It is fine if segments contain rows of more than one partition. What should be avoided is to have most segments associated with most partitions, given that in that case Pinot won't be actually able to prune most segments.

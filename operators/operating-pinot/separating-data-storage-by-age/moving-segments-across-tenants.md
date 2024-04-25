@@ -41,7 +41,7 @@ In this example, the table uses servers tagged with `base_OFFLINE`. We have crea
 | segmentSelectorType | The strategy used for selecting segments. The only supported strategy as of now is `time`, which will pick segments based on segment age.                                              |
 | segmentAge          | This property is required when `segmentSelectorType` is `time`. Set a period string, eg. 15d, 24h, 60m. Segments which are older than the age will be moved to the the specific tenant |
 | storageType         | The type of storage. The only supported type is `pinot_server`                                                                                                                         |
-| serverTag           | This property is required when `storageType` is `pinot_server`. Set the tag of the Pinot servers you wish to use for this selection criteria.                                          |
+| serverTag           | This property is required when `storageType` is `pinot_server`. Set the tag of the Pinot servers you want to use for this selection criteria.                                          |
 
 ### How does data move from one tenant to another?
 

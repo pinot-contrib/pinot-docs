@@ -81,7 +81,7 @@ pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.adl2=org.apache.pinot.plugin.filesystem.ADLSGen2PinotFS
 pinot.server.storage.factory.adl2.accountName=my-account
 pinot.server.storage.factory.adl2.accessKey=foo-bar-1234
-pinot.controller.storage.factory.adl2.fileSystemName=fs-name
+pinot.server.storage.factory.adl2.fileSystemName=fs-name
 pinot.server.segment.fetcher.protocols=file,http,adl2
 pinot.server.segment.fetcher.adl2.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```

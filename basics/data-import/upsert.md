@@ -347,9 +347,9 @@ The lifecycle for validDocIds snapshots are shows as follows,
 3. If snapshot is enabled, persist validDocIds snapshot for immutable segments when removing segment.
 {% endhint %}
 
-### Enable preload for faster restarts
+### Enable preload for faster server restarts
 
-Upsert preload support is also added in `master`. To enable the preload, set the `enablePreload` to `true`. For example:
+Upsert preload feature can make it faster to restore the upsert states when server restarts. To enable the preload feature, set the `enablePreload` to `true`. To enable preloading, `enableSnapshot: true` should also be set in the table config. For example:
 
 ```json
 {
@@ -361,13 +361,10 @@ Upsert preload support is also added in `master`. To enable the preload, set the
 }
 ```
 
-For preload to improve your restart times, `enableSnapshot: true` should also we set in the table config.\
 \
-Under the hood, it uses the snapshots to quickly insert the data instead of performing a whole upsert comparison flow for all the primary keys. The flow is triggered before server is marked as ready to load segments without snapshots (hence the name preload).
+Under the hood, it uses the validDocIds snapshots to identify the valid docs and restore their upsert metadata quickly instead of performing a whole upsert comparison flow. The flow is triggered before  the server is marked as ready, after which the server starts to load the remaining segments without snapshots (hence the name preload).
 
-The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload.\
-\
-This feature is still in beta.
+The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload. It's 0 by default to disable the preloading feature.
 
 ### Metadata time-to-live (TTL)
 
@@ -641,7 +638,7 @@ bin/quick-start-partial-upsert-streaming.sh
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to check out the real-time data.
 
-![Query the upsert table](<../../.gitbook/assets/query-upsert-table.png>)
+![Query the upsert table](../../.gitbook/assets/query-upsert-table.png)
 
 For partial upsert you can see only the value from configured column changed based on specified partial upsert strategy.
 
@@ -653,7 +650,7 @@ An example for partial upsert is shown below, each of the event\_id kept being u
 
 To see the difference from the non-upsert table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
-![Disable the upsert during query via query option](<../../disable_upsert_during_query.png>)
+![Disable the upsert during query via query option](../../disable\_upsert\_during\_query.png)
 
 ### FAQ
 

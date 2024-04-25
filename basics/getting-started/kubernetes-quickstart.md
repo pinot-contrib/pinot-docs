@@ -4,7 +4,7 @@ description: Pinot quick start in Kubernetes
 
 # Running in Kubernetes
 
-Get started running Pinot in Kubernetes.&#x20;
+Get started running Pinot in Kubernetes.
 
 {% hint style="info" %}
 <mark style="color:red;">Note:</mark> The examples in this guide are sample configurations to be used as reference. For production setup, you may want to customize it to your needs.
@@ -14,12 +14,12 @@ Get started running Pinot in Kubernetes.&#x20;
 
 ### Kubernetes
 
-This guide assumes that you already have a running Kubernetes cluster.&#x20;
+This guide assumes that you already have a running Kubernetes cluster.
 
-If you haven't yet set up a Kubernetes cluster, see the links below for instructions:&#x20;
+If you haven't yet set up a Kubernetes cluster, see the links below for instructions:
 
 * [Enable Kubernetes on Docker-Desktop](https://docs.docker.com/docker-for-mac/kubernetes/)
-* [Install Minikube for local setup](https://kubernetes.io/docs/tasks/tools/install-minikube/)&#x20;
+* [Install Minikube for local setup](https://kubernetes.io/docs/tasks/tools/install-minikube/)
   * Make sure to run with enough resources: `minikube start --vm=true --cpus=4 --memory=8g --disk-size=50g`
 * [Set up a Kubernetes Cluster using Amazon Elastic Kubernetes Service (Amazon EKS)](public-cloud-examples/aws-quickstart.md)
 * [Set up a Kubernetes Cluster using Google Kubernetes Engine (GKE)](public-cloud-examples/gcp-quickstart.md)
@@ -34,7 +34,7 @@ Make sure that you've downloaded Apache Pinot. The scripts for the setup in this
 ```bash
 # checkout pinot
 git clone https://github.com/apache/pinot.git
-cd pinot/kubernetes/helm/pinot
+cd pinot/helm/pinot
 ```
 {% endtab %}
 {% endtabs %}
@@ -144,7 +144,7 @@ The following script (located at `./pinot/helm/pinot`) performs local port forwa
 ./query-pinot-data.sh
 ```
 
-## Query Pinot with Superset&#x20;
+## Query Pinot with Superset
 
 ### Bring up Superset using Helm
 
@@ -163,7 +163,7 @@ helm inspect values superset/superset > /tmp/superset-values.yaml
 3. For Superset to install Pinot dependencies, edit `/tmp/superset-values.yaml` file to add a`pinotdb` pip dependency into `bootstrapScript` field.
 4. You can also build your own image with this dependency or use the image `apachepinot/pinot-superset:latest` instead.
 
-![](<../../.gitbook/assets/kubernetes-build-image.png>)
+![](../../.gitbook/assets/kubernetes-build-image.png)
 
 5. Replace the default admin credentials inside the `init` section with a meaningful user profile and stronger password.
 6. Install Superset using Helm:
@@ -181,7 +181,7 @@ kubectl get all -n superset
 
 ### Access the Superset UI
 
-1. Run the below command to port forward Superset to your `localhost:18088`.&#x20;
+1. Run the below command to port forward Superset to your `localhost:18088`.
 
 ```bash
 kubectl port-forward service/superset 18088:8088 -n superset
@@ -201,7 +201,7 @@ kubectl port-forward service/superset 18088:8088 -n superset
 helm repo add trino https://trinodb.github.io/charts/
 ```
 
-2. &#x20;See the charts in the Trino Helm chart repository:
+2. See the charts in the Trino Helm chart repository:
 
 ```bash
 helm search repo trino
@@ -239,7 +239,7 @@ helm install my-trino trino/trino --version 0.2.0 -n trino-quickstart --values /
 kubectl get pods -n trino-quickstart
 ```
 
-![](<../../.gitbook/assets/trino-deployment-status.png>)
+![](../../.gitbook/assets/trino-deployment-status.png)
 
 ### Query Pinot with the Trino CLI
 
@@ -495,4 +495,3 @@ To delete your Pinot cluster in Kubernetes, run the following command:
 ```bash
 kubectl delete ns pinot-quickstart
 ```
-

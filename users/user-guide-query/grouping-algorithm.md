@@ -42,9 +42,20 @@ OPTION(minServerGroupTrimSize=<minServerGroupTrimSize>)
 
 When cross segments trim is enabled, the server will trim the tail groups before sending the results back to the broker. It will also trim the tail groups when the number of groups reaches the `<trimThreshold>`.
 
+`<trimThreshold>` is the upper bound of groups allowed in a server for each query to protect servers from running out of memory. To avoid too frequent trimming, the actual trim size is bounded to `<trimThreshold> / 2`. Combining this with the above equation, the actual trim size for a query is calculated as `min(max(<minServerGroupTrimSize>, 5 * LIMIT), <trimThreshold> / 2)`.
+
 This configuration is set to 1,000,000 by default and can be adjusted by configuring the `pinot.server.query.executor.groupby.trim.threshold` property.
 
 A higher threshold reduces the amount of trimming done, but consumes more heap memory. If the threshold is set to more than 1,000,000,000, the server will only trim the groups once before returning the results to the broker.
+
+This value can be overridden on a query by query basis by passing the following option:
+
+```sql
+SELECT * 
+FROM ...
+
+OPTION(groupTrimThreshold=<groupTrimThreshold>)
+```
 
 ## At Broker
 

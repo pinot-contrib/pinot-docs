@@ -7,7 +7,10 @@ description: >-
 
 # Schema
 
-Each table in Pinot is associated with a schema. A schema defines what fields are present in the table along with the data types.
+Each table in Pinot is associated with a schema. A schema defines:
+
+* Fields in the table with their data types.
+* Whether the table uses column-based or table-based null handling. For more information, see [Null value support](../../developers/advanced/null-value-support.md).
 
 The schema is stored in Zookeeper along with the table configuration.
 
@@ -33,7 +36,7 @@ The categories are also relevant when doing segment merge and rollups. Pinot use
 
 Metrics aggregation is another example where Pinot uses dimensions and time are used as the key, and automatically aggregates values for the metric columns.
 
-For configuration details, see [Schema configuration reference](https://docs.pinot.apache.org/configuration-reference/schema).&#x20;
+For configuration details, see [Schema configuration reference](https://docs.pinot.apache.org/configuration-reference/schema).
 
 ### Date and time fields
 
@@ -53,10 +56,12 @@ For more details on constructing a schema file, see the [Schema configuration re
 ```javascript
 {
   "schemaName": "flights",
+  "enableColumnBasedNullHandling": true,
   "dimensionFieldSpecs": [
     {
       "name": "flightNumber",
-      "dataType": "LONG"
+      "dataType": "LONG",
+      "notNull": true
     },
     {
       "name": "tags",
@@ -69,6 +74,7 @@ For more details on constructing a schema file, see the [Schema configuration re
     {
       "name": "price",
       "dataType": "DOUBLE",
+      "notNull": true,
       "defaultNullValue": 0
     }
   ],
@@ -82,6 +88,7 @@ For more details on constructing a schema file, see the [Schema configuration re
     {
       "name": "hoursSinceEpoch",
       "dataType": "INT",
+      "notNull": true,
       "format": "EPOCH|HOURS",
       "granularity": "1:HOURS"
     },
