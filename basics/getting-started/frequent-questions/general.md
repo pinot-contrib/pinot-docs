@@ -24,8 +24,8 @@ Check the JDK version you are using. You may be getting this error if you are us
 
 ## How to change TimeZone when running Pinot?
 
-Local timezone is the default of Pinot. To change the timezone, you need to set the `pinot.timezone` value in the `.conf` config file. It will be set once for all Pinot's components (Controller, Broker, Server, Minion)
-Below is a sample config
+Pinot uses the local timezone by default. To change the timezone, set the `pinot.timezone` value in the `.conf` config file. It is set once for all Pinot components (Controller, Broker, Server, Minion).
+See the following sample configuration:
 ```
 pinot.timezone=UTC
 ```
