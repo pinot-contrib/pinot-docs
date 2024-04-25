@@ -92,7 +92,7 @@ The most common segment assignment change is moving from the default segment ass
 
 In a scenario where you need to move table across tenants, for e.g table was assigned earlier to a different Pinot tenant and now you want to move it to a separate one, then you need to call the rebalance API with reassignInstances set to true.
 
-In order to move table to other tenants, need to modify the following configs in realtime and offline tables:
+To move a table to other tenants, modify the following configs in both realtime and offline tables:
 
 {% tabs %}
 {% tab title="REALTIME" %}
