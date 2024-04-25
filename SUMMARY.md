@@ -395,6 +395,7 @@
   * [VAR\_SAMP](configuration-reference/plugin-reference/var\_samp.md)
   * [STDDEV\_POP](configuration-reference/plugin-reference/stddev\_pop.md)
   * [STDDEV\_SAMP](configuration-reference/plugin-reference/stddev\_samp.md)
+* [Dynamic Environment](configuration-reference/dynamic-environment.md)
 
 ## Reference
 
