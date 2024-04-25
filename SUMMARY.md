@@ -153,6 +153,7 @@
   * [Contribution Guidelines](developers/developers-and-contributors/contribution-guidelines.md)
   * [Code Setup](developers/developers-and-contributors/code-setup.md)
   * [Code Modules and Organization](developers/developers-and-contributors/code-modules-and-organization.md)
+  * [Dependency Management](developers/developers-and-contributors/dependency-management.md)
   * [Update documentation](developers/developers-and-contributors/update-document.md)
 * [Advanced](developers/advanced/README.md)
   * [Data Ingestion Overview](developers/advanced/data-ingestion.md)
