@@ -155,7 +155,7 @@ bin/pinot-admin.sh StartBroker \
     -zkAddress localhost:2181
 ```
 
-**Start Pinot Controller**
+**Start Pinot Server**
 
 ```
 bin/pinot-admin.sh StartServer \
