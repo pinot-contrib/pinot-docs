@@ -24,22 +24,8 @@ Check the JDK version you are using. You may be getting this error if you are us
 
 ## How to change TimeZone when running Pinot?
 
-There are 2 ways to do it:
-
-1. Setting an environment variable: `TZ=UTC`.
-
-E.g.
-
+Pinot uses the local timezone by default. To change the timezone, set the `pinot.timezone` value in the `.conf` config file. It is set once for all Pinot components (Controller, Broker, Server, Minion).
+See the following sample configuration:
 ```
-export TZ=UTC
+pinot.timezone=UTC
 ```
-
-2. Setting JVM argument: `user.timezone`
-
-```
--Duser.timezone=UTC
-```
-
-3. TODO: [https://github.com/apache/pinot/issues/12299](https://github.com/apache/pinot/issues/12299)
-
-Plan to add a configuration to change time zone using cluster config or pinot component config
