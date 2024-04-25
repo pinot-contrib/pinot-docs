@@ -239,7 +239,7 @@ services:
 Run the following command to launch all the components:
 
 ```
-docker-compose --project-name pinot-demo up
+docker compose --project-name pinot-demo up
 ```
 
 Run the below command to check the container status:
