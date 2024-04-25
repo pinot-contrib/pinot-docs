@@ -138,7 +138,7 @@ kubectl apply -f pinot/helm/pinot/pinot-realtime-quickstart.yml
 
 ### Pinot Data Explorer
 
-The script below, located at `./pinot/helm/pinot`, performs local port forwarding, and opens the Pinot query console in your default web browser.
+The following script (located at `./pinot/helm/pinot`) performs local port forwarding, and opens the Pinot query console in your default web browser.
 
 ```bash
 ./query-pinot-data.sh
