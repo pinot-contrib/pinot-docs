@@ -73,6 +73,7 @@
   * [Bloom filter](basics/indexing/bloom-filter.md)
   * [Dictionary index](basics/indexing/dictionary-index.md)
   * [Forward index](basics/indexing/forward-index.md)
+  * [FST index](basics/indexing/fst-index.md)
   * [Geospatial](basics/indexing/geospatial-support.md)
   * [Inverted index](basics/indexing/inverted-index.md)
   * [JSON index](basics/indexing/json-index.md)

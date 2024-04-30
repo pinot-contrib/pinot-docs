@@ -1,5 +1,5 @@
 ---
-description: This page describes the indexing techniques available in Apache Pinot™
+description: This page describes the indexing techniques available in Apache Pinot
 ---
 
 # Indexing
@@ -11,6 +11,7 @@ Apache Pinot™ supports the following indexing techniques:
   * Dictionary-encoded forward index with bit compression
   * Raw value forward index
   * Sorted forward index with run-length encoding
+* [FST index](fst-index.md)&#x20;
 * [Geospatial](geospatial-support.md)
 * [Inverted index](inverted-index.md)
   * Bitmap inverted index
