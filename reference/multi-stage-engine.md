@@ -19,9 +19,9 @@ Apache Pinot 1.0 Multi-Stage Query Engine overview
 {% endembed %}
 
 ## How does the multi-stage handle nulls?
-Before Pinot 1.1.0, the multi-stage query engine did not support null handling, treating all columns as non-nullable.
-In Pinot 1.1.0, the multi-stage query engine supports null handling if column based null storing is enabled.
+Since Pinot 1.1.0, the multi-stage query engine supports null handling if column based null storing is enabled.
 For more information, see the [Null value support](../developers/advanced/null-value-support.md) section.
+Before Pinot 1.1.0, the multi-stage query engine treated all columns as non-nullable.
 
 ## Why use the multi-stage query engine?
 
@@ -55,9 +55,27 @@ The multi-stage query engine also includes a **new query plan optimizer** to pro
 
 ## How queries are processed
 
-With a multi-stage query engine, Pinot first breaks down the [single scatter-gather query plan used in v1](https://docs.pinot.apache.org/reference/single-stage-engine) into multiple query sub-plans that run across different sets of servers. We call these sub-plans “stage plans,” and refer to each execution as a “stage.”
+With a multi-stage query engine, Pinot first breaks down the [single scatter-gather query plan used in v1](https://docs.pinot.apache.org/reference/single-stage-engine) into multiple query sub-plans that run across different sets of servers. 
+We call these sub-plans “stage plans,” and refer to each execution as a “stage.”
 
-Consider the following JOIN query example, which illustrates the breakdown of a query into stages. This query joins a real-time `orderStatus` table with an offline `customer` table.
+Stages are a logical entity and are connected in a tree like structure where the output of one stage is the input to the
+next stage. 
+The stages in the leaves of the plan are the ones that read from the tables and the stages in the root are the ones that
+send the final results to the client.
+
+Therefore we can define three types of stages:
+1. Leaf stages: These stages read from the tables and send the data to the next stage. Each leaf stage reads from
+   exactly one table (although a single stage can read from the offline and real-time versions of the same hybrid 
+   table).
+2. Intermediate stages: These stages process the data and send it to the next stage.
+3. Root stages: These stages send the final results to the client. There is only one for each query.
+
+As said above, stages are logical entities and they are not directly executed.
+Instead, Pinot Broker assigns a parallelism to each stage and defines which servers are going to execute each stage.
+For example, if a stage has a parallelism of 10, then 10 servers will execute that stage in parallel.
+
+Consider the following JOIN query example, which illustrates the breakdown of a query into stages. 
+This query joins a real-time `orderStatus` table with an offline `customer` table.
 
 ```sql
 SELECT 
@@ -73,9 +91,9 @@ WHERE
   AND c.lto > 5         –- life-time order count
 ```
 
-### Stage 1
+### Leaf stages
 
-In the first stage, the query is processed as follows:
+In the leaf stages, the query is processed as follows:
 
 1. Real-time servers execute the filter query on the `orderStatus` table:
 
@@ -94,15 +112,14 @@ SELECT c.uid c.ltv FROM customer AS c WHERE c.lto > 5
 {% endcode %}
 
 3. The data exchange service shuffles data shuffle, so all data with the same unique customer ID is sent to the same processing server for the next stage.
-4. On each processing server, an inner JOIN is performed.
 
-### Stage 2
+### Intermediate stages
 
 1. On each processing server, an inner JOIN is performed.
-2.  Each intermediary servers (shown in [_Figure 1: Multi-stage query execution model_](multi-stage-engine.md#multi-stage-query-execution-model)) performs a local join, and
+2. Each intermediary servers (shown in [_Figure 1: Multi-stage query execution model_](multi-stage-engine.md#multi-stage-query-execution-model)) performs a local join, and
+   runs the same join algorithm, but on different `uids.`
+3. The result of these joins is sent to the next stage, which in this case is the root stage.
 
-    runs the same join algorithm, but on different `uids.`
-
-### Stage 3
+### Root stage
 
 * After the join algorithm completes, the results are sent back to the broker, and then sent to clients.&#x20;
