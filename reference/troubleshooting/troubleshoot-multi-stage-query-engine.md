@@ -131,7 +131,7 @@ CAST(timestampCol AS BITINT) >= longCol
 
 Default names for projections with function calls are different between v1 and v2.&#x20;
 
-* For example, in v1, the following query:
+* For example, in v2, the following query:
 
 ```sql
   SELECT count(*) from mytable 
@@ -145,7 +145,7 @@ Default names for projections with function calls are different between v1 and v
       ],
 ```
 
-* In v2, the following function:
+* In v1, the following function:
 
 ```sql
   SELECT count(*) from mytable
@@ -186,7 +186,8 @@ select add(1, add(2,add(3, add(4,5)))) from table
 
 ### NULL function support
 
-Null handling is not supported when tables use table based null storing.
+Null handling is not supported when tables use table based null storing. 
+You have to use column base null storing instead.
 See [null handling support](null-value-support.md)
 
 ### Custom transform function support
@@ -199,6 +200,14 @@ See [null handling support](null-value-support.md)
 ### Custom aggregate function support
 
 * aggregate function that requires literal input (such as `percentile`, `firstWithTime`) might result in a non-compilable query plan when used in v2.&#x20;
+
+### Byte literals
+
+<!-- TODO: Explain how to use byte literals -->
+
+### Different type names
+
+<!-- TODO: Explain the differences in type names, which mainly affect castings. Include a table of equivalence -->
 
 ## Troubleshoot errors
 
