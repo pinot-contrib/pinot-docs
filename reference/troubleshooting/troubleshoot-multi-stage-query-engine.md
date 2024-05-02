@@ -10,7 +10,7 @@ Find instructions on [how to enable the multi-stage query engine](v2-multi-stage
 
 ## Limitations of the multi-stage query engine&#x20;
 
-We are continuously improving the v2 multi-stage query engine. A few limitations to call out:
+We are continuously improving the multi-stage query engine. A few limitations to call out:
 
 ### Support for multi-value columns is limited
 
@@ -67,13 +67,17 @@ SELECT * from myTable;
 
 ### Modifying query behavior based on the cluster config is not supported
 
-Modifying query behavior based on the cluster configuration is not supported. `distinctcounthll`, `distinctcounthllmv`, `distinctcountrawhll`, and \```distinctcountrawhllmv` use`` a different default value of `log2mParam` in the multi-stage v2 engine. In v2, this value can no longer be configured. Therefore, the following query may produce different results in v1 and v2 engine:
+Modifying query behavior based on the cluster configuration is not supported. 
+`distinctcounthll`, `distinctcounthllmv`, `distinctcountrawhll`, and \```distinctcountrawhllmv` use`` a different 
+default value of `log2mParam` in the multi-stage engine. 
+In multi-stage, this value can no longer be configured. 
+Therefore, the following query may produce different results in single-stage and multi-stage engine:
 
 ```sql
 select distinctcounthll(col) from myTable
 ```
 
-To ensure v2 returns the same result, specify the `log2mParam` value in your query:
+To ensure multi-stage returns the same result, specify the `log2mParam` value in your query:
 
 ```sql
 select distinctcounthll(col, 8) from myTable
@@ -106,7 +110,7 @@ FROM myTable GROUP BY 1, 2 ORDER BY 1
 
 Pinot single-stage query engine automatically removes the underscore `_ character from function names. So co_u_n_t()`is equivalent to `count().`
 
-In v2, function naming restrictions were tightened, so the underscore(`_)` character is only allowed to separate word boundaries in a function name. Also camel case is supported in function names. For example, the following function names are allowed:
+In multi-stage, function naming restrictions were tightened, so the underscore(`_)` character is only allowed to separate word boundaries in a function name. Also camel case is supported in function names. For example, the following function names are allowed:
 
 ```markup
 is_distinct_from(...)
@@ -121,7 +125,9 @@ Pinot single-stage query engine automatically do implicit type casts in many of 
 timestampCol >= longCol
 ```
 
-it will automatically convert both values to long datatypes before comparison. This behavior however could cause issues and thus it is not so widely applied in the v2 engine. In the v2 engine, a stricter datatype conformance is enforced. the example above should be explicitly written as:
+it will automatically convert both values to long datatypes before comparison. 
+This behavior however could cause issues and thus it is not so widely applied in the multi-stage engine where a 
+stricter datatype conformance is enforced. the example above should be explicitly written as:
 
 ```
 CAST(timestampCol AS BITINT) >= longCol 
@@ -129,9 +135,9 @@ CAST(timestampCol AS BITINT) >= longCol
 
 ### Default names for projections with function calls
 
-Default names for projections with function calls are different between v1 and v2.&#x20;
+Default names for projections with function calls are different between single and multi-stage.
 
-* For example, in v2, the following query:
+* For example, in multi-stage, the following query:
 
 ```sql
   SELECT count(*) from mytable 
@@ -145,7 +151,7 @@ Default names for projections with function calls are different between v1 and v
       ],
 ```
 
-* In v1, the following function:
+* In single-stage, the following function:
 
 ```sql
   SELECT count(*) from mytable
@@ -161,28 +167,35 @@ Default names for projections with function calls are different between v1 and v
 
 ### Table names and column names are case sensitive
 
-In v2, table and column names and are case sensitive. In v1 they were not. For example, the following two queries are not equivalent in v2:
+In multi-stage, table and column names and are case sensitive. In single-stage they were not. 
+For example, the following two queries are not equivalent in multi-stage engine:
 
 `select * from myTable`
 
 `select * from mytable`
 
 {% hint style="info" %}
-**Note:** Function names are not case sensitive in v2 or v1.
+**Note:** Function names are not case sensitive in neither single nor multi-stage.
 {% endhint %}
 
 ### Arbitrary number of arguments isn't supported
 
-An arbitrary number of arguments is no longer supported in v2. For example, in v1, the following query worked:
+An arbitrary number of arguments is no longer supported in multi-stage. 
+For example, in single-stage, the following query worked:
 
 <pre><code><a data-footnote-ref href="#user-content-fn-1">select add(1,2,3,4,5) from table</a>
 </code></pre>
 
-In v2, this query must be rewritten as follows:
+In multi-stage, this query must be rewritten as follows:
 
 ```
 select add(1, add(2,add(3, add(4,5)))) from table
 ```
+
+{% hint style="info" %}
+**Note:** Remember that `select 1 + 2 + 3 + 4 + 5 from table` is still valid in multi-stage
+{% endhint %}
+
 
 ### NULL function support
 
@@ -192,14 +205,16 @@ See [null handling support](null-value-support.md)
 
 ### Custom transform function support
 
-* The `histogram` function is not supported in v2.
-* The `timeConvert` function is not supported in v2, see `dateTimeConvert` for more details.
-* The `dateTimeConvertWindowHop` function is not supported in v2.
-* Array & Map-related functions are not supported in v2.
+In multi-stage:
+
+* The `histogram` function is not supported.
+* The `timeConvert` function is not supported, see `dateTimeConvert` for more details.
+* The `dateTimeConvertWindowHop` function is not supported.
+* Array & Map-related functions are not supported.
 
 ### Custom aggregate function support
 
-* aggregate function that requires literal input (such as `percentile`, `firstWithTime`) might result in a non-compilable query plan when used in v2.&#x20;
+* aggregate function that requires literal input (such as `percentile`, `firstWithTime`) might result in a non-compilable query plan.
 
 ### Different type names
 
