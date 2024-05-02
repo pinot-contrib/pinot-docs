@@ -201,6 +201,30 @@ See [null handling support](null-value-support.md)
 
 * aggregate function that requires literal input (such as `percentile`, `firstWithTime`) might result in a non-compilable query plan when used in v2.&#x20;
 
+### Different type names
+
+The multi-stage engine uses different type names than the single-stage engine.
+Although the classical names must still be used in schemas and some SQL expressions, the new names must be used in
+CAST expressions.
+
+The following table shows the differences in type names:
+
+| Single-stage engine | Multi-stage engine |
+|---------------------|--------------------|
+| NULL                | NULL               |
+| BOOLEAN             | BOOLEAN            |
+| INT                 | INT                |
+| LONG                | BIGINT             |
+| BIG_DECIMAL         | DECIMAL            |
+| FLOAT               | FLOAT/REAL         |
+| DOUBLE              | DOUBLE             |
+| INTERVAL            | INTERVAL           |
+| TIMESTAMP           | TIMESTAMP          |
+| STRING              | VARCHAR            |
+| BYTES               | VARBINARY          |
+| -                   | ARRAY              |
+| JSON                | -                  |
+
 ### Varbinary literals
 
 VARBINARY literals in multi-stage engine must be prefixed with `X` or `x`. For example, the following query:
@@ -215,10 +239,6 @@ In single-stage engine the same query would be:
 -- not supported in multi-stage
 SELECT col1, col2 FROM myTable where bytesCol = '4a220e6096b25eadb88358cb44068a3248254675'
 ```
-
-### Different type names
-
-<!-- TODO: Explain the differences in type names, which mainly affect castings. Include a table of equivalence -->
 
 ## Troubleshoot errors
 
