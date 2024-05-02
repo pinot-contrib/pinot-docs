@@ -201,9 +201,20 @@ See [null handling support](null-value-support.md)
 
 * aggregate function that requires literal input (such as `percentile`, `firstWithTime`) might result in a non-compilable query plan when used in v2.&#x20;
 
-### Byte literals
+### Varbinary literals
 
-<!-- TODO: Explain how to use byte literals -->
+VARBINARY literals in multi-stage engine must be prefixed with `X` or `x`. For example, the following query:
+
+```sql
+SELECT col1, col2 FROM myTable where bytesCol = X'4a220e6096b25eadb88358cb44068a3248254675'
+```
+
+In single-stage engine the same query would be:
+
+```sql
+-- not supported in multi-stage
+SELECT col1, col2 FROM myTable where bytesCol = '4a220e6096b25eadb88358cb44068a3248254675'
+```
 
 ### Different type names
 
