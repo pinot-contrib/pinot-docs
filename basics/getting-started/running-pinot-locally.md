@@ -24,7 +24,7 @@ First, download the Pinot distribution for this tutorial. You can either downloa
 
 Note that some installations of the JDK do not contain the JNI bindings necessary to run all tests. If you see an error like `java.lang.UnsatisfiedLinkError` while running tests, you might need to change your JDK.
 
-If using Homebrew, install AdoptOpenJDK 11 using `brew install --cask adoptopenjdk11`.
+If using Homebrew, install Eclipse Temurin 11 using `brew install --cask temurin@11`.
 
 {% hint style="info" %}
 **Support for M1 and M2 Mac systems**
