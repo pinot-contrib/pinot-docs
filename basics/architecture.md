@@ -91,7 +91,7 @@ The controller provides a REST interface that allows read and write access to al
 
 The [broker's](components/cluster/broker.md) responsibility is to route queries to the appropriate [server](components/cluster/server.md) instances, or in the case of multi-stage queries, to compute a complete query plan and distribute it to the servers required to execute it. The broker collects and merges the responses from all servers into a final result, then sends the result back to the requesting client. The broker exposes an HTTP endpoint that accepts SQL queries in JSON format and returns the response in JSON.
 
-Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](operators/operating-pinot/tuning/routing.md) strategy for a table. The default strategy is to balance the query load across all available servers.
+Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](https://docs.pinot.apache.org/operators/operating-pinot/tuning/routing) strategy for a table. The default strategy is to balance the query load across all available servers.
 
 {% hint style="info" %}
 Advanced routing strategies are available, such as replica-aware routing, partition-based routing, and minimal server selection routing.
@@ -118,7 +118,7 @@ Advanced routing strategies are available, such as replica-aware routing, partit
 Every query processed by a broker uses the single-stage engine or the [multi-stage engine](https://docs.pinot.apache.org/reference/multi-stage-engine). For single-stage queries, the broker does the following:
 
 * Computes query routes based on the routing strategy defined in the [table](components/table/) configuration.
-* Computes the list of segments to query on each [server](components/cluster/server.md). (See [routing](operators/operating-pinot/tuning/routing.md) for further details on this process.)
+* Computes the list of segments to query on each [server](components/cluster/server.md). (See [routing](https://docs.pinot.apache.org/operators/operating-pinot/tuning/routing) for further details on this process.)
 * Sends the query to each of those servers for local execution against their segments.
 * Receives the results from each server and merges them.
 * Sends the query result to the client.
