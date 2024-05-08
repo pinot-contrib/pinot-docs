@@ -122,4 +122,8 @@ SELECT c.uid c.ltv FROM customer AS c WHERE c.lto > 5
 
 ### Root stage
 
-* After the join algorithm completes, the results are sent back to the broker, and then sent to clients.&#x20;
+* After the join algorithm completes, the results are sent back to the broker, and then sent to clients.
+
+## How to optimize multi-stage queries
+
+Multi-stage queries 
