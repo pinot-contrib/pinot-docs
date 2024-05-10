@@ -43,6 +43,24 @@ The number of groups emitted by the operator.
 A large number of emitted rows may not be problematic, but indicates that the predicate is not very selective.
 
 ## Explain attributes
+The filter operator is represented in the explain plan as a `LogicalFilter` explain node.
+
+### condition
+Type: Expression
+
+The condition that is being applied to the rows.
+The expression may use indexed columns (`$0`, `$1`, etc), functions and literals.
+The indexed columns are always 0-based.
+
+For example, the following explain plan:
+```
+LogicalFilter(condition=[>($5, 2)])
+  LogicalTableScan(table=[[default, userAttributes]])
+```
+
+Is saying that the filter is applying the condition `$5 > 2` which means that only the rows where the 6th column is 
+greater than 2 will be emitted.
+In order to know which column is the 6th, you need to look at the schema of the table scanned.
 
 ## Tips and tricks
 

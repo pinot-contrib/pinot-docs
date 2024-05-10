@@ -5,21 +5,21 @@ description: >-
 
 # Leaf operator
 
-The leaf operator is the last operator in the query execution plan.
-This is in fact a meta-operator that wraps the single-stage query engine and executes all the operators in the leaf
-stage of the query plan.
+The leaf operator is the operator that actually reads the data from the segments.
+Instead of being just a simple table scan, the leaf operator is a meta-operator that wraps the single-stage query engine
+and executes all the operators in the leaf stage of the query plan.
 
 ## Implementation details
 
-The leaf operator is not a relational operator itself but a meta-operator that wraps the single-stage query engine.
+The leaf operator is not a relational operator itself but a meta-operator that is able to execute single-stage queries.
 When servers execute a leaf stage, they compile all operations in the stage but the send operator into the equivalent
 single-stage query and execute that using a slightly modified version of the single-stage engine.
 
-As a result, there may be slight differences when an operator is executed in a leaf stage compared to when it is 
+As a result, leaf stage operators can use all the optimizations and indices that the single-stage engine can use but
+it also means that there may be slight differences when an operator is executed in a leaf stage compared to when it is 
 executed in an intermediate stage.
-For example, operations pushed down to the leaf stage may use indexes 
-(see [how to know if indexes are used](./filter#how-to-know-if-indexes-are-used)) or the semantics can be slightly
-different.
+For example, operations pushed down to the leaf stage may use indexes (see 
+[how to know if indexes are used](./filter#how-to-know-if-indexes-are-used)) or the semantics can be slightly different.
 
 You can read [Troubleshoot issues with the multi-stage query engine (v2)](../../../../reference/troubleshooting/troubleshoot-multi-stage-query-engine.md)
 for more information on the differences between the leaf and intermediate stages, but the main ones are:
@@ -35,10 +35,7 @@ be not blocking.
 
 ## Hints
 
-### partition_key
-### partition_function
-### partition_size
-### partition_parallelism
+None
 
 ## Stats
 ### executionTimeMs
@@ -120,12 +117,6 @@ Type: Integer
 Similar to the same stat in single-stage queries, this stat indicates the number of segment operators used to process 
 segments. Indicates the effectiveness of the pruning logic.
 
-### NUM_CONSUMING_SEGMENTS_QUERIED
-Type: Integer
-
-### MIN_CONSUMING_FRESHNESS_TIME_MS
-Type: Long
-
 ### totalDocs
 Type: Long
 
@@ -141,25 +132,33 @@ in the leaf stage.
 If this boolean is set to true, the query result may not be accurate. 
 The default value for `numGroupsLimit` is 100k, and should be sufficient for most use cases.
 
-### NUM_RESIZES
+### numResizes
 Type: Integer
 
-### RESIZE_TIME_MS
+Number of result resizes for queries
+
+### resizeTimeMs
 Type: Long
 
-### THREAD_CPU_TIME_NS
+Time spent in resizing results for the output. 
+Either because of LIMIT or maximum allowed group by keys or any other criteria.
+
+### threadCpuTimeNs
 Type: Long
 
-### SYSTEM_ACTIVITIES_CPU_TIME_NS
+Aggregated thread cpu time in nanoseconds for query processing from servers.
+This metric is only available if Pinot is configured with `pinot.server.instance.enableThreadCpuTimeMeasurement`.
+
+### systemActivitiesCpuTimeNs
 Type: Long
 
-### RESPONSE_SER_CPU_TIME_NS
-Type: Long
+Aggregated system activities cpu time in nanoseconds for query processing (e.g. GC, OS paging etc.)
+This metric is only available if Pinot is configured with `pinot.server.instance.enableThreadCpuTimeMeasurement`.
 
 ### numServersPrunedByServer
 Type: Integer
 
-The number of segments pruned by the server.
+The number of segments pruned by the server, for any reason.
 
 ### numSegmentsPrunedInvalid
 Type: Integer
@@ -191,14 +190,15 @@ The number of segments pruned because they are not needed for the query due to a
 Pinot keeps the maximum and minimum values of each segment for each column.
 If the value clause is such that the segment cannot contain any rows that satisfy the clause, the segment is pruned.
 
-### NUM_CONSUMING_SEGMENTS_PROCESSED
+### numConsumingSegmentsProcessed
 Type: Integer
 
-### NUM_CONSUMING_SEGMENTS_MATCHED
+Like `numSegmentsProcessed` but only for consuming segments.
+
+### numConsumingSegmentsMatched
 Type: Integer
 
-### NUM_BLOCKS
-Type: Integer
+Like `numSegmentsMatched` but only for consuming segments.
 
 ### operatorExecutionTimeMs
 Type: Long
@@ -210,11 +210,29 @@ Type: Long
 
 The instant in time when the operator started executing.
 
-### OPERATOR_EXEC_END_TIME_MS
-Type: Long
-
-The instant in time when the operator finished executing.
-
 ## Explain attributes
+Given that the leaf operator is a meta-operator, it is not actually shown in the explain plan.
+But the leaf stage is the only operator that can execute table scans, so here we list the attributes that can be found
+in the explain plan for a table scan
+
+### table
+Type: String array
+
+Example: `table=[[default, userGroups]]`
+
+The qualified name of the table that is scanned, which means it also contains the name of the database being used.
 
 ## Tips and tricks
+
+### Try to push as much as possible to the leaf stage
+Leaf stage operators can use all the optimizations and indices that the single-stage engine can use.
+This means that it is usually better to push down as much as possible to the leaf stage.
+
+The engine is smart enough to push down filters and aggregations without breaking semantics, but sometimes there are 
+subtle SQL semantics and what the domain expert writing the query wants to do.
+
+Sometimes things the engine is too paranoid about null handling or the query includes an unnecessary limit clause that
+prevents the engine from pushing down the filter.
+
+It is recommended to analyze your explain plan to be sure that the engine is able to push down as much logic as you 
+expect.

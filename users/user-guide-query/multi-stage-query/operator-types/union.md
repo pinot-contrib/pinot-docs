@@ -9,9 +9,13 @@ The union operator combines the results of two or more queries into a single res
 The result set contains all the rows from the queries.
 Contrary to other set operations ([intersect](intersect.md) and [minus](minus.md)), the union operator does not remove
 duplicates from the result set.
-Therefore its semantic is similar to the SQL `UNION ALL` operator.
+Therefore its semantic is similar to the SQL `UNION` or `UNION ALL` operator.
 
 There is no guarantee on the order of the rows in the result set.
+
+{% hint style="info" %}
+While `EXCEPT` and `INTERSECT` SQL clauses does not support the `ALL` modifier, the `UNION` clause does.
+{% endhint %}
 
 ## Implementation details
 The current implementation consumes input relations one by one.
@@ -38,6 +42,65 @@ Type: Long
 The number of groups emitted by the operator.
 
 ## Explain attributes
+
+The union operator is represented in the explain plan as a `LogicalUnion` explain node.
+
+### all
+Type: Boolean
+
+Whether the union operator should remove duplicates from the result set.
+
+Although Pinot the SQL `UNION` and `UNION ALL` _clauses_ are supported, the union _operator_ does only support the 
+`UNION ALL` semantic.
+In order to implement the `UNION` semantic, the multi-stage query engine adds an extra [aggregate](./aggregate.md) to 
+calculate the _distinct_.
+
+For example the plan of:
+```sql
+select userUUID
+from (select userUUID from userAttributes)
+UNION ALL
+(select userUUID from userGroups)
+```
+
+Is the expected:
+```
+LogicalUnion(all=[true])
+  PinotLogicalExchange(distribution=[hash[0]])
+    LogicalProject(userUUID=[$6])
+      LogicalTableScan(table=[[default, userAttributes]])
+  PinotLogicalExchange(distribution=[hash[0]])
+    LogicalProject(userUUID=[$4])
+      LogicalTableScan(table=[[default, userGroups]])
+```
+
+While the plan of:
+```sql
+explain plan for
+select userUUID
+from (select userUUID from userAttributes)
+UNION -- without ALL!
+(select userUUID from userGroups)
+```
+
+Is a bit more complex
+```
+LogicalAggregate(group=[{0}])
+  PinotLogicalExchange(distribution=[hash[0]])
+    LogicalAggregate(group=[{0}])
+      LogicalUnion(all=[true])
+        PinotLogicalExchange(distribution=[hash[0]])
+          LogicalProject(userUUID=[$6])
+            LogicalTableScan(table=[[default, userAttributes]])
+        PinotLogicalExchange(distribution=[hash[0]])
+          LogicalProject(userUUID=[$4])
+            LogicalTableScan(table=[[default, userGroups]])
+```
+
+Notice that `LogicalUnion` is still using `all=[true]` but the `LogicalAggregate` is used to remove the duplicates.
+This also means that while the union _operator_ is always streaming, the union _clause_ results in a blocking plan
+(given the [aggregate](./aggregate.md#blocking-nature) operator is blocking).
+
 
 ## Tips and tricks
 

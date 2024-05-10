@@ -5,9 +5,29 @@ description: >-
 
 # Mailbox receive operator
 
+The mailbox receive operator is the operator that receives the data from the mailbox send operator.
+This is not an actual relational operator but a Pinot extension used to receive data from other stages.
+
 ## Implementation details
 
+Stages in the multi-stage query engine are executed in parallel by different workers.
+Workers send data to each other using mailboxes.
+The number of mailboxes depends on the send operator parallelism, the receive operator parallelism and the distribution
+being used.
+At worse, there is one mailbox per worker pair, so if the upstream send operator has a parallelism of S and the receive 
+operator has a parallelism of R, there will be S * R mailboxes.
+
+By default, these mailboxes are GRPC channels, but when both workers are in the same server, they can use shared memory
+and therefore a more efficient on heap mailbox is used.
+
+The mailbox receive operator pulls data from these mailboxes and sends it to the downstream operator.
+
 ### Blocking nature
+
+The mailbox receive operator is a streaming operator.
+It emits the blocks of rows as soon as they are received from the upstream operator.
+
+It is important to notice that the mailbox receive operator tries to be fair when reading from multiple workers.
 
 ## Hints
 None
@@ -79,5 +99,12 @@ before they can start emitting a result, so having them as upstream operators of
 high values here.
 
 ## Explain attributes
+Given that the mailbox receive operator is a meta-operator, it is not actually shown in the explain plan.
+Instead, a single `PinotLogicalExchange` or `PinotLogicalSortExchange` is shown in the explain plan.
+This exchange explain node is the logical representation of a pair of send and receive operators.
+
+See the [mailbox send operator](mailbox-send.md#explain-attributes) to understand the attributes of the exchange
+explain node.
 
 ## Tips and tricks
+None

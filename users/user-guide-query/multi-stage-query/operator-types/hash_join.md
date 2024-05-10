@@ -141,13 +141,64 @@ A large number here can indicate that the right relation is too large or the rig
 processed.
 
 ## Explain attributes
+The hash join operator is represented in the explain plan as a `LogicalJoin` explain node.
+
+### condition
+Type: Expression
+
+The condition that is being applied to the rows to join the relations.
+The expression may use indexed columns (`$0`, `$1`, etc), functions and literals.
+The indexed columns are always 0-based.
+
+For example, the following explain plan:
+
+```
+LogicalJoin(condition=[=($0, $1)], joinType=[inner])
+  PinotLogicalExchange(distribution=[hash[0]])
+    LogicalProject(userUUID=[$6])
+      LogicalTableScan(table=[[default, userAttributes]])
+  PinotLogicalExchange(distribution=[hash[0]])
+    LogicalProject(userUUID=[$4])
+      LogicalTableScan(table=[[default, userGroups]])
+```
+
+Is saying that the join condition is that the column with index 0 in the left relation is equal to the column with 
+index 1 in the right relation.
+Given the rest of the explain plan, we can see that the column with index 0 `userUUID` column in the `userAttributes` 
+table and the column with index 1 is the `userUUID` column in the `userGroups` table.
+
+### joinType
+Type: String
+
+The type of join that is being performed. The possible values are: `inner`, `left`, `right`, `full`, `semi` and `anti`,
+as explained in [Implementation details](#implementation-details).
 
 ## Tips and tricks
 
 ### The order of input relations matter
 Apache Pinot does not use table stats to determine the best order to consume the input relations.
-Instead it assumes that the right input relation is the smaller one and consumes this input first to build a hash table.
+Instead it assumes that the right input relation is the smaller.
+That relation will always be fully consumed to build a hash table and sometimes it will be broadcasted to all workers.
 This means that it is important to specify the smaller relation as the right input.
+
+Remember that left and right are relative to the order of the tables in the SQL query.
+It is less expensive to do a join between a large table and a small table than the other way around.
+
+For example, this query:
+
+```sql
+select largeTable.col1, smallTable.col2
+from largeTable 
+cross join smallTable
+```
+
+is more efficient than:
+
+```sql
+select largeTable.col1, smallTable.col2
+from smallTable 
+cross join largeTable
+```
 
 <!-- TODO
 ### Co-located joins

@@ -7,7 +7,13 @@ description: >-
 
 The intersect operator is a relational operator that combines two relations and returns the common rows between 
 them. 
-The operator is used to find the intersection of two or more relations.
+The operator is used to find the intersection of two or more relations, usually by using the SQL `INTERSECT` operator.
+
+{% hint style="warning" %}
+Although it is accepted by the parser, the `ALL` modifier is currently ignored.
+Therefore `INTERSECT` and `INTERSECT ALL` are equivalent.
+This issue has been reported in [#13126](https://github.com/apache/pinot/issues/13126)
+{% endhint %}
 
 ## Implementation details
 The current implementation consumes the whole right input relation first and stores the rows in a set.
@@ -62,6 +68,19 @@ Type: Long
 The number of groups emitted by the operator.
 
 ## Explain attributes
+
+The intersect operator is represented in the explain plan as a `LogicalIntersect` explain node.
+
+### all
+Type: Boolean
+
+This attribute is used to indicate if the operator should return all the rows or only the distinct rows.
+
+{% hint style="warning" %}
+Although it is accepted in SQL, the `all` attribute is not currently used in the intersect operator.
+The returned rows are always distinct.
+This issue has been reported in [#13126](https://github.com/apache/pinot/issues/13126)
+{% endhint %}
 
 ## Tips and tricks
 

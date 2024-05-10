@@ -6,7 +6,13 @@ description: >-
 # Minus relational operator
 
 The minus operator is used to subtract the result of one query from another query.
-This operator is used to find the difference between two sets of rows.
+This operator is used to find the difference between two sets of rows, usually by using the SQL `EXCEPT` operator.
+
+{% hint style="warning" %}
+Although it is accepted by the parser, the `ALL` modifier is currently ignored.
+Therefore `EXCEPT` and `EXCEPT ALL` are equivalent.
+This issue has been reported in [#13127](https://github.com/apache/pinot/issues/13127)
+{% endhint %}
 
 ## Implementation details
 
@@ -23,7 +29,7 @@ Once the whole left input block is analyzed, the operator emits the partial resu
 This process is repeated until all rows from the left input relation are processed.
 
 ### Blocking nature
-The intersect operator is a semi-blocking operator that first consumes the right input relation in a blocking fashion
+The minus operator is a semi-blocking operator that first consumes the right input relation in a blocking fashion
 and then consumes the left input relation in a streaming fashion.
 
 In pseudo-code, the algorithm looks like this:
@@ -65,6 +71,19 @@ Type: Long
 The number of groups emitted by the operator.
 
 ## Explain attributes
+
+The minus operator is represented in the explain plan as a `LogicalMinus` explain node.
+
+### all
+Type: Boolean
+
+This attribute is used to indicate if the operator should return all the rows or only the distinct rows.
+
+{% hint style="warning" %}
+Although it is accepted in SQL, the `all` attribute is not currently used in the minus operator.
+The returned rows are always distinct.
+This issue has been reported in [#13127](https://github.com/apache/pinot/issues/13127)
+{% endhint %}
 
 ## Tips and tricks
 

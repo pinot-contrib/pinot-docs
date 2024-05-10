@@ -126,4 +126,9 @@ SELECT c.uid c.ltv FROM customer AS c WHERE c.lto > 5
 
 ## How to optimize multi-stage queries
 
-Multi-stage queries 
+Multi-stage queries are more expressive than single-stage queries, allowing to execute more complex logic in Pinot.
+However, this flexibility comes with a cost: the more complex the query, the more resources it will consume.
+
+In order to optimize multi-stage queries, you can follow these guidelines:
+* Study the [explain plan](../users/user-guide-query/multi-stage-query/understanding-multi-stage-explain.md).
+* Execute the query and analyze the [stage stats](../users/user-guide-query/multi-stage-query/understanding-stage-stats.md).
