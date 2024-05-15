@@ -243,6 +243,30 @@ The following would occur:
 * Result: persist (replacing `orderReceived: 4`)
 * Reason: comparison column (`otherComparisonColumn`) larger than that previously seen
 
+### Metadata time-to-live (TTL)
+
+In Pinot, the metadata map is stored in heap memory. To decrease in-memory data and improve performance, minimize the time primary key entries are stored in the metadata map (metadata time-to-live (TTL)). Limiting the TTL is especially useful for primary keys with high cardinality and frequent updates.
+
+Since the metadata TTL is applied on the first comparison column, the time unit of upsert TTL is the same as the first comparison column.
+
+#### Configure how long primary keys are stored in metadata
+
+To configure how long primary keys are stored in metadata, specify the length of time in `upsertTTL.` For example:{
+
+```
+  "upsertConfig": {
+    "mode": "FULL",
+    "enableSnapshot": true,
+    "enablePreload": true,
+    "metadataTTL": 86400
+  }
+}
+```
+
+In this example, Pinot will retain primary keys in metadata for 1 day. 
+
+Note that enabling upsert snapshot is required for metadata TTL for in-memory validDocsIDs recovery.
+
 ### Delete column
 
 Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the real-time engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable set of documents. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.
@@ -366,26 +390,6 @@ Under the hood, it uses the validDocIds snapshots to identify the valid docs and
 
 The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload. It's 0 by default to disable the preloading feature.
 
-### Metadata time-to-live (TTL)
-
-In Pinot, the metadata map is stored in heap memory. To decrease in-memory data and improve performance, minimize the time primary key entries are stored in the metadata map (metadata time-to-live (TTL)). Limiting the TTL is especially useful for primary keys with high cardinality and frequent updates.
-
-#### Configure how long primary keys are stored in metadata
-
-To configure how long primary keys are stored in metadata, specify the length of time in `upsertTTL.` For example:{
-
-```
-  "upsertConfig": {
-    "mode": "FULL",
-    "enableSnapshot": true,
-    "enablePreload": true,
-    "upsertTTL": 3d
-  }
-}
-```
-
-In this example, Pinot will retain primary keys in metadata for 3 days.
-
 ### Handle out-of-order events
 
 There are 2 configs added related to handling out-of-order events.
@@ -426,6 +430,72 @@ This feature persists a `true` / `false` value to the `isOutOfOrder` field based
 ```json
 select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
 ```
+
+### Use custom metadata manager
+Pinot supports custom PartitionUpsertMetadataManager that handle records and segments updates. 
+
+```json
+{
+  "upsertConfig": {
+    "metadataManagerClass": org.apache.pinot.segment.local.upsert.CustomPartitionUpsertMetadataManager
+  }
+}
+```
+
+#### Adding custom upsert managers
+
+You can add custom PartitionUpsertMetadataManager as follows:
+
+* Create a new java project. Make sure you keep the package name as `org.apache.pinot.segment.local.upsert.xxx`
+* In your java project include the dependency
+
+{% tabs %}
+{% tab title="Maven" %}
+```
+<dependency>
+  <groupId>org.apache.pinot</groupId>
+  <artifactId>pinot-segment-local</artifactId>
+  <version>1.0.0</version>
+ </dependency>
+```
+{% endtab %}
+
+{% tab title="Gradle" %}
+```
+include 'org.apache.pinot:pinot-common:1.0.0'
+```
+{% endtab %}
+{% endtabs %}
+
+* Add your custom partition manager that implements PartitionUpsertMetadataManager interface
+
+```
+//Example custom partition manager
+
+class CustomPartitionUpsertMetadataManager implements PartitionUpsertMetadataManager {}
+```
+
+* Add your custom TableUpsertMetadataManager that implements BaseTableUpsertMetadataManager interface
+
+```
+//Example custom table upsert metadata manager
+
+public class CustomTableUpsertMetadataManager extends BaseTableUpsertMetadataManager {}
+```
+
+* Place the compiled JAR in the `/plugins` directory in pinot. You will need to restart all Pinot instances if they are already running.
+* Now, you can use the custom upsert manager in table configs as follows:
+
+```
+{
+  "upsertConfig": {
+    "metadataManagerClass": org.apache.pinot.segment.local.upsert.CustomPartitionUpsertMetadataManager
+  }
+}
+```
+
+:warning: The upsert manager class name is case-insensitive as well.
+
 
 ### Upsert table limitations
 
