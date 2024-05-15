@@ -2,7 +2,7 @@
 description: Upsert support in Apache Pinot.
 ---
 
-# Stream Ingestion with Upsert
+# Stream ingestion with Upsert
 
 Pinot provides native support of upserts during real-time ingestion. There are scenarios where records need modifications, such as correcting a ride fare or updating a delivery status.
 
@@ -44,6 +44,8 @@ When two records of the same primary key are ingested, _the record with the grea
 
 \
 An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (such as with Flink) is needed to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
+
+Additionally if using <mark style="color:orange;">`segmentPartitionConfig`</mark>to leverage Broker segment  pruning then it's important to ensure that the partition function used matches both on the Kafka producer side as well as Pinot. In Kafka default for Java client is 32-bit **murmur2** hash and for all other languages such as Python its **CRC32** (Cyclic Redundancy Check 32-bit).
 {% endhint %}
 
 ### Enable upsert in the table configurations
