@@ -46,7 +46,14 @@ The result field contains 2 columns and 1 row:
 
 noted that all the normal options for EXPLAIN PLAN in Apache Calcite also works in Pinot with extra information including attributes, type, etc.
 
-### Explain Implementation (Pyhsical) Plan
+One of the most useful options is the `AS <format>`, which support the following formats:
+* `JSON`, which returns the plan in a JSON format. This format is useful for parsing the plan in a program and it also
+  provides some extra information that is not present in the default format.
+* `XML`, which is similar to `JSON` but in XML format.
+* `DOT`, which returns a DOT format that can be used to visualize the plan using tools like [Graphviz](https://graphviz.org/). 
+  This format is understandable by different tools, including online stateless pages.
+
+### Explain Implementation Plan
 
 If we want to gather the implementation plan specific to Pinot internal multi-stage engine operator chain. You can use the `EXPLAIN IMPLEMENTATION PLAN` :
 
