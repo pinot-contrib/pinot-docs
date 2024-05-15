@@ -100,6 +100,6 @@ Therefore the latency of the whole query could be improved if the left input rel
 fashion.
 
 {% hint style="info" %}
-In case one of the input is blocking and the other is not, it is recommended to use the blocking relation as the right
+In case one of the inputs is blocking and the other is not, it is recommended to use the blocking relation as the right
 input relation.
 {% endhint %}

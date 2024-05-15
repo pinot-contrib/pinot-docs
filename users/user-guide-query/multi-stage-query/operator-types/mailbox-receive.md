@@ -84,7 +84,7 @@ Take into account that this time does not include the impact on the network or t
 ### downstreamWaitMs
 Type: Long
 
-How much time this operator have been blocked waiting while offering data to be consumed by the downstream operator.
+How much time this operator has been blocked waiting while offering data to be consumed by the downstream operator.
 A high number here indicates that the downstream operator is slow and may be a bottleneck.
 For example, usually the receive operator that is the left input of a join operator has a high value here, as the join
 needs to consume all the messages from the right input before it can start consuming the left input.
@@ -92,7 +92,7 @@ needs to consume all the messages from the right input before it can start consu
 ### upstreamWaitMs
 Type: Long
 
-How much time this operator have been blocked waiting for more data to be sent by the upstream (send) operator. 
+How much time this operator has been blocked waiting for more data to be sent by the upstream (send) operator. 
 A high number here indicates that the upstream operator is slow and may be a bottleneck.
 For example, blocking operators like aggregations, sorts, joins or window functions require all the data to be received
 before they can start emitting a result, so having them as upstream operators of a mailbox receive operator can lead to

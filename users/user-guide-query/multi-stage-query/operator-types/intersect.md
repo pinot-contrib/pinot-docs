@@ -96,7 +96,7 @@ This means that:
 - In case one of the input is blocking and the other is not, it is recommended to use the blocking relation as the right
   input relation.
 
-This two hints can be contradictory, so it is up to the user to decide which one to follow based on the specific
+These two hints can be contradictory, so it is up to the user to decide which one to follow based on the specific
 query pattern.
 Remember that you can use the stage stats to check the number of rows emitted by each of the inputs and adjust the order
 of the inputs accordingly.

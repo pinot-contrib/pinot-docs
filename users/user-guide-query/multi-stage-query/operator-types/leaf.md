@@ -155,7 +155,7 @@ Type: Long
 Aggregated system activities cpu time in nanoseconds for query processing (e.g. GC, OS paging etc.)
 This metric is only available if Pinot is configured with `pinot.server.instance.enableThreadCpuTimeMeasurement`.
 
-### numServersPrunedByServer
+### numSegmentsPrunedByServer
 Type: Integer
 
 The number of segments pruned by the server, for any reason.
@@ -175,7 +175,7 @@ Type: Integer
 The number of segments pruned because they are not needed for the query due to the limit clause.
 
 Pinot keeps a count of the number of rows returned by each segment.
-Once is guaranteed that no more segments need to be read to satisfy the limit clause without breaking semantics, the 
+Once it's guaranteed that no more segments need to be read to satisfy the limit clause without breaking semantics, the 
 remaining segments are pruned.
 
 For example, a query like `SELECT col1 FROM table2 LIMIT 10` can be pruned for this reason while a query like

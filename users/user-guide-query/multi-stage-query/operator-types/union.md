@@ -14,7 +14,7 @@ Therefore its semantic is similar to the SQL `UNION` or `UNION ALL` operator.
 There is no guarantee on the order of the rows in the result set.
 
 {% hint style="info" %}
-While `EXCEPT` and `INTERSECT` SQL clauses does not support the `ALL` modifier, the `UNION` clause does.
+While `EXCEPT` and `INTERSECT` SQL clauses do not support the `ALL` modifier, the `UNION` clause does.
 {% endhint %}
 
 ## Implementation details
@@ -50,7 +50,7 @@ Type: Boolean
 
 Whether the union operator should remove duplicates from the result set.
 
-Although Pinot the SQL `UNION` and `UNION ALL` _clauses_ are supported, the union _operator_ does only support the 
+Although Pinot supports the SQL `UNION` and `UNION ALL` _clauses_, the union _operator_ does only support the 
 `UNION ALL` semantic.
 In order to implement the `UNION` semantic, the multi-stage query engine adds an extra [aggregate](./aggregate.md) to 
 calculate the _distinct_.
@@ -63,7 +63,7 @@ UNION ALL
 (select userUUID from userGroups)
 ```
 
-Is the expected:
+Is expected to be:
 ```
 LogicalUnion(all=[true])
   PinotLogicalExchange(distribution=[hash[0]])
@@ -104,7 +104,7 @@ This also means that while the union _operator_ is always streaming, the union _
 
 ## Tips and tricks
 
-### The order of input relations matter
+### The order of input relations matters
 The current implementation of the union operator consumes the input relations one by one starting from the first one.
 This means that the second input relation is not consumed until the first one is fully consumed and so on.
 Therefore is recommended to put the fastest input relation first to reduce the overall latency.

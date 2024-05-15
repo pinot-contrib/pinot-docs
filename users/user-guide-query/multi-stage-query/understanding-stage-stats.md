@@ -4,7 +4,7 @@ description: Learn more about multi-stage stats and how to use them to improve y
 
 # Understanding multi-stage stats
 
-Multi-stage stats are a more complex but expressive than single-stage stats.
+Multi-stage stats are more complex but also more expressive than single-stage stats.
 While in single-stage stats Apache Pinot returns a single set of statistics for the query, in multi-stage stats 
 Apache Pinot returns a set of statistics for each operator of the query execution.
 
@@ -186,8 +186,8 @@ Returns the following `stageStats`:
   }
 ```
 
-Each node in the tree represents an operation that is executed and the tree structure forms is similar (but not equal)
+Each node in the tree represents an operation that is executed and the tree structure form is similar (but not equal)
 to the logical plan of the query that can be obtained with the `EXPLAIN PLAN` command.
 
-As you can see, each operator have a type and the stats carried on the node depend on that type.
+As you can see, each operator has a type and the stats carried on the node depend on that type.
 You can learn more about each operator types and their stats in the [Operator Types](./operator-types/README.md) section.

@@ -83,7 +83,7 @@ the `join_overflow_mode` hint.
 
 {% hint style="warn" %}
 Take care when increasing this limit. If the number of groups is too high, the amount of memory used by the engine can
-be very high, which can lead to out very large GC pauses and even out of memory errors.
+be very high, which can lead to very large GC pauses and even out of memory errors.
 {% endhint %}
 
 <!-- TODO
@@ -177,7 +177,7 @@ as explained in [Implementation details](#implementation-details).
 
 ### The order of input relations matter
 Apache Pinot does not use table stats to determine the best order to consume the input relations.
-Instead it assumes that the right input relation is the smaller.
+Instead, it assumes that the right input relation is the smaller one.
 That relation will always be fully consumed to build a hash table and sometimes it will be broadcasted to all workers.
 This means that it is important to specify the smaller relation as the right input.
 

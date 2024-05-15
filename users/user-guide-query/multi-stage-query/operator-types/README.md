@@ -6,10 +6,10 @@ description: >-
 # Multi-stage operators
 
 The multi-stage query engine uses a set of operators to process the query.
-These operators are based on the relational algebra, with some modifications to better fit the distributed nature of the
+These operators are based on relational algebra, with some modifications to better fit the distributed nature of the
 engine.
 
-These operators are the execution units that Pinot use to execute a query.
+These operators are the execution units that Pinot uses to execute a query.
 The operators are executed in a pipeline with tree structure, where each operator consumes the output of the previous
 operators (also known as _upstreams_).
 

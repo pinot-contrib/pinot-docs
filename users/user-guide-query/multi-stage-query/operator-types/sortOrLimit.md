@@ -138,10 +138,10 @@ Here we can see that the filter `deviceOS = 'windows'` is not pushed down leaf s
 means that the engine will need to scan all the data in the `userAttributes` table and then apply the filter.
 
 The reason why the filter is not pushed down is that the `limit` operation must be applied before the filter in order
-to do not break the semantics, which in this case are saying that we want the 10 rows of the `userAttributes` table
+to not break the semantics, which in this case are saying that we want 10 rows of the `userAttributes` table
 without considering their `deviceOS` value.
 
-In case where you actually want to apply the filter before the `limit`, you can specify the where clause in the 
+In cases where you actually want to apply the filter before the `limit`, you can specify the where clause in the 
 subquery. For example:
 
 ```sql
@@ -170,7 +170,7 @@ LogicalProject(daysSinceFirstTrip=[$0], deviceOS=[$1], totalTrips=[$2], userUUID
 
 As you can see, the filter is pushed down to leaf stage, which will reduce the amount of data
 
-### Do not abuse of `offset` pagination
+### Do not abuse `offset` pagination
 Although `OFFSET` and `LIMIT` are a very simple way to paginate results, they can be very inefficient.
 It is almost always better to paginate using a `WHERE` clause that uses a range of values instead of using `OFFSET`.
 
