@@ -130,6 +130,8 @@ When using the raw format, you can configure the following parameters:
 | chunkCompressionType  | null    | The compression that will be used.                                               |
 | deriveNumDocsPerChunk | false   | Modifies the behavior when storing variable length values (like string or bytes) |
 | rawIndexWriterVersion | 2       | The version initially used                                                       |
+| targetDocsPerChunk    | 1000    | The target number of docs per chunk                                              |
+| targetMaxChunkSize    | 1MB     | The target max chunk size                                                        |
 
 The `chunkCompressionType` parameter has the following valid values:
 
@@ -143,6 +145,10 @@ The `chunkCompressionType` parameter has the following valid values:
 `deriveNumDocsPerChunk` is only used when the datatype may have a variable length, such as with `string`, `big decimal`, `bytes`, etc. By default, Pinot uses a fixed number of elements that was chosen empirically. If changed to true, Pinot will use a heuristic value that depends on the column data.
 
 `rawIndexWriterVersion` changes the algorithm used to create the index. This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions. The latest version right now is 4.
+
+`targetDocsPerChunk` changes the target number of docs to store in a chunk. For `rawIndexWriterVersion` versions 2 and 3, this will store exactly `targetDocsPerChunk` per chunk. For `rawIndexWriterVersion` version 4, this config is used in conjunction with `targetMaxChunkSize` and chunk size is determined with the formula `min(lengthOfLongestDocumentInSegment * targetDocsPerChunk, targetMaxChunkSize)`. A negative value will disable dynamic chunk sizing and use the static `targetMaxChunkSize`.
+
+`targetMaxChunkSize` changes the target max chunk size. For `rawIndexWriterVersion` versions 2 and 3, this can only be used with deriveNumDocsPerChunk. For `rawIndexWriterVersion` version 4, this sets the upper bound for a dynamically calculated chunk size. Documents larger than the `targetMaxChunkSize` will be given their own 'huge' chunk, therefore, it is recommended to size this such that huge chunks are avoided. 
 
 #### Raw forward index configuration
 
