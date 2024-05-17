@@ -168,24 +168,30 @@ All types of aggregation function that have a bounded-sized intermediate result 
 
 Multiple index generation configurations can be provided to generate multiple star-trees. Each configuration should contain the following properties:
 
-| Property                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dimensionsSplitOrder              | An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. The nodes will be split based on the order of this list. For example, split at level i is performed on the values of dimension at index i in the list. <br/> - The star-tree dimension does not have to be a dimension column in the table, it can also be time column, date-time column, or metric column if necessary.<br/> - The star-tree dimension column should be dictionary encoded in order to generate the star-tree index. <br/> - All columns in the filter and group-by clause of a query should be included in this list in order to use the star-tree index. |
-| skipStarNodeCreationForDimensions | (Optional, default empty): A list of dimension names for which to not create the Star-Node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| functionColumnPairs               | A list of aggregation function and column pairs (split by double underscore “\_\_”). E.g. **SUM\_\_Impressions** (_SUM_ of column _Impressions_) or **COUNT\_\_\***.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| aggregationConfigs                | Check [AggregationConfigs](https://docs.pinot.apache.org/basics/indexing/star-tree-index)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| maxLeafRecords                    | (Optional, default 10000): The threshold _T_ to determine whether to further split each node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-{% hint style="info" %} `functionColumnPairs` and `aggregationConfigs` are interchangeable. Consider using `aggregationConfigs` since it supports additional parameters like compression. {% endhint %}
+| Property                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dimensionsSplitOrder              | <p>An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. The nodes will be split based on the order of this list. For example, split at level i is performed on the values of dimension at index i in the list.<br>- The star-tree dimension does not have to be a dimension column in the table, it can also be time column, date-time column, or metric column if necessary.<br>- The star-tree dimension column should be dictionary encoded in order to generate the star-tree index.<br>- All columns in the filter and group-by clause of a query should be included in this list in order to use the star-tree index.</p> |
+| skipStarNodeCreationForDimensions | (Optional, default empty): A list of dimension names for which to not create the Star-Node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| functionColumnPairs               | A list of aggregation function and column pairs (split by double underscore “\_\_”). E.g. **SUM\_\_Impressions** (_SUM_ of column _Impressions_) or **COUNT\_\_\***.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| aggregationConfigs                | Check [AggregationConfigs](https://docs.pinot.apache.org/basics/indexing/star-tree-index)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| maxLeafRecords                    | (Optional, default 10000): The threshold _T_ to determine whether to further split each node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+
+{% hint style="info" %}
+\`functionColumnPairs\` and \`aggregationConfigs\` are interchangeable. Consider using \`aggregationConfigs\` since it supports additional parameters like compression.
+{% endhint %}
+
 #### AggregationConfigs
 
-{% hint style="info" %} All aggregations of a query should be included in `aggregationConfigs` or in `functionColumnPairs` in order to use the star-tree index. {% endhint %}
+{% hint style="info" %}
+All aggregations of a query should be included in \`aggregationConfigs\` or in \`functionColumnPairs\` in order to use the star-tree index.
+{% endhint %}
 
-| Property                  | Description                                                                                                                                                                                                                                                                                                                                                                            |
-|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| columnName                | (Required) Name of the column to aggregate. The column can be either dictionary encoded or raw.                                                                                                                                                                                                                                                                                        |
-| aggregationFunction       | (Required) Name of the aggregation function to use.                                                                                                                                                                                                                                                                                                                                    |
-| compressionCodec          | (Optional, default `PASS_THROUGH`) Used to configure the compression enabled on the star-tree-index. Useful when aggregating on columns that contain big values. For example, a `BYTES` column containing **HLL counters serialisations** used to calculate `DISTINCTCOUNTHLL`. In this case setting `"compressionCodec": "LZ4"` can significantly reduce the space used by the index. | 
- |
+| Property            | Description                                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| columnName          | (Required) Name of the column to aggregate. The column can be either dictionary encoded or raw.                                                                                                                                                                                                                                                                                        |
+| aggregationFunction | (Required) Name of the aggregation function to use.                                                                                                                                                                                                                                                                                                                                    |
+| compressionCodec    | (Optional, default `PASS_THROUGH`) Used to configure the compression enabled on the star-tree-index. Useful when aggregating on columns that contain big values. For example, a `BYTES` column containing **HLL counters serialisations** used to calculate `DISTINCTCOUNTHLL`. In this case setting `"compressionCodec": "LZ4"` can significantly reduce the space used by the index. |
+|                     |                                                                                                                                                                                                                                                                                                                                                                                        |
 
 #### Default index generation configuration
 
@@ -210,7 +216,7 @@ AND Browser = 'Chrome'
 GROUP BY Locale
 ```
 
-We may config the star-tree index as follows:
+We may configure the star-tree index as follows:
 
 ```javascript
 "tableIndexConfig": {
@@ -225,13 +231,14 @@ We may config the star-tree index as follows:
     "functionColumnPairs": [
       "SUM__Impressions"
     ],
-    "maxLeafRecords": 10000
+    "maxLeafRecords": 1
   }],
   ...
 }
 ```
 
 Alternatively using `aggregationConfigs` instead of `functionColumnPairs` and enabling compression on the aggregation:
+
 ```javascript
 "tableIndexConfig": {
   "starTreeIndexConfigs": [{
@@ -249,12 +256,17 @@ Alternatively using `aggregationConfigs` instead of `functionColumnPairs` and en
         "compressionCodec": "LZ4"
       }
     ],
-    "maxLeafRecords": 10000
+    "maxLeafRecords": 1
   }],
   ...
 }
 ```
 
+
+
+{% hint style="info" %}
+Note: In above example configs maxLeafRecords is set to 1 so that all of the dimension combinations are pre-aggregated for clarity.
+{% endhint %}
 
 The star-tree and documents should be something like below:
 
@@ -311,6 +323,12 @@ The algorithm to traverse the tree can be described as follows:
 * Collect all the documents pointed by the selected nodes.
   * If all predicates and group-by's are satisfied, pick the single aggregated document from each selected node.
   * Otherwise, collect all the documents in the document range from each selected node.note
+
+
+
+{% hint style="info" %}
+In scenarios where you have a transform on a column(s) which is in the dimension split order then Star-tree index will still be applied. For e.g if query contains `round(colA,600) as roundedValue` and colA is included in dimensionSplitOrder then Pinot will use the pre-aggregated records to first scan matching records and then apply transform `round()` to derive `roundedValue`.
+{% endhint %}
 
 {% hint style="warning" %}
 There is a known bug which can mistakenly apply a star-tree index to queries with the OR operator on top of nested AND or NOT operators in the filter that cannot be solved with star-tree, and cause wrong results. E.g. `SELECT COUNT(*) FROM myTable WHERE (A = 1 AND B = 2) OR A = 2`. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
