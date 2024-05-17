@@ -404,10 +404,39 @@ WHERE JSON_MATCH(person, '"$.name"=''adam''')
 Find all persons who have an address (one of the addresses) with number 112:
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[*].number"=112')
 ```
+
+Find all persons who have at least one address that is not in the US:
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[*].country" != ''us''')
+```
+
+### Regex based lookup
+
+Find all persons who have an address (one of the addresses) where the street contains the term 'st':
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, 'REGEXP_LIKE("$.addresses[*].street", ''.*st.*'')')
+```
+
+### Range lookup
+
+Find all persons whose age is greater than 18:
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.age" > 18')
+```
+
 
 ### Nested filter expression
 
@@ -418,6 +447,8 @@ SELECT ...
 FROM mytable 
 WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
 ```
+
+`NOT IN` and `!=` can be used in nested filter expressions starting from Pinot 1.2.0. Note that `IS NULL` cannot be used in nested filter expressions currently.
 
 ### Array access
 
