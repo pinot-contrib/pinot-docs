@@ -265,7 +265,7 @@ Alternatively using `aggregationConfigs` instead of `functionColumnPairs` and en
 
 
 {% hint style="info" %}
-Note: In above example configs maxLeafRecords is set to 1 so that all of the dimension combinations are pre-aggregated for clarity.
+Note: In above example configs maxLeafRecords is set to 1 so that all of the dimension combinations are pre-aggregated for clarity in visual below.
 {% endhint %}
 
 The star-tree and documents should be something like below:
