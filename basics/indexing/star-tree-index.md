@@ -327,7 +327,9 @@ The algorithm to traverse the tree can be described as follows:
 
 
 {% hint style="info" %}
-In scenarios where you have a transform on a column(s) which is in the dimension split order then Star-tree index will still be applied. For e.g if query contains `round(colA,600) as roundedValue` and colA is included in dimensionSplitOrder then Pinot will use the pre-aggregated records to first scan matching records and then apply transform `round()` to derive `roundedValue`.
+In scenarios where you have a transform on a column(s) which is in the dimension split order (should include all columns that are either a predicate or a group by column in target query(ies)) AND **used in a group-by**, then Star-tree index will get applied automatically. If a transform is applied to a column(s) which is used in predicate (WHERE clause) then Star-tree index won't apply.
+
+For e.g if query contains `round(colA,600) as roundedValue from tableA group by roundedValue` and colA is included in dimensionSplitOrder then Pinot will use the pre-aggregated records to first scan matching records and then apply transform `round()` to derive `roundedValue`.
 {% endhint %}
 
 {% hint style="warning" %}
