@@ -448,7 +448,9 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
 ```
 
-`NOT IN` and `!=` can be used in nested filter expressions starting from Pinot 1.2.0. Note that `IS NULL` cannot be used in nested filter expressions currently.
+{% hint style="info" %}
+`NOT IN` and `!=` can't be used in nested filter expressions in Pinot versions older than 1.2.0. Note that `IS NULL` cannot be used in nested filter expressions currently.
+{% endhint %}
 
 ### Array access
 
