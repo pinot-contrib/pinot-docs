@@ -6,66 +6,53 @@ description: >-
 
 # Ingest streaming data from Apache Kafka
 
-Learn how to ingest data from Kafka, a stream processing platform.
-You should have a local cluster up and running, following the instructions in [Set up a cluster](/operators/operating-pinot/setup-cluster.md).
+Learn how to ingest data from Kafka, a stream processing platform. You should have a local cluster up and running, following the instructions in [Set up a cluster](../../../operators/operating-pinot/setup-cluster.md).
 
 ## Install and Launch Kafka
 
 Let's start by downloading Kafka to our local machine.
 
-<Tabs items={['Docker', 'Launcher Scripts']}>  
-  <Tabs.Tab>
-    To pull down the latest Docker image, run the following command:
+\<Tabs items={\['Docker', 'Launcher Scripts']}>\
+\<Tabs.Tab> To pull down the latest Docker image, run the following command:
 
-    ```bash
-    docker pull wurstmeister/kafka:latest
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    Download Kafka from [kafka.apache.org/quickstart#quickstart_download](https://kafka.apache.org/quickstart#quickstart_download) and then extract it:
+````
+```bash
+docker pull wurstmeister/kafka:latest
+```
+````
 
-    **Unpack Kafka**
-    ```bash
-    tar -xzf kafka_2.13-3.1.0.tgz
-    cd kafka_2.13-3.1.0
-    ```
-  </Tabs.Tab>
-</Tabs>
+\</Tabs.Tab> \<Tabs.Tab> Download Kafka from [kafka.apache.org/quickstart#quickstart\_download](https://kafka.apache.org/quickstart#quickstart\_download) and then extract it:
 
+````
+**Unpack Kafka**
+```bash
+tar -xzf kafka_2.13-3.1.0.tgz
+cd kafka_2.13-3.1.0
+```
+````
+
+\</Tabs.Tab>
 
 Next we'll spin up a Kafka broker:
 
+\<Tabs items={\['Docker', 'Launcher Scripts']}>\
+\<Tabs.Tab> `bash docker run \ --network pinot-demo \ --name=kafka \ -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181/kafka \ -e KAFKA_BROKER_ID=0 \ -e KAFKA_ADVERTISED_HOST_NAME=kafka \ wurstmeister/kafka:latest` \</Tabs.Tab> \<Tabs.Tab> On one terminal window run this command:
 
-<Tabs items={['Docker', 'Launcher Scripts']}>  
-  <Tabs.Tab>
-    ```bash
-    docker run \
-        --network pinot-demo \
-        --name=kafka \
-        -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181/kafka \
-        -e KAFKA_BROKER_ID=0 \
-        -e KAFKA_ADVERTISED_HOST_NAME=kafka \
-        wurstmeister/kafka:latest
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    On one terminal window run this command:
+````
+**Start Zookeeper**
+```bash
+bin/zookeeper-server-start.sh config/zookeeper.properties
+```
 
-    **Start Zookeeper**
-    ```bash
-    bin/zookeeper-server-start.sh config/zookeeper.properties
-    ```
+And on another window, run this command:
 
-    And on another window, run this command:
+**Start Kafka Broker**
+```bash
+bin/kafka-server-start.sh config/server.properties
+```
+````
 
-    **Start Kafka Broker**
-    ```bash
-    bin/kafka-server-start.sh config/server.properties
-    ```
-  </Tabs.Tab>
-</Tabs>
-
-
+\</Tabs.Tab>
 
 ## Data Source
 
@@ -86,7 +73,8 @@ while True:
     )
 
 ```
-*datagen.py*
+
+_datagen.py_
 
 If you run this script (`python datagen.py`), you'll see the following output:
 
@@ -100,70 +88,27 @@ If you run this script (`python datagen.py`), you'll see the following output:
 
 Let's now pipe that stream of messages into Kafka, by running the following command:
 
-
-<Tabs items={['Docker', 'Launcher Scripts']}>  
-  <Tabs.Tab>
-    ```bash
-    python datagen.py | 
-    docker exec -i kafka /opt/kafka/bin/kafka-console-producer.sh \
-        --bootstrap-server localhost:9092 \
-        --topic events;
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    ```bash
-    python datagen.py | 
-    bin/kafka-console-producer.sh \
-        --bootstrap-server localhost:9092 \
-        --topic events;
-    ```
-  </Tabs.Tab>
-</Tabs>
+\<Tabs items={\['Docker', 'Launcher Scripts']}>\
+\<Tabs.Tab> `bash python datagen.py | docker exec -i kafka /opt/kafka/bin/kafka-console-producer.sh \ --bootstrap-server localhost:9092 \ --topic events;` \</Tabs.Tab> \<Tabs.Tab> `bash python datagen.py | bin/kafka-console-producer.sh \ --bootstrap-server localhost:9092 \ --topic events;` \</Tabs.Tab>
 
 We can check how many messages have been ingested by running the following command:
 
-<Tabs items={['Docker', 'Launcher Scripts']}>  
-  <Tabs.Tab>
-    ```bash
-    docker exec -i kafka kafka-run-class.sh kafka.tools.GetOffsetShell \
-      --broker-list localhost:9092 \
-      --topic events
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    ```bash
-    kafka-run-class.sh kafka.tools.GetOffsetShell \
-      --broker-list localhost:9092 \
-      --topic events
-    ```
-  </Tabs.Tab>
-</Tabs>
+\<Tabs items={\['Docker', 'Launcher Scripts']}>\
+\<Tabs.Tab> `bash docker exec -i kafka kafka-run-class.sh kafka.tools.GetOffsetShell \ --broker-list localhost:9092 \ --topic events` \</Tabs.Tab> \<Tabs.Tab> `bash kafka-run-class.sh kafka.tools.GetOffsetShell \ --broker-list localhost:9092 \ --topic events` \</Tabs.Tab>
 
 **Output**
-```text
+
+```
 events:0:11940
 ```
 
 And we can print out the messages themselves by running the following command
 
-<Tabs items={['Docker', 'Launcher Scripts']}>  
-  <Tabs.Tab>
-    ```bash
-    docker exec -i kafka /opt/kafka/bin/kafka-console-consumer.sh \
-      --bootstrap-server localhost:9092 \
-      --topic events
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    ```bash
-    bin/kafka-console-consumer.sh \
-      --bootstrap-server localhost:9092 \
-      --topic events
-    ```
-  </Tabs.Tab>
-</Tabs>
+\<Tabs items={\['Docker', 'Launcher Scripts']}>\
+\<Tabs.Tab> `bash docker exec -i kafka /opt/kafka/bin/kafka-console-consumer.sh \ --bootstrap-server localhost:9092 \ --topic events` \</Tabs.Tab> \<Tabs.Tab> `bash bin/kafka-console-consumer.sh \ --bootstrap-server localhost:9092 \ --topic events` \</Tabs.Tab>
 
 **Output**
+
 ```json
 ...
 {"ts": 1644586485807, "uuid": "93633f7c01d54453a144", "count": 807}
@@ -174,7 +119,7 @@ And we can print out the messages themselves by running the following command
 
 ## Schema
 
-A schema defines what fields are present in the table along with their data types in JSON format. 
+A schema defines what fields are present in the table along with their data types in JSON format.
 
 Create a file called `/tmp/pinot/schema-stream.json` and add the following content to it.
 
@@ -204,9 +149,7 @@ Create a file called `/tmp/pinot/schema-stream.json` and add the following conte
 
 ## Table Config
 
-A table is a logical abstraction that represents a collection of related data. 
-It is composed of columns and rows (known as documents in Pinot). 
-The table config defines the table's properties in JSON format.
+A table is a logical abstraction that represents a collection of related data. It is composed of columns and rows (known as documents in Pinot). The table config defines the table's properties in JSON format.
 
 Create a file called `/tmp/pinot/table-config-stream.json` and add the following content to it.
 
@@ -245,43 +188,20 @@ Create a file called `/tmp/pinot/table-config-stream.json` and add the following
 
 Create the table and schema by running the appropriate command below:
 
-<Tabs items={['Docker', 'Launcher Scripts']}>  
-  <Tabs.Tab>
-      ```bash
-    docker run --rm -ti \
-        --network=pinot-demo \
-        -v /tmp/pinot:/tmp/pinot \
-        apachepinot/pinot:1.0.0 AddSchema \
-        -schemaFile /tmp/pinot/schema-stream.json \
-        -tableConfigFile /tmp/pinot/table-config-stream.json \
-        -controllerHost pinot-controller \
-        -controllerPort 9000 -exec
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-      ```bash
-    bin/pinot-admin.sh AddTable \
-      -schemaFile /tmp/pinot/schema-stream.json \
-      -tableConfigFIle /tmp/pinot/table-config-stream.json
-    ```
-  </Tabs.Tab>
-</Tabs>
-
+\<Tabs items={\['Docker', 'Launcher Scripts']}>\
+\<Tabs.Tab> `bash docker run --rm -ti \ --network=pinot-demo \ -v /tmp/pinot:/tmp/pinot \ apachepinot/pinot:1.0.0 AddSchema \ -schemaFile /tmp/pinot/schema-stream.json \ -tableConfigFile /tmp/pinot/table-config-stream.json \ -controllerHost pinot-controller \ -controllerPort 9000 -exec` \</Tabs.Tab> \<Tabs.Tab> `bash bin/pinot-admin.sh AddTable \ -schemaFile /tmp/pinot/schema-stream.json \ -tableConfigFIle /tmp/pinot/table-config-stream.json` \</Tabs.Tab>
 
 ## Querying
 
 Navigate to [localhost:9000/#/query](http://localhost:9000/#/query) and click on the `events` table to run a query that shows the first 10 rows in this table.
 
+![Querying the events table](../../../img/events-kafka-query.png) _Querying the events table_
 
-<p>
-    <img src="/img/events-kafka-query.png" width="600px" alt="Querying the events table" />
-    <em>Querying the events table</em>
-</p>
-## Kafka ingestion guidelines
+\## Kafka ingestion guidelines
 
 ### Kafka versions in Pinot
 
-Pinot supports 2 major generations of Kafka library - kafka-0.9 and kafka-2.x for both high and low level consumers.
+Pinot supports two versions of the Kafka library: `kafka-0.9` and `kafka-2.x` for low level consumers.
 
 {% hint style="info" %}
 Post release 0.10.0, we have started shading kafka packages inside Pinot. If you are using our `latest` tagged docker images or `master` build, you should replace `org.apache.kafka` with `shaded.org.apache.kafka` in your table config.
@@ -289,8 +209,11 @@ Post release 0.10.0, we have started shading kafka packages inside Pinot. If you
 
 #### Upgrade from Kafka 0.9 connector to Kafka 2.x connector
 
-* Update table config for both high level and low level consumer: Update config: `stream.kafka.consumer.factory.class.name` from `org.apache.pinot.core.realtime.impl.kafka.KafkaConsumerFactory` to `org.apache.pinot.core.realtime.impl.kafka2.KafkaConsumerFactory`.
-* If using Stream(High) level consumer, also add config `stream.kafka.hlc.bootstrap.server` into `tableIndexConfig.streamConfigs`. This config should be the URI of Kafka broker lists, e.g. `localhost:9092`.
+* Update table config for low level consumer: `stream.kafka.consumer.factory.class.name` from `org.apache.pinot.core.realtime.impl.kafka.KafkaConsumerFactory` to `org.apache.pinot.core.realtime.impl.kafka2.KafkaConsumerFactory`.
+
+{% hint style="info" %}
+Pinot does _**not support**_ using high-level Kafka consumers (HLC). Pinot uses low-level consumers to ensure accurate results, supports operational complexity and scalability, and minimizes storage overhead.
+{% endhint %}
 
 #### How to consume from a Kafka version > 2.0.0
 
