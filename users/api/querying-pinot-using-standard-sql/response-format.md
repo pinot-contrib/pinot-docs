@@ -1,10 +1,3 @@
----
-description: >-
-  See examples of the Pinot broker query response format, which returns data in
-  a SQL-like tabular structure. Includes details about each field included in
-  the query response.
----
-
 # Query Response Format
 
 Find Pinot query response format examples for selection, aggregation, and group by queries formatted in a [SQL-like structure](response-format.md#standard-sql-response). Also find details about each field included in the Pinot [broker query response](response-format.md#broker-query-response-fields).
