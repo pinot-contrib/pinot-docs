@@ -324,14 +324,32 @@ The algorithm to traverse the tree can be described as follows:
   * If all predicates and group-by's are satisfied, pick the single aggregated document from each selected node.
   * Otherwise, collect all the documents in the document range from each selected node.note
 
+## Predicates
 
+### Supported Predicates
+
+* **EQ** (`=`)
+* **NOT EQ** (`!=`)
+* **IN**
+* **NOT IN**
+* **RANGE** (`>`, `>=`, `<`, `<=`, `BETWEEN`)
+* **AND**
+
+### Unsupported Predicates
+
+* **REGEXP\_LIKE**: It is intentionally left unsupported because it requires scanning the entire dictionary.
+
+### Limited Support Predicates
+
+* **OR**
+  * It can be applied to predicates on the same dimension, e.g. `WHERE d1 < 10 OR d1 > 50)`
+  * It CANNOT be applied to predicates on multiple dimensions because star-tree will double counting with pre-aggregated results.
+* **NOT** (Added since `1.2.0`)
+  * It can be applied to simple predicate and `NOT`
+  * It CANNOT be applied on top of `AND`/`OR` because star-tree will double counting with pre-aggregated results.
 
 {% hint style="info" %}
 In scenarios where you have a transform on a column(s) which is in the dimension split order (should include all columns that are either a predicate or a group by column in target query(ies)) AND **used in a group-by**, then Star-tree index will get applied automatically. If a transform is applied to a column(s) which is used in predicate (WHERE clause) then Star-tree index won't apply.
 
 For e.g if query contains `round(colA,600) as roundedValue from tableA group by roundedValue` and colA is included in dimensionSplitOrder then Pinot will use the pre-aggregated records to first scan matching records and then apply transform `round()` to derive `roundedValue`.
-{% endhint %}
-
-{% hint style="warning" %}
-There is a known bug which can mistakenly apply a star-tree index to queries with the OR operator on top of nested AND or NOT operators in the filter that cannot be solved with star-tree, and cause wrong results. E.g. `SELECT COUNT(*) FROM myTable WHERE (A = 1 AND B = 2) OR A = 2`. This bug affects release `0.9.0`, `0.9.1`, `0.9.2`, `0.9.3`, `0.10.0`.
 {% endhint %}
