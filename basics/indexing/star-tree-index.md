@@ -338,15 +338,17 @@ The algorithm to traverse the tree can be described as follows:
 ### Unsupported Predicates
 
 * **REGEXP\_LIKE**: It is intentionally left unsupported because it requires scanning the entire dictionary.
+* **IS NULL**: Currently `NULL` value info is not stored in star-tree index, and the dimension will be indexed as default value. A workaround is to do `col = <default>` instead.
+* **IS NOT NULL**: Same as `IS NULL`. A workaround is to do `col != <default>`.
 
 ### Limited Support Predicates
 
 * **OR**
   * It can be applied to predicates on the same dimension, e.g. `WHERE d1 < 10 OR d1 > 50)`
-  * It CANNOT be applied to predicates on multiple dimensions because star-tree will double counting with pre-aggregated results.
+  * It CANNOT be applied to predicates on multiple dimensions because star-tree index will double counting with pre-aggregated results.
 * **NOT** (Added since `1.2.0`)
   * It can be applied to simple predicate and `NOT`
-  * It CANNOT be applied on top of `AND`/`OR` because star-tree will double counting with pre-aggregated results.
+  * It CANNOT be applied on top of `AND`/`OR` because star-tree index will double counting with pre-aggregated results.
 
 {% hint style="info" %}
 In scenarios where you have a transform on a column(s) which is in the dimension split order (should include all columns that are either a predicate or a group by column in target query(ies)) AND **used in a group-by**, then Star-tree index will get applied automatically. If a transform is applied to a column(s) which is used in predicate (WHERE clause) then Star-tree index won't apply.
