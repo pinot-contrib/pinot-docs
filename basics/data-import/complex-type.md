@@ -98,7 +98,7 @@ To process this complex type, you can add the configuration `complexTypeConfig` 
 {
   "ingestionConfig": {    
     "complexTypeConfig": {
-      "delimiter": '.',
+      "delimiter": ".",
       "fieldsToUnnest": ["group.group_topics"],
       "collectionNotUnnestedToJson": "NON_PRIMITIVE"
     }
