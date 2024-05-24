@@ -512,6 +512,29 @@ WHERE text_match(SKILLS_COL, '/.*Exception/')
 
 The above query will match any text document containing "exception".
 
+### Phrase search with wildcard term matching
+Phrase search with wildcard and prefix term matching can match patterns like "*pache pino*" to the text "Apache Pinot" directly. The kind of queries is very common in use case like log search where user needs to search substrings across term boundary in long text. To enable such search (which can be more costly because Lucene by default does not allow * to start a pattern to avoid costly term matching), one can add a new config key to the column text index config:
+
+```json
+"fieldConfigList":[
+  {
+     "name":"text_col_1",
+     "encodingType":"RAW",
+     "indexType":"TEXT",
+     "properties": {
+        "enablePrefixSuffixMatchingInPhraseQueries": "true"
+     }
+  }
+]
+```
+With this config enabled, one can now perform the pharse wildcard search using the following syntax like 
+```sql
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE text_match(SKILLS_COL, '*pache pino*')
+```
+to match the string "Apache pinot" in the SIKLLS_COL. Boolean expressions like '*pache pino* AND *apche luce*' are are supported.
+
 ### Deciding Query Types
 
 Combining phrase and term queries using Boolean operators and grouping lets you build a complex text search query expression.
