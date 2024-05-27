@@ -60,8 +60,9 @@ description: This document contains all the available query options
     <tr>
        <td><strong>skipIndexes</strong></td>
        <td>
-         <p>Which indexes to skip usage of (i.e. scan instead), per-column.  This is useful for side-by-side comparison/debugging.  There can be cases where the use of an index is actually more expensive than performing a scan of the docs which match other filters.  One such example could be a low-selectivity inverted index used in conjunction with another highly selective filter.</p>
+         <p>Which indexes to skip usage of (i.e. scan instead), per-column. This is useful for side-by-side comparison/debugging. There can be cases where the use of an index is actually more expensive than performing a scan of the docs which match other filters. One such example could be a low-selectivity inverted index used in conjunction with another highly selective filter.</p>
          <p>Config can be specified using url parameter format: <code>skipIndexes='col1=inverted,range&col2=inverted'</code></p>
+         <p>Possible index types to skip are: <code>sorted, range, inverted, H3</code>. To find out which indexes are used to resolve a given query, use the <code>EXPLAIN</code> query.</p>
        </td>
        <td>
          <p><code>null/empty</code> (use all available indexes)</p>
