@@ -35,7 +35,7 @@ Next we'll spin up a Kafka broker:
 {% tabs %}
 {% tab title="Docker" %}
 ```bash
-docker run \ --network pinot-demo \ --name=kafka \ -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181/kafka \ -e KAFKA_BROKER_ID=0 \ -e KAFKA_ADVERTISED_HOST_NAME=kafka \ wurstmeister/kafka:latest
+docker run --network pinot-demo --name=kafka -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181/kafka -e KAFKA_BROKER_ID=0 -e KAFKA_ADVERTISED_HOST_NAME=kafka wurstmeister/kafka:latest
 ```
 Note: The --network pinot-demo flag is optional and assumes that you have a Docker network named pinot-demo that you want to connect the Kafka container to.
 {% endtab %}
@@ -249,7 +249,7 @@ Navigate to [localhost:9000/#/query](http://localhost:9000/#/query) and click on
 
 ![Querying the events table](../../../img/events-kafka-query.png) _Querying the events table_
 
-\## Kafka ingestion guidelines
+## Kafka ingestion guidelines
 
 ### Kafka versions in Pinot
 
