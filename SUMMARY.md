@@ -186,6 +186,7 @@
   * [Rebalance](operators/operating-pinot/rebalance/README.md)
     * [Rebalance Servers](operators/operating-pinot/rebalance/rebalance-servers.md)
     * [Rebalance Brokers](operators/operating-pinot/rebalance/rebalance-brokers.md)
+    * [Rebalance Tenant](operators/operating-pinot/rebalance/rebalance-tenant.md)
   * [Separating data storage by age](operators/operating-pinot/separating-data-storage-by-age/README.md)
     * [Using multiple tenants](operators/operating-pinot/separating-data-storage-by-age/moving-segments-across-tenants.md)
     * [Using multiple directories](operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories.md)
