@@ -13,6 +13,14 @@ These operators are the execution units that Pinot uses to execute a query.
 The operators are executed in a pipeline with tree structure, where each operator consumes the output of the previous
 operators (also known as _upstreams_).
 
+Users do not directly specify these operators. 
+Instead they write SQL queries that are translated into a logical plan, which is then transformed into different
+operators.
+The logical plan can be obtained using [explaining a query](../../query-syntax/explain-plan-multi-stage.md), 
+while there is no way to get the operators directly. 
+The closest thing to the operators that users can get is the [multi-stage stats](../understanding-stage-stats.md) 
+output.
+
 ## Operators vs SQL clauses
 These operators are generated from the SQL query that you write, but even they are similar, there is not a one-to-one
 mapping between the SQL clauses and the operators.
