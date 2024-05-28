@@ -12,33 +12,37 @@ Learn how to ingest data from Kafka, a stream processing platform. You should ha
 
 Let's start by downloading Kafka to our local machine.
 
-\<Tabs items={\['Docker', 'Launcher Scripts']}>\
-\<Tabs.Tab> To pull down the latest Docker image, run the following command:
-
-````
+{% tabs %}
+{% tab title="Docker" %}
+To pull down the latest Docker image, run the following command:
 ```bash
 docker pull wurstmeister/kafka:latest
 ```
-````
+{% endtab %}
 
-\</Tabs.Tab> \<Tabs.Tab> Download Kafka from [kafka.apache.org/quickstart#quickstart\_download](https://kafka.apache.org/quickstart#quickstart\_download) and then extract it:
-
-````
-**Unpack Kafka**
+{% tab title="Launcher Scripts" %}
+Download Kafka from [kafka.apache.org/quickstart#quickstart\_download](https://kafka.apache.org/quickstart#quickstart\_download) and then extract it:
 ```bash
-tar -xzf kafka_2.13-3.1.0.tgz
-cd kafka_2.13-3.1.0
+tar -xzf kafka_2.13-3.7.0.tgz
+cd kafka_2.13-3.7.0
 ```
-````
+{% endtab %}
+{% endtabs %}
 
-\</Tabs.Tab>
 
 Next we'll spin up a Kafka broker:
 
-\<Tabs items={\['Docker', 'Launcher Scripts']}>\
-\<Tabs.Tab> `bash docker run \ --network pinot-demo \ --name=kafka \ -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181/kafka \ -e KAFKA_BROKER_ID=0 \ -e KAFKA_ADVERTISED_HOST_NAME=kafka \ wurstmeister/kafka:latest` \</Tabs.Tab> \<Tabs.Tab> On one terminal window run this command:
+{% tabs %}
+{% tab title="Docker" %}
+```bash
+docker run \ --network pinot-demo \ --name=kafka \ -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181/kafka \ -e KAFKA_BROKER_ID=0 \ -e KAFKA_ADVERTISED_HOST_NAME=kafka \ wurstmeister/kafka:latest
+```
+Note: The --network pinot-demo flag is optional and assumes that you have a Docker network named pinot-demo that you want to connect the Kafka container to.
+{% endtab %}
 
-````
+{% tab title="Launcher Scripts" %}
+On one terminal window run this command:
+
 **Start Zookeeper**
 ```bash
 bin/zookeeper-server-start.sh config/zookeeper.properties
@@ -50,9 +54,10 @@ And on another window, run this command:
 ```bash
 bin/kafka-server-start.sh config/server.properties
 ```
-````
 
-\</Tabs.Tab>
+{% endtab %}
+{% endtabs %}
+
 
 ## Data Source
 
@@ -88,13 +93,37 @@ If you run this script (`python datagen.py`), you'll see the following output:
 
 Let's now pipe that stream of messages into Kafka, by running the following command:
 
-\<Tabs items={\['Docker', 'Launcher Scripts']}>\
-\<Tabs.Tab> `bash python datagen.py | docker exec -i kafka /opt/kafka/bin/kafka-console-producer.sh \ --bootstrap-server localhost:9092 \ --topic events;` \</Tabs.Tab> \<Tabs.Tab> `bash python datagen.py | bin/kafka-console-producer.sh \ --bootstrap-server localhost:9092 \ --topic events;` \</Tabs.Tab>
+{% tabs %}
+{% tab title="Docker" %}
+```bash
+python datagen.py | docker exec -i kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic events;
+```
+{% endtab %}
+
+{% tab title="Launcher Scripts" %}
+```bash
+python datagen.py | bin/kafka-console-producer.sh --bootstrap-server localhost:9092  --topic events;
+```
+
+{% endtab %}
+{% endtabs %}
+
 
 We can check how many messages have been ingested by running the following command:
+{% tabs %}
+{% tab title="Docker" %}
+```bash
+docker exec -i kafka kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic events
+```
+{% endtab %}
 
-\<Tabs items={\['Docker', 'Launcher Scripts']}>\
-\<Tabs.Tab> `bash docker exec -i kafka kafka-run-class.sh kafka.tools.GetOffsetShell \ --broker-list localhost:9092 \ --topic events` \</Tabs.Tab> \<Tabs.Tab> `bash kafka-run-class.sh kafka.tools.GetOffsetShell \ --broker-list localhost:9092 \ --topic events` \</Tabs.Tab>
+{% tab title="Launcher Scripts" %}
+```bash
+kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic events
+```
+
+{% endtab %}
+{% endtabs %}
 
 **Output**
 
@@ -103,9 +132,20 @@ events:0:11940
 ```
 
 And we can print out the messages themselves by running the following command
+{% tabs %}
+{% tab title="Docker" %}
+```bash
+docker exec -i kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic events
+```
+{% endtab %}
 
-\<Tabs items={\['Docker', 'Launcher Scripts']}>\
-\<Tabs.Tab> `bash docker exec -i kafka /opt/kafka/bin/kafka-console-consumer.sh \ --bootstrap-server localhost:9092 \ --topic events` \</Tabs.Tab> \<Tabs.Tab> `bash bin/kafka-console-consumer.sh \ --bootstrap-server localhost:9092 \ --topic events` \</Tabs.Tab>
+{% tab title="Launcher Scripts" %}
+```bash
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic events
+```
+
+{% endtab %}
+{% endtabs %}
 
 **Output**
 
@@ -187,9 +227,21 @@ Create a file called `/tmp/pinot/table-config-stream.json` and add the following
 ## Create schema and table
 
 Create the table and schema by running the appropriate command below:
+{% tabs %}
+{% tab title="Docker" %}
+```bash
+docker run --rm -ti  --network=pinot-demo  -v /tmp/pinot:/tmp/pinot  apachepinot/pinot:1.0.0 AddSchema  -schemaFile /tmp/pinot/schema-stream.json  -tableConfigFile /tmp/pinot/table-config-stream.json  -controllerHost pinot-controller  -controllerPort 9000 -exec
+```
+{% endtab %}
 
-\<Tabs items={\['Docker', 'Launcher Scripts']}>\
-\<Tabs.Tab> `bash docker run --rm -ti \ --network=pinot-demo \ -v /tmp/pinot:/tmp/pinot \ apachepinot/pinot:1.0.0 AddSchema \ -schemaFile /tmp/pinot/schema-stream.json \ -tableConfigFile /tmp/pinot/table-config-stream.json \ -controllerHost pinot-controller \ -controllerPort 9000 -exec` \</Tabs.Tab> \<Tabs.Tab> `bash bin/pinot-admin.sh AddTable \ -schemaFile /tmp/pinot/schema-stream.json \ -tableConfigFIle /tmp/pinot/table-config-stream.json` \</Tabs.Tab>
+{% tab title="Launcher Scripts" %}
+```bash
+bin/pinot-admin.sh AddTable -schemaFile /tmp/pinot/schema-stream.json -tableConfigFIle /tmp/pinot/table-config-stream.json
+```
+
+{% endtab %}
+{% endtabs %}
+
 
 ## Querying
 
