@@ -18,6 +18,7 @@ Batch ingestion currently supports the following mechanisms to upload the data:
 * Standalone
 * [Hadoop](hadoop.md)
 * [Spark](spark.md)
+* [Flink](flink.md)
 
 Here's an example using standalone local processing.
 
