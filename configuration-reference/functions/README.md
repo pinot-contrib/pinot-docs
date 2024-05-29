@@ -218,7 +218,6 @@ This page contains reference documentation for functions in Apache Pinot.
 [distinctcountrawhllplusmv.md](distinctcountrawhllplusmv.md)
 {% endcontent-ref %}
 
-
 {% content-ref url="distinctcountrawcpcsketch.md" %}
 [distinctcountrawcpcsketch.md](distinctcountrawcpcsketch.md)
 {% endcontent-ref %}
