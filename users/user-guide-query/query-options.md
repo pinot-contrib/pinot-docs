@@ -168,3 +168,16 @@ SELECT * FROM myTable OPTION(key1=value1, key2=123)
 SELECT * FROM myTable OPTION(key1=value1) OPTION(key2=123)
 SELECT * FROM myTable OPTION(timeoutMs=30000)
 ```
+### REST API
+Query options can be specified in API using queryOptions as key and **';'** separated key-value pairs
+* [For Controller Admin API](../../users/api/pinot-rest-admin-interface.md)
+```bash
+curl -X POST http://localhost:9000/sql -d 
+'
+{
+  "sql": "select * from myTable limit 10",
+  "trace": false,
+  "queryOptions": "useMultistageEngine=false;timeoutMs=60000"
+}
+'
+```
