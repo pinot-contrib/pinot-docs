@@ -187,7 +187,7 @@ $ curl -X POST \
   "segmentStatistics": [], 
   "timeUsedMs": 15, 
   "totalDocs": 6, 
-  "traceInfo": {}
+  "stageStats": {}
 }
 ```
 {% endtab %}
@@ -195,11 +195,129 @@ $ curl -X POST \
 
 ### Broker query response fields
 
-<table><thead><tr><th width="362.5">Response Field</th><th>Description</th></tr></thead><tbody><tr><td>resultTable</td><td>Contains everything needed to process the response</td></tr><tr><td>resultTable.dataSchema</td><td>Describes the schema of the response, including <code>columnNames</code> and their <code>dataTypes</code></td></tr><tr><td>resultTable.dataSchema.columnNames</td><td><code>columnNames</code> in the response</td></tr><tr><td>resultTable.dataSchema.columnDataTypes</td><td><code>dataTypes</code> for each column</td></tr><tr><td>resultTable.rows</td><td>Actual content with values. This is an array of arrays. The number of rows depends on the limit value in the query. The number of columns in each row is equal to the length of <code>resultTable.dataSchema.columnNames</code></td></tr><tr><td>timeUsedms</td><td>Total time taken as seen by the broker before sending the response back to the client.</td></tr><tr><td>totalDocs</td><td>Number of documents/records in the table.</td></tr><tr><td>numServersQueried</td><td>Represents the number of servers queried by the broker (may be less than the total number of servers since the broker can apply some optimizations to minimize the number of servers).</td></tr><tr><td>numServersResponded</td><td>This should be equal to the <code>numServersQueried</code>. If this is not the same, then one of more servers might have timed out. If <code>numServersQueried != numServersResponded,</code> the results can be considered partial and clients can retry the query with exponential back off.</td></tr><tr><td>numSegmentsQueried</td><td><p>The total number of <code>segmentsQueried</code> for a query. May be less than the total number of segments if the broker applies optimizations. </p><p></p><p>The broker decides how many segments to query on each server, based on broker pruning logic. The server decides how many of these segments to actually look at, based on server pruning logic. After processing segments for a query, fewer may have the matching records. <br><br>In general, <code>numSegmentsQueried >= numSegmentsProcessed >= numSegmentsMatched.</code></p></td></tr><tr><td>numSegmentsMatched</td><td>The number of segments processed with at least one document matched in the query response. </td></tr><tr><td>numSegmentsProcessed</td><td><p>The number of segment operators used to process segments. Indicates the effectiveness of the pruning logic. For more information, see query plans for:</p><ul><li><a href="../../user-guide-query/explain-plan.md">Single-stage query engine</a></li><li><a href="../../user-guide-query/query-syntax/explain-plan-multi-stage.md">Multi-stage query engine</a></li></ul></td></tr><tr><td>numDocScanned</td><td>The number of docs/records selected <em>after</em> the filter phase.</td></tr><tr><td>numEntriesScannedInFilter</td><td><p>The number of entries scanned in the filtering phase of query execution. </p><p>Can be larger than the total scanned doc count because of multiple filtering predicates or multi-value entries. </p><p>Can also be smaller than the total scanned doc count if indexing is used for filtering. </p><p> </p><p>This along with <code>numEntriesScannedInPostFilter</code> indicates where most of the time is spent during query processing. If this value is high, enabling indexing for columns in <code>tableConfig</code> is a way to bring it down.</p></td></tr><tr><td>numEntriesScannedPostFilter</td><td><p>The number of entries scanned after the filtering phase of query execution, ie. aggregation and/or group-by phases. This is equivalent to <code>numDocScanned</code> * number of projected columns. </p><p></p><p>This along with <code>numEntriesScannedInFilter</code> indicates where most of the time is spent during query processing. </p><p></p><p>A high number for this means the selectivity is low (that is, Pinot needs to scan a lot of records to answer the query). If this is high, consider using star-tree index. (A regular inverted/bitmap index won't improve performance.)</p></td></tr><tr><td>numGroupsLimitReached</td><td>If the query has a <code>group by</code> clause and top K, Pinot drops new entries after the <code>numGroupsLimit</code> is reached. If this boolean is set to true, the query result may not be accurate. The default value for <code>numGroupsLimit</code> is 100k, and should be sufficient for most use cases.</td></tr><tr><td>exceptions</td><td>Will contain the stack trace if there is any exception processing the query.</td></tr><tr><td>segmentStatistics</td><td>N/A</td></tr><tr><td>traceInfo</td><td>If trace is enabled (can be enabled for each query), this contains the timing for each stage and each segment. Use for development and debugging purposes.</td></tr></tbody></table>
-
-
-
-
-
-
-
+<table>
+  <thead>
+  <tr>
+    <th width="362.5">Response Field</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>resultTable</td>
+    <td>Contains everything needed to process the response</td>
+  </tr>
+  <tr>
+    <td>resultTable.dataSchema</td>
+    <td>Describes the schema of the response, including <code>columnNames</code> and their <code>dataTypes</code></td>
+  </tr>
+  <tr>
+    <td>resultTable.dataSchema.columnNames</td>
+    <td><code>columnNames</code> in the response</td>
+  </tr>
+  <tr>
+    <td>resultTable.dataSchema.columnDataTypes</td>
+    <td><code>dataTypes</code> for each column</td>
+  </tr>
+  <tr>
+    <td>resultTable.rows</td>
+    <td>Actual content with values. This is an array of arrays. The number of rows depends on the limit value in the
+      query. The number of columns in each row is equal to the length of <code>resultTable.dataSchema.columnNames</code>
+    </td>
+  </tr>
+  <tr>
+    <td>timeUsedms</td>
+    <td>Total time taken as seen by the broker before sending the response back to the client.</td>
+  </tr>
+  <tr>
+    <td>totalDocs</td>
+    <td>Number of documents/records in the table.</td>
+  </tr>
+  <tr>
+    <td>numServersQueried</td>
+    <td>Represents the number of servers queried by the broker (may be less than the total number of servers since the
+      broker can apply some optimizations to minimize the number of servers).
+    </td>
+  </tr>
+  <tr>
+    <td>numServersResponded</td>
+    <td>This should be equal to the <code>numServersQueried</code>. If this is not the same, then one of more servers
+      might have timed out. If <code>numServersQueried != numServersResponded,</code> the results can be considered
+      partial and clients can retry the query with exponential back off.
+    </td>
+  </tr>
+  <tr>
+    <td>numSegmentsQueried</td>
+    <td><p>The total number of <code>segmentsQueried</code> for a query. May be less than the total number of segments
+      if the broker applies optimizations. </p>
+      <p></p>
+      <p>The broker decides how many segments to query on each server, based on broker pruning logic. The server decides
+        how many of these segments to actually look at, based on server pruning logic. After processing segments for a
+        query, fewer may have the matching records. <br><br>In general, <code>numSegmentsQueried >= numSegmentsProcessed
+          >= numSegmentsMatched.</code></p></td>
+  </tr>
+  <tr>
+    <td>numSegmentsMatched</td>
+    <td>The number of segments processed with at least one document matched in the query response.</td>
+  </tr>
+  <tr>
+    <td>numSegmentsProcessed</td>
+    <td><p>The number of segment operators used to process segments. Indicates the effectiveness of the pruning logic.
+      For more information, see query plans for:</p>
+      <ul>
+        <li><a href="../../user-guide-query/explain-plan.md">Single-stage query engine</a></li>
+        <li><a href="../../user-guide-query/query-syntax/explain-plan-multi-stage.md">Multi-stage query engine</a></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>numDocScanned</td>
+    <td>The number of docs/records selected <em>after</em> the filter phase.</td>
+  </tr>
+  <tr>
+    <td>numEntriesScannedInFilter</td>
+    <td><p>The number of entries scanned in the filtering phase of query execution. </p>
+      <p>Can be larger than the total scanned doc count because of multiple filtering predicates or multi-value
+        entries. </p>
+      <p>Can also be smaller than the total scanned doc count if indexing is used for filtering. </p>
+      <p></p>
+      <p>This along with <code>numEntriesScannedInPostFilter</code> indicates where most of the time is spent during
+        query processing. If this value is high, enabling indexing for columns in <code>tableConfig</code> is a way to
+        bring it down.</p></td>
+  </tr>
+  <tr>
+    <td>numEntriesScannedPostFilter</td>
+    <td><p>The number of entries scanned after the filtering phase of query execution, ie. aggregation and/or group-by
+      phases. This is equivalent to <code>numDocScanned</code> * number of projected columns. </p>
+      <p></p>
+      <p>This along with <code>numEntriesScannedInFilter</code> indicates where most of the time is spent during query
+        processing. </p>
+      <p></p>
+      <p>A high number for this means the selectivity is low (that is, Pinot needs to scan a lot of records to answer
+        the query). If this is high, consider using star-tree index. (A regular inverted/bitmap index won't improve
+        performance.)</p></td>
+  </tr>
+  <tr>
+    <td>numGroupsLimitReached</td>
+    <td>If the query has a <code>group by</code> clause and top K, Pinot drops new entries after the <code>numGroupsLimit</code>
+      is reached. If this boolean is set to true, the query result may not be accurate. The default value for <code>numGroupsLimit</code>
+      is 100k, and should be sufficient for most use cases.
+    </td>
+  </tr>
+  <tr>
+    <td>exceptions</td>
+    <td>Will contain the stack trace if there is any exception processing the query.</td>
+  </tr>
+  <tr>
+    <td>segmentStatistics</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>stageStats</td>
+    <td>
+      In multi-stage queries, this field contains the stats for each stage. 
+      See <a href="../../user-guide-query/multi-stage-query/understanding-stage-stats.md">Understanding multi-stage stats</a> 
+      to know more about how to interpret them.</td>
+  </tr>
+  </tbody>
+</table>

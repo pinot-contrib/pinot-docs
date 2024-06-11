@@ -28,7 +28,31 @@ analytical queries.
 The window operator is a blocking operator. It needs to consume all the input data before emitting the result.
 
 ## Hints
-None
+Window hints are configured with the `windowOptions` hint, which accepts as argument a map of options and values.
+
+For example:
+
+```sql
+SELECT
+/*+  windowOptions(option1='value1', option2='value2') */
+    col1, SUM(intCol) OVER() as sum FROM table
+```
+
+### max_rows_in_window
+Type: Integer
+
+Default: 1048576
+
+Max rows allowed to cache the rows in window for further processing.
+
+### window_overflow_mode
+Type: THROW or BREAK
+
+Default: 'THROW'
+
+Mode when window overflow happens, supported values:
+* `THROW`: Break window cache build process, and throw exception, no further WINDOW operation performed.
+* `BREAK`: Break window cache build process, continue to perform WINDOW operation, results might be partial.
 
 ## Stats
 ### executionTimeMs
@@ -46,6 +70,11 @@ A large number of emitted rows can indicate that the query is not well optimized
 
 Unlike the [aggregate operator](aggregate.md), which will output one row per group, the window operator will output as 
 many rows as input rows.
+
+### maxRowsInWindowReached
+Type: Boolean
+
+This attribute is set to `true` if the maximum number of rows in the window has been reached.
 
 ## Explain attributes
 
