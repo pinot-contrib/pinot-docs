@@ -190,6 +190,14 @@ This page contains reference documentation for functions in Apache Pinot.
 [distinctcounthllmv.md](distinctcounthllmv.md)
 {% endcontent-ref %}
 
+{% content-ref url="distinctcounthllplus.md" %}
+[distinctcounthllplus.md](distinctcounthllplus.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcounthllplusmv.md" %}
+[distinctcounthllplusmv.md](distinctcounthllplusmv.md)
+{% endcontent-ref %}
+
 {% content-ref url="distinctcountmv.md" %}
 [distinctcountmv.md](distinctcountmv.md)
 {% endcontent-ref %}
@@ -198,8 +206,16 @@ This page contains reference documentation for functions in Apache Pinot.
 [distinctcountrawhll.md](distinctcountrawhll.md)
 {% endcontent-ref %}
 
+{% content-ref url="distinctcountrawhllplus.md" %}
+[distinctcountrawhllplus.md](distinctcountrawhllplus.md)
+{% endcontent-ref %}
+
 {% content-ref url="distinctcountrawhllmv.md" %}
 [distinctcountrawhllmv.md](distinctcountrawhllmv.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcountrawhllplusmv.md" %}
+[distinctcountrawhllplusmv.md](distinctcountrawhllplusmv.md)
 {% endcontent-ref %}
 
 {% content-ref url="distinctcountrawcpcsketch.md" %}

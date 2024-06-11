@@ -4,7 +4,7 @@ description: Pinot's built in heap usage monitoring and OOM protection
 
 # OOM Protection Using Automatic Query Killing
 
-Pinot has implemented a mechanism to monitor the total jvm heap size and per query memory allocation approximation for server (see [https://github.com/apache/pinot/pull/9727](https://github.com/apache/pinot/pull/9727)). If enabled, this mechanism can help to protect the server from OOM caused by expensive queries (e.g. distinctcount + group by on high cardinality columns). Upon an immediate risk of heap depletion, this mechanism will kick in and kill from the most expensive query(s). Here are the server configurations:
+Pinot has implemented a mechanism to monitor the total jvm heap size and per query memory allocation approximation for server (see [https://github.com/apache/pinot/pull/9727](https://github.com/apache/pinot/pull/9727)). If enabled, this mechanism can help to protect the servers and brokers from OOM caused by expensive queries (e.g. distinctcount + group by on high cardinality columns). Upon an immediate risk of heap depletion, this mechanism will kick in and kill from the most expensive query(s). Here are the server/broker configurations:
 
 &#x20;
 

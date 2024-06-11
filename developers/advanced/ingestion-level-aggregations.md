@@ -136,13 +136,15 @@ From the below aggregation config example, note that `price`  exists in the inpu
 
 ## Allowed Aggregation Functions
 
-| function name    | notes                              |
-| ---------------- | ---------------------------------- |
-| MAX              |                                    |
-| MIN              |                                    |
-| SUM              |                                    |
-| COUNT            | Specify as `COUNT(*)`              |
-| DISTINCTCOUNTHLL | Not available yet, but coming soon |
+| function name    | notes                                                                                                                                                                                                                                                                                    |
+| ---------------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| MAX              |                                                                                                                                                                                                                                                                                          |
+| MIN              |                                                                                                                                                                                                                                                                                          |
+| SUM              |                                                                                                                                                                                                                                                                                          |
+| COUNT            | Specify as `COUNT(*)`                                                                                                                                                                                                                                                                    |
+| DISTINCTCOUNTHLL | Specify as `DISTINCTCOUNTHLL(field, log2m)`, default is 12.  See [function reference](../../configuration-reference/functions/distinctcounthll.md) for how to define `log2m`. Cannot be changed later, a new field must be used. The schema for the output field should be `BYTES` type. | 
+| DISTINCTCOUNTHLLPLUS | Specify as `DISTINCTCOUNTHLLPLUS(field, s, p)`. See [function reference](../../configuration-reference/functions/distinctcounthllplus.md) for how to define `s` and `p`, they cannot be changed later. The schema for the output field should be `BYTES` type.                           |                                                                  
+| SUMPRECISION | Specify as `SUMPRECISION(field, precision)`, precision must be defined. Used to compute the maximum possible size of the field. Cannot be changed later, a new field must be used. The schema for the output field should be `BIG_DECIMAL` type.                                         
 
 ## Frequently Asked Questions
 
