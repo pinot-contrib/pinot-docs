@@ -40,7 +40,7 @@ select count(*),
        datetrunc('WEEK', ts) as tsWeek 
 from airlineStats 
 WHERE tsWeek > fromDateTime('2014-01-16', 'yyyy-MM-dd') 
-group by tsWeek
+group by datetrunc('WEEK', ts)
 limit 10
 ```
 
@@ -51,7 +51,7 @@ select dateTrunc('YEAR', event_time) as y,
        dateTrunc('MONTH', event_time) as m,  
        sum(pull_request_commits) 
 from githubEvents 
-group by y, m 
+group by dateTrunc('YEAR', event_time), dateTrunc('MONTH', event_time) 
 limit 1000
 Option(timeoutMs=3000000)
 ```
