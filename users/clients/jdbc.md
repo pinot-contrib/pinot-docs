@@ -33,7 +33,7 @@ There is no need to register the driver manually as it will automatically regist
 Here's an example of how to use the `pinot-jdbc-client` for querying. The client only requires the controller URL.
 
 ```java
-public static final String DB_URL = "jdbc:pinot://localhost:9000"
+public static final String DB_URL = "jdbc:pinot://localhost:9000?brokers=localhost:8099"
 DriverManager.registerDriver(new PinotDriver());
 Connection conn = DriverManager.getConnection(DB_URL);
 Statement statement = conn.createStatement();
@@ -69,7 +69,7 @@ conn.close();
 
 ## Authentication
 
-Pinot supports [basic HTTP authorization](broken-reference), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
+Pinot supports [basic HTTP authorization](broken-reference/), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
 
 ```java
 final String username = "admin";
