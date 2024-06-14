@@ -308,6 +308,36 @@ Tasks can be manually scheduled using the following controller rest APIs:
 | **POST /tasks/schedule?tableName=myTable\_OFFLINE**                  | Schedule tasks for all task types on the given table         |
 | **POST /tasks/schedule?taskType=myTask\&tableName=myTable\_OFFLINE** | Schedule tasks for the given task type on the given table    |
 
+### Schedule task on specific instances
+
+Tasks can be scheduled on specific instances using the following config at task level:
+```
+  "task": {
+    "taskTypeConfigsMap": {
+      "RealtimeToOfflineSegmentsTask": {
+        "bucketTimePeriod": "1h",
+        "bufferTimePeriod": "1h",
+        "schedule": "0 * * * * ?",
+        "minionInstanceTag": "tag1_MINION"
+      }
+    }
+  },
+```
+
+By default, the value is `minion_untagged` to have backward-compatibility. This will allow users to schedule tasks on specific nodes and isolate tasks among tables / task-types.
+
+| Rest API                                                                                             | Description                                                                                          |
+|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **POST /tasks/schedule?taskType=myTask\&tableName=myTable\_OFFLINE\&minionInstanceTag=tag1\_MINION** | Schedule tasks for the given task type of the given table on the minion nodes tagged as tag1_MINION. |
+
+## Task level advanced configs
+
+### allowDownloadFromServer
+
+When a task is executed on a segment, the minion node fetches the segment from deepstore. If the deepstore is not accessible, the minion node can download the segment from the server node. This is controlled by the `allowDownloadFromServer` config in the task config. By default, this is set to `false`.
+
+We can also set this config at a minion instance level `pinot.minion.task.allow.download.from.server` (default is `false`). This instance level config helps in enforcing this behaviour if the number of tables / tasks is pretty high and we want to enable for all. Note: task-level config will override instance-level config value.
+
 ## Plug-in custom tasks
 
 To plug in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` (optional) for the task type (all of them should return the same string for `getTaskType()`), and annotate them with the following annotations:
