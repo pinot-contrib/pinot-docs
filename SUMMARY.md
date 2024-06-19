@@ -329,6 +329,7 @@
   * [jsonextractscalar](configuration-reference/functions/jsonextractscalar.md)
   * [LAG](configuration-reference/functions/lag.md)
   * [LASTWITHTIME](configuration-reference/functions/lastwithtime.md)
+  * [LEAD](configuration-reference/functions/lead.md)
   * [length](configuration-reference/functions/length.md)
   * [ln](configuration-reference/functions/ln.md)
   * [lower](configuration-reference/functions/lower.md)
