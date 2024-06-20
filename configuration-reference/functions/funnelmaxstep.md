@@ -138,3 +138,81 @@ Consider a scenario where a funnel is set up to track user progress through step
 
 This mode helps to ensure that no potential insights are lost by excluding events, making it a powerful option for detailed analysis and understanding of user interactions beyond the strict confines of the predefined funnel steps.
 
+## Examples
+
+### Data Set
+
+| event\_name     | ts         | user\_id |
+| --------------- | ---------- | -------- |
+| screen\_viewed  | 1718112402 | 1        |
+| screen\_clicked | 1718112403 | 1        |
+| purchased       | 1718112404 | 1        |
+| screen\_viewed  | 1718112405 | 1        |
+| screen\_clicked | 1718112406 | 1        |
+| purchased       | 1718112407 | 1        |
+| screen\_viewed  | 1718112405 | 2        |
+| screen\_clicked | 1718112406 | 2        |
+| purchased       | 1718112407 | 2        |
+| screen\_viewed  | 1718112404 | 3        |
+| screen\_clicked | 1718112405 | 3        |
+| cart\_viewed    | 1718112406 | 3        |
+| purchased       | 1718112407 | 3        |
+| screen\_viewed  | 1717939609 | 4        |
+| screen\_clicked | 1718112405 | 4        |
+| purchased       | 1718112405 | 4        |
+
+### Queries
+
+#### Query with strict\_order
+
+```sql
+SELECT user_id,
+  funnelMaxStep(
+    ts,
+    '100000',
+    3,
+    event_name = 'screen_viewed',
+    event_name = 'screen_clicked',
+    event_name = 'purchased',
+    'strict_order'
+  ) as steps
+FROM clickstreamFunnel
+GROUP BY user_id
+ORDER BY user_id
+```
+
+Response
+
+| user\_id | steps |
+| -------- | ----- |
+| 1        | 3     |
+| 2        | 3     |
+| 3        | 3     |
+| 4        | 1     |
+
+Query wiht strict\_order and keep\_all
+
+```sql
+SELECT user_id,
+  funnelMaxStep(
+    ts,
+    '100000',
+    3,
+    event_name = 'screen_viewed',
+    event_name = 'screen_clicked',
+    event_name = 'purchased',
+    'strict_order',
+    
+  ) as steps
+FROM clickstreamFunnel
+GROUP BY user_id
+ORDER BY user_id
+```
+
+| user\_id | steps |
+| -------- | ----- |
+| 1        | 3     |
+| 2        | 3     |
+| 3        | 2     |
+| 4        | 1     |
+
