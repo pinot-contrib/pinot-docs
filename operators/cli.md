@@ -1,6 +1,6 @@
 # Command-Line Interface (CLI)
 
-Pinot provides a rich CLI to perform almost every operation on the cluster. You can execute all the commands using the `pinot-admin.sh`  . The script is located in the `bin/` directory of the [Pinot binary distribution](https://pinot.apache.org/download/) or `/opt/pinot/bin` in docker container.
+Pinot provides a rich CLI to perform almost every operation on the cluster. You can execute all the commands using the `pinot-admin.sh`  . The script is located in the `bin/` directory of the [Pinot binary distribution](https://pinot.apache.org/download) or `/opt/pinot/bin` in docker container.
 
 The following commands are supported by the admin script.
 
