@@ -390,7 +390,7 @@ Here is an example config which uses SASL\_SSL based authentication to talk with
 
 Pinot's Kafka connector supports automatically extracting record headers and metadata into the Pinot table columns. The following table shows the mapping for record header/metadata to Pinot table column names:
 
-<table><thead><tr><th width="242">Kafka Record</th><th width="259">Pinot Table Column</th><th width="250">Description</th></tr></thead><tbody><tr><td>Record key: any type &#x3C;K></td><td><code>__key</code> : String</td><td>For simplicity of design, we assume that the record key is always a UTF-8 encoded String</td></tr><tr><td>Record Headers: Map&#x3C;String, String></td><td>Each header key is listed as a separate column:<br><code>__header$HeaderKeyName</code> : String</td><td>For simplicity of design, we directly map the string headers from kafka record to pinot table column</td></tr><tr><td>Record metadata - offset : long</td><td><code>__metadata$offset</code> : String</td><td></td></tr><tr><td>Record metadata - recordTimestamp : long</td><td><code>__metadata$recordTimestamp</code> : String</td><td></td></tr></tbody></table>
+<table><thead><tr><th width="242">Kafka Record</th><th width="259">Pinot Table Column</th><th width="250">Description</th></tr></thead><tbody><tr><td>Record key: any type &#x3C;K></td><td><code>__key</code> : String</td><td>For simplicity of design, we assume that the record key is always a UTF-8 encoded String</td></tr><tr><td>Record Headers: Map&#x3C;String, String></td><td>Each header key is listed as a separate column:<br><code>__header$HeaderKeyName</code> : String</td><td>For simplicity of design, we directly map the string headers from kafka record to pinot table column</td></tr><tr><td>Record metadata - offset : long</td><td><code>__metadata$offset</code> : String</td><td><tr><td>Record metadata - partition : int</td><td><code>__metadata$partition</code> : String</td><td></td></tr><tr><td>Record metadata - recordTimestamp : long</td><td><code>__metadata$recordTimestamp</code> : String</td><td></td></tr></tbody></table>
 
 In order to enable the metadata extraction in a Kafka table, you can set the stream config `metadata.populate` to `true`.
 
@@ -406,6 +406,10 @@ For example, if you want to add only the offset and key as dimension columns in 
     },
     {
       "name": "__metadata$offset",
+      "dataType": "STRING"
+    },
+    {
+      "name": "__metadata$partition",
       "dataType": "STRING"
     },
     ...
