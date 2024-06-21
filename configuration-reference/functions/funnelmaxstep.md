@@ -121,6 +121,30 @@ This mode helps to ensure that no potential insights are lost by excluding event
 
 ### Queries
 
+#### Query funnels
+
+```sql
+SELECT user_id,
+  funnelMaxStep(
+    ts,
+    '1000000',
+    4,
+    event_name = 'screen_viewed',
+    event_name = 'screen_clicked',
+    event_name = 'cart_viewed',
+    event_name = 'purchased'
+  ) as steps
+FROM clickstreamFunnel
+GROUP BY user_id
+ORDER BY user_id
+```
+
+**Response**
+
+<table data-header-hidden><thead><tr><th width="530"></th><th></th></tr></thead><tbody><tr><td>user_id</td><td>steps</td></tr><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>2</td></tr><tr><td>3</td><td>4</td></tr><tr><td>4</td><td>2</td></tr></tbody></table>
+
+
+
 #### Query with strict\_order
 
 ```sql
@@ -196,10 +220,5 @@ ORDER BY user_id
 
 **Response**
 
-| user\_id | steps |
-| -------- | ----- |
-| 1        | 3     |
-| 2        | 3     |
-| 3        | 3     |
-| 4        | 3     |
+<table data-header-hidden><thead><tr><th width="530"></th><th></th></tr></thead><tbody><tr><td>user_id</td><td>steps</td></tr><tr><td>1</td><td>3</td></tr><tr><td>2</td><td>3</td></tr><tr><td>3</td><td>3</td></tr><tr><td>4</td><td>3</td></tr></tbody></table>
 
