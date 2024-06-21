@@ -211,6 +211,10 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `partitionColumn` is required in `replicaGroupPartitionConfig`.
 {% endhint %}
 
+{% hint style="info" %}
+Set `enforce.pool.based.assignment=true` in the controller configuration to enforce pool-based instance assignment in table config during table creation. If this property is set and pool-based instance assignment is not enabled in the table config, table creation fails.
+{% endhint %}
+
 ## Fault-Domain-Aware Instance Assignment
 
 This strategy is to maximize Fault Domain diversity for replica-group based assignment strategy. Specifically, data center and cloud service (e.g. Azure) today provides the idea of rack or fault domain, as to ensure hardware resiliency upon power/network failure.
