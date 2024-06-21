@@ -34,31 +34,6 @@ FunnelMaxStep(
 
 
 
-## **Example**
-
-```sql
-SELECT 
-    userId, 
-    funnelMaxStep(
-        timestampCol,
-        1800000,  -- 30 minutes in milliseconds
-        4, 
-        url = '/product/search', 
-        url = '/cart/add', 
-        url = '/checkout/start', 
-        url = '/checkout/confirmation', 
-        'strict_increase',
-        'keep_all' )
-FROM 
-    myTable 
-GROUP BY userId 
-ORDER BY userId
-```
-
-The above query is used to analyze user behavior on a website by determining the maximum step reached by each user within a 30-minute window, across four specific steps in a shopping process: searching for products, adding to cart, starting checkout, and confirming checkout. The results are grouped by `userId` and ordered accordingly, revealing the furthest progression each user achieved in the funnel, considering both strict sequence timing and retention of all related events.
-
-
-
 ## **Optional Mode Supported**
 
 ### STRICT\_DEDUPLICATION
@@ -142,24 +117,7 @@ This mode helps to ensure that no potential insights are lost by excluding event
 
 ### Data Set
 
-| event\_name     | ts         | user\_id |
-| --------------- | ---------- | -------- |
-| screen\_viewed  | 1718112402 | 1        |
-| screen\_clicked | 1718112403 | 1        |
-| purchased       | 1718112404 | 1        |
-| screen\_viewed  | 1718112405 | 1        |
-| screen\_clicked | 1718112406 | 1        |
-| purchased       | 1718112407 | 1        |
-| screen\_viewed  | 1718112405 | 2        |
-| screen\_clicked | 1718112406 | 2        |
-| purchased       | 1718112407 | 2        |
-| screen\_viewed  | 1718112404 | 3        |
-| screen\_clicked | 1718112405 | 3        |
-| cart\_viewed    | 1718112406 | 3        |
-| purchased       | 1718112407 | 3        |
-| screen\_viewed  | 1717939609 | 4        |
-| screen\_clicked | 1718112405 | 4        |
-| purchased       | 1718112405 | 4        |
+<table><thead><tr><th>event_name</th><th width="287">ts</th><th>user_id</th></tr></thead><tbody><tr><td>screen_viewed</td><td>1718112402</td><td>1</td></tr><tr><td>screen_clicked</td><td>1718112403</td><td>1</td></tr><tr><td>purchased</td><td>1718112404</td><td>1</td></tr><tr><td>screen_viewed</td><td>1718112405</td><td>1</td></tr><tr><td>screen_clicked</td><td>1718112406</td><td>1</td></tr><tr><td>purchased</td><td>1718112407</td><td>1</td></tr><tr><td>screen_viewed</td><td>1718112405</td><td>2</td></tr><tr><td>screen_clicked</td><td>1718112406</td><td>2</td></tr><tr><td>purchased</td><td>1718112407</td><td>2</td></tr><tr><td>screen_viewed</td><td>1718112404</td><td>3</td></tr><tr><td>screen_clicked</td><td>1718112405</td><td>3</td></tr><tr><td>cart_viewed</td><td>1718112406</td><td>3</td></tr><tr><td>purchased</td><td>1718112407</td><td>3</td></tr><tr><td>screen_viewed</td><td>1717939609</td><td>4</td></tr><tr><td>screen_clicked</td><td>1718112405</td><td>4</td></tr><tr><td>purchased</td><td>1718112405</td><td>4</td></tr></tbody></table>
 
 ### Queries
 
@@ -181,7 +139,7 @@ GROUP BY user_id
 ORDER BY user_id
 ```
 
-Response
+**Response**
 
 | user\_id | steps |
 | -------- | ----- |
@@ -190,7 +148,7 @@ Response
 | 3        | 3     |
 | 4        | 1     |
 
-Query wiht strict\_order and keep\_all
+#### Query with strict\_order and keep\_all
 
 ```sql
 SELECT user_id,
@@ -202,12 +160,14 @@ SELECT user_id,
     event_name = 'screen_clicked',
     event_name = 'purchased',
     'strict_order',
-    
+    'keep_all'
   ) as steps
 FROM clickstreamFunnel
 GROUP BY user_id
 ORDER BY user_id
 ```
+
+**Response**
 
 | user\_id | steps |
 | -------- | ----- |
@@ -215,4 +175,31 @@ ORDER BY user_id
 | 2        | 3     |
 | 3        | 2     |
 | 4        | 1     |
+
+#### Query with longer window
+
+```sql
+SELECT user_id,
+  funnelMaxStep(
+    ts,
+    '1000000',
+    3,
+    event_name = 'screen_viewed',
+    event_name = 'screen_clicked',
+    event_name = 'purchased',
+    'strict_order'
+  ) as steps
+FROM clickstreamFunnel
+GROUP BY user_id
+ORDER BY user_id
+```
+
+**Response**
+
+| user\_id | steps |
+| -------- | ----- |
+| 1        | 3     |
+| 2        | 3     |
+| 3        | 3     |
+| 4        | 3     |
 
