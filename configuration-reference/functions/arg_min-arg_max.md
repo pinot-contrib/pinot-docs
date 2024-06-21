@@ -8,6 +8,16 @@ description: >-
 
 This function scans the given dataset to identify the maximum and minimum values in the specified measuring columns. Once these extreme values (the maxima and minima) are found, the function locates the corresponding entries in the projection column. These entries are associated with the rows where the extreme values were found in the measuring columns. The function then returns these projection column values, providing a way to link the extreme measurements with their corresponding data in another part of the dataset.
 
+
+
+## Prerequisite
+
+This function has to be used with the following configuration on the broker:
+
+<pre><code>pinot.broker.query.rewriter.class.names: DEFAULT_QUERY_REWRITERS_CLASS_NAMES + ",org.apache.pinot.sql.parsers.rewriter.ExprMinMaxRewriter"
+<strong>pinot.broker.result.rewriter.class.names: "org.apache.pinot.core.query.utils.rewriter.ParentAggregationResultRewriter"
+</strong></code></pre>
+
 ## Signature
 
 > EXPR\_MIN (projectionCol, measuringCol1, measuringCol2, measuringCol3)
