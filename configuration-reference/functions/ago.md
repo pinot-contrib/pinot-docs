@@ -4,7 +4,7 @@ description: This section contains reference documentation for the ago function.
 
 # ago
 
-Return time as epoch millis before the given period (in ISO-8601 duration format).
+Return time as epoch millis before the given period in ISO-8601 duration format (PnDTnHnMn.nS with days considered to be exactly 24 hours).
 
 Examples:
 
