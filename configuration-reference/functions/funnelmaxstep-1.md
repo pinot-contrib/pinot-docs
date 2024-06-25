@@ -1,11 +1,11 @@
-# FunnelMatchStep
+# FunnelMaxStep
 
-The `FunnelMatchStep` function in Pinot is designed to track user progress through a predefined series of steps or stages in a funnel, such as user interactions on a website from page views to purchases. This function is particularly useful for analyzing how far users progress through a conversion process within a specified time window.
+The `FunnelMaxStep` function in Pinot is designed to track user progress through a predefined series of steps or stages in a funnel, such as user interactions on a website from page views to purchases. This function is particularly useful for analyzing how far users progress through a conversion process within a specified time window.
 
 ## **Syntax**
 
 ```sql
-FunnelMatchStep(
+FunnelMaxStep(
     timestampExpression, 
     windowSize, 
     numberSteps, stepExpression
@@ -16,14 +16,7 @@ FunnelMatchStep(
 
 ## Return
 
-This function is similar to the function FunnelMaxStep, instead of returning the number of max step, it returns an array of the size 'number of steps', and marked the matched steps as 1, non-matching as 0.
-
-E.g.&#x20;
-
-```
-numberSteps = 3, maxStep = 0 -> [0, 0, 0]
-numberSteps = 4, maxStep = 2 -> [1, 1, 0, 0]
-```
+This function returns the Integer value of the max steps that window funnel could proceed forward.
 
 ## Arguments
 
@@ -42,6 +35,8 @@ numberSteps = 4, maxStep = 2 -> [1, 1, 0, 0]
 5. **`mode`** (optional):
    * **Type**: String
    * **Description**: Defines additional modes or options that alter how the funnel analysis is calculated. Common modes might include settings to handle overlapping events, reset the window upon each step, or other custom behaviors specific to the needs of the funnel analysis. If unspecified, the default behavior as defined by Pinot is used.
+
+
 
 ## **Optional Mode Supported**
 
@@ -134,7 +129,7 @@ This mode helps to ensure that no potential insights are lost by excluding event
 
 ```sql
 SELECT user_id,
-  funnelMatchStep(
+  funnelMaxStep(
     ts,
     '1000000',
     4,
@@ -142,7 +137,7 @@ SELECT user_id,
     event_name = 'screen_clicked',
     event_name = 'cart_viewed',
     event_name = 'purchased'
-  ) as matchedsteps
+  ) as steps
 FROM clickstreamFunnel
 GROUP BY user_id
 ORDER BY user_id
@@ -150,33 +145,84 @@ ORDER BY user_id
 
 **Response**
 
-<table data-header-hidden><thead><tr><th width="530"></th><th></th></tr></thead><tbody><tr><td>user_id</td><td>matchedSteps</td></tr><tr><td>1</td><td>[1, 1, 0, 0]</td></tr><tr><td>2</td><td>[1, 1, 0, 0]</td></tr><tr><td>3</td><td>[1, 1, 1, 1]</td></tr><tr><td>4</td><td>[1, 1, 0, 0]</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="530"></th><th></th></tr></thead><tbody><tr><td>user_id</td><td>steps</td></tr><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>2</td></tr><tr><td>3</td><td>4</td></tr><tr><td>4</td><td>2</td></tr></tbody></table>
 
-#### Query with funnel count analysis
 
-The below query puts the above query in the CTE, then use `sumArrayLong` to show the funnel transitions for each steps.
+
+#### Query with strict\_order
 
 ```sql
-WITH funnelMatchSteps AS (
-  SELECT user_id,
-  funnelMatchStep(
+SELECT user_id,
+  funnelMaxStep(
     ts,
-    '1000000',
-    4,
+    '100000',
+    3,
     event_name = 'screen_viewed',
     event_name = 'screen_clicked',
-    event_name = 'cart_viewed',
-    event_name = 'purchased'
-  ) as matchedsteps
-  FROM clickstreamFunnel
-  GROUP BY user_id
-)
-
-SELECT sumArrayLong(matchedsteps) as funnelCounts FROM funnelMatchSteps 
+    event_name = 'purchased',
+    'strict_order'
+  ) as steps
+FROM clickstreamFunnel
+GROUP BY user_id
+ORDER BY user_id
 ```
 
 **Response**
 
-| funnelCounts  |
-| ------------- |
-| \[4, 4, 1, 1] |
+| user\_id | steps |
+| -------- | ----- |
+| 1        | 3     |
+| 2        | 3     |
+| 3        | 3     |
+| 4        | 1     |
+
+#### Query with strict\_order and keep\_all
+
+```sql
+SELECT user_id,
+  funnelMaxStep(
+    ts,
+    '100000',
+    3,
+    event_name = 'screen_viewed',
+    event_name = 'screen_clicked',
+    event_name = 'purchased',
+    'strict_order',
+    'keep_all'
+  ) as steps
+FROM clickstreamFunnel
+GROUP BY user_id
+ORDER BY user_id
+```
+
+**Response**
+
+| user\_id | steps |
+| -------- | ----- |
+| 1        | 3     |
+| 2        | 3     |
+| 3        | 2     |
+| 4        | 1     |
+
+#### Query with longer window
+
+```sql
+SELECT user_id,
+  funnelMaxStep(
+    ts,
+    '1000000',
+    3,
+    event_name = 'screen_viewed',
+    event_name = 'screen_clicked',
+    event_name = 'purchased',
+    'strict_order'
+  ) as steps
+FROM clickstreamFunnel
+GROUP BY user_id
+ORDER BY user_id
+```
+
+**Response**
+
+<table data-header-hidden><thead><tr><th width="530"></th><th></th></tr></thead><tbody><tr><td>user_id</td><td>steps</td></tr><tr><td>1</td><td>3</td></tr><tr><td>2</td><td>3</td></tr><tr><td>3</td><td>3</td></tr><tr><td>4</td><td>3</td></tr></tbody></table>
+
