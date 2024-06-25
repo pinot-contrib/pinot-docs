@@ -316,6 +316,7 @@
   * [FromEpochBucket](configuration-reference/functions/fromepochbucket.md)
   * [FUNNELCOUNT](configuration-reference/functions/funnelcount.md)
   * [FunnelMaxStep](configuration-reference/functions/funnelmaxstep.md)
+  * [FunnelMatchStep](configuration-reference/functions/funnelmaxstep-1.md)
   * [Histogram](configuration-reference/functions/histogram.md)
   * [hour](configuration-reference/functions/hour.md)
   * [isSubnetOf](configuration-reference/functions/issubnetof.md)
