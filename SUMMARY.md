@@ -124,6 +124,7 @@
     * [Querying JSON data](users/user-guide-query/json-queries.md)
     * [Transformation Functions](users/user-guide-query/supported-transformations.md)
     * [Window aggregate](users/user-guide-query/query-syntax/windows-functions.md)
+    * [Funnel Analysis](users/user-guide-query/query-syntax/funnel-analysis.md)
   * [Query Options](users/user-guide-query/query-options.md)
   * [Multi stage query](users/user-guide-query/multi-stage-query/README.md)
     * [Operator Types](users/user-guide-query/multi-stage-query/operator-types/README.md)
