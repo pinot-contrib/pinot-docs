@@ -319,7 +319,7 @@ We can apply one transformation to extract the `userId` and then another one to 
 "ingestionConfig": {
     "transformConfigs": [
       {
-        "columnName": "userOid",
+        "columnName": "userId",
         "transformFunction": "jsonPathString(data, '$.userId')"
       },
       {
