@@ -149,7 +149,7 @@ For example, in the following table:
 If the default value for `col1` is `1`, the following query:
 
 ```sql
-select $docId as rowId, col1 from my_table where col1 IS NULL
+select $docId as rowId, col1 from my_table where col1 IS NOT NULL
 ```
 
 Will return the following result:
@@ -204,7 +204,7 @@ Given that neither `count` or `mode` function will ignore `null` values as expec
 
 Advanced null handling has two requirements:
 1. Segments must store null values (see [storing nulls at ingestion time](#store-nulls-at-ingestion-time)).
-2. The query must enable null handling by setting the `enableNullHandling` [query option](query-options.md#enable-null-handling) to `true`.
+2. The query must enable null handling by setting the `enableNullHandling` [query option](../../users/user-guide-query/query-options.md#enable-null-handling) to `true`.
 
 The later can be done in one of the following ways:
 - Set `enableNullHandling=true` at the beginning of the query.
