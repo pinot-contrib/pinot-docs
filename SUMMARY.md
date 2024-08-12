@@ -253,6 +253,7 @@
   * [ADD](configuration-reference/functions/add.md)
   * [ago](configuration-reference/functions/ago.md)
   * [EXPR\_MIN / EXPR\_MAX](configuration-reference/functions/arg\_min-arg\_max.md)
+  * [ARRAY\_AGG](configuration-reference/functions/array\_agg.md)
   * [arrayConcatDouble](configuration-reference/functions/arrayconcatdouble.md)
   * [arrayConcatFloat](configuration-reference/functions/arrayconcatfloat.md)
   * [arrayConcatInt](configuration-reference/functions/arrayconcatint.md)

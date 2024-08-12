@@ -14,6 +14,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [add.md](add.md)
 {% endcontent-ref %}
 
+{% content-ref url="array_agg.md" %}
+[array\_agg.md](array\_agg.md)
+{% endcontent-ref %}
+
 {% content-ref url="arrayconcatdouble.md" %}
 [arrayconcatdouble.md](arrayconcatdouble.md)
 {% endcontent-ref %}
