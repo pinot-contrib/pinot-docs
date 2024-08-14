@@ -39,7 +39,7 @@ Download the distribution or build from source by selecting one of the following
 Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download), or use this command:
 
 ```bash
-PINOT_VERSION=0.12.0 #set to the Pinot version you decide to use
+PINOT_VERSION=1.1.0 #set to the Pinot version you decide to use
 
 wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```
