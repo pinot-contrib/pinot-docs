@@ -326,6 +326,22 @@ In this example, Pinot will retain the deleted-primary-keys in metadata for 1 da
 Note that the value of this field `deletedKeysTTL` should be the same as the unit of comparison column. If your comparison column is having values which corresponds to seconds, this config should also have values in seconds (see above example).
 {% endhint %}
 
+### Data consistency with deletes and compaction together
+
+When using `deletedKeysTTL` together with `UpsertCompactionTask`, there can be a scenario where a segment containing deleted-record (where `deleteRecordColumn` = true was set for the primary key) gets compacted first and a previous old record is not yet compacted. During server restart, now the old record is added to the metadata manager map and is treated as non-deleted.
+To prevent data inconsistencies in this scenario, we have added a new config `enableDeletedKeysCompactionConsistency` which when set to true, will ensure that the deleted records are not compacted until all the previous records from all other segments are compacted for the deleted primary-key.
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "deleteRecordColumn": <column_name>,
+    "deletedKeysTTL": 86400,
+    "enableDeletedKeysCompactionConsistency": true
+  }
+}
+```
+
 ### Use strictReplicaGroup for routing
 
 The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) implicitly for the segments. Moreover, upsert poses the additional requirement that **all segments of the same partition must be served from the same server** to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
@@ -368,9 +384,8 @@ We recommend that you enable this feature so as to speed up server boot times du
 {% hint style="info" %}
 The lifecycle for validDocIds snapshots are shows as follows,
 
-1. If snapshot is enabled, load validDocIds from snapshot during add segments.
-2. If snapshot is not enabled, delete validDocIds snapshots during add segments if exists.
-3. If snapshot is enabled, persist validDocIds snapshot for immutable segments when removing segment.
+1. If snapshot is not enabled, delete validDocIds snapshots during add segments if exists.
+2. If snapshot is enabled, persist validDocIds snapshot for immutable segments when removing segment.
 {% endhint %}
 
 ### Enable preload for faster server restarts
