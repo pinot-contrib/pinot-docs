@@ -83,6 +83,7 @@
   * [Text search support](basics/indexing/text-search-support.md)
   * [Timestamp index](basics/indexing/timestamp-index.md)
 * [Release notes](basics/releases/README.md)
+  * [1.2.0](basics/releases/1.2.0.md)
   * [1.1.0](basics/releases/1.1.0.md)
   * [1.0.0](basics/releases/1.0.0.md)
   * [0.12.1](basics/releases/0.12.1.md)
