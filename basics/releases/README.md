@@ -12,7 +12,7 @@ Before upgrading from one version to another one, read the release notes. While 
 
 ## 1.2.0 (August 2024)
 
-{% content-ref url="1.1.0.md" %}
+{% content-ref url="1.2.0.md" %}
 [1.2.0.md](1.2.0.md)
 {% endcontent-ref %}
 
