@@ -94,7 +94,7 @@ docker run \
     --name pinot-zookeeper \
     --restart always \
     -p 2181:2181 \
-    -d zookeeper:3.5.6
+    -d zookeeper:3.9.2
 ```
 
 #### Start Pinot Controller
@@ -181,7 +181,7 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 0775f5d8d6bf        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   44 minutes ago      Up 44 minutes       8096-8099/tcp, 9000/tcp                                pinot-server
 64c6392b2e04        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   44 minutes ago      Up 44 minutes       8096-8099/tcp, 9000/tcp                                pinot-broker
 b6d0f2bd26a3        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   45 minutes ago      Up 45 minutes       8096-8099/tcp, 0.0.0.0:9000->9000/tcp                  pinot-controller
-570416fc530e        zookeeper:3.5.6             "/docker-entrypoint.…"   45 minutes ago      Up 45 minutes       2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
+570416fc530e        zookeeper:3.9.2             "/docker-entrypoint.…"   45 minutes ago      Up 45 minutes       2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
 ### Docker Compose
@@ -193,7 +193,7 @@ Create a file called _docker-compose.yml_ that contains the following:
 version: '3.7'
 services:
   pinot-zookeeper:
-    image: zookeeper:3.5.6
+    image: zookeeper:3.9.2
     container_name: pinot-zookeeper
     ports:
       - "2181:2181"
@@ -255,7 +255,7 @@ CONTAINER ID   IMAGE                     COMMAND                  CREATED       
 ba5cb0868350   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   pinot-server
 698f160852f9   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        pinot-broker
 b1ba8cf60d69   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  pinot-controller
-54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
+54e7e114cd53   zookeeper:3.9.2           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
 Once your cluster is up and running, see [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
