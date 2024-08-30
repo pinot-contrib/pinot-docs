@@ -116,6 +116,8 @@ The raw value forward index stores actual values instead of IDs. This means that
 
 As shown in the diagram below, dictionary encoding can lead to numerous random memory accesses for dictionary lookups. In contrast, the raw value forward index allows for sequential value scanning, which can enhance query performance when applied appropriately.
 
+Note: Raw value forward index currently does not support inverted index (all others JSON/TEXT/Range/etc are supported). Also, since reading a value from this index requires reading the entire chunk in memory and decompressing, it is not suitable for heavy random reads.&#x20;
+
 ![](../../.gitbook/assets/no-dictionary.png)
 
 The raw format is used in two scenarios:
