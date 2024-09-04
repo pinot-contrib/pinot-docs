@@ -119,7 +119,7 @@ To enable basic null handling by at query time, enable Pinot to [store nulls at 
 The multi-stage query engine requires column based null storing. Tables with table based null storing are considered not nullable.
 {% endhint %}
 
-**If you are converting from null support for the single-stage query engine**, you can simplify your model by removing `nullHandlingEnabled` at the same time you set `enableColumnBasedNullHandling`. Also, when converting:
+**If you are converting from null support for the single-stage query engine**, you can modify your schema to set `enableColumnBasedNullHandling`. There is no need to change your table config to remove or set `nullHandlingEnabled` to false. In fact we recommend to keep it as true to make it clear that the table may contain nulls. Also, when converting:
 
 * No reingestion is needed.
 * If the columns are changed from nullable to not nullable and there is a value that was previously null, the default value will be used instead.
