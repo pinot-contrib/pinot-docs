@@ -50,4 +50,11 @@ This can be done by added the following to the `pom.xml`.
         </executions>
       </plugin>
 
-Plugins using the old structure are encourage to shaded commonly used dependencies such as `guava`, `jackson`&#x20; to prevent class collisions with Pinot.
+Alternative you can use the old structure where your plugin is packaged in a single shaded jar or uberjar:
+
+     /plugins
+        /my-custom-plugin
+           /my-custom-plugin-1.0.0-shaded.jar
+
+Plugins using this structure will be able to use all classes provided by Pinot, so dependencies that are not provided by Pinot (the ones you don't import as <scope>provided</scope>) must be _shaded_.
+Plugins using the old structure are encourage to _relocate_ (i.e. rename the original package name) commonly used dependencies such as `guava`, `jackson`&#x20;  using a plugin specific prefix to prevent class collisions with Pinot.
