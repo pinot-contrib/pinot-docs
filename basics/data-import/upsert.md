@@ -45,7 +45,7 @@ When two records of the same primary key are ingested, _the record with the grea
 \
 An important requirement for the Pinot upsert table is to partition the input stream by the primary key. For Kafka messages, this means the producer shall set the key in the [`send`](https://kafka.apache.org/20/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html) API. If the original stream is not partitioned, then a streaming processing job (such as with Flink) is needed to shuffle and repartition the input stream into a partitioned one for Pinot's ingestion.
 
-Additionally if using <mark style="color:orange;">`segmentPartitionConfig`</mark>to leverage Broker segment  pruning then it's important to ensure that the partition function used matches both on the Kafka producer side as well as Pinot. In Kafka default for Java client is 32-bit **murmur2** hash and for all other languages such as Python its **CRC32** (Cyclic Redundancy Check 32-bit).
+Additionally if using <mark style="color:orange;">`segmentPartitionConfig`</mark>to leverage Broker segment pruning then it's important to ensure that the partition function used matches both on the Kafka producer side as well as Pinot. In Kafka default for Java client is 32-bit **murmur2** hash and for all other languages such as Python its **CRC32** (Cyclic Redundancy Check 32-bit).
 {% endhint %}
 
 ### Enable upsert in the table configurations
@@ -265,7 +265,7 @@ To configure how long primary keys are stored in metadata, specify the length of
 }
 ```
 
-In this example, Pinot will retain primary keys in metadata for 1 day. 
+In this example, Pinot will retain primary keys in metadata for 1 day.
 
 Note that enabling upsert snapshot is required for metadata TTL for in-memory validDocsIDs recovery.
 
@@ -328,8 +328,7 @@ Note that the value of this field `deletedKeysTTL` should be the same as the uni
 
 ### Data consistency with deletes and compaction together
 
-When using `deletedKeysTTL` together with `UpsertCompactionTask`, there can be a scenario where a segment containing deleted-record (where `deleteRecordColumn` = true was set for the primary key) gets compacted first and a previous old record is not yet compacted. During server restart, now the old record is added to the metadata manager map and is treated as non-deleted.
-To prevent data inconsistencies in this scenario, we have added a new config `enableDeletedKeysCompactionConsistency` which when set to true, will ensure that the deleted records are not compacted until all the previous records from all other segments are compacted for the deleted primary-key.
+When using `deletedKeysTTL` together with `UpsertCompactionTask`, there can be a scenario where a segment containing deleted-record (where `deleteRecordColumn` = true was set for the primary key) gets compacted first and a previous old record is not yet compacted. During server restart, now the old record is added to the metadata manager map and is treated as non-deleted. To prevent data inconsistencies in this scenario, we have added a new config `enableDeletedKeysCompactionConsistency` which when set to true, will ensure that the deleted records are not compacted until all the previous records from all other segments are compacted for the deleted primary-key.
 
 ```json
 {
@@ -338,6 +337,23 @@ To prevent data inconsistencies in this scenario, we have added a new config `en
     "deleteRecordColumn": <column_name>,
     "deletedKeysTTL": 86400,
     "enableDeletedKeysCompactionConsistency": true
+  }
+}
+```
+
+### Data consistency when queries and upserts happen concurrently&#x20;
+
+Previously, queries may see inconsistent data when queries and upserts are happening concurrently. For example, a table with 1M primary keys should always return 1M when doing `distinct count` no matter how new records are ingested and invalidating the existing records. But one may see more or less than 1M distinct count of records, when queries and upserts are happening concurrently. This is because the query acquires multiple segments' validDocIds bitmaps to skip invalid docs, to form a data view that only contains latest valid docs. But acquiring bitmaps from _multiple_ _segments_ is not atomic against ongoing upserts, so the query might over or under count the valid docs.&#x20;
+
+This is a classic concurrency problem of concurrent reads and writes, and typically one can use lock or snapshot to solve it. So two consistency modes, SYNC and SNAPSHOT, are added for upsert tables to ensure data consistency when queries and upserts happen concurrently.
+
+By default, it's NONE, i.e. working as before. SYNC blocks upserts for queries to see a consistent upsert data view. SNAPSHOT keeps a consistent snapshot of validDocIds bitmaps for queries to access and upserts are not blocked by queries, more suitable for workload with high write and query rates.
+
+```
+{
+  "upsertConfig": {
+    "consistencyMode": "SYNC", // or "SNAPSHOT", "NONE"
+...
   }
 }
 ```
@@ -403,7 +419,7 @@ Upsert preload feature can make it faster to restore the upsert states when serv
 ```
 
 \
-Under the hood, it uses the validDocIds snapshots to identify the valid docs and restore their upsert metadata quickly instead of performing a whole upsert comparison flow. The flow is triggered before  the server is marked as ready, after which the server starts to load the remaining segments without snapshots (hence the name preload).
+Under the hood, it uses the validDocIds snapshots to identify the valid docs and restore their upsert metadata quickly instead of performing a whole upsert comparison flow. The flow is triggered before the server is marked as ready, after which the server starts to load the remaining segments without snapshots (hence the name preload).
 
 The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload. It's 0 by default to disable the preloading feature.
 
@@ -449,7 +465,8 @@ select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
 ```
 
 ### Use custom metadata manager
-Pinot supports custom PartitionUpsertMetadataManager that handle records and segments updates. 
+
+Pinot supports custom PartitionUpsertMetadataManager that handle records and segments updates.
 
 ```json
 {
@@ -512,7 +529,6 @@ public class CustomTableUpsertMetadataManager extends BaseTableUpsertMetadataMan
 ```
 
 :warning: The upsert manager class name is case-insensitive as well.
-
 
 ### Upsert table limitations
 
