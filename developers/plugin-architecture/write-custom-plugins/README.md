@@ -8,7 +8,7 @@ As of Apache Pinot 1.3.0 there's an additional support for a new structure:
 
      /plugins
         /my-custom-plugin
-           /classes/...
+           /classes/... or /my-custon-plugin-1.0.0.jar
            /com-2.3.1.jar
            /foo-1.2.1.jar
            /bar-3.1.1.jar
@@ -16,7 +16,8 @@ As of Apache Pinot 1.3.0 there's an additional support for a new structure:
 
 This way there's no need to shade classes anymore, because Pinot will ensure isolation and proper ordered loading of these classes. 
 Pinot will only expose the classes in pinot-spi.
-The `classes`-directory will contain custom compiled Java-code of the plugin.
+The `classes`-directory  or `my-custon-plugin-1.0.0.jar` will contain custom compiled Java-code of the plugin.
+The only difference is that the `classes` will always be loaded first. The jars are added afterward as ordered by the OS.
 Next to these `classes` are all the runtime required dependencies, but without the pinot-jars.
 The `pinot-plugin.properties` is currently a placeholder to recognize this new structure. In the future this file will be used to store metadata for the plugin.
 
