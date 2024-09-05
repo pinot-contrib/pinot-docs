@@ -20,6 +20,15 @@ The `classes`-directory will contain custom compiled Java-code of the plugin.
 Next to these `classes` are all the runtime required dependencies, but without the pinot-jars.
 The `pinot-plugin.properties` is currently a placeholder to recognize this new structure. In the future this file will be used to store metadata for the plugin.
 
+Currently the following keys are supported:
+<dl>
+  <dt>parent.realmId</dt>
+  <dd>Specify the id of the parent realm. The parentRealm is the final classloader to look for classes. If not defined, then there's no parent realm</dd>
+  <dt>importFrom.[realmId]</dt>
+  <dd>Comma separated list of packaged that the plugin imports from another realm. When looking for a class, these imports are verified first. The following is used by all plugins and cannot be replaced: <code>importFrom.pinot=org.apache.pinot.spi</code>
+</dd>
+</dl>
+
 Users of [Apache Maven](http://maven.apache.org) can use the pinot assembly descriptor to generate this new structure. 
 This can be done by added the following to the `pom.xml`. 
 
