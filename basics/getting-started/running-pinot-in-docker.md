@@ -63,7 +63,7 @@ Below are the usages of different ports:
 
 7050: Pinot Server Port
 
-6000: Pinot Minino Port
+6000: Pinot Minion Port
 {% endhint %}
 
 ### Manual cluster
