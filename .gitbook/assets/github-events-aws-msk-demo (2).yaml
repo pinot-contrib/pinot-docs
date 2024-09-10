@@ -1,0 +1,249 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: examples-aws-msk-demo
+  namespace: pinot-quickstart
+data:
+  pullRequestMergedEventsAwsMskDemo_realtime_table_config.json: |-
+    {
+      "tableName": "pullRequestMergedEventsAwsMskDemo",
+      "tableType": "REALTIME",
+      "segmentsConfig": {
+        "timeColumnName": "mergedTimeMillis",
+        "timeType": "MILLISECONDS",
+        "retentionTimeUnit": "DAYS",
+        "retentionTimeValue": "60",
+        "schemaName": "pullRequestMergedEventsAwsMskDemo",
+        "replication": "1",
+        "replicasPerPartition": "1"
+      },
+      "tenants": {},
+      "tableIndexConfig": {
+        "loadMode": "MMAP",
+        "streamConfigs": {
+          "streamType": "kafka",
+          "stream.kafka.consumer.type": "simple",
+          "stream.kafka.topic.name": "pullRequestMergedEventsAwsMskDemo",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.zk.broker.url": "${ZOOKEEPER_CONNECT_STRING}",
+          "stream.kafka.broker.list": "${BROKER_LIST_STRING}",
+          "realtime.segment.flush.threshold.time": "12h",
+          "realtime.segment.flush.threshold.rows": "100000",
+          "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
+        }
+      },
+      "metadata": {
+        "customConfigs": {}
+      }
+    }
+  pullRequestMergedEventsAwsMskDemo_schema.json: |-
+    {
+      "schemaName": "pullRequestMergedEventsAwsMskDemo",
+      "dimensionFieldSpecs": [
+        {
+          "name": "title",
+          "dataType": "STRING",
+          "defaultNullValue": ""
+        },
+        {
+          "name": "labels",
+          "dataType": "STRING",
+          "singleValueField": false,
+          "defaultNullValue": ""
+        },
+        {
+          "name": "userId",
+          "dataType": "STRING",
+          "defaultNullValue": ""
+        },
+        {
+          "name": "userType",
+          "dataType": "STRING",
+          "defaultNullValue": ""
+        },
+        {
+          "name": "authorAssociation",
+          "dataType": "STRING",
+          "defaultNullValue": ""
+        },
+        {
+          "name": "mergedBy",
+          "dataType": "STRING",
+          "defaultNullValue": ""
+        },
+        {
+          "name": "assignees",
+          "dataType": "STRING",
+          "singleValueField": false,
+          "defaultNullValue": ""
+        },
+        {
+          "name": "authors",
+          "dataType": "STRING",
+          "singleValueField": false,
+          "defaultNullValue": ""
+        },
+        {
+          "name": "committers",
+          "dataType": "STRING",
+          "singleValueField": false,
+          "defaultNullValue": ""
+        },
+        {
+          "name": "requestedReviewers",
+          "dataType": "STRING",
+          "singleValueField": false,
+          "defaultNullValue": ""
+        },
+        {
+          "name": "requestedTeams",
+          "dataType": "STRING",
+          "singleValueField": false,
+          "defaultNullValue": ""
+        },
+        {
+          "name": "reviewers",
+          "dataType": "STRING",
+          "singleValueField": false,
+          "defaultNullValue": ""
+        },
+        {
+          "name": "commenters",
+          "dataType": "STRING",
+          "singleValueField": false,
+          "defaultNullValue": ""
+        },
+        {
+          "name": "repo",
+          "dataType": "STRING",
+          "defaultNullValue": ""
+        },
+        {
+          "name": "organization",
+          "dataType": "STRING",
+          "defaultNullValue": ""
+        }
+      ],
+      "metricFieldSpecs": [
+        {
+          "name": "count",
+          "dataType": "LONG",
+          "defaultNullValue": 1
+        },
+        {
+          "name": "numComments",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numReviewComments",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numCommits",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numLinesAdded",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numLinesDeleted",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numFilesChanged",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numAuthors",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numCommitters",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numReviewers",
+          "dataType": "LONG"
+        },
+        {
+          "name": "numCommenters",
+          "dataType": "LONG"
+        },
+        {
+          "name": "createdTimeMillis",
+          "dataType": "LONG"
+        },
+        {
+          "name": "elapsedTimeMillis",
+          "dataType": "LONG"
+        }
+      ],
+      "timeFieldSpec": {
+        "incomingGranularitySpec": {
+          "timeType": "MILLISECONDS",
+          "timeFormat": "EPOCH",
+          "dataType": "LONG",
+          "name": "mergedTimeMillis"
+        }
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: pinot-github-events-data-into-msk-kafka
+  name: pinot-github-events-data-into-msk-kafka
+  namespace: pinot-quickstart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pinot-github-events-data-into-msk-kafka
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: pinot-github-events-data-into-msk-kafka
+    spec:
+      containers:
+      - args:
+        - StreamGithubEvents
+        - -topic
+        - pullRequestMergedEventsAwsMskDemo
+        - -personalAccessToken
+        - 8643c3a182dd3c387a429787087b2f3a9536af27
+        - -kafkaBrokerList
+        - ${BROKER_LIST_STRING}
+        - -schemaFile
+        - /var/pinot/examples/pullRequestMergedEventsAwsMskDemo_schema.json
+        env:
+        - name: JAVA_OPTS
+          value: -Dlog4j2.configurationFile=/opt/pinot/conf/pinot-admin-log4j2.xml
+            -Dplugins.dir=/opt/pinot/plugins
+        image: apachepinot/pinot:latest
+        imagePullPolicy: Always
+        name: pinot-github-events-data-into-msk-kafka
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/pinot/examples
+          name: examples-aws-msk-demo
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: examples-aws-msk-demo
+        name: examples-aws-msk-demo
