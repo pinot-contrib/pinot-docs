@@ -131,15 +131,26 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * MIN
 * MAX
 * SUM
+* SUM\_PRECISION
+  * The maximum precision can be optionally configured in `functionParameters` using the key `precision`. For example: `{"precision": 20}`.
 * AVG
 * MIN\_MAX\_RANGE
-* DISTINCT\_COUNT\_HLL
 * PERCENTILE\_EST
+* PERCENTILE\_RAW\_EST
 * PERCENTILE\_TDIGEST
+  * The compression factor for the `TDigest` histogram can be optionally configured in `functionParameters` using the key `compressionFactor`. For example: `{"compressionFactor": 200}`.  If not configured, the default value of `100` will be used.
+* PERCENTILE\_RAW\_TDIGEST
+  * The compression factor for the `TDigest` histogram can be optionally configured in `functionParameters` using the key `compressionFactor`. For example: `{"compressionFactor": 200}`. If not configured, the default value of `100` will be used.
 * DISTINCT\_COUNT\_BITMAP
   * NOTE: The intermediate result _RoaringBitmap_ is not bounded-sized, use carefully on high cardinality columns.
 * DISTINCT\_COUNT\_HLL
+  * The `log2m` value for the `HyperLogLog` structure can be optionally configured in `functionParameters` , for example: `{"log2m": 16}`. If not configured, the default value of `8` will be used. Remember that a larger `log2m` value leads to better accuracy but also a larger memory footprint.
 * DISTINCT\_COUNT\_RAW\_HLL
+  * The `log2m` value for the `HyperLogLog` structure can be optionally configured in `functionParameters` , for example: `{"log2m": 16}`. If not configured, the default value of `8` will be used. Remember that a larger `log2m` value leads to better accuracy but also a larger memory footprint.
+* DISTINCT\_COUNT\_HLL\_PLUS
+  * The `p` (precision value of normal set) and `sp` (precision value of sparse set) values for the `HyperLogLogPlus` structure can be optionally configured in `functionParameters`, for example: `{"p": 16, "sp": 32}`. If not configured, `p` will have the default value of `14` and `sp` will have the default value of `0`.
+* DISTINCT\_COUNT\_RAW\_HLL\_PLUS
+  * The `p` (precision value of normal set) and `sp` (precision value of sparse set) values for the `HyperLogLogPlus` structure can be optionally configured in `functionParameters`, for example: `{"p": 16, "sp": 32}`. If not configured, `p` will have the default value of `14` and `sp` will have the default value of `0`.
 * DISTINCT\_COUNT\_THETA\_SKETCH
 * DISTINCT\_COUNT\_RAW\_THETA\_SKETCH
 * DISTINCT\_COUNT\_TUPLE\_SKETCH
@@ -147,9 +158,14 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * SUM\_VALUES\_INTEGER\_SUM\_TUPLE\_SKETCH
 * AVG\_VALUE\_INTEGER\_SUM\_TUPLE\_SKETCH
 * DISTINCT\_COUNT\_CPC\_SKETCH
+  * The `lgK` value for the CPC Sketch can be optionally configured in `functionParameters`, for example: `{"lgK": 13}`. If not configured, the default value of `12` will be used. Note that the `nominalEntries` provided at query time should be `2 ^ lgK` in order for a star-tree index to be used. For instance, a star-tree index with `{"lgK": 13}` can be used with `DISTINCTCOUNTCPCSKETCH` having `nominalEntries=8192`.
 * DISTINCT\_COUNT\_RAW\_CPC\_SKETCH
 * DISTINCT\_COUNT\_ULL
+  * The `p` value (precision parameter) for the `UltraLogLog` structure can be optionally configured in `functionParameters`, for example: `{"p": 20}`. If not configured, the default value of `12` will be used.
 * DISTINCT\_COUNT\_RAW\_ULL
+  * The `p` value (precision parameter) for the `UltraLogLog` structure can be optionally configured in `functionParameters`, for example: `{"p": 20}`. If not configured, the default value of `12` will be used.
+
+
 
 **Unsupported functions**
 
@@ -195,6 +211,7 @@ All aggregations of a query should be included in \`aggregationConfigs\` or in \
 | indexVersion          | (Optional, introduced in release `1.2.0`) Equivalent to `rawIndexWriterVersion` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")                                                                                                                                                                                                                                                                                                                                                                        |
 | targetMaxChunkSize    | (Optional, introduced in release `1.2.0`) Equivalent to `targetMaxChunkSize` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")                                                                                                                                                                                                                                                                                                                                                                           |
 | targetDocsPerChunk    | (Optional, introduced in release `1.2.0`) Equivalent to `targetDocsPerChunk` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")                                                                                                                                                                                                                                                                                                                                                                           |
+| functionParameters    | (Optional) A configuration map used to pass in additional configurations to the aggregation function. For example, on `DISTINCTCOUNTHLL`, this could look like `{"log2m": 16}`  in order to build the star-tree index using `DISTINCTCOUNTHLL` with a non-default value for `log2m`. Note that the index will only be used for queries using the same value for `log2m` with `DISTINCTCOUNTHLL`.                                                                                                                                         |
 
 #### Default index generation configuration
 
