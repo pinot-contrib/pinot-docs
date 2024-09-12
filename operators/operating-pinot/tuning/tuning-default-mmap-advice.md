@@ -1,5 +1,5 @@
 ---
-description: Adding on behalf of https://github.com/dinoocch
+description: Adding on behalf of Dino Occhialini [https://github.com/dinoocch]
 ---
 
 # Tuning Default MMAP Advice
