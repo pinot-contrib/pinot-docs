@@ -4,11 +4,11 @@ description: Troubleshoot issues with the multi-stage query engine (v2).
 
 # Troubleshoot issues with the multi-stage query engine (v2)
 
-Learn how to [troubleshoot errors](troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) when using the multi-stage query engine (v2), and see [multi-stage query engine limitations](troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine).&#x20;
+Learn how to [troubleshoot errors](troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) when using the multi-stage query engine (v2), and see [multi-stage query engine limitations](troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine).
 
-Find instructions on [how to enable the multi-stage query engine](v2-multi-stage-query-engine.md), or see a high-level overview of [how the multi-stage query engine works](../../reference/multi-stage-engine.md).
+Find instructions on [how to enable the multi-stage query engine](v2-multi-stage-query-engine.md), or see a high-level overview of [how the multi-stage query engine works](../multi-stage-engine.md).
 
-## Limitations of the multi-stage query engine&#x20;
+## Limitations of the multi-stage query engine
 
 We are continuously improving the multi-stage query engine. A few limitations to call out:
 
@@ -59,7 +59,7 @@ SELECT* from default.myTable;
 SELECT * from schemaName.myTable;
 ```
 
-&#x20;Queries _**without prefixes are supported**_:&#x20;
+Queries _**without prefixes are supported**_:
 
 ```
 SELECT * from myTable;
@@ -67,17 +67,13 @@ SELECT * from myTable;
 
 ### Modifying query behavior based on the cluster config is not supported
 
-Modifying query behavior based on the cluster configuration is not supported. 
-`distinctcounthll`, `distinctcounthllmv`, `distinctcountrawhll`, and \```distinctcountrawhllmv` use`` a different 
-default value of `log2mParam` in the multi-stage engine. 
-In multi-stage, this value can no longer be configured. 
-Therefore, the following query may produce different results in single-stage and multi-stage engine:
+Modifying query behavior based on the cluster configuration is not supported. `distinctcounthll`, `distinctcounthllmv`, `distinctcountrawhll`, and `distinctcountrawhllmv` will always use the default value for `log2m` in the multi-stage engine unless the value is explicitly defined in the query itself. Therefore, the following query may produce different results in single-stage and multi-stage engine depending on your cluster configuration (`default.hyperloglog.log2m`):
 
 ```sql
 select distinctcounthll(col) from myTable
 ```
 
-To ensure multi-stage returns the same result, specify the `log2mParam` value in your query:
+To ensure same results across both query engines, specify the `log2m` param value explicitly in your query:
 
 ```sql
 select distinctcounthll(col, 8) from myTable
@@ -106,31 +102,18 @@ SELECT colA, colA, COUNT(*)
 FROM myTable GROUP BY 1, 2 ORDER BY 1
 ```
 
-### Tightened restriction on function naming
-
-Pinot single-stage query engine automatically removes the underscore `_ character from function names. So co_u_n_t()`is equivalent to `count().`
-
-In multi-stage, function naming restrictions were tightened, so the underscore(`_)` character is only allowed to separate word boundaries in a function name. Also camel case is supported in function names. For example, the following function names are allowed:
-
-```markup
-is_distinct_from(...)
-isDistinctFrom(...)
-```
-
 ### Tightened restriction on function signature and type matching
 
-Pinot single-stage query engine automatically do implicit type casts in many of the situations, for example when running  the following:&#x20;
+Pinot single-stage query engine automatically do implicit type casts in many of the situations, for example when running the following:
 
 ```
 timestampCol >= longCol
 ```
 
-it will automatically convert both values to long datatypes before comparison. 
-This behavior however could cause issues and thus it is not so widely applied in the multi-stage engine where a 
-stricter datatype conformance is enforced. the example above should be explicitly written as:
+it will automatically convert both values to long datatypes before comparison. This behavior however could cause issues and thus it is not so widely applied in the multi-stage engine where a stricter datatype conformance is enforced. the example above should be explicitly written as:
 
 ```
-CAST(timestampCol AS BITINT) >= longCol 
+CAST(timestampCol AS BIGINT) >= longCol 
 ```
 
 ### Default names for projections with function calls
@@ -143,7 +126,7 @@ Default names for projections with function calls are different between single a
   SELECT count(*) from mytable 
 ```
 
-&#x20;      Returns the following result:
+Returns the following result:
 
 ```
     "columnNames": [
@@ -157,7 +140,7 @@ Default names for projections with function calls are different between single a
   SELECT count(*) from mytable
 ```
 
-&#x20;       Returns the following result:
+Returns the following result:
 
 ```
       "columnNames": [
@@ -167,8 +150,7 @@ Default names for projections with function calls are different between single a
 
 ### Table names and column names are case sensitive
 
-In multi-stage, table and column names and are case sensitive. In single-stage they were not. 
-For example, the following two queries are not equivalent in multi-stage engine:
+In multi-stage, table and column names and are case sensitive. In single-stage they were not. For example, the following two queries are not equivalent in multi-stage engine:
 
 `select * from myTable`
 
@@ -180,11 +162,11 @@ For example, the following two queries are not equivalent in multi-stage engine:
 
 ### Arbitrary number of arguments isn't supported
 
-An arbitrary number of arguments is no longer supported in multi-stage. 
-For example, in single-stage, the following query worked:
+An arbitrary number of arguments is no longer supported in multi-stage. For example, in single-stage, the following query worked:
 
-<pre><code><a data-footnote-ref href="#user-content-fn-1">select add(1,2,3,4,5) from table</a>
-</code></pre>
+```
+select add(1,2,3,4,5) from table
+```
 
 In multi-stage, this query must be rewritten as follows:
 
@@ -196,12 +178,17 @@ select add(1, add(2,add(3, add(4,5)))) from table
 **Note:** Remember that `select 1 + 2 + 3 + 4 + 5 from table` is still valid in multi-stage
 {% endhint %}
 
+### Return type for binary arithmetic operators (+, -, \*, /)
+
+In the single-stage engine, these operators would always result in a `DOUBLE` value being returned, no matter the operand types. In the multi-stage engine, however, the result type depends on the input operand types - for instance, adding two `LONG` values will result in a `LONG` and so on.
+
+### Return type for aggregations like SUM, MIN, MAX
+
+In the single-stage engine, these aggregations would always result in a `DOUBLE` value being returned, no matter the operand types. In the multi-stage engine, however, the result type depends on the data type of the column being aggregated.
 
 ### NULL function support
 
-Null handling is not supported when tables use table based null storing. 
-You have to use column base null storing instead.
-See [null handling support](null-value-support.md)
+Null handling is not supported when tables use table based null storing. You have to use column based null storing instead. See [null handling support](null-value-support.md).
 
 ### Custom transform function support
 
@@ -214,23 +201,21 @@ In multi-stage:
 
 ### Custom aggregate function support
 
-* aggregate function that requires literal input (such as `percentile`, `firstWithTime`) might result in a non-compilable query plan.
+* Aggregate functions that requires literal input (such as `percentile`, `firstWithTime`) might result in a non-compilable query plan.
 
 ### Different type names
 
-The multi-stage engine uses different type names than the single-stage engine.
-Although the classical names must still be used in schemas and some SQL expressions, the new names must be used in
-CAST expressions.
+The multi-stage engine uses different type names than the single-stage engine. Although the classical names must still be used in schemas and some SQL expressions, the new names must be used in CAST expressions.
 
 The following table shows the differences in type names:
 
 | Single-stage engine | Multi-stage engine |
-|---------------------|--------------------|
+| ------------------- | ------------------ |
 | NULL                | NULL               |
 | BOOLEAN             | BOOLEAN            |
 | INT                 | INT                |
 | LONG                | BIGINT             |
-| BIG_DECIMAL         | DECIMAL            |
+| BIG\_DECIMAL        | DECIMAL            |
 | FLOAT               | FLOAT/REAL         |
 | DOUBLE              | DOUBLE             |
 | INTERVAL            | INTERVAL           |
@@ -268,15 +253,11 @@ Troubleshoot semantic/runtime errors and timeout errors.
 
 ### Timeout errors
 
-* Try reducing the size of the table(s) used.&#x20;
+* Try reducing the size of the table(s) used.
   * Add higher selectivity filters to the tables.
 * Try executing part of the subquery or a simplified version of the query first.
   * This helps to determine the selectivity and scale of the query being executed.
 * Try adding more servers.
   * The new multi-stage engine runs distributed across the entire cluster, so adding more servers to partitioned queries such as GROUP BY aggregates, and equality JOINs help speed up the query runtime.
 
-
-
 ###
-
-[^1]: 
