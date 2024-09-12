@@ -216,6 +216,7 @@
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Monitoring](operators/operating-pinot/monitoring.md)
   * [Tuning](operators/operating-pinot/tuning/README.md)
+    * [Tuning Default MMAP Advice](operators/operating-pinot/tuning/tuning-default-mmap-advice.md)
     * [Real-time](operators/operating-pinot/tuning/realtime.md)
     * [Routing](operators/operating-pinot/tuning/routing.md)
     * [Query Routing using Adaptive Server Selection](operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection.md)
