@@ -36,7 +36,7 @@ Configure dimension tables using following properties in the table configuration
     "isDimTable": true,
     "dimensionTableConfig": {
       "disablePreload": true
-      }
+    }
   }
 }
 ```  
