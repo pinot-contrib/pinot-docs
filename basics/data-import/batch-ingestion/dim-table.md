@@ -33,14 +33,16 @@ Configure dimension tables using following properties in the table configuration
     "quota": {
       "storage": "200M"
     },
-    "isDimTable": true
-    }.
+    "isDimTable": true,
     "dimensionTableConfig": {
       "disablePreload": true
       }
   }
 }
-...
+```  
+### Example table schema configuration
+
+```json
 {
   "dimensionFieldSpecs": [
     {
