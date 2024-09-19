@@ -208,13 +208,15 @@ The later can be done in one of the following ways:
 * Set `enableNullHandling=true` at the beginning of the query.
 * If using JDBC, set the connection option `enableNullHandling=true` (either in the URL or as a property).
 
+Alternatively, if you want to enable advanced null handling for all queries by default, the broker configuration `pinot.broker.query.enable.null.handling` can be set to `true`. Individual queries can override this to `false` using the `enableNullHandling` query option if required.
+
 {% hint style="warning" %}
-Even they have similar names, the `nullHandlingEnabled` table configuration and the `enableNullHandling` query option are different. Remember `nullHandlingEnabled` table configuration modifies how segments are stored and `enableNullHandling` query option modifies how queries are executed.
+Even though they have similar names, the `nullHandlingEnabled` table configuration and the `enableNullHandling` query option are different. Remember that the `nullHandlingEnabled` table configuration modifies how segments are stored and the `enableNullHandling` query option modifies how queries are executed.
 {% endhint %}
 
 When the `enableNullHandling` option is set to `true`, the Pinot query engine uses a different execution path that interprets nulls in a standard SQL way. This means that `IS NULL` and `IS NOT NULL` predicates will evaluate to `true` or `false` according to whether a null is detected (like in basic null support mode) but also aggregation functions like `COUNT`, `SUM`, `AVG`, `MODE`, etc. will deal with null values as expected (usually ignoring null values).
 
-In this mode, some indexes may not be usable, and queries may be significantly more expensive. Performance degradation impacts all the columns in the table, including columns in the query that do not contain null values. This degradation happens even when table uses column base null storing.
+In this mode, some indexes may not be usable, and queries may be significantly more expensive. Performance degradation impacts all the columns in the table, including columns in the query that do not contain null values. This degradation happens even when table uses column based null storing.
 
 ### Examples queries
 
