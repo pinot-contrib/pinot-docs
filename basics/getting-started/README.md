@@ -8,7 +8,7 @@ description: >-
 
 ## Running Pinot
 
-To simplify the getting started experience, Pinot ships with quick start guides that launch Pinot components in a single process and import pre-built datasets.
+To simplify the getting started experience, Apache Pinot™ ships with quick start guides that launch Pinot components in a single process and import pre-built datasets.
 
 For a full list of these guides, see [Quick Start Examples](quick-start.md).
 
@@ -40,7 +40,7 @@ For a full list of these guides, see [Quick Start Examples](quick-start.md).
 
 ## Data import examples
 
-Getting data into Pinot is easy. Take a look at these two quick start guides which will help you get up and running with sample data for offline and real-time [tables](../components/table.md).
+Getting data into Pinot is easy. Take a look at these two quick start guides which will help you get up and running with sample data for offline and real-time [tables](../components/table/).
 
 {% content-ref url="pushing-your-data-to-pinot.md" %}
 [pushing-your-data-to-pinot.md](pushing-your-data-to-pinot.md)

@@ -8,7 +8,7 @@ An optional optimization for queries with  long `AND` predicate will be to let e
 SET AndScanReordering = 'True'; SELECT FOO from BAR WHERE predicate1 AND predicate2 AND predicate3 AND predicate4 ...
 ```
 
-This feature cannot guarantee optimization for all the cases but on average it can help. So please try with some before/after comparison.
+This feature cannot guarantee optimization for all use cases, but on average it can help. Try with some before/after comparison.
 
 PR: [https://github.com/apache/pinot/pull/9420](https://github.com/apache/pinot/pull/9420)
 

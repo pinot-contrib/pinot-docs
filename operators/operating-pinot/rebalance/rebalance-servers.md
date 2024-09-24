@@ -19,15 +19,15 @@ These are typically done when downsizing/uplifting a cluster or replacing nodes 
 
 #### Tenants and tags
 
-Every server added to the Pinot cluster, has tags associated with it. A group of servers with the same tag forms a Server Tenant.
+Every server added to the Pinot cluster has tags associated with it. A group of servers with the same tag forms a server tenant.
 
 By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets tagged as `DefaultTenant_OFFLINE` and `DefaultTenant_REALTIME`.
 
 Below is an example of how this looks in the znode, as seen in ZooInspector.
 
-![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.05.29 PM.png>)
+![](../../../.gitbook/assets/zookeeper-browser-server-tenant.png)
 
-A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/tenant.md) section.
+A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/cluster/tenant.md) section.
 
 ```
  {   
@@ -43,11 +43,9 @@ A Pinot table config has a tenants section, to define the tenant to be used by t
 
 _**0.6.0 onwards**_
 
-In order to change the server tags, the following API can be used.
+In order to change the server tags, use the following API.
 
 `PUT /instances/{instanceName}/updateTags?tags=<comma separated tags>`
-
-![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.29.44 PM.png>)
 
 _**0.5.0 and prior**_
 
@@ -67,7 +65,7 @@ curl -X PUT "http://localhost:9000/instances/Server_10.1.10.51_7000"
 {% hint style="danger" %}
 **NOTE**
 
-The output of GET and input of PUT don't match for this API. Please make sure to use the right payload as shown in example above. Particularly, notice that instance name "Server\_host\_port" gets split up into their own fields in this PUT API.
+The output of GET and input of PUT don't match for this API. Make sure to use the right payload as shown in example above. Particularly, notice that the instance name "Server\_host\_port" gets split up into separate fields in this PUT API.
 {% endhint %}
 
 When upsizing/downsizing a cluster, you will need to make sure that the host names of servers are consistent. You can do this by setting the following config parameter:
@@ -91,6 +89,76 @@ The most common segment assignment change is moving from the default segment ass
 ### Table Migration to a different tenant
 
 In a scenario where you need to move table across tenants, for e.g table was assigned earlier to a different Pinot tenant and now you want to move it to a separate one, then you need to call the rebalance API with reassignInstances set to true.
+
+To move a table to other tenants, modify the following configs in both realtime and offline tables:
+
+{% tabs %}
+{% tab title="REALTIME" %}
+```
+"REALTIME": {
+  ...
+  "tenants": {
+    ...
+    "server": "<tenant_name>",
+    ...
+  },
+  ...
+  "instanceAssignmentConfigMap": {
+    ...
+    "CONSUMING": {
+      ...
+      "tagPoolConfig": {
+        ...
+        "tag": "<tenant_name>_REALTIME",
+        ...
+      },
+      ...
+    },
+    ...
+    "COMPLETED": {
+      ...
+      "tagPoolConfig": {
+        ...
+        "tag": "<tenant_name>_REALTIME",
+        ...
+      },
+      ...
+    },
+    ...
+  },
+  ...
+}
+```
+{% endtab %}
+
+{% tab title="OFFLINE" %}
+```
+"OFFLINE": {
+  ...
+  "tenants": {
+    ...
+    "server": "<tenant_name>",
+    ...
+  },
+  ...
+  "instanceAssignmentConfigMap": {
+    ...
+    "OFFLINE": {
+      ...
+      "tagPoolConfig": {
+        ...
+        "tag": "<tenant_name>_OFFLINE",
+        ...
+      },
+      ...
+    },
+    ...
+  },
+  ...
+}
+```
+{% endtab %}
+{% endtabs %}
 
 ## Rebalance Algorithms
 
@@ -140,19 +208,19 @@ To run a rebalance, use the following API.
 
 `POST /tables/{tableName}/rebalance?type=<OFFLINE/REALTIME>`
 
-![](<../../../.gitbook/assets/Screen Shot 2020-09-08 at 2.53.48 PM.png>)
-
 This API has a lot of parameters to control its behavior. Make sure to go over them and change the defaults as needed.
 
 {% hint style="warning" %}
 **Note**
 
-Typically, the flags that need to be changed from defaults are
+Typically, the flags that need to be changed from the default values are
 
 **includeConsuming=true** for REALTIME
 
-**downtime=true** if you have only 1 replica, or prefer faster rebalance at the cost of a momentary downtime
+**downtime=true** if you have only 1 replica, or prefer a faster rebalance at the cost of a momentary downtime
 {% endhint %}
+
+### Rebalance Parameters
 
 | Query param          | Default value | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | -------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -160,6 +228,7 @@ Typically, the flags that need to be changed from defaults are
 | includeConsuming     | false         | <p>Applicable for REALTIME tables.</p><p><strong>CONSUMING segments are rebalanced only if this is set to true</strong>.<br>Moving a CONSUMING segment involves dropping the data consumed so far on old server, and re-consuming on the new server. If an application is sensitive to <strong>increased memory utilization due to re-consumption or to a momentary data staleness</strong>, they may choose to not include consuming in the rebalance. Whenever the CONSUMING segment completes, the completed segment will be assigned to the right instances, and the new CONSUMING segment will also be started on the correct instances. If you choose to includeConsuming=false and let the segments move later on, any downsized nodes need to remain untagged in the cluster, until the segment completion happens.</p> |
 | downtime             | false         | <p><strong>This controls whether Pinot allows downtime while rebalancing.</strong><br>If downtime = true, all replicas of a segment can be moved around in one go, which could result in a momentary downtime for that segment (time gap between ideal state updated to new servers and new servers downloading the segments).<br>If downtime = false, Pinot will make sure to keep certain number of replicas (config in next row) always up. The rebalance will be done in multiple iterations under the hood, in order to fulfill this constraint.</p><p><strong>Note</strong>: <em>If you have only 1 replica for your table, rebalance with downtime=false is not possible.</em></p>                                                                                                                                       |
 | minAvailableReplicas | 1             | <p>Applicable for rebalance with downtime=false.</p><p>This is the <strong>minimum number of replicas that are expected to stay alive</strong> through the rebalance.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| lowDiskMode          | false         | <p>Applicable for rebalance with downtime=false.<br>When enabled, segments will first be offloaded from servers, then added to servers after offload is done. It may increase the total time of the rebalance, but can be useful when servers are low on disk space, and we want to scale up the cluster and rebalance the table to more servers.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | bestEfforts          | false         | <p>Applicable for rebalance with downtime=false.</p><p>If a no-downtime rebalance cannot be performed successfully, this flag <strong>controls whether to fail the rebalance or do a best-effort rebalance</strong>.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | reassignInstances    | false         | Applicable to tables where the instance assignment has been persisted to zookeeper. Setting this to true will make the rebalance **first update the instance assignment, and then rebalance the segments**.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | bootstrap            | false         | Rebalances all segments again, **as if adding segments to an empty table**. If this is false, then the rebalance will try to minimize segment movements.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |

@@ -6,7 +6,7 @@ description: This section details how to connect to Pinot from Tableau using JDB
 
 Tableau is a popular data visualization tool for enterprise business intelligence. In this section we'll cover the details on how to use Pinot's JDBC client to connect and query real-time or offline tables from [Tableau Desktop](https://www.tableau.com/products/desktop).
 
-### Building the Pinot JDBC client from source&#x20;
+### Building the Pinot JDBC client from source
 
 As a part of the Pinot open source distribution, we provide a JDBC client that must be built from source code and is not yet available as a binary. We plan to expand support for the JDBC client as a binary in the near future. In this section, we'll walk through building the Pinot project from source and locating the binaries required to connect to Pinot from Tableau Desktop.
 
@@ -32,11 +32,11 @@ Now, from your terminal, change directories to the top-level folder containing t
 $ mvn clean install -DskipTests -Pbin-dist
 ```
 
-If you have the correct prerequisites installed, the build will complete successfully in 5-10 minutes, depending on your machine's resources. When the build is complete, Maven will have installed the necessary binaries on your local machine.&#x20;
+If you have the correct prerequisites installed, the build will complete successfully in 5-10 minutes, depending on your machine's resources. When the build is complete, Maven will have installed the necessary binaries on your local machine.
 
 #### Locating your local Maven repository
 
-Your local machine has a Maven repository, called `m2`, which contains a cache of Java binaries, either built from source or cloned from a hosted Maven repository.  To locate this directory, run the following command in your terminal, which will locate the `m2` repository on your machine.
+Your local machine has a Maven repository, called `m2`, which contains a cache of Java binaries, either built from source or cloned from a hosted Maven repository. To locate this directory, run the following command in your terminal, which will locate the `m2` repository on your machine.
 
 ```
 mvn help:evaluate -Dexpression=settings.localRepository
@@ -101,23 +101,26 @@ cp ~/.m2/repository/com/ning/async-http-client/1.9.21/async-http-client-1.9.21.j
 cp ~/.m2/repository/org/apache/pinot/pinot-jdbc-shaded/$PINOT_VERSION/pinot-jdbc-shaded-$PINOT_VERSION.jar .
 ```
 
+You will also need to download [calcite-core](https://mvnrepository.com/artifact/org.apache.calcite/calcite-core/1.34.0) and copy that into the `~/Library/Tableau/Drivers` directory as well.&#x20;
+
 Now, verify that the binaries are present in your `Drivers` directory.
 
 ```
 ls ~/Library/Tableau/Drivers
 ...
-async-http-client-1.9.21.jar         pinot-jdbc-shaded-0.13.0-SNAPSHOT.jar
+async-http-client-1.9.21.jar         calcite-core-1.34.0.jar 
+pinot-jdbc-shaded-0.13.0-SNAPSHOT.jar
 ```
 
 If the output from the command on the first line of the previous snippet matches the JAR files listed here, then you've successfully installed the Pinot connector for Tableau Desktop.
 
 #### Installing Pinot for Tableau Desktop on Windows
 
-This section is coming soon. Please refer to the previous section and substitute the Windows directories using the same process.&#x20;
+This section is coming soon. Refer to the previous section and substitute the Windows directories using the same process.
 
 ### Connecting to Pinot from Tableau Desktop
 
-Now that you've installed the Pinot JDBC connector binaries to your Tableau Desktop installation, you can begin to use Pinot as a data source. On your machine, make sure you restart Tableau so that it can locate and use the Pinot JDBC connector files that we copied to the `Drivers` directory in the previous steps.&#x20;
+Now that you've installed the Pinot JDBC connector binaries to your Tableau Desktop installation, you can begin to use Pinot as a data source. On your machine, make sure you restart Tableau so that it can locate and use the Pinot JDBC connector files that we copied to the `Drivers` directory in the previous steps.
 
 Once Tableau Desktop has restarted, you can now create a new JDBC connection to Pinot using the following steps.
 
@@ -130,5 +133,4 @@ Once Tableau Desktop has restarted, you can now create a new JDBC connection to 
 
 The result of the previous steps should result in a successful connection to Pinot. If the connection fails, make sure that you note the resulting error message. If the connection to Pinot could not be established, it is likely that you do not have network access to either the Pinot controller or broker from your machine. For Tableau to be able to query Pinot, you'll need to make sure that both the controller (by default `localhost:9000`) and the broker (by default `localhost:8000`) can be accessed from your machine.
 
-For any other error messages or connection issues, please contact us on our community Slack and report your issue on the `Troubleshooting` channel.
-
+For any other error messages or connection issues, contact us on our community Slack and report your issue on the `Troubleshooting` channel.

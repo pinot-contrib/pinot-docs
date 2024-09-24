@@ -1,19 +1,21 @@
+---
+description: This guide shows you how to ingest a stream of records into a Pinot table.
+---
+
 # Stream ingestion
 
-Apache Pinot lets users consume data from streams and push it directly into the database, in a process known as stream ingestion. Stream ingestion makes it possible to query data within seconds of publication.
+Apache Pinot lets users consume data from streams and push it directly into the database. This process is called stream ingestion. Stream ingestion makes it possible to query data within seconds of publication.
 
 Stream ingestion provides support for checkpoints for preventing data loss.
 
-Setting up Stream ingestion involves the following steps:
+To set up Stream ingestion, perform the following steps, which are described in more detail in this page:
 
 1. Create schema configuration
 2. Create table configuration
 3. Create ingestion configuration
 4. Upload table and schema spec
 
-Let's take a look at each of the steps in more detail.
-
-Let us assume the data to be ingested is in the following format:
+Here's an example where we assume the data to be ingested is in the following format:
 
 ```bash
 {"studentID":205,"firstName":"Natalie","lastName":"Jones","gender":"Female","subject":"Maths","score":3.8,"timestamp":1571900400000}
@@ -30,9 +32,9 @@ Let us assume the data to be ingested is in the following format:
 {"studentID":212,"firstName":"Nick","lastName":"Young","gender":"Male","subject":"History","score":3.6,"timestamp":1572854400000}
 ```
 
-### Create schema configuration
+## Create schema configuration
 
-Schema defines the fields along with their data types. The schema also defines whether fields serve as `dimensions` , `metrics` or `timestamp`. For more details on schema configuration, see [creating a schema](../../getting-started/pushing-your-data-to-pinot.md#creating-a-schema).
+The schema defines the fields along with their data types. The schema also defines whether fields serve as `dimensions` , `metrics`, or `timestamp`. For more details on schema configuration, see [creating a schema](../../getting-started/pushing-your-data-to-pinot.md#creating-a-schema).
 
 For our sample data, the schema configuration looks like this:
 
@@ -78,7 +80,7 @@ For our sample data, the schema configuration looks like this:
 ```
 {% endcode %}
 
-### Create table configuration
+## Create table configuration with ingestion configuration
 
 The next step is to create a table where all the ingested data will flow and can be queried. For details about each table component, see the [table](../../components/table.md) reference.
 
@@ -161,9 +163,9 @@ For our sample data and schema, the table config will look like this:
 }
 ```
 
-### Upload schema and table config
+## Upload schema and table config
 
-Now that we have our table and schema configurations, let's upload them to the Pinot cluster. As soon as the configs are uploaded, pinot will start ingesting available records from the topic.
+Now that we have our table and schema configurations, let's upload them to the Pinot cluster. As soon as the configs are uploaded, Pinot will start ingesting available records from the topic.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -191,11 +193,11 @@ bin/pinot-admin.sh AddTable \
 {% endtab %}
 {% endtabs %}
 
-### Tuning stream config
+## Tune the stream config
 
-#### Throttling stream consumption
+### Throttle stream consumption
 
-There are some scenarios where the message rate in the input stream has a bursty nature which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other realtime tables on the same server. In such scenarios, you should throttle the consumption rate during stream ingestion.
+There are some scenarios where the message rate in the input stream can come in bursts which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other real-time tables on the same server. If this happens to you, throttle the consumption rate during stream ingestion to better manage overall performance.
 
 Stream consumption throttling can be tuned using the stream config `topic.consumption.rate.limit` which indicates the upper bound on the message rate for the entire topic.
 
@@ -234,36 +236,36 @@ A consumption rate limiter is set up for topic <topic_name> in table <tableName>
 
 In addition, you can monitor the consumption rate utilization with the metric `COSUMPTION_QUOTA_UTILIZATION`.
 
-Note that any configuration change for `topic.consumption.rate.limit` in the stream config will **NOT** take effect immediately. The new configuration will be picked up from the next consuming segment. In order to enforce the new configuration, you need to trigger forceCommit APIs. Please refer to [Pause Stream Ingestion](./#pause-stream-ingestion) for more details.
+Note that any configuration change for `topic.consumption.rate.limit` in the stream config will **NOT** take effect immediately. The new configuration will be picked up from the next consuming segment. In order to enforce the new configuration, you need to trigger forceCommit APIs. Refer to [Pause Stream Ingestion](./#pause-stream-ingestion) for more details.
 
 ```
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 ```
 
-### Custom Ingestion Support
+## Custom ingestion support
 
-We are working on support for other ingestion platforms, but you can also write your own ingestion plugin if it is not supported out of the box. For a walkthrough, see [Stream Ingestion Plugin](../../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
+You can also write an ingestion plugin if the platform you are using is not supported out of the box. For a walkthrough, see [Stream Ingestion Plugin](../../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md).
 
-### Pause Stream Ingestion
+## Pause stream ingestion
 
-There are some scenarios in which you may want to pause the realtime ingestion while your table is available for queries. For example if there is a problem with the stream ingestion, while you are troubleshooting the issue, you still want the queries to be executed on the already ingested data. For these scenarios, you can first issue a Pause request to a Controller host. After troubleshooting with the stream is done, you can issue another request to Controller to resume the consumption.
+There are some scenarios in which you may want to pause the real-time ingestion while your table is available for queries. For example, if there is a problem with the stream ingestion and, while you are troubleshooting the issue, you still want the queries to be executed on the already ingested data. For these scenarios, you can first issue a Pause request to a Controller host. After troubleshooting with the stream is done, you can issue another request to Controller to resume the consumption.
 
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
 $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
 ```
 
-When a Pause request is issued, Controller instructs the realtime servers hosting your table to commit their consuming segments immediately. However, the commit process may take some time to complete. Please note that Pause and Resume requests are async. OK response means that instructions for pausing or resuming has been successfully sent to the realtime server. If you want to know if the consumptions actually stopped or resumed, you can issue a pause status request.
+When a `Pause` request is issued, the controller instructs the real-time servers hosting your table to commit their consuming segments immediately. However, the commit process may take some time to complete. Note that `Pause` and `Resume` requests are async. An `OK` response means that instructions for pausing or resuming has been successfully sent to the real-time server. If you want to know if the consumption has actually stopped or resumed, issue a pause status request.
 
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/pauseStatus
 ```
 
-It's worth noting that consuming segments on realtime servers are stored in volatile memory, and their resources are allocated when the consuming segments are first created. These resources cannot be altered if consumption parameters are changed midway through consumption. It may therefore take hours before these changes take effect. Furthermore, if the parameters are changed in an incompatible way (for example, changing the underlying stream with a completely new set of offsets, or changing the stream endpoint from which to consume messages, etc.), it will result in the table getting into an error state.
+It's worth noting that consuming segments on real-time servers are stored in volatile memory, and their resources are allocated when the consuming segments are first created. These resources cannot be altered if consumption parameters are changed midway through consumption. It may take hours before these changes take effect. Furthermore, if the parameters are changed in an incompatible way (for example, changing the underlying stream with a completely new set of offsets, or changing the stream endpoint from which to consume messages), it will result in the table getting into an error state.
 
-Pause and resume feature comes to the rescue here. When a Pause request is issued by the operator, consuming segments are committed without starting new mutables ones. Instead, new mutable segments are started only when the Resume request is issued. This mechanism provides the operators as well as developers with more flexibility. It also enables Pinot to be more resilient to the operational and functional constraints imposed by underlying streams.
+The pause and resume feature is helpful in these instances. When a pause request is issued by the operator, consuming segments are committed without starting new mutable segments. Instead, new mutable segments are started only when the resume request is issued. This mechanism provides the operators as well as developers with more flexibility. It also enables Pinot to be more resilient to the operational and functional constraints imposed by underlying streams.
 
-There is another feature called "Force Commit" which utilizes the primitives of pause and resume feature. When the operator issues a force commit request, the current mutable segments will be committed and new ones started right away. Operators can now use this feature for all compatible table config parameter changes to take effect immediately.
+There is another feature called `Force Commit` which utilizes the primitives of the pause and resume feature. When the operator issues a force commit request, the current mutable segments will be committed and new ones started right away. Operators can now use this feature for all compatible table config parameter changes to take effect immediately.
 
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
@@ -291,24 +293,30 @@ $ curl -X GET {controllerHost}/tables/forceCommitStatus/6757284f-b75b-45ce-91d8-
 }
 ```
 
-For incompatible parameter changes, an option is added to the resume request to handle the case of a completely new set of offsets. Operators can now follow a three-step process: First, issue a Pause request. Second, change the consumption parameters. Finally, issue the Resume request with the appropriate option. These steps will preserve the old data and allow the new data to be consumed immediately. All through the operation, queries will continue to be served.
+{% hint style="info" %}
+The forceCommit request just triggers a regular commit before the consuming segments reaching the end criteria, so it follows the same mechanism as regular commit. It is one-time shot request, and not retried automatically upon failure. But it is idempotent so one may keep issuing it till success if needed.
+
+This API is async, as it doesn't wait for the segment commit to complete. But a status entry is put in ZK to track when the request is issued and the consuming segments included. The consuming segments tracked in the status entry are compared with the latest IdealState to indicate the progress of forceCommit. However, this status is not updated or deleted upon commit success or failure, so that it could become stale. Currently, the most recent 100 status entries are kept in ZK, and the oldest ones only get deleted when the total number is about to exceed 100.
+{% endhint %}
+
+For incompatible parameter changes, an option is added to the resume request to handle the case of a completely new set of offsets. Operators can now follow a three-step process: First, issue a pause request. Second, change the consumption parameters. Finally, issue the resume request with the appropriate option. These steps will preserve the old data and allow the new data to be consumed immediately. All through the operation, queries will continue to be served.
 
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=smallest
 $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=largest
 ```
 
-### Handling partition changes in Streams
+## Handle partition changes in streams
 
 If a Pinot table is configured to consume using a [Low Level](./#create-table-configuration) (partition-based) stream type, then it is possible that the partitions of the table change over time. In Kafka, for example, the number of partitions may increase. In Kinesis, the number of partitions may increase _or_ decrease -- some partitions could be merged to create a new one, or existing partitions split to create new ones.
 
-Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monitors such changes and starts consumption on new partitions (or stops consumptions from old ones) as necessary. Since this is a [periodic task](../../components/controller.md#controller-periodic-tasks) that is run on the controller, it may take some time for Pinot to recognize new partitions and start consuming from them. This may delay the data in new partitions appearing in the results that pinot returns.
+Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monitors such changes and starts consumption on new partitions (or stops consumptions from old ones) as necessary. Since this is a [periodic task](../../components/cluster/controller.md#controller-periodic-tasks) that is run on the controller, it may take some time for Pinot to recognize new partitions and start consuming from them. This may delay the data in new partitions appearing in the results that pinot returns.
 
-If it is desired to recognize the new partitions sooner, then you can [manually trigger](../../components/controller.md#running-the-periodic-task-manually) the periodic task so as to recognize such data immediately.
+If you want to recognize the new partitions sooner, then [manually trigger](../../components/cluster/controller.md#running-the-periodic-task-manually) the periodic task so as to recognize such data immediately.
 
-### Inferring Ingestion Status of Realtime Tables
+## Infer ingestion status of real-time tables
 
-Often, it is important to understand the rate of ingestion of data into your realtime table. This is commonly done by looking at the consumption "lag" of the consumer. The lag itself can be observed in many dimensions. Pinot supports observing consumption lag along the offset dimension and time dimension, whenever applicable (as it depends on the specifics of the connector).
+Often, it is important to understand the rate of ingestion of data into your real-time table. This is commonly done by looking at the consumption lag of the consumer. The lag itself can be observed in many dimensions. Pinot supports observing consumption lag along the offset dimension and time dimension, whenever applicable (as it depends on the specifics of the connector).
 
 The ingestion status of a connector can be observed by querying either the `/consumingSegmentsInfo` API or the table's `/debug` API, as shown below:
 
@@ -322,7 +330,7 @@ curl -X GET "http://localhost:9000/debug/tables/meetupRsvp?type=REALTIME&verbosi
 ```
 {% endcode %}
 
-A sample response from a Kafka based realtime table is shown below. The ingestion status is displayed for each of the CONSUMING segments in the table.
+A sample response from a Kafka-based real-time table is shown below. The ingestion status is displayed for each of the CONSUMING segments in the table.
 
 ```json
 {
@@ -360,13 +368,13 @@ A sample response from a Kafka based realtime table is shown below. The ingestio
 | recordsLagMap             | (Whenever applicable) Defines how far behind the current record's offset / pointer is from upstream latest record. This is calculated as the difference between the `latestUpstreamOffset` and `currentOffset` for the partition when the lag computation request is made. |
 | recordsAvailabilityLagMap | (Whenever applicable) Defines how soon after record ingestion was the record consumed by Pinot. This is calculated as the difference between the time the record was consumed and the time at which the record was ingested upstream.                                      |
 
-### Monitoring Realtime Ingestion
+## Monitor real-time ingestion
 
-Realtime ingestion includes 3 stages of message processing: Decode, Transform and Index.
+Real-time ingestion includes 3 stages of message processing: Decode, Transform, and Index.
 
-In each of these stages, a failure can happen which may or may not result in an ingestion failure. The following metrics are available to investigation ingestion issues:
+In each of these stages, a failure can happen which may or may not result in an ingestion failure. The following metrics are available to investigate ingestion issues:
 
-1. Decode stage -> error here is recorded as `INVALID_REALTIME_ROWS_DROPPED`
+1. Decode stage -> an error here is recorded as `INVALID_REALTIME_ROWS_DROPPED`
 2. Transform stage -> possible errors here are:
    1. When a message gets dropped due to the [FILTER](../../../developers/advanced/ingestion-level-transformations.md#filtering) transform, it is recorded as `REALTIME_ROWS_FILTERED`
    2. When the transform pipeline sets the `$INCOMPLETE_RECORD_KEY$` key in the message, it is recorded as `INCOMPLETE_REALTIME_ROWS_CONSUMED` , only when `continueOnError` configuration is enabled. If the `continueOnError` is not enabled, the ingestion fails.

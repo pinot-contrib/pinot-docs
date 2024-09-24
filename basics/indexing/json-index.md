@@ -1,14 +1,18 @@
-# JSON Index
+---
+description:  This page describes configuring the JSON index for Apache Pinot.
+---
 
-JSON index can be applied to JSON string columns to accelerate the value lookup and filtering for the column.
+# JSON index
+
+The JSON index can be applied to JSON string columns to accelerate value lookups and filtering for the column.
 
 ## When to use JSON index
 
-JSON string can be used to represent the array, map, nested field without forcing a fixed schema. It is very flexible, but the flexibility comes with a cost - filtering on JSON string columns is very expensive.
+Use the JSON string can be used to represent array, map, and nested fields without forcing a fixed schema. While JSON strings are flexible, filtering on JSON string columns is expensive, so consider the use case.
 
 Suppose we have some JSON records similar to the following sample record stored in the `person` column:
 
-```javascript
+```json
 {
   "name": "adam",
   "age": 30,
@@ -34,7 +38,7 @@ Suppose we have some JSON records similar to the following sample record stored 
 }
 ```
 
-Without an index, in order to look up a key and filter records based on the value, we need to scan and reconstruct the JSON object from the JSON string for every record, look up the key and then compare the value.
+Without an index, to look up the key and filter records based on the value, Pinot must scan and reconstruct the JSON object from the JSON string for every record, look up the key and then compare the value.
 
 For example, in order to find all persons whose name is "adam", the query will look like:
 
@@ -44,14 +48,74 @@ FROM mytable
 WHERE JSON_EXTRACT_SCALAR(person, '$.name', 'STRING') = 'adam'
 ```
 
-JSON index is designed to accelerate the filtering on JSON string columns without scanning and reconstructing all the JSON objects.
+The JSON index is designed to accelerate the filtering on JSON string columns without scanning and reconstructing all the JSON objects.
 
-## Configure JSON index
+## Enable and configure a JSON index
 
-To enable the JSON index, set the following config in the table config:
+To enable the JSON index, you can configure the following options in the table configuration:
 
-### Config since release `0.12.0`:
+| Config Key                  | Description                                                                                                                                                                                                                            | Type         | Default                                              |
+| --------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------ | ---------------------------------------------------- |
+| **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                             | int          | -1 (unlimited)                                       |
+| **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                    | boolean      | false (include array)                                |
+| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements)                                                                                                                                                             | boolean      | false (calculate unique combination of all elements) |
+| **includePaths**            | Only include the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "_$.a.b.c_" will be included when "_$.a.b_" is configured to be included. | Set\<String> | null (include all paths)                             |
+| **excludePaths**            | Exclude the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "_$.a.b.c_" will be excluded when "_$.a.b_" is configured to be excluded. | Set\<String> | null (include all paths)                             |
+| **excludeFields**           | Exclude the given fields, e.g. "_b_", "_c_", even if it is under the included paths.                                                                                                                                                   | Set\<String> | null (include all fields)                            |
 
+### Recommended way to configure
+
+The recommended way to configure a JSON index is in the `fieldConfigList.indexes` object, within the `json` key.
+
+{% code title="json index defined in tableConfig" %}
+```javascript
+{
+  "fieldConfigList": [
+    {
+      "name": "person",
+      "indexes": {
+        "json": {
+          "maxLevels": 2,
+          "excludeArray": false,
+          "disableCrossArrayUnnest": true,
+          "includePaths": null,
+          "excludePaths": null,
+          "excludeFields": null
+        }
+      }
+    }
+  ],
+  ...
+}
+```
+{% endcode %}
+
+All options are optional, so the following is a valid configuration that use the default parameter values:
+
+{% code title="json index defined in tableConfig" %}
+```javascript
+{
+  "fieldConfigList": [
+    {
+      "name": "person",
+      "indexes": {
+        "json": {}
+      }
+    }
+  ],
+  ...
+}
+```
+{% endcode %}
+
+### Deprecated ways to configure JSON indexes
+
+There are two older ways to configure the indexes that can be configured in the `tableIndexConfig` section inside table 
+config.
+
+The first one uses the same JSON explained above, but it is defined inside `tableIndexConfig.jsonIndexConfigs.<column name>`:
+
+{% code title="older way to configure json indexes in table config" %}
 ```json
 {
   "tableIndexConfig": {
@@ -70,8 +134,40 @@ To enable the JSON index, set the following config in the table config:
   }
 }
 ```
+{% endcode %}
 
-<table><thead><tr><th width="157">Config Key</th><th width="315">Description</th><th width="124">Type</th><th>Default</th></tr></thead><tbody><tr><td><strong>maxLevels</strong></td><td>Max levels to flatten the json object (array is also counted as one level)</td><td>int</td><td>-1 (unlimited)</td></tr><tr><td><strong>excludeArray</strong></td><td>Whether to exclude array when flattening the object</td><td>boolean</td><td>false (include array)</td></tr><tr><td><strong>disableCrossArrayUnnest</strong></td><td>Whether to not unnest multiple arrays (unique combination of all elements)</td><td>boolean</td><td>false (calculate unique combination of all elements)</td></tr><tr><td><strong>includePaths</strong></td><td>Only include the given paths, e.g. "<em>$.a.b</em>", "<em>$.a.c[*]</em>" (mutual exclusive with <strong>excludePaths</strong>). Paths under the included paths will be included, e.g. "<em>$.a.b.c</em>" will be included when "<em>$.a.b</em>" is configured to be included.</td><td>Set&#x3C;String></td><td>null (include all paths)</td></tr><tr><td><strong>excludePaths</strong></td><td>Exclude the given paths, e.g. "<em>$.a.b</em>", "<em>$.a.c[*]</em>" (mutual exclusive with <strong>includePaths</strong>). Paths under the excluded paths will also be excluded, e.g. "<em>$.a.b.c</em>" will be excluded when "<em>$.a.b</em>" is configured to be excluded.</td><td>Set&#x3C;String></td><td>null (include all paths)</td></tr><tr><td><strong>excludeFields</strong></td><td>Exclude the given fields, e.g. "<em>b</em>", "<em>c</em>", even if it is under the included paths.</td><td>Set&#x3C;String></td><td>null (include all fields)</td></tr></tbody></table>
+Like in the previous case, all parameters are optional, so the following is also valid:
+
+{% code title="json index with default config" %}
+```json
+{
+  "tableIndexConfig": {
+    "jsonIndexConfigs": {
+      "person": {},
+      ...
+    },
+    ...
+  }
+}
+```
+{% endcode %}
+
+The last option does not support to configure any parameter.
+In order to use this option, add the name of the column in `tableIndexConfig.jsonIndexColumns` like in this example:
+
+{% code title="json index with default config" %}
+```javascript
+{
+  "tableIndexConfig": {        
+    "jsonIndexColumns": [
+      "person",
+      ...
+    ],
+    ...
+  }
+}
+```
+{% endcode %}
 
 #### Example:
 
@@ -100,7 +196,7 @@ With the following JSON document:
 }
 ```
 
-With the default setting, we will flatten the document into the following records:
+Using the default setting, we will flatten the document into the following records:
 
 ```json
 {
@@ -270,33 +366,18 @@ With **excludeFields** set to \["age", "street"]:
 }
 ```
 
-### Legacy config before release `0.12.0`:
 
-```javascript
-{
-  "tableIndexConfig": {        
-    "jsonIndexColumns": [
-      "person",
-      ...
-    ],
-    ...
-  }
-}
-```
-
-The legacy config has the same behavior as the default settings in the new config.
-
-Note that JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
+Note that the JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
 
 {% hint style="info" %}
-When you're using a JSON index, we would recommend that you add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.&#x20;
+To reduce unnecessary storage overhead when using a JSON index, we recommend that you add the indexed column to the `noDictionaryColumns` columns list.
 
-For instructions on that config property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+For instructions on that configuration property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
 {% endhint %}
 
-## How to use JSON index
+## How to use the JSON index
 
-JSON index can be used via the `JSON_MATCH` predicate: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find all persons whose name is "adam", the query will look like:
+The JSON index can be used via the `JSON_MATCH` predicate: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find every entry with the name "adam":
 
 ```sql
 SELECT ... 
@@ -305,10 +386,6 @@ WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
 Note that the quotes within the filter expression need to be escaped.
-
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for `filterExpression`: `'name=''adam'''`
-{% endhint %}
 
 ## Supported filter expressions
 
@@ -322,23 +399,44 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'name=''adam'''`
-{% endhint %}
-
 ### Chained key lookup
 
 Find all persons who have an address (one of the addresses) with number 112:
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[*].number"=112')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'addresses.number=112'`
-{% endhint %}
+Find all persons who have at least one address that is not in the US:
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[*].country" != ''us''')
+```
+
+### Regex based lookup
+
+Find all persons who have an address (one of the addresses) where the street contains the term 'st':
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, 'REGEXP_LIKE("$.addresses[*].street", ''.*st.*'')')
+```
+
+### Range lookup
+
+Find all persons whose age is greater than 18:
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.age" > 18')
+```
+
 
 ### Nested filter expression
 
@@ -351,7 +449,7 @@ WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
 ```
 
 {% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'name=''adam'' AND addresses.number=112'`
+`NOT IN` and `!=` can't be used in nested filter expressions in Pinot versions older than 1.2.0. Note that `IS NULL` cannot be used in nested filter expressions currently.
 {% endhint %}
 
 ### Array access
@@ -364,10 +462,6 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'"addresses[0].number"=112'`
-{% endhint %}
-
 ### Existence check
 
 Find all persons who have a phone field within the JSON:
@@ -378,10 +472,6 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.phone" IS NOT NULL')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'phone IS NOT NULL'`
-{% endhint %}
-
 Find all persons whose first address does not contain floor field within the JSON:
 
 ```sql
@@ -390,13 +480,9 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[0].floor" IS NULL')
 ```
 
-{% hint style="info" %}
-In release `0.7.1`, we use the old syntax for filterExpression: `'"addresses[0].floor" IS NULL'`
-{% endhint %}
-
 ## JSON context is maintained
 
-The JSON context is maintained for object elements within an array, i.e. the filter won't cross-match different objects in the array.
+The JSON context is maintained for object elements within an array, meaning the filter won't cross-match different objects in the array.
 
 To find all persons who live on "main st" in "ca":
 
@@ -408,7 +494,7 @@ WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st'' AND "$.addresses[*
 
 This query won't match "adam" because none of his addresses matches both the street and the country.
 
-If JSON context is not desired, use multiple separate `JSON_MATCH` predicates. E.g. to find all persons who have addresses on "main st" and have addressed in "ca" (doesn't have to be the same address):
+If you don't want JSON context, use multiple separate `JSON_MATCH` predicates. For example, to find all persons who have addresses on "main st" and have addresses in "ca" (matches need not have the same address):
 
 ```sql
 SELECT ... 
@@ -418,7 +504,7 @@ WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') AND JSON_MATCH(p
 
 This query will match "adam" because one of his addresses matches the street and another one matches the country.
 
-Note that the array index is maintained as a separate entry within the element, so in order to query different elements within an array, multiple `JSON_MATCH` predicates are required. E.g. to find all persons who have first address on "main st" and second address on "second st":
+The array index is maintained as a separate entry within the element, so in order to query different elements within an array, multiple `JSON_MATCH` predicates are required. For example, to find all persons who have first address on "main st" and second address on "second st":
 
 ```sql
 SELECT ... 
@@ -484,10 +570,6 @@ FROM mytable
 WHERE JSON_MATCH(nullableCol, '"$" IS NULL')
 ```
 
-{% hint style="warning" %}
-In release `0.7.1`, json string must be object (cannot be `null`, value or array); multi-dimensional array is not supported.
-{% endhint %}
-
 ## Limitations
 
-1. The key (left-hand side) of the filter expression must be the leaf level of the JSON object, e.g. `"$.addresses[*]"='main st'` won't work.
+1. The key (left-hand side) of the filter expression must be the leaf level of the JSON object, for example, `"$.addresses[*]"='main st'` won't work.

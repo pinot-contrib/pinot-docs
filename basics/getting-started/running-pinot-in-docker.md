@@ -26,7 +26,7 @@ docker pull apachepinot/pinot:latest
 To pull a specific version, modify the command like below:
 
 ```bash
-docker pull apachepinot/pinot:0.12.0
+docker pull apachepinot/pinot:1.2.0
 ```
 
 ## Set up a cluster
@@ -41,12 +41,30 @@ For example, the following quick start command launches Pinot with a baseball da
 
 ```
 docker run \
+    -p 2123:2123 \
     -p 9000:9000 \
-    apachepinot/pinot:0.12.0 QuickStart \
+    -p 8000:8000 \
+    -p 7050:7050 \
+    -p 6000:6000 \
+    apachepinot/pinot:1.2.0 QuickStart \
     -type batch
 ```
 
 For a list of all available quick start commands, see [Quick Start Examples](quick-start.md).
+
+{% hint style="warning" %}
+Below are the usages of different ports:
+
+2123: Zookeeper Port
+
+9000: Pinot Controller Port
+
+8000: Pinot Broker Port
+
+7050: Pinot Server Port
+
+6000: Pinot Minion Port
+{% endhint %}
 
 ### Manual cluster
 
@@ -76,7 +94,7 @@ docker run \
     --name pinot-zookeeper \
     --restart always \
     -p 2181:2181 \
-    -d zookeeper:3.5.6
+    -d zookeeper:3.9.2
 ```
 
 #### Start Pinot Controller
@@ -163,7 +181,7 @@ CONTAINER ID        IMAGE                       COMMAND                  CREATED
 0775f5d8d6bf        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   44 minutes ago      Up 44 minutes       8096-8099/tcp, 9000/tcp                                pinot-server
 64c6392b2e04        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   44 minutes ago      Up 44 minutes       8096-8099/tcp, 9000/tcp                                pinot-broker
 b6d0f2bd26a3        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   45 minutes ago      Up 45 minutes       8096-8099/tcp, 0.0.0.0:9000->9000/tcp                  pinot-controller
-570416fc530e        zookeeper:3.5.6             "/docker-entrypoint.…"   45 minutes ago      Up 45 minutes       2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
+570416fc530e        zookeeper:3.9.2             "/docker-entrypoint.…"   45 minutes ago      Up 45 minutes       2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
 ### Docker Compose
@@ -175,7 +193,7 @@ Create a file called _docker-compose.yml_ that contains the following:
 version: '3.7'
 services:
   pinot-zookeeper:
-    image: zookeeper:3.5.6
+    image: zookeeper:3.9.2
     container_name: pinot-zookeeper
     ports:
       - "2181:2181"
@@ -183,7 +201,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
   pinot-controller:
-    image: apachepinot/pinot:0.12.0
+    image: apachepinot/pinot:1.2.0
     command: "StartController -zkAddress pinot-zookeeper:2181"
     container_name: pinot-controller
     restart: unless-stopped
@@ -194,7 +212,7 @@ services:
     depends_on:
       - pinot-zookeeper
   pinot-broker:
-    image: apachepinot/pinot:0.12.0
+    image: apachepinot/pinot:1.2.0
     command: "StartBroker -zkAddress pinot-zookeeper:2181"
     restart: unless-stopped
     container_name: "pinot-broker"
@@ -205,7 +223,7 @@ services:
     depends_on:
       - pinot-controller
   pinot-server:
-    image: apachepinot/pinot:0.12.0
+    image: apachepinot/pinot:1.2.0
     command: "StartServer -zkAddress pinot-zookeeper:2181"
     restart: unless-stopped
     container_name: "pinot-server"
@@ -221,7 +239,7 @@ services:
 Run the following command to launch all the components:
 
 ```
-docker-compose --project-name pinot-demo up
+docker compose --project-name pinot-demo up
 ```
 
 Run the below command to check the container status:
@@ -234,10 +252,10 @@ docker container ls
 
 ```
 CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                                     NAMES
-ba5cb0868350   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   pinot-server
-698f160852f9   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        pinot-broker
-b1ba8cf60d69   apachepinot/pinot:0.9.3   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  pinot-controller
-54e7e114cd53   zookeeper:3.5.6           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
+ba5cb0868350   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   pinot-server
+698f160852f9   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        pinot-broker
+b1ba8cf60d69   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  pinot-controller
+54e7e114cd53   zookeeper:3.9.2           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 
 Once your cluster is up and running, see [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.

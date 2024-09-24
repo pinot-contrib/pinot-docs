@@ -2,23 +2,23 @@
 
 ## Start Pinot components (scripts or docker images)
 
-Setup Pinot by starting each component individually
+Set up Pinot by starting each component individually
 
 {% tabs %}
 {% tab title="Using docker images" %}
-#### Start Pinot Components using docker
+**Start Pinot Components using docker**
 
 **Prerequisites**
 
 {% hint style="info" %}
-If running locally, please ensure your docker cluster has enough resources, below is a sample config.
+If running locally, ensure your docker cluster has enough resources, below is a sample config.
 {% endhint %}
 
-![Sample docker resources](<../../.gitbook/assets/image (4) (1).png>)
+![Sample Docker resources](<../../.gitbook/assets/docker-resource-setup (1).png>)
 
-**Pull docker image**
+**Pull Docker image**
 
-You can try out pre-built Pinot all-in-one docker image.
+You can try out pre-built Pinot all-in-one Docker image.
 
 ```
 export PINOT_VERSION=0.10.0
@@ -28,9 +28,9 @@ docker pull ${PINOT_IMAGE}
 
 (Optional) You can also follow the instructions [here](../../operators/tutorials/build-docker-images.md) to build your own images.
 
-**0. Create a Network**
+**0. Create a network**
 
-Create an isolated bridge network in docker
+Create an isolated bridge network in Docker.
 
 ```
 docker network create -d bridge pinot-demo
@@ -130,7 +130,7 @@ DISCLAIMER    LICENSE        NOTICE        bin        conf        lib        lic
 $ PINOT_INSTALL_DIR=`pwd`
 ```
 
-#### Start Pinot components via launcher scripts
+**Start Pinot components via launcher scripts**
 
 **Start Zookeeper**
 
@@ -155,7 +155,7 @@ bin/pinot-admin.sh StartBroker \
     -zkAddress localhost:2181
 ```
 
-**Start Pinot Controller**
+**Start Pinot Server**
 
 ```
 bin/pinot-admin.sh StartServer \
@@ -166,7 +166,7 @@ bin/pinot-admin.sh StartServer \
 
 ## Start Pinot Using Config Files
 
-Often times we need to customized the setup of Pinot Components. Hence user can compile a config file and use it to start Pinot Components.
+Often times we need to customized the setup of Pinot components. Hence user can compile a config file and use it to start Pinot components.
 
 Below are the examples config files and sample command to start Pinot.
 
@@ -276,7 +276,7 @@ See [`examples`](https://github.com/apache/pinot/tree/master/pinot-tools/src/mai
 
 ### Batch Table Creation
 
-Please see [Batch Tables](advanced-pinot-setup.md) for table configuration details and how to customize it.
+See [Batch Tables](advanced-pinot-setup.md) for table configuration details and how to customize it.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -311,9 +311,35 @@ bin/pinot-admin.sh AddTable \
 {% endtab %}
 {% endtabs %}
 
+### Automatically add an inverted index to your batch table
+
+By default, the inverted index type is the only type of index that isn't created automatically during segment generation. Instead, they are generated when the segments are loaded on the server. But, waiting to build indexes until load time increases the startup time and takes up resources with every new segment push, which increases the time for other operations such as rebalance.
+
+To automatically create an inverted index during segment generation, add an entry to your [table index config](../../configuration-reference/table.md#table-index-config) in the table configuration file.
+
+This setting works with [batch (offline) tables](advanced-pinot-setup.md#batch-table-creation).
+
+When set to `true`, Pinot creates an inverted index for the columns that you specify in the `invertedIndexColumns` list in the table configuration.
+
+This setting is `false` by default.
+
+Set `createInvertedIndexDuringSegmentGeneration` to `true` in your table config, as follows:
+
+```json
+...
+"tableIndexConfig": {
+    ...
+    "createInvertedIndexDuringSegmentGeneration": true,
+    ...
+}
+...
+```
+
+When you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted index to all existing segments.
+
 ### Streaming Table Creation
 
-Please see [Streaming Tables](advanced-pinot-setup.md) for table configuration details and how to customize it.
+See [Streaming Tables](advanced-pinot-setup.md) for table configuration details and how to customize it.
 
 {% tabs %}
 {% tab title="Docker" %}
@@ -385,6 +411,12 @@ bin/pinot-admin.sh AddTable \
 ```
 {% endtab %}
 {% endtabs %}
+
+### Use `sortedColumn` with streaming tables
+
+For [streaming](advanced-pinot-setup.md#streaming-table-creation) tables, you can use a sorted index with `sortedColumn` to sort data when generating segments as the segment is created. See [Real-time tables](../../basics/indexing/forward-index.md#real-time-tables) for more information.
+
+A sorted forward index can be used as an inverted index with better performance, but with the limitation that the search is only applied to one column per table. See [Sorted inverted index](../../basics/indexing/inverted-index.md#sorted-inverted-index) to learn more.
 
 ## Load Data
 

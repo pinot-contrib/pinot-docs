@@ -1,6 +1,6 @@
 # Input Format Plugin
 
-Pinot [supports multiple input formats](../../../basics/data-import/pinot-input-formats.md) out of the box for batch ingestion. For realtime ingestion, currently only JSON is supported. However, due to pluggable architecture of pinot you can easily use any format by implementing standard interfaces.
+Pinot [supports multiple input formats](../../../basics/data-import/pinot-input-formats.md) out of the box for batch ingestion. For real-time ingestion, currently only JSON is supported. However, due to pluggable architecture of pinot you can easily use any format by implementing standard interfaces.
 
 ## Batch Record Reader Plugin
 
@@ -28,6 +28,6 @@ There are several contracts for record readers that developers should follow whe
 
 ## Stream Decoder Plugin
 
-Pinot uses decoders to parse data available in realtime streams. Decoders are responsible for converting binary data in the streams to a GenericRow object.
+Pinot uses decoders to parse data available in real-time streams. Decoders are responsible for converting binary data in the streams to a GenericRow object.
 
 You can write your own decoder by implementing the [StreamMessageDecoder](https://github.com/apache/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMessageDecoder.java) interface. You can also use the [RecordExtractor](https://github.com/apache/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/data/readers/RecordExtractor.java) from the batch input formats to extract fields to GenericRow from the parsed object.

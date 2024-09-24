@@ -8,7 +8,7 @@ If you are deploying using the helm chart with Kubernetes, see the tutorial on s
 
 ## Key Metrics to Watch
 
-Please refer to key metrics documented in [monitoring pinot](../../configuration-reference/monitoring-metrics.md).
+Refer to key metrics documented in [monitoring pinot](../../configuration-reference/monitoring-metrics.md).
 
 ## Customizing Metrics
 

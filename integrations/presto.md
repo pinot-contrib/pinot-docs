@@ -1,5 +1,5 @@
 ---
-description: Integrate with Presto for ad-hoc queries with Full SQL
+description: Integrate with Presto for ad hoc queries with Full SQL
 ---
 
 # Presto
@@ -68,7 +68,7 @@ Splits: 17 total, 17 done (100.00%)
 
 Meanwhile you can access [Presto Cluster UI](http://localhost:8080/ui/) to see query stats.
 
-![Presto Cluster UI](<../.gitbook/assets/image (16) (1).png>)
+![Presto Cluster UI](<../.gitbook/assets/presto-cluster-ui (1).png>)
 {% endtab %}
 {% endtabs %}
 

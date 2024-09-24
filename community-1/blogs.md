@@ -4,6 +4,8 @@ description: Following a list of blogs centered on Pinot and Related systems
 
 # Blogs
 
+### 2024/08/14 [Build a real-time analytics solution with Apache Pinot on AWS](https://aws.amazon.com/blogs/big-data/build-a-real-time-analytics-solution-with-apache-pinot-on-aws/)
+
 ### 2020/04/27 [Introducing Apache Pinot 0.3.0](https://engineering.linkedin.com/blog/2020/apache-pinot-030-update)
 
 ### 2020/04/10 [Using Apache Pinot and Kafka to Analyze GitHub Events](https://medium.com/apache-pinot-developer-blog/using-apache-pinot-and-kafka-to-analyze-github-events-93cdcb57d5f7)

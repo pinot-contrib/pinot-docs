@@ -14,6 +14,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [add.md](add.md)
 {% endcontent-ref %}
 
+{% content-ref url="array_agg.md" %}
+[array\_agg.md](array\_agg.md)
+{% endcontent-ref %}
+
 {% content-ref url="arrayconcatdouble.md" %}
 [arrayconcatdouble.md](arrayconcatdouble.md)
 {% endcontent-ref %}
@@ -118,9 +122,12 @@ This page contains reference documentation for functions in Apache Pinot.
 [ceil.md](ceil.md)
 {% endcontent-ref %}
 
-
 {% content-ref url="chr.md" %}
 [chr.md](chr.md)
+{% endcontent-ref %}
+
+{% content-ref url="clpdecode.md" %}
+[clpdecode.md](clpdecode.md)
 {% endcontent-ref %}
 
 {% content-ref url="codepoint.md" %}
@@ -183,6 +190,14 @@ This page contains reference documentation for functions in Apache Pinot.
 [distinctcounthllmv.md](distinctcounthllmv.md)
 {% endcontent-ref %}
 
+{% content-ref url="distinctcounthllplus.md" %}
+[distinctcounthllplus.md](distinctcounthllplus.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcounthllplusmv.md" %}
+[distinctcounthllplusmv.md](distinctcounthllplusmv.md)
+{% endcontent-ref %}
+
 {% content-ref url="distinctcountmv.md" %}
 [distinctcountmv.md](distinctcountmv.md)
 {% endcontent-ref %}
@@ -191,16 +206,48 @@ This page contains reference documentation for functions in Apache Pinot.
 [distinctcountrawhll.md](distinctcountrawhll.md)
 {% endcontent-ref %}
 
+{% content-ref url="distinctcountrawhllplus.md" %}
+[distinctcountrawhllplus.md](distinctcountrawhllplus.md)
+{% endcontent-ref %}
+
 {% content-ref url="distinctcountrawhllmv.md" %}
 [distinctcountrawhllmv.md](distinctcountrawhllmv.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcountrawhllplusmv.md" %}
+[distinctcountrawhllplusmv.md](distinctcountrawhllplusmv.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcountrawcpcsketch.md" %}
+[distinctcountrawcpcsketch.md](distinctcountrawcpcsketch.md)
 {% endcontent-ref %}
 
 {% content-ref url="distinctcountrawthetasketch.md" %}
 [distinctcountrawthetasketch.md](distinctcountrawthetasketch.md)
 {% endcontent-ref %}
 
+{% content-ref url="distinctcountrawhll.md" %}
+[distinctcountrawhll.md](distinctcountrawhll.md)
+{% endcontent-ref %}
+
 {% content-ref url="distinctcountthetasketch.md" %}
 [distinctcountthetasketch.md](distinctcountthetasketch.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcountthetasketch.md" %}
+[distinctcountthetasketch.md](distinctcountthetasketch.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctcounthll.md" %}
+[distinctcounthll.md](distinctcounthll.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctsum.md" %}
+[distinctsum.md](distinctsum.md)
+{% endcontent-ref %}
+
+{% content-ref url="distinctsummv.md" %}
+[distinctsummv.md](distinctsummv.md)
 {% endcontent-ref %}
 
 {% content-ref url="div.md" %}
@@ -213,6 +260,18 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% content-ref url="extract.md" %}
 [extract.md](extract.md)
+{% endcontent-ref %}
+
+{% content-ref url="firstwithtime.md" %}
+[firstwithtime.md](firstwithtime.md)
+{% endcontent-ref %}
+
+{% content-ref url="frequentlongssketch.md" %}
+[frequentlongssketch.md](frequentlongssketch.md)
+{% endcontent-ref %}
+
+{% content-ref url="frequentstringssketch.md" %}
+[frequentstringssketch.md](frequentstringssketch.md)
 {% endcontent-ref %}
 
 {% content-ref url="fromdatetime.md" %}
@@ -273,6 +332,18 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% content-ref url="jsonpathstring.md" %}
 [jsonpathstring.md](jsonpathstring.md)
+{% endcontent-ref %}
+
+{% content-ref url="lag.md" %}
+[lag.md](lag.md)
+{% endcontent-ref %}
+
+{% content-ref url="lastwithtime.md" %}
+[lastwithtime.md](lastwithtime.md)
+{% endcontent-ref %}
+
+{% content-ref url="lead.md" %}
+[lead.md](lead.md)
 {% endcontent-ref %}
 
 {% content-ref url="length.md" %}
@@ -375,6 +446,22 @@ This page contains reference documentation for functions in Apache Pinot.
 [percentilemv.md](percentilemv.md)
 {% endcontent-ref %}
 
+{% content-ref url="percentilekll.md" %}
+[percentilekll.md](percentilekll.md)
+{% endcontent-ref %}
+
+{% content-ref url="percentilerawkll.md" %}
+[percentilerawkll.md](percentilerawkll.md)
+{% endcontent-ref %}
+
+{% content-ref url="percentilekllmv.md" %}
+[percentilekllmv.md](percentilekllmv.md)
+{% endcontent-ref %}
+
+{% content-ref url="percentilerawkllmv.md" %}
+[percentilerawkllmv.md](percentilerawkllmv.md)
+{% endcontent-ref %}
+
 {% content-ref url="quarter.md" %}
 [quarter.md](quarter.md)
 {% endcontent-ref %}
@@ -397,6 +484,10 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% content-ref url="round.md" %}
 [round.md](round.md)
+{% endcontent-ref %}
+
+{% content-ref url="round-1.md" %}
+[round-1.md](round-1.md)
 {% endcontent-ref %}
 
 {% content-ref url="rpad.md" %}
@@ -499,32 +590,36 @@ This page contains reference documentation for functions in Apache Pinot.
 [sum.md](sum.md)
 {% endcontent-ref %}
 
+{% content-ref url="summv.md" %}
+[summv.md](summv.md)
+{% endcontent-ref %}
+
 {% content-ref url="timeconvert.md" %}
 [timeconvert.md](timeconvert.md)
 {% endcontent-ref %}
 
-{% content-ref url="timezoneHour.md" %}
-[timezoneHour.md](timezoneHour.md)
+{% content-ref url="timezonehour.md" %}
+[timezonehour.md](timezonehour.md)
 {% endcontent-ref %}
 
-{% content-ref url="timezoneMinute.md" %}
-[timezoneMinute.md](timezoneMinute.md)
+{% content-ref url="timezoneminute.md" %}
+[timezoneminute.md](timezoneminute.md)
 {% endcontent-ref %}
 
 {% content-ref url="todatetime.md" %}
 [todatetime.md](todatetime.md)
 {% endcontent-ref %}
 
-{% content-ref url="toEpoch.md" %}
-[toEpoch.md](toEpoch.md)
+{% content-ref url="toepoch.md" %}
+[toepoch.md](toepoch.md)
 {% endcontent-ref %}
 
-{% content-ref url="toEpochBucket.md" %}
-[toEpochBucket.md](toEpochBucket.md)
+{% content-ref url="toepochbucket.md" %}
+[toepochbucket.md](toepochbucket.md)
 {% endcontent-ref %}
 
-{% content-ref url="toEpochRounded.md" %}
-[toEpochRounded.md](toEpochRounded.md)
+{% content-ref url="toepochrounded.md" %}
+[toepochrounded.md](toepochrounded.md)
 {% endcontent-ref %}
 
 {% content-ref url="tojsonmapstr.md" %}
@@ -563,6 +658,6 @@ This page contains reference documentation for functions in Apache Pinot.
 [year.md](year.md)
 {% endcontent-ref %}
 
-{% content-ref url="yearOfWeek.md" %}
-[yearOfWeek.md](yearOfWeek.md)
+{% content-ref url="yearofweek.md" %}
+[yearofweek.md](yearofweek.md)
 {% endcontent-ref %}

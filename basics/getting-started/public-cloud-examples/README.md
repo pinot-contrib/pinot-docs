@@ -1,12 +1,12 @@
 ---
 description: >-
-  This page contains multiple quick start guides for deploying Pinot to a public
-  cloud provider.
+  This page links to multiple quick start guides for deploying Pinot to different public
+  cloud providers.
 ---
 
 # Running on public clouds
 
-The following quick start guides will show you how to run an Apache Pinot cluster using Kubernetes on different public cloud providers.
+These quickstart guides show you how to run an Apache Pinot cluster using Kubernetes on different public cloud providers.
 
 {% content-ref url="azure-quickstart.md" %}
 [azure-quickstart.md](azure-quickstart.md)

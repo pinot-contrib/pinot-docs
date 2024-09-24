@@ -4,6 +4,6 @@ description: Integration with ThirdEye for anomaly detection and root cause anal
 
 # ThirdEye
 
-ThirdEye is no longer part of Apache Pinot project.
+ThirdEye is no longer a part of the Apache Pinot project.
 
-Here is a StarTree managed and owned version of StarTree ThirdEye ([link](https://dev.startree.ai/docs/startree-enterprise-edition/startree-thirdeye/)).
+For more information, see the hosted, managed version of [StarTree ThirdEye](https://dev.startree.ai/docs/get-started-with-thirdeye).
