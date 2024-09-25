@@ -20,7 +20,7 @@ docker run \
   -d apachepinot/pinot-superset:latest
 ```
 
-2.1. (First time) Setup Admin account by running below command and follow instructions to set password.
+2.1. (First time) Set up Admin account by running below command and follow instructions to set password.
 
 ```
 docker exec -it superset superset fab create-admin \
@@ -65,17 +65,15 @@ E.g.
 
 > `pinot://pinot-broker:8099/query/sql?controller=http://pinot-controller:9000/`
 
-Below is an example for the QuickStart cluster, you can click `TEST CONNECTION` button to check if Pinot cluster is successfully connected.
-
-![Add Pinot cluster as a new Database](<../.gitbook/assets/image (18).png>)
+Click `TEST CONNECTION` to check if the Pinot cluster is successfully connected.
 
 ### Adding Pinot Table
 
 User can add an existing table into Superset:
 
-![Add Table Definition](<../.gitbook/assets/image (47).png>)
+![Add Table Definition](<../.gitbook/assets/add-table-definition.png>)
 
-![Table Definition](<../.gitbook/assets/image (61).png>)
+![Table Definition](<../.gitbook/assets/superset-table-definition-baseball-stats.png>)
 
 User can edit table/column definition by clicking the `edit` button left to the table name.
 
@@ -83,14 +81,14 @@ User can edit table/column definition by clicking the `edit` button left to the 
 
 User can configure an existing column `mergedTimeMillis` as temporal and set `Datetime Format` accordingly.
 
-![Configure time column](<../.gitbook/assets/image (9).png>)
+![Configure time column](<../.gitbook/assets/superset-configure-time-column.png>)
 
 ### Adding a derived column
 
 User can also add a new column by setting the expression.
 
-![Add a simple derived column](<../.gitbook/assets/image (50).png>)
+![Add a simple derived column](<../.gitbook/assets/superset-add-derived-column.png>)
 
 Another example:
 
-![Add a derived column with Pinot UDFs](<../.gitbook/assets/image (59).png>)
+![Add a derived column with Pinot UDFs](<../.gitbook/assets/add-derived-column-udf.png>)

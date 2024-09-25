@@ -16,16 +16,6 @@ Pinot ships with `QuickStart` commands that launch Pinot components in a single 
     The Docker-based examples on this page use `pinot:latest`, which instructs Docker to pull and use the most recent release of Apache Pinot. If you prefer to use a specific release instead, you can designate it by replacing `latest` with the release number, like this: `pinot:0.12.1`.
 
     The local install-based examples that are run using the launcher scripts will use the Apache Pinot version you installed.
-*   **Running examples with Docker on a Mac with an M1 or M2 CPU**
-
-    Add the `-arm64` suffix to the `run` commands, like this:
-
-    ```
-    docker run \
-        -p 9000:9000 \
-        apachepinot/pinot:latest-arm64 QuickStart \
-        -type batch
-    ```
 *   **Stopping a running example**
 
     To stop a running example, enter `Ctrl+C` in the same terminal where you ran the `docker run` command to start the example.
@@ -70,6 +60,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type batch
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type batch
+```
+{% endtab %}
 {% endtabs %}
 
 ## Batch JSON
@@ -96,6 +91,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type batch_json_index
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type batch_json_index
+```
+{% endtab %}
 {% endtabs %}
 
 ## Batch with complex data types
@@ -120,6 +120,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type batch_complex_type
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type batch_complex_type
 ```
 {% endtab %}
 {% endtabs %}
@@ -149,6 +154,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type stream
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type stream
+```
+{% endtab %}
 {% endtabs %}
 
 ## Streaming JSON
@@ -174,6 +184,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type stream_json_index
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type stream_json_index
 ```
 {% endtab %}
 {% endtabs %}
@@ -203,6 +218,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type realtime_minion
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type realtime_minion
+```
+{% endtab %}
 {% endtabs %}
 
 ## Streaming with complex data types
@@ -228,6 +248,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type stream_complex_type
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type stream_complex_type
 ```
 {% endtab %}
 {% endtabs %}
@@ -257,6 +282,11 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type upsert
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type upsert
+```
+{% endtab %}
 {% endtabs %}
 
 ## Upsert JSON
@@ -282,6 +312,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type upsert_json_index
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type upsert_json_index
 ```
 {% endtab %}
 {% endtabs %}
@@ -312,11 +347,16 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type hybrid
 ```
 {% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type hybrid
+```
+{% endtab %}
 {% endtabs %}
 
 ## Join
 
-This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../users/user-guide-query/lookup-udf-join.md). The command:
+This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../users/user-guide-query/query-syntax/lookup-udf-join.md). The command:
 
 * Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
 * Creates the `baseballStats` table
@@ -338,6 +378,11 @@ docker run \
 {% tab title="Launcher scripts" %}
 ```
 ./bin/pinot-admin.sh QuickStart -type join
+```
+{% endtab %}
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type join
 ```
 {% endtab %}
 {% endtabs %}

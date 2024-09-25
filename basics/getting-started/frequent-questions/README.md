@@ -1,17 +1,17 @@
 ---
 description: >-
-  This page has a collection of frequently asked questions with answers from the
+  This page lists pages with frequently asked questions with answers from the
   community.
 ---
 
 # Frequently Asked Questions (FAQs)
 
 {% hint style="info" %}
-This is a list of questions frequently asked in our troubleshooting channel on Slack. Please feel free to contribute your questions and answers here and make a pull request.
+This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](https://docs.pinot.apache.org/contributing/contributing).
 {% endhint %}
 
-{% content-ref url="genaral.md" %}
-[genaral.md](genaral.md)
+{% content-ref url="general.md" %}
+[general.md](general.md)
 {% endcontent-ref %}
 
 {% content-ref url="pinot-on-kubernetes-faq.md" %}

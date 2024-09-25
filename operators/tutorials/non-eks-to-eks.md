@@ -11,7 +11,7 @@ You will probably face the following problems.
 {% endhint %}
 
 {% hint style="info" %}
-If you use Helm to deploy Kafka to AWS EKS, please review the [chart's README](https://github.com/helm/charts/tree/master/incubator/kafka).  It describes multiple setups for communicating into EKS.
+If you use Helm to deploy Kafka to AWS EKS, review the [chart's README](https://github.com/helm/charts/tree/master/incubator/kafka).  It describes multiple setups for communicating into EKS.
 {% endhint %}
 
 {% hint style="warning" %}

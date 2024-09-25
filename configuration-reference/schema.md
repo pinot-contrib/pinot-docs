@@ -1,20 +1,22 @@
-# Schema
+#   Schema
 
 Schema is used to define the names, data types, and other information for the columns of a Pinot table.
 
 The Pinot schema is composed of:
 
-| Field                  | Description                                                                                                                                                                 |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **schemaName**         | Defines the name of the schema. This is usually the same as the table name. The offline and the realtime table of a hybrid table should use the same schema.                |
-| **dimensionFieldSpec** | A dimensionFieldSpec is defined for each dimension column. For more details, scroll down to [DimensionFieldSpec](schema.md#dimensionfieldspec).                             |
-| **metricFieldSpec**    | A metricFieldSpec is defined for each metric column. For more details, scroll down to [MetricFieldSpec](schema.md#metricfieldspec).                                         |
-| **dateTimeFieldSpec**  | A dateTimeFieldSpec is defined for the time columns. There can be multiple time columns. For more details, scroll down to [DateTimeFieldSpec](schema.md#datetimefieldspec). |
+| Field                              | Release Version | Default  | Description                                                                                                                                                                                                                                                                             |
+|------------------------------------|-----------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **schemaName**                     | -               | required | Name of the schema. This must be the same as the table name without the REALTIME or OFFLINE suffix. Therefore, the offline and the real-time table of a hybrid table should use the same schema.                                                                                        |
+| **enableColumnBasedNullHandling**  | 1.1.0           | false    | When set to `true`, enables column-based null handling. The default value `false` means to use table-based null handling. See [Null value support](../developers/advanced/null-value-support.md) for more information about this. |
+| **dimensionFieldSpec**             | -               | []       | A dimensionFieldSpec is defined for each dimension column. For more details, see [DimensionFieldSpec](schema.md#dimensionfieldspec).                                                                                                                                                    |
+| **metricFieldSpec**                | -               | []       | A metricFieldSpec is defined for each metric column. For more details, see [MetricFieldSpec](schema.md#metricfieldspec).                                                                                                                                                                |
+| **dateTimeFieldSpec**              | -               | []       | A dateTimeFieldSpec is defined for the time columns. There can be multiple time columns. For more details, see [DateTimeFieldSpec](schema.md#datetimefieldspec).                                                                                                                        |
 
 {% code title="flights-schema.json" %}
 ```javascript
 {
   "schemaName": "flights",
+  "enableColumnBasedNullHandling": false,
   "dimensionFieldSpecs": [
     {
       "name": "flightNumber",
@@ -58,7 +60,30 @@ The Pinot schema is composed of:
 ```
 {% endcode %}
 
-The above json configuration is the example of Pinot schema derived from the flight data. As seen in the example, the schema is composed of 4 parts: `schemaName`, `dimensionFieldSpec`, `metricFieldSpec`, and  `dateTimeFieldSpec`. Below is a detailed description of each type of field spec.&#x20;
+The above json configuration is the example of Pinot schema derived from the flight data. As seen in the example, the schema is composed of 4 parts: `schemaName`, `dimensionFieldSpec`, `metricFieldSpec`, and `dateTimeFieldSpec`. Below is a detailed description of each type of field spec.
+
+
+### Data Types
+Data types determine the operations that can be performed on a column. Pinot supports the following data types:
+
+| Data Type    | Default Dimension Value                                                                                         | Default Metric Value   |
+| ------------ | --------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| INT          | [Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN\_VALUE)               | 0                      |
+| LONG         | [Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN\_VALUE)                     | 0                      |
+| FLOAT        | [Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE\_INFINITY)   | 0.0                    |
+| DOUBLE       | [Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE\_INFINITY) | 0.0                    |
+| BIG\_DECIMAL | Not supported                                                                                                   | 0.0                    |
+| BOOLEAN      | 0 (false)                                                                                                       | N/A                    |
+| TIMESTAMP    | 0 (1970-01-01 00:00:00 UTC)                                                                                     | N/A                    |
+| STRING       | "null"                                                                                                          | N/A                    |
+| JSON         | "null"                                                                                                          | N/A                    |
+| BYTES        | byte array of length 0                                                                                          | byte array of length 0 |
+
+{% hint style="warning" %}
+The lowest granularity TIMESTAMP type supports is milliseconds epoch, nanoseconds is not supported.
+{% endhint %}
+
+Read the following sections for details on how data types are used in various parts of a schema.
 
 ### DimensionFieldSpec
 
@@ -110,37 +135,37 @@ A metricFieldSpec is defined for each metric column. Here's a list of fields in 
 
 A dateTimeFieldSpec is used to define time columns of the table. The following fields can be configured in the date time field spec -
 
-| Property         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name             | Name of the date time column                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| dataType         | Data type of the date time column. Can be STRING, INT, LONG or TIMESTAMP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| format           | <p>The format in which the datetime is present in the column. Refer to <a href="schema.md#new-datetime-formats">Date time formats</a> for supported formats.</p><p></p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| granularity      | <p>The granularity in which the column is bucketed. The syntax of granularity is<br><code>bucket size:bucket unit</code><br>For example, the format can be milliseconds <code>1:MILLISECONDS:EPOCH</code>, but bucketed to 15 minutes i.e. we only have one value for every 15 minute interval, in which case granularity can be specified as <code>15:MINUTES</code>. <strong>Currently it is just for documentation purpose, and Pinot won't automatically round the time value to the specified granularity.</strong></p>                                                                                                                                                                                           |
-| defaultNullValue | <p>Represents null values in the data. If not specified, an internal default null value is used. If date time is in String format, the default value will be <code>null</code>  or if timestamp then it is epoch 0 (i.e. <code>1970-01-01 00:00:00</code>).</p><p></p><p><strong>For the main time column of the table (time column specified in the <code>segmentsConfig</code></strong></p><p> <strong>in the table config), the main time column value must be in the range of <code>1971-01-01 UTC</code> to <code>2071-01-01 UTC</code> for segment management purpose (e.g. retention, time boundary). If the specified default null value is not within this range, segment creation time is used.</strong></p> |
+| Property         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name             | Name of the date time column                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| dataType         | <p>Data type of the date time column. Can be <code>STRING</code>, <code>INT</code>, <code>LONG</code>,  or <code>TIMESTAMP.</code><br><br><strong><code>Note:</code></strong>Internally <code>TIMESTAMP</code> is stored as <code>LONG</code> (milliseconds since epoch). To use the<code>TIMESTAMP format, ensure your</code> source data is either in<code>LONG</code> values or <code>STRING</code> values of JDBC timestamp format (<code>2021-01-01 01:01:01.123</code>).</p>                                                                                                                                                                                                                            |
+| format           | The format in which the datetime is present in the column. Refer to [Date time formats](schema.md#new-datetime-formats) for supported formats.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| granularity      | <p>The granularity in which the column is bucketed. The syntax of granularity is<br><code>bucket size:bucket unit</code><br>For example, the format can be milliseconds <code>1:MILLISECONDS:EPOCH</code>, but bucketed to 15 minutes i.e. we only have one value for every 15 minute interval, in which case granularity can be specified as <code>15:MINUTES</code>. <strong>Currently it is just for documentation purpose, and Pinot won't automatically round the time value to the specified granularity.</strong></p>                                                                                                                                                                                  |
+| defaultNullValue | <p>Represents null values in the data. If not specified, an internal default null value is used. If date time is in String format, the default value will be <code>null</code> or if timestamp then it is epoch 0 (i.e. <code>1970-01-01 00:00:00</code>).</p><p><strong>For the main time column of the table (time column specified in the <code>segmentsConfig</code></strong></p><p><strong>in the table config), the main time column value must be in the range of <code>1971-01-01 UTC</code> to <code>2071-01-01 UTC</code> for segment management purpose (e.g. retention, time boundary). If the specified default null value is not within this range, segment creation time is used.</strong></p> |
 
 #### New DateTime Formats
 
-In the pinot master (0.12.0-SNAPSHOT), We have simplified date time formats for the users. The formats now follow the pattern  - `timeFormat|pattern/timeUnit|`\[`timeZone/timeSize]` . The fields present in `[]` are completely optional.  timeFormat can be one of `EPOCH` , `SIMPLE_DATE_FORMAT` or `TIMESTAMP` .&#x20;
+In the pinot master (0.12.0-SNAPSHOT), We have simplified date time formats for the users. The formats now follow the pattern - `timeFormat|pattern/timeUnit|`\[`timeZone/timeSize]` . The fields present in `[]` are completely optional. timeFormat can be one of `EPOCH` , `SIMPLE_DATE_FORMAT` or `TIMESTAMP` .
 
-* `TIMESTAMP` - This represents timestamp in milliseconds. It is equivalent to specifying `EPOCH:MILLISECONDS:1` \
+* `TIMESTAMP` - This represents timestamp in milliseconds. It is equivalent to specifying `EPOCH|MILLISECONDS|1`\
   Examples -
   * `TIMESTAMP`
 * `EPOCH` - This represents time in `timeUnit` since `00:00:00 UTC on 1 January 1970`, where `timeUnit` is one of [TimeUnit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html) enum values, e.g. `HOURS` , `MINUTES` etc. You can also specify the `timeSize` parameter. This size is multiplied to the value present in the time column to get an actual timestamp. e.g. if timesize is 5 and value in time column is 4996308 minutes. The value that will be converted to epoch timestamp will be 4996308 \* 5 \* 60 \* 1000 = 1498892400000 milliseconds. In simplest terms, `EPOCH|SECONDS|5` denotes the count of intervals of length 5 seconds from epoch 0 to now.\
   \
-  Examples -&#x20;
+  Examples -
   * `EPOCH` - Defaults to MILLISECONDS (only in `master` branch)
   * `EPOCH|SECONDS`
   * `EPOCH|SECONDS|5`
-* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the Joda's [DateTimeFormat](https://www.joda.org/joda-time/key\_format.html) representation. In the master branch build, if no pattern is specified, we use [ISO 8601 DateTimeFormat](https://www.iso.org/iso-8601-date-and-time-format.html) to parse the date times. Optionals are supported with ISO format so users can specify date time string in `yyyy` or `yyyy-MM` or `yyyy-MM-dd` and so on \
+* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the Joda's [DateTimeFormat](https://www.joda.org/joda-time/key\_format.html) representation. In the master branch build, if no pattern is specified, we use [ISO 8601 DateTimeFormat](https://www.iso.org/iso-8601-date-and-time-format.html) to parse the date times. Optionals are supported with ISO format so users can specify date time string in `yyyy` or `yyyy-MM` or `yyyy-MM-dd` and so on\
   \
-  You can also specify optional `timeZone` parameter which is the ID for a TimeZone, either an abbreviation such as `PST`, a full name such as `America/Los_Angeles`, or a custom ID such as `GMT-8:00`. \
-  Examples -&#x20;
-  * `SIMPLE_DATE_FORMAT`  (only in `master` branch)
-  * `SIMPLE_DATE_FORMAT|yyyy-MM-dd HH:mm:ss`&#x20;
+  You can also specify optional `timeZone` parameter which is the ID for a TimeZone, either an abbreviation such as `PST`, a full name such as `America/Los_Angeles`, or a custom ID such as `GMT-8:00`.\
+  Examples -
+  * `SIMPLE_DATE_FORMAT` (only in `master` branch)
+  * `SIMPLE_DATE_FORMAT|yyyy-MM-dd HH:mm:ss`
   * `SIMPLE_DATE_FORMAT|yyyy-MM-dd|IST`
 
 {% hint style="warning" %}
-Only datetime timeformats in lexicographical order are support in Pinot. so `yyyy-MM-dd` ,`MM-dd`  and `yyyy-dd` are valid while `MM-dd-yyyy` is not. \
+Only datetime timeformats in lexicographical order are support in Pinot. so `yyyy-MM-dd` ,`MM-dd` and `yyyy-dd` are valid while `MM-dd-yyyy` is not.\
 The order is decided as year > month > day > hour > minutes > second.
 {% endhint %}
 
@@ -163,11 +188,24 @@ Here are some sample date-time formats you can use in the schema:
 * `1:DAYS:SIMPLE_DATE_FORMAT:yyyy-MM-dd` - when the date is in `STRING` format and has the pattern year-month-date. e.g. 2020-08-21
 * `1:HOURS:SIMPLE_DATE_FORMAT:EEE MMM dd HH:mm:ss ZZZ yyyy` - when date is in `STRING` format. e.g. Mon Aug 24 12:36:50 America/Los\_Angeles 2019
 
+### Built-in virtual columns
+
+There are several built-in virtual columns inside the schema the can be used for debugging purposes:
+
+| Column Name  | Column Type | Data Type | Description                                  |
+| ------------ | ----------- | --------- | -------------------------------------------- |
+| $hostName    | Dimension   | STRING    | Name of the server hosting the data          |
+| $segmentName | Dimension   | STRING    | Name of the segment containing the record    |
+| $docId       | Dimension   | INT       | Document id of the record within the segment |
+
+These virtual columns can be used in queries in a similar way to regular columns.
+
 ### Advanced fields
 
 Apart from these, there's some advanced fields. These are common to all field specs.
 
-| Property              | Description               |
-| --------------------- | ------------------------- |
-| maxLength             | Max length of this column |
-| virtualColumnProvider | Column value provider     |
+| Property              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| maxLength             | Max length of this column mainly applicable for dataTypes - STRING, JSON and BYTES                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| virtualColumnProvider | Column value provider                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| maxLengthExceedStrategy             | Takes in 4 values: TRIM_LENGTH, ERROR, SUBSTITUTE_DEFAULT_VALUE, NO_ACTION. Default for STRING dataType is TRIM_LENGTH and for JSON and bytes field is NO_ACTION. <br/> TRIM_LENGTH: Only `maxLength` characters are ingested for this field in incoming record. <br/> SUBSTITUTE_DEFAULT_VALUE: If the length of value in incoming record exceeds maxLength, then substitute default value specified for the field. <br/> NO_ACTION: Ingest the record as is. <br/> ERROR: Throws an error if length of incoming record exceeds `maxLength`. |

@@ -8,24 +8,26 @@ This page contains links to all the design documents
 
 ### 2022
 
-| Name                                                                                                                                                                | Authors                          | Date      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
-| [Segment format without forward index](https://docs.google.com/document/d/1MNLLhYCg5e-UFBQ6wTBODd41sDsbjevwRfwoGuNowWw/edit#heading=h.jwlk6va28akf)                 | Sonam Mandal                     | Oct 2022  |
-| [Runtime query killing](https://docs.google.com/document/d/1Z9DYAfKznHQI9Wn8BjTWZYTcNRVGiPP0B8aEP3w\_1jQ/edit#heading=h.o3jia8j0k10u)                               | Jia Guo                          | Oct 2022  |
-| [Forward Index Handler in Segment Reload](https://docs.google.com/document/d/1Gai0DHBnyR4joG\_8AcoR-27\_exEBTpVfTFU04HyPdd8/edit#heading=h.liwwtls82n1z)            | Vivek Iyer                       | Sep 2022  |
-| [Support multiple data directories for Pinot server](https://docs.google.com/document/d/1B\_8k2XGMrxfFAo\_g-MEjEPGj84Xy8YW4-yUiZ2BQkuE/edit#heading=h.2ic29gs71g43) | Xiaobing Li                      | Aug 2022  |
-| [Reload status API](https://docs.google.com/document/d/1Eqn2FDDIhCr8G2JFlifs5FjT0LsVPfpPTpdJIJvorwI/edit?usp=sharing)												  | Saurabh Dubey					 | Aug 2022  |
-| [Deduplication during realtime ingestion](https://docs.google.com/document/d/17sOSRQ1slff30z7jDc0ec5qKwv0xSfPkDjpMOY07POQ/edit?usp=sharing)						  | Saurabh Dubey					 | June 2022 |
-| [Adaptive Server Selection](https://docs.google.com/document/d/1w8YVpKIj0S62NvwDpf1HgruwxJYJ6ODuKQLjGXupH8w/edit#heading=h.u87pirlgxhmf)                            | Vivek Iyer                       | June 2022 |
-| [MV column compression evaluation](https://docs.google.com/document/d/1BWtNKvxL1Uaydni\_BJCgWN8i9\_WeSdgL3Ksh4IpY\_K0/edit)                                         | Sonam Mandal                     | June 2022 |
-| [Minimize Data Movement for Instance Assignment](https://docs.google.com/document/d/1\_Fn-yNjt9Ih0SQiIqIhCEvE9BvYugvAhB4tgWH-VoWE/edit)                             | Jialiang Li                      | June 2022 |
-| [Server Failure Detector](https://docs.google.com/document/d/1X32OMT6lC4pCveQVzK6OvRlaW0kE9HZ2vn\_EHzesM1w/edit?usp=sharing)                                        | Jackie Jiang                     | Apr 2022  |
-| [Generalized Pre-Aggregation](https://docs.google.com/document/d/17nMXwmDa7-eopzSaQ4XhbfnbF7myQMzDshanSPXLK0s/edit?usp=sharing)                                     | Evan Noon                        | Mar 2022  |
-| [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)                                       | Rong Rong                        | Feb 2022  |
-| [Pause/Resume Stream](https://docs.google.com/document/d/1uuXuif0SfMTnH3ykfuzXXNjh-LyszjilodD\_mdlilZg/edit)                                                        | Sajjad Moradi, Subbu Subramaniam | Feb 2022  |
-| [Fault Domain Awareness](https://docs.google.com/document/d/1KmJ1DsYXVdzrojj\_JYBHRJ2gRMQ5y-o63YqPs7ei7nI/edit)                                                     | Jia Guo, Sidd                    | Feb 2022  |
-| [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo)                                | Yupeng Fu                        | Jan 2022  |
-| [Pluggable Indexes](https://docs.google.com/document/d/1Slu7klgQn\_3RcEJWUuHq9AF0v5ZDA9M2Y0dy8iqrtLQ/edit)                                                          | Richard Startin                  | Jan 2022  |
+| Name                                                                                                                                                                   | Authors                          | Date      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
+| [Peer downloading for offline segments](https://docs.google.com/document/d/1HtU8NsYz84NiAKGh16Yv8WKxyhdXHx-KNsINcWZ7MEI/edit?usp=sharing)                    | Xuanyi Li                     | Nov 2022  |
+| [Segment format without forward index](https://docs.google.com/document/d/1MNLLhYCg5e-UFBQ6wTBODd41sDsbjevwRfwoGuNowWw/edit#heading=h.jwlk6va28akf)                    | Sonam Mandal                     | Oct 2022  |
+| [Runtime query killing](https://docs.google.com/document/d/1Z9DYAfKznHQI9Wn8BjTWZYTcNRVGiPP0B8aEP3w\_1jQ/edit#heading=h.o3jia8j0k10u)                                  | Jia Guo                          | Oct 2022  |
+| [Forward Index Handler in Segment Reload](https://docs.google.com/document/d/1Gai0DHBnyR4joG\_8AcoR-27\_exEBTpVfTFU04HyPdd8/edit#heading=h.liwwtls82n1z)               | Vivek Iyer                       | Sep 2022  |
+| [Support multiple data directories for Pinot server](https://docs.google.com/document/d/1B\_8k2XGMrxfFAo\_g-MEjEPGj84Xy8YW4-yUiZ2BQkuE/edit#heading=h.2ic29gs71g43)    | Xiaobing Li                      | Aug 2022  |
+| [Reload status API](https://docs.google.com/document/d/1Eqn2FDDIhCr8G2JFlifs5FjT0LsVPfpPTpdJIJvorwI/edit?usp=sharing)                                                  | Saurabh Dubey                    | Aug 2022  |
+| [Deduplication during real-time ingestion](https://docs.google.com/document/d/17sOSRQ1slff30z7jDc0ec5qKwv0xSfPkDjpMOY07POQ/edit?usp=sharing)                            | Saurabh Dubey                    | June 2022 |
+| [Adaptive Server Selection](https://docs.google.com/document/d/1w8YVpKIj0S62NvwDpf1HgruwxJYJ6ODuKQLjGXupH8w/edit#heading=h.u87pirlgxhmf)                               | Vivek Iyer                       | June 2022 |
+| [MV column compression evaluation](https://docs.google.com/document/d/1BWtNKvxL1Uaydni\_BJCgWN8i9\_WeSdgL3Ksh4IpY\_K0/edit)                                            | Sonam Mandal                     | June 2022 |
+| [Minimize Data Movement for Instance Assignment](https://docs.google.com/document/d/1\_Fn-yNjt9Ih0SQiIqIhCEvE9BvYugvAhB4tgWH-VoWE/edit)                                | Jialiang Li                      | June 2022 |
+| [Server Failure Detector](https://docs.google.com/document/d/1X32OMT6lC4pCveQVzK6OvRlaW0kE9HZ2vn\_EHzesM1w/edit?usp=sharing)                                           | Jackie Jiang                     | Apr 2022  |
+| [Generalized Pre-Aggregation](https://docs.google.com/document/d/17nMXwmDa7-eopzSaQ4XhbfnbF7myQMzDshanSPXLK0s/edit?usp=sharing)                                        | Evan Noon                        | Mar 2022  |
+| [Multi-stage Query Engine](https://docs.google.com/document/d/10-vL\_bUrI-Pi2oYudWyUlQl9Kf0cLrW-Z8hGczkCPik/edit?usp=sharing)                                          | Rong Rong                        | Feb 2022  |
+| [Pause/Resume Stream](https://docs.google.com/document/d/1uuXuif0SfMTnH3ykfuzXXNjh-LyszjilodD\_mdlilZg/edit)                                                           | Sajjad Moradi, Subbu Subramaniam | Feb 2022  |
+| [Fault Domain Awareness](https://docs.google.com/document/d/1KmJ1DsYXVdzrojj\_JYBHRJ2gRMQ5y-o63YqPs7ei7nI/edit)                                                        | Jia Guo, Sidd                    | Feb 2022  |
+| [Pinot Flink Connector](https://docs.google.com/document/d/1GVoFHOHSDPs1MEDKEmKguKwWMqM1lwQKj2e64RAKDf8/edit#heading=h.uvocz0dwkepo)                                   | Yupeng Fu                        | Jan 2022  |
+| [Pluggable Indexes](https://docs.google.com/document/d/1Slu7klgQn\_3RcEJWUuHq9AF0v5ZDA9M2Y0dy8iqrtLQ/edit)                                                             | Richard Startin                  | Jan 2022  |
+| [Petabyte-Scale Log Storage and Search in Pinot with CLP](https://docs.google.com/document/d/1nHZb37re4mUwEA258x3a2pgX13EWLWMJ0uLEDk1dUyU/edit#heading=h.j0al1jpfd8eb) | Ting Chen                        | Dec 2022  |
 
 ### 2021
 
@@ -80,12 +82,12 @@ This page contains links to all the design documents
 | [Controller Separation between Helix and Pinot](https://cwiki.apache.org/confluence/display/PINOT/Controller+Separation+between+Helix+and+Pinot)                                         | Jialiang Li      | Jun 2019 |
 | [Upsert](https://docs.google.com/document/d/1SFFir7ByxCff-aVYxQeTHpNhPXeP5q7P4g\_6O2iNGgU/edit?usp=sharing)                                                                              | James            | Jun 2019 |
 | [Pinot Freshness Metric](https://cwiki.apache.org/confluence/display/PINOT/Pinot+Freshness+Metric)                                                                                       | Sunitha Beeram   | May 2019 |
-| [By passing deep-store requirement for Realtime segment completion](https://cwiki.apache.org/confluence/display/PINOT/By-passing+deep-store+requirement+for+Realtime+segment+completion) | Ting, Chinmay    | May 2019 |
+| [By passing deep-store requirement for Real-time segment completion](https://cwiki.apache.org/confluence/display/PINOT/By-passing+deep-store+requirement+for+Realtime+segment+completion) | Ting, Chinmay    | May 2019 |
 | [Project Tuna: Automatic Inverted Index Recommendation](https://cwiki.apache.org/confluence/display/PINOT/Automated+Inverted+Index+Recommendation+for+Pinot)                             | Jia Guo          | May 2019 |
 | [Segment Completion Enhancement for deep storage support](https://cwiki.apache.org/confluence/display/PINOT/Segment+Completion+Protocol+enhancements+for+Deep+Store+support)             | Subbu            | Feb 2019 |
 | [Segment Merge and Rollup](https://cwiki.apache.org/confluence/display/PINOT/Segment+Merge+and+Rollup)                                                                                   | Seunghyun Lee    | 2018     |
 | [Pinot-Minion Service](https://docs.google.com/document/d/1kbK88fCexmEsDcFINebqLvZWtKg8CVQN4kmsLm0s9f8/edit?usp=sharing)                                                                 | Jackie Jiang     | 2017     |
-| [Consuming and indexing rows in realtime](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime)                                                     | Subbu            | 2017     |
+| [Consuming and indexing rows in real time](https://cwiki.apache.org/confluence/display/PINOT/Consuming+and+Indexing+rows+in+Realtime)                                                     | Subbu            | 2017     |
 | [Partition Aware Query Routing](https://cwiki.apache.org/confluence/display/PINOT/Partition+Aware+Query+Routing)                                                                         | Subbu            | 2017     |
 | [Query Processing](https://cwiki.apache.org/confluence/display/PINOT/Query+Processing)                                                                                                   | Subbu            | 2016     |
 | [Expressions and UDFs](https://cwiki.apache.org/confluence/display/PINOT/Expressions+and+UDFs)                                                                                           | Subbu            | 2016     |

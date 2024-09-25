@@ -18,12 +18,13 @@ First, download the Pinot distribution for this tutorial. You can either downloa
 
 ### Prerequisites
 
-* Install JDK11 or higher (JDK16 is not yet supported).
-* For JDK 8 support, use Pinot 0.7.1 or compile from the source code.
+* Install with JDK 11 or 17. JDK 21 is still ongoing.
+* For JDK 8 support, Pinot 0.12.1 is the last version compilable from the source code.
+* Pinot 1.0+ doesn't support JDK 8 anymore, build with JDK 11+
 
-Note that some installations of the JDK do not contain the JNI bindings necessary to run all tests. If you see an error like `java.lang.UnsatisfiedLinkError` while running tests, you might need to change your JDK.&#x20;
+Note that some installations of the JDK do not contain the JNI bindings necessary to run all tests. If you see an error like `java.lang.UnsatisfiedLinkError` while running tests, you might need to change your JDK.
 
-If using Homebrew, install AdoptOpenJDK 11 using `brew install --cask adoptopenjdk11`.
+If using Homebrew, install Eclipse Temurin 11 using `brew install --cask temurin@11`.
 
 {% hint style="info" %}
 **Support for M1 and M2 Mac systems**
@@ -35,10 +36,10 @@ Download the distribution or build from source by selecting one of the following
 
 {% tabs %}
 {% tab title="Download the release" %}
-Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command:
+Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download), or use this command:
 
 ```bash
-PINOT_VERSION=0.12.0 #set to the Pinot version you decide to use
+PINOT_VERSION=1.1.0 #set to the Pinot version you decide to use
 
 wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```
@@ -93,10 +94,18 @@ If you're building with JDK 8, add Maven option `-Djdk.version=8.`
 mvn install package -DskipTests -Pbin-dist
 ```
 
-Navigate to the directory containing the setup scripts. Note that Pinot scripts are located under `pinot-distribution/target`**,** not  the `target` directory under `root`.
+Navigate to the directory containing the setup scripts. Note that Pinot scripts are located under `pinot-distribution/target`**,** not the `target` directory under `root`.
 
 ```bash
 cd build
+```
+{% endtab %}
+
+{% tab title="Homebrew" %}
+Pinot can also be installed on Mac OS using the Brew package manager. For instructions on installing Brew, see the [Brew documentation](https://brew.sh/).
+
+```bash
+brew install pinot
 ```
 {% endtab %}
 {% endtabs %}
@@ -133,7 +142,7 @@ softwareupdate --install-rosetta
 
 ## Set up a cluster
 
-Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this: through quick start or through setting up a cluster manually.&#x20;
+Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this: through quick start or through setting up a cluster manually.
 
 ### Quick start
 
@@ -149,7 +158,7 @@ For a list of all the available quick start commands, see the [Quick Start Examp
 
 ### Manual cluster
 
-If you want to play with bigger datasets (more than a few megabytes), you can launch each  component individually.
+If you want to play with bigger datasets (more than a few megabytes), you can launch each component individually.
 
 The video below is a step-by-step walk through for launching the individual components of Pinot and scaling them to multiple instances.
 
@@ -225,9 +234,9 @@ Set break points and inspect variables by starting a Pinot component with debug 
 
 The following example demonstrates server debugging:
 
-1. First, start`zookeeper` , `controller`, and `broker` using the [steps described above](running-pinot-locally.md#manual-cluster).&#x20;
+1. First, start`zookeeper` , `controller`, and `broker` using the [steps described above](running-pinot-locally.md#manual-cluster).
 2. Then, use the following configuration under `$PROJECT_DIR$\.run` ) to start the server, replacing the `metrics-core` version and cluster name as needed.\
-   This [commit](https://github.com/apache/pinot/commit/83fc63720cdf2a5470073d43183ae8710d0ecc51) is an example of how to use it.&#x20;
+   This [commit](https://github.com/apache/pinot/commit/83fc63720cdf2a5470073d43183ae8710d0ecc51) is an example of how to use it.
 
 ```xml
 <component name="ProjectRunConfigurationManager">

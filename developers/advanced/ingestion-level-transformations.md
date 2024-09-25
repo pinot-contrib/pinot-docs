@@ -4,21 +4,25 @@ Raw source data often needs to undergo some transformations before it is pushed 
 
 Transformations include extracting records from nested objects, applying simple transform functions on certain columns, filtering out unwanted columns, as well as more advanced operations like joining between datasets.
 
-A preprocessing job is usually needed to perform these operations. In streaming data sources you might write a Samza job and create an intermediate topic to store the transformed data.
+A preprocessing job is usually needed to perform these operations. In streaming data sources, you might write a Samza job and create an intermediate topic to store the transformed data.
 
 For simple transformations, this can result in inconsistencies in the batch/stream data source and increase maintenance and operator overhead.
 
 To make things easier, Pinot supports transformations that can be applied via the [table config](../../configuration-reference/table.md).
 
-## Transformation Functions
+{% hint style="warning" %}
+If a **new column is added to your table or schema configuration during ingestion**, incorrect data may appear in the consuming segment(s). To ensure accurate values are reloaded, see how to [add a new column during ingestion](ingestion-level-transformations.md#add-a-new-column-during-ingestion).&#x20;
+{% endhint %}
+
+## Transformation functions
 
 Pinot supports the following functions:
 
-1. Groovy functions
-2. Inbuilt functions
+* Groovy functions
+* Built-in functions
 
 {% hint style="warning" %}
-A transformation function cannot mix Groovy and inbuilt functions - you can only use one type of function at a time.
+A transformation function cannot mix Groovy and built-in functions; only use one type of function at a time.
 {% endhint %}
 
 ### Groovy functions
@@ -33,17 +37,17 @@ Any valid Groovy expression can be used.
 
 :warning: **Enabling Groovy**
 
-Allowing execuatable Groovy in ingestion transformation can be a security vulnerability. If you would like to enable Groovy for ingestion, you can set the following controller config.
+Allowing executable Groovy in ingestion transformation can be a security vulnerability. To enable Groovy for ingestion, set the following controller configuration:
 
 `controller.disable.ingestion.groovy=false`
 
 If not set, Groovy for ingestion transformation is disabled by default.
 
-### Inbuilt Pinot functions
+### Built-in Pinot functions
 
-All the functions defined in [this directory](https://github.com/apache/pinot/tree/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar) annotated with `@ScalarFunction` (e.g. [toEpochSeconds](https://github.com/apache/pinot/blob/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar/DateTimeFunctions.java#L78)) are supported ingestion transformation functions.
+All the functions defined in [this directory](https://github.com/apache/pinot/tree/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar) annotated with `@ScalarFunction` (for example, [toEpochSeconds](https://github.com/apache/pinot/blob/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar/DateTimeFunctions.java#L78)) are supported ingestion transformation functions.
 
-Below are some commonly used inbuilt Pinot functions for ingestion transformations.
+Below are some commonly used built-in Pinot functions for ingestion transformations.
 
 #### DateTime functions
 
@@ -84,7 +88,7 @@ Converts from an epoch granularity to milliseconds.
 
 **Simple date format**
 
-Converts simple date format strings to milliseconds and vice-a-versa, as per the provided pattern string.
+Converts simple date format strings to milliseconds and vice versa, per the provided pattern string.
 
 | Function name                                                           | Description                                                                                                                                                              |
 | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -109,7 +113,7 @@ Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/j
 
 ### Filtering
 
-Records can be filtered as they are being ingested. A filter function can be specified in the filterConfigs in the ingestionConfigs of the table config.
+Records can be filtered as they are ingested. A filter function can be specified in the filterConfigs in the ingestionConfigs of the table config.
 
 ```javascript
 "tableConfig": {
@@ -145,7 +149,7 @@ Consider a table that has a string column `campaign` and a multi-value column do
 }
 ```
 
-Filter config also supports SQL-like expression of inbuilt [scalar functions](../../users/user-guide-query/scalar-functions.md#scalar-functions) for filtering records (starting v 0.11.0+). Example:
+Filter config also supports SQL-like expression of built-in [scalar functions](../../users/user-guide-query/scalar-functions.md#scalar-functions) for filtering records (starting v 0.11.0+). Example:
 
 ```javascript
 "ingestionConfig": {
@@ -155,7 +159,7 @@ Filter config also supports SQL-like expression of inbuilt [scalar functions](..
 }
 ```
 
-### Column Transformation
+### Column transformation
 
 Transform functions can be defined on columns in the ingestion config of the table config.
 
@@ -187,7 +191,7 @@ For example, imagine that our source data contains the `prices` and `timestamp` 
     },
     {
       "columnName": "hoursSinceEpoch",
-      "transformFunction": "toEpochHours(timestamp)" // inbuilt function
+      "transformFunction": "toEpochHours(timestamp)" // built-in function
     }]
   }
 }
@@ -337,3 +341,17 @@ This is not natively supported as of yet. You can **write a custom Decoder/Recor
 #### Extract attributes from complex objects
 
 _Feature TBD_
+
+## Add a new column during ingestion
+
+If a new column is added to table or schema configuration during ingestion, incorrect data may appear in the consuming segment(s).&#x20;
+
+To ensure accurate values are reloaded, do the following:
+
+1. Pause consumption (and wait for pause status success): \
+   $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
+2. Apply new table or schema configurations.
+3. [Reload segments](../../basics/data-import/segment-reload.md) using the [Pinot Controller API](../../basics/data-import/segment-reload.md#use-the-pinot-controller-api-to-reload-segments) or [Pinot Admin Console](../../basics/data-import/segment-reload.md#use-the-pinot-admin-console-to-reload-segments).
+4. Resume consumption:\
+   $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
+

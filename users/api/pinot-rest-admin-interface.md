@@ -2,19 +2,19 @@
 
 The [Pinot Admin UI](http://localhost:9000/help) contains all the APIs that you will need to operate and manage your cluster. It provides a set of APIs for Pinot cluster management including health check, instances management, schema and table management, data segments management.
 
-Note: The controller API's are primarily for admin tasks. Even though the UI console queries Pinot when running queries from the query console, please use the [Broker Query API](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql) for querying Pinot.
+Note: The controller API's are primarily for admin tasks. Even though the UI console queries Pinot when running queries from the query console, use the [Broker Query API](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql) for querying Pinot.
 
-![](<../../.gitbook/assets/Screen Shot 2020-02-28 at 10.00.43 AM.png>)
+![](<../../.gitbook/assets/pinot-admin-ui.png>)
 
 Let's check out the tables in this cluster by going to [Table -> List all tables in cluster](http://localhost:9000/help#!/Table/listTableConfigs) and click on `Try it out!`. We can see the `baseballStats` table listed here. We can also see the exact `curl` call made to the controller API.
 
-![List all tables in cluster](<../../.gitbook/assets/Screen Shot 2020-02-28 at 10.00.26 AM.png>)
+![List all tables in cluster](<../../.gitbook/assets/list-all-tables.png>)
 
 You can look at the configuration of this table by going to [Tables -> Get/Enable/Disable/Drop a table](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig), type in `baseballStats` in the table name, and click `Try it out!`
 
 Let's check out the schemas in the cluster by going to [Schema -> List all schemas in the cluster](http://localhost:9000/help#!/Schema/listSchemaNames) and click `Try it out!`. We can see a schema called `baseballStats` in this list.
 
-![List all schemas in the cluster](<../../.gitbook/assets/Screen Shot 2020-02-28 at 10.09.18 AM.png>)
+![List all schemas in the cluster](<../../.gitbook/assets/list-all-schemas.png>)
 
 Take a look at the schema by going to [Schema -> Get a schema](http://localhost:9000/help#!/Schema/getSchema), type `baseballStats` in the schema name, and click `Try it out!`.
 

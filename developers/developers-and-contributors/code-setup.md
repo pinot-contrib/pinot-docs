@@ -2,7 +2,7 @@
 
 ## Dev Environment Setup
 
-To contribute to Pinot, please follow the instructions below.
+To contribute to Pinot, follow the instructions below.
 
 ### Git
 
@@ -31,16 +31,16 @@ $ git remote -v
 
 Pinot is a Maven project and familiarity with Maven will help you work with Pinot code. If you are new to Maven, you can read about Maven [here](https://maven.apache.org/) and [get a quick overview here](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
 
-Run the following maven command to setup the project.
+Run the following maven command to set up the project.
 
 ```
 # compile, download sources
 $mvn install package -DskipTests -Pbin-dist -DdownloadSources -DdownloadJavadocs
 ```
 
-### Setup IDE
+### Set up IDE
 
-Import the project into your favorite IDE. Setup stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, please ensure you use stylesheet based on [this](https://github.com/apache/pinot/blob/master/config/codestyle-intellij.xml).
+Import the project into your favorite IDE. Set up stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, ensure you use stylesheet based on [this](https://github.com/apache/pinot/blob/master/config/codestyle-intellij.xml).
 
 #### Intellij
 
@@ -50,7 +50,7 @@ To import the Pinot stylesheet this launch intellij and navigate to `Preferences
 * Select `Import Scheme` -> `Intellij IDES code style XML`
 * Choose `codestyle-intellij.xml` from `pinot/config` folder of your workspace. Click Apply.
 
-![](../../.gitbook/assets/import\_scheme.png)
+![](../../.gitbook/assets/.unused/import\_scheme.png)
 
 #### Eclipse
 
@@ -59,11 +59,11 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 * Navigate to Java->Code Style->Formatter
 * Choose `codestyle-eclipse.xml` from `pinot/config folder` of your workspace. Click Apply.
 
-![](../../.gitbook/assets/eclipse\_style.png)
+![](../../.gitbook/assets/.unused/eclipse\_style.png)
 
 ### **Starting Pinot via IDE**
 
-Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for realtime mode.
+Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for real-time mode.
 
 **Batch Quickstart**
 
@@ -72,7 +72,7 @@ Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apac
 
 Go to localhost:9000 in your browser and play with the query console.
 
-**Realtime Quickstart**
+**Real-time Quickstart**
 
 * start all Pinot components (ZK, Controller, Server, Broker) in the same JVM
 * Start Kafka in the same JVM

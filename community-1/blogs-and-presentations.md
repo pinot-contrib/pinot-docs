@@ -4,6 +4,14 @@ description: Following a list of presentations centered on Pinot
 
 # Presentations
 
+## 2024
+
+* [SREcon24 Americas - Strengthening Apache Pinot's Query Processing Engine with Adaptive Server Selection and Runtime Query Killing](https://www.youtube.com/watch?v=3v3VgUS3nJQ)
+
+## 2023
+
+* [RTA Summit 2023 - Query Processing Resiliency in Pinot (Vivek Iyer & Jia Guo, LinkedIn)](https://www.youtube.com/watch?v=9BfJvu_HvdQ)
+
 ## 2020
 
 * [Apache Pinot Virtual Meetup @LinkedIn (Sep 02, 2020)](https://www.slideshare.net/MayankShrivastava25/apache-pinot-meetup-sept02-2020)
@@ -14,7 +22,7 @@ description: Following a list of presentations centered on Pinot
 
 ## 2018
 
-* [Pinot: Realtime OLAP for 530 Million Users - Sigmod 2018 (Jun 2018)](http://www.slideshare.net/seunghyunlee1460/pinot-realtime-olap-for-530-million-users-sigmod-2018-107394584)
+* [Pinot: Real-time OLAP for 530 Million Users - Sigmod 2018 (Jun 2018)](http://www.slideshare.net/seunghyunlee1460/pinot-realtime-olap-for-530-million-users-sigmod-2018-107394584)
 
 ## 2016
 
@@ -23,4 +31,4 @@ description: Following a list of presentations centered on Pinot
 
 ## 2015
 
-* [Pinot: Realtime Distributed OLAP Datastore (Aug 2015)](http://www.slideshare.net/KishoreGopalakrishna/pinot-realtime-distributed-olap-datastore)
+* [Pinot: Real-time Distributed OLAP Datastore (Aug 2015)](http://www.slideshare.net/KishoreGopalakrishna/pinot-realtime-distributed-olap-datastore)

@@ -6,16 +6,14 @@ Below commands are based on pinot distribution binary.
 
 ## Setup Pinot Cluster
 
-In order to setup Pinot to use S3 as deep store, we need to put extra configs for Controller and Server.
+In order to set up Pinot to use S3 as deep store, we need to put extra configs for Controller and Server.
 
 ### Start Controller
 
 Below is a sample `controller.conf` file.
 
 {% hint style="info" %}
-Please config:
-
-`controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there.
+Configure `controller.data.dir`to your s3 bucket. All the uploaded segments will be stored there.
 {% endhint %}
 
 {% hint style="info" %}
@@ -86,7 +84,7 @@ bin/pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName pinot-s3-e
 Below is a sample `server.conf` file
 
 {% hint style="info" %}
-Similar to controller config, please also set s3 configs in pinot server.
+Similar to controller config, also set s3 configs in pinot server.
 {% endhint %}
 
 ```bash
@@ -95,9 +93,12 @@ pinot.server.adminapi.port=8097
 pinot.server.instance.dataDir=/tmp/pinot-tmp/server/index
 pinot.server.instance.segmentTarDir=/tmp/pinot-tmp/server/segmentTars
 
-
 pinot.server.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
-pinot.server.storage.factory.s3.region=us-west-2
+pinot.server.storage.factory.s3.region=us-east-1
+pinot.server.storage.factory.s3.accessKey=myAccessKeyChangeMe
+pinot.server.storage.factory.s3.secretKey=mySecretKeyChangeMe
+pinot.server.storage.factory.s3.disableAcl=false
+pinot.server.storage.factory.s3.endpoint=http://minio:9000
 pinot.server.segment.fetcher.protocols=file,http,s3
 pinot.server.segment.fetcher.s3.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
 ```
@@ -141,7 +142,7 @@ Below is a sample standalone ingestion job spec with certain notable changes:
       configs:
         region: 'us-west-2'
     ```
-* For library version < **0.6.0**, please set `segmentUriPrefix` to `[scheme]://[bucket.name]`, e.g. `s3://my.bucket` , from version **0.6.0**, you can put empty string or just ignore `segmentUriPrefix`.
+* For library version < **0.6.0**, set `segmentUriPrefix` to `[scheme]://[bucket.name]`, e.g. `s3://my.bucket` , from version **0.6.0**, you can put empty string or just ignore `segmentUriPrefix`.
 
 Sample `ingestionJobSpec.yaml`
 
@@ -403,9 +404,9 @@ tableSpec: {schemaURI: 'http://localhost:9000/tables/airlineStats/schema', table
 
 ### Spark Job
 
-#### Setup Spark Cluster (Skip if you already have one)
+#### Set up Spark Cluster (Skip if you already have one)
 
-Please follow this [page](https://app.gitbook.com/@apache-pinot/s/apache-pinot-cookbook/operators/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
+Follow this [page](https://docs.pinot.apache.org/users/tutorials/batch-data-ingestion-in-practice#executing-the-job-using-spark) to setup a local spark cluster.
 
 #### Submit Spark Job
 
@@ -562,8 +563,8 @@ ${SPARK_HOME}/bin/spark-submit \
 
 Below is the sample snapshot of s3 location for controller:
 
-![Sample S3 Controller Storage](<../../.gitbook/assets/image (37).png>)
+![Sample S3 Controller Storage](<../../.gitbook/assets/sample-s3-controller-storage.png>)
 
-Below is a sample download URI in PropertyStore, we expect the segment download uri is started with `s3://`
+Below is a sample download URI in PropertyStore. We expect the segment download URI to start with `s3://`
 
-![Sample segment download URI in PropertyStore](<../../.gitbook/assets/image (7).png>)
+![Sample segment download URI in PropertyStore](<../../.gitbook/assets/sample-segment-download-uri.png>)
