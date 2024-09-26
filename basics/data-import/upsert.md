@@ -423,6 +423,10 @@ Under the hood, it uses the validDocIds snapshots to identify the valid docs and
 
 The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload. It's 0 by default to disable the preloading feature.
 
+{% hint style="warning" %}
+A bug was introduced in v1.2.0 that when enablePreload and enableSnapshot flags are set to true but max.segment.preload.threads is left as 0, the preloading mechanism is still enabled but segments fail to get loaded as there is no threads for preloading. This was fixed in newer versions, but for v1.2.0, if enablePreload and enableSnapshot are set to true, remember to set max.segment.preload.threads to a positive value as well. Server restart is needed to get max.segment.preload.threads config change into effect.
+{% endhint %}
+
 ### Handle out-of-order events
 
 There are 2 configs added related to handling out-of-order events.
