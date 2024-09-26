@@ -155,7 +155,7 @@ The sections below apply to real-time tables only.
 
 | Property                  | Description                                                                                                 |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| replicasPerPartition      | The number of replicas per partition for the stream                                                         |
+| replicasPerPartition (Deprecated, use replication)     | The number of replicas per partition for the stream                                                         |
 | completionMode            | determines if segment should be downloaded from other server or built in memory. can be `DOWNLOAD` or empty |
 | peerSegmentDownloadScheme | protocol to use to download segments from server. can be on of `http` or `https`                            |
 
