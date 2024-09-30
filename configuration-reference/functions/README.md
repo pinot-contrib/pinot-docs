@@ -486,8 +486,8 @@ This page contains reference documentation for functions in Apache Pinot.
 [round.md](round.md)
 {% endcontent-ref %}
 
-{% content-ref url="round-1.md" %}
-[round-1.md](round-1.md)
+{% content-ref url="round-1-1.md" %}
+[round-1-1.md](round-1-1.md)
 {% endcontent-ref %}
 
 {% content-ref url="rpad.md" %}

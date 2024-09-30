@@ -8,19 +8,20 @@ description: >-
 
 ## Math Functions
 
-| Function                                                                                                                                          |
-| ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <p><a href="../../configuration-reference/functions/add.md"><strong>ADD(col1, col2, col3...)</strong></a><br>Sum of at least two values</p>       |
-| <p><a href="../../configuration-reference/functions/sub.md"><strong>SUB(col1, col2)</strong></a><br>Difference between two values</p>             |
-| <p><a href="../../configuration-reference/functions/mult.md"><strong>MULT(col1, col2, col3...)</strong></a><br>Product of at least two values</p> |
-| <p><a href="../../configuration-reference/functions/div.md"><strong>DIV(col1, col2)</strong></a><br>Quotient of two values</p>                    |
-| <p><a href="../../configuration-reference/functions/mod.md"><strong>MOD(col1, col2)</strong></a><br>Modulo of two values</p>                      |
-| <p><a href="../../configuration-reference/functions/abs.md"><strong>ABS(col1)</strong></a><br>Absolute of a value</p>                             |
-| <p><a href="../../configuration-reference/functions/ceil.md#signature"><strong>CEIL(col1)</strong></a><br>Rounded up to the nearest integer.</p>  |
-| <p><a href="../../configuration-reference/functions/floor.md"><strong>FLOOR(col1)</strong></a><br>Rounded down to the nearest integer.</p>        |
-| <p><a href="../../configuration-reference/functions/exp.md"><strong>EXP(col1)</strong></a><br>Euler’s number(e) raised to the power of col.</p>   |
-| <p><a href="../../configuration-reference/functions/ln.md"><strong>LN(col1)</strong></a><br>Natural log of value i.e. ln(col1)</p>                |
-| <p><a href="../../configuration-reference/functions/sqrt.md"><strong>SQRT(col1)</strong></a><br>Square root of a value</p>                        |
+| Function                                                                                                                                                                         |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p><a href="../../configuration-reference/functions/add.md"><strong>ADD(col1, col2, col3...)</strong></a><br>Sum of at least two values</p>                                      |
+| <p><a href="../../configuration-reference/functions/sub.md"><strong>SUB(col1, col2)</strong></a><br>Difference between two values</p>                                            |
+| <p><a href="../../configuration-reference/functions/mult.md"><strong>MULT(col1, col2, col3...)</strong></a><br>Product of at least two values</p>                                |
+| <p><a href="../../configuration-reference/functions/div.md"><strong>DIV(col1, col2)</strong></a><br>Quotient of two values</p>                                                   |
+| <p><a href="../../configuration-reference/functions/mod.md"><strong>MOD(col1, col2)</strong></a><br>Modulo of two values</p>                                                     |
+| <p><a href="../../configuration-reference/functions/abs.md"><strong>ABS(col1)</strong></a><br>Absolute of a value</p>                                                            |
+| <p><a href="../../configuration-reference/functions/ceil.md#signature"><strong>CEIL(col1)</strong></a><br>Rounded up to the nearest integer</p>                                  |
+| <p><a href="../../configuration-reference/functions/floor.md"><strong>FLOOR(col1)</strong></a><br>Rounded down to the nearest integer</p>                                        |
+| <p><a href="../../configuration-reference/functions/exp.md"><strong>EXP(col1)</strong></a><br>Euler’s number(e) raised to the power of col.</p>                                  |
+| <p><a href="../../configuration-reference/functions/ln.md"><strong>LN(col1)</strong></a><br>Natural log of value</p>                                                             |
+| <p><a href="../../configuration-reference/functions/sqrt.md"><strong>SQRT(col1)</strong></a><br>Square root of a value</p>                                                       |
+| <p><a href="../../configuration-reference/functions/round-1.md"><strong>ROUNDDECIMAL(col1, col2)</strong><br></a></p><p>Rounds value to a specified number of decimal places</p> |
 
 ## String Functions
 
