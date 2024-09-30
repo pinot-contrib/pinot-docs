@@ -8,7 +8,7 @@ The JSON index can be applied to JSON string columns to accelerate value lookups
 
 ## When to use JSON index
 
-Use the JSON string can be used to represent array, map, and nested fields without forcing a fixed schema. While JSON strings are flexible, filtering on JSON string columns is expensive, so consider the use case.
+JSON strings can be used to represent arrays, maps, and nested fields without forcing a fixed schema. While JSON strings are flexible, filtering on JSON string columns is expensive, so consider the use case.
 
 Suppose we have some JSON records similar to the following sample record stored in the `person` column:
 
