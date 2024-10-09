@@ -126,24 +126,8 @@ The type of join that is being performed. The possible values are: `inner`, `lef
 
 ## Tips and tricks
 
-### The order of input relations matter
+Given there are different optimization techniques related to joins, there is a specify page explaining how tips and tricks that can be applied to joins
 
-Apache Pinot does not use table stats to determine the best order to consume the input relations. Instead, it assumes that the right input relation is the smaller one. That relation will always be fully consumed to build a hash table and sometimes it will be broadcasted to all workers. This means that it is important to specify the smaller relation as the right input.
-
-Remember that left and right are relative to the order of the tables in the SQL query. It is less expensive to do a join between a large table and a small table than the other way around.
-
-For example, this query:
-
-```sql
-select largeTable.col1, smallTable.col2
-from largeTable 
-cross join smallTable
-```
-
-is more efficient than:
-
-```sql
-select largeTable.col1, smallTable.col2
-from smallTable 
-cross join largeTable
-```
+{% content-ref url="../optimizing-joins.md" %}
+[optimizing-joins.md](../optimizing-joins.md)
+{% endcontent-ref %}
