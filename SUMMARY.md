@@ -348,7 +348,7 @@
   * [MD5](configuration-reference/functions/md5.md)
   * [millisecond](configuration-reference/functions/millisecond.md)
   * [min](configuration-reference/functions/min.md)
-  * [minmaxrange](configuration-reference/functions/minmaxrange.md)
+  * [MINMAXRANGE](configuration-reference/functions/minmaxrange.md)
   * [MINMAXRANGEMV](configuration-reference/functions/minmaxrangemv.md)
   * [MINMV](configuration-reference/functions/minmv.md)
   * [minute](configuration-reference/functions/minute.md)
