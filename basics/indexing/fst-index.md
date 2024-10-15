@@ -7,6 +7,10 @@ The FST index supports regex queries on text. Decreases on-disk index by 4-6 tim
 * Only supported on dictionary-encoded columns.
 * Works better for prefix queries&#x20;
 
+{% hint style="info" %}
+**Note:** Lucene is case sensitive as such when using FST index based column(s) in query, user needs to ensure this is taken into account. For e.g `Select * from table T where colA LIKE %Value%` which has a FST index on colA will only return rows containing string "Value" but not "value".
+{% endhint %}
+
 For more information on the FST construction and code, see [Lucene documentation](https://lucene.apache.org/core/9\_10\_0/core/org/apache/lucene/util/fst/FST.html).
 
 ## Enable the FST index
