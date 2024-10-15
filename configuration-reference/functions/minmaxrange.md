@@ -2,7 +2,7 @@
 description: This section contains reference documentation for the minmaxrange function.
 ---
 
-# minmaxrange
+# MINMAXRANGE
 
 Returns the `max` - `min` value in a group
 
