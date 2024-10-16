@@ -67,6 +67,10 @@ pinot.server.instance.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 
 Restart the affected components for the configuration changes to take effect.
 
+{% hint style="info" %}
+Do not surround the token value with quotes – a common mistake.
+{% endhint %}
+
 **3. Enable ACL enforcement on the controller**
 
 ```
