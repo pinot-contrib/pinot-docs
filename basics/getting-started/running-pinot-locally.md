@@ -223,6 +223,7 @@ export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:g
 ```
 ./bin/pinot-admin.sh  StartKafka \ 
   -zkAddress=localhost:2191/kafka \
+  -host=localhost \
   -port 19092
 ```
 
