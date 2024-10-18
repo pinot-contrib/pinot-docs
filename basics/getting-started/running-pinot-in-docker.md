@@ -84,6 +84,16 @@ Create an isolated bridge network in docker
 docker network create -d bridge pinot-demo
 ```
 
+#### Export Docker Image tags
+
+Export the necessary docker image tags for Pinot, Zookeeper, and Kafka.
+
+```
+export PINOT_IMAGE=apachepinot/pinot:1.2.0
+export ZK_IMAGE=zookeeper:3.9.2
+export KAFKA_IMAGE= bitnami/kafka:3.6
+```
+
 #### Start Zookeeper
 
 Start Zookeeper in daemon mode. This is a single node zookeeper setup. Zookeeper is the central metadata store for Pinot and should be set up with replication for production use. For more information, see [Running Replicated Zookeeper](https://zookeeper.apache.org/doc/r3.6.0/zookeeperStarted.html#sc\_RunningReplicatedZooKeeper).
@@ -94,7 +104,7 @@ docker run \
     --name pinot-zookeeper \
     --restart always \
     -p 2181:2181 \
-    -d zookeeper:3.9.2
+    -d ${ZK_IMAGE}
 ```
 
 #### Start Pinot Controller
@@ -162,7 +172,7 @@ docker run --rm -ti \
     -e KAFKA_BROKER_ID=0 \
     -e KAFKA_ADVERTISED_HOST_NAME=kafka \
     -p 9092:9092 \
-    -d bitnami/kafka:latest
+    -d ${KAFKA_IMAGE}
 ```
 
 Now all Pinot related components are started as an empty cluster.
@@ -176,86 +186,173 @@ docker container ls -a
 **Sample Console Output**
 
 ```
-CONTAINER ID        IMAGE                       COMMAND                  CREATED             STATUS              PORTS                                                  NAMES
-9ec20e4463fa        bitnami/kafka:latest        "start-kafka.sh"         43 minutes ago      Up 43 minutes                                                              kafka
-0775f5d8d6bf        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   44 minutes ago      Up 44 minutes       8096-8099/tcp, 9000/tcp                                pinot-server
-64c6392b2e04        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   44 minutes ago      Up 44 minutes       8096-8099/tcp, 9000/tcp                                pinot-broker
-b6d0f2bd26a3        apachepinot/pinot:latest    "./bin/pinot-admin.s…"   45 minutes ago      Up 45 minutes       8096-8099/tcp, 0.0.0.0:9000->9000/tcp                  pinot-controller
-570416fc530e        zookeeper:3.9.2             "/docker-entrypoint.…"   45 minutes ago      Up 45 minutes       2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
+CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                       NAMES
+accc70bc7f07   bitnami/kafka:3.6         "/opt/bitnami/script…"   About a minute ago   Up About a minute   0.0.0.0:9092->9092/tcp                                      kafka
+1b8b80395959   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8097/tcp, 8099/tcp, 9000/tcp, 0.0.0.0:8098->8098/tcp   pinot-server
+134a67eec957   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp             pinot-broker
+4fcc72cb7302   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp                       pinot-controller
+144304524f6c   zookeeper:3.9.2           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp        pinot-zookeeper
 ```
 
 ### Docker Compose
 
+#### Export Docker Image tags
+
+Optionally, export the necessary docker image tags for Pinot, Zookeeper, and Kafka.
+
+```
+export PINOT_IMAGE=apachepinot/pinot:1.2.0
+export ZK_IMAGE=zookeeper:3.9.2
+export KAFKA_IMAGE=bitnami/kafka:3.6
+```
+
+#### Create _docker-compose.yml_ file
 Create a file called _docker-compose.yml_ that contains the following:
 
 {% code title="docker-compose.yml" %}
 ```yaml
 version: '3.7'
+
 services:
   pinot-zookeeper:
-    image: zookeeper:3.9.2
-    container_name: pinot-zookeeper
+    image: ${ZK_IMAGE:-zookeeper:3.9.2}
+    container_name: "pinot-zookeeper"
+    restart: unless-stopped
     ports:
       - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - pinot-demo
+    healthcheck:
+      test: ["CMD", "zkServer.sh", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+  pinot-kafka:
+    image: ${KAFKA_IMAGE:-bitnami/kafka:3.6}
+    container_name: "kafka"
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: pinot-zookeeper:2181/kafka
+      KAFKA_BROKER_ID: 0
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+    depends_on:
+      pinot-zookeeper:
+        condition: service_healthy
+    networks:
+      - pinot-demo
+    healthcheck:
+      test: [ "CMD-SHELL", "kafka-broker-api-versions.sh -bootstrap-server kafka:9092" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    deploy:
+      replicas: ${KAFKA_REPLICAS:-0}  # Default to 0, meaning Kafka won't start unless KAFKA_REPLICAS is set
+
   pinot-controller:
-    image: apachepinot/pinot:1.2.0
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.2.0}
     command: "StartController -zkAddress pinot-zookeeper:2181"
-    container_name: pinot-controller
+    container_name: "pinot-controller"
     restart: unless-stopped
     ports:
       - "9000:9000"
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms1G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
     depends_on:
-      - pinot-zookeeper
+      pinot-zookeeper:
+        condition: service_healthy
+    networks:
+      - pinot-demo
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
   pinot-broker:
-    image: apachepinot/pinot:1.2.0
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.2.0}
     command: "StartBroker -zkAddress pinot-zookeeper:2181"
-    restart: unless-stopped
     container_name: "pinot-broker"
+    restart: unless-stopped
     ports:
       - "8099:8099"
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
     depends_on:
-      - pinot-controller
+      pinot-controller:
+        condition: service_healthy
+    networks:
+      - pinot-demo
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8099/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
   pinot-server:
-    image: apachepinot/pinot:1.2.0
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.2.0}
     command: "StartServer -zkAddress pinot-zookeeper:2181"
-    restart: unless-stopped
     container_name: "pinot-server"
+    restart: unless-stopped
     ports:
       - "8098:8098"
     environment:
       JAVA_OPTS: "-Dplugins.dir=/opt/pinot/plugins -Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
     depends_on:
-      - pinot-broker
+      pinot-broker:
+        condition: service_healthy
+    networks:
+      - pinot-demo
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8097/health/readiness || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+networks:
+  pinot-demo:
+    name: pinot-demo
+    driver: bridge
 ```
 {% endcode %}
 
-Run the following command to launch all the components:
+#### Launch the components
+Run the following command to launch all the required components:
 
 ```
 docker compose --project-name pinot-demo up
 ```
 
+OR, optionally, run the following command to launch all the components, including kafka:
+```
+export KAFKA_REPLICAS=1
+docker compose --project-name pinot-demo up
+```
 Run the below command to check the container status:
 
 ```
-docker container ls 
+docker container ls -a
 ```
 
 **Sample Console Output**
 
 ```
-CONTAINER ID   IMAGE                     COMMAND                  CREATED              STATUS              PORTS                                                                     NAMES
-ba5cb0868350   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 9000/tcp                                                   pinot-server
-698f160852f9   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp, :::8099->8099/tcp        pinot-broker
-b1ba8cf60d69   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp                  pinot-controller
-54e7e114cd53   zookeeper:3.9.2           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   pinot-zookeeper
+CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                        PORTS                                                       NAMES
+f34a046ac69f   bitnami/kafka:3.6         "/opt/bitnami/script…"   9 minutes ago    Up About a minute (healthy)   0.0.0.0:9092->9092/tcp                                      kafka
+f28021bd5b1d   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8097/tcp, 8099/tcp, 9000/tcp, 0.0.0.0:8098->8098/tcp   pinot-server
+e938453054b0   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp             pinot-broker
+e0d0c71303a8   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   18 minutes ago   Up About a minute (healthy)   8096-8099/tcp, 0.0.0.0:9000->9000/tcp                       pinot-controller
+4be5f168f252   zookeeper:3.9.2           "/docker-entrypoint.…"   18 minutes ago   Up About a minute (healthy)   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp        pinot-zookeeper
 ```
 
 Once your cluster is up and running, see [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
