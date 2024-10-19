@@ -4,7 +4,7 @@ description: This section contains reference documentation for the length functi
 
 # length
 
-calculate length of the string
+Calculate length of the string value
 
 ## Signature
 
