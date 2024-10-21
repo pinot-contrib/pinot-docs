@@ -140,3 +140,22 @@ Another way to verify this optimization is being applied is to use the `EXPLAIN 
 Notice that this optimization cannot be seen in the normal `EXPLAIN PLAN` command.
 {% endhint %}
 
+### Lookup join <a href="#lookup-join" id="lookup-join"></a>
+
+The lookup join is a special join strategy to accelerate value lookup when the right table of the join is a [dimension table](../../../basics/data-import/batch-ingestion/dim-table.md). It provides similar performance to [Lookup UDF Join](../query-syntax/lookup-udf-join.md).&#x20;
+
+This join strategy is introduced in Pinot 1.3.0. It can be enabled for specific queries by specifying the `joinOptions` hint in the `SELECT` clause.
+
+For example:
+
+<pre class="language-sql"><code class="lang-sql"><strong>SELECT /*+ joinOptions(join_strategy='lookup') */
+</strong><strong>    customer.c_address, orders.o_shippriority
+</strong>FROM customer JOIN orders
+    ON customer.c_custkey = orders.o_custkey
+</code></pre>
+
+Currently the lookup join comes with the following prerequisites/limitations:
+
+* Right table must be configured as a dimension table.
+* Primary key of the right table must be used as the join key. If the primary key is a compound key of multiple columns, all the columns must be used as the join key.
+* No extra filter is allowed on the right table.
