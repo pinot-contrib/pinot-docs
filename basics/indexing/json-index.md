@@ -377,7 +377,7 @@ For instructions on that configuration property, see the [Raw value forward inde
 
 ## How to use the JSON index
 
-The JSON index can be used via the `JSON_MATCH` predicate: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find every entry with the name "adam":
+The JSON index can be used via the `JSON_MATCH` predicate for filtering: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find every entry with the name "adam":
 
 ```sql
 SELECT ... 
@@ -386,6 +386,15 @@ WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
 Note that the quotes within the filter expression need to be escaped.
+
+The JSON index can also be used via the `JSON_EXTRACT_INDEX` predicate for value extraction (optionally with filtering): `JSON_EXTRACT_INDEX(<column>, '<jsonPath>', ['resultsType'], ['filter'])`. For example, to extract every value for path `$.name` when the path `$.id` is less than 10: 
+
+```sql
+SELECT jsonextractindex(repo, '$.name', 'STRING', 'dummyValue', '"$.id" < 10')
+FROM mytable 
+```
+
+More in-depth examples can be found in the [JSON_EXTRACT_INDEX function documentation](../../configuration-reference/functions/jsonextractindex.md).
 
 ## Supported filter expressions
 
