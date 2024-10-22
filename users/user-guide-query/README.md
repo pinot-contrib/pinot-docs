@@ -16,6 +16,10 @@ description: >-
 [query-options.md](query-options.md)
 {% endcontent-ref %}
 
+{% content-ref url="query-quotas.md" %}
+[query-quotas.md](query-quotas.md)
+{% endcontent-ref %}
+
 ### Explore query syntax:
 
 

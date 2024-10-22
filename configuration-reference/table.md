@@ -37,6 +37,8 @@ The following properties can be nested inside the top-level configurations.
 | storage             | <p>The maximum storage space the table is allowed to use before replication.</p><p>For example, in the above table, the storage is 140G and replication is 3, so the maximum storage the table is allowed to use is 140G x 3 = 420G. The space the table uses is calculated by adding up the sizes of all segments from every server hosting this table. Once this limit is reached, offline segment push throws a <code>403</code> exception with message, <code>Quota check failed for segment: segment_0 of table: pinotTable</code>.</p> |
 | maxQueriesPerSecond | The maximum queries per second allowed to execute on this table. If query volume exceeds this, a `429` exception with message `Request 123 exceeds query quota for table:pinotTable, query:select count(*) from pinotTable` will be sent, and a BrokerMetric `QUERY_QUOTA_EXCEEDED` will be recorded. The application should build an exponential backoff and retry mechanism to react to this exception.                                                                                                                                    |
 
+Find more details on query quotas [here](../users/user-guide-query/query-quotas.md)
+
 ### Routing
 
 Find details on configuring routing [here](https://docs.pinot.apache.org/operators/operating-pinot/tuning/routing).
