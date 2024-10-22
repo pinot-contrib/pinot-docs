@@ -127,6 +127,7 @@
     * [Window aggregate](users/user-guide-query/query-syntax/windows-functions.md)
     * [Funnel Analysis](users/user-guide-query/query-syntax/funnel-analysis.md)
   * [Query Options](users/user-guide-query/query-options.md)
+  * [Query Quotas](users/user-guide-query/query-quotas.md)
   * [Multi stage query](users/user-guide-query/multi-stage-query/README.md)
     * [Operator Types](users/user-guide-query/multi-stage-query/operator-types/README.md)
       * [Aggregate](users/user-guide-query/multi-stage-query/operator-types/aggregate.md)
