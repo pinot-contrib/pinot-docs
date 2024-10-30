@@ -84,6 +84,12 @@ This guide shows you how to handle the complex type in the ingested data, such a
 [complex-type.md](complex-type.md)
 {% endcontent-ref %}
 
+This guide shows you how to unnest JSON records that are grouped into an array at the root level.
+
+{% content-ref url="unnest-json-array.md" %}
+[unnest-json-array.md](unnest-json-array.md)
+{% endcontent-ref %}
+
 This guide shows you how to handle records with dynamic schemas, like JSON log events.
 
 {% content-ref url="schema-conforming-transformer.md" %}
