@@ -4,7 +4,17 @@ The ingestion configuration ('ingestionConfig') is a section of the [table confi
 
 ## `ingestionConfig`
 
-<table data-header-hidden><thead><tr><th width="231"></th><th></th></tr></thead><tbody><tr><td><strong>Config key</strong></td><td><strong>Description</strong></td></tr><tr><td><code>streamConfigMaps</code> </td><td>See the <a href="ingestion.md#streamconfigmaps">streamConfigMaps</a> section for details. </td></tr><tr><td><code>continueOnError</code></td><td>Set to <code>true</code> to skip any row indexing error and move on to the next row. Otherwise, an error evaluating a transform or filter function may block ingestion (real-time or offline), and result in data loss or corruption. Consider your use case to determine if it's preferable to set this option to <code>false</code>, and fail the ingestion if an error occurs to maintain data integrity.</td></tr><tr><td><code>rowTimeValueCheck</code></td><td>Set to <code>true</code> to validate the time column values ingested during segment upload. Validates each row of data in a segment matches the specified time format, and falls within a valid time range (1971-2071). If the value doesn't meet both criteria, Pinot replaces the value with null. This option ensures that the time values are strictly increasing and that there are no duplicates or gaps in the data.</td></tr><tr><td><code>segmentTimeValueCheck</code></td><td>Set to <code>true</code> to validate the time range of the segment falls between 1971 and 2071. This option ensures data segments stored in the system are correct and consistent.</td></tr></tbody></table>
+<table data-header-hidden>
+<thead><tr><th width="231"></th><th></th></tr></thead>
+<tbody>
+<tr><td><strong>Config key</strong></td><td><strong>Description</strong></td></tr>
+<tr><td><code>streamConfigMaps</code> </td><td>See the <a href="ingestion.md#streamconfigmaps">streamConfigMaps</a> section for details. </td></tr>
+<tr><td><code>batchIngestionConfig</code> </td><td>See the <a href="ingestion.md#batchIngestionConfig">batchIngestionConfig</a> section for details. </td></tr>
+<tr><td><code>continueOnError</code></td><td>Set to <code>true</code> to skip any row indexing error and move on to the next row. Otherwise, an error evaluating a transform or filter function may block ingestion (real-time or offline), and result in data loss or corruption. Consider your use case to determine if it's preferable to set this option to <code>false</code>, and fail the ingestion if an error occurs to maintain data integrity.</td></tr>
+<tr><td><code>rowTimeValueCheck</code></td><td>Set to <code>true</code> to validate the time column values ingested during segment upload. Validates each row of data in a segment matches the specified time format, and falls within a valid time range (1971-2071). If the value doesn't meet both criteria, Pinot replaces the value with null. This option ensures that the time values are strictly increasing and that there are no duplicates or gaps in the data.</td></tr>
+<tr><td><code>segmentTimeValueCheck</code></td><td>Set to <code>true</code> to validate the time range of the segment falls between 1971 and 2071. This option ensures data segments stored in the system are correct and consistent.</td></tr>
+</tbody>
+</table>
 
 ## `streamConfigMaps`
 
@@ -79,6 +89,41 @@ Since [this PR](https://github.com/apache/pinot/pull/13790), `streamConfigMaps` 
       "continueOnError": true,
       "rowTimeValueCheck": true,
       "segmentTimeValueCheck": false
+    },
+    "isDimTable": false
+  }
+}
+```
+
+## `batchIngestionConfig`
+| **Config key**                     | **Description**                                                                                                                                                                                                                             | **Supported values**                            |
+|------------------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |-------------------------------------------------|
+| <p>segmentPushType<br></p>         | <p>Can be either:</p><ul><li><code>APPEND</code> (default): New data segments pushed periodically, to append to the existing data eg. daily or hourly. Time column is mandatory for this push type.</li><li><code>REFRESH</code>: Entire data is replaced every time during a data push. Refresh tables have no retention.</li></ul>| <p><code>APPEND</code> or <code>REFRESH</code></p>| 
+| <p>segmentPushFrequency<br></p>    | <p>The cadence at which segments are pushed, such as <code>HOURLY</code> or <code>DAILY</code><br></p>| <p><code>HOURLY</code> or <code>DAILY</code></p>|
+
+### Example table config with `batchIngestionConfig`
+
+```json
+{
+  "tableName": "transcript",
+  "tableType": "OFFLINE",
+  "segmentsConfig": {
+    "timeColumnName": "timestamp",
+    "timeType": "MILLISECONDS",
+    "schemaName": "transcript",
+    "replicasPerPartition": "1"
+  },
+  "tenants": {},
+  "tableIndexConfig": {
+    "loadMode": "MMAP",
+  },
+  "metadata": {
+    "customConfigs": {}
+  },
+  "ingestionConfig": {
+    "batchIngestionConfig": {
+      "segmentPushFrequency": "HOURLY",
+      "segmentPushType": "APPEND"
     },
     "isDimTable": false
   }
