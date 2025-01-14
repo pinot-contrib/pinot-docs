@@ -5,14 +5,16 @@ description: Tips and tricks that can be used to optimize joins
 # Optimizing joins
 
 {% hint style="info" %}
-Remember to read the [join operator](operator-types/hash_join.md) page to have a more in depth view of how joins are implemented
+Read the [join operator](operator-types/hash_join.md) page for a detailed explanation of how joins are implemented.
 {% endhint %}
 
 ### The order of input relations matter
 
-Apache Pinot does not use table stats to determine the best order to consume the input relations. Instead, it assumes that the right input relation is the smaller one. That relation will always be fully consumed to build an in-memory hash table and sometimes it will be broadcasted to all workers. This means that it is important to specify the smaller relation as the right input.
+Apache Pinot does not rely on table statistics to optimize the join order. Instead, it prioritizes the input relations from right to left (based on the order of the tables in the SQL query). This relation is fully consumed to create an in-memory hash table and may be broadcast to all workers. It is less expensive to do a join between a large table and a small table than the other way around, therefore it's important to specify the smaller relation as the right input
 
-Remember that left and right are relative to the order of the tables in the SQL query. It is less expensive to do a join between a large table and a small table than the other way around.
+{% hint style="info" %}
+Here _left_ means the first relation in the explain plan and _right_ the second one. In SQL, when two tables are joined, the left relation is the first one to specify and the right the second one. But this gets more complicated when three or more tables are joined. It is strongly recommended to use the explain plan to be sure about which input is _left_ and _right._
+{% endhint %}
 
 For example, this query:
 
@@ -117,4 +119,4 @@ At this moment this optimization cannot be seen in the Pinot explain plan.
 
 ### Reduce data shuffle <a href="#reducing-data-shuffle" id="reducing-data-shuffle"></a>
 
-Pinot supports different types of [join strategies](join-strategies/). It is important to understand them and try to use them when possible. This data shuffle is expensive and can be a bottleneck for the query performance. Remember to use `stageStats`  (specially [mailbox send](operator-types/mailbox-send.md) and [mailbox receive](operator-types/mailbox-receive.md)) and different explain plans to understand how your data is being shuffled.
+Pinot supports different types of [join strategies](join-strategies/). It is important to understand them and try to use when possible. This data shuffle is expensive and can be a bottleneck for the query performance. Remember to use `stageStats`  (specially [mailbox send](operator-types/mailbox-send.md) and [mailbox receive](operator-types/mailbox-receive.md)) and different explain plan modes to understand how your data is being shuffled.

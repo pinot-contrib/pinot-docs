@@ -2,9 +2,9 @@
 
 In order to execute joins, Pinot creates virtual partitions at query time. The more general way to do so is to assign a random partition to each row of the table. Each partition is then assigned to a server, and the join is executed in a distributed manner.
 
-This partition technique can be applied to one of the tables in the join, but not to both. Otherwise, the result wouldn't be correct as some of the pairs of rows would be lost would never be joined. Therefore what Pinot does is to partition one of the tables and broadcast the other one.
+This partition technique can be applied to one of the tables in the join, but not to both. Otherwise, the result wouldn't be correct as some of the pairs of rows would be lost and never joined. Therefore what Pinot does is partition one of the tables and broadcast the other one.
 
-<figure><img src="../../../../.gitbook/assets/image (7).png" alt="" width="563"><figcaption><p>Dotted arrows mean shuffle while strong arrows mean in-server transfer</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (7).png" alt="" width="563"><figcaption><p>Dotted arrows mean shuffle while solid arrows mean in-server transfer</p></figcaption></figure>
 
 This technique is used by Pinot when no other technique (like semantic virtual partition or colocated joins) can be used. For example, on queries like:
 
