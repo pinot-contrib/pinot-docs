@@ -91,7 +91,7 @@ Export the necessary docker image tags for Pinot, Zookeeper, and Kafka.
 ```
 export PINOT_IMAGE=apachepinot/pinot:1.2.0
 export ZK_IMAGE=zookeeper:3.9.2
-export KAFKA_IMAGE= bitnami/kafka:3.6
+export KAFKA_IMAGE=bitnami/kafka:3.6
 ```
 
 #### Start Zookeeper
