@@ -60,6 +60,7 @@ For example the following table config enables the Bloom filter in the _playerId
   "fieldConfigList": [
     {
       "name": "playerID",
+      "encodingType": "RAW",
       "indexes": {
         "bloom": {}
       }
@@ -80,6 +81,7 @@ In case some parameter needs to be customized, they can be included in `fieldCon
   "fieldConfigList": [
     {
       "name": "playerID",
+      "encodingType": "RAW",
       "indexes": {
         "bloom": {
           "fpp": 0.01,
