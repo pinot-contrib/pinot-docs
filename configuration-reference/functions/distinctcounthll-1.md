@@ -4,39 +4,17 @@ description: >-
   function.
 ---
 
-# DISTINCTCOUNTHLL
+# DISTINCTCOUNTHLLPLUS
 
-Returns an approximate distinct count using _HyperLogLog_. It also takes an optional second argument to configure the _log2m_ for the _HyperLogLog_.&#x20;
 
-For accurate distinct counting, see [DISTINCTCOUNT](distinctcount.md). Review [DISTINCTCOUNTHLL considerations](distinctcounthll.md#distinctcounthll-considerations) for your use case.
 
 ## Signature
 
-> DISTINCTCOUNTHLL(colName, log2m)
+> DISTINCTCOUNTHLLPLUS(colName, log2m)
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
-
-```sql
-select DISTINCTCOUNTHLL(teamID) AS value
-from baseballStats 
-```
-
-| value |
-| ----- |
-| 158   |
-
-```sql
-select DISTINCTCOUNTHLL(teamID, 12) AS value
-from baseballStats 
-```
-
-| value |
-| ----- |
-| 149   |
-
-## **DISTINCTCOUNTHLL considerations**
+## **DISTINCTCOUNTHLLPLUS considerations**
 
 * `DISTINCTCOUNTHLL()`is faster than `DISTINCTCOUNT()`if data is pre-aggregated at ingestion or aggregated at a server with enough records. This performance improvement increases when comparing large datasets.
 * If very few records are pre-aggregated, `DISTINCTCOUNTHLL()`will not be as fast as `DISTINCTCOUNT()`because the serialized HLL size is larger than sending individual values.
