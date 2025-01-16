@@ -33,13 +33,14 @@ WHERE TEXT_MATCH (<column_name>, '<search_expression>')
 
 where `<column_name>` is the column text index is created on and `<search_expression>` conforms to one of the following:
 
-| **Search Expression Type** | **Example**                                           |
-| -------------------------- | ----------------------------------------------------- |
-| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"') |
-| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                 |
-| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')         |
-| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')             |
-| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')       |
+| **Search Expression Type** | **Example**                                                                                                 |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"')                                                       |
+| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                                                                       |
+| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')                                                               |
+| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')                                                                   |
+| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')                                                             |
+| Not Query                  | <p>TEXT_MATCH (&#x3C;column_name>, '<em>:</em> NOT c%')</p><p>NOT TEXT_MATCH (&#x3C;column_name>, 'c%')</p> |
 
 ## Current restrictions
 
