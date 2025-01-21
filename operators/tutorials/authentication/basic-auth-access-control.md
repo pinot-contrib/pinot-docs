@@ -134,7 +134,7 @@ Pinot-controller has supported custom access control implementations for quite s
 
 Controller Auth can be enabled via configuration in the controller properties. The configuration options allow the specification of usernames and passwords as well as optional ACL restrictions on a per-table and per-access-type (_CREATE_, _READ_, _UPDATE_, _DELETE_) basis.
 
-The example below creates two users, _admin_ with password _verysecret_ and _user_ with password _secret_. _admin_ has full access, whereas _user_ is restricted to READ operations and, additionally, to tables named _myusertable_, _baseballStats_, and _stuff_ in all cases where the API calls are table-specific.
+The example below creates two users, _admin_ with password _verysecret_ and _user_ with password _secret_. _admin_ has full access, whereas _user_ is restricted to READ operations and, additionally, to tables named _myusertable_, _baseballStats_, and _stuff_, and to tables not named _excludedTable_ in all cases where the API calls are table-specific.
 
 ```
 controller.admin.access.control.factory.class=org.apache.pinot.controller.api.access.BasicAuthAccessControlFactory
@@ -143,6 +143,7 @@ controller.admin.access.control.principals=admin,user
 controller.admin.access.control.principals.admin.password=verysecret
 controller.admin.access.control.principals.user.password=secret
 controller.admin.access.control.principals.user.tables=myusertable,baseballStats,stuff
+controller.admin.access.control.principals.user.excludeTables=excludedTable
 controller.admin.access.control.principals.user.permissions=READ
 ```
 
@@ -158,7 +159,7 @@ Pinot-Broker, similar to pinot-controller above, has supported access control fo
 
 Broker Auth can be enabled via configuration in the broker properties, similar to the controller. The configuration options allow specification of usernames and passwords as well as optional ACL restrictions on a per-table table basis (access type is always READ). Note, that it is possible to configure a different set of users, credentials, and permissions for broker access. However, **if you want a user to be able to access data via the query console on the controller web UI,** that user must (a) share the **same username and password** on both controller and broker, and (b) have **READ permissions and table-level access**.
 
-The example below again creates two users, _admin_ with password _verysecret_ and _user_ with password _secret_. _admin_ has full access, whereas _user_ is restricted to tables named _baseballStats_ and _otherstuff_.
+The example below again creates two users, _admin_ with password _verysecret_ and _user_ with password _secret_. _admin_ has full access, whereas _user_ is restricted to tables named _baseballStats_ and _otherstuff_ and to tables not named _otherExcludedTable_ .
 
 ```
 # the factory class property is different for the broker
@@ -168,6 +169,7 @@ pinot.broker.access.control.principals=admin,user
 pinot.broker.access.control.principals.admin.password=verysecret
 pinot.broker.access.control.principals.user.password=secret
 pinot.broker.access.control.principals.user.tables=baseballStats,otherstuff
+controller.admin.access.control.principals.user.excludeTables=otherExcludedTable
 ```
 
 {% hint style="info" %}
