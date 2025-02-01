@@ -13,7 +13,7 @@ A dimension table cannot be part of a [hybrid table](../../components/table/#hyb
 Configure dimension tables using following properties in the table configuration:
 
 * `isDimTable`: Set to `true.`
-* `segmentsConfig.segmentPushType`: Set to `REFRESH`.
+* `ingestionConfig.batchIngestionConfig.segmentIngestionType`: Set to `REFRESH`.
 * `dimensionTableConfig.disablePreload`: By default, dimension tables are preloaded to allow for fast lookups. Set to `true` to trade off speed for memory by storing only the segment reference and docID. Otherwise, the whole row is stored in the Dimension table hash map.
 * `controller.dimTable.maxSize`: Determines the maximum size quota for a dimension table in a cluster. Table creation will fail if the storage quota exceeds this maximum size.
 * `dimensionFieldSpecs`: To look up dimension values, dimension tables need a primary key. For details, see [`dimensionFieldSpecs`](https://docs.pinot.apache.org/configuration-reference/schema#dimensionfieldspec).
@@ -26,10 +26,12 @@ Configure dimension tables using following properties in the table configuration
     "tableName": "dimBaseballTeams_OFFLINE",
     "tableType": "OFFLINE",
     "segmentsConfig": {
-      "schemaName": "dimBaseballTeams",
-      "segmentPushType": "REFRESH"
     },
-    "metadata": {},
+    "ingestionConfig": {
+      "batchIngestionConfig": {
+        "segmentIngestionType": "REFRESH"
+      }
+    }
     "quota": {
       "storage": "200M"
     },
@@ -39,7 +41,8 @@ Configure dimension tables using following properties in the table configuration
     }
   }
 }
-```  
+```
+
 ### Example table schema configuration
 
 ```json
@@ -58,4 +61,3 @@ Configure dimension tables using following properties in the table configuration
   "primaryKeyColumns": ["teamID"]
 }
 ```
-
