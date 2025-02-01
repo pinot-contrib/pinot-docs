@@ -249,9 +249,7 @@ Below is an example of setting AWS credential as part of table config using envi
     "timeType": "DAYS",
     "replication": "3",
     "retentionTimeUnit": "DAYS",
-    "retentionTimeValue": "365",
-    "segmentPushFrequency": "DAILY",
-    "segmentPushType": "APPEND"
+    "retentionTimeValue": "365"
   },
   "tableIndexConfig": {
     "invertedIndexColumns": ["foo", "bar", "moo"],
@@ -276,6 +274,10 @@ Below is an example of setting AWS credential as part of table config using envi
     "nullHandlingEnabled": false
   },
   "ingestionConfig": {
+    "batchIngestionConfig": {
+      "segmentIngestionType": "APPEND",
+      "segmentIngestionFrequency": "DAILY"
+    },
     "filterConfig": {
       "filterFunction": "Groovy({foo == \"VALUE1\"}, foo)"
     },
