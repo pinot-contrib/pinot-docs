@@ -65,6 +65,28 @@ FROM a JOIN b ON a.col3 = b.col3
 GROUP BY a.col3, a.col1
 ```
 
+### is\_leaf\_return\_final\_result
+
+Type: Boolean
+
+Default: false
+
+This is particularly useful for distinct count function family. If set to true, the engine will consider that the data is already partitioned by the aggregated column, and the _coordinator_ stage will be able to compute the final result, and the result merge will be applied to final results.
+
+{% hint style="warning" %}
+Caution: This hint should only be used if the data is already partitioned by the aggregated column. There is no check to verify that the data is indeed partitioned by the aggregated column and using this hint when the data is not partitioned by the aggregated column will lead to incorrect results.
+{% endhint %}
+
+Example:
+
+```sql
+SELECT
+/*+ aggOptions(is_leaf_return_final_result='true') */
+    col1, COUNT(DISTINCT col2)
+FROM a
+GROUP BY col1
+```
+
 ### is\_skip\_leaf\_stage\_group\_by
 
 Type: Boolean
