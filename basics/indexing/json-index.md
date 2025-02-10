@@ -1,6 +1,7 @@
 ---
-description:  This page describes configuring the JSON index for Apache Pinot.
+description: This page describes configuring the JSON index for Apache Pinot.
 ---
+
 # JSON index
 
 The JSON index can be applied to JSON string columns to accelerate value lookups and filtering for the column.
@@ -53,22 +54,23 @@ The JSON index is designed to accelerate the filtering on JSON string columns wi
 
 To enable the JSON index, you can configure the following options in the table configuration:
 
-| Config Key                  | Description                                                                                                                                                                                                                            | Type         | Default                                              |
-| --------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------ | ---------------------------------------------------- |
-| **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                             | int          | -1 (unlimited)                                       |
-| **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                    | boolean      | false (include array)                                |
-| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements)                                                                                                                                                             | boolean      | false (calculate unique combination of all elements) |
-| **includePaths**            | Only include the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "_$.a.b.c_" will be included when "_$.a.b_" is configured to be included. | Set\<String> | null (include all paths)                             |
-| **excludePaths**            | Exclude the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "_$.a.b.c_" will be excluded when "_$.a.b_" is configured to be excluded. | Set\<String> | null (include all paths)                             |
-| **excludeFields**           | Exclude the given fields, e.g. "_b_", "_c_", even if it is under the included paths.                                                                                                                                                   | Set\<String> | null (include all fields)                            |
-| **indexPaths**              | Index the given paths, e.g. `*.*`, `a.**`. Paths matches the indexed paths will be indexed, e.g. `a.**` will index everything whose first layer is "a", `*.*` will index everything with maxLevels=2. This config could work together with other configs, e.g. includePaths, excludePaths, maxLevels but usually does not have to because it should be flexible enough to catch any scenarios.                                                                                                                                                                                                                                        | Set\<String> | null that is equivalent to `**` (include all fields)                            |
+| Config Key                  | Description                                                                                                                                                                                                                                                                                                                                                                                    | Type         | Default                                              |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------------------------- |
+| **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                                                                                                                                                                                     | int          | -1 (unlimited)                                       |
+| **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                                                                                                                                                                            | boolean      | false (include array)                                |
+| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements). If number of such combinations reaches 100k, an error is thrown while flattening JSON.                                                                                                                                                                                                                             | boolean      | false (calculate unique combination of all elements) |
+| **includePaths**            | Only include the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "_$.a.b.c_" will be included when "_$.a.b_" is configured to be included.                                                                                                                                                         | Set\<String> | null (include all paths)                             |
+| **excludePaths**            | Exclude the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "_$.a.b.c_" will be excluded when "_$.a.b_" is configured to be excluded.                                                                                                                                                         | Set\<String> | null (include all paths)                             |
+| **excludeFields**           | Exclude the given fields, e.g. "_b_", "_c_", even if it is under the included paths.                                                                                                                                                                                                                                                                                                           | Set\<String> | null (include all fields)                            |
+| **indexPaths**              | Index the given paths, e.g. `*.*`, `a.**`. Paths matches the indexed paths will be indexed, e.g. `a.**` will index everything whose first layer is "a", `*.*` will index everything with maxLevels=2. This config could work together with other configs, e.g. includePaths, excludePaths, maxLevels but usually does not have to because it should be flexible enough to catch any scenarios. | Set\<String> | null that is equivalent to `**` (include all fields) |
+| **maxValueLength**          | If the value of a json node (not the whole document)  is longer  than given value then replace it with "$SKIPPED$" before indexing.                                                                                                                                                                                                                                                            | int          | 0 (disabled)                                         |
+| **skipInvalidJson**         | If set, while adding json to index, instead of throwing exception, replace ill-formed json  with "\0$SKIPPED$" (key is an empty string)                                                                                                                                                                                                                                                        | boolean      | false (disabled)                                     |
 
 ### Recommended way to configure
 
 The recommended way to configure a JSON index is in the `fieldConfigList.indexes` object, within the `json` key.
 
 {% code title="json index defined in tableConfig" %}
-
 ```javascript
 {
   "fieldConfigList": [
@@ -90,13 +92,11 @@ The recommended way to configure a JSON index is in the `fieldConfigList.indexes
   ...
 }
 ```
-
 {% endcode %}
 
 All options are optional, so the following is a valid configuration that use the default parameter values:
 
 {% code title="json index defined in tableConfig" %}
-
 ```javascript
 {
   "fieldConfigList": [
@@ -110,18 +110,15 @@ All options are optional, so the following is a valid configuration that use the
   ...
 }
 ```
-
 {% endcode %}
 
 ### Deprecated ways to configure JSON indexes
 
-There are two older ways to configure the indexes that can be configured in the `tableIndexConfig` section inside table
-config.
+There are two older ways to configure the indexes that can be configured in the `tableIndexConfig` section inside table config.
 
 The first one uses the same JSON explained above, but it is defined inside `tableIndexConfig.jsonIndexConfigs.<column name>`:
 
 {% code title="older way to configure json indexes in table config" %}
-
 ```json
 {
   "tableIndexConfig": {
@@ -141,13 +138,11 @@ The first one uses the same JSON explained above, but it is defined inside `tabl
   }
 }
 ```
-
 {% endcode %}
 
 Like in the previous case, all parameters are optional, so the following is also valid:
 
 {% code title="json index with default config" %}
-
 ```json
 {
   "tableIndexConfig": {
@@ -159,14 +154,11 @@ Like in the previous case, all parameters are optional, so the following is also
   }
 }
 ```
-
 {% endcode %}
 
-The last option does not support to configure any parameter.
-In order to use this option, add the name of the column in `tableIndexConfig.jsonIndexColumns` like in this example:
+The last option does not support to configure any parameter. In order to use this option, add the name of the column in `tableIndexConfig.jsonIndexColumns` like in this example:
 
 {% code title="json index with default config" %}
-
 ```javascript
 {
   "tableIndexConfig": {
@@ -178,7 +170,6 @@ In order to use this option, add the name of the column in `tableIndexConfig.jso
   }
 }
 ```
-
 {% endcode %}
 
 #### Example:
@@ -280,9 +271,8 @@ With **excludeArray** set to true:
 
 With **disableCrossArrayUnnest** set to true:
 
-```json
-{
-  "name": "adam",
+<pre class="language-json"><code class="lang-json"><strong>{
+</strong>  "name": "adam",
   "age": 20,
   "addresses[0].country": "us",
   "addresses[0].street": "main st",
@@ -303,6 +293,43 @@ With **disableCrossArrayUnnest** set to true:
 {
   "name": "adam",
   "age": 20,
+  "skills[1]": "programming"
+}
+</code></pre>
+
+With **disableCrossArrayUnnest** set to false:
+
+```json
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].number": 1,
+  "addresses[0].street": "main st",
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].number": 1,
+  "addresses[0].street": "main st",
+  "skills[1]": "programming"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+  "addresses[1].number": 2,
+  "addresses[1].street": "second st",
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+  "addresses[1].number": 2,
+  "addresses[1].street": "second st",
   "skills[1]": "programming"
 }
 ```
@@ -378,7 +405,7 @@ With **excludeFields** set to \["age", "street"]:
 }
 ```
 
-With **indexPaths** set to \["*", "address..country"]:
+With **indexPaths** set to \["\*", "address..country"]:
 
 ```json
 {
@@ -430,7 +457,7 @@ SELECT jsonextractindex(repo, '$.name', 'STRING', 'dummyValue', '"$.id" < 10')
 FROM mytable
 ```
 
-More in-depth examples can be found in the [JSON_EXTRACT_INDEX function documentation](../../configuration-reference/functions/jsonextractindex.md).
+More in-depth examples can be found in the [JSON\_EXTRACT\_INDEX function documentation](../../configuration-reference/functions/jsonextractindex.md).
 
 ## Supported filter expressions
 
@@ -506,6 +533,23 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
 ```
 
+Since JSON index works based on flattened JSON documents, if cross array un-nesting is disabled (  **disableCrossArrayUnnest = true** ), then querying more than one array in a single JSON\_MATCH function call returns empty result, e.g.&#x20;
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[*].country"=''us'' AND "$.skills[*]"=''english''')
+```
+
+In such cases expression should be split into multiple JSON\_MATCH calls, e.g.
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[*].country"=''us''')
+AND   JSON_MATCH(person, '"$.skills[*]"=''english''')
+```
+
 ### Existence check
 
 Find all persons who have a phone field within the JSON:
@@ -543,7 +587,8 @@ If you don't want JSON context, use multiple separate `JSON_MATCH` predicates. F
 ```sql
 SELECT ...
 FROM mytable
-WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[*].country"=''ca''')
+WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') 
+  AND JSON_MATCH(person, '"$.addresses[*].country"=''ca''')
 ```
 
 This query will match "adam" because one of his addresses matches the street and another one matches the country.
@@ -553,7 +598,8 @@ The array index is maintained as a separate entry within the element, so in orde
 ```sql
 SELECT ...
 FROM mytable
-WHERE JSON_MATCH(person, '"$.addresses[0].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[1].street"=''second st''')
+WHERE JSON_MATCH(person, '"$.addresses[0].street"=''main st''') 
+  AND JSON_MATCH(person, '"$.addresses[1].street"=''second st''')
 ```
 
 ## Supported JSON values
