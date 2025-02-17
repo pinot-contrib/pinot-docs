@@ -85,6 +85,7 @@
   * [Timestamp index](basics/indexing/timestamp-index.md)
   * [Vector index](basics/indexing/vector-index.md)
 * [Release notes](basics/releases/README.md)
+  * [1.3.0](basics/releases/1.3.0.md)
   * [1.2.0](basics/releases/1.2.0.md)
   * [1.1.0](basics/releases/1.1.0.md)
   * [1.0.0](basics/releases/1.0.0.md)
