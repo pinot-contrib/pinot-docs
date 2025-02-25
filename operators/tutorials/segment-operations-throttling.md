@@ -2,7 +2,7 @@
 
 ## Throttling
 
-Segments undergo a series of operations such as download, untar, index rebuild, and much more before they are ready to serve data for queries. These operations can be resource intensive (CPU + memory) especially during operations such as server restarts and table rebalance. Throttling configurations can be added to control the concurrency of how many segments can undergo a specific operation at any given point of time to limit the resource utilization.
+Segments undergo a series of operations such as download, untar, index rebuild, and much more before they are ready to serve data for queries. These operations can be resource intensive (CPU + memory) especially during server restarts and table rebalance. Throttling configurations can be added to control the concurrency of how many segments can undergo a specific operation at any given point of time to limit the resource utilization.
 
 Each config added related to throttling come in two variants:
 
@@ -21,7 +21,9 @@ It is recommended to set the after serving queries variant to be <= the before s
 </code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>100</td><td>The maximum parallelism to download and untar segments from deep store or peer servers <strong>after</strong> the server is ready to serve queries.</td></tr><tr><td><pre data-overflow="wrap"><code><strong>pinot.server.max.segment.download.parallelism.before.serving.queries
 </strong></code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>100</td><td>The maximum parallelism to download and untar segments from deep store or peer servers <strong>before</strong> the server is ready to serve queries (start up).</td></tr></tbody></table>
 
-The above configurations can be updated via adding them as [cluster configurations](../../configuration-reference/cluster.md). No server restart is required for these configurations to take effect. Setting any of these to a large value effectively disables throttling (Apache Helix max threads for processing state transitions defaults to 40, which means at most 40 segment operations can occur in parallel on a given server). It is recommended to set both the before and after serving queries override in the ZK cluster configs if overriding to prevent unwanted defaults from getting picked up during / after the server is marked as ready to serve queries.
+The above configurations can be updated via adding them as [cluster configurations](../../configuration-reference/cluster.md). No server restart is required for these configurations to take effect. Setting any of these to a large value effectively disables throttling (Apache Helix max threads for processing state transitions defaults to 40, which means at most 40 segment operations can occur in parallel on a given server).
+
+It is recommended to set both the before and after serving queries override in the ZK cluster configs if overriding to prevent unwanted defaults from getting picked up during / after the server is marked as ready to serve queries.
 
 There also exists a [table level download throttle config](performance-optimization-configurations.md) which limits the segments that can be downloaded for each table. This applies first to ensure no table faces starvation in terms of segment download, and the server level download throttle mentioned in the table above applies next to ensure the server is protected from too many downloads across all tables. These can be configured independently.
 
