@@ -251,6 +251,7 @@
   * [Amazon MSK (Kafka)](operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
   * [Monitor Pinot using Prometheus and Grafana](operators/tutorials/monitor-pinot-using-prometheus-and-grafana.md)
   * [Performance Optimization Configurations](operators/tutorials/performance-optimization-configurations.md)
+  * [Segment Operations Throttling](operators/tutorials/segment-operations-throttling.md)
 
 ## Configuration Reference
 
