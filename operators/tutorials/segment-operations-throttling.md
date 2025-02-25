@@ -24,3 +24,9 @@ It is recommended to set the after serving queries variant to be <= the before s
 The above configurations can be updated via adding them as [cluster configurations](../../configuration-reference/cluster.md). No server restart is required for these configurations to take effect. Setting any of these to a large value effectively disables throttling (Apache Helix max threads for processing state transitions defaults to 40, which means at most 40 segment operations can occur in parallel on a given server). It is recommended to set both the before and after serving queries override in the ZK cluster configs if overriding to prevent unwanted defaults from getting picked up during / after the server is marked as ready to serve queries.
 
 There also exists a [table level download throttle config](performance-optimization-configurations.md) which limits the segments that can be downloaded for each table. This applies first to ensure no table faces starvation in terms of segment download, and the server level download throttle mentioned in the table above applies next to ensure the server is protected from too many downloads across all tables. These can be configured independently.
+
+## Relevant OSS PRs
+
+* Segment index rebuild across all index types: [https://github.com/apache/pinot/pull/14894](https://github.com/apache/pinot/pull/14894)
+* StarTree segment index rebuild across all index types: [https://github.com/apache/pinot/pull/14943](https://github.com/apache/pinot/pull/14943)
+* Segment download at server level: [https://github.com/apache/pinot/pull/15001](https://github.com/apache/pinot/pull/15001)
