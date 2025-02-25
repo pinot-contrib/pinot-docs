@@ -25,7 +25,7 @@ The above configurations can be updated via adding them as [cluster configuratio
 
 It is recommended to set both the before and after serving queries override in the ZK cluster configs if overriding to prevent unwanted defaults from getting picked up during / after the server is marked as ready to serve queries.
 
-There also exists a [table level download throttle config](performance-optimization-configurations.md) which limits the segments that can be downloaded for each table. This applies first to ensure no table faces starvation in terms of segment download, and the server level download throttle mentioned in the table above applies next to ensure the server is protected from too many downloads across all tables. These can be configured independently.
+There also exists a [table level download throttle config](performance-optimization-configurations.md) which limits the segments that can be downloaded for each table. This applies first to ensure no table faces starvation in terms of segment download, and the server level download throttle mentioned in the table above applies next to ensure the server is protected from too many downloads across all tables. Table level throttling is disabled by default. These can be configured independently.
 
 ## Relevant OSS PRs
 
