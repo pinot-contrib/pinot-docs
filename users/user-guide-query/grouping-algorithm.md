@@ -124,8 +124,8 @@ It is possible to enable group limiting and trimming at other stages with:
 
 * `is_enable_group_trim` hint - it enables trimming at all V1/V2 levels  and group limiting at cross-segment level.  `minSegmentGroupTrimSize` value needs to be set separately. \
   Default value: false&#x20;
-* `group_trim_size` hint - triggers sorting and trimming of group by results at intermediate stage. Requires `is_enable_group_trim` hint.\
-  Default value: -1 (disabled)
+* `mse_min_group_trim_size` hint - triggers sorting and trimming of group by results at intermediate stage. Requires `is_enable_group_trim` hint.\
+  Default value: 5000
 
 When the above hints are used, query processing looks as follows:
 
@@ -139,7 +139,7 @@ The actual processing depends on the query, which may not contain V1 leaf stage 
 
 
     ```sql
-    SELECT /*+  aggOptions(is_enable_group_trim='true',group_trim_size='10') */        
+    SELECT /*+ aggOptions(is_enable_group_trim='true', mse_min_group_trim_size='10') */        
     i, j, count(*) as cnt
      FROM myTable
      GROUP BY i, j
@@ -173,7 +173,7 @@ The actual processing depends on the query, which may not contain V1 leaf stage 
 
 
     ```sql
-    select /*+  aggOptions(is_enable_group_trim='true',group_trim_size='3') */ 
+    select /*+  aggOptions(is_enable_group_trim='true', mse_min_group_trim_size='3') */ 
            t1.i, t1.j, count(*) as cnt
     from tab t1
     join tab t2 on 1=1
@@ -210,7 +210,7 @@ The actual processing depends on the query, which may not contain V1 leaf stage 
 
 ## Configuration Parameters/hints
 
-<table data-full-width="true"><thead><tr><th width="325">Parameter</th><th width="107">Default</th><th width="339">Query Override</th><th>Description</th></tr></thead><tbody><tr><td><code>pinot.server.query.executor.num.groups.limit</code><br></td><td>100,000</td><td><code>OPTION(numGroupsLimit=value)</code></td><td>The maximum number of groups allowed per segment.</td></tr><tr><td><code>pinot.server.query.executor.min.segment.group.trim.size</code><br></td><td>-1 (disabled)</td><td><p><code>OPTION(</code></p><p><code>minSegmentGroupTrimSize=value)</code></p></td><td>The minimum number of groups to keep when trimming groups at the segment level.</td></tr><tr><td><code>pinot.server.query.executor.min.server.group.trim.size</code><br></td><td>5,000</td><td><p><code>OPTION(</code></p><p><code>minServerGroupTrimSize=value)</code></p></td><td>The minimum number of groups to keep when trimming groups at the server level.</td></tr><tr><td><code>pinot.server.query.executor.groupby.trim.threshold</code><br></td><td>1,000,000</td><td><p><code>OPTION(</code></p><p><code>groupTrimThreshold=value)</code></p></td><td>The number of groups to trigger the server level trim.</td></tr><tr><td><code>pinot.server.query.executor.max.execution.threads</code><br></td><td>-1 (use all execution threads)</td><td><p><code>OPTION(</code></p><p><code>maxExecutionThreads=value)</code></p></td><td>The maximum number of execution threads (parallelism of segment processing) used per query.</td></tr><tr><td><code>pinot.broker.min.group.trim.size</code><br><br></td><td>5000</td><td><p><code>OPTION(</code></p><p><code>minBrokerGroupTrimSize=value)</code></p><p></p></td><td>The minimum number of groups to keep when trimming groups at the broker.<br>Applies only to SSQ(*).</td></tr><tr><td><code>pinot.server.query.executor.group.trim.size</code></td><td>-1 (disabled)</td><td><p><code>OPTION(groupTrimSize=value)</code> or<br><code>SET groupTrimSize=value;</code> or<br><code>/*+ aggOptions(</code></p><p><code>group_trim_size='value') */</code></p></td><td>The number of groups to keep when trimming groups at intermediate level.<br>Applies only to MSQ(**).</td></tr><tr><td><code>pinot.broker.enable.group.trim</code></td><td>false (disabled)</td><td><p><code>/*+ aggOptions(</code></p><p><code>is_enable_group_trim='value') */</code></p></td><td>Enable pushdown of order by and limit to leaf stage (if possible in a query). Applies only to MSQ(**).</td></tr></tbody></table>
+<table data-full-width="true"><thead><tr><th width="325">Parameter</th><th width="107">Default</th><th width="339">Query Override</th><th>Description</th></tr></thead><tbody><tr><td><code>pinot.server.query.executor.num.groups.limit</code><br></td><td>100,000</td><td><code>SET numGroupsLimit = value;</code></td><td>The maximum number of groups allowed per segment.</td></tr><tr><td><code>pinot.server.query.executor.min.segment.group.trim.size</code><br></td><td>-1 (disabled)</td><td><code>SET minSegmentGroupTrimSize = value;</code></td><td>The minimum number of groups to keep when trimming groups at the segment level.</td></tr><tr><td><code>pinot.server.query.executor.min.server.group.trim.size</code><br></td><td>5,000</td><td><code>SET minServerGroupTrimSize = value;</code></td><td>The minimum number of groups to keep when trimming groups at the server level.</td></tr><tr><td><code>pinot.server.query.executor.groupby.trim.threshold</code><br></td><td>1,000,000</td><td><code>SET groupTrimThreshold = value;</code></td><td>The number of groups to trigger the server level trim.</td></tr><tr><td><code>pinot.server.query.executor.max.execution.threads</code><br></td><td>-1 (use all execution threads)</td><td><code>SET maxExecutionThreads = value;</code></td><td>The maximum number of execution threads (parallelism of segment processing) used per query.</td></tr><tr><td><code>pinot.broker.min.group.trim.size</code></td><td>5000</td><td><p><code>SET minBrokerGroupTrimSize = value;</code> </p><p></p></td><td>The minimum number of groups to keep when trimming groups at the broker.<br>Applies only to SSQ(*).</td></tr><tr><td><code>pinot.broker.mse.enable.group.trim</code></td><td>false (disabled)</td><td><p><code>/*+ aggOptions(</code></p><p><code>is_enable_group_trim='value') */</code></p></td><td>Enable group trim for the query (if possible). Applies only to MSQ(**).</td></tr><tr><td><code>pinot.server.query.executor.mse.min.group.trim.size</code></td><td>5000</td><td><p><code>/*+ aggOptions(</code></p><p><code>mse_min_group_trim_size='value') */</code> or <code>SET mseMinGroupTrimSize = value;</code> </p></td><td>The number of groups to keep when trimming groups at intermediate stage.<br>Applies only to MSQ(**).</td></tr></tbody></table>
 
 (\*) SSQ - Single-Stage Query
 
