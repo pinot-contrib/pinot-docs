@@ -124,6 +124,7 @@
     * [Funnel Analysis](users/user-guide-query/query-syntax/funnel-analysis.md)
     * [GapFill Function For Time-Series Dataset](users/user-guide-query/gap-fill-functions.md)
     * [Grouping Algorithm](users/user-guide-query/grouping-algorithm.md)
+    * [Hash Functions](users/user-guide-query/query-syntax/hash-functions.md)
     * [JOINs](users/user-guide-query/query-syntax/joins.md)
     * [Lookup UDF Join](users/user-guide-query/query-syntax/lookup-udf-join.md)
     * [Querying JSON data](users/user-guide-query/json-queries.md)
