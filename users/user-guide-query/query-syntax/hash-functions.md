@@ -1,10 +1,6 @@
 # Hash Functions
 
-Here’s the revised documentation with **Syntax**, **Parameters**, **Returns**, and **Examples** clearly separated for each function:
-
-***
-
-## Apache Pinot Hash Functions Documentation
+Apache Pinot provides a suite of hash functions to compute various hash values for data transformation within queries. These functions support cryptographic hashes (e.g., SHA, MD5) and non-cryptographic hashes (e.g., Murmur, Adler, CRC). Below is a detailed reference for each function.
 
 ### Cryptographic Hash Functions
 
