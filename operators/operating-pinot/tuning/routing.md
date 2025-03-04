@@ -12,10 +12,10 @@ An easy-to-understand scenario is the impact of a full GC on a server. Let say a
 
 To improve the tail latency, Apache Pinot provides two techniques at routing level:
 
-* Reduce the query fanout by exploding data distribution.
-* Reduce the query fanout by exploding data replication.
+* Reduce the query fanout by exploiting data distribution.
+* Reduce the query fanout by exploiting data replication.
 
-### Reduce query fanout by exploding data distribution
+### Reduce query fanout by exploiting data distribution
 
 As explained above, the broker must calculate the subset of servers that contains all the segments required to have a complete result. By default, the broker doesn't know anything about segments, so the subset of servers must contain all the segments in the table. This increases the number of servers that need to be asked. For example, in an extreme case where somehow the broker were able to know that only one segment was required, it could just ask one of the servers that contains that segment. By skipping servers that will not contain interesting data, the tail latency can be reduced without impacting the maximum peak performance.
 
@@ -110,7 +110,7 @@ When using offline tables, each input file should be crafted to contain rows on 
 Remember that Pinot does not impose a hard requirement here. It is fine if segments contain rows of more than one partition. What should be avoided is to have most segments associated with most partitions, given that in that case Pinot won't be actually able to prune most segments.
 {% endhint %}
 
-### Reduce the query fanout by exploding data replication.
+### Reduce the query fanout by exploiting data replication.
 
 Although using partitions can drastically reduce the fanout, it only applies to specific queries and requires a specific data distribution between segments. The most consistent way to limit the fanout is to define replica group segment alignment. A `Replica Group` is a subset of servers that contains a ‘complete’ set of segments of a table. Once we assign the segment based on the replica group, each query can be answered by fanning out to a single replica group instead of all servers.
 

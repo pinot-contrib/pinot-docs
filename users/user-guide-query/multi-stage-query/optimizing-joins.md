@@ -5,14 +5,16 @@ description: Tips and tricks that can be used to optimize joins
 # Optimizing joins
 
 {% hint style="info" %}
-Remember to read the [join operator](operator-types/hash\_join.md) page to have a more in deep view of how joins are implemented
+Read the [join operator](operator-types/hash_join.md) page for a detailed explanation of how joins are implemented.
 {% endhint %}
 
 ### The order of input relations matter
 
-Apache Pinot does not use table stats to determine the best order to consume the input relations. Instead, it assumes that the right input relation is the smaller one. That relation will always be fully consumed to build a hash table and sometimes it will be broadcasted to all workers. This means that it is important to specify the smaller relation as the right input.
+Apache Pinot does not rely on table statistics to optimize the join order. Instead, it prioritizes the input relations from right to left (based on the order of the tables in the SQL query). This relation is fully consumed to create an in-memory hash table and may be broadcast to all workers. It is less expensive to do a join between a large table and a small table than the other way around, therefore it's important to specify the smaller relation as the right input
 
-Remember that left and right are relative to the order of the tables in the SQL query. It is less expensive to do a join between a large table and a small table than the other way around.
+{% hint style="info" %}
+Here _left_ means the first relation in the explain plan and _right_ the second one. In SQL, when two tables are joined, the left relation is the first one to specify and the right the second one. But this gets more complicated when three or more tables are joined. It is strongly recommended to use the explain plan to be sure about which input is _left_ and _right._
+{% endhint %}
 
 For example, this query:
 
@@ -115,47 +117,6 @@ Which can then be optimized using indexes.
 
 At this moment this optimization cannot be seen in the Pinot explain plan.
 
-### Co-located join <a href="#co-located-join" id="co-located-join"></a>
+### Reduce data shuffle <a href="#reducing-data-shuffle" id="reducing-data-shuffle"></a>
 
-The co-located join is a special case of join where the data of the two tables to be joined is already co-located. When two tables that are partitioned in the same way are equi-joined on the partitioning key, the join can be optimized by avoiding the shuffle of the data. To read more about how to partition a table, see [Instance Assignment](../../../operators/operating-pinot/instance-assignment.md) and [Routing](../../../operators/operating-pinot/tuning/routing.md#data-ingested-partitioned-by-some-column).
-
-In Pinot 1.3.0 this optimization is disabled by default. It can be enabled for specific queries by specifying the `tableOptions` hint after each table in the query.
-
-For example:
-
-```sql
-SELECT customer.c_address, orders.o_shippriority
-FROM customer /*+ tableOptions(partition_function='hashcode', partition_key='c_custkey', partition_size='4') */
-JOIN orders /*+ tableOptions(partition_function='hashcode', partition_key='o_custkey', partition_size='4') */
-    ON customer.c_custkey = orders.o_custkey
-```
-
-Pinot can also be configured to automatically apply this optimization when it makes sense by changing the broker configuration property `pinot.broker.multistage.implicit.colocate` to true.
-
-As explained, the main difference when this optimization is enabled is that data doesn't need to be shuffled to execute the join. That can be verified by with the `rawMessages` and `inMemoryMessages` stats on the mailbox send operator for this stage. All messages should be `inMemoryMessages` and `rawMessages` should be 0 (or being not listed at all).
-
-Another way to verify this optimization is being applied is to use the `EXPLAIN IMPLEMENTATION PLAN` command. In order to see if the optimization is being applied you need to use the `EXPLAIN IMPLEMENTATION PLAN` command. There you will see that `MAIL_SEND` operators are decorated with `[PARTITIONED]` and each `MAIL_SEND` will send the data to another worker in the same server.
-
-{% hint style="warning" %}
-Notice that this optimization cannot be seen in the normal `EXPLAIN PLAN` command.
-{% endhint %}
-
-### Lookup join <a href="#lookup-join" id="lookup-join"></a>
-
-The lookup join is a special join strategy to accelerate value lookup when the right table of the join is a [dimension table](../../../basics/data-import/batch-ingestion/dim-table.md). It provides similar performance to [Lookup UDF Join](../query-syntax/lookup-udf-join.md).&#x20;
-
-This join strategy is introduced in Pinot 1.3.0. It can be enabled for specific queries by specifying the `joinOptions` hint in the `SELECT` clause.
-
-For example:
-
-<pre class="language-sql"><code class="lang-sql"><strong>SELECT /*+ joinOptions(join_strategy='lookup') */
-</strong><strong>    customer.c_address, orders.o_shippriority
-</strong>FROM customer JOIN orders
-    ON customer.c_custkey = orders.o_custkey
-</code></pre>
-
-Currently the lookup join comes with the following prerequisites/limitations:
-
-* Right table must be configured as a dimension table.
-* Primary key of the right table must be used as the join key. If the primary key is a compound key of multiple columns, all the columns must be used as the join key.
-* No extra filter is allowed on the right table.
+Pinot supports different types of [join strategies](join-strategies/). It is important to understand them and try to use when possible. This data shuffle is expensive and can be a bottleneck for the query performance. Remember to use `stageStats`  (specially [mailbox send](operator-types/mailbox-send.md) and [mailbox receive](operator-types/mailbox-receive.md)) and different explain plan modes to understand how your data is being shuffled.

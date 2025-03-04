@@ -60,3 +60,50 @@ WHERE ST_Contains(
 | count(\*) |
 | --------- |
 | 8         |
+
+{% hint style="info" %}
+Query should avoid transforming indexed geometry/geography column in WHERE clause to allow it to use the index. Transforming location to geometry within ST\_Contains function in example above disables index. Instead, it's better to transform the literal to match column type:
+{% endhint %}
+
+```sql
+select count(*)
+from meetupRsvp
+WHERE ST_Contains(
+         ST_GeogFromText('POLYGON ((
+             -74.171737 40.607377, 
+             -74.089339 40.753180, 
+             -73.911498 40.769303, 
+             -74.016555 40.604249,  
+             -74.171737 40.607377))'), 
+          location ) = 1
+```
+
+Index usage can be checked with EXPLAIN command:
+
+```sql
+SET explainAskingServers=true;
+explain plan for
+SELECT event_id
+FROM meetupRsvp
+WHERE ST_Contains(
+         ST_GeogFromText('POLYGON ((
+             -74.171737 40.607377,
+             -74.089339 40.753180,
+             -73.911498 40.769303,
+             -74.016555 40.604249,
+             -74.171737 40.607377))'), location) = 1
+limit 1000
+```
+
+which ought to return plan ending with:
+
+```
+Project(columns=[[event_id]])
+   DocIdSet(maxDocs=[10000])
+      InclusionFilterH3Index(predicate=[stcontains('84000000010000000500000000c0528afdbd2fa0d740444dbe878fabdac05285b7baecd0784044606833c6002ac0527a55fbb517a440446278854cdb7bc052810f3cb3e57540444d5807fed203c0528afdbd2fa0d740444dbe878fabda',location) = '1'], operator=[EQ])
+```
+
+where InclusionFilterH3Index means that query uses H3 index lookup.
+
+
+

@@ -1,5 +1,5 @@
 ---
-description:  This page describes configuring the JSON index for Apache Pinot.
+description: This page describes configuring the JSON index for Apache Pinot.
 ---
 
 # JSON index
@@ -43,8 +43,8 @@ Without an index, to look up the key and filter records based on the value, Pino
 For example, in order to find all persons whose name is "adam", the query will look like:
 
 ```sql
-SELECT * 
-FROM mytable 
+SELECT *
+FROM mytable
 WHERE JSON_EXTRACT_SCALAR(person, '$.name', 'STRING') = 'adam'
 ```
 
@@ -54,14 +54,7 @@ The JSON index is designed to accelerate the filtering on JSON string columns wi
 
 To enable the JSON index, you can configure the following options in the table configuration:
 
-| Config Key                  | Description                                                                                                                                                                                                                            | Type         | Default                                              |
-| --------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------ | ---------------------------------------------------- |
-| **maxLevels**               | Max levels to flatten the json object (array is also counted as one level)                                                                                                                                                             | int          | -1 (unlimited)                                       |
-| **excludeArray**            | Whether to exclude array when flattening the object                                                                                                                                                                                    | boolean      | false (include array)                                |
-| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements)                                                                                                                                                             | boolean      | false (calculate unique combination of all elements) |
-| **includePaths**            | Only include the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "_$.a.b.c_" will be included when "_$.a.b_" is configured to be included. | Set\<String> | null (include all paths)                             |
-| **excludePaths**            | Exclude the given paths, e.g. "_$.a.b_", "_$.a.c\[\*]_" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "_$.a.b.c_" will be excluded when "_$.a.b_" is configured to be excluded. | Set\<String> | null (include all paths)                             |
-| **excludeFields**           | Exclude the given fields, e.g. "_b_", "_c_", even if it is under the included paths.                                                                                                                                                   | Set\<String> | null (include all fields)                            |
+<table><thead><tr><th width="241">Config Key</th><th width="262">Description</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td><strong>maxLevels</strong></td><td>Max levels to flatten the json object (array is also counted as one level)</td><td>int</td><td>-1 (unlimited)</td></tr><tr><td><strong>excludeArray</strong></td><td>Whether to exclude array when flattening the object</td><td>boolean</td><td>false (include array)</td></tr><tr><td><strong>disableCrossArrayUnnest</strong></td><td>Whether to not unnest multiple arrays (unique combination of all elements in those arrays). If document contains two arrays holding, respectively M and N elements, then flattening produces M*N documents. If number of such combinations reaches 100k,  error with "Got too many combinations" message is thrown. </td><td>boolean</td><td>false (calculate unique combination of all elements)</td></tr><tr><td><strong>includePaths</strong></td><td>Only include the given paths, e.g. "<em>$.a.b</em>", "<em>$.a.c[*]</em>" (mutual exclusive with <strong>excludePaths</strong>). Paths under the included paths will be included, e.g. "<em>$.a.b.c</em>" will be included when "<em>$.a.b</em>" is configured to be included.</td><td>Set&#x3C;String></td><td>null (include all paths)</td></tr><tr><td><strong>excludePaths</strong></td><td>Exclude the given paths, e.g. "<em>$.a.b</em>", "<em>$.a.c[*]</em>" (mutual exclusive with <strong>includePaths</strong>). Paths under the excluded paths will also be excluded, e.g. "<em>$.a.b.c</em>" will be excluded when "<em>$.a.b</em>" is configured to be excluded.</td><td>Set&#x3C;String></td><td>null (include all paths)</td></tr><tr><td><strong>excludeFields</strong></td><td>Exclude the given fields, e.g. "<em>b</em>", "<em>c</em>", even if it is under the included paths.</td><td>Set&#x3C;String></td><td>null (include all fields)</td></tr><tr><td><strong>indexPaths</strong></td><td>Index the given paths, e.g. <code>*.*</code>, <code>a.**</code>. Paths matches the indexed paths will be indexed, e.g. <code>a.**</code> will index everything whose first layer is "a", <code>*.*</code> will index everything with maxLevels=2. This config could work together with other configs, e.g. includePaths, excludePaths, maxLevels but usually does not have to because it should be flexible enough to catch any scenarios.</td><td>Set&#x3C;String></td><td>null that is equivalent to <code>**</code> (include all fields)</td></tr><tr><td><strong>maxValueLength</strong></td><td>If the value of a json node (not the whole document)  is longer  than given value then replace it with <code>$SKIPPED$</code> before indexing. </td><td>int</td><td>0 (disabled)</td></tr><tr><td><strong>skipInvalidJson</strong></td><td>If set, while adding json to index, instead of throwing exception, replace ill-formed json with empty key/path and  $SKIPPED$ value .</td><td>boolean</td><td>false (disabled)</td></tr></tbody></table>
 
 ### Recommended way to configure
 
@@ -80,7 +73,8 @@ The recommended way to configure a JSON index is in the `fieldConfigList.indexes
           "disableCrossArrayUnnest": true,
           "includePaths": null,
           "excludePaths": null,
-          "excludeFields": null
+          "excludeFields": null,
+          "indexPaths": null
         }
       }
     }
@@ -110,8 +104,7 @@ All options are optional, so the following is a valid configuration that use the
 
 ### Deprecated ways to configure JSON indexes
 
-There are two older ways to configure the indexes that can be configured in the `tableIndexConfig` section inside table 
-config.
+There are two older ways to configure the indexes that can be configured in the `tableIndexConfig` section inside table config.
 
 The first one uses the same JSON explained above, but it is defined inside `tableIndexConfig.jsonIndexConfigs.<column name>`:
 
@@ -126,7 +119,8 @@ The first one uses the same JSON explained above, but it is defined inside `tabl
         "disableCrossArrayUnnest": true,
         "includePaths": null,
         "excludePaths": null,
-        "excludeFields": null
+        "excludeFields": null,
+        "indexPaths": null
       },
       ...
     },
@@ -152,13 +146,12 @@ Like in the previous case, all parameters are optional, so the following is also
 ```
 {% endcode %}
 
-The last option does not support to configure any parameter.
-In order to use this option, add the name of the column in `tableIndexConfig.jsonIndexColumns` like in this example:
+The last option does not support to configure any parameter. In order to use this option, add the name of the column in `tableIndexConfig.jsonIndexColumns` like in this example:
 
 {% code title="json index with default config" %}
 ```javascript
 {
-  "tableIndexConfig": {        
+  "tableIndexConfig": {
     "jsonIndexColumns": [
       "person",
       ...
@@ -233,6 +226,43 @@ Using the default setting, we will flatten the document into the following recor
 }
 ```
 
+With **maxValueLength** set to 9:
+
+```json
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].street": "main st",
+  "addresses[0].number": 1,
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].street": "main st",
+  "addresses[0].number": 1,
+  "skills[1]": "$SKIPPED$"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+  "addresses[1].street": "second st",
+  "addresses[1].number": 2,
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+  "addresses[1].street": "second st",
+  "addresses[1].number": 2,
+  "skills[1]": "$SKIPPED$"
+}
+```
+
 With **maxLevels** set to 1:
 
 ```json
@@ -268,9 +298,8 @@ With **excludeArray** set to true:
 
 With **disableCrossArrayUnnest** set to true:
 
-```json
-{
-  "name": "adam",
+<pre class="language-json"><code class="lang-json"><strong>{
+</strong>  "name": "adam",
   "age": 20,
   "addresses[0].country": "us",
   "addresses[0].street": "main st",
@@ -293,7 +322,48 @@ With **disableCrossArrayUnnest** set to true:
   "age": 20,
   "skills[1]": "programming"
 }
+</code></pre>
+
+When cross array un-nesting is disabled, then number of documents produced during JSON flattening is the sum of all array sizes, e.g. 2+2 = 4 in the example above.&#x20;
+
+With **disableCrossArrayUnnest** set to false:
+
+```json
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].number": 1,
+  "addresses[0].street": "main st",
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+  "addresses[0].number": 1,
+  "addresses[0].street": "main st",
+  "skills[1]": "programming"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+  "addresses[1].number": 2,
+  "addresses[1].street": "second st",
+  "skills[0]": "english"
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+  "addresses[1].number": 2,
+  "addresses[1].street": "second st",
+  "skills[1]": "programming"
+}
 ```
+
+When cross array un-nesting is enabled, then number of documents produced during JSON flattening is the product of all array sizes, e.g. 2\*2 = 4 in the example above. If JSON contains multiple  large nested arrays, it might be necessary to disable cross array un-nesting (**disableCrossArrayUnnest=true**) to avoid hitting the 100k flattened documents limit and triggering 'Got to many combinations' error.
 
 With **includePaths** set to \["$.name", "$.addresses\[\*].country"]:
 
@@ -366,6 +436,47 @@ With **excludeFields** set to \["age", "street"]:
 }
 ```
 
+With **indexPaths** set to \["\*", "address..country"]:
+
+```json
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[0].country": "us",
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+},
+{
+  "name": "adam",
+  "age": 20,
+  "addresses[1].country": "ca",
+}
+```
+
+With **skipInvalidJson** set to true, if we corrupt the original JSON, e.g. to&#x20;
+
+```json
+{ _invalid_json_
+  "name": "adam",
+  "age": 20,
+  "addresses": [...]
+  "skills": [...]
+}
+```
+
+then flattening will be produce:
+
+```json
+{ "": "$SKIPPED$" }
+```
 
 Note that the JSON index can only be applied to `STRING/JSON` columns whose values are JSON strings.
 
@@ -380,21 +491,21 @@ For instructions on that configuration property, see the [Raw value forward inde
 The JSON index can be used via the `JSON_MATCH` predicate for filtering: `JSON_MATCH(<column>, '<filterExpression>')`. For example, to find every entry with the name "adam":
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
 Note that the quotes within the filter expression need to be escaped.
 
-The JSON index can also be used via the `JSON_EXTRACT_INDEX` predicate for value extraction (optionally with filtering): `JSON_EXTRACT_INDEX(<column>, '<jsonPath>', ['resultsType'], ['filter'])`. For example, to extract every value for path `$.name` when the path `$.id` is less than 10: 
+The JSON index can also be used via the `JSON_EXTRACT_INDEX` predicate for value extraction (optionally with filtering): `JSON_EXTRACT_INDEX(<column>, '<jsonPath>', ['resultsType'], ['filter'])`. For example, to extract every value for path `$.name` when the path `$.id` is less than 10:
 
 ```sql
 SELECT jsonextractindex(repo, '$.name', 'STRING', 'dummyValue', '"$.id" < 10')
-FROM mytable 
+FROM mytable
 ```
 
-More in-depth examples can be found in the [JSON_EXTRACT_INDEX function documentation](../../configuration-reference/functions/jsonextractindex.md).
+More in-depth examples can be found in the [JSON\_EXTRACT\_INDEX function documentation](../../configuration-reference/functions/jsonextractindex.md).
 
 ## Supported filter expressions
 
@@ -403,8 +514,8 @@ More in-depth examples can be found in the [JSON_EXTRACT_INDEX function document
 Find all persons whose name is "adam":
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
@@ -446,14 +557,13 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.age" > 18')
 ```
 
-
 ### Nested filter expression
 
 Find all persons whose name is "adam" and also have an address (one of the addresses) with number 112:
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
 ```
 
@@ -466,9 +576,26 @@ WHERE JSON_MATCH(person, '"$.name"=''adam'' AND "$.addresses[*].number"=112')
 Find all persons whose first address has number 112:
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
+```
+
+Since JSON index works based on flattened JSON documents, if cross array un-nesting is disabled (  **disableCrossArrayUnnest = true** ), then querying more than one array in a single JSON\_MATCH function call returns empty result, e.g.&#x20;
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[*].country"=''us'' AND "$.skills[*]"=''english''')
+```
+
+In such cases expression should be split into multiple JSON\_MATCH calls, e.g.
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[*].country"=''us''')
+AND   JSON_MATCH(person, '"$.skills[*]"=''english''')
 ```
 
 ### Existence check
@@ -476,15 +603,15 @@ WHERE JSON_MATCH(person, '"$.addresses[0].number"=112')
 Find all persons who have a phone field within the JSON:
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(person, '"$.phone" IS NOT NULL')
 ```
 
 Find all persons whose first address does not contain floor field within the JSON:
 
 ```sql
-SELECT ... 
+SELECT ...
 FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[0].floor" IS NULL')
 ```
@@ -496,8 +623,8 @@ The JSON context is maintained for object elements within an array, meaning the 
 To find all persons who live on "main st" in "ca":
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st'' AND "$.addresses[*].country"=''ca''')
 ```
 
@@ -506,9 +633,10 @@ This query won't match "adam" because none of his addresses matches both the str
 If you don't want JSON context, use multiple separate `JSON_MATCH` predicates. For example, to find all persons who have addresses on "main st" and have addresses in "ca" (matches need not have the same address):
 
 ```sql
-SELECT ... 
-FROM mytable 
-WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[*].country"=''ca''')
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[*].street"=''main st''') 
+  AND JSON_MATCH(person, '"$.addresses[*].country"=''ca''')
 ```
 
 This query will match "adam" because one of his addresses matches the street and another one matches the country.
@@ -516,9 +644,10 @@ This query will match "adam" because one of his addresses matches the street and
 The array index is maintained as a separate entry within the element, so in order to query different elements within an array, multiple `JSON_MATCH` predicates are required. For example, to find all persons who have first address on "main st" and second address on "second st":
 
 ```sql
-SELECT ... 
-FROM mytable 
-WHERE JSON_MATCH(person, '"$.addresses[0].street"=''main st''') AND JSON_MATCH(person, '"$.addresses[1].street"=''second st''')
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[0].street"=''main st''') 
+  AND JSON_MATCH(person, '"$.addresses[1].street"=''second st''')
 ```
 
 ## Supported JSON values
@@ -536,16 +665,16 @@ See examples above.
 To find the records with array element "item1" in "arrayCol":
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(arrayCol, '"$[*]"=''item1''')
 ```
 
 To find the records with second array element "item2" in "arrayCol":
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(arrayCol, '"$[1]"=''item2''')
 ```
 
@@ -560,8 +689,8 @@ WHERE JSON_MATCH(arrayCol, '"$[1]"=''item2''')
 To find the records with value 123 in "valueCol":
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(valueCol, '"$"=123')
 ```
 
@@ -574,8 +703,8 @@ null
 To find the records with null in "nullableCol":
 
 ```sql
-SELECT ... 
-FROM mytable 
+SELECT ...
+FROM mytable
 WHERE JSON_MATCH(nullableCol, '"$" IS NULL')
 ```
 

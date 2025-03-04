@@ -12,17 +12,20 @@ These are the properties that be set at the cluster level.
 | default.hyperloglog.log2m                | 8       | This is a special config to override for hyperloglog that is used for approximate distinct count. Default value is 8.                                                                                                                                                                                                                                                                                                             |
 | queryConsoleOnlyView                     | false   | Only show query console for controller web UI, this is useful when you don't want to expose cluster or ZK UI to Users.                                                                                                                                                                                                                                                                                                            |
 | hideQueryConsoleTab                      | false   | Hide query console tab from controller web UI, this is useful when you don't want to expose query console UI to Users.                                                                                                                                                                                                                                                                                                            |
+| pinot.multistage.engine.tls.enabled      | false   | Whether to enable TLS on brokers and servers for the multi-stage query engine. If set to true, TLS will be used for gRPC connections between brokers and servers (query plan dispatch from brokers to servers and final query result from servers to brokers) as well as servers and servers (data shuffle / exchange during execution of multi-stage queries).                                                                   |
 
 ## Cluster Configs APIs
 
-{% swagger baseUrl="http://<controller>:<port>/cluster/configs" path="" method="get" summary="List All Cluster Configs" %}
-{% swagger-description %}
+## List All Cluster Configs
+
+<mark style="color:blue;">`GET`</mark> `http://<controller>:<port>/cluster/configs`
+
 **Description**
 
 \- Lists all the configurations set at the cluster level
-{% endswagger-description %}
 
-{% swagger-response status="200" description="" %}
+{% tabs %}
+{% tab title="200 " %}
 ```
 {
   "allowParticipantAutoJoin": "true",
@@ -31,29 +34,31 @@ These are the properties that be set at the cluster level.
   "default.hyperloglog.log2m": "8"
 }
 ```
-{% endswagger-response %}
-{% endswagger %}
+{% endtab %}
+{% endtabs %}
 
-{% swagger baseUrl="http://<controller>:<port>/cluster/configs" path="" method="post" summary="Update Cluster Configs" %}
-{% swagger-description %}
+## Update Cluster Configs
+
+<mark style="color:green;">`POST`</mark> `http://<controller>:<port>/cluster/configs`
+
 Add new or update existing cluster configs.
-{% endswagger-description %}
 
-{% swagger-parameter in="body" name="" type="string" required="false" %}
-JSON body contains the configs map for new/updated configs. E.g.
+#### Request Body
 
-**`{"queryConsoleOnlyView":"true"}`**
-{% endswagger-parameter %}
+| Name | Type   | Description                                                                                                                                 |
+| ---- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+|      | string | <p>JSON body contains the configs map for new/updated configs. E.g.</p><p><strong><code>{"queryConsoleOnlyView":"true"}</code></strong></p> |
 
-{% swagger-response status="200" description="" %}
+{% tabs %}
+{% tab title="200 " %}
 ```
 {
   "status": "Updated cluster config."
 }
 ```
-{% endswagger-response %}
-{% endswagger %}
+{% endtab %}
+{% endtabs %}
 
 Example:
 
-![](<../.gitbook/assets/swagger-cluster-config (1) (1).png>)
+![](../.gitbook/assets/swagger-cluster-config%20\(1\)%20\(1\).png)

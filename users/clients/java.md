@@ -12,14 +12,14 @@ You can use the client by including the following dependency -
 <dependency>
     <groupId>org.apache.pinot</groupId>
     <artifactId>pinot-java-client</artifactId>
-    <version>0.9.3</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 {% endtab %}
 
 {% tab title="Gradle" %}
 ```java
-include 'org.apache.pinot:pinot-java-client:0.5.0'
+include 'org.apache.pinot:pinot-java-client:1.2.0'
 ```
 {% endtab %}
 {% endtabs %}
@@ -39,7 +39,6 @@ Here's an example of how to use the `pinot-java-client` to query Pinot.
 ```java
 import org.apache.pinot.client.Connection;
 import org.apache.pinot.client.ConnectionFactory;
-import org.apache.pinot.client.Request;
 import org.apache.pinot.client.ResultSetGroup;
 import org.apache.pinot.client.ResultSet;
 
@@ -56,10 +55,7 @@ public class PinotClientExample {
     Connection pinotConnection = ConnectionFactory.fromZookeeper(zkUrl + "/" + pinotClusterName);
 
     String query = "SELECT COUNT(*) FROM myTable GROUP BY foo";
-
-    // set queryType=sql for querying the sql endpoint
-    Request pinotClientRequest = new Request("sql", query);
-    ResultSetGroup pinotResultSetGroup = pinotConnection.execute(pinotClientRequest);
+    ResultSetGroup pinotResultSetGroup = pinotConnection.execute(query);
     ResultSet resultTableResultSet = pinotResultSetGroup.getResultSet(0);
 
     int numRows = resultTableResultSet.getRowCount();
@@ -97,31 +93,28 @@ Connection connection = ConnectionFactory.fromProperties("demo.properties");
 
 Connection connection = ConnectionFactory.fromHostList
   ("broker-1:1234", "broker-2:1234", ...);
-
-Connection connection = ConnectionFactory.fromController
-    ("http", "controller-url", 9000)
 ```
 
 ## Query Methods
 
 You can run the query in both blocking as well as async manner. Use
 
-* `Connection.execute(org.apache.pinot.client.Request)` for blocking queries
-* `Connection.executeAsync(org.apache.pinot.client.Request)` for asynchronous queries that return a future object.
+* `Connection.execute(String)` for blocking queries
+* `Connection.executeAsync(String)` for asynchronous queries that return a future object.
 
 ```java
 ResultSetGroup resultSetGroup = 
-  connection.execute(new Request("sql", "select * from foo..."));
+  connection.execute("select * from foo...");
 // OR
 Future<ResultSetGroup> futureResultSetGroup = 
-  connection.executeAsync(new Request("sql", "select * from foo..."));
+  connection.executeAsync("select * from foo...");
 ```
 
 You can also use `PreparedStatement` to escape query parameters. We don't store the Prepared Statement in the database and hence it won't increase the subsequent query performance.
 
 ```java
 PreparedStatement statement = 
-    connection.prepareStatement(new Request("sql", "select * from foo where a = ?"));
+    connection.prepareStatement("select * from foo where a = ?");
 statement.setString(1, "bar");
 
 ResultSetGroup resultSetGroup = statement.execute();
@@ -134,8 +127,8 @@ Future<ResultSetGroup> futureResultSetGroup = statement.executeAsync();
 Results can be obtained with the various get methods in the first ResultSet, obtained through the `getResultSet(int)` method:
 
 ```java
-Request request = new Request("sql", "select foo, bar from baz where quux = 'quuux'");
-ResultSetGroup resultSetGroup = connection.execute(request);
+String query = "select foo, bar from baz where quux = 'quuux'";
+ResultSetGroup resultSetGroup = connection.execute(query);
 ResultSet resultTableResultSet = pinotResultSetGroup.getResultSet(0);
 
 for (int i = 0; i < resultSet.getRowCount(); ++i) {
@@ -143,51 +136,6 @@ for (int i = 0; i < resultSet.getRowCount(); ++i) {
   System.out.println("bar: " + resultSet.getInt(i, 1));
 }
 ```
-
-### PQL Queries
-
-If queryFormat `pql` is used in the `Request`, there are some differences in how the results can be accessed, depending on the query.
-
-In the case of aggregation, each aggregation function is within its own ResultSet. A query with multiple aggregation function will return one result set per aggregation function, as they are computed in parallel.
-
-```java
-ResultSetGroup resultSetGroup = 
-    connection.execute(new Request("pql", "select max(foo), min(foo) from bar"));
-
-System.out.println("Number of result groups:" +
-    resultSetGroup.getResultSetCount(); // 2, min(foo) and max(foo)
-ResultSet resultSetMax = resultSetGroup.getResultSet(0);
-System.out.println("Max foo: " + resultSetMax.getInt(0));
-ResultSet resultSetMin = resultSetGroup.getResultSet(1);
-System.out.println("Min foo: " + resultSetMin.getInt(0));
-```
-
-In case of aggregation with `GROUP BY`, there will be as many ResultSets as the number of aggregations, each of which will contain multiple results grouped by a grouping key.
-
-```java
-ResultSetGroup resultSetGroup = 
-    connection.execute(
-        new Request("pql", "select min(foo), max(foo) from bar group by baz"));
-
-System.out.println("Number of result groups:" +
-    resultSetGroup.getResultSetCount(); // 2, min(foo) and max(foo)
-
-ResultSet minResultSet = resultSetGroup.getResultSet(0);
-for(int i = 0; i < minResultSet.length(); ++i) {
-    System.out.println("Minimum foo for " + minResultSet.getGroupKeyString(i, 1) +
-        ": " + minResultSet.getInt(i));
-}
-
-ResultSet maxResultSet = resultSetGroup.getResultSet(1);
-for(int i = 0; i < maxResultSet.length(); ++i) {
-    System.out.println("Maximum foo for " + maxResultSet.getGroupKeyString(i, 1) +
-        ": " + maxResultSet.getInt(i));
-}
-```
-
-{% hint style="warning" %}
-This section is only applicable for PQL endpoint, which is deprecated and will be deleted soon. For more information about the endpoints, visit [Querying Pinot](../api/querying-pinot-using-standard-sql/).
-{% endhint %}
 
 ## Authentication
 
@@ -204,7 +152,7 @@ String base64Credentials = new String(
 
 String authorizationHeader = "Basic " + base64Credentials;
 
-Map<String, String> headers = new HashMap();
+Map<String, String> headers = new HashMap<>();
 headers.put("Authorization", authorizationHeader);
 JsonAsyncHttpPinotClientTransportFactory factory = 
     new JsonAsyncHttpPinotClientTransportFactory();
@@ -212,8 +160,9 @@ factory.setHeaders(headers);
 PinotClientTransport clientTransport = factory
     .buildTransport();
 
-Connection connection = ConnectionFactory.fromProperties(
-        Collections.singletonList("localhost:8000"), clientTransport);
+Properties properties = new Properties();
+properties.put("brokerList", "localhost:8000,localhost:8001");
+Connection connection = ConnectionFactory.fromProperties(properties, clientTransport);
 String query = "select count(*) FROM baseballStats limit 1";
 
 ResultSetGroup rs = connection.execute(query);

@@ -155,6 +155,10 @@ By default, Pinot uses the value in the time column (`timeColumn` in tableConfig
 
 For partial upsert table, the out-of-order events won't be consumed and indexed. For example, for two records with the same primary key, if the record with the smaller value of the comparison column came later than the other record, it will be skipped.
 
+{% hint style="info" %}
+NOTE: Please use `comparisonColumns` for single comparison column instead of `comparisonColumn` as it is currently deprecated. You may see unrecognizedProperties when using the old config, but it's converted to comparisonColumns automatically when adding the table.
+{% endhint %}
+
 #### Multiple comparison columns
 
 In some cases, especially where partial upsert might be employed, there may be multiple producers of data each writing to a mutually exclusive set of columns, sharing only the primary key. In such a case, it may be helpful to use one comparison column per producer group so that each group can manage its own specific versioning semantics without the need to coordinate versioning across other producer groups.
@@ -341,13 +345,16 @@ When using `deletedKeysTTL` together with `UpsertCompactionTask`, there can be a
 }
 ```
 
-### Data consistency when queries and upserts happen concurrently&#x20;
+### Data consistency when queries and upserts happen concurrently
 
-Previously, queries may see inconsistent data when queries and upserts are happening concurrently. For example, a table with 1M primary keys should always return 1M when doing `distinct count` no matter how new records are ingested and invalidating the existing records. But one may see more or less than 1M distinct count of records, when queries and upserts are happening concurrently. This is because the query acquires multiple segments' validDocIds bitmaps to skip invalid docs, to form a data view that only contains latest valid docs. But acquiring bitmaps from _multiple_ _segments_ is not atomic against ongoing upserts, so the query might over or under count the valid docs.&#x20;
+Upserts in Pinot enable real-time updates and ensure that queries always retrieve the latest version of a record, making them a powerful feature for managing mutable data efficiently.  However, in applications with extremely high QPS and high ingestion rates, queries and upserts happening concurrently can sometimes lead to inconsistencies in query results.
 
-This is a classic concurrency problem of concurrent reads and writes, and typically one can use lock or snapshot to solve it. So two consistency modes, SYNC and SNAPSHOT, are added for upsert tables to ensure data consistency when queries and upserts happen concurrently.
+For example, consider a table with 1 million primary keys.  A distinct count query should always return 1 million, regardless of how new records are ingested and older records are invalidated.  However, at high ingestion and query rates, the query may occasionally return a count slightly above or below 1 million.  This happens because queries determine valid records by acquiring _validDocIds_ bitmaps from multiple segments, which indicate which documents are currently valid.  Since acquiring these bitmaps is not atomic with respect to ongoing upserts, a query may capture an inconsistent view of the data, leading to overcounting or undercounting of valid records.
 
-By default, it's NONE, i.e. working as before. SYNC blocks upserts for queries to see a consistent upsert data view. SNAPSHOT keeps a consistent snapshot of validDocIds bitmaps for queries to access and upserts are not blocked by queries, more suitable for workload with high write and query rates.
+This is a classic concurrency issue where reads and writes happen simultaneously, leading to temporary inconsistencies.  Typically, such issues are resolved using locks or snapshots to maintain a stable view of the data during query execution.  To address this, two new consistency modes - **SYNC** and **SNAPSHOT** - have been introduced for upsert enabled tables to ensure consistent query results even when queries and upserts occur concurrently and at very high throughput.
+
+By default, the consistency mode is **NONE**, meaning the system operates as before.  The **SYNC** mode ensures consistency by blocking upserts while queries execute, guaranteeing that queries always see a stable upserted data view.  However, this can introduce write latency.  Alternatively, the **SNAPSHOT** mode creates a consistent snapshot of _validDocIds_ bitmaps for queries to use.  This allows upserts to continue without blocking queries, making it more suitable for workloads with both high query and write rates.\
+These new consistency modes provide flexibility, allowing applications to balance consistency guarantees against performance trade-offs based on their specific requirements.
 
 ```
 {
@@ -400,8 +407,9 @@ We recommend that you enable this feature so as to speed up server boot times du
 {% hint style="info" %}
 The lifecycle for validDocIds snapshots are shows as follows,
 
-1. If snapshot is not enabled, delete validDocIds snapshots during add segments if exists.
-2. If snapshot is enabled, persist validDocIds snapshot for immutable segments when removing segment.
+1. If snapshot is enabled, snapshots for existing segments are taken or refreshed when the next consuming segment gets started.
+2. The snapshot files are kept on disk until the segments get removed, e.g. due to data retention or manual deletion.
+3. If snapshot is disabled, the existing snapshot for a segment is cleaned up when the segment gets loaded by the server, e.g. when the server restarts.
 {% endhint %}
 
 ### Enable preload for faster server restarts
@@ -553,7 +561,7 @@ The number of partitions in input streams determines the partition numbers of th
 
 #### Memory usage
 
-Upsert table maintains an in-memory map from the primary key to the record location. **So it's recommended to use a simple primary key type and avoid composite primary keys to save the memory cost**. In addition, consider the `hashFunction` config in the Upsert config, which can be `MD5` or `MURMUR3`, to store the 128-bit hashcode of the primary key instead. This is useful when your primary key takes more space. But keep in mind, this hash may introduce collisions, though the chance is very low.
+Upsert table maintains an in-memory map from the primary key to the record location. **So it's recommended to use a simple primary key type and avoid composite primary keys to save the memory cost. Beware when using `JSON` column as primary key, same key-values in different order would be considered as different primary keys**. In addition, consider the `hashFunction` config in the Upsert config, which can be `MD5` or `MURMUR3`, to store the 128-bit hashcode of the primary key instead. This is useful when your primary key takes more space. But keep in mind, this hash may introduce collisions, though the chance is very low.
 
 #### Monitoring
 
@@ -757,7 +765,7 @@ An example for partial upsert is shown below, each of the event\_id kept being u
 
 To see the difference from the non-upsert table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
-![Disable the upsert during query via query option](../../disable\_upsert\_during\_query.png)
+![Disable the upsert during query via query option](../../disable_upsert_during_query.png)
 
 ### FAQ
 

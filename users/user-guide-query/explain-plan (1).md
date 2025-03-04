@@ -61,11 +61,11 @@ Following the more complex nature of the multi-stage query engine, its explain p
 
 There are 3 different types of explain plans for the multi-stage query engine:
 
-| Mode         | Syntax by default                         | Syntax if segment plan is enabled                               | Description                                                                                                                                    |
-| ------------ | ----------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Segment plan | Cannot be used                            | `EXPLAIN PLAN FOR`                                              | Includes the segment specific information (like indexes). Have to be enabled with query options or broker configuration.                       |
-| Logical plan | `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` | `EXPLAIN PLAN FOR` or `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` | Simplest multi-stage plan. No index or data shuffle information.                                                                               |
-| Workers plan | `EXPLAIN IMPLEMENTATION PLAN FOR`         | `EXPLAIN IMPLEMENTATION PLAN FOR`                               | <p>Used to understand data shuffle between servers.<br><br>Note: The name of this mode is open to discussion and may change in the future.</p> |
+| Mode         | Syntax by default                                                                                          | Syntax if segment plan is enabled         | Description                                                                                                                                    |
+| ------------ | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Segment plan | <p><code>SET explainAskingServers=true;</code></p><p><code>EXPLAIN PLAN FOR</code></p>                     | `EXPLAIN PLAN FOR`                        | Includes the segment specific information (like indexes).                                                                                      |
+| Logical plan | <p><code>EXPLAIN PLAN FOR</code> </p><p>or </p><p><code>EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR</code></p> | `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` | Simplest multi-stage plan. No index or data shuffle information.                                                                               |
+| Workers plan | `EXPLAIN IMPLEMENTATION PLAN FOR`                                                                          | `EXPLAIN IMPLEMENTATION PLAN FOR`         | <p>Used to understand data shuffle between servers.<br><br>Note: The name of this mode is open to discussion and may change in the future.</p> |
 
 
 

@@ -137,6 +137,81 @@ For our sample data and schema, the table config will look like this:
 }
 ```
 
+### Example `ingestionConfig` for multi-topics ingestion
+
+From [this PR](https://github.com/apache/pinot/pull/13790), Pinot starts to support ingesting data from multiple stream partitions.
+(It is currently in Beta mode, and only supports multiple Kafka topics. Other stream types would be supported in the near future.)
+For our sample data and schema, assume that we duplicate it to 2 topics, `transcript-topic1` and `transcript-topic2`. If we want to ingest from both topics, then the table config will look like this:
+
+```json
+{
+  "tableName": "transcript",
+  "tableType": "REALTIME",
+  "segmentsConfig": {
+    "timeColumnName": "timestamp",
+    "timeType": "MILLISECONDS",
+    "schemaName": "transcript",
+    "replicasPerPartition": "1"
+  },
+  "tenants": {},
+  "tableIndexConfig": {
+    "loadMode": "MMAP",
+  },
+  "metadata": {
+    "customConfigs": {}
+  },
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+        "streamConfigMaps": [
+          {
+            "realtime.segment.flush.threshold.rows": "0",
+            "stream.kafka.decoder.prop.format": "JSON",
+            "key.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
+            "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+            "streamType": "kafka",
+            "value.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
+            "stream.kafka.consumer.type": "LOWLEVEL",
+            "realtime.segment.flush.threshold.segment.rows": "50000",
+            "stream.kafka.broker.list": "localhost:9876",
+            "realtime.segment.flush.threshold.time": "3600000",
+            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+            "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
+            "stream.kafka.topic.name": "transcript-topic1"
+          },
+          {
+            "realtime.segment.flush.threshold.rows": "0",
+            "stream.kafka.decoder.prop.format": "JSON",
+            "key.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
+            "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+            "streamType": "kafka",
+            "value.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
+            "stream.kafka.consumer.type": "LOWLEVEL",
+            "realtime.segment.flush.threshold.segment.rows": "50000",
+            "stream.kafka.broker.list": "localhost:9876",
+            "realtime.segment.flush.threshold.time": "3600000",
+            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+            "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
+            "stream.kafka.topic.name": "transcript-topic2"
+          }
+        ]
+      },
+      "transformConfigs": [],
+      "continueOnError": true,
+      "rowTimeValueCheck": true,
+      "segmentTimeValueCheck": false
+    },
+    "isDimTable": false
+  }
+}
+```
+With multi-topics ingestion: (details please refer to the [design doc](https://docs.google.com/document/d/1Er2Tmtl5Pgwdapn5iOJ5qlCDU_2P67YMdpdsmL36MCk/edit?usp=sharing))
+* All transform functions would apply to both topics' ingestions.
+* Existing instance assignment strategy would all work as usual.
+* [Partition changes](./#handle-partition-changes-in-streams) would still be handled in the same way.
+* Underlying ingestion still works as `LOWLEVEL` mode, where
+  * `transcript-topic1` segments would be named like transcript__0__0__20250101T0000Z
+  * `transcript-topic2` segments would be named like transcript__10000__0__20250101T0000Z
+
 ## Upload schema and table config
 
 Now that we have our table and schema configurations, let's upload them to the Pinot cluster. As soon as the configs are uploaded, Pinot will start ingesting available records from the topic.

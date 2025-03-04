@@ -84,14 +84,14 @@ You can add new scalar functions as follows:
 <dependency>
   <groupId>org.apache.pinot</groupId>
   <artifactId>pinot-common</artifactId>
-  <version>0.5.0</version>
+  <version>1.2.0</version>
  </dependency>
 ```
 {% endtab %}
 
 {% tab title="Gradle" %}
 ```
-include 'org.apache.pinot:pinot-common:0.5.0'
+include 'org.apache.pinot:pinot-common:1.2.0'
 ```
 {% endtab %}
 {% endtabs %}

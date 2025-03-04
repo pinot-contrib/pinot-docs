@@ -132,21 +132,34 @@ The above JSON configuration is an example of a Pinot schema derived from flight
 
 Data types determine the operations that can be performed on a column. Pinot supports the following data types:
 
-| Data Type    | Default Dimension Value                                                                                         | Default Metric Value   |
-| ------------ | --------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| INT          | [Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN\_VALUE)               | 0                      |
-| LONG         | [Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN\_VALUE)                     | 0                      |
-| FLOAT        | [Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE\_INFINITY)   | 0.0                    |
-| DOUBLE       | [Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE\_INFINITY) | 0.0                    |
-| BIG\_DECIMAL | Not supported                                                                                                   | 0.0                    |
-| BOOLEAN      | 0 (false)                                                                                                       | N/A                    |
-| TIMESTAMP    | 0 (1970-01-01 00:00:00 UTC)                                                                                     | N/A                    |
-| STRING       | "null"                                                                                                          | N/A                    |
-| JSON         | "null"                                                                                                          | N/A                    |
-| BYTES        | byte array of length 0                                                                                          | byte array of length 0 |
+| Data Type    | Default Dimension Value                                                                                        | Default Metric Value   |
+| ------------ | -------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| INT          | [Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN_VALUE)               | 0                      |
+| LONG         | [Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE)                     | 0                      |
+| FLOAT        | [Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY)   | 0.0                    |
+| DOUBLE       | [Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY) | 0.0                    |
+| BIG\_DECIMAL | Not supported                                                                                                  | 0.0                    |
+| BOOLEAN      | 0 (false)                                                                                                      | N/A                    |
+| TIMESTAMP    | 0 (1970-01-01 00:00:00 UTC)                                                                                    | N/A                    |
+| STRING       | "null"                                                                                                         | N/A                    |
+| JSON         | "null"                                                                                                         | N/A                    |
+| BYTES        | byte array of length 0                                                                                         | byte array of length 0 |
 
 {% hint style="warning" %}
 The lowest granularity TIMESTAMP type supports is milliseconds epoch, nanoseconds is not supported.
+{% endhint %}
+
+{% hint style="info" %}
+All the data types are comparable, and the ordering of the values must be consistent with equals (i.e. `v1.compareTo(v2) == 0` always has the same value as `v1.equals(v2)`). Also any value should equal to itself. In order to achieve so, the following conversions are applied:
+
+For `FLOAT`and `DOUBLE`:
+
+* Negative zero (`-0.0`) is converted to `0.0`&#x20;
+* `NaN` is converted to `null` (default value)
+
+For `BIG_DECIMAL`:
+
+* Trailing zeros are stripped off (can be turned off)
 {% endhint %}
 
 Read the following sections for details on how data types are used in various parts of a schema.
@@ -164,17 +177,17 @@ A dimensionFieldSpec is defined for each dimension column. Here's a list of the 
 
 #### Internal default null values for dimension
 
-| Data Type | Internal Default Null Value                                                                                       |
-| --------- | ----------------------------------------------------------------------------------------------------------------- |
-| INT       | ​[Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN\_VALUE)​               |
-| LONG      | ​[Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN\_VALUE)​                     |
-| FLOAT     | ​[Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE\_INFINITY)​   |
-| DOUBLE    | ​[Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE\_INFINITY)​ |
-| BOOLEAN   | 0 (`false`)                                                                                                       |
-| TIMESTAMP | 0 (`1970-01-01 00:00:00 UTC`)                                                                                     |
-| STRING    | "null"                                                                                                            |
-| BYTES     | byte array of length 0                                                                                            |
-| JSON      | "null"                                                                                                            |
+| Data Type | Internal Default Null Value                                                                                      |
+| --------- | ---------------------------------------------------------------------------------------------------------------- |
+| INT       | ​[Integer.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN_VALUE)​               |
+| LONG      | ​[Long.MIN\_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE)​                     |
+| FLOAT     | ​[Float.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY)​   |
+| DOUBLE    | ​[Double.NEGATIVE\_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY)​ |
+| BOOLEAN   | 0 (`false`)                                                                                                      |
+| TIMESTAMP | 0 (`1970-01-01 00:00:00 UTC`)                                                                                    |
+| STRING    | "null"                                                                                                           |
+| BYTES     | byte array of length 0                                                                                           |
+| JSON      | "null"                                                                                                           |
 
 ### MetricFieldSpec
 
@@ -260,7 +273,7 @@ In the pinot master (0.12.0-SNAPSHOT), We have simplified date time formats for 
   * `EPOCH` - Defaults to MILLISECONDS (only in `master` branch)
   * `EPOCH|SECONDS`
   * `EPOCH|SECONDS|5`
-* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the Joda's [DateTimeFormat](https://www.joda.org/joda-time/key\_format.html) representation. In the master branch build, if no pattern is specified, we use [ISO 8601 DateTimeFormat](https://www.iso.org/iso-8601-date-and-time-format.html) to parse the date times. Optionals are supported with ISO format so users can specify date time string in `yyyy` or `yyyy-MM` or `yyyy-MM-dd` and so on\
+* `SIMPLE_DATE_FORMAT` - This represents time in the string format. The pattern should be specified using the Joda's [DateTimeFormat](https://www.joda.org/joda-time/key_format.html) representation. In the master branch build, if no pattern is specified, we use [ISO 8601 DateTimeFormat](https://www.iso.org/iso-8601-date-and-time-format.html) to parse the date times. Optionals are supported with ISO format so users can specify date time string in `yyyy` or `yyyy-MM` or `yyyy-MM-dd` and so on\
   \
   You can also specify optional `timeZone` parameter which is the ID for a TimeZone, either an abbreviation such as `PST`, a full name such as `America/Los_Angeles`, or a custom ID such as `GMT-8:00`.\
   Examples -
@@ -283,7 +296,7 @@ You will need to provide the format of the date along with the data type in the 
   If your date is not in `EPOCH` format, this value is not used and can be set to 1 or any other integer.
 * **time unit** - one of [TimeUnit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html) enum values. e.g. `HOURS` , `MINUTES` etc. If your date is not in `EPOCH` format, this value is not used and can be set to `MILLISECONDS` or any other unit.
 * **timeFormat** - can be either `EPOCH` or `SIMPLE_DATE_FORMAT`. If it is `SIMPLE_DATE_FORMAT`, the pattern string is also specified.
-* **pattern** - This is optional and is only specified when the date is in `SIMPLE_DATE_FORMAT` . The pattern should be specified using Joda's [DateTimeFormat](https://www.joda.org/joda-time/key\_format.html) representation. e.g. 2020-08-21 can be represented as `yyyy-MM-dd`.
+* **pattern** - This is optional and is only specified when the date is in `SIMPLE_DATE_FORMAT` . The pattern should be specified using Joda's [DateTimeFormat](https://www.joda.org/joda-time/key_format.html) representation. e.g. 2020-08-21 can be represented as `yyyy-MM-dd`.
 
 Here are some sample date-time formats you can use in the schema:
 
@@ -308,8 +321,10 @@ These virtual columns can be used in queries in a similar way to regular columns
 
 Apart from these, there's some advanced fields. These are common to all field specs.
 
-| Property                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| maxLength               | Max length of this column mainly applicable for dataTypes - STRING, JSON and BYTES                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| virtualColumnProvider   | Column value provider                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| maxLengthExceedStrategy | <p>Takes in 4 values: TRIM_LENGTH, ERROR, SUBSTITUTE_DEFAULT_VALUE, NO_ACTION. Default for STRING dataType is TRIM_LENGTH and for JSON and bytes field is NO_ACTION.<br>TRIM_LENGTH: Only <code>maxLength</code> characters are ingested for this field in incoming record.<br>SUBSTITUTE_DEFAULT_VALUE: If the length of value in incoming record exceeds maxLength, then substitute default value specified for the field.<br>NO_ACTION: Ingest the record as is.<br>ERROR: Throws an error if length of incoming record exceeds <code>maxLength</code>.</p> |
+| Property                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| maxLength               | <p>Max length of this column.<br>Applicable for dataType: <code>STRING</code>, <code>JSON</code> and <code>BYTES</code></p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| maxLengthExceedStrategy | <p>Takes in 4 values: <code>TRIM_LENGTH</code>, <code>SUBSTITUTE_DEFAULT_VALUE</code>, <code>NO_ACTION</code>, <code>ERROR</code>.<br>Default is <code>TRIM_LENGTH</code> for <code>STRING</code>; <code>NO_ACTION</code> for <code>JSON</code> and <code>BYTES</code>.<br><code>TRIM_LENGTH</code>: Only <code>maxLength</code> characters are ingested for this field in incoming record.<br><code>SUBSTITUTE_DEFAULT_VALUE</code>: If the length of value in incoming record exceeds <code>maxLength</code>, substitute it with default value specified for the field.<br><code>NO_ACTION</code>: Ingest the record as is.<br><code>ERROR</code>: Throws an error if length of incoming record exceeds <code>maxLength</code>.</p> |
+| allowTrailingZeros      | Whether to allow trailing zeros for `BIG_DECIMAL` column. By default `false`, where trailing zeros are stripped off.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| virtualColumnProvider   | Column value provider                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+

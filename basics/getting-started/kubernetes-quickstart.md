@@ -116,8 +116,8 @@ pod/kafka-controller-2                   1/1     Running     0          2m
 Run the scripts below to create two Kafka topics for data ingestion:
 
 ```bash
-kubectl -n pinot-quickstart exec kafka-0 -- kafka-topics.sh --bootstrap-server kafka-0:9092 --topic flights-realtime --create --partitions 1 --replication-factor 1
-kubectl -n pinot-quickstart exec kafka-0 -- kafka-topics.sh --bootstrap-server kafka-0:9092 --topic flights-realtime-avro --create --partitions 1 --replication-factor 1
+kubectl -n pinot-quickstart exec kafka-controller-0 -- kafka-topics.sh --bootstrap-server kafka:9092 --topic flights-realtime --create --partitions 1 --replication-factor 1
+kubectl -n pinot-quickstart exec kafka-controller-0 -- kafka-topics.sh --bootstrap-server kafka:9092 --topic flights-realtime-avro --create --partitions 1 --replication-factor 1
 ```
 
 ### **Load data into Kafka and create Pinot schema/tables**

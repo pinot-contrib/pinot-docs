@@ -15,7 +15,7 @@ This page contains reference documentation for functions in Apache Pinot.
 {% endcontent-ref %}
 
 {% content-ref url="array_agg.md" %}
-[array\_agg.md](array\_agg.md)
+[array\_agg.md](array_agg.md)
 {% endcontent-ref %}
 
 {% content-ref url="arrayconcatdouble.md" %}
@@ -530,6 +530,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [stasbinary.md](stasbinary.md)
 {% endcontent-ref %}
 
+{% content-ref url="st_asgeojson.md" %}
+[st\_asgeojson.md](st_asgeojson.md)
+{% endcontent-ref %}
+
 {% content-ref url="stastext.md" %}
 [stastext.md](stastext.md)
 {% endcontent-ref %}
@@ -542,6 +546,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [stdistance.md](stdistance.md)
 {% endcontent-ref %}
 
+{% content-ref url="st_geogfromgeojson.md" %}
+[st\_geogfromgeojson.md](st_geogfromgeojson.md)
+{% endcontent-ref %}
+
 {% content-ref url="stgeogfromtext.md" %}
 [stgeogfromtext.md](stgeogfromtext.md)
 {% endcontent-ref %}
@@ -552,6 +560,10 @@ This page contains reference documentation for functions in Apache Pinot.
 
 {% content-ref url="stgeometrytype.md" %}
 [stgeometrytype.md](stgeometrytype.md)
+{% endcontent-ref %}
+
+{% content-ref url="st_geomfromgeojson.md" %}
+[st\_geomfromgeojson.md](st_geomfromgeojson.md)
 {% endcontent-ref %}
 
 {% content-ref url="stgeomfromtext.md" %}

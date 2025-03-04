@@ -14,7 +14,7 @@ pinot-admin.sh AddSchema -schemaFile /path/to/schema.json -controllerHost localh
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option         | Description                                                                                        |
 | -------------- | -------------------------------------------------------------------------------------------------- |
@@ -33,7 +33,7 @@ pinot-admin.sh AddTable -tableConfigFile /path/to/table.json -schemaFile /path/t
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option          | Description                                                                                        |
 | --------------- | -------------------------------------------------------------------------------------------------- |
@@ -53,7 +53,7 @@ pinot-admin.sh AddTenant -name myTenant -role SERVER -instanceCount 10 -controll
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option                | Description                                                                                                      |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
@@ -76,7 +76,7 @@ pinot-admin.sh CheckOfflineSegmentIntervals -zkAddress localhost:2181 -clusterNa
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option      | Description                                                                                               |
 | ----------- | --------------------------------------------------------------------------------------------------------- |
@@ -94,7 +94,7 @@ pinot-admin.sh ChangeNumReplicas -tableName myTable -clusterName PinotCluster -z
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option      | Description                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------- |
@@ -113,7 +113,7 @@ pinot-admin.sh ChangeTableState -tableName myTable -state disable -controllerHos
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option         | Description                                         |
 | -------------- | --------------------------------------------------- |
@@ -124,7 +124,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 ### Create Segment
 
-Create segment files from the input file in local filesystem.&#x20;
+Create segment files from the input file in local filesystem.
 
 ```
 pinot-admin.sh CreateSegment -dataDir /path/to/data/dir -format CSV -outDir /path/to/output/dir -overwrite -tableConfigFile /path/to/table.json -schemaConfigFile /path/to/schema.json
@@ -132,7 +132,7 @@ pinot-admin.sh CreateSegment -dataDir /path/to/data/dir -format CSV -outDir /pat
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option                   | Description                                                                                                                    |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -144,7 +144,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 | schemaFile               | Path to [Schema Config](../configuration-reference/schema.md)                                                                  |
 | readerConfigFile         | properties file containing the config related to the reader. See [Input formats](../basics/data-import/pinot-input-formats.md) |
 | retry                    | Number of retry attempts in case of failure                                                                                    |
-| postCreationVerification | Set  `true` to verify the segment files post creation.                                                                         |
+| postCreationVerification | Set `true` to verify the segment files post creation.                                                                          |
 | numThreads               | Number of threads to use to execute the segment creation job                                                                   |
 
 ### Convert Pinot Segment
@@ -157,7 +157,7 @@ pinot-admin.sh ConvertPinotSegment -dataDir /path/to/data/dir -outputDir /path/t
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option           | Description                                                                |
 | ---------------- | -------------------------------------------------------------------------- |
@@ -177,7 +177,7 @@ Delete the cluster namespace from zookeeper.
 pinot-admin.sh DeleteCluster -clusterName PinotCluster -zkAddress localhost:2181
 ```
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option      | Description                                                                            |
 | ----------- | -------------------------------------------------------------------------------------- |
@@ -194,7 +194,7 @@ pinot-admin.sh LaunchDataIngestionJob -jobSpecFile /path/to/job_spec.json -prope
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option       | Description                                                                                                   |
 | ------------ | ------------------------------------------------------------------------------------------------------------- |
@@ -238,7 +238,7 @@ pinot-admin.sh MoveReplicaGroup -zkHost localhost:2181 -cluster PinotCluster -sr
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option            | Description                                                                                        |
 | ----------------- | -------------------------------------------------------------------------------------------------- |
@@ -252,7 +252,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 ### Operate Cluster Config
 
-Modify[ cluster level configs](../configuration-reference/cluster.md) for pinot.  These are the configs which are applicable to all nodes in the cluster.
+Modify[ cluster level configs](../configuration-reference/cluster.md) for pinot. These are the configs which are applicable to all nodes in the cluster.
 
 ```
 pinot-admin.sh OperateClusterConfig -controllerHost localhost -controllerPort 9000 -operation ADD -config pinot.broker.enable.query.limit.override=1
@@ -260,49 +260,48 @@ pinot-admin.sh OperateClusterConfig -controllerHost localhost -controllerPort 90
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
-| Option         | Description                                                                                                          |
-| -------------- | -------------------------------------------------------------------------------------------------------------------- |
-| operation      | <p>Type of operation to perform. <br>Can be one of <code>GET, ADD, UPDATE or DELETE</code> </p>                      |
-| config         | The config on which operation should be performed. In case of ADD or UPDATE, the config value is provided after `=`  |
-| controllerHost | The host on which to send the request                                                                                |
-| controllerPort | The port on which to send the requests                                                                               |
+| Option         | Description                                                                                                         |
+| -------------- | ------------------------------------------------------------------------------------------------------------------- |
+| operation      | <p>Type of operation to perform.<br>Can be one of <code>GET, ADD, UPDATE or DELETE</code></p>                       |
+| config         | The config on which operation should be performed. In case of ADD or UPDATE, the config value is provided after `=` |
+| controllerHost | The host on which to send the request                                                                               |
+| controllerPort | The port on which to send the requests                                                                              |
 
 ### Post Query
 
 Execute a SQL query on the cluster.
 
 ```
-pinot-admin.sh PostQuery -brokerHost localhost -brokerPort 8000 -queryType sql -query "SELECT * FROM myTable"
+pinot-admin.sh PostQuery -brokerHost localhost -brokerPort 8000 -query "SELECT * FROM myTable"
 ```
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
-| Option     | Description                               |
-| ---------- | ----------------------------------------- |
-| brokerHost | broker host to execute the query on       |
-| brokerPort | broker port to execute the query on       |
-| queryType  | can be one of `sql` or `pql`(deprecated). |
-| query      | SQL query to execute                      |
+| Option     | Description                         |
+| ---------- | ----------------------------------- |
+| brokerHost | broker host to execute the query on |
+| brokerPort | broker port to execute the query on |
+| query      | SQL query to execute                |
 
 ### Rebalance Table
 
-Rebalance a table i.e. reassign instances and segments for a table in the cluster.&#x20;
+Rebalance a table i.e. reassign instances and segments for a table in the cluster.
 
 For segment reassignment, the following modes are offered:
 
 * `With-downtime rebalance`: the IdealState is replaced with the target segment assignment in one go and there are no guarantees around replica availability. This mode returns immediately without waiting for ExternalView to reach the target segment assignment. Disabled tables will always be rebalanced with downtime.
-* `No-downtime rebalance`: care is taken to ensure that the configured number of replicas of any segment are available (ONLINE or CONSUMING) at all times. This mode returns after ExternalView reaching the target segment assignment. \
+* `No-downtime rebalance`: care is taken to ensure that the configured number of replicas of any segment are available (ONLINE or CONSUMING) at all times. This mode returns after ExternalView reaching the target segment assignment.\
   \
-  In the edge case scenarios mentioned later, if `best-efforts` is disabled, **rebalancer will fail the rebalance because the no-downtime contract cannot be achieved**, and table might end up in a middle stage. User needs to check the rebalance result, solve the issue, and run the rebalance again if necessary. \
+  In the edge case scenarios mentioned later, if `best-efforts` is disabled, **rebalancer will fail the rebalance because the no-downtime contract cannot be achieved**, and table might end up in a middle stage. User needs to check the rebalance result, solve the issue, and run the rebalance again if necessary.\
   \
   If `best-efforts` is enabled, rebalancer will log a warning and continue the rebalance, but the no-downtime contract will not be guaranteed.\
   \
-  Downtime can occur in the following edge case scenarios -&#x20;
-  * Segment falls into ERROR state in ExternalView -> with best-efforts, count ERROR state as good state.&#x20;
+  Downtime can occur in the following edge case scenarios -
+  * Segment falls into ERROR state in ExternalView -> with best-efforts, count ERROR state as good state.
   * ExternalView has not converged within the maximum wait time -> with best-efforts, continue to the next stage
 
 {% hint style="danger" %}
@@ -315,7 +314,7 @@ pinot-admin.sh RebalanceTable -zkAddress localhost:2181 -clusterName PinotCluste
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option               | Description                                                                                                                                                                                           |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -339,7 +338,7 @@ pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName PinotCluster -
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option         | Description                                                                                                                          |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -359,14 +358,14 @@ pinot-admin.sh StartController -controllerMode helix_only -dataDir /path/to/data
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option         | Description                                                                                                                                  |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | controllerMode | Should be one of `dual`, `pinot_only` or `helix_only`. Default is `dual`                                                                     |
 | controllerHost | hostname of the instance on which to run the controller                                                                                      |
 | controllerPort | port on which the controller should listen. Default 9000.                                                                                    |
-| dataDir        | path to directory to store data. Default is `java.io.tmpDir` +  `PinotController`                                                            |
+| dataDir        | path to directory to store data. Default is `java.io.tmpDir` + `PinotController`                                                             |
 | zkAddress      | comma-separated host:port string of Zookeeper to connect                                                                                     |
 | clusterName    | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                                     |
 | configFileName | path to properties file containing controller configs. See [Controller](../configuration-reference/controller.md) for complete configuration |
@@ -381,7 +380,7 @@ pinot-admin.sh StartServer -dataDir /path/to/data/dir -zkAddress localhost:2181 
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option          | Description                                                                                                                          |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -404,7 +403,7 @@ pinot-admin.sh StartServiceManager -zkAddress localhost:2181 -clusterName PinotC
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option               | Description                                                                                                                                                                                            |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -424,7 +423,7 @@ pinot-admin.sh ShowClusterInfo -clusterName PinotCluster -zkAddress localhost:21
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option      | Description                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------- |
@@ -443,7 +442,7 @@ pinot-admin.sh StopProcess -controller -broker -server
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option     | Description                                                                                                              |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -463,7 +462,7 @@ pinot-admin.sh UploadSegment -controllerHost localhost -controllerPort 9000 -seg
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option         | Description                               |
 | -------------- | ----------------------------------------- |
@@ -474,7 +473,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 ### Validate Config
 
-Validate the table configs and schema present in Zookeeper.&#x20;
+Validate the table configs and schema present in Zookeeper.
 
 ```
 pinot-admin.sh ValidateConfig -clusterName PinotCluster -zkAddress localhost:2181 -tableConfig -tableName mytable myTable2 -schema -schemaNames myschema myschema2
@@ -482,7 +481,7 @@ pinot-admin.sh ValidateConfig -clusterName PinotCluster -zkAddress localhost:218
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option      | Description                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------- |
@@ -495,7 +494,7 @@ All the options should be prefixed with `-` (hyphen)&#x20;
 
 ### Validate Segment
 
-Compares Helix [Ideal state and External view](https://helix.apache.org/Concepts.html) for specified table prefixes.&#x20;
+Compares Helix [Ideal state and External view](https://helix.apache.org/Concepts.html) for specified table prefixes.
 
 ```
 pinot-admin.sh ValidateSegment -tablePrefix myTable -clusterName PinotCluster -zkAddress localhost:2181
@@ -503,7 +502,7 @@ pinot-admin.sh ValidateSegment -tablePrefix myTable -clusterName PinotCluster -z
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
 | Option      | Description                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------- |
@@ -521,13 +520,11 @@ pinot-admin.sh VerifyClusterState -zkAddress localhost:2181 -clusterName PinotCl
 
 #### Supported Options
 
-All the options should be prefixed with `-` (hyphen)&#x20;
+All the options should be prefixed with `-` (hyphen)
 
-| Option      | Description                                                                                      |
-| ----------- | ------------------------------------------------------------------------------------------------ |
-| zkAddress   | comma-separated host:port string of Zookeeper to connect                                         |
-| clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.         |
-| tableName   | name of the table for which the validation should be done.  By default, all tables are verified. |
-| timeoutSec  | timeout in seconds for the request to check the cluster state.                                   |
-
-&#x20;
+| Option      | Description                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| zkAddress   | comma-separated host:port string of Zookeeper to connect                                        |
+| clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.        |
+| tableName   | name of the table for which the validation should be done. By default, all tables are verified. |
+| timeoutSec  | timeout in seconds for the request to check the cluster state.                                  |

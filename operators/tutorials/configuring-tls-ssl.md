@@ -171,3 +171,9 @@ Apache Pinot also supports 2-way TLS for environments with high security require
 | <p>pinot.server.tls.client.auth.enabled</p><p>(applies to nettytls and adminapi)</p>            | true        |
 | pinot.minion ...                                                                                | (see above) |
 | pinot.minion.tls.client.auth.enabled                                                            | true        |
+
+### Multi-stage query engine
+
+TLS can be enabled for the multi-stage query engine by setting the cluster config `pinot.multistage.engine.tls.enabled` to `true`. This enabled TLS for gRPC connections between brokers and servers (query plan dispatch from brokers to servers and final query result from servers to brokers) as well as servers and servers (data shuffle / exchange during execution of multi-stage queries).&#x20;
+
+The existing TLS related configurations prefixed with `pinot.broker.` and `pinot.server.` are used to configure TLS on the gRPC connections between brokers and servers. When configuring TLS for the multi-stage query engine, keep in mind that brokers and servers can be both gRPC clients as well as servers. Brokers are gRPC clients when dispatching a query plan to Pinot servers and gRPC servers when receiving the final query results from a Pinot server; Pinot servers can be both gRPC clients and servers during data shuffle / exchange in the execution of multi-stage queries.

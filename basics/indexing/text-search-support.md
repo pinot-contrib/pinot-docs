@@ -4,10 +4,10 @@ description: This page talks about support for text search in Pinot.
 
 # Text search support
 
-{% hint style="note" %}
+{% hint style="info" %}
 This text index method is recommended over the experimental [native text index](native-text-index.md).
 
-Click to skip the background info and go straight to the procedure [to enable this text index](#enable-a-text-index).
+Click to skip the background info and go straight to the procedure [to enable this text index](text-search-support.md#enable-a-text-index).
 {% endhint %}
 
 ## Why do we need text search?
@@ -33,13 +33,14 @@ WHERE TEXT_MATCH (<column_name>, '<search_expression>')
 
 where `<column_name>` is the column text index is created on and `<search_expression>` conforms to one of the following:
 
-| **Search Expression Type** | **Example**                                           |
-| -------------------------- | ----------------------------------------------------- |
-| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"') |
-| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                 |
-| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')         |
-| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')             |
-| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')       |
+| **Search Expression Type** | **Example**                                                                                                   |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"')                                                         |
+| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                                                                         |
+| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')                                                                 |
+| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')                                                                     |
+| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')                                                               |
+| Not Query                  | <p>TEXT_MATCH (&#x3C;column_name>, '<em>*:*</em> NOT c%')</p><p>NOT TEXT_MATCH (&#x3C;column_name>, 'c%')</p> |
 
 ## Current restrictions
 
@@ -57,7 +58,7 @@ Text search should ideally be used on STRING columns where doing standard filter
 
 Consider the following snippet from an Apache access log. Each line in the log consists of arbitrary data (IP addresses, URLs, timestamps, symbols etc) and represents a column value. Data like this is a good candidate for doing text search.
 
-Let's say the following snippet of data is stored in the `ACCESS\_LOG\_COL` column in a Pinot table.
+Let's say the following snippet of data is stored in the `ACCESS_LOG_COL` column in a Pinot table.
 
 ```log
 109.169.248.247 - - [12/Dec/2015:18:25:11 +0100] "GET /administrator/ HTTP/1.1" 200 4263 "-" "Mozilla/5.0 (Windows NT 6.0; rv:34.0) Gecko/20100101 Firefox/34.0" "-
@@ -103,7 +104,7 @@ WHERE TEXT_MATCH(ACCESS_LOG_COL, 'post AND administrator AND index AND firefox')
 
 Let's consider another example using text from job candidate resumes. Each line in this file represents skill-data from resumes of different candidates.
 
-This data is stored in the `SKILLS\_COL` column in a Pinot table. Each line in the input text represents a column value.
+This data is stored in the `SKILLS_COL` column in a Pinot table. Each line in the input text represents a column value.
 
 ```csv
 Distributed systems, Java, C++, Go, distributed query engines for analytics and data warehouses, Machine learning, spark, Kubernetes, transaction processing
@@ -142,7 +143,7 @@ WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" AND (Java C++)')
 
 ### Query Log
 
-Next, consider a snippet from a log file containing SQL queries handled by a database. Each line (query) in the file represents a column value in the `QUERY\_LOG\_COL` column in a Pinot table.
+Next, consider a snippet from a log file containing SQL queries handled by a database. Each line (query) in the file represents a column value in the `QUERY_LOG_COL` column in a Pinot table.
 
 ```sql
 SELECT count(dimensionCol2) FROM FOO WHERE dimensionCol1 = 18616904 AND timestamp BETWEEN 1560988800000 AND 1568764800000 GROUP BY dimensionCol3 TOP 2500
@@ -316,7 +317,7 @@ The search expression (the second argument to `TEXT_MATCH` function) is the quer
 
 This query is used to seek out an exact match of a given phrase, where terms in the user-specified phrase appear in the same order in the original text document.
 
-The following example reuses the earlier example of resume text data containing 14 documents to walk through queries. In this sentence, "document" means the column value. The data is stored in the `SKILLS\_COL` column and we have created a text index on this column.
+The following example reuses the earlier example of resume text data containing 14 documents to walk through queries. In this sentence, "document" means the column value. The data is stored in the `SKILLS_COL` column and we have created a text index on this column.
 
 ```csv
 Java, C++, worked on open source projects, coursera machine learning
@@ -340,7 +341,7 @@ Databases, columnar query processing, Apache Arrow, distributed systems, Machine
 Database engine, OLAP systems, OLTP transaction processing at large scale, concurrency, multi-threading, GO, building large scale systems
 ```
 
-This example queries the `SKILL\_COL` column to look for documents where each matching document MUST contain phrase "Distributed systems":
+This example queries the `SKILLS_COL` column to look for documents where each matching document MUST contain phrase "Distributed systems":
 
 ```sql
 SELECT SKILLS_COL 
@@ -375,7 +376,7 @@ This is because the phrase query looks for the phrase occurring in the original 
 
 **NOTE:** Matching is always done in a case-insensitive manner.
 
-The next example queries the `SKILL\_COL` column to look for documents where each matching document MUST contain phrase "query processing":
+The next example queries the `SKILLS_COL` column to look for documents where each matching document MUST contain phrase "query processing":
 
 ```sql
 SELECT SKILLS_COL 
@@ -394,7 +395,7 @@ Databases, columnar query processing, Apache Arrow, distributed systems, Machine
 
 Term queries are used to search for individual terms.
 
-This example will query the `SKILL\_COL` column to look for documents where each matching document MUST contain the term 'Java'.
+This example will query the `SKILLS_COL` column to look for documents where each matching document MUST contain the term 'Java'.
 
 As mentioned earlier, the search expression is always within single quotes. However, since this is a term query, we don't have to use double quotes within single quotes.
 
@@ -408,7 +409,7 @@ WHERE TEXT_MATCH(SKILLS_COL, 'Java')
 
 The Boolean operators `AND` and `OR` are supported and we can use them to build a composite query. Boolean operators can be used to combine phrase and term queries in any arbitrary manner
 
-This example queries the `SKILL\_COL` column to look for documents where each matching document MUST contain the phrases "distributed systems" and "tensor flow". This combines two phrases using the `AND` Boolean operator.
+This example queries the `SKILLS_COL` column to look for documents where each matching document MUST contain the phrases "machine learning" and "tensor flow". This combines two phrases using the `AND` Boolean operator.
 
 ```sql
 SELECT SKILLS_COL 
@@ -424,7 +425,7 @@ C++, Python, Tensor flow, database kernel, storage, indexing and transaction pro
 CUDA, GPU processing, Tensor flow, Pandas, Python, Jupyter notebook, spark, Machine learning, building high performance scalable systems
 ```
 
-This example queries the `SKILL\_COL` column to look for documents where each document MUST contain the phrase "machine learning" and the terms 'gpu' and 'python'. This combines a phrase and two terms using Boolean operators.
+This example queries the `SKILLS_COL` column to look for documents where each document MUST contain the phrase "machine learning" and the terms 'gpu' and 'python'. This combines a phrase and two terms using Boolean operators.
 
 ```sql
 SELECT SKILLS_COL 
@@ -446,7 +447,7 @@ When using Boolean operators to combine term(s) and phrase(s) or both, note that
 
 Use of the OR operator is implicit. In other words, if phrase(s) and term(s) are not combined using AND operator in the search expression, the OR operator is used by default:
 
-This example queries the `SKILL\_COL` column to look for documents where each document MUST contain ANY one of:
+This example queries the `SKILLS_COL` column to look for documents where each document MUST contain ANY one of:
 
 * phrase "distributed systems" OR
 * term 'java' OR
@@ -460,7 +461,7 @@ WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" Java C++')
 
 Grouping using parentheses is supported:
 
-This example queries the `SKILL\_COL` column to look for documents where each document MUST contain
+This example queries the `SKILLS_COL` column to look for documents where each document MUST contain
 
 * phrase "distributed systems" AND
 * at least one of the terms Java or C++
@@ -477,7 +478,7 @@ WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" AND (Java C++)')
 
 Prefix queries can be done in the context of a single term. We can't use prefix matches for phrases.
 
-This example queries the `SKILL\_COL` column to look for documents where each document MUST contain text like stream, streaming, streams etc
+This example queries the `SKILLS_COL` column to look for documents where each document MUST contain text like stream, streaming, streams etc
 
 ```sql
 SELECT SKILLS_COL 
@@ -513,7 +514,8 @@ WHERE text_match(SKILLS_COL, '/.*Exception/')
 The above query will match any text document containing "exception".
 
 ### Phrase search with wildcard term matching
-Phrase search with wildcard and prefix term matching can match patterns like "*pache pino*" to the text "Apache Pinot" directly. The kind of queries is very common in use case like log search where user needs to search substrings across term boundary in long text. To enable such search (which can be more costly because Lucene by default does not allow * to start a pattern to avoid costly term matching), one can add a new config key to the column text index config:
+
+Phrase search with wildcard and prefix term matching can match patterns like "_pache pino_" to the text "Apache Pinot" directly. The kind of queries is very common in use case like log search where user needs to search substrings across term boundary in long text. To enable such search (which can be more costly because Lucene by default does not allow \* to start a pattern to avoid costly term matching), one can add a new config key to the column text index config:
 
 ```json
 "fieldConfigList":[
@@ -527,13 +529,16 @@ Phrase search with wildcard and prefix term matching can match patterns like "*p
   }
 ]
 ```
-With this config enabled, one can now perform the pharse wildcard search using the following syntax like 
+
+With this config enabled, one can now perform the pharse wildcard search using the following syntax like
+
 ```sql
 SELECT SKILLS_COL 
 FROM MyTable 
 WHERE text_match(SKILLS_COL, '*pache pino*')
 ```
-to match the string "Apache pinot" in the SIKLLS_COL. Boolean expressions like '*pache pino* AND *apche luce*' are are supported.
+
+to match the string "Apache pinot" in the SIKLLS\_COL. Boolean expressions like '_pache pino_ AND _apche luce_' are are supported.
 
 ### Deciding Query Types
 

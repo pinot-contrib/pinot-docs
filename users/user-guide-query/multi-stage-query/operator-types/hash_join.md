@@ -37,7 +37,7 @@ The hash join operator is a blocking operator. It needs to consume all the input
 
 Even using partitioning, the amount of data that needs to be stored in memory can be high, so the engine tries to protect itself from running out of memory by limiting the number of rows that can be emitted from a join operation.
 
-The [join\_overflow\_mode](../hints/join\_overflow\_mode.md) hint can be used to control the behavior of the engine when the number of rows exceeds the limit. This limit can be defined using the [max\_rows\_in\_join](../hints/max\_rows\_in\_join.md) hint. By default, this limit is slightly above 1 million rows and the default join overflow mode is `THROW`, which means that the query will fail if the number of rows exceeds the limit.
+The [join\_overflow\_mode](../hints/join_overflow_mode.md) hint can be used to control the behavior of the engine when the number of rows exceeds the limit. This limit can be defined using the [max\_rows\_in\_join](../hints/max_rows_in_join.md) hint. By default, this limit is slightly above 1 million rows and the default join overflow mode is `THROW`, which means that the query will fail if the number of rows exceeds the limit.
 
 ## Hints
 
@@ -52,6 +52,13 @@ Defines the behavior of the engine when the number of rows in a join operation e
 * `THROW`: The query will fail if the number of rows exceeds the limit.
 * `BREAK`: The engine will stop processing the join and return the results that have been computed so far. In this case the stat `maxRowsInJoinReached` will be true.
 
+```sql
+SELECT /*+ joinOptions(join_overflow_mode='BREAK') */ 
+  table1.col2
+FROM table1 JOIN table2
+on table1.col1 = table2.col1
+```
+
 ### max\_rows\_in\_join
 
 Type: Integer
@@ -63,6 +70,37 @@ The maximum number of rows that can be processed in a join operation. Note that 
 {% hint style="info" %}
 Take care when increasing this limit. If the number of rows is too high, the amount of memory used by the engine can be very high, which can lead to very large GC pauses and even out of memory errors.
 {% endhint %}
+
+Example:
+
+```sql
+SELECT /*+ joinOptions(max_rows_in_join='1000') */ 
+  table1.col2
+FROM table1 JOIN table2
+on table1.col1 = table2.col1
+```
+
+### join\_strategy
+
+Type: String
+
+Default: empty
+
+Used to change the default join strategy. The alternative value is `dynamic_broadcast`, which means to send the whole right relation to the servers where the left relation is stored. This is useful when co-located joins cannot be used and the right table is significantly smaller than the left table.
+
+Example:
+
+```sql
+SELECT /*+ joinOptions(join_strategy='dynamic_broadcast') */ 
+  col1, aggr(col2)
+FROM largeTable
+WHERE 
+  col3 IN (
+    SELECT col1 FROM smallTable
+  )
+GROUP BY
+  promotion_type
+```
 
 ## Stats
 
@@ -122,7 +160,7 @@ Is saying that the join condition is that the column with index 0 in the left re
 
 Type: String
 
-The type of join that is being performed. The possible values are: `inner`, `left`, `right`, `full`, `semi` and `anti`, as explained in [Implementation details](hash\_join.md#implementation-details).
+The type of join that is being performed. The possible values are: `inner`, `left`, `right`, `full`, `semi` and `anti`, as explained in [Implementation details](hash_join.md#implementation-details).
 
 ## Tips and tricks
 
