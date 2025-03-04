@@ -132,3 +132,15 @@ Currently, table rebalance triggered by user runs at best effort. It could fail 
 ### TaskMetricsEmitter
 
 TBD
+
+### ResourceUtilizationChecker
+
+The periodic task ResourceUtilizationChecker runs periodically and computes the disk usage info of the Pinot server instances.
+
+<table>
+<thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th><th>Description</th></tr></thead>
+    <tbody>
+        <tr><td>controller.resource.utilization.checker.frequency</td><td>300</td><td>Value is in seconds. Setting the value to -1 would disable the task.</td></tr>
+        <tr><td>controller.disk.utilization.path</td><td>/home/pinot/data</td><td>Disk utilization is calculated for this path.</td></tr>
+    </tbody>
+</table>
