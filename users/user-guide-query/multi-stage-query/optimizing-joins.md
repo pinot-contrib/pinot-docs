@@ -103,6 +103,14 @@ FROM customer
 WHERE EXISTS (SELECT 1 FROM orders WHERE customer.c_custkey = orders.o_custkey)
 ```
 
+Or
+
+```sql
+SELECT customer.c_address, customer.c_nationkey
+FROM customer
+WHERE c_custkey IN (SELECT o_custkey FROM orders)
+```
+
 In order to use indexes Pinot needs to know the actual values on the subquery at optimization time. Therefore what Pinot does internally is to execute the subquery first and then replace the subquery with the actual values in the main query.
 
 For example, if the subquery in the previous example returns the values 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, the query is transformed into:
@@ -115,7 +123,34 @@ WHERE customer.c_custkey IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
 Which can then be optimized using indexes.
 
-At this moment this optimization cannot be seen in the Pinot explain plan.
+Currently, this optimization cannot be seen in the Pinot explain plan.
+
+#### Rewriting joins as semi-joins
+
+Sometimes, inner or left joins can be converted into semi-joins. Specifically, the requirements are:
+
+1. Only columns from the left side must be projected.
+2. The join condition must be equality.
+3. The right side must be unique.
+
+For example, the following two queries are equivalent:
+
+```sql
+SELECT customer.c_address, customer.c_nationkey
+FROM customer
+JOIN (SELECT DISTINCT o_custkey FROM orders) AS distinct_orders
+on customer.c_custkey = distinct_orders.o_custkey
+```
+
+```sql
+SELECT customer.c_address, customer.c_nationkey
+FROM customer
+WHERE c_custkey IN (SELECT o_custkey FROM orders)
+```
+
+But they won't be equivalent if instead of `distinct_orders` we were using `orders` . This is because a join repeats rows from the left side if there are repetitions on the right side, while a semi-join never repeats rows.
+
+Pinot applies this optimization automatically if the three conditions explained above are fulfilled. Given that columns in Pinot cannot be marked as unique, the only way to indicate Pinot that the right-hand side is unique is to apply a SQL expression that guarantees that, for example `DISTINCT` or `GROUP BY` the columns used in the join condition. Sometimes, it is just easier to rewrite the original SQL to substitute the `JOIN` with a `WHERE EXISTS` .
 
 ### Reduce data shuffle <a href="#reducing-data-shuffle" id="reducing-data-shuffle"></a>
 
