@@ -39,5 +39,5 @@ The above configurations can be updated via adding them as [cluster configuratio
 ## Relevant OSS PRs
 
 * Segment index rebuild across all index types: [https://github.com/apache/pinot/pull/14894](https://github.com/apache/pinot/pull/14894)
-* StarTree segment index rebuild across all index types: [https://github.com/apache/pinot/pull/14943](https://github.com/apache/pinot/pull/14943)
+* StarTree segment index rebuild: [https://github.com/apache/pinot/pull/14943](https://github.com/apache/pinot/pull/14943)
 * Segment download at server level: [https://github.com/apache/pinot/pull/15001](https://github.com/apache/pinot/pull/15001)
