@@ -44,6 +44,10 @@ The dedup Pinot table can use only the low-level consumer for the input streams.
 ```
 {% endcode %}
 
+{% hint style="warning" %}
+instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.
+{% endhint %}
+
 ### Other limitations
 
 * The high-level consumer is not allowed for the input stream ingestion, which means `stream.kafka.consumer.type` must be `lowLevel`.

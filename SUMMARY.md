@@ -159,6 +159,7 @@
       * [Transform](users/user-guide-query/multi-stage-query/operator-types/transform.md)
       * [Union](users/user-guide-query/multi-stage-query/operator-types/union.md)
       * [Window](users/user-guide-query/multi-stage-query/operator-types/window.md)
+    * [Stage-Level Spooling](users/user-guide-query/multi-stage-query/stage-level-spooling.md)
   * [User-Defined Functions (UDFs)](users/user-guide-query/scalar-functions.md)
   * [Explain plan](<users/user-guide-query/explain-plan (1).md>)
 * [APIs](users/api/README.md)

@@ -225,14 +225,14 @@ Typically, the flags that need to be changed from the default values are
 | Query param                          | Default value | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ------------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | dryRun                               | false         | If set to true, **rebalance is run as a dry-run** so that you can see the expected changes to the ideal state and instance partition assignment.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| summary                              | false         | If set to true, a summary of the dry-run results is returned rather than the full dry-run output. This can only be used with **dryRun=true.** See the section below for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | preChecks                            | false         | If set to true, some pre-checks are performed and their status is returned. This can only be used with **dryRun=true.** See the section below for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| includeConsuming                     | false         | <p>Applicable for REALTIME tables.</p><p><strong>CONSUMING segments are rebalanced only if this is set to true</strong>.<br>Moving a CONSUMING segment involves dropping the data consumed so far on old server, and re-consuming on the new server. If an application is sensitive to <strong>increased memory utilization due to re-consumption or to a momentary data staleness</strong>, they may choose to not include consuming in the rebalance. Whenever the CONSUMING segment completes, the completed segment will be assigned to the right instances, and the new CONSUMING segment will also be started on the correct instances. If you choose to includeConsuming=false and let the segments move later on, any downsized nodes need to remain untagged in the cluster, until the segment completion happens.</p> |
+| includeConsuming                     | true          | <p>Applicable for REALTIME tables.</p><p><strong>CONSUMING segments are rebalanced only if this is set to true</strong>.<br>Moving a CONSUMING segment involves dropping the data consumed so far on old server, and re-consuming on the new server. If an application is sensitive to <strong>increased memory utilization due to re-consumption or to a momentary data staleness</strong>, they may choose to not include consuming in the rebalance. Whenever the CONSUMING segment completes, the completed segment will be assigned to the right instances, and the new CONSUMING segment will also be started on the correct instances. If you choose to includeConsuming=false and let the segments move later on, any downsized nodes need to remain untagged in the cluster, until the segment completion happens.</p> |
 | downtime                             | false         | <p><strong>This controls whether Pinot allows downtime while rebalancing.</strong><br>If downtime = true, all replicas of a segment can be moved around in one go, which could result in a momentary downtime for that segment (time gap between ideal state updated to new servers and new servers downloading the segments).<br>If downtime = false, Pinot will make sure to keep certain number of replicas (config in next row) always up. The rebalance will be done in multiple iterations under the hood, in order to fulfill this constraint.</p><p><strong>Note</strong>: <em>If you have only 1 replica for your table, rebalance with downtime=false is not possible.</em></p>                                                                                                                                       |
-| minAvailableReplicas                 | 1             | <p>Applicable for rebalance with downtime=false.</p><p>This is the <strong>minimum number of replicas that are expected to stay alive</strong> through the rebalance.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| minAvailableReplicas                 | -1            | <p>Applicable for rebalance with downtime=false.</p><p>This is the <strong>minimum number of replicas that are expected to stay alive</strong> through the rebalance.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | lowDiskMode                          | false         | <p>Applicable for rebalance with downtime=false.<br>When enabled, segments will first be offloaded from servers, then added to servers after offload is done. It may increase the total time of the rebalance, but can be useful when servers are low on disk space, and we want to scale up the cluster and rebalance the table to more servers.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | bestEfforts                          | false         | <p>Applicable for rebalance with downtime=false.</p><p>If a no-downtime rebalance cannot be performed successfully, this flag <strong>controls whether to fail the rebalance or do a best-effort rebalance</strong>. <strong>Warning:</strong> <em>setting this flag to true can cause downtime under two scenarios: 1) any segments get into ERROR state and 2) EV-IS convergence times out</em></p>                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| reassignInstances                    | false         | Applicable to tables where the instance assignment has been persisted to zookeeper. Setting this to true will make the rebalance **first update the instance assignment, and then rebalance the segments**. This option should be set to true if the instance assignment will be changed (e.g. increasing replication or instances per replica for replicaGroup based assignment)                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| reassignInstances                    | true          | Applicable to tables where the instance assignment has been persisted to zookeeper. Setting this to true will make the rebalance **first update the instance assignment, and then rebalance the segments**. This option should be set to true if the instance assignment will be changed (e.g. increasing replication or instances per replica for replicaGroup based assignment)                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| minimizeDataMovement                 | ENABLE        | Whether to ENABLE minimizeDataMovement, DISABLE it, or DEFAULT to the value in the TableConfig. If enabled, it reduces the segments that will be moved by trying to minimize the changes to the instance assignment. For tables using implicit instance assignment (no INSTANCE\_PARTITIONS) this is a no-op.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | bootstrap                            | false         | Rebalances all segments again, **as if adding segments to an empty table**. If this is false, then the rebalance will try to minimize segment movements. **Warning:** _Only use this option if a reshuffle of all segments is desirable._                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | externalViewCheckIntervalInMs        | 1000          | How often to check if external view converges with ideal states                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | externalViewStabilizationTimeoutInMs | 3600000       | How long to wait till external view converges with ideal states. For large tables it is recommended to increase this timeout.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
@@ -309,9 +309,10 @@ curl -X GET "https://localhost:9000/table/airlineStats_OFFLINE/jobstype=OFFLINE&
 
 With options `dryRun=true, preChecks=true`, some pre-checks relevant to rebalance will be performed:
 
-* Check the status of the `minimizeDataMovement` flag in the TableConfig. This is an important flag for instance assignment strategies such as replicaGroups which controls how much data movement may occur. Possible return values: `true, false`
-* Check if any of the servers needs to be reloaded (do the segments on these servers need to be updated based on the latest TableConfig and Schema). Possible return values: `true, false, error`
-  * `error` status indicates that fetching the status from some servers failed and the ones that succeeded returned `false`. This may also occur if new servers are added as part of rebalance and they don't have any segments for the given table. This is just an indication that the user should double check by running the status themselves.
+* Check the status of the `minimizeDataMovement` flag in the TableConfig. This is an important flag for instance assignment strategies such as replicaGroups which controls how much data movement may occur.
+* Check if any of the servers needs to be reloaded (do the segments on these servers need to be updated based on the latest TableConfig and Schema).
+
+For each check the return includes a `preCheckStatus`which is one of: `PASS`|`WARN`|`ERROR` and a message to explain what the status means from this OSS PR [https://github.com/apache/pinot/pull/15233](https://github.com/apache/pinot/pull/15233) onwards. Prior to this, these just returned `true`| `false`|`error` with no further. explanation.
 
 ### Examples
 
@@ -319,9 +320,15 @@ With options `dryRun=true, preChecks=true`, some pre-checks relevant to rebalanc
 
 ```json
   "preChecksResult": {
-    "isMinimizeDataMovement": "true",
-    "needsReloadStatus": "true"
-  }
+    "isMinimizeDataMovement": {
+      "preCheckStatus": "PASS",
+      "message": "minimizeDataMovement is enabled"
+    },
+    "needsReloadStatus": {
+      "preCheckStatus": "WARN",
+      "message": "Reload needed prior to running rebalance"
+    }
+  },
 ```
 
 #### 2. Segments up to date with TableConfig / schema, balanced instance assignment (default)
@@ -330,25 +337,37 @@ Balanced assignment does not use `minimizeDataMovement` algorithm
 
 ```json
   "preChecksResult": {
-    "isMinimizeDataMovement": "false",
-    "needsReloadStatus": "false"
-  }
+    "isMinimizeDataMovement": {
+      "preCheckStatus": "PASS",
+      "message": "Instance assignment not allowed, no need for minimizeDataMovement"
+    },
+    "needsReloadStatus": {
+      "preCheckStatus": "PASS",
+      "message": "No need to reload"
+    }
+  },
 ```
 
 #### 3. Tenant migration with minimizeDataMovement=true, TableConfig / schema not updated
 
 ```json
   "preChecksResult": {
-    "isMinimizeDataMovement": "false",
-    "needsReloadStatus": "error"
-  }
+    "isMinimizeDataMovement": {
+      "preCheckStatus": "PASS",
+      "message": "minimizeDataMovement is enabled"
+    },
+    "needsReloadStatus": {
+      "preCheckStatus": "ERROR",
+      "message": "Could not determine needReload status, run needReload API manually"
+    }
+  },
 ```
 
-The `error` status for `needsReloadStatus` above is due to the new tenant servers having no segments assigned for the table. Since all the segments are moving to the new tenant anyways, `needsReloadStatus` can be ignored here.
+The `ERROR` status for `needsReloadStatus` above is due to the new tenant servers having no segments assigned for the table. Since all the segments are moving to the new tenant anyways, `needsReloadStatus` can be ignored here, but as a practice it is better to verify with the `needReload`API just to be safe.
 
 ## Rebalance DryRun Summary
 
-With options `dryRun=true, summary=true`, a summary of the changes that will occur during the rebalance will be returned rather than the usual instance and segment assignments. Right now, the summary will be divided into two portions:
+Rebalance (without or without `dryRun=true`) will return a summary of the changes that will occur during the rebalance along with the usual instance and segment assignments. Right now, the summary will be divided into two portions:
 
 * Server level - captures information about changes occurring at the server level and also dumps per server information about changes taking place.
 * Segment level - captures information about changes happening at the segment level
@@ -356,6 +375,8 @@ With options `dryRun=true, summary=true`, a summary of the changes that will occ
 Fields such as the `status` and `description` can be used to identify whether the rebalance will result in any change or not (`status=NO-OP` indicates that the table is already balanced), and can be a quick check prior to checking the summary.
 
 ### Examples
+
+All examples below skip showing the instance assignment and segment assignment for brevity.
 
 #### 1. Increase replication factor
 
