@@ -1,378 +1,344 @@
 # Array Functions
 
-### `arrayReverseInt`
+Pinot provides scalar functions for array manipulation. Functions support operations on integer, long, float, double, and string arrays.
 
-Reverses the order of elements in an integer array. Returns a new array; original remains unmodified.
+***
 
-**Parameters:**
+### 1. Array Reversal
 
-* `values` (INT ARRAY): Integer array to reverse
+#### arrayReverseInt
 
-**Returns:**\
-INT ARRAY
-
-**Example:**
+**Description**: Returns reversed integer array\
+**Syntax**: `arrayReverseInt(int_array)`
 
 ```sql
-arrayReverseInt(ARRAY[1, 2, 3]) → ARRAY[3, 2, 1]
+SELECT arrayReverseInt([1, 2, 3, 4, 5]) AS reversed_array;
+-- Result: [5, 4, 3, 2, 1]
+```
+
+#### arrayReverseString
+
+**Description**: Returns reversed string array\
+**Syntax**: `arrayReverseString(string_array)`
+
+```sql
+SELECT arrayReverseString(['apple', 'banana', 'cherry']) 
+-- Result: ['cherry', 'banana', 'apple']
 ```
 
 ***
 
-### `arrayReverseString`
+### 2. Array Sorting
 
-Reverses the order of elements in a string array.
+#### arraySortInt
 
-**Parameters:**
-
-* `values` (STRING ARRAY): String array to reverse
-
-**Returns:**\
-STRING ARRAY
-
-**Example:**
+**Description**: Returns sorted integer array (ascending)\
+**Syntax**: `arraySortInt(int_array)`
 
 ```sql
-arrayReverseString(ARRAY['a', 'b', 'c']) → ARRAY['c', 'b', 'a']
+SELECT arraySortInt([4, 1, 3, 5, 2])
+-- Result: [1, 2, 3, 4, 5]
+```
+
+#### arraySortString
+
+**Description**: Returns lexicographically sorted string array\
+**Syntax**: `arraySortString(string_array)`
+
+```sql
+SELECT arraySortString(['banana', 'apple', 'cherry'])
+-- Result: ['apple', 'banana', 'cherry']
 ```
 
 ***
 
-### `arraySortInt`
+### 3. Array Index Operations
 
-Sorts an integer array in ascending order. Returns a new sorted array.
+#### arrayIndexOfInt
 
-**Parameters:**
-
-* `values` (INT ARRAY): Integer array to sort
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
+**Description**: Returns first occurrence index (0-based)\
+**Syntax**: `arrayIndexOfInt(int_array, value)`
 
 ```sql
-arraySortInt(ARRAY[3, 1, 2]) → ARRAY[1, 2, 3]
+SELECT arrayIndexOfInt([10, 20, 3, 40], 3)
+-- Result: 2
+```
+
+_Similar functions exist for:_
+
+* `arrayIndexOfString`
+
+#### arrayIndexesOfInt
+
+**Description**: Returns all occurrence indices\
+**Syntax**: `arrayIndexesOfInt(int_array, value)`
+
+```sql
+SELECT arrayIndexesOfInt([5, 1, 5, 2, 5], 5)
+-- Result: [0, 2, 4]
+```
+
+_Similar functions exist for:_
+
+* `arrayIndexesOfLong`
+* `arrayIndexesOfFloat`
+* `arrayIndexesOfDouble`
+* `arrayIndexesOfString`
+
+***
+
+### 4. Array Intersection
+
+#### intersectIndices
+
+**Description**: Returns common indices from sorted arrays\
+**Syntax**: `intersectIndices(array1, array2)`
+
+```sql
+SELECT intersectIndices(
+    arrayIndexesOfString(col1, 'b'),
+    arrayIndexesOfString(col2, 'd')
+) 
+-- Sample Input: 
+-- col1 = ['a','b','a','b'], col2 = ['c','d','d','c']
+-- Result: [1]
 ```
 
 ***
 
-### `arraySortString`
+### 5. Array Membership Checks
 
-Sorts a string array lexicographically.
+#### arrayContainsInt
 
-**Parameters:**
-
-* `values` (STRING ARRAY): String array to sort
-
-**Returns:**\
-STRING ARRAY
-
-**Example:**
+**Description**: Checks array membership\
+**Syntax**: `arrayContainsInt(array, value)`
 
 ```sql
-arraySortString(ARRAY['banana', 'apple']) → ARRAY['apple', 'banana']
+SELECT arrayContainsInt([3, 7, 9], 7)
+-- Result: true
+```
+
+#### arrayContainsString
+
+**Description**: Checks string array membership\
+**Syntax**: `arrayContainsString(array, value)`
+
+```sql
+SELECT arrayContainsString(['banana', 'apple'], 'apple')
+-- Result: true
 ```
 
 ***
 
-### `arrayIndexOfInt`
+### 6. Array Slicing
 
-Returns the first 0-based index of a value in an integer array. Returns `-1` if not found.
+#### arraySliceInt
 
-**Parameters:**
-
-* `values` (INT ARRAY): Array to search
-* `valueToFind` (INT): Value to locate
-
-**Returns:**\
-INT
-
-**Example:**
+**Description**: Extracts subarray \[start, end)\
+**Syntax**: `arraySliceInt(array, start, end)`
 
 ```sql
-arrayIndexOfInt(ARRAY[10, 20, 30], 20) → 1
+SELECT arraySliceInt([10, 20, 30, 40], 1, 3)
+-- Result: [20, 30]
+```
+
+#### arraySliceString
+
+**Description**: Extracts string subarray\
+**Syntax**: `arraySliceString(array, start, end)`
+
+```sql
+SELECT arraySliceString(['a','b','c','d'], 0, 2)
+-- Result: ['a', 'b']
 ```
 
 ***
 
-### `arrayIndexOfString`
+### 7. Distinct Elements
 
-Finds the first index of a string in a string array.
+#### arrayDistinctInt
 
-**Parameters:**
-
-* `values` (STRING ARRAY): Array to search
-* `valueToFind` (STRING): Value to locate
-
-**Returns:**\
-INT
-
-**Example:**
+**Description**: Returns unique integers\
+**Syntax**: `arrayDistinctInt(array)`
 
 ```sql
-arrayIndexOfString(ARRAY['a', 'b'], 'b') → 1
+SELECT arrayDistinctInt([1, 2, 2, 3, 1])
+-- Result: [1, 2, 3]
+```
+
+#### arrayDistinctString
+
+**Description**: Returns unique strings\
+**Syntax**: `arrayDistinctString(array)`
+
+```sql
+SELECT arrayDistinctString(['apple','banana','apple'])
+-- Result: ['apple', 'banana']
 ```
 
 ***
 
-### `arrayIndexesOfInt`
+### 8. Element Removal
 
-Returns all 0-based indices where a value appears in an integer array.
+#### arrayRemoveInt
 
-**Parameters:**
-
-* `values` (INT ARRAY): Array to search
-* `valueToFind` (INT): Value to locate
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
+**Description**: Removes first occurrence\
+**Syntax**: `arrayRemoveInt(array, value)`
 
 ```sql
-arrayIndexesOfInt(ARRAY[5, 3, 5], 5) → ARRAY[0, 2]
+SELECT arrayRemoveInt([2, 4, 2, 6], 2)
+-- Result: [4, 2, 6]
+```
+
+#### arrayRemoveString
+
+**Description**: Removes first string occurrence\
+**Syntax**: `arrayRemoveString(array, value)`
+
+```sql
+SELECT arrayRemoveString(['apple','banana','cherry'], 'banana')
+-- Result: ['apple', 'cherry']
 ```
 
 ***
 
-### `intersectIndices`
+### 9. Array Union
 
-Finds common indices between two sorted arrays. Used for multi-column queries.
+#### arrayUnionInt
 
-**Parameters:**
-
-* `values1` (INT ARRAY): First sorted index array
-* `values2` (INT ARRAY): Second sorted index array
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
+**Description**: Combines unique elements\
+**Syntax**: `arrayUnionInt(array1, array2)`
 
 ```sql
-intersectIndices(ARRAY[1, 3, 5], ARRAY[3, 5]) → ARRAY[3, 5]
+SELECT arrayUnionInt([1,2,3], [3,4,5])
+-- Result: [1, 2, 3, 4, 5]
+```
+
+#### arrayUnionString
+
+**Description**: Combines unique strings\
+**Syntax**: `arrayUnionString(array1, array2)`
+
+```sql
+SELECT arrayUnionString(['a','b'], ['b','c'])
+-- Result: ['a', 'b', 'c']
 ```
 
 ***
 
-### `arrayContainsInt`
+### 10. Array Concatenation
 
-Checks if a value exists in an integer array.
+#### arrayConcatInt
 
-**Parameters:**
-
-* `values` (INT ARRAY): Array to search
-* `valueToFind` (INT): Value to check
-
-**Returns:**\
-BOOLEAN
-
-**Example:**
+**Description**: Concatenates arrays\
+**Syntax**: `arrayConcatInt(array1, array2)`
 
 ```sql
-arrayContainsInt(ARRAY[1, 2], 3) → false
+SELECT arrayConcatInt([1,2], [3,4])
+-- Result: [1, 2, 3, 4]
+```
+
+_Similar functions:_
+
+* `arrayConcatLong`
+* `arrayConcatFloat`
+* `arrayConcatDouble`
+* `arrayConcatString`
+
+***
+
+### 11. Element Access
+
+#### arrayElementAtInt
+
+**Description**: 1-indexed element access\
+**Syntax**: `arrayElementAtInt(array, index)`
+
+```sql
+SELECT arrayElementAtInt([10,20,30], 2)
+-- Result: 20
+```
+
+_Similar functions:_
+
+* `arrayElementAtLong`
+* `arrayElementAtFloat`
+* `arrayElementAtDouble`
+* `arrayElementAtString`
+
+***
+
+### 12. Array Summation
+
+#### arraySumInt
+
+**Description**: Sums array elements\
+**Syntax**: `arraySumInt(array)`
+
+```sql
+SELECT arraySumInt([1,2,3,4])
+-- Result: 10
+```
+
+#### arraySumLong
+
+**Description**: Sums long array elements\
+**Syntax**: `arraySumLong(array)`
+
+```sql
+SELECT arraySumLong([100,200,300])
+-- Result: 600
 ```
 
 ***
 
-### `arraySliceInt`
+### 13. Array Construction
 
-Extracts a subarray from `start` (inclusive) to `end` (exclusive).
+#### arrayValueConstructor
 
-**Parameters:**
-
-* `values` (INT ARRAY): Array to slice
-* `start` (INT): 0-based start index
-* `end` (INT): 0-based end index
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
+**Description**: Creates array from elements\
+**Syntax**: `array(element1, element2, ...)`
 
 ```sql
-arraySliceInt(ARRAY[1, 2, 3, 4], 1, 3) → ARRAY[2, 3]
+SELECT array(1,2,3), array('a','b','c')
+-- Results: 
+-- [1,2,3], ['a','b','c']
 ```
 
 ***
 
-### `arrayDistinctInt`
+### 14. Sequence Generation
 
-Returns unique elements preserving first occurrence order.
+#### generateIntArray
 
-**Parameters:**
-
-* `values` (INT ARRAY): Input array
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
+**Description**: Generates integer sequence\
+**Syntax**: `generateIntArray(start, end, increment)`
 
 ```sql
-arrayDistinctInt(ARRAY[3, 1, 3]) → ARRAY[3, 1]
+SELECT generateIntArray(1, 10, 2)
+-- Result: [1,3,5,7,9]
 ```
+
+_Similar functions:_
+
+* `generateLongArray`
+* `generateFloatArray`
+* `generateDoubleArray`
 
 ***
 
-### `arrayRemoveInt`
+### 15. String Conversion
 
-Removes the first occurrence of an element.
+#### arrayToString
 
-**Parameters:**
-
-* `values` (INT ARRAY): Input array
-* `element` (INT): Element to remove
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
+**Description**: Joins elements with delimiter\
+**Syntax**: `arrayToString(array, delimiter[, nullPlaceholder])`
 
 ```sql
-arrayRemoveInt(ARRAY[5, 3, 7], 3) → ARRAY[5, 7]
+SELECT 
+    arrayToString(['red','green','blue'], ','),
+    arrayToString(['foo',null,'bar'], ',', 'NULL')
+-- Results:
+-- "red,green,blue", "foo,NULL,bar"
 ```
 
-***
-
-### `arrayUnionInt`
-
-Combines two arrays and returns distinct elements.
-
-**Parameters:**
-
-* `values1` (INT ARRAY): First array
-* `values2` (INT ARRAY): Second array
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
-
-```sql
-arrayUnionInt(ARRAY[1, 2], ARRAY[2, 3]) → ARRAY[1, 2, 3]
-```
-
-***
-
-### `arrayConcatInt`
-
-Concatenates two integer arrays.
-
-**Parameters:**
-
-* `values1` (INT ARRAY): First array
-* `values2` (INT ARRAY): Second array
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
-
-```sql
-arrayConcatInt(ARRAY[1], ARRAY[2, 3]) → ARRAY[1, 2, 3]
-```
-
-***
-
-### `arrayElementAtInt`
-
-Returns element at 1-based index. Returns null placeholder if invalid.
-
-**Parameters:**
-
-* `arr` (INT ARRAY): Input array
-* `idx` (INT): 1-based index
-
-**Returns:**\
-INT
-
-**Example:**
-
-```sql
-arrayElementAtInt(ARRAY[10, 20], 2) → 20
-```
-
-***
-
-### `arraySumInt`
-
-Sums all elements in an integer array.
-
-**Parameters:**
-
-* `arr` (INT ARRAY): Input array
-
-**Returns:**\
-INT
-
-**Example:**
-
-```sql
-arraySumInt(ARRAY[1, 2, 3]) → 6
-```
-
-***
-
-### `array` / `arrayValueConstructor`
-
-Constructs an array from elements. Automatically detects type.
-
-**Parameters:**\
-Variable arguments (e.g., 1, 2, 3)
-
-**Returns:**\
-ARRAY
-
-**Examples:**
-
-```sql
-array(1, 2) → ARRAY[1, 2]
-array('a', 'b') → ARRAY['a', 'b']
-```
-
-***
-
-### `generateIntArray`
-
-Generates an integer sequence from `start` to `end` with `inc` increment.
-
-**Parameters:**
-
-* `start` (INT): Start value
-* `end` (INT): End value (inclusive)
-* `inc` (INT): Increment step
-
-**Returns:**\
-INT ARRAY
-
-**Example:**
-
-```sql
-generateIntArray(1, 5, 2) → ARRAY[1, 3, 5]
-```
-
-***
-
-### `arrayToString`
-
-Joins array elements with a delimiter. Handles nulls.
-
-**Parameters:**
-
-* `values` (STRING ARRAY): Input array
-* `delimiter` (STRING): Separator
-* `nullString` (STRING) \[Optional]: Replacement for nulls
-
-**Returns:**\
-STRING
-
-**Examples:**
-
-```sql
-arrayToString(ARRAY['a', 'b'], '-') → 'a-b'
-arrayToString(ARRAY['a', NULL], '|', 'NA') → 'a|NA'
-```
-
-***
