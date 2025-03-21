@@ -309,20 +309,33 @@ curl -X GET "https://localhost:9000/table/airlineStats_OFFLINE/jobstype=OFFLINE&
 
 With options `dryRun=true, preChecks=true`, some pre-checks relevant to rebalance will be performed:
 
-* Check the status of the `minimizeDataMovement` flag in the TableConfig. This is an important flag for instance assignment strategies such as replicaGroups which controls how much data movement may occur.
+* Check the status of the `minimizeDataMovement` flag in the TableConfig. This is an important flag for instance assignment strategies such as replicaGroups which controls how much data movement may occur.&#x20;
 * Check if any of the servers needs to be reloaded (do the segments on these servers need to be updated based on the latest TableConfig and Schema).
+*   Check if disk utilization may become a problem during or after rebalance based on a default threshold defined by the config (defaulted to 0.9):
 
-For each check the return includes a `preCheckStatus`which is one of: `PASS`|`WARN`|`ERROR` and a message to explain what the status means from this OSS PR [https://github.com/apache/pinot/pull/15233](https://github.com/apache/pinot/pull/15233) onwards. Prior to this, these just returned `true`| `false`|`error` with no further. explanation.
+    ```
+    controller.rebalance.disk.utilization.threshold
+    ```
+
+For each check the return includes a `preCheckStatus`which is one of: `PASS`|`WARN`|`ERROR` and a message to explain what the status means from this OSS PR [https://github.com/apache/pinot/pull/15233](https://github.com/apache/pinot/pull/15233) onwards. Prior to this, these just returned `true`| `false`|`error` with no further explanation.
 
 ### Examples
 
-#### 1. TableConfig / schema change, minimizeDataMovement=true
+#### 1. TableConfig / schema change, minimizeDataMovement=true, disk utilization within threshold
 
 ```json
   "preChecksResult": {
     "isMinimizeDataMovement": {
       "preCheckStatus": "PASS",
       "message": "minimizeDataMovement is enabled"
+    },
+    "diskUtilizationDuringRebalance" : {
+      "preCheckStatus" : "PASS",
+      "message" : "Within threshold (<90%)"
+    },
+    "diskUtilizationAfterRebalance" : {
+      "preCheckStatus" : "PASS",
+      "message" : "Within threshold (<90%)"
     },
     "needsReloadStatus": {
       "preCheckStatus": "WARN",
@@ -331,7 +344,7 @@ For each check the return includes a `preCheckStatus`which is one of: `PASS`|`WA
   },
 ```
 
-#### 2. Segments up to date with TableConfig / schema, balanced instance assignment (default)
+#### 2. Segments up to date with TableConfig / schema, balanced instance assignment (default), disk utilization above threshold
 
 Balanced assignment does not use `minimizeDataMovement` algorithm
 
@@ -341,6 +354,14 @@ Balanced assignment does not use `minimizeDataMovement` algorithm
       "preCheckStatus": "PASS",
       "message": "Instance assignment not allowed, no need for minimizeDataMovement"
     },
+    "diskUtilizationDuringRebalance" : {
+      "preCheckStatus" : "ERROR",
+      "message" : "UNSAFE. Servers with unsafe disk utilization (>90%): Server_localhost_3 (95%), Server_localhost_2 (98%)"
+    },
+    "diskUtilizationAfterRebalance" : {
+      "preCheckStatus" : "ERROR",
+      "message" : "UNSAFE. Servers with unsafe disk utilization (>90%): Server_localhost_2 (92%)"
+    },
     "needsReloadStatus": {
       "preCheckStatus": "PASS",
       "message": "No need to reload"
@@ -348,13 +369,21 @@ Balanced assignment does not use `minimizeDataMovement` algorithm
   },
 ```
 
-#### 3. Tenant migration with minimizeDataMovement=true, TableConfig / schema not updated
+#### 3. Tenant migration with minimizeDataMovement=true, TableConfig / schema not updated, disk utilization below threshold
 
 ```json
   "preChecksResult": {
     "isMinimizeDataMovement": {
       "preCheckStatus": "PASS",
       "message": "minimizeDataMovement is enabled"
+    },
+    "diskUtilizationDuringRebalance" : {
+      "preCheckStatus" : "PASS",
+      "message" : "Within threshold (<90%)"
+    },
+    "diskUtilizationAfterRebalance" : {
+      "preCheckStatus" : "PASS",
+      "message" : "Within threshold (<90%)"
     },
     "needsReloadStatus": {
       "preCheckStatus": "ERROR",
@@ -365,7 +394,7 @@ Balanced assignment does not use `minimizeDataMovement` algorithm
 
 The `ERROR` status for `needsReloadStatus` above is due to the new tenant servers having no segments assigned for the table. Since all the segments are moving to the new tenant anyways, `needsReloadStatus` can be ignored here, but as a practice it is better to verify with the `needReload`API just to be safe.
 
-## Rebalance DryRun Summary
+## Rebalance Summary
 
 Rebalance (without or without `dryRun=true`) will return a summary of the changes that will occur during the rebalance along with the usual instance and segment assignments. Right now, the summary will be divided into two portions:
 
