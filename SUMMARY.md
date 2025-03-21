@@ -117,6 +117,7 @@
   * [Querying Pinot](users/user-guide-query/querying-pinot.md)
   * [Query Syntax](users/user-guide-query/query-syntax/README.md)
     * [Aggregation Functions](users/user-guide-query/supported-aggregations.md)
+    * [Array Functions](users/user-guide-query/query-syntax/array-functions.md)
     * [Cardinality Estimation](users/user-guide-query/how-to-handle-unique-counting.md)
     * [Explain Plan (Single-Stage)](users/user-guide-query/explain-plan.md)
     * [Explain Plan (Multi-Stage)](users/user-guide-query/query-syntax/explain-plan-multi-stage.md)
