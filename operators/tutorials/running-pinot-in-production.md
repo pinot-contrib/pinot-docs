@@ -95,6 +95,30 @@ Executing command: PostQuery -brokerHost [broker_host] -brokerPort [broker_port]
 Result: {"aggregationResults":[{"function":"count_star","value":"97889"}],"exceptions":[],"numServersQueried":1,"numServersResponded":1,"numSegmentsQueried":1,"numSegmentsProcessed":1,"numSegmentsMatched":1,"numDocsScanned":97889,"numEntriesScannedInFilter":0,"numEntriesScannedPostFilter":0,"numGroupsLimitReached":false,"totalDocs":97889,"timeUsedMs":107,"segmentStatistics":[],"traceInfo":{}}
 ```
 
+### Graceful Server Node Replacement
+
+On a cloud based platform, node replacement is frequent. A common way to replace Pinot server is to assign the same `instanceId` to both the old node (`ON`) and the new node(`NN`). With this approach, ON usually needs to be stopped before starting the NN in order to prevent failures on taking the same Helix instanceId.
+NN startup used to take a long time because it needs to download and load all segments from deepstore or peer(s). Pinot has a graceful server node replacement support to make server replacement's overhead same as node restart.
+
+To achieve graceful node replacement, the operators need to setup the workflow in following sequence:
+
+1. Start NN in the "pre-download" mode by adding one more parameter to StartServerCommand, like:
+```
+PropertiesConfiguration properties = CommonsConfigurationUtils.fromPath(<config_path>);
+PredownloadScheduler predownloadScheduler = new PredownloadScheduler(properties);
+predownloadScheduler.start();
+```
+  This step would let the NN download all immutable segments of the instanceId and make its disk state identical as the ON. (Refer to this [PR](https://github.com/apache/pinot/pull/14686) for more details)
+
+2. Waiting for NN "pre-download" complete with one of following conditions:
+  - Pre-download fully succeed
+  - Pre-download partially succeed but have retried enough times
+  - Pre-download failed in non-retriable mode
+  - Already waited for a max time period
+
+3. Stop the ON
+4. Start the NN in the normal mode
+
 ## Monitoring Pinot
 
 Pinot exposes several metrics to monitor the service and ensure that pinot users are not experiencing issues. In this section we discuss some of the key metrics that are useful to monitor. A full list of metrics is available in the [Metrics](../../configuration-reference/monitoring-metrics.md) section.
