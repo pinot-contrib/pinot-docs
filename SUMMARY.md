@@ -166,6 +166,7 @@
 * [APIs](users/api/README.md)
   * [Broker Query API](users/api/querying-pinot-using-standard-sql/README.md)
     * [Query Response Format](users/api/querying-pinot-using-standard-sql/response-format.md)
+  * [Broker GRPC API](users/api/broker-grpc-api.md)
   * [Controller Admin API](users/api/pinot-rest-admin-interface.md)
   * [Controller API Reference](users/api/controller-api-reference.md)
 * [External Clients](users/clients/README.md)
