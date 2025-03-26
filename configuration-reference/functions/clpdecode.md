@@ -56,7 +56,7 @@ FROM myTable
 To use the `CLPDECODE` syntax that only specifies the column group name, you must configure the Pinot broker with an additional query rewriter as follows:
 
 ```properties
-pinot.broker.query.rewriter.class.names=org.apache.pinot.sql.parsers.rewriter.CompileTimeFunctionsInvoker,org.apache.pinot.sql.parsers.rewriter.SelectionsRewriter,org.apache.pinot.sql.parsers.rewriter.PredicateComparisonRewriter,org.apache.pinot.sql.parsers.rewriter.CLPDecodeRewriter,org.apache.pinot.sql.parsers.rewriter.AliasApplier,org.apache.pinot.sql.parsers.rewriter.OrdinalsUpdater,org.apache.pinot.sql.parsers.rewriter.NonAggregationGroupByToDistinctQueryRewriter
+pinot.broker.query.rewriter.class.names=org.apache.pinot.sql.parsers.rewriter.CompileTimeFunctionsInvoker,org.apache.pinot.sql.parsers.rewriter.SelectionsRewriter,org.apache.pinot.sql.parsers.rewriter.PredicateComparisonRewriter,org.apache.pinot.sql.parsers.rewriter.CLPRewriter,org.apache.pinot.sql.parsers.rewriter.AliasApplier,org.apache.pinot.sql.parsers.rewriter.OrdinalsUpdater,org.apache.pinot.sql.parsers.rewriter.NonAggregationGroupByToDistinctQueryRewriter
 ```
 
 This adds the `CLPDecodeRewriter` to the default set of query rewriters. Note that the `CLPDecodeRewriter` is placed before the `AliasApplier` so that any aliasing of CLP-encoded fields happens only after the `CLPDECODE` rewrite.
