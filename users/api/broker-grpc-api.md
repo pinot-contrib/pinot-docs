@@ -74,9 +74,7 @@ public class PinotBrokerGrpcClientExample {
 
 ### JDBC Grpc Client
 
-Below is a sample code to use JDBC driver.
-
-The main different here is scheme is changed to `pinotgrpc` .
+The main usage difference here is scheme is changed to `pinotgrpc` .
 
 And there are two parameters to set per connection basis:
 
@@ -92,15 +90,22 @@ And there are two parameters to set per connection basis:
 
 
 
-We did a very rough benchmark to compress 97k(9.2MB) rows with block size 10K
+We did a very rough benchmark to compress 97k(9.2MB) rows with block size 10K.
 
-<table><thead><tr><th>Compression</th><th>Size Ratio</th><th>Response Latency(ms)</th><th>Latency Ratio</th><th data-hidden></th></tr></thead><tbody><tr><td>LZ4_FAST</td><td><mark style="color:yellow;">42.09%</mark></td><td><mark style="color:green;">477.6</mark></td><td><mark style="color:green;">103.02%</mark></td><td></td></tr><tr><td>LZ4_HIGH</td><td><mark style="color:green;">29.83%</mark></td><td><mark style="color:yellow;">977.0</mark></td><td><mark style="color:red;">210.74%</mark></td><td></td></tr><tr><td>ZSTD</td><td><mark style="color:green;">25.73%</mark></td><td><mark style="color:green;">485.4</mark></td><td><mark style="color:green;">104.70%</mark></td><td></td></tr><tr><td>DEFLATE</td><td><mark style="color:green;">25.57%</mark></td><td><mark style="color:yellow;">810.0</mark></td><td><mark style="color:yellow;">174.72%</mark></td><td></td></tr><tr><td>GZIP</td><td><mark style="color:green;">25.57%</mark></td><td><mark style="color:yellow;">811.8</mark></td><td><mark style="color:yellow;">175.11%</mark></td><td></td></tr><tr><td>SNAPPY</td><td><mark style="color:yellow;">42.50%</mark></td><td><mark style="color:green;">461.2</mark></td><td><mark style="color:green;">99.48%</mark></td><td></td></tr><tr><td>NONE</td><td><mark style="color:red;">100%</mark></td><td><mark style="color:green;">463.6</mark></td><td><mark style="color:green;">100%</mark></td><td></td></tr></tbody></table>
+<table><thead><tr><th>CompressionType</th><th>Compression Ratio</th><th>Response Latency(ms)</th><th>Latency Ratio</th><th data-hidden></th></tr></thead><tbody><tr><td>LZ4_FAST</td><td><mark style="color:yellow;">42.19%</mark></td><td><mark style="color:green;">477.6</mark></td><td><mark style="color:green;">103.02%</mark></td><td></td></tr><tr><td>LZ4_HIGH</td><td><mark style="color:green;">30.04%</mark></td><td><mark style="color:yellow;">977.0</mark></td><td><mark style="color:red;">210.74%</mark></td><td></td></tr><tr><td>ZSTD</td><td><mark style="color:green;">26.10%</mark></td><td><mark style="color:green;">485.4</mark></td><td><mark style="color:green;">104.70%</mark></td><td></td></tr><tr><td>DEFLATE</td><td><mark style="color:green;">25.64%</mark></td><td><mark style="color:yellow;">810.0</mark></td><td><mark style="color:yellow;">174.72%</mark></td><td></td></tr><tr><td>GZIP</td><td><mark style="color:green;">25.64%</mark></td><td><mark style="color:yellow;">811.8</mark></td><td><mark style="color:yellow;">175.11%</mark></td><td></td></tr><tr><td>SNAPPY</td><td><mark style="color:yellow;">42.56%</mark></td><td><mark style="color:green;">461.2</mark></td><td><mark style="color:green;">99.48%</mark></td><td></td></tr><tr><td>NONE</td><td><mark style="color:red;">100%</mark></td><td><mark style="color:green;">463.6</mark></td><td><mark style="color:green;">100%</mark></td><td></td></tr></tbody></table>
+
+We also tried for ZSTD the same data set with different block size:
+
+| BlockRowSize | Compression Ratio | Avg Execution Time(ms) |
+| ------------ | ----------------- | ---------------------- |
+| 100          | 30.48%            | 539.6                  |
+| 1000         | 27.56%            | 478.3                  |
+| 10000        | 26.10%            | 485.4                  |
+| 100000       | 25.73%            | 561.2                  |
 
 
 
-
-
-
+Below is a sample code to use JDBC driver.
 
 ```java
 package org.apache.pinot.client.examples;
