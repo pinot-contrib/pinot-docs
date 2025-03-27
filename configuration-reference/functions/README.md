@@ -290,6 +290,10 @@ This page contains reference documentation for functions in Apache Pinot.
 [fromepochbucket.md](fromepochbucket.md)
 {% endcontent-ref %}
 
+{% content-ref url="griddistance.md" %}
+[griddistance.md](griddistance.md)
+{% endcontent-ref %}
+
 {% content-ref url="histogram.md" %}
 [histogram.md](histogram.md)
 {% endcontent-ref %}

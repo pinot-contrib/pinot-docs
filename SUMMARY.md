@@ -344,6 +344,7 @@
   * [FunnelCompleteCount](configuration-reference/functions/funnelmaxstep.md)
   * [FunnelMaxStep](configuration-reference/functions/funnelmaxstep-1.md)
   * [FunnelMatchStep](configuration-reference/functions/funnelmaxstep-2.md)
+  * [GridDistance](configuration-reference/functions/griddistance.md)
   * [Histogram](configuration-reference/functions/histogram.md)
   * [hour](configuration-reference/functions/hour.md)
   * [isSubnetOf](configuration-reference/functions/issubnetof.md)
