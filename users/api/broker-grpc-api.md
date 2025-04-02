@@ -38,6 +38,18 @@ Below are the examples of usage for `pinot-java-client` and `pinot-jdbc-client` 
 
 ### Java Grpc Client
 
+
+
+{% hint style="warning" %}
+If you want to use ARROW as the encoding type, you must start Java with
+
+&#x20;`--add-opens=java.base/java.nio=org.apache.arrow.memory.core,ALL-UNNAMED`&#x20;
+
+(See https://arrow.apache.org/docs/java/install.html)
+{% endhint %}
+
+Below is a sample code to use the java client: **GrpcConnection**:
+
 ```java
 package org.apache.pinot.client.examples;
 
@@ -55,7 +67,13 @@ public class PinotBrokerGrpcClientExample {
   
   public static void main(String[] args)
       throws IOException {
-    GrpcConnection grpcConnection = ConnectionFactory.fromControllerGrpc(new Properties(), "localhost:9000");
+    Properties properties = new Properties();
+    properties.put("encoding", "JSON");
+    properties.put("compression", "ZSTD");
+    properties.put("blockRowSize", "10000");
+    GrpcConnection grpcConnection = ConnectionFactory.fromControllerGrpc(properties, "localhost:9000");
+    // GrpcConnection grpcConnection = ConnectionFactory.fromZookeeperGrpc(properties, "localhost:2123/QuickStartCluster");
+    // GrpcConnection grpcConnection = ConnectionFactory.fromHostListGrpc(properties, List.of("localhost:8010"));
     ResultSetGroup resultSetGroup = grpcConnection.execute("SELECT * FROM airlineStats limit 1000");
     for (int i = 0; i < resultSetGroup.getResultSetCount(); i++) {
       org.apache.pinot.client.ResultSet resultSet = resultSetGroup.getResultSet(i);
@@ -76,32 +94,13 @@ public class PinotBrokerGrpcClientExample {
 
 The main usage difference here is scheme is changed to `pinotgrpc` .
 
-And there are two parameters to set per connection basis:
+{% hint style="warning" %}
+If you want to use ARROW as the encoding type, you must start Java with
 
-1. blockRowSize: the number of rows per block that grpc response will return, default is 10000.
-2. compression: the compression algorithm over the wire, default is ZSTD, other options:&#x20;
-   1. LZ4\_FAST: fast than LZ4\_HIGH but not as high compression rate
-   2. LZ4\_HIGH
-   3. **ZSTD (Default)**
-   4. DEFLATE
-   5. GZIP
-   6. SNAPPY
-   7.  PASS\_THROUGH/NONE: no compression, fast but could be large data transfer over the wire.
+&#x20;`--add-opens=java.base/java.nio=org.apache.arrow.memory.core,ALL-UNNAMED`&#x20;
 
-
-
-We did a very rough benchmark to compress 97k(9.2MB) rows with block size 10K.
-
-<table><thead><tr><th>CompressionType</th><th>Compression Ratio</th><th>Response Latency(ms)</th><th>Latency Ratio</th><th data-hidden></th></tr></thead><tbody><tr><td>LZ4_FAST</td><td><mark style="color:yellow;">42.19%</mark></td><td><mark style="color:green;">477.6</mark></td><td><mark style="color:green;">103.02%</mark></td><td></td></tr><tr><td>LZ4_HIGH</td><td><mark style="color:green;">30.04%</mark></td><td><mark style="color:yellow;">977.0</mark></td><td><mark style="color:red;">210.74%</mark></td><td></td></tr><tr><td>ZSTD</td><td><mark style="color:green;">26.10%</mark></td><td><mark style="color:green;">485.4</mark></td><td><mark style="color:green;">104.70%</mark></td><td></td></tr><tr><td>DEFLATE</td><td><mark style="color:green;">25.64%</mark></td><td><mark style="color:yellow;">810.0</mark></td><td><mark style="color:yellow;">174.72%</mark></td><td></td></tr><tr><td>GZIP</td><td><mark style="color:green;">25.64%</mark></td><td><mark style="color:yellow;">811.8</mark></td><td><mark style="color:yellow;">175.11%</mark></td><td></td></tr><tr><td>SNAPPY</td><td><mark style="color:yellow;">42.56%</mark></td><td><mark style="color:green;">461.2</mark></td><td><mark style="color:green;">99.48%</mark></td><td></td></tr><tr><td>NONE</td><td><mark style="color:red;">100%</mark></td><td><mark style="color:green;">463.6</mark></td><td><mark style="color:green;">100%</mark></td><td></td></tr></tbody></table>
-
-We also tried for ZSTD the same data set with different block size:
-
-| BlockRowSize | Compression Ratio | Avg Execution Time(ms) |
-| ------------ | ----------------- | ---------------------- |
-| 100          | 30.48%            | 539.6                  |
-| 1000         | 27.56%            | 478.3                  |
-| 10000        | 26.10%            | 485.4                  |
-| 100000       | 25.73%            | 561.2                  |
+(See https://arrow.apache.org/docs/java/install.html)
+{% endhint %}
 
 
 
@@ -126,7 +125,7 @@ public class PinotBrokerGrpcJdbcClientExample {
 
   public static void main(String[] args)
       throws IOException {
-    try (Connection connection = DriverManager.getConnection("jdbc:pinotgrpc://localhost:9000?blockRowSize=100");
+    try (Connection connection = DriverManager.getConnection("jdbc:pinotgrpc://localhost:9000?blockRowSize=10000&encoding=JSON&compression=ZSTD");
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM airlineStats limit 1000")) {
       // Print results
@@ -145,4 +144,50 @@ public class PinotBrokerGrpcJdbcClientExample {
   }
 }
 ```
+
+
+
+## Client Configurations
+
+&#x20;Below are the parameters to set per connection basis:
+
+1. **blockRowSize**: the number of rows per block that grpc response will return, **default** is **10000**.
+2. **compression**: the compression algorithm over the wire, **default** is **ZSTD**, other options:&#x20;
+   1. LZ4\_FAST: fast than LZ4\_HIGH but not as high compression rate
+   2. LZ4\_HIGH
+   3. **ZSTD (Default)**
+   4. DEFLATE
+   5. GZIP
+   6. SNAPPY
+   7. PASS\_THROUGH/NONE: no compression, fast but could be large data transfer over the wire.
+3. **encoding**: how to do serialization and deserialization for ResultTable transport between BrokerGrpcServer and Grpc Client, **default** is **JSON**, other options:
+   1. **JSON(Default)**
+   2. ARROW
+
+## Benchmark
+
+We did a very rough benchmark to compress 97k(9.2MB) rows with block size 10K.
+
+### Compression
+
+<table><thead><tr><th>CompressionType</th><th>Compression Ratio</th><th>Response Latency(ms)</th><th>Latency Ratio</th><th data-hidden></th></tr></thead><tbody><tr><td>LZ4_FAST</td><td><mark style="color:yellow;">42.19%</mark></td><td><mark style="color:green;">477.6</mark></td><td><mark style="color:green;">103.02%</mark></td><td></td></tr><tr><td>LZ4_HIGH</td><td><mark style="color:green;">30.04%</mark></td><td><mark style="color:yellow;">977.0</mark></td><td><mark style="color:red;">210.74%</mark></td><td></td></tr><tr><td>ZSTD</td><td><mark style="color:green;">26.10%</mark></td><td><mark style="color:green;">485.4</mark></td><td><mark style="color:green;">104.70%</mark></td><td></td></tr><tr><td>DEFLATE</td><td><mark style="color:green;">25.64%</mark></td><td><mark style="color:yellow;">810.0</mark></td><td><mark style="color:yellow;">174.72%</mark></td><td></td></tr><tr><td>GZIP</td><td><mark style="color:green;">25.64%</mark></td><td><mark style="color:yellow;">811.8</mark></td><td><mark style="color:yellow;">175.11%</mark></td><td></td></tr><tr><td>SNAPPY</td><td><mark style="color:yellow;">42.56%</mark></td><td><mark style="color:green;">461.2</mark></td><td><mark style="color:green;">99.48%</mark></td><td></td></tr><tr><td>NONE</td><td><mark style="color:red;">100%</mark></td><td><mark style="color:green;">463.6</mark></td><td><mark style="color:green;">100%</mark></td><td></td></tr></tbody></table>
+
+### Block Size
+
+We also tried for ZSTD the same data set with different block size:
+
+| BlockRowSize | Compression Ratio                         | Avg Execution Time(ms)                   |
+| ------------ | ----------------------------------------- | ---------------------------------------- |
+| 100          | <mark style="color:yellow;">30.48%</mark> | <mark style="color:yellow;">539.6</mark> |
+| 1000         | <mark style="color:green;">27.56%</mark>  | <mark style="color:green;">478.3</mark>  |
+| 10000        | <mark style="color:green;">26.10%</mark>  | <mark style="color:green;">485.4</mark>  |
+| 100000       | <mark style="color:green;">25.73%</mark>  | <mark style="color:yellow;">561.2</mark> |
+
+### Encoding
+
+Tested with ZSTD compression for the same query but different encoding and block size:
+
+<table><thead><tr><th>BlockRowSize</th><th width="114.22998046875">Encoding</th><th width="123.03466796875">Compression</th><th>Execution Time(ms)</th><th width="195.62255859375">Bytes/Compression Ratio</th></tr></thead><tbody><tr><td>1000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:yellow;">473</mark></td><td><mark style="color:green;">2559246/27.56%</mark></td></tr><tr><td>10000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:yellow;">473</mark></td><td><mark style="color:green;">2424082/26.10%</mark></td></tr><tr><td>100000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:red;">594</mark></td><td><mark style="color:green;">2389717/25.73%</mark></td></tr><tr><td>1000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:green;">372</mark></td><td><mark style="color:yellow;">3054993/32.90%</mark></td></tr><tr><td>10000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:green;">367</mark></td><td><mark style="color:green;">2705245/29.13%</mark></td></tr><tr><td>100000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:yellow;">447</mark></td><td><mark style="color:yellow;">2809744/30.26%</mark></td></tr></tbody></table>
+
+
 
