@@ -38,7 +38,7 @@ Below are the examples of usage for `pinot-java-client` and `pinot-jdbc-client` 
 
 ### Java Grpc Client
 
-
+The main difference of the usage here is that `ConnectionFactory`will return a **`GrpcConnection`** instead of **`Connection`**.
 
 {% hint style="warning" %}
 If you want to use ARROW as the encoding type, you must start Java with
