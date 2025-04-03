@@ -176,7 +176,7 @@ We did a very rough benchmark to compress 97k(9.2MB) rows with block size 10K.
 
 We also tried for ZSTD the same data set with different block size:
 
-| BlockRowSize | Compression Ratio                         | Avg Execution Time(ms)                   |
+| BlockRowSize | Compression Ratio                         | Avg Latency(ms)                          |
 | ------------ | ----------------------------------------- | ---------------------------------------- |
 | 100          | <mark style="color:yellow;">30.48%</mark> | <mark style="color:yellow;">539.6</mark> |
 | 1000         | <mark style="color:green;">27.56%</mark>  | <mark style="color:green;">478.3</mark>  |
@@ -187,7 +187,7 @@ We also tried for ZSTD the same data set with different block size:
 
 Tested with ZSTD compression for the same query but different encoding and block size:
 
-<table><thead><tr><th>BlockRowSize</th><th width="114.22998046875">Encoding</th><th width="123.03466796875">Compression</th><th>Execution Time(ms)</th><th width="195.62255859375">Bytes/Compression Ratio</th></tr></thead><tbody><tr><td>1000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:yellow;">473</mark></td><td><mark style="color:green;">2559246/27.56%</mark></td></tr><tr><td>10000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:yellow;">473</mark></td><td><mark style="color:green;">2424082/26.10%</mark></td></tr><tr><td>100000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:red;">594</mark></td><td><mark style="color:green;">2389717/25.73%</mark></td></tr><tr><td>1000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:green;">372</mark></td><td><mark style="color:yellow;">3054993/32.90%</mark></td></tr><tr><td>10000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:green;">367</mark></td><td><mark style="color:green;">2705245/29.13%</mark></td></tr><tr><td>100000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:yellow;">447</mark></td><td><mark style="color:yellow;">2809744/30.26%</mark></td></tr></tbody></table>
+<table><thead><tr><th>BlockRowSize</th><th width="114.22998046875">Encoding</th><th width="123.03466796875">Compression</th><th width="150.7039794921875">Avg Latency(ms)</th><th width="98.7171630859375">Bytes</th><th width="160.693603515625">Compression Ratio</th></tr></thead><tbody><tr><td>1000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:yellow;">473</mark></td><td><mark style="color:green;">2559246</mark></td><td><mark style="color:green;">27.56%</mark></td></tr><tr><td>10000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:yellow;">473</mark></td><td><mark style="color:green;">2424082</mark></td><td><mark style="color:green;">26.10%</mark></td></tr><tr><td>100000</td><td>JSON</td><td>ZSTD</td><td><mark style="color:red;">594</mark></td><td><mark style="color:green;">2389717</mark></td><td><mark style="color:green;">25.73%</mark></td></tr><tr><td>1000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:green;">372</mark></td><td><mark style="color:yellow;">3054993</mark></td><td><mark style="color:yellow;">32.90%</mark></td></tr><tr><td>10000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:green;">367</mark></td><td><mark style="color:green;">2705245</mark></td><td><mark style="color:green;">29.13%</mark></td></tr><tr><td>100000</td><td>ARROW</td><td>ZSTD</td><td><mark style="color:yellow;">447</mark></td><td><mark style="color:yellow;">2809744</mark></td><td><mark style="color:yellow;">30.26%</mark></td></tr></tbody></table>
 
 
 
