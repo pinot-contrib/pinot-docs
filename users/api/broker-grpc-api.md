@@ -38,7 +38,7 @@ Below are the examples of usage for `pinot-java-client` and `pinot-jdbc-client` 
 
 ### Java Grpc Client
 
-The main difference of the usage here is that `ConnectionFactory`will return a **`GrpcConnection`** instead of **`Connection`**.
+The main difference of the usage here is that `ConnectionFactory` will return a **`GrpcConnection`** instead of **`Connection`**.
 
 {% hint style="warning" %}
 If you want to use ARROW as the encoding type, you must start Java with
@@ -92,7 +92,7 @@ public class PinotBrokerGrpcClientExample {
 
 ### JDBC Grpc Client
 
-The main usage difference here is scheme is changed to `pinotgrpc` .
+The main usage difference here is scheme is changed to `pinotgrpc`.
 
 {% hint style="warning" %}
 If you want to use ARROW as the encoding type, you must start Java with
@@ -166,7 +166,13 @@ public class PinotBrokerGrpcJdbcClientExample {
 
 ## Benchmark
 
-We did a very rough benchmark to compress 97k(9.2MB) rows with block size 10K.
+We did a simple benchmark of query:&#x20;
+
+```
+SELECT * FROM airlineStats limit 1000
+```
+
+&#x20;Will compress **97k (9.2MB)** rows with block size **10K**.
 
 ### Compression
 
