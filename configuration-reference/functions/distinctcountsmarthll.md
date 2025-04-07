@@ -1,6 +1,6 @@
 ---
 description: >-
-  This section contains reference documentation for the DISTINCTCOUNTHLL
+  This section contains reference documentation for the DISTINCT_COUNT_SMART_HLL
   function.
 ---
 
@@ -8,7 +8,13 @@ description: >-
 
 ## Signature
 
-> DISTINCTCOUNTSMARTHLL(colName, log2m)
+> DISTINCT\_COUNT\_SMART\_HLL(col\[, params])
+
+* `col` (required): Name of the column to aggregate on.
+* `params` (optional): Semicolon-separated parameter key-value pairs:
+  * `threshold`: The threshold to convert the value set into a _HyperLogLog_ (default _100\_000_).
+  * `log2m`: _log2m_ for the _HyperLogLog_ (default _12_).
+* Example: `DISTINCT_COUNT_SMART_HLL(col, 'threshold=10000;log2m=8')`
 
 ## Usage Examples
 
