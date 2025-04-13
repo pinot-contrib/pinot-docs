@@ -36,8 +36,15 @@ The above configurations can be updated via adding them as [cluster configuratio
 * Since StarTree index preprocessing is part of the overall index preprocessing step, if both configs are set, it is recommended to set the StarTree index specific value as <= overall index preprocessing value. Otherwise, the overall index preprocessing value will land up becoming the throttle value even for the StarTree indexes, since it will apply first.
 * There also exists a [table level download throttle config](performance-optimization-configurations.md) which limits the segments that can be downloaded for each table. This applies first to ensure no table faces starvation in terms of segment download, and the server level download throttle mentioned in the table above applies next to ensure the server is protected from too many downloads across all tables. Table level throttling is disabled by default. These can be configured independently.
 
+## Metrics
+
+The following Gauge type metrics exist to monitor the segment operation threshold and count of number of segments undergoing a given operation:
+
+<table><thead><tr><th width="190.30078125">Segment Operation</th><th width="109.8046875">Scope</th><th>Threshold Metric</th><th>Count Metric</th></tr></thead><tbody><tr><td>All Index Rebuild</td><td>Global</td><td><code>segmentAllPreprocessThrottleThreshold</code></td><td><code>segmentAllPreprocessCount</code></td></tr><tr><td>StarTree Index Rebuild</td><td>Global</td><td><code>segmentStartreePreprocessThreshold</code></td><td><code>segmentStartreePreprocessCount</code></td></tr><tr><td>Segment Download</td><td>Global</td><td><code>segmentDownloadThrottleThreshold</code></td><td><code>segmentDownloadCount</code></td></tr><tr><td>Segment Download</td><td>Table-Level</td><td><code>segmentTableDownloadThrottleThreshold</code></td><td><code>segmentTableDownloadCount</code></td></tr></tbody></table>
+
 ## Relevant OSS PRs
 
 * Segment index rebuild across all index types: [https://github.com/apache/pinot/pull/14894](https://github.com/apache/pinot/pull/14894)
 * StarTree segment index rebuild: [https://github.com/apache/pinot/pull/14943](https://github.com/apache/pinot/pull/14943)
 * Segment download at server level: [https://github.com/apache/pinot/pull/15001](https://github.com/apache/pinot/pull/15001)
+* Add metrics: [https://github.com/apache/pinot/pull/15392](https://github.com/apache/pinot/pull/15392)
