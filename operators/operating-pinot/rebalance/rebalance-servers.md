@@ -392,7 +392,9 @@ Balanced assignment does not use `minimizeDataMovement` algorithm
   },
 ```
 
-The `ERROR` status for `needsReloadStatus` above is due to the new tenant servers having no segments assigned for the table. Since all the segments are moving to the new tenant anyways, `needsReloadStatus` can be ignored here, but as a practice it is better to verify with the `needReload`API just to be safe.
+The `ERROR` status for `needsReloadStatus` above maybe due to errors returned by a subset of servers hosting the segments. In such cases, it is recommended to try again or run it manually via `needReload` API.
+
+As part of  [PR #15360](https://github.com/apache/pinot/pull/15360), a fix was made to fetch the status from the servers currently assigned in the IdealState rather than relying on the tagged instances as this may change as part of rebalance. Prior to this PR, even for scenarios such as tenant move, `ERROR` status would be thrown.
 
 ## Rebalance Summary
 
