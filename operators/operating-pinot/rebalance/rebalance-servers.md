@@ -474,17 +474,17 @@ Changes:
         "expectedValueAfterRebalance": 2
       },
       "serversAdded": [
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-1_8098"
       ],
       "serversRemoved": [],
       "serversUnchanged": [
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-1_8098"
       ],
       "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-1_8098": {
           "serverStatus": "ADDED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 0,
@@ -496,7 +496,7 @@ Changes:
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-0_8098": {
           "serverStatus": "UNCHANGED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 15,
@@ -554,16 +554,16 @@ Changes:
       },
       "serversAdded": [],
       "serversRemoved": [
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-1_8098"
       ],
       "serversUnchanged": [
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-1_8098": {
           "serverStatus": "REMOVED",
           "totalSegmentsAfterRebalance": 0,
           "totalSegmentsBeforeRebalance": 7,
@@ -575,7 +575,7 @@ Changes:
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-0_8098": {
           "serverStatus": "UNCHANGED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 8,
@@ -630,17 +630,17 @@ Changes:
         "expectedValueAfterRebalance": 2
       },
       "serversAdded": [
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-1_8098"
       ],
       "serversRemoved": [],
       "serversUnchanged": [
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-1_8098"
       ],
       "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-1_8098": {
           "serverStatus": "ADDED",
           "totalSegmentsAfterRebalance": 7,
           "totalSegmentsBeforeRebalance": 0,
@@ -652,7 +652,7 @@ Changes:
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-0_8098": {
           "serverStatus": "UNCHANGED",
           "totalSegmentsAfterRebalance": 8,
           "totalSegmentsBeforeRebalance": 15,
@@ -708,17 +708,17 @@ Changes:
         "expectedValueAfterRebalance": 1
       },
       "serversAdded": [
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-2_8098"
       ],
       "serversRemoved": [
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serversUnchanged": [],
       "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-2_8098"
       ],
       "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-0_8098": {
           "serverStatus": "REMOVED",
           "totalSegmentsAfterRebalance": 0,
           "totalSegmentsBeforeRebalance": 15,
@@ -730,7 +730,7 @@ Changes:
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-2_8098": {
           "serverStatus": "ADDED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 0,
@@ -786,16 +786,16 @@ Changes:
       },
       "serversAdded": [],
       "serversRemoved": [
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-1_8098"
       ],
       "serversUnchanged": [
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-1_8098": {
           "serverStatus": "REMOVED",
           "totalSegmentsAfterRebalance": 0,
           "totalSegmentsBeforeRebalance": 7,
@@ -807,7 +807,7 @@ Changes:
             "NewDefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-0_8098": {
           "serverStatus": "UNCHANGED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 8,
@@ -873,21 +873,21 @@ Scenario 1: `minimizeDataMovement=false`
         "expectedValueAfterRebalance": 3
       },
       "serversAdded": [
-        "Server_pinot-server-server-0-3.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098",
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-3_8098",
+        "Server_pinot-server-server-0-2_8098"
       ],
       "serversRemoved": [
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-1_8098"
       ],
       "serversUnchanged": [
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-3.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098",
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-3_8098",
+        "Server_pinot-server-server-0-2_8098"
       ],
       "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-3.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-3_8098": {
           "serverStatus": "ADDED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 0,
@@ -899,7 +899,7 @@ Scenario 1: `minimizeDataMovement=false`
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-1_8098": {
           "serverStatus": "REMOVED",
           "totalSegmentsAfterRebalance": 0,
           "totalSegmentsBeforeRebalance": 15,
@@ -911,7 +911,7 @@ Scenario 1: `minimizeDataMovement=false`
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-0_8098": {
           "serverStatus": "UNCHANGED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 15,
@@ -923,7 +923,7 @@ Scenario 1: `minimizeDataMovement=false`
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-2_8098": {
           "serverStatus": "ADDED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 0,
@@ -980,18 +980,18 @@ Scenario 2: `minimizeDataMovement=true`
         "expectedValueAfterRebalance": 3
       },
       "serversAdded": [
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-2_8098"
       ],
       "serversRemoved": [],
       "serversUnchanged": [
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098",
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-1_8098",
+        "Server_pinot-server-server-0-0_8098"
       ],
       "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098"
+        "Server_pinot-server-server-0-2_8098"
       ],
       "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-1_8098": {
           "serverStatus": "UNCHANGED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 15,
@@ -1003,7 +1003,7 @@ Scenario 2: `minimizeDataMovement=true`
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-0.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-0_8098": {
           "serverStatus": "UNCHANGED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 15,
@@ -1015,7 +1015,7 @@ Scenario 2: `minimizeDataMovement=true`
             "DefaultTenant_REALTIME"
           ]
         },
-        "Server_pinot-server-server-0-2.pinot-pinot-server-headless.cell-dfrqih-managed.svc.cluster.local_8098": {
+        "Server_pinot-server-server-0-2_8098": {
           "serverStatus": "ADDED",
           "totalSegmentsAfterRebalance": 15,
           "totalSegmentsBeforeRebalance": 0,
