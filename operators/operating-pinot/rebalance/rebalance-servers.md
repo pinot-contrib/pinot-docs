@@ -305,6 +305,51 @@ curl -X GET "https://localhost:9000/table/airlineStats_OFFLINE/jobstype=OFFLINE&
     "tableName": "airlineStats_OFFLINE"
 ```
 
+{% hint style="warning" %}
+Note that rebalanceStatus API's result has changed from this [commit](https://github.com/apache/pinot/pull/15266) to add two sections to the existing stats. The goal is to eventually remove the existing stats in favor of these new ones.
+{% endhint %}
+
+From [commit](https://github.com/apache/pinot/pull/15266) onwards, the stats will include the following newly added sections to the original stats posted above:
+
+```json
+  "rebalanceProgressStatsOverall": { // Meant to be used to track overall progress of the rebalance job
+    "totalSegmentsToBeAdded": 60, // Segments to be added overall as part of this rebalance job
+    "totalSegmentsToBeDeleted": 60, // Segments to be deleted overall as part of this rebalance job
+    "totalRemainingSegmentsToBeAdded": 21, // Segments that are yet to be added
+    "totalRemainingSegmentsToBeDeleted": 15, // Segments that are yet to be deleted
+    "totalRemainingSegmentsToConverge": 0, // Segments that belong to the correct instance but who's EV state doesn't match the expected IS state
+    "totalCarryOverSegmentsToBeAdded": 0, // Segments adds carried over from the previous rebalance step
+    "totalCarryOverSegmentsToBeDeleted": 0, // Segment deletes carried over from the previous rebalance step
+    "totalUniqueNewUntrackedSegmentsDuringRebalance": 0, // Newly added segments detected but which are not yet monitored by the rebalance job, some of these may be monitored later
+    "percentageRemainingSegmentsToBeAdded": 35, // Percentage segments yet to be added (including carry-over segments)
+    "percentageRemainingSegmentsToBeDeleted": 25, // Percentage segments yet to be deleted (including carry-over segments)
+    "estimatedTimeToCompleteAddsInSeconds": 10476.487, // Estimated time to complete segment adds in seconds based on historical time taken so far
+    "estimatedTimeToCompleteDeletesInSeconds": 6485.444333333333, // Estimated time to complete segment deletes in seconds based on historical time taken so far
+    "averageSegmentSizeInBytes": 5448028669, // Average segment size in bytes
+    "totalEstimatedDataToBeMovedInBytes": 326881720140, // Total estimated data to be moved (total segments to be added * average segment size)
+    "startTimeMs": 1744393492152 // Start time of the rebalance job
+  },
+  "rebalanceProgressStatsCurrentStep": { // Captures the stats of the current rebalance step being performed
+    "totalSegmentsToBeAdded": 45, // Segments to be added as part of this rebalance step
+    "totalSegmentsToBeDeleted": 45, // Segments to be deleted as part of this rebalance step
+    "totalRemainingSegmentsToBeAdded": 6, // Segments that are yet to be added in this rebalance step
+    "totalRemainingSegmentsToBeDeleted": 0, // Segments that are yet to be deleted in this rebalance step
+    "totalRemainingSegmentsToConverge": 0, // Segments that belong to the correct instance but who's EV state doesn't match the expected IS state
+    "totalCarryOverSegmentsToBeAdded": 0, // Segments adds carried over from the previous rebalance step
+    "totalCarryOverSegmentsToBeDeleted": 0, // Segments deletes carried over from the previous rebalance step
+    "totalUniqueNewUntrackedSegmentsDuringRebalance": 0, // Newly added segments detected but which are not yet monitored by the rebalance job, some of these may be monitored later
+    "percentageRemainingSegmentsToBeAdded": 13.333333333333334, // Percentage segments yet to be added (including carry-over segments due to which it may show > 100%)
+    "percentageRemainingSegmentsToBeDeleted": 0, // Percentage segments yet to be deleted (including carry-over segments due to which it may show > 100%)
+    "estimatedTimeToCompleteAddsInSeconds": 2993.278923076923, // Estimated time to complete segment adds in seconds for the current step
+    "estimatedTimeToCompleteDeletesInSeconds": 0, // Estimated time to complete segment deletes in seconds for the current step
+    "averageSegmentSizeInBytes": 5448028669, // Average segment size in bytes
+    "totalEstimatedDataToBeMovedInBytes": 245161290105, // Total estimated data to be moved (total segments to be added in this step * average segment size)
+    "startTimeMs": 1744393492172 // Start time of the current rebalance step
+  },
+```
+
+In the new stats above, `rebalanceProgressStatsOverall` is meant for tracking the overall progress of the rebalance job and is the main stats to monitor. The `rebalanceProgressStatsCurrentStep` are used to calculate the overall stats, but do not need to be monitored for obtaining the overall rebalance status since the overall stats will be updated regularly. The `rebalanceProgressStatsCurrentStep` can be used for debugging if needed.
+
 ## Rebalance Pre-Checks
 
 With options `dryRun=true, preChecks=true`, some pre-checks relevant to rebalance will be performed:
