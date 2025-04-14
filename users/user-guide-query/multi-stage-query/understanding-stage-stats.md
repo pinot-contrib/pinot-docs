@@ -1,19 +1,17 @@
 ---
-description: Learn more about multi-stage stats and how to use them to improve your queries.
+description: >-
+  Learn more about multi-stage stats and how to use them to improve your
+  queries.
 ---
 
-# Understanding multi-stage stats
+# Stats
 
-Multi-stage stats are more complex but also more expressive than single-stage stats.
-While in single-stage stats Apache Pinot returns a single set of statistics for the query, in multi-stage stats 
-Apache Pinot returns a set of statistics for each operator of the query execution.
+Multi-stage stats are more complex but also more expressive than single-stage stats. While in single-stage stats Apache Pinot returns a single set of statistics for the query, in multi-stage stats Apache Pinot returns a set of statistics for each operator of the query execution.
 
-These stats can be seen when using Pinot controller UI by running the query and clicking on the `Show JSON format` 
-button.
-Then the whole JSON response will be shown and the multi-stage stats will be in a field called `stageStats`.
-Different drivers may provide different ways to see the stats.
+These stats can be seen when using Pinot controller UI by running the query and clicking on the `Show JSON format` button. Then the whole JSON response will be shown and the multi-stage stats will be in a field called `stageStats`. Different drivers may provide different ways to see the stats.
 
 For example the following query:
+
 ```sql
 SELECT playerName, teamName
 FROM baseballStats_OFFLINE as playerStats
@@ -23,6 +21,7 @@ LIMIT 10
 ```
 
 Returns the following `stageStats`:
+
 ```json
 {
     "type": "MAILBOX_RECEIVE",
@@ -186,8 +185,6 @@ Returns the following `stageStats`:
   }
 ```
 
-Each node in the tree represents an operation that is executed and the tree structure form is similar (but not equal)
-to the logical plan of the query that can be obtained with the `EXPLAIN PLAN` command.
+Each node in the tree represents an operation that is executed and the tree structure form is similar (but not equal) to the logical plan of the query that can be obtained with the `EXPLAIN PLAN` command.
 
-As you can see, each operator has a type and the stats carried on the node depend on that type.
-You can learn more about each operator types and their stats in the [Operator Types](./operator-types/README.md) section.
+As you can see, each operator has a type and the stats carried on the node depend on that type. You can learn more about each operator types and their stats in the [Operator Types](operator-types/) section.

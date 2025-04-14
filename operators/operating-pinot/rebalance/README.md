@@ -12,8 +12,8 @@ In case of brokers, rebalance operation is used to recalculate the broker assign
 
 In few cases such as when a server is tagged or untagged to a tenant i.e. server is added or removed from a tenant we need to rebalance all the tables that belong to that tenant.
 
-{% content-ref url="rebalance-servers.md" %}
-[rebalance-servers.md](rebalance-servers.md)
+{% content-ref url="rebalance-servers/" %}
+[rebalance-servers](rebalance-servers/)
 {% endcontent-ref %}
 
 {% content-ref url="rebalance-brokers.md" %}
@@ -23,7 +23,5 @@ In few cases such as when a server is tagged or untagged to a tenant i.e. server
 {% content-ref url="rebalance-tenant.md" %}
 [rebalance-tenant.md](rebalance-tenant.md)
 {% endcontent-ref %}
-
-
 
 ##

@@ -1,5 +1,7 @@
 ---
-description: This section contains reference documentation for the arrayConcatFloat function.
+description: >-
+  This section contains reference documentation for the arrayConcatFloat
+  function.
 ---
 
 # arrayConcatFloat
@@ -12,9 +14,7 @@ Concatenates two arrays of floats.
 
 ## Usage Examples
 
-This example assumes the multiValueTable columns mvCol1 and mvCol2 are both of type FLOAT with
-singleValueField in the table schema set to false.
-
+This example assumes the multiValueTable columns mvCol1 and mvCol2 are both of type FLOAT with singleValueField in the table schema set to false.
 
 ```sql
 select mvCol1, 

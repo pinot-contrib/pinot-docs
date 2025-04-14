@@ -2,12 +2,11 @@
 description: Storing records with dynamic schemas in a table with a fixed schema.
 ---
 
-# Ingest and text index records with dynamic schemas
+# Ingest records with dynamic schemas
 
 Some domains (e.g., logging) generate records where each record can have a different set of keys, whereas Pinot tables have a relatively static schema. For records with varying keys, it's impractical to store each field in its own table column. However, most (if not all) fields may be important, so fields should not be dropped unnecessarily.
 
 Additionally, searching patterns on such table could also be complex and change frequently. Exact match, range query, prefix/suffix match, wildcard search and aggregation functions could be used on any old or newly created keys or values.
-
 
 ## SchemaConformingTransformer
 
@@ -48,13 +47,14 @@ For example, consider this record:
 ```
 
 Let's say the table's schema contains the following fields:
+
 * arrayField
 * mapField
 * nestedFields
 * nestedFields.stringField
-* json_data
-* json_data_no_idx
-* __mergedTextIndex
+* json\_data
+* json\_data\_no\_idx
+* \_\_mergedTextIndex
 
 Without this transformer, `stringField` field and fields ends with `_noIdx` would be dropped. `mapField` and `nestedFields` fields' storage needs to rely on the global setup in complexTransformers without granular customizations. However, with this transformer, the record would be transformed into the following:
 
@@ -104,11 +104,12 @@ Without this transformer, `stringField` field and fields ends with `_noIdx` woul
 ```
 
 Notice that there are 3 reserved (and configurable) fields `json_data`, `json_data_no_idx` and `__mergedTextIndex`. And the transformer does the following:
+
 * Flattens nested fields all the way to the leaf node and:
   * Conducts special treatments if necessary according to the config
   * If the key path matches the schema, put the data into the dedicated field
   * Otherwise, put them into `json_data` or `json_data_no_idx` depending on its key suffix
-* For keys in dedicated columns or json_data, puts them into `__mergedTextIndex` in the form of "Begin Anchor + value + Separator + key + End Anchor" to power the text matches.
+* For keys in dedicated columns or json\_data, puts them into `__mergedTextIndex` in the form of "Begin Anchor + value + Separator + key + End Anchor" to power the text matches.
 * Additional functionalities by configurations
   * Drop fields `fieldPathsToDrop`
   * Preserve the subtree without flattening `fieldPathsToPreserveInput` and `fieldPathsToPreserveInputWithIndex`
@@ -116,7 +117,7 @@ Notice that there are 3 reserved (and configurable) fields `json_data`, `json_da
   * Skip indexing the fields `unindexableFieldSuffix`
   * Optimize case insensitive search `optimizeCaseInsensitiveSearch`
   * Map input key path to a schema name with customizations `columnNameToJsonKeyPathMap`
-  * Support anonymous dot, {'a.b': 'c'} vs {'a': {'b': 'c}} `useAnonymousDotInFieldNames`
+  * Support anonymous dot, {'a.b': 'c'} vs {'a': {'b': 'c\}} `useAnonymousDotInFieldNames`
   * Truncate value by length `mergedTextIndexDocumentMaxLength`
   * Double ingestion to support schema evolution `fieldsToDoubleIngest`
 
@@ -225,14 +226,16 @@ Other index config of 3 reserved columns could be set like:
   }
 }
 ```
-Specifically, customizable json index could be set according to [json index indexPaths](../indexing/json-index.md/#enable-and-configure-a-json-index).
+
+Specifically, customizable json index could be set according to [json index indexPaths](../indexing/json-index.md#enable-and-configure-a-json-index).
 
 ## Power the text search
 
 ### Schema Design
 
 With the help of `SchemaConformingTransformer`, all data could be kept even without specifying special dedicated columns in table schema. However, to optimize the storage and various query patterns, dedicated columns should be created based on the usage:
-* Fields with frequent exact match query, e.g. region, log_level, runtime_env
+
+* Fields with frequent exact match query, e.g. region, log\_level, runtime\_env
 * Fields with range query, e.g. timestamp
 * High frequency fields from messages
   * Reduce json index size
@@ -240,23 +243,20 @@ With the help of `SchemaConformingTransformer`, all data could be kept even with
 
 ### Text Search
 
-After putting each key/value pairs into the `__mergedTextIndex` field, there will neeed to be `luceneAnalyzerClass` to tokenize the document and `luceneQueryParserClass` to query by tokens.
-Some example common searching patterns and their queries are:
-* Exact key/value match
-  TEXT_MATCH(__mergedTextIndex, '\"valuer:key\"')
-* Wildcard value search in a key
-  TEXT_MATCH(__mergedTextIndex, '/.* value .*:key/')
-* Key exists check
-  TEXT_MATCH(__mergedTextIndex, '/.*:key/')
-* Global value exact match
-  TEXT_MATCH(__mergedTextIndex, '/\"value\"/')
-* Global value wildcard match
-  TEXT_MATCH(__mergedTextIndex, '/.* value .*/')
+After putting each key/value pairs into the `__mergedTextIndex` field, there will neeed to be `luceneAnalyzerClass` to tokenize the document and `luceneQueryParserClass` to query by tokens. Some example common searching patterns and their queries are:
+
+* Exact key/value match TEXT\_MATCH(\_\_mergedTextIndex, '"valuer:key"')
+* Wildcard value search in a key TEXT\_MATCH(\_\_mergedTextIndex, '/.\* value .\*:key/')
+* Key exists check TEXT\_MATCH(\_\_mergedTextIndex, '/.\*:key/')
+* Global value exact match TEXT\_MATCH(\_\_mergedTextIndex, '/"value"/')
+* Global value wildcard match TEXT\_MATCH(\_\_mergedTextIndex, '/.\* value .\*/')
 
 The `luceneAnalyzerClass` and `luceneQueryParserClass` usually need to have similar delimiter set. It also needs to consider the values below.
+
 ```
 "jsonKeyValueSeparator": "\u001e",
 "mergedTextIndexBeginOfDocAnchor": "\u0002",
 "mergedTextIndexEndOfDocAnchor": "\u0003",
 ```
+
 With given example, each key/value pair would be stored as "\u0002value\u001ekey\u0003". The prefix and suffix match on key or value need to be adjusted accordingly in the `luceneQueryParserClass`.

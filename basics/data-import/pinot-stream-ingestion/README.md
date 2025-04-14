@@ -139,9 +139,7 @@ For our sample data and schema, the table config will look like this:
 
 ### Example `ingestionConfig` for multi-topics ingestion
 
-From [this PR](https://github.com/apache/pinot/pull/13790), Pinot starts to support ingesting data from multiple stream partitions.
-(It is currently in Beta mode, and only supports multiple Kafka topics. Other stream types would be supported in the near future.)
-For our sample data and schema, assume that we duplicate it to 2 topics, `transcript-topic1` and `transcript-topic2`. If we want to ingest from both topics, then the table config will look like this:
+From [this PR](https://github.com/apache/pinot/pull/13790), Pinot starts to support ingesting data from multiple stream partitions. (It is currently in Beta mode, and only supports multiple Kafka topics. Other stream types would be supported in the near future.) For our sample data and schema, assume that we duplicate it to 2 topics, `transcript-topic1` and `transcript-topic2`. If we want to ingest from both topics, then the table config will look like this:
 
 ```json
 {
@@ -204,13 +202,15 @@ For our sample data and schema, assume that we duplicate it to 2 topics, `transc
   }
 }
 ```
+
 With multi-topics ingestion: (details please refer to the [design doc](https://docs.google.com/document/d/1Er2Tmtl5Pgwdapn5iOJ5qlCDU_2P67YMdpdsmL36MCk/edit?usp=sharing))
+
 * All transform functions would apply to both topics' ingestions.
 * Existing instance assignment strategy would all work as usual.
 * [Partition changes](./#handle-partition-changes-in-streams) would still be handled in the same way.
 * Underlying ingestion still works as `LOWLEVEL` mode, where
-  * `transcript-topic1` segments would be named like transcript__0__0__20250101T0000Z
-  * `transcript-topic2` segments would be named like transcript__10000__0__20250101T0000Z
+  * `transcript-topic1` segments would be named like transcript\_\_0\_\_0\_\_20250101T0000Z
+  * `transcript-topic2` segments would be named like transcript\_\_10000\_\_0\_\_20250101T0000Z
 
 ## Upload schema and table config
 

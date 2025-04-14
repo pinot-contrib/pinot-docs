@@ -2,14 +2,16 @@
 description: Additional examples that demonstrate handling of complex types.
 ---
 
+# Complex Type Examples
+
 Additional examples that demonstrate handling of complex types.
 
-# Unnest Root Level Collection
-In this example, we would look at un-nesting json records that are batched together as part of a single key at the root 
-level. We will make use of the [ComplexType](complex-type.md) configs to persist the individual student records as 
-separate rows in Pinot.
+## Unnest Root Level Collection
 
-## Sample JSON record
+In this example, we would look at un-nesting json records that are batched together as part of a single key at the root level. We will make use of the [ComplexType](complex-type.md) configs to persist the individual student records as separate rows in Pinot.
+
+### Sample JSON record
+
 ```json
 {
   "students": [
@@ -44,8 +46,8 @@ separate rows in Pinot.
 }
 ```
 
+### Pinot Schema
 
-## Pinot Schema
 The Pinot schema for this example would look as follows.
 
 ```json
@@ -85,7 +87,7 @@ The Pinot schema for this example would look as follows.
 }
 ```
 
-## Pinot Table Configuration
+### Pinot Table Configuration
 
 The Pinot table configuration for this schema would look as follows.
 
@@ -101,18 +103,17 @@ The Pinot table configuration for this schema would look as follows.
 }
 ```
 
-## Data in Pinot
+### Data in Pinot
 
-Post ingestion, the student records would appear as separate records in Pinot. Note that the nested field `scores` is
-captured as a JSON field.
+Post ingestion, the student records would appear as separate records in Pinot. Note that the nested field `scores` is captured as a JSON field.
 
 ![Unnested Student Records](../../.gitbook/assets/root-level-unnest-example.png)
 
-# Unnest sibling collections
+## Unnest sibling collections
 
 In this example, we would look at un-nesting the sibling collections "student" and "teacher".
 
-## Sample JSON Record
+### Sample JSON Record
 
 ```json
 {
@@ -138,7 +139,7 @@ In this example, we would look at un-nesting the sibling collections "student" a
 }
 ```
 
-## Pinot Schema
+### Pinot Schema
 
 ```json
 {
@@ -173,7 +174,7 @@ In this example, we would look at un-nesting the sibling collections "student" a
 }
 ```
 
-## Pinot Table configuration
+### Pinot Table configuration
 
 ```json
   "complexTypeConfig": {
@@ -184,15 +185,15 @@ In this example, we would look at un-nesting the sibling collections "student" a
   }
 ```
 
-## Data in Pinot
+### Data in Pinot
 
 ![Unnested student records](../../.gitbook/assets/sibling-level-unnest-example.png)
 
-# Unnest nested collection
+## Unnest nested collection
 
 In this example, we would look at un-nesting the nested collection "students.grades".
 
-## Sample JSON Record
+### Sample JSON Record
 
 ```json
 {
@@ -223,7 +224,7 @@ In this example, we would look at un-nesting the nested collection "students.gra
 }
 ```
 
-## Pinot Schema
+### Pinot Schema
 
 ```json
 {
@@ -252,7 +253,7 @@ In this example, we would look at un-nesting the nested collection "students.gra
 }
 ```
 
-## Pinot Table configuration
+### Pinot Table configuration
 
 ```json
   "complexTypeConfig": {
@@ -263,14 +264,15 @@ In this example, we would look at un-nesting the nested collection "students.gra
   }
 ```
 
-## Data in Pinot
+### Data in Pinot
+
 ![Unnest Nested Collection](../../.gitbook/assets/unnest-nested-collection-example.png)
 
-# Unnest Multi Level Array
+## Unnest Multi Level Array
 
 In this example, we would look at un-nesting the array "finalExam" which is located within the array "students".
 
-## Sample JSON Record
+### Sample JSON Record
 
 ```json
 {
@@ -305,7 +307,7 @@ In this example, we would look at un-nesting the array "finalExam" which is loca
 }
 ```
 
-## Pinot Schema
+### Pinot Schema
 
 ```json
 {
@@ -334,7 +336,7 @@ In this example, we would look at un-nesting the array "finalExam" which is loca
   }
 ```
 
-## Pinot Table configuration
+### Pinot Table configuration
 
 ```json
   "complexTypeConfig": {
@@ -345,15 +347,15 @@ In this example, we would look at un-nesting the array "finalExam" which is loca
   }
 ```
 
-## Data in Pinot
+### Data in Pinot
 
 ![Unnested Multi Level Array](../../.gitbook/assets/unnest-multi-level-array.png)
 
-# Convert inner collections
+## Convert inner collections
 
 In this example, the inner collection "grades" is converted into a multi value string column.
 
-## Sample JSON Record
+### Sample JSON Record
 
 ```json
 {
@@ -384,7 +386,7 @@ In this example, the inner collection "grades" is converted into a multi value s
 }
 ```
 
-## Pinot Schema
+### Pinot Schema
 
 ```json
 {
@@ -408,7 +410,7 @@ In this example, the inner collection "grades" is converted into a multi value s
   }
 ```
 
-## Pinot Table configuration
+### Pinot Table configuration
 
 ```json
   "complexTypeConfig": {
@@ -418,16 +420,15 @@ In this example, the inner collection "grades" is converted into a multi value s
   }
 ```
 
-## Data in Pinot
+### Data in Pinot
 
 ![Converted Inner Collection](../../.gitbook/assets/convert-inner-collection-mv-string-example.png)
 
+## Primitive Array Converted to JSON String
 
-# Primitive Array Converted to JSON String
+In this example, the array of primitives "extra\_curricular" is converted to a Json string.
 
-In this example, the array of primitives "extra_curricular" is converted to a Json string.
-
-## Sample JSON Record
+### Sample JSON Record
 
 ```json
 {
@@ -448,7 +449,7 @@ In this example, the array of primitives "extra_curricular" is converted to a Js
 }
 ```
 
-## Pinot Schema
+### Pinot Schema
 
 ```json
 {
@@ -471,7 +472,7 @@ In this example, the array of primitives "extra_curricular" is converted to a Js
   }
 ```
 
-## Pinot Table configuration
+### Pinot Table configuration
 
 ```json
     "complexTypeConfig": {
@@ -482,6 +483,6 @@ In this example, the array of primitives "extra_curricular" is converted to a Js
     }
 ```
 
-## Data in Pinot
+### Data in Pinot
 
 ![Primitives Converted to JSON](../../.gitbook/assets/convert-primitves-to-json-example.png)

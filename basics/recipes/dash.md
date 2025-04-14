@@ -1,20 +1,20 @@
 ---
-description: In this Apache Pinot guide, we'll learn how visualize data using the Dash web framework.
+description: >-
+  In this Apache Pinot guide, we'll learn how visualize data using the Dash web
+  framework.
 ---
 
 # Connect to Dash
 
-In this guide you'll learn how to visualize data from Apache Pinot using Plotly's [Dash](https://github.com/plotly/dash) web framework.
-Dash is the most downloaded, trusted Python framework for building ML & data science web apps.
+In this guide you'll learn how to visualize data from Apache Pinot using Plotly's [Dash](https://github.com/plotly/dash) web framework. Dash is the most downloaded, trusted Python framework for building ML & data science web apps.
 
 We're going to use Dash to build a real-time dashboard to visualize the changes being made to Wikimedia properties.
 
-![Real-Time Dashboard Architecture](/img/dash-architecture.png)
-*Real-Time Dashboard Architecture*
+![Real-Time Dashboard Architecture](../../img/dash-architecture.png) _Real-Time Dashboard Architecture_
 
 ## Startup components
-We're going to use the following Docker compose file, which spins up instances of Zookeeper, Kafka, along with a Pinot controller, broker, and server:
 
+We're going to use the following Docker compose file, which spins up instances of Zookeeper, Kafka, along with a Pinot controller, broker, and server:
 
 ```yaml
 version: '3.7'
@@ -77,7 +77,8 @@ services:
     depends_on:
       - pinot-broker
 ```
-*docker-compose.yml*
+
+_docker-compose.yml_
 
 Run the following command to launch all the components:
 
@@ -86,8 +87,8 @@ docker-compose up
 ```
 
 ## Wikimedia recent changes stream
-Wikimedia provides provides a continuous stream of structured event data describing changes made to various Wikimedia properties.
-The events are published over HTTP using the Server-Side Events (SSE) Protocol.
+
+Wikimedia provides provides a continuous stream of structured event data describing changes made to various Wikimedia properties. The events are published over HTTP using the Server-Side Events (SSE) Protocol.
 
 You can find the endpoint at: [stream.wikimedia.org/v2/stream/recentchange](https://stream.wikimedia.org/v2/stream/recentchange)
 
@@ -99,7 +100,7 @@ pip install sseclient-py
 
 Next, create a file called `wiki.py` that contains the following:
 
-```python {6-13}
+```python
 import json
 import pprint
 import sseclient
@@ -118,7 +119,8 @@ for event in client.events():
     stream = json.loads(event.data)
     pprint.pprint(stream)
 ```
-*wiki.py*
+
+_wiki.py_
 
 The highlighted section shows how we connect to the recent changes feed using the SSE client library.
 
@@ -131,6 +133,7 @@ python wiki.py
 We'll see the following (truncated) output:
 
 **Output**
+
 ```json
 {'$schema': '/mediawiki/recentchange/1.0.0',
  'bot': False,
@@ -213,8 +216,8 @@ We'll see the following (truncated) output:
 ```
 
 ## Ingest recent changes into Kafka
-Now we're going to import each of the events into Apache Kafka.
-First let's create a Kafka topic called `wiki_events` with 5 partitions:
+
+Now we're going to import each of the events into Apache Kafka. First let's create a Kafka topic called `wiki_events` with 5 partitions:
 
 ```bash
 docker exec -it kafka-wiki kafka-topics.sh \
@@ -234,7 +237,8 @@ import requests
 import time
 from confluent_kafka import Producer
 ```
-*wiki_to_kafka.py*
+
+_wiki\_to\_kafka.py_
 
 Add these functions:
 
@@ -253,11 +257,12 @@ def json_serializer(obj):
         return obj.isoformat()
     raise "Type %s not serializable" % type(obj)
 ```
-*wiki_to_kafka.py*
+
+_wiki\_to\_kafka.py_
 
 And now let's add the code that calls the recent changes API and imports events into the `wiki_events` topic:
 
-```python {1,12-15,20}
+```python
 producer = Producer({'bootstrap.servers': 'localhost:9092'})
 
 url = 'https://stream.wikimedia.org/v2/stream/recentchange'
@@ -284,7 +289,8 @@ while True:
         client = sseclient.SSEClient(response)
         time.sleep(2)
 ```
-*wiki_to_kafka.py*
+
+_wiki\_to\_kafka.py_
 
 The highlighted parts of this script indicate where events are ingested into Kafka and then flushed to disk.
 
@@ -297,7 +303,8 @@ python wiki_to_kafka.py
 We'll see a message every time 100 messages are pushed to Kafka, as shown below:
 
 **Output**
-```text
+
+```
 2022-05-12 10:58:34.449326 Flushing after 100 events
 2022-05-12 10:58:39.151599 Flushing after 200 events
 2022-05-12 10:58:43.399528 Flushing after 300 events
@@ -307,6 +314,7 @@ We'll see a message every time 100 messages are pushed to Kafka, as shown below:
 ```
 
 ## Explore Kafka
+
 Let's check that the data has made its way into Kafka.
 
 The following command returns the message offset for each partition in the `wiki_events` topic:
@@ -318,7 +326,8 @@ docker exec -it kafka-wiki kafka-run-class.sh kafka.tools.GetOffsetShell \
 ```
 
 **Output**
-```text
+
+```
 wiki_events:0:42
 wiki_events:1:61
 wiki_events:2:52
@@ -326,8 +335,7 @@ wiki_events:3:56
 wiki_events:4:58
 ```
 
-Looks good.
-We can also stream all the messages in this topic by running the following command:
+Looks good. We can also stream all the messages in this topic by running the following command:
 
 ```bash
 docker exec -it kafka-wiki kafka-console-consumer.sh \
@@ -337,7 +345,8 @@ docker exec -it kafka-wiki kafka-console-consumer.sh \
 ```
 
 **Output**
-```text
+
+```
 ...
 {"$schema": "/mediawiki/recentchange/1.0.0", "meta": {"uri": "https://en.wikipedia.org/wiki/Super_Wings", "request_id": "6f82e64d-220f-41f4-88c3-2e15f03ae504", "id": "c30cd735-1ead-405e-94d1-49fbe7c40411", "dt": "2022-05-12T10:05:36Z", "domain": "en.wikipedia.org", "stream": "mediawiki.recentchange", "topic": "eqiad.mediawiki.recentchange", "partition": 0, "offset": 3855779703}, "type": "log", "namespace": 0, "title": "Super Wings", "comment": "", "timestamp": 1652349936, "user": "2001:448A:50E0:885B:FD1D:2D04:233E:7647", "bot": false, "log_id": 0, "log_type": "abusefilter", "log_action": "hit", "log_params": {"action": "edit", "filter": "550", "actions": "tag", "log": 32575794}, "log_action_comment": "2001:448A:50E0:885B:FD1D:2D04:233E:7647 triggered [[Special:AbuseFilter/550|filter 550]], performing the action \"edit\" on [[Super Wings]]. Actions taken: Tag ([[Special:AbuseLog/32575794|details]])", "server_url": "https://en.wikipedia.org", "server_name": "en.wikipedia.org", "server_script_path": "/w", "wiki": "enwiki", "parsedcomment": ""}
 {"$schema": "/mediawiki/recentchange/1.0.0", "meta": {"uri": "https://no.wikipedia.org/wiki/Brukerdiskusjon:Haros", "request_id": "a20c9692-f301-4faf-9373-669bebbffff4", "id": "566ee63e-8e86-4a7e-a1f3-562704306509", "dt": "2022-05-12T10:05:36Z", "domain": "no.wikipedia.org", "stream": "mediawiki.recentchange", "topic": "eqiad.mediawiki.recentchange", "partition": 0, "offset": 3855779714}, "id": 84572581, "type": "edit", "namespace": 3, "title": "Brukerdiskusjon:Haros", "comment": "/* Stor forbokstav / ucfirst */", "timestamp": 1652349936, "user": "Asav", "bot": false, "minor": false, "patrolled": true, "length": {"old": 110378, "new": 110380}, "revision": {"old": 22579494, "new": 22579495}, "server_url": "https://no.wikipedia.org", "server_name": "no.wikipedia.org", "server_script_path": "/w", "wiki": "nowiki", "parsedcomment": "<span dir=\"auto\"><span class=\"autocomment\"><a href=\"/wiki/Brukerdiskusjon:Haros#Stor_forbokstav_/_ucfirst\" title=\"Brukerdiskusjon:Haros\">→‎Stor forbokstav / ucfirst</a></span></span>"}
@@ -346,6 +355,7 @@ docker exec -it kafka-wiki kafka-console-consumer.sh \
 ```
 
 ## Configure Pinot
+
 Now let's configure Pinot to consume the data from Kafka.
 
 We'll have the following schema:
@@ -413,11 +423,12 @@ We'll have the following schema:
     ]
   }
 ```
-*schema.json*
+
+_schema.json_
 
 And the following table config:
 
-```json {19-21}
+```json
 {
     "tableName": "wikievents",
     "tableType": "REALTIME",
@@ -500,19 +511,19 @@ And the following table config:
     "isDimTable": false
   }
 ```
-*table.json*
 
-The highlighted lines are how we connect Pinot to the Kafka topic that contains the events.
-Create the schema and table by running the following commnad:
+_table.json_
+
+The highlighted lines are how we connect Pinot to the Kafka topic that contains the events. Create the schema and table by running the following commnad:
 
 ```bash
 docker exec -it pinot-controller-wiki bin/pinot-admin.sh AddTable \
   -tableConfigFile /config/table.json \
   -schemaFile /config/schema.json \
   -exec
-```  
+```
 
-Once you've done that, navigate to the [Pinot UI](http://localhost:9000/#/query?query=select+domain%2C+count%28*%29+%0Afrom+wikievents+%0Agroup+by+domain%0Aorder+by+count%28*%29+DESC%0Alimit+10&tracing=false&pqlSyntax=false) and run the following query to check that the data has made its way into Pinot:
+Once you've done that, navigate to the [Pinot UI](http://localhost:9000/#/query?query=select+domain%2C+count%28*%29+%0Afrom+wikievents+%0Agroup+by+domain%0Aorder+by+count%28*%29+DESC%0Alimit+10\&tracing=false\&pqlSyntax=false) and run the following query to check that the data has made its way into Pinot:
 
 ```sql
 select domain, count(*) 
@@ -523,7 +534,6 @@ limit 10
 ```
 
 As long as you see some records, everything is working as expected.
-
 
 ## Building a Dash Dashboard
 
@@ -548,11 +558,12 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Wiki Recent Changes Dashboard"
 ```
-*app.py*
+
+_app.py_
 
 Connect to Pinot and write a query that returns recent changes, along with the users who made the changes, and domains where they were made:
 
-```python {4-5}
+```python
 conn = connect(host='localhost', port=8099, path='/query/sql', scheme='http')
 
 query = """select
@@ -572,10 +583,10 @@ curs = conn.cursor()
 curs.execute(query)
 df_summary = pd.DataFrame(curs, columns=[item[0] for item in curs.description])
 ```
-*app.py*
 
-The highlighted part of the query shows how to count the number of events from the last minute and the minute before that.
-We then do a similar thing to count the number of unique users and domains.
+_app.py_
+
+The highlighted part of the query shows how to count the number of events from the last minute and the minute before that. We then do a similar thing to count the number of unique users and domains.
 
 ### Metrics
 
@@ -604,14 +615,16 @@ def add_trace(fig, title, value, row, column):
         domain = {'row': row, 'column': column})
     )
 ```
-*dash_utils.py*
+
+_dash\_utils.py_
 
 And now let's add the following import to `app.py`:
 
 ```python
 from dash_utils import add_delta_trace, add_trace
 ```
-*app.py*
+
+_app.py_
 
 And the following code at the end of the file:
 
@@ -640,7 +653,8 @@ app.layout = html.Div([
 if __name__ == '__main__':
     app.run_server(debug=True)    
 ```
-*app.py*
+
+_app.py_
 
 Go back to the terminal and run the following command:
 
@@ -648,16 +662,13 @@ Go back to the terminal and run the following command:
 python dashboard.py
 ```
 
-Navigate to [localhost:8501](http://localhost:8051) to see the Dash app.
-You should see something like the following:
+Navigate to [localhost:8501](http://localhost:8051) to see the Dash app. You should see something like the following:
 
-![Dash Metrics](/img/dash-metrics.png)
-*Dash Metrics*
+![Dash Metrics](../../img/dash-metrics.png) _Dash Metrics_
 
 ### Changes per minute
 
-Next, let's add a line chart that shows the number of changes being done to Wikimedia per minute.
-Update `app.py` as follows:
+Next, let's add a line chart that shows the number of changes being done to Wikimedia per minute. Update `app.py` as follows:
 
 ```python
 query = """
@@ -687,18 +698,16 @@ app.layout = html.Div([
     ])
 ])
 ```
-*app.py*
+
+_app.py_
 
 Go back to the web browser and you should see something like this:
 
-![Dash Time Series](/img/dash-time-series.png)
-*Dash Time Series*
-
+![Dash Time Series](../../img/dash-time-series.png) _Dash Time Series_
 
 ### Auto Refresh
 
-At the moment we need to refresh our web browser to update the metrics and line chart, but it would be much better if that happened automatically.
-Let's now add auto refresh functionality.
+At the moment we need to refresh our web browser to update the metrics and line chart, but it would be much better if that happened automatically. Let's now add auto refresh functionality.
 
 This will require some restructuring of our application so that each component is rendered from a function annotated with a callback that causes the function to be called on an interval.
 
@@ -719,7 +728,8 @@ app.layout = html.Div([
     ])
 ])
 ```
-*app.py*
+
+_app.py_
 
 * `interval-component` is configured to fire a callback every 1,000 milliseconds.
 * `latest-timestamp` is a container that will contain the latest timestamp.
@@ -735,7 +745,8 @@ The timestamp is refreshed by the following callback function:
 def timestamp(n):
     return html.Span(f"Last updated: {datetime.datetime.now()}")
 ```
-*app.py*
+
+_app.py_
 
 The indicators are refreshed by this function:
 
@@ -775,7 +786,8 @@ def indicators(n):
         fig.update_layout(annotations = [{"text": "No events found", "xref": "paper", "yref": "paper", "showarrow": False, "font": {"size": 28}}])
     return fig
 ```
-*app.py*
+
+_app.py_
 
 And finally, the following function refreshes the line chart:
 
@@ -806,13 +818,12 @@ def time_series(n):
     line_chart.update_yaxes(range=[0, df_ts["changes"].max() * 1.1])
     return line_chart
 ```
-*app.py*
+
+_app.py_
 
 If we navigate back to our web browser, we'll see the following:
 
-
-![Dash Auto Refresh](/img/dash-animation.gif)
-*Dash Auto Refresh*
+![Dash Auto Refresh](../../img/dash-animation.gif) _Dash Auto Refresh_
 
 The full script used in this example is shown below:
 
@@ -916,7 +927,8 @@ app.layout = html.Div([
 if __name__ == '__main__':
     app.run_server(debug=True)
 ```
-*dashboard.py*
+
+_dashboard.py_
 
 ## Summary
 

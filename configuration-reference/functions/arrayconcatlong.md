@@ -1,5 +1,7 @@
 ---
-description: This section contains reference documentation for the arrayConcatLong function.
+description: >-
+  This section contains reference documentation for the arrayConcatLong
+  function.
 ---
 
 # arrayConcatLong
@@ -12,9 +14,7 @@ Concatenates two arrays of longs.
 
 ## Usage Examples
 
-This example assumes the multiValueTable columns mvCol1 and mvCol2 are both of type LONG with
-singleValueField in the table schema set to false.
-
+This example assumes the multiValueTable columns mvCol1 and mvCol2 are both of type LONG with singleValueField in the table schema set to false.
 
 ```sql
 select mvCol1, 

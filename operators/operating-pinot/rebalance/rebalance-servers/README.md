@@ -25,9 +25,9 @@ By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets 
 
 Below is an example of how this looks in the znode, as seen in ZooInspector.
 
-![](../../../.gitbook/assets/zookeeper-browser-server-tenant.png)
+![](../../../../.gitbook/assets/zookeeper-browser-server-tenant.png)
 
-A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/cluster/tenant.md) section.
+A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../../basics/components/cluster/tenant.md) section.
 
 ```
  {   
@@ -84,7 +84,7 @@ REALTIME table - update the `replicasPerPartition` field
 
 ### Segment Assignment changes
 
-The most common segment assignment change is moving from the default segment assignment to replica group segment assignment. Discussing the details of the segment assignment is beyond the scope of this page. More details can be found in [Routing](../tuning/routing.md) and in this [FAQ question](../../../basics/getting-started/frequent-questions/#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3).
+The most common segment assignment change is moving from the default segment assignment to replica group segment assignment. Discussing the details of the segment assignment is beyond the scope of this page. More details can be found in [Routing](../../tuning/routing.md) and in this [FAQ question](../../../../basics/getting-started/frequent-questions/#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3).
 
 ### Table Migration to a different tenant
 
@@ -354,67 +354,17 @@ In the new stats above, `rebalanceProgressStatsOverall` is meant for tracking th
 
 With options `dryRun=true, preChecks=true`, some pre-checks relevant to rebalance will be performed:
 
-* Check the status of the `minimizeDataMovement` flag in the TableConfig. This is an important flag for instance assignment strategies such as replicaGroups which controls how much data movement may occur.&#x20;
-* Check if any of the servers needs to be reloaded (do the segments on these servers need to be updated based on the latest TableConfig and Schema).
-*   Check if disk utilization may become a problem during or after rebalance based on a default threshold defined by the config (defaulted to 0.9):
-
-    ```
-    controller.rebalance.disk.utilization.threshold
-    ```
+| Pre-check item name            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Result                                                                                                                                                                                                                                                                     |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| isMinimizeDataMovement         | Check if the rebalance will run with `minimizeDataMovement=true` . This is an important flag for instance assignment strategies such as replicaGroups which controls how much data movement may occur.                                                                                                                                                                                                                                                                            | <p>PASS if enabled, or when this flag is irrelevant.<br><br>WARN if it's not enabled.</p>                                                                                                                                                                                  |
+| diskUtilizationDuringRebalance | <p>Check if the disk utilization could become a problem "during" rebalance based on a default threshold defined by the config (defaulted to 0.9): <code>controller.rebalance.disk.utilization.threshold</code> .<br><br>Note that this pre-check could have false negatives. The pre-check passes but a server could still suffer from disk utilization problem, as there are other sources that increase the disk usage, especially under a long time running rebalance job.</p> | <p>PASS if the disk utilization of all servers in the rebalance will be within <code>controller.rebalance.disk.utilization.threshold</code> if all assigned segments added. <br><br>ERROR otherwise, and show the problematic servers.</p>                                 |
+| diskUtilizationAfterRebalance  | <p>Similar to <code>diskUtilizationDuringRebalance</code> but checks the size "after" the rebalance.<br><br>This test could pass while <code>diskUtilizationDuringRebalance</code> fails. For example, a server gets segments but also will delete some, and the net size change falls in the threshold.</p>                                                                                                                                                                      | <p>PASS if the disk utilization of all servers in the rebalance will be within <code>controller.rebalance.disk.utilization.threshold</code> if all assigned segments added and unassigned segments removed. <br><br>ERROR otherwise, and show the problematic servers.</p> |
+| needsReloadStatus              | Check if any of the servers needs to be reloaded (do the segments on these servers need to be updated based on the latest TableConfig and Schema).                                                                                                                                                                                                                                                                                                                                | <p>PASS if all servers assigned to the table don't need a reload.<br><br>WARN if any of the server need a reload.<br><br>ERROR if any of the server fails to answer the need reload status.</p>                                                                            |
+| rebalanceConfigOptions         | Mark any parameters in the rebalance that need a double check, as they might cause performance impact                                                                                                                                                                                                                                                                                                                                                                             | <p>PASS if no rebalance parameter needs a double-check.<br><br>WARN if any rebalance parameter that is flagged is set, followed by the description.</p>                                                                                                                    |
 
 For each check the return includes a `preCheckStatus`which is one of: `PASS`|`WARN`|`ERROR` and a message to explain what the status means from this OSS PR [https://github.com/apache/pinot/pull/15233](https://github.com/apache/pinot/pull/15233) onwards. Prior to this, these just returned `true`| `false`|`error` with no further explanation.
 
-### Examples
-
-#### 1. TableConfig / schema change, minimizeDataMovement=true, disk utilization within threshold
-
-```json
-  "preChecksResult": {
-    "isMinimizeDataMovement": {
-      "preCheckStatus": "PASS",
-      "message": "minimizeDataMovement is enabled"
-    },
-    "diskUtilizationDuringRebalance" : {
-      "preCheckStatus" : "PASS",
-      "message" : "Within threshold (<90%)"
-    },
-    "diskUtilizationAfterRebalance" : {
-      "preCheckStatus" : "PASS",
-      "message" : "Within threshold (<90%)"
-    },
-    "needsReloadStatus": {
-      "preCheckStatus": "WARN",
-      "message": "Reload needed prior to running rebalance"
-    }
-  },
-```
-
-#### 2. Segments up to date with TableConfig / schema, balanced instance assignment (default), disk utilization above threshold
-
-Balanced assignment does not use `minimizeDataMovement` algorithm
-
-```json
-  "preChecksResult": {
-    "isMinimizeDataMovement": {
-      "preCheckStatus": "PASS",
-      "message": "Instance assignment not allowed, no need for minimizeDataMovement"
-    },
-    "diskUtilizationDuringRebalance" : {
-      "preCheckStatus" : "ERROR",
-      "message" : "UNSAFE. Servers with unsafe disk utilization (>90%): Server_localhost_3 (95%), Server_localhost_2 (98%)"
-    },
-    "diskUtilizationAfterRebalance" : {
-      "preCheckStatus" : "ERROR",
-      "message" : "UNSAFE. Servers with unsafe disk utilization (>90%): Server_localhost_2 (92%)"
-    },
-    "needsReloadStatus": {
-      "preCheckStatus": "PASS",
-      "message": "No need to reload"
-    }
-  },
-```
-
-#### 3. Tenant migration with minimizeDataMovement=true, TableConfig / schema not updated, disk utilization below threshold
+### Example
 
 ```json
   "preChecksResult": {
@@ -433,6 +383,10 @@ Balanced assignment does not use `minimizeDataMovement` algorithm
     "needsReloadStatus": {
       "preCheckStatus": "ERROR",
       "message": "Could not determine needReload status, run needReload API manually"
+    },
+    "rebalanceConfigOptions": {
+      "preCheckStatus": "PASS",
+      "message": "All rebalance parameters look good"
     }
   },
 ```
@@ -443,109 +397,44 @@ As part of  [PR #15360](https://github.com/apache/pinot/pull/15360), a fix was m
 
 ## Rebalance Summary
 
-Rebalance (without or without `dryRun=true`) will return a summary of the changes that will occur during the rebalance along with the usual instance and segment assignments. Right now, the summary will be divided into two portions:
+Rebalance (without or without `dryRun=true`) will return a summary of the changes that will occur during the rebalance along with the usual instance and segment assignments. Right now, the summary has three different sections:
 
 * Server level - captures information about changes occurring at the server level and also dumps per server information about changes taking place.
 * Segment level - captures information about changes happening at the segment level
+* Tag level - aggregate information about segment changes, grouped by server tags
 
 Fields such as the `status` and `description` can be used to identify whether the rebalance will result in any change or not (`status=NO-OP` indicates that the table is already balanced), and can be a quick check prior to checking the summary.
 
-### Examples
+See [examples-and-scenarios.md](examples-and-scenarios.md "mention") for how the rebalance summary looks under different scenarios.
 
-All examples below skip showing the instance assignment and segment assignment for brevity.
+| Field                                                                                           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| serverInfo.numServersGettingNewSegments                                                         | The number of servers that will get new segment replicas in this rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| serverInfo.numServers                                                                           | The number of servers assigned to this table, including values before and after the rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| serverInfo.serversAdded                                                                         | A list of servers newly added to the assignment of this table in this rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| serverInfo.serversRemoved                                                                       | A list of servers removed from the assignment of this table in this rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| serverInfo.serversUnchanged                                                                     | A list of servers remaining in the assignment of this table in this rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| serverInfo.serversGettingNewSegments                                                            | A list of servers that will get new segment replicas in this rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| serverInfo.serverSegmentChangeInfo                                                              | A detail breakdown of the segment amount change information per server. See [examples-and-scenarios.md](examples-and-scenarios.md "mention")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| segmentInfo.totalSegmentsToBeMoved                                                              | The number of segment replicas that will be added to a server. This essentially equivalent to how many segments servers need to download.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| segmentInfo.totalSegmentsToBeDeleted                                                            | The number of segment replicas that will be removed from a server.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| segmentInfo.maxSegmentsAddedToASingleServer                                                     | The maximum number of segment replicas added to a server across all servers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| segmentInfo.estimatedAverageSegmentSizeInBytes                                                  | The average size of a segment in one replica of this table.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| segmentInfo.totalEstimatedDataToBeMovedInBytes                                                  | <p>Calculated by</p><p><code>segmentInfo.totalSegmentsToBeMoved * segmentInfo.estimatedAverageSegmentSizeInBytes</code></p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| segmentInfo.replicationFactor                                                                   | The number of replications, including values before and after the rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| segmentInfo.numSegmentsInSingleReplica                                                          | The number of segments in a single replica, including values before and after the rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| segmentInfo.numSegmentsAcrossAllReplicas                                                        | The total number of segment replicas, including values before and after the rebalance. Equivalent to `segmentInfo.replicationFactor * segmentInfo.numSegmentsInSingleReplica`                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| segmentInfo.consumingSegmentToBeMovedSummary.numConsumingSegmentsToBeMoved                      | <p>For REALTIME tables, the number of CONSUMING segment replicas that will be added to a server. A segment replica is a CONSUMING segment replica if none of the replica of the segment is ONLINE and any of the replica of the segment is CONSUMING.<br><br>OFFLINE tables do not have this field.</p>                                                                                                                                                                                                                                                                                                                                 |
+| segmentInfo.consumingSegmentToBeMovedSummary.numServersGettingConsumingSegmentsAdded            | <p>For REALTIME tables, the number of servers that will get a new CONSUMING segment replicas.<br><br>OFFLINE tables do not have this field.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| segmentInfo.consumingSegmentToBeMovedSummary.consumingSegmentsToBeMovedWithMostOffsetsToCatchUp | <p>For REALTIME tables, the top 10 of the most offset difference between the start offset and the latest offset across all consuming segments being added to a server. This determines how many offsets a server needs to re-consume from the stream after adding this CONSUMING segment replica. The actual overhead of re-consuming depends on the stream as the overhead varies across different streams.<br>Note that only ingestion from Kafka has this information available now. If the information failed to be fetched, this field will not be included in the summary.<br><br>OFFLINE tables do not have this field.</p>      |
+| segmentInfo.consumingSegmentToBeMovedSummary.consumingSegmentsToBeMovedWithOldestAgeInMinutes   | <p>For REALTIME tables, the top 10 oldest age of the consuming segment across all consuming segments being added to a server. This approximates the oldest data that will need to be re-consumed.<br>Note that this is segment's age instead of data age. The oldest event covered by the consuming segment might be older than the segment's age. If the information failed to be fetched, this field will not be included in the summary.</p><p><br>OFFLINE tables do not have this field.</p>                                                                                                                                        |
+| segmentInfo.consumingSegmentToBeMovedSummary.serverConsumingSegmentSummary                      | <p>For REALTIME tables, a map from server name to its detailed information of consuming segments that are added to the server. Each has two fields <code>numConsumingSegmentsToBeAdded</code> and <code>totalOffsetsToCatchUpAcrossAllConsumingSegments</code> . If the information of the offset failed to be fetched, the latter will be set to <code>-1</code> .<br><br>OFFLINE tables do not have this field.</p>                                                                                                                                                                                                                   |
+| tagsInfo                                                                                        | <p>A list of aggregated segment and server related statistics grouped by tags. See <a data-mention href="examples-and-scenarios.md">examples-and-scenarios.md</a><br><br>All the tags present in the table config will be present here. It is possible that a server has multiple tags present in the tag list here. In this case, the statistics will be accounted for both tags.<br><br>If an assigned server does not contain any tag present in the table config (could happen when a table has instance partition and rebalanced with `reassignInstance=false`), it will be categorized under a special tag `OUTDATED_SERVERS`</p> |
 
-#### 1. Increase replication factor
-
-Changes:
-
-* Number of replicaGroups increased from 1 to 2 (replicaGroup based instance assignment)
-* New server tagged with correct DefaultTenant tag
-
-```json
-{
-  "jobId": "872d693f-07f2-48fd-9c11-98838ebaed6b",
-  "status": "DONE",
-  "description": "Dry-run summary mode",
-  "rebalanceSummaryResult": {
-    "serverInfo": {
-      "numServersGettingNewSegments": 1,
-      "numServers": {
-        "valueBeforeRebalance": 1,
-        "expectedValueAfterRebalance": 2
-      },
-      "serversAdded": [
-        "Server_pinot-server-server-0-1_8098"
-      ],
-      "serversRemoved": [],
-      "serversUnchanged": [
-        "Server_pinot-server-server-0-0_8098"
-      ],
-      "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-1_8098"
-      ],
-      "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1_8098": {
-          "serverStatus": "ADDED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 0,
-          "segmentsAdded": 15,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        },
-        "Server_pinot-server-server-0-0_8098": {
-          "serverStatus": "UNCHANGED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 15,
-          "segmentsAdded": 0,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 15,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        }
-      }
-    },
-    "segmentInfo": {
-      "totalSegmentsToBeMoved": 15,
-      "maxSegmentsAddedToASingleServer": 15,
-      "estimatedAverageSegmentSizeInBytes": 478983831,
-      "totalEstimatedDataToBeMovedInBytes": 7184757465,
-      "replicationFactor": {
-        "valueBeforeRebalance": 1,
-        "expectedValueAfterRebalance": 2
-      },
-      "numSegmentsInSingleReplica": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      },
-      "numSegmentsAcrossAllReplicas": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 30
-      }
-    }
-  }
-}
-```
-
-#### 2. Change instance assignment from balanced to replicaGroup based
-
-Changes:
-
-* Change TableConfig from balanced to replicaGroup based assignment by adding the instanceAssignmentConfigMap
-  * Replication factor remains the same. Instances per replica group chosen as 1
-* No change in tagged servers
+**Example output:**
 
 ```json
-{
-  "jobId": "35998b64-c1b2-439c-ab5b-da886874f0c2",
-  "status": "DONE",
-  "description": "Dry-run summary mode",
-  "rebalanceSummaryResult": {
+"rebalanceSummaryResult": {
     "serverInfo": {
       "numServersGettingNewSegments": 1,
       "numServers": {
@@ -554,34 +443,33 @@ Changes:
       },
       "serversAdded": [],
       "serversRemoved": [
-        "Server_pinot-server-server-0-1_8098"
+        "Server_7051"
       ],
       "serversUnchanged": [
-        "Server_pinot-server-server-0-0_8098"
+        "Server_7050"
       ],
       "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-0_8098"
+        "Server_7050"
       ],
       "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1_8098": {
+        "Server_7051": {
           "serverStatus": "REMOVED",
           "totalSegmentsAfterRebalance": 0,
-          "totalSegmentsBeforeRebalance": 7,
+          "totalSegmentsBeforeRebalance": 5,
           "segmentsAdded": 0,
-          "segmentsDeleted": 7,
+          "segmentsDeleted": 5,
           "segmentsUnchanged": 0,
           "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
+            "DefaultTenant_OFFLINE"
           ]
         },
-        "Server_pinot-server-server-0-0_8098": {
+        "Server_7050": {
           "serverStatus": "UNCHANGED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 8,
-          "segmentsAdded": 7,
+          "totalSegmentsAfterRebalance": 10,
+          "totalSegmentsBeforeRebalance": 5,
+          "segmentsAdded": 5,
           "segmentsDeleted": 0,
-          "segmentsUnchanged": 8,
+          "segmentsUnchanged": 5,
           "tagList": [
             "DefaultTenant_OFFLINE",
             "DefaultTenant_REALTIME"
@@ -590,463 +478,55 @@ Changes:
       }
     },
     "segmentInfo": {
-      "totalSegmentsToBeMoved": 7,
-      "maxSegmentsAddedToASingleServer": 7,
-      "estimatedAverageSegmentSizeInBytes": 478983831,
-      "totalEstimatedDataToBeMovedInBytes": 3352886817,
+      "totalSegmentsToBeMoved": 5,
+      "totalSegmentsToBeDeleted": 5,
+      "maxSegmentsAddedToASingleServer": 5,
+      "estimatedAverageSegmentSizeInBytes": 0,
+      "totalEstimatedDataToBeMovedInBytes": 0,
       "replicationFactor": {
         "valueBeforeRebalance": 1,
         "expectedValueAfterRebalance": 1
       },
       "numSegmentsInSingleReplica": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
+        "valueBeforeRebalance": 10,
+        "expectedValueAfterRebalance": 10
       },
       "numSegmentsAcrossAllReplicas": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      }
-    }
-  }
-}
-```
-
-#### 3. Increase instances per replicaGroup
-
-Changes:
-
-* Increase the number of instances per replica group from 1 to 2
-
-```json
-{
-  "jobId": "deff09ea-85ca-4623-b34d-a37ea7eff6b7",
-  "status": "DONE",
-  "description": "Dry-run summary mode",
-  "rebalanceSummaryResult": {
-    "serverInfo": {
-      "numServersGettingNewSegments": 1,
-      "numServers": {
-        "valueBeforeRebalance": 1,
-        "expectedValueAfterRebalance": 2
+        "valueBeforeRebalance": 10,
+        "expectedValueAfterRebalance": 10
       },
-      "serversAdded": [
-        "Server_pinot-server-server-0-1_8098"
-      ],
-      "serversRemoved": [],
-      "serversUnchanged": [
-        "Server_pinot-server-server-0-0_8098"
-      ],
-      "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-1_8098"
-      ],
-      "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1_8098": {
-          "serverStatus": "ADDED",
-          "totalSegmentsAfterRebalance": 7,
-          "totalSegmentsBeforeRebalance": 0,
-          "segmentsAdded": 7,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
+      "consumingSegmentToBeMovedSummary": {
+        "numConsumingSegmentsToBeMoved": 5,
+        "numServersGettingConsumingSegmentsAdded": 1,
+        "consumingSegmentsToBeMovedWithMostOffsetsToCatchUp": {
+          "airlineStats__6__0__20250414T2046Z": 289,
+          "airlineStats__4__0__20250414T2046Z": 287,
+          "airlineStats__8__0__20250414T2046Z": 283,
+          "airlineStats__2__0__20250414T2046Z": 270,
+          "airlineStats__0__0__20250414T2046Z": 265
         },
-        "Server_pinot-server-server-0-0_8098": {
-          "serverStatus": "UNCHANGED",
-          "totalSegmentsAfterRebalance": 8,
-          "totalSegmentsBeforeRebalance": 15,
-          "segmentsAdded": 0,
-          "segmentsDeleted": 7,
-          "segmentsUnchanged": 8,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        }
-      }
-    },
-    "segmentInfo": {
-      "totalSegmentsToBeMoved": 7,
-      "maxSegmentsAddedToASingleServer": 7,
-      "estimatedAverageSegmentSizeInBytes": 478983831,
-      "totalEstimatedDataToBeMovedInBytes": 3352886817,
-      "replicationFactor": {
-        "valueBeforeRebalance": 1,
-        "expectedValueAfterRebalance": 1
-      },
-      "numSegmentsInSingleReplica": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      },
-      "numSegmentsAcrossAllReplicas": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      }
-    }
-  }
-}
-```
-
-#### 4. Move table to a different Tenant
-
-Changes:
-
-* Change the table's tenant tag to point to the new tenant tag
-* Tag servers on new tenant with new tenant tag
-
-```json
-{
-  "jobId": "1db14f0c-daf7-4e26-ae2a-fd52a5b86ac6",
-  "status": "DONE",
-  "description": "Dry-run summary mode",
-  "rebalanceSummaryResult": {
-    "serverInfo": {
-      "numServersGettingNewSegments": 1,
-      "numServers": {
-        "valueBeforeRebalance": 1,
-        "expectedValueAfterRebalance": 1
-      },
-      "serversAdded": [
-        "Server_pinot-server-server-0-2_8098"
-      ],
-      "serversRemoved": [
-        "Server_pinot-server-server-0-0_8098"
-      ],
-      "serversUnchanged": [],
-      "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-2_8098"
-      ],
-      "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-0_8098": {
-          "serverStatus": "REMOVED",
-          "totalSegmentsAfterRebalance": 0,
-          "totalSegmentsBeforeRebalance": 15,
-          "segmentsAdded": 0,
-          "segmentsDeleted": 15,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
+        "consumingSegmentsToBeMovedWithOldestAgeInMinutes": {
+          "airlineStats__8__0__20250414T2046Z": 45,
+          "airlineStats__4__0__20250414T2046Z": 45,
+          "airlineStats__2__0__20250414T2046Z": 45,
+          "airlineStats__6__0__20250414T2046Z": 45,
+          "airlineStats__0__0__20250414T2046Z": 45
         },
-        "Server_pinot-server-server-0-2_8098": {
-          "serverStatus": "ADDED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 0,
-          "segmentsAdded": 15,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "NewDefaultTenant_OFFLINE",
-            "NewDefaultTenant_REALTIME"
-          ]
+        "serverConsumingSegmentSummary": {
+          "Server_7050": {
+            "numConsumingSegmentsToBeAdded": 5,
+            "totalOffsetsToCatchUpAcrossAllConsumingSegments": 1394
+          }
         }
       }
     },
-    "segmentInfo": {
-      "totalSegmentsToBeMoved": 15,
-      "maxSegmentsAddedToASingleServer": 15,
-      "estimatedAverageSegmentSizeInBytes": 478983831,
-      "totalEstimatedDataToBeMovedInBytes": 7184757465,
-      "replicationFactor": {
-        "valueBeforeRebalance": 1,
-        "expectedValueAfterRebalance": 1
-      },
-      "numSegmentsInSingleReplica": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      },
-      "numSegmentsAcrossAllReplicas": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
+    "tagsInfo": [
+      {
+        "tagName": "DefaultTenant_REALTIME",
+        "numSegmentsToDownload": 5,
+        "numSegmentsUnchanged": 5,
+        "numServerParticipants": 1
       }
-    }
-  }
-}
-```
-
-#### 5. Scale Down table with balanced assignment
-
-Changes:
-
-* Untag servers that should no longer host the given table
-
-```json
-{
-  "jobId": "6bebdafe-3e7d-445f-9b1f-f8fcd1aaab68",
-  "status": "DONE",
-  "description": "Dry-run summary mode",
-  "rebalanceSummaryResult": {
-    "serverInfo": {
-      "numServersGettingNewSegments": 1,
-      "numServers": {
-        "valueBeforeRebalance": 2,
-        "expectedValueAfterRebalance": 1
-      },
-      "serversAdded": [],
-      "serversRemoved": [
-        "Server_pinot-server-server-0-1_8098"
-      ],
-      "serversUnchanged": [
-        "Server_pinot-server-server-0-0_8098"
-      ],
-      "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-0_8098"
-      ],
-      "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1_8098": {
-          "serverStatus": "REMOVED",
-          "totalSegmentsAfterRebalance": 0,
-          "totalSegmentsBeforeRebalance": 7,
-          "segmentsAdded": 0,
-          "segmentsDeleted": 7,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "NewDefaultTenant_OFFLINE",
-            "NewDefaultTenant_REALTIME"
-          ]
-        },
-        "Server_pinot-server-server-0-0_8098": {
-          "serverStatus": "UNCHANGED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 8,
-          "segmentsAdded": 7,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 8,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        }
-      }
-    },
-    "segmentInfo": {
-      "totalSegmentsToBeMoved": 7,
-      "maxSegmentsAddedToASingleServer": 7,
-      "estimatedAverageSegmentSizeInBytes": 478983831,
-      "totalEstimatedDataToBeMovedInBytes": 3352886817,
-      "replicationFactor": {
-        "valueBeforeRebalance": 1,
-        "expectedValueAfterRebalance": 1
-      },
-      "numSegmentsInSingleReplica": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      },
-      "numSegmentsAcrossAllReplicas": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      }
-    }
-  }
-}
-```
-
-#### 6. minimizeDataMovement flag comparison for increasing replication factor of replicaGroup based assignment
-
-Changes for both scenarios:
-
-* Increase number of replicaGroups from 2 to 3, keep instances per replicaGroup the same
-* Ensure enough servers are tagged with the tenant tag
-
-For each scenario, note the server stats in terms of how the server topology is changing. This can have a large effect on how much data is moved as part of the rebalance, and checking the summary along with the pre-checks can help identify if the changes are as expected.&#x20;
-
-Scenario 1: `minimizeDataMovement=false`
-
-* 2 servers added, 1 removed
-
-```json
-{
-  "jobId": "658761e6-b7fd-4e02-9e75-1dd0ce234648",
-  "status": "DONE",
-  "description": "Dry-run summary mode",
-  "preChecksResult": {
-    "isMinimizeDataMovement": "false",
-    "needsReloadStatus": "error"
+    ]
   },
-  "rebalanceSummaryResult": {
-    "serverInfo": {
-      "numServersGettingNewSegments": 2,
-      "numServers": {
-        "valueBeforeRebalance": 2,
-        "expectedValueAfterRebalance": 3
-      },
-      "serversAdded": [
-        "Server_pinot-server-server-0-3_8098",
-        "Server_pinot-server-server-0-2_8098"
-      ],
-      "serversRemoved": [
-        "Server_pinot-server-server-0-1_8098"
-      ],
-      "serversUnchanged": [
-        "Server_pinot-server-server-0-0_8098"
-      ],
-      "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-3_8098",
-        "Server_pinot-server-server-0-2_8098"
-      ],
-      "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-3_8098": {
-          "serverStatus": "ADDED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 0,
-          "segmentsAdded": 15,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        },
-        "Server_pinot-server-server-0-1_8098": {
-          "serverStatus": "REMOVED",
-          "totalSegmentsAfterRebalance": 0,
-          "totalSegmentsBeforeRebalance": 15,
-          "segmentsAdded": 0,
-          "segmentsDeleted": 15,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        },
-        "Server_pinot-server-server-0-0_8098": {
-          "serverStatus": "UNCHANGED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 15,
-          "segmentsAdded": 0,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 15,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        },
-        "Server_pinot-server-server-0-2_8098": {
-          "serverStatus": "ADDED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 0,
-          "segmentsAdded": 15,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        }
-      }
-    },
-    "segmentInfo": {
-      "totalSegmentsToBeMoved": 30,
-      "maxSegmentsAddedToASingleServer": 15,
-      "estimatedAverageSegmentSizeInBytes": 478983831,
-      "totalEstimatedDataToBeMovedInBytes": 14369514930,
-      "replicationFactor": {
-        "valueBeforeRebalance": 2,
-        "expectedValueAfterRebalance": 3
-      },
-      "numSegmentsInSingleReplica": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      },
-      "numSegmentsAcrossAllReplicas": {
-        "valueBeforeRebalance": 30,
-        "expectedValueAfterRebalance": 45
-      }
-    }
-  }
-}
-```
-
-Scenario 2: `minimizeDataMovement=true`
-
-* 1 server added
-
-```json
-{
-  "jobId": "e0c4e81b-f680-44cd-880f-3c9469594b0b",
-  "status": "DONE",
-  "description": "Dry-run summary mode",
-  "preChecksResult": {
-    "isMinimizeDataMovement": "true",
-    "needsReloadStatus": "error"
-  },
-  "rebalanceSummaryResult": {
-    "serverInfo": {
-      "numServersGettingNewSegments": 1,
-      "numServers": {
-        "valueBeforeRebalance": 2,
-        "expectedValueAfterRebalance": 3
-      },
-      "serversAdded": [
-        "Server_pinot-server-server-0-2_8098"
-      ],
-      "serversRemoved": [],
-      "serversUnchanged": [
-        "Server_pinot-server-server-0-1_8098",
-        "Server_pinot-server-server-0-0_8098"
-      ],
-      "serversGettingNewSegments": [
-        "Server_pinot-server-server-0-2_8098"
-      ],
-      "serverSegmentChangeInfo": {
-        "Server_pinot-server-server-0-1_8098": {
-          "serverStatus": "UNCHANGED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 15,
-          "segmentsAdded": 0,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 15,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        },
-        "Server_pinot-server-server-0-0_8098": {
-          "serverStatus": "UNCHANGED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 15,
-          "segmentsAdded": 0,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 15,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        },
-        "Server_pinot-server-server-0-2_8098": {
-          "serverStatus": "ADDED",
-          "totalSegmentsAfterRebalance": 15,
-          "totalSegmentsBeforeRebalance": 0,
-          "segmentsAdded": 15,
-          "segmentsDeleted": 0,
-          "segmentsUnchanged": 0,
-          "tagList": [
-            "DefaultTenant_OFFLINE",
-            "DefaultTenant_REALTIME"
-          ]
-        }
-      }
-    },
-    "segmentInfo": {
-      "totalSegmentsToBeMoved": 15,
-      "maxSegmentsAddedToASingleServer": 15,
-      "estimatedAverageSegmentSizeInBytes": 478983831,
-      "totalEstimatedDataToBeMovedInBytes": 7184757465,
-      "replicationFactor": {
-        "valueBeforeRebalance": 2,
-        "expectedValueAfterRebalance": 3
-      },
-      "numSegmentsInSingleReplica": {
-        "valueBeforeRebalance": 15,
-        "expectedValueAfterRebalance": 15
-      },
-      "numSegmentsAcrossAllReplicas": {
-        "valueBeforeRebalance": 30,
-        "expectedValueAfterRebalance": 45
-      }
-    }
-  }
-}
 ```
