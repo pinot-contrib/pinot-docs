@@ -90,10 +90,10 @@ Converts from an epoch granularity to milliseconds.
 
 Converts simple date format strings to milliseconds and vice versa, per the provided pattern string.
 
-| Function name                                             | Description                                                                                                                                                              |
-| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [ToDateTime](../../functions/functions/todatetime.md)     | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
-| [FromDateTime](../../functions/functions/fromdatetime.md) | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
+| Function name                                     | Description                                                                                                                                                              |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [ToDateTime](../../functions-1/todatetime.md)     | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
+| [FromDateTime](../../functions-1/fromdatetime.md) | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
 
 {% hint style="info" %}
 **Note**
@@ -149,7 +149,7 @@ Consider a table that has a string column `campaign` and a multi-value column do
 }
 ```
 
-Filter config also supports SQL-like expression of built-in [scalar functions](../../functions/scalar-functions.md#scalar-functions) for filtering records (starting v 0.11.0+). Example:
+Filter config also supports SQL-like expression of built-in [scalar functions](../../users/user-guide-query/scalar-functions.md#scalar-functions) for filtering records (starting v 0.11.0+). Example:
 
 ```javascript
 "ingestionConfig": {
