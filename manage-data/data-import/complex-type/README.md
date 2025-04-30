@@ -2,12 +2,11 @@
 description: Complex type handling in Apache Pinot.
 ---
 
-# Complex type (array, map) handling
+# Complex Type (Array, Map) Handling
 
 Commonly, ingested data has a complex structure. For example, Avro schemas have [records](https://avro.apache.org/docs/current/specification/_print/#schema-record) and [arrays](https://avro.apache.org/docs/current/specification/_print/#arrays) while JSON supports [objects](https://json-schema.org/understanding-json-schema/reference/object.html) and [arrays](https://json-schema.org/understanding-json-schema/reference/array.html).
 
 Apache Pinot's data model supports primitive data types (including int, long, float, double, BigDecimal, string, bytes), and limited multi-value types, such as an array of primitive types. Simple data types allow Pinot to build fast indexing structures for good query performance, but does require some handling of the complex structures.
-
 
 There are two options for complex type handling:
 
@@ -18,11 +17,11 @@ On this page, we'll show how to handle these complex-type structures with each o
 
 This object has two child fields and the child `group` is a nested array with elements of object type.
 
-![Example JSON data](../../.gitbook/assets/complex-type-example-data.png)
+![Example JSON data](../../../.gitbook/assets/complex-type-example-data.png)
 
 ## JSON indexing
 
-Apache Pinot provides a powerful [JSON index](../indexing/json-index.md) to accelerate the value lookup and filtering for the column. To convert an object `group` with complex type to JSON, add the following to your table configuration.
+Apache Pinot provides a powerful [JSON index](../../../basics/indexing/json-index.md) to accelerate the value lookup and filtering for the column. To convert an object `group` with complex type to JSON, add the following to your table configuration.
 
 {% code title="json_meetupRsvp_realtime_table_config.json" %}
 ```javascript
@@ -50,7 +49,7 @@ Apache Pinot provides a powerful [JSON index](../indexing/json-index.md) to acce
 ```
 {% endcode %}
 
-The config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with configuration `jsonIndexColumns`. To read the full spec, see [meetupRsvpJson\_realtime\_table\_config.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpJson/meetupRsvpJson\_realtime\_table\_config.json).
+The config `transformConfigs` transforms the object `group` to a JSON string `group_json`, which then creates the JSON indexing with configuration `jsonIndexColumns`. To read the full spec, see [meetupRsvpJson\_realtime\_table\_config.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpJson/meetupRsvpJson_realtime_table_config.json).
 
 Also, note that `group` is a reserved keyword in SQL and therefore needs to be quoted in `transformFunction`.
 
@@ -74,13 +73,11 @@ The schema will look like this:
     ...
 }
 ```
-
 {% endcode %}
 
 For the full specification, see [json\_meetupRsvp\_schema.json](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpJson/meetupRsvpJson_schema.json).
 
-
-With this, you can start to query the nested fields under `group`. For more details about the supported JSON function, see [guide](../indexing/json-index.md)).
+With this, you can start to query the nested fields under `group`. For more details about the supported JSON function, see [guide](../../../basics/indexing/json-index.md)).
 
 ## Ingestion configurations
 
@@ -109,7 +106,7 @@ To process this complex type, you can add the configuration `complexTypeConfig` 
 
 With the `complexTypeConfig` , all the map objects will be flattened to direct fields automatically. And with `unnestFields` , a record with the nested collection will unnest into multiple records. For instance, the example at the beginning will transform into two rows with this configuration example.
 
-![Flattened/unnested data](../../.gitbook/assets/complex-type-flattened.png)
+![Flattened/unnested data](../../../.gitbook/assets/complex-type-flattened.png)
 
 Note that:
 
@@ -120,7 +117,7 @@ Note that:
   * `ALL`- Converts the array of primitive values to JSON string.
   * `NONE`- Does not do any conversion.
 
-You can find the full specifications of the table config [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpComplexType/meetupRsvpComplexType\_realtime\_table\_config.json) and the table schema [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpComplexType/meetupRsvpComplexType\_schema.json).
+You can find the full specifications of the table config [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpComplexType/meetupRsvpComplexType_realtime_table_config.json) and the table schema [here](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/stream/meetupRsvpComplexType/meetupRsvpComplexType_schema.json).
 
 You can then query the table with primitive values using the following SQL query:
 

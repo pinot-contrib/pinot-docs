@@ -2,13 +2,13 @@
 description: Support for encoding fields with CLP during ingestion.
 ---
 
-# Stream Ingestion with CLP
+# Stream ingestion with CLP
 
 {% hint style="warning" %}
 This is an experimental feature. Configuration options and usage may change frequently until it is stabilized.
 {% endhint %}
 
-When performing stream ingestion of JSON records using [Kafka](pinot-stream-ingestion/import-from-apache-kafka.md), users can encode specific fields with [CLP](https://github.com/y-scope/clp) by using a CLP-specific StreamMessageDecoder.
+When performing stream ingestion of JSON records using [Kafka](import-from-apache-kafka.md), users can encode specific fields with [CLP](https://github.com/y-scope/clp) by using a CLP-specific StreamMessageDecoder.
 
 CLP is a compressor designed to encode unstructured log messages in a way that makes them more compressible while retaining the ability to search them. It does this by decomposing the message into three fields:
 
@@ -83,11 +83,11 @@ Assuming the user wants to encode `message` and `logPath` as in the example, the
 ```
 
 * `stream.kafka.decoder.prop.fieldsForClpEncoding` is a comma-separated list of names for fields that should be encoded with CLP.
-* We use [variable-length dictionaries](../../configuration-reference/table#table-index-config) for the logtype and dictionary variables since their length can vary significantly.
+* We use [variable-length dictionaries](../../../configuration-reference/table/#table-index-config) for the logtype and dictionary variables since their length can vary significantly.
 
 ### Schema
 
-For the table's schema, users should configure the CLP-encoded fields as follows  (we omit irrelevant settings for brevity):
+For the table's schema, users should configure the CLP-encoded fields as follows (we omit irrelevant settings for brevity):
 
 ```json
 {
@@ -133,7 +133,7 @@ For the table's schema, users should configure the CLP-encoded fields as follows
 
 ## Searching and decoding CLP-encoded fields
 
-To decode CLP-encoded fields, use [CLPDECODE](../../configuration-reference/functions/clpdecode.md).
+To decode CLP-encoded fields, use [CLPDECODE](../../../configuration-reference/functions/clpdecode.md).
 
 To search CLP-encoded fields, you can combine `CLPDECODE` with `LIKE`. Note, this may decrease performance when querying a large number of rows.
 

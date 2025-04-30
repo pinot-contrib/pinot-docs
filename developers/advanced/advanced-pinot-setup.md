@@ -335,7 +335,7 @@ Set `createInvertedIndexDuringSegmentGeneration` to `true` in your table config,
 ...
 ```
 
-When you update this setting in your table configuration, you must [reload the table segment](../../basics/data-import/segment-reload.md) to apply the inverted index to all existing segments.
+When you update this setting in your table configuration, you must [reload the table segment](../../operators/tutorials/segment-reload.md) to apply the inverted index to all existing segments.
 
 ### Streaming Table Creation
 
@@ -492,7 +492,7 @@ bin/pinot-admin.sh LaunchDataIngestionJob \
 {% endtab %}
 {% endtabs %}
 
-JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. See [Pinot Ingestion Job](../../basics/data-import/batch-ingestion/) for more details.
+JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. See [Pinot Ingestion Job](../../manage-data/data-import/batch-ingestion/) for more details.
 
 ### Load Data in Streaming
 

@@ -76,5 +76,5 @@ Pinot uses remote storage as deep storage to backup segments.
 
 Default deployment creates a mount disk(e.g Amazon EBS) as deep storage in controller.
 
-You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link](../../basics/data-import/pinot-file-system/#enabling-a-file-system).
+You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link](../../manage-data/data-import/pinot-file-system/#enabling-a-file-system).
 

@@ -32,20 +32,20 @@ This guide shows you how to import data using stream ingestion from Apache Kafka
 
 This guide shows you how to import data using stream ingestion with upsert.
 
-{% content-ref url="upsert.md" %}
-[upsert.md](upsert.md)
+{% content-ref url="upsert-and-dedup/upsert.md" %}
+[upsert.md](upsert-and-dedup/upsert.md)
 {% endcontent-ref %}
 
 This guide shows you how to import data using stream ingestion with deduplication.
 
-{% content-ref url="dedup.md" %}
-[dedup.md](dedup.md)
+{% content-ref url="upsert-and-dedup/dedup.md" %}
+[dedup.md](upsert-and-dedup/dedup.md)
 {% endcontent-ref %}
 
 This guide shows you how to import data using stream ingestion with CLP.
 
-{% content-ref url="clp.md" %}
-[clp.md](clp.md)
+{% content-ref url="pinot-stream-ingestion/clp.md" %}
+[clp.md](pinot-stream-ingestion/clp.md)
 {% endcontent-ref %}
 
 ## Pinot file systems
@@ -80,14 +80,14 @@ This guide shows you how to import data from various Pinot-supported input forma
 
 This guide shows you how to handle the complex type in the ingested data, such as map and array.
 
-{% content-ref url="complex-type.md" %}
-[complex-type.md](complex-type.md)
+{% content-ref url="complex-type/" %}
+[complex-type](complex-type/)
 {% endcontent-ref %}
 
 This guide shows additional examples on how to work with complex types.
 
-{% content-ref url="complex-type-examples.md" %}
-[complex-type-examples.md](complex-type-examples.md)
+{% content-ref url="complex-type/complex-type-examples.md" %}
+[complex-type-examples.md](complex-type/complex-type-examples.md)
 {% endcontent-ref %}
 
 This guide shows you how to handle records with dynamic schemas, like JSON log events.
@@ -100,8 +100,8 @@ This guide shows you how to handle records with dynamic schemas, like JSON log e
 
 This guide shows you how to reload Pinot segments from your deep store.
 
-{% content-ref url="segment-reload.md" %}
-[segment-reload.md](segment-reload.md)
+{% content-ref url="../../operators/tutorials/segment-reload.md" %}
+[segment-reload.md](../../operators/tutorials/segment-reload.md)
 {% endcontent-ref %}
 
 This guide shows you how to upload Pinot segments from an old, closed Pinot instance.

@@ -2,7 +2,7 @@
 description: This guide shows you how to ingest a stream of records into a Pinot table.
 ---
 
-# Stream ingestion
+# Stream Ingestion
 
 Apache Pinot lets users consume data from streams and push it directly into the database. This process is called stream ingestion. Stream ingestion makes it possible to query data within seconds of publication.
 
@@ -34,7 +34,7 @@ Here's an example where we assume the data to be ingested is in the following fo
 
 ## Create schema configuration
 
-The schema defines the fields along with their data types. The schema also defines whether fields serve as `dimensions` , `metrics`, or `timestamp`. For more details on schema configuration, see [creating a schema](../../getting-started/pushing-your-data-to-pinot.md#creating-a-schema).
+The schema defines the fields along with their data types. The schema also defines whether fields serve as `dimensions` , `metrics`, or `timestamp`. For more details on schema configuration, see [creating a schema](../../../basics/getting-started/pushing-your-data-to-pinot.md#creating-a-schema).
 
 For our sample data, the schema configuration looks like this:
 
@@ -359,9 +359,9 @@ $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=
 
 If a Pinot table is configured to consume using a [Low Level](./#create-table-configuration) (partition-based) stream type, then it is possible that the partitions of the table change over time. In Kafka, for example, the number of partitions may increase. In Kinesis, the number of partitions may increase _or_ decrease -- some partitions could be merged to create a new one, or existing partitions split to create new ones.
 
-Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monitors such changes and starts consumption on new partitions (or stops consumptions from old ones) as necessary. Since this is a [periodic task](../../components/cluster/controller.md#controller-periodic-tasks) that is run on the controller, it may take some time for Pinot to recognize new partitions and start consuming from them. This may delay the data in new partitions appearing in the results that pinot returns.
+Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monitors such changes and starts consumption on new partitions (or stops consumptions from old ones) as necessary. Since this is a [periodic task](../../../basics/components/cluster/controller.md#controller-periodic-tasks) that is run on the controller, it may take some time for Pinot to recognize new partitions and start consuming from them. This may delay the data in new partitions appearing in the results that pinot returns.
 
-If you want to recognize the new partitions sooner, then [manually trigger](../../components/cluster/controller.md#running-the-periodic-task-manually) the periodic task so as to recognize such data immediately.
+If you want to recognize the new partitions sooner, then [manually trigger](../../../basics/components/cluster/controller.md#running-the-periodic-task-manually) the periodic task so as to recognize such data immediately.
 
 ## Infer ingestion status of real-time tables
 

@@ -367,7 +367,7 @@ These new consistency modes provide flexibility, allowing applications to balanc
 
 ### Use strictReplicaGroup for routing
 
-The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) implicitly for the segments. Moreover, upsert poses the additional requirement that **all segments of the same partition must be served from the same server** to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
+The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) implicitly for the segments. Moreover, upsert poses the additional requirement that **all segments of the same partition must be served from the same server** to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
 
 ```json
 {
@@ -380,7 +380,7 @@ The upsert Pinot table can use only the low-level consumer for the input streams
 {% hint style="warning" %}
 Using implicit partitioned replica-group assignment from low-level consumer won't persist the instance assignment (mapping from partition to servers) to the ZooKeeper, and new added servers will be automatically included without explicit reassigning instances (usually through rebalance). This can cause new segments of the same partition assigned to a different server and break the requirement of upsert.
 
-To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../operators/operating-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.
+To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../../operators/operating-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.
 {% endhint %}
 
 ### Enable validDocIds snapshots for upsert metadata recovery
@@ -753,19 +753,19 @@ bin/quick-start-partial-upsert-streaming.sh
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Head over to the Query Console to check out the real-time data.
 
-![Query the upsert table](../../.gitbook/assets/query-upsert-table.png)
+![Query the upsert table](../../../.gitbook/assets/query-upsert-table.png)
 
 For partial upsert you can see only the value from configured column changed based on specified partial upsert strategy.
 
-![Query the partial upsert table](../../.gitbook/assets/query-partial-upsert-table.png)
+![Query the partial upsert table](../../../.gitbook/assets/query-partial-upsert-table.png)
 
 An example for partial upsert is shown below, each of the event\_id kept being unique during ingestion, meanwhile the value of rsvp\_count incremented.
 
-![Explain partial upsert table](../../.gitbook/assets/explain-partial-upsert-table.png)
+![Explain partial upsert table](../../../.gitbook/assets/explain-partial-upsert-table.png)
 
 To see the difference from the non-upsert table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
-![Disable the upsert during query via query option](../../disable_upsert_during_query.png)
+![Disable the upsert during query via query option](../../../disable_upsert_during_query.png)
 
 ### FAQ
 

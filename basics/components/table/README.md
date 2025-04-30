@@ -56,7 +56,7 @@ Use the following properties to make your tables faster or leaner:
 
 A table is comprised of small chunks of data known as segments. Learn more about how Pinot creates and manages segments [here](https://docs.pinot.apache.org/basics/components/segment).
 
-For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../../data-import/batch-ingestion/).
+For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../../../manage-data/data-import/batch-ingestion/).
 
 For real-time tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments.
 

@@ -134,18 +134,18 @@ pinot-admin.sh CreateSegment -dataDir /path/to/data/dir -format CSV -outDir /pat
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option                   | Description                                                                                                                    |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| dataDir                  | Directory containing input files                                                                                               |
-| format                   | Input data formats. See [Input formats](../basics/data-import/pinot-input-formats.md) for all the supported formats            |
-| outDir                   | Local output directory to publish the segments                                                                                 |
-| overwrite                | Set to `true` to overwrite segments of already present in the directory                                                        |
-| tableConfigFile          | Path to [Table Config](../configuration-reference/table.md)                                                                    |
-| schemaFile               | Path to [Schema Config](../configuration-reference/schema.md)                                                                  |
-| readerConfigFile         | properties file containing the config related to the reader. See [Input formats](../basics/data-import/pinot-input-formats.md) |
-| retry                    | Number of retry attempts in case of failure                                                                                    |
-| postCreationVerification | Set `true` to verify the segment files post creation.                                                                          |
-| numThreads               | Number of threads to use to execute the segment creation job                                                                   |
+| Option                   | Description                                                                                                                         |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| dataDir                  | Directory containing input files                                                                                                    |
+| format                   | Input data formats. See [Input formats](../manage-data/data-import/pinot-input-formats.md) for all the supported formats            |
+| outDir                   | Local output directory to publish the segments                                                                                      |
+| overwrite                | Set to `true` to overwrite segments of already present in the directory                                                             |
+| tableConfigFile          | Path to [Table Config](../configuration-reference/table.md)                                                                         |
+| schemaFile               | Path to [Schema Config](../configuration-reference/schema.md)                                                                       |
+| readerConfigFile         | properties file containing the config related to the reader. See [Input formats](../manage-data/data-import/pinot-input-formats.md) |
+| retry                    | Number of retry attempts in case of failure                                                                                         |
+| postCreationVerification | Set `true` to verify the segment files post creation.                                                                               |
+| numThreads               | Number of threads to use to execute the segment creation job                                                                        |
 
 ### Convert Pinot Segment
 

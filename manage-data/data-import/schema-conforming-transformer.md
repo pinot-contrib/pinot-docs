@@ -227,7 +227,7 @@ Other index config of 3 reserved columns could be set like:
 }
 ```
 
-Specifically, customizable json index could be set according to [json index indexPaths](../indexing/json-index.md#enable-and-configure-a-json-index).
+Specifically, customizable json index could be set according to [json index indexPaths](../../basics/indexing/json-index.md#enable-and-configure-a-json-index).
 
 ## Power the text search
 

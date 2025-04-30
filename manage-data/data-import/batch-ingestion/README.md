@@ -138,7 +138,7 @@ A table is composed of multiple segments. The segments can be created in the fol
 
 ### Minion-based ingestion
 
-Refer to [SegmentGenerationAndPushTask](../../components/cluster/minion.md#segmentgenerationandpushtask)
+Refer to [SegmentGenerationAndPushTask](../../../basics/components/cluster/minion.md#segmentgenerationandpushtask)
 
 ### Upload API
 

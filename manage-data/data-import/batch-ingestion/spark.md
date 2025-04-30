@@ -11,7 +11,7 @@ To set up Spark, do one of the following:
 * Use the Spark-Pinot Connector. For more information, see the [ReadMe](https://github.com/apache/pinot/blob/master/pinot-connectors/pinot-spark-3-connector/README.md).
 * Follow the instructions below.
 
-You can follow the [wiki](../../getting-started/running-pinot-locally.md#build-from-source-or-download-the-distribution) to build Pinot from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
+You can follow the [wiki](../../../basics/getting-started/running-pinot-locally.md#build-from-source-or-download-the-distribution) to build Pinot from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
 
 If you do build Pinot from Source, you should consider opting into using the `build-shaded-jar` jar profile with `-Pbuild-shaded-jar`. While Pinot does not bundle spark into its jar, it does bundle certain hadoop libraries.
 
@@ -82,7 +82,7 @@ Ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set proper
 **Note**: You should change the `master` to `yarn` and `deploy-mode` to `cluster` for production environments.
 
 {% hint style="info" %}
-We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../getting-started/)or download latest master build jars.
+We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../../basics/getting-started/)or download latest master build jars.
 {% endhint %}
 
 ### Running in Cluster Mode on YARN
@@ -93,7 +93,7 @@ If you want to run the spark job in cluster mode on YARN/EMR cluster, the follow
 * Copy Pinot binaries to S3, HDFS or any other distributed storage that is accessible from all nodes.
 * Copy Ingestion spec YAML file to S3, HDFS or any other distributed storage. Mention this path as part of `--files` argument in the command
 * Add `--jars` options that contain the s3/hdfs paths to all the required plugin and pinot-all jar
-* Point `classPath` to spark working directory.  Generally, just specifying the jar names without any paths works. Same should be done for main jar as well as the spec YAML file
+* Point `classPath` to spark working directory. Generally, just specifying the jar names without any paths works. Same should be done for main jar as well as the spec YAML file
 
 **Example**
 
@@ -110,10 +110,10 @@ local://pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar -jobSpecFile spark_
 ```
 
 {% hint style="success" %}
-For Spark 3.x, replace `pinot-batch-ingestion-spark-2.4` with `pinot-batch-ingestion-spark-3.2` in all places in the commands. \
+For Spark 3.x, replace `pinot-batch-ingestion-spark-2.4` with `pinot-batch-ingestion-spark-3.2` in all places in the commands.\
 \
 Also, ensure the classpath in ingestion spec is changed from `org.apache.pinot.plugin.ingestion.batch.spark.`\
-to \
+to\
 `org.apache.pinot.plugin.ingestion.batch.spark3.`
 {% endhint %}
 
@@ -121,27 +121,19 @@ to \
 
 Q - **I am getting the following exception - `Class has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0`**
 
-Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the Java8 version of Pinot. Currently, you need to [build jdk 8 version from source](../../getting-started/).
-
-
+Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using Spark along with Hadoop 2.7+, you need to use the Java8 version of Pinot. Currently, you need to [build jdk 8 version from source](../../../basics/getting-started/).
 
 Q - **I am not able to find `pinot-batch-ingestion-spark` jar.**
 
 For Pinot version prior to 0.10.0, the spark plugin is located in `plugin` dir of binary distribution. For 0.10.0 and later, it is located in `pinot-external` dir.
 
-
-
-Q - **Spark is not able to find the jars** **leading to**  **`java.nio.file.NoSuchFileException`**
+Q - **Spark is not able to find the jars** **leading to** **`java.nio.file.NoSuchFileException`**
 
 This means the classpath for spark job has not been configured properly. If you are running spark in a distributed environment such as Yarn or k8s, make sure both `spark.driver.classpath` and `spark.executor.classpath` are set. Also, the jars in `driver.classpath` should be added to `--jars` argument in `spark-submit` so that spark can distribute those jars to all the nodes in your cluster. You also need to take provide appropriate scheme with the file path when running the jar. In this doc, we have used `local:\\` but it can be different depending on your cluster setup.
-
-
 
 Q - **Spark job failing while pushing the segments.**
 
 It can be because of misconfigured `controllerURI` in job spec yaml file. If the controllerURI is correct, make sure it is accessible from all the nodes of your YARN or k8s cluster.
-
-
 
 Q - **My data gets overwritten during ingestion.**
 
@@ -149,15 +141,10 @@ Set [segmentPushType](../../../configuration-reference/table.md#segments-config)
 
 If already set to `APPEND`, this is likely due to a missing `timeColumnName` in your table config. If you can't provide a time column, use our[ segment name generation configs](../../../configuration-reference/job-specification.md#segment-name-generator-spec) in ingestion spec. Generally using `inputFile` segment name generator should fix your issue.
 
-
-
 Q - **I am getting `java.lang.RuntimeException: java.io.IOException: Failed to create directory: pinot-plugins-dir-0/plugins/*`**
 
-Removing `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins` from `spark.driver.extraJavaOptions`  should fix this. As long as plugins are mentioned in classpath and `jars` argument it should not be an issue.
-
-
+Removing `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins` from `spark.driver.extraJavaOptions` should fix this. As long as plugins are mentioned in classpath and `jars` argument it should not be an issue.
 
 Q - Getting `Class not found:` exception
 
 Check if `extraClassPath` arguments contain all the plugin jars for both driver and executors. Also, all the plugin jars are mentioned in the `--jars` argument. If both of these are correct, check if the `extraClassPath` contains local filesystem classpaths and not s3 or hdfs or any other distributed file system classpaths.
-

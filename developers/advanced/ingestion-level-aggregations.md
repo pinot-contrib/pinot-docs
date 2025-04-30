@@ -29,7 +29,7 @@ Below is a description of the config, which is defined in the ingestion config o
 The following are required for ingestion aggregation to work:
 
 * Ingestion aggregation config is effective only for real-time tables. (There is no ingestion time aggregation support for offline tables. We need use [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md) or pre-process aggregations in the offline data flow using batch processing engines like Spark/MapReduce).
-* [Stream ingestion](../../basics/data-import/pinot-stream-ingestion/) type must be lowLevel.
+* [Stream ingestion](../../manage-data/data-import/pinot-stream-ingestion/) type must be lowLevel.
 * All metrics must have aggregation configs.
 * All metrics must be noDictionaryColumns.
 * `aggregatedFieldName` must be in the Pinot schema and `originalFieldName` must not exist in Pinot schema

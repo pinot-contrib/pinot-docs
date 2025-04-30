@@ -2,13 +2,13 @@
 description: Additional examples that demonstrate handling of complex types.
 ---
 
-# Complex Type Examples
+# Complex Type Examples (Unnest)
 
 Additional examples that demonstrate handling of complex types.
 
 ## Unnest Root Level Collection
 
-In this example, we would look at un-nesting json records that are batched together as part of a single key at the root level. We will make use of the [ComplexType](complex-type.md) configs to persist the individual student records as separate rows in Pinot.
+In this example, we would look at un-nesting json records that are batched together as part of a single key at the root level. We will make use of the [ComplexType](./) configs to persist the individual student records as separate rows in Pinot.
 
 ### Sample JSON record
 
@@ -107,7 +107,7 @@ The Pinot table configuration for this schema would look as follows.
 
 Post ingestion, the student records would appear as separate records in Pinot. Note that the nested field `scores` is captured as a JSON field.
 
-![Unnested Student Records](../../.gitbook/assets/root-level-unnest-example.png)
+![Unnested Student Records](../../../.gitbook/assets/root-level-unnest-example.png)
 
 ## Unnest sibling collections
 
@@ -187,7 +187,7 @@ In this example, we would look at un-nesting the sibling collections "student" a
 
 ### Data in Pinot
 
-![Unnested student records](../../.gitbook/assets/sibling-level-unnest-example.png)
+![Unnested student records](../../../.gitbook/assets/sibling-level-unnest-example.png)
 
 ## Unnest nested collection
 
@@ -266,7 +266,7 @@ In this example, we would look at un-nesting the nested collection "students.gra
 
 ### Data in Pinot
 
-![Unnest Nested Collection](../../.gitbook/assets/unnest-nested-collection-example.png)
+![Unnest Nested Collection](../../../.gitbook/assets/unnest-nested-collection-example.png)
 
 ## Unnest Multi Level Array
 
@@ -349,7 +349,7 @@ In this example, we would look at un-nesting the array "finalExam" which is loca
 
 ### Data in Pinot
 
-![Unnested Multi Level Array](../../.gitbook/assets/unnest-multi-level-array.png)
+![Unnested Multi Level Array](../../../.gitbook/assets/unnest-multi-level-array.png)
 
 ## Convert inner collections
 
@@ -422,7 +422,7 @@ In this example, the inner collection "grades" is converted into a multi value s
 
 ### Data in Pinot
 
-![Converted Inner Collection](../../.gitbook/assets/convert-inner-collection-mv-string-example.png)
+![Converted Inner Collection](../../../.gitbook/assets/convert-inner-collection-mv-string-example.png)
 
 ## Primitive Array Converted to JSON String
 
@@ -485,4 +485,4 @@ In this example, the array of primitives "extra\_curricular" is converted to a J
 
 ### Data in Pinot
 
-![Primitives Converted to JSON](../../.gitbook/assets/convert-primitves-to-json-example.png)
+![Primitives Converted to JSON](../../../.gitbook/assets/convert-primitves-to-json-example.png)
