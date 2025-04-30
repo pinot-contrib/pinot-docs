@@ -1,8 +1,10 @@
 ---
-description: This page contains reference documentation for functions in Apache Pinot.
+description: >-
+  This page is deprecating, we are moving all the below functions into the
+  relevant categories in this section.
 ---
 
-# Functions
+# Function List
 
 This page contains reference documentation for functions in Apache Pinot.
 
@@ -114,8 +116,8 @@ This page contains reference documentation for functions in Apache Pinot.
 [base64.md](base64.md)
 {% endcontent-ref %}
 
-{% content-ref url="caseWhen.md" %}
-[caseWhen.md](caseWhen.md)
+{% content-ref url="casewhen.md" %}
+[casewhen.md](casewhen.md)
 {% endcontent-ref %}
 
 {% content-ref url="ceil.md" %}
@@ -126,8 +128,8 @@ This page contains reference documentation for functions in Apache Pinot.
 [chr.md](chr.md)
 {% endcontent-ref %}
 
-{% content-ref url="clpdecode.md" %}
-[clpdecode.md](clpdecode.md)
+{% content-ref url="../../configuration-reference/functions/clpdecode.md" %}
+[clpdecode.md](../../configuration-reference/functions/clpdecode.md)
 {% endcontent-ref %}
 
 {% content-ref url="codepoint.md" %}
@@ -190,12 +192,12 @@ This page contains reference documentation for functions in Apache Pinot.
 [distinctcounthllmv.md](distinctcounthllmv.md)
 {% endcontent-ref %}
 
-{% content-ref url="distinctcounthllplus.md" %}
-[distinctcounthllplus.md](distinctcounthllplus.md)
+{% content-ref url="../../configuration-reference/functions/distinctcounthllplus.md" %}
+[distinctcounthllplus.md](../../configuration-reference/functions/distinctcounthllplus.md)
 {% endcontent-ref %}
 
-{% content-ref url="distinctcounthllplusmv.md" %}
-[distinctcounthllplusmv.md](distinctcounthllplusmv.md)
+{% content-ref url="../../configuration-reference/functions/distinctcounthllplusmv.md" %}
+[distinctcounthllplusmv.md](../../configuration-reference/functions/distinctcounthllplusmv.md)
 {% endcontent-ref %}
 
 {% content-ref url="distinctcountmv.md" %}
@@ -206,20 +208,20 @@ This page contains reference documentation for functions in Apache Pinot.
 [distinctcountrawhll.md](distinctcountrawhll.md)
 {% endcontent-ref %}
 
-{% content-ref url="distinctcountrawhllplus.md" %}
-[distinctcountrawhllplus.md](distinctcountrawhllplus.md)
+{% content-ref url="../../configuration-reference/functions/distinctcountrawhllplus.md" %}
+[distinctcountrawhllplus.md](../../configuration-reference/functions/distinctcountrawhllplus.md)
 {% endcontent-ref %}
 
 {% content-ref url="distinctcountrawhllmv.md" %}
 [distinctcountrawhllmv.md](distinctcountrawhllmv.md)
 {% endcontent-ref %}
 
-{% content-ref url="distinctcountrawhllplusmv.md" %}
-[distinctcountrawhllplusmv.md](distinctcountrawhllplusmv.md)
+{% content-ref url="../../configuration-reference/functions/distinctcountrawhllplusmv.md" %}
+[distinctcountrawhllplusmv.md](../../configuration-reference/functions/distinctcountrawhllplusmv.md)
 {% endcontent-ref %}
 
-{% content-ref url="distinctcountrawcpcsketch.md" %}
-[distinctcountrawcpcsketch.md](distinctcountrawcpcsketch.md)
+{% content-ref url="../../configuration-reference/functions/distinctcountrawcpcsketch.md" %}
+[distinctcountrawcpcsketch.md](../../configuration-reference/functions/distinctcountrawcpcsketch.md)
 {% endcontent-ref %}
 
 {% content-ref url="distinctcountrawthetasketch.md" %}

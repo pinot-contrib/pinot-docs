@@ -22,18 +22,16 @@ description: >-
 
 ### Explore query syntax:
 
-
-
-{% content-ref url="json-queries.md" %}
-[json-queries.md](json-queries.md)
+{% content-ref url="../../functions/json-queries.md" %}
+[json-queries.md](../../functions/json-queries.md)
 {% endcontent-ref %}
 
-{% content-ref url="supported-aggregations.md" %}
-[supported-aggregations.md](supported-aggregations.md)
+{% content-ref url="../../functions/supported-aggregations.md" %}
+[supported-aggregations.md](../../functions/supported-aggregations.md)
 {% endcontent-ref %}
 
-{% content-ref url="how-to-handle-unique-counting.md" %}
-[how-to-handle-unique-counting.md](how-to-handle-unique-counting.md)
+{% content-ref url="../../functions/how-to-handle-unique-counting.md" %}
+[how-to-handle-unique-counting.md](../../functions/how-to-handle-unique-counting.md)
 {% endcontent-ref %}
 
 {% content-ref url="explain-plan.md" %}
@@ -64,18 +62,18 @@ description: >-
 [lookup-udf-join.md](query-syntax/lookup-udf-join.md)
 {% endcontent-ref %}
 
-{% content-ref url="supported-transformations.md" %}
-[supported-transformations.md](supported-transformations.md)
+{% content-ref url="../../functions/supported-transformations.md" %}
+[supported-transformations.md](../../functions/supported-transformations.md)
 {% endcontent-ref %}
 
-{% content-ref url="scalar-functions.md" %}
-[scalar-functions.md](scalar-functions.md)
+{% content-ref url="../../functions/scalar-functions.md" %}
+[scalar-functions.md](../../functions/scalar-functions.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/windows-functions.md" %}
-[windows-functions.md](query-syntax/windows-functions.md)
+{% content-ref url="../../windows-functions.md" %}
+[windows-functions.md](../../windows-functions.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/windows-functions.md" %}
-[windows-functions.md](query-syntax/windows-functions.md)
+{% content-ref url="../../windows-functions.md" %}
+[windows-functions.md](../../windows-functions.md)
 {% endcontent-ref %}

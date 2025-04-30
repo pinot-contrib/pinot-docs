@@ -2,7 +2,7 @@
 description: This page talks about geospatial support in Pinot.
 ---
 
-# Geospatial 
+# Geospatial
 
 Pinot supports SQL/MM geospatial data and is compliant with the [Open Geospatial Consortium’s (OGC) OpenGIS Specifications](https://www.ogc.org/standards/sfs/). This includes:
 
@@ -41,36 +41,36 @@ Following geospatial functions are available out of the box in Pinot:
 
 ### Aggregations
 
-[**ST\_Union(geometry\[\] g1\_array) → Geometry**](../../configuration-reference/functions/stunion.md) This aggregate function returns a MULTI geometry or NON-MULTI geometry from a set of geometries. it ignores NULL geometries.
+[**ST\_Union(geometry\[\] g1\_array) → Geometry**](../../functions/functions/stunion.md) This aggregate function returns a MULTI geometry or NON-MULTI geometry from a set of geometries. it ignores NULL geometries.
 
 ### Constructors
 
-* [**ST\_GeomFromText(String wkt) → Geometry**](../../configuration-reference/functions/stgeomfromtext.md) Returns a geometry type object from WKT representation, with the optional spatial system reference.
-* [**ST\_GeomFromWKB(bytes wkb) → Geometry**](../../configuration-reference/functions/stgeomfromwkb.md) Returns a geometry type object from WKB representation.
-* [**ST\_Point(double x, double y) → Point**](../../configuration-reference/functions/stpoint.md) Returns a geometry type point object with the given coordinate values.
-* [**ST\_Polygon(String wkt) → Polygon**](../../configuration-reference/functions/stpolygon.md) Returns a geometry type polygon object from [WKT representation](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).
-* [**ST\_GeogFromWKB(bytes wkb) → Geography**](../../configuration-reference/functions/stgeogfromwkb.md) Creates a geography instance from a [Well-Known Binary geometry representation (WKB)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry#Well-known\_binary)
-* [**ST\_GeogFromText(String wkt) → Geography**](../../configuration-reference/functions/stgeogfromtext.md) Returns a specified geography value from [Well-Known Text representation or extended (WKT)](https://en.wikipedia.org/wiki/Well-known\_text\_representation\_of\_geometry).
+* [**ST\_GeomFromText(String wkt) → Geometry**](../../functions/functions/stgeomfromtext.md) Returns a geometry type object from WKT representation, with the optional spatial system reference.
+* [**ST\_GeomFromWKB(bytes wkb) → Geometry**](../../functions/functions/stgeomfromwkb.md) Returns a geometry type object from WKB representation.
+* [**ST\_Point(double x, double y) → Point**](../../functions/functions/stpoint.md) Returns a geometry type point object with the given coordinate values.
+* [**ST\_Polygon(String wkt) → Polygon**](../../functions/functions/stpolygon.md) Returns a geometry type polygon object from [WKT representation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry).
+* [**ST\_GeogFromWKB(bytes wkb) → Geography**](../../functions/functions/stgeogfromwkb.md) Creates a geography instance from a [Well-Known Binary geometry representation (WKB)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary)
+* [**ST\_GeogFromText(String wkt) → Geography**](../../functions/functions/stgeogfromtext.md) Returns a specified geography value from [Well-Known Text representation or extended (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry).
 
 ### Measurements
 
 * **ST\_Area(Geometry/Geography g) → double** For geometry type, it returns the 2D Euclidean area of a geometry. For geography, returns the area of a polygon or multi-polygon in square meters using a spherical model for Earth.
-* [**ST\_Distance(Geometry/Geography g1, Geometry/Geography g2) → double**](../../configuration-reference/functions/stdistance.md) For geometry type, returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography, returns the great-circle distance in meters between two SphericalGeography points. Note that g1, g2 shall have the same type.
-* [**ST\_GeometryType(Geometry g) → String**](../../configuration-reference/functions/stgeometrytype.md) Returns the type of the geometry as a string. e.g.: `ST_Linestring`, `ST_Polygon`,`ST_MultiPolygon` etc.
+* [**ST\_Distance(Geometry/Geography g1, Geometry/Geography g2) → double**](../../functions/functions/stdistance.md) For geometry type, returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography, returns the great-circle distance in meters between two SphericalGeography points. Note that g1, g2 shall have the same type.
+* [**ST\_GeometryType(Geometry g) → String**](../../functions/functions/stgeometrytype.md) Returns the type of the geometry as a string. e.g.: `ST_Linestring`, `ST_Polygon`,`ST_MultiPolygon` etc.
 
 ### Outputs
 
-* [**ST\_AsBinary(Geometry/Geography g) → bytes**](../../configuration-reference/functions/stasbinary.md) Returns the WKB representation of the geometry.
-* [**ST\_AsText(Geometry/Geography g) → string**](../../configuration-reference/functions/stastext.md) Returns the WKT representation of the geometry/geography.
+* [**ST\_AsBinary(Geometry/Geography g) → bytes**](../../functions/functions/stasbinary.md) Returns the WKB representation of the geometry.
+* [**ST\_AsText(Geometry/Geography g) → string**](../../functions/functions/stastext.md) Returns the WKT representation of the geometry/geography.
 
 ### Conversion
 
-* [**toSphericalGeography(Geometry g) → Geography**](../../configuration-reference/functions/tosphericalgeography.md) Converts a Geometry object to a spherical geography object.
-* [**toGeometry(Geography g) → Geometry**](../../configuration-reference/functions/togeometry.md) Converts a spherical geographical object to a Geometry object.
+* [**toSphericalGeography(Geometry g) → Geography**](../../functions/functions/tosphericalgeography.md) Converts a Geometry object to a spherical geography object.
+* [**toGeometry(Geography g) → Geometry**](../../functions/functions/togeometry.md) Converts a spherical geographical object to a Geometry object.
 
 ### Relationship
 
-* [**ST\_Contains(Geometry/Geography, Geometry/Geography) → boolean**](../../configuration-reference/functions/stcontains.md) Returns true if and only if no points of the second geometry/geography lie in the exterior of the first geometry/geography, and at least one point of the interior of the first geometry lies in the interior of the second geometry. **Warning: ST\_Contains on Geography only give close approximation**
+* [**ST\_Contains(Geometry/Geography, Geometry/Geography) → boolean**](../../functions/functions/stcontains.md) Returns true if and only if no points of the second geometry/geography lie in the exterior of the first geometry/geography, and at least one point of the interior of the first geometry lies in the interior of the second geometry. **Warning: ST\_Contains on Geography only give close approximation**
 * **ST\_Equals(Geometry, Geometry) → boolean** Returns true if the given geometries represent the same geometry/geography.
 * **ST\_Within(Geometry, Geometry) → boolean** Returns true if first geometry is completely inside second geometry.
 
@@ -86,8 +86,7 @@ For example, in the diagram below, the red hexagons are within the 1 distance of
 
 ### How to use geoindex
 
-To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores\_schema.json).
-
+To use the geoindex, first declare the geolocation field as bytes in the schema, as in the example of the [QuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/resources/examples/batch/starbucksStores/starbucksStores_schema.json).
 
 {% code title="geoindex schema" %}
 ```javascript
@@ -102,8 +101,9 @@ To use the geoindex, first declare the geolocation field as bytes in the schema,
 Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed by the `ST_Distance` function.
 
 Next, declare the geospatial index in the [table configuration](../../configuration-reference/table.md) you need to
-- Verify the dictionary is disabled (see how to [disable the dictionary index](dictionary-index.md)).
-- Enable the H3 index.
+
+* Verify the dictionary is disabled (see how to [disable the dictionary index](dictionary-index.md)).
+* Enable the H3 index.
 
 It is recommended to do the latter by using the `indexes` section:
 
@@ -126,7 +126,7 @@ It is recommended to do the latter by using the `indexes` section:
 ```
 {% endcode %}
 
-Alternative the older way to configure H3 indexes is still supported: 
+Alternative the older way to configure H3 indexes is still supported:
 
 {% code title="geoindex tableConfig" %}
 ```javascript

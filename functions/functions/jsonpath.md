@@ -16,7 +16,7 @@ Extracts the object value from jsonField based on 'jsonPath', the result type is
 | `'jsonPath'` | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents. |
 
 {% hint style="warning" %}
-**`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers.** \
+**`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers.**\
 \
 You can use the [JsonPath tester tool](https://jsoning.com/jsonpath/) to test JSON expressions before you import any data.
 {% endhint %}
@@ -53,7 +53,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | `JSONPATH(data, '$.name')` | `"Pete"` |
 | `JSONPATH(data, '$.age')`  | `24`     |
 
-This function can be used in the [table config](../table.md) to extract the `name` property into the `name` column and `age` property into the `age` column, as described below:
+This function can be used in the [table config](../../configuration-reference/table.md) to extract the `name` property into the `name` column and `age` property into the `age` column, as described below:
 
 ```json
 {

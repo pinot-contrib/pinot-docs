@@ -52,7 +52,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | ------------------------------- | ------ |
 | `JSONPATHDOUBLE(data, '$.age')` | `24.0` |
 
-This function can be used in the [table config](../table.md) to extract the `age` property into the `age` column, as described below:
+This function can be used in the [table config](../../configuration-reference/table.md) to extract the `age` property into the `age` column, as described below:
 
 ```json
 {

@@ -22,7 +22,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | -------------------- | ---------------- |
 | `TOJSONMAPSTR(meta)` | `"{\"age\":12}"` |
 
-This function can be used in the [table config](../table.md) to extract the `meta` property into the `data` column, as described below:
+This function can be used in the [table config](../../configuration-reference/table.md) to extract the `meta` property into the `data` column, as described below:
 
 ```json
 {
