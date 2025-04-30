@@ -13,7 +13,7 @@ Here we will introduce how to monitor Pinot with Prometheus and Grafana in Kuber
 
 ```
 ## Adding Pinot helm repo
-helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/kubernetes/helm
+helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/helm
 ## Extract all the configurable values of Pinot Helm into a config.
 helm inspect values pinot/pinot > /tmp/pinot-values.yaml
 ```
@@ -22,7 +22,7 @@ helm inspect values pinot/pinot > /tmp/pinot-values.yaml
 
 1. Configure jvmOpts:
 
-Add [JMX Prometheus Java Agent](https://github.com/prometheus/jmx\_exporter) to `controller.jvmOpts` / `broker.jvmOpts`/ `server.jvmOpts` . Note that Pinot Docker image already packages `jmx_prometheus_javaagent.jar`.
+Add [JMX Prometheus Java Agent](https://github.com/prometheus/jmx_exporter) to `controller.jvmOpts` / `broker.jvmOpts`/ `server.jvmOpts` . Note that Pinot Docker image already packages `jmx_prometheus_javaagent.jar`.
 
 Below config will expose pinot metrics to port 8008 for Prometheus to scrape.
 
@@ -100,7 +100,7 @@ kubectl port-forward service/prometheus-server 30080:80 -n prometheus
 
 Then we can query metrics Prometheus scrapped:
 
-![](<../../.gitbook/assets/prometheus-query-metrics.png>)
+![](../../.gitbook/assets/prometheus-query-metrics.png)
 
 ## Deploy Grafana
 
@@ -141,13 +141,13 @@ Log in with your credentials.
 
 Click on Prometheus and set HTTP URL to `http://prometheus-server.prometheus.svc.cluster.local`
 
-![Prometheus data source config](<../../.gitbook/assets/prometheus-data-source-config.png>)
+![Prometheus data source config](../../.gitbook/assets/prometheus-data-source-config.png)
 
 ### Configure Pinot dashboard
 
 Once data source is added, we can import a Pinot dashboard:
 
-![Grafana Import Button](<../../.gitbook/assets/grafana-import-pinot-dashboard).png>)
+![Grafana Import Button](../../.gitbook/assets/grafana-import-pinot-dashboard\).png)
 
 A sample Pinot dashboard JSON is:
 
@@ -157,9 +157,8 @@ sample-pinot-dashboard
 
 Upload this file and select Prometheus as data source to finish the import:
 
-![Grafana Import Page](<../../.gitbook/assets/grafana-import).png>)
+![Grafana Import Page](../../.gitbook/assets/grafana-import\).png)
 
 Then you can explore and make your own Pinot dashboard.
 
-![](<../../.gitbook/assets/grafana-dashboard-example.png>)
-
+![](../../.gitbook/assets/grafana-dashboard-example.png)
