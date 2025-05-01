@@ -364,7 +364,13 @@ Rebalance jobs for a given table can be canceled via the following API:
 curl -X 'DELETE' 'http://localhost:9000/tables/airlineStats/rebalance?type=OFFLINE' -H 'accept: application/json'
 ```
 
-The above API will return a list of jobIds that were canceled.
+The above API will return a list of `jobIds` that were canceled.
+
+```
+[
+  "ffb38717-81cf-40a3-8f29-9f35892b01f9"
+]
+```
 
 ## Rebalance Pre-Checks
 
