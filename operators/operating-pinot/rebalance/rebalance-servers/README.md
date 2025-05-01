@@ -350,6 +350,22 @@ From [commit](https://github.com/apache/pinot/pull/15266) onwards, the stats wil
 
 In the new stats above, `rebalanceProgressStatsOverall` is meant for tracking the overall progress of the rebalance job and is the main stats to monitor. The `rebalanceProgressStatsCurrentStep` are used to calculate the overall stats, but do not need to be monitored for obtaining the overall rebalance status since the overall stats will be updated regularly. The `rebalanceProgressStatsCurrentStep` can be used for debugging if needed.
 
+## Canceling Rebalance Jobs
+
+The need may arise to cancel a rebalance job. To do this an API exists which cancels all `IN_PROGRESS` jobs for the given table. Few caveats about cancellation which one should keep in mind are:
+
+* Any updates to the `IdealState` that was already made as part of the rebalance job will continue to be processed. Cancellation prevents the `TableRebalancer` from making future updates to the `IdealState` as part of the rebalance job.
+* Cancellation does not rollback the state of the cluster to what it was prior to triggering the rebalance, thus leaving the cluster in an inconsistent state.
+* To fix the inconsistent state caused by a cancel, fix up the cluster components due to which the rebalance was canceled (if needed) and re-trigger a new rebalance job. The new job should help get the cluster into the final state.
+
+Rebalance jobs for a given table can be canceled via the following API:
+
+```
+curl -X 'DELETE' 'http://localhost:9000/tables/airlineStats/rebalance?type=OFFLINE' -H 'accept: application/json'
+```
+
+The above API will return a list of jobIds that were canceled.
+
 ## Rebalance Pre-Checks
 
 With options `dryRun=true, preChecks=true`, some pre-checks relevant to rebalance will be performed:
@@ -439,9 +455,20 @@ See [examples-and-scenarios.md](examples-and-scenarios.md "mention") for how the
 
 ### Tag Level (tagsInfo)
 
-| Field                                                                                                                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <p>For each tag in the list:<br>- tagName<br>- numSegmentsToDownload<br>- numSegmentsUnchanged<br>- numServerParticipants</p> | <p>A list of aggregated segment and server related statistics grouped by tags. See <a data-mention href="examples-and-scenarios.md">examples-and-scenarios.md</a><br><br>All the tags present in the table config will be present here. It is possible that a server has multiple tags present in the tag list here. In this case, the statistics will be accounted for both tags.<br><br>If an assigned server does not contain any tag present in the table config (could happen when a table has instance partition and rebalanced with `reassignInstance=false`), it will be categorized under a special tag `OUTDATED_SERVERS`</p> |
+A list of aggregated segment and server related statistics grouped by tags. See [examples-and-scenarios.md](examples-and-scenarios.md "mention")\
+\
+All the tags present in the table config will be present here. It is possible that a server has multiple tags present in the tag list here. In this case, the statistics will be accounted for both tags.\
+\
+If an assigned server does not contain any tag present in the table config (could happen when a table has instance partition and rebalanced with \`reassignInstance=false\`), it will be categorized under a special tag \`OUTDATED\_SERVERS\`.
+
+The fields of each entry will consist of:
+
+| Field                 | Description                                                                    |
+| --------------------- | ------------------------------------------------------------------------------ |
+| tagName               | Name of the tag                                                                |
+| numSegmentsToDownload | Number of segments that will be downloaded on servers tagged with this tagName |
+| numSegmentsUnchanged  | Number of segments that will remain on the servers tagged with this tagName    |
+| numServerParticipants | Total number of servers tagged wtih tagName                                    |
 
 ### Example Output
 
