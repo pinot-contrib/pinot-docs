@@ -457,9 +457,9 @@ See [examples-and-scenarios.md](examples-and-scenarios.md "mention") for how the
 
 A list of aggregated segment and server related statistics grouped by tags. See [examples-and-scenarios.md](examples-and-scenarios.md "mention")\
 \
-All the tags present in the table config will be present here. It is possible that a server has multiple tags present in the tag list here. In this case, the statistics will be accounted for both tags.\
+All the tags present in the table config will be present here. It is possible that a server has multiple tags present in the tag list here. In this case, the statistics will be accounted for all relevant tags.\
 \
-If an assigned server does not contain any tag present in the table config (could happen when a table has instance partition and rebalanced with \`reassignInstance=false\`), it will be categorized under a special tag \`OUTDATED\_SERVERS\`.
+If an assigned server does not contain any tag present in the table config (could happen when a table has instance partition and rebalanced with `reassignInstance=false`), it will be categorized under a special tag `OUTDATED_SERVERS`.
 
 The fields of each entry will consist of:
 
