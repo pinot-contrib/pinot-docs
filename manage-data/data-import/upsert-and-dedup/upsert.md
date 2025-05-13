@@ -327,7 +327,7 @@ To configure how long primary keys are stored in metadata, specify the length of
 In this example, Pinot will retain the deleted-primary-keys in metadata for 1 day.
 
 {% hint style="info" %}
-Note that the value of this field `deletedKeysTTL` should be the same as the unit of comparison column. If your comparison column is having values which corresponds to seconds, this config should also have values in seconds (see above example).
+Note that the value of this field `deletedKeysTTL` should be the same as the unit of comparison column. If your comparison column is having values which corresponds to seconds, this config should also have values in seconds (see above example). `metadataTTL` and `deletedKeysTTL` do not work with multiple comparison columns and comparison/time column must be of `NUMERIC` type.
 {% endhint %}
 
 ### Data consistency with deletes and compaction together
