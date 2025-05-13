@@ -12,14 +12,14 @@ You can use the client by including the following dependency -
 <dependency>
     <groupId>org.apache.pinot</groupId>
     <artifactId>pinot-java-client</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 {% endtab %}
 
 {% tab title="Gradle" %}
 ```java
-include 'org.apache.pinot:pinot-java-client:1.2.0'
+include 'org.apache.pinot:pinot-java-client:1.3.0'
 ```
 {% endtab %}
 {% endtabs %}

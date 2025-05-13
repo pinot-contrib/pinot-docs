@@ -120,10 +120,9 @@ Note: Raw value forward index currently does not support inverted index (all oth
 
 ![](../../.gitbook/assets/no-dictionary.png)
 
-The raw format is used in two scenarios:
+The raw format is applied when the dictionary is disabled for a column and the encoding is explicitly set to `RAW`. For more details, refer to the [dictionary documentation](dictionary-index.md) and the [field config list](../../configuration-reference/table.md#field-config-list).
 
-1. When the dictionary is disabled for a column, as specified in the [dictionary documentation](dictionary-index.md).
-2. When the encoding is set to `RAW` in the [field config list](../../configuration-reference/table.md#field-config-list).
+**Note:** Both configurations must be enabled together for the raw format to take effect. Setting only the `encodingType` to `RAW` in the field config is not sufficient.
 
 When using the raw format, you can configure the following parameters:
 

@@ -73,11 +73,11 @@ Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators
 
 Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 
-![Pinot's Zookeeper Browser UI](../.gitbook/assets/.unused/Zookeeper\_UI.png)
+![Pinot's Zookeeper Browser UI](../.gitbook/assets/.unused/Zookeeper_UI.png)
 
 ### Controller
 
-The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion/) and [offline tables](data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
+The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../manage-data/data-import/pinot-stream-ingestion/) and [offline tables](../manage-data/data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
 #### Fault tolerance
 
@@ -199,7 +199,7 @@ Pinot [tables](components/table/) exist in two varieties: offline (or batch) and
 
 ![](../.gitbook/assets/OfflineServer.jpg)
 
-Pinot ingests batch data using an [ingestion job](data-import/batch-ingestion/), which follows a process like this:
+Pinot ingests batch data using an [ingestion job](../manage-data/data-import/batch-ingestion/), which follows a process like this:
 
 1. The job transforms a raw data source (such as a CSV file) into [segments](components/table/segment/). This is a potentially complex process resulting in a file that is typically several hundred megabytes in size.
 2. The job then transfers the file to the cluster's [deep store](components/table/segment/deep-store.md) and notifies the [controller](components/cluster/controller.md) that a new segment exists.

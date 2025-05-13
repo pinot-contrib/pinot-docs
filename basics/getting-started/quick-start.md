@@ -60,6 +60,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type batch
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type batch
@@ -91,6 +92,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type batch_json_index
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type batch_json_index
@@ -122,6 +124,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type batch_complex_type
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type batch_complex_type
@@ -154,6 +157,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type stream
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type stream
@@ -186,6 +190,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type stream_json_index
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type stream_json_index
@@ -218,6 +223,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type realtime_minion
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type realtime_minion
@@ -250,6 +256,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type stream_complex_type
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type stream_complex_type
@@ -259,7 +266,7 @@ pinot-admin QuickStart -type stream_complex_type
 
 ## Upsert
 
-This example demonstrates how to do [stream processing with upsert](../data-import/upsert.md) with Pinot. The command:
+This example demonstrates how to do [stream processing with upsert](../../manage-data/data-import/upsert-and-dedup/upsert.md) with Pinot. The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
 * Creates `meetupRsvp` table
@@ -282,6 +289,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type upsert
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type upsert
@@ -291,7 +299,7 @@ pinot-admin QuickStart -type upsert
 
 ## Upsert JSON
 
-This example demonstrates how to do [stream processing with upsert](../data-import/upsert.md) with JSON documents in Pinot. The command:
+This example demonstrates how to do [stream processing with upsert](../../manage-data/data-import/upsert-and-dedup/upsert.md) with JSON documents in Pinot. The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
 * Creates `meetupRsvp` table
@@ -314,6 +322,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type upsert_json_index
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type upsert_json_index
@@ -347,6 +356,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type hybrid
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type hybrid
@@ -380,6 +390,7 @@ docker run \
 ./bin/pinot-admin.sh QuickStart -type join
 ```
 {% endtab %}
+
 {% tab title="Brew" %}
 ```
 pinot-admin QuickStart -type join

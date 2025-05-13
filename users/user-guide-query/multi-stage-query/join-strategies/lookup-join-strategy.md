@@ -1,6 +1,6 @@
 # Lookup join strategy
 
-Lookup join is a special join strategy that can be applied when one of the tables is a [dimension table](../../../../basics/data-import/batch-ingestion/dim-table.md). In that case, Pinot can take advantage of the fact that dimension tables are guaranteed to be replicated in all the servers of a given tenant, so it can execute the join without shuffling data between servers.
+Lookup join is a special join strategy that can be applied when one of the tables is a [dimension table](../../../../manage-data/data-import/batch-ingestion/dim-table.md). In that case, Pinot can take advantage of the fact that dimension tables are guaranteed to be replicated in all the servers of a given tenant, so it can execute the join without shuffling data between servers.
 
 {% hint style="info" %}
 Lookup joins provide a similar performance to [Lookup UDF](../../query-syntax/lookup-udf-join.md) Join, the only kind of join that was supported in SSE. The lookup UDF should not be used in multi-stage queries

@@ -1,29 +1,23 @@
 # Rebalance Tenant
 
-Usually when we tag/untag servers to a tenant it gets tedious to rebalance each table under that tenant. 
-This operation becomes impossible to handle if the tenant has large number of tables. 
-The tenant rebalance operation allows us to do server rebalance on all the tables on a tenant and track the individual 
-table rebalance progress with minimal operational overhead.
+Usually when we tag/untag servers to a tenant it gets tedious to rebalance each table under that tenant. This operation becomes impossible to handle if the tenant has large number of tables. The tenant rebalance operation allows us to do server rebalance on all the tables on a tenant and track the individual table rebalance progress with minimal operational overhead.
 
 ## Changes that require a rebalance
 
-Basically all the factors which require server rebalance apply here. 
-The only difference with this operation is it can address those changes over multiple tables with a single operation.
+Basically all the factors which require server rebalance apply here. The only difference with this operation is it can address those changes over multiple tables with a single operation.
 
 ## How the tenant rebalance works
-The tenant rebalance operation just provides a tunable orchestration of server rebalancing on multiple tables. 
-Under the hood it leverages the existing server rebalance operation to perform the actual rebalance on each table.
-It provides the user a way to perform server rebalance on tables selectively in series and parallel.
-This is achieved using additional tuning parameters on top of usual [rebalance parameters](rebalance-servers.md#rebalance-parameters).
+
+The tenant rebalance operation just provides a tunable orchestration of server rebalancing on multiple tables. Under the hood it leverages the existing server rebalance operation to perform the actual rebalance on each table. It provides the user a way to perform server rebalance on tables selectively in series and parallel. This is achieved using additional tuning parameters on top of usual [rebalance parameters](rebalance-servers/#rebalance-parameters).
 
 ![img.png](../../../.gitbook/assets/tenant-rebalance-flow.png)
 
 ## Tuning parameters
-The rebalance API for tenant will take the same set of [parameters](rebalance-servers.md#rebalance-parameters) as the server rebalance API.
-In addition to that the tenant rebalance API will also take the below parameters
+
+The rebalance API for tenant will take the same set of [parameters](rebalance-servers/#rebalance-parameters) as the server rebalance API. In addition to that the tenant rebalance API will also take the below parameters
 
 | Request param       | Default vale | Description                                                                                                                                                                                                                                               |
-|---------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | tenantName          | null         | The tenant to rebalance                                                                                                                                                                                                                                   |
 | degreeOfParallelism | 1            | Number of tables to rebalance in parallel at a time                                                                                                                                                                                                       |
 | parallelWhitelist   | {}           | Set of tables that can be rebalanced in parallel with other tables in this set. If the set is empty and degree of parallelism is > 1 then all the tables under the tenant are considered as whitelist                                                     |
@@ -32,10 +26,10 @@ In addition to that the tenant rebalance API will also take the below parameters
 
 ## Running a Rebalance
 
-To run a tenant rebalance, use the following API.
-`POST /tenants/{tenantName}/rebalance`
+To run a tenant rebalance, use the following API. `POST /tenants/{tenantName}/rebalance`
 
 Sample payload:
+
 ```json
 {
   "tenantName": "DefaultTenant",
@@ -60,7 +54,9 @@ Sample payload:
   "externalViewStabilizationTimeoutInMs": 3600000
 }
 ```
+
 Sample response:
+
 ```json
 {
   "jobId": "dfbbebb7-1f62-497d-82a7-ded6e0d855e1",
@@ -86,13 +82,12 @@ Sample response:
 
 ## Observability
 
-On tenant rebalance job submission it will return the job id for the tenant rebalance job to track the tenant rebalance 
-progress along with all the individual table server rebalance job ids to track individual table rebalance progress.
+On tenant rebalance job submission it will return the job id for the tenant rebalance job to track the tenant rebalance progress along with all the individual table server rebalance job ids to track individual table rebalance progress.
 
 ### Tenant rebalance progress
-To track the tenant rebalance progress use the below API
-`GET /tenants/rebalanceStatus/{jobId}`
-Sample response:
+
+To track the tenant rebalance progress use the below API `GET /tenants/rebalanceStatus/{jobId}` Sample response:
+
 ```json
 {
   "tenantRebalanceProgressStats": {
@@ -118,4 +113,4 @@ Sample response:
 
 ### Table rebalance progress
 
-Use the same API mentioned in [server rebalance status tracking](rebalance-servers.md#checking-status)
+Use the same API mentioned in [server rebalance status tracking](rebalance-servers/#checking-status)

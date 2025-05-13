@@ -10,7 +10,7 @@ The deep store (or deep storage) is the permanent store for [segment](./) files.
 
 It is used for backup and restore operations. New [server](../../cluster/server.md) nodes in a cluster will pull down a copy of segment files from the deep store. If the local segment files on a server gets damaged in some way (or accidentally deleted), a new copy will be pulled down from the deep store on server restart.
 
-The deep store stores a compressed version of the segment files and it typically won't include any indexes. These compressed files can be stored on a local file system or on a variety of other file systems. For more details on supported file systems, see [File Systems](../../../data-import/pinot-file-system/).
+The deep store stores a compressed version of the segment files and it typically won't include any indexes. These compressed files can be stored on a local file system or on a variety of other file systems. For more details on supported file systems, see [File Systems](../../../../manage-data/data-import/pinot-file-system/).
 
 <mark style="color:red;">Note:</mark> Deep store by itself is not sufficient for restore operations. Pinot stores metadata such as table config, schema, segment metadata in Zookeeper. For restore operations, both Deep Store as well as Zookeeper metadata are required.
 

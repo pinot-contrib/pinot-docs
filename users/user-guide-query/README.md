@@ -22,8 +22,6 @@ description: >-
 
 ### Explore query syntax:
 
-
-
 {% content-ref url="json-queries.md" %}
 [json-queries.md](json-queries.md)
 {% endcontent-ref %}

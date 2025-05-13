@@ -12,14 +12,14 @@ You can include the JDBC dependency in your code as follows -
 <dependency>
     <groupId>org.apache.pinot</groupId>
     <artifactId>pinot-jdbc-client</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 {% endtab %}
 
 {% tab title="Gradle" %}
 ```java
-include 'org.apache.pinot:pinot-jdbc-client:1.2.0'
+include 'org.apache.pinot:pinot-jdbc-client:1.3.0'
 ```
 {% endtab %}
 {% endtabs %}

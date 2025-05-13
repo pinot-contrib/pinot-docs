@@ -71,8 +71,8 @@ If you're new to Pinot, take a look at our Getting Started guide:
 
 To start importing data into Pinot, see how to import batch and stream data:
 
-{% content-ref url="basics/data-import/" %}
-[data-import](basics/data-import/)
+{% content-ref url="manage-data/data-import/" %}
+[data-import](manage-data/data-import/)
 {% endcontent-ref %}
 
 To start querying data in Pinot, check out our Query guide:

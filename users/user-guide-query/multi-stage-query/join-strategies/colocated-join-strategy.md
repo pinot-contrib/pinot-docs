@@ -26,7 +26,7 @@ in a scenario where we have tables A and B partitioned by the same function in e
 
 In this case, Pinot will try to execute the query in the following way:
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt="" width="563"><figcaption><p>Dotted arrows mean shuffle while solid arrows mean in-server transfer</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (16).png" alt="" width="563"><figcaption><p>Dotted arrows mean shuffle while solid arrows mean in-server transfer</p></figcaption></figure>
 
 As a side effect, this strategy may not use as many servers as other techniques. For example, the same query using [query time partition](query-time-partition-join-strategy.md) may use 3 servers, while in this case Pinot can only use server 3 and server 2. Server 1 cannot be used because it does not have all the segments for partition 2 of table B.
 
