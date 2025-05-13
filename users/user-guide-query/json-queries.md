@@ -1,4 +1,4 @@
-# Querying JSON data
+# JSON Functions
 
 To see how JSON data can be queried, assume that we have the following table:
 

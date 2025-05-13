@@ -249,4 +249,4 @@ The configuration of this comes in two folds:
 
 ## Change the Instance Assignment
 
-Sometimes we don’t have the instance assignment configured in the optimal way in the first shot, or the capacity or requirement of the use case changes and we have to change the strategy. In order to do that, simply apply the table config with the updated InstanceAssignmentConfig, and kick off a rebalance of the table (read more about [Rebalance Servers](rebalance/rebalance-servers.md)). Pinot will reassign the instances for the table, and also rebalance the segments on the servers without downtime.
+Sometimes we don’t have the instance assignment configured in the optimal way in the first shot, or the capacity or requirement of the use case changes and we have to change the strategy. In order to do that, simply apply the table config with the updated InstanceAssignmentConfig, and kick off a rebalance of the table (read more about [Rebalance Servers](rebalance/rebalance-servers/)). Pinot will reassign the instances for the table, and also rebalance the segments on the servers without downtime.

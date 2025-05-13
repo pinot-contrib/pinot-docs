@@ -2,12 +2,12 @@
 
 1. Install Redash and start a running instance, following the [Docker Based Developer Installation Guide](https://redash.io/help/open-source/dev-guide/docker).
 2. Configure Redash to query Pinot, by doing the following:
-   1. [Add pinotdb dependency](#add-pinot-db-dependency)
-   2. [Add a Python data source for Pinot](#add-python-data-source-for-pinot)
+   1. [Add pinotdb dependency](redash.md#add-pinot-db-dependency)
+   2. [Add a Python data source for Pinot](redash.md#add-python-data-source-for-pinot)
 3. Create visualizations, by doing the following:
-   1. [Start Pinot](#start-pinot)
-   2. [Query in Redash](#run-a-query-in-redash)
-   3. [Add a visualization and dashboard in Redash](#add-a-visualization-and-dashboard-in-redash)
+   1. [Start Pinot](redash.md#start-pinot)
+   2. [Query in Redash](redash.md#run-a-query-in-redash)
+   3. [Add a visualization and dashboard in Redash](redash.md#add-a-visualization-and-dashboard-in-redash)
 
 ## Add pinot db dependency
 
@@ -15,10 +15,10 @@ Apache Pinot provides a Python client library `pinotdb` to query Pinot from Pyth
 
 1. Navigate to the root directory where you’ve cloned Redash. Run the following command to get the name of the Redash worker container (by default, `redash_worker_1`):
 
-  ```docker-compose ps```
+`docker-compose ps`
 
 2. Run the following command (change `redash_worker_1` to your own Redash worker container name, if applicable):
-  
+
 ```python
 docker exec -it redash_worker_1 /bin/sh                                
 pip install pinotdb
@@ -29,15 +29,11 @@ pip install pinotdb
 ## Add Python data source for Pinot
 
 1. In Redash, select **Settings > Data Sources**.
-2. Select **New Data Source**, and then select **Python** from the list.
-![Redash Settings - Data Sources](./redash-settings-data-source.png)
+2. Select **New Data Source**, and then select **Python** from the list. ![Redash Settings - Data Sources](redash-settings-data-source.png)
 3. On the Redash **Settings - Data Source** page, add `Pinot` as the name of the data source, enter `pinotdb` in the **Modules to import prior to running the script** field.
 4. Enter the following optional fields as needed:
-
-   - **AdditionalModulesPaths**: Enter a comma-separated list of absolute paths on the Redash server to Python modules to make available when querying from Redash. Useful for private modules unavailable in `pip`.
-
-   - **AdditionalBuiltins**: Specify additional built-in functions as needed. By default, Redash automatically includes 25 Python built-in functions.  
-
+   * **AdditionalModulesPaths**: Enter a comma-separated list of absolute paths on the Redash server to Python modules to make available when querying from Redash. Useful for private modules unavailable in `pip`.
+   * **AdditionalBuiltins**: Specify additional built-in functions as needed. By default, Redash automatically includes 25 Python built-in functions.
 5. Click **Save**.
 
 ## Start Pinot
@@ -55,22 +51,17 @@ docker run \
 
 ## Run a query in Redash
 
-1. In Redash, select **Queries > New Query**, and then select the Python data source you created in [Add a Python data source for Pinot](#add-python-data-source-for-pinot).
-2. Add Python code to query data.
-   For more information, see the [Python query runner](https://redash.io/help/data-sources/querying/python#Writing-Queries).
+1. In Redash, select **Queries > New Query**, and then select the Python data source you created in [Add a Python data source for Pinot](redash.md#add-python-data-source-for-pinot).
+2. Add Python code to query data. For more information, see the [Python query runner](https://redash.io/help/data-sources/querying/python#Writing-Queries).
+3. Click **Execute** to run the query and view results.
 
-3. Click **Execute** to run the query and view results. 
-
-
-<Callout>
 You can also include libraries like Pandas to perform more advanced data manipulation on Pinot’s data and visualize the output with Redash.
-</Callout>
 
 For more information, see [Querying](https://redash.io/help/user-guide/querying) in Redash documentation.
-   
+
 ## Example Python queries
 
-### Query top 10 teams by total runs 
+### Query top 10 teams by total runs
 
 The following query connects to Pinot and queries the `baseballStats` table to retrieve the top ten players with the highest scores. The results are transformed into a dictionary format supported by Redash.
 
@@ -115,7 +106,7 @@ for row in curs:
 result["rows"] = rows
 ```
 
-### Query top 10 teams by total runs 
+### Query top 10 teams by total runs
 
 ```python
 from pinotdb import connect
@@ -157,7 +148,6 @@ for row in curs:
 
 result["rows"] = rows
 ```
-
 
 ### Query total strikeouts by year
 
@@ -210,20 +200,19 @@ In Redash, after you've ran your query, click the **New Visualization** tab, and
 
 For example, you may want to create a bar chart to view the top 10 players with highest scores.
 
-![Bar chart configuration](./bar-chart-config.png)
+![Bar chart configuration](bar-chart-config.png)
 
 You may want to create a line chart to view the total variation in strikeouts over time.
 
 For more information, see [Visualizations](https://redash.io/help/user-guide/visualizations).
-
 
 ### Add a dashboard
 
 Create a dashboard with one or more visualizations (widgets).
 
 1. In Redash, go to Dashboards > New Dashboards.
-2. Add the widgets to your dashboard. For example, by adding the three visualizations from the [three example queries](#example-python-queries) above, you create a Baseball stats dashboard.
+2. Add the widgets to your dashboard. For example, by adding the three visualizations from the [three example queries](redash.md#example-python-queries) above, you create a Baseball stats dashboard.
 
-![Baseball stats dashboard](./baseball-stats-dashboard.png)
+![Baseball stats dashboard](baseball-stats-dashboard.png)
 
 For more information, see [Dashboards](https://redash.io/help/user-guide/dashboards) in the Redash documentation.

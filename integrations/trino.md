@@ -12,8 +12,8 @@ Start running [Trino Image](https://hub.docker.com/r/trinodb/trino) with pre-bui
 
 Run below command to install Pinot using HelmCharts.
 
-```
-helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/kubernetes/helm
+```bash
+helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/helm
 kubectl create ns pinot-quickstart
 helm install pinot pinot/pinot -n pinot-quickstart --set cluster.name=pinot
 ```

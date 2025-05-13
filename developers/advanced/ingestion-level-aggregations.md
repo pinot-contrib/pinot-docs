@@ -29,7 +29,7 @@ Below is a description of the config, which is defined in the ingestion config o
 The following are required for ingestion aggregation to work:
 
 * Ingestion aggregation config is effective only for real-time tables. (There is no ingestion time aggregation support for offline tables. We need use [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md) or pre-process aggregations in the offline data flow using batch processing engines like Spark/MapReduce).
-* [Stream ingestion](../../basics/data-import/pinot-stream-ingestion/) type must be lowLevel.
+* [Stream ingestion](../../manage-data/data-import/pinot-stream-ingestion/) type must be lowLevel.
 * All metrics must have aggregation configs.
 * All metrics must be noDictionaryColumns.
 * `aggregatedFieldName` must be in the Pinot schema and `originalFieldName` must not exist in Pinot schema
@@ -140,15 +140,15 @@ From the below aggregation config example, note that `price` exists in the input
 
 ## Allowed Aggregation Functions
 
-| function name        | notes                                                                                                                                                                                                                                                                                   |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MAX                  |                                                                                                                                                                                                                                                                                         |
-| MIN                  |                                                                                                                                                                                                                                                                                         |
-| SUM                  |                                                                                                                                                                                                                                                                                         |
-| COUNT                | Specify as `COUNT(*)`                                                                                                                                                                                                                                                                   |
-| DISTINCTCOUNTHLL     | Specify as `DISTINCTCOUNTHLL(field, log2m)`, default is 12. See [function reference](../../configuration-reference/functions/distinctcounthll.md) for how to define `log2m`. Cannot be changed later, a new field must be used. The schema for the output field should be `BYTES` type. |
-| DISTINCTCOUNTHLLPLUS | Specify as `DISTINCTCOUNTHLLPLUS(field, s, p)`. See [function reference](../../configuration-reference/functions/distinctcounthllplus.md) for how to define `s` and `p`, they cannot be changed later. The schema for the output field should be `BYTES` type.                          |
-| SUMPRECISION         | Specify as `SUMPRECISION(field, precision)`, precision must be defined. Used to compute the maximum possible size of the field. Cannot be changed later, a new field must be used. The schema for the output field should be `BIG_DECIMAL` type.                                        |
+| function name        | notes                                                                                                                                                                                                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MAX                  |                                                                                                                                                                                                                                                                   |
+| MIN                  |                                                                                                                                                                                                                                                                   |
+| SUM                  |                                                                                                                                                                                                                                                                   |
+| COUNT                | Specify as `COUNT(*)`                                                                                                                                                                                                                                             |
+| DISTINCTCOUNTHLL     | Specify as `DISTINCTCOUNTHLL(field, log2m)`, default is 12. See [function reference](../../functions-1/distinctcounthll.md) for how to define `log2m`. Cannot be changed later, a new field must be used. The schema for the output field should be `BYTES` type. |
+| DISTINCTCOUNTHLLPLUS | Specify as `DISTINCTCOUNTHLLPLUS(field, s, p)`. See [function reference](../../configuration-reference/functions/distinctcounthllplus.md) for how to define `s` and `p`, they cannot be changed later. The schema for the output field should be `BYTES` type.    |
+| SUMPRECISION         | Specify as `SUMPRECISION(field, precision)`, precision must be defined. Used to compute the maximum possible size of the field. Cannot be changed later, a new field must be used. The schema for the output field should be `BIG_DECIMAL` type.                  |
 
 ## Frequently Asked Questions
 
