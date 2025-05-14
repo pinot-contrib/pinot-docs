@@ -561,7 +561,12 @@ The number of partitions in input streams determines the partition numbers of th
 
 #### Memory usage
 
-Upsert table maintains an in-memory map from the primary key to the record location. **So it's recommended to use a simple primary key type and avoid composite primary keys to save the memory cost. Beware when using `JSON` column as primary key, same key-values in different order would be considered as different primary keys**. In addition, consider the `hashFunction` config in the Upsert config, which can be `MD5` or `MURMUR3`, to store the 128-bit hashcode of the primary key instead. This is useful when your primary key takes more space. But keep in mind, this hash may introduce collisions, though the chance is very low.
+Upsert table maintains an in-memory map from the primary key to the record location. **So it's recommended to use a simple primary key type and avoid composite primary keys to save the memory cost. Beware when using `JSON` column as primary key, same key-values in different order would be considered as different primary keys**. In addition, consider the `hashFunction` config in the Upsert config, which can be `UUID`, `MD5` or `MURMUR3`.
+
+If your primary key column is a valid UUID and you are running out of memory due to a high number of primary keys, the `UUID` hash function can lower memory requirements by up to 35% without bringing in any hash collision risks.
+If the primary key is not a valid UUID, this hash function stores the primary key as is and skips the UUID based compression.
+
+`MD5` and `MURMUR3` can also help lower memory requirements. They work for all types of primary key values, but bring in a small risk of hash collision. The generated hash from `MD5` and `MURMUR3` is a 128-bit hash, so this is beneficial when your primary key values are larger than 128-bits.
 
 #### Monitoring
 
