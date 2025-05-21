@@ -280,6 +280,7 @@
 * [Array Functions](users/user-guide-query/query-syntax/array-functions.md)
 * [DateTime Functions](functions/datetime-functions.md)
 * [Funnel Analysis Functions](users/user-guide-query/query-syntax/funnel-analysis.md)
+* [GeoSpatial Functions](functions/geospatial-functions.md)
 * [Hash Functions](users/user-guide-query/query-syntax/hash-functions.md)
 * [JSON Functions](users/user-guide-query/json-queries.md)
 * [User-Defined Functions (UDFs)](users/user-guide-query/scalar-functions.md)
@@ -289,7 +290,7 @@
 ***
 
 * [Window Functions](users/user-guide-query/query-syntax/windows-functions.md)
-* [(Deprecating) Function List](functions-1/README.md)
+* [Function List](functions-1/README.md)
   * [ABS](functions-1/abs.md)
   * [ADD](functions-1/add.md)
   * [ago](functions-1/ago.md)
