@@ -283,6 +283,8 @@
 * [GeoSpatial Functions](functions/geospatial-functions.md)
 * [Hash Functions](users/user-guide-query/query-syntax/hash-functions.md)
 * [JSON Functions](users/user-guide-query/json-queries.md)
+* [Math Functions](functions/math-functions.md)
+* [String Functions](functions/string-functions.md)
 * [User-Defined Functions (UDFs)](users/user-guide-query/scalar-functions.md)
 * [URL Functions](users/user-guide-query/query-syntax/url-functions.md)
 * [Unique Count and cardinality Estimation Functions](users/user-guide-query/how-to-handle-unique-counting.md)
