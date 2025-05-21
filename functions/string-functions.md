@@ -1,7 +1,5 @@
 # String Functions
 
-Multiple string functions are supported out of the box from release-0.5.0 .
-
 [**UPPER**](../functions-1/upper.md)(col)\
 convert string to upper case
 
