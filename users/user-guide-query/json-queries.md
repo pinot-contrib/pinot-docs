@@ -1,5 +1,32 @@
 # JSON Functions
 
+## **Transform Functions** <a href="#transform-functions" id="transform-functions"></a>
+
+CommentShare feedback on the editorThese functions can only be used in Pinot SQL queries.CommentShare feedback on the editor
+
+| Function                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <p>​<a href="https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonextractscalar"><strong>JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', [defaultValue])</strong></a> </p><p>Evaluates the <code>'jsonPath'</code> on <code>jsonField</code>, returns the result as the type <code>'resultsType'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                   |
+| <p>​<a href="https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonextractkey"><strong>JSONEXTRACTKEY</strong></a>​<a href="https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonextractkey"><strong>(</strong>jsonField, 'jsonPath'<strong>)</strong></a> </p><p>Extracts all matched JSON field keys based on <code>'jsonPath'</code> into a <code>STRING_ARRAY.</code></p> |
+| <p>​<a href="../../configuration-reference/functions/extract.md"><strong>EXTRACT(dateTimeField FROM dateTimeExpression)</strong></a> </p><p>Extracts the field from the DATETIME expression of the format <code>'YYYY-MM-DD HH:MM:SS'</code>. Currently, this transformation function supports <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>HOUR</code>, <code>MINUTE</code>, and <code>SECOND</code> fields.</p>                                |
+
+## **Scalar Functions** <a href="#scalar-functions" id="scalar-functions"></a>
+
+CommentShare feedback on the editorThese functions can be used for column transformation in table ingestion configs.CommentShare feedback on the editor
+
+| Function                                                                                                                                                                                                                                                                                                                                                                                                 |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ​[**TOJSONMAPSTR**(map) Convert map to JSON String](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/tojsonmapstr)​                                                                                                                                                                                                                                           |
+| ​[**JSONFORMAT**(object)](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonformat) Convert object to JSON String                                                                                                                                                                                                                                          |
+| ​[**JSONPATH(jsonField, 'jsonPath')**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonpath) Extracts the object value from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. **Cannot be used in query because data type is not specified.**                                                                          |
+| ​[**JSONPATHLONG**(jsonField, 'jsonPath', \[defaultValue\])](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonpathlong) Extracts the **Long** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.                                                                                                         |
+| ​[**JSONPATHDOUBLE**(jsonField, 'jsonPath', \[defaultValue\])](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonpathdouble) Extracts the **Double** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.                                                                                                   |
+| ​[**JSONPATHSTRING(jsonField, 'jsonPath', \[defaultValue\])**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonpathstring) Extracts the **String** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.                                                                                                   |
+| ​[**JSONPATHARRAY**(jsonField, 'jsonPath')](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonpatharray) Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. **Cannot be used in query because data type is not specified.**                                                                        |
+| ​[**JSONPATHARRAYDEFAULTEMPTY**(jsonField, 'jsonPath')](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/functions-1/jsonpatharraydefaultempty) Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. Returns empty array for null or parsing error. **Cannot be used in query because data type is not specified.** |
+
+## More Examples
+
 To see how JSON data can be queried, assume that we have the following table:
 
 ```
@@ -106,7 +133,7 @@ GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
 | "dwag"               | "104"                 |
 | "duck"               | "203"                 |
 
-## JSON\_MATCH and JSON\_EXTRACT\_SCALAR
+### JSON\_MATCH and JSON\_EXTRACT\_SCALAR
 
 Note that the `JSON_MATCH` function utilizes `JsonIndex` and can only be used if a `JsonIndex` is already present on the JSON column. As shown in the examples above, the second argument of `JSON_MATCH` operator takes a predicate. This predicate is evaluated against the `JsonIndex` and supports `=`, `!=`, `IS NULL`, or `IS NOT NULL` operators. Relational operators, such as `>`, `<`, `>=`, and `<=` are currently not supported. However, you can combine the use of `JSON_MATCH` and `JSON_EXTRACT_SCALAR` function (which supports `>`, `<`, `>=`, and `<=` operators) to get the necessary functinoality as shown below.
 
@@ -141,7 +168,7 @@ While, JSON\_MATCH supports `IS NULL` and `IS NOT NULL` operators, these operato
 
 `JSON_EXTRACT_SCALAR` does not utilize JsonIndex and therefore performs slower than `JSON_MATCH` which utilizes JsonIndex. However, `JSON_EXTRACT_SCALAR` supports a wider range for of JsonPath expressions and operators. To make the best use of fast index access (`JSON_MATCH`) along with JsonPath expressions (`JSON_EXTRACT_SCALAR`) you can combine the use of these two functions in WHERE clause.
 
-## JSON\_MATCH syntax
+### JSON\_MATCH syntax
 
 The second argument of the `JSON_MATCH` function is a boolean expression in string form. This section shows how to correctly write the second argument of JSON\_MATCH. Let's assume we want to search a JSON array array `data` for values `k` and `j`. This can be done by the following predicate:
 
