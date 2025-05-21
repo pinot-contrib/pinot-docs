@@ -278,6 +278,7 @@
 * [Aggregation Functions](users/user-guide-query/supported-aggregations.md)
 * [Transformation Functions](users/user-guide-query/supported-transformations.md)
 * [Array Functions](users/user-guide-query/query-syntax/array-functions.md)
+* [DateTime Functions](functions/datetime-functions.md)
 * [Funnel Analysis Functions](users/user-guide-query/query-syntax/funnel-analysis.md)
 * [Hash Functions](users/user-guide-query/query-syntax/hash-functions.md)
 * [JSON Functions](users/user-guide-query/json-queries.md)
