@@ -42,8 +42,7 @@ To compact segments on upserts, complete the following steps:
   * `IN_MEMORY_WITH_DELETE`: This indicates that the validDocIds bitmap is read from the real-time server's in-memory. The valid document ids here does take account into the deleted records. UpsertConfig's `deleteRecordColumn` must be provided for this type.
 
 {% hint style="warning" %}
-**WARNING**\
-Using in-memory based validDocids type (`IN_MEMORY`, `IN_MEMORY_WITH_DELETE`) is  dangerous as it will not guarantee us the consistency in some edge cases (e.g. fetching validDocIds bitmap while the server is restarting & updating validDocIds).&#x20;
+When using the two in-memory types, if the server gets restarted, the upsert view gets back consistent once server re-ingests the data it has ingested before starting. The in-memory bitmaps are updated when server ingests data into consuming segment, even before the consuming segment gets committed. So if server gets restarted whlie still consuming data, the upsert view gets back consistent once it catches up the previously ingested data. Instead, the bitmap snapshots are only taken after committing the segment, thus can be more consistent on server restarts, but is eventually consistent as well if server gets restarted while ingesting data.
 {% endhint %}
 
 {% hint style="info" %}
