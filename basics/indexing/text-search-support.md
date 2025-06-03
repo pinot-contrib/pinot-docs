@@ -46,9 +46,7 @@ where `<column_name>` is the column text index is created on and `<search_expres
 
 Pinot supports text search with the following requirements:
 
-* The column type should be STRING.
-* The column should be single-valued.
-* Using a text index in coexistence with other Pinot indexes is not supported.
+* The column type should be STRING, or stored as STRING (e.g. JSON).
 
 ## Sample Datasets
 
