@@ -11,7 +11,7 @@ description: >-
 {% hint style="danger" %}
 **Deprecated**
 
-This index is deprecated, and subject to be removed after releasing **1.4.0**. Please use Lucene based [Test Index](text-search-support.md).
+This index is deprecated, and subject to be removed after releasing **1.4.0**. Please use Lucene based [Text Index](text-search-support.md).
 {% endhint %}
 
 ## Native text index
