@@ -97,6 +97,8 @@
     * [Lookup UDF Join](users/user-guide-query/query-syntax/lookup-udf-join.md)
   * [Query Options](users/user-guide-query/query-options.md)
   * [Query Quotas](users/user-guide-query/query-quotas.md)
+  * [Query Cancellation](users/user-guide-query/query-cancellation.md)
+  * [Query Correlation ID](users/user-guide-query/query-correlation-id.md)
   * [Query using Cursors](users/user-guide-query/query-using-cursors.md)
   * [Multi-stage query](users/user-guide-query/multi-stage-query/README.md)
     * [Understanding Stages](users/user-guide-query/multi-stage-query/understanding-stages.md)

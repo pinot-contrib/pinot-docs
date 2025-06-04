@@ -1,7 +1,7 @@
 ---
 description: >-
-  This page has a collection of frequently asked questions about queries with answers from the
-  community.
+  This page has a collection of frequently asked questions about queries with
+  answers from the community.
 ---
 
 # Query FAQ
@@ -70,35 +70,11 @@ SELECT COUNT(*) from myTable option(timeoutMs=20000)
 
 You can also use `SET "timeoutMs" = 20000; SELECT COUNT(*) from myTable`.
 
-For changing the timeout on the entire cluster, set this property `pinot.broker.timeoutMs`  in either broker configs or cluster configs (using the POST /cluster/configs API from Swagger).
+For changing the timeout on the entire cluster, set this property `pinot.broker.timeoutMs` in either broker configs or cluster configs (using the POST /cluster/configs API from Swagger).
 
 ### How do I cancel a query?
 
-Add these two configs for Pinot server and broker to start tracking of running queries. The query tracks are added and cleaned as query starts and ends, so should not consume much resource.
-
-```java
-pinot.server.enable.query.cancellation=true // false by default
-pinot.broker.enable.query.cancellation=true // false by default
-```
-
-Then use the Rest APIs on Pinot controller to list running queries and cancel them via the query ID and broker ID (as query ID is only local to broker), like in the following:
-
-```json
-GET /queries: to show running queries as tracked by all brokers
-Response example: `{
-  "Broker_192.168.0.105_8000": {
-    "7": "select G_old from baseballStats limit 10",
-    "8": "select G_old from baseballStats limit 100"
-  }
-}`
-
-DELETE /query/{brokerId}/{queryId}[?verbose=false/true]: to cancel a running query 
-with queryId and brokerId. The verbose is false by default, but if set to true, 
-responses from servers running the query also return.
-
-Response example: `Cancelled query: 8 with responses from servers: 
-{192.168.0.105:7501=404, 192.168.0.105:7502=200, 192.168.0.105:7500=200}`
-```
+See [query-cancellation.md](../../../users/user-guide-query/query-cancellation.md "mention")
 
 ### How do I optimize my Pinot table for doing aggregations and group-by on high cardinality columns ?
 
@@ -131,4 +107,3 @@ The query execution engine will prefer to use the star-tree index for all querie
 * All dimensions that appear in filter predicates and group-by should be star-tree dimensions.
 
 For queries where above is true, a star-tree index is used. For other queries, the execution engine will default to using the next best index available.
-
