@@ -146,13 +146,15 @@ In order to use [Partitioned Replica-Group Segment Assignment](segment-assignmen
 
 ## Instance Assignment for Low Level Consumer (LLC) Real-time Table
 
-For LLC real-time table, all the stream events are split into several stream partitions, and the events from each stream partition are consumed by a single server. Because the data is always partitioned, the LLC real-time table is using [Partitioned Replica-Group Instance Assignment](instance-assignment.md#partitioned-replica-group-instance-assignment) implicitly with `numPartitions` the same as the number of stream partitions, and `numInstancesPerPartition` of 1, and we don't allow configuring them explicitly. The replica-group based instance assignment can still be configured explicitly.
+For LLC real-time table, all the stream events are split into several stream partitions, and the events from each stream partition are consumed by a single server. Because the data is always partitioned, the LLC real-time table is using [Partitioned Replica-Group Instance Assignment](instance-assignment.md#partitioned-replica-group-instance-assignment) implicitly with `numPartitions` set to 1 (the stream partitions will be distributed across all the instances in the single partition of each replica group), and `numInstancesPerPartition` of 1. The replica-group based instance assignment can still be configured explicitly. Note that `COMPLETED` segments will use the same assignment strategy as `CONSUMING` segments unless explicitly configured separately in the instance assignment config.
 
 Without explicitly configuring the replica-group based instance assignment, the replicas of the stream partitions will be evenly spread over all the available instances as shown in the following diagram:
 
 ![](../../.gitbook/assets/low-level-consumer-assignment.png)
 
 With replica-group based instance assignment, the stream partitions will be evenly spread over the instances within the replica group.
+
+However, this strategy can lead to a lot of segment movement when adding or removing servers, since the `minimizeDataMovement` algorithm works using stickiness of partition to instance assignments - but here, the instance assignment itself only has a single partition and doesn't match the stream partitions. To avoid this, the `partitionSelector` in the `instanceAssignmentConfigMap` for `CONSUMING` segments can be set to `IMPLICIT_REALTIME_TABLE_PARTITION_SELECTOR`. This is a variant of the default `INSTANCE_REPLICA_GROUP_PARTITION_SELECTOR`, where the `numPartitions` is forced to the actual number of stream partitions. This way, the `minimizeDataMovement` algorithm will actually be effective due to the explicit assignment of stream partitions to instances in each replica group. The strategy is "implicit" because it doesn't require users to explicitly configure the `numPartitions`, with Pinot automatically detecting and using the value from the stream source.
 
 ## Pool-Based Instance Assignment
 
