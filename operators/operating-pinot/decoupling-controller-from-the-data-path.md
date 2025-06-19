@@ -30,15 +30,6 @@ Peer download policy allows failure recovery in case uploading the completed seg
 
 This scheme only works for real-time tables using the Low Level Consumer (LLC) mode. To enable peer download for segments, update the controller, server, and table configurations as follows:
 
-### Controller Config
-
-Add the followings to the controller configuration:
-
-```
-controller.allow.hlc.tables=false
-controller.enable.split.commit=true
-```
-
 ### Server Config
 
 Add the following things to the server configuration:
