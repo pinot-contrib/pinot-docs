@@ -341,11 +341,9 @@ Here's an example table config for a real-time table. **All the fields from the 
         "stream.kafka.broker.list": "XXXX",
         "stream.kafka.consumer.factory.class.name": "XXXX",
         "stream.kafka.consumer.prop.auto.offset.reset": "largest",
-        "stream.kafka.consumer.type": "XXXX",
         "stream.kafka.decoder.class.name": "XXXX",
         "stream.kafka.decoder.prop.schema.registry.rest.url": "XXXX",
         "stream.kafka.decoder.prop.schema.registry.schema.name": "XXXX",
-        "stream.kafka.hlc.zk.connect.string": "XXXX",
         "stream.kafka.topic.name": "XXXX",
         "stream.kafka.zk.broker.url": "XXXX",
         "streamType": "kafka"

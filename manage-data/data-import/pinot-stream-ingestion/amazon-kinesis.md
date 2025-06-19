@@ -26,9 +26,8 @@ To ingest events from an Amazon Kinesis stream into Pinot, set the following con
       "accessKey": "<your access key>",
       "secretKey": "<your secret key>",
       "shardIteratorType": "AFTER_SEQUENCE_NUMBER",
-      "stream.kinesis.consumer.type": "lowlevel",
       "stream.kinesis.fetch.timeout.millis": "30000",
-      "stream.kinesis.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+      "stream.kinesis.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
       "stream.kinesis.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory",
       "realtime.segment.flush.threshold.rows": "1000000",
       "realtime.segment.flush.threshold.time": "6h"
