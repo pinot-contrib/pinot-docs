@@ -192,7 +192,16 @@ A column in Pinot can be dictionary-encoded or stored RAW. In addition, we can c
 The text index is an addition to the type of **per-column indexes** users can create in Pinot. However, it only supports text index on a RAW column, not a dictionary-encoded column.
 {% endhint %}
 
-## Enable a text index
+## Multi-column text index
+
+Since version 1.4.0, Pinot offers two types of text indexes:
+
+* **per-column / single-column text index** - that stores data separately for each indexed column. It's the type used prior to the 1.4.0 version.
+* **per-segment / multi-column text index** - that stores all indexed column's data together. Doing so  reduces both RAM and disk space sizes and speeds up index creation, allowing efficient indexing of tens or hundreds or columns.&#x20;
+
+Aside from configuration, the new index type behaves the same as per-column index at query time.
+
+## Enable a per-column text index
 
 Enable a text index on a column in the [table configuration](../../configuration-reference/table.md) by adding a new section with the name "fieldConfigList".
 
@@ -231,6 +240,38 @@ You can configure text indexes in the following scenarios:
 When you're using a text index, add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.
 
 For instructions on that configuration property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+{% endhint %}
+
+## Enable a per-segment text index
+
+Contrary to per-column text index, per-segment text index can only be configured once in [table index configuration](../../configuration-reference/table.md#table-index-config) by adding `multiColumnTextIndexConfig` element:&#x20;
+
+```json
+"tableIndexConfig": {
+   "multiColumnTextIndexConfig": {
+      "columns": ["hobbies", "skills", "titles" ],
+      "properties": {
+         "caseSensitive": "false"
+       }
+       "perColumnProperties": {
+          "titles": {
+             "caseSensitive": "true"
+          }
+       }
+ },
+```
+
+The config contains a list of columns to index - `columns`, settings meant for all columns - `properties`, and  settings applied to particular column - `perColumnProperties`.&#x20;
+
+As shown in example above, index configuration allows for both:
+
+* setting shared index properties that apply to all columns with "properties".\
+  Allowed keys are : `enableQueryCacheForTextIndex`, `luceneUseCompoundFile`, `luceneMaxBufferSizeMB`, `reuseMutableIndex` and all allowed in `perColumnProperties`.
+* setting column-specific properties (overriding shared ones) with `perColumnProperties`.\
+  Allowed keys: `useANDForMultiTermTextIndexQueries`, `enablePrefixSuffixMatchingInPhraseQueries`, `stopWordInclude`, `stopWordExclude`, `caseSensitive`, `luceneAnalyzerClass`, `luceneAnalyzerClassArgs`, `luceneAnalyzerClassArgTypes`, `luceneQueryParserClass`.
+
+{% hint style="info" %}
+Shared properties-only settings, e.g. `luceneMaxBufferSizeMB` , set in per column properties have no effect and will be ignored.&#x20;
 {% endhint %}
 
 ## Text index creation
