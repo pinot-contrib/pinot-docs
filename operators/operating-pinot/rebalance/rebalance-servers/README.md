@@ -344,9 +344,9 @@ From [commit](https://github.com/apache/pinot/pull/15266) onwards, the stats wil
     "totalRemainingSegmentsToConverge": 0, // Segments that belong to the correct instance but who's EV state doesn't match the expected IS state
     "totalCarryOverSegmentsToBeAdded": 0, // Segments adds carried over from the previous rebalance step
     "totalCarryOverSegmentsToBeDeleted": 0, // Segments deletes carried over from the previous rebalance step
+    "totalUniqueNewUntrackedSegmentsDuringRebalance": 0, // Newly added segments detected but which are not yet monitored by the rebalance job, some of these may be monitored later
     "isForceCommittingConsumingSegments": false, // If true, the rebalancer is waiting for some segments to be force committed
     "totalSegmentsForceCommitted": 0, // The number of segments that has been force committed in current step
-    "totalUniqueNewUntrackedSegmentsDuringRebalance": 0, // Newly added segments detected but which are not yet monitored by the rebalance job, some of these may be monitored later
     "percentageRemainingSegmentsToBeAdded": 13.333333333333334, // Percentage segments yet to be added (including carry-over segments due to which it may show > 100%)
     "percentageRemainingSegmentsToBeDeleted": 0, // Percentage segments yet to be deleted (including carry-over segments due to which it may show > 100%)
     "estimatedTimeToCompleteAddsInSeconds": 2993.278923076923, // Estimated time to complete segment adds in seconds for the current step
