@@ -16,7 +16,7 @@ The Upsert Compact Merge Task (small segment merger) addresses the challenge of 
 
 The Upsert Compact Merge Task complements the existing UpsertCompactionTask:
 - **UpsertCompactionTask**: Compacts individual segments by removing invalid records within each segment
-- **UpsertCompactMergeTask**: Merges multiple small compacted segments into larger ones to reduce total segment count
+- **UpsertCompactMergeTask**: Merges multiple small segments into larger ones while simultaneously compacting each segment during the merge process, reducing both total segment count and invalid records
 
 Both tasks can run independently and are designed to work together for optimal upsert table management.
 
@@ -46,11 +46,12 @@ The Upsert Compact Merge Task uses the Minion Task Framework and consists of Gen
 ### Segment selection strategy
 
 The task uses a **continuous time-based selection** approach:
-1. Starts with the oldest segment and checks if it qualifies for merging
-2. The first segment where `validDocIDCount < maxNumRecordsPerSegment / 2` becomes the starting point
+1. Starts with the oldest segment and processes segments in chronological order
+2. Groups continuous segments based on their invalid document ratios and merging feasibility
 3. Continues selecting segments as long as the total valid records in chosen segments plus the next segment ≤ `maxNumRecordsPerSegment`
 4. Respects the `maxNumSegmentsPerTask` limit to ensure reasonable task sizes
 5. Maintains time-order continuity in segment selection
+6. Once we have created multiple groups of segments that can be merged, we select the one with highest gain for each partitions for merging.
 
 **Size-based selection (when outputSegmentMaxSize is configured)**:
 - When `outputSegmentMaxSize` is specified, the task also considers segment size limits
@@ -60,7 +61,7 @@ The task uses a **continuous time-based selection** approach:
 
 The task uses a safe two-phase approach for segment management:
 1. **Phase 1**: Upload new merged segments without immediately deleting the original segments
-2. **Phase 2**: In subsequent task runs, identify original segments with `validDocIDCount = 0` and delete them
+2. **Phase 2**: Post one segment commit cycle when validDocIDSnapshot is updated, identify original segments with `validDocIDCount = 0` and delete them
 
 This approach leverages ZooKeeper metadata and `enableSnapshot` runs to safely clean up old segments while avoiding data inconsistencies.
 
