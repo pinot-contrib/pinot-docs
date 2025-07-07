@@ -201,6 +201,12 @@ Since version 1.4.0, Pinot offers two types of text indexes:
 
 Aside from configuration, the new index type behaves the same as per-column index at query time.
 
+When choosing between the two index types, you might consider the following :
+
+<table><thead><tr><th width="164.83203125">Property \ Type</th><th>Per-Column</th><th>Per-segment</th></tr></thead><tbody><tr><td>Querying speed</td><td>slower - especially when querying multiple columns</td><td>faster</td></tr><tr><td>Disk and memory usage</td><td>higher - each column uses separate set of Lucene files and document id mapping</td><td>lower - Lucene file size is smaller; only one document id mapping is used for all columns</td></tr><tr><td>Initial build time </td><td>higher - because each column uses separate Lucene files</td><td>lower - one set of Lucene files  and one document id mapping is generated </td></tr><tr><td>Rebuild time</td><td>lower - rebuild affected columns only, other indexes are copied</td><td>higher - removes all files and rebuilds from scratch</td></tr></tbody></table>
+
+
+
 ## Enable a per-column text index
 
 Enable a text index on a column in the [table configuration](../../configuration-reference/table.md) by adding a new section with the name "fieldConfigList".
