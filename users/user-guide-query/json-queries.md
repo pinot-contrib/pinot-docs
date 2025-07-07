@@ -135,20 +135,7 @@ GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
 
 ### JSON\_MATCH and JSON\_EXTRACT\_SCALAR
 
-Note that the `JSON_MATCH` function utilizes `JsonIndex` and can only be used if a `JsonIndex` is already present on the JSON column. As shown in the examples above, the second argument of `JSON_MATCH` operator takes a predicate. This predicate is evaluated against the `JsonIndex` and supports `=`, `!=`, `IS NULL`, or `IS NOT NULL` operators. Relational operators, such as `>`, `<`, `>=`, and `<=` are currently not supported. However, you can combine the use of `JSON_MATCH` and `JSON_EXTRACT_SCALAR` function (which supports `>`, `<`, `>=`, and `<=` operators) to get the necessary functinoality as shown below.
-
-```
-  SELECT json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null') last_name,
-         sum(json_extract_scalar(jsoncolumn, '$.id', 'INT', 0)) total
-    FROM myTable
-   WHERE JSON_MATCH(jsoncolumn, '"$.name.last" IS NOT NULL') AND json_extract_scalar(jsoncolumn, '$.id', 'INT', 0) > 102
-GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
-```
-
-| jsoncolumn.name.last | sum(jsoncolumn.score) |
-| -------------------- | --------------------- |
-| "mouse"              | "207"                 |
-| "dwag"               | "104"                 |
+Note that the `JSON_MATCH` function utilizes `JsonIndex` and can only be used if a `JsonIndex` is already present on the JSON column. As shown in the examples above, the second argument of `JSON_MATCH` operator takes a predicate. This predicate is evaluated against the `JsonIndex` and supports `=`, `!=`, `IS NULL`,  `IS NOT NULL`, IN and relational operators, such as `>`, `<`, `>=`,  `<=` and `BETWEEN`.&#x20;
 
 `JSON_MATCH` function also provides the ability to use wildcard `*` JsonPath expressions even though it doesn't support full JsonPath expressions.
 
@@ -199,3 +186,9 @@ Now we have the string representation of the original predicate and this can be 
 ```
    WHERE JSON_MATCH(jsoncolumn, '"data[0]" IN (''k'', ''j'')')
 ```
+
+For more JSON\_MATCH examples, please see&#x20;
+
+{% content-ref url="../../basics/indexing/json-index.md" %}
+[json-index.md](../../basics/indexing/json-index.md)
+{% endcontent-ref %}
