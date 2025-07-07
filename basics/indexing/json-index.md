@@ -519,6 +519,14 @@ FROM mytable
 WHERE JSON_MATCH(person, '"$.name"=''adam''')
 ```
 
+or
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.name" IN (''adam'')')
+```
+
 ### Chained key lookup
 
 Find all persons who have an address (one of the addresses) with number 112:
@@ -535,6 +543,14 @@ Find all persons who have at least one address that is not in the US:
 SELECT ...
 FROM mytable
 WHERE JSON_MATCH(person, '"$.addresses[*].country" != ''us''')
+```
+
+or
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.addresses[*].country" NOT IN (''us'') ')
 ```
 
 ### Regex based lookup
@@ -555,6 +571,14 @@ Find all persons whose age is greater than 18:
 SELECT ...
 FROM mytable
 WHERE JSON_MATCH(person, '"$.age" > 18')
+```
+
+Find all persons whose age is between 20 and 40 (inclusive):
+
+```sql
+SELECT ...
+FROM mytable
+WHERE JSON_MATCH(person, '"$.age" BETWEEN 20 AND 40')
 ```
 
 ### Nested filter expression
