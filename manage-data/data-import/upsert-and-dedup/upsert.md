@@ -365,6 +365,12 @@ These new consistency modes provide flexibility, allowing applications to balanc
 }
 ```
 
+For **SNAPSHOT** mode, one can configure how often the upsert view should be refreshed via a upsertConfig called `upsertViewRefreshIntervalMs`, which is 3000ms by default. Both the write and query threads can refresh the upsert view when it gets stale according to this config. Changing this config requires server restarts.
+
+One can further adjust the view's freshness during query time without restarting servers via a query option called `upsertViewFreshnessMs` . By default, this query option matches with that upsertConfig `upsertViewRefreshIntervalMs` , but if a query sets it to a smaller value, the upsert view may get refreshed sooner for the query; and if set to 0, the query simply forces to refresh upsert view every time.
+
+For debugging purposes, there's a query option called `skipUpsertView`. If set to `true`, it bypasses the consistent upsert view maintained by SYNC or SNAPSHOT modes. This effectively executes the query as if it were in NONE mode.
+
 ### Use strictReplicaGroup for routing
 
 The upsert Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) implicitly for the segments. Moreover, upsert poses the additional requirement that **all segments of the same partition must be served from the same server** to ensure the data consistency across the segments. Accordingly, it requires to use `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
@@ -562,7 +568,7 @@ The number of partitions in input streams determines the partition numbers of th
 
 Upsert table maintains an in-memory map from the primary key to the record location. **So it's recommended to use a simple primary key type and avoid composite primary keys to save the memory cost. Beware when using `JSON` column as primary key, same key-values in different order would be considered as different primary keys**. In addition, consider the `hashFunction` config in the Upsert config, which can be `UUID`, `MD5` or `MURMUR3`.
 
-If your primary key column is a valid UUID and you are running out of memory due to a high number of primary keys, the `UUID` hash function can lower memory requirements by up to 35% without bringing in any hash collision risks.
+If your primary key column is a valid UUID and you are running out of memory due to a high number of primary keys, the `UUID` hash function can lower memory requirements by up to 35% without bringing in any hash collision risks.\
 If the primary key is not a valid UUID, this hash function stores the primary key as is and skips the UUID based compression.
 
 `MD5` and `MURMUR3` can also help lower memory requirements. They work for all types of primary key values, but bring in a small risk of hash collision. The generated hash from `MD5` and `MURMUR3` is a 128-bit hash, so this is beneficial when your primary key values are larger than 128-bits.
