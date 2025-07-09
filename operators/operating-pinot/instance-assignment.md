@@ -8,9 +8,9 @@ description: >-
 
 Instance assignment is the strategy of assigning the servers to host a table. Each instance assignment strategy is associated with one segment assignment strategy (read more about [Segment Assignment](segment-assignment.md)).
 
-Instance assignment is configured via the **InstanceAssignmentConfig**. Based on the config, Pinot can assign servers to a table, then assign segments to servers using the segment assignment strategy associated with the instance assignment strategy.
+Instance assignment is configured via the **InstanceAssignmentConfig**. Based on the config, Pinot can assign servers to a table, then assign segments to servers using the segment assignment strategy associated with the instance assignment strategy. If **InstanceAssignmentConfig** is explicitly configured, the instance assignment generated for the table is stored in ZooKeeper under the `PROPERTYSTORE/INSTANCE_PARTITIONS/<tableName_instancePartitionType` path.
 
-There are 3 types of instances for the InstanceAssignmentConfig: `OFFLINE`, `CONSUMING` and `COMPLETED`. `OFFLINE` represents the instances hosting the segments for the offline table; `CONSUMING` represents the instances hosting the consuming segments for the real-time table; `COMPLETED` represents the instances hosting the completed segments for the real-time table. For real-time table, if `COMPLETED` instances are not configured, completed segments will use the same instance assignment strategy as the consuming segments. If it is configured, completed segments will be automatically moved to the `COMPLETED` instances periodically.
+There are 3 types of instance partitions for the InstanceAssignmentConfig: `OFFLINE`, `CONSUMING` and `COMPLETED`. `OFFLINE` represents the instances hosting the segments for the offline table; `CONSUMING` represents the instances hosting the consuming segments for the real-time table; `COMPLETED` represents the instances hosting the completed segments for the real-time table. For real-time table, if `COMPLETED` instances are not configured, completed segments will use the same instance assignment strategy as the consuming segments. If it is configured, completed segments will be automatically moved to the `COMPLETED` instances periodically.
 
 ## Default Instance Assignment
 
@@ -248,6 +248,43 @@ The configuration of this comes in two folds:
   ...
 }
 ```
+
+## Pre-configured Instance Assignment
+
+A table can be configured to use the same instance assignment as another table - this can be useful for supporting [co-located joins](../../users/user-guide-query/multi-stage-query/join-strategies/colocated-join-strategy.md). This requires the reference table to have an explicitly configured instance assignment (via  `instanceAssignmentConfigMap`). The table that is being configured to copy the instance assignment of another table can do so via the `instancePartitionsMap` table config key which is a map containing keys representing the instance partition type (`OFFLINE`, `CONSUMING`, `COMPLETED`) and values representing the reference instance partition `<tableName_instancePartitionType>`. This configuration setup ensures that the instance assignment for each partition and replica group is identical for the two tables - this can be verified by checking the instance assignment in ZooKeeper under the `PROPERTYSTORE/INSTANCE_PARTITIONS/<tableName_instancePartitionType>` path or through the controller REST API - `GET /tables/{tableName}/instancePartitions`.
+
+{% code title="Table config for table1:" %}
+```json
+{
+  "instanceAssignmentConfigMap":
+    "OFFLINE": {
+      "tagPoolConfig": {
+        "tag": "Tag1_OFFLINE",
+        "poolBased": true
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 2,
+        "numPartitions": 2,
+        "numInstancesPerPartition": 1,
+        "partitionColumn": "memberId"
+      }
+    }
+  },
+  ...
+}
+```
+{% endcode %}
+
+{% code title="Table config for table2:" %}
+```json
+{
+  "instancePartitionsMap": {
+    "OFFLINE": "table1_OFFLINE"
+  }
+}
+```
+{% endcode %}
 
 ## Change the Instance Assignment
 
