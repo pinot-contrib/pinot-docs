@@ -4,7 +4,7 @@ description: >-
   data from a Pinot-supported input format.
 ---
 
-# Input formats
+# Supported Data Formats
 
 Pinot offers support for various popular input formats during ingestion. By changing the input format, you can reduce the time spent doing serialization-deserialization and speed up the ingestion.
 
@@ -58,7 +58,6 @@ CSV Record Reader supports the following configs:
 * **`quoteCharacter`**: Single character used for quotes in CSV files.
 * **`recordSeparator`**: Character used to separate records in the input file. Default is  or `\r` depending on the platform.
 * **`nullStringValue`**: String value that represents null in CSV files. Default is empty string.
-* **`skipUnParseableLines`** : Skip lines that cannot be parsed. Note that this would result in data loss. Boolean.
 
 {% hint style="info" %}
 Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config.\
