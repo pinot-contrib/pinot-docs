@@ -368,6 +368,8 @@ The need may arise to cancel a rebalance job. To do this an API exists which can
 * Cancellation does not rollback the state of the cluster to what it was prior to triggering the rebalance, thus leaving the cluster in an inconsistent state.
 * To fix the inconsistent state caused by a cancel, fix up the cluster components due to which the rebalance was canceled (if needed) and re-trigger a new rebalance job. The new job should help get the cluster into the final state.
 
+With newer Pinot versions, a new option `batchSizePerServer` has been added for Rebalance which limits how many segments are added per server in each rebalance step. If this is used, fewer updates will be made to the `IdealState` and cancelation can kick in much faster than without using this option. It is always recommended to use `batchSizePerServer` if the number of segments to be moved is large (which can be verified in the dryRun summary).
+
 Rebalance jobs for a given table can be canceled via the following API:
 
 ```
