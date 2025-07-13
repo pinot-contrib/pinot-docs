@@ -97,24 +97,27 @@ Result: {"aggregationResults":[{"function":"count_star","value":"97889"}],"excep
 
 ### Graceful Server Node Replacement
 
-On a cloud based platform, node replacement is frequent. A common way to replace Pinot server is to assign the same `instanceId` to both the old node (`ON`) and the new node(`NN`). With this approach, ON usually needs to be stopped before starting the NN in order to prevent failures on taking the same Helix instanceId.
+On a cloud based platform, node replacement is frequent. A common way to replace Pinot server is to assign the same `instanceId` to both the old node (`ON`) and the new node(`NN`). With this approach, ON usually needs to be stopped before starting the NN in order to prevent failures on taking the same Helix instanceId.\
 NN startup used to take a long time because it needs to download and load all segments from deepstore or peer(s). Pinot has a graceful server node replacement support to make server replacement's overhead same as node restart.
 
 To achieve graceful node replacement, the operators need to setup the workflow in following sequence:
 
 1. Start NN in the "pre-download" mode by adding one more parameter to StartServerCommand, like:
+
 ```
 PropertiesConfiguration properties = CommonsConfigurationUtils.fromPath(<config_path>);
 PredownloadScheduler predownloadScheduler = new PredownloadScheduler(properties);
 predownloadScheduler.start();
 ```
-  This step would let the NN download all immutable segments of the instanceId and make its disk state identical as the ON. (Refer to this [PR](https://github.com/apache/pinot/pull/14686) for more details)
+
+This step would let the NN download all immutable segments of the instanceId and make its disk state identical as the ON. (Refer to this [PR](https://github.com/apache/pinot/pull/14686) for more details)
 
 2. Waiting for NN "pre-download" complete with one of following conditions:
-  - Pre-download fully succeed
-  - Pre-download partially succeed but have retried enough times
-  - Pre-download failed in non-retriable mode
-  - Already waited for a max time period
+
+* Pre-download fully succeed
+* Pre-download partially succeed but have retried enough times
+* Pre-download failed in non-retriable mode
+* Already waited for a max time period
 
 3. Stop the ON
 4. Start the NN in the normal mode
@@ -175,4 +178,4 @@ Give a more detailed explanation of how metrics are generated, how to identify r
 * Percent of replicas up - [PERCENT\_OF\_REPLICAS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
   * Percentage of complete online replicas in external view as compared to replicas in ideal state.
 * Table storage quota usage percent - [TABLE\_STORAGE\_QUOTA\_UTILIZATION](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
-  * Shows how much of the table’s storage quota is currently being used, metric will a percentage of a the entire quota.&#x20;
+  * Shows how much of the table’s storage quota is currently being used, metric will a percentage of a the entire quota.

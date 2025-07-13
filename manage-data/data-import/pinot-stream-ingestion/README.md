@@ -268,22 +268,19 @@ Here is the sample configuration on how to configure the consumption throttling:
 
 Some things to keep in mind while tuning this config are:
 
-* Since this configuration applied to the entire topic, internally, this rate is divided by the number of partitions in the topic and applied to each partition's consumer. This doesn't take replication factor into account. \
-  &#x20;\
-  **Example** \
+* Since this configuration applied to the entire topic, internally, this rate is divided by the number of partitions in the topic and applied to each partition's consumer. This doesn't take replication factor into account.\
+  \
+  **Example**\
   topic.consumption.rate.limit - 1000\
   num partitions in Kafka topic - 4\
   replication factor in table - 3\
   \
-  Pinot will impose a fixed limit of 1000 / 4 = 250 records per second on each partition. \
-
-* In case of multi-tenant deployment (where you have more than 1 table in the same server instance), you need to make sure that the rate limit on one table doesn't step on/starve the rate limiting of another table. So, when there is more than 1 table on the same server (which is most likely to happen), you may need to re-tune the throttling threshold for all the streaming tables.\
-
-*   The `pinot.server.consumption.rate.limit` setting must be configured in the server's instance configuration, not in the table configuration. This setting establishes a maximum consumption rate that applies collectively to all table partitions hosted on a single server. When both this server-level setting and the `topic.consumption.rate.limit` setting are specified, the server configuration has lower priority.[1](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2165/manage-data/data-import/pinot-stream-ingestion/~/comments)
+  Pinot will impose a fixed limit of 1000 / 4 = 250 records per second on each partition. \\
+* In case of multi-tenant deployment (where you have more than 1 table in the same server instance), you need to make sure that the rate limit on one table doesn't step on/starve the rate limiting of another table. So, when there is more than 1 table on the same server (which is most likely to happen), you may need to re-tune the throttling threshold for all the streaming tables.\\
+*   The `pinot.server.consumption.rate.limit` setting must be configured in the server's instance configuration, not in the table configuration. This setting establishes a maximum consumption rate that applies collectively to all table partitions hosted on a single server. When both this server-level setting and the `topic.consumption.rate.limit` setting are specified, the server configuration has lower priority.[1](./)
 
     \
-    \
-
+    \\
 
 Once throttling is enabled for a table, you can verify by searching for a log that looks similar to:
 

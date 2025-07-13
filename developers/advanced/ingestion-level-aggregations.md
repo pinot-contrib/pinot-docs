@@ -40,7 +40,7 @@ Here is an example of sales data, where only the daily sales aggregates per prod
 
 You can also find it when running RealtimeQuickStart, there is a table called `dailySales`
 
-<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Example Input Data
 
@@ -127,7 +127,7 @@ From the below aggregation config example, note that `price` exists in the input
 
 ### Example Final Table
 
-<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 | product\_name | sales\_count | total\_sales | daysSinceEpoch |
 | ------------- | ------------ | ------------ | -------------- |
