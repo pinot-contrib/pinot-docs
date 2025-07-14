@@ -4,6 +4,8 @@ description: Integrating Apache Pinot with Metabase
 
 # Metabase
 
+<figure><img src="../.gitbook/assets/pinot-metabase-driver-logo.png" alt=""><figcaption></figcaption></figure>
+
 This guide provides step-by-step instructions for setting up Metabase with an Apache Pinot connector. The integration allows you to visualize and explore data stored in Apache Pinot directly within Metabase dashboards.
 
 > Note: This is a preview version. For issues or bug reports, please join slack or file github issue.
