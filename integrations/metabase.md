@@ -47,7 +47,7 @@ JAR download: [https://downloads.metabase.com/v0.55.7.x/metabase.jar](https://do
 
 ```bash
 mkdir -p /tmp/metabase
-cd metabase
+cd /tmp/metabase
 wget https://downloads.metabase.com/v0.55.7.x/metabase.jar
 ```
 
@@ -58,7 +58,7 @@ Pinot plugins are released at [https://github.com/startreedata/metabase-pinot-dr
 This QuickStart uses [Pinot Driver v1.0.0](https://github.com/startreedata/metabase-pinot-driver/releases/tag/v1.0.0)
 
 ```bash
-mkdir -p /tmp/metabase
+mkdir -p /tmp/metabase/plugins
 cd /tmp/metabase/plugins
 wget -O pinot.metabase-driver.jar  https://github.com/startreedata/metabase-pinot-driver/releases/download/v1.0.0/pinot.metabase-driver-v1.0.0.jar
 ```
