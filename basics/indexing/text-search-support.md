@@ -358,6 +358,39 @@ SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(text_col_1, ....) AND TEXT_MATCH(text_
 
 The search expression (the second argument to `TEXT_MATCH` function) is the query string that Pinot will use to perform text search on the column's text index.
 
+
+## TEXT\_MATCH Query Options
+
+The `TEXT_MATCH` function supports an optional third parameter for specifying Lucene query parser options at query time. This allows for flexible and advanced text search without changing table configuration.
+
+**Function Signature:**
+```sql
+TEXT_MATCH(text_column_name, search_expression [, options])
+```
+- `text_column_name`: Name of the column to perform text search on.
+- `search_expression`: The query string for text search.
+- `options` (optional): Comma-separated string of key-value pairs to control query parsing and search behavior.
+
+**Available Options:**
+
+| Option                  | Values                              | Description                                                                                 |
+|-------------------------|-------------------------------------|---------------------------------------------------------------------------------------------|
+| `parser`                | `CLASSIC`, `STANDARD`, `COMPLEX`    | Selects the Lucene query parser to use. Default is `CLASSIC`.                               |
+| `allowLeadingWildcard`  | `true`, `false`                     | Allows queries to start with a wildcard (e.g., `*term`). Default is `false`.                |
+| `defaultOperator`       | `AND`, `OR`                         | Sets the default boolean operator for multi-term queries. Default is `OR`.                  |
+
+**Examples:**
+```sql
+-- Use CLASSIC parser with leading wildcard support
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, '*search*', 'parser=CLASSIC, allowLeadingWildcard=true')
+
+-- Use STANDARD parser with AND operator
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'term1 term2', 'parser=STANDARD, defaultOperator=AND')
+
+-- Use COMPLEX parser for advanced queries
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'complex query', 'parser=COMPLEX')
+```
+
 ### Phrase query
 
 This query is used to seek out an exact match of a given phrase, where terms in the user-specified phrase appear in the same order in the original text document.
@@ -612,3 +645,10 @@ TEXT_MATCH(column, 'Java AND C++')
 ### Text Index Tuning
 
 To improve Lucene index creation time, some configs have been provided. Field Config properties `luceneUseCompoundFile` and `luceneMaxBufferSizeMB` can provide faster index writing at but may increase file descriptors and/or memory pressure.
+
+#### Cluster Configuration for Text Search
+When text search queries contain too many terms or clauses, Lucene may throw `TooManyClauses` exceptions, causing query failures. This commonly occurs with:
+- Complex boolean queries with many OR conditions
+- Wildcard queries that expand to many terms
+- Queries with large numbers of search terms
+To handle such cases, you can increase the maximum clause count at the cluster level. See the [cluster configuration reference](../../configuration-reference/cluster.md) for the `pinot.lucene.max.clause.count` setting.
