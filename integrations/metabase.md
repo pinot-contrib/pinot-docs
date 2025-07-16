@@ -31,7 +31,7 @@ Ensure the following tools are installed on your system:
 
 ### Local Run
 
-* Star Pinot
+* Start Pinot
 
 To be simple, use Pinot docker image to run with quickstart
 
