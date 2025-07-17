@@ -57,12 +57,12 @@ wget https://downloads.metabase.com/v0.55.7.x/metabase.jar
 
 Pinot plugins are released at [https://github.com/startreedata/metabase-pinot-driver/releases](https://github.com/startreedata/metabase-pinot-driver/releases)
 
-This QuickStart uses [Pinot Driver v1.0.0](https://github.com/startreedata/metabase-pinot-driver/releases/tag/v1.0.0)
+This QuickStart uses [Pinot Driver v1.0.1](https://github.com/startreedata/metabase-pinot-driver/releases/tag/v1.0.1)
 
 ```bash
 mkdir -p /tmp/metabase/plugins
 cd /tmp/metabase/plugins
-wget -O pinot.metabase-driver.jar  https://github.com/startreedata/metabase-pinot-driver/releases/download/v1.0.0/pinot.metabase-driver-v1.0.0.jar
+wget -O pinot.metabase-driver.jar  https://github.com/startreedata/metabase-pinot-driver/releases/download/v1.0.1/pinot.metabase-driver-v1.0.1.jar
 ```
 
 * Start Metabase with Pinot plugin
@@ -82,14 +82,9 @@ After the login, you can click the right side bar to Add Pinot database:
 
 <figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
-
-
 <figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
-
-
-After the configuration is done, Metabase will generate some explorations automatically.\
-
+After the configuration is done, Metabase will generate some explorations automatically.\\
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -98,4 +93,3 @@ After the configuration is done, Metabase will generate some explorations automa
 <figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
-
