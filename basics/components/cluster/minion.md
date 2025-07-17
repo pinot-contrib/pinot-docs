@@ -239,6 +239,10 @@ See [Pinot managed Offline flows](../../../operators/operating-pinot/pinot-manag
 
 See [Minion merge rollup task](../../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
 
+### PurgeTask
+
+See [Purge task](../../../operators/operating-pinot/purge-task.md) for details.
+
 ## Enable tasks
 
 Tasks are enabled on a per-table basis. To enable a certain task type (e.g. `myTask`) on a table, update the table config to include the task type:
