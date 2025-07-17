@@ -57,12 +57,12 @@ wget https://downloads.metabase.com/v0.55.7.x/metabase.jar
 
 Pinot plugins are released at [https://github.com/startreedata/metabase-pinot-driver/releases](https://github.com/startreedata/metabase-pinot-driver/releases)
 
-This QuickStart uses [Pinot Driver v1.0.1](https://github.com/startreedata/metabase-pinot-driver/releases/tag/v1.0.1)
+This QuickStart uses [Pinot Driver v1.1.0](https://github.com/startreedata/metabase-pinot-driver/releases/tag/v1.1.0)
 
 ```bash
 mkdir -p /tmp/metabase/plugins
 cd /tmp/metabase/plugins
-wget -O pinot.metabase-driver.jar  https://github.com/startreedata/metabase-pinot-driver/releases/download/v1.0.1/pinot.metabase-driver-v1.0.1.jar
+wget -O pinot.metabase-driver.jar  https://github.com/startreedata/metabase-pinot-driver/releases/download/v1.1.0/pinot.metabase-driver-v1.1.0.jar
 ```
 
 * Start Metabase with Pinot plugin
@@ -107,7 +107,7 @@ FROM metabase/metabase:v0.55.7
 
 RUN mkdir -p /plugins && \
     curl -L -o /plugins/pinot.metabase-driver.jar \
-    https://github.com/startreedata/metabase-pinot-driver/releases/download/v1.0.1/pinot.metabase-driver-v1.0.1.jar
+    https://github.com/startreedata/metabase-pinot-driver/releases/download/v1.1.0/pinot.metabase-driver-v1.1.0.jar
 
 ENV MB_PLUGINS_DIR=/plugins
 ```
