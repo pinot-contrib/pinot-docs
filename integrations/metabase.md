@@ -74,7 +74,7 @@ java --add-opens java.base/java.nio=ALL-UNNAMED -jar metabase.jar
 
 Now everything should come up, you could also find the pinot plugin is loaed from the log:
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Once Metabase is up, go to [http://localhost:3000](http://localhost:3000/) to explore it.
 
@@ -93,3 +93,59 @@ After the configuration is done, Metabase will generate some explorations automa
 <figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+
+
+
+### Docker Compose
+
+Copy below `Dockerfile` and `docker-compose.yml` to a directory, e.g. `/tmp/metabase` .
+
+`Dockerfile:`
+
+```docker
+FROM metabase/metabase:v0.55.7
+
+RUN mkdir -p /plugins && \
+    curl -L -o /plugins/pinot.metabase-driver.jar \
+    https://github.com/startreedata/metabase-pinot-driver/releases/download/v1.0.1/pinot.metabase-driver-v1.0.1.jar
+
+ENV MB_PLUGINS_DIR=/plugins
+```
+
+`docker-compose.yml:`
+
+```yaml
+services:
+  metabase:
+    build: .
+    container_name: metabase-pinot
+    ports:
+      - "3000:3000"
+    environment:
+      - MB_PLUGINS_DIR=/plugins
+    volumes:
+      - metabase_data:/metabase-data
+    restart: unless-stopped
+
+volumes:
+  metabase_data:
+
+```
+
+Run `docker compose up` to start everything:
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+
+
+## Advanced Options
+
+### Authentication header
+
+Users can enable it by expanding the advanced options, then enable `Authentication header`&#x20;
+
+The supported `Auth Token Type`  is `Basic` or `Bearer` .
+
+&#x20;`Auth Token Value` is a string from your admin.
+
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
