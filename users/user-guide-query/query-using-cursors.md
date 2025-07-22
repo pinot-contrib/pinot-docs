@@ -42,17 +42,17 @@ _By default, the broker's local storage is used to store responses._
 ```
 # Example configuration for file using local storage
 
-pinot.broker.cursor.result.store.type=file
-pinot.broker.cursor.result.store.file.temp.dir=/home/pinot/broker/data/cursors/temp
-pinot.broker.cursor.result.store.file.data.dir=file:///home/pinot/data/cursors/data
+pinot.broker.cursor.response.store.type=file
+pinot.broker.cursor.response.store.file.temp.dir=/home/pinot/broker/data/cursors/temp
+pinot.broker.cursor.response.store.file.data.dir=file:///home/pinot/data/cursors/data
 
 #Example configuration for file using S3
 
-pinot.broker.cursor.result.store.type=file
+pinot.broker.cursor.response.store.type=file
 pinot.broker.storage.factory.s3.region=us-west-2
 pinot.broker.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
-pinot.broker.cursor.result.store.file.temp.dir=/home/pinot/broker/data/cursors/temp
-pinot.broker.cursor.result.store.file.data.dir.data.dir=s3://bucket/dir/query-results/
+pinot.broker.cursor.response.store.file.temp.dir=/home/pinot/broker/data/cursors/temp
+pinot.broker.cursor.response.store.file.data.dir.data.dir=s3://bucket/dir/query-results/
 
 ```
 
