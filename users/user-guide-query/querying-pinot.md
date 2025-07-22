@@ -144,6 +144,8 @@ FROM myTable
   GROUP BY airlineName LIMIT 10
 ```
 
+**Note:** REGEXP_LIKE also supports case insensitive search using the `i` flag as the third parameter.
+
 ### Case-When Statement
 
 Pinot supports the `CASE-WHEN-ELSE` statement, as shown in the following two examples:
