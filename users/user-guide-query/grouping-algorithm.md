@@ -4,7 +4,7 @@ In this guide we will learn about the heuristics used for trimming results in Pi
 
 ## V1 / Single Stage Query Engine
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-07-22 at 15.34.56.png" alt=""><figcaption><p>Group by results approximation at various stages of V1 query execution</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-07-22 at 17.39.21.png" alt="" width="374"><figcaption><p>Group by results approximation at various stages of V1 query execution</p></figcaption></figure>
 
 ## Within segment
 
@@ -115,7 +115,7 @@ Compared to V1, V2 engine uses similar algorithm, but there are notable differen
 
 The default V2 algorithm is shown on the following diagram:
 
-<figure><img src="../../.gitbook/assets/GroupingAlgoV2_notrim (3).svg" alt=""><figcaption><p>Default V2 engine group by results approximation</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-07-22 at 17.43.44.png" alt="" width="389"><figcaption><p>Default V2 engine group by results approximation</p></figcaption></figure>
 
 Apart from limiting number of groups on segment level, similar limit is applied at _intermediate_ stage.  Since V2 query engine allows for subqueries, in an execution plan, there could be arbitrary number of stages doing _intermediate_ aggregation between leaf (bottom-most) and top-most stages, and each stage can be implemented with many instances of `AggregateOperator` (shown as `PinotLogicalAggregate` in  [EXPLAIN's](https://docs.pinot.apache.org/users/user-guide-query/query-syntax/explain-plan-multi-stage) output).  \
 The operator limits number of distinct groups to 100,000 by default, which can be overridden with `numGroupsLimit` option or `num_groups_limit` aggregate hint. The limit applies to a single operator instance, meaning that next stage could receive a total of `num_instances * num_groups_limit`.
@@ -129,7 +129,7 @@ It is possible to enable group limiting and trimming at other stages with:
 
 When the above hints are used, query processing looks as follows:
 
-<figure><img src="../../.gitbook/assets/GroupingAlgoV2_onlyV2.svg" alt=""><figcaption><p>Group by results trimming at various stages of V2 query execution utilizing V1 in leaf stage</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-07-22 at 17.39.42.png" alt="" width="386"><figcaption><p>Group by results trimming at various stages of V2 query execution utilizing V1 in leaf stage</p></figcaption></figure>
 
 The actual processing depends on the query, which may not contain V1 leaf stage aggregate component, and rely on AggregateOperator on all levels. Moreover, since trimming relies on order and limit propagation, it may not happen in a subquery if order by column(s) are not available.&#x20;
 
