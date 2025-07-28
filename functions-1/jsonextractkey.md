@@ -6,6 +6,10 @@ description: This section contains reference documentation for the JSONEXTRACTKE
 
 Extracts all matched JSON field keys based on 'jsonPath' into a STRING\_ARRAY.
 
+{% hint style="warning" %}
+_**paramString**_ option support is available from Pinot 1.5.0 release or try the latest code.
+{% endhint %}
+
 ## Signature
 
 > JSONEXTRACTKEY(jsonField, 'jsonPath', \[paramString])
