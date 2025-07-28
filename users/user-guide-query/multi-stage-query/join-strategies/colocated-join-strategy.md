@@ -49,7 +49,7 @@ SELECT ...
 
 <details>
 
-<summary>Even lower level configuration (not recommended)</summary>
+<summary>Advanced configuration</summary>
 
 Colocated joins can also be enabled per-join basis by setting the `tableOptions` hint directly.
 
@@ -62,8 +62,9 @@ ON A.partitionKeyA = B.partitionKeyB
 
 In this case, the `partition_function`, `partition_key`, and `partition_size` are required to be the same for both tables and they must be the same as the ones defined in the table configuration.
 
-This is a very advance and error prone way to configure joins that can also be used to change stage parallelism. Therefore it is recommended.\
+This is a very advance and error prone way to configure joins that can also be used to change stage parallelism.
 
+Note that this can also be used to enable colocated joins on tables that have a different number of physical partitions. Consider a case where table A has 16 partitions and table B has 4 partitions and the assignment is such that partitions 0, 4, 8, 12 of table A are assigned to the same server hosting partition 0 of table B (similarly, partitions 1, 5, 9, 13 of table A should be colocated with partition 1 of table B and so on). In this case, co-located joins can be leveraged by explicitly setting the `partition_size` on the larger side to match the smaller side - i.e., in this case both sides would use `/*+ tableOptions(partition_size='4') */`.
 
 </details>
 
