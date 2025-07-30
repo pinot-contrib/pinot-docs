@@ -112,13 +112,13 @@ OFFSET 0 LIMIT 10
 ```sql
 -- Traditional approach (slow - full scan)
 SELECT * FROM documents
-WHERE REGEXP_LIKE(content, '.*apache.*pinot.*')
+WHERE REGEXP_LIKE(content, '.*pinot.*')
 
 -- N-gram approach (fast - with prefiltering)
 SELECT * FROM documents
-WHERE NGRAM(content, 2) LIKE '%ap%'
-  AND NGRAM(content, 2) LIKE '%pi%'
-  AND content LIKE '%apache%pinot%'
+WHERE NGRAM(content, 3) = 'pin'
+  AND NGRAM(content, 3) = 'nio'
+  AND REGEXP_LIKE(content, '.*pinot.*')
 ```
 
 ## Implementation Notes
