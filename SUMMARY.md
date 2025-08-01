@@ -102,6 +102,8 @@
   * [Query using Cursors](users/user-guide-query/query-using-cursors.md)
   * [Multi-stage query](users/user-guide-query/multi-stage-query/README.md)
     * [Understanding Stages](users/user-guide-query/multi-stage-query/understanding-stages.md)
+    * [Multistage Lite Mode](users/user-guide-query/multi-stage-query/multistage-lite-mode.md)
+    * [Physical Optimizer](users/user-guide-query/multi-stage-query/physical-optimizer.md)
     * [Explain](users/user-guide-query/multi-stage-query/understanding-multi-stage-explain.md)
     * [Stats](users/user-guide-query/multi-stage-query/understanding-stage-stats.md)
     * [Optimizing joins](users/user-guide-query/multi-stage-query/optimizing-joins.md)
