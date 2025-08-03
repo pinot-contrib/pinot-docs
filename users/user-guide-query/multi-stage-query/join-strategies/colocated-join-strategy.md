@@ -78,7 +78,7 @@ In order to guarantee that colocated joins can be used it is recommended to inst
 
 As explained, the main advantage when this optimization is enabled is that data doesn't need to be shuffled to execute the join. That can be verified with the [`rawMessages`](../operator-types/mailbox-receive.md#rawmessages) and [`inMemoryMessages`](../operator-types/mailbox-send.md#inmemorymessages) stats on the [mailbox send](../operator-types/mailbox-send.md) operator for this stage. All messages should be in memory and `rawMessages` should be 0 (or not listed at all).
 
-Another way to verify this optimization is being applied is to use the [`EXPLAIN IMPLEMENTATION PLAN`](<../../explain-plan (1).md#workers-plan>) command. You need to use the `EXPLAIN IMPLEMENTATION PLAN` command. There you will see that `MAIL_SEND` operators are decorated with `[PARTITIONED]` and each `MAIL_SEND` will send the data to another worker in the same server.
+Another way to verify this optimization is being applied is to use the [`EXPLAIN IMPLEMENTATION PLAN`](../explain-plan-1.md#workers-plan) command. You need to use the `EXPLAIN IMPLEMENTATION PLAN` command. There you will see that `MAIL_SEND` operators are decorated with `[PARTITIONED]` and each `MAIL_SEND` will send the data to another worker in the same server.
 
 {% hint style="warning" %}
 Notice that this optimization cannot be seen in the normal `EXPLAIN PLAN` command.

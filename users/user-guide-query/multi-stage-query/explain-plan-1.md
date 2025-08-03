@@ -1,4 +1,4 @@
-# Explain plan
+# Explain Plan
 
 Query execution within Pinot is modeled as a sequence of operators that are executed in a pipelined manner to produce the final result. The `EXPLAIN PLAN FOR` syntax can be used to obtain the execution plan of a query, which can be useful to further optimize them.
 
@@ -245,7 +245,7 @@ Returns:
 ## Explain on single stage query engine
 
 {% hint style="info" %}
-Explain plan for single stage query engine is described in deep in [explain-plan.md](explain-plan.md "mention")
+Explain plan for single stage query engine is described in deep in [explain-plan.md](../explain-plan.md "mention")
 {% endhint %}
 
 Explain plan for single stage query engine is simpler and less customized, but returns the information in a tabular format. For example, the query `EXPLAIN PLAN FOR SELECT playerID, playerName FROM baseballStats`.&#x20;

@@ -4,8 +4,6 @@ description: Introduces the new Multistage Engine Lite Mode
 
 # Multistage Lite Mode
 
-## Multistage Engine Lite Mode (Beta)
-
 {% hint style="warning" %}
 MSE Lite Mode is included in Pinot 1.4 and is currently in Beta.
 {% endhint %}

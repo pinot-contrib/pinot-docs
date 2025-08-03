@@ -397,3 +397,30 @@ pinot-admin QuickStart -type join
 ```
 {% endtab %}
 {% endtabs %}
+
+## Time Series
+
+This examples demonstrates Pinot's Time Series Engine, which supports running pluggable Time Series Query Languages via a Language Plugin architecture. The default Pinot binary includes a toy Time Series Query Language named "m3ql".
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type time_series
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type time_series
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type time_series
+```
+{% endtab %}
+{% endtabs %}
