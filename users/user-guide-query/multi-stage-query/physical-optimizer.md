@@ -25,7 +25,7 @@ The examples below are based on the `COLOCATED_JOIN` Quickstart.
 
 ### Automatic Colocated Joins and Shuffle Simplification
 
-Consider the query below which consists of 3 Joins. With the new query optimizer, the entire query runs without any cross-server data exchange, since the data is partitioned by userUUID into a compatible number of partitions (see the "Setting Up Table Data Distribution" section below).
+Consider the query below which consists of 3 Joins. With the new query optimizer, the entire query can run without any cross-server data exchange, since the data is partitioned by userUUID into a compatible number of partitions (see the "Setting Up Table Data Distribution" section below).
 
 ```sql
 SET useMultistageEngine = true;
@@ -120,7 +120,7 @@ This optimization can be seen in action in the query example shared above. Since
 
 ### Segment / Server Pruning
 
-Similar to the V1 Engine, if you have enabled `segmentPrunerTypes` in your table's Routing config, the Physical Optimizer will prune segments and servers using time, partition or other pruner types for the Leaf Stage. e.g. the following query will only select segments which satisfy the following constraint:
+Similar to the Single Stage Engine, if you have enabled `segmentPrunerTypes` in your table's Routing config, the Physical Optimizer will prune segments and servers using time, partition or other pruner types for the Leaf Stage. e.g. the following query will only select segments which satisfy the following constraint:
 
 ```
 segmentPartition = Murmur("user-1") % numPartitions

@@ -400,7 +400,20 @@ pinot-admin QuickStart -type join
 
 ## Time Series
 
-This examples demonstrates Pinot's Time Series Engine, which supports running pluggable Time Series Query Languages via a Language Plugin architecture. The default Pinot binary includes a toy Time Series Query Language named "m3ql".
+{% hint style="info" %}
+For production use, you should ideally implement your own Time Series Language Plugin. The one included in the Pinot distribution is only for demonstration purposes.
+{% endhint %}
+
+This examples demonstrates Pinot's Time Series Engine, which supports running pluggable Time Series Query Languages via a Language Plugin architecture. The default Pinot binary includes a toy Time Series Query Language using the same name as Uber's language "m3ql". You can try the following query as an example:
+
+```
+fetch{table="meetupRsvp_REALTIME",filter="",ts_column="__metadata$recordTimestamp",ts_unit="MILLISECONDS",value="1"}
+| sum{rsvp_count}
+| transformNull{0}
+| keepLastValue{}
+```
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 {% tabs %}
 {% tab title="Docker" %}
