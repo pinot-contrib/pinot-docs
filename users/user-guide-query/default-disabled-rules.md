@@ -20,7 +20,7 @@ This rule pushes / duplicates aggregation function down a join when the aggregat
 #### Use case
 Consider using this rule when the group-by reduces input cardinality by a large extent, and the aggregation function 
 evaluation is inexpensive.
-`SET usePlannerRules='AGGREGATE_JOIN_TRANSPOSE_EXTENDED';`
+`SET usePlannerRules='AggregateJoinTransposeExtended';`
 
 #### Example
 Example query:
@@ -39,7 +39,7 @@ Calcite's [SORT_JOIN_TRANSPOSE](https://calcite.apache.org/javadocAggregate/org/
 
 #### Use case
 Consider using this rule when there's sort-limit on preserve side on a left/right outer join. 
-`SET usePlannerRules='SORT_JOIN_TRANSPOSE';`.
+`SET usePlannerRules='SortJoinTranspose';`.
 
 #### Example
 Example query with TPC-H:
