@@ -43,7 +43,7 @@ pinot.broker.multistage.infer.partition.hint=true
 It can also be enabled/disabled on a per-query basis by setting the following query option:
 
 ```sql
-SET inferPartitionHint=true
+SET inferPartitionHint=true;
 SELECT ...
 ```
 
