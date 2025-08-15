@@ -11,6 +11,41 @@ We disable them by default and list them here for users to enable on demand.
 
 ## Default Disabled Rules
 
+### JOIN_TO_ENRICHED_JOIN
+
+#### About
+
+Enable Pinot's [JOIN_TO_ENRICHED_JOIN](https://github.com/apache/pinot/blob/master/pinot-query-planner/src/main/java/org/apache/pinot/calcite/rel/rules/PinotEnrichedJoinRule.java) that creates a [EnrichedHashJoinOpeartor](https://github.com/apache/pinot/blob/master/pinot-query-runtime/src/main/java/org/apache/pinot/query/runtime/operator/EnrichedHashJoinOperator.java) that fuses arbitrary combinations of filters, projections, and an optional limit into a HashJoin. This always avoids materializing intermediate results for join executions, which saves memory and speeds up join execution.
+
+#### Use Case
+
+Any case a hash join is followed a by projections and/or filters and/or limit. This is especially useful when there are projections that could not be pushed does the join (e.g. sum of two columns from each side), and filters that are based on such projections. This is also going to be useful when there's a LIMIT immediately after join. Sometimes, the filters and projections are pushed down the join by other optimizer rules, then this would have no effect. 
+
+#### Example
+
+For a simple **Projection-after-join** query over TPC-H, like:
+```sql
+SET usePlannerRules='JoinToEnrichedJoin';
+SELECT l_tax FROM lineitem
+JOIN orders ON l_orderkey = o_orderkey;
+```
+This optimization reduces join allocation by **>30%** and speeds up query by **>15%**.
+
+Other example queries on which this might work includes:
+**Limit after join**
+```sql
+SELECT * FROM lineitem JOIN orders ON l_orderkey = o_orderkey LIMIT 10;
+```
+**Filter over complex expressions after join**
+```sql
+SELECT * FROM (
+    SELECT <complex_expression> AS result FROM lineitem JOIN orders ON l_orderkey = o_orderkey
+) WHERE <complex_expression_over_result>;
+```
+
+
+
+
 ### AGGREGATE_JOIN_TRANSPOSE_EXTENDED
 
 #### About
