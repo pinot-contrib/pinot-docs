@@ -8,7 +8,7 @@ Adding ngram, prefix, postfix UDFs to improve query throughput by enabling effic
 
 ## Context
 
-We are onboarding a use case and trying to increase query throughput. We tested that QPS cannot be further improved with existing `REGEXP_LIKE` queries or `TEXT_MATCH` queries. The queries are as follows:
+We were aiming to increase query throughput for a matching use case. Initial testing shows that the current approaches using `REGEXP_LIKE` and `TEXT_MATCH` queries have reached their performance limits, and further improvements in QPS cannot be achieved with these methods. The representative queries under evaluation are as follows:
 
 ```sql
 SELECT col1, col2 FROM table WHERE REGEXP_LIKE(col3, '^data*')
@@ -42,13 +42,16 @@ N-grams solve performance issues with:
 Need to do prefiltering to avoid full scan of all rows.
 **How to prefilter → use ngram!**
 
-## Signature
+## Function Parameters
 
-> NGRAM(col, n)
->
-> PREFIX(col, prefixString)
->
-> SUFFIX(col, suffixString)
+| Function | Parameters | Description |
+|----------|------------|-------------|
+| `prefixes` | `String input, int maxlength` | Generate array of prefix strings shorter than maxlength |
+| `prefixesWithPrefix` | `String input, int maxlength, @Nullable String prefix` | Generate array of prefix matchers with prepended prefix (e.g. '^' for regex) |
+| `suffixes` | `String input, int maxlength` | Generate array of suffix strings shorter than maxlength |
+| `suffixesWithSuffix` | `String input, int maxlength, @Nullable String suffix` | Generate array of suffix matchers with appended suffix (e.g. '$' for regex) |
+| `uniqueNgrams` | `String input, int length` | Generate array of unique ngrams of exact specified length |
+| `uniqueNgrams` | `String input, int minGram, int maxGram` | Generate array of unique ngrams within length range [minGram, maxGram] |
 
 ## Usage Examples
 
@@ -65,38 +68,110 @@ ORDER BY confirmedEmployeeCount DESC
 OFFSET 0 LIMIT 10
 ```
 
-### N-gram Generation
+### Prefix Operations
 
 ```sql
-SELECT NGRAM('Apache pinot', 2) AS bigrams
+SELECT prefixes('data', 3) AS result
+FROM myTable
+```
+
+| result      |
+| ----------- |
+| ["d", "da", "dat"] |
+
+```sql
+SELECT prefixesWithPrefix('data', 3, '^') AS result
+FROM myTable
+```
+
+| result      |
+| ----------- |
+| ["^d", "^da", "^dat"] |
+
+### Suffix Operations
+
+```sql
+SELECT suffixes('data', 3) AS result
+FROM myTable
+```
+
+| result      |
+| ----------- |
+| ["a", "ta", "ata"] |
+
+```sql
+SELECT suffixesWithSuffix('data', 3, '$') AS result
+FROM myTable
+```
+
+| result      |
+| ----------- |
+| ["a$", "ta$", "ata$"] |
+
+### N-gram Generation
+
+#### Table Config with Transformation
+
+Instead of using SQL UDF, configure n-gram generation during ingestion using `transformationConfig`:
+
+```json
+{
+  "tableName": "myTable",
+  "tableType": "OFFLINE",
+  "ingestionConfig": {
+    "transformationConfigs": [
+      {
+        "columnName": "content_bigrams",
+        "transformFunction": "uniqueNgrams(content, 2)"
+      },
+      {
+        "columnName": "content_ngrams",
+        "transformFunction": "uniqueNgrams(content, 2, 4)"
+      }
+    ]
+  }
+}
+```
+
+#### Query Examples
+
+```sql
+SELECT uniqueNgrams('Apache pinot', 2) AS bigrams
 FROM myTable
 ```
 
 | bigrams |
 | ------- |
-| ap,pa,ac,ch,he,e , p,pi,in,no,ot |
-
-### Prefix Operations
+| ["Ap", "pa", "ac", "ch", "he", "e ", " p", "pi", "in", "no", "ot"] |
 
 ```sql
-SELECT PREFIX('data', 'prefix_') AS result
+SELECT uniqueNgrams('data', 2, 4) AS ngrams
 FROM myTable
 ```
 
-| result      |
-| ----------- |
-| prefix_data |
+| ngrams |
+| ------ |
+| ["da", "at", "ta", "dat", "ata", "data"] |
 
-### Suffix (Postfix) Operations
+**Using Generated N-grams**
 
 ```sql
-SELECT SUFFIX('data', '_suffix') AS result
-FROM myTable
+-- Traditional approach (slow)
+SELECT * FROM T WHERE REGEXP_LIKE(field, '*pino.*')
+
+-- Optimized approach with n-gram prefiltering
+SELECT * FROM T
+WHERE ngram = 'pin' AND ngram = 'ino' AND ngram = 'not'
+  AND REGEXP_LIKE(field, '*pino.*')
 ```
 
-| result      |
-| ----------- |
-| data_suffix |
+```sql
+-- Traditional approach for short strings
+SELECT * FROM T WHERE REGEXP_LIKE(field, '*pi.*')
+
+-- Optimized approach (no validation needed when search string ≤ ngram length)
+SELECT * FROM T WHERE ngram = 'pi'
+```
 
 ## How to Use N-gram
 
