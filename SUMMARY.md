@@ -504,7 +504,9 @@
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)
 * [Presto](integrations/presto.md)
-* [Spark-Pinot Connector](integrations/spark-pinot-connector.md)
+* [Spark-Pinot Connector](integrations/spark-pinot-connector/README.md)
+  * [Spark Pinot Connector Read Model](integrations/spark-pinot-connector/spark-pinot-connector-read-model.md)
+  * [Spark Pinot Connector Write Model](integrations/spark-pinot-connector/spark-pinot-connector-write-model.md)
 * [Metabase](integrations/metabase.md)
 
 ## Contributing
