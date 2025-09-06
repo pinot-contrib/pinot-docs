@@ -274,7 +274,7 @@ val data = spark.read
 
 **Note:** When using gRPC with proxy, the connector automatically adds `FORWARD_HOST` and `FORWARD_PORT` metadata headers for proper request routing.
 
-### Examples
+### Example run with spark-shell
 
 There are examples under [https://github.com/apache/pinot/tree/master/pinot-connectors/pinot-spark-3-connector/examples](https://github.com/apache/pinot/tree/master/pinot-connectors/pinot-spark-3-connector/examples) .&#x20;
 
@@ -340,7 +340,104 @@ spark-shell
     --jars "$PINOT_HOME/pinot-connectors/pinot-spark-3-connector/target/pinot-spark-3-connector-*-shaded.jar" < "$PINOT_HOME/pinot-connectors/pinot-spark-3-connector/examples/read_pinot_from_proxy_with_auth_token.scala"
 ```
 
-#### Run with spark-submit
+#### Sample output
+
+```
+spark-shell --master 'local[*]' --name read-pinot --jars "$PINOT_HOME/pinot-connectors/pinot-spark-3-connector/target/pinot-spark-3-connector-*-shaded.jar" < "$PINOT_HOME/pinot-connectors/pinot-spark-3-connector/examples/read_pinot_from_proxy_with_auth_token.scala"
+
+25/09/04 07:59:29 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+Spark context Web UI available at http://xiang-mac-home.wyvern-sun.ts.net:4040
+Spark context available as 'sc' (master = local[*], app id = local-1756997971428).
+Spark session available as 'spark'.
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /___/ .__/\_,_/_/ /_/\_\   version 3.5.1
+      /_/
+
+Using Scala version 2.12.18 (OpenJDK 64-Bit Server VM, Java 17.0.15)
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala> import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.SparkSession
+
+scala>
+
+scala> val spark = SparkSession.builder().appName("read-pinot-table").master("local[*]").getOrCreate()
+25/09/04 07:59:35 WARN SparkSession: Using an existing Spark session; only runtime SQL configurations will take effect.
+spark: org.apache.spark.sql.SparkSession = org.apache.spark.sql.SparkSession@c377641
+
+scala>
+
+scala> val df = spark.read.
+     |   format("org.apache.pinot.connector.spark.v3.datasource.PinotDataSource").
+     |   option("table", "api_gateway_agg_monthly").
+     |   option("tableType", "REALTIME").
+     |   option("controller", "pinot.xxx.yyy.startree.cloud").
+     |   option("broker", "broker.pinot.xxx.yyy.startree.cloud").
+     |   option("secureMode", "true").
+     |   option("authToken", "st-xxx-yyy").
+     |   option("proxy.enabled", "true").
+     |   option("grpc.proxy-uri", "proxy-grpc.pinot.xxx.yyy.startree.cloud").
+     |   option("useGrpcServer", "true").
+     |   load()
+25/09/04 07:59:35 WARN HttpUtils: No truststore configured, trusting all certificates (not recommended for production)
+df: org.apache.spark.sql.DataFrame = [api_calls_count: bigint, developer_account_id: string ... 1 more field]
+
+scala>
+
+scala> println("Schema:")
+Schema:
+
+scala> df.printSchema()
+root
+ |-- api_calls_count: long (nullable = true)
+ |-- developer_account_id: string (nullable = true)
+ |-- monthsSinceEpoch: long (nullable = true)
+
+
+scala>
+
+scala> println("Sample rows:")
+Sample rows:
+
+scala> df.show(10, truncate = false)
+25/09/04 07:59:39 WARN HttpUtils: No truststore configured, trusting all certificates (not recommended for production)
++---------------+------------------------------------+----------------+
+|api_calls_count|developer_account_id                |monthsSinceEpoch|
++---------------+------------------------------------+----------------+
+|276            |000e2e63-12ef-e353-af76-6fe98d2e8747|1748736000000   |
+|287            |00101768-41ba-0f01-36da-2dfee58f4703|1748736000000   |
+|287            |00121c0f-3825-364e-18e4-dac8dd0ea8d1|1748736000000   |
+|290            |00124c8f-2a3d-fe73-3090-482c3757af09|1748736000000   |
+|299            |00128fa3-a508-5e39-0ab9-c3f2039a878a|1748736000000   |
+|275            |0014e7b0-9d48-2ef9-9111-e830e74f32c4|1748736000000   |
+|293            |0017b314-b083-9240-0117-515519c22fd4|1748736000000   |
+|306            |0026de58-e04a-ec08-fe94-beb363324f30|1748736000000   |
+|297            |002dff23-dbd7-8ef3-a55f-f225523519b4|1748736000000   |
+|277            |002f40b0-409c-b3e8-bb69-049b3e321589|1748736000000   |
++---------------+------------------------------------+----------------+
+only showing top 10 rows
+
+
+scala>
+
+scala> println(s"Total rows: ${df.count()}")
+25/09/04 08:00:38 WARN HttpUtils: No truststore configured, trusting all certificates (not recommended for production)
+Total rows: 60000
+
+scala>
+
+scala> spark.stop()
+
+scala> :quit
+```
+
+### Example run with spark-submit
 
 You can run the examples locally (e.g. using your IDE) in a standalone mode by starting a local Pinot cluster. See: [https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally)
 
