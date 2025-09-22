@@ -278,11 +278,11 @@ Note that enabling upsert snapshot is required for metadata TTL for in-memory va
 Upsert Pinot table can support soft-deletes of primary keys. This requires the incoming record to contain a dedicated boolean single-field column that serves as a delete marker for a primary key. Once the real-time engine encounters a record with delete column set to `true` , the primary key will no longer be part of the queryable set of documents. This means the primary key will not be visible in the queries, unless explicitly requested via query option `skipUpsert=true`.
 
 ```json
-{ 
-    "upsertConfig": {  
-        ... 
+{
+    "upsertConfig": {
+        ...
         "deleteRecordColumn": <column_name>
-    } 
+    }
 }
 ```
 
@@ -434,6 +434,36 @@ The feature also requires you to specify `pinot.server.instance.max.segment.prel
 {% hint style="warning" %}
 A bug was introduced in v1.2.0 that when enablePreload and enableSnapshot flags are set to true but max.segment.preload.threads is left as 0, the preloading mechanism is still enabled but segments fail to get loaded as there is no threads for preloading. This was fixed in newer versions, but for v1.2.0, if enablePreload and enableSnapshot are set to true, remember to set max.segment.preload.threads to a positive value as well. Server restart is needed to get max.segment.preload.threads config change into effect.
 {% endhint %}
+
+### Enable commit time compaction for storage optimization
+
+Commit time compaction is a performance optimization feature for upsert tables that removes invalid and obsolete records during segment commit, before the segment becomes immutable. This addresses the challenge where committed segments contain significantly more physical records than logically valid records, leading to storage bloat.
+
+To enable commit time compaction, set the `enableCommitTimeCompaction` to `true` in the upsert configuration. For example:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "enableCommitTimeCompaction": true
+  }
+}
+```
+
+#### How it works
+
+During segment commit, commit time compaction:
+
+- Filters out invalid document IDs. Retains valid records and soft-deleted records.
+- Generates accurate column statistics for compacted segments
+- Maintains correct document order while removing obsolete data
+- Reduces segment size immediately without requiring minion tasks
+
+#### Configuration requirements
+
+- The feature is enabled per table by setting `enableCommitTimeCompaction=true` in the upsert configuration
+- Changes take effect after one segment commit cycle (the current consuming segment will be committed without compaction)
+- Compatible with all types of upsert tables
 
 ### Handle out-of-order events
 
@@ -633,7 +663,8 @@ Putting these together, you can find the table configurations of the quick start
   "upsertConfig": {
     "mode": "FULL",
     "enableSnapshot": true,
-    "enablePreload": true
+    "enablePreload": true,
+    "enableCommitTimeCompaction": true
   },
   "fieldConfigList": [
     {
@@ -713,7 +744,8 @@ Putting these together, you can find the table configurations of the quick start
       "rsvp_count": "INCREMENT",
       "group_name": "UNION",
       "venue_name": "APPEND"
-    }
+    },
+    "enableCommitTimeCompaction": true
   },
   "fieldConfigList": [
     {
