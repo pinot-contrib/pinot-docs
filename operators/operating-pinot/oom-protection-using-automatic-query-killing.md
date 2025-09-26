@@ -33,7 +33,7 @@ pinot.query.scheduler.accounting.enable.thread.memory.sampling=true
 
 Once memory sampling has been enabled, the following DEBUG APIs can be used to check memory usage on a broker or server. Note that there are no APIs that aggregate usage across all servers and brokers for a query.
 
-**/debug/query/resourceUsage**
+**/debug/queries/resourceUsage**
 
 Returns resource usage aggregated by queryId
 
