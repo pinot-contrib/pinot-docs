@@ -205,3 +205,15 @@ Here are the configurations that can be commonly applied to server/broker:
 | pinot.query.scheduler.accounting.gc.backoff.count                                                                                        | 5                                                                                   | When the framework consecutively kills this many expensive queries it will explicitly trigger gc to reclaim the memory. Should consider use -XX:+ExplicitGCInvokesConcurrent to avoid STW for some gc algorithms.         |
 | pinot.query.scheduler.accounting.oom.critical.heap.usage.ratio.delta.after.gc                                                            | 0.15                                                                                | if after gc the heap usage is still above this, kill the most expensive query use this to prevent heap size oscillation and repeatedly triggering gc                                                                      |
 
+## Relevant Metrics
+
+These are the relevant metrics to monitor when using Pinot's OOM protection
+
+```
+QUERIES_KILLED
+QUERIES_THROTTLED
+JVM_HEAP_USED_BYTES
+HEAP_CRITICAL_LEVEL_EXCEEDED
+HEAP_PANIC_LEVEL_EXCEEDED
+```
+
