@@ -441,6 +441,42 @@ The feature also requires you to specify `pinot.server.instance.max.segment.prel
 A bug was introduced in v1.2.0 that when enablePreload and enableSnapshot flags are set to true but max.segment.preload.threads is left as 0, the preloading mechanism is still enabled but segments fail to get loaded as there is no threads for preloading. This was fixed in newer versions, but for v1.2.0, if enablePreload and enableSnapshot are set to true, remember to set max.segment.preload.threads to a positive value as well. Server restart is needed to get max.segment.preload.threads config change into effect.
 {% endhint %}
 
+#### Enable commit time compaction for storage optimization
+
+{% hint style="warning" %}
+If you are enabling commit time compaction for an existing table, it is recommended to first pause the ingestion for that table, enable this feature by updating the table-config, and then resume ingestion.
+{% endhint %}
+
+Many Upsert use-cases have a lot of Update events within the segment commit window. For instance, if we had an Upsert table for order status of Uber Eats orders, we would expect a lot of update events for the same order within a 1 hour window. For such use-cases, the committed segments end up with a lot of dead tuples, and you have to wait for the Segment Compaction tasks to prune them, which can take hours.
+
+Commit time compaction is a performance optimization feature for upsert tables that removes invalid and obsolete records during the segment commit process itself.  This not only reduces the storage bloat of the table immediately, but it can also bring down the segment commit time.
+
+To enable commit time compaction, set the `enableCommitTimeCompaction` to `true` in the upsert configuration. For example:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "enableCommitTimeCompaction": true
+  }
+}
+```
+
+**How it works**
+
+During segment commit, commit time compaction:
+
+* Filters out invalid document IDs. Retains valid records and soft-deleted records.
+* Generates accurate column statistics for compacted segments
+* Maintains correct document order while removing obsolete data
+* Reduces segment size immediately without requiring minion tasks
+
+**Configuration requirements**
+
+* The feature is enabled per table by setting `enableCommitTimeCompaction=true` in the upsert configuration
+* Changes take effect after one segment commit cycle (the current consuming segment will be committed without compaction)
+* Compatible with all types of upsert tables
+
 ### Handle out-of-order events
 
 There are 2 configs added related to handling out-of-order events.
