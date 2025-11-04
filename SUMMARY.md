@@ -199,6 +199,7 @@
     * [Using multiple directories](operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories.md)
   * [Pinot managed Offline flows](operators/operating-pinot/pinot-managed-offline-flows.md)
   * [Minion merge rollup task](operators/operating-pinot/minion-merge-rollup-task.md)
+  * [Upsert Compact Merge Task](operators/operating-pinot/upsert-compact-merge-task.md)
   * [Consistent Push and Rollback](operators/operating-pinot/consistent-push-and-rollback.md)
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Monitoring](operators/operating-pinot/monitoring.md)
