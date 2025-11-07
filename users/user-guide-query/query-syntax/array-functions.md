@@ -150,6 +150,29 @@ SELECT intersectIndices(ARRAY[1, 3, 5], ARRAY[3, 5]);
 
 ***
 
+### arraysOverlap
+
+**Description**:&#x20;
+
+Returns true if the two input arrays have at least one element in common, and false otherwise.
+
+This function is useful for checking whether two arrays share any overlapping values — for example, to test whether a user’s assigned tags intersect with a set of filter tags.\
+
+
+**Syntax**:&#x20;
+
+&#x20;`arraysOverlap(array1, array2)`\
+
+
+**Example**:
+
+```sql
+SELECT arraysOverlap(ARRAY[1, 3, 5], ARRAY[3, 5]);
+-- Result: true
+```
+
+***
+
 ## Array Contains
 
 ### arrayContainsInt
