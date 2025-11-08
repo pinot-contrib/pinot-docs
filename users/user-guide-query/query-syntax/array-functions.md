@@ -2,6 +2,138 @@
 
 ***
 
+## Array Aggregation
+
+### arrayAgg
+
+#### **Description**:
+
+Concatenates the input values into an array. Optionally removes duplicates when isDistinct is set to true. This function is commonly used to aggregate multiple rows into a single array grouped by a dimension.
+
+#### **Signature**:
+
+```sql
+ARRAY_AGG(dataColumn, 'dataType' [, isDistinct])
+```
+
+#### **Arguments**:
+
+* dataColumn - The input column or expression to aggregate. Can be a scalar or an array type.
+* 'dataType' - The element type of the resulting array. Must be a string literal (e.g., 'STRING', 'INT', 'LONG', 'DOUBLE').
+* isDistinct _(optional) -_ Boolean flag to include only distinct elements. Defaults to false.
+
+#### **Returns**:
+
+An array of the specified dataType containing all aggregated values.
+
+#### Example:
+
+1. Aggregate scalar values into an array
+
+```sql
+SELECT ARRAY_AGG(firstName, 'STRING', true) AS firstNames
+FROM transcript;
+```
+
+**Results**:
+
+```sql
+firstNames
+-----------
+["Bob", "Nick", "Lucy"]
+```
+
+2. Aggregate array values across rows
+
+```sql
+SELECT ARRAY_AGG(tags, 'STRING') AS allTags
+FROM articles;
+```
+
+**Results**:
+
+```sql
+allTags
+-------------------------------------
+["news", "ai", "pinot", "open-source"]
+```
+
+#### Notes:
+
+* When the input column is an array, all sub-arrays are flattened before aggregation.
+* When isDistinct is true, duplicate elements are removed from the final array.
+* The order of elements in the output array is not guaranteed.
+* Supports both scalar and array input types for numeric and string data.
+
+***
+
+### LISTAGG
+
+#### Description:
+
+Concatenates the input values into a single string, with an optional delimiter.
+
+Similar to ARRAY\_AGG, but produces a string instead of an array.
+
+LISTAGG is useful for generating comma-separated lists or other delimited strings from multiple rows.
+
+#### Signature:
+
+```sql
+LISTAGG(dataColumn [, delimiter] [, isDistinct])
+```
+
+#### Arguments:
+
+* dataColumn — The input column or expression to concatenate.
+* delimiter _(optional)_ — A string used to separate values in the output. Defaults to ','.
+* isDistinct _(optional)_ — Boolean flag to include only distinct elements. Defaults to false.
+
+#### Returns:
+
+A single concatenated STRING containing all values (optionally distinct), separated by the given delimiter.
+
+#### Examples:
+
+1. Concatenate names with commas
+
+```sql
+SELECT LISTAGG(firstName, ', ', true) AS allNames
+FROM transcript;
+```
+
+**Result**:
+
+```sql
+allNames
+-------------------
+Bob, Nick, Lucy
+```
+
+2. Concatenate array input
+
+```sql
+SELECT LISTAGG(tags, '|') AS tagList
+FROM articles;
+```
+
+**Result**:
+
+```sql
+tagList
+------------------------
+news|ai|pinot|open-source
+```
+
+#### Notes:
+
+* If the input column is an array, all sub-arrays are flattened before concatenation.
+* When isDistinct is true, duplicate values are removed before joining.
+* The output order of elements is not guaranteed.
+* The delimiter argument is optional; default is a comma ','.
+
+***
+
 ## Array Reversal
 
 ### arrayReverseInt
