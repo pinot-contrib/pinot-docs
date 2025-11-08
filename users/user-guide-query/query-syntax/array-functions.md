@@ -134,6 +134,143 @@ news|ai|pinot|open-source
 
 ***
 
+### sumArrayLong
+
+#### Description:
+
+Computes the sum of all elements in an array of LONG (or integer-compatible) values across all input rows.
+
+This function is useful for aggregating numeric arrays, such as metrics or counters, into a single scalar value.
+
+#### Signature:
+
+```sql
+sumArrayLong(arrayColumn)
+```
+
+#### Arguments:
+
+* arrayColumn — Input column containing arrays of numeric (LONG or INT) values.
+
+#### Returns:
+
+A LONG representing the sum of all elements across all arrays in the group.
+
+#### Examples:
+
+1. Sum elements of arrays across rows
+
+```sql
+SELECT sumArrayLong(values) AS totalSum
+FROM metrics;
+```
+
+**Input**:
+
+```sql
+values
+-------
+[1, 2, 3]
+[4, 5, 6]
+```
+
+**Result**:
+
+```sql
+totalSum
+---------
+21
+```
+
+2. With GROUP BY
+
+```sql
+SELECT category, sumArrayLong(values) AS total
+FROM metrics
+GROUP BY category;
+```
+
+**Result**:
+
+```sql
+category | total
+----------|------
+A         | 15
+B         | 27
+```
+
+#### Notes:
+
+* NULL and empty arrays are ignored.
+* All numeric values are coerced to LONG before summation.
+* If any element is non-numeric, the query will fail.
+
+***
+
+### sumArrayDouble
+
+#### Description:
+
+Computes the sum of all elements in an array of DOUBLE (floating-point) values across all input rows.
+
+This is the double-precision variant of sumArrayLong, and is typically used for aggregating numeric arrays with decimal values, such as scores, probabilities, or weights.
+
+#### Signature:
+
+```sql
+sumArrayDouble(arrayColumn)
+```
+
+#### Arguments:
+
+* arrayColumn — Input column containing arrays of numeric (DOUBLE or FLOAT) values.
+
+#### Returns:
+
+A DOUBLE representing the sum of all elements across all arrays in the group.
+
+#### Examples:
+
+1. Sum elements of arrays across rows
+
+```sql
+SELECT sumArrayDouble(weights) AS totalWeight
+FROM model_output;
+```
+
+Input:
+
+```sql
+weights
+------------
+[1.2, 0.8]
+[2.5, 3.0]
+```
+
+Result:
+
+```sql
+totalWeight
+------------
+7.5
+```
+
+2. With GROUP BY
+
+```sql
+SELECT experimentId, sumArrayDouble(scores) AS totalScore
+FROM results
+GROUP BY experimentId;
+```
+
+#### Notes:
+
+* NULL and empty arrays are ignored.
+* All numeric elements are coerced to DOUBLE before summation.
+* Use sumArrayLong for integer data to avoid type conversion overhead.
+
+***
+
 ## Array Reversal
 
 ### arrayReverseInt
