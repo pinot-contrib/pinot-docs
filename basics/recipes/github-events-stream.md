@@ -59,11 +59,11 @@ Create a Kafka topic called `pullRequestMergedEvents` for the demo.
 
 ```bash
 docker exec \
-  -t kafka \
-  /opt/kafka/bin/kafka-topics.sh \
-  --zookeeper pinot-zookeeper:2181/kafka \
-  --partitions=1 --replication-factor=1 \
-  --create --topic pullRequestMergedEvents
+  -it kafka \
+  /opt/bitnami/kafka/bin/kafka-topics.sh \
+  --bootstrap-server kafka:9092 --partitions=1 \
+  --replication-factor=1 --create \
+  --topic pullRequestMergedEvents
 ```
 
 **Add a Pinot table and schema**
@@ -256,9 +256,8 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
     ],
     "streamConfigs": {
       "streamType": "kafka",
-      "stream.kafka.consumer.type": "simple",
       "stream.kafka.topic.name": "pullRequestMergedEvents",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.zk.broker.url": "pinot-zookeeper:2181/kafka",
       "stream.kafka.broker.list": "kafka:9092",
@@ -281,12 +280,12 @@ $ docker run \
     --network=pinot-demo \
     --name pinot-streaming-table-creation \
     ${PINOT_IMAGE} AddTable \
-    -schemaFile examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
-    -tableConfigFile examples/stream/githubEvents/docker/pullRequestMergedEvents_realtime_table_config.json \
+    -schemaFile examples/stream/pullRequestMergedEvents/pullRequestMergedEvents_schema.json \
+    -tableConfigFile examples/stream/pullRequestMergedEvents/docker/pullRequestMergedEvents_realtime_table_config.json \
     -controllerHost pinot-controller \
     -controllerPort 9000 \
     -exec
-Executing command: AddTable -tableConfigFile examples/stream/githubEvents/docker/pullRequestMergedEvents_realtime_table_config.json -schemaFile examples/stream/githubEvents/pullRequestMergedEvents_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
+Executing command: AddTable -tableConfigFile examples/stream/pullRequestMergedEvents/docker/pullRequestMergedEvents_realtime_table_config.json -schemaFile examples/stream/pullRequestMergedEvents/pullRequestMergedEvents_schema.json -controllerHost pinot-controller -controllerPort 9000 -exec
 Sending request: http://pinot-controller:9000/schemas to controller: 20c241022a96, version: Unknown
 {"status":"Table pullRequestMergedEvents_REALTIME succesfully added"}
 ```
@@ -306,7 +305,7 @@ $ docker run --rm -ti \
     --network=pinot-demo \
     --name pinot-github-events-into-kafka \
     -d ${PINOT_IMAGE} StreamGitHubEvents \
-    -schemaFile examples/stream/githubEvents/pullRequestMergedEvents_schema.json \
+    -schemaFile examples/stream/pullRequestMergedEvents/pullRequestMergedEvents_schema.json \
     -topic pullRequestMergedEvents \
     -personalAccessToken <your_github_personal_access_token> \
     -kafkaBrokerList kafka:9092
@@ -545,9 +544,8 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
     ],
     "streamConfigs": {
       "streamType": "kafka",
-      "stream.kafka.consumer.type": "simple",
       "stream.kafka.topic.name": "pullRequestMergedEvents",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.zk.broker.url": "localhost:2191/kafka",
       "stream.kafka.broker.list": "localhost:19092",

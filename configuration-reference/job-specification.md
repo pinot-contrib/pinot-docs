@@ -18,7 +18,7 @@ Users are allowed to define some variables in the job spec file to make it a tem
 
 Templating is based on [Groovy SimpleTemplateEngine](https://docs.groovy-lang.org/docs/next/html/documentation/template-engines.html).
 
-E.g.  users can specify below in the job spec file:
+E.g. users can specify below in the job spec file:
 
 ```
 inputDirURI: 'file:///path/to/input/${year}/${month}/${day}/${hour}'
@@ -49,7 +49,7 @@ export day=02
 export hour=03
 ```
 
-From the command line, user can further override those keys using flag `-values`,&#x20;
+From the command line, user can further override those keys using flag `-values`,
 
 ```bash
 pinot-admin.sh LaunchDataIngestionJob \
@@ -129,7 +129,7 @@ pushJobSpec:
 
 ### Execution Framework Spec
 
-The configs specify the execution framework to use to ingest data. Check out [Batch Ingestion](../basics/data-import/batch-ingestion/) for configs related to all the supported frameworks
+The configs specify the execution framework to use to ingest data. Check out [Batch Ingestion](../manage-data/data-import/batch-ingestion/) for configs related to all the supported frameworks
 
 | Property                              | Description                                                                                                                          |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -163,11 +163,11 @@ executionFrameworkSpec:
 
 Table spec is used to specify the table in which data should be populated along with schema.
 
-| Property       | Description                                                                                                                                        |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| tableName      | name of the table in which to populate the data                                                                                                    |
-| schemaURI      | location from which to read the schema for the table. Supports both [File systems](../basics/data-import/pinot-file-system/) as well as `HTTP` URI |
-| tableConfigURI | location from which to read the config for the table. Supports both [File systems](../basics/data-import/pinot-file-system/) as well as `HTTP` URI |
+| Property       | Description                                                                                                                                             |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| tableName      | name of the table in which to populate the data                                                                                                         |
+| schemaURI      | location from which to read the schema for the table. Supports both [File systems](../manage-data/data-import/pinot-file-system/) as well as `HTTP` URI |
+| tableConfigURI | location from which to read the config for the table. Supports both [File systems](../manage-data/data-import/pinot-file-system/) as well as `HTTP` URI |
 
 #### Example
 
@@ -240,14 +240,15 @@ pinotClusterSpecs:
 
 ### Push Job Spec
 
-| Property                | Description                                                                                                                                                                                         |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| pushAttempts            | Number of attempts for push job. Default is 1, which means no retry                                                                                                                                 |
-| pushParallelism         | Workers to use for push job. Default is 1                                                                                                                                                           |
-| pushRetryIntervalMillis | Time in milliseconds to wait for between retry attempts Default is 1 second.                                                                                                                        |
-| segmentUriPrefix        | append this string before the path of the push destination. Generally, it is the scheme of the filesystem e.g. `s3://` , `file://` etc.                                                             |
-| segmentUriSuffix        | append this string after the path of the push destination.                                                                                                                                          |
-| pushFileNamePattern     | segment name pattern for which segments to push, supported glob and regex patterns. E.g. 'glob:\*\*2023-01\*' will push all the segment files under the outputDirURI whose names contain '2023-01'. |
+| Property                | Description                                                                                                                                                                                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| pushAttempts            | Number of attempts for push job. Default is 1, which means no retry                                                                                                                                                                         |
+| pushParallelism         | Workers to use for push job. Default is 1                                                                                                                                                                                                   |
+| pushRetryIntervalMillis | Time in milliseconds to wait for between retry attempts Default is 1 second.                                                                                                                                                                |
+| segmentUriPrefix        | append this string before the path of the push destination. Generally, it is the scheme of the filesystem e.g. `s3://` , `file://` etc.                                                                                                     |
+| segmentUriSuffix        | append this string after the path of the push destination.                                                                                                                                                                                  |
+| pushFileNamePattern     | segment name pattern for which segments to push, supported glob and regex patterns. E.g. 'glob:\*\*2023-01\*' will push all the segment files under the outputDirURI whose names contain '2023-01'.                                         |
+| batchSegmentUpload      | Boolean field for which the default value is `false`. When the value is set to `true` segments are uploaded in batch mode which is faster than uploading segments one after the other. Works when the jobType is set to SegmentMetadataPush |
 
 #### Example
 
@@ -260,4 +261,3 @@ pushJobSpec:
   segmentUriSuffix : my-dir/
   pushFileNamePattern : glob:\*\*2023-01\*
 ```
-

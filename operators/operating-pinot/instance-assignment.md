@@ -8,9 +8,9 @@ description: >-
 
 Instance assignment is the strategy of assigning the servers to host a table. Each instance assignment strategy is associated with one segment assignment strategy (read more about [Segment Assignment](segment-assignment.md)).
 
-Instance assignment is configured via the **InstanceAssignmentConfig**. Based on the config, Pinot can assign servers to a table, then assign segments to servers using the segment assignment strategy associated with the instance assignment strategy.
+Instance assignment is configured via the **InstanceAssignmentConfig**. Based on the config, Pinot can assign servers to a table, then assign segments to servers using the segment assignment strategy associated with the instance assignment strategy. If **InstanceAssignmentConfig** is explicitly configured, the instance assignment generated for the table is stored in ZooKeeper under the `PROPERTYSTORE/INSTANCE_PARTITIONS/<tableName_instancePartitionType` path.
 
-There are 3 types of instances for the InstanceAssignmentConfig: `OFFLINE`, `CONSUMING` and `COMPLETED`. `OFFLINE` represents the instances hosting the segments for the offline table; `CONSUMING` represents the instances hosting the consuming segments for the real-time table; `COMPLETED` represents the instances hosting the completed segments for the real-time table. For real-time table, if `COMPLETED` instances are not configured, completed segments will use the same instance assignment strategy as the consuming segments. If it is configured, completed segments will be automatically moved to the `COMPLETED` instances periodically.
+There are 3 types of instance partitions for the InstanceAssignmentConfig: `OFFLINE`, `CONSUMING` and `COMPLETED`. `OFFLINE` represents the instances hosting the segments for the offline table; `CONSUMING` represents the instances hosting the consuming segments for the real-time table; `COMPLETED` represents the instances hosting the completed segments for the real-time table. For real-time table, if `COMPLETED` instances are not configured, completed segments will use the same instance assignment strategy as the consuming segments. If it is configured, completed segments will be automatically moved to the `COMPLETED` instances periodically.
 
 ## Default Instance Assignment
 
@@ -146,13 +146,15 @@ In order to use [Partitioned Replica-Group Segment Assignment](segment-assignmen
 
 ## Instance Assignment for Low Level Consumer (LLC) Real-time Table
 
-For LLC real-time table, all the stream events are split into several stream partitions, and the events from each stream partition are consumed by a single server. Because the data is always partitioned, the LLC real-time table is using [Partitioned Replica-Group Instance Assignment](instance-assignment.md#partitioned-replica-group-instance-assignment) implicitly with `numPartitions` the same as the number of stream partitions, and `numInstancesPerPartition` of 1, and we don't allow configuring them explicitly. The replica-group based instance assignment can still be configured explicitly.
+For LLC real-time table, all the stream events are split into several stream partitions, and the events from each stream partition are consumed by a single server. Because the data is always partitioned, the LLC real-time table is using [Partitioned Replica-Group Instance Assignment](instance-assignment.md#partitioned-replica-group-instance-assignment) implicitly with `numPartitions` set to 1 (the stream partitions will be distributed across all the instances in the single partition of each replica group), and `numInstancesPerPartition` of 1. The replica-group based instance assignment can still be configured explicitly. Note that `COMPLETED` segments will use the same assignment strategy as `CONSUMING` segments unless explicitly configured separately in the instance assignment config.
 
 Without explicitly configuring the replica-group based instance assignment, the replicas of the stream partitions will be evenly spread over all the available instances as shown in the following diagram:
 
 ![](../../.gitbook/assets/low-level-consumer-assignment.png)
 
 With replica-group based instance assignment, the stream partitions will be evenly spread over the instances within the replica group.
+
+However, this strategy can lead to a lot of segment movement when adding or removing servers, since the `minimizeDataMovement` algorithm works using stickiness of partition to instance assignments - but here, the instance assignment itself only has a single partition and doesn't match the stream partitions. To avoid this, the `partitionSelector` in the `instanceAssignmentConfigMap` for `CONSUMING` segments can be set to `IMPLICIT_REALTIME_TABLE_PARTITION_SELECTOR`. This is a variant of the default `INSTANCE_REPLICA_GROUP_PARTITION_SELECTOR`, where the `numPartitions` is forced to the actual number of stream partitions. This way, the `minimizeDataMovement` algorithm will actually be effective due to the explicit assignment of stream partitions to instances in each replica group. The strategy is "implicit" because it doesn't require users to explicitly configure the `numPartitions`, with Pinot automatically detecting and using the value from the stream source.
 
 ## Pool-Based Instance Assignment
 
@@ -211,6 +213,10 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `partitionColumn` is required in `replicaGroupPartitionConfig`.
 {% endhint %}
 
+{% hint style="info" %}
+Set `enforce.pool.based.assignment=true` in the controller configuration to enforce pool-based instance assignment in table config during table creation. If this property is set and pool-based instance assignment is not enabled in the table config, table creation fails.
+{% endhint %}
+
 ## Fault-Domain-Aware Instance Assignment
 
 This strategy is to maximize Fault Domain diversity for replica-group based assignment strategy. Specifically, data center and cloud service (e.g. Azure) today provides the idea of rack or fault domain, as to ensure hardware resiliency upon power/network failure.
@@ -243,6 +249,43 @@ The configuration of this comes in two folds:
 }
 ```
 
+## Pre-configured Instance Assignment
+
+A table can be configured to use the same instance assignment as another table - this can be useful for supporting [co-located joins](../../users/user-guide-query/multi-stage-query/join-strategies/colocated-join-strategy.md). This requires the reference table to have an explicitly configured instance assignment (via  `instanceAssignmentConfigMap`). The table that is being configured to copy the instance assignment of another table can do so via the `instancePartitionsMap` table config key which is a map containing keys representing the instance partition type (`OFFLINE`, `CONSUMING`, `COMPLETED`) and values representing the reference instance partition `<tableName_instancePartitionType>`. This configuration setup ensures that the instance assignment for each partition and replica group is identical for the two tables - this can be verified by checking the instance assignment in ZooKeeper under the `PROPERTYSTORE/INSTANCE_PARTITIONS/<tableName_instancePartitionType>` path or through the controller REST API - `GET /tables/{tableName}/instancePartitions`.
+
+{% code title="Table config for table1:" %}
+```json
+{
+  "instanceAssignmentConfigMap":
+    "OFFLINE": {
+      "tagPoolConfig": {
+        "tag": "Tag1_OFFLINE",
+        "poolBased": true
+      },
+      "replicaGroupPartitionConfig": {
+        "replicaGroupBased": true,
+        "numReplicaGroups": 2,
+        "numPartitions": 2,
+        "numInstancesPerPartition": 1,
+        "partitionColumn": "memberId"
+      }
+    }
+  },
+  ...
+}
+```
+{% endcode %}
+
+{% code title="Table config for table2:" %}
+```json
+{
+  "instancePartitionsMap": {
+    "OFFLINE": "table1_OFFLINE"
+  }
+}
+```
+{% endcode %}
+
 ## Change the Instance Assignment
 
-Sometimes we don’t have the instance assignment configured in the optimal way in the first shot, or the capacity or requirement of the use case changes and we have to change the strategy. In order to do that, simply apply the table config with the updated InstanceAssignmentConfig, and kick off a rebalance of the table (read more about [Rebalance Servers](rebalance/rebalance-servers.md)). Pinot will reassign the instances for the table, and also rebalance the segments on the servers without downtime.
+Sometimes we don’t have the instance assignment configured in the optimal way in the first shot, or the capacity or requirement of the use case changes and we have to change the strategy. In order to do that, simply apply the table config with the updated InstanceAssignmentConfig, and kick off a rebalance of the table (read more about [Rebalance Servers](rebalance/rebalance-servers/)). Pinot will reassign the instances for the table, and also rebalance the segments on the servers without downtime.

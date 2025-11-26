@@ -4,6 +4,14 @@ description: Following a list of presentations centered on Pinot
 
 # Presentations
 
+## 2024
+
+* [SREcon24 Americas - Strengthening Apache Pinot's Query Processing Engine with Adaptive Server Selection and Runtime Query Killing](https://www.youtube.com/watch?v=3v3VgUS3nJQ)
+
+## 2023
+
+* [RTA Summit 2023 - Query Processing Resiliency in Pinot (Vivek Iyer & Jia Guo, LinkedIn)](https://www.youtube.com/watch?v=9BfJvu_HvdQ)
+
 ## 2020
 
 * [Apache Pinot Virtual Meetup @LinkedIn (Sep 02, 2020)](https://www.slideshare.net/MayankShrivastava25/apache-pinot-meetup-sept02-2020)

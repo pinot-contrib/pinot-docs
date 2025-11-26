@@ -27,11 +27,11 @@ Pinot table types include:
 
 ## Segment
 
-To support multi-tenancy, Pinot has first class support for tenants. A table is associated with a [tenant](https://docs.pinot.apache.org/pinot-components/tenant). This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications do not have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.
-
-Pinot tables are stored in one or more independent shards called [segments](../components/table/segment/). A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](../../developers/advanced/data-ingestion/)). Segments have time-based partitions of table data, and are stored on Pinot [servers](../components/cluster/server/) that scale horizontally as needed for both storage and computation.
+Pinot tables are stored in one or more independent shards called [segments](../components/table/segment/). A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](../../developers/advanced/data-ingestion.md)). Segments have time-based partitions of table data, and are stored on Pinot [servers](../components/cluster/server.md) that scale horizontally as needed for both storage and computation.
 
 ## Tenant
+
+To support multi-tenancy, Pinot has first class support for tenants. A table is associated with a [tenant](https://docs.pinot.apache.org/pinot-components/tenant). This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications do not have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.
 
 Every table is associated with a [_tenant_](../components/cluster/tenant.md), or a logical namespace that restricts where the cluster processes queries on the table. A Pinot tenant takes the form of a text tag in the logical tenant namespace. Physical cluster hardware resources (i.e., [brokers](../components/cluster/broker.md) and [servers](../components/cluster/server.md)) are also associated with a tenant tag in the common tenant namespace. Tables of a particular tenant tag will only be scheduled for storage and query processing on hardware resources that belong to the same tenant tag. This lets Pinot cluster operators assign specified workloads to certain hardware resources, preventing data from separate workloads from being stored or processed on the same physical hardware.
 
@@ -43,7 +43,7 @@ A Pinot [_cluster_](../components/cluster/) is a collection of the software proc
 
 ## Physical architecture
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 A Pinot cluster consists of the following processes, which are typically deployed on separate hardware resources in production. In development, they can fit comfortably into Docker containers on a typical laptop.
 
@@ -63,7 +63,7 @@ Helix is a cluster management solution created by the authors of Pinot. Helix ma
 
 A[ controller](https://docs.pinot.apache.org/pinot-components/controller) is the core orchestrator that drives the consistency and routing in a Pinot cluster. Controllers are horizontally scaled as an independent component (container) and has visibility of the state of all other components in a cluster. The controller reacts and responds to state changes in the system and schedules the allocation of resources for tables, segments, or nodes. As mentioned earlier, Helix is embedded within the controller as an agent that is a participant responsible for observing and driving state changes that are subscribed to by other components.
 
-The Pinot [controller](../components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../data-import/pinot-stream-ingestion/) and [offline tables](../data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
+The Pinot [controller](../components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../../manage-data/data-import/pinot-stream-ingestion/) and [offline tables](../../manage-data/data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
 The controller exposes a [REST API endpoint](../../users/api/controller-api-reference/) for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
 
@@ -88,4 +88,4 @@ A Pinot [minion](../components/cluster/minion.md) is an optional cluster compone
 Minions isolate the computational burden of out-of-band data processing from the servers. Although a Pinot cluster can function with or without minions, they are typically present to support routine tasks like batch data ingest.
 
 \
-\
+\\

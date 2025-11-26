@@ -29,28 +29,32 @@ Below is a description of the config, which is defined in the ingestion config o
 The following are required for ingestion aggregation to work:
 
 * Ingestion aggregation config is effective only for real-time tables. (There is no ingestion time aggregation support for offline tables. We need use [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md) or pre-process aggregations in the offline data flow using batch processing engines like Spark/MapReduce).
-* [Stream ingestion](../../basics/data-import/pinot-stream-ingestion/) type must be lowLevel.
+* [Stream ingestion](../../manage-data/data-import/pinot-stream-ingestion/) type must be lowLevel.
 * All metrics must have aggregation configs.
 * All metrics must be noDictionaryColumns.
 * `aggregatedFieldName` must be in the Pinot schema and `originalFieldName` must not exist in Pinot schema
 
 ## Example Scenario
 
-Here is an example of sales data, where only the daily sales aggregates per product are needed.&#x20;
+Here is an example of sales data, where only the daily sales aggregates per product are needed.
+
+You can also find it when running RealtimeQuickStart, there is a table called `dailySales`
+
+<figure><img src="../../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Example Input Data
 
 ```json
-{"customerID":205,"product_name": "car","price":"1500.00","timestamp":1571900400000}
-{"customerID":206,"product_name": "truck","price":"2200.00","timestamp":1571900400000}
-{"customerID":207,"product_name": "car","price":"1300.00","timestamp":1571900400000}
-{"customerID":208,"product_name": "truck","price":"700.00","timestamp":1572418800000}
-{"customerID":209,"product_name": "car","price":"1100.00","timestamp":1572505200000}
-{"customerID":210,"product_name": "car","price":"2100.00","timestamp":1572505200000}
-{"customerID":211,"product_name": "truck","price":"800.00","timestamp":1572678000000}
-{"customerID":212,"product_name": "car","price":"800.00","timestamp":1572678000000}
-{"customerID":213,"product_name": "car","price":"1900.00","timestamp":1572678000000}
-{"customerID":214,"product_name": "car","price":"1000.00","timestamp":1572678000000}
+{"customerID":205,"product_name": "car","price":1500.00,"timestamp":1571900400000}
+{"customerID":206,"product_name": "truck","price":2200.00,"timestamp":1571900400000}
+{"customerID":207,"product_name": "car","price":1300.00,"timestamp":1571900400000}
+{"customerID":208,"product_name": "truck","price":700.00,"timestamp":1572418800000}
+{"customerID":209,"product_name": "car","price":1100.00,"timestamp":1572505200000}
+{"customerID":210,"product_name": "car","price":2100.00,"timestamp":1572505200000}
+{"customerID":211,"product_name": "truck","price":800.00,"timestamp":1572678000000}
+{"customerID":212,"product_name": "car","price":800.00,"timestamp":1572678000000}
+{"customerID":213,"product_name": "car","price":1900.00,"timestamp":1572678000000}
+{"customerID":214,"product_name": "car","price":1000.00,"timestamp":1572678000000}
 ```
 
 ### Schema
@@ -59,14 +63,14 @@ Note that the schema only reflects the final table structure.
 
 ```json
 {
-  "schemaName": "daily_sales_schema",
+  "schemaName": "dailySales",
   "dimensionFieldSpecs": [
     {
       "name": "product_name",
       "dataType": "STRING"
     }
   ],
-  "metricSpecs": [
+  "metricFieldSpecs": [
     {
       "name": "sales_count",
       "dataType": "LONG"
@@ -89,7 +93,7 @@ Note that the schema only reflects the final table structure.
 
 ### Table Config
 
-From the below aggregation config example, note that `price`  exists in the input data while `total_sales` exists in the Pinot Schema.
+From the below aggregation config example, note that `price` exists in the input data while `total_sales` exists in the Pinot Schema.
 
 ```json
 {
@@ -98,7 +102,7 @@ From the below aggregation config example, note that `price`  exists in the inpu
     "transformConfigs": [
       {
         "columnName": "daysSinceEpoch",
-        "transformFunction": "toEpochDays(timestamp)"
+        "transformFunction": "toEpochDays(\"timestamp\")"
       }
     ],
     "aggregationConfigs": [
@@ -123,26 +127,28 @@ From the below aggregation config example, note that `price`  exists in the inpu
 
 ### Example Final Table
 
+<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+
 | product\_name | sales\_count | total\_sales | daysSinceEpoch |
 | ------------- | ------------ | ------------ | -------------- |
 | car           | 2            | 2800.00      | 18193          |
 | truck         | 1            | 2200.00      | 18193          |
 | truck         | 1            | 700.00       | 18199          |
-| car           | 2            | 3300.00      | 18200          |
+| car           | 2            | 3200.00      | 18200          |
 | truck         | 1            | 800.00       | 18202          |
 | car           | 3            | 3700.00      | 18202          |
 
-
-
 ## Allowed Aggregation Functions
 
-| function name    | notes                              |
-| ---------------- | ---------------------------------- |
-| MAX              |                                    |
-| MIN              |                                    |
-| SUM              |                                    |
-| COUNT            | Specify as `COUNT(*)`              |
-| DISTINCTCOUNTHLL | Not available yet, but coming soon |
+| function name        | notes                                                                                                                                                                                                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MAX                  |                                                                                                                                                                                                                                                                   |
+| MIN                  |                                                                                                                                                                                                                                                                   |
+| SUM                  |                                                                                                                                                                                                                                                                   |
+| COUNT                | Specify as `COUNT(*)`                                                                                                                                                                                                                                             |
+| DISTINCTCOUNTHLL     | Specify as `DISTINCTCOUNTHLL(field, log2m)`, default is 12. See [function reference](../../functions-1/distinctcounthll.md) for how to define `log2m`. Cannot be changed later, a new field must be used. The schema for the output field should be `BYTES` type. |
+| DISTINCTCOUNTHLLPLUS | Specify as `DISTINCTCOUNTHLLPLUS(field, s, p)`. See [function reference](../../configuration-reference/functions/distinctcounthllplus.md) for how to define `s` and `p`, they cannot be changed later. The schema for the output field should be `BYTES` type.    |
+| SUMPRECISION         | Specify as `SUMPRECISION(field, precision)`, precision must be defined. Used to compute the maximum possible size of the field. Cannot be changed later, a new field must be used. The schema for the output field should be `BIG_DECIMAL` type.                  |
 
 ## Frequently Asked Questions
 
@@ -169,3 +175,33 @@ Ingestion Aggregation only works for real-time ingestion. For offline data, the 
 ### Why do all metrics need to be aggregated?
 
 If a metric isn't aggregated then it will result in more than one row per unique set of dimensions.
+
+### Why no data show up when I enabled AggregationConfigs?
+
+1. Check if ingestion is normal without AggregationConfigs, this is to isolate the problem
+2. Check Pinot Server log for any warning or error log, especially related to class `MutableSegmentImpl`and method `aggregateMetrics`.
+3. For JSON data, please ensure you don't double quote numbers, as they are parsed as string internally and won't be able to do the value based aggregation, e.g. sum. Using the above example, data ingestion not working with row: `{"customerID":205,"product_name": "car","price":"1500.00","timestamp":1571900400000}` , the major issue here is that price number is double quoted so it won't show up. Below is a sample stacktrace:&#x20;
+
+```
+2024/11/04 00:24:27.760 ERROR [RealtimeSegmentDataManager_dailySales__0__0__20241104T0824Z] [dailySales__0__0__20241104T0824Z] Caught exception while indexing the record at offset: 9 , row: {
+  "fieldToValueMap" : {
+    "price" : "1000.00",
+    "daysSinceEpoch" : 18202,
+    "sales_count" : 0,
+    "total_sales" : 0.0,
+    "product_name" : "car",
+    "timestamp" : 1572678000000
+  },
+  "nullValueFields" : [ "sales_count", "total_sales" ]
+}
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Number (java.lang.String and java.lang.Number are in module java.base of loader 'bootstrap')
+	at org.apache.pinot.segment.local.aggregator.SumValueAggregator.applyRawValue(SumValueAggregator.java:25) ~[classes/:?]
+	at org.apache.pinot.segment.local.indexsegment.mutable.MutableSegmentImpl.aggregateMetrics(MutableSegmentImpl.java:855) ~[classes/:?]
+	at org.apache.pinot.segment.local.indexsegment.mutable.MutableSegmentImpl.index(MutableSegmentImpl.java:577) ~[classes/:?]
+	at org.apache.pinot.core.data.manager.realtime.RealtimeSegmentDataManager.processStreamEvents(RealtimeSegmentDataManager.java:641) ~[classes/:?]
+	at org.apache.pinot.core.data.manager.realtime.RealtimeSegmentDataManager.consumeLoop(RealtimeSegmentDataManager.java:477) ~[classes/:?]
+	at org.apache.pinot.core.data.manager.realtime.RealtimeSegmentDataManager$PartitionConsumer.run(RealtimeSegmentDataManager.java:734) ~[classes/:?]
+	at java.base/java.lang.Thread.run(Thread.java:1583) [?:?]
+
+```
+

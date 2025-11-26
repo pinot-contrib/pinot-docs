@@ -6,11 +6,13 @@ When operating Pinot in a production environment, it's not always ideal to have 
 
 ### Health Checks
 
-Pinot servers have several endpoints for determining the health of the servers.
+Pinot servers have several endpoints for determining the health of the servers.&#x20;
+
+By default, the admin API port is `8097;` for example, `<host>:8097/health:`
 
 `GET /health/liveness` answers "is this server up." This only ensures that the server was able to start, and you can connect to it.
 
-`GET /health/readiness` answers "is this server up and ready to server data." The checkers below determine if the "readiness" aspect returns `OK`.
+`GET /health/readiness` answers "is this server up and ready to serve data." The checkers below determine if the "readiness" aspect returns `OK`.
 
 `GET /health` performs the same check as the readiness endpoint.
 

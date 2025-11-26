@@ -1,6 +1,6 @@
 ---
 description: >-
-  Apache Pinot™ is a real-time distributed OLAP datastore purpose-built for
+  Apache Pinot is a real-time distributed OLAP datastore purpose-built for
   low-latency, high-throughput analytics, and perfect for user-facing analytical
   workloads.
 ---
@@ -71,8 +71,8 @@ If you're new to Pinot, take a look at our Getting Started guide:
 
 To start importing data into Pinot, see how to import batch and stream data:
 
-{% content-ref url="basics/data-import/" %}
-[data-import](basics/data-import/)
+{% content-ref url="manage-data/data-import/" %}
+[data-import](manage-data/data-import/)
 {% endcontent-ref %}
 
 To start querying data in Pinot, check out our Query guide:

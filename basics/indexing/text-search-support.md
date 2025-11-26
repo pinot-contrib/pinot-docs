@@ -4,10 +4,10 @@ description: This page talks about support for text search in Pinot.
 
 # Text search support
 
-{% hint style="note" %}
+{% hint style="info" %}
 This text index method is recommended over the experimental [native text index](native-text-index.md).
 
-Click to skip the background info and go straight to the procedure [to enable this text index](#enable-a-text-index).
+Click to skip the background info and go straight to the procedure [to enable this text index](text-search-support.md#enable-a-text-index).
 {% endhint %}
 
 ## Why do we need text search?
@@ -33,21 +33,20 @@ WHERE TEXT_MATCH (<column_name>, '<search_expression>')
 
 where `<column_name>` is the column text index is created on and `<search_expression>` conforms to one of the following:
 
-| **Search Expression Type** | **Example**                                           |
-| -------------------------- | ----------------------------------------------------- |
-| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"') |
-| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                 |
-| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')         |
-| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')             |
-| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')       |
+| **Search Expression Type** | **Example**                                                                                                   |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"')                                                         |
+| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                                                                         |
+| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')                                                                 |
+| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')                                                                     |
+| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')                                                               |
+| Not Query                  | <p>TEXT_MATCH (&#x3C;column_name>, '<em>*:*</em> NOT c%')</p><p>NOT TEXT_MATCH (&#x3C;column_name>, 'c%')</p> |
 
 ## Current restrictions
 
 Pinot supports text search with the following requirements:
 
-* The column type should be STRING.
-* The column should be single-valued.
-* Using a text index in coexistence with other Pinot indexes is not supported.
+* The column type should be STRING, or stored as STRING (e.g. JSON).
 
 ## Sample Datasets
 
@@ -57,7 +56,7 @@ Text search should ideally be used on STRING columns where doing standard filter
 
 Consider the following snippet from an Apache access log. Each line in the log consists of arbitrary data (IP addresses, URLs, timestamps, symbols etc) and represents a column value. Data like this is a good candidate for doing text search.
 
-Let's say the following snippet of data is stored in the `ACCESS\_LOG\_COL` column in a Pinot table.
+Let's say the following snippet of data is stored in the `ACCESS_LOG_COL` column in a Pinot table.
 
 ```log
 109.169.248.247 - - [12/Dec/2015:18:25:11 +0100] "GET /administrator/ HTTP/1.1" 200 4263 "-" "Mozilla/5.0 (Windows NT 6.0; rv:34.0) Gecko/20100101 Firefox/34.0" "-
@@ -103,7 +102,7 @@ WHERE TEXT_MATCH(ACCESS_LOG_COL, 'post AND administrator AND index AND firefox')
 
 Let's consider another example using text from job candidate resumes. Each line in this file represents skill-data from resumes of different candidates.
 
-This data is stored in the `SKILLS\_COL` column in a Pinot table. Each line in the input text represents a column value.
+This data is stored in the `SKILLS_COL` column in a Pinot table. Each line in the input text represents a column value.
 
 ```csv
 Distributed systems, Java, C++, Go, distributed query engines for analytics and data warehouses, Machine learning, spark, Kubernetes, transaction processing
@@ -142,7 +141,7 @@ WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" AND (Java C++)')
 
 ### Query Log
 
-Next, consider a snippet from a log file containing SQL queries handled by a database. Each line (query) in the file represents a column value in the `QUERY\_LOG\_COL` column in a Pinot table.
+Next, consider a snippet from a log file containing SQL queries handled by a database. Each line (query) in the file represents a column value in the `QUERY_LOG_COL` column in a Pinot table.
 
 ```sql
 SELECT count(dimensionCol2) FROM FOO WHERE dimensionCol1 = 18616904 AND timestamp BETWEEN 1560988800000 AND 1568764800000 GROUP BY dimensionCol3 TOP 2500
@@ -193,7 +192,22 @@ A column in Pinot can be dictionary-encoded or stored RAW. In addition, we can c
 The text index is an addition to the type of **per-column indexes** users can create in Pinot. However, it only supports text index on a RAW column, not a dictionary-encoded column.
 {% endhint %}
 
-## Enable a text index
+## Multi-column text index
+
+Since version 1.4.0, Pinot offers two types of text indexes:
+
+* **per-column / single-column text index** - that stores data separately for each indexed column. It's the type used prior to the 1.4.0 version.
+* **per-segment / multi-column text index** - that stores all indexed column's data together. Doing so  reduces both RAM and disk space sizes and speeds up index creation, allowing efficient indexing of tens or hundreds or columns.&#x20;
+
+Aside from configuration, the new index type behaves the same as per-column index at query time.
+
+When choosing between the two index types, you might consider the following :
+
+<table><thead><tr><th width="164.83203125">Property \ Type</th><th>Per-Column</th><th>Per-segment</th></tr></thead><tbody><tr><td>Querying speed</td><td><mark style="background-color:yellow;">slower - especially when querying multiple columns</mark></td><td><mark style="background-color:green;">faster</mark></td></tr><tr><td>Disk and memory usage</td><td><mark style="background-color:yellow;">higher - each column uses separate set of Lucene files and document id mapping</mark></td><td><mark style="background-color:green;">lower - Lucene file size is smaller; only one document id mapping is used for all columns</mark></td></tr><tr><td>Initial build time </td><td><mark style="background-color:yellow;">higher - because each column uses separate Lucene files</mark></td><td><mark style="background-color:green;">lower - one set of Lucene files  and one document id mapping is generated</mark> </td></tr><tr><td>Rebuild time</td><td><mark style="background-color:green;">lower - rebuild affected columns only, other indexes are copied</mark></td><td><mark style="background-color:yellow;">higher - removes all files and rebuilds from scratch</mark></td></tr></tbody></table>
+
+
+
+## Enable a per-column text index
 
 Enable a text index on a column in the [table configuration](../../configuration-reference/table.md) by adding a new section with the name "fieldConfigList".
 
@@ -232,6 +246,38 @@ You can configure text indexes in the following scenarios:
 When you're using a text index, add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.
 
 For instructions on that configuration property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+{% endhint %}
+
+## Enable a per-segment text index
+
+Contrary to per-column text index, per-segment text index can only be configured once in [table index configuration](../../configuration-reference/table.md#table-index-config) by adding `multiColumnTextIndexConfig` element:&#x20;
+
+```json
+"tableIndexConfig": {
+   "multiColumnTextIndexConfig": {
+      "columns": ["hobbies", "skills", "titles" ],
+      "properties": {
+         "caseSensitive": "false"
+       }
+       "perColumnProperties": {
+          "titles": {
+             "caseSensitive": "true"
+          }
+       }
+ },
+```
+
+The config contains a list of columns to index - `columns`, settings meant for all columns - `properties`, and  settings applied to particular column - `perColumnProperties`.&#x20;
+
+As shown in example above, index configuration allows for both:
+
+* setting shared index properties that apply to all columns with "properties".\
+  Allowed keys are : `enableQueryCacheForTextIndex`, `luceneUseCompoundFile`, `luceneMaxBufferSizeMB`, `reuseMutableIndex` and all allowed in `perColumnProperties`.
+* setting column-specific properties (overriding shared ones) with `perColumnProperties`.\
+  Allowed keys: `useANDForMultiTermTextIndexQueries`, `enablePrefixSuffixMatchingInPhraseQueries`, `stopWordInclude`, `stopWordExclude`, `caseSensitive`, `luceneAnalyzerClass`, `luceneAnalyzerClassArgs`, `luceneAnalyzerClassArgTypes`, `luceneQueryParserClass`.
+
+{% hint style="info" %}
+Shared properties-only settings, e.g. `luceneMaxBufferSizeMB` , set in per column properties have no effect and will be ignored.&#x20;
 {% endhint %}
 
 ## Text index creation
@@ -312,11 +358,44 @@ SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(text_col_1, ....) AND TEXT_MATCH(text_
 
 The search expression (the second argument to `TEXT_MATCH` function) is the query string that Pinot will use to perform text search on the column's text index.
 
+
+## TEXT\_MATCH Query Options
+
+The `TEXT_MATCH` function supports an optional third parameter for specifying Lucene query parser options at query time. This allows for flexible and advanced text search without changing table configuration.
+
+**Function Signature:**
+```sql
+TEXT_MATCH(text_column_name, search_expression [, options])
+```
+- `text_column_name`: Name of the column to perform text search on.
+- `search_expression`: The query string for text search.
+- `options` (optional): Comma-separated string of key-value pairs to control query parsing and search behavior.
+
+**Available Options:**
+
+| Option                  | Values                              | Description                                                                                 |
+|-------------------------|-------------------------------------|---------------------------------------------------------------------------------------------|
+| `parser`                | `CLASSIC`, `STANDARD`, `COMPLEX`    | Selects the Lucene query parser to use. Default is `CLASSIC`.                               |
+| `allowLeadingWildcard`  | `true`, `false`                     | Allows queries to start with a wildcard (e.g., `*term`). Default is `false`.                |
+| `defaultOperator`       | `AND`, `OR`                         | Sets the default boolean operator for multi-term queries. Default is `OR`.                  |
+
+**Examples:**
+```sql
+-- Use CLASSIC parser with leading wildcard support
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, '*search*', 'parser=CLASSIC, allowLeadingWildcard=true')
+
+-- Use STANDARD parser with AND operator
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'term1 term2', 'parser=STANDARD, defaultOperator=AND')
+
+-- Use COMPLEX parser for advanced queries
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'complex query', 'parser=COMPLEX')
+```
+
 ### Phrase query
 
 This query is used to seek out an exact match of a given phrase, where terms in the user-specified phrase appear in the same order in the original text document.
 
-The following example reuses the earlier example of resume text data containing 14 documents to walk through queries. In this sentence, "document" means the column value. The data is stored in the `SKILLS\_COL` column and we have created a text index on this column.
+The following example reuses the earlier example of resume text data containing 14 documents to walk through queries. In this sentence, "document" means the column value. The data is stored in the `SKILLS_COL` column and we have created a text index on this column.
 
 ```csv
 Java, C++, worked on open source projects, coursera machine learning
@@ -340,7 +419,7 @@ Databases, columnar query processing, Apache Arrow, distributed systems, Machine
 Database engine, OLAP systems, OLTP transaction processing at large scale, concurrency, multi-threading, GO, building large scale systems
 ```
 
-This example queries the `SKILL\_COL` column to look for documents where each matching document MUST contain phrase "Distributed systems":
+This example queries the `SKILLS_COL` column to look for documents where each matching document MUST contain phrase "Distributed systems":
 
 ```sql
 SELECT SKILLS_COL 
@@ -375,7 +454,7 @@ This is because the phrase query looks for the phrase occurring in the original 
 
 **NOTE:** Matching is always done in a case-insensitive manner.
 
-The next example queries the `SKILL\_COL` column to look for documents where each matching document MUST contain phrase "query processing":
+The next example queries the `SKILLS_COL` column to look for documents where each matching document MUST contain phrase "query processing":
 
 ```sql
 SELECT SKILLS_COL 
@@ -394,7 +473,7 @@ Databases, columnar query processing, Apache Arrow, distributed systems, Machine
 
 Term queries are used to search for individual terms.
 
-This example will query the `SKILL\_COL` column to look for documents where each matching document MUST contain the term 'Java'.
+This example will query the `SKILLS_COL` column to look for documents where each matching document MUST contain the term 'Java'.
 
 As mentioned earlier, the search expression is always within single quotes. However, since this is a term query, we don't have to use double quotes within single quotes.
 
@@ -408,7 +487,7 @@ WHERE TEXT_MATCH(SKILLS_COL, 'Java')
 
 The Boolean operators `AND` and `OR` are supported and we can use them to build a composite query. Boolean operators can be used to combine phrase and term queries in any arbitrary manner
 
-This example queries the `SKILL\_COL` column to look for documents where each matching document MUST contain the phrases "distributed systems" and "tensor flow". This combines two phrases using the `AND` Boolean operator.
+This example queries the `SKILLS_COL` column to look for documents where each matching document MUST contain the phrases "machine learning" and "tensor flow". This combines two phrases using the `AND` Boolean operator.
 
 ```sql
 SELECT SKILLS_COL 
@@ -424,7 +503,7 @@ C++, Python, Tensor flow, database kernel, storage, indexing and transaction pro
 CUDA, GPU processing, Tensor flow, Pandas, Python, Jupyter notebook, spark, Machine learning, building high performance scalable systems
 ```
 
-This example queries the `SKILL\_COL` column to look for documents where each document MUST contain the phrase "machine learning" and the terms 'gpu' and 'python'. This combines a phrase and two terms using Boolean operators.
+This example queries the `SKILLS_COL` column to look for documents where each document MUST contain the phrase "machine learning" and the terms 'gpu' and 'python'. This combines a phrase and two terms using Boolean operators.
 
 ```sql
 SELECT SKILLS_COL 
@@ -446,7 +525,7 @@ When using Boolean operators to combine term(s) and phrase(s) or both, note that
 
 Use of the OR operator is implicit. In other words, if phrase(s) and term(s) are not combined using AND operator in the search expression, the OR operator is used by default:
 
-This example queries the `SKILL\_COL` column to look for documents where each document MUST contain ANY one of:
+This example queries the `SKILLS_COL` column to look for documents where each document MUST contain ANY one of:
 
 * phrase "distributed systems" OR
 * term 'java' OR
@@ -460,7 +539,7 @@ WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" Java C++')
 
 Grouping using parentheses is supported:
 
-This example queries the `SKILL\_COL` column to look for documents where each document MUST contain
+This example queries the `SKILLS_COL` column to look for documents where each document MUST contain
 
 * phrase "distributed systems" AND
 * at least one of the terms Java or C++
@@ -477,7 +556,7 @@ WHERE TEXT_MATCH(SKILLS_COL, '"distributed systems" AND (Java C++)')
 
 Prefix queries can be done in the context of a single term. We can't use prefix matches for phrases.
 
-This example queries the `SKILL\_COL` column to look for documents where each document MUST contain text like stream, streaming, streams etc
+This example queries the `SKILLS_COL` column to look for documents where each document MUST contain text like stream, streaming, streams etc
 
 ```sql
 SELECT SKILLS_COL 
@@ -512,6 +591,33 @@ WHERE text_match(SKILLS_COL, '/.*Exception/')
 
 The above query will match any text document containing "exception".
 
+### Phrase search with wildcard term matching
+
+Phrase search with wildcard and prefix term matching can match patterns like "_pache pino_" to the text "Apache Pinot" directly. The kind of queries is very common in use case like log search where user needs to search substrings across term boundary in long text. To enable such search (which can be more costly because Lucene by default does not allow \* to start a pattern to avoid costly term matching), one can add a new config key to the column text index config:
+
+```json
+"fieldConfigList":[
+  {
+     "name":"text_col_1",
+     "encodingType":"RAW",
+     "indexType":"TEXT",
+     "properties": {
+        "enablePrefixSuffixMatchingInPhraseQueries": "true"
+     }
+  }
+]
+```
+
+With this config enabled, one can now perform the pharse wildcard search using the following syntax like
+
+```sql
+SELECT SKILLS_COL 
+FROM MyTable 
+WHERE text_match(SKILLS_COL, '*pache pino*')
+```
+
+to match the string "Apache pinot" in the SIKLLS\_COL. Boolean expressions like '_pache pino_ AND _apche luce_' are are supported.
+
 ### Deciding Query Types
 
 Combining phrase and term queries using Boolean operators and grouping lets you build a complex text search query expression.
@@ -539,3 +645,10 @@ TEXT_MATCH(column, 'Java AND C++')
 ### Text Index Tuning
 
 To improve Lucene index creation time, some configs have been provided. Field Config properties `luceneUseCompoundFile` and `luceneMaxBufferSizeMB` can provide faster index writing at but may increase file descriptors and/or memory pressure.
+
+#### Cluster Configuration for Text Search
+When text search queries contain too many terms or clauses, Lucene may throw `TooManyClauses` exceptions, causing query failures. This commonly occurs with:
+- Complex boolean queries with many OR conditions
+- Wildcard queries that expand to many terms
+- Queries with large numbers of search terms
+To handle such cases, you can increase the maximum clause count at the cluster level. See the [cluster configuration reference](../../configuration-reference/cluster.md) for the `pinot.lucene.max.clause.count` setting.

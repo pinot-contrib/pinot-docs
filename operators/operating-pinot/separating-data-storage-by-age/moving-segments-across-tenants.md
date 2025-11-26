@@ -1,7 +1,6 @@
 # Using multiple tenants
 
-With this feature, **you can create multiple tenants, such that each tenant has servers of different specs**, and use them in the same table. In this way, you'll bring down the cost of the historical data by using a lower spec of node such as HDDs instead of SSDs for storage and compute, while trading off slight latency.\
-
+With this feature, **you can create multiple tenants, such that each tenant has servers of different specs**, and use them in the same table. In this way, you'll bring down the cost of the historical data by using a lower spec of node such as HDDs instead of SSDs for storage and compute, while trading off slight latency.\\
 
 ### Config
 
@@ -45,7 +44,6 @@ In this example, the table uses servers tagged with `base_OFFLINE`. We have crea
 
 ### How does data move from one tenant to another?
 
-On adding this config, the [Segment Relocator](https://docs.pinot.apache.org/basics/components/controller#segmentrelocator) periodic task will move segments from one tenant to another, as and when the segment crosses the segment age.&#x20;
+On adding this config, the [Segment Relocator](https://docs.pinot.apache.org/basics/components/controller#segmentrelocator) periodic task will move segments from one tenant to another, as and when the segment crosses the segment age.
 
-Under the hood, this job runs a rebalance. So you can achieve the same effect as a manual trigger by running a [rebalance](../rebalance/rebalance-servers.md#running-a-rebalance)
-
+Under the hood, this job runs a rebalance. So you can achieve the same effect as a manual trigger by running a [rebalance](../rebalance/rebalance-servers/#running-a-rebalance)

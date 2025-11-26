@@ -1,4 +1,4 @@
-# Forward Index
+# Forward index
 
 The forward index is the mechanism Pinot employs to store the values of each column. At a conceptual level, the forward index can be thought of as a mapping from document IDs (also known as row indices) to the actual column values of each row.
 
@@ -116,33 +116,41 @@ The raw value forward index stores actual values instead of IDs. This means that
 
 As shown in the diagram below, dictionary encoding can lead to numerous random memory accesses for dictionary lookups. In contrast, the raw value forward index allows for sequential value scanning, which can enhance query performance when applied appropriately.
 
+Note: Raw value forward index currently does not support inverted index (all others JSON/TEXT/Range/etc are supported). Also, since reading a value from this index requires reading the entire chunk in memory and decompressing, it is not suitable for heavy random reads.&#x20;
+
 ![](../../.gitbook/assets/no-dictionary.png)
 
-The raw format is used in two scenarios:
+The raw format is applied when the dictionary is disabled for a column and the encoding is explicitly set to `RAW`. For more details, refer to the [dictionary documentation](dictionary-index.md) and the [field config list](../../configuration-reference/table.md#field-config-list).
 
-1. When the dictionary is disabled for a column, as specified in the [dictionary documentation](dictionary-index.md).
-2. When the encoding is set to `RAW` in the [field config list](../../configuration-reference/table.md#field-config-list).
+**Note:** Both configurations must be enabled together for the raw format to take effect. Setting only the `encodingType` to `RAW` in the field config is not sufficient.
 
 When using the raw format, you can configure the following parameters:
 
-| Parameter             | Default | Description                                                                      |
-| --------------------- | ------- | -------------------------------------------------------------------------------- |
-| chunkCompressionType  | null    | The compression that will be used.                                               |
-| deriveNumDocsPerChunk | false   | Modifies the behavior when storing variable length values (like string or bytes) |
-| rawIndexWriterVersion | 2       | The version initially used                                                       |
+| Parameter             | Default | Description                                                                             |
+| --------------------- | ------- | --------------------------------------------------------------------------------------- |
+| chunkCompressionType  | null    | The compression that will be used. Replaced by `compressionCodec` since release `1.2.0` |
+| compressionCodec      | null    | The compression that will be used. Introduced in release `1.2.0`                        |
+| deriveNumDocsPerChunk | false   | Modifies the behavior when storing variable length values (like string or bytes)        |
+| rawIndexWriterVersion | 2       | The version initially used                                                              |
+| targetDocsPerChunk    | 1000    | The target number of docs per chunk                                                     |
+| targetMaxChunkSize    | 1MB     | The target max chunk size                                                               |
 
-The `chunkCompressionType` parameter has the following valid values:
+The `compressionCodec` parameter has the following valid values:
 
 * `PASS_THROUGH`
 * `SNAPPY`
 * `ZSTANDARD`
 * `LZ4`
-* `LZ4_LENGTH_PREFIXED`
+* `GZIP` (Introduced in release `1.2.0`)
 * `null` (the JSON null value, not `"null"`), which is the default. In this case, `PASS_THROUGH` will be used for metrics and `LZ4` for other columns.
 
 `deriveNumDocsPerChunk` is only used when the datatype may have a variable length, such as with `string`, `big decimal`, `bytes`, etc. By default, Pinot uses a fixed number of elements that was chosen empirically. If changed to true, Pinot will use a heuristic value that depends on the column data.
 
 `rawIndexWriterVersion` changes the algorithm used to create the index. This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions. The latest version right now is 4.
+
+`targetDocsPerChunk` changes the target number of docs to store in a chunk. For `rawIndexWriterVersion` versions 2 and 3, this will store exactly `targetDocsPerChunk` per chunk. For `rawIndexWriterVersion` version 4, this config is used in conjunction with `targetMaxChunkSize` and chunk size is determined with the formula `min(lengthOfLongestDocumentInSegment * targetDocsPerChunk, targetMaxChunkSize)`. A negative value will disable dynamic chunk sizing and use the static `targetMaxChunkSize`.
+
+`targetMaxChunkSize` changes the target max chunk size. For `rawIndexWriterVersion` versions 2 and 3, this can only be used with deriveNumDocsPerChunk. For `rawIndexWriterVersion` version 4, this sets the upper bound for a dynamically calculated chunk size. Documents larger than the `targetMaxChunkSize` will be given their own 'huge' chunk, therefore, it is recommended to size this such that huge chunks are avoided.
 
 #### Raw forward index configuration
 
@@ -158,7 +166,7 @@ The recommended way to configure the forward index using raw format is by includ
       "encodingType": "RAW",
       "indexes": {
         "forward": {
-          "chunkCompressionType": "PASS_THROUGH", // or "SNAPPY", "ZSTANDARD", "LZ4" or "LZ4_LENGTH_PREFIXED"
+          "compressionCodec": "PASS_THROUGH", // or "SNAPPY", "ZSTANDARD", "LZ4" or "GZIP"
           "deriveNumDocsPerChunk": false,
           "rawIndexWriterVersion": 2
         }

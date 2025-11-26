@@ -2,7 +2,7 @@
 description: Use a timestamp index to speed up your time query with different granularities
 ---
 
-# Timestamp Index
+# Timestamp index
 
 {% hint style="info" %}
 This feature is supported from Pinot 0.11+.
@@ -29,9 +29,7 @@ A `TIMESTAMP` index can only be created on the `TIMESTAMP` data type.
 You can configure the granularity for a Timestamp data type column. Then:
 
 1. Pinot will pre-generate one column per time granularity using a forward index and range index. The naming convention is `$${ts_column_name}$${ts_granularity}`, where the timestamp column `ts` with granularities `DAY`, `MONTH` will have two extra columns generated: `$ts$DAY` and `$ts$MONTH`.
-2. Query overwrite for predicate and selection/group by:
-   2.1 **GROUP BY**: Functions like `dateTrunc('DAY', ts)` will be translated to use the underly column `$ts$DAY` to fetch data.
-   2.2 **PREDICATE**: range index is auto-built for all granularity columns.
+2. Query overwrite for predicate and selection/group by: 2.1 **GROUP BY**: Functions like `dateTrunc('DAY', ts)` will be translated to use the underly column `$ts$DAY` to fetch data. 2.2 **PREDICATE**: range index is auto-built for all granularity columns.
 
 Example query usage:
 
@@ -39,7 +37,7 @@ Example query usage:
 select count(*), 
        datetrunc('WEEK', ts) as tsWeek 
 from airlineStats 
-WHERE tsWeek > fromDateTime('2014-01-16', 'yyyy-MM-dd') 
+WHERE datetrunc('WEEK', ts) > fromDateTime('2014-01-16', 'yyyy-MM-dd') 
 group by tsWeek
 limit 10
 ```
@@ -51,7 +49,7 @@ select dateTrunc('YEAR', event_time) as y,
        dateTrunc('MONTH', event_time) as m,  
        sum(pull_request_commits) 
 from githubEvents 
-group by y, m 
+group by y, m
 limit 1000
 Option(timeoutMs=3000000)
 ```
@@ -66,17 +64,17 @@ vs.
 
 The timestamp index is configured on a per column basis inside the `fieldConfigList` section in the table configuration.
 
-Specify the `timestampConfig` field. This object must contain a field called `granularities`, which is an array with 
-at least one of the following values:
-- MILLISECOND
-- SECOND
-- MINUTE
-- HOUR
-- DAY
-- WEEK
-- MONTH
-- QUARTER
-- YEAR
+Specify the `timestampConfig` field. This object must contain a field called `granularities`, which is an array with at least one of the following values:
+
+* MILLISECOND
+* SECOND
+* MINUTE
+* HOUR
+* DAY
+* WEEK
+* MONTH
+* QUARTER
+* YEAR
 
 Sample config:
 
@@ -98,4 +96,3 @@ Sample config:
   ...
 }
 ```
-

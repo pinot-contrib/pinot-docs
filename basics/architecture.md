@@ -73,11 +73,11 @@ Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators
 
 Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 
-![Pinot's Zookeeper Browser UI](../.gitbook/assets/.unused/Zookeeper\_UI.png)
+![Pinot's Zookeeper Browser UI](../.gitbook/assets/.unused/Zookeeper_UI.png)
 
 ### Controller
 
-The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](data-import/pinot-stream-ingestion/) and [offline tables](data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
+The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../manage-data/data-import/pinot-stream-ingestion/) and [offline tables](../manage-data/data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
 #### Fault tolerance
 
@@ -91,7 +91,7 @@ The controller provides a REST interface that allows read and write access to al
 
 The [broker's](components/cluster/broker.md) responsibility is to route queries to the appropriate [server](components/cluster/server.md) instances, or in the case of multi-stage queries, to compute a complete query plan and distribute it to the servers required to execute it. The broker collects and merges the responses from all servers into a final result, then sends the result back to the requesting client. The broker exposes an HTTP endpoint that accepts SQL queries in JSON format and returns the response in JSON.
 
-Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](operators/operating-pinot/tuning/routing.md) strategy for a table. The default strategy is to balance the query load across all available servers.
+Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](https://docs.pinot.apache.org/operators/operating-pinot/tuning/routing) strategy for a table. The default strategy is to balance the query load across all available servers.
 
 {% hint style="info" %}
 Advanced routing strategies are available, such as replica-aware routing, partition-based routing, and minimal server selection routing.
@@ -118,7 +118,7 @@ Advanced routing strategies are available, such as replica-aware routing, partit
 Every query processed by a broker uses the single-stage engine or the [multi-stage engine](https://docs.pinot.apache.org/reference/multi-stage-engine). For single-stage queries, the broker does the following:
 
 * Computes query routes based on the routing strategy defined in the [table](components/table/) configuration.
-* Computes the list of segments to query on each [server](components/cluster/server.md). (See [routing](operators/operating-pinot/tuning/routing.md) for further details on this process.)
+* Computes the list of segments to query on each [server](components/cluster/server.md). (See [routing](https://docs.pinot.apache.org/operators/operating-pinot/tuning/routing) for further details on this process.)
 * Sends the query to each of those servers for local execution against their segments.
 * Receives the results from each server and merges them.
 * Sends the query result to the client.
@@ -199,7 +199,7 @@ Pinot [tables](components/table/) exist in two varieties: offline (or batch) and
 
 ![](../.gitbook/assets/OfflineServer.jpg)
 
-Pinot ingests batch data using an [ingestion job](data-import/batch-ingestion/), which follows a process like this:
+Pinot ingests batch data using an [ingestion job](../manage-data/data-import/batch-ingestion/), which follows a process like this:
 
 1. The job transforms a raw data source (such as a CSV file) into [segments](components/table/segment/). This is a potentially complex process resulting in a file that is typically several hundred megabytes in size.
 2. The job then transfers the file to the cluster's [deep store](components/table/segment/deep-store.md) and notifies the [controller](components/cluster/controller.md) that a new segment exists.

@@ -28,7 +28,7 @@ A range index is a variant of an [inverted index](../../basics/indexing/inverted
 }
 ```
 
-Range index is supported for both dictionary and raw-encoded columns.
+Range index is supported for dictionary encoded columns of any type as well as raw encoded columns of a numeric type. Note that the range index can also be used on a dictionary encoded time column using `STRING` type, since Pinot only supports datetime formats that are in lexicographical order.
 
 {% hint style="info" %}
 A good thumb rule is to use a range index when you want to apply range predicates on metric columns that have a very large number of unique values. This is because using an inverted index for such columns will create a very large index that is inefficient in terms of storage and performance.

@@ -48,7 +48,7 @@ bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2123/kafka -port 9876
 
 **Create a Kafka topic**
 
-Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart\_download). Create a topic.
+Download the latest [Kafka](https://kafka.apache.org/quickstart#quickstart_download). Create a topic.
 
 ```css
 bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-factor 1 --partitions 1 --topic transcript-topic
@@ -58,7 +58,7 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9876 --replication-fac
 
 ## Creating a schema
 
-If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, see [Creating a schema](../data-import/pinot-stream-ingestion/#create-schema-configuration) to learn how to create a schema for your sample data.
+If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you have already pushed a schema for your sample table. If not, see [Creating a schema](../../manage-data/data-import/pinot-stream-ingestion/#create-schema-configuration) to learn how to create a schema for your sample data.
 
 ## Creating a table configuration
 
@@ -80,9 +80,8 @@ If you followed [Batch upload sample data](pushing-your-data-to-pinot.md), you p
     "loadMode": "MMAP",
     "streamConfigs": {
       "streamType": "kafka",
-      "stream.kafka.consumer.type": "lowlevel",
       "stream.kafka.topic.name": "transcript-topic",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.rows": "0",
@@ -161,4 +160,4 @@ bin/kafka-console-producer.sh \
 
 As soon as data flows into the stream, the Pinot table will consume it and it will be ready for querying. Browse to the [Query Console ](http://localhost:9000/query)running in your Pinot instance (we use `localhost` in this link as an example) to examine the real-time data.
 
-![](../../.gitbook/assets/Pinot\_query\_transcript\_table.png)
+![](../../.gitbook/assets/Pinot_query_transcript_table.png)

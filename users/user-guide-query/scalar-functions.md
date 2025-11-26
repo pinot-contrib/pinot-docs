@@ -75,7 +75,7 @@ Only Java methods are supported.
 
 You can add new scalar functions as follows:
 
-* Create a new java project. Make sure you keep the package name as `org.apache.pinot.scalar.XXXX`
+* Create a new java project. Make sure the package name begins with `org.apache.pinot` and has `.function.` somewhere in it
 * In your java project include the dependency
 
 {% tabs %}
@@ -84,14 +84,14 @@ You can add new scalar functions as follows:
 <dependency>
   <groupId>org.apache.pinot</groupId>
   <artifactId>pinot-common</artifactId>
-  <version>0.5.0</version>
+  <version>1.2.0</version>
  </dependency>
 ```
 {% endtab %}
 
 {% tab title="Gradle" %}
 ```
-include 'org.apache.pinot:pinot-common:0.5.0'
+include 'org.apache.pinot:pinot-common:1.2.0'
 ```
 {% endtab %}
 {% endtabs %}

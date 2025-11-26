@@ -7,7 +7,7 @@ description: >-
 
 # Segment
 
-Pinot tables are stored in one or more independent shards called segments. A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](../../../../developers/advanced/data-ingestion/)). Segments have time-based partitions of table data, and are stored on Pinot [servers](components/cluster/server/) that scale horizontally as needed for both storage and computation.
+Pinot tables are stored in one or more independent shards called segments. A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](../../../../developers/advanced/data-ingestion.md)). Segments have time-based partitions of table data, and are stored on Pinot [servers](../../../../basics/components/cluster/server.md) that scale horizontally as needed for both storage and computation.
 
 Pinot achieves this by breaking the data into smaller chunks known as **segments** (similar to **shards/partitions** in relational databases). Segments can be seen as **time-based partitions**.
 

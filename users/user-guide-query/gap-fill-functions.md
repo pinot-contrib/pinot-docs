@@ -1,6 +1,10 @@
 # GapFill Function For Time-Series Dataset
 
 {% hint style="info" %}
+GapFill function is experimental, and has limited support, validation and error reporting. &#x20;
+{% endhint %}
+
+{% hint style="info" %}
 GapFill Function is **only supported with the single-stage query engine (v1)**.&#x20;
 {% endhint %}
 
@@ -36,13 +40,15 @@ Let us take 30 minutes' time bucket as an example:
 
 If you look at the above table, you will see a lot of missing data for parking lots inside the time buckets. In order to calculate the number of occupied park lots per time bucket, we need gap fill the missing data.
 
+
+
 ### The Ways of Gap Filling the Data
 
 There are two ways of gap filling the data: FILL\_PREVIOUS\_VALUE and FILL\_DEFAULT\_VALUE.
 
 FILL\_PREVIOUS\_VALUE means the missing data will be filled with the previous value for the specific entity, in this case, park lot, if the previous value exists. Otherwise, it will be filled with the default value.
 
-FILL\_DEFAULT\_VALUE means that the missing data will be filled with the default value. For numeric column, the defaul value is 0. For Boolean column type, the default value is false. For TimeStamp, it is January 1, 1970, 00:00:00 GMT. For STRING, JSON and BYTES, it is empty String. For Array type of column, it is empty array.
+FILL\_DEFAULT\_VALUE means that the missing data will be filled with the default value. For numeric column, the default value is 0. For Boolean column type, the default value is false. For TimeStamp, it is January 1, 1970, 00:00:00 GMT. For STRING, JSON and BYTES, it is empty String. For Array type of column, it is empty array.
 
 We will leverage the following the query to calculate the total occupied parking lots per time bucket.
 
@@ -50,7 +56,7 @@ We will leverage the following the query to calculate the total occupied parking
 
 #### Query Syntax
 
-```
+```sql
 SELECT time_col, SUM(status) AS occupied_slots_count
 FROM (
     SELECT GAPFILL(time_col,'1:MILLISECONDS:SIMPLE_DATE_FORMAT:yyyy-MM-dd HH:mm:ss.SSS','2021-10-01 09:00:00.000',
@@ -69,6 +75,10 @@ FROM (
 GROUP BY 1
 LIMIT 100
 ```
+
+In the example above, `TIMESERIESON(column_name)`  element is obligatory, and `column_name` must point to actual table column. It can't be a literal or expression.
+
+Moreover, if the innermost query contains GROUP BY clause then (contrary to regular queries) it must contain an aggregate function, otherwise `Select and Gapfill should be in the same sql statement` error is returned.
 
 #### Workflow
 
@@ -123,7 +133,7 @@ If we want to gapfill the missing data per half an hour time bucket, here is the
 
 #### Query Syntax
 
-```
+```sql
 SELECT GAPFILL(DATETIMECONVERT(event_time,'1:MILLISECONDS:EPOCH',
                '1:MILLISECONDS:SIMPLE_DATE_FORMAT:yyyy-MM-dd HH:mm:ss.SSS','30:MINUTES'),
                '1:MILLISECONDS:SIMPLE_DATE_FORMAT:yyyy-MM-dd HH:mm:ss.SSS','2021-10-01 09:00:00.000',
@@ -181,7 +191,7 @@ Then it will be gapfilled as follows:
 
 #### Query Syntax
 
-```
+```sql
 SELECT GAPFILL(time_col,'1:MILLISECONDS:SIMPLE_DATE_FORMAT:yyyy-MM-dd HH:mm:ss.SSS','2021-10-01 09:00:00.000',
                '2021-10-01 12:00:00.000','30:MINUTES', FILL(status, 'FILL_PREVIOUS_VALUE'),
                TIMESERIESON(lotId)), lotId, status
@@ -227,7 +237,7 @@ The outer sql will gap fill the returned data as following:
 
 #### Query Syntax
 
-```
+```sql
 SELECT time_col, SUM(is_occupied) AS occupied_slots_count
 FROM (
     SELECT GAPFILL(DATETIMECONVERT(event_time,'1:MILLISECONDS:EPOCH',

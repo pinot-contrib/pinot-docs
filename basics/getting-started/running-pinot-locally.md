@@ -18,28 +18,20 @@ First, download the Pinot distribution for this tutorial. You can either downloa
 
 ### Prerequisites
 
-* Install with JDK 11 or 17. JDK 21 is still ongoing.
+* Install with JDK 11 or 21. JDK 17 should work, but it is not officially supported.
 * For JDK 8 support, Pinot 0.12.1 is the last version compilable from the source code.
 * Pinot 1.0+ doesn't support JDK 8 anymore, build with JDK 11+
 
 Note that some installations of the JDK do not contain the JNI bindings necessary to run all tests. If you see an error like `java.lang.UnsatisfiedLinkError` while running tests, you might need to change your JDK.
 
-If using Homebrew, install AdoptOpenJDK 11 using `brew install --cask adoptopenjdk11`.
-
-{% hint style="info" %}
-**Support for M1 and M2 Mac systems**
-
-Currently, Apache Pinot doesn't provide official binaries for M1 or M2 Macs. For instructions, see [M1 and M2 Mac Support](running-pinot-locally.md#m1-and-m2-mac-support).
-{% endhint %}
-
 Download the distribution or build from source by selecting one of the following tabs:
 
 {% tabs %}
 {% tab title="Download the release" %}
-Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download/), or use this command:
+Download the latest binary release from [Apache Pinot](https://pinot.apache.org/download), or use this command:
 
 ```bash
-PINOT_VERSION=0.12.0 #set to the Pinot version you decide to use
+PINOT_VERSION=1.1.0 #set to the Pinot version you decide to use
 
 wget https://downloads.apache.org/pinot/apache-pinot-$PINOT_VERSION/apache-pinot-$PINOT_VERSION-bin.tar.gz
 ```
@@ -71,10 +63,6 @@ Follow these steps to checkout code from [Github](https://github.com/apache/pino
 **Prerequisites**
 
 Install [Apache Maven](https://maven.apache.org/install.html) 3.6 or higher
-{% endhint %}
-
-{% hint style="info" %}
-For M1 and M2 Macs, first follow [the steps below](running-pinot-locally.md#m1-and-m2-mac-support) first.
 {% endhint %}
 
 Check out Pinot:
@@ -110,36 +98,6 @@ brew install pinot
 {% endtab %}
 {% endtabs %}
 
-### M1 and M2 Mac Support
-
-Currently, Apache Pinot doesn't provide official binaries for M1 or M2 Mac systems. Follow the instructions below to run on an M1 or M2 Mac:
-
-1. Add the following to your `~/.m2/settings.xml`:
-
-```xml
-<settings>
-  <activeProfiles>
-    <activeProfile>
-      apple-silicon
-    </activeProfile>
-  </activeProfiles>
-  <profiles>
-    <profile>
-      <id>apple-silicon</id>
-      <properties>
-        <os.detected.classifier>osx-x86_64</os.detected.classifier>
-      </properties>
-    </profile>
-  </profiles>
-</settings>  
-```
-
-2. Install Rosetta:
-
-```
-softwareupdate --install-rosetta
-```
-
 ## Set up a cluster
 
 Now that we've downloaded Pinot, it's time to set up a cluster. There are two ways to do this: through quick start or through setting up a cluster manually.
@@ -169,18 +127,18 @@ Neha Pawar from the Apache Pinot team shows you how to set up a Pinot cluster
 You can find the commands that are shown in this video in the [this Github repository](https://github.com/npawar/pinot-tutorial).
 
 {% hint style="info" %}
-The examples below assume that you are using Java 8.
+The examples below assume that you are using Java 11+.
 
-If you are using Java 11+ users, remove the GC settings inside`JAVA_OPTS`. So, for example, instead of this:
+If you are using Java 8, add the following settings inside`JAVA_OPTS`. So, for example, instead of this:
 
 ```bash
-export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
+export JAVA_OPTS="-Xms4G -Xmx8G"
 ```
 
 Use the following:
 
 ```bash
-export JAVA_OPTS="-Xms4G -Xmx8G"
+export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
 ```
 {% endhint %}
 
@@ -196,7 +154,7 @@ You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse th
 ### Start Pinot Controller
 
 ```
-export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-controller.log"
+export JAVA_OPTS="-Xms4G -Xmx8G"
 ./bin/pinot-admin.sh StartController \
     -zkAddress localhost:2191 \
     -controllerPort 9000
@@ -205,7 +163,7 @@ export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc
 ### Start Pinot Broker
 
 ```
-export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-broker.log"
+export JAVA_OPTS="-Xms4G -Xmx4G"
 ./bin/pinot-admin.sh StartBroker \
     -zkAddress localhost:2191
 ```
@@ -213,10 +171,20 @@ export JAVA_OPTS="-Xms4G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc
 ### Start Pinot Server
 
 ```
-export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc-pinot-server.log"
+export JAVA_OPTS="-Xms4G -Xmx16G"
 ./bin/pinot-admin.sh StartServer \
     -zkAddress localhost:2191
 ```
+
+### Start Pinot Minion
+
+```
+export JAVA_OPTS="-Xms4G -Xmx4G"
+./bin/pinot-admin.sh StartMinion \
+    -zkAddress localhost:2191
+```
+
+
 
 ### Start Kafka
 
@@ -227,6 +195,17 @@ export JAVA_OPTS="-Xms4G -Xmx16G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:g
 ```
 
 Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
+
+## Setup cluster with config files
+
+Users could start and customize the cluster by modifying the config files and start the components with config files:
+
+```shell
+./bin/pinot-admin.sh StartController -config conf/pinot-controller.conf
+./bin/pinot-admin.sh StartBroker -config conf/pinot-broker.conf
+./bin/pinot-admin.sh StartServer -config conf/pinot-server.conf
+./bin/pinot-admin.sh StartMinion -config conf/pinot-minion.conf
+```
 
 ## Start a Pinot component in debug mode with IntelliJ
 

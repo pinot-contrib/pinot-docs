@@ -1,10 +1,21 @@
 ---
 description: This document describes EXPLAIN PLAN syntax for multi-stage engine (v2)
+hidden: true
 ---
 
 # Explain Plan (Multi-Stage)
 
-In [Single-stage engine Explain Plan](../explain-plan.md), we do not differentiate any logical/physical plan b/c the structure of the query is fixed. By default it explain the Physical Plan&#x20;
+{% hint style="warning" %}
+This page is deprecated. Please read [explain-plan-1.md](../multi-stage-query/explain-plan-1.md "mention")to get a better understanding of the different explain plans supported by Pinot.
+{% endhint %}
+
+{% hint style="info" %}
+This page explains how to use `EXPLAIN PLAN FOR` syntax to obtain different plans of a query in multi-stage engine. You can read more about how to interpret the plans in the [Understanding multi-stage explain plans](../multi-stage-query/understanding-multi-stage-explain.md) page.
+
+Also remember that plans are logical representations of the query execution. Sometimes it is more useful to study the actual stats of the query execution, which are included on each query result. You can read more about how to interpret the stats in the [Understanding multi-stage stats](../multi-stage-query/understanding-stage-stats.md) page.
+{% endhint %}
+
+In [Single-stage engine Explain Plan](../explain-plan.md), we do not differentiate any logical/physical plan b/c the structure of the query is fixed. By default it explain the Physical Plan
 
 In multi-stage engine we support EXPLAIN PLAN syntax mostly following Apache Calcite's [EXPLAIN PLAN](https://calcite.apache.org/docs/reference.html) syntax. Here are several examples:
 
@@ -46,7 +57,13 @@ The result field contains 2 columns and 1 row:
 
 noted that all the normal options for EXPLAIN PLAN in Apache Calcite also works in Pinot with extra information including attributes, type, etc.
 
-### Explain Implementation (Pyhsical) Plan
+One of the most useful options is the `AS <format>`, which support the following formats:
+
+* `JSON`, which returns the plan in a JSON format. This format is useful for parsing the plan in a program and it also provides some extra information that is not present in the default format.
+* `XML`, which is similar to `JSON` but in XML format.
+* `DOT`, which returns a DOT format that can be used to visualize the plan using tools like [Graphviz](https://graphviz.org/). This format is understandable by different tools, including online stateless pages.
+
+### Explain Implementation Plan
 
 If we want to gather the implementation plan specific to Pinot internal multi-stage engine operator chain. You can use the `EXPLAIN IMPLEMENTATION PLAN` :
 

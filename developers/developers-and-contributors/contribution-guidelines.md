@@ -55,7 +55,7 @@ If your change is relatively minor, you can skip this step. If you are adding ne
 
 ## Create an issue for the change
 
-Create a Pinot issue [here](https://github.com/apache/pinot/issues) for the change you would like to make. Provide information on why the change is needed and how you plan to address it. Use the conversations on the issue as a way to validate assumptions and the right way to proceed. Be sure to review sections on [Backward and Forward compatibility changes](contribution-guidelines.md#backward-and-forward-compatibility-changes) and [External libraries](contribution-guidelines.md#external-libraries).
+Create a Pinot issue [here](https://github.com/apache/pinot/issues) for the change you would like to make. Provide information on why the change is needed and how you plan to address it. Use the conversations on the issue as a way to validate assumptions and the right way to proceed. Be sure to review sections on [Backward and Forward compatibility changes](contribution-guidelines.md#backward-and-forward-compatibility-changes) and [External libraries and dependency management](contribution-guidelines.md#external-libraries-and-dependency-management).
 
 If you have a design document, refer to the design documents in your Issue. You may even want to create multiple issues depending on the extent of your change.
 
@@ -110,7 +110,7 @@ If you are making any changes to state stored, either in Zookeeper or in segment
 * For backward compatibility, consider cases where one component is using the new version and another is still on the old version. E.g., when the request format between broker and server is updated, consider resulting behaviors when a new broker is talking to an older server. Will it break?
 * For forward compatibility, consider rollback cases. E.g., consider what happens when state persisted by new code is handled by old code. Does the old code skip over new fields?
 
-### External libraries
+### External libraries and dependency management
 
 Be cautious about pulling in external dependencies. You will need to consider multiple things when faced with a need to pull in a new library.
 
@@ -118,6 +118,8 @@ Be cautious about pulling in external dependencies. You will need to consider mu
 * Is the external library maintained by an active community of contributors?
 * What are the licensing terms for the library. For more information about handling licenses, see [License Headers for newly added files](contribution-guidelines.md#license-headers-for-newly-added-files).
 * Are you adding the library to [Foundational modules](code-modules-and-organization.md#foundational-modules) modules? This will affect the rest of the Pinot code base. If the new library pulls in a lot of transitive dependencies, then we might encounter unexpected issues with multiple classes in the classpath. These issues are hard to catch with tests as the order of loading the libraries at runtime matters. If you absolutely need the support, consider adding it via extension modules, see [Extension modules](code-modules-and-organization.md#extension-modules).
+
+When adding new dependencies, please follow the [Dependency Management Guidelines](dependency-management.md) to ensure you are following best practices and that dependencies are managed consistently across the code base.
 
 ### Testing your changes
 

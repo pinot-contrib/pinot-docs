@@ -90,10 +90,10 @@ Converts from an epoch granularity to milliseconds.
 
 Converts simple date format strings to milliseconds and vice versa, per the provided pattern string.
 
-| Function name                                                           | Description                                                                                                                                                              |
-| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [ToDateTime](../../configuration-reference/functions/todatetime.md)     | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
-| [FromDateTime](../../configuration-reference/functions/fromdatetime.md) | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
+| Function name                                     | Description                                                                                                                                                              |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [ToDateTime](../../functions-1/todatetime.md)     | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
+| [FromDateTime](../../functions-1/fromdatetime.md) | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
 
 {% hint style="info" %}
 **Note**
@@ -351,7 +351,7 @@ To ensure accurate values are reloaded, do the following:
 1. Pause consumption (and wait for pause status success): \
    $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
 2. Apply new table or schema configurations.
-3. [Reload segments](../../basics/data-import/segment-reload.md) using the [Pinot Controller API](../../basics/data-import/segment-reload.md#use-the-pinot-controller-api-to-reload-segments) or [Pinot Admin Console](../../basics/data-import/segment-reload.md#use-the-pinot-admin-console-to-reload-segments).
+3. [Reload segments](../../operators/tutorials/segment-reload.md) using the [Pinot Controller API](../../operators/tutorials/segment-reload.md#use-the-pinot-controller-api-to-reload-segments) or [Pinot Admin Console](../../operators/tutorials/segment-reload.md#use-the-pinot-admin-console-to-reload-segments).
 4. Resume consumption:\
    $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
 

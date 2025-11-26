@@ -12,26 +12,25 @@ The multi-stage engine is the new query execution engine released in Pinot 1.0.0
 
 * Get started [using multi-stage engine](../developers/advanced/v2-multi-stage-query-engine.md)
 * Find supported [query syntax](../users/user-guide-query/query-syntax/) to query the multi-stage engine, including [Window functions](../users/user-guide-query/query-syntax/windows-functions.md) and [JOIN](../users/user-guide-query/query-syntax/joins.md) features
-* See [limitations](../developers/advanced/troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine) and [troubleshooting tips](../developers/advanced/troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) for the multi-stage query engine&#x20;
+* See [troubleshooting tips](troubleshooting/troubleshoot-multi-stage-query-engine.md) for the multi-stage query engine
 
 {% embed url="https://www.youtube.com/watch?v=wbo_vPVIBkA" fullWidth="false" %}
 Apache Pinot 1.0 Multi-Stage Query Engine overview
 {% endembed %}
 
 ## How does the multi-stage handle nulls?
-Before Pinot 1.1.0, the multi-stage query engine did not support null handling, treating all columns as non-nullable.
-In Pinot 1.1.0, the multi-stage query engine supports null handling if column based null storing is enabled.
-For more information, see the [Null value support](../developers/advanced/null-value-support.md) section.
+
+Since Pinot 1.1.0, the multi-stage query engine supports null handling if column based null storing is enabled. For more information, see the [Null value support](../developers/advanced/null-value-support.md) section. Before Pinot 1.1.0, the multi-stage query engine treated all columns as non-nullable.
 
 ## Why use the multi-stage query engine?
 
 You must use the multi-stage query engine (v2) to query distributed joins, window functions, and other multi-stage operators in real-time.
 
-The multi-stage query engine is built to run real-time, complex ANSI SQL ([ISO/IEC 9075](https://en.wikipedia.org/wiki/ISO/IEC\_9075)). Highlights include joins and data correlations, particularly optimized for dynamic broadcast fact-dim joins, and partitioned-based or colocated table joins.
+The multi-stage query engine is built to run real-time, complex ANSI SQL ([ISO/IEC 9075](https://en.wikipedia.org/wiki/ISO/IEC_9075)). Highlights include joins and data correlations, particularly optimized for dynamic broadcast fact-dim joins, and partitioned-based or colocated table joins.
 
 ## When not to use the multi-stage query engine?
 
-Although the multi-stage query engine can generally execute any complex ANSI SQL, it's not designed to run generic ANSI SQL in the most efficient way.&#x20;
+Although the multi-stage query engine can generally execute any complex ANSI SQL, it's not designed to run generic ANSI SQL in the most efficient way.
 
 Some **use cases to avoid**:
 
@@ -45,9 +44,9 @@ The multi-stage query engine improves query performance over the [single-stage s
 
 <figure><img src="../.gitbook/assets/Multi-Stage-Query-Engine-2 (2).png" alt=""><figcaption><p>Figure 1: Multi-stage query execution model</p></figcaption></figure>
 
-The intermediate compute stage includes a set of processing servers and a data exchange mechanism.&#x20;
+The intermediate compute stage includes a set of processing servers and a data exchange mechanism.
 
-**Processing servers** in the intermediate compute stage can be assigned to any Pinot component. Multiple servers can process data in the intermediate stage; the goal being to offload the computation from the brokers. Each server in the intermediate stage executes the same processing logic, but against different sets of data.&#x20;
+**Processing servers** in the intermediate compute stage can be assigned to any Pinot component. Multiple servers can process data in the intermediate stage; the goal being to offload the computation from the brokers. Each server in the intermediate stage executes the same processing logic, but against different sets of data.
 
 The **data exchange service** coordinates the transfer of the different sets of data to and from the processing servers.
 
@@ -56,6 +55,16 @@ The multi-stage query engine also includes a **new query plan optimizer** to pro
 ## How queries are processed
 
 With a multi-stage query engine, Pinot first breaks down the [single scatter-gather query plan used in v1](https://docs.pinot.apache.org/reference/single-stage-engine) into multiple query sub-plans that run across different sets of servers. We call these sub-plans “stage plans,” and refer to each execution as a “stage.”
+
+Stages are a logical entity and are connected in a tree like structure where the output of one stage is the input to the next stage. The stages in the leaves of the plan are the ones that read from the tables and the stages in the root are the ones that send the final results to the client.
+
+Therefore we can define three types of stages:
+
+1. Leaf stages: These stages read from the tables and send the data to the next stage. Each leaf stage reads from exactly one table (although a single stage can read from the offline and real-time versions of the same hybrid table).
+2. Intermediate stages: These stages process the data and send it to the next stage.
+3. Root stages: These stages send the final results to the client. There is only one for each query.
+
+As said above, stages are logical entities and they are not directly executed. Instead, Pinot Broker assigns a parallelism to each stage and defines which servers are going to execute each stage. For example, if a stage has a parallelism of 10, then 10 servers will execute that stage in parallel.
 
 Consider the following JOIN query example, which illustrates the breakdown of a query into stages. This query joins a real-time `orderStatus` table with an offline `customer` table.
 
@@ -73,9 +82,9 @@ WHERE
   AND c.lto > 5         –- life-time order count
 ```
 
-### Stage 1
+### Leaf stages
 
-In the first stage, the query is processed as follows:
+In the leaf stages, the query is processed as follows:
 
 1. Real-time servers execute the filter query on the `orderStatus` table:
 
@@ -94,15 +103,22 @@ SELECT c.uid c.ltv FROM customer AS c WHERE c.lto > 5
 {% endcode %}
 
 3. The data exchange service shuffles data shuffle, so all data with the same unique customer ID is sent to the same processing server for the next stage.
-4. On each processing server, an inner JOIN is performed.
 
-### Stage 2
+### Intermediate stages
 
 1. On each processing server, an inner JOIN is performed.
-2.  Each intermediary servers (shown in [_Figure 1: Multi-stage query execution model_](multi-stage-engine.md#multi-stage-query-execution-model)) performs a local join, and
+2. Each intermediary servers (shown in [_Figure 1: Multi-stage query execution model_](multi-stage-engine.md#multi-stage-query-execution-model)) performs a local join, and runs the same join algorithm, but on different `uids.`
+3. The result of these joins is sent to the next stage, which in this case is the root stage.
 
-    runs the same join algorithm, but on different `uids.`
+### Root stage
 
-### Stage 3
+* After the join algorithm completes, the results are sent back to the broker, and then sent to clients.
 
-* After the join algorithm completes, the results are sent back to the broker, and then sent to clients.&#x20;
+## How to optimize multi-stage queries
+
+Multi-stage queries are more expressive than single-stage queries, allowing to execute more complex logic in Pinot. However, this flexibility comes with a cost: the more complex the query, the more resources it will consume.
+
+In order to optimize multi-stage queries, you can follow these guidelines:
+
+* Study the [explain plan](../users/user-guide-query/multi-stage-query/explain-plan-1.md).
+* Execute the query and analyze the [stage stats](../users/user-guide-query/multi-stage-query/understanding-stage-stats.md).
