@@ -19,10 +19,11 @@ copyright: Apache License Version 2.0
 nav:
   - Introduction: README.md
   - Basics:
-      - "Concepts": basics/concepts/README.md
-      - Pinot storage model: basics/concepts/pinot-storage-model.md
-      - Architecture: basics/architecture.md
-      - Components:
+      - Concepts:
+        - basics/concepts/README.md
+        - Pinot storage model: basics/concepts/pinot-storage-model.md
+        - Architecture: basics/architecture.md
+        - Components:
           - basics/components/README.md
           - Cluster:
               - basics/components/cluster/README.md
@@ -109,55 +110,56 @@ nav:
           - Visualize data with Redash: basics/recipes/redash.md
           - GitHub Events Stream: basics/recipes/github-events-stream.md
   - For Users:
-      - Query: users/user-guide-query/README.md
-      - Querying Pinot: users/user-guide-query/querying-pinot.md
-      - Query Syntax:
-          - users/user-guide-query/query-syntax/README.md
-          - Explain Plan (Single-Stage): users/user-guide-query/explain-plan.md
-          - Explain Plan (Multi-Stage): users/user-guide-query/query-syntax/explain-plan-multi-stage.md
-          - Filtering with IdSet: users/user-guide-query/query-syntax/filtering-with-idset.md
-          - GapFill Function For Time-Series Dataset: users/user-guide-query/gap-fill-functions.md
-          - Grouping Algorithm: users/user-guide-query/grouping-algorithm.md
-          - JOINs: users/user-guide-query/query-syntax/joins.md
-          - Lookup UDF Join: users/user-guide-query/query-syntax/lookup-udf-join.md
-      - Multi-stage query:
-          - users/user-guide-query/multi-stage-query/README.md
-          - Understanding Stages: users/user-guide-query/multi-stage-query/understanding-stages.md
-          - Multistage Lite Mode: users/user-guide-query/multi-stage-query/multistage-lite-mode.md
-          - Physical Optimizer: users/user-guide-query/multi-stage-query/physical-optimizer.md
-          - Explain Plan: users/user-guide-query/multi-stage-query/explain-plan-1.md
-          - Explain: users/user-guide-query/multi-stage-query/understanding-multi-stage-explain.md
-          - Stats: users/user-guide-query/multi-stage-query/understanding-stage-stats.md
-          - Optimizing joins: users/user-guide-query/multi-stage-query/optimizing-joins.md
-          - Join strategies:
-              - users/user-guide-query/multi-stage-query/join-strategies/README.md
-              - Random + broadcast join strategy: users/user-guide-query/multi-stage-query/join-strategies/random-+-broadcast-join-strategy.md
-              - Query time partition join strategy: users/user-guide-query/multi-stage-query/join-strategies/query-time-partition-join-strategy.md
-              - Colocated join strategy: users/user-guide-query/multi-stage-query/join-strategies/colocated-join-strategy.md
-              - Lookup join strategy: users/user-guide-query/multi-stage-query/join-strategies/lookup-join-strategy.md
-          - Hints: users/user-guide-query/multi-stage-query/hints.md
-          - Operator Types:
-              - users/user-guide-query/multi-stage-query/operator-types/README.md
-              - Aggregate: users/user-guide-query/multi-stage-query/operator-types/aggregate.md
-              - Filter: users/user-guide-query/multi-stage-query/operator-types/filter.md
-              - Join: users/user-guide-query/multi-stage-query/operator-types/hash_join.md
-              - Intersect: users/user-guide-query/multi-stage-query/operator-types/intersect.md
-              - Leaf: users/user-guide-query/multi-stage-query/operator-types/leaf.md
-              - Literal: users/user-guide-query/multi-stage-query/operator-types/literal.md
-              - Mailbox receive: users/user-guide-query/multi-stage-query/operator-types/mailbox-receive.md
-              - Mailbox send: users/user-guide-query/multi-stage-query/operator-types/mailbox-send.md
-              - Minus: users/user-guide-query/multi-stage-query/operator-types/minus.md
-              - Sort or limit: users/user-guide-query/multi-stage-query/operator-types/sortOrLimit.md
-              - Transform: users/user-guide-query/multi-stage-query/operator-types/transform.md
-              - Union: users/user-guide-query/multi-stage-query/operator-types/union.md
-              - Window: users/user-guide-query/multi-stage-query/operator-types/window.md
-          - Stage-Level Spooling: users/user-guide-query/multi-stage-query/stage-level-spooling.md
-      - Time Series Queries: users/user-guide-query/time-series-queries.md
-      - Query Options: users/user-guide-query/query-options.md
-      - Query Quotas: users/user-guide-query/query-quotas.md
-      - Query Cancellation: users/user-guide-query/query-cancellation.md
-      - Query Correlation ID: users/user-guide-query/query-correlation-id.md
-      - Query using Cursors: users/user-guide-query/query-using-cursors.md
+      - Query:
+        - users/user-guide-query/README.md
+        - Querying Pinot: users/user-guide-query/querying-pinot.md
+        - Query Syntax:
+            - users/user-guide-query/query-syntax/README.md
+            - Explain Plan (Single-Stage): users/user-guide-query/explain-plan.md
+            - Explain Plan (Multi-Stage): users/user-guide-query/query-syntax/explain-plan-multi-stage.md
+            - Filtering with IdSet: users/user-guide-query/query-syntax/filtering-with-idset.md
+            - GapFill Function For Time-Series Dataset: users/user-guide-query/gap-fill-functions.md
+            - Grouping Algorithm: users/user-guide-query/grouping-algorithm.md
+            - JOINs: users/user-guide-query/query-syntax/joins.md
+            - Lookup UDF Join: users/user-guide-query/query-syntax/lookup-udf-join.md
+        - Multi-stage query:
+            - users/user-guide-query/multi-stage-query/README.md
+            - Understanding Stages: users/user-guide-query/multi-stage-query/understanding-stages.md
+            - Multistage Lite Mode: users/user-guide-query/multi-stage-query/multistage-lite-mode.md
+            - Physical Optimizer: users/user-guide-query/multi-stage-query/physical-optimizer.md
+            - Explain Plan: users/user-guide-query/multi-stage-query/explain-plan-1.md
+            - Explain: users/user-guide-query/multi-stage-query/understanding-multi-stage-explain.md
+            - Stats: users/user-guide-query/multi-stage-query/understanding-stage-stats.md
+            - Optimizing joins: users/user-guide-query/multi-stage-query/optimizing-joins.md
+            - Join strategies:
+                - users/user-guide-query/multi-stage-query/join-strategies/README.md
+                - Random + broadcast join strategy: users/user-guide-query/multi-stage-query/join-strategies/random-+-broadcast-join-strategy.md
+                - Query time partition join strategy: users/user-guide-query/multi-stage-query/join-strategies/query-time-partition-join-strategy.md
+                - Colocated join strategy: users/user-guide-query/multi-stage-query/join-strategies/colocated-join-strategy.md
+                - Lookup join strategy: users/user-guide-query/multi-stage-query/join-strategies/lookup-join-strategy.md
+            - Hints: users/user-guide-query/multi-stage-query/hints.md
+            - Operator Types:
+                - users/user-guide-query/multi-stage-query/operator-types/README.md
+                - Aggregate: users/user-guide-query/multi-stage-query/operator-types/aggregate.md
+                - Filter: users/user-guide-query/multi-stage-query/operator-types/filter.md
+                - Join: users/user-guide-query/multi-stage-query/operator-types/hash_join.md
+                - Intersect: users/user-guide-query/multi-stage-query/operator-types/intersect.md
+                - Leaf: users/user-guide-query/multi-stage-query/operator-types/leaf.md
+                - Literal: users/user-guide-query/multi-stage-query/operator-types/literal.md
+                - Mailbox receive: users/user-guide-query/multi-stage-query/operator-types/mailbox-receive.md
+                - Mailbox send: users/user-guide-query/multi-stage-query/operator-types/mailbox-send.md
+                - Minus: users/user-guide-query/multi-stage-query/operator-types/minus.md
+                - Sort or limit: users/user-guide-query/multi-stage-query/operator-types/sortOrLimit.md
+                - Transform: users/user-guide-query/multi-stage-query/operator-types/transform.md
+                - Union: users/user-guide-query/multi-stage-query/operator-types/union.md
+                - Window: users/user-guide-query/multi-stage-query/operator-types/window.md
+            - Stage-Level Spooling: users/user-guide-query/multi-stage-query/stage-level-spooling.md
+        - Time Series Queries: users/user-guide-query/time-series-queries.md
+        - Query Options: users/user-guide-query/query-options.md
+        - Query Quotas: users/user-guide-query/query-quotas.md
+        - Query Cancellation: users/user-guide-query/query-cancellation.md
+        - Query Correlation ID: users/user-guide-query/query-correlation-id.md
+        - Query using Cursors: users/user-guide-query/query-using-cursors.md
       - APIs:
           - users/api/README.md
           - Broker Query API:
@@ -182,16 +184,17 @@ nav:
           - Batch Data Ingestion In Practice: users/tutorials/batch-data-ingestion-in-practice.md
           - Schema Evolution: users/tutorials/schema-evolution.md
   - For Developers:
-      - Basics: developers/developers-and-contributors/README.md
-      - Extending Pinot:
-          - developers/developers-and-contributors/extending-pinot/README.md
-          - Writing Custom Aggregation Function: developers/developers-and-contributors/extending-pinot/custom-aggregation-function.md
-          - Segment Fetchers: developers/developers-and-contributors/extending-pinot/segment-fetchers.md
-      - Contribution Guidelines: developers/developers-and-contributors/contribution-guidelines.md
-      - Code Setup: developers/developers-and-contributors/code-setup.md
-      - Code Modules and Organization: developers/developers-and-contributors/code-modules-and-organization.md
-      - Dependency Management: developers/developers-and-contributors/dependency-management.md
-      - Update documentation: developers/developers-and-contributors/update-document.md
+      - Basics:
+        - developers/developers-and-contributors/README.md
+        - Extending Pinot:
+            - developers/developers-and-contributors/extending-pinot/README.md
+            - Writing Custom Aggregation Function: developers/developers-and-contributors/extending-pinot/custom-aggregation-function.md
+            - Segment Fetchers: developers/developers-and-contributors/extending-pinot/segment-fetchers.md
+        - Contribution Guidelines: developers/developers-and-contributors/contribution-guidelines.md
+        - Code Setup: developers/developers-and-contributors/code-setup.md
+        - Code Modules and Organization: developers/developers-and-contributors/code-modules-and-organization.md
+        - Dependency Management: developers/developers-and-contributors/dependency-management.md
+        - Update documentation: developers/developers-and-contributors/update-document.md
       - Advanced:
           - developers/advanced/README.md
           - Data Ingestion Overview: developers/advanced/data-ingestion.md
@@ -213,42 +216,43 @@ nav:
           - developers/design-documents/README.md
           - Segment Writer API: developers/design-documents/segment-writer-api.md
   - For Operators:
-      - Deployment and Monitoring: operators/operating-pinot/README.md
-      - Set up cluster: operators/operating-pinot/setup-cluster.md
-      - Server Startup Status Checkers: operators/operating-pinot/server-startup-status-checkers.md
-      - Set up table: operators/operating-pinot/setup-table.md
-      - Set up ingestion: operators/operating-pinot/setup-ingestion.md
-      - Decoupling Controller from the Data Path: operators/operating-pinot/decoupling-controller-from-the-data-path.md
-      - Segment Assignment: operators/operating-pinot/segment-assignment.md
-      - Instance Assignment: operators/operating-pinot/instance-assignment.md
-      - Rebalance:
-          - operators/operating-pinot/rebalance/README.md
-          - Rebalance Servers:
-              - operators/operating-pinot/rebalance/rebalance-servers/README.md
-              - Examples and Scenarios: operators/operating-pinot/rebalance/rebalance-servers/examples-and-scenarios.md
-          - Rebalance Brokers: operators/operating-pinot/rebalance/rebalance-brokers.md
-          - Rebalance Tenant: operators/operating-pinot/rebalance/rebalance-tenant.md
-      - Separating data storage by age:
-          - operators/operating-pinot/separating-data-storage-by-age/README.md
-          - Using multiple tenants: operators/operating-pinot/separating-data-storage-by-age/moving-segments-across-tenants.md
-          - Using multiple directories: operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories.md
-      - Pinot managed Offline flows: operators/operating-pinot/pinot-managed-offline-flows.md
-      - Minion merge rollup task: operators/operating-pinot/minion-merge-rollup-task.md
-      - Upsert Compact Merge Task: operators/operating-pinot/upsert-compact-merge-task.md
-      - Consistent Push and Rollback: operators/operating-pinot/consistent-push-and-rollback.md
-      - Access Control: operators/operating-pinot/access-control.md
-      - Monitoring: operators/operating-pinot/monitoring.md
-      - Tuning:
-          - operators/operating-pinot/tuning/README.md
-          - Tuning Default MMAP Advice: operators/operating-pinot/tuning/tuning-default-mmap-advice.md
-          - Real-time: operators/operating-pinot/tuning/realtime.md
-          - Routing: operators/operating-pinot/tuning/routing.md
-          - Query Routing using Adaptive Server Selection: operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection.md
-          - Query Scheduling: operators/operating-pinot/tuning/query-scheduling.md
-      - Upgrading Pinot with confidence: operators/operating-pinot/upgrading-pinot-cluster.md
-      - Managing Logs: operators/operating-pinot/managing-logs.md
-      - OOM Protection Using Automatic Query Killing: operators/operating-pinot/oom-protection-using-automatic-query-killing.md
-      - Pause ingestion based on resource utilization: operators/operating-pinot/pause-ingestion-based-on-resource-utilization.md
+      - Deployment and Monitoring:
+        - operators/operating-pinot/README.md
+        - Set up cluster: operators/operating-pinot/setup-cluster.md
+        - Server Startup Status Checkers: operators/operating-pinot/server-startup-status-checkers.md
+        - Set up table: operators/operating-pinot/setup-table.md
+        - Set up ingestion: operators/operating-pinot/setup-ingestion.md
+        - Decoupling Controller from the Data Path: operators/operating-pinot/decoupling-controller-from-the-data-path.md
+        - Segment Assignment: operators/operating-pinot/segment-assignment.md
+        - Instance Assignment: operators/operating-pinot/instance-assignment.md
+        - Rebalance:
+            - operators/operating-pinot/rebalance/README.md
+            - Rebalance Servers:
+                - operators/operating-pinot/rebalance/rebalance-servers/README.md
+                - Examples and Scenarios: operators/operating-pinot/rebalance/rebalance-servers/examples-and-scenarios.md
+            - Rebalance Brokers: operators/operating-pinot/rebalance/rebalance-brokers.md
+            - Rebalance Tenant: operators/operating-pinot/rebalance/rebalance-tenant.md
+        - Separating data storage by age:
+            - operators/operating-pinot/separating-data-storage-by-age/README.md
+            - Using multiple tenants: operators/operating-pinot/separating-data-storage-by-age/moving-segments-across-tenants.md
+            - Using multiple directories: operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories.md
+        - Pinot managed Offline flows: operators/operating-pinot/pinot-managed-offline-flows.md
+        - Minion merge rollup task: operators/operating-pinot/minion-merge-rollup-task.md
+        - Upsert Compact Merge Task: operators/operating-pinot/upsert-compact-merge-task.md
+        - Consistent Push and Rollback: operators/operating-pinot/consistent-push-and-rollback.md
+        - Access Control: operators/operating-pinot/access-control.md
+        - Monitoring: operators/operating-pinot/monitoring.md
+        - Tuning:
+            - operators/operating-pinot/tuning/README.md
+            - Tuning Default MMAP Advice: operators/operating-pinot/tuning/tuning-default-mmap-advice.md
+            - Real-time: operators/operating-pinot/tuning/realtime.md
+            - Routing: operators/operating-pinot/tuning/routing.md
+            - Query Routing using Adaptive Server Selection: operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection.md
+            - Query Scheduling: operators/operating-pinot/tuning/query-scheduling.md
+        - Upgrading Pinot with confidence: operators/operating-pinot/upgrading-pinot-cluster.md
+        - Managing Logs: operators/operating-pinot/managing-logs.md
+        - OOM Protection Using Automatic Query Killing: operators/operating-pinot/oom-protection-using-automatic-query-killing.md
+        - Pause ingestion based on resource utilization: operators/operating-pinot/pause-ingestion-based-on-resource-utilization.md
       - Command-Line Interface (CLI): operators/cli.md
       - Configuration Recommendation Engine: operators/configuration-recommendation-engine.md
       - Tutorials:
@@ -287,39 +291,40 @@ nav:
           - STDDEV_SAMP: configuration-reference/plugin-reference/stddev_samp.md
       - Dynamic Environment: configuration-reference/dynamic-environment.md
   - Manage Data:
-      - Import Data: manage-data/data-import/README.md
-      - SQL Insert Into From Files: manage-data/data-import/from-query-console.md
-      - Upload Pinot segment Using CommandLine: manage-data/data-import/segment-upload.md
-      - Batch Ingestion:
-          - manage-data/data-import/batch-ingestion/README.md
-          - Spark: manage-data/data-import/batch-ingestion/spark.md
-          - Flink: manage-data/data-import/batch-ingestion/flink.md
-          - Hadoop: manage-data/data-import/batch-ingestion/hadoop.md
-          - Backfill Data: manage-data/data-import/batch-ingestion/backfill-data.md
-          - Dimension table: manage-data/data-import/batch-ingestion/dim-table.md
-      - Stream Ingestion:
-          - manage-data/data-import/pinot-stream-ingestion/README.md
-          - Ingest streaming data from Apache Kafka: manage-data/data-import/pinot-stream-ingestion/import-from-apache-kafka.md
-          - Ingest streaming data from Amazon Kinesis: manage-data/data-import/pinot-stream-ingestion/amazon-kinesis.md
-          - Ingest streaming data from Apache Pulsar: manage-data/data-import/pinot-stream-ingestion/apache-pulsar.md
-          - Configure indexes: manage-data/data-import/pinot-stream-ingestion/configure-indexes.md
-          - Stream ingestion with CLP: manage-data/data-import/pinot-stream-ingestion/clp.md
-      - Upsert and Dedup:
-          - manage-data/data-import/upsert-and-dedup/README.md
-          - Stream ingestion with Upsert: manage-data/data-import/upsert-and-dedup/upsert.md
-          - Segment compaction on upserts: manage-data/data-import/upsert-and-dedup/segment-compaction-on-upserts.md
-          - Stream ingestion with Dedup: manage-data/data-import/upsert-and-dedup/dedup.md
-      - Supported Data Formats: manage-data/data-import/pinot-input-formats.md
-      - File Systems:
-          - manage-data/data-import/pinot-file-system/README.md
-          - Amazon S3: manage-data/data-import/pinot-file-system/amazon-s3.md
-          - Azure Data Lake Storage: manage-data/data-import/pinot-file-system/import-from-adls-azure.md
-          - HDFS: manage-data/data-import/pinot-file-system/import-from-hdfs.md
-          - Google Cloud Storage: manage-data/data-import/pinot-file-system/import-from-gcp.md
-      - Complex Type (Array, Map) Handling:
-          - manage-data/data-import/complex-type/README.md
-          - Complex Type Examples (Unnest): manage-data/data-import/complex-type/complex-type-examples.md
-      - Ingest records with dynamic schemas: manage-data/data-import/schema-conforming-transformer.md
+      - Import Data:
+        - manage-data/data-import/README.md
+        - SQL Insert Into From Files: manage-data/data-import/from-query-console.md
+        - Upload Pinot segment Using CommandLine: manage-data/data-import/segment-upload.md
+        - Batch Ingestion:
+            - manage-data/data-import/batch-ingestion/README.md
+            - Spark: manage-data/data-import/batch-ingestion/spark.md
+            - Flink: manage-data/data-import/batch-ingestion/flink.md
+            - Hadoop: manage-data/data-import/batch-ingestion/hadoop.md
+            - Backfill Data: manage-data/data-import/batch-ingestion/backfill-data.md
+            - Dimension table: manage-data/data-import/batch-ingestion/dim-table.md
+        - Stream Ingestion:
+            - manage-data/data-import/pinot-stream-ingestion/README.md
+            - Ingest streaming data from Apache Kafka: manage-data/data-import/pinot-stream-ingestion/import-from-apache-kafka.md
+            - Ingest streaming data from Amazon Kinesis: manage-data/data-import/pinot-stream-ingestion/amazon-kinesis.md
+            - Ingest streaming data from Apache Pulsar: manage-data/data-import/pinot-stream-ingestion/apache-pulsar.md
+            - Configure indexes: manage-data/data-import/pinot-stream-ingestion/configure-indexes.md
+            - Stream ingestion with CLP: manage-data/data-import/pinot-stream-ingestion/clp.md
+        - Upsert and Dedup:
+            - manage-data/data-import/upsert-and-dedup/README.md
+            - Stream ingestion with Upsert: manage-data/data-import/upsert-and-dedup/upsert.md
+            - Segment compaction on upserts: manage-data/data-import/upsert-and-dedup/segment-compaction-on-upserts.md
+            - Stream ingestion with Dedup: manage-data/data-import/upsert-and-dedup/dedup.md
+        - Supported Data Formats: manage-data/data-import/pinot-input-formats.md
+        - File Systems:
+            - manage-data/data-import/pinot-file-system/README.md
+            - Amazon S3: manage-data/data-import/pinot-file-system/amazon-s3.md
+            - Azure Data Lake Storage: manage-data/data-import/pinot-file-system/import-from-adls-azure.md
+            - HDFS: manage-data/data-import/pinot-file-system/import-from-hdfs.md
+            - Google Cloud Storage: manage-data/data-import/pinot-file-system/import-from-gcp.md
+        - Complex Type (Array, Map) Handling:
+            - manage-data/data-import/complex-type/README.md
+            - Complex Type Examples (Unnest): manage-data/data-import/complex-type/complex-type-examples.md
+        - Ingest records with dynamic schemas: manage-data/data-import/schema-conforming-transformer.md
   - Functions:
       - Aggregation Functions: users/user-guide-query/supported-aggregations.md
       - Transformation Functions: users/user-guide-query/supported-transformations.md
@@ -517,7 +522,7 @@ nav:
           - ST_GeomFromGeoJSON: functions-1/st_geomfromgeojson.md
           - ST_GeogFromGeoJSON: functions-1/st_geogfromgeojson.md
           - ST_AsGeoJSON: functions-1/st_asgeojson.md
-  - Reference:
+  -  Reference:
       - Single-stage query engine (v1): reference/single-stage-engine.md
       - Multi-stage query engine (v2): reference/multi-stage-engine.md
       - Troubleshooting:
@@ -560,6 +565,7 @@ theme:
     - content.code.copy
     - content.code.select
     - content.code.annotate
+    - content.tabs.link
     - content.tooltips
 
     - navigation.expand
