@@ -1,0 +1,22 @@
+[project]
+name = "Pinot-docs"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "mkdocs>=1.6.1,<2.0.0",
+    "mkdocs-material>=9.7.0,<10.0.0",
+    "mkdocstrings>=1.0.0,<2.0.0",
+    "mkdocs-redirects>=1.2.2,<2.0.0"
+]
+
+[tool.poetry]
+packages = [{include = "poet", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = []

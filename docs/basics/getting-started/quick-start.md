@@ -10,31 +10,31 @@ Pinot ships with `QuickStart` commands that launch Pinot components in a single 
 
 *   **Prerequisites**
 
-    You must have either [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md). The examples are available in each option and work the same. The decision of which to choose depends on your installation preference and how you generally like to work. If you don't know which to choose, using Docker will make your cleanup easier after you are done with the examples.
-*   **Pinot versions in examples**
+    You must have either [installed Pinot locally](running-pinot-locally.md) or [have Docker installed if you want to use the Pinot Docker image](running-pinot-in-docker.md). The examples are available in each option and work the same. The decision of which to choose depends on your installation preference and how you generally like to work. If you don't know which to choose, using Docker will make your cleanup easier after you are done with the examples. 
+
+* **Pinot versions in examples**
 
     The Docker-based examples on this page use `pinot:latest`, which instructs Docker to pull and use the most recent release of Apache Pinot. If you prefer to use a specific release instead, you can designate it by replacing `latest` with the release number, like this: `pinot:0.12.1`.
 
     The local install-based examples that are run using the launcher scripts will use the Apache Pinot version you installed.
-*   **Stopping a running example**
+  
+* **Stopping a running example**
 
     To stop a running example, enter `Ctrl+C` in the same terminal where you ran the `docker run` command to start the example.
 
-{% hint style="warning" %}
-**macOS Monterey Users**
-
-By default the Airplay receiver server runs on port 7000, which is also the port used by the Pinot Server in the Quick Start. You may see the following error when running these examples:
-
-```
-Failed to start a Pinot [SERVER]
-java.lang.RuntimeException: java.net.BindException: Address already in use
-	at org.apache.pinot.core.transport.QueryServer.start(QueryServer.java:103) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da21132906]
-	at org.apache.pinot.server.starter.ServerInstance.start(ServerInstance.java:158) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da21132906]
-	at org.apache.helix.manager.zk.ParticipantManager.handleNewSession(ParticipantManager.java:110) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da2113
-```
-
-If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
-{% endhint %}
+!!! warning "For macOS Monterey Users"
+    
+    By default the Airplay receiver server runs on port 7000, which is also the port used by the Pinot Server in the Quick Start. You may see the following error when running these examples:
+    
+    ```
+    Failed to start a Pinot [SERVER]
+    java.lang.RuntimeException: java.net.BindException: Address already in use
+        at org.apache.pinot.core.transport.QueryServer.start(QueryServer.java:103) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da21132906]
+        at org.apache.pinot.server.starter.ServerInstance.start(ServerInstance.java:158) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da21132906]
+        at org.apache.helix.manager.zk.ParticipantManager.handleNewSession(ParticipantManager.java:110) ~[pinot-all-0.9.0-jar-with-dependencies.jar:0.9.0-cf8b84e8b0d6ab62374048de586ce7da2113
+    ```
+    
+    If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
 
 ## Batch Processing
 
@@ -45,28 +45,23 @@ This example demonstrates how to do batch processing with Pinot. The command:
 * Launches a standalone data ingestion job that builds one segment for a given CSV data file for the `baseballStats` table and pushes the segment to the Pinot Controller.
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type batch
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest QuickStart \
+        -type batch
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type batch
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type batch
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type batch
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type batch
+    ```
 
 ## Batch JSON
 
@@ -77,28 +72,23 @@ This example demonstrates how to import and query JSON documents in Pinot. The c
 * Launches a standalone data ingestion job that builds one segment for a given JSON data file for the `githubEvents` table and pushes the segment to the Pinot Controller.
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type batch_json_index
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest QuickStart \
+        -type batch_json_index
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type batch_json_index
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type batch_json_index
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type batch_json_index
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type batch_json_index
+    ```
 
 ## Batch with complex data types
 
@@ -109,28 +99,23 @@ This example demonstrates how to do batch processing in Pinot where the the data
 * Launches a standalone data ingestion job that builds one segment for a given JSON data file for the `githubEvents` table and pushes the segment to the Pinot Controller.
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type batch_complex_type
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest QuickStart \
+        -type batch_complex_type
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type batch_complex_type
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type batch_complex_type
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type batch_complex_type
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type batch_complex_type
+    ```
 
 ## Streaming
 
@@ -142,28 +127,23 @@ This example demonstrates how to do stream processing with Pinot. The command:
 * Publishes data to a Kafka topic `meetupRSVPEvents` that is subscribed to by Pinot.
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type stream
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest QuickStart \
+        -type stream
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type stream
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type stream
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type stream
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type stream
+    ```
 
 ## Streaming JSON
 
@@ -175,28 +155,23 @@ This example demonstrates how to do stream processing with JSON documents in Pin
 * Publishes data to a Kafka topic `meetupRSVPEvents` that is subscribed to by Pinot
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type stream_json_index
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest QuickStart \
+        -type stream_json_index
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type stream_json_index
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type stream_json_index
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type stream_json_index
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type stream_json_index
+    ```
 
 ## Streaming with minion cleanup
 
@@ -208,28 +183,23 @@ This example demonstrates how to do stream processing in Pinot with RealtimeToOf
 * Publishes data to a Kafka topic `githubEvents` that is subscribed to by Pinot.
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type realtime_minion
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest QuickStart \
+        -type realtime_minion
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type realtime_minion
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type realtime_minion
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type realtime_minion
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type realtime_minion
+    ```
 
 ## Streaming with complex data types
 
@@ -241,28 +211,23 @@ This example demonstrates how to do stream processing in Pinot where the stream 
 * Publishes data to a Kafka topic `meetupRSVPEvents` that is subscribed to by Pinot.
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type stream_complex_type
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest QuickStart \
+        -type stream_complex_type
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type stream_complex_type
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type stream_complex_type
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type stream_complex_type
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type stream_complex_type
+    ```
 
 ## Upsert
 
@@ -274,28 +239,23 @@ This example demonstrates how to do [stream processing with upsert](../../manage
 * Publishes data to a Kafka topic `meetupRSVPEvents` that is subscribed to by Pinot
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type upsert
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+        -p 9000:9000 \
+        apachepinot/pinot:latest QuickStart \
+        -type upsert
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type upsert
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type upsert
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type upsert
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type upsert
+    ```
 
 ## Upsert JSON
 
@@ -307,28 +267,23 @@ This example demonstrates how to do [stream processing with upsert](../../manage
 * Publishes data to a Kafka topic `meetupRSVPEvents` that is subscribed to by Pinot
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type upsert_json_index
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+          -p 9000:9000 \
+          apachepinot/pinot:latest QuickStart \
+          -type upsert_json_index
+      ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type upsert_json_index
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type upsert_json_index
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type upsert_json_index
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type upsert_json_index
+    ```
 
 ## Hybrid
 
@@ -341,28 +296,23 @@ This example demonstrates how to do hybrid stream and batch processing with Pino
 5. Publishes data to a Kafka topic `airlineStatsEvents` that is subscribed to by Pinot.
 6. Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type hybrid
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+      -p 9000:9000 \
+      apachepinot/pinot:latest QuickStart \
+      -type hybrid
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type hybrid
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type hybrid
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type hybrid
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type hybrid
+    ```
 
 ## Join
 
@@ -375,28 +325,23 @@ This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../
 * Launches a data ingestion job that builds one segment for a given CSV data file for the `dimBaseballStats` table and pushes the segment to the Pinot Controller.
 * Issues sample queries to Pinot
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type join
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+      -p 9000:9000 \
+      apachepinot/pinot:latest QuickStart \
+      -type join
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type join
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type join
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type join
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type join
+    ```
 
 ## Time Series
 
@@ -415,25 +360,20 @@ fetch{table="meetupRsvp_REALTIME",filter="",ts_column="__metadata$recordTimestam
 
 <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-{% tabs %}
-{% tab title="Docker" %}
-```
-docker run \
-    -p 9000:9000 \
-    apachepinot/pinot:latest QuickStart \
-    -type time_series
-```
-{% endtab %}
+=== "Docker"
+    ```
+    docker run \
+      -p 9000:9000 \
+      apachepinot/pinot:latest QuickStart \
+      -type time_series
+    ```
 
-{% tab title="Launcher scripts" %}
-```
-./bin/pinot-admin.sh QuickStart -type time_series
-```
-{% endtab %}
+=== "Launcher scripts"
+    ```
+    ./bin/pinot-admin.sh QuickStart -type time_series
+    ```
 
-{% tab title="Brew" %}
-```
-pinot-admin QuickStart -type time_series
-```
-{% endtab %}
-{% endtabs %}
+=== "Brew"
+    ```
+    pinot-admin QuickStart -type time_series
+    ```
