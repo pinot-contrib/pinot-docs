@@ -1,6 +1,10 @@
 1. install pipx https://github.com/pypa/pipx
 2. install poetry https://python-poetry.org/docs/
-3. run `poetry run mkdocs serve` to start a local server
+3. run the following to start a local server
+
+```bash
+`poetry run mkdocs serve --livereload`
+```
 
 ## How to install new plugins
 
