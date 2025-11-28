@@ -1,0 +1,612 @@
+# How to run mkdocs:
+#  serve (Start the live-reloading docs server):
+#    docker run --user $UID:$GID --rm -v $(pwd):/docs -p 8000:8000 squidfunk/mkdocs-material
+#  build (Build the documentation site with html pages ready to publish into `/site` directory):
+#    docker run --user $UID:$GID --rm -v $(pwd):/docs squidfunk/mkdocs-material build
+# You can also provide the `--strict` argument to fail the build on warnings (ie when links are broken)
+
+# Doc project layout
+# /
+# ├── mkdocs.yml: Configuration file
+# ├── docs/: The documentation files (usually md files)
+# │   ├── dev/: Dev guide
+# ├── mkdocs/: Custom theme files
+# │   ├── includes/: Custom md files to be implicitly included in the docs
+
+site_name: Apache Pinot Documentation
+site_url: https://docs.pinot.apache.org/
+copyright: Apache License Version 2.0
+nav:
+  - Introduction: README.md
+  - Basics:
+      - "Concepts": basics/concepts/README.md
+      - Pinot storage model: basics/concepts/pinot-storage-model.md
+      - Architecture: basics/architecture.md
+      - Components:
+          - basics/components/README.md
+          - Cluster:
+              - basics/components/cluster/README.md
+              - Tenant: basics/components/cluster/tenant.md
+              - Server: basics/components/cluster/server.md
+              - Controller: basics/components/cluster/controller.md
+              - Broker: basics/components/cluster/broker.md
+              - Minion: basics/components/cluster/minion.md
+          - Table:
+              - basics/components/table/README.md
+              - Segment:
+                  - basics/components/table/segment/README.md
+                  - Deep Store: basics/components/table/segment/deep-store.md
+                  - Segment threshold: basics/concepts/segment-threshold.md
+                  - Segment retention: basics/concepts/segment-retention.md
+              - Schema: basics/components/table/schema.md
+              - Time boundary: basics/concepts/time-boundary.md
+          - Pinot Data Explorer: basics/components/exploring-pinot.md
+      - Getting Started:
+          - basics/getting-started/README.md
+          - Running Pinot locally: basics/getting-started/running-pinot-locally.md
+          - Running Pinot in Docker: basics/getting-started/running-pinot-in-docker.md
+          - Quick Start Examples: basics/getting-started/quick-start.md
+          - Running in Kubernetes: basics/getting-started/kubernetes-quickstart.md
+          - Running on public clouds:
+              - basics/getting-started/public-cloud-examples/README.md
+              - Running on Azure: basics/getting-started/public-cloud-examples/azure-quickstart.md
+              - Running on GCP: basics/getting-started/public-cloud-examples/gcp-quickstart.md
+              - Running on AWS: basics/getting-started/public-cloud-examples/aws-quickstart.md
+          - Create and update a table configuration: basics/getting-started/create-and-update-table-config.md
+          - Batch import example: basics/getting-started/pushing-your-data-to-pinot.md
+          - Stream ingestion example: basics/getting-started/pushing-your-streaming-data-to-pinot.md
+          - HDFS as Deep Storage: basics/getting-started/hdfs-as-deepstorage.md
+          - Troubleshooting Pinot: basics/getting-started/troubleshooting-pinot.md
+          - Frequently Asked Questions (FAQs):
+              - basics/getting-started/frequent-questions/README.md
+              - General: basics/getting-started/frequent-questions/general.md
+              - Pinot On Kubernetes FAQ: basics/getting-started/frequent-questions/pinot-on-kubernetes-faq.md
+              - Ingestion FAQ: basics/getting-started/frequent-questions/ingestion-faq.md
+              - Query FAQ: basics/getting-started/frequent-questions/query-faq.md
+              - Operations FAQ: basics/getting-started/frequent-questions/operations-faq.md
+      - Indexing:
+          - basics/indexing/README.md
+          - Bloom filter: basics/indexing/bloom-filter.md
+          - Dictionary index: basics/indexing/dictionary-index.md
+          - Forward index: basics/indexing/forward-index.md
+          - FST index: basics/indexing/fst-index.md
+          - Geospatial: basics/indexing/geospatial-support.md
+          - Inverted index: basics/indexing/inverted-index.md
+          - JSON index: basics/indexing/json-index.md
+          - Native text index: basics/indexing/native-text-index.md
+          - Range index: basics/indexing/range-index.md
+          - Star-tree index: basics/indexing/star-tree-index.md
+          - Text search support: basics/indexing/text-search-support.md
+          - Timestamp index: basics/indexing/timestamp-index.md
+          - Vector index: basics/indexing/vector-index.md
+      - Release notes:
+          - basics/releases/README.md
+          - 1.4.0: basics/releases/1.4.0.md
+          - 1.3.0: basics/releases/1.3.0.md
+          - 1.2.0: basics/releases/1.2.0.md
+          - 1.1.0: basics/releases/1.1.0.md
+          - 1.0.0: basics/releases/1.0.0.md
+          - 0.12.1: basics/releases/0.12.1.md
+          - 0.12.0: basics/releases/0.12.0.md
+          - 0.11.0: basics/releases/0.11.0.md
+          - 0.10.0: basics/releases/0.10.0.md
+          - 0.9.3: basics/releases/0.9.3.md
+          - 0.9.2: basics/releases/0.9.2.md
+          - 0.9.1: basics/releases/0.9.1.md
+          - 0.9.0: basics/releases/0.9.0.md
+          - 0.8.0: basics/releases/0.8.0.md
+          - 0.7.1: basics/releases/0.7.1.md
+          - 0.6.0: basics/releases/0.6.0.md
+          - 0.5.0: basics/releases/0.5.0.md
+          - 0.4.0: basics/releases/0.4.0.md
+          - 0.3.0: basics/releases/0.3.0.md
+          - 0.2.0: basics/releases/0.2.0.md
+          - 0.1.0: basics/releases/0.1.0.md
+      - Recipes:
+          - basics/recipes/README.md
+          - Connect to Streamlit: basics/recipes/streamlit.md
+          - Connect to Dash: basics/recipes/dash.md
+          - Visualize data with Redash: basics/recipes/redash.md
+          - GitHub Events Stream: basics/recipes/github-events-stream.md
+  - For Users:
+      - Query: users/user-guide-query/README.md
+      - Querying Pinot: users/user-guide-query/querying-pinot.md
+      - Query Syntax:
+          - users/user-guide-query/query-syntax/README.md
+          - Explain Plan (Single-Stage): users/user-guide-query/explain-plan.md
+          - Explain Plan (Multi-Stage): users/user-guide-query/query-syntax/explain-plan-multi-stage.md
+          - Filtering with IdSet: users/user-guide-query/query-syntax/filtering-with-idset.md
+          - GapFill Function For Time-Series Dataset: users/user-guide-query/gap-fill-functions.md
+          - Grouping Algorithm: users/user-guide-query/grouping-algorithm.md
+          - JOINs: users/user-guide-query/query-syntax/joins.md
+          - Lookup UDF Join: users/user-guide-query/query-syntax/lookup-udf-join.md
+      - Multi-stage query:
+          - users/user-guide-query/multi-stage-query/README.md
+          - Understanding Stages: users/user-guide-query/multi-stage-query/understanding-stages.md
+          - Multistage Lite Mode: users/user-guide-query/multi-stage-query/multistage-lite-mode.md
+          - Physical Optimizer: users/user-guide-query/multi-stage-query/physical-optimizer.md
+          - Explain Plan: users/user-guide-query/multi-stage-query/explain-plan-1.md
+          - Explain: users/user-guide-query/multi-stage-query/understanding-multi-stage-explain.md
+          - Stats: users/user-guide-query/multi-stage-query/understanding-stage-stats.md
+          - Optimizing joins: users/user-guide-query/multi-stage-query/optimizing-joins.md
+          - Join strategies:
+              - users/user-guide-query/multi-stage-query/join-strategies/README.md
+              - Random + broadcast join strategy: users/user-guide-query/multi-stage-query/join-strategies/random-+-broadcast-join-strategy.md
+              - Query time partition join strategy: users/user-guide-query/multi-stage-query/join-strategies/query-time-partition-join-strategy.md
+              - Colocated join strategy: users/user-guide-query/multi-stage-query/join-strategies/colocated-join-strategy.md
+              - Lookup join strategy: users/user-guide-query/multi-stage-query/join-strategies/lookup-join-strategy.md
+          - Hints: users/user-guide-query/multi-stage-query/hints.md
+          - Operator Types:
+              - users/user-guide-query/multi-stage-query/operator-types/README.md
+              - Aggregate: users/user-guide-query/multi-stage-query/operator-types/aggregate.md
+              - Filter: users/user-guide-query/multi-stage-query/operator-types/filter.md
+              - Join: users/user-guide-query/multi-stage-query/operator-types/hash_join.md
+              - Intersect: users/user-guide-query/multi-stage-query/operator-types/intersect.md
+              - Leaf: users/user-guide-query/multi-stage-query/operator-types/leaf.md
+              - Literal: users/user-guide-query/multi-stage-query/operator-types/literal.md
+              - Mailbox receive: users/user-guide-query/multi-stage-query/operator-types/mailbox-receive.md
+              - Mailbox send: users/user-guide-query/multi-stage-query/operator-types/mailbox-send.md
+              - Minus: users/user-guide-query/multi-stage-query/operator-types/minus.md
+              - Sort or limit: users/user-guide-query/multi-stage-query/operator-types/sortOrLimit.md
+              - Transform: users/user-guide-query/multi-stage-query/operator-types/transform.md
+              - Union: users/user-guide-query/multi-stage-query/operator-types/union.md
+              - Window: users/user-guide-query/multi-stage-query/operator-types/window.md
+          - Stage-Level Spooling: users/user-guide-query/multi-stage-query/stage-level-spooling.md
+      - Time Series Queries: users/user-guide-query/time-series-queries.md
+      - Query Options: users/user-guide-query/query-options.md
+      - Query Quotas: users/user-guide-query/query-quotas.md
+      - Query Cancellation: users/user-guide-query/query-cancellation.md
+      - Query Correlation ID: users/user-guide-query/query-correlation-id.md
+      - Query using Cursors: users/user-guide-query/query-using-cursors.md
+      - APIs:
+          - users/api/README.md
+          - Broker Query API:
+              - users/api/querying-pinot-using-standard-sql/README.md
+              - Query Response Format: users/api/querying-pinot-using-standard-sql/response-format.md
+          - Broker GRPC API: users/api/broker-grpc-api.md
+          - Controller Admin API: users/api/pinot-rest-admin-interface.md
+          - Controller API Reference: users/api/controller-api-reference.md
+      - External Clients:
+          - users/clients/README.md
+          - JDBC: users/clients/jdbc.md
+          - Java: users/clients/java.md
+          - Python: users/clients/python.md
+          - Golang: users/clients/golang.md
+      - Tutorials:
+          - users/tutorials/README.md
+          - Use OSS as Deep Storage for Pinot: users/tutorials/use-oss-as-deep-storage-for-pinot.md
+          - Ingest Parquet Files from S3 Using Spark: users/tutorials/ingest-parquet-files-from-s3-using-spark.md
+          - Creating Pinot Segments: users/tutorials/create-pinot-segments.md
+          - Use S3 as Deep Storage for Pinot: users/tutorials/use-s3-as-deep-store-for-pinot.md
+          - Use S3 and Pinot in Docker: users/tutorials/use-s3-and-pinot-in-docker.md
+          - Batch Data Ingestion In Practice: users/tutorials/batch-data-ingestion-in-practice.md
+          - Schema Evolution: users/tutorials/schema-evolution.md
+  - For Developers:
+      - Basics: developers/developers-and-contributors/README.md
+      - Extending Pinot:
+          - developers/developers-and-contributors/extending-pinot/README.md
+          - Writing Custom Aggregation Function: developers/developers-and-contributors/extending-pinot/custom-aggregation-function.md
+          - Segment Fetchers: developers/developers-and-contributors/extending-pinot/segment-fetchers.md
+      - Contribution Guidelines: developers/developers-and-contributors/contribution-guidelines.md
+      - Code Setup: developers/developers-and-contributors/code-setup.md
+      - Code Modules and Organization: developers/developers-and-contributors/code-modules-and-organization.md
+      - Dependency Management: developers/developers-and-contributors/dependency-management.md
+      - Update documentation: developers/developers-and-contributors/update-document.md
+      - Advanced:
+          - developers/advanced/README.md
+          - Data Ingestion Overview: developers/advanced/data-ingestion.md
+          - Ingestion Aggregations: developers/advanced/ingestion-level-aggregations.md
+          - Ingestion Transformations: developers/advanced/ingestion-level-transformations.md
+          - Null value support: developers/advanced/null-value-support.md
+          - Use the multi-stage query engine (v2): developers/advanced/v2-multi-stage-query-engine.md
+          - Advanced Pinot Setup: developers/advanced/advanced-pinot-setup.md
+      - Plugins:
+          - developers/plugin-architecture/README.md
+          - Write Custom Plugins:
+              - developers/plugin-architecture/write-custom-plugins/README.md
+              - Input Format Plugin: developers/plugin-architecture/write-custom-plugins/record-reader.md
+              - Filesystem Plugin: developers/plugin-architecture/write-custom-plugins/pluggable-storage.md
+              - Batch Segment Fetcher Plugin: developers/plugin-architecture/write-custom-plugins/write-your-batch.md
+              - Stream Ingestion Plugin: developers/plugin-architecture/write-custom-plugins/write-your-stream.md
+              - Time Series Language Plugin: developers/plugin-architecture/write-custom-plugins/time-series-language-plugin.md
+      - Design Documents:
+          - developers/design-documents/README.md
+          - Segment Writer API: developers/design-documents/segment-writer-api.md
+  - For Operators:
+      - Deployment and Monitoring: operators/operating-pinot/README.md
+      - Set up cluster: operators/operating-pinot/setup-cluster.md
+      - Server Startup Status Checkers: operators/operating-pinot/server-startup-status-checkers.md
+      - Set up table: operators/operating-pinot/setup-table.md
+      - Set up ingestion: operators/operating-pinot/setup-ingestion.md
+      - Decoupling Controller from the Data Path: operators/operating-pinot/decoupling-controller-from-the-data-path.md
+      - Segment Assignment: operators/operating-pinot/segment-assignment.md
+      - Instance Assignment: operators/operating-pinot/instance-assignment.md
+      - Rebalance:
+          - operators/operating-pinot/rebalance/README.md
+          - Rebalance Servers:
+              - operators/operating-pinot/rebalance/rebalance-servers/README.md
+              - Examples and Scenarios: operators/operating-pinot/rebalance/rebalance-servers/examples-and-scenarios.md
+          - Rebalance Brokers: operators/operating-pinot/rebalance/rebalance-brokers.md
+          - Rebalance Tenant: operators/operating-pinot/rebalance/rebalance-tenant.md
+      - Separating data storage by age:
+          - operators/operating-pinot/separating-data-storage-by-age/README.md
+          - Using multiple tenants: operators/operating-pinot/separating-data-storage-by-age/moving-segments-across-tenants.md
+          - Using multiple directories: operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories.md
+      - Pinot managed Offline flows: operators/operating-pinot/pinot-managed-offline-flows.md
+      - Minion merge rollup task: operators/operating-pinot/minion-merge-rollup-task.md
+      - Upsert Compact Merge Task: operators/operating-pinot/upsert-compact-merge-task.md
+      - Consistent Push and Rollback: operators/operating-pinot/consistent-push-and-rollback.md
+      - Access Control: operators/operating-pinot/access-control.md
+      - Monitoring: operators/operating-pinot/monitoring.md
+      - Tuning:
+          - operators/operating-pinot/tuning/README.md
+          - Tuning Default MMAP Advice: operators/operating-pinot/tuning/tuning-default-mmap-advice.md
+          - Real-time: operators/operating-pinot/tuning/realtime.md
+          - Routing: operators/operating-pinot/tuning/routing.md
+          - Query Routing using Adaptive Server Selection: operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection.md
+          - Query Scheduling: operators/operating-pinot/tuning/query-scheduling.md
+      - Upgrading Pinot with confidence: operators/operating-pinot/upgrading-pinot-cluster.md
+      - Managing Logs: operators/operating-pinot/managing-logs.md
+      - OOM Protection Using Automatic Query Killing: operators/operating-pinot/oom-protection-using-automatic-query-killing.md
+      - Pause ingestion based on resource utilization: operators/operating-pinot/pause-ingestion-based-on-resource-utilization.md
+      - Command-Line Interface (CLI): operators/cli.md
+      - Configuration Recommendation Engine: operators/configuration-recommendation-engine.md
+      - Tutorials:
+          - operators/tutorials/README.md
+          - Authentication:
+              - operators/tutorials/authentication/README.md
+              - Basic auth access control: operators/tutorials/authentication/basic-auth-access-control.md
+              - ZkBasicAuthAccessControl: operators/tutorials/authentication/zkbasicauthaccesscontrol.md
+          - Configuring TLS/SSL: operators/tutorials/configuring-tls-ssl.md
+          - Build Docker Images: operators/tutorials/build-docker-images.md
+          - Running Pinot in Production: operators/tutorials/running-pinot-in-production.md
+          - Kubernetes Deployment: operators/tutorials/deployment-pinot-on-kubernetes.md
+          - Amazon EKS (Kafka): operators/tutorials/non-eks-to-eks.md
+          - Amazon MSK (Kafka): operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md
+          - Monitor Pinot using Prometheus and Grafana: operators/tutorials/monitor-pinot-using-prometheus-and-grafana.md
+          - Performance Optimization Configurations: operators/tutorials/performance-optimization-configurations.md
+          - Segment Operations Throttling: operators/tutorials/segment-operations-throttling.md
+          - Reload a table segment: operators/tutorials/segment-reload.md
+  - Configuration Reference:
+      - Cluster: configuration-reference/cluster.md
+      - Controller: configuration-reference/controller.md
+      - Broker: configuration-reference/broker.md
+      - Server: configuration-reference/server.md
+      - Table: configuration-reference/table.md
+      - Ingestion: configuration-reference/ingestion.md
+      - Schema: configuration-reference/schema.md
+      - Database: configuration-reference/database.md
+      - Ingestion Job Spec: configuration-reference/job-specification.md
+      - Monitoring Metrics: configuration-reference/monitoring-metrics.md
+      - Plugin Reference:
+          - configuration-reference/plugin-reference/README.md
+          - Stream Ingestion Connectors: configuration-reference/plugin-reference/stream-ingestion-connectors.md
+          - VAR_POP: configuration-reference/plugin-reference/var_pop.md
+          - VAR_SAMP: configuration-reference/plugin-reference/var_samp.md
+          - STDDEV_POP: configuration-reference/plugin-reference/stddev_pop.md
+          - STDDEV_SAMP: configuration-reference/plugin-reference/stddev_samp.md
+      - Dynamic Environment: configuration-reference/dynamic-environment.md
+  - Manage Data:
+      - Import Data: manage-data/data-import/README.md
+      - SQL Insert Into From Files: manage-data/data-import/from-query-console.md
+      - Upload Pinot segment Using CommandLine: manage-data/data-import/segment-upload.md
+      - Batch Ingestion:
+          - manage-data/data-import/batch-ingestion/README.md
+          - Spark: manage-data/data-import/batch-ingestion/spark.md
+          - Flink: manage-data/data-import/batch-ingestion/flink.md
+          - Hadoop: manage-data/data-import/batch-ingestion/hadoop.md
+          - Backfill Data: manage-data/data-import/batch-ingestion/backfill-data.md
+          - Dimension table: manage-data/data-import/batch-ingestion/dim-table.md
+      - Stream Ingestion:
+          - manage-data/data-import/pinot-stream-ingestion/README.md
+          - Ingest streaming data from Apache Kafka: manage-data/data-import/pinot-stream-ingestion/import-from-apache-kafka.md
+          - Ingest streaming data from Amazon Kinesis: manage-data/data-import/pinot-stream-ingestion/amazon-kinesis.md
+          - Ingest streaming data from Apache Pulsar: manage-data/data-import/pinot-stream-ingestion/apache-pulsar.md
+          - Configure indexes: manage-data/data-import/pinot-stream-ingestion/configure-indexes.md
+          - Stream ingestion with CLP: manage-data/data-import/pinot-stream-ingestion/clp.md
+      - Upsert and Dedup:
+          - manage-data/data-import/upsert-and-dedup/README.md
+          - Stream ingestion with Upsert: manage-data/data-import/upsert-and-dedup/upsert.md
+          - Segment compaction on upserts: manage-data/data-import/upsert-and-dedup/segment-compaction-on-upserts.md
+          - Stream ingestion with Dedup: manage-data/data-import/upsert-and-dedup/dedup.md
+      - Supported Data Formats: manage-data/data-import/pinot-input-formats.md
+      - File Systems:
+          - manage-data/data-import/pinot-file-system/README.md
+          - Amazon S3: manage-data/data-import/pinot-file-system/amazon-s3.md
+          - Azure Data Lake Storage: manage-data/data-import/pinot-file-system/import-from-adls-azure.md
+          - HDFS: manage-data/data-import/pinot-file-system/import-from-hdfs.md
+          - Google Cloud Storage: manage-data/data-import/pinot-file-system/import-from-gcp.md
+      - Complex Type (Array, Map) Handling:
+          - manage-data/data-import/complex-type/README.md
+          - Complex Type Examples (Unnest): manage-data/data-import/complex-type/complex-type-examples.md
+      - Ingest records with dynamic schemas: manage-data/data-import/schema-conforming-transformer.md
+  - Functions:
+      - Aggregation Functions: users/user-guide-query/supported-aggregations.md
+      - Transformation Functions: users/user-guide-query/supported-transformations.md
+      - Array Functions: users/user-guide-query/query-syntax/array-functions.md
+      - Binary Functions: functions/binary-functions.md
+      - DateTime Functions: functions/datetime-functions.md
+      - Funnel Analysis Functions: users/user-guide-query/query-syntax/funnel-analysis.md
+      - GeoSpatial Functions: functions/geospatial-functions.md
+      - Hash Functions: users/user-guide-query/query-syntax/hash-functions.md
+      - JSON Functions: users/user-guide-query/json-queries.md
+      - Math Functions: functions/math-functions.md
+      - String Functions: functions/string-functions.md
+      - User-Defined Functions (UDFs): users/user-guide-query/scalar-functions.md
+      - URL Functions: users/user-guide-query/query-syntax/url-functions.md
+      - Unique Count and cardinality Estimation Functions: users/user-guide-query/how-to-handle-unique-counting.md
+      - Window Functions: users/user-guide-query/query-syntax/windows-functions.md
+      - Function List:
+          - functions-1/README.md
+          - ABS: functions-1/abs.md
+          - ADD: functions-1/add.md
+          - ago: functions-1/ago.md
+          - EXPR_MIN / EXPR_MAX: functions-1/arg_min-arg_max.md
+          - ARRAY_AGG: functions-1/array_agg.md
+          - arrayConcatDouble: functions-1/arrayconcatdouble.md
+          - arrayConcatFloat: functions-1/arrayconcatfloat.md
+          - arrayConcatInt: functions-1/arrayconcatint.md
+          - arrayConcatLong: functions-1/arrayconcatlong.md
+          - arrayConcatString: functions-1/arrayconcatstring.md
+          - arrayContainsInt: functions-1/arraycontainsint.md
+          - arrayContainsString: functions-1/arraycontainsstring.md
+          - arrayDistinctInt: functions-1/arraydistinctint.md
+          - arrayDistinctString: functions-1/arraydistinctstring.md
+          - arrayIndexOfInt: functions-1/arrayindexofint.md
+          - arrayIndexOfString: functions-1/arrayindexofstring.md
+          - ARRAYLENGTH: functions-1/arraylength.md
+          - arrayRemoveInt: functions-1/arrayremoveint.md
+          - arrayRemoveString: functions-1/arrayremovestring.md
+          - arrayReverseInt: functions-1/arrayreverseint.md
+          - arrayReverseString: functions-1/arrayreversestring.md
+          - arraySliceInt: functions-1/arraysliceint.md
+          - arraySliceString: functions-1/arrayslicestring.md
+          - arraySortInt: functions-1/arraysortint.md
+          - arraySortString: functions-1/arraysortstring.md
+          - arrayUnionInt: functions-1/arrayunionint.md
+          - arrayUnionString: functions-1/arrayunionstring.md
+          - AVGMV: functions-1/avgmv.md
+          - Base64: functions-1/base64.md
+          - caseWhen: functions-1/casewhen.md
+          - ceil: functions-1/ceil.md
+          - CHR: functions-1/chr.md
+          - codepoint: functions-1/codepoint.md
+          - concat: functions-1/concat.md
+          - count: functions-1/count.md
+          - COUNTMV: functions-1/countmv.md
+          - COVAR_POP: functions-1/covar_pop.md
+          - COVAR_SAMP: functions-1/covar_samp.md
+          - day: functions-1/day.md
+          - dayOfWeek: functions-1/dayofweek.md
+          - dayOfYear: functions-1/dayofyear.md
+          - DISTINCT: functions-1/distinct.md
+          - DISTINCTCOUNT: functions-1/distinctcount.md
+          - DISTINCTCOUNTMV: functions-1/distinctcountmv.md
+          - DISTINCT_COUNT_OFF_HEAP: functions-1/distinct_count_off_heap.md
+          - SEGMENTPARTITIONEDDISTINCTCOUNT: functions-1/segmentpartitioneddistinctcount.md
+          - DISTINCTCOUNTBITMAP: functions-1/distinctcountbitmap.md
+          - DISTINCTCOUNTBITMAPMV: functions-1/distinctcountbitmapmv.md
+          - DISTINCTCOUNTHLL: functions-1/distinctcounthll.md
+          - DISTINCTCOUNTHLLMV: functions-1/distinctcounthllmv.md
+          - DISTINCTCOUNTRAWHLL: functions-1/distinctcountrawhll.md
+          - DISTINCTCOUNTRAWHLLMV: functions-1/distinctcountrawhllmv.md
+          - DISTINCTCOUNTSMARTHLL: functions-1/distinctcountsmarthll.md
+          - DISTINCTCOUNTHLLPLUS: functions-1/distinctcounthll-1.md
+          - DISTINCTCOUNTULL: functions-1/distinctcountull.md
+          - DISTINCTCOUNTTHETASKETCH: functions-1/distinctcountthetasketch.md
+          - DISTINCTCOUNTRAWTHETASKETCH: functions-1/distinctcountrawthetasketch.md
+          - DISTINCTSUM: functions-1/distinctsum.md
+          - DISTINCTSUMMV: functions-1/distinctsummv.md
+          - DISTINCTAVG: functions-1/distinctavg.md
+          - DISTINCTAVGMV: functions-1/distinctavgmv.md
+          - DIV: functions-1/div.md
+          - DATETIMECONVERT: functions-1/datetimeconvert.md
+          - DATETRUNC: functions-1/datetrunc.md
+          - exp: functions-1/exp.md
+          - FIRSTWITHTIME: functions-1/firstwithtime.md
+          - FLOOR: functions-1/floor.md
+          - FrequentLongsSketch: functions-1/frequentlongssketch.md
+          - FrequentStringsSketch: functions-1/frequentstringssketch.md
+          - FromDateTime: functions-1/fromdatetime.md
+          - FromEpoch: functions-1/fromepoch.md
+          - FromEpochBucket: functions-1/fromepochbucket.md
+          - FUNNELCOUNT: functions-1/funnelcount.md
+          - FunnelCompleteCount: functions-1/funnelmaxstep.md
+          - FunnelMaxStep: functions-1/funnelmaxstep-1.md
+          - FunnelMatchStep: functions-1/funnelmaxstep-2.md
+          - GridDistance: functions-1/griddistance.md
+          - Histogram: functions-1/histogram.md
+          - hour: functions-1/hour.md
+          - isSubnetOf: functions-1/issubnetof.md
+          - JSONFORMAT: functions-1/jsonformat.md
+          - JSONPATH: functions-1/jsonpath.md
+          - JSONPATHARRAY: functions-1/jsonpatharray.md
+          - JSONPATHARRAYDEFAULTEMPTY: functions-1/jsonpatharraydefaultempty.md
+          - JSONPATHDOUBLE: functions-1/jsonpathdouble.md
+          - JSONPATHLONG: functions-1/jsonpathlong.md
+          - JSONPATHSTRING: functions-1/jsonpathstring.md
+          - jsonextractkey: functions-1/jsonextractkey.md
+          - jsonextractscalar: functions-1/jsonextractscalar.md
+          - LAG: functions-1/lag.md
+          - LASTWITHTIME: functions-1/lastwithtime.md
+          - LEAD: functions-1/lead.md
+          - length: functions-1/length.md
+          - ln: functions-1/ln.md
+          - lower: functions-1/lower.md
+          - lpad: functions-1/lpad.md
+          - ltrim: functions-1/ltrim.md
+          - max: functions-1/max.md
+          - MAXMV: functions-1/maxmv.md
+          - MD5: functions-1/md5.md
+          - millisecond: functions-1/millisecond.md
+          - min: functions-1/min.md
+          - minmaxrange: functions-1/minmaxrange.md
+          - MINMAXRANGEMV: functions-1/minmaxrangemv.md
+          - MINMV: functions-1/minmv.md
+          - minute: functions-1/minute.md
+          - MOD: functions-1/mod.md
+          - mode: functions-1/mode.md
+          - month: functions-1/month.md
+          - mult: functions-1/mult.md
+          - now: functions-1/now.md
+          - percentile: functions-1/percentile.md
+          - percentileest: functions-1/percentileest.md
+          - percentileestmv: functions-1/percentileestmv.md
+          - percentilemv: functions-1/percentilemv.md
+          - percentiletdigest: functions-1/percentiletdigest.md
+          - percentiletdigestmv: functions-1/percentiletdigestmv.md
+          - percentilekll: functions-1/percentilekll.md
+          - percentilerawkll: functions-1/percentilerawkll.md
+          - percentilekllmv: functions-1/percentilekllmv.md
+          - percentilerawkllmv: functions-1/percentilerawkllmv.md
+          - quarter: functions-1/quarter.md
+          - regexpExtract: functions-1/regexpextract.md
+          - regexpReplace: functions-1/regexpreplace.md
+          - remove: functions-1/remove.md
+          - replace: functions-1/replace.md
+          - reverse: functions-1/reverse.md
+          - round: functions-1/round.md
+          - roundDecimal: functions-1/round-1.md
+          - ROW_NUMBER: functions-1/round-1-1.md
+          - rpad: functions-1/rpad.md
+          - rtrim: functions-1/rtrim.md
+          - second: functions-1/second.md
+          - sha: functions-1/sha.md
+          - sha256: functions-1/sha256.md
+          - sha512: functions-1/sha512.md
+          - sqrt: functions-1/sqrt.md
+          - startswith: functions-1/startswith.md
+          - ST_AsBinary: functions-1/stasbinary.md
+          - ST_AsText: functions-1/stastext.md
+          - ST_Contains: functions-1/stcontains.md
+          - ST_Distance: functions-1/stdistance.md
+          - ST_GeogFromText: functions-1/stgeogfromtext.md
+          - ST_GeogFromWKB: functions-1/stgeogfromwkb.md
+          - ST_GeometryType: functions-1/stgeometrytype.md
+          - ST_GeomFromText: functions-1/stgeomfromtext.md
+          - ST_GeomFromWKB: functions-1/stgeomfromwkb.md
+          - STPOINT: functions-1/stpoint.md
+          - ST_Polygon: functions-1/stpolygon.md
+          - strpos: functions-1/strpos.md
+          - ST_Union: functions-1/stunion.md
+          - SUB: functions-1/sub.md
+          - substr: functions-1/substr.md
+          - sum: functions-1/sum.md
+          - summv: functions-1/summv.md
+          - TIMECONVERT: functions-1/timeconvert.md
+          - timezoneHour: functions-1/timezonehour.md
+          - timezoneMinute: functions-1/timezoneminute.md
+          - ToDateTime: functions-1/todatetime.md
+          - ToEpoch: functions-1/toepoch.md
+          - ToEpochBucket: functions-1/toepochbucket.md
+          - ToEpochRounded: functions-1/toepochrounded.md
+          - TOJSONMAPSTR: functions-1/tojsonmapstr.md
+          - toGeometry: functions-1/togeometry.md
+          - toSphericalGeography: functions-1/tosphericalgeography.md
+          - trim: functions-1/trim.md
+          - upper: functions-1/upper.md
+          - Url: functions-1/url.md
+          - UTF8: functions-1/utf8.md
+          - VALUEIN: functions-1/valuein.md
+          - week: functions-1/week.md
+          - year: functions-1/year.md
+          - Extract: functions-1/extract.md
+          - yearOfWeek: functions-1/yearofweek.md
+          - FIRST_VALUE: functions-1/first_value.md
+          - LAST_VALUE: functions-1/last_value.md
+          - ST_GeomFromGeoJSON: functions-1/st_geomfromgeojson.md
+          - ST_GeogFromGeoJSON: functions-1/st_geogfromgeojson.md
+          - ST_AsGeoJSON: functions-1/st_asgeojson.md
+  - Reference:
+      - Single-stage query engine (v1): reference/single-stage-engine.md
+      - Multi-stage query engine (v2): reference/multi-stage-engine.md
+      - Troubleshooting:
+          - reference/troubleshooting/README.md
+          - Troubleshoot issues with the multi-stage query engine (v2): reference/troubleshooting/troubleshoot-multi-stage-query-engine.md
+          - Troubleshoot issues with ZooKeeper znodes: reference/troubleshooting/troubleshoot-zookeeper.md
+          - Realtime Ingestion Stopped: reference/troubleshooting/realtime-ingestion-stopped.md
+  - RESOURCES:
+      - Community: community-1/community.md
+      - Team: community-1/team.md
+      - Blogs: community-1/blogs.md
+      - Presentations: community-1/blogs-and-presentations.md
+      - Videos: community-1/videos.md
+  - Integrations:
+      - Tableau: integrations/tableau.md
+      - Trino: integrations/trino.md
+      - ThirdEye: integrations/thirdeye.md
+      - Superset: integrations/superset.md
+      - Presto: integrations/presto.md
+      - Spark-Pinot Connector:
+          - integrations/spark-pinot-connector/README.md
+          - Spark Pinot Connector Read Model: integrations/spark-pinot-connector/spark-pinot-connector-read-model.md
+          - Spark Pinot Connector Write Model: integrations/spark-pinot-connector/spark-pinot-connector-write-model.md
+      - Metabase: integrations/metabase.md
+  - Contributing:
+      - Contribute Pinot documentation: contributing/contributing.md
+      - Style guide: contributing/style-guide.md
+
+extra_css:
+  - stylesheets/extra.css
+theme:
+  name: material
+  custom_dir: mkdocs
+  palette:
+  #    primary: blue
+  features: # sorted alphabetically
+    - announce.dismiss
+
+    - content.action.edit
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+    - content.tooltips
+
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes # incompatible with toc.integrate
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.sections
+    #- navigation.tabs
+    - navigation.tracking
+
+    - search.suggest
+    - search.highlight
+
+  #    - toc.integrate # incompatible with navigation.indexes
+  icon:
+    repo: fontawesome/brands/github
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.snippets:
+      auto_append:
+        - mkdocs/includes/abbreviations.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+plugins:
+  - search
+  - redirects:
+      redirect_maps:
+        ##'index.md': 'README.md'
+repo_name: apache/pinot
+repo_url: https://github.com/apache/pinot
