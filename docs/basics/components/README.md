@@ -18,44 +18,61 @@ Apache Pinot™ is a database designed to deliver highly concurrent, ultra-low-l
 
 Learn about the major components and logical abstractions used in Pinot.
 
-![](../../.gitbook/assets/pinot-system-architecture.png)
+![Pinot System Architecture](pinot-system-architecture.png)
 
 #### Operator reference
 
-{% content-ref url="cluster/" %}
-[cluster](cluster/)
-{% endcontent-ref %}
+<div class="grid cards" markdown>
 
-{% content-ref url="cluster/controller.md" %}
-[controller.md](cluster/controller.md)
-{% endcontent-ref %}
+-   :octicons-server-24: [Cluster](cluster/)
+    
+    ---
+    Pinot cluster overview and management.
 
-{% content-ref url="cluster/broker.md" %}
-[broker.md](cluster/broker.md)
-{% endcontent-ref %}
+-   :octicons-gear-24: [Controller](cluster/controller.md)
 
-{% content-ref url="cluster/server.md" %}
-[server.md](cluster/server.md)
-{% endcontent-ref %}
+    ---
+    Manages cluster metadata and operations.
 
-{% content-ref url="cluster/minion.md" %}
-[minion.md](cluster/minion.md)
-{% endcontent-ref %}
+-   :octicons-broadcast-24: [Broker](cluster/broker.md)
+    
+    ---
+    Routes queries to appropriate servers.
 
-{% content-ref url="cluster/tenant.md" %}
-[tenant.md](cluster/tenant.md)
-{% endcontent-ref %}
+-   :octicons-database-24: [Server](cluster/server.md)
+    
+    ---
+    Stores and serves data segments.
+
+-   :octicons-person-24: [Minion](cluster/minion.md)
+    
+    ---
+    Executes background tasks.
+
+-   :octicons-organization-24: [Tenant](cluster/tenant.md)
+    
+    ---
+    Logical grouping for resource isolation.
+
+</div>
 
 #### Developer reference
 
-{% content-ref url="table/" %}
-[table](table/)
-{% endcontent-ref %}
+<div class="grid cards" markdown>
 
-{% content-ref url="table/schema.md" %}
-[schema.md](table/schema.md)
-{% endcontent-ref %}
+-   :octicons-table-24: [Table](table/)
+    
+    ---
+    Pinot table abstraction and management.
 
-{% content-ref url="table/segment/" %}
-[segment](table/segment/)
-{% endcontent-ref %}
+-   :octicons-file-code-24: [Schema](table/schema.md)
+    
+    ---
+    Table schema definition.
+
+-   :octicons-package-24: [Segment](table/segment/)
+    
+    ---
+    Data segment details and operations.
+
+</div>

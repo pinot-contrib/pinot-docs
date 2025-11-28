@@ -1,5 +1,5 @@
 ---
-description: >-
+description: >- 
   Understand how the components of Apache Pinot™ work together to create a
   scalable OLAP database that can deliver low-latency, high-concurrency queries
   at scale.
@@ -73,7 +73,7 @@ Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators
 
 Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 
-![Pinot's Zookeeper Browser UI](../.gitbook/assets/.unused/Zookeeper_UI.png)
+![Pinot's Zookeeper Browser UI](Zookeeper_UI.png)
 
 ### Controller
 
@@ -93,9 +93,8 @@ The [broker's](components/cluster/broker.md) responsibility is to route queries 
 
 Each broker maintains a query routing table. The routing table maps segments to the servers that store them. (When replication is configured on a table, each segment is stored on more than one server.) The broker computes multiple routing tables depending on the configured [routing](https://docs.pinot.apache.org/operators/operating-pinot/tuning/routing) strategy for a table. The default strategy is to balance the query load across all available servers.
 
-{% hint style="info" %}
-Advanced routing strategies are available, such as replica-aware routing, partition-based routing, and minimal server selection routing.
-{% endhint %}
+???+ info "Advanced routing strategies"
+    Advanced routing strategies are available, such as replica-aware routing, partition-based routing, and minimal server selection routing.
 
 ```javascript
 //This is an example ZNode config for EXTERNAL VIEW in Helix
@@ -175,7 +174,7 @@ Offline servers host segments created by ingesting batch data. The controller wr
 
 Because offline tables tend to have long retention periods, offline servers tend to scale based on the size of the data they store.
 
-![](../.gitbook/assets/OfflineServer.jpg)
+![](OfflineServer.jpg)
 
 #### Real-time servers
 
@@ -183,7 +182,7 @@ Real-time servers ingest data from streaming sources, like Apache Kafka®, Apach
 
 Real-time servers tend to be scaled based on the rate at which they ingest streaming data.
 
-![](../.gitbook/assets/real-time-flow.svg)
+![](real-time-flow.svg)
 
 ### Minion
 
@@ -197,7 +196,7 @@ Pinot [tables](components/table/) exist in two varieties: offline (or batch) and
 
 ### Offline (batch) ingest
 
-![](../.gitbook/assets/OfflineServer.jpg)
+![](OfflineServer.jpg)
 
 Pinot ingests batch data using an [ingestion job](../manage-data/data-import/batch-ingestion/), which follows a process like this:
 
@@ -221,4 +220,4 @@ Ingestion is established at the time a real-time table is created, and continues
 7. The controller and the server create a new consuming segment to continue real-time ingestion.
 8. The controller marks the newly committed segment as online. Brokers then discover the new segment through the Helix notification mechanism, allowing them to route queries to it in the usual fashion.
 
-![](../.gitbook/assets/real-time-flow.svg)
+![](real-time-flow.svg)
