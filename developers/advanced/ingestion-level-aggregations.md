@@ -4,6 +4,10 @@ Many data analytics use-cases only need aggregated data. For example, data used 
 
 Doing this results in much less storage and better query performance. Configuring this for a table is done via the Aggregation Config in the [table config](../../configuration-reference/table.md).
 
+{% hint style="warning" %}
+Note that Ingestion aggregation only works with realtime Pinot tables. Furthermore, this is done at a segment level. Cross-segment aggregation still requires query-time processing
+{% endhint %}
+
 ## Aggregation Config
 
 The aggregation config controls the aggregations that happen during real-time data ingestion. Offline aggregations must be handled separately.
