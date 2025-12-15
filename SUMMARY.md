@@ -96,6 +96,7 @@
     * [Grouping Algorithm](users/user-guide-query/grouping-algorithm.md)
     * [JOINs](users/user-guide-query/query-syntax/joins.md)
     * [Lookup UDF Join](users/user-guide-query/query-syntax/lookup-udf-join.md)
+    * [Row Expression Comparison](users/user-guide-query/query-syntax/row-expression-comparison.md)
   * [Multi-stage query](users/user-guide-query/multi-stage-query/README.md)
     * [Understanding Stages](users/user-guide-query/multi-stage-query/understanding-stages.md)
     * [Multistage Lite Mode](users/user-guide-query/multi-stage-query/multistage-lite-mode.md)
