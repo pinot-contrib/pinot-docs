@@ -245,6 +245,16 @@ bin/pinot-admin.sh AddTable \
 
 There are some scenarios where the message rate in the input stream can come in bursts which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other real-time tables on the same server. If this happens to you, throttle the consumption rate during stream ingestion to better manage overall performance.
 
+There are two independent throttling mechanisms available:
+
+1. Message-rate–based throttling (table level, records/sec)
+
+2. Byte-rate–based throttling (server level, bytes/sec)
+
+Both mechanisms can be enabled simultaneously.
+
+#### Message-rate–based throttling (table level)
+
 Stream consumption throttling can be tuned using the stream config `topic.consumption.rate.limit` which indicates the upper bound on the message rate for the entire topic.
 
 Here is the sample configuration on how to configure the consumption throttling:
@@ -297,6 +307,83 @@ Note that any configuration change for `topic.consumption.rate.limit` in the str
 ```
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 ```
+
+#### Byte-rate–based throttling (server level)
+
+In addition to message-rate throttling, Pinot supports byte-based stream consumption throttling at the server level.
+
+This throttling mechanism limits the total number of bytes consumed per second by a Pinot server, across all real-time tables and partitions hosted on that server.
+
+##### When to use byte-based throttling
+
+Byte-based throttling is especially useful when:
+
+* Message sizes vary significantly
+* Ingestion pressure is driven by payload size rather than record count
+* You want to cap network, direct memory, or disk IO usage at the server level
+* Multiple real-time tables coexist on the same server
+
+##### Configuration
+
+Byte-based throttling is configured via cluster config, not via table or stream configs.
+
+**Config key**
+
+```pinot.server.consumption.rate.limit.bytes```
+
+The value is specified in bytes per second.
+
+##### Updating the configuration
+
+The configuration can be updated dynamically using the Cluster Config API.
+
+This limits each Pinot server to consume at most 3,000,000 bytes/sec (~3 MB/sec) across all real-time tables.
+
+**Example using curl**
+```
+curl -X POST
+'{controllerHost}/cluster/configs'
+-H 'Content-Type: application/json'
+-d '{
+"pinot.server.consumption.rate.limit.bytes": "3000000"
+}'
+```
+
+##### How byte-based throttling works
+
+* The byte rate limit is enforced per server
+* The limit applies collectively to all consuming partitions and tables hosted on that server
+* This throttling is independent of table-level message-rate throttling
+
+##### Interaction with message-rate throttling
+
+If both throttles are enabled:
+
+* Table-level `topic.consumption.rate.limit` controls records/sec per table
+* Server-level `pinot.server.consumption.rate.limit.bytes` controls bytes/sec per server
+* Pinot enforces both limits
+* Consumption is throttled as soon as either limit is reached
+
+This allows precise control when both message count and payload size matter.
+
+##### Dynamic updates and propagation
+
+* Byte-based throttling is updated dynamically via the Cluster Config Change Listener
+* No server restart is required
+* Changes take effect automatically as servers receive the updated cluster config
+
+##### Verifying throttling
+
+Once enabled, Pinot logs messages indicating that a server-level byte consumption limiter has been applied.
+
+You can also monitor throttling behavior using the metric:
+
+```
+CONSUMPTION_QUOTA_UTILIZATION
+```
+
+This metric reflects how close the server is to its configured consumption quota.
+
 
 ## Custom ingestion support
 
