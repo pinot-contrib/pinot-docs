@@ -27,6 +27,9 @@ trim spaces from right side of the string
 [**LENGTH(col)**](../functions-1/length.md)\
 calculate length of the string
 
+[**levenshtein_distance(string1, string2)**](../functions-1/levenshtein_distance.md)\
+Returns the Levenshtein edit distance between two strings
+
 [**STRPOS(col, find, N)**](../functions-1/strpos.md)\
 Find Nth instance of `find` string in input. Returns 0 if input string is empty. Returns -1 if the Nth instance is not found or input string is null.
 
@@ -71,4 +74,3 @@ decode a UTF8-encoded string to bytes represented as a hex string
 
 [**isSubnetOf(ipPrefix, ipAddress)**](../functions-1/issubnetof.md)\
 checks if ipAddress is in the subnet of the ipPrefix
-
