@@ -14,6 +14,7 @@ description: >-
 * `params` (optional): Semicolon-separated parameter key-value pairs:
   * `threshold`: The threshold to convert the value set into a _HyperLogLog_ (default _100\_000_).
   * `log2m`: _log2m_ for the _HyperLogLog_ (default _12_).
+  * `dictThreshold`: Threshold for dictionary-encoded columns to switch from RoaringBitmap-based de-duplication to direct HyperLogLog aggregation; RoaringBitmap becomes more expensive than direct HLL for high-cardinality columns (default 100_000). Use -1 or INT_MAX to bypass this optimization.
 * Example: `DISTINCT_COUNT_SMART_HLL(col, 'threshold=10000;log2m=8')`
 
 ## Usage Examples

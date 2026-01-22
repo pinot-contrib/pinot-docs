@@ -207,9 +207,8 @@ Create a file called `/tmp/pinot/table-config-stream.json` and add the following
     "loadMode": "MMAP",
     "streamConfigs": {
       "streamType": "kafka",
-      "stream.kafka.consumer.type": "lowlevel",
       "stream.kafka.topic.name": "events",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.rows": "0",
@@ -291,7 +290,6 @@ Here is an example config which uses SSL based authentication to talk with kafka
       "loadMode": "MMAP",
       "streamConfigs": {
         "streamType": "kafka",
-        "stream.kafka.consumer.type": "LowLevel",
         "stream.kafka.topic.name": "transcript-topic",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
@@ -342,7 +340,6 @@ For example,
       "loadMode": "MMAP",
       "streamConfigs": {
         "streamType": "kafka",
-        "stream.kafka.consumer.type": "LowLevel",
         "stream.kafka.topic.name": "transcript-topic",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
@@ -366,7 +363,6 @@ Here is an example config which uses SASL\_SSL based authentication to talk with
 ```
 "streamConfigs": {
         "streamType": "kafka",
-        "stream.kafka.consumer.type": "lowlevel",
         "stream.kafka.topic.name": "mytopic",
         "stream.kafka.consumer.prop.auto.offset.reset": "largest",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
@@ -432,7 +428,6 @@ To avoid errors like `The Avro schema must be provided`, designate the location 
 ...
 "streamConfigs": {
   "streamType": "kafka",
-  "stream.kafka.consumer.type": "lowlevel",
   "stream.kafka.topic.name": "",
   "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder",
   "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",

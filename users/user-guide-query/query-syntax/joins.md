@@ -13,11 +13,11 @@ This page explains the syntax used to write join. In order to get a more in deep
 **Important:** To query using JOINs, you must [use Pinot's multi-stage query engine (v2).](../../../reference/multi-stage-engine.md)
 {% endhint %}
 
-## Inner join
+## INNER JOIN
 
 The inner join selects rows that have matching values in both tables.
 
-### **Syntax:**
+### **Syntax**
 
 {% code overflow="wrap" %}
 ```sql
@@ -47,7 +47,7 @@ WHERE
 ```
 {% endcode %}
 
-## Left join
+## LEFT JOIN
 
 A left join returns all values from the left relation and the matched values from the right table, or appends NULL if there is no match. Also referred to as a left outer join.
 
@@ -61,11 +61,11 @@ ON myTable.matching_column = myOtherTable.matching_column;
 ```
 {% endcode %}
 
-## R**ight join**
+## RIGHT JOIN
 
 A right join returns all values from the right relation and the matched values from the left relation, or appends NULL if there is no match. It is also referred to as a right outer join.
 
-**Syntax:**
+### Syntax:
 
 {% code overflow="wrap" %}
 ```sql
@@ -76,7 +76,7 @@ ON table1.matching_column = table2.matching_column;
 ```
 {% endcode %}
 
-## F**ull join**
+## FULL JOIN
 
 A full join returns all values from both relations, appending NULL values on the side that does not have a match. It is also referred to as a full outer join.
 
@@ -91,7 +91,7 @@ ON table1.matching_column = table2.matching_column;
 ```
 {% endcode %}
 
-## Cross join
+## CROSS JOIN
 
 A cross join returns the Cartesian product of two relations. If no WHERE clause is used along with CROSS JOIN, this produces a result set that is the number of rows in the first table multiplied by the number of rows in the second table. If a WHERE clause is included with CROSS JOIN, it functions like an [INNER JOIN](joins.md#inner-join).
 
@@ -103,16 +103,16 @@ FROM table1
 CROSS JOIN table2;
 ```
 
-## Semi/A**nti join**
+## SEMI JOIN
 
-Semi/anti-join returns rows from the first table where no matches are found in the second table. Returns one copy of each row in the first table for which no match is found.
+Semi-join returns rows from the first table where matches are found in the second table. Returns one copy of each row in the first table for which a match is found.
 
 ### **Syntax:**
 
 ```sql
-SELECT  myTable.column1, myOtherTable.column1
- FROM  myOtherTable
- WHERE  NOT EXISTS [ join_criteria ]
+SELECT myTable.column1, myOtherTable.column1
+ FROM myOtherTable
+ WHERE EXISTS [ join_criteria ]
 ```
 
 Some subqueries, like the following are also implemented as a semi-join under the hood:
@@ -121,6 +121,26 @@ Some subqueries, like the following are also implemented as a semi-join under th
 SELECT table1.strCol
  FROM  table1
  WHERE table1.intCol IN (select table2.anotherIntCol from table2 where ...)
+```
+
+## ANTI JOIN
+
+Anti-join returns rows from the first table where no matches are found in the second table. Returns one copy of each row in the first table for which no match is found.
+
+### **Syntax:**
+
+```sql
+SELECT myTable.column1, myOtherTable.column1
+ FROM myOtherTable
+ WHERE NOT EXISTS [ join_criteria ]
+```
+
+Some subqueries, like the following are also implemented as an anti-join under the hood:
+
+```sql
+SELECT table1.strCol
+ FROM  table1
+ WHERE table1.intCol NOT IN (select table2.anotherIntCol from table2 where ...)
 ```
 
 ## Equi join
@@ -143,7 +163,30 @@ WHERE table1.column_name =
 table2.column_name; 
 ```
 
+## ASOF JOIN
 
+An `ASOF JOIN` selects rows from two tables based on a "closest match" algorithm.&#x20;
 
+### Syntax:
 
+```sql
+SELECT * FROM table1 ASOF JOIN table2 
+MATCH_CONDITION(table1.col1 <comparison_operator> table2.col1))
+ON table1.col2 = table2.col2;
+```
 
+The comparison operator in the `MATCH_CONDITION` can be one out of - `<`, `>`, `<=`, `>=`. Similar to an inner join, an ASOF join first calculate the set of matching rows in the right table for each row in the left table based on the `ON` condition. But instead of returning all of these rows, the only one returned is the closest match (if one exists) based on the match condition. Note that the two columns in the `MATCH_CONDITION` should be of the same type.
+
+The join condition in `ON` is mandatory and has to be a conjunction of equality comparisons (i.e., non-equi join conditions and clauses joined with `OR` aren't allowed). `ON true` can be used in case the join should only be performed using the `MATCH_CONDITION`.
+
+## LEFT ASOF JOIN
+
+A `LEFT ASOF JOIN` is similar to the `ASOF JOIN`, with the only difference being that all rows from the left table are returned, even those without a match in the right table with the unmatched rows being padded with `NULL` values (similar to the difference between an `INNER JOIN` and a `LEFT JOIN`).
+
+### Syntax:
+
+```sql
+SELECT * FROM table1 LEFT ASOF JOIN table2 
+MATCH_CONDITION(table1.col1 <comparison_operator> table2.col1))
+ON table1.col2 = table2.col2;
+```

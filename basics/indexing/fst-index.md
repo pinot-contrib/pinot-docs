@@ -29,6 +29,37 @@ To enable the FST index on a dictionary-encoded column, include the following co
 
 The FST index generates one FST index file (`.lucene.fst)`. If the inverted index is enabled, this is further able to take advantage of that.
 
-For more information about enabling the FST index, see ways to [enable indexes](./#enabling-indexes).
+## Case-insensitive FST index (IFST)
 
-\
+The case-insensitive FST index (IFST) provides the same functionality as the standard FST index but with case-insensitive matching. This eliminates the need to handle case sensitivity manually in queries.
+
+* Supports case-insensitive regex queries
+* Only supported on stored or completed Pinot segments (no consuming segments).
+* Only supported on dictionary-encoded columns.
+* Works better for prefix queries with case-insensitive matching
+
+### Enable the case-insensitive FST index
+
+To enable the case-insensitive FST index on a dictionary-encoded column, include the following configuration:
+
+```javascript
+{
+  "fieldConfigList": [
+    {
+      "name": "notes",
+      "encodingType": "DICTIONARY",
+      "indexes": {
+        "ifst": {
+          "enabled": true
+        }
+      }
+    }
+  ]
+}
+```
+
+The case-insensitive FST index generates one FST index file (`.lucene.ifst`) and provides case-insensitive matching for regex queries without requiring manual case handling in your queries.
+
+
+For more information about enabling the FST index, see ways to [enable indexes](./README.md#enabling-indexes).
+

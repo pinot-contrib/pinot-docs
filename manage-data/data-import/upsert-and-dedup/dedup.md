@@ -50,7 +50,6 @@ instance assignment is persisted. Note that `numInstancesPerPartition` should al
 
 ### Other limitations
 
-* The high-level consumer is not allowed for the input stream ingestion, which means `stream.kafka.consumer.type` must be `lowLevel`.
 * The incoming stream must be partitioned by the primary key such that, all records with a given primaryKey must be consumed by the same Pinot server instance.
 
 ## Enable dedup in the table configurations

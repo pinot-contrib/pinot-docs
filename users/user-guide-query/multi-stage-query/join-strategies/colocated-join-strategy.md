@@ -43,13 +43,13 @@ pinot.broker.multistage.infer.partition.hint=true
 It can also be enabled/disabled on a per-query basis by setting the following query option:
 
 ```sql
-SET inferPartitionHint=true
+SET inferPartitionHint=true;
 SELECT ...
 ```
 
 <details>
 
-<summary>Even lower level configuration (not recommended)</summary>
+<summary>Advanced configuration</summary>
 
 Colocated joins can also be enabled per-join basis by setting the `tableOptions` hint directly.
 
@@ -62,10 +62,17 @@ ON A.partitionKeyA = B.partitionKeyB
 
 In this case, the `partition_function`, `partition_key`, and `partition_size` are required to be the same for both tables and they must be the same as the ones defined in the table configuration.
 
-This is a very advance and error prone way to configure joins that can also be used to change stage parallelism. Therefore it is recommended.\
+This is a very advance and error prone way to configure joins that can also be used to change stage parallelism.
 
+Note that this can also be used to enable colocated joins on tables that have a different number of physical partitions. Consider a case where table A has 16 partitions and table B has 4 partitions and the assignment is such that partitions 0, 4, 8, 12 of table A are assigned to the same server hosting partition 0 of table B (similarly, partitions 1, 5, 9, 13 of table A should be colocated with partition 1 of table B and so on). In this case, co-located joins can be leveraged by explicitly setting the `partition_size` on the larger side to match the smaller side - i.e., in this case both sides would use `/*+ tableOptions(partition_size='4') */`.
 
 </details>
+
+#### **Force colocated join**
+
+Even when colocated joins are enabled, Pinot only uses them if it can guarantee that the conditions listed at the beginning of the document are fulfilled. For example, in a join between two tables, Pinot will not apply colocated joins if it cannot guarantee, using the table configuration, that the same keys partition both tables in the same way (number of partitions, etc).
+
+On some complex deployments, Pinot may not be able to guarantee these constraints even when users know that colocation could be used. In these situations, users can add the `/*+ joinOptions(is_colocated_by_join_keys='true') */` hint to force Pinot to use colocated joins blindly.
 
 ### **How to guarantee that colocated joins can be used**
 
@@ -77,7 +84,7 @@ In order to guarantee that colocated joins can be used it is recommended to inst
 
 As explained, the main advantage when this optimization is enabled is that data doesn't need to be shuffled to execute the join. That can be verified with the [`rawMessages`](../operator-types/mailbox-receive.md#rawmessages) and [`inMemoryMessages`](../operator-types/mailbox-send.md#inmemorymessages) stats on the [mailbox send](../operator-types/mailbox-send.md) operator for this stage. All messages should be in memory and `rawMessages` should be 0 (or not listed at all).
 
-Another way to verify this optimization is being applied is to use the [`EXPLAIN IMPLEMENTATION PLAN`](<../../explain-plan (1).md#workers-plan>) command. You need to use the `EXPLAIN IMPLEMENTATION PLAN` command. There you will see that `MAIL_SEND` operators are decorated with `[PARTITIONED]` and each `MAIL_SEND` will send the data to another worker in the same server.
+Another way to verify this optimization is being applied is to use the [`EXPLAIN IMPLEMENTATION PLAN`](../explain-plan-1.md#workers-plan) command. You need to use the `EXPLAIN IMPLEMENTATION PLAN` command. There you will see that `MAIL_SEND` operators are decorated with `[PARTITIONED]` and each `MAIL_SEND` will send the data to another worker in the same server.
 
 {% hint style="warning" %}
 Notice that this optimization cannot be seen in the normal `EXPLAIN PLAN` command.

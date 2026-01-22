@@ -451,10 +451,9 @@ And the following table config:
         "streamType": "kafka",
         "stream.kafka.topic.name": "wiki_events",
         "stream.kafka.broker.list": "kafka-wiki:9093",
-        "stream.kafka.consumer.type": "lowlevel",
         "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-        "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+        "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
         "realtime.segment.flush.threshold.rows": "1000",
         "realtime.segment.flush.threshold.time": "24h",
         "realtime.segment.flush.segment.size": "100M"

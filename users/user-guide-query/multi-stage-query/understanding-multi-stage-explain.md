@@ -6,7 +6,7 @@ hidden: true
 # Explain
 
 {% hint style="warning" %}
-This page is deprecated. Please read [explain-plan (1).md](<../explain-plan (1).md> "mention")to get a better understanding of the different explain plans supported by Pinot.
+This page is deprecated. Please read [explain-plan-1.md](explain-plan-1.md "mention")to get a better understanding of the different explain plans supported by Pinot.
 {% endhint %}
 
 
