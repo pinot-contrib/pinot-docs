@@ -476,6 +476,11 @@ This feature persists a `true` / `false` value to the `isOutOfOrder` field based
 select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
 ```
 
+{% hint style="info" %}
+Note that `dropOutOfOrderRecord` and `outOfOrderRecordColumn` are only supported when no consistencyMode is set (i.e., `consistencyMode = NONE`). This is because, when a consistencyMode is enabled, rows are added before the valid documents are updated. 
+As a result, out-of-order records cannot be dropped or marked in upsert tables, defeating the purpose of these options.
+{% endhint %}
+
 ### Use custom metadata manager
 
 Pinot supports custom PartitionUpsertMetadataManager that handle records and segments updates.
