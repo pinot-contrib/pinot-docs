@@ -4,6 +4,10 @@ Many data analytics use-cases only need aggregated data. For example, data used 
 
 Doing this results in much less storage and better query performance. Configuring this for a table is done via the Aggregation Config in the [table config](../../configuration-reference/table.md).
 
+{% hint style="warning" %}
+Note that Ingestion aggregation only works with realtime Pinot tables. Furthermore, this is done at a segment level. Cross-segment aggregation still requires query-time processing
+{% endhint %}
+
 ## Aggregation Config
 
 The aggregation config controls the aggregations that happen during real-time data ingestion. Offline aggregations must be handled separately.
@@ -40,7 +44,7 @@ Here is an example of sales data, where only the daily sales aggregates per prod
 
 You can also find it when running RealtimeQuickStart, there is a table called `dailySales`
 
-<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Example Input Data
 
@@ -127,7 +131,7 @@ From the below aggregation config example, note that `price` exists in the input
 
 ### Example Final Table
 
-<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 | product\_name | sales\_count | total\_sales | daysSinceEpoch |
 | ------------- | ------------ | ------------ | -------------- |

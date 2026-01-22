@@ -2,6 +2,275 @@
 
 ***
 
+## Array Aggregation
+
+### arrayAgg
+
+#### **Description**:
+
+Concatenates the input values into an array. Optionally removes duplicates when isDistinct is set to true. This function is commonly used to aggregate multiple rows into a single array grouped by a dimension.
+
+#### **Signature**:
+
+```sql
+ARRAY_AGG(dataColumn, 'dataType' [, isDistinct])
+```
+
+#### **Arguments**:
+
+* dataColumn - The input column or expression to aggregate. Can be a scalar or an array type.
+* 'dataType' - The element type of the resulting array. Must be a string literal (e.g., 'STRING', 'INT', 'LONG', 'DOUBLE').
+* isDistinct _(optional) -_ Boolean flag to include only distinct elements. Defaults to false.
+
+#### **Returns**:
+
+An array of the specified dataType containing all aggregated values.
+
+#### Example:
+
+1. Aggregate scalar values into an array
+
+```sql
+SELECT ARRAY_AGG(firstName, 'STRING', true) AS firstNames
+FROM transcript;
+```
+
+**Results**:
+
+```sql
+firstNames
+-----------
+["Bob", "Nick", "Lucy"]
+```
+
+2. Aggregate array values across rows
+
+```sql
+SELECT ARRAY_AGG(tags, 'STRING') AS allTags
+FROM articles;
+```
+
+**Results**:
+
+```sql
+allTags
+-------------------------------------
+["news", "ai", "pinot", "open-source"]
+```
+
+#### Notes:
+
+* When the input column is an array, all sub-arrays are flattened before aggregation.
+* When isDistinct is true, duplicate elements are removed from the final array.
+* The order of elements in the output array is not guaranteed.
+* Supports both scalar and array input types for numeric and string data.
+
+***
+
+### LISTAGG
+
+#### Description:
+
+Concatenates the input values into a single string, with an optional delimiter.
+
+Similar to ARRAY\_AGG, but produces a string instead of an array.
+
+LISTAGG is useful for generating comma-separated lists or other delimited strings from multiple rows.
+
+#### Signature:
+
+```sql
+LISTAGG(dataColumn [, delimiter] [, isDistinct])
+```
+
+#### Arguments:
+
+* dataColumn — The input column or expression to concatenate.
+* delimiter _(optional)_ — A string used to separate values in the output. Defaults to ','.
+* isDistinct _(optional)_ — Boolean flag to include only distinct elements. Defaults to false.
+
+#### Returns:
+
+A single concatenated STRING containing all values (optionally distinct), separated by the given delimiter.
+
+#### Examples:
+
+1. Concatenate names with commas
+
+```sql
+SELECT LISTAGG(firstName, ', ', true) AS allNames
+FROM transcript;
+```
+
+**Result**:
+
+```sql
+allNames
+-------------------
+Bob, Nick, Lucy
+```
+
+2. Concatenate array input
+
+```sql
+SELECT LISTAGG(tags, '|') AS tagList
+FROM articles;
+```
+
+**Result**:
+
+```sql
+tagList
+------------------------
+news|ai|pinot|open-source
+```
+
+#### Notes:
+
+* If the input column is an array, all sub-arrays are flattened before concatenation.
+* When isDistinct is true, duplicate values are removed before joining.
+* The output order of elements is not guaranteed.
+* The delimiter argument is optional; default is a comma ','.
+
+***
+
+### sumArrayLong
+
+#### Description:
+
+Computes the sum of all elements in an array of LONG (or integer-compatible) values across all input rows.
+
+This function is useful for aggregating numeric arrays, such as metrics or counters, into a single scalar value.
+
+#### Signature:
+
+```sql
+sumArrayLong(arrayColumn)
+```
+
+#### Arguments:
+
+* arrayColumn — Input column containing arrays of numeric (LONG or INT) values.
+
+#### Returns:
+
+A LONG representing the sum of all elements across all arrays in the group.
+
+#### Examples:
+
+1. Sum elements of arrays across rows
+
+```sql
+SELECT sumArrayLong(values) AS totalSum
+FROM metrics;
+```
+
+**Input**:
+
+```sql
+values
+-------
+[1, 2, 3]
+[4, 5, 6]
+```
+
+**Result**:
+
+```sql
+totalSum
+---------
+21
+```
+
+2. With GROUP BY
+
+```sql
+SELECT category, sumArrayLong(values) AS total
+FROM metrics
+GROUP BY category;
+```
+
+**Result**:
+
+```sql
+category | total
+----------|------
+A         | 15
+B         | 27
+```
+
+#### Notes:
+
+* NULL and empty arrays are ignored.
+* All numeric values are coerced to LONG before summation.
+* If any element is non-numeric, the query will fail.
+
+***
+
+### sumArrayDouble
+
+#### Description:
+
+Computes the sum of all elements in an array of DOUBLE (floating-point) values across all input rows.
+
+This is the double-precision variant of sumArrayLong, and is typically used for aggregating numeric arrays with decimal values, such as scores, probabilities, or weights.
+
+#### Signature:
+
+```sql
+sumArrayDouble(arrayColumn)
+```
+
+#### Arguments:
+
+* arrayColumn — Input column containing arrays of numeric (DOUBLE or FLOAT) values.
+
+#### Returns:
+
+A DOUBLE representing the sum of all elements across all arrays in the group.
+
+#### Examples:
+
+1. Sum elements of arrays across rows
+
+```sql
+SELECT sumArrayDouble(weights) AS totalWeight
+FROM model_output;
+```
+
+Input:
+
+```sql
+weights
+------------
+[1.2, 0.8]
+[2.5, 3.0]
+```
+
+Result:
+
+```sql
+totalWeight
+------------
+7.5
+```
+
+2. With GROUP BY
+
+```sql
+SELECT experimentId, sumArrayDouble(scores) AS totalScore
+FROM results
+GROUP BY experimentId;
+```
+
+#### Notes:
+
+* NULL and empty arrays are ignored.
+* All numeric elements are coerced to DOUBLE before summation.
+* Use sumArrayLong for integer data to avoid type conversion overhead.
+
+***
+
 ## Array Reversal
 
 ### arrayReverseInt
@@ -146,6 +415,29 @@ SELECT arrayIndexesOfString(ARRAY['a', 'b', 'a'], 'a');
 ```sql
 SELECT intersectIndices(ARRAY[1, 3, 5], ARRAY[3, 5]);
 -- Result: [3, 5]
+```
+
+***
+
+### arraysOverlap
+
+**Description**:&#x20;
+
+Returns true if the two input arrays have at least one element in common, and false otherwise.
+
+This function is useful for checking whether two arrays share any overlapping values — for example, to test whether a user’s assigned tags intersect with a set of filter tags.\
+
+
+**Syntax**:&#x20;
+
+&#x20;`arraysOverlap(array1, array2)`\
+
+
+**Example**:
+
+```sql
+SELECT arraysOverlap(ARRAY[1, 3, 5], ARRAY[3, 5]);
+-- Result: true
 ```
 
 ***

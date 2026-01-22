@@ -34,7 +34,6 @@ Here is a sample Pulsar stream config. You can use the `streamConfigs` section f
       "stream.pulsar.topic.name": "<your pulsar topic name>",
       "stream.pulsar.bootstrap.servers": "pulsar://localhost:6650,pulsar://localhost:6651",
       "stream.pulsar.consumer.prop.auto.offset.reset" : "smallest",
-      "stream.pulsar.consumer.type": "lowlevel",
       "stream.pulsar.fetch.timeout.millis": "30000",
       "stream.pulsar.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
       "stream.pulsar.consumer.factory.class.name": "org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory",

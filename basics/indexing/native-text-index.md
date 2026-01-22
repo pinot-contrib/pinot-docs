@@ -4,14 +4,14 @@ description: >-
   functionality in Apache Pinot.
 ---
 
-# Native Text Index - Experimental
+# Native text index
 
-{% hint style="warning" %}
-**Experimental**
 
-This index is experimental and should only be used for testing. It is not recommended for use in production.
 
-Instead, use [this text index](text-search-support.md#enable-a-text-index).
+{% hint style="danger" %}
+**Deprecated**
+
+This index is deprecated, and subject to be removed after releasing **1.4.0**. Please use Lucene based [Text Index](text-search-support.md).
 {% endhint %}
 
 ## Native text index

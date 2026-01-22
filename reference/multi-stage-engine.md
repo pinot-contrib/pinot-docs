@@ -120,5 +120,5 @@ Multi-stage queries are more expressive than single-stage queries, allowing to e
 
 In order to optimize multi-stage queries, you can follow these guidelines:
 
-* Study the [explain plan](<../users/user-guide-query/explain-plan (1).md>).
+* Study the [explain plan](../users/user-guide-query/multi-stage-query/explain-plan-1.md).
 * Execute the query and analyze the [stage stats](../users/user-guide-query/multi-stage-query/understanding-stage-stats.md).

@@ -46,9 +46,7 @@ where `<column_name>` is the column text index is created on and `<search_expres
 
 Pinot supports text search with the following requirements:
 
-* The column type should be STRING.
-* The column should be single-valued.
-* Using a text index in coexistence with other Pinot indexes is not supported.
+* The column type should be STRING, or stored as STRING (e.g. JSON).
 
 ## Sample Datasets
 
@@ -194,7 +192,22 @@ A column in Pinot can be dictionary-encoded or stored RAW. In addition, we can c
 The text index is an addition to the type of **per-column indexes** users can create in Pinot. However, it only supports text index on a RAW column, not a dictionary-encoded column.
 {% endhint %}
 
-## Enable a text index
+## Multi-column text index
+
+Since version 1.4.0, Pinot offers two types of text indexes:
+
+* **per-column / single-column text index** - that stores data separately for each indexed column. It's the type used prior to the 1.4.0 version.
+* **per-segment / multi-column text index** - that stores all indexed column's data together. Doing so  reduces both RAM and disk space sizes and speeds up index creation, allowing efficient indexing of tens or hundreds or columns.&#x20;
+
+Aside from configuration, the new index type behaves the same as per-column index at query time.
+
+When choosing between the two index types, you might consider the following :
+
+<table><thead><tr><th width="164.83203125">Property \ Type</th><th>Per-Column</th><th>Per-segment</th></tr></thead><tbody><tr><td>Querying speed</td><td><mark style="background-color:yellow;">slower - especially when querying multiple columns</mark></td><td><mark style="background-color:green;">faster</mark></td></tr><tr><td>Disk and memory usage</td><td><mark style="background-color:yellow;">higher - each column uses separate set of Lucene files and document id mapping</mark></td><td><mark style="background-color:green;">lower - Lucene file size is smaller; only one document id mapping is used for all columns</mark></td></tr><tr><td>Initial build time </td><td><mark style="background-color:yellow;">higher - because each column uses separate Lucene files</mark></td><td><mark style="background-color:green;">lower - one set of Lucene files  and one document id mapping is generated</mark> </td></tr><tr><td>Rebuild time</td><td><mark style="background-color:green;">lower - rebuild affected columns only, other indexes are copied</mark></td><td><mark style="background-color:yellow;">higher - removes all files and rebuilds from scratch</mark></td></tr></tbody></table>
+
+
+
+## Enable a per-column text index
 
 Enable a text index on a column in the [table configuration](../../configuration-reference/table.md) by adding a new section with the name "fieldConfigList".
 
@@ -233,6 +246,38 @@ You can configure text indexes in the following scenarios:
 When you're using a text index, add the indexed column to the `noDictionaryColumns` columns list to reduce unnecessary storage overhead.
 
 For instructions on that configuration property, see the [Raw value forward index](forward-index.md#raw-value-forward-index) documentation.
+{% endhint %}
+
+## Enable a per-segment text index
+
+Contrary to per-column text index, per-segment text index can only be configured once in [table index configuration](../../configuration-reference/table.md#table-index-config) by adding `multiColumnTextIndexConfig` element:&#x20;
+
+```json
+"tableIndexConfig": {
+   "multiColumnTextIndexConfig": {
+      "columns": ["hobbies", "skills", "titles" ],
+      "properties": {
+         "caseSensitive": "false"
+       }
+       "perColumnProperties": {
+          "titles": {
+             "caseSensitive": "true"
+          }
+       }
+ },
+```
+
+The config contains a list of columns to index - `columns`, settings meant for all columns - `properties`, and  settings applied to particular column - `perColumnProperties`.&#x20;
+
+As shown in example above, index configuration allows for both:
+
+* setting shared index properties that apply to all columns with "properties".\
+  Allowed keys are : `enableQueryCacheForTextIndex`, `luceneUseCompoundFile`, `luceneMaxBufferSizeMB`, `reuseMutableIndex` and all allowed in `perColumnProperties`.
+* setting column-specific properties (overriding shared ones) with `perColumnProperties`.\
+  Allowed keys: `useANDForMultiTermTextIndexQueries`, `enablePrefixSuffixMatchingInPhraseQueries`, `stopWordInclude`, `stopWordExclude`, `caseSensitive`, `luceneAnalyzerClass`, `luceneAnalyzerClassArgs`, `luceneAnalyzerClassArgTypes`, `luceneQueryParserClass`.
+
+{% hint style="info" %}
+Shared properties-only settings, e.g. `luceneMaxBufferSizeMB` , set in per column properties have no effect and will be ignored.&#x20;
 {% endhint %}
 
 ## Text index creation
@@ -312,6 +357,39 @@ SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(text_col_1, ....) AND TEXT_MATCH(text_
 * Aggregation GROUP BY query
 
 The search expression (the second argument to `TEXT_MATCH` function) is the query string that Pinot will use to perform text search on the column's text index.
+
+
+## TEXT\_MATCH Query Options
+
+The `TEXT_MATCH` function supports an optional third parameter for specifying Lucene query parser options at query time. This allows for flexible and advanced text search without changing table configuration.
+
+**Function Signature:**
+```sql
+TEXT_MATCH(text_column_name, search_expression [, options])
+```
+- `text_column_name`: Name of the column to perform text search on.
+- `search_expression`: The query string for text search.
+- `options` (optional): Comma-separated string of key-value pairs to control query parsing and search behavior.
+
+**Available Options:**
+
+| Option                  | Values                              | Description                                                                                 |
+|-------------------------|-------------------------------------|---------------------------------------------------------------------------------------------|
+| `parser`                | `CLASSIC`, `STANDARD`, `COMPLEX`    | Selects the Lucene query parser to use. Default is `CLASSIC`.                               |
+| `allowLeadingWildcard`  | `true`, `false`                     | Allows queries to start with a wildcard (e.g., `*term`). Default is `false`.                |
+| `defaultOperator`       | `AND`, `OR`                         | Sets the default boolean operator for multi-term queries. Default is `OR`.                  |
+
+**Examples:**
+```sql
+-- Use CLASSIC parser with leading wildcard support
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, '*search*', 'parser=CLASSIC, allowLeadingWildcard=true')
+
+-- Use STANDARD parser with AND operator
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'term1 term2', 'parser=STANDARD, defaultOperator=AND')
+
+-- Use COMPLEX parser for advanced queries
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'complex query', 'parser=COMPLEX')
+```
 
 ### Phrase query
 
@@ -567,3 +645,10 @@ TEXT_MATCH(column, 'Java AND C++')
 ### Text Index Tuning
 
 To improve Lucene index creation time, some configs have been provided. Field Config properties `luceneUseCompoundFile` and `luceneMaxBufferSizeMB` can provide faster index writing at but may increase file descriptors and/or memory pressure.
+
+#### Cluster Configuration for Text Search
+When text search queries contain too many terms or clauses, Lucene may throw `TooManyClauses` exceptions, causing query failures. This commonly occurs with:
+- Complex boolean queries with many OR conditions
+- Wildcard queries that expand to many terms
+- Queries with large numbers of search terms
+To handle such cases, you can increase the maximum clause count at the cluster level. See the [cluster configuration reference](../../configuration-reference/cluster.md) for the `pinot.lucene.max.clause.count` setting.

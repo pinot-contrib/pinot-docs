@@ -256,9 +256,8 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
     ],
     "streamConfigs": {
       "streamType": "kafka",
-      "stream.kafka.consumer.type": "simple",
       "stream.kafka.topic.name": "pullRequestMergedEvents",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.zk.broker.url": "pinot-zookeeper:2181/kafka",
       "stream.kafka.broker.list": "kafka:9092",
@@ -545,9 +544,8 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
     ],
     "streamConfigs": {
       "streamType": "kafka",
-      "stream.kafka.consumer.type": "simple",
       "stream.kafka.topic.name": "pullRequestMergedEvents",
-      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
       "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
       "stream.kafka.zk.broker.url": "localhost:2191/kafka",
       "stream.kafka.broker.list": "localhost:19092",

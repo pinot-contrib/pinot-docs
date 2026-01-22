@@ -50,7 +50,6 @@ instance assignment is persisted. Note that `numInstancesPerPartition` should al
 
 ### Other limitations
 
-* The high-level consumer is not allowed for the input stream ingestion, which means `stream.kafka.consumer.type` must be `lowLevel`.
 * The incoming stream must be partitioned by the primary key such that, all records with a given primaryKey must be consumed by the same Pinot server instance.
 
 ## Enable dedup in the table configurations
@@ -74,7 +73,7 @@ Supported values for `hashFunction` are `NONE`, `MD5` and `MURMUR3`, with the de
 
 ## Metadata TTL
 
-Server stores the existing primary keys in dedup metadata map kept on JVM heap. As the dedup metadata grows, the heap memory pressure increases, which may affect the performance of ingestion and queries. One can set a positive metadata TTL to enable the TTL mechanism to keep the metadata size bounded. By default, the table's time colum is used as the dedup time column. The time unit of  TTL is the same as the dedup time column. The TTL should be set long enough so that new records can be deduplicated before the primary keys gets removed.
+Server stores the existing primary keys in dedup metadata map kept on JVM heap. As the dedup metadata grows, the heap memory pressure increases, which may affect the performance of ingestion and queries. One can set a positive metadata TTL to enable the TTL mechanism to keep the metadata size bounded. By default, the table's time colum is used as the dedup time column. The time unit of  TTL is the same as the dedup time column. The TTL should be set long enough so that new records can be deduplicated before the primary keys gets removed. Time column must be `NUMERIC` data type when `metadataTTl` is enabled.  
 
 ```json
 { 

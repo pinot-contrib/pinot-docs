@@ -327,7 +327,7 @@ To configure how long primary keys are stored in metadata, specify the length of
 In this example, Pinot will retain the deleted-primary-keys in metadata for 1 day.
 
 {% hint style="info" %}
-Note that the value of this field `deletedKeysTTL` should be the same as the unit of comparison column. If your comparison column is having values which corresponds to seconds, this config should also have values in seconds (see above example).
+Note that the value of this field `deletedKeysTTL` should be the same as the unit of comparison column. If your comparison column is having values which corresponds to seconds, this config should also have values in seconds (see above example). `metadataTTL` and `deletedKeysTTL` do not work with multiple comparison columns and comparison/time column must be of `NUMERIC` type.
 {% endhint %}
 
 ### Data consistency with deletes and compaction together
@@ -364,6 +364,12 @@ These new consistency modes provide flexibility, allowing applications to balanc
   }
 }
 ```
+
+For **SNAPSHOT** mode, one can configure how often the upsert view should be refreshed via a upsertConfig called `upsertViewRefreshIntervalMs`, which is 3000ms by default. Both the write and query threads can refresh the upsert view when it gets stale according to this config. Changing this config requires server restarts.
+
+One can further adjust the view's freshness during query time without restarting servers via a query option called `upsertViewFreshnessMs` . By default, this query option matches with that upsertConfig `upsertViewRefreshIntervalMs` , but if a query sets it to a smaller value, the upsert view may get refreshed sooner for the query; and if set to 0, the query simply forces to refresh upsert view every time.
+
+For debugging purposes, there's a query option called `skipUpsertView`. If set to `true`, it bypasses the consistent upsert view maintained by SYNC or SNAPSHOT modes. This effectively executes the query as if it were in NONE mode.
 
 ### Use strictReplicaGroup for routing
 
@@ -434,6 +440,42 @@ The feature also requires you to specify `pinot.server.instance.max.segment.prel
 {% hint style="warning" %}
 A bug was introduced in v1.2.0 that when enablePreload and enableSnapshot flags are set to true but max.segment.preload.threads is left as 0, the preloading mechanism is still enabled but segments fail to get loaded as there is no threads for preloading. This was fixed in newer versions, but for v1.2.0, if enablePreload and enableSnapshot are set to true, remember to set max.segment.preload.threads to a positive value as well. Server restart is needed to get max.segment.preload.threads config change into effect.
 {% endhint %}
+
+#### Enable commit time compaction for storage optimization
+
+{% hint style="warning" %}
+If you are enabling commit time compaction for an existing table, it is recommended to first pause the ingestion for that table, enable this feature by updating the table-config, and then resume ingestion.
+{% endhint %}
+
+Many Upsert use-cases have a lot of Update events within the segment commit window. For instance, if we had an Upsert table for order status of Uber Eats orders, we would expect a lot of update events for the same order within a 1 hour window. For such use-cases, the committed segments end up with a lot of dead tuples, and you have to wait for the Segment Compaction tasks to prune them, which can take hours.
+
+Commit time compaction is a performance optimization feature for upsert tables that removes invalid and obsolete records during the segment commit process itself.  This not only reduces the storage bloat of the table immediately, but it can also bring down the segment commit time.
+
+To enable commit time compaction, set the `enableCommitTimeCompaction` to `true` in the upsert configuration. For example:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "enableCommitTimeCompaction": true
+  }
+}
+```
+
+**How it works**
+
+During segment commit, commit time compaction:
+
+* Filters out invalid document IDs. Retains valid records and soft-deleted records.
+* Generates accurate column statistics for compacted segments
+* Maintains correct document order while removing obsolete data
+* Reduces segment size immediately without requiring minion tasks
+
+**Configuration requirements**
+
+* The feature is enabled per table by setting `enableCommitTimeCompaction=true` in the upsert configuration
+* Changes take effect after one segment commit cycle (the current consuming segment will be committed without compaction)
+* Compatible with all types of upsert tables
 
 ### Handle out-of-order events
 
@@ -547,7 +589,6 @@ public class CustomTableUpsertMetadataManager extends BaseTableUpsertMetadataMan
 There are some limitations for the upsert Pinot tables.
 
 * The upsert feature is supported for Real-time tables only, and not for Hybrid or Offline tables.
-* The high-level consumer is not allowed for the input stream ingestion, which means `stream.[consumerName].consumer.type` must always be `lowLevel`.
 * The star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 * Unlike append-only tables, out-of-order events (with comparison value in incoming record less than the latest available value) won't be consumed and indexed by Pinot partial upsert table, these late events will be skipped.
 
@@ -561,7 +602,12 @@ The number of partitions in input streams determines the partition numbers of th
 
 #### Memory usage
 
-Upsert table maintains an in-memory map from the primary key to the record location. **So it's recommended to use a simple primary key type and avoid composite primary keys to save the memory cost. Beware when using `JSON` column as primary key, same key-values in different order would be considered as different primary keys**. In addition, consider the `hashFunction` config in the Upsert config, which can be `MD5` or `MURMUR3`, to store the 128-bit hashcode of the primary key instead. This is useful when your primary key takes more space. But keep in mind, this hash may introduce collisions, though the chance is very low.
+Upsert table maintains an in-memory map from the primary key to the record location. **So it's recommended to use a simple primary key type and avoid composite primary keys to save the memory cost. Beware when using `JSON` column as primary key, same key-values in different order would be considered as different primary keys**. In addition, consider the `hashFunction` config in the Upsert config, which can be `UUID`, `MD5` or `MURMUR3`.
+
+If your primary key column is a valid UUID and you are running out of memory due to a high number of primary keys, the `UUID` hash function can lower memory requirements by up to 35% without bringing in any hash collision risks.\
+If the primary key is not a valid UUID, this hash function stores the primary key as is and skips the UUID based compression.
+
+`MD5` and `MURMUR3` can also help lower memory requirements. They work for all types of primary key values, but bring in a small risk of hash collision. The generated hash from `MD5` and `MURMUR3` is a 128-bit hash, so this is beneficial when your primary key values are larger than 128-bits.
 
 #### Monitoring
 
@@ -622,7 +668,7 @@ Putting these together, you can find the table configurations of the quick start
         {
           "streamType": "kafka",
           "stream.kafka.topic.name": "upsertMeetupRSVPEvents",
-          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
           "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
           "stream.kafka.zk.broker.url": "localhost:2191/kafka",
           "stream.kafka.broker.list": "localhost:19092"
@@ -699,7 +745,7 @@ Putting these together, you can find the table configurations of the quick start
         {
           "streamType": "kafka",
           "stream.kafka.topic.name": "upsertPartialMeetupRSVPEvents",
-          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
           "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
           "stream.kafka.zk.broker.url": "localhost:2191/kafka",
           "stream.kafka.broker.list": "localhost:19092"
