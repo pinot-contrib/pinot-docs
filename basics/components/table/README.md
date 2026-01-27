@@ -288,6 +288,12 @@ bin/pinot-admin.sh AddTable \
 
 Check out the table config in the [Rest API](http://localhost:9000/help#!/Table/alterTableStateOrListTableConfig) to make sure it was successfully uploaded.
 
+## Logical table
+
+A logical table provides a unified query interface over multiple physical tables. This is useful for geographic partitioning, table sharding strategies, or creating abstraction layers over complex table hierarchies.
+
+For details, see [Logical Table](logical-table.md).
+
 ## Hybrid table creation
 
 To create a hybrid table, you have to create the offline and real-time tables individually. You don't need to create a separate hybrid table.

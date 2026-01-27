@@ -398,6 +398,40 @@ pinot-admin QuickStart -type join
 {% endtab %}
 {% endtabs %}
 
+## Logical Table
+
+This example demonstrates how to use logical tables in Pinot, which provide a unified query interface over multiple physical tables. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, Pinot Server, and Pinot Minion.
+* Creates three physical tables (`ordersUS_OFFLINE`, `ordersEU_OFFLINE`, `ordersAPAC_OFFLINE`) representing regional order data
+* Creates a logical table (`orders`) that provides a unified view over all regional tables
+* Issues sample queries to both physical and logical tables
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type LOGICAL_TABLE
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type LOGICAL_TABLE
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type LOGICAL_TABLE
+```
+{% endtab %}
+{% endtabs %}
+
+For more details on logical tables, see [Logical Table](../../basics/components/table/logical-table.md).
+
 ## Time Series
 
 {% hint style="info" %}
