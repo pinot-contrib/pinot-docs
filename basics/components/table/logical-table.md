@@ -29,8 +29,6 @@ When you query a logical table, Pinot:
 3. Aggregates results from all physical tables
 4. Returns a unified result set to the client
 
-<!-- TODO: Add architecture diagram showing logical table routing to multiple physical tables -->
-
 For hybrid logical tables (containing both offline and realtime physical tables), Pinot uses a configurable time boundary strategy to determine which segments to query from each table type, avoiding duplicate data.
 
 ## Logical Table Configuration
@@ -89,35 +87,7 @@ For logical tables that combine both offline and realtime physical tables:
 }
 ```
 
-### Physical Table Configuration
-
-Each physical table entry in `physicalTableConfigMap` can have the following properties:
-
-| Property | Description | Default |
-|----------|-------------|---------|
-| `multiCluster` | Set to `true` if the physical table resides in a remote Pinot cluster | `false` |
-
-Example with multi-cluster physical table:
-
-```json
-{
-  "tableName": "globalOrders",
-  "brokerTenant": "DefaultTenant",
-  "physicalTableConfigMap": {
-    "ordersLocal_OFFLINE": {},
-    "ordersRemote_OFFLINE": { "multiCluster": true }
-  },
-  "refOfflineTableName": "ordersLocal_OFFLINE"
-}
-```
-
 ## Creating a Logical Table
-
-### Prerequisites
-
-1. All physical tables must already exist in the cluster
-2. A schema with the same name as the logical table must exist
-3. The broker tenant must exist
 
 ### Step 1: Create the Schema
 
@@ -144,8 +114,6 @@ curl -F schemaName=@orders_schema.json localhost:9000/schemas
 
 ### Step 2: Create the Logical Table
 
-{% tabs %}
-{% tab title="curl" %}
 ```bash
 curl -X POST -H 'Content-Type: application/json' \
   -d '{
@@ -160,15 +128,6 @@ curl -X POST -H 'Content-Type: application/json' \
   }' \
   http://localhost:9000/logicalTables
 ```
-{% endtab %}
-
-{% tab title="Launcher scripts" %}
-```bash
-# Using the QuickStart for a complete example
-./bin/pinot-admin.sh QuickStart -type LOGICAL_TABLE
-```
-{% endtab %}
-{% endtabs %}
 
 ## Managing Logical Tables
 
@@ -355,4 +314,3 @@ When creating or updating a logical table, Pinot validates:
 
 * [Table Configuration](../../../configuration-reference/table.md)
 * [Schema Configuration](schema.md)
-* [Hybrid Tables](#hybrid-table-configuration)
