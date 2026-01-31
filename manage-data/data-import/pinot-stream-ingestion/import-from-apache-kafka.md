@@ -293,7 +293,7 @@ Here is an example config which uses SSL based authentication to talk with kafka
         "stream.kafka.topic.name": "transcript-topic",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-        "stream.kafka.zk.broker.url": "pinot-zookeeper:2191/kafka",
+        "stream.kafka.zk.broker.url": "pinot-zookeeper:2181/kafka",
         "stream.kafka.broker.list": "localhost:9092",
         "schema.registry.url": "",
         "security.protocol": "SSL",
@@ -343,7 +343,7 @@ For example,
         "stream.kafka.topic.name": "transcript-topic",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
         "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-        "stream.kafka.zk.broker.url": "pinot-zookeeper:2191/kafka",
+        "stream.kafka.zk.broker.url": "pinot-zookeeper:2181/kafka",
         "stream.kafka.broker.list": "kafka:9092",
         "stream.kafka.isolation.level": "read_committed"
       }

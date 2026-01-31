@@ -266,13 +266,13 @@ Sending request: http://pinot-controller:9000/schemas to controller: 8fbe601012f
 **Start Kafka-Zookeeper**
 
 ```
-bin/pinot-admin.sh StartZookeeper -zkPort 2191
+bin/pinot-admin.sh StartZookeeper -zkPort 2181
 ```
 
 **Start Kafka**
 
 ```
-bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2191/kafka -port 19092
+bin/pinot-admin.sh  StartKafka -zkAddress=localhost:2181/kafka -port 19092
 ```
 
 **Create stream table**
