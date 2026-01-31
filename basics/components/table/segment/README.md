@@ -213,7 +213,7 @@ Run below command to stream JSON data into Kafka topic: **flights-realtime**
 ```
 bin/pinot-admin.sh StreamAvroIntoKafka \
   -avroFile examples/stream/airlineStats/sample_data/airlineStats_data.avro \
-  -kafkaTopic flights-realtime -kafkaBrokerList localhost:19092 -zkAddress localhost:2191/kafka
+  -kafkaTopic flights-realtime -kafkaBrokerList localhost:19092 -zkAddress localhost:2181/kafka
 ```
 {% endtab %}
 {% endtabs %}

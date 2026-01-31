@@ -146,7 +146,7 @@ export JAVA_OPTS="-Xms4G -Xmx8G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:gc
 
 ```
 ./bin/pinot-admin.sh StartZookeeper \
-  -zkPort 2191
+  -zkPort 2181
 ```
 
 You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse the Zookeeper instance.
@@ -156,7 +156,7 @@ You can use [Zooinspector](https://github.com/zzhang5/zooinspector) to browse th
 ```
 export JAVA_OPTS="-Xms4G -Xmx8G"
 ./bin/pinot-admin.sh StartController \
-    -zkAddress localhost:2191 \
+    -zkAddress localhost:2181 \
     -controllerPort 9000
 ```
 
@@ -165,7 +165,7 @@ export JAVA_OPTS="-Xms4G -Xmx8G"
 ```
 export JAVA_OPTS="-Xms4G -Xmx4G"
 ./bin/pinot-admin.sh StartBroker \
-    -zkAddress localhost:2191
+    -zkAddress localhost:2181
 ```
 
 ### Start Pinot Server
@@ -173,7 +173,7 @@ export JAVA_OPTS="-Xms4G -Xmx4G"
 ```
 export JAVA_OPTS="-Xms4G -Xmx16G"
 ./bin/pinot-admin.sh StartServer \
-    -zkAddress localhost:2191
+    -zkAddress localhost:2181
 ```
 
 ### Start Pinot Minion
@@ -181,7 +181,7 @@ export JAVA_OPTS="-Xms4G -Xmx16G"
 ```
 export JAVA_OPTS="-Xms4G -Xmx4G"
 ./bin/pinot-admin.sh StartMinion \
-    -zkAddress localhost:2191
+    -zkAddress localhost:2181
 ```
 
 
@@ -189,8 +189,8 @@ export JAVA_OPTS="-Xms4G -Xmx4G"
 ### Start Kafka
 
 ```
-./bin/pinot-admin.sh  StartKafka \ 
-  -zkAddress=localhost:2191/kafka \
+./bin/pinot-admin.sh  StartKafka \
+  -zkAddress=localhost:2181/kafka \
   -port 19092
 ```
 
