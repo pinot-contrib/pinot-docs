@@ -87,7 +87,7 @@ Here's an example demonstrating all methods of Connection factory -
 
 ```java
 Connection connection = ConnectionFactory.fromZookeeper
-  ("some-zookeeper-server:2191/zookeeperPath");
+  ("some-zookeeper-server:2181/zookeeperPath");
 
 Connection connection = ConnectionFactory.fromProperties("demo.properties");
 
