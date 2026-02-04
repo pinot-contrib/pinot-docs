@@ -824,10 +824,10 @@ To see the difference from the non-upsert table, you can use a query option `ski
 
 Not recommended. Existing segments contain validDocId snapshots computed using the old configuration. Changing the configuration can lead to data inconsistencies, especially if a server restarts with validDocId snapshots while replica servers do not.
 
-**Avoid changing:** primary key columns, comparison columns, delete record column, number of partitions, partial upsert strategies, upsert mode, and hashFunction.
+**Avoid changing:** primary key columns, comparison columns, partial upsert strategies, upsert mode, and hashFunction.
 
 If changes are unavoidable:
 
 **Best option:** Create a new table and reingest all data.
 
-**Alternative:** Restart all servers. This will work for new incoming keys only; consistency across existing data is not guaranteed.
+**Alternative:** Restart all the servers. This will work for new incoming keys only; consistency across existing data is not guaranteed.
