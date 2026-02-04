@@ -21,6 +21,7 @@
         * [Segment retention](basics/concepts/segment-retention.md)
       * [Schema](basics/components/table/schema.md)
       * [Time boundary](basics/concepts/time-boundary.md)
+      * [Logical Table](basics/components/table/logical-table.md)
     * [Pinot Data Explorer](basics/components/exploring-pinot.md)
 * [Getting Started](basics/getting-started/README.md)
   * [Running Pinot locally](basics/getting-started/running-pinot-locally.md)
