@@ -822,7 +822,12 @@ To see the difference from the non-upsert table, you can use a query option `ski
 
 **Can I change configs like primary key columns and comparison columns in existing upsert table?**
 
-Not recommended. Existing segments have validDocIds snapshots computed with the old configuration, which can cause data inconsistencies when servers restart with new configs.
-Configurations you should avoid changing: primary key columns, comparison columns, changing delete record column, number of partitions, partial upsert strategies, upsert mode, and hashFunction.
-If you must make these changes:
-The cleanest approach is to create a new table and migrate your data. Alternatively, if you don't need historical data accuracy on existing primary keys, restarting all servers will work for incoming new keys.
+Not recommended. Existing segments contain validDocId snapshots computed using the old configuration. Changing the configuration can lead to data inconsistencies, especially if a server restarts with validDocId snapshots while replica servers do not.
+
+**Avoid changing:** primary key columns, comparison columns, delete record column, number of partitions, partial upsert strategies, upsert mode, and hashFunction.
+
+If changes are unavoidable:
+
+**Best option:** Create a new table and reingest all data.
+
+**Alternative:** Restart all servers. This will work for new incoming keys only; consistency across existing data is not guaranteed.
