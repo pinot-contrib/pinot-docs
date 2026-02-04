@@ -820,6 +820,9 @@ To see the difference from the non-upsert table, you can use a query option `ski
 
 ### FAQ
 
-**Can I change primary key columns in existing upsert table?**
+**Can I change configs like primary key columns and comparison columns in existing upsert table?**
 
-Yes, you can add or delete columns to primary keys as long as input stream is partitioned on one of the primary key columns. However, you need to restart all Pinot servers so that it can rebuild the primary key to record location map with the new columns.
+Not recommended. Existing segments have validDocIds snapshots computed with the old configuration, which can cause data inconsistencies when servers restart with new configs.
+Configurations you should avoid changing: primary key columns, comparison columns, changing delete record column, number of partitions, partial upsert strategies, upsert mode, and hashFunction.
+If you must make these changes:
+The cleanest approach is to create a new table and migrate your data. Alternatively, if you don't need historical data accuracy on existing primary keys, restarting all servers will work for incoming new keys.
