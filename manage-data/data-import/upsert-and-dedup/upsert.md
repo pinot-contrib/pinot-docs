@@ -822,7 +822,7 @@ To see the difference from the non-upsert table, you can use a query option `ski
 
 **Can I change configs like primary key columns and comparison columns in existing upsert table?**
 
-Not recommended. Existing segments contain validDocId snapshots computed using the old configuration. Changing the configuration can lead to data inconsistencies, especially if a server restarts with validDocId snapshots while replica servers do not.
+Not recommended. Existing segments contain validDocId snapshots computed using the old configuration. Changing the configuration can lead to data inconsistencies as existing snapshots wouldn't be cleaned up, especially if a server restarts with validDocId snapshots while replica server do not.
 
 **Avoid changing:** primary key columns, comparison columns, partial upsert strategies, upsert mode, and hashFunction.
 
