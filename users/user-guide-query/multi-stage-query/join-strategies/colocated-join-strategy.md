@@ -74,6 +74,10 @@ Even when colocated joins are enabled, Pinot only uses them if it can guarantee 
 
 On some complex deployments, Pinot may not be able to guarantee these constraints even when users know that colocation could be used. In these situations, users can add the `/*+ joinOptions(is_colocated_by_join_keys='true') */` hint to force Pinot to use colocated joins blindly.
 
+{% hint style="warning" %}
+Note: `is_colocated_by_join_keys` is an old way of forcing colocated join and NOT recommended. The right approach is to use either `inferPartitionHint` or `tableOptions` hint as described above.
+{% endhint %}
+
 ### **How to guarantee that colocated joins can be used**
 
 As noticed above, in order to use colocated joins, the assignment of partitions to servers must be the same for both tables. Although we can manually assign partitions to servers when creating the tables, they can be moved between servers at any time as a result of a rebalance.&#x20;
