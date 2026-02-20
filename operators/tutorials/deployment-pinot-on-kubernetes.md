@@ -8,7 +8,7 @@ However there are a few things to be noted before starting the benchmark/product
 
 ## Container Resources
 
-We recommend to run Pinot with pre-defined resources for the container, and make requests and limits to be the same.&#x20;
+We recommend to run Pinot with pre-defined resources for the container, and make requests and limits to be the same.
 
 This will ensure the container won't be killed if there is a sudden bump of workload.
 
@@ -78,3 +78,100 @@ Default deployment creates a mount disk(e.g Amazon EBS) as deep storage in contr
 
 You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link](../../manage-data/data-import/pinot-file-system/#enabling-a-file-system).
 
+## Security
+
+{% hint style="danger" %}
+The default Helm chart configuration does **not** enable authentication.
+
+Do **not** expose Pinot services to the public Internet unless you add security controls.
+
+At minimum, add an Ingress/API gateway with TLS + authentication, and lock down network access.
+{% endhint %}
+
+Default Helm installs are usually **not** production-safe. Lock down both transport and access.
+
+### TLS
+
+You have two common deployment patterns. Pick one and be consistent.
+
+#### Option A: Terminate TLS at the edge (simple)
+
+Terminate TLS at your Ingress / API gateway / L7 load balancer.
+
+* Expose only the **controller** and **broker** externally.
+* Keep internal Pinot services as `ClusterIP`.
+* Add network policies so only the gateway can reach controller/broker.
+* If you need encryption inside the cluster, use a service mesh for mTLS.
+
+This keeps certificate management out of Pinot. It is the easiest path.
+
+#### Option B: End-to-end TLS in Pinot (edge + internode)
+
+Pinot 0.7.0+ supports TLS for both **client ↔ cluster** and **intra-cluster** traffic.
+
+Use this when you want encryption and (optionally) identity checks between Pinot nodes.
+
+1. Generate a keystore + truststore for each component.
+2. Store them in Kubernetes `Secret`s and mount them into pods.
+3. Configure Pinot listeners to add HTTPS alongside HTTP (migration-safe).
+4. Switch egress to prefer HTTPS, then disable HTTP.
+
+Follow the step-by-step property reference in:
+
+* [Configuring TLS/SSL](configuring-tls-ssl.md)
+
+{% hint style="info" %}
+If you mount key/truststores into the container, you can also point the JVM at them with: `-Djavax.net.ssl.keyStore`, `-Djavax.net.ssl.keyStorePassword`, `-Djavax.net.ssl.trustStore`, `-Djavax.net.ssl.trustStorePassword`. This is useful when a plugin only reads the JVM default truststore.
+{% endhint %}
+
+#### 2-way TLS (mTLS)
+
+If you need strong internode authentication at the transport layer, enable 2-way TLS.
+
+* It forces clients to present certificates.
+* It reduces the blast radius of a compromised pod IP.
+
+Pinot supports this via `*.tls.client.auth.enabled=true`. See:
+
+* [Configuring TLS/SSL](configuring-tls-ssl.md#2-way-tls)
+
+### Authentication and authorization (controller + broker)
+
+TLS protects the channel. You still need authN/authZ on the APIs.
+
+Pinot supports HTTP Basic Auth + ACLs for:
+
+* **pinot-controller**: admin APIs + web UI
+* **pinot-broker**: query APIs
+
+Start here:
+
+* [Authentication](authentication/)
+
+Then pick an implementation:
+
+* [Basic auth access control](authentication/basic-auth-access-control.md) (file-based config)
+* [ZkBasicAuthAccessControl](authentication/zkbasicauthaccesscontrol.md) (ZooKeeper-backed, supports hot updates, encrypted passwords)
+
+#### Store secrets safely (Helm + Kubernetes)
+
+Do not hardcode passwords or tokens in `values.yaml` or ConfigMaps.
+
+* Put credentials in Kubernetes `Secret`s.
+* Load them into Pinot config via env var templating.
+
+See:
+
+* [Dynamic Environment](../../configuration-reference/dynamic-environment.md)
+
+{% hint style="warning" %}
+When you enable controller/broker auth, internal Pinot components also need service tokens (segment fetchers, uploaders, minions). Plan a rolling restart and validate internode calls.
+{% endhint %}
+
+### Quick hardening checklist
+
+* Enable TLS (edge termination or end-to-end).
+* Enable auth on **controller** and **broker**.
+* Restrict network access to controller/broker (Ingress + NetworkPolicy).
+* Use Kubernetes `Secret`s + env templating for all sensitive values.
+* Rotate certs and credentials. Treat Helm release history as sensitive.
