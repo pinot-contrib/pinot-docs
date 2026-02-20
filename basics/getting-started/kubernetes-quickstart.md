@@ -1,5 +1,5 @@
 ---
-description: Pinot quick start in Kubernetes
+description: Pinot quickstart in Kubernetes
 ---
 
 # Running in Kubernetes
@@ -7,7 +7,7 @@ description: Pinot quick start in Kubernetes
 Get started running Pinot in Kubernetes.
 
 {% hint style="info" %}
-<mark style="color:red;">Note:</mark> The examples in this guide are sample configurations to be used as reference. For production setup, you may want to customize it to your needs.
+<mark style="color:red;">Note:</mark> The examples in this guide are sample configurations to be used as reference. For production setup, you may want to customize it to your needs, especially enable those security features like TLS/Auth etc.
 {% endhint %}
 
 ## Prerequisites
@@ -383,7 +383,7 @@ helm install presto pinot/presto -n pinot-quickstart --values /tmp/presto-values
 kubectl get pods -n pinot-quickstart
 ```
 
-![Sample Output of K8s Deployment Status](https://lh3.googleusercontent.com/t4LnQL4xalac-ObeF37LvtrroHzfgr84lYv3av\_MI1NWIcUG1Kuc9uDmJHdYbyJiEfLuBdvT3451VS49lGO\_i167m82EM2ZfWk84Zvj-Hib8hHLI8mZt20akpdEh3BLV1Q4ETaL\_)
+![Sample Output of K8s Deployment Status](https://lh3.googleusercontent.com/t4LnQL4xalac-ObeF37LvtrroHzfgr84lYv3av_MI1NWIcUG1Kuc9uDmJHdYbyJiEfLuBdvT3451VS49lGO_i167m82EM2ZfWk84Zvj-Hib8hHLI8mZt20akpdEh3BLV1Q4ETaL_)
 
 ### Query Presto using the Presto CLI
 
