@@ -6,6 +6,9 @@ convert string to upper case
 [**LOWER**](../functions-1/lower.md)(col)\
 convert string to lower case
 
+[**INITCAP**](../functions-1/initcap.md)(col)\
+convert the first letter of each word to uppercase and the rest to lowercase
+
 [**REVERSE**](../functions-1/reverse.md)(col)\
 reverse the string
 
