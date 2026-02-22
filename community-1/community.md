@@ -20,7 +20,9 @@ Star us at [apache/pinot](https://github.com/apache/pinot) to follow Pinot devel
 
 ## Slack Channel
 
-Ask questions on [Apache Pinot Slack](https://communityinviter.com/apps/apache-pinot/apache-pinot).
+Ask questions on Apache Pinot Slack!
+
+Invitation link: [https://inviter.co/apache-pinot](https://inviter.co/apache-pinot).
 
 ## Twitter
 
