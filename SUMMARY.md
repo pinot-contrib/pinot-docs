@@ -235,6 +235,7 @@
 ## Configuration Reference
 
 * [Cluster](configuration-reference/cluster.md)
+* [Zookeeper](configuration-reference/zookeeper.md)
 * [Controller](configuration-reference/controller.md)
 * [Broker](configuration-reference/broker.md)
 * [Server](configuration-reference/server.md)
