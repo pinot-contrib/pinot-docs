@@ -1,0 +1,37 @@
+---
+description: Use Apache Pinot source as reference; support local clone via ~/.cursor config
+alwaysApply: true
+---
+
+# Pinot source as reference
+
+When updating this project (pinot-docs), use the **Apache Pinot source code** as the authoritative reference. The canonical repo is https://github.com/apache/pinot/.
+
+**The Pinot OSS code must never be modified** — use it only as a read-only reference. All edits stay in this docs repo (pinot-docs).
+
+## Local Pinot clone (optional)
+
+Developers may have Pinot checked out locally (e.g. a specific branch). To prefer a **local path** over the remote repo:
+
+1. Create a markdown file at **`~/.cursor/local-project-roots.md`** (in your home directory).
+2. Map the project name **`apache-pinot`** to the absolute path of your Pinot clone.
+
+**Format** — one mapping per line, `project-name: /absolute/path`. Lines starting with `#` are ignored.
+
+**Example `~/.cursor/local-project-roots.md`:**
+
+```markdown
+# Local project roots (project name -> path)
+apache-pinot: /Users/jane/code/pinot
+```
+
+3. When this rule applies, **look for `apache-pinot`** in that file. If present and the path exists, use that directory as the Pinot source of truth (e.g. for code references, API behavior, or docs aligned to a branch). If the file or key is missing, use the GitHub repo as reference.
+
+**Branch warning:** When using the local Pinot clone, if it is a git repository and the current branch is **not** `master`, **warn the user** that the documentation is being written or updated based on that branch, and **include the branch name** in the warning (e.g. *"Documentation is based on your local Pinot branch: `feature/xyz`."*).
+
+## Summary
+
+- **Reference**: Pinot source code for any doc or behavior updates (read-only; **never modify** the OSS code).
+- **Local override**: Read `~/.cursor/local-project-roots.md`; key **`apache-pinot`** → local root.
+- **Fallback**: https://github.com/apache/pinot/ when no local root is configured or found.
+- **Non-master branch**: If the local clone is on a branch other than `master`, warn the user and include the branch name (e.g. *"Documentation is based on your local Pinot branch: `feature/xyz`."*).
