@@ -116,7 +116,7 @@ It is recommended to do the latter by using the `indexes` section:
       "encodingType":"RAW", // this actually disables the dictionary
       "indexes": {
         "h3": {
-          "resolutions": [13, 5, 6]
+          "resolution": [13, 5, 6]
         }
       }
     }
