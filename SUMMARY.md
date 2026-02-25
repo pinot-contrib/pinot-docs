@@ -205,6 +205,7 @@
   * [Consistent Push and Rollback](operators/operating-pinot/consistent-push-and-rollback.md)
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Monitoring](operators/operating-pinot/monitoring.md)
+  * [Continuous Java Flight Recorder (JFR)](operators/operating-pinot/continuous-jfr.md)
   * [Tuning](operators/operating-pinot/tuning/README.md)
     * [Tuning Default MMAP Advice](operators/operating-pinot/tuning/tuning-default-mmap-advice.md)
     * [Real-time](operators/operating-pinot/tuning/realtime.md)
