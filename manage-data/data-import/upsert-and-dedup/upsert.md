@@ -828,4 +828,5 @@ If changes are unavoidable:
 
 **Best option:** Create a new table and reingest all data.
 
-**Alternative:** Restart all the servers. This will work for new incoming keys only; consistency across existing data is not guaranteed.
+**Alternative:** Disable SNAPSHOT, pause consumption and restart all the servers. This will work for new incoming keys only; consistency across existing data is not guaranteed.
+
