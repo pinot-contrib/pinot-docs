@@ -70,6 +70,18 @@ Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apac
 
 Go to localhost:9000 in your browser and play with the query console.
 
+Note for JDK 17 or 21 you need to add below to the VM Options:
+
+```
+--add-opens=java.base/java.nio=ALL-UNNAMED
+--add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+--add-opens=java.base/java.lang=ALL-UNNAMED
+--add-opens=java.base/java.util=ALL-UNNAMED
+--add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+--enable-native-access=ALL-UNNAMED
+--add-modules jdk.incubator.vector
+```
+
 **Real-time Quickstart**
 
 * start all Pinot components (ZK, Controller, Server, Broker) in the same JVM
