@@ -11,7 +11,7 @@ For simple transformations, this can result in inconsistencies in the batch/stre
 To make things easier, Pinot supports transformations that can be applied via the [table config](../../configuration-reference/table.md).
 
 {% hint style="warning" %}
-If a **new column is added to your table or schema configuration during ingestion**, incorrect data may appear in the consuming segment(s). To ensure accurate values are reloaded, see how to [add a new column during ingestion](ingestion-level-transformations.md#add-a-new-column-during-ingestion).&#x20;
+If a **new column is added to your table or schema configuration during ingestion**, incorrect data may appear in the consuming segment(s). To ensure accurate values are reloaded, see how to [add a new column during ingestion](ingestion-level-transformations.md#add-a-new-column-during-ingestion).
 {% endhint %}
 
 ## Transformation functions
@@ -252,6 +252,35 @@ Change name of the column from `user_id` to `userId`
 }
 ```
 
+#### Rename fields from a Kafka JSON message
+
+Kafka JSON payloads often use keys that aren’t great Pinot column names. Common examples are keys containing `-`, such as `event-id`.
+
+Map the source key to a schema-friendly column using `transformConfigs`. Reference the source key with a quoted identifier.
+
+```javascript
+"ingestionConfig": {
+  "transformConfigs": [
+    {
+      "columnName": "event_id",
+      "transformFunction": "\"event-id\""
+    },
+    {
+      "columnName": "event_timestamp",
+      "transformFunction": "\"event-timestamp\""
+    },
+    {
+      "columnName": "user_id",
+      "transformFunction": "\"user-id\""
+    }
+  ]
+}
+```
+
+{% hint style="info" %}
+Add the destination columns (for example, `event_id`) to your Pinot schema.
+{% endhint %}
+
 #### Extract value from a column containing space
 
 Pinot doesn't support columns that have spaces, so if a source data column has a space, we'll need to store that value in a column with a supported name. To extract the value from `first Name` into the column `firstName`, run the following:
@@ -344,14 +373,13 @@ _Feature TBD_
 
 ## Add a new column during ingestion
 
-If a new column is added to table or schema configuration during ingestion, incorrect data may appear in the consuming segment(s).&#x20;
+If a new column is added to table or schema configuration during ingestion, incorrect data may appear in the consuming segment(s).
 
 To ensure accurate values are reloaded, do the following:
 
-1. Pause consumption (and wait for pause status success): \
+1. Pause consumption (and wait for pause status success):\
    $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
 2. Apply new table or schema configurations.
 3. [Reload segments](../../operators/tutorials/segment-reload.md) using the [Pinot Controller API](../../operators/tutorials/segment-reload.md#use-the-pinot-controller-api-to-reload-segments) or [Pinot Admin Console](../../operators/tutorials/segment-reload.md#use-the-pinot-admin-console-to-reload-segments).
 4. Resume consumption:\
    $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
-
