@@ -271,6 +271,7 @@
     * [Configure indexes](manage-data/data-import/pinot-stream-ingestion/configure-indexes.md)
     * [Stream ingestion with CLP](manage-data/data-import/pinot-stream-ingestion/clp.md)
   * [Upsert and Dedup](manage-data/data-import/upsert-and-dedup/README.md)
+    * [Offline Table Upsert](manage-data/data-import/upsert-and-dedup/offline-table-upsert.md)
     * [Stream ingestion with Upsert](manage-data/data-import/upsert-and-dedup/upsert.md)
     * [Segment compaction on upserts](manage-data/data-import/upsert-and-dedup/segment-compaction-on-upserts.md)
     * [Stream ingestion with Dedup](manage-data/data-import/upsert-and-dedup/dedup.md)
