@@ -29,8 +29,8 @@ Run one long-lived recording in each Pinot JVM process (Controller, Broker, Serv
 | `pinot.jfr.name` | `pinot-continuous` | Recording name. |
 | `pinot.jfr.dumpOnExit` | `true` | Dumps recording on JVM exit. |
 | `pinot.jfr.toDisk` | `true` | Stores recording repository on disk. |
-| `pinot.jfr.maxSize` | `209715200` | Max recording size in bytes when `toDisk=true`. |
-| `pinot.jfr.maxAge` | `P1D` | Max event age (ISO-8601 duration) when `toDisk=true`. |
+| `pinot.jfr.maxSize` | `2GB` | Max recording size when `toDisk=true`; supports human-readable values (for example `512MB`, `2GB`) or raw bytes. |
+| `pinot.jfr.maxAge` | `P7D` | Max event age (ISO-8601 duration) when `toDisk=true`. |
 | `pinot.jfr.directory` | system temp directory | JFR repository path, applied through `JFR.configure repositorypath=...`. |
 | `pinot.jfr.dumpPath` | unset | Default JFR dump path, applied through `JFR.configure dumppath=...`. |
 
@@ -42,7 +42,7 @@ pinot.jfr.configuration=default
 pinot.jfr.name=pinot-continuous
 pinot.jfr.dumpOnExit=true
 pinot.jfr.toDisk=true
-pinot.jfr.maxSize=2147483648
+pinot.jfr.maxSize=2GB
 pinot.jfr.maxAge=PT24H
 pinot.jfr.directory=/var/log/pinot/jfr-repository
 pinot.jfr.dumpPath=/var/log/pinot/jfr-dumps

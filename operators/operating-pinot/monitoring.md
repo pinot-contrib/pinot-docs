@@ -326,12 +326,6 @@ For low-overhead, always-on JVM profiling (CPU, memory, threads, locks), you can
 
 ---
 
-## JVM diagnostics (Continuous JFR)
-
-For low-overhead, always-on JVM profiling (CPU, memory, threads, locks), you can enable [Continuous Java Flight Recorder (JFR)](continuous-jfr.md). JFR recordings can be dumped on exit or inspected with JDK tools; configuration is dynamic via cluster config.
-
----
-
 ## Further Reading
 
 - [Full Metrics Reference](../../configuration-reference/monitoring-metrics.md) -- Complete list of all Pinot metrics
