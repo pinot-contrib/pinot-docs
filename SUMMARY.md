@@ -296,6 +296,7 @@
 
 ## Functions
 
+* [Function Index](users/user-guide-query/function-index.md)
 * [Aggregation Functions](users/user-guide-query/supported-aggregations.md)
 * [Transformation Functions](users/user-guide-query/supported-transformations.md)
 * [Array Functions](users/user-guide-query/query-syntax/array-functions.md)
@@ -314,7 +315,7 @@
 ***
 
 * [Window Functions](users/user-guide-query/query-syntax/windows-functions.md)
-* [Function List](functions-1/README.md)
+* [(Deprecated) Function List](functions-1/README.md)
   * [ABS](functions-1/abs.md)
   * [ADD](functions-1/add.md)
   * [ago](functions-1/ago.md)
