@@ -395,6 +395,7 @@
   * [JSONPATHARRAYDEFAULTEMPTY](functions-1/jsonpatharraydefaultempty.md)
   * [JSONPATHDOUBLE](functions-1/jsonpathdouble.md)
   * [JSONPATHLONG](functions-1/jsonpathlong.md)
+  * [JSONPATHEXISTS](functions-1/jsonpathexists.md)
   * [JSONPATHSTRING](functions-1/jsonpathstring.md)
   * [jsonextractkey](functions-1/jsonextractkey.md)
   * [jsonextractscalar](functions-1/jsonextractscalar.md)
