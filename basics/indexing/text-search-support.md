@@ -194,16 +194,30 @@ The text index is an addition to the type of **per-column indexes** users can cr
 
 ## Multi-column text index
 
+{% hint style="info" %}
+Multi-column text index was introduced in Pinot 1.4.0.
+{% endhint %}
+
 Since version 1.4.0, Pinot offers two types of text indexes:
 
-* **per-column / single-column text index** - that stores data separately for each indexed column. It's the type used prior to the 1.4.0 version.
-* **per-segment / multi-column text index** - that stores all indexed column's data together. Doing so  reduces both RAM and disk space sizes and speeds up index creation, allowing efficient indexing of tens or hundreds or columns.&#x20;
+* **Per-column (single-column) text index** -- stores a separate Lucene index and document ID mapping for each indexed column. This is the original text index type available before 1.4.0.
+* **Per-segment (multi-column) text index** -- stores all indexed columns together in a single Lucene index with a single document ID mapping. This consolidates many small files into one index directory, reducing disk space, memory usage (including file handles), and index creation time. It is especially beneficial when the number of text-indexed columns is large (tens or hundreds).
 
-Aside from configuration, the new index type behaves the same as per-column index at query time.
+At query time the multi-column text index behaves identically to the per-column index. You query it with the same `TEXT_MATCH` function and the same search expression syntax. The only difference is how the index is configured in the table config.
 
-When choosing between the two index types, you might consider the following :
+### When to use multi-column text index
 
-<table><thead><tr><th width="164.83203125">Property \ Type</th><th>Per-Column</th><th>Per-segment</th></tr></thead><tbody><tr><td>Querying speed</td><td><mark style="background-color:yellow;">slower - especially when querying multiple columns</mark></td><td><mark style="background-color:green;">faster</mark></td></tr><tr><td>Disk and memory usage</td><td><mark style="background-color:yellow;">higher - each column uses separate set of Lucene files and document id mapping</mark></td><td><mark style="background-color:green;">lower - Lucene file size is smaller; only one document id mapping is used for all columns</mark></td></tr><tr><td>Initial build time </td><td><mark style="background-color:yellow;">higher - because each column uses separate Lucene files</mark></td><td><mark style="background-color:green;">lower - one set of Lucene files  and one document id mapping is generated</mark> </td></tr><tr><td>Rebuild time</td><td><mark style="background-color:green;">lower - rebuild affected columns only, other indexes are copied</mark></td><td><mark style="background-color:yellow;">higher - removes all files and rebuilds from scratch</mark></td></tr></tbody></table>
+The multi-column text index is a good fit when:
+
+* You have many columns (tens or hundreds) that need text indexing. The consolidated Lucene directory dramatically reduces the number of open files per segment.
+* You frequently query multiple text-indexed columns in the same query. Because the multi-column index shares a single document ID mapping, resolving doc IDs across columns is faster.
+* You want to reduce overall disk and memory footprint for text indexes.
+
+### Choosing between per-column and multi-column
+
+<table><thead><tr><th width="164.83203125">Property \ Type</th><th>Per-Column</th><th>Per-segment (multi-column)</th></tr></thead><tbody><tr><td>Querying speed</td><td><mark style="background-color:yellow;">slower - especially when querying multiple columns</mark></td><td><mark style="background-color:green;">faster</mark></td></tr><tr><td>Disk and memory usage</td><td><mark style="background-color:yellow;">higher - each column uses separate set of Lucene files and document id mapping</mark></td><td><mark style="background-color:green;">lower - Lucene file size is smaller; only one document id mapping is used for all columns</mark></td></tr><tr><td>Initial build time </td><td><mark style="background-color:yellow;">higher - because each column uses separate Lucene files</mark></td><td><mark style="background-color:green;">lower - one set of Lucene files and one document id mapping is generated</mark> </td></tr><tr><td>Rebuild time</td><td><mark style="background-color:green;">lower - rebuild affected columns only, other indexes are copied</mark></td><td><mark style="background-color:yellow;">higher - removes all files and rebuilds from scratch</mark></td></tr></tbody></table>
+
+Benchmarks from [PR #16103](https://github.com/apache/pinot/pull/16103) show that with 50 indexed string columns, multi-column text index uses roughly 50% less disk space and builds approximately 30% faster than the equivalent per-column indexes.
 
 
 
@@ -250,35 +264,101 @@ For instructions on that configuration property, see the [Raw value forward inde
 
 ## Enable a per-segment text index
 
-Contrary to per-column text index, per-segment text index can only be configured once in [table index configuration](../../configuration-reference/table.md#table-index-config) by adding `multiColumnTextIndexConfig` element:&#x20;
+Unlike the per-column text index (which is configured per column in `fieldConfigList`), the per-segment multi-column text index is configured once in `tableIndexConfig` by adding a `multiColumnTextIndexConfig` element.
+
+### Full configuration example
 
 ```json
-"tableIndexConfig": {
-   "multiColumnTextIndexConfig": {
-      "columns": ["hobbies", "skills", "titles" ],
+{
+  "tableName": "myTable_OFFLINE",
+  "tableType": "OFFLINE",
+  "tableIndexConfig": {
+    "noDictionaryColumns": ["hobbies", "skills", "titles"],
+    "multiColumnTextIndexConfig": {
+      "columns": ["hobbies", "skills", "titles"],
       "properties": {
-         "caseSensitive": "false"
-       }
-       "perColumnProperties": {
-          "titles": {
-             "caseSensitive": "true"
-          }
-       }
- },
+        "caseSensitive": "false",
+        "luceneUseCompoundFile": "false",
+        "luceneMaxBufferSizeMB": "500"
+      },
+      "perColumnProperties": {
+        "titles": {
+          "caseSensitive": "true"
+        },
+        "skills": {
+          "stopWordExclude": "it, those",
+          "enablePrefixSuffixMatchingInPhraseQueries": "true"
+        }
+      }
+    }
+  }
+}
 ```
 
-The config contains a list of columns to index - `columns`, settings meant for all columns - `properties`, and  settings applied to particular column - `perColumnProperties`.&#x20;
+The configuration has three parts:
 
-As shown in example above, index configuration allows for both:
-
-* setting shared index properties that apply to all columns with "properties".\
-  Allowed keys are : `enableQueryCacheForTextIndex`, `luceneUseCompoundFile`, `luceneMaxBufferSizeMB`, `reuseMutableIndex` and all allowed in `perColumnProperties`.
-* setting column-specific properties (overriding shared ones) with `perColumnProperties`.\
-  Allowed keys: `useANDForMultiTermTextIndexQueries`, `enablePrefixSuffixMatchingInPhraseQueries`, `stopWordInclude`, `stopWordExclude`, `caseSensitive`, `luceneAnalyzerClass`, `luceneAnalyzerClassArgs`, `luceneAnalyzerClassArgTypes`, `luceneQueryParserClass`.
+| Field | Required | Description |
+|---|---|---|
+| `columns` | Yes | List of column names to include in the multi-column text index. |
+| `properties` | No | Shared properties applied to all columns. |
+| `perColumnProperties` | No | Per-column property overrides. Keys are column names; values are property maps. These override any matching key in `properties` for that specific column. |
 
 {% hint style="info" %}
-Shared properties-only settings, e.g. `luceneMaxBufferSizeMB` , set in per column properties have no effect and will be ignored.&#x20;
+As with per-column text indexes, columns in a multi-column text index should also be listed in `noDictionaryColumns` to reduce unnecessary storage overhead.
 {% endhint %}
+
+### Shared properties (`properties`)
+
+Shared properties apply to every column in the index. The following keys are allowed:
+
+| Key | Description |
+|---|---|
+| `enableQueryCacheForTextIndex` | Enable Lucene query result caching. |
+| `luceneUseCompoundFile` | Use Lucene compound file format to reduce open file handles. |
+| `luceneMaxBufferSizeMB` | Maximum RAM buffer size (in MB) for the Lucene index writer. |
+| `reuseMutableIndex` | Reuse the mutable index across real-time segments. |
+
+In addition, all keys listed under per-column properties below are also valid as shared properties (they set the default for every column).
+
+### Per-column properties (`perColumnProperties`)
+
+Per-column properties override any shared property for a specific column. The following keys are allowed:
+
+| Key | Description |
+|---|---|
+| `useANDForMultiTermTextIndexQueries` | Use AND as the default operator for multi-term queries (default is OR). |
+| `enablePrefixSuffixMatchingInPhraseQueries` | Allow wildcard prefix/suffix matching inside phrase queries. |
+| `stopWordInclude` | Comma-separated list of additional stop words to exclude during indexing and search. |
+| `stopWordExclude` | Comma-separated list of default stop words to keep (un-exclude). |
+| `caseSensitive` | Whether text matching is case-sensitive (`"true"` or `"false"`). |
+| `luceneAnalyzerClass` | Fully qualified class name of a custom Lucene analyzer. |
+| `luceneAnalyzerClassArgs` | Arguments for the custom analyzer constructor. |
+| `luceneAnalyzerClassArgTypes` | Argument types for the custom analyzer constructor. |
+| `luceneQueryParserClass` | Fully qualified class name of a custom Lucene query parser. |
+
+{% hint style="info" %}
+Keys that are only valid as shared properties (such as `luceneMaxBufferSizeMB`) have no effect when placed in `perColumnProperties` and will be ignored.
+{% endhint %}
+
+### Query syntax
+
+You query multi-column text index columns using the same `TEXT_MATCH` function as single-column text indexes. Each `TEXT_MATCH` call targets a single column:
+
+```sql
+SELECT COUNT(*)
+FROM myTable
+WHERE TEXT_MATCH(hobbies, 'painting')
+  AND TEXT_MATCH(skills, '"machine learning"')
+```
+
+All search expression types (phrase, term, boolean, prefix, regex) work identically to single-column text indexes.
+
+### Limitations
+
+* The multi-column text index does not support the `noRawDataForTextIndex` and `rawValueForTextIndex` properties. These properties control whether the raw forward index data is stored alongside the text index and are only applicable to per-column text indexes.
+* When the multi-column text index needs to be rebuilt (for example, after a column is added or removed from the index), all columns are rebuilt from scratch. Per-column indexes can rebuild individual columns independently.
+* Only one `multiColumnTextIndexConfig` can exist per table. All columns that should share a multi-column text index must be listed together.
+* A column can appear in either the per-column text index configuration (`fieldConfigList` with `indexTypes: ["TEXT"]`) or in `multiColumnTextIndexConfig`, but not both.
 
 ## Text index creation
 
