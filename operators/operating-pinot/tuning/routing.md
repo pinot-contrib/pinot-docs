@@ -183,3 +183,80 @@ It's important to note that this feature operates on a best-effort basis and rou
 
 Additionally, adopting this feature could lead to potential skew in server resource utilization, particularly in clusters with a smaller number of tables, as the query load may no longer be evenly distributed across servers.
 {% endhint %}
+
+## Preferred pool routing with `orderedPreferredPools`
+
+{% hint style="info" %}
+Available since Apache Pinot 1.4. See [PR #15203](https://github.com/apache/pinot/pull/15203) for implementation details.
+{% endhint %}
+
+The `orderedPreferredPools` query option allows you to specify a prioritized list of server pools (replica groups) that the broker should prefer when routing a query. The broker treats the list as a routing hint: it attempts to route the query to the specified pools in order, and falls back gracefully to other available pools if the preferred ones are unavailable. This ensures that queries always succeed even when preferred pools are down.
+
+This feature works with both the Balanced and Replica Group routing strategies when Adaptive Server Selection is enabled.
+
+### Syntax
+
+The option accepts a vertical-bar (`|`) separated list of pool identifiers (integers). Pool identifiers correspond to the replica group indices assigned during instance assignment.
+
+```sql
+SET "orderedPreferredPools"='0|1';
+SELECT max(colA) FROM myTable
+```
+
+Or using the `OPTION` clause:
+
+```sql
+SELECT max(colA) FROM myTable OPTION(orderedPreferredPools='0|1')
+```
+
+### Routing behavior
+
+The broker evaluates the preferred pools in order and selects the first one that is fully available. If none of the preferred pools can serve the query, the broker falls back to any available pool.
+
+| Query option | Available pools | Pool selected |
+|---|---|---|
+| `0` | 0, 1, 2 | 0 |
+| `0\|1` | 0, 1, 2 | 0 |
+| `0\|1` | 1, 2 | 1 |
+| `0\|1` | 2 | 2 (fallback) |
+
+### Use cases
+
+**Canary deployments.** In environments where server releases are rolled out incrementally across pools, upstream services on canary nodes can inject `orderedPreferredPools` to direct their traffic to a specific canary pool. For example, if pool 0 is the canary pool, setting `orderedPreferredPools=0` constrains canary traffic to pool 0 on a best-effort basis. With _n_ pools online this limits the blast radius of a regression to approximately 1/_n_ of the server fleet.
+
+**Progressive rollouts.** During a rolling deployment that progresses through pools 0, 1, then 2, you can set `orderedPreferredPools=0|1` so that canary traffic prefers pools that have already received the new release, avoiding pool 2 which is still on the old version. This limits the blast radius to approximately 1/(_n_-1) during the rollout.
+
+**Traffic isolation.** More generally, `orderedPreferredPools` can be used by any query gateway or routing layer to steer specific workloads toward a designated subset of servers without hard-failing when those servers are unavailable.
+
+{% hint style="warning" %}
+This option is currently supported for Balanced and Replica Group routing strategies with Adaptive Server Selection enabled (non-MSE mode). Support for additional routing modes may be added in future releases.
+{% endhint %}
+
+## Broker instance-tag enforcement at startup
+
+{% hint style="info" %}
+Available since Apache Pinot 1.4. See [PR #17786](https://github.com/apache/pinot/pull/17786) for implementation details.
+{% endhint %}
+
+In multi-tenant Pinot clusters, brokers are assigned to specific tenants using instance tags (configured via `pinot.broker.instance.tags`). If a broker starts without instance tags in a multi-tenant cluster, it may join the cluster in an untagged state. When a load balancer (for example, a Kubernetes service) routes queries to this untagged broker, those queries can fail because the broker is not associated with any tenant's tables.
+
+To prevent this misconfiguration, Pinot provides an opt-in startup enforcement flag:
+
+```
+pinot.broker.enforce.instance.tags=true
+```
+
+When this flag is set to `true`, the broker checks on first startup whether `pinot.broker.instance.tags` has been configured. If instance tags are missing, the broker fails to start immediately with a clear error, rather than silently joining the cluster in a broken state.
+
+### When to use this
+
+Enable this setting in multi-tenant clusters where brokers must be tagged with a specific tenant before they can serve queries. This is particularly important in Kubernetes deployments where a misconfigured broker pod could pass health checks and receive traffic from a load balancer before an operator notices it is untagged.
+
+In single-tenant clusters where all brokers serve all tables, this setting is not needed and should be left at its default value of `false`.
+
+### Configuration
+
+| Property | Description | Default |
+|---|---|---|
+| `pinot.broker.enforce.instance.tags` | When `true`, the broker will fail to start if `pinot.broker.instance.tags` is not set. Only checked on first join when instance tags are empty. | `false` |
+| `pinot.broker.instance.tags` | Comma-separated list of tenant tags for this broker instance (e.g., `myTenant_BROKER`). | _(empty)_ |
