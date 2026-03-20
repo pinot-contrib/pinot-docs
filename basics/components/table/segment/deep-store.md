@@ -38,5 +38,5 @@ When using this configuration, the server will directly write a completed segmen
 
 For hands-on examples of how to configure the deep store, see the following tutorials:
 
-* [Use OSS as Deep Storage for Pinot](../../../../users/tutorials/use-oss-as-deep-storage-for-pinot.md)
-* [Use S3 as Deep Storage for Pinot](../../../../users/tutorials/use-s3-as-deep-store-for-pinot.md)
+* [Use OSS as Deep Storage for Pinot](../../../../tutorials/deep-storage/use-oss-as-deep-storage-for-pinot.md)
+* [Use S3 as Deep Storage for Pinot](../../../../tutorials/deep-storage/use-s3-as-deep-store-for-pinot.md)

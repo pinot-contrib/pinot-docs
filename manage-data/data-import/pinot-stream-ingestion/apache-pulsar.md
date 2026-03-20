@@ -152,5 +152,5 @@ For example, if you want to add only the offset and key as dimension columns in 
 Once the schema is updated, these columns are similar to any other pinot column. You can apply ingestion transforms and / or define indexes on them.
 
 {% hint style="info" %}
-Remember to follow the [schema evolution guidelines](../../../users/tutorials/schema-evolution.md) when updating schema of an existing table!
+Remember to follow the [schema evolution guidelines](../../../tutorials/data-ingestion/schema-evolution.md) when updating schema of an existing table!
 {% endhint %}

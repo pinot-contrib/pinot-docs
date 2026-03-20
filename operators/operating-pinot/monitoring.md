@@ -263,7 +263,7 @@ scrape_configs:
       - targets: ['server-host:9002']
 ```
 
-For Kubernetes deployments with Helm, Prometheus scraping can be enabled directly in the Helm chart values. See the [Prometheus and Grafana tutorial](https://docs.pinot.apache.org/users/tutorials/monitor-pinot-using-prometheus-and-grafana) for a complete walkthrough.
+For Kubernetes deployments with Helm, Prometheus scraping can be enabled directly in the Helm chart values. See the [Prometheus and Grafana tutorial](https://docs.pinot.apache.org/tutorials/operations/monitor-pinot-using-prometheus-and-grafana) for a complete walkthrough.
 
 ### Kubernetes / Helm Setup
 
@@ -329,4 +329,4 @@ For low-overhead, always-on JVM profiling (CPU, memory, threads, locks), you can
 ## Further Reading
 
 - [Full Metrics Reference](../../configuration-reference/monitoring-metrics.md) -- Complete list of all Pinot metrics
-- [Prometheus and Grafana Tutorial](https://docs.pinot.apache.org/users/tutorials/monitor-pinot-using-prometheus-and-grafana) -- Step-by-step setup for Kubernetes
+- [Prometheus and Grafana Tutorial](https://docs.pinot.apache.org/tutorials/operations/monitor-pinot-using-prometheus-and-grafana) -- Step-by-step setup for Kubernetes

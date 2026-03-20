@@ -380,6 +380,6 @@ To ensure accurate values are reloaded, do the following:
 1. Pause consumption (and wait for pause status success):\
    $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
 2. Apply new table or schema configurations.
-3. [Reload segments](../../operators/tutorials/segment-reload.md) using the [Pinot Controller API](../../operators/tutorials/segment-reload.md#use-the-pinot-controller-api-to-reload-segments) or [Pinot Admin Console](../../operators/tutorials/segment-reload.md#use-the-pinot-admin-console-to-reload-segments).
+3. [Reload segments](../../tutorials/operations/segment-reload.md) using the [Pinot Controller API](../../tutorials/operations/segment-reload.md#use-the-pinot-controller-api-to-reload-segments) or [Pinot Admin Console](../../tutorials/operations/segment-reload.md#use-the-pinot-admin-console-to-reload-segments).
 4. Resume consumption:\
    $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption

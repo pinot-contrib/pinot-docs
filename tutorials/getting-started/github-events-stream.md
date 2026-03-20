@@ -599,7 +599,7 @@ $ bin/pinot-admin.sh GitHubEventsQuickStart \
 
 ### Kubernetes cluster
 
-If you already have a Kubernetes cluster with Pinot and Kafka (see [Running Pinot in Kubernetes](../getting-started/kubernetes/README.md)), first create the topic, then set up the table and streaming using
+If you already have a Kubernetes cluster with Pinot and Kafka (see [Running Pinot in Kubernetes](../../basics/getting-started/kubernetes/README.md)), first create the topic, then set up the table and streaming using
 
 ```bash
 $ cd kubernetes/helm

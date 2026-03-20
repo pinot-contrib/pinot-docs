@@ -1,6 +1,6 @@
 # Kubernetes Deployment
 
-Pinot community has provided Helm based [Kubernetes deployment template](../../basics/getting-started/kubernetes/README.md).
+Pinot community has provided Helm based [Kubernetes deployment template](../../../../basics/getting-started/kubernetes/README.md).
 
 You can deploy it as simple as run a `helm install` command.
 
@@ -76,7 +76,7 @@ Pinot uses remote storage as deep storage to backup segments.
 
 Default deployment creates a mount disk(e.g Amazon EBS) as deep storage in controller.
 
-You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link](../../manage-data/data-import/pinot-file-system/#enabling-a-file-system).
+You can configure your own S3/Azure DataLate/Google Cloud Storage following this [link](../../../../manage-data/data-import/pinot-file-system/#enabling-a-file-system).
 
 ## Security
 
@@ -162,7 +162,7 @@ Do not hardcode passwords or tokens in `values.yaml` or ConfigMaps.
 
 See:
 
-* [Dynamic Environment](../../configuration-reference/dynamic-environment.md)
+* [Dynamic Environment](../../../../configuration-reference/dynamic-environment.md)
 
 {% hint style="warning" %}
 When you enable controller/broker auth, internal Pinot components also need service tokens (segment fetchers, uploaders, minions). Plan a rolling restart and validate internode calls.

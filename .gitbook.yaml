@@ -64,3 +64,31 @@ redirects:
     basics/getting-started/pushing-your-data-to-pinot: basics/getting-started/docker/batch-ingestion.md
     basics/getting-started/pushing-your-streaming-data-to-pinot: basics/getting-started/docker/stream-ingestion.md
     basics/getting-started/hdfs-as-deepstorage: manage-data/data-import/pinot-file-system/hdfs-as-deepstorage.md
+    basics/recipes: tutorials/getting-started/
+    basics/recipes/streamlit: tutorials/getting-started/streamlit.md
+    basics/recipes/dash: tutorials/getting-started/dash.md
+    basics/recipes/redash: tutorials/getting-started/redash.md
+    basics/recipes/github-events-stream: tutorials/getting-started/github-events-stream.md
+    users/tutorials: tutorials/
+    users/tutorials/batch-data-ingestion-in-practice: tutorials/data-ingestion/batch-data-ingestion-in-practice.md
+    users/tutorials/create-pinot-segments: tutorials/data-ingestion/create-pinot-segments.md
+    users/tutorials/ingest-parquet-files-from-s3-using-spark: tutorials/data-ingestion/ingest-parquet-files-from-s3-using-spark.md
+    users/tutorials/schema-evolution: tutorials/data-ingestion/schema-evolution.md
+    users/tutorials/use-oss-as-deep-storage-for-pinot: tutorials/deep-storage/use-oss-as-deep-storage-for-pinot.md
+    users/tutorials/use-s3-as-deep-store-for-pinot: tutorials/deep-storage/use-s3-as-deep-store-for-pinot.md
+    users/tutorials/use-s3-and-pinot-in-docker: tutorials/deep-storage/use-s3-and-pinot-in-docker.md
+    operators/tutorials: tutorials/operations/
+    operators/tutorials/authentication: tutorials/operations/authentication/
+    operators/tutorials/authentication/basic-auth-access-control: tutorials/operations/authentication/basic-auth-access-control.md
+    operators/tutorials/authentication/zkbasicauthaccesscontrol: tutorials/operations/authentication/zkbasicauthaccesscontrol.md
+    operators/tutorials/configuring-tls-ssl: tutorials/operations/configuring-tls-ssl.md
+    operators/tutorials/monitor-pinot-using-prometheus-and-grafana: tutorials/operations/monitor-pinot-using-prometheus-and-grafana.md
+    operators/tutorials/performance-optimization-configurations: tutorials/operations/performance-optimization-configurations.md
+    operators/tutorials/segment-operations-throttling: tutorials/operations/segment-operations-throttling.md
+    operators/tutorials/segment-reload: tutorials/operations/segment-reload.md
+    operators/tutorials/build-docker-images: tutorials/operations/build-docker-images.md
+    operators/tutorials/running-pinot-in-production: tutorials/operations/running-pinot-in-production.md
+    operators/tutorials/deployment-pinot-on-kubernetes: tutorials/operations/kubernetes/deployment-pinot-on-kubernetes.md
+    operators/tutorials/helm-chart-reference: tutorials/operations/kubernetes/helm-chart-reference.md
+    operators/tutorials/non-eks-to-eks: tutorials/operations/kubernetes/non-eks-to-eks.md
+    operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk: tutorials/operations/kubernetes/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md
