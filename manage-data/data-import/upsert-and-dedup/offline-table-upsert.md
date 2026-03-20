@@ -8,6 +8,8 @@ Pinot supports upsert on `OFFLINE` tables in builds that include [PR #17789](htt
 
 Use it for batch corrections, replays, and late-arriving records.
 
+For a full overview of upsert features (comparison columns, delete columns, TTL, metadata management), see the main [Upsert](upsert.md) page. This page covers the OFFLINE-specific configuration and differences.
+
 ## How offline upsert works
 
 Pinot keeps one row per primary key.
