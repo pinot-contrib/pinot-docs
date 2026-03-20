@@ -11,7 +11,7 @@ Enable the [Hadoop distributed file system (HDFS)](https://hadoop.apache.org/) u
 ```
 
 {% hint style="info" %}
-By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
+By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-3.0...`
 {% endhint %}
 
 HDFS implementation provides the following options:
