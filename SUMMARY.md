@@ -89,6 +89,7 @@
 
 * [Query](users/user-guide-query/README.md)
   * [Querying Pinot](users/user-guide-query/querying-pinot.md)
+  * [SQL Syntax and Operators Reference](users/user-guide-query/sql-reference.md)
   * [Query Syntax](users/user-guide-query/query-syntax/README.md)
     * [Explain Plan (Single-Stage)](users/user-guide-query/explain-plan.md)
     * [Explain Plan (Multi-Stage)](users/user-guide-query/query-syntax/explain-plan-multi-stage.md)
@@ -509,11 +510,13 @@
 
 ## Integrations
 
+* [Overview](integrations/README.md)
 * [Tableau](integrations/tableau.md)
 * [Trino](integrations/trino.md)
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)
 * [Presto](integrations/presto.md)
+* [Flink Connector](integrations/flink-connector.md)
 * [Spark-Pinot Connector](integrations/spark-pinot-connector/README.md)
   * [Spark Pinot Connector Read Model](integrations/spark-pinot-connector/spark-pinot-connector-read-model.md)
   * [Spark Pinot Connector Write Model](integrations/spark-pinot-connector/spark-pinot-connector-write-model.md)
