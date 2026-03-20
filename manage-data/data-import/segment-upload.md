@@ -13,7 +13,7 @@ Choose one of the following:
 
 Before you upload, do the following:
 
-1. [Create a schema configuration](../../basics/getting-started/pushing-your-data-to-pinot#creating-a-schema) or confirm one exists that matches the segment you want to upload.
+1. [Create a schema configuration](../../basics/getting-started/docker/batch-ingestion.md#create-a-schema) or confirm one exists that matches the segment you want to upload.
 
 1. [Create a table configuration](../../configuration-reference/table.md) or confirm one exists that matches the segment you want to upload.
 

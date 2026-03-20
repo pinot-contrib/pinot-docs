@@ -58,4 +58,9 @@ redirects:
     users/user-guide-query/query-syntax/lookup-udf-join: users/user-guide-query/lookup-udf-join.md
     users/user-guide-query/query-syntax/row-expression-comparison: users/user-guide-query/row-expression-comparison.md
     users/user-guide-query/scalar-functions: functions/udf/
-    
+    basics/getting-started/running-pinot-locally: basics/getting-started/local/
+    basics/getting-started/running-pinot-in-docker: basics/getting-started/docker/
+    basics/getting-started/kubernetes-quickstart: basics/getting-started/kubernetes/
+    basics/getting-started/pushing-your-data-to-pinot: basics/getting-started/docker/batch-ingestion.md
+    basics/getting-started/pushing-your-streaming-data-to-pinot: basics/getting-started/docker/stream-ingestion.md
+    basics/getting-started/hdfs-as-deepstorage: manage-data/data-import/pinot-file-system/hdfs-as-deepstorage.md

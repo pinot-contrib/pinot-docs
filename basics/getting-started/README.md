@@ -1,51 +1,69 @@
 ---
 description: >-
-  This section contains quick start guides to help you get up and running with
-  Pinot.
+  Get up and running with Apache Pinot. Choose your deployment method and follow
+  the guides for installation, batch ingestion, and stream ingestion.
 ---
 
 # Getting Started
 
-## Running Pinot
+## Quick start
 
-To simplify the getting started experience, Apache Pinot™ ships with quick start guides that launch Pinot components in a single process and import pre-built datasets.
+To try Pinot quickly, use one of the built-in quick start commands that launch all components in a single process with pre-built datasets. See [Quick Start Examples](quick-start.md) for the full list.
 
-For a full list of these guides, see [Quick Start Examples](quick-start.md).
+## Choose your deployment
 
-{% content-ref url="running-pinot-locally.md" %}
-[running-pinot-locally.md](running-pinot-locally.md)
+Each deployment option below includes installation, batch ingestion, and stream ingestion guides tailored to that environment.
+
+### Local (binary or source)
+
+Install and run Pinot directly on your machine.
+
+{% content-ref url="local/" %}
+[local](local/)
 {% endcontent-ref %}
 
-{% content-ref url="running-pinot-in-docker.md" %}
-[running-pinot-in-docker.md](running-pinot-in-docker.md)
+### Docker
+
+Run Pinot using Docker containers.
+
+{% content-ref url="docker/" %}
+[docker](docker/)
 {% endcontent-ref %}
 
-{% content-ref url="kubernetes-quickstart.md" %}
-[kubernetes-quickstart.md](kubernetes-quickstart.md)
+### Kubernetes
+
+Deploy Pinot on a Kubernetes cluster using Helm.
+
+{% content-ref url="kubernetes/" %}
+[kubernetes](kubernetes/)
 {% endcontent-ref %}
 
-### Deploy to a public cloud
+### Public clouds
 
-{% content-ref url="public-cloud-examples/azure-quickstart.md" %}
-[azure-quickstart.md](public-cloud-examples/azure-quickstart.md)
+Deploy Pinot on managed Kubernetes services.
+
+{% content-ref url="public-cloud-examples/aws-quickstart.md" %}
+[aws-quickstart.md](public-cloud-examples/aws-quickstart.md)
 {% endcontent-ref %}
 
 {% content-ref url="public-cloud-examples/gcp-quickstart.md" %}
 [gcp-quickstart.md](public-cloud-examples/gcp-quickstart.md)
 {% endcontent-ref %}
 
-{% content-ref url="public-cloud-examples/aws-quickstart.md" %}
-[aws-quickstart.md](public-cloud-examples/aws-quickstart.md)
+{% content-ref url="public-cloud-examples/azure-quickstart.md" %}
+[azure-quickstart.md](public-cloud-examples/azure-quickstart.md)
 {% endcontent-ref %}
 
-## Data import examples
+## More resources
 
-Getting data into Pinot is easy. Take a look at these two quick start guides which will help you get up and running with sample data for offline and real-time [tables](../components/table/).
-
-{% content-ref url="pushing-your-data-to-pinot.md" %}
-[pushing-your-data-to-pinot.md](pushing-your-data-to-pinot.md)
+{% content-ref url="create-and-update-table-config.md" %}
+[create-and-update-table-config.md](create-and-update-table-config.md)
 {% endcontent-ref %}
 
-{% content-ref url="pushing-your-streaming-data-to-pinot.md" %}
-[pushing-your-streaming-data-to-pinot.md](pushing-your-streaming-data-to-pinot.md)
+{% content-ref url="troubleshooting-pinot.md" %}
+[troubleshooting-pinot.md](troubleshooting-pinot.md)
+{% endcontent-ref %}
+
+{% content-ref url="frequent-questions/" %}
+[frequent-questions](frequent-questions/)
 {% endcontent-ref %}
