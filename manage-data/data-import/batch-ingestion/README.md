@@ -6,6 +6,62 @@ description: Batch ingestion of data into Apache Pinot.
 
 With batch ingestion you create a table using data already present in a file system such as S3. This is particularly useful when you want to use Pinot to query across large data with minimal latency or to test out new features using a simple data file.
 
+## Choosing a Batch Ingestion Mode
+
+Pinot provides several batch ingestion modes. Use the table below to pick the one that fits your environment and data scale.
+
+### Decision Guide
+
+| Mode | Best For | Infrastructure | Data Scale | Status |
+|------|----------|---------------|------------|--------|
+| Standalone | Dev/test, small jobs, scripted pipelines | None (single JVM) | Up to a few GB | Recommended for dev |
+| Spark 3 | Production batch ingestion | Spark 3.x cluster | GB to TB+ | Recommended for production |
+| Spark 2.4 | Legacy Spark 2.4 environments | Spark 2.4 cluster | GB to TB+ | Maintenance mode |
+| Hadoop | Existing MapReduce pipelines | Hadoop cluster | GB to TB+ | Legacy |
+| Flink | Streaming-first orgs, backfill, upsert bootstrap | Flink cluster | GB to TB+ | Active |
+| LaunchDataIngestionJob | CLI wrapper for Standalone | None | Up to a few GB | Convenience tool |
+
+### When to Use Each Mode
+
+**Standalone** is the simplest option and requires no distributed computing framework. It runs segment generation in a single JVM process, making it ideal for development, testing, and small production jobs where data volumes are modest (up to a few GB). It is also well suited for scripted CI/CD pipelines.
+
+**Spark 3** is the recommended choice for production batch ingestion at scale. It distributes segment generation across a Spark 3.x cluster, enabling you to process datasets ranging from gigabytes to terabytes and beyond. If you are setting up a new Spark-based pipeline, use this mode.
+
+**Spark 2.4** provides the same distributed capabilities but targets legacy Spark 2.4 environments. It is in maintenance mode; new projects should prefer Spark 3.
+
+**Hadoop** uses MapReduce to generate segments on a Hadoop cluster. It is considered legacy and is primarily useful if you have existing MapReduce infrastructure and pipelines that you cannot migrate away from.
+
+**Flink** is a good fit for organizations that already run Apache Flink. It supports both batch and streaming modes and is especially useful for backfilling offline tables or bootstrapping upsert tables, since the Flink connector can write partitioned segments that participate correctly in upsert semantics.
+
+**LaunchDataIngestionJob** is a CLI convenience wrapper that invokes the Standalone runner under the hood. Use it when you want to trigger ingestion from a shell command or cron job without writing custom code.
+
+### Maven Artifact Coordinates
+
+All artifacts use the group ID `org.apache.pinot`. Replace `${pinot.version}` with your Pinot release version.
+
+| Mode | Artifact ID | Notes |
+|------|------------|-------|
+| Standalone | `pinot-batch-ingestion-standalone` | Included in the Pinot binary distribution |
+| Spark 3 | `pinot-batch-ingestion-spark-3` | Located in `plugins-external/pinot-batch-ingestion/` |
+| Spark 2.4 | `pinot-batch-ingestion-spark-2.4` | Located in `plugins-external/pinot-batch-ingestion/` |
+| Hadoop | `pinot-batch-ingestion-hadoop` | Located in `plugins-external/pinot-batch-ingestion/` |
+| Flink | `pinot-flink-connector` | Located in `pinot-connectors/` |
+| Common | `pinot-batch-ingestion-common` | Shared library used by all modes |
+
+Example Maven dependency for Spark 3:
+
+```xml
+<dependency>
+  <groupId>org.apache.pinot</groupId>
+  <artifactId>pinot-batch-ingestion-spark-3</artifactId>
+  <version>${pinot.version}</version>
+</dependency>
+```
+
+---
+
+## Getting Started
+
 To ingest data from a filesystem, perform the following steps, which are described in more detail in this page:
 
 1. Create schema configuration
