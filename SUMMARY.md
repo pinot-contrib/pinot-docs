@@ -72,6 +72,7 @@
   * [Ingest from Apache Pulsar](manage-data/data-import/pinot-stream-ingestion/apache-pulsar.md)
   * [Configure Indexes](manage-data/data-import/pinot-stream-ingestion/configure-indexes.md)
   * [Stream Ingestion with CLP](manage-data/data-import/pinot-stream-ingestion/clp.md)
+  * [Confluent Schema Registry Decoders](manage-data/data-import/pinot-stream-ingestion/confluent-schema-registry-decoders.md)
 * [Upsert and Dedup](manage-data/data-import/upsert-and-dedup/README.md)
   * [Offline Table Upsert](manage-data/data-import/upsert-and-dedup/offline-table-upsert.md)
   * [Stream Ingestion with Upsert](manage-data/data-import/upsert-and-dedup/upsert.md)
@@ -247,6 +248,8 @@
 * [Plugin Reference](configuration-reference/plugin-reference/README.md)
   * [Stream Ingestion Connectors](configuration-reference/plugin-reference/stream-ingestion-connectors.md)
   * [Stream Connector Version Matrix](configuration-reference/plugin-reference/stream-connector-matrix.md)
+  * [Metrics Plugins](configuration-reference/plugin-reference/metrics-plugins.md)
+  * [Environment Provider](configuration-reference/plugin-reference/environment-provider.md)
 
 ## Functions
 
@@ -498,6 +501,7 @@
     * [Segment Uploader Plugin](developers/plugin-architecture/write-custom-plugins/segment-uploader-plugin.md)
     * [Segment Writer Plugin](developers/plugin-architecture/write-custom-plugins/segment-writer-plugin.md)
     * [Metrics Plugin](developers/plugin-architecture/write-custom-plugins/metrics-plugin.md)
+    * [Minion Task Plugin](developers/plugin-architecture/write-custom-plugins/minion-task-plugin.md)
 * [Design Documents](developers/design-documents/README.md)
   * [Segment Writer API](developers/design-documents/segment-writer-api.md)
 
