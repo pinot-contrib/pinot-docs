@@ -109,17 +109,17 @@ For the table's schema, users should configure the CLP-encoded fields as follows
       "singleValueField": false
     },
     {
-      "name": "message_logtype",
+      "name": "logpath_logtype",
       "dataType": "STRING",
       "maxLength": 2147483647
     },
     {
-      "name": "message_encodedVars",
+      "name": "logpath_encodedVars",
       "dataType": "LONG",
       "singleValueField": false
     },
     {
-      "name": "message_dictionaryVars",
+      "name": "logpath_dictionaryVars",
       "dataType": "STRING",
       "maxLength": 2147483647,
       "singleValueField": false
