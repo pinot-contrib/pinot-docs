@@ -26,6 +26,28 @@ You can then proceed to the more advanced Pinot setup in production environment.
 [running-pinot-in-production.md](../tutorials/running-pinot-in-production.md)
 {% endcontent-ref %}
 
+After your cluster is running, the most common next steps are monitoring, tuning, and lifecycle tasks:
+
+{% content-ref url="monitoring.md" %}
+[monitoring.md](monitoring.md)
+{% endcontent-ref %}
+
+{% content-ref url="tuning/" %}
+[README.md](tuning/)
+{% endcontent-ref %}
+
+{% content-ref url="upsert-compaction-task.md" %}
+[upsert-compaction-task.md](upsert-compaction-task.md)
+{% endcontent-ref %}
+
+{% content-ref url="upsert-compact-merge-task.md" %}
+[upsert-compact-merge-task.md](upsert-compact-merge-task.md)
+{% endcontent-ref %}
+
+{% content-ref url="purge-task.md" %}
+[purge-task.md](purge-task.md)
+{% endcontent-ref %}
+
 ### Related blog posts
 
 Here are some related blog posts from the Apache Pinot community. You can find all of our blog posts on our [developer blog on Medium](https://medium.com/apache-pinot-developer-blog).

@@ -2,7 +2,7 @@
 
 * [Introduction](README.md)
 
-## Basics
+## Overview
 
 * [Concepts](basics/concepts/README.md)
   * [Pinot storage model](basics/concepts/pinot-storage-model.md)
@@ -23,6 +23,28 @@
       * [Time boundary](basics/concepts/time-boundary.md)
       * [Logical Table](basics/components/table/logical-table.md)
     * [Pinot Data Explorer](basics/components/exploring-pinot.md)
+* [Indexing](basics/indexing/README.md)
+  * [Bloom filter](basics/indexing/bloom-filter.md)
+  * [Dictionary index](basics/indexing/dictionary-index.md)
+  * [Forward index](basics/indexing/forward-index.md)
+  * [FST index](basics/indexing/fst-index.md)
+  * [Geospatial](basics/indexing/geospatial-support.md)
+  * [Inverted index](basics/indexing/inverted-index.md)
+  * [JSON index](basics/indexing/json-index.md)
+  * [Native text index](basics/indexing/native-text-index.md)
+  * [Range index](basics/indexing/range-index.md)
+  * [Star-tree index](basics/indexing/star-tree-index.md)
+  * [Text search support](basics/indexing/text-search-support.md)
+  * [Timestamp index](basics/indexing/timestamp-index.md)
+  * [Vector index](basics/indexing/vector-index.md)
+* [Recipes](basics/recipes/README.md)
+  * [Connect to Streamlit](basics/recipes/streamlit.md)
+  * [Connect to Dash](basics/recipes/dash.md)
+  * [Visualize data with Redash](basics/recipes/redash.md)
+  * [GitHub Events Stream](basics/recipes/github-events-stream.md)
+
+## Get Started
+
 * [Getting Started](basics/getting-started/README.md)
   * [Running Pinot locally](basics/getting-started/running-pinot-locally.md)
   * [Running Pinot in Docker](basics/getting-started/running-pinot-in-docker.md)
@@ -43,49 +65,40 @@
     * [Ingestion FAQ](basics/getting-started/frequent-questions/ingestion-faq.md)
     * [Query FAQ](basics/getting-started/frequent-questions/query-faq.md)
     * [Operations FAQ](basics/getting-started/frequent-questions/operations-faq.md)
-* [Indexing](basics/indexing/README.md)
-  * [Bloom filter](basics/indexing/bloom-filter.md)
-  * [Dictionary index](basics/indexing/dictionary-index.md)
-  * [Forward index](basics/indexing/forward-index.md)
-  * [FST index](basics/indexing/fst-index.md)
-  * [Geospatial](basics/indexing/geospatial-support.md)
-  * [Inverted index](basics/indexing/inverted-index.md)
-  * [JSON index](basics/indexing/json-index.md)
-  * [Native text index](basics/indexing/native-text-index.md)
-  * [Range index](basics/indexing/range-index.md)
-  * [Star-tree index](basics/indexing/star-tree-index.md)
-  * [Text search support](basics/indexing/text-search-support.md)
-  * [Timestamp index](basics/indexing/timestamp-index.md)
-  * [Vector index](basics/indexing/vector-index.md)
-* [Release notes](basics/releases/README.md)
-  * [1.4.0](basics/releases/1.4.0.md)
-  * [1.3.0](basics/releases/1.3.0.md)
-  * [1.2.0](basics/releases/1.2.0.md)
-  * [1.1.0](basics/releases/1.1.0.md)
-  * [1.0.0](basics/releases/1.0.0.md)
-  * [0.12.1](basics/releases/0.12.1.md)
-  * [0.12.0](basics/releases/0.12.0.md)
-  * [0.11.0](basics/releases/0.11.0.md)
-  * [0.10.0](basics/releases/0.10.0.md)
-  * [0.9.3](basics/releases/0.9.3.md)
-  * [0.9.2](basics/releases/0.9.2.md)
-  * [0.9.1](basics/releases/0.9.1.md)
-  * [0.9.0](basics/releases/0.9.0.md)
-  * [0.8.0](basics/releases/0.8.0.md)
-  * [0.7.1](basics/releases/0.7.1.md)
-  * [0.6.0](basics/releases/0.6.0.md)
-  * [0.5.0](basics/releases/0.5.0.md)
-  * [0.4.0](basics/releases/0.4.0.md)
-  * [0.3.0](basics/releases/0.3.0.md)
-  * [0.2.0](basics/releases/0.2.0.md)
-  * [0.1.0](basics/releases/0.1.0.md)
-* [Recipes](basics/recipes/README.md)
-  * [Connect to Streamlit](basics/recipes/streamlit.md)
-  * [Connect to Dash](basics/recipes/dash.md)
-  * [Visualize data with Redash](basics/recipes/redash.md)
-  * [GitHub Events Stream](basics/recipes/github-events-stream.md)
 
-## For Users <a href="#users" id="users"></a>
+## Ingest and Model Data
+
+* [Import Data](manage-data/data-import/README.md)
+  * [SQL Insert Into From Files](manage-data/data-import/from-query-console.md)
+  * [Upload Pinot segment Using CommandLine](manage-data/data-import/segment-upload.md)
+  * [Batch Ingestion](manage-data/data-import/batch-ingestion/README.md)
+    * [Spark](manage-data/data-import/batch-ingestion/spark.md)
+    * [Flink](manage-data/data-import/batch-ingestion/flink.md)
+    * [Hadoop](manage-data/data-import/batch-ingestion/hadoop.md)
+    * [Backfill Data](manage-data/data-import/batch-ingestion/backfill-data.md)
+    * [Dimension table](manage-data/data-import/batch-ingestion/dim-table.md)
+  * [Stream Ingestion](manage-data/data-import/pinot-stream-ingestion/README.md)
+    * [Ingest streaming data from Apache Kafka](manage-data/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
+    * [Ingest streaming data from Amazon Kinesis](manage-data/data-import/pinot-stream-ingestion/amazon-kinesis.md)
+    * [Ingest streaming data from Apache Pulsar](manage-data/data-import/pinot-stream-ingestion/apache-pulsar.md)
+    * [Configure indexes](manage-data/data-import/pinot-stream-ingestion/configure-indexes.md)
+    * [Stream ingestion with CLP](manage-data/data-import/pinot-stream-ingestion/clp.md)
+  * [Upsert and Dedup](manage-data/data-import/upsert-and-dedup/README.md)
+    * [Offline Table Upsert](manage-data/data-import/upsert-and-dedup/offline-table-upsert.md)
+    * [Stream ingestion with Upsert](manage-data/data-import/upsert-and-dedup/upsert.md)
+    * [Segment compaction on upserts](manage-data/data-import/upsert-and-dedup/segment-compaction-on-upserts.md)
+    * [Stream ingestion with Dedup](manage-data/data-import/upsert-and-dedup/dedup.md)
+  * [Supported Data Formats](manage-data/data-import/pinot-input-formats.md)
+  * [File Systems](manage-data/data-import/pinot-file-system/README.md)
+    * [Amazon S3](manage-data/data-import/pinot-file-system/amazon-s3.md)
+    * [Azure Data Lake Storage](manage-data/data-import/pinot-file-system/import-from-adls-azure.md)
+    * [HDFS](manage-data/data-import/pinot-file-system/import-from-hdfs.md)
+    * [Google Cloud Storage](manage-data/data-import/pinot-file-system/import-from-gcp.md)
+  * [Complex Type (Array, Map) Handling](manage-data/data-import/complex-type/README.md)
+    * [Complex Type Examples (Unnest)](manage-data/data-import/complex-type/complex-type-examples.md)
+  * [Ingest records with dynamic schemas](manage-data/data-import/schema-conforming-transformer.md)
+
+## Query and Build Applications <a href="#users" id="users"></a>
 
 * [Query](users/user-guide-query/README.md)
   * [Querying Pinot](users/user-guide-query/querying-pinot.md)
@@ -112,6 +125,7 @@
       * [Colocated join strategy](users/user-guide-query/multi-stage-query/join-strategies/colocated-join-strategy.md)
       * [Lookup join strategy](users/user-guide-query/multi-stage-query/join-strategies/lookup-join-strategy.md)
     * [Hints](users/user-guide-query/multi-stage-query/hints.md)
+    * [Default Disabled Rules](users/user-guide-query/default-disabled-rules.md)
     * [Operator Types](users/user-guide-query/multi-stage-query/operator-types/README.md)
       * [Aggregate](users/user-guide-query/multi-stage-query/operator-types/aggregate.md)
       * [Filter](users/user-guide-query/multi-stage-query/operator-types/filter.md)
@@ -153,7 +167,7 @@
   * [Batch Data Ingestion In Practice](users/tutorials/batch-data-ingestion-in-practice.md)
   * [Schema Evolution](users/tutorials/schema-evolution.md)
 
-## For Developers <a href="#developers" id="developers"></a>
+## Develop and Extend Pinot <a href="#developers" id="developers"></a>
 
 * [Basics](developers/developers-and-contributors/README.md)
   * [Extending Pinot](developers/developers-and-contributors/extending-pinot/README.md)
@@ -181,7 +195,7 @@
 * [Design Documents](developers/design-documents/README.md)
   * [Segment Writer API](developers/design-documents/segment-writer-api.md)
 
-## For Operators <a href="#operators" id="operators"></a>
+## Operate Pinot <a href="#operators" id="operators"></a>
 
 * [Deployment and Monitoring](operators/operating-pinot/README.md)
   * [Set up cluster](operators/operating-pinot/setup-cluster.md)
@@ -201,7 +215,9 @@
     * [Using multiple directories](operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories.md)
   * [Pinot managed Offline flows](operators/operating-pinot/pinot-managed-offline-flows.md)
   * [Minion merge rollup task](operators/operating-pinot/minion-merge-rollup-task.md)
+  * [Upsert Compaction Task](operators/operating-pinot/upsert-compaction-task.md)
   * [Upsert Compact Merge Task](operators/operating-pinot/upsert-compact-merge-task.md)
+  * [Purge Task](operators/operating-pinot/purge-task.md)
   * [Consistent Push and Rollback](operators/operating-pinot/consistent-push-and-rollback.md)
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Monitoring](operators/operating-pinot/monitoring.md)
@@ -256,39 +272,7 @@
   * [STDDEV\_SAMP](configuration-reference/plugin-reference/stddev_samp.md)
 * [Dynamic Environment](configuration-reference/dynamic-environment.md)
 
-## Manage Data
-
-* [Import Data](manage-data/data-import/README.md)
-  * [SQL Insert Into From Files](manage-data/data-import/from-query-console.md)
-  * [Upload Pinot segment Using CommandLine](manage-data/data-import/segment-upload.md)
-  * [Batch Ingestion](manage-data/data-import/batch-ingestion/README.md)
-    * [Spark](manage-data/data-import/batch-ingestion/spark.md)
-    * [Flink](manage-data/data-import/batch-ingestion/flink.md)
-    * [Hadoop](manage-data/data-import/batch-ingestion/hadoop.md)
-    * [Backfill Data](manage-data/data-import/batch-ingestion/backfill-data.md)
-    * [Dimension table](manage-data/data-import/batch-ingestion/dim-table.md)
-  * [Stream Ingestion](manage-data/data-import/pinot-stream-ingestion/README.md)
-    * [Ingest streaming data from Apache Kafka](manage-data/data-import/pinot-stream-ingestion/import-from-apache-kafka.md)
-    * [Ingest streaming data from Amazon Kinesis](manage-data/data-import/pinot-stream-ingestion/amazon-kinesis.md)
-    * [Ingest streaming data from Apache Pulsar](manage-data/data-import/pinot-stream-ingestion/apache-pulsar.md)
-    * [Configure indexes](manage-data/data-import/pinot-stream-ingestion/configure-indexes.md)
-    * [Stream ingestion with CLP](manage-data/data-import/pinot-stream-ingestion/clp.md)
-  * [Upsert and Dedup](manage-data/data-import/upsert-and-dedup/README.md)
-    * [Offline Table Upsert](manage-data/data-import/upsert-and-dedup/offline-table-upsert.md)
-    * [Stream ingestion with Upsert](manage-data/data-import/upsert-and-dedup/upsert.md)
-    * [Segment compaction on upserts](manage-data/data-import/upsert-and-dedup/segment-compaction-on-upserts.md)
-    * [Stream ingestion with Dedup](manage-data/data-import/upsert-and-dedup/dedup.md)
-  * [Supported Data Formats](manage-data/data-import/pinot-input-formats.md)
-  * [File Systems](manage-data/data-import/pinot-file-system/README.md)
-    * [Amazon S3](manage-data/data-import/pinot-file-system/amazon-s3.md)
-    * [Azure Data Lake Storage](manage-data/data-import/pinot-file-system/import-from-adls-azure.md)
-    * [HDFS](manage-data/data-import/pinot-file-system/import-from-hdfs.md)
-    * [Google Cloud Storage](manage-data/data-import/pinot-file-system/import-from-gcp.md)
-  * [Complex Type (Array, Map) Handling](manage-data/data-import/complex-type/README.md)
-    * [Complex Type Examples (Unnest)](manage-data/data-import/complex-type/complex-type-examples.md)
-  * [Ingest records with dynamic schemas](manage-data/data-import/schema-conforming-transformer.md)
-
-## Functions
+## SQL Function Reference
 
 * [Aggregation Functions](users/user-guide-query/supported-aggregations.md)
 * [Transformation Functions](users/user-guide-query/supported-transformations.md)
@@ -499,7 +483,32 @@
   * [Troubleshoot issues with ZooKeeper znodes](reference/troubleshooting/troubleshoot-zookeeper.md)
   * [Realtime Ingestion Stopped](reference/troubleshooting/realtime-ingestion-stopped.md)
 
-## RESOURCES <a href="#community-1" id="community-1"></a>
+## Release Notes
+
+* [Release notes](basics/releases/README.md)
+  * [1.4.0](basics/releases/1.4.0.md)
+  * [1.3.0](basics/releases/1.3.0.md)
+  * [1.2.0](basics/releases/1.2.0.md)
+  * [1.1.0](basics/releases/1.1.0.md)
+  * [1.0.0](basics/releases/1.0.0.md)
+  * [0.12.1](basics/releases/0.12.1.md)
+  * [0.12.0](basics/releases/0.12.0.md)
+  * [0.11.0](basics/releases/0.11.0.md)
+  * [0.10.0](basics/releases/0.10.0.md)
+  * [0.9.3](basics/releases/0.9.3.md)
+  * [0.9.2](basics/releases/0.9.2.md)
+  * [0.9.1](basics/releases/0.9.1.md)
+  * [0.9.0](basics/releases/0.9.0.md)
+  * [0.8.0](basics/releases/0.8.0.md)
+  * [0.7.1](basics/releases/0.7.1.md)
+  * [0.6.0](basics/releases/0.6.0.md)
+  * [0.5.0](basics/releases/0.5.0.md)
+  * [0.4.0](basics/releases/0.4.0.md)
+  * [0.3.0](basics/releases/0.3.0.md)
+  * [0.2.0](basics/releases/0.2.0.md)
+  * [0.1.0](basics/releases/0.1.0.md)
+
+## Community <a href="#community-1" id="community-1"></a>
 
 * [Community](community-1/community.md)
 * [Team](community-1/team.md)
