@@ -53,6 +53,15 @@ For full details, see [Aggregation Functions](../supported-aggregations.md).
 | `FREQUENTLONGSSKETCH` | `FREQUENTLONGSSKETCH(col, maxMapSize)` | STRING | Frequent items sketch for longs | Both |
 | `FUNNELCOUNT` | `FUNNELCOUNT(stepCol, corCol, settings, step1, step2, ...)` | LONG[] | Funnel step counts | Both |
 | `FUNNELMAXSTEP` | `FUNNELMAXSTEP(stepCol, corCol, settings, step1, step2, ...)` | INT | Maximum funnel step reached | Both |
+| `FUNNELCOMPLETECOUNT` | `FUNNELCOMPLETECOUNT(stepCol, corCol, settings, step1, step2, ...)` | INT | Count of completed funnels | Both |
+| `FUNNELSTEPDURATIONSTATS` | `FUNNELSTEPDURATIONSTATS(stepCol, corCol, tsCol, settings, step1, step2, ...)` | STRING | Step duration statistics | Both |
+| `DISTINCTSUM` | `DISTINCTSUM(col)` | DOUBLE | Sum of distinct values | Both |
+| `DISTINCTAVG` | `DISTINCTAVG(col)` | DOUBLE | Average of distinct values | Both |
+| `SUMPRECISION` | `SUMPRECISION(col [, precision])` | STRING | High-precision sum using BigDecimal | Both |
+| `ARRAYAGG` | `ARRAYAGG(col, 'type' [, distinct])` | ARRAY | Aggregates values into an array | Both |
+| `LISTAGG` | `LISTAGG(col [, delimiter])` | STRING | Aggregates values into delimited string | Both |
+| `SUMARRAYLONG` | `SUMARRAYLONG(arrCol)` | LONG[] | Element-wise sum of long arrays | Both |
+| `SUMARRAYDOUBLE` | `SUMARRAYDOUBLE(arrCol)` | DOUBLE[] | Element-wise sum of double arrays | Both |
 
 ---
 
@@ -337,9 +346,53 @@ For full details, see [GeoSpatial Functions](../../../functions/geospatial-funct
 
 ---
 
+## Vector / Similarity Functions
+
+For full details, see [Vector Functions](../../../functions/vector-functions.md).
+
+| Function | Signature | Return Type | Description | Engine |
+|---|---|---|---|---|
+| `COSINEDISTANCE` | `COSINEDISTANCE(arr1, arr2)` | DOUBLE | Cosine distance between two vectors | Both |
+| `INNERPRODUCT` | `INNERPRODUCT(arr1, arr2)` | DOUBLE | Inner (dot) product of two vectors | Both |
+| `L1DISTANCE` | `L1DISTANCE(arr1, arr2)` | DOUBLE | Manhattan distance between two vectors | Both |
+| `L2DISTANCE` | `L2DISTANCE(arr1, arr2)` | DOUBLE | Euclidean distance between two vectors | Both |
+| `VECTORDIMS` | `VECTORDIMS(arr)` | INT | Number of dimensions in a vector | Both |
+| `VECTORNORM` | `VECTORNORM(arr)` | DOUBLE | L2 norm (magnitude) of a vector | Both |
+
+---
+
+## IP Address Functions
+
+For full details, see [IP Address Functions](../../../functions/ip-address-functions.md).
+
+| Function | Signature | Return Type | Description | Engine |
+|---|---|---|---|---|
+| `ISSUBNETOF` | `ISSUBNETOF(prefix, addr)` | BOOLEAN | Checks if IP address is in subnet | Both |
+| `IPPREFIX` | `IPPREFIX(addr, prefixLen)` | STRING | Returns CIDR prefix for IP address | Both |
+| `IPSUBNETMIN` | `IPSUBNETMIN(prefix)` | STRING | Returns lowest IP in subnet | Both |
+| `IPSUBNETMAX` | `IPSUBNETMAX(prefix)` | STRING | Returns highest IP in subnet | Both |
+
+---
+
+## Null Handling Functions
+
+For full details, see [Null Handling Functions](../../../functions/null-handling-functions.md).
+
+| Function | Signature | Return Type | Description | Engine |
+|---|---|---|---|---|
+| `IS NULL` | `col IS NULL` | BOOLEAN | True if value is null | Both |
+| `IS NOT NULL` | `col IS NOT NULL` | BOOLEAN | True if value is not null | Both |
+| `COALESCE` | `COALESCE(val1, val2, ...)` | varies | Returns first non-null value | Both |
+| `NULLIF` | `NULLIF(val1, val2)` | varies | Returns null if values are equal | Both |
+| `IS DISTINCT FROM` | `a IS DISTINCT FROM b` | BOOLEAN | Null-safe inequality comparison | Both |
+| `IS NOT DISTINCT FROM` | `a IS NOT DISTINCT FROM b` | BOOLEAN | Null-safe equality comparison | Both |
+| `CASE WHEN` | `CASE WHEN cond THEN val ... END` | varies | Conditional expression | Both |
+
+---
+
 ## Type Conversion Functions
 
-For full details, see [Transformation Functions](../supported-transformations.md).
+For full details, see [Type Conversion Functions](../../../functions/type-conversion-functions.md).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
