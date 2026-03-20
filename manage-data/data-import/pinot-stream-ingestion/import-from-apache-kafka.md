@@ -617,3 +617,114 @@ Table `events_part_1`:
 * The configured partition IDs are validated against the actual Kafka topic metadata at table creation time. If a specified partition ID does not exist in the topic, an error is raised.
 * When using subset partition ingestion with multiple tables consuming from the same topic, ensure that the partition assignments do not overlap if you want each record to be consumed by exactly one table. Pinot does not enforce non-overlapping partition assignments across tables.
 * Whitespace around partition IDs and commas is trimmed (e.g., `" 0 , 2 , 5 "` is valid).
+
+#### Use Protocol Buffers (Protobuf) format
+
+Pinot supports decoding Protocol Buffer messages from Kafka using several decoder options depending on your setup.
+
+**ProtoBufMessageDecoder (descriptor file based)**
+
+Use `ProtoBufMessageDecoder` when you have a pre-compiled `.desc` (descriptor) file for your Protobuf schema. This decoder uses dynamic message parsing and does not require compiled Java classes.
+
+Required stream config properties:
+
+| Property | Description |
+|---|---|
+| `stream.kafka.decoder.prop.descriptorFile` | Path or URI to the `.desc` descriptor file. Supports local file paths, HDFS, and other Pinot-supported file systems. |
+| `stream.kafka.decoder.prop.protoClassName` | (Optional) Fully qualified Protobuf message name within the descriptor. If omitted, the first message type in the descriptor is used. |
+
+Example `streamConfigs`:
+
+```json
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.topic.name": "my-protobuf-topic",
+  "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.broker.list": "kafka:9092",
+  "stream.kafka.decoder.prop.descriptorFile": "/path/to/my_message.desc",
+  "stream.kafka.decoder.prop.protoClassName": "mypackage.MyMessage"
+}
+```
+
+**ProtoBufCodeGenMessageDecoder (compiled JAR based)**
+
+Use `ProtoBufCodeGenMessageDecoder` when you have a compiled JAR containing your generated Protobuf Java classes. This decoder uses runtime code generation for improved decoding performance.
+
+Required stream config properties:
+
+| Property | Description |
+|---|---|
+| `stream.kafka.decoder.prop.jarFile` | Path or URI to the JAR file containing compiled Protobuf classes. |
+| `stream.kafka.decoder.prop.protoClassName` | Fully qualified Java class name of the Protobuf message (required). |
+
+Example `streamConfigs`:
+
+```json
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.topic.name": "my-protobuf-topic",
+  "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.ProtoBufCodeGenMessageDecoder",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.broker.list": "kafka:9092",
+  "stream.kafka.decoder.prop.jarFile": "/path/to/my-protobuf-classes.jar",
+  "stream.kafka.decoder.prop.protoClassName": "com.example.proto.MyMessage"
+}
+```
+
+**KafkaConfluentSchemaRegistryProtoBufMessageDecoder (Confluent Schema Registry)**
+
+Use `KafkaConfluentSchemaRegistryProtoBufMessageDecoder` when your Protobuf schemas are managed by Confluent Schema Registry. This decoder automatically resolves schemas from the registry at runtime.
+
+Required stream config properties:
+
+| Property | Description |
+|---|---|
+| `stream.kafka.decoder.prop.schema.registry.rest.url` | URL of the Confluent Schema Registry. |
+
+Optional properties:
+
+| Property | Description |
+|---|---|
+| `stream.kafka.decoder.prop.cached.schema.map.capacity` | Maximum number of cached schemas. Default: `1000`. |
+| `stream.kafka.decoder.prop.schema.registry.*` | SSL and authentication options for connecting to Schema Registry (same pattern as the Avro Confluent decoder). |
+
+Example `streamConfigs`:
+
+```json
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.topic.name": "my-protobuf-topic",
+  "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.broker.list": "kafka:9092",
+  "stream.kafka.decoder.prop.schema.registry.rest.url": "http://schema-registry:8081"
+}
+```
+
+#### Use Apache Arrow format
+
+Pinot supports decoding Apache Arrow IPC streaming format messages from Kafka using `ArrowMessageDecoder`. This is useful when upstream systems produce data serialized in Arrow format.
+
+Optional stream config properties:
+
+| Property | Description |
+|---|---|
+| `stream.kafka.decoder.prop.arrow.allocator.limit` | Maximum memory (in bytes) for the Arrow allocator. Default: `268435456` (256 MB). |
+
+Example `streamConfigs`:
+
+```json
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.topic.name": "my-arrow-topic",
+  "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.arrow.ArrowMessageDecoder",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.broker.list": "kafka:9092",
+  "stream.kafka.decoder.prop.arrow.allocator.limit": "536870912"
+}
+```
+
+{% hint style="info" %}
+The Arrow decoder expects each Kafka message to contain a complete Arrow IPC stream (schema + record batch). Ensure your producer serializes Arrow data in the IPC streaming format.
+{% endhint %}
