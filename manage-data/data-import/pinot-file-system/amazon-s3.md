@@ -30,6 +30,7 @@ You can configure the S3 file system using the following options:
 | requestChecksumCalculation | (Optional) Controls whether checksums are calculated for request payloads. Default: `WHEN_SUPPORTED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.                                                                                  |
 | responseChecksumValidation | (Optional) Controls whether checksums are validated on response payloads. Default: `WHEN_SUPPORTED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.                                                                                    |
 | useLegacyMd5Plugin         | (Optional) When set to `true`, uses the LegacyMd5Plugin to restore pre-2.30.0 MD5 checksum behavior. Default: `false`.                                                                                                             |
+| enableCrossRegionAccess  | (Optional) If you want to copy objects b/w two buckets that lie in different regions. Defaults to `true` if not configured. |
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.s3.` where `node` is either `controller` or `server` depending on the config
 
