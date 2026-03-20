@@ -365,6 +365,71 @@ curl -X POST "http://localhost:9000/applicationQuotas/myApp" \
 ```
 
 
+### DELETE /tables/\<tableName>
+
+Deletes a table from the cluster. By default, deleted segments are moved to a _Deleted Segments_ area and retained for a configurable period (controlled by `controller.deleted.segments.retentionInDays`, default 7 days) before being permanently removed. This allows recovery if the deletion was accidental.
+
+You can override this behavior by passing the `retention` query parameter to specify a custom retention period for the deleted segments. Setting `retention=0d` deletes segments immediately, bypassing the default retention period entirely.
+
+**Query Parameters**
+
+| Parameter  | Type   | Required | Description                                                                                                              |
+| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `type`     | string | No       | Table type (`OFFLINE` or `REALTIME`). If not specified, both types are deleted if they exist.                             |
+| `retention`| string | No       | Retention period for deleted segments (e.g., `0d` for immediate deletion, `1d` for one day). Overrides the cluster default. |
+
+**Request (default behavior)**
+
+```
+curl -X DELETE "http://localhost:9000/tables/baseballStats" -H "accept: application/json"
+```
+
+**Request (immediate deletion)**
+
+```
+curl -X DELETE "http://localhost:9000/tables/baseballStats?retention=0d" -H "accept: application/json"
+```
+
+**Response**
+
+```
+{
+  "status": "Tables: [baseballStats_OFFLINE] deleted"
+}
+```
+
+{% hint style="warning" %}
+Setting `retention=0d` permanently deletes all segments immediately with no possibility of recovery. Use this option only when you are certain the data is no longer needed, such as during development, testing, or cleaning up temporary tables.
+{% endhint %}
+
+{% hint style="info" %}
+For large tables, the default delete operation may time out because it copies segments to the deleted-segments area. Using `retention=0d` bypasses this copy step, which can help avoid timeouts.
+{% endhint %}
+
+### DELETE /schemas/\<schemaName>
+
+Deletes a schema from the cluster. A schema can only be deleted if no tables are currently using it. If a table still references the schema, the delete request will fail.
+
+To delete both a table and its schema in a single workflow, first delete the table using `DELETE /tables/<tableName>`, then delete the schema using this endpoint.
+
+**Request**
+
+```
+curl -X DELETE "http://localhost:9000/schemas/baseballStats" -H "accept: application/json"
+```
+
+**Response**
+
+```
+{
+  "status": "Schema baseballStats deleted"
+}
+```
+
+{% hint style="info" %}
+In the Pinot Data Explorer UI, you can delete both the table and its schema together by checking the **Delete Schema** option in the delete table dialog. The UI will delete the table first and then automatically delete the associated schema.
+{% endhint %}
+
 ## Table Config Validation
 
 {% hint style="info" %}
