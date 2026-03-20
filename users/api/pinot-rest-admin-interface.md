@@ -130,4 +130,35 @@ Take a look at the schema by going to [Schema -> Get a schema](http://localhost:
 
 Finally, let's checkout the data segments in the cluster by going to [List all segments](http://localhost:9000/help#!/Segment/getSegments), type in `baseballStats` in the table name, and click `Try it out!`. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
+## Deleting tables and schemas
+
+You can delete tables and schemas using the REST API or the Pinot Data Explorer UI.
+
+### Using the API
+
+To delete a table, send a `DELETE` request to `/tables/{tableName}`. By default, segments are moved to a deleted-segments area and retained for a period (default 7 days) before permanent removal. To delete segments immediately with no retention, pass `retention=0d`:
+
+```
+curl -X DELETE "http://localhost:9000/tables/baseballStats?retention=0d" -H "accept: application/json"
+```
+
+To also delete the schema after deleting the table, send a separate `DELETE` request:
+
+```
+curl -X DELETE "http://localhost:9000/schemas/baseballStats" -H "accept: application/json"
+```
+
+{% hint style="warning" %}
+Using `retention=0d` permanently deletes all data immediately with no possibility of recovery. Only use this for development, testing, or cleanup scenarios where the data is no longer needed.
+{% endhint %}
+
+For more details on the delete table API and its parameters, see the [Controller API Reference](controller-api-reference.md#delete-tables-less-than-tablename-greater-than).
+
+### Using the Data Explorer UI
+
+In the Pinot Data Explorer, navigate to a table and click **Delete Table**. The delete dialog provides two options:
+
+* **Delete Immediately** -- Bypasses the default segment retention period and deletes all segments right away. This is equivalent to passing `retention=0d` in the API. This is useful for large tables where the default delete operation might time out.
+* **Delete Schema** -- After successfully deleting the table, also deletes the associated schema. This only works if no other tables are using the same schema.
+
 You might have figured out by now, in order to get data into the Pinot cluster, we need a table, a schema and segments. Let's head over to [Batch upload sample data](../../basics/getting-started/pushing-your-data-to-pinot.md), to find out more about these components and learn how to create them for your own data.
