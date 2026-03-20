@@ -250,6 +250,7 @@
 * [Monitoring Metrics](configuration-reference/monitoring-metrics.md)
 * [Plugin Reference](configuration-reference/plugin-reference/README.md)
   * [Stream Ingestion Connectors](configuration-reference/plugin-reference/stream-ingestion-connectors.md)
+  * [Stream Connector Version Matrix](configuration-reference/plugin-reference/stream-connector-matrix.md)
   * [VAR\_POP](configuration-reference/plugin-reference/var_pop.md)
   * [VAR\_SAMP](configuration-reference/plugin-reference/var_samp.md)
   * [STDDEV\_POP](configuration-reference/plugin-reference/stddev_pop.md)
