@@ -342,6 +342,7 @@ For full details, see [GeoSpatial Functions](../../../functions/geospatial-funct
 | `STASGEOJSON` | `STASGEOJSON(geo)` | STRING | Converts geometry to GeoJSON | Both |
 | `STGEOMETRYTYPE` | `STGEOMETRYTYPE(geo)` | STRING | Returns geometry type | Both |
 | `TOSPHERICALGEOGRAPHY` | `TOSPHERICALGEOGRAPHY(geo)` | BYTES | Converts geometry to spherical geography | Both |
+| `IDSET` | `IDSET(col [, params])` | BYTES | Serialized IdSet for use with IN_ID_SET filter | Both |
 | `STUNION` | `STUNION(geoCol)` | BYTES | Aggregation: union of geometries | Both |
 
 ---
