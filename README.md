@@ -94,3 +94,53 @@ To understand the distributed systems architecture that explains Pinot's operati
 {% content-ref url="basics/architecture.md" %}
 [architecture.md](basics/architecture.md)
 {% endcontent-ref %}
+
+To understand how Pinot accelerates queries, explore the indexing documentation:
+
+{% content-ref url="basics/indexing/README.md" %}
+[README.md](basics/indexing/README.md)
+{% endcontent-ref %}
+
+## Build applications on Pinot
+
+To query Pinot from applications and BI tools, start with the user-facing guides:
+
+{% content-ref url="users/user-guide-query/" %}
+[user-guide-query](users/user-guide-query/)
+{% endcontent-ref %}
+
+{% content-ref url="users/api/" %}
+[README.md](users/api/)
+{% endcontent-ref %}
+
+{% content-ref url="users/clients/" %}
+[README.md](users/clients/)
+{% endcontent-ref %}
+
+## Operate Pinot in production
+
+To run Pinot reliably in production, use the operator guides and troubleshooting reference:
+
+{% content-ref url="operators/operating-pinot/" %}
+[README.md](operators/operating-pinot/)
+{% endcontent-ref %}
+
+{% content-ref url="reference/troubleshooting/" %}
+[README.md](reference/troubleshooting/)
+{% endcontent-ref %}
+
+## Extend and contribute
+
+If you are extending Pinot or contributing back to the project, start here:
+
+{% content-ref url="developers/developers-and-contributors/" %}
+[README.md](developers/developers-and-contributors/)
+{% endcontent-ref %}
+
+{% content-ref url="developers/plugin-architecture/" %}
+[README.md](developers/plugin-architecture/)
+{% endcontent-ref %}
+
+{% content-ref url="contributing/contributing.md" %}
+[contributing.md](contributing/contributing.md)
+{% endcontent-ref %}
