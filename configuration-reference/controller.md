@@ -103,7 +103,28 @@ This task does not fix consumption stalled due to
 
 This task manages retention of segments for all tables. During the run, it looks at the `retentionTimeUnit` and `retentionTimeValue` inside the `segmentsConfig` of every table, and deletes segments which are older than the retention. The deleted segments are moved to a DeletedSegments folder colocated with the dataDir on segment store, and permanently deleted from that folder in a configurable number of days.
 
-<table><thead><tr><th width="501.62051915945614">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.retention.frequencyPeriod</td><td>6h</td></tr><tr><td>controller.retentionManager.initialDelayInSeconds</td><td>between 2m-5m</td></tr><tr><td>controller.deleted.segments.retentionInDays</td><td>7d</td></tr></tbody></table>
+<table>
+    <thead>
+        <tr><th width="501.62051915945614">Config</th><th>Default Value</th></tr>
+    </thead>
+    <tbody><tr><td>controller.retention.frequencyPeriod</td><td>6h</td></tr>
+        <tr><td>controller.retentionManager.initialDelayInSeconds</td><td>between 2m-5m</td></tr>
+        <tr><td>controller.deleted.segments.retentionInDays</td><td>7d</td></tr>
+        <tr><td>controller.enable.hybrid.table.retention.strategy</td><td>false</td></tr>
+    </tbody>
+</table>
+
+If `controller.enable.hybrid.table.retention.strategy` is set to true, the retention manager will use the hybrid 
+retention strategy. In this strategy, the retention manager calculates a time boundary by looking at the maximum end
+time of offline segments and the segment ingestion frequency specified for the OFFLINE table. Segments older than the 
+time boundary are deleted from the REALTIME table. The time boundary calculation is as mentioned in the 
+[Time Boundary](../basics/concepts/time-boundary.md) section. This type of strategy is useful to prevent data loss when
+there are failures in moving the data from REALTIME table to OFFLINE table.
+
+{% hint style="info" %}
+When the offline part of the hybrid table is unused or not-required, it's recommended to delete the OFFLINE table. 
+Otherwise, the REALTIME table will keep growing and the retention manager will not be able to delete the segments.
+{% endhint %}
 
 ### SegmentRelocator
 
