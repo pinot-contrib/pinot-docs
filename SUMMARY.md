@@ -510,11 +510,13 @@
 
 ## Integrations
 
+* [Overview](integrations/README.md)
 * [Tableau](integrations/tableau.md)
 * [Trino](integrations/trino.md)
 * [ThirdEye](integrations/thirdeye.md)
 * [Superset](integrations/superset.md)
 * [Presto](integrations/presto.md)
+* [Flink Connector](integrations/flink-connector.md)
 * [Spark-Pinot Connector](integrations/spark-pinot-connector/README.md)
   * [Spark Pinot Connector Read Model](integrations/spark-pinot-connector/spark-pinot-connector-read-model.md)
   * [Spark Pinot Connector Write Model](integrations/spark-pinot-connector/spark-pinot-connector-write-model.md)
