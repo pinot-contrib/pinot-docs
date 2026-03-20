@@ -22,7 +22,7 @@ BrokerConfig -> maxServerResponseSizeBytes</p><p>6. BrokerConfig -> maxServerRes
 maxServerResponseSizeBytes</p><p>4. TableConfig -> maxQueryResponseSizeBytes</p><p>5. BrokerConfig -> maxServerResponseSizeBytes</p><p>6. BrokerConfig -> maxServerResponseSizeBytes</p></td></tr><tr><td><strong>filteredAggregationsSkipEmptyGroups</strong></td><td>This config can be set to <code>true</code> to avoid computing all the groups in a group by query with only filtered aggregations (and no non-filtered aggregations). By default, the groups are computed over all the rows returned by 
 the main filter, even if certain rows will never match any of the aggregation filters. This is the standard SQL behavior. However, if the selectivity of the main filter is very high as compared to the selectivity of the aggregation filters, this query option can help provide a big performance boost if the empty groups aren't required. For instance, a query like <code>SELECT SUM(X) FILTER (WHERE Y = 1) FROM mytable</code> will compute the groups over all the rows in the table by default since 
 there's no main query filter. Setting this query option to <code>true</code> in such cases can massively improve performance if there's an inverted index on column <code>Y</code> for instance.</td><td><code>false</code> (i.e., all groups are computed by default as per standard SQL)</td></tr><tr><td><strong>dropResults</strong></td><td>Set dropResults=true in the config to drop the resultTable from the response. Use this option to troubleshoot a customer's query (which may have sensitive data 
-in the result) using metadata only.</td><td><code>false</code></td></tr><tr><td><strong>skipUnavailableServers</strong></td><td>Set skipUnavailableServers=true in the config to continue sending queries to remaining servers if dispatching a query fails.</td><td><code>false</code></td></tr><tr><td><strong>clientQueryId</strong></td><td>Set to define a <a href="query-correlation-id.md">custom correlation ID</a> for a query and to <a href="query-cancellation.md">cancel queries</a>.</td><td><code>null/empty</code></td></tr><tr><td><strong>accurateGroupByWithoutOrderBy</strong></td><td>Improves correctness of group-by queries with LIMIT but without ORDER BY by applying better trimming on servers. See PR #15844. Set <code>accurateGroupByWithoutOrderBy=true</code> to enable</td><td><code>false</code> (disabled)</td></tr><tr><td><strong>traceRuleProductions</strong></td><td>Trace planner rule productions. Specify <code>SET traceRuleProductions=true</code> to collect and return planner rules that successfully produced new relations and the relation subtree before and after the production in time order along with rule attempt timing. Useful for debugging query planning.</td><td><code>false</code></td></tr><tr><td><strong>excludeVirtualColumns</strong></td><td>When you want to ignore virtual columns (those starting with $) in a query — such as a NATURAL JOIN where they shouldn't be participating in join condition matching. This option helps remove all virtual columns from the schema during query planning and execution making NATURAL JOIN successful. This is currently implemented in MSE.</td><td><code>false</code> (virtual columns are included by default for all queries during join-match)</td></tr><tr><td><strong>workloadName</strong></td><td>Assigns the query to a named workload for resource budget enforcement. Requires the <code>workload</code> query scheduler. See <a href="../../operators/operating-pinot/tuning/workload-query-isolation.md">Workload-Based Query Resource Isolation</a> (introduced in 1.4.0)</td><td><code>null/empty</code> (query belongs to the default workload with no budget enforcement)</td></tr><tr><td><strong>isSecondaryWorkload</strong></td><td>Marks the query as a secondary workload query. With the <code>binary_workload</code> scheduler, secondary queries run with limited threads. With the <code>workload</code> scheduler, maps to the configured secondary workload budget. See <a href="../../operators/operating-pinot/tuning/workload-query-isolation.md">Workload-Based Query Resource Isolation</a> (introduced in 1.4.0)</td><td><code>false</code></td></tr></tbody></table>
+in the result) using metadata only.</td><td><code>false</code></td></tr><tr><td><strong>skipUnavailableServers</strong></td><td>Set skipUnavailableServers=true in the config to continue sending queries to remaining servers if dispatching a query fails.</td><td><code>false</code></td></tr><tr><td><strong>clientQueryId</strong></td><td>Set to define a <a href="query-correlation-id.md">custom correlation ID</a> for a query and to <a href="query-cancellation.md">cancel queries</a>.</td><td><code>null/empty</code></td></tr><tr><td><strong>accurateGroupByWithoutOrderBy</strong></td><td>Improves correctness of group-by queries with LIMIT but without ORDER BY by applying better trimming on servers. See PR #15844. Set <code>accurateGroupByWithoutOrderBy=true</code> to enable</td><td><code>false</code> (disabled)</td></tr><tr><td><strong>traceRuleProductions</strong></td><td>Trace planner rule productions. Specify <code>SET traceRuleProductions=true</code> to collect and return planner rules that successfully produced new relations and the relation subtree before and after the production in time order along with rule attempt timing. Useful for debugging query planning.</td><td><code>false</code></td></tr><tr><td><strong>excludeVirtualColumns</strong></td><td>When you want to ignore virtual columns (those starting with $) in a query — such as a NATURAL JOIN where they shouldn't be participating in join condition matching. This option helps remove all virtual columns from the schema during query planning and execution making NATURAL JOIN successful. This is currently implemented in MSE.</td><td><code>false</code> (virtual columns are included by default for all queries during join-match)</td></tr><tr><td><strong>usePhysicalOptimizer</strong></td><td>Enable the Physical Optimizer for the multi-stage engine (MSE). The Physical Optimizer can automatically eliminate or simplify redundant Exchanges (shuffles) for arbitrarily complex queries without requiring query hints. Must be used with <code>useMultistageEngine=true</code>. See <a data-mention href="multi-stage-query/physical-optimizer.md">physical-optimizer.md</a> for details. (introduced in 1.4.0, Beta)</td><td><code>false</code> (disabled)</td></tr><tr><td><strong>useLiteMode</strong></td><td>Enable Multistage Engine Lite Mode, which runs MSE queries using a scatter-gather paradigm (like the single-stage engine) with a configurable limit on rows returned by each leaf stage instance (default 100k). This allows safe access to MSE features like window functions, subqueries, and joins at high QPS with minimal reliability risks. Requires both <code>useMultistageEngine=true</code> and <code>usePhysicalOptimizer=true</code>. See <a data-mention href="multi-stage-query/multistage-lite-mode.md">multistage-lite-mode.md</a> for details. (introduced in 1.4.0, Beta)</td><td><code>false</code> (disabled)</td></tr><tr><td><strong>orderedPreferredPools</strong></td><td>Specify a prioritized list of server pools for broker query routing, provided as a vertical bar (<code>|</code>) separated list of pool identifiers (integers). The broker uses the list as a routing hint, attempting to route queries to the specified pools in order and falling back gracefully to other available replicas if none of the preferred pools are available. Useful for canary deployments where directing traffic to specific replica groups is desired. Currently supported for Balanced and ReplicaGroup routing strategies with Adaptive Server Selection in non-MSE mode. (introduced in 1.4.0)</td><td><code>null/empty</code> (no pool preference; use default routing)</td></tr><tr><td><strong>workloadName</strong></td><td>Assigns the query to a named workload for resource budget enforcement. Requires the <code>workload</code> query scheduler. See <a href="../../operators/operating-pinot/tuning/workload-query-isolation.md">Workload-Based Query Resource Isolation</a> (introduced in 1.4.0)</td><td><code>null/empty</code> (query belongs to the default workload with no budget enforcement)</td></tr><tr><td><strong>isSecondaryWorkload</strong></td><td>Marks the query as a secondary workload query. With the <code>binary_workload</code> scheduler, secondary queries run with limited threads. With the <code>workload</code> scheduler, maps to the configured secondary workload budget. See <a href="../../operators/operating-pinot/tuning/workload-query-isolation.md">Workload-Based Query Resource Isolation</a> (introduced in 1.4.0)</td><td><code>false</code></td></tr></tbody></table>
 
 ### Cursor Pagination
 
@@ -47,52 +47,3 @@ in the result) using metadata only.</td><td><code>false</code></td></tr><tr><td>
 ### Broker Pruning
 
 <table><thead><tr><th>Key</th><th width="249.33333333333331">Description</th><th>Default Behavior</th></tr></thead><tbody><tr><td><strong>useBrokerPruning</strong></td><td>When set to <code>true</code>, enables broker-side segment pruning logic in the multi-stage engine. This allows the broker to prune segments before dispatching queries to servers, reducing unnecessary computation. Only supported by the MSE query optimizer.</td><td>Broker level config (default <code>true</code>)</td></tr></tbody></table>
-
-## Set Query Options
-
-### SET statement
-
-After release 0.11.0, query options can be set using the `SET` statement:
-
-```sql
-SET key1 = 'value1';
-SET key2 = 123;
-SELECT * FROM myTable
-```
-
-### OPTION keyword (deprecated)
-
-Before release 0.11.0, query options can be appended to the query with the `OPTION` keyword:
-
-```sql
-SELECT * FROM myTable OPTION(key1=value1, key2=123)
-SELECT * FROM myTable OPTION(key1=value1) OPTION(key2=123)
-SELECT * FROM myTable OPTION(timeoutMs=30000)
-```
-
-### REST API
-
-Query options can be specified in API using queryOptions as key and **';'** separated key-value pairs.\
-Alternatively, we can also use the SET keyword in the sql query.
-
-* [Using Controller Admin API](../api/pinot-rest-admin-interface.md)
-
-```bash
-curl -X POST 'http://localhost:9000/sql' \
--d '{
-  "sql": "SELECT * FROM myTable",
-  "trace": false,
-  "queryOptions":"key1=value1;key2=123"
-}'
-```
-
-* [Using Broker Query API](../api/querying-pinot-using-standard-sql/)
-
-```bash
-curl -X POST 'http://localhost:8099/query/sql' \
--d '{
-  "sql": "SELECT * FROM myTable;",
-  "trace": false,
-  "queryOptions":"key1=value1;key2=123"
-}'
-```
