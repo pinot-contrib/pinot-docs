@@ -72,7 +72,7 @@ Copy the following to the clipboard:
       "streamType": "kafka",
       "stream.kafka.topic.name": "events",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.rows": "0",
       "realtime.segment.flush.threshold.time": "24h",

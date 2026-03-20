@@ -720,7 +720,7 @@ Putting these together, you can find the table configurations of the quick start
           "streamType": "kafka",
           "stream.kafka.topic.name": "upsertMeetupRSVPEvents",
           "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
-          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
           "stream.kafka.zk.broker.url": "localhost:2181/kafka",
           "stream.kafka.broker.list": "localhost:19092"
         }
@@ -797,7 +797,7 @@ Putting these together, you can find the table configurations of the quick start
           "streamType": "kafka",
           "stream.kafka.topic.name": "upsertPartialMeetupRSVPEvents",
           "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
-          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
           "stream.kafka.zk.broker.url": "localhost:2181/kafka",
           "stream.kafka.broker.list": "localhost:19092"
         }
