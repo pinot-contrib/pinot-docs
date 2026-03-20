@@ -36,7 +36,7 @@ For simplicity, we'll reuse the admin credentials as service tokens. In a produc
 {% tab title="Controller" %}
 ```
 # Enable the controller to fetch segments by providing the credentials as a token
-controller.segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
+pinot.controller.segment.fetcher.auth.token=Basic YWRtaW46dmVyeXNlY3JldA
 
 # "Basic " + base64encode("admin:verysecret")
 ```
