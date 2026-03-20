@@ -54,7 +54,7 @@ Use the following properties to make your tables faster or leaner:
 
 ## Segments
 
-A table is comprised of small chunks of data known as segments. Learn more about how Pinot creates and manages segments [here](https://docs.pinot.apache.org/basics/components/segment).
+A table is comprised of small chunks of data known as segments. Learn more about how Pinot creates and manages segments [here](segment).
 
 For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../../../manage-data/data-import/batch-ingestion/).
 
@@ -69,7 +69,7 @@ The Pinot real-time consumer ingests the data, creates the segment, and then flu
 * **Max time duration to wait**: Pinot consumers wait for the configured time duration after which segments are persisted to the disk.
 
 **Replicas**\
-A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment [using the CLI](https://docs.pinot.apache.org/operators/cli#change-num-replicas).
+A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment [using the CLI](../../../operators/cli.md#change-num-replicas).
 
 **Completion Mode**\
 By default, if the in-memory segment in the [non-winner server](../cluster/server.md) is equivalent to the committed segment, then the non-winner server builds and replaces the segment. If the available segment is not equivalent to the committed segment, the server just downloads the committed segment from the controller.
@@ -152,7 +152,7 @@ A hybrid table is a table composed of two tables, one offline and one real-time,
 
 Once an offline segment is pushed to cover a recent time period, the brokers automatically switch to using the offline table for segments for that time period and use the real-time table only for data not available in the offline table.
 
-To learn how time boundaries work for hybrid tables, see [Broker](https://docs.pinot.apache.org/basics/components/broker).
+To learn how time boundaries work for hybrid tables, see [Broker](../cluster/broker.md).
 
 A typical use case for hybrid tables is pushing deduplicated, cleaned-up data into an offline table every day while consuming real-time data as it arrives. Data can remain in offline tables for as long as a few years, while the real-time data would be cleaned every few days.
 

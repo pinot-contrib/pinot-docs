@@ -8,7 +8,7 @@ If you want to improve query latency for your use case, you can refer to `Index 
 
 * [Index Techniques](../../../basics/indexing/)
 * [Star-Tree: A Specialized Index for Fast Aggregations](../../../basics/indexing/star-tree-index.md)
-* [Optimizing Scatter and Gather](https://docs.pinot.apache.org/operators/operating-pinot/tuning/routing)
+* [Optimizing Scatter and Gather](routing.md)
 * [Tuning Real-time Performance](realtime.md#tuning-realtime-performance)\
 
 

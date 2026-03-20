@@ -82,7 +82,7 @@ Note: `is_colocated_by_join_keys` is only recommended when the tables are to be 
 
 As noticed above, in order to use colocated joins, the assignment of partitions to servers must be the same for both tables. Although we can manually assign partitions to servers when creating the tables, they can be moved between servers at any time as a result of a rebalance.&#x20;
 
-In order to guarantee that colocated joins can be used it is recommended to instruct Pinot to [assign the same instances](https://docs.pinot.apache.org/basics/releases/1.1.0#preconfiguration-based-mirror-instance-assignment-11578) for each partition in both tables. To read more about how to partition a table, see [Instance Assignment](../../../../operators/operating-pinot/instance-assignment.md) and [Routing](../../../../operators/operating-pinot/tuning/routing.md#data-ingested-partitioned-by-some-column).
+In order to guarantee that colocated joins can be used it is recommended to instruct Pinot to [assign the same instances](../../../../basics/releases/1.1.0.md#preconfiguration-based-mirror-instance-assignment-11578) for each partition in both tables. To read more about how to partition a table, see [Instance Assignment](../../../../operators/operating-pinot/instance-assignment.md) and [Routing](../../../../operators/operating-pinot/tuning/routing.md#data-ingested-partitioned-by-some-column).
 
 ### How to verify colocated joins are being used
 

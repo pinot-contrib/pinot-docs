@@ -44,6 +44,6 @@ In this example, the table uses servers tagged with `base_OFFLINE`. We have crea
 
 ### How does data move from one tenant to another?
 
-On adding this config, the [Segment Relocator](https://docs.pinot.apache.org/basics/components/controller#segmentrelocator) periodic task will move segments from one tenant to another, as and when the segment crosses the segment age.
+On adding this config, the [Segment Relocator](../../../basics/components/cluster/controller.md#segmentrelocator) periodic task will move segments from one tenant to another, as and when the segment crosses the segment age.
 
 Under the hood, this job runs a rebalance. So you can achieve the same effect as a manual trigger by running a [rebalance](../rebalance/rebalance-servers/#running-a-rebalance)

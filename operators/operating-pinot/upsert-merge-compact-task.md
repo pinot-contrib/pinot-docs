@@ -112,7 +112,7 @@ This approach leverages ZooKeeper metadata and `enableSnapshot` runs to safely c
 }
 ```
 
-4. Enable PinotTaskManager (disabled by default) by adding the `controller.task` properties below to your [controller conf](https://docs.pinot.apache.org/configuration-reference/controller), and then restart the controller (required).
+4. Enable PinotTaskManager (disabled by default) by adding the `controller.task` properties below to your [controller conf](../../configuration-reference/controller.md), and then restart the controller (required).
 
 ```
 controller.task.scheduler.enabled=true

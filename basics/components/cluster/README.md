@@ -24,7 +24,7 @@ Helix is a cluster management solution that maintains a persistent, fault-tolera
 
 ## Cluster configuration
 
-For details of cluster configuration settings, see [Cluster configuration reference](https://docs.pinot.apache.org/configuration-reference/cluster).
+For details of cluster configuration settings, see [Cluster configuration reference](../../../configuration-reference/cluster.md).
 
 ## Cluster components
 

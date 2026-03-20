@@ -42,7 +42,7 @@ FROM ignoreMe
 | hello!  |
 
 {% hint style="info" %}
-Note that without UTF8 string conversion, returned BYTES will be represented as a Hex string following Pinot's [BYTES column representation](https://docs.pinot.apache.org/users/user-guide-query/querying-pinot#bytes-column). See the example below.
+Note that without UTF8 string conversion, returned BYTES will be represented as a Hex string following Pinot's [BYTES column representation](../../users/user-guide-query/querying-pinot.md#bytes-column). See the example below.
 {% endhint %}
 
 ```sql

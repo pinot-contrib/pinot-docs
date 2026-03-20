@@ -258,7 +258,7 @@ The following example queries work when the null value is not used in a dataset.
 
 #### Filter for default null value(s) specified in your schema
 
-1. Specify a _default null value_ (`defaultNullValue`) in your [schema](https://docs.pinot.apache.org/basics/components/table/schema) for dimension fields, (`dimensionFieldSpecs`), metric fields (`metricFieldSpecs)`, and date time fields (`dateTimeFieldSpecs`).
+1. Specify a _default null value_ (`defaultNullValue`) in your [schema](../../basics/components/table/schema.md) for dimension fields, (`dimensionFieldSpecs`), metric fields (`metricFieldSpecs)`, and date time fields (`dateTimeFieldSpecs`).
 2. Ingest the data.
 3. To filter out the specified _default null value_, for example, you could write a query like the following:
 

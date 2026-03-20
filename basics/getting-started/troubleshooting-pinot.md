@@ -16,7 +16,7 @@ It can also be invoked directly by accessing the URL as follows. The api require
 curl -X GET "http://localhost:9000/debug/tables/airlineStats?verbosity=0" -H "accept: application/json"
 ```
 
-Pinot also provides a variety of operational metrics that can be used for creating dashboards, alerting and [monitoring](https://docs.pinot.apache.org/operators/operating-pinot/monitoring).
+Pinot also provides a variety of operational metrics that can be used for creating dashboards, alerting and [monitoring](../../operators/operating-pinot/monitoring.md).
 
 Finally, all pinot components log debug information related to error conditions.
 

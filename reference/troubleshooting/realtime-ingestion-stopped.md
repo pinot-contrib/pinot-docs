@@ -24,7 +24,7 @@ Usually here are the steps that a partition got stopped ingestion:
 
 To mitigate, we suggest below steps to ensure your setup is scalable and stable.
 
-1. Ensure Pinot server directly save segments to deep store, avoid controller in the critical data path. Ref link: [Decoupling Controller from the Data Path](https://docs.pinot.apache.org/operators/operating-pinot/decoupling-controller-from-the-data-path) .  This is the most critical fix as it will remove controller as the bottleneck for data commit:
+1. Ensure Pinot server directly save segments to deep store, avoid controller in the critical data path. Ref link: [Decoupling Controller from the Data Path](../../operators/operating-pinot/decoupling-controller-from-the-data-path.md) .  This is the most critical fix as it will remove controller as the bottleneck for data commit:
    1. controller receive segment tarball from pinot server
    2. uncompress it
    3. extract segment metadata

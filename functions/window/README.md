@@ -9,7 +9,7 @@ description: >-
 
 
 {% hint style="info" %}
-**Important:** To query using Windows functions, you must enable Pinot's [multi-stage query engine (v2)](https://docs.pinot.apache.org/reference/cluster-1). See how to [enable and use the multi-stage query engine (v2](https://docs.pinot.apache.org/developers/advanced/v2-multi-stage-query-engine)).
+**Important:** To query using Windows functions, you must enable Pinot's [multi-stage query engine (v2)](../../configuration-reference/cluster.md). See how to [enable and use the multi-stage query engine (v2](../../reference/multi-stage-engine.md)).
 {% endhint %}
 
 ## Window Functions overview

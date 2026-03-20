@@ -8,7 +8,7 @@ Pinot provides [a native Go client](https://github.com/startreedata/pinot-client
 
 ### Install
 
-1. Follow this [Pinot quickstart](https://docs.pinot.apache.org/basics/getting-started/local) link to install and start Pinot locally.
+1. Follow this [Pinot quickstart](../../basics/getting-started/local/README.md) link to install and start Pinot locally.
 
 ```
 bin/quick-start-batch.sh
@@ -21,7 +21,7 @@ git clone git@github.com:startreedata/pinot-client-go.git
 cd pinot-client-go
 ```
 
-3. Build and run the example application to query from the [Pinot batch quickstart](https://docs.pinot.apache.org/basics/getting-started/local).
+3. Build and run the example application to query from the [Pinot batch quickstart](../../basics/getting-started/local/README.md).
 
 ```
 go build ./examples/batch-quickstart

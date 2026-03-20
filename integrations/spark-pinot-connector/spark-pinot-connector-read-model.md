@@ -73,7 +73,7 @@ Connector uses SQL, as a result all sql filters are supported.
 
 
 
-Connector receives routing table of given query to get information on which Pinot servers to will be queried and which segments will be scan. If partitioning is enabled for given Pinot table, and created query in Spark will be scan the specific partitions, only required Pinot server and segment informations will be got(that means segment pruning operation will be applied before data reading like Pinot brokers). For more information; [Optimizing Scatter and Gather in Pinot](https://docs.pinot.apache.org/operators/operating-pinot/tuning/routing#optimizing-scatter-and-gather)
+Connector receives routing table of given query to get information on which Pinot servers to will be queried and which segments will be scan. If partitioning is enabled for given Pinot table, and created query in Spark will be scan the specific partitions, only required Pinot server and segment informations will be got(that means segment pruning operation will be applied before data reading like Pinot brokers). For more information; [Optimizing Scatter and Gather in Pinot](../../operators/operating-pinot/tuning/routing.md#optimizing-scatter-and-gather)
 
 #### Table Querying
 
@@ -84,7 +84,7 @@ Connector uses SQL to query Pinot tables.
 Connector creates realtime and offline queries based on the filters and required columns.
 
 * If queried table type is `OFFLINE` or `REALTIME`, routing table information will be got for specific table type.
-* If queried table type is `HYBRID`, realtime and offline routing table information will be got. Also, connector receives `TimeBoundary` information for given table, and use it in query to ensure that the overlap between realtime and offline segment data is queried exactly once. For more information; [Pinot Broker](https://docs.pinot.apache.org/basics/components/broker)
+* If queried table type is `HYBRID`, realtime and offline routing table information will be got. Also, connector receives `TimeBoundary` information for given table, and use it in query to ensure that the overlap between realtime and offline segment data is queried exactly once. For more information; [Pinot Broker](../../basics/components/cluster/broker.md)
 
 #### Query Generation
 

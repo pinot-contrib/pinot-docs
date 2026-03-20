@@ -412,7 +412,7 @@ For full details, see [Type Conversion Functions](../../../functions/type-conver
 For full details, see [Window Functions](../../functions/window).
 
 {% hint style="info" %}
-Window functions require the [multi-stage query engine (v2)](https://docs.pinot.apache.org/reference/cluster-1).
+Window functions require the [multi-stage query engine (v2)](../../configuration-reference/cluster.md).
 {% endhint %}
 
 | Function | Signature | Return Type | Description | Engine |

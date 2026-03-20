@@ -439,7 +439,7 @@ scala> :quit
 
 ### Example run with spark-submit
 
-You can run the examples locally (e.g. using your IDE) in a standalone mode by starting a local Pinot cluster. See: [https://docs.pinot.apache.org/basics/getting-started/local](https://docs.pinot.apache.org/basics/getting-started/local)
+You can run the examples locally (e.g. using your IDE) in a standalone mode by starting a local Pinot cluster. See: [docs](../../basics/getting-started/local/README.md)
 
 You can also run the tests in _cluster mode_ using following command:
 

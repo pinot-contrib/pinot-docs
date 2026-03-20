@@ -40,7 +40,7 @@ Some **use cases to avoid**:
 
 ## Multi-stage query execution model
 
-The multi-stage query engine improves query performance over the [single-stage scatter-gather query engine ( v1)](https://docs.pinot.apache.org/reference/single-stage-engine), effectively decoupling the data exchange layer and the query engine layer.
+The multi-stage query engine improves query performance over the [single-stage scatter-gather query engine ( v1)](single-stage-engine.md), effectively decoupling the data exchange layer and the query engine layer.
 
 <figure><img src="../.gitbook/assets/Multi-Stage-Query-Engine-2 (2).png" alt=""><figcaption><p>Figure 1: Multi-stage query execution model</p></figcaption></figure>
 
@@ -54,7 +54,7 @@ The multi-stage query engine also includes a **new query plan optimizer** to pro
 
 ## How queries are processed
 
-With a multi-stage query engine, Pinot first breaks down the [single scatter-gather query plan used in v1](https://docs.pinot.apache.org/reference/single-stage-engine) into multiple query sub-plans that run across different sets of servers. We call these sub-plans “stage plans,” and refer to each execution as a “stage.”
+With a multi-stage query engine, Pinot first breaks down the [single scatter-gather query plan used in v1](single-stage-engine.md) into multiple query sub-plans that run across different sets of servers. We call these sub-plans “stage plans,” and refer to each execution as a “stage.”
 
 Stages are a logical entity and are connected in a tree like structure where the output of one stage is the input to the next stage. The stages in the leaves of the plan are the ones that read from the tables and the stages in the root are the ones that send the final results to the client.
 
