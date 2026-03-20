@@ -108,6 +108,34 @@ When ingesting new records, the server has to read the metadata map to check for
 
 The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload. It's 0 by default to disable the preloading feature. This preloading thread pool is shared with [upsert table's preloading](https://docs.pinot.apache.org/basics/data-import/upsert#enable-preload-for-faster-server-restarts).
 
+## Immutable dedup configuration fields
+
+{% hint style="danger" %}
+**Certain dedup and schema configuration fields cannot be modified after table creation.**
+
+Changing these fields on an existing dedup table can lead to data inconsistencies or data loss between replicas. Pinot uses these configurations to determine which records to keep or discard, so altering them after data has been ingested will cause existing metadata to become inconsistent with the new configuration.
+
+The following fields are immutable after table creation:
+
+**Schema fields:**
+* `primaryKeyColumns`
+
+**dedupConfig fields:**
+* `hashFunction`
+* `dedupTimeColumn`
+* `timeColumnName` (when used as the default dedup time column)
+
+Attempting to update these fields will return an error:
+
+```
+Failed to update table '<tableName>': Cannot modify [<field>] as it may lead to data inconsistencies. Please create a new table instead.
+```
+
+**Recommended workaround:** Create a new table with the desired configuration and reingest all data.
+
+**Alternative (use with caution):** If you must modify these fields without recreating the table, you can use the `force=true` query parameter on the table config update API. Before doing so, pause consumption and restart all servers. Note that this approach only guarantees consistency for newly ingested keys; existing data may remain inconsistent.
+{% endhint %}
+
 ## Best practices
 
 Unlike other real-time tables, Dedup table takes up more memory resources as it needs to bookkeep the primary key and its corresponding segment reference, in memory. As a result, it's important to plan the capacity beforehand, and monitor the resource usage. Here are some recommended practices of using Dedup table.

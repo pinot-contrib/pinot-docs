@@ -601,6 +601,39 @@ public class CustomTableUpsertMetadataManager extends BaseTableUpsertMetadataMan
 
 :warning: The upsert manager class name is case-insensitive as well.
 
+### Immutable upsert configuration fields
+
+{% hint style="danger" %}
+**Certain upsert and schema configuration fields cannot be modified after table creation.**
+
+Changing these fields on an existing upsert table can lead to data inconsistencies or data loss, particularly when servers restart and commit segments. Pinot validates and invalidates documents based on these configurations, so altering them after data has been ingested will cause the existing validDocId snapshots to become inconsistent with the new configuration.
+
+The following fields are immutable after table creation:
+
+**Schema fields:**
+* `primaryKeyColumns`
+
+**upsertConfig fields:**
+* `mode` (FULL, PARTIAL, NONE)
+* `hashFunction`
+* `comparisonColumns`
+* `timeColumnName` (when used as the default comparison column)
+* `partialUpsertStrategies` (for PARTIAL mode)
+* `defaultPartialUpsertStrategy` (for PARTIAL mode)
+* `dropOutOfOrderRecord`
+* `outOfOrderRecordColumn`
+
+Attempting to update these fields will return an error:
+
+```
+Failed to update table '<tableName>': Cannot modify [<field>] as it may lead to data inconsistencies. Please create a new table instead.
+```
+
+**Recommended workaround:** Create a new table with the desired configuration and reingest all data.
+
+**Alternative (use with caution):** If you must modify these fields without recreating the table, you can use the `force=true` query parameter on the table config update API. Before doing so, disable SNAPSHOT mode in upsertConfig, pause consumption, and restart all servers. Note that this approach only guarantees consistency for newly ingested keys; existing data may remain inconsistent.
+{% endhint %}
+
 ### Upsert table limitations
 
 There are some limitations for the upsert Pinot tables.
