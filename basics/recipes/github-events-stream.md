@@ -326,7 +326,7 @@ $ docker run --rm -ti \
 {% tab title="Launcher scripts" %}
 **Get Pinot**
 
-Follow the instructions in [Build from source](https://docs.pinot.apache.org/getting-started/running-pinot-locally#build-from-source-or-download-the-distribution) to get the latest Pinot code
+Follow the instructions in [Build from source](https://docs.pinot.apache.org/basics/getting-started/local#build-from-source-or-download-the-distribution) to get the latest Pinot code
 
 #### Long version
 
@@ -599,7 +599,7 @@ $ bin/pinot-admin.sh GitHubEventsQuickStart \
 
 ### Kubernetes cluster
 
-If you already have a Kubernetes cluster with Pinot and Kafka (see [Running Pinot in Kubernetes](../getting-started/kubernetes-quickstart.md)), first create the topic, then set up the table and streaming using
+If you already have a Kubernetes cluster with Pinot and Kafka (see [Running Pinot in Kubernetes](../getting-started/kubernetes/README.md)), first create the topic, then set up the table and streaming using
 
 ```bash
 $ cd kubernetes/helm

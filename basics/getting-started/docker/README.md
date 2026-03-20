@@ -50,7 +50,7 @@ docker run \
     -type batch
 ```
 
-For a list of all available quick start commands, see [Quick Start Examples](quick-start.md).
+For a list of all available quick start commands, see [Quick Start Examples](../quick-start.md).
 
 {% hint style="warning" %}
 Below are the usages of different ports:
@@ -380,6 +380,6 @@ e0d0c71303a8   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   18 minutes a
 4be5f168f252   zookeeper:3.9.2           "/docker-entrypoint.…"   18 minutes ago   Up About a minute (healthy)   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp        pinot-zookeeper
 ```
 
-Once your cluster is up and running, see [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
+Once your cluster is up and running, see [Exploring Pinot](../../components/exploring-pinot.md) to learn how to run queries against the data.
 
-If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you can also try running the [Kubernetes quick start](kubernetes-quickstart.md).
+If you have [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or [Docker Kubernetes](https://www.docker.com/products/kubernetes) installed, you can also try running the [Kubernetes quick start](../kubernetes/).

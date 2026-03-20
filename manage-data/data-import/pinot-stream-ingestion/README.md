@@ -34,7 +34,7 @@ Here's an example where we assume the data to be ingested is in the following fo
 
 ## Create schema configuration
 
-The schema defines the fields along with their data types. The schema also defines whether fields serve as `dimensions` , `metrics`, or `timestamp`. For more details on schema configuration, see [creating a schema](../../../basics/getting-started/pushing-your-data-to-pinot.md#creating-a-schema).
+The schema defines the fields along with their data types. The schema also defines whether fields serve as `dimensions` , `metrics`, or `timestamp`. For more details on schema configuration, see [creating a schema](../../../basics/getting-started/docker/batch-ingestion.md#creating-a-schema).
 
 For our sample data, the schema configuration looks like this:
 

@@ -112,7 +112,7 @@ Script `docker-build-and-push.sh` builds and publishes this docker image to your
 
 ### Kubernetes Examples
 
-Refer to [Kubernetes Quickstart](../../basics/getting-started/kubernetes-quickstart.md) for deployment examples.
+Refer to [Kubernetes Quickstart](../../basics/getting-started/kubernetes/README.md) for deployment examples.
 
 ## Pinot Presto
 

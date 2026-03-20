@@ -8,9 +8,9 @@ description: >-
 
 In this guide, you'll learn how to download and install Apache Pinot as a standalone instance.
 
-* [Download Apache Pinot](running-pinot-locally.md#download-apache-pinot)
-* [Set up a cluster](running-pinot-locally.md#set-up-a-cluster)
-* [Start a Pinot component in debug mode with IntelliJ](running-pinot-locally.md#start-a-pinot-component-in-debug-mode-with-intellij)
+* [Download Apache Pinot](README.md#download-apache-pinot)
+* [Set up a cluster](README.md#set-up-a-cluster)
+* [Start a Pinot component in debug mode with IntelliJ](README.md#start-a-pinot-component-in-debug-mode-with-intellij)
 
 ## Download Apache Pinot
 
@@ -112,7 +112,7 @@ For example, the following quick start command launches Pinot with a baseball da
 ./bin/pinot-admin.sh QuickStart -type batch
 ```
 
-For a list of all the available quick start commands, see the [Quick Start Examples](quick-start.md).
+For a list of all the available quick start commands, see the [Quick Start Examples](../quick-start.md).
 
 ### Manual cluster
 
@@ -194,7 +194,7 @@ export JAVA_OPTS="-Xms4G -Xmx4G"
   -port 19092
 ```
 
-Once your cluster is up and running, you can head over to [Exploring Pinot](../components/exploring-pinot.md) to learn how to run queries against the data.
+Once your cluster is up and running, you can head over to [Exploring Pinot](../../components/exploring-pinot.md) to learn how to run queries against the data.
 
 ## Setup cluster with config files
 
@@ -213,7 +213,7 @@ Set break points and inspect variables by starting a Pinot component with debug 
 
 The following example demonstrates server debugging:
 
-1. First, start`zookeeper` , `controller`, and `broker` using the [steps described above](running-pinot-locally.md#manual-cluster).
+1. First, start`zookeeper` , `controller`, and `broker` using the [steps described above](README.md#manual-cluster).
 2. Then, use the following configuration under `$PROJECT_DIR$\.run` ) to start the server, replacing the `metrics-core` version and cluster name as needed.\
    This [commit](https://github.com/apache/pinot/commit/83fc63720cdf2a5470073d43183ae8710d0ecc51) is an example of how to use it.
 

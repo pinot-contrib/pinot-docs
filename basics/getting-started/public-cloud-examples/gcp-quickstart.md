@@ -119,7 +119,7 @@ kubectl get nodes
 
 ## 5. Pinot quickstart
 
-Follow this [Kubernetes quickstart](../kubernetes-quickstart.md) to deploy your Pinot demo.
+Follow this [Kubernetes quickstart](../kubernetes/README.md) to deploy your Pinot demo.
 
 ## 6. Delete a Kubernetes Cluster
 
