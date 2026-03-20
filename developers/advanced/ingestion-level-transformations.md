@@ -247,7 +247,7 @@ Change name of the column from `user_id` to `userId`
 "ingestionConfig": {
     "transformConfigs": [{
       "columnName": "userId",
-      "transformFunction": "Groovy({user_id}, user_id)"
+      "transformFunction": "user_id"
     }]
 }
 ```
