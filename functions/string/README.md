@@ -1,18 +1,18 @@
 # String Functions
 
-[**UPPER**](../functions-1/upper.md)(col)\
+[**UPPER**](../functions/string/upper.md)(col)\
 convert string to upper case
 
-[**LOWER**](../functions-1/lower.md)(col)\
+[**LOWER**](../functions/string/lower.md)(col)\
 convert string to lower case
 
-[**INITCAP**](../functions-1/initcap.md)(col)\
+[**INITCAP**](../functions/string/initcap.md)(col)\
 convert the first letter of each word to uppercase and the rest to lowercase
 
-[**REVERSE**](../functions-1/reverse.md)(col)\
+[**REVERSE**](../functions/string/reverse.md)(col)\
 reverse the string
 
-[**SUBSTR**](../functions-1/substr.md)(col, startIndex, endIndex)\
+[**SUBSTR**](../functions/string/substr.md)(col, startIndex, endIndex)\
 Gets substring of the input string from start to endIndex. Index begins at 0. Set endIndex to -1 to calculate till end of the string
 
 **SUBSTRING(col, beginIndex)** / **SUBSTRING(col, beginIndex, length)**\
@@ -22,10 +22,10 @@ Usage: `SUBSTRING(col, beginIndex)` or `SUBSTRING(col, beginIndex, length)`\
 Example: `SELECT SUBSTRING('hello', 2) FROM myTable` returns `'ello'`\
 Example: `SELECT SUBSTRING('hello', 2, 3) FROM myTable` returns `'ell'`
 
-[**CONCAT(col1, col2, seperator)**](../functions-1/concat.md)\
+[**CONCAT(col1, col2, seperator)**](../functions/string/concat.md)\
 Concatenate two input strings using the seperator
 
-[**TRIM(col)**](../functions-1/trim.md)\
+[**TRIM(col)**](../functions/string/trim.md)\
 trim spaces from both side of the string
 
 **TRIM(end, characters, value)**\
@@ -34,16 +34,16 @@ Standard SQL trim function. Trims the specified `characters` from the specified 
 Usage: `TRIM('BOTH', 'xy', col)`\
 Example: `SELECT TRIM('LEADING', ' ', '  hello  ') FROM myTable` returns `'hello  '`
 
-[**LTRIM(col)**](../functions-1/ltrim.md)\
+[**LTRIM(col)**](../functions/string/ltrim.md)\
 trim spaces from left side of the string
 
-[**RTRIM(col)**](../functions-1/rtrim.md)\
+[**RTRIM(col)**](../functions/string/rtrim.md)\
 trim spaces from right side of the string
 
-[**LENGTH(col)**](../functions-1/length.md)\
+[**LENGTH(col)**](../functions/string/length.md)\
 calculate length of the string
 
-[**levenshtein_distance(string1, string2)**](../functions-1/levenshtein_distance.md)\
+[**levenshtein_distance(string1, string2)**](../functions/string/levenshtein_distance.md)\
 Returns the Levenshtein edit distance between two strings
 
 **hammingDistance(string1, string2)**\
@@ -52,7 +52,7 @@ Returns the Hamming distance between two strings of equal length. Returns -1 if 
 Usage: `hammingDistance(col1, col2)`\
 Example: `SELECT hammingDistance('karolin', 'kathrin') FROM myTable` returns `3`
 
-[**STRPOS(col, find, N)**](../functions-1/strpos.md)\
+[**STRPOS(col, find, N)**](../functions/string/strpos.md)\
 Find Nth instance of `find` string in input. Returns 0 if input string is empty. Returns -1 if the Nth instance is not found or input string is null.
 
 **strrpos(col, find)** / **strrpos(col, find, N)**\
@@ -67,7 +67,7 @@ Returns `true` if the input string contains the specified substring, `false` oth
 Usage: `contains(col, substring)`\
 Example: `SELECT contains(playerName, 'john') FROM myTable`
 
-[**STARTSWITH(col, prefix)**](../functions-1/startswith.md)\
+[**STARTSWITH(col, prefix)**](../functions/string/startswith.md)\
 returns `true` if columns starts with prefix string.
 
 **endsWith(col, suffix)**\
@@ -82,13 +82,13 @@ Compares two strings lexicographically. Returns `0` if equal, a value less than 
 Usage: `strcmp(col1, col2)`\
 Example: `SELECT strcmp(name1, name2) FROM myTable`
 
-[**REPLACE(col, find, substitute)**](../functions-1/replace.md)\
+[**REPLACE(col, find, substitute)**](../functions/string/replace.md)\
 replace all instances of `find` with `replace` in input
 
-[**RPAD(col, size, pad)**](../functions-1/rpad.md)\
+[**RPAD(col, size, pad)**](../functions/string/rpad.md)\
 string padded from the right side with `pad` to reach final `size`
 
-[**LPAD(col, size, pad)**](../functions-1/lpad.md)\
+[**LPAD(col, size, pad)**](../functions/string/lpad.md)\
 string padded from the left side with `pad` to reach final `size`
 
 **leftSubStr(col, length)** / **left(col, length)**\
@@ -129,10 +129,10 @@ Normalizes a Unicode string. Without a form argument, uses NFC normalization. Th
 Usage: `normalize(col)` or `normalize(col, 'NFC')`\
 Example: `SELECT normalize(textCol) FROM myTable`
 
-[**CODEPOINT(col)**](../functions-1/codepoint.md)\
+[**CODEPOINT(col)**](../functions/string/codepoint.md)\
 the Unicode codepoint of the first character of the string
 
-[**CHR(codepoint)**](../functions-1/chr.md)\
+[**CHR(codepoint)**](../functions/string/chr.md)\
 the character corresponding to the Unicode codepoint
 
 **fromBytes(bytes, charsetName)**\
@@ -171,13 +171,13 @@ Encodes binary data (byte array) to a Base64 encoded string.
 Usage: `toBase64(col)`\
 Example: `SELECT toBase64(byteCol) FROM myTable`
 
-[**regexpExtract(value, regexp)**](../functions-1/regexpextract.md)\
+[**regexpExtract(value, regexp)**](../functions/string/regexpextract.md)\
 Extracts values that match the provided regular expression
 
 [**regexpReplace(input, matchRegexp, replaceRegexp, matchStartPos, occurrence, flag)**\
-](../functions-1/regexpreplace.md)Find and replace a string or regexp pattern with a target string or regexp pattern
+](../functions/string/regexpreplace.md)Find and replace a string or regexp pattern with a target string or regexp pattern
 
-[**remove(input, search)**](../functions-1/remove.md)\
+[**remove(input, search)**](../functions/string/remove.md)\
 removes all instances of search from string
 
 **toUUIDBytes(uuidString)**\
@@ -198,20 +198,20 @@ Returns `true` if the input string is valid JSON, `false` otherwise.
 Usage: `isJson(col)`\
 Example: `SELECT isJson('{"key":"value"}') FROM myTable` returns `true`
 
-[**urlEncoding(string)**](../functions-1/url.md)\
+[**urlEncoding(string)**](../functions/string/url.md)\
 url-encode a string with UTF-8 format
 
-[**urlDecoding(string)**](../functions-1/url.md)\
+[**urlDecoding(string)**](../functions/string/url.md)\
 decode a url to plaintext string
 
-[**fromBase64(string)**](../functions-1/base64.md)\
+[**fromBase64(string)**](../functions/binary/base64.md)\
 decode a Base64-encoded string to bytes represented as a hex string
 
-[**toUtf8(string)**](../functions-1/utf8.md)\
+[**toUtf8(string)**](../functions/binary/utf8.md)\
 decode a UTF8-encoded string to bytes represented as a hex string
 
-[**isSubnetOf(ipPrefix, ipAddress)**](../functions-1/issubnetof.md)\
+[**isSubnetOf(ipPrefix, ipAddress)**](../functions/misc/issubnetof.md)\
 checks if ipAddress is in the subnet of the ipPrefix
 
-[**Add Prefix, Suffix & Ngram UDFs**](../functions-1/add-prefix-suffix-ngram-udfs.md)\
+[**Add Prefix, Suffix & Ngram UDFs**](../functions/string/add-prefix-suffix-ngram-udfs.md)\
 provides prefix, suffix and ngram functionality for string manipulation

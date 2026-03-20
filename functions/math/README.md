@@ -1,28 +1,28 @@
 # Math Functions
 
-​[**ADD(col1, col2, col3...)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/add) Sum of at least two values
+​[**ADD(col1, col2, col3...)**](functions/math/add.md) Sum of at least two values
 
-​[**SUB(col1, col2)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/sub) Difference between two values
+​[**SUB(col1, col2)**](functions/math/sub.md) Difference between two values
 
-​[**MULT(col1, col2, col3...)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/mult) Product of at least two values
+​[**MULT(col1, col2, col3...)**](functions/math/mult.md) Product of at least two values
 
-​[**DIV(col1, col2)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/div) Quotient of two values
+​[**DIV(col1, col2)**](functions/math/div.md) Quotient of two values
 
-​[**MOD(col1, col2)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/mod) Modulo of two values
+​[**MOD(col1, col2)**](functions/math/mod.md) Modulo of two values
 
-​[**ABS(col1)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/abs) Absolute of a value
+​[**ABS(col1)**](functions/math/abs.md) Absolute of a value
 
-​[**CEIL(col1)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/ceil#signature) Rounded up to the nearest integer
+​[**CEIL(col1)**](functions/math/ceil.md#signature) Rounded up to the nearest integer
 
-​[**FLOOR(col1)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/floor) Rounded down to the nearest integer
+​[**FLOOR(col1)**](functions/math/floor.md) Rounded down to the nearest integer
 
-​[**EXP(col1)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/exp) Euler's number(e) raised to the power of col.
+​[**EXP(col1)**](functions/math/exp.md) Euler's number(e) raised to the power of col.
 
-​[**LN(col1)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/ln) Natural log of value
+​[**LN(col1)**](functions/math/ln.md) Natural log of value
 
-​[**SQRT(col1)**](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/sqrt) Square root of a value
+​[**SQRT(col1)**](functions/math/sqrt.md) Square root of a value
 
-​[**ROUNDDECIMAL(col1, col2)** ](https://app.gitbook.com/o/-LtRX9NwSr7Ga7zA4piL/s/-LtH6nl58DdnZnelPdTc-887967055/~/changes/2166/functions-1/round-1)​Rounds value to a specified number of decimal places
+​[**ROUNDDECIMAL(col1, col2)** ](functions/math/round-1.md)​Rounds value to a specified number of decimal places
 
 **intDiv(col1, col2)**\
 Returns the integer result of dividing col1 by col2, rounded down (floor division). Returns a `Long`.

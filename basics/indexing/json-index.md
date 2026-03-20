@@ -505,7 +505,7 @@ SELECT jsonextractindex(repo, '$.name', 'STRING', 'dummyValue', '"$.id" < 10')
 FROM mytable
 ```
 
-More in-depth examples can be found in the [JSON\_EXTRACT\_INDEX function documentation](../../configuration-reference/functions/jsonextractindex.md).
+More in-depth examples can be found in the [JSON\_EXTRACT\_INDEX function documentation](../../functions/json/jsonextractindex.md).
 
 ## Supported filter expressions
 

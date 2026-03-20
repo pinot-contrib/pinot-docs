@@ -8,7 +8,7 @@ description: >-
 
 The [UltraLogLog](https://github.com/dynatrace-oss/hash4j/blob/main/src/main/java/com/dynatrace/hash4j/distinctcount/UltraLogLog.java) sketch enables space-efficient cardinality estimation using the hash4j library. UltraLogLog provides similar accuracy to HyperLogLog but with reduced memory consumption and faster merge operations.
 
-For exact distinct counting, see [DISTINCTCOUNT](../../functions-1/distinctcount.md).
+For exact distinct counting, see [DISTINCTCOUNT](../../functions/aggregation/distinctcount.md).
 
 ## Signature
 

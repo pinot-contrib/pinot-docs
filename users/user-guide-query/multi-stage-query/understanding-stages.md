@@ -22,7 +22,7 @@ The current implementation has some properties that are worth mentioning:
 
 ### Extracting Stages from Query Plans
 
-As explained in [Explain Plan (Multi-Stage)](../query-syntax/explain-plan-multi-stage.md), you can use the `EXPLAIN PLAN` syntax to obtain the logical plan of a query. This logical plan can be used to extract the stages of the query.
+As explained in [Explain Plan (Multi-Stage)](../explain-plan-multi-stage.md), you can use the `EXPLAIN PLAN` syntax to obtain the logical plan of a query. This logical plan can be used to extract the stages of the query.
 
 For example, if the query is:
 

@@ -38,8 +38,8 @@ description: >-
 [explain-plan.md](explain-plan.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/filtering-with-idset.md" %}
-[filtering-with-idset.md](query-syntax/filtering-with-idset.md)
+{% content-ref url="filtering-with-idset.md" %}
+[filtering-with-idset.md](filtering-with-idset.md)
 {% endcontent-ref %}
 
 {% content-ref url="gap-fill-functions.md" %}
@@ -50,22 +50,22 @@ description: >-
 [grouping-algorithm.md](grouping-algorithm.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/joins.md" %}
-[joins.md](query-syntax/joins.md)
+{% content-ref url="joins.md" %}
+[joins.md](joins.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/lookup-udf-join.md" %}
-[lookup-udf-join.md](query-syntax/lookup-udf-join.md)
+{% content-ref url="lookup-udf-join.md" %}
+[lookup-udf-join.md](lookup-udf-join.md)
 {% endcontent-ref %}
 
 {% content-ref url="supported-transformations.md" %}
 [supported-transformations.md](supported-transformations.md)
 {% endcontent-ref %}
 
-{% content-ref url="scalar-functions.md" %}
-[scalar-functions.md](scalar-functions.md)
+{% content-ref url="../../functions/udf" %}
+[../../functions/udf](../../functions/udf)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/windows-functions.md" %}
-[windows-functions.md](query-syntax/windows-functions.md)
+{% content-ref url="../../functions/window" %}
+[windows-functions.md](../../functions/window)
 {% endcontent-ref %}

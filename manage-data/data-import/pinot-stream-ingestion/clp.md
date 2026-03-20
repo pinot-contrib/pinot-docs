@@ -133,7 +133,7 @@ For the table's schema, users should configure the CLP-encoded fields as follows
 
 ## Searching and decoding CLP-encoded fields
 
-To decode CLP-encoded fields, use [CLPDECODE](../../../configuration-reference/functions/clpdecode.md).
+To decode CLP-encoded fields, use [CLPDECODE](../../../functions/clp/clpdecode.md).
 
 To search CLP-encoded fields, you can combine `CLPDECODE` with `LIKE`. Note, this may decrease performance when querying a large number of rows.
 
