@@ -17,7 +17,7 @@ docker run \
     --name zookeeper \
     --restart always \
     --network=pinot-demo \
-    -d zookeeper:3.5.6
+    -d zookeeper:3.9
 ```
 
 ### Prepare Pinot configuration files
@@ -92,7 +92,7 @@ docker run --rm -ti \
     --env AWS_ACCESS_KEY_ID=<aws-access-key-id> \
     --env AWS_SECRET_ACCESS_KEY=<aws-secret-access-key> \
     --mount type=bind,source=/tmp/pinot-s3-docker,target=/tmp \
-    apachepinot/pinot:0.6.0-SNAPSHOT-ca8545b29-20201105-jdk11 StartController \
+    apachepinot/pinot:latest StartController \
     -configFileName /tmp/controller.conf
 ```
 
@@ -106,7 +106,7 @@ docker run --rm -ti \
     --network=pinot-demo \
     --env AWS_ACCESS_KEY_ID=<aws-access-key-id> \
     --env AWS_SECRET_ACCESS_KEY=<aws-secret-access-key> \
-    apachepinot/pinot:0.6.0-SNAPSHOT-ca8545b29-20201105-jdk11 StartBroker \
+    apachepinot/pinot:latest StartBroker \
     -zkAddress zookeeper:2181 -clusterName pinot-s3-example-docker
 ```
 
@@ -140,7 +140,7 @@ docker run --rm -ti \
     --env AWS_ACCESS_KEY_ID=<aws-access-key-id> \
     --env AWS_SECRET_ACCESS_KEY=<aws-secret-access-key> \
     --mount type=bind,source=/tmp/pinot-s3-docker,target=/tmp \
-    apachepinot/pinot:0.6.0-SNAPSHOT-ca8545b29-20201105-jdk11 StartServer \
+    apachepinot/pinot:latest StartServer \
     -zkAddress zookeeper:2181 -clusterName pinot-s3-example-docker \
     -configFileName /tmp/server.conf
 ```
@@ -155,7 +155,7 @@ You can also mount your table conf and schema files to the container and run it.
 docker run --rm -ti \
     --name pinot-ingestion-job \
     --network=pinot-demo \
-    apachepinot/pinot:0.6.0-SNAPSHOT-ca8545b29-20201105-jdk11 AddTable \
+    apachepinot/pinot:latest AddTable \
     -controllerHost pinot-controller \
     -controllerPort 9000 \
     -schemaFile examples/batch/airlineStats/airlineStats_schema.json \
@@ -318,7 +318,7 @@ docker run --rm -ti \
     --env AWS_ACCESS_KEY_ID=<aws-access-key-id> \
     --env AWS_SECRET_ACCESS_KEY=<aws-secret-access-key> \
     --mount type=bind,source=/tmp/pinot-s3-docker,target=/tmp \
-    apachepinot/pinot:0.6.0-SNAPSHOT-ca8545b29-20201105-jdk11 LaunchDataIngestionJob \
+    apachepinot/pinot:latest LaunchDataIngestionJob \
     -jobSpecFile /tmp/ingestionJobSpec.yaml
 ```
 

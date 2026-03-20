@@ -230,7 +230,7 @@ The table config is present at `examples/stream/githubEvents/docker/pullRequestM
 
 {% hint style="info" %}
 **Note**\
-If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.
+If you're setting this up on a pre-configured cluster, set the property `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.
 {% endhint %}
 
 {% code title="pullRequestMergedEvents_realtime_table_config.json" %}
@@ -258,8 +258,7 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
       "streamType": "kafka",
       "stream.kafka.topic.name": "pullRequestMergedEvents",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-      "stream.kafka.zk.broker.url": "pinot-zookeeper:2181/kafka",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.time": "12h",
       "realtime.segment.flush.threshold.rows": "100000",
@@ -519,7 +518,7 @@ The table config can be found at `/examples/stream/githubevents/` in the release
 {% hint style="info" %}
 **Note**
 
-If you're setting this up on a pre-configured cluster, set the properties `stream.kafka.zk.broker.url` and `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.
+If you're setting this up on a pre-configured cluster, set the property `stream.kafka.broker.list` correctly, depending on the configuration of your Kafka cluster.
 {% endhint %}
 
 ```bash
@@ -546,8 +545,7 @@ If you're setting this up on a pre-configured cluster, set the properties `strea
       "streamType": "kafka",
       "stream.kafka.topic.name": "pullRequestMergedEvents",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-      "stream.kafka.zk.broker.url": "localhost:2181/kafka",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.broker.list": "localhost:19092",
       "realtime.segment.flush.threshold.time": "12h",
       "realtime.segment.flush.threshold.rows": "100000",

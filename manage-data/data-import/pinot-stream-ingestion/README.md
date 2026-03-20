@@ -120,7 +120,7 @@ For our sample data and schema, the table config will look like this:
             "realtime.segment.flush.threshold.segment.rows": "50000",
             "stream.kafka.broker.list": "localhost:9876",
             "realtime.segment.flush.threshold.time": "3600000",
-            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
             "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
             "stream.kafka.topic.name": "transcript-topic"
           }
@@ -170,7 +170,7 @@ From [this PR](https://github.com/apache/pinot/pull/13790), Pinot starts to supp
             "realtime.segment.flush.threshold.segment.rows": "50000",
             "stream.kafka.broker.list": "localhost:9876",
             "realtime.segment.flush.threshold.time": "3600000",
-            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
             "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
             "stream.kafka.topic.name": "transcript-topic1"
           },
@@ -184,7 +184,7 @@ From [this PR](https://github.com/apache/pinot/pull/13790), Pinot starts to supp
             "realtime.segment.flush.threshold.segment.rows": "50000",
             "stream.kafka.broker.list": "localhost:9876",
             "realtime.segment.flush.threshold.time": "3600000",
-            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
             "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
             "stream.kafka.topic.name": "transcript-topic2"
           }

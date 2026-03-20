@@ -20,7 +20,7 @@ We're going to use the following Docker compose file, which spins up instances o
 version: '3.7'
 services:
   zookeeper:
-    image: zookeeper:3.5.6
+    image: zookeeper:3.9
     container_name: "zookeeper-wiki"
     ports:
       - "2181:2181"
@@ -45,7 +45,7 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,OUTSIDE:PLAINTEXT
   pinot-controller:
-    image: apachepinot/pinot:0.10.0
+    image: apachepinot/pinot:latest
     command: "StartController -zkAddress zookeeper-wiki:2181 -dataDir /data"
     container_name: "pinot-controller-wiki"
     volumes:
@@ -57,7 +57,7 @@ services:
     depends_on:
       - zookeeper
   pinot-broker:
-    image: apachepinot/pinot:0.10.0
+    image: apachepinot/pinot:latest
     command: "StartBroker -zkAddress zookeeper-wiki:2181"
     restart: unless-stopped
     container_name: "pinot-broker-wiki"
@@ -68,7 +68,7 @@ services:
     depends_on:
       - pinot-controller
   pinot-server:
-    image: apachepinot/pinot:0.10.0
+    image: apachepinot/pinot:latest
     command: "StartServer -zkAddress zookeeper-wiki:2181"
     restart: unless-stopped
     container_name: "pinot-server-wiki"
@@ -452,7 +452,7 @@ And the following table config:
         "stream.kafka.topic.name": "wiki_events",
         "stream.kafka.broker.list": "kafka-wiki:9093",
         "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
-        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
         "realtime.segment.flush.threshold.rows": "1000",
         "realtime.segment.flush.threshold.time": "24h",
