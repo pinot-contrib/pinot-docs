@@ -67,7 +67,7 @@ For more information about logical tables, see the [Logical Table Support](../re
 
 Navigate to [Query Console](http://localhost:9000/#/query) to see the querying interface. The Query Console lets you run SQL queries against your Pinot cluster and view the results interactively.
 
-We can see our `baseballStats` table listed on the left (you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid [quick start](https://docs.pinot.apache.org/basics/getting-started/docker)). Click on the table name to display all the names along with the data types of the columns of the table.
+We can see our `baseballStats` table listed on the left (you will see `meetupRSVP` or `airlineStats` if you used the streaming or the hybrid [quick start](../getting-started/docker/README.md)). Click on the table name to display all the names along with the data types of the columns of the table.
 
 You can also execute a sample query `select * from baseballStats limit 10` by typing it in the text box and clicking the **Run Query** button.
 

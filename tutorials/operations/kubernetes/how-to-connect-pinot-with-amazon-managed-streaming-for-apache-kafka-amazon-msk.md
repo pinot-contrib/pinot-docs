@@ -10,7 +10,7 @@ This wiki documents how to connect Pinot deployed in [Amazon EKS](https://us-wes
 
 ## Prerequisite
 
-Follow this [AWS Quickstart Wiki](https://docs.pinot.apache.org/getting-started/quickstart/aws-quickstart) to run Pinot on Amazon EKS.
+Follow this [AWS Quickstart Wiki](../../../basics/getting-started/public-cloud-examples/aws-quickstart.md) to run Pinot on Amazon EKS.
 
 ## Create an Amazon MSK Cluster
 

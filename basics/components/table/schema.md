@@ -36,7 +36,7 @@ The categories are also relevant when doing segment merge and rollups. Pinot use
 
 Metrics aggregation is another example where Pinot uses dimensions and time are used as the key, and automatically aggregates values for the metric columns.
 
-For configuration details, see [Schema configuration reference](https://docs.pinot.apache.org/configuration-reference/schema).
+For configuration details, see [Schema configuration reference](../../../configuration-reference/schema.md).
 
 ### Date and time fields
 
@@ -49,7 +49,7 @@ First, Make sure your [cluster is up](../cluster/#setup-a-pinot-cluster) and run
 Let's create a schema and put it in a JSON file. For this example, we have created a schema for flight data.
 
 {% hint style="info" %}
-For more details on constructing a schema file, see the [Schema configuration reference](https://docs.pinot.apache.org/configuration-reference/schema).
+For more details on constructing a schema file, see the [Schema configuration reference](../../../configuration-reference/schema.md).
 {% endhint %}
 
 {% code title="flights-schema.json" %}

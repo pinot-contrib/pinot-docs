@@ -408,9 +408,9 @@ See [consistent-push-and-rollback.md](../../../operators/operating-pinot/consist
 
 When Pinot segment files are created in external systems (Hadoop/spark/etc), there are several ways to push those data to the Pinot controller and server:
 
-1. Push segment to shared NFS and let pinot pull segment files from the location of that NFS. See [Segment URI Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#2-segment-uri-push).
-2. Push segment to a Web server and let pinot pull segment files from the Web server with HTTP/HTTPS link. See [Segment URI Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#2-segment-uri-push).
-3. Push segment to PinotFS(HDFS/S3/GCS/ADLS) and let pinot pull segment files from PinotFS URI. See [Segment URI Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#2-segment-uri-push) and [Segment Metadata Push](https://docs.pinot.apache.org/basics/data-import/batch-ingestion#3-segment-metadata-push).
+1. Push segment to shared NFS and let pinot pull segment files from the location of that NFS. See [Segment URI Push](.#2-segment-uri-push).
+2. Push segment to a Web server and let pinot pull segment files from the Web server with HTTP/HTTPS link. See [Segment URI Push](.#2-segment-uri-push).
+3. Push segment to PinotFS(HDFS/S3/GCS/ADLS) and let pinot pull segment files from PinotFS URI. See [Segment URI Push](.#2-segment-uri-push) and [Segment Metadata Push](.#3-segment-metadata-push).
 4. Push segment to other systems and implement your own segment fetcher to pull data from those systems.
 
 The first three options are supported out of the box within the Pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files, it will pick up the file and allocate it to proper Pinot servers and brokers. To enable Pinot support for PinotFS, you'll need to provide [PinotFS](../pinot-file-system/) configuration and proper Hadoop dependencies.

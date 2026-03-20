@@ -7,7 +7,7 @@ description: >-
 # Operations FAQ
 
 {% hint style="info" %}
-This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](https://docs.pinot.apache.org/contributing/contributing).
+This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](../../../contributing/contributing.md).
 {% endhint %}
 
 ## Memory
@@ -30,9 +30,9 @@ Changing a column name or data type is considered backward incompatible change. 
 
 ### How to change number of replicas of a table?
 
-You can change the number of replicas by updating the table configuration's [segmentsConfig](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
+You can change the number of replicas by updating the table configuration's [segmentsConfig](../../components/table/README.md#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
 
-For offline tables, update [replication](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1):
+For offline tables, update [replication](../../components/table/README.md#segmentsconfig-1):
 
 ```json
 { 
@@ -45,7 +45,7 @@ For offline tables, update [replication](https://docs.pinot.apache.org/basics/co
     ..
 ```
 
-For real-time tables, update [replicasPerPartition](https://docs.pinot.apache.org/basics/components/table#segmentsconfig):
+For real-time tables, update [replicasPerPartition](../../components/table/README.md#segmentsconfig):
 
 ```json
 { 
@@ -64,7 +64,7 @@ Note that if you are using replica groups, it's expected these configurations eq
 
 ### How to set or change table retention?
 
-By default there is no retention set for a table in Apache Pinot. You may however, set retention by setting the following properties in the [segmentsConfig](https://docs.pinot.apache.org/configuration-reference/table#segments-config) section inside table configs:
+By default there is no retention set for a table in Apache Pinot. You may however, set retention by setting the following properties in the [segmentsConfig](../../../configuration-reference/table.md#segments-config) section inside table configs:
 
 * `retentionTimeUnit`
 * `retentionTimeValue`
@@ -117,7 +117,7 @@ curl -X POST "{host}/segments/{tableNameWithType}/{segmentName}/reset"
 
 ### How do I pause real-time ingestion?
 
-Refer to [Pause Stream Ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion).
+Refer to [Pause Stream Ingestion](../../../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion).
 
 ### What's the difference between Reset, Refresh, and Reload?
 
@@ -193,7 +193,7 @@ If you are are adding/removing servers from an existing table setup, you have to
 
 **Replica group query routing**
 
-Once replica group segment assignment is in effect, the query routing can take advantage of it. For replica group based query routing, set the following in the table config's [routing](https://docs.pinot.apache.org/basics/components/table#routing) section, and then restart brokers
+Once replica group segment assignment is in effect, the query routing can take advantage of it. For replica group based query routing, set the following in the table config's [routing](../../components/table/README.md#routing) section, and then restart brokers
 
 ```json
 {
@@ -208,7 +208,7 @@ Once replica group segment assignment is in effect, the query routing can take a
 
 ### Overwrite index configs at tier level
 
-When using [tiered storage](https://docs.pinot.apache.org/operators/operating-pinot/separating-data-storage-by-age), user may want to have different encoding and indexing types for a column in different tiers to balance query latency and cost saving more flexibly. For example, segments in the hot tier can use dict-encoding, bloom filter and all kinds of relevant index types for very fast query execution. But for segments in the cold tier, where cost saving matters more than low query latency, one may want to use raw values and bloom filters only.
+When using [tiered storage](../../../operators/operating-pinot/separating-data-storage-by-age/README.md), user may want to have different encoding and indexing types for a column in different tiers to balance query latency and cost saving more flexibly. For example, segments in the hot tier can use dict-encoding, bloom filter and all kinds of relevant index types for very fast query execution. But for segments in the cold tier, where cost saving matters more than low query latency, one may want to use raw values and bloom filters only.
 
 The following two examples show how to overwrite encoding type and index configs for tiers. Similar changes are also demonstrated in the [MultiDirQuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/java/org/apache/pinot/tools/MultiDirQuickstart.java).
 
@@ -295,7 +295,7 @@ The following two examples show how to overwrite encoding type and index configs
 
 ### How do I update credentials for real-time upstream without downtime?
 
-1. [Pause the stream ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion#pause-stream-ingestion).
+1. [Pause the stream ingestion](../../../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion).
 2. Wait for the pause status to change to success.
 3. Update the credential in the table config.
 4. Resume the consumption.

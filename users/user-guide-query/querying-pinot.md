@@ -16,7 +16,7 @@ For a complete reference of all supported SQL statements, clauses, operators, an
 
 In Pinot 1.0, the multi-stage query engine supports inner join, left-outer, semi-join, and nested queries out of the box. It's optimized for in-memory process and latency. For more information, see how to [enable and use the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md).
 
-Pinot also supports using simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [programmatically access the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md#programmatically-access-the-multi-stage-query-engine). More DDL supports will be added in the future. But for now, the most common way for data definition is using the [Controller Admin API](https://docs.pinot.apache.org/users/api/pinot-rest-admin-interface).
+Pinot also supports using simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [programmatically access the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md#programmatically-access-the-multi-stage-query-engine). More DDL supports will be added in the future. But for now, the most common way for data definition is using the [Controller Admin API](../api/pinot-rest-admin-interface.md).
 
 {% hint style="info" %}
 **Note:** For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage query engine (v2), we still recommend using **Presto**.
@@ -93,7 +93,7 @@ FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
-For performant filtering of IDs in a list, see [Filtering with IdSet](https://docs.pinot.apache.org/users/user-guide-query/filtering-with-idset).
+For performant filtering of IDs in a list, see [Filtering with IdSet](filtering-with-idset.md).
 
 ### Filtering with NULL predicate
 
@@ -187,7 +187,7 @@ FROM myTable
 GROUP BY DATETIMECONVERT(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH', '1:HOURS')
 ```
 
-For more examples, see [Transform Function in Aggregation Grouping](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations).
+For more examples, see [Transform Function in Aggregation Grouping](supported-transformations.md).
 
 ### BYTES column
 

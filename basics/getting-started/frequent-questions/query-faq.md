@@ -7,7 +7,7 @@ description: >-
 # Query FAQ
 
 {% hint style="info" %}
-This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](https://docs.pinot.apache.org/contributing/contributing).
+This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](../../../contributing/contributing.md).
 {% endhint %}
 
 ## Querying
@@ -22,7 +22,7 @@ This implies that the Pinot Broker assigned to the table specified in the query 
 
 ### What are all the fields in the Pinot query's JSON response?
 
-See this page explaining the Pinot response format: [https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format).
+See this page explaining the Pinot response format: [docs](../../../users/api/querying-pinot-using-standard-sql/response-format.md).
 
 ### SQL Query fails with "Encountered 'timestamp' was expecting one of..."
 
@@ -78,7 +78,7 @@ See [query-cancellation.md](../../../users/user-guide-query/query-cancellation.m
 
 ### How do I optimize my Pinot table for doing aggregations and group-by on high cardinality columns ?
 
-In order to speed up aggregations, you can enable metrics aggregation on the required column by adding a [metric field](https://docs.pinot.apache.org/configuration-reference/schema#metricfieldspecs) in the corresponding schema and setting `aggregateMetrics` to true in the table configuration. You can also use a star-tree index config for columns like these ([see here for more about star-tree](https://docs.pinot.apache.org/basics/indexing/star-tree-index)).
+In order to speed up aggregations, you can enable metrics aggregation on the required column by adding a [metric field](../../../configuration-reference/schema.md#metricfieldspecs) in the corresponding schema and setting `aggregateMetrics` to true in the table configuration. You can also use a star-tree index config for columns like these ([see here for more about star-tree](../../../configuration-reference/indexing/star-tree-index.md)).
 
 ### How do I verify that an index is created on a particular column ?
 

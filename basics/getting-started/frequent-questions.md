@@ -7,16 +7,16 @@ description: >-
 # Frequently Asked Questions \(FAQs\)
 
 {% hint style="info" %}
-This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](https://docs.pinot.apache.org/contributing/contributing).
+This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](../../contributing/contributing.md).
 {% endhint %}
 
 ## Ingestion
 
 ### Flatten my JSON Kafka stream
 
-The [json\_format\(field\)](https://docs.pinot.apache.org/developers/advanced/ingestion-level-transformations#json-functions) function can store a top level json field as a STRING in Pinot.
+The [json\_format\(field\)](../../developers/advanced/ingestion-level-transformations.md#json-functions) function can store a top level json field as a STRING in Pinot.
 
-Then, use these [json functions](https://docs.pinot.apache.org/users/user-guide-query/supported-transformations#json-functions) during query time, to extract fields from the json string.
+Then, use these [json functions](../../users/user-guide-query/supported-transformations.md#json-functions) during query time, to extract fields from the json string.
 
 {% hint style="warning" %}
 **NOTE**  
@@ -28,13 +28,13 @@ This works well if some of your fields are nested json, but most of your fields 
 
 ### Set inverted indexes
 
-Inverted indexes are set in the table configuration's `tableIndexConfi`g -&gt; `invertedIndexColumns` list. See the documentation for `tableIndexConfig`: [https://docs.pinot.apache.org/basics/components/table\#tableindexconfig-1](https://docs.pinot.apache.org/basics/components/table#tableindexconfig-1) which includes a sample table that has set inverted indexes on some columns.
+Inverted indexes are set in the table configuration's `tableIndexConfi`g -&gt; `invertedIndexColumns` list. See the documentation for `tableIndexConfig`: [docs](../components/table/README.md#tableindexconfig-1) which includes a sample table that has set inverted indexes on some columns.
 
 Applying inverted indexes to a table configuration will generate an inverted index for all new segments. In order to apply the inverted indexes to all existing segments, see [How to apply inverted index to existing setup?](frequent-questions.md#how-to-apply-inverted-index-to-existing-setup).
 
 ### Apply inverted index to existing setup
 
-1. Add the columns you want to index to the `tableIndexConfig-&gt; invertedIndexColumns` list. This sample table config shows inverted indexes set: [https://docs.pinot.apache.org/basics/components/table\#offline-table-config ](https://docs.pinot.apache.org/basics/components/table#offline-table-config). To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
+1. Add the columns you want to index to the `tableIndexConfig-&gt; invertedIndexColumns` list. This sample table config shows inverted indexes set: [docs](../components/table/README.md#offline-table-config). To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
 2. Invoke the reload API: [http://localhost:9000/help\#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments).
 
 This will trigger a reload operation on each of the servers hosting the table's segments.
@@ -42,7 +42,7 @@ The API response has a `reloadJobId` which can be used to monitor the status of 
 
 ### Create star-tree indexes
 
-Star-tree indexes are configured in the table configuration under the `tableIndexConfig` -&gt; `starTreeIndexConfigs` \(list\) and `enableDefaultStarTree` \(boolean\). See here to learn more about how to configure star-tree indexes: [https://docs.pinot.apache.org/basics/features/indexing\#index-generation-configuration](https://docs.pinot.apache.org/basics/features/indexing#index-generation-configuration)
+Star-tree indexes are configured in the table configuration under the `tableIndexConfig` -&gt; `starTreeIndexConfigs` \(list\) and `enableDefaultStarTree` \(boolean\). See here to learn more about how to configure star-tree indexes: [docs](../../configuration-reference/indexing.md#index-generation-configuration)
 
 The new segments will have star-tree indexes generated after applying the star-tree index configurations to the table configuration. Pinot does not support adding star-tree indexes to the existing segments.
 
@@ -50,7 +50,7 @@ The new segments will have star-tree indexes generated after applying the star-t
 
 ### What are all the fields in the Pinot query's JSON response?
 
-See this page which explains the Pinot response format: [https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format](https://docs.pinot.apache.org/users/api/querying-pinot-using-standard-sql/response-format).
+See this page which explains the Pinot response format: [docs](../../users/api/querying-pinot-using-standard-sql/response-format.md).
 
 ### SQL Query fails with "Encountered 'timestamp' was expecting one of..."
 
@@ -92,9 +92,9 @@ No. Pagination only works for SELECTION queries.
 
 ### How to change the number of replicas of a table?
 
-You can change the number of replicas by updating the table configuration's [segmentsConfig](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
+You can change the number of replicas by updating the table configuration's [segmentsConfig](../components/table/README.md#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
 
-For OFFLINE table, update [replication](https://docs.pinot.apache.org/basics/components/table#segmentsconfig-1), as follows:
+For OFFLINE table, update [replication](../components/table/README.md#segmentsconfig-1), as follows:
 
 ```json
 { 
@@ -107,7 +107,7 @@ For OFFLINE table, update [replication](https://docs.pinot.apache.org/basics/com
     ..
 ```
 
-For REALTIME table update [replicasPerPartition](https://docs.pinot.apache.org/basics/components/table#segmentsconfig), as follows:
+For REALTIME table update [replicasPerPartition](../components/table/README.md#segmentsconfig), as follows:
 
 ```json
 { 
@@ -159,7 +159,7 @@ If you are are adding/removing servers from an existing table setup, you have to
 
 **Replica group query routing**
 
-Once replica group segment assignment is in effect, the query routing can take advantage of it. For replica group based query routing, set the following in the table configuration's [routing](https://docs.pinot.apache.org/basics/components/table#routing) section, and then restart brokers
+Once replica group segment assignment is in effect, the query routing can take advantage of it. For replica group based query routing, set the following in the table configuration's [routing](../components/table/README.md#routing) section, and then restart brokers
 
 ```json
 {
@@ -178,7 +178,7 @@ Once replica group segment assignment is in effect, the query routing can take a
 
 Pinot does not require ordering of event time stamps. Out of order events are still consumed and indexed into the "currently consuming" segment. In a pathological case, if you have a two-day-old event come in "now", it will still be stored in the segment that is open for consumption "now". There is no strict time-based partitioning for segments, but star-indexes and hybrid tables will handle this as appropriate.
 
-See [Components &gt; Broker](https://docs.pinot.apache.org/basics/components/broker) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`. Pinot stores the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
+See [Components &gt; Broker](../components/cluster/broker.md) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`. Pinot stores the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
 
 When generating star-indexes, the time column will be part of the star-tree so the tree can still be efficiently queried for segments with multiple time intervals.
 

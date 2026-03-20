@@ -122,7 +122,7 @@ RealtimeProvisioningHelperCommand -tableConfigFile /Users/ssubrama/tmp/samza/rea
 Note:
 
 * Table retention and push frequency ignored for determining retentionHours
-* See https://docs.pinot.apache.org/operators/operating-pinot/tuning/realtime
+* See realtime.md
 
 Memory used per host (Active/Mapped)
 

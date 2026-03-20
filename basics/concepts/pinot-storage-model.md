@@ -7,11 +7,11 @@ Apache Pinot™ uses a variety of terms which can refer to either abstractions t
 * [Tenants](pinot-storage-model.md#tenant) to isolate data
 * [Clusters](pinot-storage-model.md#cluster) to manage data
 
-Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. To achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [segments](https://docs.pinot.apache.org/pinot-components/segment) (similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.
+Pinot has a distributed systems architecture that scales horizontally. Pinot expects the size of a table to grow infinitely over time. To achieve this, all data needs to be distributed across multiple nodes. Pinot achieves this by breaking data into smaller chunks known as [segments](../components/table/segment) (similar to shards/partitions in HA relational databases). Segments can also be seen as time-based partitions.
 
 ## Table
 
-Similar to traditional databases, Pinot has the concept of a [table](https://docs.pinot.apache.org/pinot-components/table)—a logical abstraction to refer to a collection of related data. As is the case with relational database management systems (RDBMS), a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](https://docs.pinot.apache.org/pinot-components/schema), which defines the columns in a table as well as their data types.
+Similar to traditional databases, Pinot has the concept of a [table](../components/table/)—a logical abstraction to refer to a collection of related data. As is the case with relational database management systems (RDBMS), a table is a construct that consists of columns and rows (documents) that are queried using SQL. A table is associated with a [schema](../components/table/schema.md), which defines the columns in a table as well as their data types.
 
 As opposed to RDBMS schemas, multiple tables can be created in Pinot (real-time or batch) that inherit a single schema definition. Tables are independently configured for concerns such as indexing strategies, partitioning, tenants, data sources, and replication.
 
@@ -31,7 +31,7 @@ Pinot tables are stored in one or more independent shards called [segments](../c
 
 ## Tenant
 
-To support multi-tenancy, Pinot has first class support for tenants. A table is associated with a [tenant](https://docs.pinot.apache.org/pinot-components/tenant). This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications do not have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.
+To support multi-tenancy, Pinot has first class support for tenants. A table is associated with a [tenant](../components/cluster/tenant.md). This allows all tables belonging to a particular logical namespace to be grouped under a single tenant name and isolated from other tenants. This isolation between tenants provides different namespaces for applications and teams to prevent sharing tables or schemas. Development teams building applications do not have to operate an independent deployment of Pinot. An organization can operate a single cluster and scale it out as new tenants increase the overall volume of queries. Developers can manage their own schemas and tables without being impacted by any other tenant on a cluster.
 
 Every table is associated with a [_tenant_](../components/cluster/tenant.md), or a logical namespace that restricts where the cluster processes queries on the table. A Pinot tenant takes the form of a text tag in the logical tenant namespace. Physical cluster hardware resources (i.e., [brokers](../components/cluster/broker.md) and [servers](../components/cluster/server.md)) are also associated with a tenant tag in the common tenant namespace. Tables of a particular tenant tag will only be scheduled for storage and query processing on hardware resources that belong to the same tenant tag. This lets Pinot cluster operators assign specified workloads to certain hardware resources, preventing data from separate workloads from being stored or processed on the same physical hardware.
 
@@ -61,7 +61,7 @@ Helix is a cluster management solution created by the authors of Pinot. Helix ma
 
 ## Controller
 
-A[ controller](https://docs.pinot.apache.org/pinot-components/controller) is the core orchestrator that drives the consistency and routing in a Pinot cluster. Controllers are horizontally scaled as an independent component (container) and has visibility of the state of all other components in a cluster. The controller reacts and responds to state changes in the system and schedules the allocation of resources for tables, segments, or nodes. As mentioned earlier, Helix is embedded within the controller as an agent that is a participant responsible for observing and driving state changes that are subscribed to by other components.
+A[ controller](../components/cluster/controller.md) is the core orchestrator that drives the consistency and routing in a Pinot cluster. Controllers are horizontally scaled as an independent component (container) and has visibility of the state of all other components in a cluster. The controller reacts and responds to state changes in the system and schedules the allocation of resources for tables, segments, or nodes. As mentioned earlier, Helix is embedded within the controller as an agent that is a participant responsible for observing and driving state changes that are subscribed to by other components.
 
 The Pinot [controller](../components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../../manage-data/data-import/pinot-stream-ingestion/) and [offline tables](../../manage-data/data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
@@ -69,7 +69,7 @@ The controller exposes a [REST API endpoint](../../users/api/controller-api-refe
 
 ## Server
 
-[Servers](https://docs.pinot.apache.org/pinot-components/server) host segments (shards) that are scheduled and allocated across multiple nodes and routed on an assignment to a tenant (there is a single tenant by default). Servers are independent containers that scale horizontally and are notified by Helix through state changes driven by the controller. A server can either be a real-time server or an offline server.
+[Servers](../components/cluster/server.md) host segments (shards) that are scheduled and allocated across multiple nodes and routed on an assignment to a tenant (there is a single tenant by default). Servers are independent containers that scale horizontally and are notified by Helix through state changes driven by the controller. A server can either be a real-time server or an offline server.
 
 A real-time and offline server have very different resource usage requirements, where real-time servers are continually consuming new messages from external systems (such as Kafka topics) that are ingested and allocated on segments of a tenant. Because of this, resource isolation can be used to prioritize high-throughput real-time data streams that are ingested and then made available for query through a broker.
 

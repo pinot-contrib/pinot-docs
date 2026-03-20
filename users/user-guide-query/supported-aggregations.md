@@ -115,7 +115,7 @@ FROM MyTable WHERE COL3 > 50
 
 In the query above, `COL1` is aggregated only for rows where `COL2 > 300 and COL3 > 50` . Similarly, `COL2` is aggregated where `COL2 < 50 and COL3 > 50`.
 
-With [NULL Value Support](https://docs.pinot.apache.org/developers/advanced/null-value-support) enabled, this allows to filter out the null values while performing aggregation as follows:
+With [NULL Value Support](../../developers/advanced/null-value-support.md) enabled, this allows to filter out the null values while performing aggregation as follows:
 
 ```
 SELECT SUM(COL1) FILTER (WHERE COL1 IS NOT NULL)

@@ -7,7 +7,7 @@ description: >-
 # General
 
 {% hint style="info" %}
-This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](https://docs.pinot.apache.org/contributing/contributing).
+This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](../../../contributing/contributing.md).
 {% endhint %}
 
 ## How does Apache Pinot use deep storage?

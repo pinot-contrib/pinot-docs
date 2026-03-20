@@ -225,7 +225,7 @@ Specifically, if a table has _**R**_ replicas and the underlying infrastructure 
 
 The configuration of this comes in two folds:
 
-1. Tag the servers of a specific Fault Domain with the same pool ID (see instance config tagging in [pool based assignment](https://docs.pinot.apache.org/operators/operating-pinot/instance-assignment#pool-based-instance-assignment)).
+1. Tag the servers of a specific Fault Domain with the same pool ID (see instance config tagging in [pool based assignment](instance-assignment.md#pool-based-instance-assignment)).
 2. Specify partitionSelector in instanceAssignmentConfigMap to use FD\_AWARE\_INSTANCE\_PARTITION\_SELECTOR
 
 ```javascript

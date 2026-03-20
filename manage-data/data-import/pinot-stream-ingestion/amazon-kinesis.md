@@ -62,7 +62,7 @@ Kinesis supports authentication using the [DefaultCredentialsProviderChain](http
 * Instance profile credentials delivered through the Amazon EC2 metadata service
 
 {% hint style="info" %}
-You must provide all `read` `access level` permissions for Pinot to work with an AWS Kinesis data stream. See the [AWS documentation](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion/amazon-kinesis) for details.
+You must provide all `read` `access level` permissions for Pinot to work with an AWS Kinesis data stream. See the [AWS documentation](amazon-kinesis.md) for details.
 {% endhint %}
 
 Although you can also specify the `accessKey` and `secretKey` in the properties above, we don't recommend this insecure method. We recommend using it only for non-production proof-of-concept (POC) setups. You can also specify other AWS fields such as AWS\_SESSION\_TOKEN as environment variables and config and it will work.
@@ -73,14 +73,14 @@ In Kinesis, whenever you reshard a stream, it is done via split or merge operati
 
 Please check out this recipe for more details: [https://dev.startree.ai/docs/pinot/recipes/github-events-stream-kinesis#resharding-kinesis-stream](https://dev.startree.ai/docs/pinot/recipes/github-events-stream-kinesis#resharding-kinesis-stream)
 
-In Pinot, resharding of any stream is detected by periodic task RealtimeValidationManager: [https://docs.pinot.apache.org/configuration-reference/controller#realtimesegmentvalidationmanager](https://docs.pinot.apache.org/configuration-reference/controller#realtimesegmentvalidationmanager). This runs hourly. If you rehsard, your new shards will not get detected unless:
+In Pinot, resharding of any stream is detected by periodic task RealtimeValidationManager: [docs](../../../configuration-reference/controller.md#realtimesegmentvalidationmanager). This runs hourly. If you rehsard, your new shards will not get detected unless:
 
 1. We finish ingesting from parent shards completely
 2. And after 1, the RealtimeValidationManager runs
 
 You will see a period where the ideal state will show all segments ONLINE, as parents have naturally completed ingesting, and we're waiting for RealtimeValidationManager to kickstart the ingestion from children.
 
-If you need the ingestion to happen sooner, you can manually invoke the RealtimeValidationManager: [https://docs.pinot.apache.org/basics/concepts/components/cluster/controller#running-the-periodic-task-manually](https://docs.pinot.apache.org/basics/concepts/components/cluster/controller#running-the-periodic-task-manually)
+If you need the ingestion to happen sooner, you can manually invoke the RealtimeValidationManager: [docs](../../../basics/components/cluster/controller.md#running-the-periodic-task-manually)
 
 ### Limitations
 

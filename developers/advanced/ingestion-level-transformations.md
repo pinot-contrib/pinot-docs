@@ -107,7 +107,7 @@ Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/j
 
 | Function name | Description                                                                                                                                                                                                                                                                                                       |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| json\_format  | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="https://docs.pinot.apache.org/users/user-guide-query/pinot-query-language#transform-function-in-aggregation-and-grouping">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
+| json\_format  | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="../../users/user-guide-query/querying-pinot.md#transform-function-in-aggregation-and-grouping">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
 
 ## Types of transformation
 

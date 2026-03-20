@@ -1,6 +1,6 @@
 # Schema Evolution
 
-Schema evolution occurs over time. As business requirements evolve, and data formats or structures need to change, use Pinot to keep your schemas up-to-date. If you're just starting out with schemas in Pinot, see how to [create a new schema](https://docs.pinot.apache.org/basics/components/schema#creating-a-schema) for a Pinot table.&#x20;
+Schema evolution occurs over time. As business requirements evolve, and data formats or structures need to change, use Pinot to keep your schemas up-to-date. If you're just starting out with schemas in Pinot, see how to [create a new schema](../../basics/components/table/schema.md#creating-a-schema) for a Pinot table.&#x20;
 
 In this tutorial, you'll learn how to add a new column to your schema, load data to the updated schema, run a query to test the updated schema, and backfill data.
 
@@ -10,7 +10,7 @@ Pinot only supports adding new columns to a schema. To drop a column or change t
 
 ## Prerequisites
 
-Before you get started, you must have a Pinot cluster up and running, and a `baseballStats` table (created when you set up a Pinot cluster using the Quickstart option). For more information, see how to [start running Pinot and set up a cluster using the Quickstart](https://docs.pinot.apache.org/basics/getting-started#running-pinot) option.
+Before you get started, you must have a Pinot cluster up and running, and a `baseballStats` table (created when you set up a Pinot cluster using the Quickstart option). For more information, see how to [start running Pinot and set up a cluster using the Quickstart](../../basics/getting-started/README.md#running-pinot) option.
 
 ## **Add a new column to your schema**
 
@@ -58,7 +58,7 @@ $ curl -F schemaName=@baseballStats.schema localhost:9000/schemas
 
 After you add the new column to your schema, reload the consuming segments.
 
-1. (Real-time tables only): Open [Server config](https://docs.pinot.apache.org/configuration-reference/server), and set `pinot.server.instance.reload.consumingSegment` to `true`.
+1. (Real-time tables only): Open [Server config](../../configuration-reference/server.md), and set `pinot.server.instance.reload.consumingSegment` to `true`.
 2. To ensure the `baseballStats` column shows up, run the following command to reload the table segments--**be sure to replace** **the accurate** `reloadJobId` **for your schema:**
 
 **Command**&#x20;
@@ -134,7 +134,7 @@ Result: {"resultTable":{"dataSchema":{"columnNames":["playerID","yearsOfExperien
 2. As you can see, the query returns the `defaultNullValue` for the newly added column. To populate this column with real values, re-run the batch ingestion job for the past datesBackfill data.
 
 {% hint style="warning" %}
-Backfilling data does not work for real-time tables. You can convert a real-time table to a hybrid table by adding an offline table that uses the same counterpart, and then backfilling the offline table to fill in values for the newly added column. For more information, see [hybrid tables](https://docs.pinot.apache.org/basics/components/table#hybrid-table).
+Backfilling data does not work for real-time tables. You can convert a real-time table to a hybrid table by adding an offline table that uses the same counterpart, and then backfilling the offline table to fill in values for the newly added column. For more information, see [hybrid tables](../../basics/components/table/README.md#hybrid-table).
 {% endhint %}
 
 
