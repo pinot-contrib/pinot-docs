@@ -160,6 +160,18 @@ docker run --rm -ti \
     -d ${PINOT_IMAGE} StartServer \
     -zkAddress pinot-zookeeper:2181
 ```
+#### Start Pinot Minion
+
+A Pinot minion is an optional cluster component that executes background tasks on table data apart from the query processes performed by brokers and servers
+
+```
+docker run --rm -ti \
+    --network=pinot-demo \
+    --name pinot-minion \
+    -p 6000:6000 \
+    -d ${PINOT_IMAGE} StartMinion \
+    -zkAddress pinot-zookeeper:2181
+```
 
 #### Start Kafka
 
@@ -192,6 +204,7 @@ accc70bc7f07   bitnami/kafka:3.6         "/opt/bitnami/script…"   About a minu
 134a67eec957   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8098/tcp, 9000/tcp, 0.0.0.0:8099->8099/tcp             pinot-broker
 4fcc72cb7302   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:9000->9000/tcp                       pinot-controller
 144304524f6c   zookeeper:3.9.2           "/docker-entrypoint.…"   About a minute ago   Up About a minute   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp        pinot-zookeeper
+9f7f194d9f40   apachepinot/pinot:1.2.0   "./bin/pinot-admin.s…"   About a minute ago   Up About a minute   8096-8099/tcp, 0.0.0.0:6000->6000/tcp, 9000/tcp             pinot-minion
 ```
 
 ### Docker Compose
@@ -318,6 +331,18 @@ services:
       timeout: 10s
       retries: 5
       start_period: 10s
+
+  pinot-minion:
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.2.0}
+    command: "StartMinion -zkAddress pinot-zookeeper:2181"
+    restart: unless-stopped
+    container_name: "pinot-minion"
+    ports:
+      - "6000:6000"
+    depends_on:
+      - pinot-broker
+    networks: 
+      - pinot-demo
 
 networks:
   pinot-demo:
