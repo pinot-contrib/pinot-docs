@@ -216,6 +216,7 @@
   * [Managing Logs](operators/operating-pinot/managing-logs.md)
   * [OOM Protection Using Automatic Query Killing](operators/operating-pinot/oom-protection-using-automatic-query-killing.md)
   * [Pause ingestion based on resource utilization](operators/operating-pinot/pause-ingestion-based-on-resource-utilization.md)
+  * [Pauseless Consumption](operators/operating-pinot/pauseless-consumption.md)
 * [Command-Line Interface (CLI)](operators/cli.md)
 * [Configuration Recommendation Engine](operators/configuration-recommendation-engine.md)
 * [Tutorials](operators/tutorials/README.md)
