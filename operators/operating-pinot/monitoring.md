@@ -319,6 +319,11 @@ When building dashboards, organize panels by component and focus on these key vi
 - Periodic task execution and errors
 - Table storage quota utilization
 
+
+## JVM diagnostics (Continuous JFR)
+
+For low-overhead, always-on JVM profiling (CPU, memory, threads, locks), you can enable [Continuous Java Flight Recorder (JFR)](continuous-jfr.md). JFR recordings can be dumped on exit or inspected with JDK tools; configuration is dynamic via cluster config.
+
 ---
 
 ## Further Reading
