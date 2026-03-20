@@ -10,6 +10,14 @@ Pinot supports SQL/MM geospatial data and is compliant with the [Open Geospatial
 * Geospatial functions, for querying of spatial properties and relationships.
 * Geospatial indexing, used for efficient processing of spatial operations
 
+## When to use
+
+Use geospatial indexing when your queries involve spatial distance calculations with `ST_Distance` in the `WHERE` clause. The H3-based geospatial index can dramatically speed up queries that find records within a certain distance of a reference point.
+
+## Supported column types
+
+The H3 geospatial index requires BYTES columns (single-valued) containing spherical geography data. The column should use a `transformFunction` to convert coordinates into `SphericalGeography` format.
+
 ## Geospatial data types
 
 Geospatial data types abstract and encapsulate spatial structures such as boundary and dimension. In many respects, spatial data types can be understood simply as shapes. Pinot supports the Well-Known Text (WKT) and Well-Known Binary (WKB) forms of geospatial objects, for example:
@@ -166,3 +174,10 @@ As in the example diagram above, if we want to find all relevant points within a
 * First find the H3 distance `x` that contains the range (for example, within a red circle).
 * Then, for the points within the H3 distance (those covered by the hexagons completely within [`kRing(x)`](https://h3geo.org/docs/api/traversal)), directly accept those points without filtering.
 * Finally, for the points contained in the hexagons of `kRing(x)` at the outer edge of the red circle H3 distance, the algorithm will filter them by evaluating the condition `ST_Distance(loc1, loc2) < x` to find only those that are within the circle.
+
+## Limitations
+
+- The H3 geospatial index only supports `ST_Distance` in the `WHERE` clause. Other spatial predicates like `ST_Contains` or `ST_Within` do not use the index.
+- The column must be BYTES type with raw encoding — dictionary encoding is incompatible with the H3 index.
+- The index is based on the H3 hexagonal grid, so accuracy depends on the configured resolutions. Multiple resolutions can be specified to balance precision and performance.
+- Only single-valued columns are supported.

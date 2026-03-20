@@ -1,48 +1,89 @@
 # FST index
 
-The FST index supports regex queries on text. Decreases on-disk index by 4-6 times.&#x20;
+The FST (Finite State Transducer) index accelerates regex queries on dictionary-encoded STRING columns. It reduces the on-disk index size by 4-6x compared to scanning the full dictionary.
 
-* Only supports regex queries
-* Only supported on stored or completed Pinot segments (no consuming segments).
-* Only supported on dictionary-encoded columns.
-* Works better for prefix queries&#x20;
+## When to use
+
+Use an FST index when your queries use `LIKE` or `REGEXP_LIKE` predicates on string columns. It is especially effective for prefix-matching patterns. For full-text search with tokenization, use the [text index](text-search-support.md) instead.
+
+## Supported column types
+
+- STRING columns only
+- Must be single-valued
+- Must be dictionary-encoded
+
+## Limitations
+
+- Only supports regex queries (`LIKE` and `REGEXP_LIKE` predicates).
+- Only supported on stored or completed segments (not consuming segments in real-time tables).
+- Only supported on dictionary-encoded columns.
+- Works best for prefix queries. Suffix-only or infix-only patterns may not benefit as much.
 
 {% hint style="info" %}
-**Note:** Lucene is case sensitive as such when using FST index based column(s) in query, user needs to ensure this is taken into account. For e.g `Select * from table T where colA LIKE %Value%` which has a FST index on colA will only return rows containing string "Value" but not "value".
+Lucene FST is **case-sensitive**. When using an FST index in queries, ensure your pattern matches the case stored in the data. For example, `WHERE colA LIKE '%Value%'` will match "Value" but not "value". For case-insensitive matching, use the [IFST index](#case-insensitive-fst-index-ifst) instead.
 {% endhint %}
 
-For more information on the FST construction and code, see [Lucene documentation](https://lucene.apache.org/core/9\_10\_0/core/org/apache/lucene/util/fst/FST.html).
+For more information on FST construction, see the [Lucene FST documentation](https://lucene.apache.org/core/9_10_0/core/org/apache/lucene/util/fst/FST.html).
 
-## Enable the FST index
+## Configuration
 
-To enable the FST index on a dictionary-encoded column, include the following configuration:
+To enable the FST index on a dictionary-encoded column:
 
-```javascript
-"fieldConfigList":[
+{% code title="Recommended: fieldConfigList" %}
+```json
 {
-"name":"text_col_1",
-"encodingType":"DICTIONARY",
-"indexType":"FST"
+  "fieldConfigList": [
+    {
+      "name": "text_col_1",
+      "encodingType": "DICTIONARY",
+      "indexType": "FST"
+    }
+  ]
 }
-]
+```
+{% endcode %}
+
+The FST index generates one index file (`.lucene.fst`). If an inverted index is also enabled on the column, FST can take advantage of it for faster lookups.
+
+## Query examples
+
+Prefix match:
+
+```sql
+SELECT productName
+FROM products
+WHERE productName LIKE 'iPhone%'
 ```
 
-The FST index generates one FST index file (`.lucene.fst)`. If the inverted index is enabled, this is further able to take advantage of that.
+Regex match:
+
+```sql
+SELECT email
+FROM users
+WHERE REGEXP_LIKE(email, '^admin.*@example\\.com$')
+```
+
+Infix match:
+
+```sql
+SELECT description
+FROM products
+WHERE description LIKE '%wireless%'
+```
 
 ## Case-insensitive FST index (IFST)
 
 The case-insensitive FST index (IFST) provides the same functionality as the standard FST index but with case-insensitive matching. This eliminates the need to handle case sensitivity manually in queries.
 
-* Supports case-insensitive regex queries
-* Only supported on stored or completed Pinot segments (no consuming segments).
-* Only supported on dictionary-encoded columns.
-* Works better for prefix queries with case-insensitive matching
+- Supports case-insensitive regex queries.
+- Only supported on stored or completed segments (not consuming segments).
+- Only supported on dictionary-encoded STRING columns.
+- Works best for prefix queries with case-insensitive matching.
 
-### Enable the case-insensitive FST index
+### Configuration
 
-To enable the case-insensitive FST index on a dictionary-encoded column, include the following configuration:
-
-```javascript
+{% code title="IFST configuration" %}
+```json
 {
   "fieldConfigList": [
     {
@@ -57,9 +98,8 @@ To enable the case-insensitive FST index on a dictionary-encoded column, include
   ]
 }
 ```
+{% endcode %}
 
-The case-insensitive FST index generates one FST index file (`.lucene.ifst`) and provides case-insensitive matching for regex queries without requiring manual case handling in your queries.
+The case-insensitive FST index generates one index file (`.lucene.ifst`).
 
-
-For more information about enabling the FST index, see ways to [enable indexes](./README.md#enabling-indexes).
-
+For more information about enabling indexes, see [enabling indexes](./README.md#enabling-indexes).

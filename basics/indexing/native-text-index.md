@@ -78,3 +78,17 @@ Native text indices are created using field configurations. To indicate that an 
   }
 ]
 ```
+
+## Supported column types
+
+The native text index is supported on STRING columns only.
+
+## Migration
+
+Since the native text index is deprecated and will be removed after the 1.4.0 release, migrate to the standard [text index](text-search-support.md) by:
+
+1. Replacing `"indexType": "NATIVE_TEXT"` with the equivalent text index configuration in `fieldConfigList`.
+2. Using `TEXT_MATCH` or `TEXT_CONTAINS` functions in your queries as before.
+3. Reloading segments to rebuild the index.
+
+The standard text index uses Lucene and supports all the same query patterns plus additional operators like fuzzy matching, range queries, and custom analyzers.

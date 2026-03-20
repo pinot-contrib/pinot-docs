@@ -1,63 +1,111 @@
 ---
-description: This page describes configuring the inverted index for Apache Pinot
+description: This page describes configuring the inverted index for Apache Pinot.
 ---
 
 # Inverted index
 
-We can define the [forward index](forward-index.md) as a mapping from document IDs (also known as rows) to values. Similarly, an inverted index establishes a mapping from values to a set of document IDs, making it the "inverted" version of the forward index. When you frequently use a column for filtering operations like EQ (equal), IN (membership check), GT (greater than), etc., incorporating an inverted index can significantly enhance query performance.
+The [forward index](forward-index.md) maps document IDs (rows) to values. An inverted index reverses this mapping: it maps values to the set of document IDs that contain them. When you frequently filter on a column with predicates like EQ, IN, GT, LT, or BETWEEN, adding an inverted index can significantly improve query performance.
 
-Pinot supports two distinct types of inverted indexes: bitmap inverted indexes and sorted inverted indexes. Bitmap inverted indexes represent the _actual_ inverted index type, whereas the sorted type is automatically available when the column is sorted. Both types of indexes necessitate the enabling of a [dictionary](dictionary-index.md) for the respective column.
+Pinot supports two types of inverted indexes: bitmap inverted indexes and sorted inverted indexes.
 
-### Bitmap inverted index
+## When to use
 
-When a column is not sorted, and an inverted index is enabled for that column, Pinot maintains a mapping from each value to a bitmap of rows. This design ensures that value lookup operations take constant time, providing efficient querying capabilities.
+Use an inverted index on columns that appear frequently in `WHERE` clause filters, especially for equality and membership predicates. An inverted index is a good starting point for performance tuning.
 
-When an inverted index is enabled for a column, Pinot maintains a map from each value to a bitmap of rows, which makes value lookup take constant time. If you have a column that is frequently used for filtering, adding an inverted index will improve performance greatly. You can create an inverted index on a multi-value column.
+- Use a **bitmap inverted index** on unsorted columns that are filtered frequently.
+- Use a **sorted inverted index** (automatic when a column is sorted) when most queries filter on the same column.
 
-Inverted indexes are disabled by default and can be enabled for a column by specifying the configuration within the [table configuration](../../configuration-reference/table.md):
+## Supported column types
 
-{% code title="inverted index defined in tableConfig" %}
-```javascript
+Bitmap inverted indexes are supported on all data types except MAP: INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, BOOLEAN, TIMESTAMP, STRING, JSON, BYTES. Both single-value and multi-value columns are supported.
+
+## Bitmap inverted index
+
+When an inverted index is enabled for an unsorted column, Pinot maintains a mapping from each value to a bitmap of document IDs. This makes value lookup take constant time O(1).
+
+### Configuration
+
+The recommended way to enable a bitmap inverted index:
+
+{% code title="Recommended: fieldConfigList" %}
+```json
 {
   "fieldConfigList": [
     {
-      "name": "theColumnName",
+      "name": "playerName",
       "indexes": {
         "inverted": {}
       }
     }
-  ],
-  ...
+  ]
 }
 ```
 {% endcode %}
 
-The older way to configure inverted indexes can also be used, although it is not actually recommended:
+<details>
 
-{% code title="old way to define inverted index in tableConfig" %}
-```javascript
+<summary>Older configuration</summary>
+
+{% code title="Legacy: tableIndexConfig" %}
+```json
 {
-    "tableIndexConfig": {
-        "invertedIndexColumns": [
-            "theColumnName",
-            ...
-        ],
-        ...
-    }
+  "tableIndexConfig": {
+    "invertedIndexColumns": [
+      "playerName"
+    ]
+  }
 }
 ```
 {% endcode %}
 
-#### When the index is created
+</details>
 
-By default, bitmap inverted indexes are not generated when the segment is initially created; instead, they are created when the segment is loaded by Pinot. This behavior is governed by the table configuration option `indexingConfig.createInvertedIndexDuringSegmentGeneration`, which is set to false by default.
+### When the index is created
 
-### Sorted inverted index
+By default, bitmap inverted indexes are not generated during segment creation. They are created when the segment is loaded by Pinot. This behavior is controlled by the table configuration option `indexingConfig.createInvertedIndexDuringSegmentGeneration`, which defaults to `false`.
 
-As explained in the [forward index](forward-index.md) section, a column that is both sorted and equipped with a dictionary is encoded in a specialized manner that serves the purpose of implementing both forward and inverted indexes. Consequently, when these conditions are met, an inverted index is effectively created without additional configuration, even if the configuration suggests otherwise. This sorted version of the forward index offers a lookup time complexity of `log(n)` and leverages data locality.
+## Sorted inverted index
 
-For instance, consider the following example: if a query includes a filter on the `memberId` column, Pinot will perform a binary search on `memberId` values to find the range pair of docIds for corresponding filtering value. If the query needs to scan values for other columns after filtering, values within the range docId pair will be located together, which means we can benefit from data locality.
+When a column is both sorted and dictionary-encoded, Pinot uses a sorted forward index with run-length encoding that also serves as an inverted index. This happens automatically and requires no extra configuration. The sorted inverted index provides `O(log n)` lookup time and benefits from data locality.
 
-![\_images/sorted-inverted.png](../../.gitbook/assets/sorted-inverted.png)
+For example, if a query filters on a sorted `memberId` column, Pinot performs a binary search to find the range of document IDs matching the filter value. Subsequent column scans for those documents benefit from data locality because the matching rows are stored contiguously.
 
-A sorted inverted index indeed offers superior performance compared to a bitmap inverted index, but it's important to note that it can only be applied to sorted columns. In cases where query performance with a regular inverted index is unsatisfactory, especially when a large portion of queries involve filtering on the same column (e.g., `_memberId_`), using a sorted index can substantially enhance query performance.
+![Sorted inverted index](../../.gitbook/assets/sorted-inverted.png)
+
+A sorted inverted index offers better performance than a bitmap inverted index but can only apply to columns whose data is physically sorted within each segment.
+
+## Query examples
+
+Equality filter:
+
+```sql
+SELECT COUNT(*)
+FROM baseballStats
+WHERE playerName = 'Barry Bonds'
+```
+
+IN filter:
+
+```sql
+SELECT yearID, hits, homeRuns
+FROM baseballStats
+WHERE teamID IN ('NYA', 'BOS', 'LAD')
+ORDER BY yearID
+```
+
+Filter with aggregation:
+
+```sql
+SELECT teamID, SUM(hits) AS totalHits
+FROM baseballStats
+WHERE league = 'NL'
+GROUP BY teamID
+ORDER BY totalHits DESC
+LIMIT 10
+```
+
+## Limitations
+
+- Bitmap inverted indexes require [dictionary encoding](dictionary-index.md) to be enabled on the column.
+- Sorted inverted indexes only work on columns whose data is physically sorted within each segment.
+- MAP columns are not supported.

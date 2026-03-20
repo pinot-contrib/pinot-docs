@@ -4,6 +4,14 @@
 
 Apache Pinot now supports a Vector Index for efficient similarity searches over high-dimensional vector embeddings. This feature introduces the capability to store and query float array columns (multi-valued) using a vector similarity algorithm.
 
+## When to use
+
+Use the vector index when you need to find the most similar items in a high-dimensional vector space. Common use cases include semantic search, recommendation systems, image similarity, and retrieval-augmented generation (RAG) where text embeddings are stored alongside metadata.
+
+## Supported column types
+
+The vector index is supported on multi-valued FLOAT columns (float arrays). The column must be declared as `singleValueField: false` in the schema with `dataType: FLOAT`.
+
 ## Key Features
 
 * Vector Index is implemented using HNSW (Hierarchical Navigable Small World) for approximate nearest neighbor (ANN) search.
@@ -136,6 +144,56 @@ Specifies the distance metric for similarity computation. Options include:
 4. version:
 
 Specifies the version of the Vector Index implementation.
+
+### HNSW tuning parameters
+
+The HNSW index supports additional tuning via the `properties` map in the field config. These are passed through to the underlying Lucene HNSW implementation:
+
+| Property | Default | Description |
+| --- | --- | --- |
+| `maxCon` | 16 | Maximum number of connections per node in the HNSW graph. Higher values improve recall but increase index size and build time. |
+| `beamWidth` | 100 | Beam width used during index construction. Higher values improve recall at the cost of slower indexing. |
+| `maxDimensions` | 2048 | Maximum number of vector dimensions supported. |
+| `maxBufferSizeMB` | 16 | RAM buffer size for the Lucene index writer. |
+| `useCompoundFile` | true | Whether to use Lucene compound file format. |
+| `mode` | BEST_SPEED | Lucene codec mode. Options: `BEST_SPEED`, `BEST_COMPRESSION`. |
+
+#### Recommended configuration (new format)
+
+The recommended way to configure the vector index uses the `indexes` object in `fieldConfigList`:
+
+{% code title="Recommended: fieldConfigList with indexes" %}
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "embedding",
+      "encodingType": "RAW",
+      "indexes": {
+        "vector": {
+          "vectorIndexType": "HNSW",
+          "vectorDimension": 1536,
+          "vectorDistanceFunction": "COSINE",
+          "version": 1,
+          "properties": {
+            "maxCon": "32",
+            "beamWidth": "200"
+          }
+        }
+      }
+    }
+  ]
+}
+```
+{% endcode %}
+
+## Limitations
+
+- Only HNSW is supported as the vector index type.
+- The column must be a multi-valued FLOAT column.
+- Maximum vector dimension is 2048 (configurable via the `maxDimensions` property).
+- `VECTOR_SIMILARITY` is an approximate nearest-neighbor predicate; results are not exact.
+- The vector index uses Lucene under the hood and generates Lucene index files per segment.
 
 ### **Query**
 

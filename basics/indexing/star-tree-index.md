@@ -12,6 +12,19 @@ One of the biggest challenges in real-time OLAP systems is achieving and maintai
 
 Use the **star-tree** index to utilize pre-aggregated documents to achieve both low query latencies and efficient use of storage space for aggregation and group-by queries.
 
+## When to use
+
+Use a star-tree index when:
+
+- Your workload is dominated by aggregation and group-by queries on a known set of dimension and metric columns.
+- Query latency requirements demand sub-second response times regardless of data volume.
+- You can identify the most common query patterns in advance to configure the dimensions split order and aggregation functions.
+
+A star-tree index is not a good fit when:
+
+- Queries are ad-hoc and unpredictable — only queries whose predicates, group-by columns, and aggregation functions match the star-tree configuration will benefit.
+- The dimension columns have very high cardinality, which increases the size of the pre-aggregated data.
+
 {% embed url="https://www.youtube.com/watch?v=bwO0HSXguFA" %}
 
 ## Existing solutions
@@ -381,3 +394,13 @@ In scenarios where you have a transform on a column(s) which is in the dimension
 
 For e.g if query contains `round(colA,600) as roundedValue from tableA group by roundedValue` and colA is included in dimensionSplitOrder then Pinot will use the pre-aggregated records to first scan matching records and then apply transform `round()` to derive `roundedValue`.
 {% endhint %}
+
+## Limitations
+
+- Only queries whose filter columns, group-by columns, and aggregation functions all match a star-tree configuration will use the index.
+- `DISTINCT_COUNT` (exact), `SEGMENT_PARTITIONED_DISTINCT_COUNT`, and `PERCENTILE` (exact) are not supported because their intermediate results are unbounded.
+- `REGEXP_LIKE` predicates are not supported in star-tree queries.
+- `IS NULL` and `IS NOT NULL` are not supported because null value info is not stored in the star-tree index. Use `col = <default>` or `col != <default>` as workarounds.
+- `OR` predicates across multiple dimensions are not supported (they cause double counting with pre-aggregated results).
+- `NOT` on top of `AND`/`OR` is not supported for the same double-counting reason.
+- All star-tree dimension columns should be dictionary-encoded.

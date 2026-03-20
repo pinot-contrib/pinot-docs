@@ -50,6 +50,10 @@ WHERE JSON_EXTRACT_SCALAR(person, '$.name', 'STRING') = 'adam'
 
 The JSON index is designed to accelerate the filtering on JSON string columns without scanning and reconstructing all the JSON objects.
 
+## Supported column types
+
+The JSON index is supported on STRING and MAP columns (single-valued only). It is typically used with `noDictionaryColumns` since JSON columns tend to have high cardinality.
+
 ## Enable and configure a JSON index
 
 To enable the JSON index, you can configure the following options in the table configuration:
