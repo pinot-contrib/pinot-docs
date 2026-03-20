@@ -201,3 +201,25 @@ The reader requires a descriptor file to deserialize the data present in the fil
 ```
 protoc --include_imports --descriptor_set_out=/absolute/path/to/output.desc /absolute/path/to/input.proto
 ```
+
+### Apache Arrow
+
+```
+dataFormat: 'arrow'
+```
+
+The Arrow input format plugin supports reading data in [Apache Arrow IPC streaming format](https://arrow.apache.org/docs/format/Columnar.html#ipc-streaming-format). This is useful for ingesting data from systems that produce Arrow-formatted output.
+
+For stream ingestion, the Arrow decoder converts Arrow columnar batches to Pinot rows:
+
+```
+stream.kafka.decoder.class.name=org.apache.pinot.plugin.inputformat.arrow.ArrowMessageDecoder
+```
+
+**Configuration properties:**
+
+| Property | Default | Description |
+|----------|---------|-------------|
+| `arrow.allocator.limit` | 268435456 (256 MB) | Memory limit for Arrow's off-heap allocator in bytes |
+
+The decoder handles Arrow type conversions automatically: `Text` → `String`, `LocalDateTime` → `Timestamp`, Arrow Maps → flattened `Map<String, Object>`, and Arrow Lists → `List<Object>`. Dictionary-encoded columns are also supported.
