@@ -11,7 +11,7 @@ Enable the [Google Cloud Storage](https://cloud.google.com/products/storage/) us
 ```
 
 {% hint style="info" %}
-By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-2.0...`
+By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-3.0...`
 {% endhint %}
 
 GCP file systems provides the following options:

@@ -347,7 +347,6 @@ Here's an example table config for a real-time table. **All the fields from the 
         "stream.kafka.decoder.prop.schema.registry.rest.url": "XXXX",
         "stream.kafka.decoder.prop.schema.registry.schema.name": "XXXX",
         "stream.kafka.topic.name": "XXXX",
-        "stream.kafka.zk.broker.url": "XXXX",
         "streamType": "kafka"
       }]
     }
