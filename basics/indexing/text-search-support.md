@@ -732,3 +732,52 @@ When text search queries contain too many terms or clauses, Lucene may throw `To
 - Wildcard queries that expand to many terms
 - Queries with large numbers of search terms
 To handle such cases, you can increase the maximum clause count at the cluster level. See the [cluster configuration reference](../../configuration-reference/cluster.md) for the `pinot.lucene.max.clause.count` setting.
+
+## Configuration parameters
+
+The text index supports the following configuration parameters in the `indexes.text` object of `fieldConfigList`:
+
+| Parameter | Default | Description |
+| --- | --- | --- |
+| `fst` | - | FST type to use: `LUCENE` or `NATIVE` |
+| `rawValue` | - | Whether to store raw text values |
+| `queryCache` | false | Enable Lucene query result cache |
+| `useANDForMultiTermQueries` | false | Use AND (instead of OR) for multi-term queries |
+| `stopWordsInclude` | [] | Additional stop words to include |
+| `stopWordsExclude` | [] | Default stop words to exclude |
+| `luceneUseCompoundFile` | true | Use Lucene compound file format |
+| `luceneMaxBufferSizeMB` | 500 | Maximum RAM buffer size for the Lucene index writer |
+| `luceneAnalyzerClass` | StandardAnalyzer | Custom Lucene analyzer class name |
+| `luceneAnalyzerClassArgs` | - | Arguments for the custom analyzer constructor |
+| `luceneAnalyzerClassArgTypes` | - | Argument types for the custom analyzer constructor |
+| `luceneQueryParserClass` | QueryParser | Custom Lucene query parser class name |
+| `enablePrefixSuffixMatchingInPhraseQueries` | false | Enable prefix/suffix matching in phrase queries |
+| `reuseMutableIndex` | false | Reuse the mutable index across real-time segments |
+| `luceneNRTCachingDirectoryMaxBufferSizeMB` | 0 | Max buffer size for NRT caching directory (0 = disabled) |
+| `useLogByteSizeMergePolicy` | false | Use log-byte-size merge policy for Lucene segments |
+| `docIdTranslatorMode` | Default | Doc ID translator mode: `Default`, `TryOptimize`, or `Skip` |
+| `caseSensitive` | false | Whether the text index should be case-sensitive |
+| `storeInSegmentFile` | false | Store the text index inside the segment file |
+
+### Example with custom parameters
+
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "logLine",
+      "encodingType": "RAW",
+      "indexes": {
+        "text": {
+          "luceneAnalyzerClass": "org.apache.lucene.analysis.standard.StandardAnalyzer",
+          "luceneMaxBufferSizeMB": 200,
+          "useANDForMultiTermQueries": true,
+          "stopWordsInclude": ["the", "a", "an"],
+          "caseSensitive": false,
+          "queryCache": true
+        }
+      }
+    }
+  ]
+}
+```

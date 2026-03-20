@@ -96,3 +96,10 @@ Sample config:
   ...
 }
 ```
+
+## Limitations
+
+- Only supported on columns with the `TIMESTAMP` data type.
+- Pre-generates one additional column per granularity, which increases storage. Choose only the granularities you actually query.
+- The auto-rewrite only applies to `dateTrunc` function calls in predicates and group-by clauses. Other time functions are not rewritten.
+- Requires Pinot 0.11 or later.

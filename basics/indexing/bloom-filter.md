@@ -33,6 +33,34 @@ An intriguing aspect of these filters is the existence of a mathematical formula
 
 In Pinot, this cardinality corresponds to the number of unique values expected within each segment. If necessary, the false positive rate and the index size can be configured.
 
+## Supported column types
+
+Bloom filters are supported on all data types except BOOLEAN and MAP: INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES, JSON, TIMESTAMP.
+
+## Query examples
+
+Bloom filters work transparently — no special query syntax is required. Pinot automatically uses the Bloom filter to prune segments that cannot contain matching values.
+
+Equality filter:
+
+```sql
+SELECT playerName, teamID, hits
+FROM baseballStats
+WHERE playerID = 'bondsba01'
+```
+
+IN filter (up to 10 values):
+
+```sql
+SELECT playerName, yearID, homeRuns
+FROM baseballStats
+WHERE playerID IN ('bondsba01', 'ruthba01', 'aaronha01')
+```
+
+{% hint style="info" %}
+Bloom filters only help with EQUALITY and IN predicates. They do not accelerate range queries, LIKE, or other filter types.
+{% endhint %}
+
 ## Configuration
 
 Bloom filters are deactivated by default, implying that columns will not be indexed unless they are explicitly configured within the [table configuration](../../configuration-reference/table.md).

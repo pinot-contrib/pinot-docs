@@ -135,14 +135,25 @@ When using the raw format, you can configure the following parameters:
 | targetDocsPerChunk    | 1000    | The target number of docs per chunk                                                     |
 | targetMaxChunkSize    | 1MB     | The target max chunk size                                                               |
 
-The `compressionCodec` parameter has the following valid values:
+The `compressionCodec` parameter has the following valid values for raw-encoded columns:
 
-* `PASS_THROUGH`
-* `SNAPPY`
-* `ZSTANDARD`
-* `LZ4`
-* `GZIP` (Introduced in release `1.2.0`)
+* `PASS_THROUGH` — no compression
+* `SNAPPY` — fast compression with moderate ratio
+* `ZSTANDARD` — high compression ratio, slower than Snappy
+* `LZ4` — fast compression, good balance of speed and ratio
+* `GZIP` — high compression ratio (introduced in release `1.2.0`)
 * `null` (the JSON null value, not `"null"`), which is the default. In this case, `PASS_THROUGH` will be used for metrics and `LZ4` for other columns.
+
+For dictionary-encoded multi-value forward indexes, there is one additional compression type:
+
+* `MV_ENTRY_DICT` — adds a second-level dictionary encoding for repeated multi-value entries. This is useful when pre-joining a fact table with a dimension table where multi-value entries in the dimension table are repeated.
+
+{% hint style="info" %}
+There are additional special-purpose compression codecs available for specific use cases:
+
+* `CLP`, `CLPV2`, `CLPV2_ZSTD`, `CLPV2_LZ4` — CLP-based compression codecs optimized for log line data. These are not general-purpose and have special handling for log data patterns.
+* `DELTA`, `DELTADELTA` — delta encoding codecs for numeric columns with sequential or near-sequential values. These are applied automatically in certain contexts and are not typically configured directly.
+{% endhint %}
 
 `deriveNumDocsPerChunk` is only used when the datatype may have a variable length, such as with `string`, `big decimal`, `bytes`, etc. By default, Pinot uses a fixed number of elements that was chosen empirically. If changed to true, Pinot will use a heuristic value that depends on the column data.
 

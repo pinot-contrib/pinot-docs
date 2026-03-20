@@ -2,6 +2,16 @@
 
 When dealing with extensive datasets, it's common for values to be repeated multiple times. To enhance storage efficiency and reduce query latencies, we strongly recommend employing a dictionary index for repetitive data. This is the reason Pinot enables dictionary encoding by default, even though it is advisable to disable it for columns with high cardinality.
 
+## When to use
+
+Enable dictionary encoding (the default) when a column has low to medium cardinality — meaning the number of unique values is significantly smaller than the total number of rows. Dictionary encoding is less beneficial for high-cardinality columns like UUIDs or free-text fields, where disabling the dictionary and using raw encoding may save space and reduce overhead.
+
+## Supported column types
+
+Dictionary encoding is supported on all data types: INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES, BOOLEAN, TIMESTAMP, JSON.
+
+For variable-length types (STRING, BYTES, BIG_DECIMAL), consider enabling `useVarLengthDictionary` when values vary widely in length.
+
 ## Influence on other indexes
 
 In Pinot, dictionaries serve as both an index and actual encoding. Consequently, when dictionaries are enabled, the behavior or layout of certain other indexes undergoes modification. The relationship between dictionaries and other indexes is outlined in the following table:

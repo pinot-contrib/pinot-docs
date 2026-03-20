@@ -91,3 +91,21 @@ Matrix below show which combinations of data types, cardinality and encoding are
 (4) Supported only if values can be parsed as json.
 
 (5) Supports only multi value columns.
+
+## Choosing an index
+
+Use this decision guide to pick the right index for your query pattern:
+
+| Query pattern | Recommended index | Notes |
+| --- | --- | --- |
+| `WHERE col = value` | [Inverted index](inverted-index.md) | Best starting point for equality filters |
+| `WHERE col IN (v1, v2, ...)` | [Inverted index](inverted-index.md) + [Bloom filter](bloom-filter.md) | Bloom filter prunes segments; inverted index accelerates within-segment lookup |
+| `WHERE col > value` / `BETWEEN` | [Range index](range-index.md) | Especially useful on high-cardinality metric columns |
+| `WHERE col LIKE 'prefix%'` | [FST index](fst-index.md) | For regex/LIKE on dictionary-encoded STRING columns |
+| `WHERE TEXT_MATCH(col, 'query')` | [Text index](text-search-support.md) | Full-text search with Lucene. Use for tokenized search |
+| `WHERE JSON_MATCH(col, '...')` | [JSON index](json-index.md) | For filtering on nested JSON fields |
+| `WHERE ST_Distance(...) < x` | [Geospatial index](geospatial-support.md) | H3-based spatial index for distance queries |
+| `WHERE VECTOR_SIMILARITY(...)` | [Vector index](vector-index.md) | Approximate nearest-neighbor search on embeddings |
+| `GROUP BY dateTrunc('DAY', ts)` | [Timestamp index](timestamp-index.md) | Pre-generates granularity columns for fast time-based grouping |
+| `SUM(metric) GROUP BY dim1, dim2` | [Star-tree index](star-tree-index.md) | Pre-aggregated results for known query patterns |
+| Sorted column, range + equality | [Sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding) | Automatically acts as inverted index with O(log n) lookup |
