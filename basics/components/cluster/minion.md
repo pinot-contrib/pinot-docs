@@ -192,9 +192,25 @@ public interface MinionEventObserver {
 
 ## Built-in tasks
 
+Pinot ships with the following built-in Minion tasks:
+
+| Task | Purpose | Table Types |
+|------|---------|-------------|
+| [SegmentGenerationAndPushTask](../../../operators/operating-pinot/segment-generation-and-push-task.md) | Batch ingestion: reads raw data files and converts them into Pinot segments | OFFLINE |
+| [RealtimeToOfflineSegmentsTask](../../../operators/operating-pinot/pinot-managed-offline-flows.md) | Converts completed real-time segments into optimized offline segments | REALTIME to OFFLINE |
+| [MergeRollupTask](../../../operators/operating-pinot/minion-merge-rollup-task.md) | Merges small segments into larger ones and optionally rolls up data at coarser granularity | OFFLINE, REALTIME (without upsert/dedup) |
+| [PurgeTask](../../../operators/operating-pinot/purge-task.md) | Removes or modifies records for data retention and compliance (e.g., GDPR) | OFFLINE, REALTIME |
+| [RefreshSegmentTask](../../../operators/operating-pinot/refresh-segment-task.md) | Reprocesses segments after table config or schema changes (new indexes, columns, data types) | OFFLINE, REALTIME |
+| [UpsertCompactionTask](../../../operators/operating-pinot/upsert-compaction-task.md) | Compacts individual upsert segments by removing invalidated records | REALTIME (upsert only) |
+| [UpsertCompactMergeTask](../../../operators/operating-pinot/upsert-compact-merge-task.md) | Merges multiple small upsert segments into larger ones to reduce segment count | REALTIME (upsert only) |
+
 ### SegmentGenerationAndPushTask
 
-The PushTask can fetch files from an input folder e.g. from a S3 bucket and converts them into segments. The PushTask converts one file into one segment and keeps file name in segment metadata to avoid duplicate ingestion. Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.
+The SegmentGenerationAndPushTask can fetch files from an input folder (e.g. from an S3 bucket) and convert them into segments. It converts one file into one segment and keeps the file name in segment metadata to avoid duplicate ingestion.
+
+See [SegmentGenerationAndPushTask runbook](../../../operators/operating-pinot/segment-generation-and-push-task.md) for full configuration details.
+
+Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.
 
 NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the task generates one segment per file, and derives segment name based on the time column of the file. If two files happen to have same time range and are ingested by tasks from different schedules, there might be segment name conflict. To overcome this issue for now, you can omit “tableMaxNumTasks” and by default it’s Integer.MAX\_VALUE, meaning to schedule as many tasks as possible to ingest all input files in a single batch. Within one batch, a sequence number suffix is used to ensure no segment name conflict. Because the sequence number suffix is scoped within one batch, tasks from different batches might encounter segment name conflict issue said above.
 
@@ -241,7 +257,19 @@ See [Minion merge rollup task](../../../operators/operating-pinot/minion-merge-r
 
 ### PurgeTask
 
-See [Purge task](../../../operators/operating-pinot/purge-task.md) for details.
+See [PurgeTask runbook](../../../operators/operating-pinot/purge-task.md) for details.
+
+### RefreshSegmentTask
+
+See [RefreshSegmentTask runbook](../../../operators/operating-pinot/refresh-segment-task.md) for details.
+
+### UpsertCompactionTask
+
+See [UpsertCompactionTask runbook](../../../operators/operating-pinot/upsert-compaction-task.md) for details.
+
+### UpsertCompactMergeTask
+
+See [UpsertCompactMergeTask runbook](../../../operators/operating-pinot/upsert-compact-merge-task.md) for details.
 
 ## Enable tasks
 
