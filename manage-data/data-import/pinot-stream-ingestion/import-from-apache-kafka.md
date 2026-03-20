@@ -438,3 +438,115 @@ To avoid errors like `The Avro schema must be provided`, designate the location 
 ```
 
 Then add this key: `"stream.kafka.decoder.prop.schema"`followed by a value that denotes the location of your schema.
+
+#### Subset partition ingestion
+
+By default, a Pinot REALTIME table consumes from all partitions of the configured Kafka topic. In some scenarios you may want a table to consume only a subset of the topic's partitions. The `stream.kafka.partition.ids` setting lets you specify exactly which Kafka partitions a table should consume.
+
+**When to use subset partition ingestion**
+
+* **Split-topic ingestion** -- Multiple Pinot tables share the same Kafka topic, and each table is responsible for a different set of partitions. This is useful when the same topic contains logically distinct data partitioned by key, and you want separate tables (or indexes) for each partition group.
+* **Multi-table partition assignment** -- You want to distribute the partitions of a high-throughput topic across several Pinot tables for workload isolation, independent scaling, or different retention policies.
+* **Selective consumption** -- You only need data from specific partitions of a topic (for example, partitions that correspond to a particular region or tenant).
+
+**Configuration**
+
+Add `stream.kafka.partition.ids` to the `streamConfigMaps` entry in your table config. The value is a comma-separated list of Kafka partition IDs (zero-based integers):
+
+```json
+"stream.kafka.partition.ids": "0,2,5"
+```
+
+When this setting is present, Pinot will consume only from the listed partitions. When it is absent or blank, Pinot consumes from all partitions of the topic (the default behavior).
+
+**Example: splitting a topic across two tables**
+
+Suppose you have a Kafka topic called `events` with two partitions (0 and 1). You can create two Pinot tables, each consuming from one partition:
+
+Table `events_part_0`:
+
+```json
+{
+  "tableName": "events_part_0",
+  "tableType": "REALTIME",
+  "segmentsConfig": {
+    "timeColumnName": "ts",
+    "schemaName": "events",
+    "replicasPerPartition": "1"
+  },
+  "tenants": {},
+  "tableIndexConfig": {
+    "loadMode": "MMAP"
+  },
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+      "streamConfigMaps": [
+        {
+          "streamType": "kafka",
+          "stream.kafka.topic.name": "events",
+          "stream.kafka.partition.ids": "0",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.broker.list": "kafka:9092",
+          "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
+          "realtime.segment.flush.threshold.rows": "0",
+          "realtime.segment.flush.threshold.time": "24h",
+          "realtime.segment.flush.threshold.segment.size": "50M"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "customConfigs": {}
+  }
+}
+```
+
+Table `events_part_1`:
+
+```json
+{
+  "tableName": "events_part_1",
+  "tableType": "REALTIME",
+  "segmentsConfig": {
+    "timeColumnName": "ts",
+    "schemaName": "events",
+    "replicasPerPartition": "1"
+  },
+  "tenants": {},
+  "tableIndexConfig": {
+    "loadMode": "MMAP"
+  },
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+      "streamConfigMaps": [
+        {
+          "streamType": "kafka",
+          "stream.kafka.topic.name": "events",
+          "stream.kafka.partition.ids": "1",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.broker.list": "kafka:9092",
+          "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
+          "realtime.segment.flush.threshold.rows": "0",
+          "realtime.segment.flush.threshold.time": "24h",
+          "realtime.segment.flush.threshold.segment.size": "50M"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "customConfigs": {}
+  }
+}
+```
+
+**Validation rules and limitations**
+
+* Partition IDs must be non-negative integers. Negative values will cause a validation error.
+* Non-integer values (e.g. `"abc"`) will cause a validation error.
+* Duplicate IDs are silently deduplicated. For example, `"0,2,0,5"` is treated as `"0,2,5"`.
+* The partition IDs are sorted internally for stable ordering, regardless of the order specified in the config.
+* The configured partition IDs are validated against the actual Kafka topic metadata at table creation time. If a specified partition ID does not exist in the topic, an error is raised.
+* When using subset partition ingestion with multiple tables consuming from the same topic, ensure that the partition assignments do not overlap if you want each record to be consumed by exactly one table. Pinot does not enforce non-overlapping partition assignments across tables.
+* Whitespace around partition IDs and commas is trimmed (e.g., `" 0 , 2 , 5 "` is valid).
