@@ -274,7 +274,7 @@
 * [URL Functions](users/user-guide-query/query-syntax/url-functions.md)
 * [Unique Count and Cardinality Estimation Functions](users/user-guide-query/how-to-handle-unique-counting.md)
 * [Window Functions](users/user-guide-query/query-syntax/windows-functions.md)
-* [Statistical Functions](configuration-reference/plugin-reference/README.md)
+* [Statistical Functions](functions/statistical-functions.md)
   * [VAR\_POP](configuration-reference/plugin-reference/var_pop.md)
   * [VAR\_SAMP](configuration-reference/plugin-reference/var_samp.md)
   * [STDDEV\_POP](configuration-reference/plugin-reference/stddev_pop.md)
