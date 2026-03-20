@@ -299,3 +299,68 @@ curl -X GET "http://localhost:9000/debug/tables/baseballStats?type=OFFLINE&verbo
 ]
 ```
 
+## Application Quotas
+
+Application-level query quotas allow you to limit the queries per second (QPS) issued by different applications connecting to Pinot, regardless of which tables or databases they query. Applications are identified by the `applicationName` query option. For more details on how application quotas interact with table and database quotas, see [Query Quotas](../user-guide-query/query-quotas.md).
+
+### GET /applicationQuotas
+
+Get all application QPS quotas. Returns a map of application names to their configured QPS quota values. Returns an empty map if no application quotas have been configured.
+
+**Request**
+
+```
+curl -X GET "http://localhost:9000/applicationQuotas" -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "myApp": 500.0,
+  "etlPipeline": 200.0
+}
+```
+
+### GET /applicationQuotas/\{appName\}
+
+Get the QPS quota for a specific application. If a quota has been explicitly set for the given application, that value is returned. Otherwise, the cluster-level default application quota (`applicationMaxQueriesPerSecond`) is returned. Returns `null` if neither is configured.
+
+**Request**
+
+```
+curl -X GET "http://localhost:9000/applicationQuotas/myApp" -H "accept: application/json"
+```
+
+**Response**
+
+```json
+500.0
+```
+
+### POST /applicationQuotas/\{appName\}
+
+Create or update the QPS quota for a specific application. The `maxQueriesPerSecond` query parameter specifies the new quota value. To remove a previously configured quota for an application (falling back to the cluster default), omit the `maxQueriesPerSecond` parameter or leave it empty.
+
+**Request**
+
+```
+curl -X POST "http://localhost:9000/applicationQuotas/myApp?maxQueriesPerSecond=500" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "status": "Query quota for application myApp successfully updated"
+}
+```
+
+To remove an application-specific quota:
+
+```
+curl -X POST "http://localhost:9000/applicationQuotas/myApp" \
+  -H "accept: application/json"
+```
+
