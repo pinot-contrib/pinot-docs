@@ -28,7 +28,7 @@ You can configure the interval for this job using the`controller.realtime.segmen
 
 ### Does Pinot support partition pruning on multiple partition columns?
 
-Pinot supports multi-column partitioning for offline tables. Map multiple columns under [`tableIndexConfig.segmentPartitionConfig.columnPartitionMap`](../../../configuration-reference/table.md#table-index-config)[.](../../../configuration-reference/table.md#second-level-fields) Pinot assigns the input data to each partition according to the partition configuration individually for each column.
+Pinot supports multi-column partitioning for offline tables. Map multiple columns under [\`tableIndexConfig.segmentPartitionConfig.columnPartitionMap\`](../configuration-reference/table.md#table-index-config)[.](../configuration-reference/table.md#second-level-fields) Pinot assigns the input data to each partition according to the partition configuration individually for each column.
 
 The following example partitions the segment based on two columns, `memberID` and `caseNumber`. Note that each partition column is handled separately, so in this case the segment is partitioned on `memberID` (partition ID 1) and also partiitoned on `caseNumber` (partition ID 2).
 
@@ -142,7 +142,7 @@ You can also also use the "Resume Consumption" endpoint with "resumeFrom" parame
 
 ### How to set inverted indexes?
 
-Inverted indexes are set in the `tableConfig`'s `tableIndexConfig` -> `invertedIndexColumns` list. For more info on table configuration, see [Table Config Reference](../../../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../indexing/inverted-index.md).
+Inverted indexes are set in the `tableConfig`'s `tableIndexConfig` -> `invertedIndexColumns` list. For more info on table configuration, see [Table Config Reference](../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../basics/indexing/inverted-index.md).
 
 Applying inverted indexes to a table configuration will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to existing segments?](ingestion-faq.md#how-to-apply-an-inverted-index-to-existing-segments)
 
@@ -178,7 +178,7 @@ The output from this API should look something like the following:
 
 Not all indexes can be retrospectively applied to existing segments.
 
-If you want to add or change the [sorted index column](../../indexing/inverted-index.md#sorted-inverted-index) or adjust [the dictionary encoding of the default forward index](../../indexing/forward-index.md#raw-value-forward-index) you will need to manually re-load any existing segments.
+If you want to add or change the [sorted index column](../basics/indexing/inverted-index.md#sorted-inverted-index) or adjust [the dictionary encoding of the default forward index](../basics/indexing/forward-index.md#raw-value-forward-index) you will need to manually re-load any existing segments.
 
 ### How to create star-tree indexes?
 

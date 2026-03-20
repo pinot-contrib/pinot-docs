@@ -231,7 +231,7 @@ Restart order:
 1. Rolling restart ZooKeeper ensemble.
 2. Rolling restart Pinot components.
 
-For deeper troubleshooting and alternatives, see [Troubleshoot issues with ZooKeeper znodes](../reference/troubleshooting/troubleshoot-zookeeper.md).
+For deeper troubleshooting and alternatives, see [Troubleshoot issues with ZooKeeper znodes](../troubleshooting/troubleshoot-zookeeper.md).
 
 #### Prefer fewer segments over bigger znodes
 

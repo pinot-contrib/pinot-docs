@@ -75,7 +75,7 @@ Updating the retention value in the table config should be good enough, there is
 
 ### How to run a rebalance on a table?
 
-See [Rebalance](../../../operators/operating-pinot/rebalance/).
+See [Rebalance](../operators/operating-pinot/rebalance/).
 
 ### Why does my real-time table not use the new nodes I added to the cluster?
 
@@ -162,7 +162,7 @@ Using "POST /cluster/configs API" on CLUSTER tab in Swagger, with this payload:
 
 ### How to I manually run a Periodic Task?
 
-See [Running a Periodic Task Manually](../../components/cluster/controller.md#running-the-periodic-task-manually).
+See [Running a Periodic Task Manually](../basics/components/cluster/controller.md#running-the-periodic-task-manually).
 
 ## Tuning and Optimizations
 
