@@ -2,11 +2,23 @@
 description: Upsert support in Apache Pinot.
 ---
 
-# Stream ingestion with Upsert
+# Upsert
 
-Pinot provides native support of upserts during real-time ingestion. There are scenarios where records need modifications, such as correcting a ride fare or updating a delivery status.
+Pinot provides native upsert support during ingestion. There are scenarios where records need modifications, such as correcting a ride fare or updating a delivery status.
 
 Partial upserts are convenient as you only need to specify the columns where values change, and you ignore the rest.
+
+## Table type support
+
+Upsert is supported across REALTIME, OFFLINE, and HYBRID table types. The available modes depend on the table type:
+
+| Table type | FULL upsert | PARTIAL upsert | Notes |
+| ---------- | ----------- | -------------- | ----- |
+| REALTIME   | Yes         | Yes            | Stream-based ingestion with full upsert feature set |
+| OFFLINE    | Yes         | No             | Batch ingestion; replaces full rows only |
+| HYBRID     | Yes         | No             | Avoid overlapping time ranges between offline and realtime |
+
+For OFFLINE table upsert configuration details, see [Offline Table Upsert](offline-table-upsert.md).
 
 ## Overview of upserts in Pinot
 
@@ -257,13 +269,14 @@ Since the metadata TTL is applied on the first comparison column, the time unit 
 
 #### Configure how long primary keys are stored in metadata
 
-To configure how long primary keys are stored in metadata, specify the length of time in `upsertTTL.` For example:{
+To configure how long primary keys are stored in metadata, specify the length of time in `metadataTTL.` For example:
 
 ```
+{
   "upsertConfig": {
     "mode": "FULL",
-    "enableSnapshot": true,
-    "enablePreload": true,
+    "snapshot": "ENABLE",
+    "preload": "ENABLE",
     "metadataTTL": 86400
   }
 }
@@ -391,13 +404,13 @@ To prevent this, we recommend using explicit [partitioned replica-group instance
 
 ### Enable validDocIds snapshots for upsert metadata recovery
 
-Upsert snapshot support is also added in `release-0.12.0`. To enable the snapshot, set the `enableSnapshot` to `true`. For example:
+Upsert snapshot support is also added in `release-0.12.0`. To enable the snapshot, set `snapshot` to `ENABLE`. For example:
 
 ```json
 {
   "upsertConfig": {
     "mode": "FULL",
-    "enableSnapshot": true
+    "snapshot": "ENABLE"
   }
 }
 ```
@@ -420,14 +433,14 @@ The lifecycle for validDocIds snapshots are shows as follows,
 
 ### Enable preload for faster server restarts
 
-Upsert preload feature can make it faster to restore the upsert states when server restarts. To enable the preload feature, set the `enablePreload` to `true`. To enable preloading, `enableSnapshot: true` should also be set in the table config. For example:
+Upsert preload feature can make it faster to restore the upsert states when server restarts. To enable the preload feature, set `preload` to `ENABLE`. Snapshot must also be enabled. For example:
 
 ```json
 {
   "upsertConfig": {
     "mode": "FULL",
-    "enableSnapshot": true,
-    "enablePreload": true
+    "snapshot": "ENABLE",
+    "preload": "ENABLE"
   }
 }
 ```
@@ -592,7 +605,7 @@ public class CustomTableUpsertMetadataManager extends BaseTableUpsertMetadataMan
 
 There are some limitations for the upsert Pinot tables.
 
-* The upsert feature is supported for Real-time tables only, and not for Hybrid or Offline tables.
+* Partial upsert is supported for REALTIME tables only. OFFLINE tables support FULL upsert only. See [Offline Table Upsert](offline-table-upsert.md) for details.
 * The star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 * Unlike append-only tables, out-of-order events (with comparison value in incoming record less than the latest available value) won't be consumed and indexed by Pinot partial upsert table, these late events will be skipped.
 * We cannot change the number of partitions in the source topic after the upsert/dedup table is created (start with a relatively high number of partitions as mentioned in best practices).
@@ -683,8 +696,8 @@ Putting these together, you can find the table configurations of the quick start
   },
   "upsertConfig": {
     "mode": "FULL",
-    "enableSnapshot": true,
-    "enablePreload": true
+    "snapshot": "ENABLE",
+    "preload": "ENABLE"
   },
   "fieldConfigList": [
     {
@@ -785,6 +798,19 @@ Putting these together, you can find the table configurations of the quick start
 {% hint style="info" %}
 Pinot server maintains a primary key to record location map across all the segments served in an upsert-enabled table. As a result, when updating the config for an existing upsert table (e.g. change the columns in the primary key, change the comparison column), servers need to be restarted in order to apply the changes and rebuild the map.
 {% endhint %}
+
+## Migrating from deprecated config fields
+
+As of Pinot 1.4.0, the following upsert config fields have been renamed:
+
+| Deprecated field  | New field  | Values                              |
+| ----------------- | ---------- | ----------------------------------- |
+| `enableSnapshot`  | `snapshot` | `ENABLE`, `DISABLE`, or `DEFAULT`   |
+| `enablePreload`   | `preload`  | `ENABLE`, `DISABLE`, or `DEFAULT`   |
+
+The new fields use the `Enablement` enum (`ENABLE`, `DISABLE`, `DEFAULT`) instead of boolean values. `DEFAULT` defers to the server-level configuration, which allows table-level overrides when the feature is enabled at the instance level.
+
+The deprecated boolean fields still work but will be removed in a future release. Update your table configs to use the new field names.
 
 ## Quick Start
 
