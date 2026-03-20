@@ -77,3 +77,6 @@ decode a UTF8-encoded string to bytes represented as a hex string
 
 [**isSubnetOf(ipPrefix, ipAddress)**](../functions-1/issubnetof.md)\
 checks if ipAddress is in the subnet of the ipPrefix
+
+[**Add Prefix, Suffix & Ngram UDFs**](../functions-1/add-prefix-suffix-ngram-udfs.md)\
+provides prefix, suffix and ngram functionality for string manipulation
