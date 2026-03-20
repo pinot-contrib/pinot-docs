@@ -232,6 +232,7 @@
   * [Build Docker Images](operators/tutorials/build-docker-images.md)
   * [Running Pinot in Production](operators/tutorials/running-pinot-in-production.md)
   * [Kubernetes Deployment](operators/tutorials/deployment-pinot-on-kubernetes.md)
+  * [Helm Chart Values Reference](operators/tutorials/helm-chart-reference.md)
   * [Amazon EKS (Kafka)](operators/tutorials/non-eks-to-eks.md)
   * [Amazon MSK (Kafka)](operators/tutorials/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
   * [Monitor Pinot using Prometheus and Grafana](operators/tutorials/monitor-pinot-using-prometheus-and-grafana.md)
