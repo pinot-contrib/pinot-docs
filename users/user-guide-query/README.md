@@ -54,10 +54,6 @@ description: >-
 [joins.md](query-syntax/joins.md)
 {% endcontent-ref %}
 
-{% content-ref url="query-syntax/joins.md" %}
-[joins.md](query-syntax/joins.md)
-{% endcontent-ref %}
-
 {% content-ref url="query-syntax/lookup-udf-join.md" %}
 [lookup-udf-join.md](query-syntax/lookup-udf-join.md)
 {% endcontent-ref %}
@@ -68,10 +64,6 @@ description: >-
 
 {% content-ref url="scalar-functions.md" %}
 [scalar-functions.md](scalar-functions.md)
-{% endcontent-ref %}
-
-{% content-ref url="query-syntax/windows-functions.md" %}
-[windows-functions.md](query-syntax/windows-functions.md)
 {% endcontent-ref %}
 
 {% content-ref url="query-syntax/windows-functions.md" %}
