@@ -211,6 +211,7 @@
     * [Routing](operators/operating-pinot/tuning/routing.md)
     * [Query Routing using Adaptive Server Selection](operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection.md)
     * [Query Scheduling](operators/operating-pinot/tuning/query-scheduling.md)
+    * [Workload-Based Query Resource Isolation](operators/operating-pinot/tuning/workload-query-isolation.md)
   * [Upgrading Pinot with confidence](operators/operating-pinot/upgrading-pinot-cluster.md)
   * [Managing Logs](operators/operating-pinot/managing-logs.md)
   * [OOM Protection Using Automatic Query Killing](operators/operating-pinot/oom-protection-using-automatic-query-killing.md)
