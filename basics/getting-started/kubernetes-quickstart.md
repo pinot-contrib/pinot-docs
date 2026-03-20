@@ -90,9 +90,18 @@ kubectl get all -n pinot-quickstart
 
 ### **Bring up a Kafka cluster for real-time data ingestion**
 
+{% hint style="warning" %}
+Bitnami's Kafka Helm chart now defaults to **KRaft mode**, which does not deploy ZooKeeper. Because the Pinot Helm chart already runs its own ZooKeeper quorum, you must configure Kafka to use **ZooKeeper mode** so that it registers with the existing ZooKeeper ensemble. Add the flags below to disable KRaft and enable ZooKeeper.
+{% endhint %}
+
 ```bash
 helm repo add kafka https://charts.bitnami.com/bitnami
-helm install -n pinot-quickstart kafka kafka/kafka --set replicas=1,zookeeper.image.tag=latest,listeners.client.protocol=PLAINTEXT
+helm install -n pinot-quickstart kafka kafka/kafka \
+    --set replicas=1 \
+    --set kraft.enabled=false \
+    --set zookeeper.enabled=true \
+    --set zookeeper.replicaCount=3 \
+    --set listeners.client.protocol=PLAINTEXT
 ```
 
 ### Check Kafka deployment status
