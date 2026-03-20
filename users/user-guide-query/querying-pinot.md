@@ -6,7 +6,11 @@ description: Learn how to query Pinot using SQL
 
 ## SQL Interface
 
-Pinot provides a SQL interface for querying, which uses the **Calcite SQL** parser to parse queries and the **MYSQL\_ANSI** dialect. For details on the syntax, see the the [Calcite documentation](https://calcite.apache.org/docs/reference.html). To find supported SQL operators, see [Class SqlLibraryOperators](https://calcite.apache.org/javadocAggregate/org/apache/calcite/sql/fun/SqlLibraryOperators.html).
+Pinot provides a SQL interface for querying, which uses the **Calcite SQL** parser to parse queries and the **MYSQL\_ANSI** dialect.
+
+{% hint style="success" %}
+For a complete reference of all supported SQL statements, clauses, operators, and engine compatibility, see the [SQL Syntax and Operators Reference](sql-reference.md).
+{% endhint %}
 
 ## Pinot 1.0
 

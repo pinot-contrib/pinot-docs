@@ -89,6 +89,7 @@
 
 * [Query](users/user-guide-query/README.md)
   * [Querying Pinot](users/user-guide-query/querying-pinot.md)
+  * [SQL Syntax and Operators Reference](users/user-guide-query/sql-reference.md)
   * [Query Syntax](users/user-guide-query/query-syntax/README.md)
     * [Explain Plan (Single-Stage)](users/user-guide-query/explain-plan.md)
     * [Explain Plan (Multi-Stage)](users/user-guide-query/query-syntax/explain-plan-multi-stage.md)
