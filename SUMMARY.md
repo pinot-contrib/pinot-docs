@@ -178,6 +178,9 @@
     * [Batch Segment Fetcher Plugin](developers/plugin-architecture/write-custom-plugins/write-your-batch.md)
     * [Stream Ingestion Plugin](developers/plugin-architecture/write-custom-plugins/write-your-stream.md)
     * [Time Series Language Plugin](developers/plugin-architecture/write-custom-plugins/time-series-language-plugin.md)
+    * [Segment Uploader Plugin](developers/plugin-architecture/write-custom-plugins/segment-uploader-plugin.md)
+    * [Segment Writer Plugin](developers/plugin-architecture/write-custom-plugins/segment-writer-plugin.md)
+    * [Metrics Plugin](developers/plugin-architecture/write-custom-plugins/metrics-plugin.md)
 * [Design Documents](developers/design-documents/README.md)
   * [Segment Writer API](developers/design-documents/segment-writer-api.md)
 
