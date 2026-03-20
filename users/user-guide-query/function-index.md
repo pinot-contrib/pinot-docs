@@ -67,7 +67,7 @@ For full details, see [Aggregation Functions](../supported-aggregations.md).
 
 ## String Functions
 
-For full details, see [String Functions](../../../functions/string-functions.md).
+For full details, see [String Functions](../../../functions/string/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -108,7 +108,7 @@ For full details, see [String Functions](../../../functions/string-functions.md)
 
 ## Math Functions
 
-For full details, see [Math Functions](../../../functions/math-functions.md).
+For full details, see [Math Functions](../../../functions/math/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -149,7 +149,7 @@ For full details, see [Math Functions](../../../functions/math-functions.md).
 
 ## DateTime Functions
 
-For full details, see [DateTime Functions](../../../functions/datetime-functions.md).
+For full details, see [DateTime Functions](../../../functions/datetime/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -220,7 +220,7 @@ For full details, see [JSON Functions](../json-queries.md).
 
 ## Array Functions
 
-For full details, see [Array Functions](query-syntax/array-functions.md).
+For full details, see [Array Functions](../../functions/array).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -256,7 +256,7 @@ For full details, see [Array Functions](query-syntax/array-functions.md).
 
 ## Hash Functions
 
-For full details, see [Hash Functions](query-syntax/hash-functions.md).
+For full details, see [Hash Functions](../../functions/hash).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -279,7 +279,7 @@ For full details, see [Hash Functions](query-syntax/hash-functions.md).
 
 ## URL Functions
 
-For full details, see [URL Functions](query-syntax/url-functions.md).
+For full details, see [URL Functions](../../functions/url).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -304,7 +304,7 @@ For full details, see [URL Functions](query-syntax/url-functions.md).
 
 ## Binary Functions
 
-For full details, see [Binary Functions](../../../functions/binary-functions.md).
+For full details, see [Binary Functions](../../../functions/binary/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -323,7 +323,7 @@ For full details, see [Binary Functions](../../../functions/binary-functions.md)
 
 ## Geospatial Functions
 
-For full details, see [GeoSpatial Functions](../../../functions/geospatial-functions.md).
+For full details, see [GeoSpatial Functions](../../../functions/geospatial/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -349,7 +349,7 @@ For full details, see [GeoSpatial Functions](../../../functions/geospatial-funct
 
 ## Vector / Similarity Functions
 
-For full details, see [Vector Functions](../../../functions/vector-functions.md).
+For full details, see [Vector Functions](../../../functions/vector/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -364,7 +364,7 @@ For full details, see [Vector Functions](../../../functions/vector-functions.md)
 
 ## IP Address Functions
 
-For full details, see [IP Address Functions](../../../functions/ip-address-functions.md).
+For full details, see [IP Address Functions](../../../functions/ip-address/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -377,7 +377,7 @@ For full details, see [IP Address Functions](../../../functions/ip-address-funct
 
 ## Null Handling Functions
 
-For full details, see [Null Handling Functions](../../../functions/null-handling-functions.md).
+For full details, see [Null Handling Functions](../../../functions/null-handling/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -393,7 +393,7 @@ For full details, see [Null Handling Functions](../../../functions/null-handling
 
 ## Type Conversion Functions
 
-For full details, see [Type Conversion Functions](../../../functions/type-conversion-functions.md).
+For full details, see [Type Conversion Functions](../../../functions/type-conversion/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -409,7 +409,7 @@ For full details, see [Type Conversion Functions](../../../functions/type-conver
 
 ## Window Functions
 
-For full details, see [Window Functions](query-syntax/windows-functions.md).
+For full details, see [Window Functions](../../functions/window).
 
 {% hint style="info" %}
 Window functions require the [multi-stage query engine (v2)](https://docs.pinot.apache.org/reference/cluster-1).

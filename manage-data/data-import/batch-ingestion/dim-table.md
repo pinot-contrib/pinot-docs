@@ -4,7 +4,7 @@ description: Batch ingestion of data into Apache Pinot using dimension tables.
 
 # Dimension table
 
-Dimension tables are a special kind of offline table designed for join-like enrichment of fact data at query time. They are used together with the [lookup UDF](../../../users/user-guide-query/query-syntax/lookup-udf-join.md) (single-stage engine) or the [lookup join strategy](../../../users/user-guide-query/query-syntax/multi-stage-query/join-strategies/lookup-join-strategy.md) (multi-stage engine) to decorate query results with reference data.
+Dimension tables are a special kind of offline table designed for join-like enrichment of fact data at query time. They are used together with the [lookup UDF](../../../users/user-guide-query/lookup-udf-join.md) (single-stage engine) or the [lookup join strategy](../../../users/user-guide-query/multi-stage-query/join-strategies/lookup-join-strategy.md) (multi-stage engine) to decorate query results with reference data.
 
 ## When to use dimension tables
 
@@ -167,7 +167,7 @@ JOIN billing b
 LIMIT 10
 ```
 
-For details, see [lookup join strategy](../../../users/user-guide-query/query-syntax/multi-stage-query/join-strategies/lookup-join-strategy.md).
+For details, see [lookup join strategy](../../../users/user-guide-query/multi-stage-query/join-strategies/lookup-join-strategy.md).
 
 ## Refresh and update strategies
 

@@ -141,7 +141,7 @@ JOIN customers AS c ON o.customer_id = c.id
 WHERE o.amount > 100
 ```
 
-For detailed join syntax and examples, see [JOINs](query-syntax/joins.md).
+For detailed join syntax and examples, see [JOINs](joins.md).
 
 ---
 
@@ -193,7 +193,7 @@ WHERE status NOT IN ('canceled', 'refunded')
 ```
 
 {% hint style="info" %}
-For large value lists, consider using [Filtering with IdSet](query-syntax/filtering-with-idset.md) for better performance.
+For large value lists, consider using [Filtering with IdSet](filtering-with-idset.md) for better performance.
 {% endhint %}
 
 ### LIKE
@@ -497,7 +497,7 @@ SELECT
 FROM orders
 ```
 
-For the full list of supported window functions and detailed syntax, see [Window Functions](query-syntax/windows-functions.md).
+For the full list of supported window functions and detailed syntax, see [Window Functions](../../functions/window).
 
 ---
 

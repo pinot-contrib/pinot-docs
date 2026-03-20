@@ -13,7 +13,7 @@ This page is deprecated. Please read [explain-plan-1.md](explain-plan-1.md "ment
 
 Multi-stage plans are a bit more complex than single-stage plans. This page explains how to interpret multi-stage explain plans.
 
-As explained in [Explaining multi-stage queries](../query-syntax/explain-plan-multi-stage.md), you can use the `EXPLAIN PLAN` syntax to obtain the logical plan of a query. There are different formats for the output of the `EXPLAIN PLAN` command, but all of them represent the logical plan of the query.
+As explained in [Explaining multi-stage queries](../explain-plan-multi-stage.md), you can use the `EXPLAIN PLAN` syntax to obtain the logical plan of a query. There are different formats for the output of the `EXPLAIN PLAN` command, but all of them represent the logical plan of the query.
 
 The query
 

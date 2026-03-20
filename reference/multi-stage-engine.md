@@ -11,7 +11,7 @@ This document is an overview of the new multi-stage query engine (also known as 
 The multi-stage engine is the new query execution engine released in Pinot 1.0.0. Here are some useful links:
 
 * Get started [using multi-stage engine](../developers/advanced/v2-multi-stage-query-engine.md)
-* Find supported [query syntax](../users/user-guide-query/query-syntax/) to query the multi-stage engine, including [Window functions](../users/user-guide-query/query-syntax/windows-functions.md) and [JOIN](../users/user-guide-query/query-syntax/joins.md) features
+* Find supported [query syntax](../users/user-guide-query/query-syntax-overview.md) to query the multi-stage engine, including [Window functions](../functions/window) and [JOIN](../users/user-guide-query/joins.md) features
 * See [troubleshooting tips](troubleshooting/troubleshoot-multi-stage-query-engine.md) for the multi-stage query engine
 
 {% embed url="https://www.youtube.com/watch?v=wbo_vPVIBkA" fullWidth="false" %}

@@ -726,7 +726,7 @@ SELECT arraySumLong(ARRAY[1000000000, 2000000000]);
 
 ```sql
 SELECT array(1, 2, 3) AS int_array, array('a', 'b') AS str_array;
--- Result: 
+-- Result:
 -- int_array = [1, 2, 3]
 -- str_array = ['a', 'b']
 ```
@@ -804,4 +804,3 @@ SELECT arrayToString(ARRAY['red', 'green', 'blue'], ',');
 SELECT arrayToString(ARRAY['foo', NULL, 'bar'], '|', 'NA');
 -- Result: 'foo|NA|bar'
 ```
-
