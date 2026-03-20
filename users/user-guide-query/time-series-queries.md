@@ -54,6 +54,80 @@ Time series data is returned in a `ResultTable` with the following key columns:
 - `__name__` - Serialized tag key-value pairs identifying the series
 - Additional columns for each tag/label in the series
 
+### Prometheus-Compatible `/query_range` Endpoint
+
+Pinot provides a Prometheus-compatible `/query_range` endpoint that follows the same conventions as the [Prometheus HTTP API](https://prometheus.io/docs/prometheus/latest/querying/api/#range-queries). This endpoint is available on both the Broker and Controller, and supports both GET and POST methods.
+
+#### Endpoint
+
+```
+GET /timeseries/api/v1/query_range
+POST /timeseries/api/v1/query_range
+```
+
+#### Request Parameters
+
+| Parameter  | Required | Description |
+| ---------- | -------- | ----------- |
+| `language` | Yes      | The time series query language to use (e.g., `promql`). Must match one of the configured language plugins. |
+| `query`    | Yes      | The time series query expression (e.g., a PromQL expression). |
+| `start`    | Yes      | Start timestamp for the query range. Accepts Unix timestamp in seconds (e.g., `1700000000`) or RFC3339 format. |
+| `end`      | Yes      | End timestamp for the query range. Same format as `start`. |
+| `step`     | Yes      | Query resolution step width as a duration string (e.g., `15s`, `1m`, `1h`). |
+
+For GET requests, parameters are passed as query parameters. For POST requests, parameters can be sent as URL-encoded form data or query parameters.
+
+#### Example GET Request
+
+```bash
+curl -G 'http://localhost:8099/timeseries/api/v1/query_range' \
+  --data-urlencode 'language=promql' \
+  --data-urlencode 'query=sum(rate(myMetric[5m]))' \
+  --data-urlencode 'start=1700000000' \
+  --data-urlencode 'end=1700003600' \
+  --data-urlencode 'step=60s'
+```
+
+#### Example Response
+
+The response follows the standard Pinot `BrokerResponse` format, containing time series data in a `ResultTable`:
+
+```json
+{
+  "resultTable": {
+    "dataSchema": {
+      "columnNames": ["ts", "values", "__name__"],
+      "columnDataTypes": ["LONG_ARRAY", "DOUBLE_ARRAY", "STRING"]
+    },
+    "rows": [
+      [
+        [1700000000, 1700000060, 1700000120],
+        [1.5, 2.3, 3.1],
+        "sum(rate(myMetric[5m])){}"
+      ]
+    ]
+  },
+  "numDocsScanned": 10000,
+  "numSegmentsQueried": 4,
+  "totalDocs": 50000
+}
+```
+
+#### Controller Proxy
+
+When querying through the Controller (e.g., `http://localhost:9000/timeseries/api/v1/query_range`), the request is automatically forwarded to an available Broker instance. This is useful when clients do not have direct access to Broker endpoints.
+
+#### Differences from `/query/timeseries`
+
+| Feature | `POST /query/timeseries` | `GET/POST /query_range` |
+| ------- | ------------------------ | ----------------------- |
+| Request format | JSON body with `language`, `query`, and time parameters | Query parameters (Prometheus-compatible) |
+| HTTP methods | POST only | GET and POST |
+| Time range | Specified inside the JSON body | Specified via `start`, `end`, and `step` parameters |
+| Compatibility | Pinot-native API | Prometheus-compatible, works with tools like Grafana |
+
+The `/query_range` endpoint is particularly useful when integrating Pinot with existing Prometheus-compatible tooling such as Grafana, since it follows the same API conventions.
+
 ### Other Features
 
 * **Auth Support** - Time series queries support the same authentication and authorization mechanisms as SQL queries (user roles and table-level permissions).

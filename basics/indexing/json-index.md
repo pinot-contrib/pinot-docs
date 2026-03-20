@@ -732,6 +732,88 @@ FROM mytable
 WHERE JSON_MATCH(nullableCol, '"$" IS NULL')
 ```
 
+## SELECT DISTINCT acceleration
+
+When a JSON index is configured, you can use an index-only execution path for `SELECT DISTINCT` queries on JSON columns. Instead of scanning documents through the projection and transform pipeline, the operator reads distinct values directly from the JSON index's internal value-to-docId map, avoiding per-document evaluation entirely.
+
+This feature is **opt-in** and must be enabled via a query option.
+
+### How to enable
+
+Set the `useIndexBasedDistinctOperator` query option to `true`:
+
+```sql
+SET useIndexBasedDistinctOperator = true;
+
+SELECT DISTINCT jsonExtractIndex(person, '$.name', 'STRING')
+FROM mytable
+ORDER BY jsonExtractIndex(person, '$.name', 'STRING')
+LIMIT 1000;
+```
+
+You can also enable it per-query via the REST API:
+
+```
+POST /query/sql
+{
+  "sql": "SELECT DISTINCT jsonExtractIndex(person, '$.name', 'STRING') FROM mytable",
+  "queryOptions": "useIndexBasedDistinctOperator=true"
+}
+```
+
+### Supported query patterns
+
+The following table summarizes query patterns and whether they are supported by the index-based distinct operator:
+
+| Pattern | Supported |
+|---|---|
+| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING')` | Yes |
+| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'INT')` | Yes (all single-value types) |
+| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default')` | Yes (with default value) |
+| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default', '$.filter')` | Yes (with filter JSON path) |
+| With `WHERE` clause filters | Yes |
+| With `ORDER BY` | Yes |
+| Multi-value types (`STRING_ARRAY`, etc.) | No (falls back to default execution) |
+| Multiple columns in `SELECT DISTINCT` | No (falls back to default execution) |
+
+When a query pattern is not supported, the query still executes correctly using the default execution path.
+
+### Prerequisites
+
+The column must have a JSON index configured in the table config. See [Enable and configure a JSON index](#enable-and-configure-a-json-index) for configuration instructions.
+
+The JSON path used in `jsonExtractIndex` must be included in the index. If you use `includePaths` or `indexPaths` to restrict indexed paths, ensure the path you query is covered.
+
+### How to verify it is being used
+
+When the index-based distinct operator is active, the query response metadata shows `numEntriesScannedPostFilter = 0` for single-server queries, because the operator reads entirely from the index without scanning any documents.
+
+You can check this in the query response:
+
+```json
+{
+  "numEntriesScannedPostFilter": 0,
+  ...
+}
+```
+
+If `numEntriesScannedPostFilter` is greater than zero, the query fell back to the default execution path. Verify that:
+
+- The query option `useIndexBasedDistinctOperator` is set to `true`.
+- The column has a JSON index configured.
+- The query uses a supported pattern (single column, single-value type).
+
+### Performance benefits
+
+The index-based distinct operator avoids scanning and evaluating every document. Instead, it reads unique values directly from the JSON index structure. This provides significant performance improvements for high-cardinality JSON columns and large tables, especially when the number of distinct values is much smaller than the total number of documents.
+
+### Limitations of SELECT DISTINCT acceleration
+
+- The feature is disabled by default and must be enabled via the `useIndexBasedDistinctOperator` query option.
+- Only single-column `SELECT DISTINCT` queries are supported. Queries with multiple columns in the `DISTINCT` clause fall back to the default execution path.
+- Multi-value types (`STRING_ARRAY`, `INT_ARRAY`, etc.) are not supported and fall back to the default execution path.
+- The query must use `jsonExtractIndex` (not `JSON_EXTRACT_SCALAR`) to benefit from this optimization.
+
 ## Limitations
 
 1. The key (left-hand side) of the filter expression must be the leaf level of the JSON object, for example, `"$.addresses[*]"='main st'` won't work.

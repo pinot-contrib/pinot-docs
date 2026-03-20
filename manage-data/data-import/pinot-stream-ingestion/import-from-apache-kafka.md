@@ -319,6 +319,73 @@ Here is an example config which uses SSL based authentication to talk with kafka
   }
 ```
 
+#### Use Confluent Schema Registry with JSON encoded messages
+
+If your Kafka messages are JSON-encoded and registered with Confluent Schema Registry, use the `KafkaConfluentSchemaRegistryJsonMessageDecoder`. This decoder uses the Confluent `KafkaJsonSchemaDeserializer` to decode messages whose JSON schemas are managed by the registry.
+
+**When to use this decoder**
+
+* Your Kafka producer serializes messages using the Confluent JSON Schema serializer.
+* Your JSON schemas are registered in Confluent Schema Registry.
+* You want schema validation and evolution support for JSON messages.
+
+If your messages are Avro-encoded and registered with Schema Registry, use `KafkaConfluentSchemaRegistryAvroMessageDecoder` instead (shown in the SSL example above). If your messages are plain JSON without a schema registry, use `JSONMessageDecoder`.
+
+**Example table config**
+
+```json
+{
+  "tableName": "events",
+  "tableType": "REALTIME",
+  "segmentsConfig": {
+    "timeColumnName": "created_at",
+    "timeType": "MILLISECONDS",
+    "schemaName": "events",
+    "replicasPerPartition": "1"
+  },
+  "tenants": {},
+  "tableIndexConfig": {
+    "loadMode": "MMAP",
+    "streamConfigs": {
+      "streamType": "kafka",
+      "stream.kafka.topic.name": "events",
+      "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.broker.list": "localhost:9092",
+      "stream.kafka.schema.registry.url": "http://localhost:8081",
+      "stream.kafka.decoder.prop.schema.registry.rest.url": "http://localhost:8081",
+      "realtime.segment.flush.threshold.rows": "0",
+      "realtime.segment.flush.threshold.time": "24h",
+      "realtime.segment.flush.threshold.segment.size": "50M",
+      "stream.kafka.consumer.prop.auto.offset.reset": "smallest"
+    }
+  },
+  "metadata": {
+    "customConfigs": {}
+  }
+}
+```
+
+The key configuration properties for this decoder are:
+
+* `stream.kafka.decoder.class.name` -- Set to `org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder`.
+* `stream.kafka.decoder.prop.schema.registry.rest.url` -- The URL of the Confluent Schema Registry.
+
+**Authentication**
+
+This decoder supports the same authentication options as the Avro schema registry decoder. You can configure SSL or SASL\_SSL authentication for both the Kafka consumer and the Schema Registry client using the `stream.kafka.decoder.prop.schema.registry.*` properties. See the [SSL example](#use-kafka-partition-low-level-consumer-with-ssl) and [SASL\_SSL example](#use-kafka-partition-low-level-consumer-with-sasl\_ssl) above for details.
+
+For Schema Registry basic authentication, add the following properties:
+
+```
+"stream.kafka.decoder.prop.basic.auth.credentials.source": "USER_INFO",
+"stream.kafka.decoder.prop.schema.registry.basic.auth.user.info": "<username>:<password>"
+```
+
+{% hint style="info" %}
+This decoder was added in Pinot 1.4. Make sure your Pinot deployment is running version 1.4 or later.
+{% endhint %}
+
 #### Consume transactionally-committed messages
 
 The connector with Kafka library 2.0+ supports Kafka transactions. The transaction support is controlled by config `kafka.isolation.level` in Kafka stream config, which can be `read_committed` or `read_uncommitted` (default). Setting it to `read_committed` will ingest transactionally committed messages in Kafka stream only.
