@@ -8,6 +8,10 @@ description: >-
 
 Learn how to ingest data from Kafka, a stream processing platform. You should have a local cluster up and running, following the instructions in [Set up a cluster](../../../operators/operating-pinot/setup-cluster.md).
 
+{% hint style="info" %}
+This guide uses the Kafka 3.0 connector (`kafka30`). Pinot also supports a **Kafka 4.0 connector** for KRaft-mode Kafka clusters. See [Kafka Connector Versions](kafka-connector-versions.md) for details on choosing the right connector.
+{% endhint %}
+
 ## Install and Launch Kafka
 
 Let's start by downloading Kafka to our local machine.
@@ -209,7 +213,7 @@ Create a file called `/tmp/pinot/table-config-stream.json` and add the following
       "streamType": "kafka",
       "stream.kafka.topic.name": "events",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.broker.list": "kafka:9092",
       "realtime.segment.flush.threshold.rows": "0",
       "realtime.segment.flush.threshold.time": "24h",
@@ -292,7 +296,7 @@ Here is an example config which uses SSL based authentication to talk with kafka
         "streamType": "kafka",
         "stream.kafka.topic.name": "transcript-topic",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
-        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
         "stream.kafka.zk.broker.url": "pinot-zookeeper:2181/kafka",
         "stream.kafka.broker.list": "localhost:9092",
         "schema.registry.url": "",
@@ -350,7 +354,7 @@ If your messages are Avro-encoded and registered with Schema Registry, use `Kafk
       "streamType": "kafka",
       "stream.kafka.topic.name": "events",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.broker.list": "localhost:9092",
       "stream.kafka.schema.registry.url": "http://localhost:8081",
       "stream.kafka.decoder.prop.schema.registry.rest.url": "http://localhost:8081",
@@ -409,7 +413,7 @@ For example,
         "streamType": "kafka",
         "stream.kafka.topic.name": "transcript-topic",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
-        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
         "stream.kafka.zk.broker.url": "pinot-zookeeper:2181/kafka",
         "stream.kafka.broker.list": "kafka:9092",
         "stream.kafka.isolation.level": "read_committed"
@@ -432,7 +436,7 @@ Here is an example config which uses SASL\_SSL based authentication to talk with
         "streamType": "kafka",
         "stream.kafka.topic.name": "mytopic",
         "stream.kafka.consumer.prop.auto.offset.reset": "largest",
-        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+        "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
         "stream.kafka.broker.list": "kafka:9092",
         "stream.kafka.schema.registry.url": "https://xxx",
         "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
@@ -497,7 +501,7 @@ To avoid errors like `The Avro schema must be provided`, designate the location 
   "streamType": "kafka",
   "stream.kafka.topic.name": "",
   "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder",
-  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
   "stream.kafka.broker.list": "",
   "stream.kafka.consumer.prop.auto.offset.reset": "largest"
   ...
@@ -553,7 +557,7 @@ Table `events_part_0`:
           "stream.kafka.topic.name": "events",
           "stream.kafka.partition.ids": "0",
           "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
-          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
           "stream.kafka.broker.list": "kafka:9092",
           "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
           "realtime.segment.flush.threshold.rows": "0",
@@ -592,7 +596,7 @@ Table `events_part_1`:
           "stream.kafka.topic.name": "events",
           "stream.kafka.partition.ids": "1",
           "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder",
-          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
           "stream.kafka.broker.list": "kafka:9092",
           "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
           "realtime.segment.flush.threshold.rows": "0",
@@ -640,7 +644,7 @@ Example `streamConfigs`:
   "streamType": "kafka",
   "stream.kafka.topic.name": "my-protobuf-topic",
   "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder",
-  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
   "stream.kafka.broker.list": "kafka:9092",
   "stream.kafka.decoder.prop.descriptorFile": "/path/to/my_message.desc",
   "stream.kafka.decoder.prop.protoClassName": "mypackage.MyMessage"
@@ -665,7 +669,7 @@ Example `streamConfigs`:
   "streamType": "kafka",
   "stream.kafka.topic.name": "my-protobuf-topic",
   "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.ProtoBufCodeGenMessageDecoder",
-  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
   "stream.kafka.broker.list": "kafka:9092",
   "stream.kafka.decoder.prop.jarFile": "/path/to/my-protobuf-classes.jar",
   "stream.kafka.decoder.prop.protoClassName": "com.example.proto.MyMessage"
@@ -696,7 +700,7 @@ Example `streamConfigs`:
   "streamType": "kafka",
   "stream.kafka.topic.name": "my-protobuf-topic",
   "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder",
-  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
   "stream.kafka.broker.list": "kafka:9092",
   "stream.kafka.decoder.prop.schema.registry.rest.url": "http://schema-registry:8081"
 }
@@ -719,7 +723,7 @@ Example `streamConfigs`:
   "streamType": "kafka",
   "stream.kafka.topic.name": "my-arrow-topic",
   "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.arrow.ArrowMessageDecoder",
-  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
   "stream.kafka.broker.list": "kafka:9092",
   "stream.kafka.decoder.prop.arrow.allocator.limit": "536870912"
 }
