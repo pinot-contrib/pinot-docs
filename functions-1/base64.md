@@ -20,7 +20,7 @@ Encoding scheme follows [java.util.Base64.Encoder](https://docs.oracle.com/javas
 ## Usage Examples
 
 {% hint style="info" %}
-For better readability, the following examples converts string `hello!` into BYTES using [toUtf8](https://docs.pinot.apache.org/configuration-reference/functions/utf8) function and converts the decoded BYTES into string using [fromUtf8](https://docs.pinot.apache.org/configuration-reference/functions/utf8).
+For better readability, the following examples converts string `hello!` into BYTES using [toUtf8](utf8.md) function and converts the decoded BYTES into string using [fromUtf8](utf8.md).
 {% endhint %}
 
 ```sql
