@@ -100,8 +100,8 @@ This guide shows you how to handle records with dynamic schemas, like JSON log e
 
 This guide shows you how to reload Pinot segments from your deep store.
 
-{% content-ref url="../../operators/tutorials/segment-reload.md" %}
-[segment-reload.md](../../operators/tutorials/segment-reload.md)
+{% content-ref url="../../tutorials/operations/segment-reload.md" %}
+[segment-reload.md](../../tutorials/operations/segment-reload.md)
 {% endcontent-ref %}
 
 This guide shows you how to upload Pinot segments from an old, closed Pinot instance.

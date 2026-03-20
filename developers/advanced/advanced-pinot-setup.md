@@ -26,7 +26,7 @@ export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 docker pull ${PINOT_IMAGE}
 ```
 
-(Optional) You can also follow the instructions [here](../../operators/tutorials/build-docker-images.md) to build your own images.
+(Optional) You can also follow the instructions [here](../../tutorials/operations/build-docker-images.md) to build your own images.
 
 **0. Create a network**
 
@@ -335,7 +335,7 @@ Set `createInvertedIndexDuringSegmentGeneration` to `true` in your table config,
 ...
 ```
 
-When you update this setting in your table configuration, you must [reload the table segment](../../operators/tutorials/segment-reload.md) to apply the inverted index to all existing segments.
+When you update this setting in your table configuration, you must [reload the table segment](../../tutorials/operations/segment-reload.md) to apply the inverted index to all existing segments.
 
 ### Streaming Table Creation
 

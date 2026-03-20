@@ -70,7 +70,7 @@ Instead, consistent push is built into batch ingestion jobs (**currently only su
 }
 ```
 
-**Step 2:** Execute the job by following instructions for[#executing-the-job](../../users/tutorials/batch-data-ingestion-in-practice.md#executing-the-job "mention").
+**Step 2:** Execute the job by following instructions for[#executing-the-job](../../tutorials/data-ingestion/batch-data-ingestion-in-practice.md#executing-the-job "mention").
 
 ### How to trigger Data Rollback
 
