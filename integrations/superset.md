@@ -14,6 +14,7 @@ Start running [Superset Image](https://hub.docker.com/repository/docker/apachepi
 
 ```
 docker run \
+  -e SUPERSET_SECRET_KEY=<your_secret_key> \
   --network pinot-demo \
   --name=superset \
   -p 8088:8088 \
