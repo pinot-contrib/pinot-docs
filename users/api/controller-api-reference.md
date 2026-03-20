@@ -364,3 +364,243 @@ curl -X POST "http://localhost:9000/applicationQuotas/myApp" \
   -H "accept: application/json"
 ```
 
+
+## Table Config Validation
+
+{% hint style="info" %}
+Enhanced in Pinot 1.4.0 with cluster-aware validations (see [PR #16675](https://github.com/apache/pinot/pull/16675))
+{% endhint %}
+
+### POST /tableConfigs/validate
+
+Validates a table configuration before you create or update a table. This endpoint now performs cluster-aware validations by default, catching errors like missing tenant tags or unavailable minion instances that previously only surfaced during table creation.
+
+The endpoint checks:
+- Schema and table config consistency
+- Tenant assignment validity (do instances with the required tags exist?)
+- Minion instance availability (if task configs reference minion)
+- Active task conflicts
+
+**Request**
+
+```
+curl -X POST "http://localhost:9000/tableConfigs/validate" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tableName": "myTable",
+    "tableType": "OFFLINE",
+    "segmentsConfig": { ... },
+    "tenants": {
+      "broker": "DefaultTenant",
+      "server": "DefaultTenant"
+    },
+    "tableIndexConfig": { ... },
+    ...
+  }'
+```
+
+**Parameters**
+
+| Parameter                  | Type  | Description                                                                 |
+| -------------------------- | ----- | --------------------------------------------------------------------------- |
+| `validationTypesToSkip`    | query | Comma-separated list of validation types to skip (e.g., `TENANT,MINION_INSTANCES`) |
+
+The supported validation types that can be skipped are: `TENANT`, `MINION_INSTANCES`, `ACTIVE_TASKS`.
+
+**Response**
+
+On success, returns the validated config. On failure, returns an error message describing the validation issue.
+
+```
+{
+  "unrecognizedProperties": {},
+  "tableConfig": { ... },
+  "schema": { ... }
+}
+```
+
+## Logical Table Management
+
+{% hint style="info" %}
+Added in Pinot 1.4.0
+{% endhint %}
+
+Logical tables provide a unified view over multiple physical tables (REALTIME and OFFLINE). A query against a logical table internally scans all of its underlying physical tables, similar to a SQL VIEW with UNION semantics. This is useful for scaling large tables, performing ALTER TABLE workflows like Kafka topic reconfiguration, and managing time-based data layouts.
+
+### GET /logicalTables
+
+List all logical table names in the cluster.
+
+**Request**
+
+```
+curl -X GET "http://localhost:9000/logicalTables" -H "accept: application/json"
+```
+
+**Response**
+
+```
+["logicalEvents", "logicalOrders"]
+```
+
+### GET /logicalTables/\<tableName>
+
+Get the configuration of a specific logical table.
+
+**Request**
+
+```
+curl -X GET "http://localhost:9000/logicalTables/logicalEvents" -H "accept: application/json"
+```
+
+**Response**
+
+```
+{
+  "tableName": "logicalEvents",
+  "physicalTableNames": [
+    "events_REALTIME",
+    "events_2024_OFFLINE",
+    "events_2023_OFFLINE"
+  ],
+  "brokerTenant": "DefaultTenant",
+  "logicalTableConfig": { ... }
+}
+```
+
+### POST /logicalTables
+
+Create a new logical table. The physical tables referenced must already exist. All physical tables must share a compatible schema.
+
+**Request**
+
+```
+curl -X POST "http://localhost:9000/logicalTables" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tableName": "logicalEvents",
+    "physicalTableNames": [
+      "events_REALTIME",
+      "events_2024_OFFLINE"
+    ],
+    "brokerTenant": "DefaultTenant"
+  }'
+```
+
+**Response**
+
+```
+{
+  "status": "Successfully created logical table: logicalEvents"
+}
+```
+
+### PUT /logicalTables/\<tableName>
+
+Update an existing logical table, for example to add or remove physical tables.
+
+**Request**
+
+```
+curl -X PUT "http://localhost:9000/logicalTables/logicalEvents" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tableName": "logicalEvents",
+    "physicalTableNames": [
+      "events_REALTIME",
+      "events_2024_OFFLINE",
+      "events_2023_OFFLINE"
+    ],
+    "brokerTenant": "DefaultTenant"
+  }'
+```
+
+**Response**
+
+```
+{
+  "status": "Successfully updated logical table: logicalEvents"
+}
+```
+
+### DELETE /logicalTables/\<tableName>
+
+Delete a logical table. This does not delete the underlying physical tables.
+
+**Request**
+
+```
+curl -X DELETE "http://localhost:9000/logicalTables/logicalEvents" -H "accept: application/json"
+```
+
+**Response**
+
+```
+{
+  "status": "Successfully deleted logical table: logicalEvents"
+}
+```
+
+
+## Rebalance
+
+{% hint style="info" %}
+Enhanced in Pinot 1.4.0 with dry-run summary mode, pre-checks, and disk utilization info
+{% endhint %}
+
+### POST /tables/\<tableName>/rebalance
+
+Trigger a rebalance for a table. In 1.4.0, this API gained several new capabilities:
+
+- **Dry-run summary mode**: Pass `dryRun=true` to get a summary of what the rebalance would do without making any changes.
+- **Pre-checks**: Pass `preChecks=true` to run validation checks (replica group info, disk utilization) before executing the rebalance.
+- **Disk utilization threshold override**: Use `diskUtilizationThresholdOverride` to customize the threshold for the disk utilization pre-check.
+- **Tenant info**: The rebalance response now includes tenant information.
+- **minimizeDataMovement**: Pass `minimizeDataMovement=true` to reduce the amount of data moved during the rebalance.
+
+**Request**
+
+```
+curl -X POST "http://localhost:9000/tables/myTable/rebalance?type=OFFLINE&dryRun=true&preChecks=true" \
+  -H "accept: application/json"
+```
+
+## Ingestion
+
+### POST /tables/\<tableName>/pauseConsumption
+
+Pause real-time consumption for a table.
+
+**Request**
+
+```
+curl -X POST "http://localhost:9000/tables/myTable/pauseConsumption" -H "accept: application/json"
+```
+
+### POST /tables/\<tableName>/resumeConsumption
+
+Resume real-time consumption for a table.
+
+**Request**
+
+```
+curl -X POST "http://localhost:9000/tables/myTable/resumeConsumption" -H "accept: application/json"
+```
+
+## Other Notable APIs (1.4.0)
+
+The following APIs were added or enhanced in Pinot 1.4.0. Refer to Swagger for complete request/response details.
+
+| Endpoint                                          | Method | Description                                                             |
+| ------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
+| `/tables/{tableName}/badSegments`                 | GET    | Returns bad segments grouped by partition ID                            |
+| `/tables/{tableName}/removeIngestionMetrics`       | POST   | Removes stale ingestion metrics for a table                             |
+| `/debug/serverRoutingStats`                       | GET    | Returns server routing stats as JSON (previously returned a string)     |
+| `/tables/{tableName}/idealstate`                  | GET    | Now accepts optional `segmentNames` parameter to filter results         |
+| `/tables/{tableName}/externalview`                | GET    | Now accepts optional `segmentNames` parameter to filter results         |
+| `/tenants/{tenantName}/tables`                    | GET    | Now supports `withTableProperties` parameter for richer tenant info     |
+| `/query_range`                                    | GET/POST | Prometheus-compatible time series query endpoint (Beta)                |
+
+{% hint style="info" %}
+For the complete and most current list of all controller APIs, always refer to the Swagger UI at `http://<controller-host>:<port>/help`.
+{% endhint %}
