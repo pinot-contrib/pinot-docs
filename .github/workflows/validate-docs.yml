@@ -74,4 +74,4 @@ jobs:
         run: pip install pyyaml
 
       - name: Run full validation
-        run: python scripts/validate-docs.py --summary-only
+        run: python scripts/validate-docs.py
