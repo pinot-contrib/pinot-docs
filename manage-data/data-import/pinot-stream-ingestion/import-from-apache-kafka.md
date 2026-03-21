@@ -735,3 +735,31 @@ Example `streamConfigs`:
 {% hint style="info" %}
 The Arrow decoder expects each Kafka message to contain a complete Arrow IPC stream (schema + record batch). Ensure your producer serializes Arrow data in the IPC streaming format.
 {% endhint %}
+
+## Consuming a Subset of Kafka Partitions
+
+By default, a Pinot realtime table consumes all partitions of a Kafka topic. You can restrict ingestion to a specific subset of partitions using the `stream.kafka.partition.ids` property. This is useful when:
+
+- Splitting a single Kafka topic across multiple Pinot tables for independent scaling
+- Multi-tenant scenarios where different tables own different partition ranges
+
+### Configuration
+
+Add `stream.kafka.partition.ids` to your `streamConfigs` with a comma-separated list of partition IDs:
+
+```json
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.topic.name": "myTopic",
+  "stream.kafka.broker.list": "localhost:9092",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
+  "stream.kafka.partition.ids": "0,2,5"
+}
+```
+
+### Notes
+
+- Partition IDs are validated against actual Kafka topic metadata at startup.
+- Duplicate IDs in the list are automatically deduplicated.
+- The total partition count reported to the broker reflects the full Kafka topic size, ensuring correct query routing across tables sharing the same topic.
+- When splitting a topic between two tables, configure one with even-numbered IDs and another with odd-numbered IDs (for example, `"0,2"` and `"1,3"` for a 4-partition topic).
