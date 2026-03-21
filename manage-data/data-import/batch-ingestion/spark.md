@@ -65,7 +65,7 @@ spark.driver.extraJavaOptions =>
 The complete spark-submit command should look like this:
 
 ```
-export PINOT_VERSION=0.10.0
+export PINOT_VERSION=1.4.0 #set to the Pinot version you have installed
 export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin
 
 spark-submit //
@@ -82,7 +82,7 @@ Ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set proper
 **Note**: You should change the `master` to `yarn` and `deploy-mode` to `cluster` for production environments.
 
 {% hint style="info" %}
-We have stopped including `spark-core` dependency in our jars post 0.10.0 release. Users can try 0.11.0-SNAPSHOT and later versions of `pinot-batch-ingestion-spark` in case of any runtime issues. You can either [build from source ](../../../basics/getting-started/)or download latest master build jars.
+The `spark-core` dependency is not included in Pinot jars since the 0.10.0 release. If you run into runtime issues, make sure your Spark environment provides the dependency, or [build from source](../../../basics/getting-started/) with the matching Spark profile.
 {% endhint %}
 
 ### Running in Cluster Mode on YARN
@@ -125,7 +125,7 @@ Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using S
 
 Q - **I am not able to find `pinot-batch-ingestion-spark` jar.**
 
-For Pinot version prior to 0.10.0, the spark plugin is located in `plugin` dir of binary distribution. For 0.10.0 and later, it is located in `pinot-external` dir.
+Since Pinot 0.10.0, the spark plugin is located in the `pinot-external` directory of the binary distribution (in older versions it was in `plugin`).
 
 Q - **Spark is not able to find the jars** **leading to** **`java.nio.file.NoSuchFileException`**
 

@@ -12,14 +12,14 @@ You can use the client by including the following dependency -
 <dependency>
     <groupId>org.apache.pinot</groupId>
     <artifactId>pinot-java-client</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 {% endtab %}
 
 {% tab title="Gradle" %}
 ```java
-include 'org.apache.pinot:pinot-java-client:1.3.0'
+include 'org.apache.pinot:pinot-java-client:1.4.0'
 ```
 {% endtab %}
 {% endtabs %}
@@ -27,9 +27,7 @@ include 'org.apache.pinot:pinot-java-client:1.3.0'
 You can also build [the code for java client](https://github.com/apache/pinot/tree/master/pinot-clients/pinot-java-client) locally and use it.
 
 {% hint style="info" %}
-Basic authorization for the JDBC client is not supported in Pinot JDBC 0.9.3 release or earlier. The JDBC client has been upgraded to support basic authentication in the Pinot 0.10.0 snapshot, which can currently be built from source.
-
-You will not need to update your Pinot cluster to 0.10.0+ to support basic authentication, only the JDBC and Java client JARs.
+Basic authorization is supported in the JDBC and Java clients since Pinot 0.10.0. Make sure you are using client JARs from that release or later.
 {% endhint %}
 
 ## Usage
@@ -139,7 +137,7 @@ for (int i = 0; i < resultSet.getRowCount(); ++i) {
 
 ## Authentication
 
-Pinot supports [basic HTTP authorization](../../tutorials/operations/authentication/basic-auth-access-control.md), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side Java applications, make sure you are using Pinot Java Client 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the Java client.
+Pinot supports [basic HTTP authorization](../../tutorials/operations/authentication/basic-auth-access-control.md), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side Java applications, make sure you are using Pinot Java Client 0.10.0 or later. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the Java client.
 
 ```java
 final String username = "admin";

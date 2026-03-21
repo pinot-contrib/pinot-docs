@@ -12,14 +12,14 @@ You can include the JDBC dependency in your code as follows -
 <dependency>
     <groupId>org.apache.pinot</groupId>
     <artifactId>pinot-jdbc-client</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 {% endtab %}
 
 {% tab title="Gradle" %}
 ```java
-include 'org.apache.pinot:pinot-jdbc-client:1.3.0'
+include 'org.apache.pinot:pinot-jdbc-client:1.4.0'
 ```
 {% endtab %}
 {% endtabs %}
@@ -69,7 +69,7 @@ conn.close();
 
 ## Authentication
 
-Pinot supports [basic HTTP authorization](../../reference/multi-stage-engine.md), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
+Pinot supports [basic HTTP authorization](../../tutorials/operations/authentication/basic-auth-access-control.md), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0 or later. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
 
 ```java
 final String username = "admin";

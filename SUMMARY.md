@@ -20,6 +20,7 @@
   * [Running on GCP](basics/getting-started/public-cloud-examples/gcp-quickstart.md)
   * [Running on Azure](basics/getting-started/public-cloud-examples/azure-quickstart.md)
 * [Create and Update a Table Configuration](basics/getting-started/create-and-update-table-config.md)
+* [Pinot Version Reference](basics/getting-started/pinot-versions.md)
 
 ## Architecture & Concepts
 
