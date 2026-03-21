@@ -22,12 +22,12 @@ description: >-
 
 ### Explore query syntax:
 
-{% content-ref url="json-queries.md" %}
-[json-queries.md](json-queries.md)
+{% content-ref url="../../functions/json/README.md" %}
+[JSON Functions](../../functions/json/README.md)
 {% endcontent-ref %}
 
-{% content-ref url="supported-aggregations.md" %}
-[supported-aggregations.md](supported-aggregations.md)
+{% content-ref url="../../functions/aggregation/README.md" %}
+[Aggregation Functions](../../functions/aggregation/README.md)
 {% endcontent-ref %}
 
 {% content-ref url="how-to-handle-unique-counting.md" %}
