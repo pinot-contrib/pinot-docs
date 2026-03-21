@@ -42,4 +42,4 @@ Changes made using this method are automatically merged into the GitHub repo, as
 
 All of Pinot's documentation is written in [Markdown](https://en.wikipedia.org/wiki/Markdown). 
 
-For style guidelines, see the [Apache Pinot style guide](https://github.com/pinot-contrib/pinot-docs/blob/latest/contributing/style-guide.md).
+For style guidelines, see the [Apache Pinot style guide](style-guide.md).

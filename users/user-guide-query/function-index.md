@@ -8,7 +8,7 @@ Functions are available in the **Single-Stage Engine (SSE)**, the **Multi-Stage 
 
 ## Aggregation Functions
 
-For full details, see [Aggregation Functions](../supported-aggregations.md).
+For full details, see [Aggregation Functions](supported-aggregations.md).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -67,7 +67,7 @@ For full details, see [Aggregation Functions](../supported-aggregations.md).
 
 ## String Functions
 
-For full details, see [String Functions](../../../functions/string/).
+For full details, see [String Functions](../../functions/string/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -108,7 +108,7 @@ For full details, see [String Functions](../../../functions/string/).
 
 ## Math Functions
 
-For full details, see [Math Functions](../../../functions/math/).
+For full details, see [Math Functions](../../functions/math/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -149,7 +149,7 @@ For full details, see [Math Functions](../../../functions/math/).
 
 ## DateTime Functions
 
-For full details, see [DateTime Functions](../../../functions/datetime/).
+For full details, see [DateTime Functions](../../functions/datetime/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -197,7 +197,7 @@ For full details, see [DateTime Functions](../../../functions/datetime/).
 
 ## JSON Functions
 
-For full details, see [JSON Functions](../json-queries.md).
+For full details, see [JSON Functions](../../functions/json/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -304,7 +304,7 @@ For full details, see [URL Functions](../../functions/url).
 
 ## Binary Functions
 
-For full details, see [Binary Functions](../../../functions/binary/).
+For full details, see [Binary Functions](../../functions/binary/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -323,7 +323,7 @@ For full details, see [Binary Functions](../../../functions/binary/).
 
 ## Geospatial Functions
 
-For full details, see [GeoSpatial Functions](../../../functions/geospatial/).
+For full details, see [GeoSpatial Functions](../../functions/geospatial/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -349,7 +349,7 @@ For full details, see [GeoSpatial Functions](../../../functions/geospatial/).
 
 ## Vector / Similarity Functions
 
-For full details, see [Vector Functions](../../../functions/vector/).
+For full details, see [Vector Functions](../../functions/vector/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -364,7 +364,7 @@ For full details, see [Vector Functions](../../../functions/vector/).
 
 ## IP Address Functions
 
-For full details, see [IP Address Functions](../../../functions/ip-address/).
+For full details, see [IP Address Functions](../../functions/ip-address/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -377,7 +377,7 @@ For full details, see [IP Address Functions](../../../functions/ip-address/).
 
 ## Null Handling Functions
 
-For full details, see [Null Handling Functions](../../../functions/null-handling/).
+For full details, see [Null Handling Functions](../../functions/null-handling/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
@@ -393,7 +393,7 @@ For full details, see [Null Handling Functions](../../../functions/null-handling
 
 ## Type Conversion Functions
 
-For full details, see [Type Conversion Functions](../../../functions/type-conversion/).
+For full details, see [Type Conversion Functions](../../functions/type-conversion/).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
