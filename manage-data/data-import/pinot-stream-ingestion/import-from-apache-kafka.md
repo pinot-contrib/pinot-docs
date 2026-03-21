@@ -249,7 +249,7 @@ bin/pinot-admin.sh AddTable -schemaFile /tmp/pinot/schema-stream.json -tableConf
 
 Navigate to [localhost:9000/#/query](http://localhost:9000/#/query) and click on the `events` table to run a query that shows the first 10 rows in this table.
 
-![Querying the events table](../../../img/events-kafka-query.png) _Querying the events table_
+<!-- Image missing: events-kafka-query.png --> _Querying the events table_
 
 ## Kafka ingestion guidelines
 

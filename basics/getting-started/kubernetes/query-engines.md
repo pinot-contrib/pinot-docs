@@ -25,7 +25,7 @@ helm inspect values superset/superset > /tmp/superset-values.yaml
 3. For Superset to install Pinot dependencies, edit `/tmp/superset-values.yaml` file to add a`pinotdb` pip dependency into `bootstrapScript` field.
 4. You can also build your own image with this dependency or use the image `apachepinot/pinot-superset:latest` instead.
 
-![](../../.gitbook/assets/kubernetes-build-image.png)
+![](../../../.gitbook/assets/kubernetes-build-image.png)
 
 5. Replace the default admin credentials inside the `init` section with a meaningful user profile and stronger password.
 6. Install Superset using Helm:
@@ -101,7 +101,7 @@ helm install my-trino trino/trino --version 0.2.0 -n trino-quickstart --values /
 kubectl get pods -n trino-quickstart
 ```
 
-![](../../.gitbook/assets/trino-deployment-status.png)
+![](../../../.gitbook/assets/trino-deployment-status.png)
 
 ### Query Pinot with the Trino CLI
 

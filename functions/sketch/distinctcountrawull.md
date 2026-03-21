@@ -10,7 +10,7 @@ The [UltraLogLog Sketch](https://arxiv.org/abs/2308.16862) from Dynatrace is a v
 
 Pinot uses an production-ready Java implementation available in [Hash4j](https://github.com/dynatrace-oss/hash4j/tree/main) available under the Apache license.
 
-For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).  This function call returns the sketch encoded as hexadecimal to the user.
+For exact distinct counting, see [DISTINCTCOUNT](../aggregation/distinctcount.md).  This function call returns the sketch encoded as hexadecimal to the user.
 
 ## Signature
 

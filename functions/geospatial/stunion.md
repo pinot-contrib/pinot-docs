@@ -12,7 +12,7 @@ An aggregation function that returns a MULTI geometry or NON-MULTI geometry from
 
 ## Usage Examples
 
-These examples are based on the [Streaming Quick Start](../basics/getting-started/quick-start.md#streaming).
+These examples are based on the [Streaming Quick Start](../../basics/getting-started/quick-start.md#streaming).
 
 ```sql
 select group_city, ST_AsText(STUnion(location)) AS unionString

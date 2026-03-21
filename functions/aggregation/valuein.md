@@ -12,7 +12,7 @@ Takes at least 2 arguments, where the first argument is a multi-valued column, a
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 SELECT VALUEIN(RandomAirports, 'SEA') as airport, count(*)

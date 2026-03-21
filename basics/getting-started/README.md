@@ -60,8 +60,8 @@ Deploy Pinot on managed Kubernetes services.
 [create-and-update-table-config.md](create-and-update-table-config.md)
 {% endcontent-ref %}
 
-{% content-ref url="troubleshooting-pinot.md" %}
-[troubleshooting-pinot.md](troubleshooting-pinot.md)
+{% content-ref url="../../troubleshooting/troubleshooting-pinot.md" %}
+[../../troubleshooting/troubleshooting-pinot.md](../../troubleshooting/troubleshooting-pinot.md)
 {% endcontent-ref %}
 
 {% content-ref url="frequent-questions/" %}

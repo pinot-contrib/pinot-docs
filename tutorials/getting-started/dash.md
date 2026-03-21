@@ -10,7 +10,7 @@ In this guide you'll learn how to visualize data from Apache Pinot using Plotly'
 
 We're going to use Dash to build a real-time dashboard to visualize the changes being made to Wikimedia properties.
 
-![Real-Time Dashboard Architecture](../../img/dash-architecture.png) _Real-Time Dashboard Architecture_
+<!-- Image missing: dash-architecture.png --> _Real-Time Dashboard Architecture_
 
 ## Startup components
 
@@ -663,7 +663,7 @@ python dashboard.py
 
 Navigate to [localhost:8501](http://localhost:8051) to see the Dash app. You should see something like the following:
 
-![Dash Metrics](../../img/dash-metrics.png) _Dash Metrics_
+<!-- Image missing: dash-metrics.png --> _Dash Metrics_
 
 ### Changes per minute
 
@@ -702,7 +702,7 @@ _app.py_
 
 Go back to the web browser and you should see something like this:
 
-![Dash Time Series](../../img/dash-time-series.png) _Dash Time Series_
+<!-- Image missing: dash-time-series.png --> _Dash Time Series_
 
 ### Auto Refresh
 
@@ -822,7 +822,7 @@ _app.py_
 
 If we navigate back to our web browser, we'll see the following:
 
-![Dash Auto Refresh](../../img/dash-animation.gif) _Dash Auto Refresh_
+<!-- Image missing: dash-animation.gif --> _Dash Auto Refresh_
 
 The full script used in this example is shown below:
 

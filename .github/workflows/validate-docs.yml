@@ -73,5 +73,5 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
 
-      - name: Run full validation (warn-only)
-        run: python scripts/validate-docs.py --warn-only --summary-only
+      - name: Run full validation
+        run: python scripts/validate-docs.py --summary-only

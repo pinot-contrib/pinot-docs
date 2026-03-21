@@ -15,7 +15,7 @@ Returns the value of `dataColumn` with the largest `timeColumn` value where:
 
 ## Example
 
-This example is based on the [Streaming Quick Start](../basics/getting-started/quick-start.md#streaming).
+This example is based on the [Streaming Quick Start](../../basics/getting-started/quick-start.md#streaming).
 
 ```sql
 select LASTWITHTIME(group_name, __metadata$recordTimestamp, 'STRING')

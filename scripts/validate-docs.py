@@ -117,6 +117,9 @@ def extract_links(filepath: Path) -> list[tuple[str, int]]:
                     continue
                 if raw.startswith(("{%", "<")):
                     continue
+                if raw.startswith("/wiki/"):
+                    continue
+                raw = re.sub(r'\s+"mention"\s*$', '', raw)
                 links.append((raw, lineno))
     return links
 

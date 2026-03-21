@@ -188,7 +188,7 @@ In the single-stage engine, these aggregations would always result in a `DOUBLE`
 
 ### NULL function support
 
-Null handling is not supported when tables use table based null storing. You have to use column based null storing instead. See [null handling support](null-value-support.md).
+Null handling is not supported when tables use table based null storing. You have to use column based null storing instead. See [null handling support](../developers/advanced/null-value-support.md).
 
 ### Custom transform function support
 

@@ -12,7 +12,7 @@ Returns the Nth percentile of the group using [Quantile Digest](https://github.c
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
 
 ```sql
 select percentileest(homeRuns, 50) AS value

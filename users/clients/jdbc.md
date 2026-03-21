@@ -69,7 +69,7 @@ conn.close();
 
 ## Authentication
 
-Pinot supports [basic HTTP authorization](broken-reference/), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
+Pinot supports [basic HTTP authorization](../../reference/multi-stage-engine.md), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0+ or building from the latest Pinot snapshot. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
 
 ```java
 final String username = "admin";

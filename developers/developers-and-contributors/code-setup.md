@@ -50,7 +50,7 @@ To import the Pinot stylesheet this launch intellij and navigate to `Preferences
 * Select `Import Scheme` -> `Intellij IDES code style XML`
 * Choose `codestyle-intellij.xml` from `pinot/config` folder of your workspace. Click Apply.
 
-![](../../.gitbook/assets/.unused/import\_scheme.png)
+![](../../.gitbook/assets/.unused/import_scheme.png)
 
 #### Eclipse
 
@@ -59,7 +59,7 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 * Navigate to Java->Code Style->Formatter
 * Choose `codestyle-eclipse.xml` from `pinot/config folder` of your workspace. Click Apply.
 
-![](../../.gitbook/assets/.unused/eclipse\_style.png)
+![](../../.gitbook/assets/.unused/eclipse_style.png)
 
 Once the IDE is set up, you can run [`Batch QuickStart`](../../basics/getting-started/local/README.md#batch) for batch mode or [`Realtime QuickStart`](../../basics/getting-started/local/README.md#streaming) for real-time mode.
 

@@ -4,7 +4,7 @@ description: This section contains reference documentation for the caseWhen func
 
 # caseWhen
 
-Returns values depending on boolean expressions. This function can only be used in an [ingestion transformation function](../developers/advanced/ingestion-level-transformations.md).
+Returns values depending on boolean expressions. This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
 
 ## Signature
 
@@ -30,7 +30,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | `CASEWHEN(latitude > 0, 'North', 'South')` | `North` |
 | `CASEWHEN(latitude > 0, 1, 0)`             | `1`     |
 
-This function can be used in the [table config](../configuration-reference/table.md) to add `northernHemisphere` column:
+This function can be used in the [table config](../../configuration-reference/table.md) to add `northernHemisphere` column:
 
 ```json
 {

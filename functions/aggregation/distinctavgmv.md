@@ -12,7 +12,7 @@ Returns the average of distinct row values in a group
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 SELECT DISTINCTAVGMV(DivLongestGTimes) AS VALUE

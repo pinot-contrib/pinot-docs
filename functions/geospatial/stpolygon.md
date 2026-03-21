@@ -16,7 +16,7 @@ This function only works for WKT formatted polygons.
 
 ## Usage Examples
 
-These examples are based on the [Streaming Quick Start](../basics/getting-started/quick-start.md#streaming).
+These examples are based on the [Streaming Quick Start](../../basics/getting-started/quick-start.md#streaming).
 
 ```sql
 select ST_Polygon('POLYGON ((2 2, 2 6, 6 6, 6 2, 2 2))') AS value

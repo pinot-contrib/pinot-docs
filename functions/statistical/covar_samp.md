@@ -15,7 +15,7 @@ Returns the sample covariance between of 2 numerical columns.
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
 
 ```sql
 SELECT COVAR_SAMP(numberOfGames, AtBatting) AS covariance 

@@ -114,7 +114,7 @@ Remember that Pinot does not impose a hard requirement here. It is fine if segme
 
 Although using partitions can drastically reduce the fanout, it only applies to specific queries and requires a specific data distribution between segments. The most consistent way to limit the fanout is to define replica group segment alignment. A `Replica Group` is a subset of servers that contains a ‘complete’ set of segments of a table. Once we assign the segment based on the replica group, each query can be answered by fanning out to a single replica group instead of all servers.
 
-![](../../../.gitbook/assets/replica-group.png)
+![](../../../.gitbook/assets/ReplicaGroup.png)
 
 To use replica groups, the table configuration must be changed in the following ways:
 

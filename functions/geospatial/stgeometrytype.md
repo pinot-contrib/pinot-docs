@@ -14,7 +14,7 @@ Returns the type of the geometry as a string
 
 ## Usage Examples
 
-These examples are based on the [Streaming Quick Start](../basics/getting-started/quick-start.md#streaming).
+These examples are based on the [Streaming Quick Start](../../basics/getting-started/quick-start.md#streaming).
 
 ```sql
 select location, ST_GeometryType(location) AS type

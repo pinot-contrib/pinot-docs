@@ -12,7 +12,7 @@ Returns the length of a multi-value column
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 select ARRAYLENGTH(RandomAirports) AS length, count(*) 

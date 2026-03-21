@@ -82,7 +82,7 @@ For our sample data, the schema configuration looks like this:
 
 ## Create table configuration with ingestion configuration
 
-The next step is to create a table where all the ingested data will flow and can be queried. For details about each table component, see the [table](../../../configuration-reference/table/) reference.
+The next step is to create a table where all the ingested data will flow and can be queried. For details about each table component, see the [table](../../../configuration-reference/table.md) reference.
 
 The table configuration contains an ingestion configuration (`ingestionConfig`), which specifies how to ingest streaming data into Pinot. For details, see the [ingestion configuration](../../../configuration-reference/ingestion.md) reference.
 

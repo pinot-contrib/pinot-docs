@@ -6,7 +6,7 @@ description: This section contains reference documentation for the CLPDECODE fun
 
 Reconstructs (decodes) the value of a CLP-encoded field from its component columns.
 
-The [CLPLogMessageDecoder](../../basics/data-import/clp.md) can encode fields into a set of three columns:
+The [CLPLogMessageDecoder](../../manage-data/data-import/pinot-stream-ingestion/clp.md) can encode fields into a set of three columns:
 
 * `<field>_logtype`
 * `<field>_dictionaryVars`
@@ -34,7 +34,7 @@ Consider a record that contains a "message" field with the following value:
 
 > INFO Task task_12 assigned to container: [ContainerID:container_15], operation took 0.335 seconds. 8 tasks remaining.
 
-[CLPLogMessageDecoder](../../basics/data-import/clp.md) encodes this information into 3 columns:
+[CLPLogMessageDecoder](../../manage-data/data-import/pinot-stream-ingestion/clp.md) encodes this information into 3 columns:
 
 | message_logtype                                                                                              | message_dictionaryVars      | message_encodedVars     |
 |--------------------------------------------------------------------------------------------------------------|-----------------------------|-------------------------|

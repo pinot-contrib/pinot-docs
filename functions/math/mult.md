@@ -12,7 +12,7 @@ Product of at least two values
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
 
 ```sql
 select homeRuns, baseOnBalls, MULT(homeRuns, baseOnBalls) AS total

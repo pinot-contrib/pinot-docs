@@ -94,7 +94,7 @@ This is the only way to enable null storing in Pinot before 1.1.0, but it is dep
 
 When table based null storing is enabled, all columns will be considered nullable. To enable this mode you need to:
 
-1. Enable the `nullHandlingEnabled` configuration in [tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table/#table-index-config)
+1. Enable the `nullHandlingEnabled` configuration in [tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table.md#table-index-config)
 2. Disable  [enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) in the schema.
 
 {% hint style="warning" %}

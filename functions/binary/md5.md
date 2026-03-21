@@ -12,7 +12,7 @@ Return MD5 digest of binary column(`bytes` type) as hex string
 
 ## Usage Examples
 
-These examples are based on the [Real time Quick Start](../basics/getting-started/quick-start.md#realtime).
+These examples are based on the [Real time Quick Start](../../basics/getting-started/quick-start.md#realtime).
 
 ```sql
 select event_id, location, MD5(location) AS hash
