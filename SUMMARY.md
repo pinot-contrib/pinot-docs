@@ -173,6 +173,7 @@
   * [Set Up Ingestion](operators/operating-pinot/setup-ingestion.md)
   * [Decoupling Controller from the Data Path](operators/operating-pinot/decoupling-controller-from-the-data-path.md)
 * [Segment Management](operators/operating-pinot/segment-assignment.md)
+  * [Segment Lifecycle and Repair](operators/operating-pinot/segment-lifecycle-and-repair.md)
   * [Instance Assignment](operators/operating-pinot/instance-assignment.md)
   * [Rebalance](operators/operating-pinot/rebalance/README.md)
     * [Rebalance Servers](operators/operating-pinot/rebalance/rebalance-servers/README.md)
