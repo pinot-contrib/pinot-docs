@@ -43,7 +43,7 @@ Schemas define the columns, data types, and field classifications (dimension, me
 
 **Detailed docs:**
 
-* [Controller API Reference](controller-api-reference.md#delete-schemas-less-than-schemaname-greater-than) -- delete schema details
+* [Controller API Examples](controller-api-reference.md#delete-schemas-less-than-schemaname-greater-than) -- delete schema curl examples
 
 ## Table Management
 
@@ -77,7 +77,7 @@ Logical tables provide a unified view over multiple physical tables with UNION s
 
 **Detailed docs:**
 
-* [Controller API Reference](controller-api-reference.md) -- table delete, rebalance, validation, and logical table details
+* [Controller API Examples](controller-api-reference.md) -- table delete, rebalance, validation, and logical table curl examples
 * [Controller Admin API](pinot-rest-admin-interface.md) -- walkthrough of the Swagger UI for table and schema operations
 
 ## Segment Management
@@ -142,7 +142,7 @@ These controller APIs manage cluster-wide configuration, tenants, instances, and
 
 **Detailed docs:**
 
-* [Controller API Reference](controller-api-reference.md) -- cluster config, leader, and tenant API details
+* [Controller API Examples](controller-api-reference.md) -- cluster config, leader, and tenant curl examples
 
 ## Task Management
 
@@ -190,7 +190,7 @@ Application-level query quotas limit the queries per second (QPS) for different 
 
 **Detailed docs:**
 
-* [Controller API Reference](controller-api-reference.md#application-quotas) -- full request/response examples
+* [Controller API Examples](controller-api-reference.md#application-quotas) -- full request/response curl examples
 * [Query Quotas](../user-guide-query/query-quotas.md) -- how application quotas interact with table and database quotas
 
 ## Monitoring and Debugging
@@ -210,5 +210,5 @@ These endpoints help you check the health of Pinot components and debug table-le
 
 * **Swagger UI**: Access the full interactive API documentation at `http://<controller-host>:<port>/help`
 * [Controller Admin API](pinot-rest-admin-interface.md) -- visual walkthrough of the admin interface
-* [Controller API Reference](controller-api-reference.md) -- detailed request/response examples for many endpoints
+* [Controller API Examples](controller-api-reference.md) -- detailed request/response curl examples for common endpoints
 * [External Clients](../clients/README.md) -- JDBC, Java, and Go client libraries for programmatic access
