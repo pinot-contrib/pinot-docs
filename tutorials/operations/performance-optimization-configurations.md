@@ -14,11 +14,11 @@ PR: [https://github.com/apache/pinot/pull/9420](https://github.com/apache/pinot/
 
 #### Enabling Server Side Segment Stream Download-Untar with rate limiter:
 
-Pinot server supports segment download-untar with rate limiter, which reduces the bytes written to disk and optimizes disk bandwidth usage [https://github.com/apache/pinot/pull/8753](https://github.com/apache/pinot/pull/8753). This feature involves the following server level configs
+Pinot server supports segment download-untar with rate limiter, which reduces the bytes written to disk and optimizes disk bandwidth usage [https://github.com/apache/pinot/pull/8753](https://github.com/apache/pinot/pull/8753). This feature supports both HTTP-based segment fetchers and all PinotFS implementations (S3, GCS, ADLS Gen2, etc.), allowing segments to stream directly from your configured storage backend. This feature involves the following server level configs
 
 ```
 pinot.server.instance.segment.stream.download.untar : true
-// enable stream download and untar 
+// enable stream download and untar (works with HTTP and all PinotFS backends) 
 pinot.server.instance.segment.stream.download.untar.rate.limit.bytes.per.sec : 100000000
 // the max download-untar rate is limited to 100000000 bytes/sec
 ```
