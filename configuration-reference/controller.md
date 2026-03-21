@@ -24,7 +24,7 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 | controller.update\_segment\_state\_model                     | false                                                                    |                                                                                                                                                                                                                                                             |
 | controller.helix.cluster.name                                |                                                                          | Pinot Cluster Name, required.                                                                                                                                                                                                                               |
 | cluster.tenant.isolation.enable                              | true                                                                     | <p>Enable Tenant Isolation, default is single tenant cluster.<br>If enabled, each server or broker added into the cluster will be tagged with DefaultTenant.</p>                                                                                            |
-| controller.enable.split.commit                               | false                                                                    |                                                                                                                                                                                                                                                             |
+| controller.enable.split.commit                               | false                                                                    | **(Deprecated)** Enable split commit protocol for real-time segment commit.                                                                                                                                                                                 |
 | controller.query.console.useHttps                            | false                                                                    | use https instead of http for cluster                                                                                                                                                                                                                       |
 | controller.upload.onlineToOfflineTimeout                     | 2 minutes                                                                |                                                                                                                                                                                                                                                             |
 | controller.mode                                              | `dual`                                                                   | Should be one of `helix_only`, `pinot_only` or `dual`                                                                                                                                                                                                       |
@@ -78,7 +78,9 @@ This task manages the segment ValidationMetrics (missingSegmentCount, offlineSeg
 
 ### PinotTaskManager
 
-TBD
+This task schedules and manages Pinot minion tasks. It periodically generates tasks for each table based on the task configurations defined in the table config. Common minion tasks include `MergeRollupTask`, `RealtimeToOfflineSegmentsTask`, `SegmentGenerationAndPushTask`, and `ConvertToRawIndexTask`.
+
+<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.task.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.task.manager.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
 
 ### RealtimeSegmentValidationManager
 
@@ -151,7 +153,9 @@ Currently, table rebalance triggered by user runs at best effort. It could fail 
 
 ### TaskMetricsEmitter
 
-TBD
+This task periodically emits metrics about minion tasks, including task counts by state (RUNNING, WAITING, ERROR, COMPLETED) and task latencies. These metrics are useful for monitoring the health and throughput of the minion task system.
+
+<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.task.metrics.emitter.frequencyPeriod</td><td>5m</td></tr></tbody></table>
 
 ### ResourceUtilizationChecker
 
