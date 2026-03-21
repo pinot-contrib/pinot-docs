@@ -17,3 +17,4 @@ redirects:
     basics/getting-started/frequent-questions/operations-faq: troubleshooting/operations-faq.md
     basics/getting-started/frequent-questions/pinot-on-kubernetes-faq: troubleshooting/pinot-on-kubernetes-faq.md
     developers/advanced/troubleshoot-multi-stage-query-engine: troubleshooting/troubleshoot-multi-stage-query-engine.md
+    users/user-guide-query/supported-aggregations: functions/aggregation/README.md

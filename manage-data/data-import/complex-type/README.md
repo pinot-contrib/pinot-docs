@@ -84,7 +84,7 @@ With this, you can start to query the nested fields under `group`. For more deta
 Though JSON indexing is a handy way to process the complex types, there are some limitations:
 
 * It’s not performant to group by or order by a JSON field, because `JSON_EXTRACT_SCALAR` is needed to extract the values in the GROUP BY and ORDER BY clauses, which invokes the function evaluation.
-* It does not work with Pinot's [multi-column functions](../../../users/user-guide-query/supported-aggregations.md#multi-value-column-functions) such as `DISTINCTCOUNTMV`.
+* It does not work with Pinot's [multi-value column functions](../../../functions/aggregation/README.md#multi-value-column-functions) such as `DISTINCTCOUNTMV`.
 
 Alternatively, from Pinot 0.8, you can use the complex-type handling in ingestion configurations to flatten and unnest the complex structure and convert them into primitive types. Then you can reduce the complex-type data into a flattened Pinot table, and query it via SQL. With the built-in processing rules, you do not need to write ETL jobs in another compute framework such as Flink or Spark.
 

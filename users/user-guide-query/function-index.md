@@ -8,7 +8,7 @@ Functions are available in the **Single-Stage Engine (SSE)**, the **Multi-Stage 
 
 ## Aggregation Functions
 
-For full details, see [Aggregation Functions](supported-aggregations.md).
+For full details, see [Aggregation Functions](../../functions/aggregation/README.md).
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|

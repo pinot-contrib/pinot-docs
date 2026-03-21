@@ -1,13 +1,10 @@
 ---
-description: >-
-  Reference documentation for aggregation functions in Apache Pinot.
+description: Aggregate functions return a single result for a group of rows.
 ---
 
 # Aggregation Functions
 
-For the full aggregation function reference table, see [Supported Aggregations](../../users/user-guide-query/supported-aggregations.md).
-
-This directory contains individual reference pages for each aggregation function. The pages below provide detailed signatures, usage examples, and notes.
+Aggregate functions return a single result for a group of rows. The pages below provide detailed signatures, usage examples, and notes for each function.
 
 ## Basic Aggregations
 
@@ -81,3 +78,53 @@ For sketch-based distinct count functions (CPC, HLL+, ULL, Tuple), see [Sketch F
 | [FIRST_VALUE](first_value.md) / [LAST_VALUE](last_value.md) | First/last value in window |
 | [LEAD](lead.md) / [LAG](lag.md) | Access subsequent/preceding rows |
 | [FIRSTWITHTIME](firstwithtime.md) / [LASTWITHTIME](lastwithtime.md) | First/last value by time |
+
+## Multi-Value Column Functions
+
+The following aggregation functions can be used for multi-value columns:
+
+| Function | Description |
+| -------- | ----------- |
+| [COUNTMV](countmv.md) | Returns the count of a multi-value column |
+| [MINMV](minmv.md) | Returns the minimum value of a numeric multi-value column |
+| [MAXMV](maxmv.md) | Returns the maximum value of a numeric multi-value column |
+| [SUMMV](summv.md) | Returns the sum of the values for a numeric multi-value column |
+| [AVGMV](avgmv.md) | Returns the average of the values for a numeric multi-value column |
+| [MINMAXRANGEMV](minmaxrangemv.md) | Returns the `max - min` value for a numeric multi-value column |
+| [PERCENTILEMV](percentilemv.md) | Returns the Nth percentile of a numeric multi-value column |
+| [PERCENTILEESTMV](percentileestmv.md) | Returns the Nth percentile using Quantile Digest for a multi-value column |
+| [PERCENTILETDIGESTMV](percentiletdigestmv.md) | Returns the Nth percentile using T-Digest for a multi-value column |
+| [DISTINCTCOUNTMV](distinctcountmv.md) | Returns the count of distinct values for a multi-value column |
+| [DISTINCTCOUNTBITMAPMV](distinctcountbitmapmv.md) | Returns the count of distinct values using bitmap for a multi-value column |
+| [DISTINCTCOUNTHLLMV](distinctcounthllmv.md) | Returns an approximate distinct count using HLL for a multi-value column |
+| [DISTINCTCOUNTRAWHLLMV](distinctcountrawhllmv.md) | Returns HyperLogLog response serialized as string for a multi-value column |
+| [DISTINCTSUMMV](distinctsummv.md) | Returns the sum of distinct values of a numeric multi-value column |
+| [DISTINCTAVGMV](distinctavgmv.md) | Returns the average of distinct values of a numeric multi-value column |
+
+For sketch-based multi-value functions (HLL+), see [Sketch Functions](../sketch/).
+
+## FILTER Clause in Aggregation
+
+Pinot supports the FILTER clause in aggregation queries:
+
+```sql
+SELECT SUM(COL1) FILTER (WHERE COL2 > 300),
+       AVG(COL2) FILTER (WHERE COL2 < 50)
+FROM MyTable WHERE COL3 > 50
+```
+
+In the query above, `COL1` is aggregated only for rows where `COL2 > 300 and COL3 > 50`. Similarly, `COL2` is aggregated where `COL2 < 50 and COL3 > 50`.
+
+With [NULL Value Support](../../developers/advanced/null-value-support.md) enabled, this allows filtering out null values while performing aggregation:
+
+```sql
+SELECT SUM(COL1) FILTER (WHERE COL1 IS NOT NULL)
+FROM MyTable WHERE COL3 > 50
+```
+
+## Deprecated Functions
+
+| Function | Description |
+| -------- | ----------- |
+| FASTHLL | Stores serialized HyperLogLog in String format. Performs worse than DISTINCTCOUNTHLL, which supports serialized HyperLogLog in BYTES format. |
+| FASTHLLMV | Multi-value version of FASTHLL. Also deprecated in favor of DISTINCTCOUNTHLL. |
