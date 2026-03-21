@@ -265,6 +265,32 @@ Apply rate limiting to logical tables:
 Storage quota (`quota.storage`) is not supported for logical tables since they don't store data directly.
 {% endhint %}
 
+## Managing Logical Tables via the Controller UI
+
+The Pinot Controller UI provides full CRUD management for logical tables, accessible directly from the main Tables page.
+
+### Accessing Logical Tables
+
+1. Open the Controller UI (default: `http://<controller-host>:9000`).
+2. Navigate to **Tables** in the left sidebar.
+3. The Tables page displays physical tables and logical tables in separate sections.
+4. Click a logical table name to open its detail page, which shows:
+   - Current configuration (JSON)
+   - Physical table mappings
+
+### Supported Operations
+
+| Operation | Description |
+|---|---|
+| **List** | View all logical tables with search and filter |
+| **View** | Inspect the logical table's configuration and physical table assignments |
+| **Update** | Edit the logical table configuration in-place |
+| **Delete** | Remove a logical table from the cluster |
+
+{% hint style="tip" %}
+All operations are also available via the REST API at `/logicalTables/{tableName}` using GET, PUT, and DELETE.
+{% endhint %}
+
 ## Quick Start Example
 
 Try the logical table quickstart to see the feature in action:
