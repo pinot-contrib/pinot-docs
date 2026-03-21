@@ -9,8 +9,8 @@ Features of the cursor implementation in Apache Pinot are:
 
 * A query is run once and its results are stored in a temporary location. The results are cleaned up after a configurable period of time.
 * The first page of results is returned in the response.&#x20;
-* A client can iterate through the rest of the result set by using the responseStore API.
-* The client can seek forward and backward as well as change the number of rows in the repsonse.
+* A client can iterate through the rest of the result set by using the cursor fetch API (`GET /responseStore/{requestId}/results`).
+* The client can seek forward and backward as well as change the number of rows in the response.
 * Cursors can be used with Single-Stage and Multi-Stage Query Engines.
 
 ## Concepts
@@ -52,7 +52,7 @@ pinot.broker.cursor.response.store.type=file
 pinot.broker.storage.factory.s3.region=us-west-2
 pinot.broker.storage.factory.class.s3=org.apache.pinot.plugin.filesystem.S3PinotFS
 pinot.broker.cursor.response.store.file.temp.dir=/home/pinot/broker/data/cursors/temp
-pinot.broker.cursor.response.store.file.data.dir.data.dir=s3://bucket/dir/query-results/
+pinot.broker.cursor.response.store.file.data.dir=s3://bucket/dir/query-results/
 
 ```
 
@@ -229,3 +229,13 @@ Configuration parameters with _pinot.broker_ prefix are Broker configuration par
 Configuration parameters with _controller_ prefix are Controller configuration parameters.
 
 <table><thead><tr><th width="319">Configuration</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td>pinot.broker.cursor.response.store.type</td><td>file</td><td>Specifies the ResponseStore type to instantiate.</td></tr><tr><td>pinot.broker.cursor.response.store.file.data.dir</td><td>{java.io.tmpdir}/broker/responseStore/data</td><td>Directory where the responses will be stored.</td></tr><tr><td>pinot.broker.cursor.response.store.file.temp.dir</td><td>{java.io.tmpdir}/broker/responseStore/temp</td><td>Directory where temporary files will be stored.</td></tr><tr><td>pinot.broker.cursor.response.store.expiration</td><td>1h</td><td>Time To Live for a response store.</td></tr><tr><td>pinot.broker.cursor.fetch.rows</td><td>10000</td><td>The default number of rows in a cursor response.</td></tr><tr><td>controller.cluster.response.store.cleaner.frequencyPeriod</td><td>1h</td><td>The frequency of ResponseStoreCleaner</td></tr><tr><td>controller.cluster.response.store.cleaner.initialDelay</td><td>random delay between 0-300 seconds</td><td>The initial delay before the first run of the periodic task.</td></tr></tbody></table>
+
+## Production considerations
+
+{% hint style="info" %}
+**Broker affinity.** The initial cursor query response includes `brokerHost` and `brokerPort`. All subsequent fetch requests for that cursor must be sent to the same broker because the ResponseStore is local to it. If your deployment sits behind a load balancer, either use client-side routing based on these fields or configure session affinity so that follow-up requests reach the correct broker.
+{% endhint %}
+
+**TTL and cleanup.** Cursor results are not cleaned up immediately after the last fetch. They remain on the broker until the configured expiration (`pinot.broker.cursor.response.store.expiration`, default `1h`) is reached and the controller's `ResponseStoreCleaner` periodic task runs (default every `1h`). Size the data directory and expiration window to accommodate your expected concurrent cursor volume. Clients can also proactively free resources by calling `DELETE /responseStore/{requestId}/`.
+
+**Shared storage.** When using a remote filesystem such as S3 or GCS, the data directory is shared across brokers but each cursor response is still written by and served from the broker that ran the query. A remote data directory does not remove the broker-affinity requirement; it only changes where bytes are persisted.
