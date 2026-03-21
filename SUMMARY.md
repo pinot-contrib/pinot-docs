@@ -211,6 +211,7 @@
   * [Performance Optimization Configurations](tutorials/operations/performance-optimization-configurations.md)
   * [Segment Operations Throttling](tutorials/operations/segment-operations-throttling.md)
 * [Upgrading Pinot](operators/operating-pinot/upgrading-pinot-cluster.md)
+  * [Upgrade Notes](operators/operating-pinot/upgrade-notes.md)
 * [Managing Logs](operators/operating-pinot/managing-logs.md)
 * [Command-Line Interface (CLI)](operators/cli.md)
 * [Configuration Recommendation Engine](operators/configuration-recommendation-engine.md)
