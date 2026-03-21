@@ -4,7 +4,7 @@ Pinot provides statistical aggregation functions for computing variance, standar
 
 ## Variance Functions
 
-### VAR_POP / VARPOP
+### [VAR_POP / VARPOP](varpop.md)
 
 ```sql
 VAR_POP(col)
@@ -17,7 +17,7 @@ SELECT VAR_POP(playerScore) AS score_variance
 FROM gameStats
 ```
 
-### VAR_SAMP / VARSAMP
+### [VAR_SAMP / VARSAMP](varsamp.md)
 
 ```sql
 VAR_SAMP(col)
@@ -32,7 +32,7 @@ FROM apiMetrics
 
 ## Standard Deviation Functions
 
-### STDDEV_POP / STDDEVPOP
+### [STDDEV_POP / STDDEVPOP](stddevpop.md)
 
 ```sql
 STDDEV_POP(col)
@@ -45,7 +45,7 @@ SELECT STDDEV_POP(latency) AS latency_stddev
 FROM requestMetrics
 ```
 
-### STDDEV_SAMP / STDDEVSAMP
+### [STDDEV_SAMP / STDDEVSAMP](stddevsamp.md)
 
 ```sql
 STDDEV_SAMP(col)

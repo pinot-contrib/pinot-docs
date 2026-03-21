@@ -17,9 +17,40 @@ This directory contains individual reference pages for each aggregation function
 | [SUM](sum.md) / [SUMMV](summv.md) | Sum of values |
 | [MIN](min.md) / [MINMV](minmv.md) | Minimum value |
 | [MAX](max.md) / [MAXMV](maxmv.md) | Maximum value |
-| [AVG](avgmv.md) | Average of values |
+| [AVG](avg.md) / [AVGMV](avgmv.md) | Average of values |
 | [MODE](mode.md) | Most frequent value |
 | [HISTOGRAM](histogram.md) | Histogram of values |
+| [SUMPRECISION](sumprecision.md) | High-precision sum using BigDecimal |
+| [ANYVALUE](anyvalue.md) | Any arbitrary non-null value from a group |
+| [BOOLAND](booland.md) / [BOOLOR](boolor.md) | Logical AND/OR across boolean values |
+
+## Array and String Aggregations
+
+| Function | Description |
+| -------- | ----------- |
+| [ARRAYAGG](arrayagg.md) | Collect values into an array |
+| [LISTAGG](listagg.md) | Concatenate values into a delimited string |
+| [SUMARRAYLONG](sumarraylong.md) | Element-wise sum of long arrays |
+| [SUMARRAYDOUBLE](sumarraydouble.md) | Element-wise sum of double arrays |
+
+## Statistical Functions
+
+| Function | Description |
+| -------- | ----------- |
+| [SKEWNESS](skewness.md) | Skewness of a distribution |
+| [KURTOSIS](kurtosis.md) | Kurtosis of a distribution |
+| [DISTINCTSUM](distinctsum.md) / [DISTINCTAVG](distinctavg.md) | Sum/average of distinct values |
+| [EXPRMIN](exprmin.md) / [EXPRMAX](exprmax.md) | Project columns at row with min/max measure |
+| [ARG_MIN / ARG_MAX](arg_min-arg_max.md) | Project column at row with min/max measure |
+
+## Set and Sketch Functions
+
+| Function | Description |
+| -------- | ----------- |
+| [IDSET](idset.md) | Build an IdSet for efficient filtering |
+
+For sketch-based functions (FrequentItems, CPC, HLL+, ULL, Tuple), see [Sketch Functions](../sketch/).
+For funnel analysis functions, see [Funnel Functions](../funnel/).
 
 ## Distinct Counting
 
