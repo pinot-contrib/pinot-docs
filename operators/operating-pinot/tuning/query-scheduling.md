@@ -36,3 +36,9 @@ This query scheduling mechanism will periodically grant tokens to each scheduler
 * `pinot.query.scheduler.token_lifetime_ms` indicates the lifetime of every allocated token
 
 This scheduler applies a linear decay for groups that have recently been scheduled to avoid starvation and allow groups with light workloads to be scheduled.
+
+## Workload-based query isolation
+
+Starting in Pinot 1.3.0, the **Binary Workload Scheduler** provides a higher-level mechanism for isolating production traffic from ad-hoc queries. Rather than tuning per-table thread limits, it categorizes all queries into a primary workload (unbounded, for production traffic) and a secondary workload (constrained concurrency, queue pruning, and thread limits for ad-hoc use).
+
+For details on configuring workload-based isolation, see [Workload Query Isolation](workload-query-isolation.md).
