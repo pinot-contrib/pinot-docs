@@ -1,6 +1,9 @@
+---
+description: Troubleshooting content has moved to a top-level section.
+---
+
 # Troubleshoot Apache Pinot
 
-Troubleshoot common issues in Apache Pinot.
-
-- [Troubleshoot issues with the multi-stage query engine (v2)](/reference/troubleshooting/troubleshoot-multi-stage-query-engine.md)
-- [Troubleshoot issues with ZooKeeper znodes](/reference/troubleshooting/troubleshoot-zookeeper.md)
+{% hint style="info" %}
+This content has moved. Find all troubleshooting guides in the [Troubleshooting](../../troubleshooting/README.md) section.
+{% endhint %}

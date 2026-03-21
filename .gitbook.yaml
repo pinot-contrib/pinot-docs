@@ -3,3 +3,17 @@ root: ./
 structure:
     readme: README.md
     summary: SUMMARY.md
+
+redirects:
+    reference/troubleshooting: troubleshooting/README.md
+    reference/troubleshooting/troubleshoot-multi-stage-query-engine: troubleshooting/troubleshoot-multi-stage-query-engine.md
+    reference/troubleshooting/troubleshoot-zookeeper: troubleshooting/troubleshoot-zookeeper.md
+    reference/troubleshooting/realtime-ingestion-stopped: troubleshooting/realtime-ingestion-stopped.md
+    basics/getting-started/troubleshooting-pinot: troubleshooting/troubleshooting-pinot.md
+    basics/getting-started/frequent-questions: troubleshooting/README.md
+    basics/getting-started/frequent-questions/general: troubleshooting/general-faq.md
+    basics/getting-started/frequent-questions/query-faq: troubleshooting/query-faq.md
+    basics/getting-started/frequent-questions/ingestion-faq: troubleshooting/ingestion-faq.md
+    basics/getting-started/frequent-questions/operations-faq: troubleshooting/operations-faq.md
+    basics/getting-started/frequent-questions/pinot-on-kubernetes-faq: troubleshooting/pinot-on-kubernetes-faq.md
+    developers/advanced/troubleshoot-multi-stage-query-engine: troubleshooting/troubleshoot-multi-stage-query-engine.md

@@ -12,7 +12,7 @@ The leaf operator is not a relational operator itself but a meta-operator that i
 
 As a result, leaf stage operators can use all the optimizations and indices that the single-stage engine can use but it also means that there may be slight differences when an operator is executed in a leaf stage compared to when it is executed in an intermediate stage. For example, operations pushed down to the leaf stage may use indexes (see [how to know if indexes are used](filter/#how-to-know-if-indexes-are-used)) or the semantics can be slightly different.
 
-You can read [Troubleshoot issues with the multi-stage query engine (v2)](../../../../reference/troubleshooting/troubleshoot-multi-stage-query-engine.md) for more information on the differences between the leaf and intermediate stages, but the main ones are:
+You can read [Troubleshoot issues with the multi-stage query engine (v2)](../../../../troubleshooting/troubleshoot-multi-stage-query-engine.md) for more information on the differences between the leaf and intermediate stages, but the main ones are:
 
 * Null handling is different.
 * Some functions are only supported in multi-stage and some others only in single-stage.

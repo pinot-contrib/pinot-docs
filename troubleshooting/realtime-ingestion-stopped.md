@@ -31,11 +31,11 @@ To mitigate, we suggest below steps to ensure your setup is scalable and stable.
    4. upload segment tarball to deep store
    5. update zookeeper segment metadata
    6. complete the protocol
-2. For large realtime segment, suggest to use `DOWNLOAD` for `completionMode` so the other server replicas won't waste CPU cycles to build segments. Ref: [Realtime Table Config -> SegmentsConfig](../../configuration-reference/table.md#segments-config)
+2. For large realtime segment, suggest to use `DOWNLOAD` for `completionMode` so the other server replicas won't waste CPU cycles to build segments. Ref: [Realtime Table Config -> SegmentsConfig](../configuration-reference/table.md#segments-config)
 3. Limit the concurrent realtime segment build by configure Pinot servers:&#x20;
 
 ```
 realtime.max.parallel.segment.builds=2
 ```
 
-This will reduce each segment build time to relief the segment commit timeout situation, as well the concurrent pressure on the controller side. Ref: [Server Config](../../configuration-reference/server.md)
+This will reduce each segment build time to relief the segment commit timeout situation, as well the concurrent pressure on the controller side. Ref: [Server Config](../configuration-reference/server.md)

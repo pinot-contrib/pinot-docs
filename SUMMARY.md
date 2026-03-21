@@ -20,13 +20,7 @@
   * [Running on GCP](basics/getting-started/public-cloud-examples/gcp-quickstart.md)
   * [Running on Azure](basics/getting-started/public-cloud-examples/azure-quickstart.md)
 * [Create and Update a Table Configuration](basics/getting-started/create-and-update-table-config.md)
-* [Troubleshooting Pinot](basics/getting-started/troubleshooting-pinot.md)
-* [Frequently Asked Questions (FAQs)](basics/getting-started/frequent-questions/README.md)
-  * [General](basics/getting-started/frequent-questions/general.md)
-  * [Pinot on Kubernetes FAQ](basics/getting-started/frequent-questions/pinot-on-kubernetes-faq.md)
-  * [Ingestion FAQ](basics/getting-started/frequent-questions/ingestion-faq.md)
-  * [Query FAQ](basics/getting-started/frequent-questions/query-faq.md)
-  * [Operations FAQ](basics/getting-started/frequent-questions/operations-faq.md)
+
 ## Architecture & Concepts
 
 * [Concepts](basics/concepts/README.md)
@@ -336,12 +330,18 @@
   * [Use S3 and Pinot in Docker](tutorials/deep-storage/use-s3-and-pinot-in-docker.md)
   * [Use OSS as Deep Storage for Pinot](tutorials/deep-storage/use-oss-as-deep-storage-for-pinot.md)
 
-## Reference
+## Troubleshooting
 
-* [Troubleshooting](reference/troubleshooting/README.md)
-  * [Troubleshoot Multi-Stage Query Engine (v2)](reference/troubleshooting/troubleshoot-multi-stage-query-engine.md)
-  * [Troubleshoot ZooKeeper Znodes](reference/troubleshooting/troubleshoot-zookeeper.md)
-  * [Realtime Ingestion Stopped](reference/troubleshooting/realtime-ingestion-stopped.md)
+* [Overview](troubleshooting/README.md)
+* [Debugging Pinot](troubleshooting/troubleshooting-pinot.md)
+  * [General FAQ](troubleshooting/general-faq.md)
+* [Query FAQ](troubleshooting/query-faq.md)
+  * [Troubleshoot Multi-Stage Query Engine (v2)](troubleshooting/troubleshoot-multi-stage-query-engine.md)
+* [Ingestion FAQ](troubleshooting/ingestion-faq.md)
+  * [Realtime Ingestion Stopped](troubleshooting/realtime-ingestion-stopped.md)
+* [Operations FAQ](troubleshooting/operations-faq.md)
+* [Pinot on Kubernetes FAQ](troubleshooting/pinot-on-kubernetes-faq.md)
+* [Troubleshoot ZooKeeper Znodes](troubleshooting/troubleshoot-zookeeper.md)
 
 ## Release Notes
 
