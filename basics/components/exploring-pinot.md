@@ -96,7 +96,7 @@ from baseballStats
 order by league
 ```
 
-Pinot supports a subset of standard SQL. For more information, see [Pinot Query Language](../../users/user-guide-query/querying-pinot.md).
+Pinot uses SQL for querying. For the complete syntax reference, see the [SQL Syntax and Operators Reference](../../users/user-guide-query/sql-reference.md). For query options, examples, and engine details, see [Querying Pinot](../../users/user-guide-query/querying-pinot.md).
 
 ### Time-series query execution
 

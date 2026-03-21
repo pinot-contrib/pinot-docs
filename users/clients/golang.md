@@ -116,7 +116,7 @@ type BrokerResponse struct {
 }
 ```
 
-Note that `AggregationResults` and `SelectionResults` are holders for Pinot query language (PQL) queries.
+Note that `AggregationResults` and `SelectionResults` are holders for legacy PQL (Pinot Query Language) queries, which have been deprecated since Pinot 0.7.1. Use the SQL API and `ResultTable` instead.
 
 Meanwhile, `ResultTable` is the holder for SQL queries. `ResultTable` is defined as:
 

@@ -402,7 +402,7 @@ The words should be **comma separated** and in **lowercase**. Words appearing in
 
 ## Writing text search queries
 
-The `TEXT_MATCH` function enables using text search in SQL/PQL.
+The `TEXT_MATCH` function enables using text search in SQL.
 
 TEXT\_MATCH(text\_column\_name, search\_expression)
 
