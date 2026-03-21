@@ -42,6 +42,22 @@ In this example, the table uses servers tagged with `base_OFFLINE`. We have crea
 | storageType         | The type of storage. The only supported type is `pinot_server`                                                                                                                         |
 | serverTag           | This property is required when `storageType` is `pinot_server`. Set the tag of the Pinot servers you want to use for this selection criteria.                                          |
 
+### Selecting All Segments with a Wildcard
+
+Tables without a time column cannot use time-based segment selection because it relies on segment start/end timestamps. For these tables, use `FixedTierSegmentSelector` with the special `"*"` wildcard in `segmentList` to move all completed segments to a tier:
+
+```json
+{
+  "tierName": "coldTier",
+  "segmentSelectorType": "fixed",
+  "segmentList": ["*"],
+  "storageType": "pinot_server",
+  "serverTag": "DefaultTenant_OFFLINE_cold"
+}
+```
+
+When `segmentList` contains `"*"`, the selector treats all completed (non-consuming) segments as matching, regardless of name. This is particularly useful for dimension tables or event tables that lack a dedicated time column.
+
 ### How does data move from one tenant to another?
 
 On adding this config, the [Segment Relocator](../../../basics/components/cluster/controller.md#segmentrelocator) periodic task will move segments from one tenant to another, as and when the segment crosses the segment age.
