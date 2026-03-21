@@ -1,0 +1,77 @@
+name: Validate Docs
+
+on:
+  pull_request:
+    branches: [latest]
+    paths:
+      - "**.md"
+      - "SUMMARY.md"
+      - ".gitbook.yaml"
+      - "scripts/validate-docs.py"
+      - ".github/workflows/validate-docs.yml"
+  push:
+    branches: [latest]
+    paths:
+      - "**.md"
+      - "SUMMARY.md"
+      - ".gitbook.yaml"
+      - "scripts/validate-docs.py"
+
+jobs:
+  validate-changed:
+    name: Validate changed docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need history for diff
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Get changed markdown files
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+          fi
+          git diff --name-only --diff-filter=ACMR "$BASE" HEAD -- '*.md' \
+            > /tmp/changed-files.txt || true
+          COUNT=$(wc -l < /tmp/changed-files.txt | tr -d ' ')
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "Changed markdown files: $COUNT"
+          cat /tmp/changed-files.txt
+
+      - name: Validate changed files
+        if: steps.changed.outputs.count != '0'
+        run: python scripts/validate-docs.py --changed-only=/tmp/changed-files.txt
+
+      - name: Skip (no markdown changes)
+        if: steps.changed.outputs.count == '0'
+        run: echo "No markdown files changed — skipping validation"
+
+  validate-full:
+    name: Full docs audit (informational)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Run full validation (warn-only)
+        run: python scripts/validate-docs.py --warn-only --summary-only
