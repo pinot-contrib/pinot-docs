@@ -818,6 +818,19 @@ The index-based distinct operator avoids scanning and evaluating every document.
 - Multi-value types (`STRING_ARRAY`, `INT_ARRAY`, etc.) are not supported and fall back to the default execution path.
 - The query must use `jsonExtractIndex` (not `JSON_EXTRACT_SCALAR`) to benefit from this optimization.
 
+## Performance Tips
+
+### Index-Based DISTINCT Queries
+
+If you frequently run `SELECT DISTINCT` on a JSON path that has a JSON index, enable `useIndexBasedDistinctOperator` to skip document scanning entirely:
+
+```sql
+SET useIndexBasedDistinctOperator = true;
+SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING') FROM myTable;
+```
+
+This reduces `numEntriesScannedPostFilter` to zero for qualifying queries, providing significant speedups on large tables.
+
 ## Limitations
 
 1. The key (left-hand side) of the filter expression must be the leaf level of the JSON object, for example, `"$.addresses[*]"='main st'` won't work.
