@@ -164,6 +164,21 @@ public class PinotBrokerGrpcJdbcClientExample {
    1. **JSON(Default)**
    2. ARROW
 
+### Connection Validation
+
+When the gRPC client establishes a connection to a broker, it automatically validates the connection by executing a lightweight test query (`SELECT 1`). If the broker is unreachable or returns an error, the connection is immediately cleaned up rather than silently queued. This provides fast-fail behavior and prevents stale connections from accumulating.
+
+### Default Request Headers
+
+You can attach custom headers to all outgoing gRPC requests by prefixing connection properties with `headers.`:
+
+```properties
+headers.Authorization=Bearer <token>
+headers.X-Custom-Header=value
+```
+
+These headers are forwarded on every gRPC call made through that connection, making them suitable for authentication tokens or routing metadata.
+
 ## Benchmark
 
 We did a simple benchmark of query:&#x20;
