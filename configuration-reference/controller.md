@@ -99,7 +99,9 @@ This task does not fix consumption stalled due to
 * Kafka OOR exceptions
 {% endhint %}
 
-<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.realtime.segment.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.realtime.segment.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetryEnabled</td><td>false</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.timeoutMs</td><td>-1</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.parallelism</td><td>1</td></tr></tbody></table>
+<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.realtime.segment.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.realtime.segment.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetryEnabled</td><td>false</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.timeoutMs</td><td>-1</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.parallelism</td><td>1</td></tr><tr><td>controller.realtime.segment.partialOfflineReplicaRepairEnabled</td><td>false</td></tr></tbody></table>
+
+When `controller.realtime.segment.partialOfflineReplicaRepairEnabled` is enabled, the controller's periodic validation task automatically resets OFFLINE replicas back to CONSUMING for IN_PROGRESS segments that have a mix of CONSUMING and OFFLINE replicas. This handles cases where a replica's startup fails (for example, due to Kafka consumer initialization errors) while other replicas continue normally. Enable only after verifying that OFFLINE replicas are caused by transient failures rather than persistent errors.
 
 ### RetentionManager
 
