@@ -11,6 +11,22 @@ Enable the [Amazon S3](https://aws.amazon.com/s3/) file system backend by includ
 -Dplugins.dir=/opt/pinot/plugins -Dplugins.include=pinot-s3
 ```
 
+## S3A URI scheme support
+
+Starting in Pinot 1.3.0, the `pinot-s3` plugin supports both the `s3://` and `s3a://` URI schemes. Both schemes use the same underlying AWS SDK v2 client and identical configuration — the only difference is the URI prefix. This allows Pinot to integrate with Hadoop-based ecosystems and tools that standardize on the `s3a://` scheme.
+
+To use the `s3a://` scheme, specify it in your deep store paths and file system configuration:
+
+```
+controller.data.dir=s3a://path/to/data/directory/
+pinot.controller.storage.factory.class.s3a=org.apache.pinot.plugin.filesystem.S3PinotFS
+pinot.controller.storage.factory.s3a.region=us-east-1
+pinot.controller.segment.fetcher.protocols=file,http,s3a
+pinot.controller.segment.fetcher.s3a.class=org.apache.pinot.common.utils.fetcher.PinotFSSegmentFetcher
+```
+
+All configuration properties documented below work identically for both the `s3` and `s3a` schemes.
+
 {% hint style="info" %}
 By default Pinot loads all the plugins, so you can just drop this plugin there. Also, if you specify `-Dplugins.include`, you need to put all the plugins you want to use, e.g. `pinot-json`, `pinot-avro` , `pinot-kafka-3.0...`
 {% endhint %}

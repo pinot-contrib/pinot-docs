@@ -83,7 +83,7 @@ Assuming the user wants to encode `message` and `logPath` as in the example, the
 ```
 
 * `stream.kafka.decoder.prop.fieldsForClpEncoding` is a comma-separated list of names for fields that should be encoded with CLP.
-* We use [variable-length dictionaries](../../../configuration-reference/table/#table-index-config) for the logtype and dictionary variables since their length can vary significantly.
+* We use [variable-length dictionaries](../../../configuration-reference/table.md#table-index-config) for the logtype and dictionary variables since their length can vary significantly.
 
 ### Schema
 
@@ -138,3 +138,47 @@ To decode CLP-encoded fields, use [CLPDECODE](../../../functions/clp/clpdecode.m
 To search CLP-encoded fields, you can combine `CLPDECODE` with `LIKE`. Note, this may decrease performance when querying a large number of rows.
 
 We are working to integrate efficient searches on CLP-encoded columns as another UDF. The development of this feature is being tracked in this [design doc](https://docs.google.com/document/d/1nHZb37re4mUwEA258x3a2pgX13EWLWMJ0uLEDk1dUyU/edit).
+
+## CLP Forward Index V2
+
+Starting in Pinot 1.3.0, the CLP forward index was upgraded to V2 (`CLPMutableForwardIndexV2`), which is now the default for CLP-encoded columns during real-time ingestion. Key improvements include:
+
+### Dynamic encoding with cardinality monitoring
+
+V2 monitors dictionary cardinality during ingestion and dynamically switches encoding modes:
+
+* **CLP dictionary encoding**: Used when log type and dictionary variable cardinality remains below a configurable threshold relative to the document count.
+* **Raw string fallback**: When cardinality exceeds the threshold (docs/cardinality ratio drops below 10), V2 automatically falls back to a raw string forward index to avoid the memory and I/O overhead of maintaining a large dictionary.
+
+### Improved compression
+
+V2 uses fixed-byte encoding with Zstandard chunk compression instead of V1's uncompressed fixed-bit encoding. This significantly improves compression ratios for most real-world log data.
+
+### Compression codec options
+
+You can select the compression codec for CLP-encoded columns using the `compressionCodec` in `fieldConfig`:
+
+| Codec         | Description                                  |
+| ------------- | -------------------------------------------- |
+| `CLPV2`       | CLP V2 with default ZStandard compression    |
+| `CLPV2_ZSTD`  | CLP V2 with explicit ZStandard compression   |
+| `CLPV2_LZ4`   | CLP V2 with LZ4 compression                 |
+| `CLP`         | Legacy V1 (uncompressed, pass-through)       |
+
+Example field config:
+
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "message",
+      "encodingType": "RAW",
+      "compressionCodec": "CLPV2_ZSTD"
+    }
+  ]
+}
+```
+
+### Immutable CLP Forward Index
+
+When mutable (real-time) segments are converted to immutable segments, V2 directly copies the mutable dictionary and index data without re-encoding, eliminating the serialization/deserialization overhead present in V1. The resulting immutable forward index is memory-mapped for efficient random access during queries.
