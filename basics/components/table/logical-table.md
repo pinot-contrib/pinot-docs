@@ -336,6 +336,42 @@ When creating or updating a logical table, Pinot validates:
 * Storage quota is not supported
 * Physical tables in the same logical table should ideally have consistent indexing for optimal query performance
 
+## Pluggable LogicalTableConfig Serialization
+
+By default, `LogicalTableConfig` is serialized to and deserialized from ZooKeeper using a built-in JSON format. For advanced use cases requiring a custom storage format, implement `LogicalTableConfigSerDe` and register it via `LogicalTableConfigSerDeProvider`.
+
+### When to Use This
+
+- You need a compact binary format for deployments with a very large number of logical tables
+- Your ZooKeeper schema requires a specific non-default encoding
+- You are integrating Pinot with an external metadata system with its own serialization requirements
+
+### Implementation
+
+**Step 1:** Implement the `LogicalTableConfigSerDe` interface:
+
+```java
+public class MyCustomSerDe implements LogicalTableConfigSerDe {
+    @Override
+    public byte[] serialize(LogicalTableConfig config) { /* ... */ }
+
+    @Override
+    public LogicalTableConfig deserialize(byte[] bytes) { /* ... */ }
+}
+```
+
+**Step 2:** Implement `LogicalTableConfigSerDeProvider` to return your custom SerDe.
+
+**Step 3:** Register the provider using the Java Service Provider Interface (SPI) by creating the file:
+```
+META-INF/services/org.apache.pinot.spi.config.table.logical.LogicalTableConfigSerDeProvider
+```
+containing the fully-qualified class name of your provider implementation.
+
+{% hint style="note" %}
+This is an advanced extension point for specialized deployments. Most users should rely on the default JSON-based serialization.
+{% endhint %}
+
 ## See Also
 
 * [Table Configuration](../../../configuration-reference/table.md)
