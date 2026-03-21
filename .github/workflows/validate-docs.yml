@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
 
-      - name: Get changed markdown files
+      - name: Get changed and deleted markdown files
         id: changed
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
@@ -43,23 +43,40 @@ jobs:
           else
             BASE="${{ github.event.before }}"
           fi
+
+          # Changed files (added, copied, modified, renamed — i.e. still exist)
           git diff --name-only --diff-filter=ACMR "$BASE" HEAD -- '*.md' \
             > /tmp/changed-files.txt || true
-          COUNT=$(wc -l < /tmp/changed-files.txt | tr -d ' ')
-          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
-          echo "Changed markdown files: $COUNT"
-          cat /tmp/changed-files.txt
 
-      - name: Validate changed files
-        if: steps.changed.outputs.count != '0'
-        run: python scripts/validate-docs.py --changed-only=/tmp/changed-files.txt
+          # Deleted or renamed-away files (targets that no longer exist)
+          git diff --name-only --diff-filter=D "$BASE" HEAD -- '*.md' \
+            > /tmp/deleted-files.txt || true
+
+          CHANGED=$(wc -l < /tmp/changed-files.txt | tr -d ' ')
+          DELETED=$(wc -l < /tmp/deleted-files.txt | tr -d ' ')
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "deleted=$DELETED" >> "$GITHUB_OUTPUT"
+          echo "Changed markdown files: $CHANGED"
+          echo "Deleted markdown files: $DELETED"
+          cat /tmp/changed-files.txt
+          if [ "$DELETED" -gt 0 ]; then
+            echo "--- deleted ---"
+            cat /tmp/deleted-files.txt
+          fi
+
+      - name: Validate changed files (+ reverse dependents of deleted files)
+        if: steps.changed.outputs.changed != '0' || steps.changed.outputs.deleted != '0'
+        run: |
+          python scripts/validate-docs.py \
+            --changed-only=/tmp/changed-files.txt \
+            --deleted=/tmp/deleted-files.txt
 
       - name: Skip (no markdown changes)
-        if: steps.changed.outputs.count == '0'
+        if: steps.changed.outputs.changed == '0' && steps.changed.outputs.deleted == '0'
         run: echo "No markdown files changed — skipping validation"
 
   validate-full:
-    name: Full docs audit (informational)
+    name: Full docs link audit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -73,5 +90,7 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
 
-      - name: Run full validation (warn-only)
-        run: python scripts/validate-docs.py --warn-only --summary-only
+      # Ratchet: fail if broken links exceed the baseline count.
+      # As broken links are fixed, lower this number.  Goal: 0.
+      - name: Run full validation (ratchet)
+        run: python scripts/validate-docs.py --max-broken-links=299

@@ -24,6 +24,13 @@ Modes:
   --summary-only       — print counts only, no per-file details.
   --changed-only=FILE  — only check files listed in FILE (one path per line).
                           Useful in CI to check only files changed in a PR.
+  --deleted=FILE       — file listing deleted paths (one per line). Used
+                          together with --changed-only to detect links in
+                          *unchanged* files that reference a deleted target.
+  --max-broken-links=N — ratchet: fail only when broken file links exceed N.
+                          This lets CI enforce "no new broken links" while
+                          the existing backlog is fixed incrementally.  Set
+                          to 0 once all links are clean.
 
 Exit codes:
   0  all enforced checks pass (or --warn-only)
@@ -243,6 +250,42 @@ def check_orphan_pages(md_files: set[Path]) -> list[str]:
     return orphans
 
 
+def find_reverse_dependents(
+    all_files: set[Path], deleted_paths: set[str]
+) -> set[Path]:
+    """
+    Given a set of deleted file paths (relative to REPO_ROOT), find every
+    markdown file in the repo that contains a link resolving to one of
+    those deleted paths.  These are files that were *not* changed in the
+    PR but are now broken because their link target was removed/renamed.
+    """
+    if not deleted_paths:
+        return set()
+
+    # Normalise deleted paths to resolved absolute paths
+    deleted_resolved: set[Path] = set()
+    for dp in deleted_paths:
+        dp = dp.strip()
+        if not dp:
+            continue
+        p = (REPO_ROOT / dp).resolve()
+        deleted_resolved.add(p)
+        # Also consider the README.md inside a deleted directory
+        deleted_resolved.add(p / "README.md")
+
+    dependents: set[Path] = set()
+    for filepath in all_files:
+        for raw_link, _ in extract_links(filepath):
+            resolved, _ = resolve_link(filepath, raw_link)
+            if resolved is None:
+                continue
+            # resolve() on a non-existent path still returns an absolute path
+            if resolved.resolve() in deleted_resolved:
+                dependents.add(filepath)
+                break  # one hit is enough to include the file
+    return dependents
+
+
 def check_redirects() -> tuple[list[str], int]:
     """Verify redirect targets in .gitbook.yaml exist."""
     if not GITBOOK_YAML.exists():
@@ -283,6 +326,14 @@ def main() -> int:
                         help="Print counts only, no per-file details")
     parser.add_argument("--changed-only", metavar="FILE",
                         help="Only check files listed in FILE (one per line)")
+    parser.add_argument("--deleted", metavar="FILE",
+                        help="File listing deleted paths (one per line); "
+                             "used with --changed-only to also check files "
+                             "that linked to the deleted targets")
+    parser.add_argument("--max-broken-links", metavar="N", type=int,
+                        default=None,
+                        help="Ratchet: allow up to N broken file links before "
+                             "failing.  Set to 0 once the backlog is clean.")
     args = parser.parse_args()
 
     print("=" * 64)
@@ -292,7 +343,7 @@ def main() -> int:
 
     md_files = all_md_files(REPO_ROOT)
 
-    # Optionally filter to only changed files
+    # Optionally filter to only changed files (+ reverse dependents)
     if args.changed_only:
         try:
             changed = set()
@@ -300,8 +351,29 @@ def main() -> int:
                 p = (REPO_ROOT / line.strip()).resolve()
                 if p.exists() and p.suffix == ".md":
                     changed.add(p)
-            md_files = changed
-            print(f"  Checking {len(md_files)} changed file(s)\n")
+
+            # If a --deleted list is provided, find files that linked to
+            # the deleted targets so we catch newly-broken links even in
+            # files the PR didn't touch directly.
+            reverse_deps: set[Path] = set()
+            if args.deleted:
+                try:
+                    deleted_paths = set(
+                        Path(args.deleted).read_text().strip().splitlines()
+                    )
+                    reverse_deps = find_reverse_dependents(
+                        md_files, deleted_paths
+                    )
+                except Exception as e:
+                    print(f"  Warning: could not read {args.deleted}: {e}")
+
+            combined = changed | reverse_deps
+            print(f"  Changed markdown files: {len(changed)}")
+            if reverse_deps:
+                added = reverse_deps - changed
+                print(f"  Reverse-dependent files added: {len(added)}")
+            md_files = combined
+            print(f"  Total files to check: {len(md_files)}\n")
         except Exception as e:
             print(f"  Warning: could not read {args.changed_only}: {e}")
             print(f"  Falling back to all {len(md_files)} files\n")
@@ -329,9 +401,22 @@ def main() -> int:
     print("CHECK 2: Broken file links")
     print("-" * 64)
     file_errors, anchor_warnings, total_links = check_broken_links(md_files)
+    broken_count = len(file_errors)
     if file_errors:
-        has_error = True
-        print(f"FAIL — {len(file_errors)} broken file link(s) / {total_links} checked")
+        if args.max_broken_links is not None:
+            if broken_count > args.max_broken_links:
+                has_error = True
+                label = "FAIL"
+            else:
+                label = "RATCHET OK"
+            print(
+                f"{label} — {broken_count} broken file link(s) / "
+                f"{total_links} checked "
+                f"(threshold: {args.max_broken_links})"
+            )
+        else:
+            has_error = True
+            print(f"FAIL — {broken_count} broken file link(s) / {total_links} checked")
         if not args.summary_only:
             print("\n".join(file_errors))
     else:
@@ -386,7 +471,10 @@ def main() -> int:
     print("=" * 64)
     print(f"  Files checked:        {len(md_files)}")
     print(f"  Links checked:        {total_links}")
-    print(f"  Broken file links:    {len(file_errors)}")
+    print(f"  Broken file links:    {len(file_errors)}", end="")
+    if args.max_broken_links is not None:
+        print(f"  (threshold: {args.max_broken_links})", end="")
+    print()
     print(f"  Broken anchors:       {len(anchor_warnings)}")
     print(f"  Orphan pages:         {len(orphans)}")
     print(f"  Broken SUMMARY refs:  {len(summary_errors)}")
