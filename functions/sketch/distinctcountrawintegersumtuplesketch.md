@@ -1,7 +1,7 @@
 ---
 description: >-
   This section contains reference documentation for the
-	DISTINCTCOUNTRAWINTEGERSUMTUPLESKETCH function.
+  DISTINCTCOUNTRAWINTEGERSUMTUPLESKETCH function.
 ---
 
 # DISTINCTCOUNTRAWINTEGERSUMTUPLESKETCH
