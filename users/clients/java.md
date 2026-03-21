@@ -207,3 +207,16 @@ while (rs.next()) {
     System.out.println(result);
 }
 ```
+
+## Request Tracing
+
+The Java client (`JsonAsyncHttpPinotClientTransport`) automatically attaches an `X-Correlation-Id` header — a unique UUID per request — to every HTTP query. This ID:
+
+- Is logged at `DEBUG` level by the client under `org.apache.pinot.client`
+- Appears in broker access logs, enabling end-to-end tracing across proxies and load balancers
+
+No configuration is required. To see correlation IDs in client logs, set the log level:
+
+```properties
+log4j.logger.org.apache.pinot.client=DEBUG
+```
