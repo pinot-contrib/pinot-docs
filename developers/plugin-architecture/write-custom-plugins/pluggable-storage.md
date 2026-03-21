@@ -15,6 +15,28 @@ In order to add a new type of storage backend such as Amazon S3 we need to imple
 
 Once the the class is ready, you can compile it and put it in the `/plugins` directory of pinot.
 
+## Efficient Large-Bucket File Listing
+
+The `PinotFS` SPI includes an optimized overload of `listFilesWithMetadata` for cloud storage backends with large numbers of objects:
+
+```java
+List<FileMetadata> listFilesWithMetadata(
+    URI fileUri,
+    boolean recursive,
+    Predicate<String> pathFilter,
+    int maxResults) throws IOException
+```
+
+**Parameters:**
+- `pathFilter` — applied per page of results, skipping objects that don't match before they are returned
+- `maxResults` — stops listing as soon as this many results are accumulated (early termination)
+
+**Why override this?**
+The default implementation fetches all objects first and then filters in memory, which can cause OOM errors for buckets with millions of objects. Implementing this method with native pagination (e.g., S3 `continuationToken`, GCS `Page.getNextPage()`, ADLS `PagedIterable`) avoids loading all objects into memory and reduces unnecessary API calls and costs.
+
+**Default behavior:**
+If your custom `PinotFS` implementation does not override this method, it falls back to the existing `listFilesWithMetadata(URI, boolean)` method and applies filtering and truncation after the fact.
+
 ## Using plugin in real-time table
 
 You can set the configuration in real time or batch tables by using base scheme of URI (scheme://host:port/path) as suffix.\
