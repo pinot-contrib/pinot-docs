@@ -17,7 +17,7 @@ We are using the following tools and frameworks for this tutorial -
 * [Apache Spark](https://spark.apache.org) 2.4.0 (Although any spark 2.X should work)
 * [Apache Parquet](https://parquet.apache.org) 1.8.2
 * [Amazon S3](https://aws.amazon.com/s3/)
-* [Apache Pinot 0.10.0](http://pinot.apache.org)
+* [Apache Pinot](http://pinot.apache.org) (1.4.0 or later recommended)
 
 ## Input Data
 
@@ -190,7 +190,7 @@ We also provide the S3 Filesystem and Parquet reader implementation in the confi
 We can now run our spark job to execute all the steps and populate data in pinot.
 
 ```bash
-export PINOT_VERSION=0.10.0
+export PINOT_VERSION=1.4.0 #set to the Pinot version you have installed
 export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin
 
 spark-submit //
