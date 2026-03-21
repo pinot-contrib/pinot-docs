@@ -35,7 +35,7 @@ To update existing data and segments, after you update and save the changes to t
 
 **When you change the transform function used to populate a derived field** or **increase the number of partitions in an upsert-enabled table**, perform a table re-bootstrap. One way to do this is to delete and recreate the table:
 
-* Using the Pinot API, first send `DELETE /tables/{tableName}` followed by `POST /tables` with the new table configuration. To skip the default segment retention period and delete immediately, use `DELETE /tables/{tableName}?retention=0d`. See the [Controller API Reference](../../users/api/controller-api-reference.md#delete-tables-less-than-tablename-greater-than) for details.
+* Using the Pinot API, first send `DELETE /tables/{tableName}` followed by `POST /tables` with the new table configuration. To skip the default segment retention period and delete immediately, use `DELETE /tables/{tableName}?retention=0d`. See the [Controller API Examples](../../users/api/controller-api-reference.md#delete-tables-less-than-tablename-greater-than) for details.
 
 **When you change the stream topic** or **change the Kafka cluster** containing the Kafka topic you want to consume from, perform a real-time ingestion pause and resume. To pause and resume real-time ingestion:
 

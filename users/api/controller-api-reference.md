@@ -1,10 +1,14 @@
 ---
-description: All user APIs available in Pinot
+description: Detailed curl examples for commonly used controller endpoints.
 ---
 
-# Controller API Reference
+# Controller API Examples
 
-The full up-to-date list of APIs can be viewed on Swagger.
+This page provides detailed `curl` request and response examples for commonly used controller endpoints. For a categorized overview of all Pinot APIs, see the main [API Reference](./).
+
+{% hint style="info" %}
+The complete and interactive list of every controller endpoint is available in the Swagger UI at `http://<controller-host>:<port>/help`. For a visual walkthrough of the Swagger UI, see [Controller Admin API](pinot-rest-admin-interface.md).
+{% endhint %}
 
 ## Cluster
 
@@ -667,5 +671,5 @@ The following APIs were added or enhanced in Pinot 1.4.0. Refer to Swagger for c
 | `/query_range`                                    | GET/POST | Prometheus-compatible time series query endpoint (Beta)                |
 
 {% hint style="info" %}
-For the complete and most current list of all controller APIs, always refer to the Swagger UI at `http://<controller-host>:<port>/help`.
+For the complete and interactive list of all controller APIs, refer to the Swagger UI at `http://<controller-host>:<port>/help`. For a categorized overview of every endpoint documented on this site, see the main [API Reference](./).
 {% endhint %}
