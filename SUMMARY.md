@@ -74,7 +74,6 @@
   * [Amazon S3](manage-data/data-import/pinot-file-system/amazon-s3.md)
   * [Azure Data Lake Storage](manage-data/data-import/pinot-file-system/import-from-adls-azure.md)
   * [HDFS](manage-data/data-import/pinot-file-system/import-from-hdfs.md)
-  * [HDFS as Deep Storage](manage-data/data-import/pinot-file-system/hdfs-as-deepstorage.md)
   * [Google Cloud Storage](manage-data/data-import/pinot-file-system/import-from-gcp.md)
 * [Complex Type (Array, Map) Handling](manage-data/data-import/complex-type/README.md)
   * [Complex Type Examples (Unnest)](manage-data/data-import/complex-type/complex-type-examples.md)
