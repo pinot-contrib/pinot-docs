@@ -830,6 +830,20 @@ Putting these together, you can find the table configurations of the quick start
 Pinot server maintains a primary key to record location map across all the segments served in an upsert-enabled table. As a result, when updating the config for an existing upsert table (e.g. change the columns in the primary key, change the comparison column), servers need to be restarted in order to apply the changes and rebuild the map.
 {% endhint %}
 
+## Advanced Server Configuration
+
+### Consuming Segment Consistency Mode
+
+For partial upsert tables or tables with `dropOutOfOrder=true`, configure how the server handles segment reloads and force commits via `pinot.server.consuming.segment.consistency.mode` in `pinot-server.conf`:
+
+| Mode | Description |
+|---|---|
+| `RESTRICTED` | *(Default for partial upsert tables with RF > 1)* Disables segment reloads and force commits to prevent data inconsistency. |
+| `PROTECTED` | Enables reloads/force commits with upsert metadata reversion during segment replacements. Requires `ParallelSegmentConsumptionPolicy` set to `DISALLOW_ALWAYS` or `ALLOW_DURING_BUILD_ONLY`. |
+| `UNSAFE` | Allows reloads without metadata reversion. Use only if inconsistency is acceptable or handled externally. |
+
+> **Note:** This is a server-level property distinct from the table-level `upsertConfig.consistencyMode` setting.
+
 ## Migrating from deprecated config fields
 
 As of Pinot 1.4.0, the following upsert config fields have been renamed:
