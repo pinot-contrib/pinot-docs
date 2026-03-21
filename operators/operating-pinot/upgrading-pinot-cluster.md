@@ -4,6 +4,11 @@ description: This page describes the Pinot cross-release compatibility test suit
 
 # Upgrading Pinot with confidence
 
+{% hint style="info" %}
+For a per-release summary of behavior changes, new defaults, and operator
+action items, see [Upgrade Notes](upgrade-notes.md).
+{% endhint %}
+
 Pinot has unit and integration tests that verify that the system can work well as long as all components are in the same version. Further, each PR goes through reviews in which Pinot committers can decide whether a PR may break compatibility, and if so, how it can be avoided. Even with all this, it is useful to be able to test an upgrade before actually subjecting a live installation to upgrades.
 
 Pinot has multiple components that run independently of each other. Therefore upgrading a mission-critical pinot cluster will result in scenarios where one component is running an old version and the other a new version of Pinot. It can also happen that this state (of multiple versions) is in place for days together. Or, we may need to revert the upgrade process (usually done in reverse order) -- possibly due to reasons outside of Pinot.
