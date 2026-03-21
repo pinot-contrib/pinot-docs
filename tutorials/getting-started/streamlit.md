@@ -10,7 +10,7 @@ In this guide you'll learn how to visualize data from Apache Pinot using [Stream
 
 We're going to use Streamlit to build a real-time dashboard to visualize the changes being made to Wikimedia properties.
 
-![Real-Time Dashboard Architecture](../../img/streamlit.png) _Real-Time Dashboard Architecture_
+<!-- Image missing: streamlit.png --> _Real-Time Dashboard Architecture_
 
 ## Startup components
 
@@ -611,7 +611,7 @@ streamlit run app.py
 
 Navigate to [localhost:8501](http://localhost:8501) to see the Streamlit app. You should see something like the following:
 
-![Streamlit Metrics](../../img/streamlit-metrics.png) _Streamlit Metrics_
+<!-- Image missing: streamlit-metrics.png --> _Streamlit Metrics_
 
 ### Changes per minute
 
@@ -643,7 +643,7 @@ _app.py_
 
 Go back to the web browser and you should see something like this:
 
-![Streamlit Time Series](../../img/streamlit-time-series.png) _Streamlit Time Series_
+<!-- Image missing: streamlit-time-series.png --> _Streamlit Time Series_
 
 ### Auto Refresh
 
@@ -679,7 +679,7 @@ _app.py_
 
 If we navigate back to our web browser, we'll see the following:
 
-![Streamlit Auto Refresh](../../img/streamlit-animation.gif) _Streamlit Auto Refresh_
+<!-- Image missing: streamlit-animation.gif --> _Streamlit Auto Refresh_
 
 The full script used in this example is shown below:
 

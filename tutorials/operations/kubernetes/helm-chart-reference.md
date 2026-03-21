@@ -597,7 +597,7 @@ server:
     prometheus.io/path: "/metrics"
 ```
 
-For dedicated Prometheus monitoring setup with Grafana dashboards, see [Monitor Pinot using Prometheus and Grafana](monitor-pinot-using-prometheus-and-grafana.md).
+For dedicated Prometheus monitoring setup with Grafana dashboards, see [Monitor Pinot using Prometheus and Grafana](../monitor-pinot-using-prometheus-and-grafana.md).
 
 ## Common Customization Examples
 
@@ -702,7 +702,7 @@ Follow these steps for a safe Helm-based upgrade of a running Pinot cluster.
 
 ### Pre-Upgrade Checklist
 
-1. Review the [Pinot release notes](../../../../basics/releases/) for breaking changes.
+1. Review the [Pinot release notes](../../../basics/releases/) for breaking changes.
 2. Back up your ZooKeeper data (table configs, schemas, segment metadata).
 3. Ensure all tables are in a healthy state with no ongoing rebalances.
 4. Test the upgrade in a staging environment first.
@@ -757,4 +757,4 @@ If issues arise, roll back to the previous release:
 helm rollback pinot -n pinot-quickstart
 ```
 
-For additional guidance on production operations, see [Running Pinot in Production](running-pinot-in-production.md) and [Kubernetes Deployment](deployment-pinot-on-kubernetes.md).
+For additional guidance on production operations, see [Running Pinot in Production](../running-pinot-in-production.md) and [Kubernetes Deployment](deployment-pinot-on-kubernetes.md).

@@ -26,7 +26,7 @@ _**paramString**_ option support is available from Pinot 1.5.0 release or try th
 
 ## Usage Examples
 
-The examples in this section are based on the [Batch JSON Quick Start](../basics/getting-started/quick-start.md#batch-json). In particular we'll be querying the row `WHERE id = 7044874109`.
+The examples in this section are based on the [Batch JSON Quick Start](../../basics/getting-started/quick-start.md#batch-json). In particular we'll be querying the row `WHERE id = 7044874109`.
 
 ```sql
 select id, repo, JSONEXTRACTKEY(repo, '$.*') AS keys

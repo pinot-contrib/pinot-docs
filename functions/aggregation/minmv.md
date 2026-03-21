@@ -12,7 +12,7 @@ Get the minimum value in a group
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 select MINMV(DivLongestGTimes) AS value

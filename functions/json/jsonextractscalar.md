@@ -24,7 +24,7 @@ Evaluates the 'jsonPath' on jsonField, returns the result as the type 'resultsTy
 
 ## Usage Examples
 
-The examples in this section are based on the [Batch JSON Quick Start](../basics/getting-started/quick-start.md#batch-json). In particular we'll be querying the row `WHERE id = 7044874109`:
+The examples in this section are based on the [Batch JSON Quick Start](../../basics/getting-started/quick-start.md#batch-json). In particular we'll be querying the row `WHERE id = 7044874109`:
 
 ```sql
 select repo

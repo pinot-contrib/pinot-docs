@@ -12,7 +12,7 @@ Get the count of rows in a group
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 The following query returns the documents that have a `DivTailNums` with more than one value:
 

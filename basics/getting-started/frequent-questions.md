@@ -42,7 +42,7 @@ The API response has a `reloadJobId` which can be used to monitor the status of 
 
 ### Create star-tree indexes
 
-Star-tree indexes are configured in the table configuration under the `tableIndexConfig` -&gt; `starTreeIndexConfigs` \(list\) and `enableDefaultStarTree` \(boolean\). See here to learn more about how to configure star-tree indexes: [docs](../../configuration-reference/indexing.md#index-generation-configuration)
+Star-tree indexes are configured in the table configuration under the `tableIndexConfig` -&gt; `starTreeIndexConfigs` \(list\) and `enableDefaultStarTree` \(boolean\). See here to learn more about how to configure star-tree indexes: [docs](../indexing/README.md)
 
 The new segments will have star-tree indexes generated after applying the star-tree index configurations to the table configuration. Pinot does not support adding star-tree indexes to the existing segments.
 

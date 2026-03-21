@@ -12,7 +12,7 @@ Sorts array of ints.
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 select DivAirportIDs, 

@@ -1,28 +1,28 @@
 # Math Functions
 
-​[**ADD(col1, col2, col3...)**](functions/math/add.md) Sum of at least two values
+​[**ADD(col1, col2, col3...)**](add.md) Sum of at least two values
 
-​[**SUB(col1, col2)**](functions/math/sub.md) Difference between two values
+​[**SUB(col1, col2)**](sub.md) Difference between two values
 
-​[**MULT(col1, col2, col3...)**](functions/math/mult.md) Product of at least two values
+​[**MULT(col1, col2, col3...)**](mult.md) Product of at least two values
 
-​[**DIV(col1, col2)**](functions/math/div.md) Quotient of two values
+​[**DIV(col1, col2)**](div.md) Quotient of two values
 
-​[**MOD(col1, col2)**](functions/math/mod.md) Modulo of two values
+​[**MOD(col1, col2)**](mod.md) Modulo of two values
 
-​[**ABS(col1)**](functions/math/abs.md) Absolute of a value
+​[**ABS(col1)**](abs.md) Absolute of a value
 
-​[**CEIL(col1)**](functions/math/ceil.md#signature) Rounded up to the nearest integer
+​[**CEIL(col1)**](ceil.md#signature) Rounded up to the nearest integer
 
-​[**FLOOR(col1)**](functions/math/floor.md) Rounded down to the nearest integer
+​[**FLOOR(col1)**](floor.md) Rounded down to the nearest integer
 
-​[**EXP(col1)**](functions/math/exp.md) Euler's number(e) raised to the power of col.
+​[**EXP(col1)**](exp.md) Euler's number(e) raised to the power of col.
 
-​[**LN(col1)**](functions/math/ln.md) Natural log of value
+​[**LN(col1)**](ln.md) Natural log of value
 
-​[**SQRT(col1)**](functions/math/sqrt.md) Square root of a value
+​[**SQRT(col1)**](sqrt.md) Square root of a value
 
-​[**ROUNDDECIMAL(col1, col2)** ](functions/math/round-1.md)​Rounds value to a specified number of decimal places
+​[**ROUNDDECIMAL(col1, col2)** ](round-1.md)​Rounds value to a specified number of decimal places
 
 **intDiv(col1, col2)**\
 Returns the integer result of dividing col1 by col2, rounded down (floor division). Returns a `Long`.

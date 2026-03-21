@@ -15,7 +15,7 @@ Returns the value of `dataColumn` with the smallest `timeColumn` value where:
 
 ## Example
 
-This example is based on the [Streaming Quick Start](../basics/getting-started/quick-start.md#streaming).
+This example is based on the [Streaming Quick Start](../../basics/getting-started/quick-start.md#streaming).
 
 ```sql
 select FIRSTWITHTIME(group_name, __metadata$recordTimestamp, 'STRING')

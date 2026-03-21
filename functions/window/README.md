@@ -68,10 +68,10 @@ frame_end:
 {% endcode %}
 
 * `windowedCall` refers to the actual windowed operation.
-* `windowFunction` refers to the window function used, see supported [window functions](windows-functions.md).
-* `window` is the window definition / windowing mechanism, see supported [window mechanism](windows-functions.md#window-mechanism-over-clause).
+* `windowFunction` refers to the window function used, see supported [window functions](#window-functions).
+* `window` is the window definition / windowing mechanism, see supported [window mechanism](#window-mechanism-over-clause).
 
-You can jump to the [examples](windows-functions.md#examples-of-windows-functions) section to see more concrete use cases of window functions in Pinot.
+You can jump to the [examples](#examples-of-windows-functions) section to see more concrete use cases of window functions in Pinot.
 
 ### Example window function query layout
 
@@ -121,7 +121,7 @@ If no `ORDER BY` clause is specified, the window frame will always be `RANGE BET
 
 If there is no `FRAME`, no `PARTITION BY`, and no `ORDER BY` clause specified in the OVER clause (empty `OVER`), the whole result set is regarded as one partition, and there's one frame in the window.
 
-The `OVER` clause applies a specified supported [windows function](windows-functions.md#window-aggregate-functions) to compute values over a group of rows and return a single result for each row. The `OVER` clause specifies how the rows are arranged and how the aggregation is done on those rows.
+The `OVER` clause applies a specified supported [windows function](#window-aggregate-functions) to compute values over a group of rows and return a single result for each row. The `OVER` clause specifies how the rows are arranged and how the aggregation is done on those rows.
 
 Inside the over clause, there are three optional components: `PARTITION BY` clause, `ORDER BY` clause, and `FRAME` clause.
 
@@ -129,11 +129,11 @@ Inside the over clause, there are three optional components: `PARTITION BY` clau
 
 Window functions are commonly used to do the following:
 
-* [Compute averages](windows-functions.md#find-the-average-transaction-amount-by-customer-id)
-* [Rank items](windows-functions.md#rank-year-to-date-sales-for-a-sales-team)
-* [Count items](windows-functions.md#count-the-number-of-transactions-by-customer-id)
-* [Calculate sums](windows-functions.md#sum-transactions-by-customer-id)
-* [Find minimum or maximum values](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)
+* [Compute averages](#find-the-average-transaction-amount-by-customer-id)
+* [Rank items](#rank-year-to-date-sales-for-a-sales-team)
+* [Count items](#count-the-number-of-transactions-by-customer-id)
+* [Calculate sums](#sum-transactions-by-customer-id)
+* [Find minimum or maximum values](#find-the-minimum-or-maximum-transaction-by-customer-id)
 
 Supported window functions are listed in the following table.
 
@@ -143,11 +143,11 @@ Note that no window frame clause can be specified for `ROW_NUMBER`, `RANK`, and 
 
 ## Window aggregate query examples
 
-* [Sum transactions by customer ID](windows-functions.md#sum-transactions-by-customer-id)
-* [Find the minimum or maximum transaction by customer ID](windows-functions.md#find-the-minimum-or-maximum-transaction-by-customer-id)
-* [Find the average transaction amount by customer ID](windows-functions.md#find-the-average-transaction-amount-by-customer-id)
-* [Rank year-to-date sales for a sales team](windows-functions.md#rank-year-to-date-sales-for-a-sales-team)
-* [Count the number of transactions by customer ID](windows-functions.md#count-the-number-of-transactions-by-customer-id)
+* [Sum transactions by customer ID](#sum-transactions-by-customer-id)
+* [Find the minimum or maximum transaction by customer ID](#find-the-minimum-or-maximum-transaction-by-customer-id)
+* [Find the average transaction amount by customer ID](#find-the-average-transaction-amount-by-customer-id)
+* [Rank year-to-date sales for a sales team](#rank-year-to-date-sales-for-a-sales-team)
+* [Count the number of transactions by customer ID](#count-the-number-of-transactions-by-customer-id)
 
 ### Sum transactions by customer ID
 

@@ -12,7 +12,7 @@ Returns the Nth percentile of the group where N is a decimal number between 0 an
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 select PERCENTILEMV(DivLongestGTimes, 50) AS value

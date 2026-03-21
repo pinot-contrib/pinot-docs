@@ -16,7 +16,7 @@ ST\_Contains on Geography only give close approximation: we use geometry computa
 
 ## Usage Examples
 
-These examples are based on the [Streaming Quick Start](../basics/getting-started/quick-start.md#streaming).
+These examples are based on the [Streaming Quick Start](../../basics/getting-started/quick-start.md#streaming).
 
 ```sql
 select group_city, 

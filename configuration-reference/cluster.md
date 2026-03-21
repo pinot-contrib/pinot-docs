@@ -69,4 +69,4 @@ Add new or update existing cluster configs.
 
 Example:
 
-![](../.gitbook/assets/swagger-cluster-config%20\(1\)%20\(1\).png)
+<!-- Image removed: swagger-cluster-config screenshot was missing from the repository -->

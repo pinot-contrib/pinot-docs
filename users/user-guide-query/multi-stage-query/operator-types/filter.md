@@ -69,4 +69,4 @@ First, we need to know on which stage the filter is being used. If the filter is
 
 But what about the leaf filters executed in the stage? Not all filters in the leaf stage can use indexes. The only way to know if the filter is using indexes is to use single-stage explain plan. In order to do so you need to transform the leaf stage into a single-stage query. This is a manual process that can be tedious but ends up not being so difficult once you get used to it.
 
-See [understanding-multi-stage-query](../understanding-multi-stage-query.md) for more information.
+See [understanding-multi-stage-query](../understanding-stages.md) for more information.

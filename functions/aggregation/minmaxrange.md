@@ -12,7 +12,7 @@ Returns the `max` - `min` value in a group
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
 
 ```sql
 select MINMAXRANGE(yearID) AS value

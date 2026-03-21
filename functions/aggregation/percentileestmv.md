@@ -14,7 +14,7 @@ Returns the Nth percentile of the group using [Quantile Digest](https://github.c
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 select PERCENTILEESTMV(DivLongestGTimes, 50) AS value

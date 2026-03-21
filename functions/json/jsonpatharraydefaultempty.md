@@ -6,7 +6,7 @@ description: >-
 
 # JSONPATHARRAYDEFAULTEMPTY
 
-Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. Returns empty array for null or parsing error. This function can only be used in an [ingestion transformation function](../developers/advanced/ingestion-level-transformations.md).
+Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. Returns empty array for null or parsing error. This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
 
 ## Signature
 
@@ -57,7 +57,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].homework_grades[1]')` | `[85, 65]`             |
 | `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].homework_grades[7]')` | `[]`                   |
 
-This function can be used in the [table config](../configuration-reference/table.md) to extract the `name`, `score`, and second value of `homework_grades` into their respective columns , as described below:
+This function can be used in the [table config](../../configuration-reference/table.md) to extract the `name`, `score`, and second value of `homework_grades` into their respective columns , as described below:
 
 ```json
 {

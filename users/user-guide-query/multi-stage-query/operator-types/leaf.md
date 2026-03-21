@@ -10,7 +10,7 @@ The leaf operator is the operator that actually reads the data from the segments
 
 The leaf operator is not a relational operator itself but a meta-operator that is able to execute single-stage queries. When servers execute a leaf stage, they compile all operations in the stage but the send operator into the equivalent single-stage query and execute that using a slightly modified version of the single-stage engine.
 
-As a result, leaf stage operators can use all the optimizations and indices that the single-stage engine can use but it also means that there may be slight differences when an operator is executed in a leaf stage compared to when it is executed in an intermediate stage. For example, operations pushed down to the leaf stage may use indexes (see [how to know if indexes are used](filter/#how-to-know-if-indexes-are-used)) or the semantics can be slightly different.
+As a result, leaf stage operators can use all the optimizations and indices that the single-stage engine can use but it also means that there may be slight differences when an operator is executed in a leaf stage compared to when it is executed in an intermediate stage. For example, operations pushed down to the leaf stage may use indexes (see [how to know if indexes are used](filter.md#how-to-know-if-indexes-are-used)) or the semantics can be slightly different.
 
 You can read [Troubleshoot issues with the multi-stage query engine (v2)](../../../../troubleshooting/troubleshoot-multi-stage-query-engine.md) for more information on the differences between the leaf and intermediate stages, but the main ones are:
 

@@ -22,7 +22,7 @@ The supported units are as follows:
 
 ## Usage Examples
 
-These examples are based on the [Batch JSON Quick Start](../basics/getting-started/quick-start.md#batch-json).
+These examples are based on the [Batch JSON Quick Start](../../basics/getting-started/quick-start.md#batch-json).
 
 ```sql
 select id, 

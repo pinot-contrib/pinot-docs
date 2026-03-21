@@ -29,7 +29,7 @@ pip install pinotdb
 ## Add Python data source for Pinot
 
 1. In Redash, select **Settings > Data Sources**.
-2. Select **New Data Source**, and then select **Python** from the list. ![Redash Settings - Data Sources](redash-settings-data-source.png)
+2. Select **New Data Source**, and then select **Python** from the list. <!-- Image missing: redash-settings-data-source.png -->
 3. On the Redash **Settings - Data Source** page, add `Pinot` as the name of the data source, enter `pinotdb` in the **Modules to import prior to running the script** field.
 4. Enter the following optional fields as needed:
    * **AdditionalModulesPaths**: Enter a comma-separated list of absolute paths on the Redash server to Python modules to make available when querying from Redash. Useful for private modules unavailable in `pip`.
@@ -200,7 +200,7 @@ In Redash, after you've ran your query, click the **New Visualization** tab, and
 
 For example, you may want to create a bar chart to view the top 10 players with highest scores.
 
-![Bar chart configuration](bar-chart-config.png)
+<!-- Image missing: bar-chart-config.png -->
 
 You may want to create a line chart to view the total variation in strikeouts over time.
 
@@ -213,6 +213,6 @@ Create a dashboard with one or more visualizations (widgets).
 1. In Redash, go to Dashboards > New Dashboards.
 2. Add the widgets to your dashboard. For example, by adding the three visualizations from the [three example queries](redash.md#example-python-queries) above, you create a Baseball stats dashboard.
 
-![Baseball stats dashboard](baseball-stats-dashboard.png)
+<!-- Image missing: baseball-stats-dashboard.png -->
 
 For more information, see [Dashboards](https://redash.io/help/user-guide/dashboards) in the Redash documentation.

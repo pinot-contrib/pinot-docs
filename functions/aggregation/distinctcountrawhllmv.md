@@ -14,7 +14,7 @@ Returns HLL response serialized as string. The serialized HLL can be converted b
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 select DISTINCTCOUNTRAWHLLMV(DivAirports) AS value

@@ -16,7 +16,7 @@ Returns the Nth percentile of the group using [T-digest algorithm](https://raw.g
 
 ## Usage Examples
 
-These examples are based on the [Hybrid Quick Start](../basics/getting-started/quick-start.md#hybrid).
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 
 ```sql
 select PERCENTILETDIGESTMV(DivLongestGTimes, 50, 1000) AS value

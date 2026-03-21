@@ -7,7 +7,7 @@ description: >-
 # Ingestion FAQ
 
 {% hint style="info" %}
-This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](../../../contributing/contributing.md).
+This is a list of questions frequently asked in our troubleshooting channel on Slack. To contribute additional questions and answers, [make a pull request](../contributing/contributing.md).
 {% endhint %}
 
 ## Data processing
@@ -94,9 +94,9 @@ For JSON, you can use a hex encoded string to ingest BYTES.
 
 ### How do I flatten my JSON Kafka stream?
 
-See the [json\_format(field)](../../../developers/advanced/ingestion-level-transformations.md#json-functions) function which can store a top level json field as a STRING in Pinot.
+See the [json\_format(field)](../developers/advanced/ingestion-level-transformations.md#json-functions) function which can store a top level json field as a STRING in Pinot.
 
-Then you can use these [json functions](../../../users/user-guide-query/supported-transformations.md#json-functions) during query time, to extract fields from the json string.
+Then you can use these [json functions](../users/user-guide-query/supported-transformations.md#json-functions) during query time, to extract fields from the json string.
 
 {% hint style="warning" %}
 **NOTE**\
@@ -125,7 +125,7 @@ Events are available to queries as soon as they are ingested. This is because ev
 
 The ingestion of events into the real-time table is not transactional, so replicas of the open segment are not immediately consistent. Pinot trades consistency for availability upon network partitioning (CAP theorem) to provide ultra-low ingestion latencies at high throughput.
 
-However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent, with the [commit protocol](../../../operators/operating-pinot/decoupling-controller-from-the-data-path.md).
+However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent, with the [commit protocol](../operators/operating-pinot/decoupling-controller-from-the-data-path.md).
 
 ### How to reset a CONSUMING segment stuck on an offset which has expired from the stream?
 
@@ -134,9 +134,9 @@ This typically happens if:
 1. The consumer is lagging a lot.
 2. The consumer was down (server down, cluster down), and the stream moved on, resulting in offset not found when consumer comes back up.
 
-In case of Kafka, to recover, set property `"auto.offset.reset":"earliest"` in the `streamConfigs` section and reset the `CONSUMING` segment. See [Real-time table configs](../../../configuration-reference/table.md#indexing-config) for more details about the configuration.
+In case of Kafka, to recover, set property `"auto.offset.reset":"earliest"` in the `streamConfigs` section and reset the `CONSUMING` segment. See [Real-time table configs](../configuration-reference/table.md#indexing-config) for more details about the configuration.
 
-You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). See [Pause Stream Ingestion](../../../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
+You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). See [Pause Stream Ingestion](../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
 
 ## Indexing
 
@@ -182,7 +182,7 @@ If you want to add or change the [sorted index column](../basics/indexing/invert
 
 ### How to create star-tree indexes?
 
-Star-tree indexes are configured in the table config under the `tableIndexConfig` -> `starTreeIndexConfigs` (list) and `enableDefaultStarTree` (boolean). See here for more about how to configure star-tree indexes: [docs](../../../configuration-reference/indexing/star-tree-index.md#index-generation)
+Star-tree indexes are configured in the table config under the `tableIndexConfig` -> `starTreeIndexConfigs` (list) and `enableDefaultStarTree` (boolean). See here for more about how to configure star-tree indexes: [docs](../basics/indexing/star-tree-index.md#index-generation)
 
 The new segments will have star-tree indexes generated after applying the star-tree index configurations to the table configuration.
 
@@ -192,7 +192,7 @@ The new segments will have star-tree indexes generated after applying the star-t
 
 Pinot does not require ordering of event time stamps. Out of order events are still consumed and indexed into the "currently consuming" segment. In a pathological case, if you have a 2 day old event come in "now", it will still be stored in the segment that is open for consumption "now". There is no strict time-based partitioning for segments, but star-indexes and hybrid tables will handle this as appropriate.
 
-See the [Components > Broker](../../components/cluster/broker.md) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`. Pinot does store the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
+See the [Components > Broker](../basics/components/cluster/broker.md) for more details about how hybrid tables handle this. Specifically, the time-boundary is computed as `max(OfflineTIme) - 1 unit of granularity`. Pinot does store the min-max time for each segment and uses it for pruning segments, so segments with multiple time intervals may not be perfectly pruned.
 
 When generating star-indexes, the time column will be part of the star-tree so the tree can still be efficiently queried for segments with multiple time intervals.
 

@@ -40,7 +40,7 @@ Similarly, when bucketing epoch millis of the date to 5 days we get:&#x20;
 
 ## Usage Examples
 
-These examples are based on the [Batch JSON Quick Start](../basics/getting-started/quick-start.md#batch-json).
+These examples are based on the [Batch JSON Quick Start](../../basics/getting-started/quick-start.md#batch-json).
 
 `created_at_timestamp` from milliseconds since epoch to days since epoch, bucketed to 1 day granularity:
 

@@ -12,7 +12,7 @@ Get the count of rows in a group
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
 
 ```sql
 select count(*) AS value
