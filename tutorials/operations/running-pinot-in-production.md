@@ -1,179 +1,142 @@
+---
+description: Production deployment guide covering topology, capacity, health checks, graceful operations, backups, and rollouts.
+---
+
 # Running Pinot in Production
 
-## Requirements
+This page covers the operational concerns you should address before running Apache Pinot in a production environment. It focuses on topology decisions, capacity planning, availability, graceful operations, and disaster recovery. For metrics and alerting, see [Monitoring](../../operators/operating-pinot/monitoring.md). For upgrade procedures, see [Upgrading Pinot](../../operators/operating-pinot/upgrading-pinot-cluster.md).
 
-You will need the following in order to run pinot in production:
+## Cluster topology and prerequisites
 
-* Hardware for controller/broker/servers as per your load
-* Working installation of Zookeeper that Pinot can use. We recommend setting aside a path within zookpeer and including that path in pinot.controller.zkStr. Pinot will create its own cluster under this path (cluster name decided by pinot.controller.helixClusterName)
-* Shared storage mounted on controllers (if you plan to have multiple controllers for the same cluster). Alternatively, an implementation of PinotFS that the Pinot hosts have access to.
-* HTTP load balancers for spraying queries across brokers (or other mechanism to balance queries)
-* HTTP load balancers for spraying controller requests (e.g. segment push, or other controller APIs) or other mechanisms for distribution of these requests.
+A production Pinot cluster requires the following infrastructure:
 
-## Deploying Pinot
+**ZooKeeper.** Pinot uses Apache ZooKeeper (via Apache Helix) for cluster coordination, segment metadata, and state management. Dedicate a ZK path for each Pinot cluster by setting `pinot.zk.server` and `pinot.cluster.name` so that multiple Pinot clusters sharing the same ZK ensemble are isolated from each other. Use a ZK ensemble of at least three nodes for quorum resilience.
 
-In general, when deploying Pinot services, it is best to adhere to a specific ordering in which the various components should be deployed. This deployment order is recommended in case of the scenario that there might be protocol or other significant differences, the deployments go out in a predictable order in which failure due to these changes can be avoided.
+**Deep store.** Every cluster needs a shared deep store for segment files. Pinot provides PinotFS implementations for Amazon S3, Google Cloud Storage, Azure Data Lake Storage Gen2, HDFS, and local filesystems. Configure the deep store via `pinot.controller.storage.factory.class` and the corresponding filesystem-specific properties. All servers and controllers must be able to read from and write to the deep store.
 
-The ordering is as follows:
+**Controllers.** Run at least two controllers for leader-election failover. Controllers manage table metadata, segment assignments, and periodic validation tasks. If controllers share a local filesystem for temp segment storage, that filesystem must be shared (or use a PinotFS-backed deep store instead).
+**Brokers.** Run at least two brokers behind an HTTP load balancer. Brokers receive queries, compute routing, scatter requests to servers, and merge results. Scale brokers based on query throughput (QPS).
 
-1. pinot-controller
-2. pinot-broker
-3. pinot-server
-4. pinot-minion
+**Servers.** Servers store segments on local disk and execute query plans. Size servers based on the total data footprint, replication factor, and query concurrency. Separate offline and real-time workloads onto different tenants when their resource profiles differ significantly.
 
-## Managing Pinot
+**Minions (optional).** Minions run background tasks such as segment merge, purge, and refresh. Deploy minions when you use any Minion task type. Minions are stateless and can be scaled independently.
 
-Pinot provides a web-based management console and a command-line utility (`pinot-admin.sh`) in order to help provision and manage pinot clusters.
+**Load balancers.** Place HTTP load balancers in front of both brokers (for query traffic) and controllers (for admin API and segment push traffic).
 
-### Pinot Management Console
+## Deployment and upgrade order
 
-The web based management console allows operations on tables, tenants, segments and schemas. You can access the console via `http://<controller-host>:<port>` (the default controller port is `9000`). The Swagger API reference is available at `http://<controller-host>:<port>/help`. The console also allows you to enter queries for interactive debugging. Here are some screen-shots from the console.
+When deploying or upgrading Pinot components, follow this order to avoid protocol or compatibility issues during the rollout:
 
-![](../../.gitbook/assets/pinot-console.png)
+1. Controller
+2. Broker
+3. Server
+4. Minion
 
-Listing all the schemas in the Pinot cluster:
+When rolling back, reverse the order (Minion → Server → Broker → Controller). Each component connects to ZooKeeper independently, so the ordering is a best-practice precaution rather than a hard dependency.
 
-![](../../.gitbook/assets/list-schemas.png)
+For detailed upgrade testing with the cross-version compatibility suite, see [Upgrading Pinot](../../operators/operating-pinot/upgrading-pinot-cluster.md).
+## Capacity planning
 
-Rebalancing segments of a table:
+### Servers
 
-![](../../.gitbook/assets/rebalance-table.png)
+Server capacity is driven by three factors: disk footprint, memory, and query concurrency.
 
-### Command line utility (pinot-admin.sh)
+**Disk.** Estimate the total segment size across all tables (accounting for the replication factor) and provision at least 1.5× that amount for headroom during rebalance, segment refresh, and temporary copies.
 
-The command line utility (`pinot-admin.sh`) can be generated by running `mvn install package -DskipTests -Pbin-dist` in the directory in which you checked out Pinot.
+**Memory.** Pinot maps segment data into memory. For offline segments, the JVM heap handles metadata while `mmap` or off-heap buffers serve data pages. For real-time segments, allocate additional off-heap memory (`-XX:MaxDirectMemorySize`) for consuming segments. A common starting point is 4–8 GB heap and 2–4× the consuming-segment footprint for direct memory.
 
-Here is an example of invoking the command to create a pinot segment:
+**Query concurrency.** Server thread pools (`pinot.server.netty.worker.threads`, `pinot.server.query.executor.pruner.threadCount`) should be sized to the expected concurrent query load. Monitor `SCHEDULER_WAIT` time to detect saturation.
 
-```
-$ ./pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/bin/pinot-admin.sh CreateSegment -dataDir /Users/host1/Desktop/test/ -format CSV -outDir /Users/host1/Desktop/test2/ -tableName baseballStats -segmentName baseballStats_data -overwrite -schemaFile ./pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/sample_data/baseballStats_schema.json
-Executing command: CreateSegment  -generatorConfigFile null -dataDir /Users/host1/Desktop/test/ -format CSV -outDir /Users/host1/Desktop/test2/ -overwrite true -tableName baseballStats -segmentName baseballStats_data -timeColumnName null -schemaFile ./pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/sample_data/baseballStats_schema.json -readerConfigFile null -enableStarTreeIndex false -starTreeIndexSpecFile null -hllSize 9 -hllColumns null -hllSuffix _hll -numThreads 1
-Accepted files: [/Users/host1/Desktop/test/baseballStats_data.csv]
-Finished building StatsCollector!
-Collected stats for 97889 documents
-Created dictionary for INT column: homeRuns with cardinality: 67, range: 0 to 73
-Created dictionary for INT column: playerStint with cardinality: 5, range: 1 to 5
-Created dictionary for INT column: groundedIntoDoublePlays with cardinality: 35, range: 0 to 36
-Created dictionary for INT column: numberOfGames with cardinality: 165, range: 1 to 165
-Created dictionary for INT column: AtBatting with cardinality: 699, range: 0 to 716
-Created dictionary for INT column: stolenBases with cardinality: 114, range: 0 to 138
-Created dictionary for INT column: tripples with cardinality: 32, range: 0 to 36
-Created dictionary for INT column: hitsByPitch with cardinality: 41, range: 0 to 51
-Created dictionary for STRING column: teamID with cardinality: 149, max length in bytes: 3, range: ALT to WSU
-Created dictionary for INT column: numberOfGamesAsBatter with cardinality: 166, range: 0 to 165
-Created dictionary for INT column: strikeouts with cardinality: 199, range: 0 to 223
-Created dictionary for INT column: sacrificeFlies with cardinality: 20, range: 0 to 19
-Created dictionary for INT column: caughtStealing with cardinality: 36, range: 0 to 42
-Created dictionary for INT column: baseOnBalls with cardinality: 154, range: 0 to 232
-Created dictionary for STRING column: playerName with cardinality: 11976, max length in bytes: 43, range:  to Zoilo Casanova
-Created dictionary for INT column: doules with cardinality: 64, range: 0 to 67
-Created dictionary for STRING column: league with cardinality: 7, max length in bytes: 2, range: AA to UA
-Created dictionary for INT column: yearID with cardinality: 143, range: 1871 to 2013
-Created dictionary for INT column: hits with cardinality: 250, range: 0 to 262
-Created dictionary for INT column: runsBattedIn with cardinality: 175, range: 0 to 191
-Created dictionary for INT column: G_old with cardinality: 166, range: 0 to 165
-Created dictionary for INT column: sacrificeHits with cardinality: 54, range: 0 to 67
-Created dictionary for INT column: intentionalWalks with cardinality: 45, range: 0 to 120
-Created dictionary for INT column: runs with cardinality: 167, range: 0 to 192
-Created dictionary for STRING column: playerID with cardinality: 18107, max length in bytes: 9, range: aardsda01 to zwilldu01
-Start building IndexCreator!
-Finished records indexing in IndexCreator!
-Finished segment seal!
-Converting segment: /Users/host1/Desktop/test2/baseballStats_data_0 to v3 format
-v3 segment location for segment: baseballStats_data_0 is /Users/host1/Desktop/test2/baseballStats_data_0/v3
-Deleting files in v1 segment directory: /Users/host1/Desktop/test2/baseballStats_data_0
-Driver, record read time : 369
-Driver, stats collector time : 0
-Driver, indexing time : 373
-```
+### Brokers
 
-Here is an example of executing a query on a Pinot table:
+Broker capacity is primarily driven by QPS and result-set merge cost. Each broker instance can typically handle 500–2,000 QPS depending on query complexity. Monitor `QUERY_QUOTA_CAPACITY_UTILIZATION_RATE` to decide when to scale.
 
-```
-$ ./pinot-distribution/target/apache-pinot-${PINOT_VERSION}-bin/bin/pinot-admin.sh PostQuery -query "select count(*) from baseballStats"
-Executing command: PostQuery -brokerHost [broker_host] -brokerPort [broker_port] -query select count(*) from baseballStats
-Result: {"aggregationResults":[{"function":"count_star","value":"97889"}],"exceptions":[],"numServersQueried":1,"numServersResponded":1,"numSegmentsQueried":1,"numSegmentsProcessed":1,"numSegmentsMatched":1,"numDocsScanned":97889,"numEntriesScannedInFilter":0,"numEntriesScannedPostFilter":0,"numGroupsLimitReached":false,"totalDocs":97889,"timeUsedMs":107,"segmentStatistics":[],"traceInfo":{}}
-```
+### Controllers
 
-### Graceful Server Node Replacement
+Controllers are lightweight relative to brokers and servers. Two controllers are sufficient for most clusters. Add more only if you observe high API latency or segment-push bottlenecks.
+## Health checks and SLIs
 
-On a cloud based platform, node replacement is frequent. A common way to replace Pinot server is to assign the same `instanceId` to both the old node (`ON`) and the new node(`NN`). With this approach, ON usually needs to be stopped before starting the NN in order to prevent failures on taking the same Helix instanceId.\
-NN startup used to take a long time because it needs to download and load all segments from deepstore or peer(s). Pinot has a graceful server node replacement support to make server replacement's overhead same as node restart.
+Every Pinot component exposes health-check endpoints for use in load-balancer probes, Kubernetes readiness/liveness checks, and monitoring:
 
-To achieve graceful node replacement, the operators need to setup the workflow in following sequence:
+| Component | Endpoints |
+|---|---|
+| Controller | `GET /health` |
+| Broker | `GET /health` |
+| Server | `GET /health`, `GET /health/liveness`, `GET /health/readiness` |
+| Minion | `GET /health` |
 
-1. Start NN in the "pre-download" mode by adding one more parameter to StartServerCommand, like:
+All endpoints return HTTP 200 when healthy and 503 when unhealthy.
 
-```
-PropertiesConfiguration properties = CommonsConfigurationUtils.fromPath(<config_path>);
-PredownloadScheduler predownloadScheduler = new PredownloadScheduler(properties);
-predownloadScheduler.start();
-```
+### Recommended service-level indicators
 
-This step would let the NN download all immutable segments of the instanceId and make its disk state identical as the ON. (Refer to this [PR](https://github.com/apache/pinot/pull/14686) for more details)
+Define SLIs around these dimensions and alert when they breach your thresholds:
 
-2. Waiting for NN "pre-download" complete with one of following conditions:
+**Query availability.** `PERCENT_SEGMENTS_AVAILABLE` should be 100% per table. Any drop means some segments have no online replica.
 
-* Pre-download fully succeed
-* Pre-download partially succeed but have retried enough times
-* Pre-download failed in non-retriable mode
-* Already waited for a max time period
+**Query latency.** Track the broker-side `QUERY_EXECUTION` timer at p50, p95, and p99. Set SLO thresholds based on your application's latency budget.
 
-3. Stop the ON
-4. Start the NN in the normal mode
+**Query correctness.** `BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED` and `BROKER_RESPONSES_WITH_PROCESSING_EXCEPTIONS` should be near zero. Sustained non-zero values indicate data gaps in query results.
 
-## Monitoring Pinot
+**Ingestion freshness.** For real-time tables, `REALTIME_INGESTION_DELAY_MS` should stay within your freshness SLA (commonly under 5 minutes). `LLC_PARTITION_CONSUMING = 0` on any partition is a critical alert.
 
-Pinot exposes several metrics to monitor the service and ensure that pinot users are not experiencing issues. In this section we discuss some of the key metrics that are useful to monitor. A full list of metrics is available in the [Metrics](../../configuration-reference/monitoring-metrics.md) section.
+**Cluster stability.** `SEGMENTS_IN_ERROR_STATE > 0`, `HELIX_ZOOKEEPER_RECONNECTS > 1/hour`, and `LLC_STREAM_DATA_LOSS > 0` all warrant investigation.
 
-### Pinot Server
+For the full metrics catalog, alert thresholds, and diagnosis patterns, see [Monitoring](../../operators/operating-pinot/monitoring.md).
+## Graceful operations
 
-* Missing Segments - [NUM\_MISSING\_SEGMENTS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerMeter.java)
-  * Number of missing segments that the broker queried for (expected to be on the server) but the server didn’t have. This can be due to retention or stale routing table.
-* Query latency - [TOTAL\_QUERY\_TIME](https://github.com/apache/pinot/blob/ce2d9ee9dc73b2d7273a63a4eede774eb024ea8f/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerQueryPhase.java)
-  * Total time to take from receiving to finishing executing the query.
-* Query Execution Exceptions - [QUERY\_EXECUTION\_EXCEPTIONS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerMeter.java)
-  * The number of exception which might have occurred during query execution.
-* Real-time Consumption Status - [LLC\_PARTITION\_CONSUMING](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerGauge.java)
-  * This gives a binary value based on whether low-level consumption is healthy (1) or unhealthy (0). It’s important to ensure at least a single replica of each partition is consuming.
-* Real-time Highest Offset Consumed - [HIGHEST\_STREAM\_OFFSET\_CONSUMED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ServerGauge.java)
-  * The highest offset which has been consumed so far.
+### Graceful server shutdown
 
-### Pinot Broker
+Pinot servers support graceful shutdown to drain queries and deregister from the cluster before stopping. The shutdown sequence:
 
-* Incoming queries - [QUERIES](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-  * Queries received by a broker.
-* Access denied - [REQUEST\_DROPPED\_DUE\_TO\_ACCESS\_ERROR](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-  * Queries dropped due to access restrictions.
-* Partial Responses
-  * Unavailable segments - [BROKER\_RESPONSES\_WITH\_UNAVAILABLE\_SEGMENTS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-    * Queries with some segments unavailable (no active server hosting them).
-  * Partial servers responded- [BROKER\_RESPONSES\_WITH\_PARTIAL\_SERVERS\_RESPONDED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-    * Queries with not all servers responded.
-  * Processing exceptions - [BROKER\_RESPONSES\_WITH\_PROCESSING\_EXCEPTIONS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-    * Queries with processing exceptions (including server side exceptions, unavailable segments, partial servers responded).
-  * Groups limit reached - [BROKER\_RESPONSES\_WITH\_NUM\_GROUPS\_LIMIT\_REACHED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-    * Queries with `numGroupsLimit` reached. See [Grouping Algorithm](../../users/user-guide-query/grouping-algorithm.md) for more details.
-* Table QPS quota exceeded - [QUERY\_QUOTA\_EXCEEDED](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerMeter.java)
-  * Binary metric which will indicate when the configured QPS quota for a table is exceeded (1) or if there is capacity remaining (0).
-* Table QPS quota usage percent - [QUERY\_QUOTA\_CAPACITY\_UTILIZATION\_RATE](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/BrokerGauge.java)
-  * Percentage of the configured QPS quota being utilized.
+1. The server sets a `shutdownInProgress` flag in Helix, signaling brokers to stop routing new queries to it.
+2. If `pinot.server.shutdown.enableQueryCheck` is enabled (default: true), the server waits for in-flight queries to complete.
+3. If `pinot.server.shutdown.enableResourceCheck` is enabled (default: true), the server waits for external-view convergence.
+4. The shutdown times out after `pinot.server.shutdown.timeoutMs` (default: 600,000 ms / 10 minutes).
 
-### Pinot Controller
+Configure a process-manager stop timeout (for example, Kubernetes `terminationGracePeriodSeconds`) that is at least as long as the server shutdown timeout.
 
-Many of the controller metrics include a table name and thus are dynamically generated in the code. The metrics below point to the classes which generate the corresponding metrics.
+### Graceful server node replacement
 
-To get the real metric name, the easiest route is to spin up a controller instance, create a table with the name you want and look through the generated metrics.
+On cloud platforms, node replacement is common. Pinot supports predownloading segments to the replacement node before the original node is stopped, making the replacement overhead comparable to a restart rather than a full segment download.
 
-Controller metrics are generated dynamically, with the table name embedded in each metric name. To discover the exact metric names for your tables, start a controller instance and create the table, then inspect the metrics output (for example via JMX or the Prometheus endpoint). See the [Monitoring](../../operators/operating-pinot/monitoring.md) guide for details on exporting metrics.
+**Workflow:**
 
-* Percent Segments Available - [PERCENT\_SEGMENTS\_AVAILABLE](https://github.com/apache/pinot/blob/ce2d9ee9dc73b2d7273a63a4eede774eb024ea8f/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
-  * Percentage of complete online replicas in external view as compared to replicas in ideal state.
-* Segments in Error State - [SEGMENTS\_IN\_ERROR\_STATE](https://github.com/apache/pinot/blob/ce2d9ee9dc73b2d7273a63a4eede774eb024ea8f/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
-  * Number of segments in an `ERROR` state for a given table.
-* Last push delay - Generated in the [ValidationMetrics](https://github.com/apache/pinot/blob/ce2d9ee9dc73b2d7273a63a4eede774eb024ea8f/pinot-common/src/main/java/org/apache/pinot/common/metrics/ValidationMetrics.java) class.
-  * The time in hours since the last time an offline segment has been pushed to the controller.
-* Percent of replicas up - [PERCENT\_OF\_REPLICAS](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
-  * Percentage of complete online replicas in external view as compared to replicas in ideal state.
-* Table storage quota usage percent - [TABLE\_STORAGE\_QUOTA\_UTILIZATION](https://github.com/apache/pinot/blob/master/pinot-common/src/main/java/org/apache/pinot/common/metrics/ControllerGauge.java)
-  * Shows how much of the table’s storage quota is currently being used, metric will a percentage of a the entire quota.
+1. Start the new node in predownload mode using the `PredownloadScheduler`. It downloads all immutable segments for the instance and makes its disk state identical to the original node.
+2. Wait for predownload to complete (fully or partially after sufficient retries).
+3. Stop the original node.
+4. Start the new node in normal mode.
+
+The new node must be assigned the same `instanceId` as the original. Predownload parallelism is controlled by `pinot.server.predownload.parallelism` (defaults to `numProcessors × 3`).
+### Rolling restarts
+
+When restarting all servers (for example, for a JVM configuration change), restart them one at a time and wait for external-view convergence between each restart. This ensures that at least `replication - 1` replicas remain available for every segment throughout the process. Use the `/health/readiness` endpoint to gate each restart.
+
+## Backup and disaster recovery
+
+### ZooKeeper state
+
+Pinot stores all cluster metadata — table configs, schemas, segment assignments, and ideal state — in ZooKeeper. Back up ZooKeeper data regularly using ZK's native snapshot mechanism or a tool like `zkCopy`. In a disaster, restoring ZK from a snapshot and restarting controllers restores the cluster metadata.
+
+### Deep store segments
+
+The deep store is the authoritative copy of all segment data. Ensure your deep-store backend (S3, GCS, HDFS) has its own durability and backup strategy (for example, S3 versioning or cross-region replication). If a server loses local segment files, it re-downloads them from deep store automatically on startup or via a reload with `forceDownload=true`.
+
+### Table config and schema versioning
+
+Store table configs and schemas in version control alongside your deployment manifests. This makes it straightforward to recreate tables if ZK state is lost and provides an audit trail of configuration changes.
+
+## Operational runbooks
+
+For day-to-day segment operations — choosing between reset, reload, refresh, rebalance, force commit, and Minion repair tasks — see the [Segment Lifecycle and Repair](../../operators/operating-pinot/segment-lifecycle-and-repair.md) runbook.
+
+For rebalancing after capacity changes, see [Rebalance](../../operators/operating-pinot/rebalance/README.md).
+
+For managing real-time ingestion issues, see the [Real-time Ingestion Stopped](../../troubleshooting/realtime-ingestion-stopped.md) troubleshooting guide.
+## Further reading
+
+- [Monitoring](../../operators/operating-pinot/monitoring.md) — metrics, alert thresholds, and diagnosis patterns
+- [Upgrading Pinot](../../operators/operating-pinot/upgrading-pinot-cluster.md) — upgrade order and compatibility testing
+- [Segment Lifecycle and Repair](../../operators/operating-pinot/segment-lifecycle-and-repair.md) — when to reset vs. reload vs. refresh vs. rebalance
+- [Kubernetes Deployment](kubernetes/deployment-pinot-on-kubernetes.md) — Helm-based deployment on Kubernetes
+- [Helm Chart Values Reference](kubernetes/helm-chart-reference.md) — all configurable Helm values
+- [Performance Tuning](../../operators/operating-pinot/tuning/README.md) — query routing, scheduling, and segment pruning
