@@ -60,7 +60,8 @@ For Pinot plugin subprojects:
   </dependencies>
 ```
 
-### Shading a dependency in a plugin subproject 
+### Shading a dependency in a plugin subproject
+
 ```
   <!-- pin versions required by plugin -->
   <dependencyManagement>
@@ -106,3 +107,9 @@ For Pinot plugin subprojects:
      </relocation>
 </relocations>
 ```
+
+## Related pages
+
+* [Code Modules and Organization](code-modules-and-organization.md) -- understand module boundaries and where dependencies are consumed.
+* [Contribution Guidelines](contribution-guidelines.md) -- includes guidance on external libraries and licensing.
+* [Code Setup](code-setup.md) -- set up Maven and build the project locally.

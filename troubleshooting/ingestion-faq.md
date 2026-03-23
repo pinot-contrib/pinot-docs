@@ -205,3 +205,12 @@ This lets you have an old event up come in without building complex offline pipe
 It might seem odd that segments are not strictly time-partitioned, unlike similar systems such as Apache Druid. This allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time intervals for the performance of hybrid tables and time-filtered data.
 
 When generating offline segments, the segments generated such that segments only contain one time interval and are well partitioned by the time column.
+
+## Related pages
+
+* [Realtime Ingestion Stopped](realtime-ingestion-stopped.md) -- diagnose and fix Kafka partition commit failures
+* [Operations FAQ](operations-faq.md) -- segment management, rebalancing, and cluster configuration
+* [Decoupling Controller from the Data Path](../operators/operating-pinot/decoupling-controller-from-the-data-path.md) -- improve real-time ingestion reliability
+* [Tuning Real-Time](../operators/operating-pinot/tuning/realtime.md) -- optimize real-time ingestion performance
+* [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) -- understand segment states and repair procedures
+* [Pause Stream Ingestion](../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion) -- temporarily pause and resume real-time ingestion

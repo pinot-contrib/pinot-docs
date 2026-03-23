@@ -90,3 +90,10 @@ RLS filters are applied as additional WHERE-clause predicates. For best performa
 When RLS filters are applied to a query, the broker response includes a `rlsFiltersApplied` field set to `true`. This field appears in the standard broker query response JSON alongside other metadata fields like `numDocsScanned` and `timeUsedMs`. When no RLS filters are in effect, the field is set to `false`.
 
 You can use this field to verify that RLS policies are being applied as expected. For more details on the broker response format, see [Query Response Format](../../users/api/querying-pinot-using-standard-sql/response-format.md).
+
+## Related pages
+
+- [Basic Auth Access Control](../../tutorials/operations/authentication/basic-auth-access-control.md) -- Step-by-step setup of static HTTP Basic Auth
+- [ZK Basic Auth Access Control](../../tutorials/operations/authentication/zkbasicauthaccesscontrol.md) -- ZooKeeper-managed auth with hot deployment
+- [Configuring TLS/SSL](../../tutorials/operations/configuring-tls-ssl.md) -- Transport encryption for client and intra-cluster connections
+- [Security overview](../../operate-pinot/security.md) -- Landing page for all security topics

@@ -267,3 +267,11 @@ Output:
   }
 }
 ```
+
+## Related pages
+
+* [Set up table](operating-pinot/setup-table.md) -- create and configure tables with the recommended settings
+* [Table Configuration Reference](../configuration-reference/table.md) -- complete reference for all table config options
+* [Schema Reference](../configuration-reference/schema.md) -- schema definition used as input to the recommendation engine
+* [CLI Reference](cli.md) -- `pinot-admin.sh` commands for managing tables and segments
+* [Running Pinot in Production](../tutorials/operations/running-pinot-in-production.md) -- capacity planning and production best practices

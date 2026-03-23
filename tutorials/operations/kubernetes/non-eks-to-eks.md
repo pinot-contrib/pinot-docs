@@ -17,3 +17,15 @@ If you use Helm to deploy Kafka to AWS EKS, review the [chart's README](https://
 {% hint style="warning" %}
 Running `helm upgrade` on the Kafka chart does not always update the pods.  The exact reason is unknown.  It's probably an issue with the chart's implementation.  You should run `kubectl describe pod` and other commands to see the current status of the pods.  During initial development, you can run `helm uninstall` and then `helm install`to force the values to update.&#x20;
 {% endhint %}
+
+## Related pages
+
+* [Kubernetes Deployment](deployment-pinot-on-kubernetes.md) -- Resource sizing, JVM tuning, deep storage, and security hardening for Kubernetes
+* [Amazon MSK (Kafka)](how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md) -- End-to-end guide for connecting Pinot on EKS to Amazon MSK
+* [Helm Chart Values Reference](helm-chart-reference.md) -- Full reference for every Helm chart parameter
+
+## Next step
+
+Plan your upgrade strategy for keeping the cluster current:
+
+* [Upgrades](../../../operate-pinot/upgrades.md)

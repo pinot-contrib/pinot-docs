@@ -210,3 +210,9 @@ The data volume is located at `/var/lib/superset` and it is where you would moun
 ### Kubernetes Examples
 
 Refer to [`superset.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/superset.yaml) as k8s deployment example.
+
+## Related pages
+
+* [Code Setup](../../developers/developers-and-contributors/code-setup.md) -- set up your local development environment before building images.
+* [Code Modules and Organization](../../developers/developers-and-contributors/code-modules-and-organization.md) -- understand the modules that are packaged into the Docker image.
+* [Kubernetes Quickstart](../../basics/getting-started/kubernetes/README.md) -- deploy the built images on Kubernetes.

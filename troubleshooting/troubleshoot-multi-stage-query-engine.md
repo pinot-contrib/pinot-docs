@@ -260,4 +260,10 @@ Troubleshoot semantic/runtime errors and timeout errors.
 * Try adding more servers.
   * The new multi-stage engine runs distributed across the entire cluster, so adding more servers to partitioned queries such as GROUP BY aggregates, and equality JOINs help speed up the query runtime.
 
-###
+## Related pages
+
+* [Query FAQ](query-faq.md) -- common query errors and behavior questions for the single-stage engine
+* [How to Enable the Multi-Stage Query Engine](../developers/advanced/v2-multi-stage-query-engine.md) -- setup instructions
+* [Multi-Stage Engine Overview](../reference/multi-stage-engine.md) -- architecture and how it works
+* [Troubleshooting Pinot](troubleshooting-pinot.md) -- debug API and slow query diagnosis
+* [Tuning](../operators/operating-pinot/tuning/) -- query routing and scheduling optimization

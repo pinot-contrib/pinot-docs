@@ -163,3 +163,10 @@ HEAP_CRITICAL_LEVEL_EXCEEDED
 HEAP_PANIC_LEVEL_EXCEEDED
 ```
 
+## Related pages
+
+* [Performance tuning overview](tuning/) -- all tuning categories at a glance
+* [Query Scheduling](tuning/query-scheduling.md) -- control query concurrency and prioritization
+* [Workload-Based Query Isolation](tuning/workload-query-isolation.md) -- isolate production vs. ad-hoc query resources with CPU/memory budgets
+* [Pause Ingestion Based on Resource Utilization](pause-ingestion-based-on-resource-utilization.md) -- auto-pause ingestion when disk usage is high
+

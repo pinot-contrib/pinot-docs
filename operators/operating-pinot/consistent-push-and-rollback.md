@@ -102,3 +102,9 @@ Cleanup regarding `startReplaceSegment` API:
 2. Typically, for the REFRESH use case, users would directly replace segments by uploading segments of the same name. With consistent push, however, a timestamp is injected as the segment name postfix in order to differentiate between replacing and to be replaced segments. The older segments will be cleaned up by the Retention manager after **a day from when the consistent push happened.**
 3. Currently, there is no way to disable consistent push for a table with consistent push enabled, due to the unique segment postfix issue mentioned above. Users will need to create a new table until support for disabling consistent push in-place is implemented.
 4. If the push job fails for any reason, the job will rollback all the uploaded segments (`revertReplaceSegments`) to maintain data equivalence prior to the push.
+
+## Related pages
+
+* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
+* [Segment Lifecycle and Repair](segment-lifecycle-and-repair.md) -- decision guide for reset, reload, refresh, rebalance, and more
+* [Segment Generation and Push Task](segment-generation-and-push-task.md) -- batch ingestion via Minion

@@ -65,3 +65,10 @@ See [Authentication with Web UI and API](basic-auth-access-control.md#authentica
 ### Minion and ingestion jobs
 
 See [Minion and ingestion jobs](basic-auth-access-control.md#minion-and-ingestion-jobs).
+
+## Related pages
+
+- [Basic Auth Access Control](basic-auth-access-control.md) -- Static config-based HTTP Basic Auth setup
+- [Access Control](../../../operators/operating-pinot/access-control.md) -- ACL framework, custom implementations, and Row-Level Security
+- [Configuring TLS/SSL](../configuring-tls-ssl.md) -- Transport encryption for client and intra-cluster connections
+- [Security overview](../../../operate-pinot/security.md) -- Landing page for all security topics

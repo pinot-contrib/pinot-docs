@@ -224,3 +224,15 @@ The sample test suite provided does the following between each stage of the upgr
 The table configurations schemas, data and queries have been chosen in such a way as to cover the major features that Pinot supports.
 
 As a good practice, we suggest that you build your own test suite that has the tables, schemas, queries, and system configurations used in your installation of Pinot, so that you can verify compatibility for the features/configurations that your cluster uses.
+
+## Related pages
+
+* [Upgrade Notes](upgrade-notes.md) -- Per-release behavior changes, deprecations, and required operator actions
+* [Helm Chart Values Reference -- Upgrade Procedures](../../tutorials/operations/kubernetes/helm-chart-reference.md#upgrade-procedures) -- Helm-specific rolling upgrade steps
+* [Kubernetes Deployment](../../tutorials/operations/kubernetes/deployment-pinot-on-kubernetes.md) -- Production Kubernetes deployment guide
+
+## Next step
+
+Review the per-release upgrade notes for your target version:
+
+* [Upgrade Notes](upgrade-notes.md)

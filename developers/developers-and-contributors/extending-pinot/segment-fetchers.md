@@ -66,3 +66,10 @@ pinot.server.segment.fetcher.`<protocol>`.class =`<class path to your implementa
 ```
 
 You can also provide other configs to your fetcher under config-root `pinot.server.segment.fetcher.<protocol>`
+
+## Related pages
+
+* [Extending Pinot](./README.md) -- overview of all Pinot extension points
+* [Custom Aggregation Functions](custom-aggregation-function.md) -- another extension point for adding new aggregation logic
+* [Filesystem Plugin](../../plugin-architecture/write-custom-plugins/pluggable-storage.md) -- write a PinotFS plugin for custom storage backends
+* [Batch Segment Fetcher Plugin](../../plugin-architecture/write-custom-plugins/write-your-batch.md) -- the plugin-based approach to custom segment fetching

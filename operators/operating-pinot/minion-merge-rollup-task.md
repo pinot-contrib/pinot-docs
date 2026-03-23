@@ -116,3 +116,10 @@ This metric keeps track of the task delay in the number of time buckets. For exa
 
 **Issue**: [https://github.com/apache/pinot/issues/2715](https://github.com/apache/pinot/issues/2715)
 {% endhint %}
+
+## Related pages
+
+* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
+* [Pinot Managed Offline Flows](pinot-managed-offline-flows.md) -- move data from real-time to offline tables
+* [Upsert Compact Merge Task](upsert-compact-merge-task.md) -- merge small segments in upsert tables
+* [Segment Lifecycle and Repair](segment-lifecycle-and-repair.md) -- when to use merge vs. other segment operations

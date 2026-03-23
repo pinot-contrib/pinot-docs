@@ -135,3 +135,9 @@ RefreshSegmentTask generates standard Minion metrics for monitoring:
 - Segment processing statistics (incomplete rows, dropped rows, sanitized rows)
 
 Use the Pinot UI Task Manager to monitor RefreshSegmentTask execution and troubleshoot issues.
+
+## Related pages
+
+* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
+* [Reload a Table Segment](../../tutorials/operations/segment-reload.md) -- lighter-weight reload for index and metadata updates
+* [Segment Lifecycle and Repair](segment-lifecycle-and-repair.md) -- when to reload vs. refresh vs. other operations

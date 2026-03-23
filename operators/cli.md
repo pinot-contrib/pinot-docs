@@ -528,3 +528,11 @@ All the options should be prefixed with `-` (hyphen)
 | clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.        |
 | tableName   | name of the table for which the validation should be done. By default, all tables are verified. |
 | timeoutSec  | timeout in seconds for the request to check the cluster state.                                  |
+
+## Related pages
+
+* [Set up cluster](operating-pinot/setup-cluster.md) -- bootstrap a Pinot cluster before using CLI commands
+* [Set up table](operating-pinot/setup-table.md) -- create tables using the `AddTable` command
+* [Set up ingestion](operating-pinot/setup-ingestion.md) -- load data using `LaunchDataIngestionJob`
+* [Configuration Recommendation Engine](configuration-recommendation-engine.md) -- get optimal configuration recommendations via the controller REST API
+* [Running Pinot in Production](../tutorials/operations/running-pinot-in-production.md) -- production deployment and operational best practices

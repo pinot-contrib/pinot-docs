@@ -37,3 +37,10 @@ Grep for the keyword `Disk utilization for server` on any Pinot controller log t
 ## References
 
 * [Added support to pause and resume ingestion based on resource utilization](https://github.com/apache/pinot/pull/15008)
+
+## Related pages
+
+* [Performance tuning overview](tuning/) -- all tuning categories at a glance
+* [Pauseless Consumption](pauseless-consumption.md) -- eliminate ingestion pauses during segment commit
+* [Tuning Real-time Performance](tuning/realtime.md) -- memory allocation and segment sizing for real-time tables
+* [OOM Protection](oom-protection-using-automatic-query-killing.md) -- heap monitoring and automatic query killing

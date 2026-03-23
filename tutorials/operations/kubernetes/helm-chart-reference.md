@@ -758,3 +758,15 @@ helm rollback pinot -n pinot-quickstart
 ```
 
 For additional guidance on production operations, see [Running Pinot in Production](../running-pinot-in-production.md) and [Kubernetes Deployment](deployment-pinot-on-kubernetes.md).
+
+## Related pages
+
+* [Kubernetes Deployment](deployment-pinot-on-kubernetes.md) -- Resource sizing, JVM tuning, deep storage, and security hardening
+* [Amazon EKS (Kafka)](non-eks-to-eks.md) -- Connecting non-EKS workloads to Kafka running in EKS
+* [Amazon MSK (Kafka)](how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md) -- Integrating Pinot with Amazon Managed Streaming for Apache Kafka
+
+## Next step
+
+Plan your upgrade strategy for keeping the cluster current:
+
+* [Upgrades](../../../operate-pinot/upgrades.md)

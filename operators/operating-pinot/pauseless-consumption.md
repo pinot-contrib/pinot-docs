@@ -249,3 +249,11 @@ Rollback does not require a server restart. The change takes effect for new segm
 * [Compatibility for Pauseless Dedup and Upsert #15383](https://github.com/apache/pinot/pull/15383)
 * [Size-based threshold for pauseless consumption #15347](https://github.com/apache/pinot/pull/15347)
 * [Validations for Pauseless Tables #15567](https://github.com/apache/pinot/pull/15567)
+
+## Related pages
+
+* [Performance tuning overview](tuning/) -- all tuning categories at a glance
+* [Tuning Real-time Performance](tuning/realtime.md) -- memory allocation and segment sizing for real-time tables
+* [Pause Ingestion Based on Resource Utilization](pause-ingestion-based-on-resource-utilization.md) -- auto-pause ingestion when disk usage is high
+* [Rebalance Servers](rebalance/rebalance-servers/) -- rebalance considerations for pauseless tables
+* [Segment Lifecycle and Repair](segment-lifecycle-and-repair.md) -- reset, reload, and repair operations for segments

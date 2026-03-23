@@ -35,3 +35,10 @@ Partitioned Replica-Group Segment Assignment extends the Replica-Group Segment A
 ## Configure Segment Assignment
 
 Segment assignment is configured along with the instance assignment, check [Instance Assignment](instance-assignment.md) for details.
+
+## Related pages
+
+* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
+* [Instance Assignment](instance-assignment.md) -- tag-based isolation, replica-group, and pool-based server assignment
+* [Rebalance Servers](rebalance/rebalance-servers/) -- redistribute segments after capacity or config changes
+* [Optimizing Scatter and Gather](tuning/routing.md) -- reduce query fanout using replica groups and partitioning

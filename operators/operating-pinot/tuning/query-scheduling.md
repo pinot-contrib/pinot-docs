@@ -42,3 +42,10 @@ This scheduler applies a linear decay for groups that have recently been schedul
 Starting in Pinot 1.3.0, the **Binary Workload Scheduler** provides a higher-level mechanism for isolating production traffic from ad-hoc queries. Rather than tuning per-table thread limits, it categorizes all queries into a primary workload (unbounded, for production traffic) and a secondary workload (constrained concurrency, queue pruning, and thread limits for ad-hoc use).
 
 For details on configuring workload-based isolation, see [Workload Query Isolation](workload-query-isolation.md).
+
+## Related pages
+
+* [Performance tuning overview](README.md) -- all tuning categories at a glance
+* [Workload-Based Query Isolation](workload-query-isolation.md) -- named-workload and binary-workload schedulers with CPU/memory budgets
+* [OOM Protection](../oom-protection-using-automatic-query-killing.md) -- automatic query killing when heap usage is critical
+* [Adaptive Server Selection](query-routing-using-adaptive-server-selection.md) -- route queries to the fastest available server

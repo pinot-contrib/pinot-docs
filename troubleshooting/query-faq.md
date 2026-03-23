@@ -107,3 +107,11 @@ The query execution engine will prefer to use the star-tree index for all querie
 * All dimensions that appear in filter predicates and group-by should be star-tree dimensions.
 
 For queries where above is true, a star-tree index is used. For other queries, the execution engine will default to using the next best index available.
+
+## Related pages
+
+* [Troubleshoot Multi-Stage Query Engine](troubleshoot-multi-stage-query-engine.md) -- limitations and error resolution for the v2 query engine
+* [Troubleshooting Pinot](troubleshooting-pinot.md) -- debug API usage and slow query diagnosis
+* [Tuning](../operators/operating-pinot/tuning/) -- query routing, scheduling, and segment pruning
+* [OOM Protection Using Automatic Query Killing](../operators/operating-pinot/oom-protection-using-automatic-query-killing.md) -- protect servers from expensive queries
+* [Star-Tree Index](../basics/indexing/star-tree-index.md) -- configure and use star-tree indexes for aggregation queries

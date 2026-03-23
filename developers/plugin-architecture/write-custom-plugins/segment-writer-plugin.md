@@ -96,3 +96,9 @@ To implement a custom segment writer:
 3. Place the plugin JAR in the Pinot `/plugins` directory.
 
 Custom implementations could use different buffering strategies (for example, in-memory buffering for smaller datasets) or write to remote storage directly.
+
+## Related pages
+
+* [Write Custom Plugins](./) -- how to package and deploy plugins
+* [Segment Uploader Plugin](segment-uploader-plugin.md) -- write a custom segment uploader (pairs with the writer)
+* [Segment Writer API Design Doc](../../design-documents/segment-writer-api.md) -- the original design document for this API

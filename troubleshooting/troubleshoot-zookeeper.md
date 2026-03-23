@@ -32,3 +32,11 @@ We recommend setting this value to 4MB.&#x20;
 Set this parameter to all ZooKeeper node first then restart all the ZooKeeper nodes.
 
 After this, we need to set the JVM Opt: `-Djute.maxbuffer=4000000` in all the pinot components, then restart all the Pinot components to allow Pinot interacts with ZooKeeper using larger jute buffer size.
+
+## Related pages
+
+* [General FAQ](general-faq.md) -- how Pinot uses ZooKeeper and deep storage
+* [Operations FAQ](operations-faq.md) -- segment management, rebalancing, and cluster configuration
+* [Minion Merge Rollup Task](../operators/operating-pinot/minion-merge-rollup-task.md) -- reduce segment count to shrink ZooKeeper metadata
+* [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) -- understand segment states and metadata
+* [Pinot on Kubernetes FAQ](pinot-on-kubernetes-faq.md) -- Kubernetes-specific operational issues

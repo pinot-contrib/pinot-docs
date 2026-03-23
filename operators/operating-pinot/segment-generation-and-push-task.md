@@ -220,3 +220,9 @@ SegmentGenerationAndPushTask generates standard Minion metrics for monitoring:
 - Segment generation and push progress notifications
 
 Use the Pinot UI Task Manager to monitor SegmentGenerationAndPushTask execution and troubleshoot issues.
+
+## Related pages
+
+* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
+* [Consistent Push and Rollback](consistent-push-and-rollback.md) -- atomic segment replacement and rollback for offline tables
+* [Pinot Managed Offline Flows](pinot-managed-offline-flows.md) -- automated real-time to offline data movement

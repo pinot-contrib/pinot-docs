@@ -238,3 +238,10 @@ Monitor these metrics to detect workload saturation and tune budgets accordingly
 
 * The `accounting.secondary.workload.cpu.percentage` config allocates a percentage of total CPU to secondary queries. For example, setting it to `0.1` (10%) on a 16-core server with a 60-second window yields a budget of approximately `96 billion` CPU nanoseconds per window.
 * Set this to `0.0` (the default) to disable secondary workload budgeting entirely.
+
+## Related pages
+
+* [Performance tuning overview](README.md) -- all tuning categories at a glance
+* [Query Scheduling](query-scheduling.md) -- FCFS, bounded FCFS, and token-bucket schedulers
+* [OOM Protection](../oom-protection-using-automatic-query-killing.md) -- heap monitoring and automatic query killing
+* [Adaptive Server Selection](query-routing-using-adaptive-server-selection.md) -- route queries based on server latency and load

@@ -141,3 +141,9 @@ pinot.server.startup.exitOnServiceStatusCheckFailure=true
 The recommended configurations in production optimize for the highest availability, correctness, and lowest ingestion lag. We wait indefinitely for segment freshness to match the minimum criteria, and we stop the server if status checks are not met by the timeout.
 
 It is important to get your timeout configuration correct, otherwise servers will indefinitely stop if they cannot meet the freshness threshold in the allotted time.
+
+## Related pages
+
+* [Running Pinot in Production](../../tutorials/operations/running-pinot-in-production.md) -- health checks, graceful shutdown, and rolling restart procedures
+* [Set up cluster](setup-cluster.md) -- bootstrap a Pinot cluster before configuring server startup behavior
+* [Monitoring](monitoring.md) -- metrics and alerting for production clusters

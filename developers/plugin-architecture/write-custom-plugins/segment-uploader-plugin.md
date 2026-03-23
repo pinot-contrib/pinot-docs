@@ -78,3 +78,9 @@ A custom uploader could be useful for scenarios such as:
 * Uploading segments to a custom deep store before notifying the controller.
 * Adding custom authentication or encryption during upload.
 * Integrating with an external orchestration system that manages segment lifecycle.
+
+## Related pages
+
+* [Write Custom Plugins](./) -- how to package and deploy plugins
+* [Segment Writer Plugin](segment-writer-plugin.md) -- write a custom segment writer (pairs with the uploader)
+* [Filesystem Plugin](pluggable-storage.md) -- write a custom storage backend for segments

@@ -15,3 +15,9 @@ pinot.server.segment.fetcher.`<protocol>`.class =`<class path to your implementa
 ```
 
 You can also provide other configs to your fetcher under config-root `pinot.server.segment.fetcher.<protocol>`
+
+## Related pages
+
+* [Write Custom Plugins](./) -- how to package and deploy plugins
+* [Filesystem Plugin](pluggable-storage.md) -- write a custom PinotFS storage backend
+* [Segment Fetchers](../../developers-and-contributors/extending-pinot/segment-fetchers.md) -- HDFS fetcher configuration and custom fetcher implementation

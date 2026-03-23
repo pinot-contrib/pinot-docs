@@ -299,3 +299,14 @@ The following two examples show how to overwrite encoding type and index configs
 2. Wait for the pause status to change to success.
 3. Update the credential in the table config.
 4. Resume the consumption.
+
+## Related pages
+
+* [Troubleshooting Pinot](troubleshooting-pinot.md) -- debug API usage and slow query diagnosis
+* [Rebalance](../operators/operating-pinot/rebalance/) -- detailed guide on rebalancing servers and brokers
+* [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) -- segment states, repair procedures, and runbook
+* [Monitoring](../operators/operating-pinot/monitoring.md) -- operational metrics and dashboards
+* [Minion Merge Rollup Task](../operators/operating-pinot/minion-merge-rollup-task.md) -- reduce segment count with merge rollup
+* [Tiered Storage](../operators/operating-pinot/separating-data-storage-by-age/) -- separate hot and cold data across storage tiers
+* [Instance Assignment](../operators/operating-pinot/instance-assignment.md) -- control how segments are assigned to servers
+* [Ingestion FAQ](ingestion-faq.md) -- partitioning, indexing, and Kafka ingestion questions

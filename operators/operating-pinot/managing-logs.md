@@ -127,3 +127,9 @@ GET /loggers/instances/{instanceName}/download?filePath={filePath}
 | Header          | `accept` string       | Setting to `"accept: application/octet`       |
 | Path Parameter  | `instanceName` string | Indicates which instance to collect logs from |
 | Query Parameter | `filePath` string     | Indicates which file to download              |
+
+## Related pages
+
+* [Running Pinot in Production](../../tutorials/operations/running-pinot-in-production.md) -- production operations including health checks and monitoring
+* [Monitoring](monitoring.md) -- metrics and alerting for production clusters
+* [Server Startup Status Checkers](server-startup-status-checkers.md) -- readiness checks and health endpoints

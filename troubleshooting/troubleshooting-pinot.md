@@ -32,3 +32,11 @@ Use the following steps:
    1. Increase Java Virtual Machine (JVM) heap (`java -Xmx<size>`).
    2. Consider using off-heap memory for segments.
    3. Decrease the total number of segments per server (by partitioning the data in a more efficient way).
+
+## Related pages
+
+* [Monitoring](../operators/operating-pinot/monitoring.md) -- set up dashboards and alerts to detect problems early
+* [Query FAQ](query-faq.md) -- answers to common query errors and behavior questions
+* [Operations FAQ](operations-faq.md) -- memory, rebalancing, segment management, and cluster configuration
+* [Tuning](../operators/operating-pinot/tuning/) -- optimize query routing, real-time performance, and segment pruning
+* [Managing Logs](../operators/operating-pinot/managing-logs.md) -- configure log levels for deeper debugging

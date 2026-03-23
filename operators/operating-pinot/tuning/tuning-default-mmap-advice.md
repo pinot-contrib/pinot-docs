@@ -83,3 +83,9 @@ May indicate that readahead is both unused and actually potentially harming perf
 
 * [pinot#12166](https://github.com/apache/pinot/issues/12166)
 * [pinot#13721](https://github.com/apache/pinot/pull/13721)
+
+## Related pages
+
+* [Performance tuning overview](README.md) -- all tuning categories at a glance
+* [Tuning Real-time Performance](realtime.md) -- memory allocation and segment sizing for real-time tables
+* [Performance Optimization Configurations](../../../tutorials/operations/performance-optimization-configurations.md) -- streaming segment download, Netty native TLS and transport
