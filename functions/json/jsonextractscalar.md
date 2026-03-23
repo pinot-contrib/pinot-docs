@@ -72,3 +72,28 @@ WHERE id = 7044874109
 | id         | name       |
 | ---------- | ---------- |
 | 7044874109 | dummyValue |
+
+## Null Handling
+
+When Pinot's null handling is enabled (via `SET enableNullHandling = true`), the behavior of `JSONEXTRACTSCALAR` with a `'null'` default value has been enhanced:
+
+- If the default value parameter is explicitly set to `'null'` and null handling is enabled, `jsonextractscalar` now correctly returns a SQL NULL instead of the string `"null"` for missing JSON paths or null values.
+- This allows for proper propagation of SQL NULLs in query results, improving null semantics and consistency.
+
+### Example with Null Handling
+
+```sql
+SET enableNullHandling = true;
+
+select id, jsonextractscalar(repo, '$.missingPath', 'STRING', 'null') AS missingField
+from githubEvents 
+WHERE id = 7044874109
+```
+
+With null handling enabled, the result will be SQL NULL (empty/null in the result set) rather than the string `"null"`:
+
+| id         | missingField |
+| ---------- | ------------ |
+| 7044874109 | (null)       |
+
+Without null handling or when using a non-null default value, the function behaves as before, returning the specified default value or string `"null"`.
