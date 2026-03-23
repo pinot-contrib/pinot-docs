@@ -31,6 +31,23 @@ When you query a logical table, Pinot:
 
 For hybrid logical tables (containing both offline and realtime physical tables), Pinot uses a configurable time boundary strategy to determine which segments to query from each table type, avoiding duplicate data.
 
+## Segment Pruning Optimization
+
+Pinot performs automatic cross-table segment pruning when querying logical tables. Instead of pruning segments independently for each physical table, segment pruning operates once across all physical tables collectively. This optimization is particularly beneficial for queries using ORDER BY with LIMIT, where the `SelectionQuerySegmentPruner` can now prune segments across the entire logical table.
+
+For example, with a logical table spanning three physical tables (US, EU, APAC), a query like:
+```sql
+SELECT * FROM orders ORDER BY createdTime DESC LIMIT 10
+```
+
+Previously, the pruner would prune segments within each physical table independently, potentially returning more segments than necessary. Now, pruning happens across all physical tables together, allowing the pruner to identify and return only the minimum set of segments needed to satisfy the query requirements.
+
+**Key benefits:**
+- Improved query performance by reducing segments processed
+- Automatic optimization with no configuration changes required
+- Particularly effective for ORDER BY + LIMIT queries across logical tables
+- Single-table behavior remains unchanged
+
 ## Logical Table Configuration
 
 A logical table configuration defines the mapping between the logical table and its physical tables.
