@@ -111,4 +111,4 @@ After upgrading, confirm the cluster is healthy:
 
 After upgrading, if you encounter issues, consult the troubleshooting guides:
 
-* [Troubleshooting](../operators/operating-pinot/troubleshooting.md)
+* [Troubleshooting](../troubleshooting/troubleshooting-pinot.md)
