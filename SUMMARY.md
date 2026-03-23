@@ -2,25 +2,24 @@
 
 * [Introduction](README.md)
 
-## Getting Started
+## Start Here
 
-* [Overview](basics/getting-started/README.md)
-* [Quick Start Examples](basics/getting-started/quick-start.md)
-* [Running Pinot Locally](basics/getting-started/local/README.md)
-  * [Batch Ingestion (Local)](basics/getting-started/local/batch-ingestion.md)
-  * [Stream Ingestion (Local)](basics/getting-started/local/stream-ingestion.md)
-* [Running Pinot in Docker](basics/getting-started/docker/README.md)
-  * [Batch Ingestion (Docker)](basics/getting-started/docker/batch-ingestion.md)
-  * [Stream Ingestion (Docker)](basics/getting-started/docker/stream-ingestion.md)
-* [Running in Kubernetes](basics/getting-started/kubernetes/README.md)
-  * [Stream Ingestion (Kubernetes)](basics/getting-started/kubernetes/stream-ingestion.md)
-  * [Query Engines (Kubernetes)](basics/getting-started/kubernetes/query-engines.md)
-* [Running on Public Clouds](basics/getting-started/public-cloud-examples/README.md)
-  * [Running on AWS](basics/getting-started/public-cloud-examples/aws-quickstart.md)
-  * [Running on GCP](basics/getting-started/public-cloud-examples/gcp-quickstart.md)
-  * [Running on Azure](basics/getting-started/public-cloud-examples/azure-quickstart.md)
-* [Create and Update a Table Configuration](basics/getting-started/create-and-update-table-config.md)
-* [Pinot Version Reference](basics/getting-started/pinot-versions.md)
+* [Start Here](basics/getting-started/README.md)
+* [What is Pinot?](basics/getting-started/what-is-pinot.md)
+* [10-Minute Quickstart](basics/getting-started/ten-minute-quickstart.md)
+* [Install / Deploy](basics/getting-started/install/README.md)
+  * [Local](basics/getting-started/install/local.md)
+  * [Docker](basics/getting-started/install/docker.md)
+  * [Kubernetes](basics/getting-started/install/kubernetes.md)
+  * [Managed Kubernetes](basics/getting-started/install/managed-kubernetes/README.md)
+    * [AWS](basics/getting-started/install/managed-kubernetes/aws.md)
+    * [GCP](basics/getting-started/install/managed-kubernetes/gcp.md)
+    * [Azure](basics/getting-started/install/managed-kubernetes/azure.md)
+* [First Table + Schema](basics/getting-started/first-table-and-schema.md)
+* [First Batch Ingest](basics/getting-started/first-batch-ingest.md)
+* [First Stream Ingest](basics/getting-started/first-stream-ingest.md)
+* [First Query](basics/getting-started/first-query.md)
+* [Version Reference](basics/getting-started/pinot-versions.md)
 
 ## Architecture & Concepts
 

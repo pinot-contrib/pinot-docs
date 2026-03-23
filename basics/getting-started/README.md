@@ -1,69 +1,50 @@
 ---
 description: >-
-  Get up and running with Apache Pinot. Choose your deployment method and follow
-  the guides for installation, batch ingestion, and stream ingestion.
+  Start here to learn Apache Pinot and go from zero to running your first
+  query. Follow the guided onboarding path or jump to the section that fits
+  your experience level.
 ---
 
-# Getting Started
+# Start Here
 
-## Quick start
+Apache Pinot is a real-time distributed OLAP datastore purpose-built for low-latency, high-throughput analytics. It ingests data from streaming and batch sources and makes it queryable in under a second. This guide walks you through everything you need to go from first contact to a working Pinot deployment.
 
-To try Pinot quickly, use one of the built-in quick start commands that launch all components in a single process with pre-built datasets. See [Quick Start Examples](quick-start.md) for the full list.
+## Onboarding path
 
-## Choose your deployment
+Follow these pages in order for a complete introduction:
 
-Each deployment option below includes installation, batch ingestion, and stream ingestion guides tailored to that environment.
+1. [What is Pinot?](what-is-pinot.md) -- Understand what Pinot does and whether it fits your use case.
+2. [10-minute quickstart](ten-minute-quickstart.md) -- Launch a local cluster and run your first query in minutes.
+3. [Install / deploy](install/) -- Set up Pinot for local development, Docker, or Kubernetes.
+4. [First table + schema](first-table-and-schema.md) -- Define a schema and create your first table.
+5. [First batch ingest](first-batch-ingest.md) -- Load data from a file into Pinot.
+6. [First stream ingest](first-stream-ingest.md) -- Connect Pinot to a streaming source for real-time data.
+7. [First query](first-query.md) -- Write SQL queries against your Pinot tables.
 
-### Local (binary or source)
+## Choose your path
 
-Install and run Pinot directly on your machine.
+### Just exploring?
 
-{% content-ref url="local/" %}
-[local](local/)
+Start with the conceptual overview, then try the quickstart to see Pinot in action with zero setup:
+
+{% content-ref url="what-is-pinot.md" %}
+[what-is-pinot.md](what-is-pinot.md)
 {% endcontent-ref %}
 
-### Docker
-
-Run Pinot using Docker containers.
-
-{% content-ref url="docker/" %}
-[docker](docker/)
+{% content-ref url="ten-minute-quickstart.md" %}
+[ten-minute-quickstart.md](ten-minute-quickstart.md)
 {% endcontent-ref %}
 
-### Kubernetes
+### Ready to build?
 
-Deploy Pinot on a Kubernetes cluster using Helm.
+Jump straight to installation and follow the linear onboarding path from step 3 onward:
 
-{% content-ref url="kubernetes/" %}
-[kubernetes](kubernetes/)
+{% content-ref url="install/" %}
+[install](install/)
 {% endcontent-ref %}
 
-### Public clouds
+## Next step
 
-Deploy Pinot on managed Kubernetes services.
-
-{% content-ref url="public-cloud-examples/aws-quickstart.md" %}
-[aws-quickstart.md](public-cloud-examples/aws-quickstart.md)
-{% endcontent-ref %}
-
-{% content-ref url="public-cloud-examples/gcp-quickstart.md" %}
-[gcp-quickstart.md](public-cloud-examples/gcp-quickstart.md)
-{% endcontent-ref %}
-
-{% content-ref url="public-cloud-examples/azure-quickstart.md" %}
-[azure-quickstart.md](public-cloud-examples/azure-quickstart.md)
-{% endcontent-ref %}
-
-## More resources
-
-{% content-ref url="create-and-update-table-config.md" %}
-[create-and-update-table-config.md](create-and-update-table-config.md)
-{% endcontent-ref %}
-
-{% content-ref url="../../troubleshooting/troubleshooting-pinot.md" %}
-[../../troubleshooting/troubleshooting-pinot.md](../../troubleshooting/troubleshooting-pinot.md)
-{% endcontent-ref %}
-
-{% content-ref url="frequent-questions/" %}
-[frequent-questions](frequent-questions/)
+{% content-ref url="what-is-pinot.md" %}
+[what-is-pinot.md](what-is-pinot.md)
 {% endcontent-ref %}
