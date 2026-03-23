@@ -1,21 +1,14 @@
 ---
-description: >-
-  This page links to multiple quick start guides for deploying Pinot to different public
-  cloud providers.
+description: This page has moved. See the updated guide for managed Kubernetes deployments.
+redirect: ../install/managed-kubernetes
 ---
 
 # Running on public clouds
 
-These quickstart guides show you how to run an Apache Pinot cluster using Kubernetes on different public cloud providers.
+{% hint style="info" %}
+This page has moved. Please see [Managed Kubernetes](../install/managed-kubernetes/README.md) for the updated guide.
+{% endhint %}
 
-{% content-ref url="azure-quickstart.md" %}
-[azure-quickstart.md](azure-quickstart.md)
-{% endcontent-ref %}
-
-{% content-ref url="gcp-quickstart.md" %}
-[gcp-quickstart.md](gcp-quickstart.md)
-{% endcontent-ref %}
-
-{% content-ref url="aws-quickstart.md" %}
-[aws-quickstart.md](aws-quickstart.md)
+{% content-ref url="../install/managed-kubernetes/README.md" %}
+[README.md](../install/managed-kubernetes/README.md)
 {% endcontent-ref %}
