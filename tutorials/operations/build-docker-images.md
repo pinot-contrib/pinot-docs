@@ -11,10 +11,9 @@ git clone git@github.com:apache/pinot.git pinot
 cd pinot/docker/images
 ```
 
-You can find current supported 3 images in this directory:
+You can find current supported 2 images in this directory:
 
 * **Pinot**: Pinot all-in-one distribution image
-* **Pinot-Presto**: Presto image with Presto-Pinot Connector built-in.
 * **Pinot-Superset**: Superset image with Pinot connector built-in.
 
 ## Pinot
@@ -113,52 +112,6 @@ Script `docker-build-and-push.sh` builds and publishes this docker image to your
 ### Kubernetes Examples
 
 Refer to [Kubernetes Quickstart](../../basics/getting-started/kubernetes/README.md) for deployment examples.
-
-## Pinot Presto
-
-Docker image for [Presto](https://github.com/prestodb/presto) with Pinot integration.
-
-This docker build project is specialized for Pinot.
-
-### How to build
-
-Usage:
-
-```
-./docker-build.sh [Docker Tag] [Git Branch] [Presto Git URL]
-```
-
-This script will check out Presto Repo `[Presto Git URL]` on branch `[Git Branch]` and build the docker image for that.
-
-The docker image is tagged as `[Docker Tag]`.
-
-`Docker Tag`: Name and tag your docker image. Default is `pinot-presto:latest`.
-
-`Git Branch`: The Presto branch to build. Default is `master`.
-
-`Presto Git URL`: The Presto Git Repo to build, users can set it to their own fork. Note that the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/prestodb/presto.git`.
-
-### How to push
-
-```
-docker push apachepinot/pinot-presto:latest
-```
-
-### Configuration
-
-Follow the [instructions](https://prestodb.io/docs/current/installation/deployment.html) provided by Presto for writing your own configuration files under `etc` directory.
-
-### Volumes
-
-The image defines two data volumes: one for mounting configuration into the container, and one for data.
-
-The configuration volume is located alternatively at `/home/presto/etc`, which contains all the configuration and plugins.
-
-The data volume is located at `/home/presto/data`.
-
-### Kubernetes Examples
-
-Refer to [`presto-coordinator.yaml`](https://github.com/apache/pinot/blob/master/kubernetes/examples/helm/prest-coordinator.yaml) as k8s deployment example.
 
 ## Pinot Superset
 

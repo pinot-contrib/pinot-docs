@@ -191,7 +191,6 @@
     * [Metabase](integrations/metabase.md)
   * [Query engines](build-with-pinot/connectors-clients-apis/query-engines.md)
     * [Trino](integrations/trino.md)
-    * [Presto](integrations/presto.md)
     * [Query Engines on Kubernetes](basics/getting-started/kubernetes/query-engines.md)
   * [Processing connectors](build-with-pinot/connectors-clients-apis/processing-connectors.md)
     * [Flink Connector](integrations/flink-connector.md)

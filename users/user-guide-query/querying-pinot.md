@@ -19,7 +19,7 @@ In Pinot 1.0, the multi-stage query engine supports inner join, left-outer, semi
 Pinot also supports using simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [programmatically access the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md#programmatically-access-the-multi-stage-query-engine). More DDL supports will be added in the future. But for now, the most common way for data definition is using the [Controller Admin API](../api/pinot-rest-admin-interface.md).
 
 {% hint style="info" %}
-**Note:** For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage query engine (v2), we still recommend using **Presto**.
+**Note:** For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage query engine (v2), we recommend using **Trino** as a federated query engine.
 {% endhint %}
 
 ## Identifier vs Literal
