@@ -1,23 +1,23 @@
+---
+description: Compatibility entry point for Pinot client libraries.
+---
+
 # External Clients
 
-A lot of times the user wants to query data from an external application instead of using the built-in query explorer. Pinot provides external query client for this purpose.\
-\
-All of the clients have pretty standard interfaces so that the learning curve is minimum.
+This page moved into the merged [Connectors, clients & APIs](../../build-with-pinot/connectors-clients-apis/README.md) section.
 
-Currently Pinot provides the following clients
+Use the new [Client libraries](../../build-with-pinot/connectors-clients-apis/client-libraries.md) page as the entry point for Java, JDBC, Python, and Go client guidance.
 
-{% content-ref url="jdbc.md" %}
-[jdbc.md](jdbc.md)
-{% endcontent-ref %}
+## What this page covered
 
-{% content-ref url="java.md" %}
-[java.md](java.md)
-{% endcontent-ref %}
+This page points old `External Clients` URLs to the new client-library entry point.
 
-{% content-ref url="python.md" %}
-[python.md](python.md)
-{% endcontent-ref %}
+## Next step
 
-{% content-ref url="golang.md" %}
-[golang.md](golang.md)
-{% endcontent-ref %}
+Open [Client libraries](../../build-with-pinot/connectors-clients-apis/client-libraries.md) and then choose the language-specific page you need.
+
+## Related pages
+
+- [Client libraries](../../build-with-pinot/connectors-clients-apis/client-libraries.md)
+- [Connectors, clients & APIs](../../build-with-pinot/connectors-clients-apis/README.md)
+- [REST / gRPC APIs](../../build-with-pinot/connectors-clients-apis/rest-grpc-apis.md)

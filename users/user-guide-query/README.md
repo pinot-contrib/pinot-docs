@@ -6,66 +6,26 @@ description: >-
 
 # Query
 
-<figure><img src="../../.gitbook/assets/pinot-query-console.png" alt="Pinot Query Console"><figcaption></figcaption></figure>
+This entry point moved to [Build with Pinot > Querying & SQL](../../build-with-pinot/querying-and-sql/README.md).
 
-{% content-ref url="querying-pinot.md" %}
-[querying-pinot.md](querying-pinot.md)
-{% endcontent-ref %}
+Use the new structure when you need:
 
-{% content-ref url="query-options.md" %}
-[query-options.md](query-options.md)
-{% endcontent-ref %}
+- [Querying Pinot](../../build-with-pinot/querying-and-sql/querying-pinot.md)
+- [SQL syntax](../../build-with-pinot/querying-and-sql/sql-syntax.md)
+- [Functions](../../build-with-pinot/querying-and-sql/functions/README.md)
+- [SSE vs MSE](../../build-with-pinot/querying-and-sql/sse-vs-mse.md)
+- [Query options, quotas, cancellation & cursors](../../build-with-pinot/querying-and-sql/query-execution-controls/README.md)
 
-{% content-ref url="query-quotas.md" %}
-[query-quotas.md](query-quotas.md)
-{% endcontent-ref %}
+## What this page covered
 
-### Explore query syntax:
+This page points legacy query-guide URLs to the new `Querying & SQL` section.
 
-{% content-ref url="../../functions/json/README.md" %}
-[JSON Functions](../../functions/json/README.md)
-{% endcontent-ref %}
+## Next step
 
-{% content-ref url="../../functions/aggregation/README.md" %}
-[Aggregation Functions](../../functions/aggregation/README.md)
-{% endcontent-ref %}
+Open [Querying & SQL](../../build-with-pinot/querying-and-sql/README.md) and choose the workflow that matches what you are doing.
 
-{% content-ref url="how-to-handle-unique-counting.md" %}
-[how-to-handle-unique-counting.md](how-to-handle-unique-counting.md)
-{% endcontent-ref %}
+## Related pages
 
-{% content-ref url="explain-plan.md" %}
-[explain-plan.md](explain-plan.md)
-{% endcontent-ref %}
-
-{% content-ref url="filtering-with-idset.md" %}
-[filtering-with-idset.md](filtering-with-idset.md)
-{% endcontent-ref %}
-
-{% content-ref url="gap-fill-functions.md" %}
-[gap-fill-functions.md](gap-fill-functions.md)
-{% endcontent-ref %}
-
-{% content-ref url="grouping-algorithm.md" %}
-[grouping-algorithm.md](grouping-algorithm.md)
-{% endcontent-ref %}
-
-{% content-ref url="joins.md" %}
-[joins.md](joins.md)
-{% endcontent-ref %}
-
-{% content-ref url="lookup-udf-join.md" %}
-[lookup-udf-join.md](lookup-udf-join.md)
-{% endcontent-ref %}
-
-{% content-ref url="supported-transformations.md" %}
-[supported-transformations.md](supported-transformations.md)
-{% endcontent-ref %}
-
-{% content-ref url="../../functions/udf" %}
-[../../functions/udf](../../functions/udf)
-{% endcontent-ref %}
-
-{% content-ref url="../../functions/window" %}
-[windows-functions.md](../../functions/window)
-{% endcontent-ref %}
+- [Querying & SQL](../../build-with-pinot/querying-and-sql/README.md)
+- [Querying Pinot](../../build-with-pinot/querying-and-sql/querying-pinot.md)
+- [Functions](../../build-with-pinot/querying-and-sql/functions/README.md)
