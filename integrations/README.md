@@ -6,40 +6,28 @@ description: >-
 
 # Integrations
 
-Apache Pinot integrates with a broad ecosystem of tools for querying, visualization, data ingestion, and observability. This page organizes integrations by category to help you find the right tool for your use case.
+This entry point moved to the merged [Connectors, clients & APIs](../build-with-pinot/connectors-clients-apis/README.md) section.
 
-## Query Engines
+Use the new structure when you need:
 
-Run federated SQL queries against Pinot alongside other data sources.
+- [Client libraries](../build-with-pinot/connectors-clients-apis/client-libraries.md)
+- [BI tools](../build-with-pinot/connectors-clients-apis/bi-tools.md)
+- [Query engines](../build-with-pinot/connectors-clients-apis/query-engines.md)
+- [Processing connectors](../build-with-pinot/connectors-clients-apis/processing-connectors.md)
+- [REST / gRPC APIs](../build-with-pinot/connectors-clients-apis/rest-grpc-apis.md)
 
-| Integration | Description |
-| --- | --- |
-| [Trino](trino.md) | Distributed SQL query engine with a built-in Pinot connector for interactive analytics across multiple data sources. |
-| [Presto](presto.md) | Distributed SQL query engine originally developed at Facebook, with native Pinot connector support. |
+Leaf integration docs such as [Trino](trino.md), [Superset](superset.md), [Tableau](tableau.md), [Metabase](metabase.md), [Flink Connector](flink-connector.md), and [Spark-Pinot Connector](spark-pinot-connector/README.md) continue to work at their existing public URLs.
 
-## BI & Visualization
+## What this page covered
 
-Connect dashboarding and exploration tools to Pinot for interactive analytics.
+This page points the old `Integrations` landing to the new merged integrations section.
 
-| Integration | Description |
-| --- | --- |
-| [Superset](superset.md) | Open-source BI platform with a native Pinot connector for building dashboards and running ad hoc queries. |
-| [Tableau](tableau.md) | Enterprise BI platform that can connect to Pinot via JDBC for drag-and-drop visual analytics. |
-| [Metabase](metabase.md) | Open-source BI tool with a community Pinot driver for self-service analytics and dashboards. |
+## Next step
 
-## Data Processing Connectors
+Open [Connectors, clients & APIs](../build-with-pinot/connectors-clients-apis/README.md) and choose the integration path that matches your use case.
 
-Write data into Pinot programmatically from batch or streaming processing frameworks.
+## Related pages
 
-| Integration | Description |
-| --- | --- |
-| [Flink Connector](flink-connector.md) | Apache Flink sink for writing data directly into Pinot tables. Ideal for backfilling offline tables and bootstrapping upsert tables. |
-| [Spark-Pinot Connector](spark-pinot-connector/README.md) | Read data from Pinot into Spark DataFrames and write data back. Supports distributed parallel scans, column/filter pushdown, and gRPC streaming reads. |
-
-## Observability
-
-Monitor and detect anomalies in Pinot data.
-
-| Integration | Description |
-| --- | --- |
-| [ThirdEye](thirdeye.md) | Anomaly detection and root cause analysis platform designed to work with Pinot time-series data. |
+- [Connectors, clients & APIs](../build-with-pinot/connectors-clients-apis/README.md)
+- [Query engines](../build-with-pinot/connectors-clients-apis/query-engines.md)
+- [Processing connectors](../build-with-pinot/connectors-clients-apis/processing-connectors.md)
