@@ -271,6 +271,32 @@ GROUP BY experimentId;
 
 ***
 
+## Array Filtering
+
+### filterMv
+
+Evaluates each element of a multi-value column against a predicate and returns a filtered multi-value array containing only elements that satisfy the condition.
+
+**Signature**: `filterMv(mvColumn, 'predicate')`
+
+**Supported Operators**: `=`, `!=`, `>`, `>=`, `<`, `<=`, `IN`, `NOT IN`, `BETWEEN`, `REGEXP_LIKE`, and logical operators `AND`, `OR`, `NOT`
+
+**Example**:
+
+```sql
+SELECT filterMv(stringArrayCol, 'REGEXP_LIKE(v, ''^/api/.*'')')
+FROM myTable
+LIMIT 10
+```
+
+**Notes**:
+* The predicate must use `v` as the placeholder for the element being evaluated.
+* Useful for element-level filtering without requiring `CROSS JOIN UNNEST`.
+
+For more details, see [filterMv](filtermv.md).
+
+
+
 ## Array Reversal
 
 ### arrayReverseInt
