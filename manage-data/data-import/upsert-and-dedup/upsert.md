@@ -191,7 +191,7 @@ To enable post-partial-upsert transforms, add the `postPartialUpsertTransformCon
 - Post-partial-upsert transforms are evaluated **after** the partial upsert merge completes
 - They operate on the **complete merged row**, not just the incoming record
 - Both incoming and existing column values are available for the transform expression
-- The transforms use the same [function syntax as ingestion-time transforms](../../developers/advanced/ingestion-level-transformations.md)
+- The transforms use the same [function syntax as ingestion-time transforms](../../../developers/advanced/ingestion-level-transformations.md)
 - Transform results are stored in the derived columns as part of the final record
 
 **Interaction with Ingestion Transforms**
