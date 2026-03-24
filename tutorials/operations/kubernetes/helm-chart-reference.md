@@ -7,7 +7,7 @@ This page provides a comprehensive reference for the Apache Pinot Helm chart con
 | Field | Value |
 | --- | --- |
 | Chart Name | `pinot` |
-| Chart Version | `0.3.6-SNAPSHOT` |
+| Chart Version | `1.0.0` |
 | App Version | `1.0.0` |
 | Source | [github.com/apache/pinot/tree/master/helm](https://github.com/apache/pinot/tree/master/helm) |
 | Maintainer | `dev@pinot.apache.org` |
@@ -384,7 +384,17 @@ The stateless minion runs as a Kubernetes Deployment instead of a StatefulSet, m
 
 ## ZooKeeper
 
-The chart bundles the Bitnami ZooKeeper chart as a dependency. You can either use the built-in ZooKeeper or point to an external ensemble.
+As of chart version 1.0.0, the chart includes native Apache ZooKeeper Kubernetes templates, replacing the previous Bitnami dependency. You can either use the built-in ZooKeeper or point to an external ensemble.
+
+{% hint style="warning" %}
+**Breaking Changes in v1.0.0**: This release introduces breaking changes from the Bitnami-based ZooKeeper:
+- StatefulSet selector labels changed from Bitnami defaults to new labels (`app: pinot, component: zookeeper`)
+- Data mount path changed from `/bitnami/zookeeper` to `/data`
+- Datalog volume claim template renamed from `data-log` to `datalog`
+- Bitnami-specific parameters removed: `image.registry`, `global.security.allowInsecureImages`, `tls.*`, `auth.*`
+
+See the [migration guidance](#zookeeper-migration-guide) section below for upgrade instructions.
+{% endhint %}
 
 {% hint style="info" %}
 For production deployments, consider using the [ZooKeeper Kubernetes Operator](https://github.com/pravega/zookeeper-operator) instead of the bundled chart.
@@ -404,8 +414,8 @@ For production deployments, consider using the [ZooKeeper Kubernetes Operator](h
 | `zookeeper.persistence.size` | PVC size | `8Gi` |
 | `zookeeper.autopurge.purgeInterval` | Purge interval in hours | `1` |
 | `zookeeper.autopurge.snapRetainCount` | Snapshots to retain | `5` |
-| `zookeeper.image.repository` | ZooKeeper image | `bitnamilegacy/zookeeper` |
-| `zookeeper.image.tag` | ZooKeeper image tag | `3.9.3-debian-12-r22` |
+| `zookeeper.image.repository` | ZooKeeper image (Apache official) | `zookeeper` |
+| `zookeeper.image.tag` | ZooKeeper image tag | `3.9.3` |
 | `zookeeper.image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `zookeeper.affinity` | Pod affinity rules | `{}` |
 
@@ -418,6 +428,79 @@ zookeeper:
   enabled: false
   urlOverride: "zk-0.zk-svc:2181,zk-1.zk-svc:2181,zk-2.zk-svc:2181/pinot"
 ```
+
+### ZooKeeper Migration Guide
+
+If you are upgrading from chart version 0.3.6 (Bitnami-based) to 1.0.0 (native templates), follow one of these migration strategies:
+
+#### Option 1: Fresh Installation (Recommended for non-production clusters)
+
+Delete the existing ZooKeeper StatefulSet and let the chart recreate it with the new templates:
+
+```bash
+helm repo update
+helm upgrade pinot pinot/pinot -n pinot-quickstart --set zookeeper.enabled=true
+kubectl delete statefulset -n pinot-quickstart pinot-zookeeper
+```
+
+#### Option 2: Data Migration (For production clusters with existing data)
+
+1. **Back up ZooKeeper data before proceeding**:
+```bash
+kubectl exec -it pinot-zookeeper-0 -n pinot-quickstart -- tar czf /data/zk-backup.tar.gz /data
+kubectl cp pinot-quickstart/pinot-zookeeper-0:/data/zk-backup.tar.gz ./zk-backup.tar.gz
+```
+
+2. **Scale down Pinot components** (controller, broker, server) to stop accessing ZooKeeper:
+```bash
+kubectl scale statefulset pinot-controller -n pinot-quickstart --replicas=0
+kubectl scale statefulset pinot-broker -n pinot-quickstart --replicas=0
+kubectl scale statefulset pinot-server -n pinot-quickstart --replicas=0
+```
+
+3. **Delete the old ZooKeeper StatefulSet** (PVC data is preserved):
+```bash
+kubectl delete statefulset pinot-zookeeper -n pinot-quickstart --cascade=orphan
+```
+
+4. **Update and install the new chart**:
+```bash
+helm repo update
+helm upgrade pinot pinot/pinot -n pinot-quickstart -f values.yaml
+```
+
+5. **Restore data** (if needed, copy backed-up data to new `/data` mount point):
+```bash
+kubectl cp ./zk-backup.tar.gz pinot-quickstart/pinot-zookeeper-0:/data/
+kubectl exec -it pinot-zookeeper-0 -n pinot-quickstart -- tar xzf /data/zk-backup.tar.gz
+```
+
+6. **Restart Pinot components**:
+```bash
+kubectl scale statefulset pinot-controller -n pinot-quickstart --replicas=3
+kubectl scale statefulset pinot-broker -n pinot-quickstart --replicas=3
+kubectl scale statefulset pinot-server -n pinot-quickstart --replicas=4
+```
+
+#### Option 3: Use External ZooKeeper
+
+If you have an existing external ZooKeeper ensemble that you want to continue using, disable the bundled ZooKeeper:
+
+```yaml
+zookeeper:
+  enabled: false
+  urlOverride: "your-zk-ensemble:2181/pinot"
+```
+
+### Breaking Changes Summary
+
+| Aspect | Bitnami (v0.3.6) | Native (v1.0.0) |
+| --- | --- | --- |
+| Image | `bitnamilegacy/zookeeper:3.9.3-debian-12-r22` | `zookeeper:3.9.3` |
+| StatefulSet Selectors | `app.kubernetes.io/name: zookeeper` | `app: pinot, component: zookeeper` |
+| Data Mount Path | `/bitnami/zookeeper` | `/data` |
+| Datalog VCT | `data-log` | `datalog` |
+| Removed Parameters | `image.registry`, `global.security.*`, `tls.*`, `auth.*` | N/A |
 
 ## Deep Store Configuration
 
