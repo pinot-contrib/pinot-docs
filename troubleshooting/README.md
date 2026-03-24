@@ -1,67 +1,91 @@
 ---
-description: Troubleshoot common issues and find answers to frequently asked questions about Apache Pinot.
+description: Diagnose and resolve issues in Apache Pinot by identifying your problem type and following the right troubleshooting path.
 ---
 
 # Troubleshooting
 
-This section brings together troubleshooting guides, debugging tips, and frequently asked questions to help you diagnose and resolve issues in Apache Pinot.
+Use this page to find the right troubleshooting guide for your situation. Start by identifying the type of problem you are experiencing, then follow the link to the relevant guide.
 
-## General
+## What kind of problem are you seeing?
 
-Start here for general debugging tools and common questions.
+### Query issues
 
-{% content-ref url="troubleshooting-pinot.md" %}
-[troubleshooting-pinot.md](troubleshooting-pinot.md)
-{% endcontent-ref %}
+Queries returning errors, unexpected results, or timing out.
 
-{% content-ref url="general-faq.md" %}
-[general-faq.md](general-faq.md)
-{% endcontent-ref %}
+| Symptom | Go to |
+|---|---|
+| `BrokerResourceMissingError`, reserved keyword errors, wrong results, slow queries | [Query FAQ](query-faq.md) |
+| Errors or limitations specific to the multi-stage query engine (v2), including type mismatches, unsupported functions, or timeout errors | [Troubleshoot Multi-Stage Query Engine](troubleshoot-multi-stage-query-engine.md) |
 
-## Query
+### Ingestion issues
 
-Troubleshoot query execution issues, including the multi-stage query engine.
+Data not appearing, segments stuck, or ingestion pipelines failing.
 
-{% content-ref url="query-faq.md" %}
-[query-faq.md](query-faq.md)
-{% endcontent-ref %}
+| Symptom | Go to |
+|---|---|
+| Segment sizing, partitioning, indexing, Kafka ingestion, data encoding, or real-time ingestion questions | [Ingestion FAQ](ingestion-faq.md) |
+| Kafka partitions stopped consuming, segment commit failures, `Controller response was FAILED` errors | [Realtime Ingestion Stopped](realtime-ingestion-stopped.md) |
 
-{% content-ref url="troubleshoot-multi-stage-query-engine.md" %}
-[troubleshoot-multi-stage-query-engine.md](troubleshoot-multi-stage-query-engine.md)
-{% endcontent-ref %}
+### Operations and cluster issues
 
-## Ingestion
+Cluster instability, memory problems, segment errors, rebalancing, or configuration questions.
 
-Diagnose data ingestion problems for both batch and real-time pipelines.
+| Symptom | Go to |
+|---|---|
+| Heap sizing, backup/restore, schema changes, rebalancing, segment states (BAD/ERROR), tenant configuration, minion tasks, tiered storage | [Operations FAQ](operations-faq.md) |
+| Using the debug API, slow query diagnosis, GC pressure on servers | [Troubleshooting Pinot](troubleshooting-pinot.md) |
 
-{% content-ref url="ingestion-faq.md" %}
-[ingestion-faq.md](ingestion-faq.md)
-{% endcontent-ref %}
+### Kubernetes issues
 
-{% content-ref url="realtime-ingestion-stopped.md" %}
-[realtime-ingestion-stopped.md](realtime-ingestion-stopped.md)
-{% endcontent-ref %}
+Problems specific to running Pinot on Kubernetes.
 
-## Operations
+| Symptom | Go to |
+|---|---|
+| Increasing server disk size on AWS EKS, PVC resizing, pod restarts | [Pinot on Kubernetes FAQ](pinot-on-kubernetes-faq.md) |
 
-Resolve operational issues related to cluster management, memory, and configuration.
+### ZooKeeper issues
 
-{% content-ref url="operations-faq.md" %}
-[operations-faq.md](operations-faq.md)
-{% endcontent-ref %}
+ZooKeeper errors related to metadata storage limits.
 
-## Kubernetes
+| Symptom | Go to |
+|---|---|
+| `packet len is out of range` errors, znode size exceeded, too many segments | [Troubleshoot ZooKeeper](troubleshoot-zookeeper.md) |
 
-Address issues specific to running Pinot on Kubernetes.
+### General questions
 
-{% content-ref url="pinot-on-kubernetes-faq.md" %}
-[pinot-on-kubernetes-faq.md](pinot-on-kubernetes-faq.md)
-{% endcontent-ref %}
+Broad questions about Pinot architecture and behavior.
 
-## ZooKeeper
+| Symptom | Go to |
+|---|---|
+| How deep storage works, how Pinot uses ZooKeeper, JDK compatibility, timezone configuration | [General FAQ](general-faq.md) |
 
-Troubleshoot ZooKeeper-related problems.
+## Quick diagnostic checklist
 
-{% content-ref url="troubleshoot-zookeeper.md" %}
-[troubleshoot-zookeeper.md](troubleshoot-zookeeper.md)
-{% endcontent-ref %}
+Before diving into a specific guide, gather the following information to speed up diagnosis:
+
+1. **Which component is affected?** Controller, broker, server, or minion?
+2. **Check the logs.** All Pinot components log error conditions. Look for stack traces or error messages.
+3. **Use the debug API.** The [Table Debug API](../users/api/controller-api-reference.md) surfaces common problems including table size, ingestion status, and state transition errors.
+4. **Check metrics.** If you have [monitoring](../operators/operating-pinot/monitoring.md) set up, review dashboards for anomalies in query latency, ingestion lag, or GC pressure.
+5. **Review recent changes.** Did you recently update a table config, schema, or cluster configuration?
+
+## Related Operate Pinot pages
+
+Many troubleshooting issues connect back to operational configuration and tuning. These pages may help:
+
+* [Monitoring](../operators/operating-pinot/monitoring.md) -- set up dashboards and alerts to catch issues early
+* [Rebalance](../operators/operating-pinot/rebalance/) -- resolve uneven segment distribution or add new servers
+* [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) -- understand segment states and repair procedures
+* [Decoupling Controller from the Data Path](../operators/operating-pinot/decoupling-controller-from-the-data-path.md) -- reduce controller bottlenecks for real-time ingestion
+* [Tuning](../operators/operating-pinot/tuning/) -- optimize query routing, real-time performance, and segment pruning
+* [Managing Logs](../operators/operating-pinot/managing-logs.md) -- configure log levels for debugging
+* [Upgrading Pinot](../operators/operating-pinot/upgrading-pinot-cluster.md) -- check upgrade notes before and after cluster upgrades
+* [Setup Cluster](../operators/operating-pinot/setup-cluster.md) -- verify cluster configuration
+
+## Next step
+
+If you cannot resolve your issue using these guides, reach out to the Apache Pinot community:
+
+* **Slack**: [Join the Apache Pinot Slack](https://inviter.co/apache-pinot) and ask in the troubleshooting channel
+* **GitHub Issues**: [apache/pinot](https://github.com/apache/pinot/issues) for bug reports and feature requests
+* **Mailing list**: [users@pinot.apache.org](mailto:users@pinot.apache.org) for general questions

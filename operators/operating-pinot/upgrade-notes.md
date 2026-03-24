@@ -328,3 +328,5 @@ columns. Enable it by setting `compressionCodec: CLP` in the column's
 performance on a staging cluster before enabling in production.
 
 *Source: [PR #12504](https://github.com/apache/pinot/pull/12504)*
+
+---

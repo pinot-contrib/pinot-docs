@@ -19,3 +19,8 @@ redirects:
     developers/advanced/troubleshoot-multi-stage-query-engine: troubleshooting/troubleshoot-multi-stage-query-engine.md
     users/user-guide-query/supported-aggregations: functions/aggregation/README.md
     manage-data/data-import/pinot-file-system/hdfs-as-deepstorage: manage-data/data-import/pinot-file-system/import-from-hdfs.md
+    # Redirects for Operations → Operate Pinot restructure
+    operators/operating-pinot/README: operate-pinot/deployment.md
+    # Redirects for Development → Develop & Contribute restructure
+    developers/developers-and-contributors/README: develop-contribute/codebase-basics.md
+    developers/advanced/README: develop-contribute/codebase-basics.md

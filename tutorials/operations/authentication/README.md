@@ -26,5 +26,3 @@ If you'd rather dive directly into the action with an all-in-one running example
 {% content-ref url="zkbasicauthaccesscontrol.md" %}
 [zkbasicauthaccesscontrol.md](zkbasicauthaccesscontrol.md)
 {% endcontent-ref %}
-
-##

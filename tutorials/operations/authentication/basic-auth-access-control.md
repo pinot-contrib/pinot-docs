@@ -212,5 +212,3 @@ $ bin/pinot-admin.sh LaunchDataIngestionJob \
 ```
 {% endtab %}
 {% endtabs %}
-
-

@@ -328,5 +328,7 @@ For low-overhead, always-on JVM profiling (CPU, memory, threads, locks), you can
 
 ## Further Reading
 
+- [Monitoring overview](../../operate-pinot/monitoring.md) -- Landing page for all monitoring topics
 - [Full Metrics Reference](../../configuration-reference/monitoring-metrics.md) -- Complete list of all Pinot metrics
 - [Prometheus and Grafana Tutorial](../../tutorials/operations/monitor-pinot-using-prometheus-and-grafana.md) -- Step-by-step setup for Kubernetes
+- [Continuous JFR](continuous-jfr.md) -- Always-on JVM profiling with Java Flight Recorder
