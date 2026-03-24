@@ -66,7 +66,6 @@ The `pinot-connectors` module contains integrations for ingesting data from exte
 | Module | Description |
 | --- | --- |
 | `pinot-spark-common` | Shared code for Spark-based segment generation. |
-| `pinot-spark-2-connector` | Connector for Apache Spark 2.x batch segment generation. |
 | `pinot-spark-3-connector` | Connector for Apache Spark 3.x batch segment generation. |
 | `pinot-flink-connector` | Connector for Apache Flink segment generation and real-time ingestion. |
 
