@@ -146,7 +146,118 @@ With partial upsert, if the value is `null` in either the existing record or the
 (_oldValue_, `null`) -> _oldValue_
 
 (`null`, `null`) -> `null`
+### Post-Partial-Upsert Transforms (Derived Columns)
+
+When using partial upserts, you may have derived columns that need to be recomputed after the row is merged from the incoming record and the existing record. The `postPartialUpsertTransformConfigs` feature allows you to apply transformation functions to compute derived columns from the fully merged row.
+
+**Use Case**
+
+Consider an e-commerce table tracking orders:
+
+- `order_id`: Primary key
+- `score`: Points earned from the order
+- `bonus`: Bonus points awarded
+- `total`: Derived column that should equal `score + bonus`
+
+With partial upserts, incoming records may only contain updated values for `score` or `bonus`. The ingestion-time transforms only see the incoming record, so they cannot correctly compute `total` from a partially merged row. The `postPartialUpsertTransformConfigs` allows you to recompute `total` from the complete merged row after the partial upsert merge happens.
+
+**Configuration**
+
+To enable post-partial-upsert transforms, add the `postPartialUpsertTransformConfigs` configuration to your table's `upsertConfig`:
+
+{% code title="Table Config Example" %}
+```json
+{
+  "upsertConfig": {
+    "mode": "PARTIAL",
+    "defaultPartialUpsertStrategy": "OVERWRITE",
+    "partialUpsertStrategies": {
+      "score": "OVERWRITE",
+      "bonus": "OVERWRITE"
+    },
+    "postPartialUpsertTransformConfigs": {
+      "total": "plus(score, bonus)"
+    }
+  },
+  "tableIndexConfig": {
+    "nullHandlingEnabled": true
+  }
+}
+```
+{% endcode %}
+
+**Evaluation Semantics**
+
+- Post-partial-upsert transforms are evaluated **after** the partial upsert merge completes
+- They operate on the **complete merged row**, not just the incoming record
+- Both incoming and existing column values are available for the transform expression
+- The transforms use the same [function syntax as ingestion-time transforms](../../developers/advanced/ingestion-level-transformations.md)
+- Transform results are stored in the derived columns as part of the final record
+
+**Interaction with Ingestion Transforms**
+
+Ingestion-time transforms and post-partial-upsert transforms serve different purposes:
+
+| Aspect | Ingestion Transforms | Post-Partial-Upsert Transforms |
+| --- | --- | --- |
+| Execution timing | Before ingestion into Pinot | After partial upsert merge, during ingestion |
+| Input record | Incoming source record | Merged row (incoming + existing) |
+| Use case | Normalize/clean raw input data | Recompute derived columns from merged state |
+| Applies to | All table types (upsert and non-upsert) | Partial upsert tables only |
+| Example | Convert timestamp format | `total = plus(score, bonus)` where `score` and `bonus` come from merged row |
+
+Both can be used together:
+
+1. Ingestion transforms normalize the incoming record
+2. The normalized incoming record participates in partial upsert merge
+3. Post-partial-upsert transforms recompute derived columns from the complete merged row
+
+**Example Workflow**
+
+Given a partial upsert table with this configuration:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "PARTIAL",
+    "partialUpsertStrategies": {
+      "score": "OVERWRITE",
+      "bonus": "OVERWRITE"
+    },
+    "postPartialUpsertTransformConfigs": {
+      "total": "plus(score, bonus)"
+    }
+  },
+  "tableIndexConfig": {
+    "nullHandlingEnabled": true
+  }
+}
+```
+
+Processing these records:
+
+1. **Initial record** (order_id=123):
+   - Incoming: `{order_id: 123, score: 100, bonus: 10}`
+   - Merge: (first record, no existing row)
+   - Post-transform: `total = plus(100, 10) = 110`
+   - Final: `{order_id: 123, score: 100, bonus: 10, total: 110}`
+
+2. **Update record** (order_id=123):
+   - Incoming: `{order_id: 123, score: 150}` (only score updated)
+   - Merge: `{order_id: 123, score: 150, bonus: 10}` (bonus preserved from existing row)
+   - Post-transform: `total = plus(150, 10) = 160`
+   - Final: `{order_id: 123, score: 150, bonus: 10, total: 160}`
+
+3. **Another update** (order_id=123):
+   - Incoming: `{order_id: 123, bonus: 25}` (only bonus updated)
+   - Merge: `{order_id: 123, score: 150, bonus: 25}` (score preserved from existing row)
+   - Post-transform: `total = plus(150, 25) = 175`
+   - Final: `{order_id: 123, score: 150, bonus: 25, total: 175}`
+
+{% hint style="info" %}
+The derived columns computed by post-partial-upsert transforms can be queried like any other column. If you need to use these derived columns in further upsert strategies or transforms, ensure they are defined in your schema.
 {% endhint %}
+
 
 **None upserts**
 
