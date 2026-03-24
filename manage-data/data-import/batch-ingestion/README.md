@@ -16,7 +16,6 @@ Pinot provides several batch ingestion modes. Use the table below to pick the on
 |------|----------|---------------|------------|--------|
 | Standalone | Dev/test, small jobs, scripted pipelines | None (single JVM) | Up to a few GB | Recommended for dev |
 | Spark 3 | Production batch ingestion | Spark 3.x cluster | GB to TB+ | Recommended for production |
-| Spark 2.4 | Legacy Spark 2.4 environments | Spark 2.4 cluster | GB to TB+ | Maintenance mode |
 | Hadoop | Existing MapReduce pipelines | Hadoop cluster | GB to TB+ | Legacy |
 | Flink | Streaming-first orgs, backfill, upsert bootstrap | Flink cluster | GB to TB+ | Active |
 | LaunchDataIngestionJob | CLI wrapper for Standalone | None | Up to a few GB | Convenience tool |
@@ -26,8 +25,6 @@ Pinot provides several batch ingestion modes. Use the table below to pick the on
 **Standalone** is the simplest option and requires no distributed computing framework. It runs segment generation in a single JVM process, making it ideal for development, testing, and small production jobs where data volumes are modest (up to a few GB). It is also well suited for scripted CI/CD pipelines.
 
 **Spark 3** is the recommended choice for production batch ingestion at scale. It distributes segment generation across a Spark 3.x cluster, enabling you to process datasets ranging from gigabytes to terabytes and beyond. If you are setting up a new Spark-based pipeline, use this mode.
-
-**Spark 2.4** provides the same distributed capabilities but targets legacy Spark 2.4 environments. It is in maintenance mode; new projects should prefer Spark 3.
 
 **Hadoop** uses MapReduce to generate segments on a Hadoop cluster. It is considered legacy and is primarily useful if you have existing MapReduce infrastructure and pipelines that you cannot migrate away from.
 
@@ -43,7 +40,6 @@ All artifacts use the group ID `org.apache.pinot`. Replace `${pinot.version}` wi
 |------|------------|-------|
 | Standalone | `pinot-batch-ingestion-standalone` | Included in the Pinot binary distribution |
 | Spark 3 | `pinot-batch-ingestion-spark-3` | Located in `plugins-external/pinot-batch-ingestion/` |
-| Spark 2.4 | `pinot-batch-ingestion-spark-2.4` | Located in `plugins-external/pinot-batch-ingestion/` |
 | Hadoop | `pinot-batch-ingestion-hadoop` | Located in `plugins-external/pinot-batch-ingestion/` |
 | Flink | `pinot-flink-connector` | Located in `pinot-connectors/` |
 | Common | `pinot-batch-ingestion-common` | Shared library used by all modes |

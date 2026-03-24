@@ -56,7 +56,7 @@ Filesystem plugins provide a `PinotFS` storage abstraction so that segments can 
 
 ## Batch Ingestion
 
-Batch ingestion plugins run ingestion jobs on different execution frameworks: Standalone, Hadoop, Spark 2.4, and Spark 3.
+Batch ingestion plugins run ingestion jobs on different execution frameworks: Standalone, Hadoop, and Spark 3.
 
 {% content-ref url="../../manage-data/data-import/batch-ingestion/" %}
 [batch-ingestion](../../manage-data/data-import/batch-ingestion/)

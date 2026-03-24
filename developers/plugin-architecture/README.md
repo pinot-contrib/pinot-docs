@@ -13,7 +13,7 @@ Plugins are collected in folders, based on their purpose. Pinot organizes its pl
 | **Input Format** | `RecordReader` / `StreamMessageDecoder` | Avro, CSV, JSON, ORC, Parquet, Thrift, Protobuf, Arrow, CLP-Log, Confluent Avro, Confluent JSON, Confluent Protobuf |
 | **Filesystem** | `PinotFS` | S3, GCS, HDFS, ADLS |
 | **Stream Ingestion** | `StreamConsumerFactory` | Kafka 3.0, Kafka 4.0, Kinesis, Pulsar |
-| **Batch Ingestion** | `IngestionJobRunner` | Standalone, Hadoop, Spark 2.4, Spark 3 |
+| **Batch Ingestion** | `IngestionJobRunner` | Standalone, Hadoop, Spark 3 |
 | **Metrics** | `PinotMetricsFactory` | Dropwizard, Yammer, Compound |
 | **Segment Writer** | `SegmentWriter` | File-based |
 | **Segment Uploader** | `SegmentUploader` | Default |

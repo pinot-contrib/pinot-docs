@@ -14,7 +14,7 @@ You can check out [Batch Ingestion](../../manage-data/data-import/batch-ingestio
 
 We are using the following tools and frameworks for this tutorial -
 
-* [Apache Spark](https://spark.apache.org) 2.4.0 (Although any spark 2.X should work)
+* [Apache Spark](https://spark.apache.org) 3.2.0 (Although any Spark 3.x should work)
 * [Apache Parquet](https://parquet.apache.org) 1.8.2
 * [Amazon S3](https://aws.amazon.com/s3/)
 * [Apache Pinot](http://pinot.apache.org) (1.4.0 or later recommended)
