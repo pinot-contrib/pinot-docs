@@ -445,10 +445,17 @@ kubectl delete statefulset -n pinot-quickstart pinot-zookeeper
 
 #### Option 2: Data Migration (For production clusters with existing data)
 
-1. **Back up ZooKeeper data before proceeding**:
+{% hint style="warning" %}
+**Snapshot/log separation required**: The Bitnami image stores both snapshots and transaction logs together in `/bitnami/zookeeper/data/version-2/`. The new chart uses separate directories: `/data` for snapshots and `/datalog` for transaction logs. The restore procedure below handles this separation automatically. If snapshots and logs are not separated, ZooKeeper will refuse to start with: `Snapshot directory has log files`.
+{% endhint %}
+
+{% hint style="info" %}
+If your old deployment used `replicaCount > 1`, repeat the backup (step 1) for each pod (e.g. `pinot-zookeeper-1`, `pinot-zookeeper-2`) and restore from the pod that was the ZooKeeper leader.
+{% endhint %}
+
+1. **Back up ZooKeeper data** while the old cluster is still running:
 ```bash
-kubectl exec -it pinot-zookeeper-0 -n pinot-quickstart -- tar czf /data/zk-backup.tar.gz /data
-kubectl cp pinot-quickstart/pinot-zookeeper-0:/data/zk-backup.tar.gz ./zk-backup.tar.gz
+kubectl cp pinot-quickstart/pinot-zookeeper-0:/bitnami/zookeeper/data ./zk-data-backup
 ```
 
 2. **Scale down Pinot components** (controller, broker, server) to stop accessing ZooKeeper:
@@ -469,17 +476,73 @@ helm repo update
 helm upgrade pinot pinot/pinot -n pinot-quickstart -f values.yaml
 ```
 
-5. **Restore data** (if needed, copy backed-up data to new `/data` mount point):
+5. **Wait for the new ZooKeeper to be ready**:
 ```bash
-kubectl cp ./zk-backup.tar.gz pinot-quickstart/pinot-zookeeper-0:/data/
-kubectl exec -it pinot-zookeeper-0 -n pinot-quickstart -- tar xzf /data/zk-backup.tar.gz
+kubectl rollout status statefulset/pinot-zookeeper -n pinot-quickstart
 ```
 
-6. **Restart Pinot components**:
+6. **Scale down ZooKeeper** so you can safely restore data to the PVCs:
+```bash
+kubectl scale statefulset/pinot-zookeeper --replicas=0 -n pinot-quickstart
+```
+
+7. **Launch a temporary pod** to mount both PVCs and restore data with proper snapshot/log separation:
+```bash
+cat <<EOF | kubectl apply -n pinot-quickstart -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zk-data-restore
+spec:
+  containers:
+  - name: restore
+    image: busybox
+    command: ["sleep", "3600"]
+    volumeMounts:
+    - name: data
+      mountPath: /data
+    - name: datalog
+      mountPath: /datalog
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: data-pinot-zookeeper-0
+  - name: datalog
+    persistentVolumeClaim:
+      claimName: datalog-pinot-zookeeper-0
+  restartPolicy: Never
+EOF
+kubectl wait --for=condition=ready pod/zk-data-restore -n pinot-quickstart --timeout=10m
+```
+
+8. **Copy backup and separate snapshots from transaction logs**:
+```bash
+kubectl cp ./zk-data-backup/. pinot-quickstart/zk-data-restore:/data
+kubectl exec -n pinot-quickstart zk-data-restore -- \
+  sh -c 'mkdir -p /datalog/version-2 && mv /data/version-2/log.* /datalog/version-2/'
+```
+
+9. **Clean up the restore pod and scale ZooKeeper back up**:
+```bash
+kubectl delete pod zk-data-restore -n pinot-quickstart
+kubectl scale statefulset/pinot-zookeeper --replicas=1 -n pinot-quickstart
+kubectl rollout status statefulset/pinot-zookeeper -n pinot-quickstart
+```
+
+10. **Verify ZooKeeper is healthy**:
+```bash
+kubectl exec -n pinot-quickstart pinot-zookeeper-0 -- \
+  bash -c 'echo ruok | nc localhost 2181'
+# Expected output: imok
+```
+
+11. **Restart Pinot components** and verify cluster state:
 ```bash
 kubectl scale statefulset pinot-controller -n pinot-quickstart --replicas=3
 kubectl scale statefulset pinot-broker -n pinot-quickstart --replicas=3
 kubectl scale statefulset pinot-server -n pinot-quickstart --replicas=4
+kubectl exec -n pinot-quickstart pinot-controller-0 -- \
+  curl -s http://localhost:9000/instances
 ```
 
 #### Option 3: Use External ZooKeeper
