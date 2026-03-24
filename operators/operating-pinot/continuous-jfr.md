@@ -27,12 +27,14 @@ Run one long-lived recording in each Pinot JVM process (Controller, Broker, Serv
 | `pinot.jfr.enabled` | `false` | Enables/disables continuous recording. |
 | `pinot.jfr.configuration` | `default` | JFR settings profile (`default`, `profile`, or custom JFR config). |
 | `pinot.jfr.name` | `pinot-continuous` | Recording name. |
-| `pinot.jfr.dumpOnExit` | `true` | Dumps recording on JVM exit. |
+| `pinot.jfr.dumpOnExit` | `false` | Dumps recording on JVM exit. Set to `true` for on-exit dumps; note that this may trigger repository cleanup even if `preserveRepository=true`. |
 | `pinot.jfr.toDisk` | `true` | Stores recording repository on disk. |
 | `pinot.jfr.maxSize` | `2GB` | Max recording size when `toDisk=true`; supports human-readable values (for example `512MB`, `2GB`) or raw bytes. |
 | `pinot.jfr.maxAge` | `P7D` | Max event age (ISO-8601 duration) when `toDisk=true`. |
-| `pinot.jfr.directory` | system temp directory | JFR repository path, applied through `JFR.configure repositorypath=...`. |
-| `pinot.jfr.dumpPath` | unset | Default JFR dump path, applied through `JFR.configure dumppath=...`. |
+| `pinot.jfr.directory` | system temp directory | JFR repository directory path. Applied via the DiagnosticCommand MBean as `repositorypath`. |
+| `pinot.jfr.dumpPath` | unset | Default JFR dump directory path. Applied via the DiagnosticCommand MBean as `dumppath`. |
+| `pinot.jfr.preserveRepository` | `true` | Preserves the JFR repository directory after JVM exit. By default, JFR deletes the repository on exit; set this to prevent that (useful for post-mortem analysis). Applied via the DiagnosticCommand MBean as `preserve-repository`. |
+| `pinot.jfr.repositoryMaxTotalSize` | `20GB` | Maximum total size for all repositories under the configured repository directory. When exceeded, older repositories are removed first. The currently active repository is always retained. |
 
 Example:
 
@@ -40,12 +42,14 @@ Example:
 pinot.jfr.enabled=true
 pinot.jfr.configuration=default
 pinot.jfr.name=pinot-continuous
-pinot.jfr.dumpOnExit=true
+pinot.jfr.dumpOnExit=false
 pinot.jfr.toDisk=true
 pinot.jfr.maxSize=2GB
-pinot.jfr.maxAge=PT24H
+pinot.jfr.maxAge=P7D
 pinot.jfr.directory=/var/log/pinot/jfr-repository
 pinot.jfr.dumpPath=/var/log/pinot/jfr-dumps
+pinot.jfr.preserveRepository=true
+pinot.jfr.repositoryMaxTotalSize=20GB
 ```
 
 Notes:
@@ -54,15 +58,17 @@ Notes:
 - Use `configuration=profile` only during active investigations.
 - `maxAge` and `maxSize` cap footprint and history.
 - Configuration changes are applied dynamically; Pinot restarts the active recording in-process.
+- `preserveRepository` is useful for post-mortem analysis of in-flight chunks when the repository directory is shared across processes.
+- `repositoryMaxTotalSize` automatically removes older repositories to maintain total size, but the active repository is always kept.
 
 ### Behavior of ContinuousJfrStarter
 
 - Starts/stops one recording per Pinot JVM based on `pinot.jfr.enabled`.
 - Reacts to `pinot.jfr.*` config updates at runtime.
-- Applies runtime JFR options via the DiagnosticCommand MBean (`JFR.configure`) for repository and dump paths.
-- Starts/stops recordings via the DiagnosticCommand MBean (`JFR.start` and `JFR.stop`).
+- Manages JFR repository and dump paths via the DiagnosticCommand MBean (`JFR.configure repositorypath=...` and `JFR.configure dumppath=...`).
+- Manages recording lifecycle via the DiagnosticCommand MBean (`JFR.start` and `JFR.stop`).
 - If the DiagnosticCommand MBean is unavailable, Pinot logs a warning and skips JFR operations instead of failing startup.
-- Does not rotate dump files, does not run a cleaner thread, and does not schedule periodic dumps.
+- Automatically manages repository cleanup by removing older repositories when total size exceeds `repositoryMaxTotalSize`, while preserving the active repository.
 - Uses standard JFR lifecycle controls (same model as JVM-native JFR), with Pinot cluster config as the control plane.
 
 ## Operational checks
@@ -94,7 +100,7 @@ Take additional dumps as needed during the incident timeline.
 If you prefer static startup-only configuration, you can configure JFR in `JAVA_OPTS`:
 
 ```bash
--XX:StartFlightRecording=name=pinot-continuous,settings=default,disk=true,maxage=24h,maxsize=2g,dumponexit=true
+-XX:StartFlightRecording=name=pinot-continuous,settings=default,disk=true,maxage=7d,maxsize=2g,dumponexit=false
 ```
 
 Use this only when dynamic cluster-level toggling is not required.
@@ -114,6 +120,7 @@ Share only relevant chunks for triage.
 - Start with `configuration=default`.
 - Increase `maxAge` for longer timeline retention.
 - Increase `maxSize` for high event-volume workloads.
+- Configure `repositoryMaxTotalSize` and `preserveRepository` to manage disk usage and support post-mortem analysis.
 - Keep host-level cleanup policies for operator-created dump files.
 - Use explicit timestamped names for ad hoc dump files.
 
@@ -122,14 +129,16 @@ Share only relevant chunks for triage.
 - Assuming Pinot automatically rotates JFR dump files.
 - Running without disk budget guardrails (`maxAge` and `maxSize`).
 - Leaving `configuration=profile` enabled permanently.
+- Not configuring `dumpPath` when frequent dumps are needed (requires manual directory management).
 
 ## Minimal operator checklist
 
 - [ ] `pinot.jfr.enabled=true` applied in cluster config.
-- [ ] `pinot.jfr.*` values validated for footprint (`toDisk`, `maxSize`, `maxAge`).
+- [ ] `pinot.jfr.*` values validated for footprint (`toDisk`, `maxSize`, `maxAge`, `repositoryMaxTotalSize`).
 - [ ] `jcmd <pid> JFR.check` validated post-deploy.
 - [ ] Incident dump command tested in non-prod.
 - [ ] Retention and cleanup policy applied to operator-created dump files.
+- [ ] `preserveRepository=true` set if post-mortem analysis is needed.
 
 ## Related
 
