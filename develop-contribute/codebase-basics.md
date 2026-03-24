@@ -9,7 +9,7 @@ This section helps you get the Apache Pinot source code onto your machine, under
 | [Code Setup](../developers/developers-and-contributors/code-setup.md) | Fork and clone the Pinot repository, install Maven, configure your IDE, and run a local QuickStart from source. |
 | [Code Modules and Organization](../developers/developers-and-contributors/code-modules-and-organization.md) | Understand every top-level Maven module -- SPI, core services, plugins, connectors, testing, and deployment artifacts. |
 | [Dependency Management](../developers/developers-and-contributors/dependency-management.md) | Follow the project's guidelines for adding, updating, and shading external dependencies in both core modules and plugins. |
-| [Build Docker Images](../tutorials/operations/build-docker-images.md) | Build Pinot, Pinot-Presto, and Pinot-Superset Docker images from any branch or fork, including ARM64 builds. |
+| [Build Docker Images](../tutorials/operations/build-docker-images.md) | Build Pinot and Pinot-Superset Docker images from any branch or fork, including ARM64 builds. |
 
 ## Recommended reading order
 
