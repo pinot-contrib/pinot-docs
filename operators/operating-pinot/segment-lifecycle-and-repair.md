@@ -214,11 +214,3 @@ If the table has RefreshSegmentTask enabled, the task will also detect the confi
 4. Execute the rebalance:
    `POST /tables/{tableName}/rebalance?type=OFFLINE`
 5. Monitor rebalance status via `GET /tables/{tableName}/rebalance/status/{jobId}`.
-
-## Related pages
-
-* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
-* [Reload a Table Segment](../../tutorials/operations/segment-reload.md) -- step-by-step reload instructions via API and Admin Console
-* [Refresh Segment Task](refresh-segment-task.md) -- automated segment rebuild via Minion
-* [Rebalance Servers](rebalance/rebalance-servers/) -- redistribute segments after capacity or config changes
-* [Performance tuning overview](tuning/) -- query routing, scheduling, memory, and real-time tuning

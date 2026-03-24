@@ -62,16 +62,3 @@ Alternative you can use the old structure where your plugin is packaged in a sin
 ```
 
 Plugins using this structure will be able to use all classes provided by Pinot, so dependencies that are not provided by Pinot (the ones you don't import as provided) must be _shaded_. Plugins using the old structure are encourage to _relocate_ (i.e. rename the original package name) commonly used dependencies such as `guava`, `jackson` using a plugin specific prefix to prevent class collisions with Pinot.
-
-## Related pages
-
-* [Plugin Architecture](../README.md) -- overview of all plugin families and built-in implementations
-* [Input Format Plugin](record-reader.md) -- write a custom RecordReader or StreamMessageDecoder
-* [Filesystem Plugin](pluggable-storage.md) -- write a custom PinotFS for your storage backend
-* [Stream Ingestion Plugin](write-your-stream.md) -- write a custom stream connector
-* [Batch Segment Fetcher Plugin](write-your-batch.md) -- write a custom segment fetcher
-* [Metrics Plugin](metrics-plugin.md) -- write a custom metrics integration
-* [Segment Writer Plugin](segment-writer-plugin.md) -- write a custom segment writer
-* [Segment Uploader Plugin](segment-uploader-plugin.md) -- write a custom segment uploader
-* [Minion Task Plugin](minion-task-plugin.md) -- write a custom Minion task
-* [Time Series Language Plugin](time-series-language-plugin.md) -- write a custom time series query language

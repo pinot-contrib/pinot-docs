@@ -31,9 +31,3 @@ There are several contracts for record readers that developers should follow whe
 Pinot uses decoders to parse data available in real-time streams. Decoders are responsible for converting binary data in the streams to a GenericRow object.
 
 You can write your own decoder by implementing the [StreamMessageDecoder](https://github.com/apache/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMessageDecoder.java) interface. You can also use the [RecordExtractor](https://github.com/apache/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/data/readers/RecordExtractor.java) from the batch input formats to extract fields to GenericRow from the parsed object.
-
-## Related pages
-
-* [Write Custom Plugins](./) -- how to package and deploy plugins
-* [Stream Ingestion Plugin](write-your-stream.md) -- write a full stream connector plugin
-* [Supported Input Formats](../../../manage-data/data-import/pinot-input-formats.md) -- list of built-in input formats

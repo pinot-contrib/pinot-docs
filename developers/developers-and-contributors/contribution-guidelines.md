@@ -251,11 +251,3 @@ $ git push origin <your issue branch>
 Usually for new features, functionalities, API changes, documentation update is required to keep users up to date and keep track of our development.
 
 Follow this link to [Update Document](update-document.md) accordingly.
-
-## Related pages
-
-* [Code Setup](code-setup.md) -- set up your development environment before contributing.
-* [Code Modules and Organization](code-modules-and-organization.md) -- understand where to place new code.
-* [Dependency Management](dependency-management.md) -- rules for adding or updating external libraries.
-* [Contributing to the Apache Pinot Documentation](../../contributing/contributing.md) -- contribute to docs instead of (or in addition to) code.
-* [Pinot Documentation Style Guide](../../contributing/style-guide.md) -- follow style conventions when writing documentation.

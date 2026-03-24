@@ -99,9 +99,3 @@ The properties for the thresholds are as follows:
 ```
 
 An example of this implementation can be found in the [KafkaConsumerFactory](https://github.com/apache/pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-3.0/src/main/java/org/apache/pinot/plugin/stream/kafka30/KafkaConsumerFactory.java), which is an implementation for the kafka stream.
-
-## Related pages
-
-* [Write Custom Plugins](./) -- how to package and deploy plugins
-* [Input Format Plugin](record-reader.md) -- write a custom RecordReader or StreamMessageDecoder
-* [Plugin Architecture](../README.md) -- overview of all plugin families including stream ingestion

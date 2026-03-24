@@ -89,9 +89,3 @@ There are two steps in the Reduce Phase
 ```
   FinalResult extractFinalResult(IntermediateResult intermediateResult);
 ```
-
-## Related pages
-
-* [Extending Pinot](./README.md) -- overview of all Pinot extension points
-* [Segment Fetchers](segment-fetchers.md) -- another extension point for custom segment retrieval
-* [Plugin Architecture](../../plugin-architecture/) -- the plugin system for self-contained extensions that do not require Pinot core changes

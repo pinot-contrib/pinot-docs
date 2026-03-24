@@ -43,9 +43,3 @@ Changes made using this method are automatically merged into the GitHub repo, as
 All of Pinot's documentation is written in [Markdown](https://en.wikipedia.org/wiki/Markdown). 
 
 For style guidelines, see the [Apache Pinot style guide](style-guide.md).
-
-## Related pages
-
-* [Pinot Documentation Style Guide](style-guide.md) -- Pinot-specific style conventions.
-* [Contribution Guidelines](../developers/developers-and-contributors/contribution-guidelines.md) -- contribute code to Apache Pinot.
-* [Code Setup](../developers/developers-and-contributors/code-setup.md) -- set up a local development environment.

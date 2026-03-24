@@ -185,15 +185,3 @@ Sending request: http://pinot-controller:9000/schemas to controller: pinot-contr
 * Then you can open Pinot Query Console to browse the data
 
 ![](../../../.gitbook/assets/amazon-msk-query-console-browse.png)
-
-## Related pages
-
-* [Kubernetes Deployment](deployment-pinot-on-kubernetes.md) -- Resource sizing, JVM tuning, deep storage, and security hardening for Kubernetes
-* [Amazon EKS (Kafka)](non-eks-to-eks.md) -- Connecting non-EKS workloads to Kafka running in EKS
-* [Helm Chart Values Reference](helm-chart-reference.md) -- Full reference for every Helm chart parameter
-
-## Next step
-
-Plan your upgrade strategy for keeping the cluster current:
-
-* [Upgrades](../../../operate-pinot/upgrades.md)

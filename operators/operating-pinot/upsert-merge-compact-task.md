@@ -231,10 +231,3 @@ Monitor task execution through the following methods:
 > **ℹ️ Design doc**: The detailed technical design for this feature is available in the RFC document provided with this implementation.
 >
 > **Issue**: [https://github.com/apache/pinot/issues/14477](https://github.com/apache/pinot/issues/14477)
-
-## Related pages
-
-* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
-* [Upsert Compaction Task](upsert-compaction-task.md) -- compact individual segments by removing invalidated records
-* [Upsert Compact Merge Task](upsert-compact-merge-task.md) -- alternative merge-compact task for upsert tables
-* [Merge Rollup Task](minion-merge-rollup-task.md) -- merge small segments for non-upsert tables

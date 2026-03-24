@@ -89,8 +89,3 @@ To implement a custom metrics plugin:
 5. Place the plugin JAR in the Pinot `/plugins` directory.
 
 A custom metrics plugin could be useful for integrating with monitoring systems such as Prometheus, Micrometer, or OpenTelemetry.
-
-## Related pages
-
-* [Write Custom Plugins](./) -- how to package and deploy plugins
-* [Plugin Architecture](../README.md) -- overview of all plugin families including metrics

@@ -198,9 +198,3 @@ Pinot includes several built-in Minion tasks:
 | `RefreshSegmentTask` | Refreshes segments from deep store |
 
 For more details on built-in tasks, see [Minion Merge Rollup Task](../../../operators/operating-pinot/minion-merge-rollup-task.md) and [Upsert Compaction Task](../../../operators/operating-pinot/upsert-compaction-task.md).
-
-## Related pages
-
-* [Write Custom Plugins](./) -- how to package and deploy plugins
-* [Plugin Architecture](../README.md) -- overview of all plugin families including Minion tasks
-* [Minion](../../../basics/components/cluster/minion.md) -- architecture and role of Minion nodes in a Pinot cluster

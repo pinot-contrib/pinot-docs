@@ -522,14 +522,3 @@ bin/pinot-admin.sh StreamAvroIntoKafka \
 ```
 {% endtab %}
 {% endtabs %}
-
-## Related pages
-
-* [Set up cluster](../../operators/operating-pinot/setup-cluster.md) -- high-level cluster setup steps
-* [Set up table](../../operators/operating-pinot/setup-table.md) -- table creation reference
-* [Set up ingestion](../../operators/operating-pinot/setup-ingestion.md) -- ingestion pipeline setup
-* [CLI Reference](../../operators/cli.md) -- full `pinot-admin.sh` command reference
-* [Controller Configuration](../../configuration-reference/controller.md) -- complete controller config options
-* [Broker Configuration](../../configuration-reference/broker.md) -- complete broker config options
-* [Server Configuration](../../configuration-reference/server.md) -- complete server config options
-* [Running Pinot in Production](../../tutorials/operations/running-pinot-in-production.md) -- production topology, capacity planning, and operational best practices

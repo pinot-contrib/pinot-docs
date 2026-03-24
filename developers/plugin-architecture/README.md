@@ -108,9 +108,3 @@ Plugins can be developed with no restriction. There are some standards that have
 {% content-ref url="write-custom-plugins/" %}
 [write-custom-plugins](write-custom-plugins/)
 {% endcontent-ref %}
-
-## Related pages
-
-* [Write Custom Plugins](write-custom-plugins/) -- how to package and deploy your own plugin
-* [Extending Pinot](../developers-and-contributors/extending-pinot/) -- extension points that require changes to Pinot core (custom aggregations, segment fetchers, UDFs)
-* [Design Documents](../design-documents/) -- technical design docs behind major Pinot features

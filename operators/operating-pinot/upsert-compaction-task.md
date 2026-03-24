@@ -61,9 +61,3 @@ controller.task.frequencyPeriod=1h  #Alternative to "schedule" in task config.
 
 **Issue**: [https://github.com/apache/pinot/issues/6912](https://github.com/apache/pinot/issues/6912)
 {% endhint %}
-
-## Related pages
-
-* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
-* [Upsert Compact Merge Task](upsert-compact-merge-task.md) -- merge small segments while compacting in upsert tables
-* [Segment Lifecycle and Repair](segment-lifecycle-and-repair.md) -- decision guide for choosing the right segment operation

@@ -162,9 +162,3 @@ PurgeTask generates standard Minion metrics for monitoring:
 - Resource utilization during segment processing
 
 Use the Pinot UI Task Manager to monitor PurgeTask execution and troubleshoot issues.
-
-## Related pages
-
-* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
-* [Segment Lifecycle and Repair](segment-lifecycle-and-repair.md) -- decision guide for choosing the right segment operation
-* [Upsert Compaction Task](upsert-compaction-task.md) -- reclaim space by removing invalidated records in upsert tables

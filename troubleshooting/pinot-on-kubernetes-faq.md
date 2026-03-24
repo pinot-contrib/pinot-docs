@@ -66,11 +66,3 @@ Recheck the PVC size:
 ![](https://lh6.googleusercontent.com/QXkSPfwoxnVD2HOkyMlbvlI\_2xXL7u1VIWZO9MZrKu4S5hCTXrH0vqVNoXAkQmB\_B1rS7SoWWZvjk-giA1LZEwyLhI67myrQhYVMsexegVMecFQ1s5SZiyQJZNP0uioqo2nXh6Xh)
 
 ![](https://lh5.googleusercontent.com/SdanllIsXUnK6DedaxxhaJ1rvpn6vS5lJg4YSDmi-wLFnfZHzwqMpMfeYR-RE6CNUbkSA2UvNjQdz8PuwOGSlyqDVvK2HAqsDS7JX1brN31sTqGkIEZGFGWU\_rwyz4pz-nNF-Ss3)
-
-## Related pages
-
-* [Operations FAQ](operations-faq.md) -- memory, rebalancing, segment management, and cluster configuration
-* [Setup Cluster](../operators/operating-pinot/setup-cluster.md) -- cluster setup and configuration reference
-* [Monitoring](../operators/operating-pinot/monitoring.md) -- operational metrics and dashboards
-* [Upgrading Pinot](../operators/operating-pinot/upgrading-pinot-cluster.md) -- upgrade procedures and notes
-* [Troubleshoot ZooKeeper](troubleshoot-zookeeper.md) -- resolve ZooKeeper znode size issues

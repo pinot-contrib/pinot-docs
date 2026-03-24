@@ -6,8 +6,3 @@ The guidelines below are specific to Apache Pinot's documentation.
 
 ## Star-tree index
 When describing the index type, use star-tree (adjective) or star tree (noun). StarTree refers to the company only.
-
-## Related pages
-
-* [Contributing to the Apache Pinot Documentation](contributing.md) -- how to submit documentation changes.
-* [Contribution Guidelines](../developers/developers-and-contributors/contribution-guidelines.md) -- the code contribution workflow, including code-style checks.

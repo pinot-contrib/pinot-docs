@@ -141,9 +141,3 @@ Bug fixes, small enhancements, and documentation changes typically do not need a
 | [Partition Aware Query Routing](https://cwiki.apache.org/confluence/display/PINOT/Partition+Aware+Query+Routing) | Subbu | 2017 |
 | [Query Processing](https://cwiki.apache.org/confluence/display/PINOT/Query+Processing) | Subbu | 2016 |
 | [Expressions and UDFs](https://cwiki.apache.org/confluence/display/PINOT/Expressions+and+UDFs) | Subbu | 2016 |
-
-## Related pages
-
-* [Contribution Guidelines](../developers-and-contributors/contribution-guidelines.md) -- the full contribution workflow including code review and PR process
-* [Extending Pinot](../developers-and-contributors/extending-pinot/) -- how to extend Pinot with custom aggregation functions, segment fetchers, and UDFs
-* [Plugin Architecture](../plugin-architecture/) -- overview of the plugin system and available plugin types

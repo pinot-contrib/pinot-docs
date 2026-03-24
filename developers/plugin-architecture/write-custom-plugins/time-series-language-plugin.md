@@ -30,8 +30,3 @@ There is an example Plugin implementation in the apache/pinot repo under [pinot-
 * Choose the resolution of `TimeBuckets` wisely. Setting a very fine resolution can make your visualization tool slow or incur a lot of Heap in Pinot.
 * Use the `limit` in the `LeafTimeSeriesPlanNode` to control the maximum number of series that can be returned from the leaf stage.
 * Note that for each series returned by the Leaf Operator, there will be a `Double[]` array with length that is the same as `TimeBuckets#getTimeBuckets()` . Ideally you should tune your `limit` and the resolution of `TimeBuckets` based on a fixed upper-bound of the number of data points you want to allow.
-
-## Related pages
-
-* [Write Custom Plugins](./) -- how to package and deploy plugins
-* [Plugin Architecture](../README.md) -- overview of all plugin families including time series language

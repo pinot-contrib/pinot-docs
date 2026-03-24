@@ -57,9 +57,3 @@ Optimize memory, throughput, and segment sizing for tables consuming from stream
 3. **Right-size consuming segments.** Use the `RealtimeProvisioningHelper` to choose optimal segment sizes and flush thresholds for real-time tables.
 4. **Protect production traffic.** Enable adaptive server selection and consider workload isolation if ad-hoc queries share the same cluster.
 5. **Tune memory mapping.** On Linux, experiment with `RANDOM` madvise if your workload is point-lookup heavy, or keep the default if scans dominate.
-
-## Related pages
-
-* [Indexing overview](../../../basics/indexing/) -- choose the right index type for your query patterns
-* [Star-Tree index](../../../basics/indexing/star-tree-index.md) -- pre-aggregated index for fast group-by and aggregation queries
-* [Segment management](../../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks for segments

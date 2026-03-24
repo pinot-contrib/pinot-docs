@@ -105,9 +105,3 @@ Also make sure to set the following config with the value `adl`
 ```
 
 To see how to upload segments to different storage systems, check [Batch Segment Fetcher Plugin](write-your-batch.md).
-
-## Related pages
-
-* [Write Custom Plugins](./) -- how to package and deploy plugins
-* [Batch Segment Fetcher Plugin](write-your-batch.md) -- write a custom segment fetcher for uploading segments
-* [Segment Fetchers](../../developers-and-contributors/extending-pinot/segment-fetchers.md) -- extension-point approach to custom segment fetching

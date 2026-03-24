@@ -42,10 +42,3 @@ To use the Pinot Admin Console, do the following:
 4. Do one of the following:
    * To reload all segments, under **OPERATIONS**, click **Reload All Segments**.
    * To reload a specific segment, under **SEGMENTS**, select the **Segment Name**, and then in the new **OPERATIONS** section, select **Reload Segment**.
-
-## Related pages
-
-* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
-* [Segment Lifecycle and Repair](../../operators/operating-pinot/segment-lifecycle-and-repair.md) -- decision guide for reset, reload, refresh, rebalance, and more
-* [Refresh Segment Task](../../operators/operating-pinot/refresh-segment-task.md) -- automated segment rebuild via Minion when config or schema changes
-* [Segment Operations Throttling](segment-operations-throttling.md) -- limit parallelism of segment downloads and index rebuilds

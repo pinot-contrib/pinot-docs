@@ -85,10 +85,3 @@ The task only moves completed (`ONLINE`) segments of the real-time table. If the
 | {metricName}.aggregationType | If you set `mergeType` to `rollup`, this property determines the aggregation function to apply to the specified metric. Only applicable for `rollup` case. Enter `sum`, `max`, or `min`.                                                                                                                                                                                              | sum       |
 | maxNumRecordsPerSegment      | Determines the maximum number of records allowed in a  generated segment. Useful if the time window has many records, but you don't want them all in the same segment.                                                                                                                                                                                                                | 5,000,000 |
 ```
-
-## Related pages
-
-* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
-* [Merge Rollup Task](minion-merge-rollup-task.md) -- merge small segments into larger time-aligned segments with optional rollup
-* [Segment Generation and Push Task](segment-generation-and-push-task.md) -- batch ingestion via Minion
-* [Consistent Push and Rollback](consistent-push-and-rollback.md) -- atomic segment replacement and rollback for offline tables

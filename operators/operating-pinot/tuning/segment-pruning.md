@@ -170,10 +170,3 @@ A large gap between `numSegmentsQueried` and `numSegmentsProcessed` indicates th
 4. **Use bloom filters** on high-cardinality columns used in equality lookups (e.g., UUIDs, session IDs)
 5. **Ingest data in time order** when possible, to maximize time pruning selectivity
 6. **Monitor pruning metrics** to identify tables where pruning could be improved
-
-## Related pages
-
-* [Performance tuning overview](README.md) -- all tuning categories at a glance
-* [Optimizing Scatter and Gather](routing.md) -- reduce query fanout through routing strategies
-* [Indexing overview](../../../basics/indexing/) -- choose the right index type for your query patterns
-* [Bloom filter index](../../../basics/indexing/bloom-filter.md) -- configure bloom filters for high-cardinality equality lookups

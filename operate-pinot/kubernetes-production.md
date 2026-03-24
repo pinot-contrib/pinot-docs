@@ -87,16 +87,3 @@ curl http://localhost:9000/health
 kubectl port-forward svc/pinot-broker 8099:8099 -n pinot-quickstart
 curl http://localhost:8099/health
 ```
-
-## Related pages
-
-* [Helm Chart Values Reference](../tutorials/operations/kubernetes/helm-chart-reference.md)
-* [Amazon EKS (Kafka)](../tutorials/operations/kubernetes/non-eks-to-eks.md)
-* [Amazon MSK (Kafka)](../tutorials/operations/kubernetes/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
-* [Kubernetes Deployment](../tutorials/operations/kubernetes/deployment-pinot-on-kubernetes.md)
-
-## Next step
-
-Once your cluster is running in production, plan your upgrade strategy:
-
-* [Upgrades](upgrades.md)

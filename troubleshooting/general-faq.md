@@ -29,10 +29,3 @@ Pinot uses the local timezone by default. To change the timezone, set the `pinot
 ```
 pinot.timezone=UTC
 ```
-
-## Related pages
-
-* [Troubleshooting Pinot](troubleshooting-pinot.md) -- debug API usage and slow query diagnosis
-* [Operations FAQ](operations-faq.md) -- heap sizing, backup/restore, and cluster configuration
-* [Setup Cluster](../operators/operating-pinot/setup-cluster.md) -- cluster setup and configuration reference
-* [Monitoring](../operators/operating-pinot/monitoring.md) -- operational metrics and dashboards

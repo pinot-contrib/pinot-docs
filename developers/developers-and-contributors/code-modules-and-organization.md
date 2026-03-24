@@ -135,10 +135,3 @@ Pinot builds on top of several important external projects:
 * **Google Guava** -- caches, rate limiters, and general-purpose utilities.
 * **RoaringBitmap** -- compressed bitmap library used for inverted indices and filtering.
 * **T-Digest** -- quantile estimation for percentile aggregation functions.
-
-## Related pages
-
-* [Code Setup](code-setup.md) -- set up your local development environment and build Pinot from source.
-* [Dependency Management](dependency-management.md) -- guidelines for managing Maven dependencies across modules.
-* [Extending Pinot](extending-pinot/README.md) -- create custom plugins using the SPI framework.
-* [Build Docker Images](../../tutorials/operations/build-docker-images.md) -- package Pinot modules into Docker containers.

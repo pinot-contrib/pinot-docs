@@ -188,11 +188,3 @@ You may decide from the output that you want to make do with 6 hosts. You have o
 "realtime.segment.flush.threshold.time": "24h"
 "realtime.segment.flush.threshold.segment.size": "450M"
 ```
-
-## Related pages
-
-* [Performance tuning overview](README.md) -- all tuning categories at a glance
-* [Pauseless Consumption](../pauseless-consumption.md) -- eliminate ingestion pauses during segment commit
-* [Pause Ingestion Based on Resource Utilization](../pause-ingestion-based-on-resource-utilization.md) -- auto-pause ingestion when disk usage is high
-* [Instance Assignment](../instance-assignment.md) -- control which servers host consuming vs. completed segments
-* [Segment Assignment](../segment-assignment.md) -- strategies for distributing segments across servers

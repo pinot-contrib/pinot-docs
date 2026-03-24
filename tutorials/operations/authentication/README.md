@@ -26,9 +26,3 @@ If you'd rather dive directly into the action with an all-in-one running example
 {% content-ref url="zkbasicauthaccesscontrol.md" %}
 [zkbasicauthaccesscontrol.md](zkbasicauthaccesscontrol.md)
 {% endcontent-ref %}
-
-## Related pages
-
-- [Access Control](../../../operators/operating-pinot/access-control.md) -- ACL framework, custom implementations, and Row-Level Security
-- [Configuring TLS/SSL](../configuring-tls-ssl.md) -- Transport encryption for client and intra-cluster connections
-- [Security overview](../../../operate-pinot/security.md) -- Landing page for all security topics

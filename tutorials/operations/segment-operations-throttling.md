@@ -66,10 +66,3 @@ The following Gauge type metrics exist to monitor the segment operation threshol
 * StarTree segment index rebuild: [https://github.com/apache/pinot/pull/14943](https://github.com/apache/pinot/pull/14943)
 * Segment download at server level: [https://github.com/apache/pinot/pull/15001](https://github.com/apache/pinot/pull/15001)
 * Add metrics: [https://github.com/apache/pinot/pull/15392](https://github.com/apache/pinot/pull/15392)
-
-## Related pages
-
-* [Performance tuning overview](../../operators/operating-pinot/tuning/) -- all tuning categories at a glance
-* [Performance Optimization Configurations](performance-optimization-configurations.md) -- predicate reordering, streaming download, Netty native TLS/transport
-* [Segment management](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
-* [Reload a Table Segment](segment-reload.md) -- reload segments after config or schema changes

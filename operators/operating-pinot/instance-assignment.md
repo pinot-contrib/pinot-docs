@@ -289,10 +289,3 @@ A table can be configured to use the same instance assignment as another table -
 ## Change the Instance Assignment
 
 Sometimes we don’t have the instance assignment configured in the optimal way in the first shot, or the capacity or requirement of the use case changes and we have to change the strategy. In order to do that, simply apply the table config with the updated InstanceAssignmentConfig, and kick off a rebalance of the table (read more about [Rebalance Servers](rebalance/rebalance-servers/)). Pinot will reassign the instances for the table, and also rebalance the segments on the servers without downtime.
-
-## Related pages
-
-* [Segment management overview](../../operate-pinot/segment-management.md) -- assignment, lifecycle, rebalance, and Minion tasks
-* [Segment Assignment](segment-assignment.md) -- balanced, replica-group, and partitioned assignment strategies
-* [Rebalance Servers](rebalance/rebalance-servers/) -- redistribute segments after instance assignment changes
-* [Separating Data Storage by Age](separating-data-storage-by-age/) -- tiered storage using tag overrides

@@ -39,12 +39,3 @@ realtime.max.parallel.segment.builds=2
 ```
 
 This will reduce each segment build time to relief the segment commit timeout situation, as well the concurrent pressure on the controller side. Ref: [Server Config](../configuration-reference/server.md)
-
-## Related pages
-
-* [Ingestion FAQ](ingestion-faq.md) -- common ingestion questions including partitioning, indexing, and Kafka configuration
-* [Decoupling Controller from the Data Path](../operators/operating-pinot/decoupling-controller-from-the-data-path.md) -- the most critical fix for segment commit failures
-* [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) -- understand segment states and repair procedures
-* [Tuning Real-Time](../operators/operating-pinot/tuning/realtime.md) -- optimize real-time ingestion performance
-* [Monitoring](../operators/operating-pinot/monitoring.md) -- set up alerts to detect ingestion stalls early
-* [Operations FAQ](operations-faq.md) -- segment reset/refresh/reload and other operational tasks

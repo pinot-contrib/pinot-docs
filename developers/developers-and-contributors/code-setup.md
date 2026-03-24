@@ -90,10 +90,3 @@ Note for JDK 17 or 21 you need to add below to the VM Options:
 * Live stream meetup events into Kafka
 
 Go to localhost:9000 in your browser and play with the meetup RSVP table.
-
-## Related pages
-
-* [Code Modules and Organization](code-modules-and-organization.md) -- understand the repository structure and Maven modules.
-* [Contribution Guidelines](contribution-guidelines.md) -- learn the full workflow for submitting code changes.
-* [Dependency Management](dependency-management.md) -- rules for adding or updating external libraries.
-* [Extending Pinot](extending-pinot/README.md) -- build custom plugins for Pinot.

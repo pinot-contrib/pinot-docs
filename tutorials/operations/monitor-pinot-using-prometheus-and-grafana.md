@@ -162,9 +162,3 @@ Upload this file and select Prometheus as data source to finish the import:
 Then you can explore and make your own Pinot dashboard.
 
 ![](../../.gitbook/assets/grafana-dashboard-example.png)
-
-## Related pages
-
-- [Monitoring guide](../../operators/operating-pinot/monitoring.md) -- Critical metrics reference with alert thresholds and diagnosis patterns
-- [Continuous JFR](../../operators/operating-pinot/continuous-jfr.md) -- Always-on JVM profiling with Java Flight Recorder
-- [Monitoring overview](../../operate-pinot/monitoring.md) -- Landing page for all monitoring topics

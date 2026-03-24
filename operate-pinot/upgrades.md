@@ -100,15 +100,3 @@ After upgrading, confirm the cluster is healthy:
 2. **Query correctness** -- Run a representative set of queries and compare results to pre-upgrade baselines.
 3. **Ingestion** -- Verify that real-time tables are consuming from streams and consuming segment lag is within bounds.
 4. **Segment management** -- Confirm that no segments are in ERROR state and that scheduled tasks (merge/rollup, retention) are running.
-
-## Related pages
-
-* [Upgrading Pinot with confidence](../operators/operating-pinot/upgrading-pinot-cluster.md) -- Compatibility test suite and recommended upgrade order
-* [Upgrade Notes](../operators/operating-pinot/upgrade-notes.md) -- Per-release behavior changes and required actions
-* [Helm Chart Values Reference -- Upgrade Procedures](../tutorials/operations/kubernetes/helm-chart-reference.md#upgrade-procedures) -- Helm-specific rolling upgrade steps
-
-## Next step
-
-After upgrading, if you encounter issues, consult the troubleshooting guides:
-
-* [Troubleshooting](../troubleshooting/troubleshooting-pinot.md)

@@ -64,10 +64,3 @@ Enabling peer download may incur LLC segments failed to be uploaded to segment s
 ```
 controller.realtime.segment.deepStoreUploadRetryEnabled=true
 ```
-
-## Related pages
-
-* [Running Pinot in Production](../../tutorials/operations/running-pinot-in-production.md) -- production topology, capacity planning, and deep store configuration
-* [Set up ingestion](setup-ingestion.md) -- configure batch and streaming ingestion pipelines
-* [Server Startup Status Checkers](server-startup-status-checkers.md) -- readiness checks for real-time servers after restart
-* [Table Configuration Reference](../../configuration-reference/table.md) -- full segmentsConfig and streamConfig options

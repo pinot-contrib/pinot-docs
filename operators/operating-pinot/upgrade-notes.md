@@ -330,9 +330,3 @@ performance on a staging cluster before enabling in production.
 *Source: [PR #12504](https://github.com/apache/pinot/pull/12504)*
 
 ---
-
-## Related pages
-
-* [Upgrading Pinot with confidence](upgrading-pinot-cluster.md) -- Compatibility test suite, recommended component upgrade order, and rollback process
-* [Helm Chart Values Reference -- Upgrade Procedures](../../tutorials/operations/kubernetes/helm-chart-reference.md#upgrade-procedures) -- Helm-specific rolling upgrade steps
-* [Release Notes](../../basics/releases/README.md) -- Full feature and fix lists for each release

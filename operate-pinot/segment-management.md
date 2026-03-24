@@ -83,9 +83,3 @@ Guarantee atomicity when replacing offline segments and quickly revert a bad dat
 | Need to delete specific records (GDPR) | Schedule a [PurgeTask](../operators/operating-pinot/purge-task.md) |
 | Bad offline push needs rollback | Use [Consistent Push and Rollback](../operators/operating-pinot/consistent-push-and-rollback.md) |
 | Recent data needs fast disks, old data can be on HDDs | Configure [tiered storage](../operators/operating-pinot/separating-data-storage-by-age/) |
-
-## Related pages
-
-* [Performance tuning](../operators/operating-pinot/tuning/) -- query routing, scheduling, memory, and real-time tuning
-* [Segment Operations Throttling](../tutorials/operations/segment-operations-throttling.md) -- limit parallelism of segment downloads and index rebuilds
-* [Production guides](production-guides.md) -- deployment, monitoring, and security for production clusters

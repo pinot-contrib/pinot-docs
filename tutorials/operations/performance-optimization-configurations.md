@@ -46,10 +46,3 @@ Apache Pinot supports using native transport library [https://netty.io/wiki/nati
 
 <pre><code><strong>pinot.broker.netty.native.transports.enabled : true
 </strong>pinot.server.netty.native.transports.enabled : true</code></pre>
-
-## Related pages
-
-* [Performance tuning overview](../../operators/operating-pinot/tuning/) -- all tuning categories at a glance
-* [Segment Operations Throttling](segment-operations-throttling.md) -- limit parallelism of segment downloads and index rebuilds
-* [Tuning Default MMAP Advice](../../operators/operating-pinot/tuning/tuning-default-mmap-advice.md) -- configure memory-mapped file advice for segment data
-* [Tuning Real-time Performance](../../operators/operating-pinot/tuning/realtime.md) -- memory and segment sizing for real-time tables

@@ -175,15 +175,3 @@ When you enable controller/broker auth, internal Pinot components also need serv
 * Restrict network access to controller/broker (Ingress + NetworkPolicy).
 * Use Kubernetes `Secret`s + env templating for all sensitive values.
 * Rotate certs and credentials. Treat Helm release history as sensitive.
-
-## Related pages
-
-* [Helm Chart Values Reference](helm-chart-reference.md) -- Full reference for every Helm chart parameter
-* [Amazon EKS (Kafka)](non-eks-to-eks.md) -- Connecting non-EKS workloads to Kafka running in EKS
-* [Amazon MSK (Kafka)](how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md) -- Integrating Pinot with Amazon Managed Streaming for Apache Kafka
-
-## Next step
-
-Plan your upgrade strategy for keeping the cluster current:
-
-* [Upgrades](../../../operate-pinot/upgrades.md)

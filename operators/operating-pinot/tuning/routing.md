@@ -260,11 +260,3 @@ In single-tenant clusters where all brokers serve all tables, this setting is no
 |---|---|---|
 | `pinot.broker.enforce.instance.tags` | When `true`, the broker will fail to start if `pinot.broker.instance.tags` is not set. Only checked on first join when instance tags are empty. | `false` |
 | `pinot.broker.instance.tags` | Comma-separated list of tenant tags for this broker instance (e.g., `myTenant_BROKER`). | _(empty)_ |
-
-## Related pages
-
-* [Performance tuning overview](README.md) -- all tuning categories at a glance
-* [Adaptive Server Selection](query-routing-using-adaptive-server-selection.md) -- route queries to the fastest available server
-* [Segment Pruning](segment-pruning.md) -- skip irrelevant segments at the broker and server level
-* [Segment Assignment](../segment-assignment.md) -- choose between balanced, replica-group, and partitioned assignment
-* [Instance Assignment](../instance-assignment.md) -- tag-based isolation and replica-group instance partitioning

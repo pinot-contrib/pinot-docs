@@ -50,10 +50,3 @@ Before extending Pinot, make sure you have:
 * A local Pinot development environment set up (see [Dev Environment Setup](../code-setup.md))
 * Familiarity with Pinot's [architecture and components](../../../basics/concepts/)
 * Java 11+ and Maven for building
-
-## Related pages
-
-* [Writing Custom Aggregation Functions](custom-aggregation-function.md) -- implement a new aggregation function step by step
-* [Segment Fetchers](segment-fetchers.md) -- add support for custom segment storage protocols
-* [Plugin Architecture](../../plugin-architecture/) -- understand the plugin system and write self-contained plugins
-* [Contribution Guidelines](../contribution-guidelines.md) -- how to contribute your extension back to the project
