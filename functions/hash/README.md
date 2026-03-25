@@ -485,6 +485,222 @@ SELECT CRC32C(TO_UTF8('testString')) FROM myTable
 
 ***
 
+#### FNV1Hash32
+
+Computes a **32-bit FNV-1** hash value for a byte array.
+
+**Syntax**
+
+```sql
+FNV1HASH32(input)
+```
+
+**Parameters**
+
+* `input` (`BYTES`): Input byte array to hash.
+
+**Returns**
+
+* `INT`: 32-bit FNV-1 hash value (signed integer).
+
+**Example**
+
+```sql
+SELECT FNV1HASH32(TO_UTF8('testString')) FROM myTable
+-- Returns 123456789
+```
+
+***
+
+#### FNV1Hash32UTF8
+
+Computes a **32-bit FNV-1** hash value for a UTF-8 string.
+
+**Syntax**
+
+```sql
+FNV1HASH32UTF8(input)
+```
+
+**Parameters**
+
+* `input` (`STRING`): Input string (converted to UTF-8 bytes).
+
+**Returns**
+
+* `INT`: 32-bit FNV-1 hash value (signed integer).
+
+**Example**
+
+```sql
+SELECT FNV1HASH32UTF8('testString') FROM myTable
+-- Returns 123456789
+```
+
+***
+
+#### FNV1aHash32
+
+Computes a **32-bit FNV-1a** hash value for a byte array.
+
+**Syntax**
+
+```sql
+FNV1AHASH32(input)
+```
+
+**Parameters**
+
+* `input` (`BYTES`): Input byte array to hash.
+
+**Returns**
+
+* `INT`: 32-bit FNV-1a hash value (signed integer).
+
+**Example**
+
+```sql
+SELECT FNV1AHASH32(TO_UTF8('testString')) FROM myTable
+-- Returns 987654321
+```
+
+***
+
+#### FNV1aHash32UTF8
+
+Computes a **32-bit FNV-1a** hash value for a UTF-8 string.
+
+**Syntax**
+
+```sql
+FNV1AHASH32UTF8(input)
+```
+
+**Parameters**
+
+* `input` (`STRING`): Input string (converted to UTF-8 bytes).
+
+**Returns**
+
+* `INT`: 32-bit FNV-1a hash value (signed integer).
+
+**Example**
+
+```sql
+SELECT FNV1AHASH32UTF8('testString') FROM myTable
+-- Returns 987654321
+```
+
+***
+
+#### FNV1Hash64
+
+Computes a **64-bit FNV-1** hash value for a byte array.
+
+**Syntax**
+
+```sql
+FNV1HASH64(input)
+```
+
+**Parameters**
+
+* `input` (`BYTES`): Input byte array to hash.
+
+**Returns**
+
+* `LONG`: 64-bit FNV-1 hash value (signed long).
+
+**Example**
+
+```sql
+SELECT FNV1HASH64(TO_UTF8('testString')) FROM myTable
+-- Returns 1234567890123456789
+```
+
+***
+
+#### FNV1Hash64UTF8
+
+Computes a **64-bit FNV-1** hash value for a UTF-8 string.
+
+**Syntax**
+
+```sql
+FNV1HASH64UTF8(input)
+```
+
+**Parameters**
+
+* `input` (`STRING`): Input string (converted to UTF-8 bytes).
+
+**Returns**
+
+* `LONG`: 64-bit FNV-1 hash value (signed long).
+
+**Example**
+
+```sql
+SELECT FNV1HASH64UTF8('testString') FROM myTable
+-- Returns 1234567890123456789
+```
+
+***
+
+#### FNV1aHash64
+
+Computes a **64-bit FNV-1a** hash value for a byte array.
+
+**Syntax**
+
+```sql
+FNV1AHASH64(input)
+```
+
+**Parameters**
+
+* `input` (`BYTES`): Input byte array to hash.
+
+**Returns**
+
+* `LONG`: 64-bit FNV-1a hash value (signed long).
+
+**Example**
+
+```sql
+SELECT FNV1AHASH64(TO_UTF8('testString')) FROM myTable
+-- Returns 9876543210987654321
+```
+
+***
+
+#### FNV1aHash64UTF8
+
+Computes a **64-bit FNV-1a** hash value for a UTF-8 string.
+
+**Syntax**
+
+```sql
+FNV1AHASH64UTF8(input)
+```
+
+**Parameters**
+
+* `input` (`STRING`): Input string (converted to UTF-8 bytes).
+
+**Returns**
+
+* `LONG`: 64-bit FNV-1a hash value (signed long).
+
+**Example**
+
+```sql
+SELECT FNV1AHASH64UTF8('testString') FROM myTable
+-- Returns 9876543210987654321
+```
+
+***
+
 ### Notes
 
 1. **Input Conversion**: Use `TO_UTF8(string)` to convert strings to `BYTES` where required.
@@ -492,3 +708,4 @@ SELECT CRC32C(TO_UTF8('testString')) FROM myTable
 3. **Byte Arrays**: Functions like `MURMURHASH3BIT128` return `BYTES` as a 16-byte array.
 4. **Platform-Specific Variants**:\
    Functions like `MURMURHASH3X64BIT32/64/128` are optimized for x64 architectures. The results could be different cross platform.
+5. **FNV Hash Variants**: The FNV-1 and FNV-1a algorithms are non-cryptographic hash functions commonly used for partitioning and data distribution. FNV-1a is preferred in most cases due to better avalanche properties.
