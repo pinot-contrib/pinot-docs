@@ -210,6 +210,10 @@ dataFormat: 'arrow'
 
 The Arrow input format plugin supports reading data in [Apache Arrow IPC streaming format](https://arrow.apache.org/docs/format/Columnar.html#ipc-streaming-format). This is useful for ingesting data from systems that produce Arrow-formatted output.
 
+{% hint style="success" %}
+The `pinot-arrow` plugin is included in the standard Pinot binary distribution (tarball and Docker image). The `ArrowMessageDecoder` is available out of the box, and no additional installation steps are required to use Apache Arrow format for data ingestion.
+{% endhint %}
+
 For stream ingestion, the Arrow decoder converts Arrow columnar batches to Pinot rows:
 
 ```
