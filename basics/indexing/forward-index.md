@@ -118,6 +118,8 @@ As shown in the diagram below, dictionary encoding can lead to numerous random m
 
 Note: Raw value forward index currently does not support inverted index (all others JSON/TEXT/Range/etc are supported). Also, since reading a value from this index requires reading the entire chunk in memory and decompressing, it is not suitable for heavy random reads.&#x20;
 
+**Sorted raw columns:** As of Pinot 1.3.0, raw columns can now be configured as sorted columns without forcing an inverted index. Previously, configuring a column as both sorted and no-dictionary would cause Pinot to force-add an inverted index, which negated the storage benefits of raw encoding. Now, you can have a time-sorted raw column (e.g., a timestamp column) without dictionary encoding or inverted index, allowing for efficient storage while maintaining sort order metadata.
+
 ![](../../.gitbook/assets/no-dictionary.png)
 
 The raw format is applied when the dictionary is disabled for a column and the encoding is explicitly set to `RAW`. For more details, refer to the [dictionary documentation](dictionary-index.md) and the [field config list](../../configuration-reference/table.md#field-config-list).
