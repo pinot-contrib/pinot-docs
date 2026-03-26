@@ -62,7 +62,9 @@ The recommended way to enable a bitmap inverted index:
 
 ### When the index is created
 
-By default, bitmap inverted indexes are not generated during segment creation. They are created when the segment is loaded by Pinot. This behavior is controlled by the table configuration option `indexingConfig.createInvertedIndexDuringSegmentGeneration`, which defaults to `false`.
+> **Breaking Change (Apache Pinot PR #17951):** As of this version, the `indexingConfig.createInvertedIndexDuringSegmentGeneration` configuration flag is **no longer honored**. Inverted indexes are now **always created during segment generation** when configured, consistent with other index types. If you previously relied on deferring inverted index creation to segment loading time, this behavior has changed.
+
+By default, bitmap inverted indexes are created during segment generation. Previously, this behavior was controlled by the table configuration option `indexingConfig.createInvertedIndexDuringSegmentGeneration` (which defaulted to `false`), but that flag is now deprecated and ignored.
 
 ## Sorted inverted index
 
