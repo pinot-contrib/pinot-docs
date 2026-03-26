@@ -4,7 +4,7 @@ Starting from the 0.3.X release, Pinot supports a plug-and-play architecture. Th
 
 ![](<../../.gitbook/assets/Pinot Dependency Graph.svg>)
 
-Plugins are collected in folders, based on their purpose. Pinot organizes its plugins into **ten plugin families**, each targeting a specific extensibility need. The table below summarizes every family, its SPI module, and the implementations that ship with Pinot.
+Plugins are collected in folders, based on their purpose. Pinot organizes its plugins into **eleven plugin families**, each targeting a specific extensibility need. The table below summarizes every family, its SPI module, and the implementations that ship with Pinot.
 
 ## Plugin Families at a Glance
 
@@ -20,6 +20,7 @@ Plugins are collected in folders, based on their purpose. Pinot organizes its pl
 | **Minion Tasks** | `PinotTaskGenerator` / `PinotTaskExecutor` | MergeRollup, Purge, RealtimeToOfflineSegments, SegmentGenerationAndPush, UpsertCompaction, UpsertCompactMerge, RefreshSegment |
 | **Environment** | `PinotEnv` | Azure |
 | **Time Series Language** | `TimeSeriesLogicalPlanner` | M3QL |
+| **OpChain Converter** | `OpChainConverter` | Default |
 
 ---
 
@@ -97,6 +98,14 @@ Time series language plugins allow Pinot to support custom time series query lan
 
 {% content-ref url="write-custom-plugins/time-series-language-plugin.md" %}
 [time-series-language-plugin.md](write-custom-plugins/time-series-language-plugin.md)
+{% endcontent-ref %}
+
+### OpChain Converter
+
+OpChain Converter plugins provide custom implementations for converting logical query plans into executable OpChain objects in the multi-stage query engine. This enables alternative execution backends and plan-to-execution strategies.
+
+{% content-ref url="write-custom-plugins/opchain-converter-plugin.md" %}
+[opchain-converter-plugin.md](write-custom-plugins/opchain-converter-plugin.md)
 {% endcontent-ref %}
 
 ---
