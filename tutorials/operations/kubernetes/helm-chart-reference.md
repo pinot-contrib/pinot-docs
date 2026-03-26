@@ -455,7 +455,9 @@ If your old deployment used `replicaCount > 1`, repeat the backup (step 1) for e
 
 1. **Back up ZooKeeper data** while the old cluster is still running:
 ```bash
-kubectl cp pinot-quickstart/pinot-zookeeper-0:/bitnami/zookeeper/data ./zk-data-backup
+NAMESPACE=pinot-quickstart
+RELEASE=pinot
+kubectl cp ${NAMESPACE}/${RELEASE}-zookeeper-0:/bitnami/zookeeper/data ./zk-data-backup
 ```
 
 2. **Scale down Pinot components** (controller, broker, server) to stop accessing ZooKeeper:
@@ -483,12 +485,12 @@ kubectl rollout status statefulset/pinot-zookeeper -n pinot-quickstart
 
 6. **Scale down ZooKeeper** so you can safely restore data to the PVCs:
 ```bash
-kubectl scale statefulset/pinot-zookeeper --replicas=0 -n pinot-quickstart
+kubectl scale statefulset/${RELEASE}-zookeeper --replicas=0 -n ${NAMESPACE}
 ```
 
 7. **Launch a temporary pod** to mount both PVCs and restore data with proper snapshot/log separation:
 ```bash
-cat <<EOF | kubectl apply -n pinot-quickstart -f -
+cat <<EOF | kubectl apply -n ${NAMESPACE} -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -506,32 +508,32 @@ spec:
   volumes:
   - name: data
     persistentVolumeClaim:
-      claimName: data-pinot-zookeeper-0
+      claimName: data-${RELEASE}-zookeeper-0
   - name: datalog
     persistentVolumeClaim:
-      claimName: datalog-pinot-zookeeper-0
+      claimName: datalog-${RELEASE}-zookeeper-0
   restartPolicy: Never
 EOF
-kubectl wait --for=condition=ready pod/zk-data-restore -n pinot-quickstart --timeout=10m
+kubectl wait --for=condition=ready pod/zk-data-restore -n ${NAMESPACE} --timeout=10m
 ```
 
 8. **Copy backup and separate snapshots from transaction logs**:
 ```bash
-kubectl cp ./zk-data-backup/. pinot-quickstart/zk-data-restore:/data
-kubectl exec -n pinot-quickstart zk-data-restore -- \
+kubectl cp ./zk-data-backup/. ${NAMESPACE}/zk-data-restore:/data
+kubectl exec -n ${NAMESPACE} zk-data-restore -- \
   sh -c 'mkdir -p /datalog/version-2 && mv /data/version-2/log.* /datalog/version-2/'
 ```
 
 9. **Clean up the restore pod and scale ZooKeeper back up**:
 ```bash
-kubectl delete pod zk-data-restore -n pinot-quickstart
-kubectl scale statefulset/pinot-zookeeper --replicas=1 -n pinot-quickstart
-kubectl rollout status statefulset/pinot-zookeeper -n pinot-quickstart
+kubectl delete pod zk-data-restore -n ${NAMESPACE}
+kubectl scale statefulset/${RELEASE}-zookeeper --replicas=1 -n ${NAMESPACE}
+kubectl rollout status statefulset/${RELEASE}-zookeeper -n ${NAMESPACE}
 ```
 
 10. **Verify ZooKeeper is healthy**:
 ```bash
-kubectl exec -n pinot-quickstart pinot-zookeeper-0 -- \
+kubectl exec -n ${NAMESPACE} ${RELEASE}-zookeeper-0 -- \
   bash -c 'echo ruok | nc localhost 2181'
 # Expected output: imok
 ```
