@@ -68,13 +68,17 @@ By default, bitmap inverted indexes are created during segment generation. Previ
 
 ## Sorted inverted index
 
-When a column is both sorted and dictionary-encoded, Pinot uses a sorted forward index with run-length encoding that also serves as an inverted index. This happens automatically and requires no extra configuration. The sorted inverted index provides `O(log n)` lookup time and benefits from data locality.
+When a column is sorted, Pinot can leverage sorted forward indexes for efficient filtering. The behavior depends on whether the column is dictionary-encoded:
+
+**Dictionary-encoded sorted columns:** When a column is both sorted and dictionary-encoded, Pinot uses a sorted forward index with run-length encoding that also serves as an inverted index. This happens automatically and requires no extra configuration. The sorted inverted index provides `O(log n)` lookup time and benefits from data locality.
 
 For example, if a query filters on a sorted `memberId` column, Pinot performs a binary search to find the range of document IDs matching the filter value. Subsequent column scans for those documents benefit from data locality because the matching rows are stored contiguously.
 
 ![Sorted inverted index](../../.gitbook/assets/sorted-inverted.png)
 
-A sorted inverted index offers better performance than a bitmap inverted index but can only apply to columns whose data is physically sorted within each segment.
+**Raw (no-dictionary) sorted columns:** As of Apache Pinot 1.3.0, raw columns can now be configured as sorted columns without forcing a dictionary or inverted index. Previously, designating a raw column as sorted would cause Pinot to force-add a dictionary and inverted index, which negated the storage benefits of raw encoding. Now, you can have sorted raw columns (for example, a timestamp column) with efficient storage while maintaining sort order metadata.
+
+A sorted inverted index on dictionary-encoded columns offers better performance than a bitmap inverted index but can only apply to columns whose data is physically sorted within each segment. Sorted raw columns provide efficient storage for sorted data without the overhead of dictionary encoding.
 
 ## Query examples
 
@@ -109,5 +113,6 @@ LIMIT 10
 ## Limitations
 
 - Bitmap inverted indexes require [dictionary encoding](dictionary-index.md) to be enabled on the column.
-- Sorted inverted indexes only work on columns whose data is physically sorted within each segment.
+- Sorted inverted indexes (on dictionary-encoded columns) only work on columns whose data is physically sorted within each segment.
+- Sorted raw columns (no-dictionary) also support sort metadata without requiring an inverted index.
 - MAP columns are not supported.
