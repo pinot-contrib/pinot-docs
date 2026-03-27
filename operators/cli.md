@@ -149,10 +149,10 @@ All the options should be prefixed with `-` (hyphen)
 
 ### Convert Pinot Segment
 
-Convert the segment file from Pinot specific format to other data formats. Currently only `CSV`, `AVRO` and `JSON` are supported.
+Convert the segment file from Pinot specific format to other data formats. Currently `CSV`, `AVRO`, `JSON`, and `PARQUET` are supported.
 
 ```
-pinot-admin.sh ConvertPinotSegment -dataDir /path/to/data/dir -outputDir /path/to/output/dir -outputFormat CSV -overwrite -csvDelimiter , 
+pinot-admin.sh ConvertPinotSegment -dataDir /path/to/data/dir -outputDir /path/to/output/dir -outputFormat CSV -overwrite -csvDelimiter ,
 ```
 
 #### Supported Options
@@ -163,11 +163,20 @@ All the options should be prefixed with `-` (hyphen)
 | ---------------- | -------------------------------------------------------------------------- |
 | dataDir          | directory containing the segment files. Only local filePaths are supported |
 | outputDir        | directory to put the converted segment files in.                           |
-| outputFormat     | format to output the files in. Can be one of `CSV`, `AVRO` or `JSON`       |
+| outputFormat     | format to output the files in. Can be one of `CSV`, `AVRO`, `JSON`, or `PARQUET` |
 | overwrite        | set it to overwrite the files if already present in output directory       |
 | csvDelimiter     | delimiter to use for CSV files. only applicable to `CSV`                   |
 | csvListDelimiter | delimiter to use for list/array in CSV files. only applicable to `CSV`     |
 | csvWithHeader    | set to print CSV header in output file. Default is `false`.                |
+
+##### Parquet Format Notes
+
+When converting to `PARQUET` format, the following features are supported:
+
+* Multi-value columns (Object[]) are automatically converted to lists
+* Binary data (byte[]) is wrapped in ByteBuffer for Parquet compatibility
+* GZIP compression is applied by default for reduced file size
+* Example usage: `pinot-admin.sh ConvertPinotSegment -dataDir /path/to/segments -outputDir /path/to/output -outputFormat PARQUET`
 
 ### Delete Cluster
 
