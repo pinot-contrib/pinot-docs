@@ -47,3 +47,63 @@ in the result) using metadata only.</td><td><code>false</code></td></tr><tr><td>
 ### Broker Pruning
 
 <table><thead><tr><th>Key</th><th width="249.33333333333331">Description</th><th>Default Behavior</th></tr></thead><tbody><tr><td><strong>useBrokerPruning</strong></td><td>When set to <code>true</code>, enables broker-side segment pruning logic in the multi-stage engine. This allows the broker to prune segments before dispatching queries to servers, reducing unnecessary computation. Only supported by the MSE query optimizer.</td><td>Broker level config (default <code>true</code>)</td></tr><tr><td><strong>useIndexBasedDistinctOperator</strong></td><td>When <code>true</code>, routes eligible <code>SELECT DISTINCT jsonExtractIndex(col, path, type)</code> queries to <code>JsonIndexDistinctOperator</code>, which reads distinct values directly from the JSON index without scanning documents. Requires the queried JSON path to have a backing JSON index. Supports INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, and STRING result types.</td><td><code>false</code> (disabled)</td></tr></tbody></table>
+
+### DISTINCT Early-Termination (Single-Stage Engine)
+
+<table><thead><tr><th>Key</th><th width="249.33333333333331">Description</th><th>Default Behavior</th></tr></thead><tbody><tr><td><strong>maxRowsInDistinct</strong></td><td>Maximum number of rows to scan across all segments in a DISTINCT query before early termination. When this limit is reached, the query stops scanning additional segments and returns partial results. Only applies to single-stage engine (SSE/v1) DISTINCT queries. See <code>maxRowsInDistinctReached</code> in the response to determine if this limit was triggered.</td><td><code>null/empty</code> (no limit)</td></tr><tr><td><strong>maxRowsWithoutChangeInDistinct</strong></td><td>Maximum number of rows to scan in a DISTINCT query without producing any new distinct values before early termination. This option is useful to optimize queries when the distinct value set converges quickly. When this limit is reached, the query stops scanning and returns partial results. Only applies to single-stage engine (SSE/v1) DISTINCT queries. See <code>maxRowsWithoutChangeInDistinctReached</code> in the response to determine if this limit was triggered.</td><td><code>null/empty</code> (no limit)</td></tr><tr><td><strong>maxExecutionTimeMsInDistinct</strong></td><td>Wall-clock time budget in milliseconds for the combine operator in a DISTINCT query. When this time limit is exceeded, the query returns partial results. Only applies to single-stage engine (SSE/v1) DISTINCT queries. See <code>maxExecutionTimeInDistinctReached</code> in the response to determine if this limit was triggered.</td><td><code>null/empty</code> (no limit)</td></tr></tbody></table>
+
+#### Example DISTINCT Queries with Early Termination
+
+```sql
+-- Stop after scanning 100,000 rows
+SELECT DISTINCT country FROM users
+OPTION (maxRowsInDistinct=100000)
+
+-- Stop after 10,000 rows without new distinct values
+SELECT DISTINCT state FROM users
+OPTION (maxRowsWithoutChangeInDistinct=10000)
+
+-- Stop after 5 seconds of execution
+SELECT DISTINCT user_id FROM events
+OPTION (maxExecutionTimeMsInDistinct=5000)
+
+-- Combine multiple limits
+SELECT DISTINCT product_id FROM orders
+OPTION (maxRowsInDistinct=50000, maxRowsWithoutChangeInDistinct=5000)
+```
+
+When any of these early-termination budgets is exceeded, the response will include the following flags to indicate which limit was reached:
+
+- `partialResult` (boolean): Set to `true` when the result is partial due to early termination
+- `maxRowsInDistinctReached` (boolean): Set to `true` if `maxRowsInDistinct` limit was exceeded
+- `maxRowsWithoutChangeInDistinctReached` (boolean): Set to `true` if `maxRowsWithoutChangeInDistinct` limit was exceeded
+- `maxExecutionTimeInDistinctReached` (boolean): Set to `true` if `maxExecutionTimeMsInDistinct` limit was exceeded
+
+#### Example Response with Early Termination
+
+```json
+{
+  "resultTable": {
+    "dataSchema": {
+      "columnNames": ["country"],
+      "columnDataTypes": ["STRING"]
+    },
+    "rows": [
+      ["USA"],
+      ["Canada"],
+      ["Mexico"]
+    ]
+  },
+  "numDocsScanned": 100000,
+  "numEntriesScannedInFilter": 100000,
+  "numEntriesScannedPostFilter": 100000,
+  "totalDocs": 10000000,
+  "numSegmentsQueried": 10,
+  "numSegmentsProcessed": 6,
+  "partialResult": true,
+  "maxRowsInDistinctReached": true,
+  "maxRowsWithoutChangeInDistinctReached": false,
+  "maxExecutionTimeInDistinctReached": false,
+  "timeUsedms": 245
+}
+```
