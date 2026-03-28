@@ -28,6 +28,18 @@ Similar to `FunnelMaxStep` , this function returns an array which reflects the m
 
 This function evaluates all funnel events and returns how many times the user has completed the full steps.
 
-{% content-ref url="funnelmaxstep.md" %}
-[funnelmaxstep.md](funnelmaxstep.md)
+{% content-ref url="funnelcompletecount.md" %}
+[funnelcompletecount.md](funnelcompletecount.md)
 {% endcontent-ref %}
+
+## FunnelCount
+
+This function evaluates funnel steps and returns the distinct correlated counts for each step.
+
+{% content-ref url="funnelcount.md" %}
+[funnelcount.md](funnelcount.md)
+{% endcontent-ref %}
+
+## Additional Reference Pages
+
+- [funnelmaxstep.md](funnelmaxstep.md)

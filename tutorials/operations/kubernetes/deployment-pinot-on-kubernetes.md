@@ -1,6 +1,6 @@
 # Kubernetes Deployment
 
-Pinot community has provided Helm based [Kubernetes deployment template](../../../basics/getting-started/kubernetes/README.md).
+Pinot community has provided a Helm-based [Kubernetes install guide](../../../basics/getting-started/install/kubernetes.md).
 
 You can deploy it as simple as run a `helm install` command.
 

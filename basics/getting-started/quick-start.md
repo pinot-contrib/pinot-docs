@@ -10,7 +10,7 @@ Pinot ships with `QuickStart` commands that launch Pinot components in a single 
 
 *   **Prerequisites**
 
-    You must have either [installed Pinot locally](local/README.md) or [have Docker installed if you want to use the Pinot Docker image](docker/README.md). The examples are available in each option and work the same. The decision of which to choose depends on your installation preference and how you generally like to work. If you don't know which to choose, using Docker will make your cleanup easier after you are done with the examples.
+    You must have either [installed Pinot locally](install/local.md) or [have Docker installed if you want to use the Pinot Docker image](install/docker.md). The examples are available in each option and work the same. The decision of which to choose depends on your installation preference and how you generally like to work. If you don't know which to choose, using Docker will make your cleanup easier after you are done with the examples.
 *   **Pinot versions in examples**
 
     The Docker-based examples on this page use `pinot:latest`, which instructs Docker to pull and use the most recent release of Apache Pinot. If you prefer to use a specific release instead, you can designate it by replacing `latest` with the release number, like this: `pinot:0.12.1`.

@@ -128,3 +128,15 @@ FROM MyTable WHERE COL3 > 50
 | -------- | ----------- |
 | FASTHLL | Stores serialized HyperLogLog in String format. Performs worse than DISTINCTCOUNTHLL, which supports serialized HyperLogLog in BYTES format. |
 | FASTHLLMV | Multi-value version of FASTHLL. Also deprecated in favor of DISTINCTCOUNTHLL. |
+
+## Additional Reference Pages
+
+| Function | Function |
+| --- | --- |
+| [DISTINCT_COUNT_OFF_HEAP](distinct_count_off_heap.md) | [DISTINCTCOUNTHLLPLUS](distinctcounthll-1.md) |
+| [DISTINCTCOUNTRAWHLL](distinctcountrawhll.md) | [DISTINCTCOUNTRAWTHETASKETCH](distinctcountrawthetasketch.md) |
+| [DISTINCTCOUNTULL](distinctcountull.md) | [FUNNELSTEPDURATIONSTATS](funnelstepdurationstats.md) |
+| [maxString](maxstring.md) | [minmaxrange](minmaxrange.md) |
+| [minString](minstring.md) | [percentilekllmv](percentilekllmv.md) |
+| [percentilerawkll](percentilerawkll.md) | [percentilerawkllmv](percentilerawkllmv.md) |
+| [SEGMENTPARTITIONEDDISTINCTCOUNT](segmentpartitioneddistinctcount.md) | [VALUEIN](valuein.md) |

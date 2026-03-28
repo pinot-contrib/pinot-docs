@@ -12,12 +12,12 @@ There are multiple different sections in the documentation to help you get start
 
 To get started with operating a Pinot cluster, first look at the tutorials in [Getting Started](../../basics/getting-started/) on how to run a basic pinot cluster in various environments.
 
-{% content-ref url="../../basics/getting-started/local/README.md" %}
-[local/README.md](../../basics/getting-started/local/README.md)
+{% content-ref url="../../basics/getting-started/install/local.md" %}
+[local.md](../../basics/getting-started/install/local.md)
 {% endcontent-ref %}
 
-{% content-ref url="../../basics/getting-started/kubernetes/README.md" %}
-[kubernetes/README.md](../../basics/getting-started/kubernetes/README.md)
+{% content-ref url="../../basics/getting-started/install/kubernetes.md" %}
+[kubernetes.md](../../basics/getting-started/install/kubernetes.md)
 {% endcontent-ref %}
 
 You can then proceed to the more advanced Pinot setup in production environment.

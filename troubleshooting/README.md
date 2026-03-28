@@ -73,6 +73,7 @@ Before diving into a specific guide, gather the following information to speed u
 
 Many troubleshooting issues connect back to operational configuration and tuning. These pages may help:
 
+* [Deployment and Monitoring](../operators/operating-pinot/README.md) -- overview of operating Pinot clusters
 * [Monitoring](../operators/operating-pinot/monitoring.md) -- set up dashboards and alerts to catch issues early
 * [Rebalance](../operators/operating-pinot/rebalance/) -- resolve uneven segment distribution or add new servers
 * [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) -- understand segment states and repair procedures

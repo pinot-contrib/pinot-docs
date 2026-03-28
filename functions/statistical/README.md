@@ -60,7 +60,7 @@ FROM salesData
 
 ## Covariance Functions
 
-### COVAR_POP / COVARPOP
+### [COVAR_POP / COVARPOP](covar_pop.md)
 
 ```sql
 COVAR_POP(col1, col2)
@@ -73,7 +73,7 @@ SELECT COVAR_POP(adSpend, revenue) AS spend_revenue_covariance
 FROM campaignMetrics
 ```
 
-### COVAR_SAMP / COVARSAMP
+### [COVAR_SAMP / COVARSAMP](covar_samp.md)
 
 ```sql
 COVAR_SAMP(col1, col2)

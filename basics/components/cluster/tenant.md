@@ -61,7 +61,7 @@ To create this tenant use the following command. The creation will fail if numbe
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-Follow instructions in [Getting Pinot](../../getting-started/local/README.md#getting-pinot) to get Pinot locally, and then
+Follow instructions in [Getting Pinot](../../getting-started/install/local.md#1-download-or-build-apache-pinot) to get Pinot locally, and then
 
 ```bash
 bin/pinot-admin.sh AddTenant \
@@ -99,7 +99,7 @@ To create this tenant use the following command. The creation will fail if numbe
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-Follow instructions in [Getting Pinot](../../getting-started/local/README.md#getting-pinot) to get Pinot locally, and then
+Follow instructions in [Getting Pinot](../../getting-started/install/local.md#1-download-or-build-apache-pinot) to get Pinot locally, and then
 
 ```bash
 bin/pinot-admin.sh AddTenant \

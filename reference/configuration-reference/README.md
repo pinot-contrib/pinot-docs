@@ -35,3 +35,4 @@ Open the specific config page for the object you are changing, then cross-check 
 - [Schema](../../configuration-reference/schema.md)
 - [Ingestion](../../configuration-reference/ingestion.md)
 - [Plugin Families Reference](../plugin-reference/README.md)
+- [Legacy Plugin Configuration Landing](../../configuration-reference/plugin-reference/README.md)

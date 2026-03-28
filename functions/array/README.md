@@ -830,3 +830,20 @@ SELECT arrayToString(ARRAY['red', 'green', 'blue'], ',');
 SELECT arrayToString(ARRAY['foo', NULL, 'bar'], '|', 'NA');
 -- Result: 'foo|NA|bar'
 ```
+
+## Additional Reference Pages
+
+| Function | Function |
+| --- | --- |
+| [ARRAY_AGG](array_agg.md) | [arrayConcatDouble](arrayconcatdouble.md) |
+| [arrayConcatFloat](arrayconcatfloat.md) | [arrayConcatInt](arrayconcatint.md) |
+| [arrayConcatLong](arrayconcatlong.md) | [arrayConcatString](arrayconcatstring.md) |
+| [arrayContainsInt](arraycontainsint.md) | [arrayContainsString](arraycontainsstring.md) |
+| [arrayDistinctInt](arraydistinctint.md) | [arrayDistinctString](arraydistinctstring.md) |
+| [arrayIndexOfInt](arrayindexofint.md) | [arrayIndexOfString](arrayindexofstring.md) |
+| [ARRAYLENGTH](arraylength.md) | [arrayRemoveInt](arrayremoveint.md) |
+| [arrayRemoveString](arrayremovestring.md) | [arrayReverseInt](arrayreverseint.md) |
+| [arrayReverseString](arrayreversestring.md) | [arraySliceInt](arraysliceint.md) |
+| [arraySliceString](arrayslicestring.md) | [arraySortInt](arraysortint.md) |
+| [arraySortString](arraysortstring.md) | [arrayUnionInt](arrayunionint.md) |
+| [arrayUnionString](arrayunionstring.md) | [isEqualSet](isequalset.md) |

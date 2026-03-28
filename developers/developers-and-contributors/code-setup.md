@@ -61,7 +61,7 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 
 ![](../../.gitbook/assets/.unused/eclipse_style.png)
 
-Once the IDE is set up, you can run [`Batch QuickStart`](../../basics/getting-started/local/README.md#batch) for batch mode or [`Realtime QuickStart`](../../basics/getting-started/local/README.md#streaming) for real-time mode.
+Once the IDE is set up, you can run [`Batch QuickStart`](../../basics/getting-started/quick-start.md#batch-processing) for batch mode or [`Realtime QuickStart`](../../basics/getting-started/quick-start.md#streaming) for real-time mode.
 
 **Batch Quickstart**
 

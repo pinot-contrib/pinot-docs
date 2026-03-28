@@ -4,7 +4,7 @@ description: A curated guide to Pinot transformation functions used in queries a
 
 # Transformations
 
-This page groups the transformation functions that show up most often in Pinot ingestion configs and SELECT expressions. It is a navigation guide, not a full function reference: use the linked category pages for complete signatures and examples.
+This page groups the transformation functions that show up most often in Pinot ingestion configs and `SELECT` expressions. It is a navigation guide, not a full function reference: use the linked category pages for complete signatures and examples.
 
 The most important split is whether the function returns a typed value that can be used directly in query output, or whether it is mainly intended for ingestion-time shaping. The typed JSON helpers are especially useful when you need a stable column type in SQL.
 
@@ -58,5 +58,5 @@ Use this page when you are:
 ## Related pages
 
 - [Functions](README.md)
-- [SSE vs MSE](../sse-vs-mse.md)
-- [Supported Transformations](../../../users/user-guide-query/supported-transformations.md)
+- [SSE vs MSE](../build-with-pinot/querying-and-sql/sse-vs-mse.md)
+- [Supported Transformations](../users/user-guide-query/supported-transformations.md)

@@ -161,4 +161,4 @@ In the Pinot Data Explorer, navigate to a table and click **Delete Table**. The 
 * **Delete Immediately** -- Bypasses the default segment retention period and deletes all segments right away. This is equivalent to passing `retention=0d` in the API. This is useful for large tables where the default delete operation might time out.
 * **Delete Schema** -- After successfully deleting the table, also deletes the associated schema. This only works if no other tables are using the same schema.
 
-You might have figured out by now, in order to get data into the Pinot cluster, we need a table, a schema and segments. Let's head over to [Batch upload sample data](../../basics/getting-started/docker/batch-ingestion.md), to find out more about these components and learn how to create them for your own data.
+You might have figured out by now, in order to get data into the Pinot cluster, we need a table, a schema, and segments. Continue with [First table and schema](../../basics/getting-started/first-table-and-schema.md) and then [First batch ingest](../../basics/getting-started/first-batch-ingest.md) to create them for your own data.

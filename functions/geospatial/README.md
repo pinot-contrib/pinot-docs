@@ -83,3 +83,11 @@ Returns true if the given geometries represent the same geometry/geography.
 #### **ST\_Within(Geometry, Geometry) → boolean**&#x20;
 
 Returns true if first geometry is completely inside second geometry.
+
+## Additional Reference Pages
+
+| Function | Function |
+| --- | --- |
+| [ST_Union](stunion.md) | [GridDistance](griddistance.md) |
+| [ST_AsGeoJSON](st_asgeojson.md) | [ST_GeogFromGeoJSON](st_geogfromgeojson.md) |
+| [ST_GeomFromGeoJSON](st_geomfromgeojson.md) |  |

@@ -71,7 +71,7 @@ You can also enable it from the Query Console or via the REST-based query flow d
 
 ## Related pages
 
-- [Functions](functions/README.md)
-- [Transformations](functions/transformations.md)
+- [Functions](../../functions/README.md)
+- [Transformations](../../functions/transformations.md)
 - [JOINs](../../users/user-guide-query/joins.md)
 - [Multi-stage query engine (v2)](../../reference/multi-stage-engine.md)
