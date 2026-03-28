@@ -24,55 +24,57 @@
 
 ​[**ROUNDDECIMAL(col1, col2)** ](round-1.md)​Rounds value to a specified number of decimal places
 
-**intDiv(col1, col2)**\
+​[**ROUND(timeValue, bucketSize)**](round.md) Round epoch-style values to the nearest bucket start
+
+[**intDiv(col1, col2)**](intdiv.md)\
 Returns the integer result of dividing col1 by col2, rounded down (floor division). Returns a `Long`.
 
 Usage: `intDiv(col1, col2)`\
 Example: `SELECT intDiv(10, 3) FROM myTable` returns `3`
 
-**intDivOrZero(col1, col2)**\
+[**intDivOrZero(col1, col2)**](intdivorzero.md)\
 Same as `intDiv` but returns zero when dividing by zero or when dividing a minimal negative number by minus one.
 
 Usage: `intDivOrZero(col1, col2)`\
 Example: `SELECT intDivOrZero(10, 0) FROM myTable` returns `0`
 
-**isFinite(col)**\
+[**isFinite(col)**](isfinite.md)\
 Returns `1` if the value is finite (not infinite and not NaN), `0` otherwise.
 
 Usage: `isFinite(col)`\
 Example: `SELECT isFinite(salary) FROM myTable`
 
-**isInfinite(col)**\
+[**isInfinite(col)**](isinfinite.md)\
 Returns `1` if the value is infinite (positive or negative infinity), `0` otherwise.
 
 Usage: `isInfinite(col)`\
 Example: `SELECT isInfinite(ratio) FROM myTable`
 
-**ifNotFinite(valueToCheck, defaultValue)**\
+[**ifNotFinite(valueToCheck, defaultValue)**](ifnotfinite.md)\
 Returns `valueToCheck` if it is finite, otherwise returns `defaultValue`.
 
 Usage: `ifNotFinite(col, defaultValue)`\
 Example: `SELECT ifNotFinite(ratio, 0) FROM myTable`
 
-**isNaN(col)**\
+[**isNaN(col)**](isnan.md)\
 Returns `1` if the value is NaN (Not a Number), `0` otherwise.
 
 Usage: `isNaN(col)`\
 Example: `SELECT isNaN(ratio) FROM myTable`
 
-**moduloOrZero(col1, col2)**\
+[**moduloOrZero(col1, col2)**](moduloorzero.md)\
 Same as `MOD` but returns zero when dividing by zero or when dividing a minimal negative number by minus one.
 
 Usage: `moduloOrZero(col1, col2)`\
 Example: `SELECT moduloOrZero(10, 0) FROM myTable` returns `0`
 
-**positiveModulo(col1, col2)**\
+[**positiveModulo(col1, col2)**](positivemodulo.md)\
 Returns the modulo of two values, always returning a non-negative result.
 
 Usage: `positiveModulo(col1, col2)`\
 Example: `SELECT positiveModulo(-7, 3) FROM myTable` returns `2`
 
-**negate(col)**\
+[**negate(col)**](negate.md)\
 Returns the negation of the value.
 
 Usage: `negate(col)`\
@@ -128,31 +130,31 @@ Returns the base-10 logarithm of a value.
 Usage: `log10(col)`\
 Example: `SELECT log10(1000) FROM myTable` returns `3.0`
 
-**gcd(col1, col2)**\
+[**gcd(col1, col2)**](gcd.md)\
 Returns the greatest common divisor of two long values.
 
 Usage: `gcd(col1, col2)`\
 Example: `SELECT gcd(12, 8) FROM myTable` returns `4`
 
-**lcm(col1, col2)**\
+[**lcm(col1, col2)**](lcm.md)\
 Returns the least common multiple of two long values.
 
 Usage: `lcm(col1, col2)`\
 Example: `SELECT lcm(4, 6) FROM myTable` returns `12`
 
-**hypot(col1, col2)**\
+[**hypot(col1, col2)**](hypot.md)\
 Returns the hypotenuse of a right-angled triangle, i.e. `sqrt(col1^2 + col2^2)`, without intermediate overflow or underflow.
 
 Usage: `hypot(col1, col2)`\
 Example: `SELECT hypot(3, 4) FROM myTable` returns `5.0`
 
-**byteswapInt(col)**\
+[**byteswapInt(col)**](byteswapint.md)\
 Reverses the byte order of an integer value.
 
 Usage: `byteswapInt(col)`\
 Example: `SELECT byteswapInt(intCol) FROM myTable`
 
-**byteswapLong(col)**\
+[**byteswapLong(col)**](byteswaplong.md)\
 Reverses the byte order of a long value.
 
 Usage: `byteswapLong(col)`\

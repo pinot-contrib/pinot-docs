@@ -43,5 +43,6 @@ Start with the workflow that matches your immediate task, such as [Data modeling
 ## Related pages
 
 - [Querying & SQL](querying-and-sql/README.md)
+- [Functions](../functions/README.md)
 - [Connectors, clients & APIs](connectors-clients-apis/README.md)
 - [Reference](../reference/README.md)

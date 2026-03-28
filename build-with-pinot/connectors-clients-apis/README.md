@@ -45,3 +45,4 @@ Open the page that matches your integration path, such as [Client libraries](cli
 - [Build with Pinot](../README.md)
 - [Querying & SQL](../querying-and-sql/README.md)
 - [API reference](../../reference/api-reference/README.md)
+- [ThirdEye (historical integration)](../../integrations/thirdeye.md)

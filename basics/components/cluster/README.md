@@ -64,5 +64,5 @@ Typically, there is only one cluster per environment/data center. There is no ne
 
 To set up a cluster, see one of the following guides:
 
-* [Running Pinot in Docker](../../getting-started/docker/README.md)
-* [Running Pinot locally](../../getting-started/local/README.md)
+* [Running Pinot in Docker](../../getting-started/install/docker.md)
+* [Running Pinot locally](../../getting-started/install/local.md)

@@ -11,14 +11,16 @@ Checks:
                               heading does not exist in the destination file.
                               (Warning only — GitBook generates anchors that
                               may not match standard slug rules.)
-  4. Orphan pages          — .md files that are not reachable from
-                              SUMMARY.md or any link in the repo.
-                              (Warning only — some may be intentional.)
-  5. Redirect coverage     — .gitbook.yaml redirect targets that do not exist.
+  4. Reachability          — every .md file is reachable from SUMMARY.md
+                              or another docs page.
+  5. Function family coverage — each functions/* page is linked from its
+                                family README.md.
+  6. Redirect coverage     — .gitbook.yaml redirect targets that do not exist.
 
 Modes:
-  Default (no flags)   — report everything, fail only on broken file links
-                          and SUMMARY.md / redirect issues.
+  Default (no flags)   — report everything, fail on broken file links,
+                          SUMMARY.md issues, unlinked pages, missing
+                          function-family links, and redirect issues.
   --strict             — also fail on broken anchors.
   --warn-only          — report everything but always exit 0.
   --summary-only       — print counts only, no per-file details.
@@ -46,8 +48,14 @@ from collections import defaultdict
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SUMMARY_PATH = REPO_ROOT / "SUMMARY.md"
 GITBOOK_YAML = REPO_ROOT / ".gitbook.yaml"
+FUNCTIONS_ROOT = REPO_ROOT / "functions"
 
 SKIP_DIRS = {".git", "node_modules", ".gitbook"}
+FUNCTION_FAMILY_LINK_EXCLUSIONS = {
+    # This page is currently surfaced from the Window Functions guide even
+    # though the file lives under functions/math.
+    FUNCTIONS_ROOT / "math" / "round-1-1.md",
+}
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -225,7 +233,7 @@ def check_broken_links(
     return file_errors, anchor_warnings, total
 
 
-def check_orphan_pages(md_files: set[Path]) -> list[str]:
+def find_orphan_pages(md_files: set[Path]) -> list[Path]:
     """Find .md files not referenced from any other file."""
     referenced: set[Path] = set()
 
@@ -242,7 +250,7 @@ def check_orphan_pages(md_files: set[Path]) -> list[str]:
     orphans = []
     for filepath in sorted(md_files):
         if filepath.resolve() not in referenced:
-            orphans.append(f"  {filepath.relative_to(REPO_ROOT)}")
+            orphans.append(filepath)
     return orphans
 
 
@@ -272,6 +280,53 @@ def check_redirects() -> tuple[list[str], int]:
     return errors, len(redirects)
 
 
+def check_function_family_links(
+    changed_files: set[Path] | None = None,
+) -> tuple[list[str], int]:
+    """Verify each function page is linked from its family README."""
+    if not FUNCTIONS_ROOT.exists():
+        return [], 0
+
+    errors = []
+    total = 0
+
+    for family_dir in sorted(FUNCTIONS_ROOT.iterdir()):
+        if not family_dir.is_dir():
+            continue
+
+        readme = family_dir / "README.md"
+        if not readme.exists():
+            continue
+
+        if changed_files is not None:
+            relevant = any(
+                changed == readme or changed.parent == family_dir
+                for changed in changed_files
+            )
+            if not relevant:
+                continue
+
+        linked_pages: set[Path] = set()
+        for raw_link, _ in extract_links(readme):
+            resolved, _ = resolve_link(readme, raw_link)
+            if resolved is None or not resolved.exists():
+                continue
+            if resolved.parent == family_dir and resolved.name != "README.md":
+                linked_pages.add(resolved.resolve())
+
+        for page in sorted(family_dir.glob("*.md")):
+            if page.name == "README.md" or page in FUNCTION_FAMILY_LINK_EXCLUSIONS:
+                continue
+            total += 1
+            if page.resolve() not in linked_pages:
+                errors.append(
+                    f"  {readme.relative_to(REPO_ROOT)} missing link to "
+                    f"{page.relative_to(REPO_ROOT)}"
+                )
+
+    return errors, total
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -293,9 +348,12 @@ def main() -> int:
     print("=" * 64)
     print(f"  Repo root: {REPO_ROOT}\n")
 
-    md_files = all_md_files(REPO_ROOT)
+    all_repo_md_files = all_md_files(REPO_ROOT)
+    md_files = all_repo_md_files
 
     # Optionally filter to only changed files
+    changed_md_files = None
+
     if args.changed_only:
         try:
             changed = set()
@@ -304,6 +362,7 @@ def main() -> int:
                 if p.exists() and p.suffix == ".md":
                     changed.add(p)
             md_files = changed
+            changed_md_files = changed
             print(f"  Checking {len(md_files)} changed file(s)\n")
         except Exception as e:
             print(f"  Warning: could not read {args.changed_only}: {e}")
@@ -358,22 +417,48 @@ def main() -> int:
         print("PASS — all anchors resolve")
     print()
 
-    # ── CHECK 4: Orphan pages (info) ─────────────────────────────────
+    # ── CHECK 4: Reachability ────────────────────────────────────────
     print("-" * 64)
-    print("CHECK 4: Orphan pages")
+    print("CHECK 4: Reachability")
     print("-" * 64)
-    orphans = check_orphan_pages(md_files)
+    orphan_paths = find_orphan_pages(all_repo_md_files)
+    if changed_md_files is not None:
+        orphan_paths = [p for p in orphan_paths if p in changed_md_files]
+    orphans = [f"  {p.relative_to(REPO_ROOT)}" for p in orphan_paths]
     if orphans:
-        print(f"INFO — {len(orphans)} orphan page(s) (not linked from anywhere)")
+        has_error = True
+        print(f"FAIL — {len(orphans)} unlinked page(s)")
         if not args.summary_only:
             print("\n".join(orphans))
     else:
-        print("PASS — no orphan pages")
+        print("PASS — every markdown page is linked from the docs")
     print()
 
-    # ── CHECK 5: Redirect targets ────────────────────────────────────
+    # ── CHECK 5: Function family README coverage ────────────────────
     print("-" * 64)
-    print("CHECK 5: Redirect targets (.gitbook.yaml)")
+    print("CHECK 5: Function family README coverage")
+    print("-" * 64)
+    function_link_errors, function_page_count = check_function_family_links(
+        changed_md_files
+    )
+    if function_link_errors:
+        has_error = True
+        print(
+            f"FAIL — {len(function_link_errors)} missing family link(s) / "
+            f"{function_page_count} function page(s) checked"
+        )
+        if not args.summary_only:
+            print("\n".join(function_link_errors))
+    else:
+        print(
+            f"PASS — all {function_page_count} function page(s) are linked "
+            "from their family README"
+        )
+    print()
+
+    # ── CHECK 6: Redirect targets ────────────────────────────────────
+    print("-" * 64)
+    print("CHECK 6: Redirect targets (.gitbook.yaml)")
     print("-" * 64)
     redirect_errors, redirect_count = check_redirects()
     if redirect_errors:
@@ -393,6 +478,7 @@ def main() -> int:
     print(f"  Broken anchors:       {len(anchor_warnings)}")
     print(f"  Orphan pages:         {len(orphans)}")
     print(f"  Broken SUMMARY refs:  {len(summary_errors)}")
+    print(f"  Missing family links: {len(function_link_errors)}")
     print(f"  Broken redirects:     {len(redirect_errors)}")
     print("=" * 64)
 

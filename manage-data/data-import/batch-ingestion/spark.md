@@ -11,7 +11,7 @@ To set up Spark, do one of the following:
 * Use the Spark-Pinot Connector. For more information, see the [ReadMe](https://github.com/apache/pinot/blob/master/pinot-connectors/pinot-spark-3-connector/README.md).
 * Follow the instructions below.
 
-You can follow the [wiki](../../../basics/getting-started/local/README.md#build-from-source-or-download-the-distribution) to build Pinot from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
+You can follow the [local install guide](../../../basics/getting-started/install/local.md#1-download-or-build-apache-pinot) to build Pinot from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
 
 If you do build Pinot from Source, you should consider opting into using the `build-shaded-jar` jar profile with `-Pbuild-shaded-jar`. While Pinot does not bundle spark into its jar, it does bundle certain hadoop libraries.
 

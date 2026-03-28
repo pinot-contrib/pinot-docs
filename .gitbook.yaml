@@ -5,6 +5,17 @@ structure:
     summary: SUMMARY.md
 
 redirects:
+    basics/getting-started/docker: basics/getting-started/install/docker.md
+    basics/getting-started/docker/batch-ingestion: basics/getting-started/first-batch-ingest.md
+    basics/getting-started/docker/stream-ingestion: basics/getting-started/first-stream-ingest.md
+    basics/getting-started/local: basics/getting-started/install/local.md
+    basics/getting-started/local/batch-ingestion: basics/getting-started/first-batch-ingest.md
+    basics/getting-started/local/stream-ingestion: basics/getting-started/first-stream-ingest.md
+    basics/getting-started/kubernetes: basics/getting-started/install/kubernetes.md
+    basics/getting-started/public-cloud-examples: basics/getting-started/install/managed-kubernetes/README.md
+    basics/getting-started/public-cloud-examples/aws-quickstart: basics/getting-started/install/managed-kubernetes/aws.md
+    basics/getting-started/public-cloud-examples/azure-quickstart: basics/getting-started/install/managed-kubernetes/azure.md
+    basics/getting-started/public-cloud-examples/gcp-quickstart: basics/getting-started/install/managed-kubernetes/gcp.md
     reference/troubleshooting: troubleshooting/README.md
     reference/troubleshooting/troubleshoot-multi-stage-query-engine: troubleshooting/troubleshoot-multi-stage-query-engine.md
     reference/troubleshooting/troubleshoot-zookeeper: troubleshooting/troubleshoot-zookeeper.md
@@ -16,7 +27,16 @@ redirects:
     basics/getting-started/frequent-questions/ingestion-faq: troubleshooting/ingestion-faq.md
     basics/getting-started/frequent-questions/operations-faq: troubleshooting/operations-faq.md
     basics/getting-started/frequent-questions/pinot-on-kubernetes-faq: troubleshooting/pinot-on-kubernetes-faq.md
+    build-with-pinot/querying-and-sql/functions: functions/README.md
+    build-with-pinot/querying-and-sql/functions/README: functions/README.md
+    build-with-pinot/querying-and-sql/functions/transformations: functions/transformations.md
+    build-with-pinot/querying-and-sql/functions/sse-vs-mse: build-with-pinot/querying-and-sql/sse-vs-mse.md
     developers/advanced/troubleshoot-multi-stage-query-engine: troubleshooting/troubleshoot-multi-stage-query-engine.md
+    integrations: build-with-pinot/connectors-clients-apis/README.md
+    users/api: reference/api-reference/README.md
+    users/api/broker-grpc-api: reference/api-reference/broker-grpc-api.md
+    users/clients: build-with-pinot/connectors-clients-apis/client-libraries.md
+    users/user-guide-query: build-with-pinot/querying-and-sql/README.md
     users/user-guide-query/supported-aggregations: functions/aggregation/README.md
     manage-data/data-import/pinot-file-system/hdfs-as-deepstorage: manage-data/data-import/pinot-file-system/import-from-hdfs.md
     # Redirects for Operations → Operate Pinot restructure

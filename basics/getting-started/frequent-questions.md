@@ -191,4 +191,3 @@ This lets you have an old event up come in without building complex offline pipe
 It might seem odd that segments are not strictly time-partitioned, unlike similar systems such as Apache Druid. The Pinot way allows real-time ingestion to consume out-of-order events. Even though segments are not strictly time-partitioned, Pinot will still index, prune, and query segments intelligently by time-intervals to for performance of hybrid tables and time-filtered data.
 
 When generating offline segments, the segments generated such that segments only contain one time-interval and are well partitioned by the time column.
-

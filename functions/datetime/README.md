@@ -2240,3 +2240,21 @@ SELECT timestampDiffMVReverse('days', 1700000000000, [1700086400000, 17001728000
 
 ***
 
+## Additional Reference Pages
+
+| Function | Function |
+| --- | --- |
+| [ago](ago.md) | [DATETIMECONVERT](datetimeconvert.md) |
+| [DATETRUNC](datetrunc.md) | [day](day.md) |
+| [dayOfWeek](dayofweek.md) | [dayOfYear](dayofyear.md) |
+| [Extract](extract.md) | [FromDateTime](fromdatetime.md) |
+| [FromEpoch](fromepoch.md) | [FromEpochBucket](fromepochbucket.md) |
+| [hour](hour.md) | [millisecond](millisecond.md) |
+| [minute](minute.md) | [month](month.md) |
+| [now](now.md) | [quarter](quarter.md) |
+| [second](second.md) | [TIMECONVERT](timeconvert.md) |
+| [timezoneHour](timezonehour.md) | [timezoneMinute](timezoneminute.md) |
+| [ToDateTime](todatetime.md) | [ToEpoch](toepoch.md) |
+| [ToEpochBucket](toepochbucket.md) | [ToEpochRounded](toepochrounded.md) |
+| [week](week.md) | [year](year.md) |
+| [yearOfWeek](yearofweek.md) |  |

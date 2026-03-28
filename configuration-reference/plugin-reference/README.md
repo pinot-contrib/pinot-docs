@@ -123,3 +123,10 @@ Plugins implement interfaces from [pinot-spi](https://github.com/apache/pinot/tr
 {% content-ref url="../../developers/plugin-architecture/write-custom-plugins/" %}
 [write-custom-plugins](../../developers/plugin-architecture/write-custom-plugins/)
 {% endcontent-ref %}
+
+## Legacy compatibility pages
+
+- [STDDEV_POP](stddev_pop.md)
+- [STDDEV_SAMP](stddev_samp.md)
+- [VAR_POP](var_pop.md)
+- [VAR_SAMP](var_samp.md)

@@ -8,7 +8,7 @@ description: Batch ingestion of data into Apache Pinot using Apache Hadoop.
 
 Pinot supports [Apache Hadoop](https://hadoop.apache.org) as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
 
-You can follow the [wiki](../../../basics/getting-started/local/README.md#build-from-source-or-download-the-distribution) to build Pinot from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
+You can follow the [local install guide](../../../basics/getting-started/install/local.md#1-download-or-build-apache-pinot) to build Pinot from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
 
 Next, you need to change the execution config in the job spec to the following -
 

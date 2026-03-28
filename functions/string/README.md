@@ -174,8 +174,8 @@ Example: `SELECT toBase64(byteCol) FROM myTable`
 [**regexpExtract(value, regexp)**](regexpextract.md)\
 Extracts values that match the provided regular expression
 
-[**regexpReplace(input, matchRegexp, replaceRegexp, matchStartPos, occurrence, flag)**\
-](regexpreplace.md)Find and replace a string or regexp pattern with a target string or regexp pattern
+[**regexpReplace(input, matchRegexp, replaceRegexp, matchStartPos, occurrence, flag)**](regexpreplace.md)\
+Find and replace a string or regexp pattern with a target string or regexp pattern
 
 [**remove(input, search)**](remove.md)\
 removes all instances of search from string

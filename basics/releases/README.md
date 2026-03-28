@@ -135,3 +135,7 @@ Before upgrading from one version to another one, read the release notes. While 
 {% content-ref url="0.1.0.md" %}
 [0.1.0.md](0.1.0.md)
 {% endcontent-ref %}
+
+## Historical compatibility pages
+
+- [1.0 (legacy historical alias)](1.0.md)

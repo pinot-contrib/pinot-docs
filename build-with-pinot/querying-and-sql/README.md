@@ -16,8 +16,8 @@ Use this section to decide how to query Pinot, how much SQL support you need, wh
 [sql-syntax.md](sql-syntax.md)
 {% endcontent-ref %}
 
-{% content-ref url="functions/README.md" %}
-[functions/README.md](functions/README.md)
+{% content-ref url="../../functions/README.md" %}
+[Functions](../../functions/README.md)
 {% endcontent-ref %}
 
 {% content-ref url="sse-vs-mse.md" %}
@@ -43,5 +43,5 @@ Read [Querying Pinot](querying-pinot.md) if you want the end-to-end query flow, 
 ## Related pages
 
 - [Build with Pinot](../README.md)
-- [Functions](functions/README.md)
+- [Functions](../../functions/README.md)
 - [Reference](../../reference/README.md)
