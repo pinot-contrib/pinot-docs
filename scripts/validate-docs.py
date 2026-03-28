@@ -15,12 +15,15 @@ Checks:
                               or another docs page.
   5. Function family coverage — each functions/* page is linked from its
                                 family README.md.
-  6. Redirect coverage     — .gitbook.yaml redirect targets that do not exist.
+  6. Function SUMMARY coverage — each published functions/* page appears
+                                 in SUMMARY.md.
+  7. Redirect coverage     — .gitbook.yaml redirect targets that do not exist.
 
 Modes:
   Default (no flags)   — report everything, fail on broken file links,
                           SUMMARY.md issues, unlinked pages, missing
-                          function-family links, and redirect issues.
+                          function-family links, missing function-summary
+                          entries, and redirect issues.
   --strict             — also fail on broken anchors.
   --warn-only          — report everything but always exit 0.
   --summary-only       — print counts only, no per-file details.
@@ -327,6 +330,33 @@ def check_function_family_links(
     return errors, total
 
 
+def check_function_summary_coverage() -> tuple[list[str], int]:
+    """Verify each published function page is listed in SUMMARY.md."""
+    if not FUNCTIONS_ROOT.exists() or not SUMMARY_PATH.exists():
+        return [], 0
+
+    summary_targets: set[Path] = set()
+    for raw_link, _ in extract_links(SUMMARY_PATH):
+        path_part = raw_link.split("#", 1)[0]
+        if not path_part:
+            continue
+        resolved = (REPO_ROOT / path_part).resolve()
+        if resolved.exists():
+            summary_targets.add(resolved)
+
+    errors = []
+    total = 0
+
+    for page in sorted(FUNCTIONS_ROOT.rglob("*.md")):
+        if page.name == "README.md" or page in FUNCTION_FAMILY_LINK_EXCLUSIONS:
+            continue
+        total += 1
+        if page.resolve() not in summary_targets:
+            errors.append(f"  missing from SUMMARY.md: {page.relative_to(REPO_ROOT)}")
+
+    return errors, total
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -456,9 +486,29 @@ def main() -> int:
         )
     print()
 
-    # ── CHECK 6: Redirect targets ────────────────────────────────────
+    # ── CHECK 6: Function SUMMARY coverage ───────────────────────────
     print("-" * 64)
-    print("CHECK 6: Redirect targets (.gitbook.yaml)")
+    print("CHECK 6: Function SUMMARY coverage")
+    print("-" * 64)
+    function_summary_errors, function_summary_count = check_function_summary_coverage()
+    if function_summary_errors:
+        has_error = True
+        print(
+            f"FAIL — {len(function_summary_errors)} missing SUMMARY link(s) / "
+            f"{function_summary_count} function page(s) checked"
+        )
+        if not args.summary_only:
+            print("\n".join(function_summary_errors))
+    else:
+        print(
+            f"PASS — all {function_summary_count} function page(s) are listed "
+            "in SUMMARY.md"
+        )
+    print()
+
+    # ── CHECK 7: Redirect targets ────────────────────────────────────
+    print("-" * 64)
+    print("CHECK 7: Redirect targets (.gitbook.yaml)")
     print("-" * 64)
     redirect_errors, redirect_count = check_redirects()
     if redirect_errors:
@@ -479,6 +529,7 @@ def main() -> int:
     print(f"  Orphan pages:         {len(orphans)}")
     print(f"  Broken SUMMARY refs:  {len(summary_errors)}")
     print(f"  Missing family links: {len(function_link_errors)}")
+    print(f"  Missing SUMMARY funcs:{len(function_summary_errors)}")
     print(f"  Broken redirects:     {len(redirect_errors)}")
     print("=" * 64)
 

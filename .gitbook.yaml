@@ -37,6 +37,7 @@ redirects:
     users/api/broker-grpc-api: reference/api-reference/broker-grpc-api.md
     users/clients: build-with-pinot/connectors-clients-apis/client-libraries.md
     users/user-guide-query: build-with-pinot/querying-and-sql/README.md
+    users/user-guide-query/function-index: build-with-pinot/querying-and-sql/function-index.md
     users/user-guide-query/supported-aggregations: functions/aggregation/README.md
     manage-data/data-import/pinot-file-system/hdfs-as-deepstorage: manage-data/data-import/pinot-file-system/import-from-hdfs.md
     # Redirects for Operations → Operate Pinot restructure

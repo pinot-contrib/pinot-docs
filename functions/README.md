@@ -65,4 +65,4 @@ If you are deciding whether a query belongs on the single-stage engine or the mu
 
 - [SSE vs MSE](../build-with-pinot/querying-and-sql/sse-vs-mse.md)
 - [Transformations](transformations.md)
-- [Function Index](../users/user-guide-query/function-index.md)
+- [Function Index](../build-with-pinot/querying-and-sql/function-index.md)
