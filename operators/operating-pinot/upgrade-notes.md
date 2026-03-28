@@ -15,6 +15,37 @@ For guidance on running the cross-release compatibility tester and the
 recommended component upgrade order, see
 [Upgrading Pinot](upgrading-pinot-cluster.md).
 
+## Upcoming Release
+
+### Removal of deprecated controller configuration constants
+
+The following 12 controller configuration constants that were deprecated since v0.8.0 (2020-2021) have been removed:
+
+| Deprecated Constant | Replacement Constant | Property Name |
+| --- | --- | --- |
+| `DEPRECATED_RETENTION_MANAGER_FREQUENCY_IN_SECONDS` | `RETENTION_MANAGER_FREQUENCY_PERIOD` | `controller.retention.frequencyPeriod` |
+| `DEPRECATED_OFFLINE_SEGMENT_INTERVAL_CHECKER_FREQUENCY_IN_SECONDS` | `OFFLINE_SEGMENT_INTERVAL_CHECKER_FREQUENCY_PERIOD` | `controller.offline.segment.interval.checker.frequencyPeriod` |
+| `DEPRECATED_REALTIME_SEGMENT_VALIDATION_FREQUENCY_IN_SECONDS` | `REALTIME_SEGMENT_VALIDATION_FREQUENCY_PERIOD` | `controller.realtime.segment.validation.frequencyPeriod` |
+| `DEPRECATED_STATUS_CHECKER_FREQUENCY_IN_SECONDS` | `STATUS_CHECKER_FREQUENCY_PERIOD` | `controller.status.checker.frequencyPeriod` |
+| `DEPRECATED_OFFLINE_SEGMENT_INTERVAL_CHECKER_INITIAL_DELAY_IN_SECONDS` | `OFFLINE_SEGMENT_INTERVAL_CHECKER_INITIAL_DELAY_IN_SECONDS` | `controller.offlineSegmentIntervalChecker.initialDelayInSeconds` |
+| `DEPRECATED_REALTIME_SEGMENT_VALIDATION_INITIAL_DELAY_IN_SECONDS` | `REALTIME_SEGMENT_VALIDATION_INITIAL_DELAY_IN_SECONDS` | `controller.realtime.segment.validation.initialDelayInSeconds` |
+| `DEPRECATED_STATUS_CHECKER_INITIAL_DELAY_IN_SECONDS` | `STATUS_CHECKER_INITIAL_DELAY_IN_SECONDS` | `controller.status.checker.initialDelayInSeconds` |
+| `DEPRECATED_RETENTION_MANAGER_INITIAL_DELAY_IN_SECONDS` | `RETENTION_MANAGER_INITIAL_DELAY_IN_SECONDS` | `controller.retentionManager.initialDelayInSeconds` |
+| `DEPRECATED_BROKER_RESOURCE_VALIDATION_FREQUENCY_IN_SECONDS` | `BROKER_RESOURCE_VALIDATION_FREQUENCY_PERIOD` | `controller.broker.resource.validation.frequencyPeriod` |
+| `DEPRECATED_LEAD_CONTROLLER_RESOURCE_ENABLED` | `LEAD_CONTROLLER_RESOURCE_ENABLED` | `controller.leadController.resource.enabled` |
+| `DEPRECATED_SEGMENT_RELOCATOR_FREQUENCY_IN_SECONDS` | `SEGMENT_RELOCATOR_FREQUENCY_PERIOD` | `controller.segment.relocator.frequencyPeriod` |
+| `DEPRECATED_SEGMENT_RELOCATOR_INITIAL_DELAY_IN_SECONDS` | `SEGMENT_RELOCATOR_INITIAL_DELAY_IN_SECONDS` | `controller.segment.relocator.initialDelayInSeconds` |
+
+These constants have had explicit replacements available since v0.8.0, which have been in production use for several years.
+
+**Action required.** If your cluster still uses any of the deprecated configuration keys (the old property names shown above), you must migrate to the replacement property names before upgrading to this release. The controller will no longer recognize or fall back to the deprecated configuration keys.
+
+Check your controller configuration files and any automation that generates controller configurations to ensure they use the new property names.
+
+*Source: [PR #18001](https://github.com/apache/pinot/pull/18001)*
+
+
+
 ## 1.4.0
 
 ### Schema enforcement on controller startup
