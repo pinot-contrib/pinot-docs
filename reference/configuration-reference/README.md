@@ -4,13 +4,13 @@ description: Dense reference for Pinot configuration surfaces.
 
 # Configuration Reference
 
-This section reorganizes the configuration surface into the core objects operators reach for most often: cluster, schema, table, ingestion, job specs, metrics, and plugin settings. The detailed source pages still live in the existing `configuration-reference/` tree, so this landing page acts as a stable map rather than a rewrite.
+This section reorganizes the configuration surface into the core objects operators reach for most often: cluster, schema, table, ingestion, job specs, metrics, and plugin settings. Cluster configuration is flattened directly into this section, while the other detailed source pages still live in the existing `configuration-reference/` tree.
 
 ## Reference Map
 
-| Area | Use it for | Source page |
+| Area | Use it for | Reference page |
 | --- | --- | --- |
-| Cluster | Cluster-wide knobs, query protection, and broker behavior | [Cluster](../../configuration-reference/cluster.md) |
+| Cluster | Cluster-wide knobs, query protection, and broker behavior | [Cluster](cluster.md) |
 | Schema | Column definitions, null handling, and data types | [Schema](../../configuration-reference/schema.md) |
 | Table | Offline, real-time, hybrid, routing, query, and indexing config | [Table](../../configuration-reference/table.md) |
 | Ingestion | Stream and batch ingestion settings embedded in table config | [Ingestion](../../configuration-reference/ingestion.md) |
