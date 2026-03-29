@@ -30,6 +30,6 @@ Check the table config page and the related ingestion or indexing page before ed
 ## Related pages
 
 - [Configuration Reference](README.md)
-- [Schema](../../configuration-reference/schema.md)
+- [Schema](schema.md)
 - [Ingestion](../../configuration-reference/ingestion.md)
 - [Indexing](../../basics/indexing/README.md)
