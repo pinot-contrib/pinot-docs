@@ -4,27 +4,38 @@ description: Environment-variable substitution reference for Pinot configs.
 
 # Dynamic Environment Reference
 
-This page points to the configuration reference for environment-variable substitution. The existing page remains the canonical source for placeholder syntax and component-availability caveats.
+This page keeps the environment-variable substitution overview and example configuration on a single page.
 
-## Key Areas
+To load environment variables into the configuration you can use the `dynamic.env.config` property key to list all the property names that will need templating at run time. Pinot will lookup the in the environment for the variable specified as value and insert the contents in the configuration.
 
-| Area | Why it matters | Source |
-| --- | --- | --- |
-| Placeholder syntax | Lets operators templatize config values | [Dynamic Environment](../../configuration-reference/dynamic-environment.md) |
-| Component scope | Explains where environment variables must exist | [Dynamic Environment](../../configuration-reference/dynamic-environment.md) |
+{% hint style="info" %}
+\`dynamic.env.config\` is a property that refers to the configuration it's defined in. If you have multiple configuration files make sure to define it in each one of them listing the all the properties that need templating in that specific file.
+{% endhint %}
 
-## What this page covered
+## Example
 
-- The config substitution surface for deployment-specific values.
-- The safety caveat around component-wide environment availability.
-- The source page for the complete placeholder rules.
+Following an example where we first load some variables in the ENV and then we specify in the config what needs to be templated and with which variable.
 
-## Next step
+```shell
+export PINOT_CONTROLLER_HOST=host
+export PINOT_SERVER_PROPERTY=property
+export ANOTHER_VARIABLE=random
+```
 
-Use `${NAME}` or `${NAME:DEFAULT}` only when the same value is safe to resolve across the Pinot components that need it.
+#### Config from CLI or Config Path
 
-## Related pages
+```properties
+dynamic.env.config=pinot.controller.host,pinot.server.property,other.var
+pinot.controller.host=PINOT_CONTROLLER_HOST
+pinot.server.property=PINOT_SERVER_PROPERTY
+other.var=ANOTHER_VARIABLE
+```
 
-- [Configuration Reference](README.md)
-- [Table](../../configuration-reference/table.md)
-- [Job Spec](../../configuration-reference/job-specification.md)
+#### Final result (in memory)
+
+```properties
+dynamic.env.config=pinot.controller.host,pinot.server.property,other.var
+pinot.controller.host=host
+pinot.server.property=property
+other.var=random
+```
