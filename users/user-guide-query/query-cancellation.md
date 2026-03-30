@@ -39,7 +39,7 @@ Any query with client query ID can be cancelled by calling the DELETE `/queryCli
 
 Remember that the value used for `clientQueryId` should be unique among the cluster, but Pinot doesn't verify that. This is why values with high entropy, like UUIDs, are recommended. In the event that there are multiple queries with the same client query ID, the behavior of the cancel query method is unspecified, meaning that any, both, or none of the queries may be killed.
 
-The `clientQueryId` option is also used as [query-correlation-id.md](query-correlation-id.md "mention").&#x20;
+The `clientQueryId` option is also used as [query-correlation-id.md](query-correlation-id.md).&#x20;
 
 
 

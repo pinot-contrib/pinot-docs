@@ -37,7 +37,7 @@ The hash join operator is a blocking operator. It needs to consume all the input
 
 Even using partitioning, the amount of data that needs to be stored in memory can be high, so the engine tries to protect itself from running out of memory by limiting the number of rows that can be emitted from a join operation.
 
-The [join\_overflow\_mode](../hints.md) hint can be used to control the behavior of the engine when the number of rows exceeds the limit. This limit can be defined using the [max\_rows\_in\_join](../hints.md) hint. By default, this limit is slightly above 1 million rows and the default join overflow mode is `THROW`, which means that the query will fail if the number of rows exceeds the limit.
+The [join\_overflow\_mode](#join_overflow_mode) hint can be used to control the behavior of the engine when the number of rows exceeds the limit. This limit can be defined using the [max\_rows\_in\_join](#max_rows_in_join) hint. By default, this limit is slightly above 1 million rows and the default join overflow mode is `THROW`, which means that the query will fail if the number of rows exceeds the limit.
 
 ## Hints
 

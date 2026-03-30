@@ -6,9 +6,9 @@ description: Use the Spark-Pinot connector to read data from and write data to P
 
 Spark-pinot connector to read data from Pinot.
 
-Detailed read model documentation is here: [spark-pinot-connector-read-model.md](spark-pinot-connector-read-model.md "mention")
+Detailed read model documentation is here: [spark-pinot-connector-read-model.md](spark-pinot-connector-read-model.md)
 
-The write model is Experimental and the documentation is here: [spark-pinot-connector-write-model.md](spark-pinot-connector-write-model.md "mention")
+The write model is Experimental and the documentation is here: [spark-pinot-connector-write-model.md](spark-pinot-connector-write-model.md)
 
 ### Features
 

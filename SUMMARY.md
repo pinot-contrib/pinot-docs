@@ -136,6 +136,7 @@
     * [Query Cancellation](build-with-pinot/querying-and-sql/query-execution-controls/query-cancellation.md)
     * [Query Correlation ID](build-with-pinot/querying-and-sql/query-execution-controls/query-correlation-id.md)
     * [Query Using Cursors](build-with-pinot/querying-and-sql/query-execution-controls/query-using-cursors.md)
+    * [Default Disabled Rules](users/user-guide-query/default-disabled-rules.md)
     * [Explain Plan (Single-Stage)](build-with-pinot/querying-and-sql/query-execution-controls/explain-plan.md)
     * [Explain Plan (Multi-Stage)](build-with-pinot/querying-and-sql/query-execution-controls/explain-plan-multi-stage.md)
 ## Functions
@@ -489,6 +490,7 @@
   * [SegmentGenerationAndPushTask](operators/operating-pinot/segment-generation-and-push-task.md)
   * [Upsert Compaction Task](operators/operating-pinot/upsert-compaction-task.md)
   * [Upsert Compact Merge Task](operators/operating-pinot/upsert-compact-merge-task.md)
+  * [Upsert Merge Compact Task](operators/operating-pinot/upsert-merge-compact-task.md)
   * [Consistent Push and Rollback](operators/operating-pinot/consistent-push-and-rollback.md)
   * [Reload a Table Segment](tutorials/operations/segment-reload.md)
 * [Production Guides](operate-pinot/production-guides.md)
