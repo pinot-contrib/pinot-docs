@@ -142,7 +142,7 @@ Optionally, override if a table should move to a server with different tenant ba
 }
 ```
 
-In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`.
+In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTenantName_OFFLINE`.
 
 You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
 

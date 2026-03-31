@@ -444,7 +444,7 @@ Rebalance (without or without `dryRun=true`) will return a summary of the change
 
 Fields such as the `status` and `description` can be used to identify whether the rebalance will result in any change or not (`status=NO-OP` indicates that the table is already balanced), and can be a quick check prior to checking the summary.
 
-See [examples-and-scenarios.md](examples-and-scenarios.md "mention") for how the rebalance summary looks under different scenarios.
+See [examples-and-scenarios.md](examples-and-scenarios.md) for how the rebalance summary looks under different scenarios.
 
 ### Server Level (serverInfo)
 
@@ -456,7 +456,7 @@ See [examples-and-scenarios.md](examples-and-scenarios.md "mention") for how the
 | serversRemoved               | A list of servers to be removed from the assignment of this table in this rebalance.                                                                                                                                                                                                                            |
 | serversUnchanged             | A list of servers remaining unchanged in the assignment of this table in this rebalance.                                                                                                                                                                                                                        |
 | serversGettingNewSegments    | A list of servers that will get new segment replicas added in this rebalance.                                                                                                                                                                                                                                   |
-| serverSegmentChangeInfo      | A detail breakdown of the segment change information per server. This includes segments to be added, deleted, unchanged, the total segments assigned to this server before and after the rebalance, and the tag list for the given server. See [examples-and-scenarios.md](examples-and-scenarios.md "mention") |
+| serverSegmentChangeInfo      | A detail breakdown of the segment change information per server. This includes segments to be added, deleted, unchanged, the total segments assigned to this server before and after the rebalance, and the tag list for the given server. See [examples-and-scenarios.md](examples-and-scenarios.md) |
 
 ### Segment Level (segmentInfo)
 
@@ -478,7 +478,7 @@ See [examples-and-scenarios.md](examples-and-scenarios.md "mention") for how the
 
 ### Tag Level (tagsInfo)
 
-A list of aggregated segment and server related statistics grouped by tags. See [examples-and-scenarios.md](examples-and-scenarios.md "mention")\
+A list of aggregated segment and server related statistics grouped by tags. See [examples-and-scenarios.md](examples-and-scenarios.md)\
 \
 All the tags present in the table config will be present here. It is possible that a server has multiple tags present in the tag list here. In this case, the statistics will be accounted for all relevant tags.\
 \

@@ -74,7 +74,7 @@ For changing the timeout on the entire cluster, set this property `pinot.broker.
 
 ### How do I cancel a query?
 
-See [query-cancellation.md](../users/user-guide-query/query-cancellation.md "mention")
+See [query-cancellation.md](../users/user-guide-query/query-cancellation.md)
 
 ### How do I optimize my Pinot table for doing aggregations and group-by on high cardinality columns ?
 
