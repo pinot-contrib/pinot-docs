@@ -42,6 +42,11 @@ redirects:
     manage-data/data-import/pinot-file-system/hdfs-as-deepstorage: manage-data/data-import/pinot-file-system/import-from-hdfs.md
     # Redirects for Operations → Operate Pinot restructure
     operators/operating-pinot/README: operate-pinot/deployment.md
+    # Redirects for SSE vs MSE consolidation
+    reference/single-stage-engine: build-with-pinot/querying-and-sql/sse-vs-mse.md
+    reference/multi-stage-engine: build-with-pinot/querying-and-sql/sse-vs-mse.md
+    developers/advanced/v2-multi-stage-query-engine: build-with-pinot/querying-and-sql/sse-vs-mse.md
+
     # Redirects for Development → Develop & Contribute restructure
     developers/developers-and-contributors/README: develop-contribute/codebase-basics.md
     developers/advanced/README: develop-contribute/codebase-basics.md

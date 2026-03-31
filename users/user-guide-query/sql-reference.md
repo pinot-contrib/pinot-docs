@@ -9,7 +9,7 @@ description: >-
 Pinot uses the **Apache Calcite** SQL parser with the **MYSQL\_ANSI** dialect. This page documents every SQL statement, clause, and operator that Pinot supports, and notes where behavior differs between the single-stage engine (SSE) and the multi-stage engine (MSE).
 
 {% hint style="info" %}
-To use MSE-only features such as JOINs, subqueries, window functions, and set operations, enable the multi-stage engine with `SET useMultistageEngine = true;` before your query. See [Use the multi-stage query engine](../../developers/advanced/v2-multi-stage-query-engine.md) for details.
+To use MSE-only features such as JOINs, subqueries, window functions, and set operations, enable the multi-stage engine with `SET useMultistageEngine = true;` before your query. See [Use the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md) for details.
 {% endhint %}
 
 ---
