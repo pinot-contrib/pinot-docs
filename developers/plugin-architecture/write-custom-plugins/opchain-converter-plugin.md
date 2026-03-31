@@ -176,6 +176,6 @@ When testing your OpChain converter:
 
 ## Related Documentation
 
-* [Multi-stage query engine overview](../../../reference/multi-stage-engine.md)
+* [Multi-stage query engine overview](../../../build-with-pinot/querying-and-sql/sse-vs-mse.md)
 * [Plugin architecture](../README.md)
-* [Using the multi-stage query engine](../../../developers/advanced/v2-multi-stage-query-engine.md)
+* [Using the multi-stage query engine](../../../build-with-pinot/querying-and-sql/sse-vs-mse.md)

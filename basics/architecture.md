@@ -115,7 +115,7 @@ Advanced routing strategies are available, such as replica-aware routing, partit
 
 #### Query processing
 
-Every query processed by a broker uses the single-stage engine or the [multi-stage engine](../reference/multi-stage-engine.md). For single-stage queries, the broker does the following:
+Every query processed by a broker uses the single-stage engine or the [multi-stage engine](../build-with-pinot/querying-and-sql/sse-vs-mse.md). For single-stage queries, the broker does the following:
 
 * Computes query routes based on the routing strategy defined in the [table](components/table/) configuration.
 * Computes the list of segments to query on each [server](components/cluster/server.md). (See [routing](../operators/operating-pinot/tuning/routing.md) for further details on this process.)
@@ -161,7 +161,7 @@ For multi-stage queries, the broker performs the following:
 
 * Computes a query plan that runs on multiple sets of servers. The servers selected for the first stage are selected based on the segments required to execute the query, which are determined in a process similar to single-stage queries.
 * Sends the relevant portions of the query plan to one or more servers in the cluster for each stage of the query plan.
-* The servers that received query plans each execute their part of the query. For more details on this process, read about the [multi-stage engine](../reference/multi-stage-engine.md).
+* The servers that received query plans each execute their part of the query. For more details on this process, read about the [multi-stage engine](../build-with-pinot/querying-and-sql/sse-vs-mse.md).
 * The broker receives a complete result set from the final stage of the query, which is always a single server.
 * The broker sends the query result to the client.
 

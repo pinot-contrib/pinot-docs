@@ -49,7 +49,7 @@ Although null storing can be enabled after data has been ingested, data ingested
 
 Null support is configured per table. You can configure one table to store nulls, and configure another table to not store nulls. There are two ways to define null storing support in Pinot:
 
-1. [Column based null storing](null-value-support.md#column-based-null-storing), where each column in a table is configured as nullable or not nullable. We recommend enabling null storing support by column. This is the only way to support null handling in the [multi-stage query engine](../../reference/multi-stage-engine.md).
+1. [Column based null storing](null-value-support.md#column-based-null-storing), where each column in a table is configured as nullable or not nullable. We recommend enabling null storing support by column. This is the only way to support null handling in the [multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md).
 2. [Table based null storing](null-value-support.md#table-based-null-storing), where all columns in the table are considered nullable. This is how null values were handled before Pinot 1.1.0 and now deprecated.
 
 {% hint style="info" %}

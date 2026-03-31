@@ -1,77 +1,105 @@
 ---
-description: Decide whether a Pinot query should use the single-stage engine or the multi-stage engine.
+description: Understand the differences between the single-stage (v1) and multi-stage (v2) query engines and when to use each.
 ---
 
-# SSE vs MSE
+# Query Engines (SSE vs MSE)
 
-Use the single-stage engine when the query is straightforward and benefits from the lower overhead of scatter-gather execution. Use the multi-stage engine when the query needs distributed joins, window functions, or other multi-stage operators.
+Pinot ships two query engines. The **single-stage engine (SSE, v1)** uses a scatter-gather model and is the default for simple analytic queries. The **multi-stage engine (MSE, v2)**, released in Pinot 1.0.0, adds distributed joins, window functions, and other multi-stage operators.
 
 ## Quick decision
 
-| If your query needs... | Prefer | Why |
+| If your query needs… | Use | Why |
 | --- | --- | --- |
-| Basic filtering, projection, and standard aggregation | SSE | It is the simplest execution model and keeps query planning compact. |
-| JOINs | MSE | Pinot documents JOIN support on the multi-stage engine. |
-| Window functions | MSE | Window functions require the multi-stage engine. |
-| Query-time partitioned or colocated joins | MSE | These are multi-stage patterns. |
-| Complex operator trees or advanced SQL execution | MSE | The engine is built for distributed query planning and stage-level execution. |
+| Basic filtering, projection, aggregation | SSE | Lowest overhead; simple scatter-gather model |
+| JOINs | MSE | JOIN support requires the multi-stage engine |
+| Window functions | MSE | Window functions require multi-stage execution |
+| Colocated or partitioned joins | MSE | These are multi-stage patterns |
+| Complex operator trees or advanced SQL | MSE | Built for distributed query planning |
 
-## Choose SSE when
+## Single-stage engine (v1)
 
-- The query is a plain scatter-gather read over one or more tables.
-- You only need the function families that are already available in both engines.
-- You want the lowest conceptual and operational overhead.
+The single-stage engine uses a scatter-gather execution model. The broker receives a query, fans it out to the relevant servers, each server processes its local segments, and the broker merges the partial results.
+
+<figure><img src="../../.gitbook/assets/Multi-Stage-Pinot-Query-Engine-v1 (2).png" alt=""><figcaption><p>Single-stage query engine (v1)</p></figcaption></figure>
+
+**Choose SSE when:**
+
+- The query is a plain scatter-gather read over one or more tables
+- You only need functions available in both engines
+- You want the lowest conceptual and operational overhead
 
 SSE is the default fit for the most common Pinot workloads: filter, project, group, and aggregate.
 
-## Choose MSE when
+## Multi-stage engine (v2)
 
-- You need `JOIN`.
-- You need window functions.
-- You need distributed query execution with intermediate stages.
-- You are following the multi-stage query syntax, explain plan, or stage stats workflow.
+The multi-stage engine decouples the data exchange layer from the query engine layer. It breaks queries into multiple sub-plans ("stages") that run across different sets of servers.
 
-The multi-stage engine was released in Pinot 1.0.0. Since Pinot 1.1.0, it also supports null handling when column-based null storing is enabled.
+<figure><img src="../../.gitbook/assets/Multi-Stage-Query-Engine-2 (2).png" alt=""><figcaption><p>Multi-stage query execution model</p></figcaption></figure>
 
-## Engine cues in function docs
+**Choose MSE when:**
 
-The function index uses an engine column to indicate whether a function is available in SSE, MSE, or both. Use that signal as the final check after you decide which engine the query shape needs.
+- You need `JOIN`, window functions, or subqueries
+- You need distributed query execution with intermediate stages
+- You are running complex ANSI SQL
 
-- `Both` means the function is safe to consider in either engine.
-- `Multi-stage only` means the function depends on the distributed execution model.
-- `Varies` means the support depends on the implementation or the extension that provides the function.
+**When not to use MSE:**
+
+- Large-scale, long-running queries that access entire datasets (MSE is pure in-memory)
+- Complex joins touching many tables with non-trivial join conditions
+- ETL-type workloads
+
+### How queries are processed
+
+Pinot breaks the query into stages connected in a tree structure:
+
+1. **Leaf stages** — read from tables and send data to the next stage
+2. **Intermediate stages** — process data (e.g., perform joins) and pass results along
+3. **Root stage** — sends final results to the client
+
+Each stage is assigned a parallelism level, and multiple servers execute that stage in parallel.
+
+### Null handling
+
+Since Pinot 1.1.0, the multi-stage engine supports null handling when column-based null storing is enabled. Before 1.1.0, all columns were treated as non-nullable.
 
 ## How to enable MSE
 
-When you want to force the multi-stage engine, set the query option explicitly:
+### Option 1: Query Console
+
+In the Pinot Query Console, select the **Use Multi-Stage Engine** checkbox.
+
+<figure><img src="../../.gitbook/assets/pinot-query-console-multi-stage-enabled (2).png" alt=""><figcaption><p>Pinot Query Console with Use Multi Stage Engine enabled</p></figcaption></figure>
+
+### Option 2: Query option
+
+Add the query option at the top of your query:
 
 ```sql
 SET useMultistageEngine=true;
 SELECT * FROM baseballStats LIMIT 10;
 ```
 
-You can also enable it from the Query Console or via the REST-based query flow described in the multi-stage setup guide.
+### Option 3: REST API
 
-## Related docs
+Pass the option in the JSON payload:
 
-- [Single-stage query engine (v1)](../../reference/single-stage-engine.md)
-- [Multi-stage query engine (v2)](../../reference/multi-stage-engine.md)
-- [Use the multi-stage query engine (v2)](../../developers/advanced/v2-multi-stage-query-engine.md)
-- [JOINs](../../users/user-guide-query/joins.md)
+```bash
+curl -X POST http://localhost:9000/sql -d '
+{
+  "sql": "select * from baseballStats limit 10",
+  "trace": false,
+  "queryOptions": "useMultistageEngine=true"
+}'
+```
 
-## What this page covered
+## Engine support in function docs
 
-- The practical rule for choosing between SSE and MSE.
-- The Pinot features that require MSE.
-- The version milestones and query option used to enable MSE.
+The function index uses an engine column to indicate availability:
 
-## Next step
+- `Both` — safe in either engine
+- `Multi-stage only` — requires MSE
+- `Varies` — depends on the specific implementation
 
-- Confirm the engine choice before you design the query, then open the join, window, or function page that matches the pattern.
-
-## Related pages
-
-- [Functions](../../functions/README.md)
-- [Transformations](../../functions/transformations.md)
-- [JOINs](../../users/user-guide-query/joins.md)
-- [Multi-stage query engine (v2)](../../reference/multi-stage-engine.md)
+{% embed url="https://www.youtube.com/watch?v=wbo_vPVIBkA" fullWidth="false" %}
+Apache Pinot 1.0 Multi-Stage Query Engine overview
+{% endembed %}

@@ -107,4 +107,4 @@ Example:
 - [Configuration Reference](README.md)
 - [Table Configuration](table.md)
 - [Broker](../../configuration-reference/broker.md)
-- [Multi-Stage Query Engine](../multi-stage-engine.md)
+- [Multi-Stage Query Engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md)
