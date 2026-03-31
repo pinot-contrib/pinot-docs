@@ -36,16 +36,16 @@ Input format plugins read data from files or streams during data ingestion. Batc
 
 Filesystem plugins provide a storage abstraction layer so that Pinot segments can be stored on and fetched from different storage backends.
 
-{% content-ref url="../../manage-data/data-import/pinot-file-system/" %}
-[pinot-file-system](../../manage-data/data-import/pinot-file-system/)
+{% content-ref url="../../build-with-pinot/ingestion/file-systems/" %}
+[pinot-file-system](../../build-with-pinot/ingestion/file-systems/)
 {% endcontent-ref %}
 
 ### Stream Ingestion
 
 Stream ingestion plugins allow Pinot to consume data from real-time streaming platforms.
 
-{% content-ref url="../../manage-data/data-import/pinot-stream-ingestion/" %}
-[pinot-stream-ingestion](../../manage-data/data-import/pinot-stream-ingestion/)
+{% content-ref url="../../build-with-pinot/ingestion/stream-ingestion/" %}
+[pinot-stream-ingestion](../../build-with-pinot/ingestion/stream-ingestion/)
 {% endcontent-ref %}
 
 ### Batch Ingestion

@@ -77,7 +77,7 @@ Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `
 
 ### Controller
 
-The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../manage-data/data-import/pinot-stream-ingestion/) and [offline tables](../build-with-pinot/ingestion/batch-ingestion)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
+The Pinot [controller](components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../build-with-pinot/ingestion/stream-ingestion/) and [offline tables](../build-with-pinot/ingestion/batch-ingestion)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
 #### Fault tolerance
 

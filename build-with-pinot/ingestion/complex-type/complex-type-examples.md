@@ -8,7 +8,7 @@ Additional examples that demonstrate handling of complex types.
 
 ## Unnest Root Level Collection
 
-In this example, we would look at un-nesting json records that are batched together as part of a single key at the root level. We will make use of the [ComplexType](../../../manage-data/data-import/complex-type) configs to persist the individual student records as separate rows in Pinot.
+In this example, we would look at un-nesting json records that are batched together as part of a single key at the root level. We will make use of the [ComplexType](../../../build-with-pinot/ingestion/complex-type) configs to persist the individual student records as separate rows in Pinot.
 
 ### Sample JSON record
 

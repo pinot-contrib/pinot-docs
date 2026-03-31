@@ -8,7 +8,7 @@ In this tutorial, we will use three such plugins to easily ingest data and push 
 * `pinot-s3`
 * `pinot-parquet`
 
-You can check out [Batch Ingestion](../../build-with-pinot/ingestion/batch-ingestion), [File systems](../../manage-data/data-import/pinot-file-system/) and [Input formats](../../build-with-pinot/ingestion/pinot-input-formats.md) for all the available plugins.
+You can check out [Batch Ingestion](../../build-with-pinot/ingestion/batch-ingestion), [File systems](../../build-with-pinot/ingestion/file-systems/) and [Input formats](../../build-with-pinot/ingestion/pinot-input-formats.md) for all the available plugins.
 
 ## Setup
 

@@ -25,7 +25,7 @@ pinot-admin.sh AddTable \\
 4. Make sure the controller can read the segment source:
 
    * For tar push, the client must be able to stream the segment tar file to the controller.
-   * For URI push and metadata push, the controller must be able to access the URI scheme you use. For PinotFS-backed schemes such as HDFS, S3, GCS, and ADLS, configure the matching [Pinot file system](../../manage-data/data-import/pinot-file-system). For custom schemes, implement a [segment fetcher](../../developers/developers-and-contributors/extending-pinot/segment-fetchers.md).
+   * For URI push and metadata push, the controller must be able to access the URI scheme you use. For PinotFS-backed schemes such as HDFS, S3, GCS, and ADLS, configure the matching [Pinot file system](../../build-with-pinot/ingestion/file-systems). For custom schemes, implement a [segment fetcher](../../developers/developers-and-contributors/extending-pinot/segment-fetchers.md).
 
 ## Controller upload endpoints
 
@@ -133,7 +133,7 @@ curl -X POST "http://localhost:9000/v2/segments?tableName=myTable&tableType=OFFL
   -d '{}'
 ```
 
-Use URI push only when the controller can resolve the URI scheme. If the source is on HDFS, S3, GCS, ADLS, or a custom system, configure Pinot with the appropriate [Pinot file system](../../manage-data/data-import/pinot-file-system) or [segment fetcher](../../developers/developers-and-contributors/extending-pinot/segment-fetchers.md).
+Use URI push only when the controller can resolve the URI scheme. If the source is on HDFS, S3, GCS, ADLS, or a custom system, configure Pinot with the appropriate [Pinot file system](../../build-with-pinot/ingestion/file-systems) or [segment fetcher](../../developers/developers-and-contributors/extending-pinot/segment-fetchers.md).
 
 ### Metadata push
 

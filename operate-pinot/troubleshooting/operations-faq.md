@@ -117,7 +117,7 @@ curl -X POST "{host}/segments/{tableNameWithType}/{segmentName}/reset"
 
 ### How do I pause real-time ingestion?
 
-Refer to [Pause Stream Ingestion](../../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion).
+Refer to [Pause Stream Ingestion](../../build-with-pinot/ingestion/stream-ingestion#pause-stream-ingestion).
 
 ### What's the difference between Reset, Refresh, and Reload?
 
@@ -295,7 +295,7 @@ The following two examples show how to overwrite encoding type and index configs
 
 ### How do I update credentials for real-time upstream without downtime?
 
-1. [Pause the stream ingestion](../../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion).
+1. [Pause the stream ingestion](../../build-with-pinot/ingestion/stream-ingestion#pause-stream-ingestion).
 2. Wait for the pause status to change to success.
 3. Update the credential in the table config.
 4. Resume the consumption.

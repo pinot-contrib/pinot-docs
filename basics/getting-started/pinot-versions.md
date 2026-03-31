@@ -53,7 +53,7 @@ If you are running JDK 8 and cannot upgrade, use Pinot 0.12.1. For all new deplo
 ## Release links
 
 {% hint style="info" %}
-You can find all published releases on the [Release notes](../../basics/releases/) page, and all Docker tags on [Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
+You can find all published releases on the [Release notes](../../reference/releases/) page, and all Docker tags on [Docker Hub](https://hub.docker.com/r/apachepinot/pinot/tags).
 {% endhint %}
 
 ## Older versions

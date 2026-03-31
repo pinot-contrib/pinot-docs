@@ -194,7 +194,7 @@ If ACLs deny writes, Pinot will fail in non-obvious ways.
 ### Related Pinot guides
 
 * [Configuring TLS/SSL](../../operate-pinot/configuring-tls-ssl.md)
-* [Authentication](../../tutorials/operations/authentication)
+* [Authentication](../../operate-pinot/authentication)
 
 ### Increase znode size for large clusters (large tables)
 

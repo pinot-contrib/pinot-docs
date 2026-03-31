@@ -6,7 +6,7 @@ description: Learn about tuning real-time tables.
 
 ## Tuning Real-time Performance
 
-See the section on [Ingesting Real-time Data](../../../manage-data/data-import/pinot-stream-ingestion/) before reading this section.
+See the section on [Ingesting Real-time Data](../../../build-with-pinot/ingestion/stream-ingestion/) before reading this section.
 
 Pinot servers ingest rows into a consuming segment that resides in volatile memory. Therefore, pinot servers hosting consuming segments tend to be memory bound. They may also have long garbage collection cycles when the segment is completed and memory is released.
 

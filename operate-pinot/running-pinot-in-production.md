@@ -131,7 +131,7 @@ For day-to-day segment operations — choosing between reset, reload, refresh, r
 
 For rebalancing after capacity changes, see [Rebalance](../operators/operating-pinot/rebalance/README.md).
 
-For managing real-time ingestion issues, see the [Real-time Ingestion Stopped](troubleshooting/realtime-ingestion-stopped.md) troubleshooting guide.
+For managing real-time ingestion issues, see the [Real-time Ingestion Stopped](operate-pinot/troubleshooting/realtime-ingestion-stopped.md) troubleshooting guide.
 ## Further reading
 
 - [Monitoring](../operators/operating-pinot/monitoring.md) — metrics, alert thresholds, and diagnosis patterns

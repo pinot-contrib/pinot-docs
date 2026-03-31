@@ -136,7 +136,7 @@ This typically happens if:
 
 In case of Kafka, to recover, set property `"auto.offset.reset":"earliest"` in the `streamConfigs` section and reset the `CONSUMING` segment. See [Real-time table configs](../../reference/configuration-reference/table.md#indexing-config) for more details about the configuration.
 
-You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). See [Pause Stream Ingestion](../../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
+You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). See [Pause Stream Ingestion](../../build-with-pinot/ingestion/stream-ingestion#pause-stream-ingestion) for more details.
 
 ## Indexing
 

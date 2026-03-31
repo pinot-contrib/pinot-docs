@@ -154,4 +154,4 @@ Pinot applies this optimization automatically if the three conditions explained 
 
 ### Reduce data shuffle <a href="#reducing-data-shuffle" id="reducing-data-shuffle"></a>
 
-Pinot supports different types of [join strategies](../../../users/user-guide-query/multi-stage-query/join-strategies). It is important to understand them and try to use when possible. This data shuffle is expensive and can be a bottleneck for the query performance. Remember to use `stageStats`  (specially [mailbox send](operator-types/mailbox-send.md) and [mailbox receive](operator-types/mailbox-receive.md)) and different explain plan modes to understand how your data is being shuffled.
+Pinot supports different types of [join strategies](../../../build-with-pinot/querying-and-sql/multi-stage-query/join-strategies). It is important to understand them and try to use when possible. This data shuffle is expensive and can be a bottleneck for the query performance. Remember to use `stageStats`  (specially [mailbox send](operator-types/mailbox-send.md) and [mailbox receive](operator-types/mailbox-receive.md)) and different explain plan modes to understand how your data is being shuffled.

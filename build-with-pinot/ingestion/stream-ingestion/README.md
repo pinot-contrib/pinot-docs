@@ -204,7 +204,7 @@ With multi-topics ingestion: (details please refer to the [design doc](https://d
 
 * All transform functions would apply to both topics' ingestions.
 * Existing instance assignment strategy would all work as usual.
-* [Partition changes](../../../manage-data/data-import/pinot-stream-ingestion#handle-partition-changes-in-streams) would still be handled in the same way.
+* [Partition changes](../../../build-with-pinot/ingestion/stream-ingestion#handle-partition-changes-in-streams) would still be handled in the same way.
 * Underlying ingestion still works as `LOWLEVEL` mode, where
   * `transcript-topic1` segments would be named like transcript\_\_0\_\_0\_\_20250101T0000Z
   * `transcript-topic2` segments would be named like transcript\_\_10000\_\_0\_\_20250101T0000Z
@@ -287,7 +287,7 @@ Some things to keep in mind while tuning this config are:
   \
   Pinot will impose a fixed limit of 1000 / 4 = 250 records per second on each partition. \\
 * In case of multi-tenant deployment (where you have more than 1 table in the same server instance), you need to make sure that the rate limit on one table doesn't step on/starve the rate limiting of another table. So, when there is more than 1 table on the same server (which is most likely to happen), you may need to re-tune the throttling threshold for all the streaming tables.\\
-*   The `pinot.server.consumption.rate.limit` setting must be configured in the server's instance configuration, not in the table configuration. This setting establishes a maximum consumption rate that applies collectively to all table partitions hosted on a single server. When both this server-level setting and the `topic.consumption.rate.limit` setting are specified, the server configuration has lower priority.[1](../../../manage-data/data-import/pinot-stream-ingestion)
+*   The `pinot.server.consumption.rate.limit` setting must be configured in the server's instance configuration, not in the table configuration. This setting establishes a maximum consumption rate that applies collectively to all table partitions hosted on a single server. When both this server-level setting and the `topic.consumption.rate.limit` setting are specified, the server configuration has lower priority.[1](../../../build-with-pinot/ingestion/stream-ingestion)
 
     \
     \\
@@ -302,7 +302,7 @@ A consumption rate limiter is set up for topic <topic_name> in table <tableName>
 
 In addition, you can monitor the consumption rate utilization with the metric `COSUMPTION_QUOTA_UTILIZATION`.
 
-Note that any configuration change for `topic.consumption.rate.limit` in the stream config will **NOT** take effect immediately. The new configuration will be picked up from the next consuming segment. In order to enforce the new configuration, you need to trigger forceCommit APIs. Refer to [Pause Stream Ingestion](../../../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
+Note that any configuration change for `topic.consumption.rate.limit` in the stream config will **NOT** take effect immediately. The new configuration will be picked up from the next consuming segment. In order to enforce the new configuration, you need to trigger forceCommit APIs. Refer to [Pause Stream Ingestion](../../../build-with-pinot/ingestion/stream-ingestion#pause-stream-ingestion) for more details.
 
 ```
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
@@ -451,7 +451,7 @@ $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=
 
 ## Handle partition changes in streams
 
-If a Pinot table is configured to consume using a [Low Level](../../../manage-data/data-import/pinot-stream-ingestion#create-table-configuration) (partition-based) stream type, then it is possible that the partitions of the table change over time. In Kafka, for example, the number of partitions may increase. In Kinesis, the number of partitions may increase _or_ decrease -- some partitions could be merged to create a new one, or existing partitions split to create new ones.
+If a Pinot table is configured to consume using a [Low Level](../../../build-with-pinot/ingestion/stream-ingestion#create-table-configuration) (partition-based) stream type, then it is possible that the partitions of the table change over time. In Kafka, for example, the number of partitions may increase. In Kinesis, the number of partitions may increase _or_ decrease -- some partitions could be merged to create a new one, or existing partitions split to create new ones.
 
 Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monitors such changes and starts consumption on new partitions (or stops consumptions from old ones) as necessary. Since this is a [periodic task](../../../basics/components/cluster/controller.md#controller-periodic-tasks) that is run on the controller, it may take some time for Pinot to recognize new partitions and start consuming from them. This may delay the data in new partitions appearing in the results that pinot returns.
 

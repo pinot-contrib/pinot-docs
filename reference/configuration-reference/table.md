@@ -162,7 +162,7 @@ The sections below apply to real-time tables only.
 
 ### Indexing config
 
-The `streamConfigs` section has been deprecated as of release 0.7.0. See [`streamConfigMaps`](../../manage-data/data-import/pinot-stream-ingestion#create-ingestion-configuration) instead.
+The `streamConfigs` section has been deprecated as of release 0.7.0. See [`streamConfigMaps`](../../build-with-pinot/ingestion/stream-ingestion#create-ingestion-configuration) instead.
 
 ## Tenants
 
