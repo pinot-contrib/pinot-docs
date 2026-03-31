@@ -28,8 +28,8 @@ Plugins are collected in folders, based on their purpose. Pinot organizes its pl
 
 Input format plugins read data from files or streams during data ingestion. Batch ingestion uses `RecordReader` implementations, while real-time ingestion uses `StreamMessageDecoder` implementations.
 
-{% content-ref url="../../manage-data/data-import/pinot-input-formats.md" %}
-[pinot-input-formats.md](../../manage-data/data-import/pinot-input-formats.md)
+{% content-ref url="../../build-with-pinot/ingestion/pinot-input-formats.md" %}
+[pinot-input-formats.md](../../build-with-pinot/ingestion/pinot-input-formats.md)
 {% endcontent-ref %}
 
 ### Filesystem

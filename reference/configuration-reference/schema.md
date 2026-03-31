@@ -23,7 +23,7 @@ Use a schema to define the column names, data types, null-handling behavior, and
 | Field | Release Version | Default | Description |
 | --- | --- | --- | --- |
 | `schemaName` | - | required | Name of the schema. This must match the table name without the `OFFLINE` or `REALTIME` suffix, so both physical tables of a hybrid table share one schema. |
-| `enableColumnBasedNullHandling` | 1.1.0 | `false` | When `true`, enables column-based null handling. When `false`, Pinot uses table-based null handling. See [Null value support](../../developers/advanced/null-value-support.md). |
+| `enableColumnBasedNullHandling` | 1.1.0 | `false` | When `true`, enables column-based null handling. When `false`, Pinot uses table-based null handling. See [Null value support](../../build-with-pinot/querying-and-sql/null-value-support.md). |
 | `dimensionFieldSpecs` | - | `[]` | Dimension-column definitions. See [DimensionFieldSpecs](#dimensionfieldspecs). |
 | `metricFieldSpecs` | - | `[]` | Metric-column definitions. See [MetricFieldSpecs](#metricfieldspecs). |
 | `dateTimeFieldSpecs` | - | `[]` | Time-column definitions. A schema can define multiple time columns. See [DateTimeFieldSpecs](#datetimefieldspecs). |

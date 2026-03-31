@@ -106,5 +106,5 @@ Example:
 
 - [Configuration Reference](README.md)
 - [Table Configuration](table.md)
-- [Broker](../../configuration-reference/broker.md)
+- [Broker](broker.md)
 - [Multi-Stage Query Engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md)

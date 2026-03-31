@@ -22,9 +22,9 @@ The Tableau and Metabase detail docs both include version-pinned quickstart exam
 
 ## Detailed docs
 
-* [Superset](../../integrations/superset.md)
-* [Tableau](../../integrations/tableau.md)
-* [Metabase](../../integrations/metabase.md)
+* [Superset](superset.md)
+* [Tableau](tableau.md)
+* [Metabase](metabase.md)
 
 ## What this page covered
 

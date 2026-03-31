@@ -6,21 +6,21 @@ description: This page describes the indexing techniques available in Apache Pin
 
 Apache Pinot™ supports the following indexing techniques:
 
-* [Bloom filter](bloom-filter.md)
-* [Forward index](forward-index.md)
+* [Bloom filter](../../build-with-pinot/indexing/bloom-filter.md)
+* [Forward index](../../build-with-pinot/indexing/forward-index.md)
   * Dictionary-encoded forward index with bit compression
   * Raw value forward index
   * Sorted forward index with run-length encoding
-* [FST index](fst-index.md)
-* [Geospatial](geospatial-support.md)
-* [Inverted index](inverted-index.md)
+* [FST index](../../build-with-pinot/indexing/fst-index.md)
+* [Geospatial](../../build-with-pinot/indexing/geospatial-support.md)
+* [Inverted index](../../build-with-pinot/indexing/inverted-index.md)
   * Bitmap inverted index
   * Sorted inverted index
-* [JSON index](json-index.md)
-* [Range index](range-index.md)
-* [Star-tree index](star-tree-index.md)
-* [Text search support](text-search-support.md)
-* [Timestamp index](timestamp-index.md)
+* [JSON index](../../build-with-pinot/indexing/json-index.md)
+* [Range index](../../build-with-pinot/indexing/range-index.md)
+* [Star-tree index](../../build-with-pinot/indexing/star-tree-index.md)
+* [Text search support](../../build-with-pinot/indexing/text-search-support.md)
+* [Timestamp index](../../build-with-pinot/indexing/timestamp-index.md)
 
 By default, Pinot creates a dictionary-encoded forward index for each column.
 
@@ -67,7 +67,7 @@ curl -X POST \
 You can also find this action on the [Cluster Manager in the Pinot UI](../components/exploring-pinot.md#cluster-manager), on the specific table's page.
 
 {% hint style="info" %}
-Not all indexes can be retrospectively applied to existing segments. For more detailed documentation on applying indexes, see the [Indexing FAQ](../../troubleshooting/ingestion-faq.md#indexing).
+Not all indexes can be retrospectively applied to existing segments. For more detailed documentation on applying indexes, see the [Indexing FAQ](../../operate-pinot/troubleshooting/ingestion-faq.md#indexing).
 {% endhint %}
 
 ### Tuning Index
@@ -98,14 +98,14 @@ Use this decision guide to pick the right index for your query pattern:
 
 | Query pattern | Recommended index | Notes |
 | --- | --- | --- |
-| `WHERE col = value` | [Inverted index](inverted-index.md) | Best starting point for equality filters |
-| `WHERE col IN (v1, v2, ...)` | [Inverted index](inverted-index.md) + [Bloom filter](bloom-filter.md) | Bloom filter prunes segments; inverted index accelerates within-segment lookup |
-| `WHERE col > value` / `BETWEEN` | [Range index](range-index.md) | Especially useful on high-cardinality metric columns |
-| `WHERE col LIKE 'prefix%'` | [FST index](fst-index.md) | For regex/LIKE on dictionary-encoded STRING columns |
-| `WHERE TEXT_MATCH(col, 'query')` | [Text index](text-search-support.md) | Full-text search with Lucene. Use for tokenized search |
-| `WHERE JSON_MATCH(col, '...')` | [JSON index](json-index.md) | For filtering on nested JSON fields |
-| `WHERE ST_Distance(...) < x` | [Geospatial index](geospatial-support.md) | H3-based spatial index for distance queries |
-| `WHERE VECTOR_SIMILARITY(...)` | [Vector index](vector-index.md) | Approximate nearest-neighbor search on embeddings |
-| `GROUP BY dateTrunc('DAY', ts)` | [Timestamp index](timestamp-index.md) | Pre-generates granularity columns for fast time-based grouping |
-| `SUM(metric) GROUP BY dim1, dim2` | [Star-tree index](star-tree-index.md) | Pre-aggregated results for known query patterns |
-| Sorted column, range + equality | [Sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding) | Automatically acts as inverted index with O(log n) lookup |
+| `WHERE col = value` | [Inverted index](../../build-with-pinot/indexing/inverted-index.md) | Best starting point for equality filters |
+| `WHERE col IN (v1, v2, ...)` | [Inverted index](../../build-with-pinot/indexing/inverted-index.md) + [Bloom filter](../../build-with-pinot/indexing/bloom-filter.md) | Bloom filter prunes segments; inverted index accelerates within-segment lookup |
+| `WHERE col > value` / `BETWEEN` | [Range index](../../build-with-pinot/indexing/range-index.md) | Especially useful on high-cardinality metric columns |
+| `WHERE col LIKE 'prefix%'` | [FST index](../../build-with-pinot/indexing/fst-index.md) | For regex/LIKE on dictionary-encoded STRING columns |
+| `WHERE TEXT_MATCH(col, 'query')` | [Text index](../../build-with-pinot/indexing/text-search-support.md) | Full-text search with Lucene. Use for tokenized search |
+| `WHERE JSON_MATCH(col, '...')` | [JSON index](../../build-with-pinot/indexing/json-index.md) | For filtering on nested JSON fields |
+| `WHERE ST_Distance(...) < x` | [Geospatial index](../../build-with-pinot/indexing/geospatial-support.md) | H3-based spatial index for distance queries |
+| `WHERE VECTOR_SIMILARITY(...)` | [Vector index](../../build-with-pinot/indexing/vector-index.md) | Approximate nearest-neighbor search on embeddings |
+| `GROUP BY dateTrunc('DAY', ts)` | [Timestamp index](../../build-with-pinot/indexing/timestamp-index.md) | Pre-generates granularity columns for fast time-based grouping |
+| `SUM(metric) GROUP BY dim1, dim2` | [Star-tree index](../../build-with-pinot/indexing/star-tree-index.md) | Pre-aggregated results for known query patterns |
+| Sorted column, range + equality | [Sorted forward index](../../build-with-pinot/indexing/forward-index.md#sorted-forward-index-with-run-length-encoding) | Automatically acts as inverted index with O(log n) lookup |

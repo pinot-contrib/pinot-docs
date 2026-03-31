@@ -45,7 +45,7 @@ docker pull ${PINOT_IMAGE}
 
 **Set up the Pinot cluster**
 
-Follow the instructions in [Advanced Pinot Setup](../../developers/advanced/advanced-pinot-setup.md#start-pinot-components-using-docker) to set up a Pinot cluster with the components:
+Follow the instructions in [Advanced Pinot Setup](../../operate-pinot/advanced-pinot-setup.md#start-pinot-components-using-docker) to set up a Pinot cluster with the components:
 
 * Zookeeper
 * Controller
@@ -332,7 +332,7 @@ Follow the instructions in [Build from source](../../basics/getting-started/inst
 
 **Set up the Pinot cluster**
 
-Follow the instructions in [Advanced Pinot Setup](../../developers/advanced/advanced-pinot-setup.md#start-pinot-components-via-launcher-scripts) to set up the Pinot cluster with the components:
+Follow the instructions in [Advanced Pinot Setup](../../operate-pinot/advanced-pinot-setup.md#start-pinot-components-via-launcher-scripts) to set up the Pinot cluster with the components:
 
 * Zookeeper
 * Controller
@@ -624,4 +624,4 @@ Repositories by number of commits in the Apache organization
 
 ![](<../../.gitbook/assets/superset-repos-with-most-commits-example.png>)
 
-To integrate with SuperSet you can check out the [SuperSet Integrations](../../integrations/superset.md) page.
+To integrate with SuperSet you can check out the [SuperSet Integrations](../../build-with-pinot/connectors-clients-apis/superset.md) page.

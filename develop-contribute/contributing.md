@@ -8,7 +8,7 @@ Apache Pinot welcomes contributions of all kinds -- code, documentation, bug rep
 | --- | --- |
 | Contribute code (features, bug fixes, tests) | [Contribution Guidelines](../developers/developers-and-contributors/contribution-guidelines.md) |
 | Update or improve the documentation (via GitHub PR) | [Contributing to the Apache Pinot Documentation](../contributing/contributing.md) |
-| Follow the documentation style conventions | [Pinot Documentation Style Guide](../contributing/style-guide.md) |
+| Follow the documentation style conventions | [Pinot Documentation Style Guide](style-guide.md) |
 | Edit documentation directly in GitBook | [Contributing to the Apache Pinot Documentation -- GitBook section](../contributing/contributing.md#edit-directly-on-gitbook) |
 | Understand the documentation toolchain | [Update Documentation](../developers/developers-and-contributors/update-document.md) |
 
@@ -29,7 +29,7 @@ The full details live in the [Contribution Guidelines](../developers/developers-
 The full details live in [Contributing to the Apache Pinot Documentation](../contributing/contributing.md).
 
 1. **Fork and clone** the [pinot-docs](https://github.com/pinot-contrib/pinot-docs) repository.
-2. **Edit locally** using Markdown. Follow the [style guide](../contributing/style-guide.md) for Pinot-specific conventions.
+2. **Edit locally** using Markdown. Follow the [style guide](style-guide.md) for Pinot-specific conventions.
 3. **Commit and push** to your fork.
 4. **Open a pull request** against the upstream docs repository.
 5. **Incorporate review feedback** -- changes appear on GitBook automatically after merge.

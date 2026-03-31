@@ -23,9 +23,9 @@ For redundancy, there can be multiple instances of Pinot controllers. Pinot expe
 
 ## Running the periodic task manually
 
-The controller runs several periodic tasks in the background, to perform activities such as management and validation. Each periodic task has [its own configuration](../../../configuration-reference/controller.md#periodic-tasks-configuration) to define the run frequency and default frequency. Each task runs at its own schedule or can also be triggered manually if needed. The task runs on the lead controller for each table.
+The controller runs several periodic tasks in the background, to perform activities such as management and validation. Each periodic task has [its own configuration](../../../reference/configuration-reference/controller.md#periodic-tasks-configuration) to define the run frequency and default frequency. Each task runs at its own schedule or can also be triggered manually if needed. The task runs on the lead controller for each table.
 
-For period task configuration details, see [Controller configuration reference](../../../configuration-reference/controller.md#periodic-tasks-configuration).
+For period task configuration details, see [Controller configuration reference](../../../reference/configuration-reference/controller.md#periodic-tasks-configuration).
 
 Use the `GET /periodictask/names` API to fetch the names of all the periodic tasks running on your Pinot cluster.
 

@@ -8,11 +8,11 @@ Pinot supports several source formats and deep-storage choices. Pick these early
 
 ## Source formats
 
-Use the original format docs when you need the exact supported file types or loader behavior. The main landing page is [Supported Data Formats](../../manage-data/data-import/pinot-input-formats.md).
+Use the original format docs when you need the exact supported file types or loader behavior. The main landing page is [Supported Data Formats](pinot-input-formats.md).
 
 ## Filesystems and deep storage
 
-Choose the deep-storage backend that matches your operational environment. The detailed filesystem docs still live under [File Systems](../../manage-data/data-import/pinot-file-system/README.md).
+Choose the deep-storage backend that matches your operational environment. The detailed filesystem docs still live under [File Systems](file-systems/README.md).
 
 ## Keep it simple
 
@@ -32,5 +32,5 @@ Read [Transformations and Aggregations](transformations-and-aggregations.md) if 
 - [Batch Ingestion](batch-ingestion.md)
 - [Stream Ingestion](stream-ingestion.md)
 - [Upsert and Dedup](upsert-dedup.md)
-- [Supported Data Formats](../../manage-data/data-import/pinot-input-formats.md)
-- [File Systems](../../manage-data/data-import/pinot-file-system/README.md)
+- [Supported Data Formats](pinot-input-formats.md)
+- [File Systems](file-systems/README.md)

@@ -14,38 +14,38 @@ Pinot supports multiple file input formats without needing to change anything ot
 
 These guides show you how to import data from popular big data platforms.
 
-{% content-ref url="batch-ingestion/spark.md" %}
-[spark.md](batch-ingestion/spark.md)
+{% content-ref url="../../build-with-pinot/ingestion/batch-ingestion/spark.md" %}
+[spark.md](../../build-with-pinot/ingestion/../../build-with-pinot/ingestion/batch-ingestion/spark.md)
 {% endcontent-ref %}
 
-{% content-ref url="batch-ingestion/hadoop.md" %}
-[hadoop.md](batch-ingestion/hadoop.md)
+{% content-ref url="../../build-with-pinot/ingestion/batch-ingestion/hadoop.md" %}
+[hadoop.md](../../build-with-pinot/ingestion/../../build-with-pinot/ingestion/batch-ingestion/hadoop.md)
 {% endcontent-ref %}
 
 ## Pinot Stream Ingestion
 
 This guide shows you how to import data using stream ingestion from Apache Kafka topics.
 
-{% content-ref url="pinot-stream-ingestion/import-from-apache-kafka.md" %}
-[import-from-apache-kafka.md](pinot-stream-ingestion/import-from-apache-kafka.md)
+{% content-ref url="../../build-with-pinot/ingestion/stream-ingestion/import-from-apache-kafka.md" %}
+[import-from-apache-kafka.md](../../build-with-pinot/ingestion/stream-ingestion/import-from-apache-kafka.md)
 {% endcontent-ref %}
 
 This guide shows you how to import data using stream ingestion with upsert.
 
-{% content-ref url="upsert-and-dedup/upsert.md" %}
-[upsert.md](upsert-and-dedup/upsert.md)
+{% content-ref url="../../build-with-pinot/ingestion/upsert-and-dedup/upsert.md" %}
+[upsert.md](../../build-with-pinot/ingestion/../../build-with-pinot/ingestion/upsert-and-dedup/upsert.md)
 {% endcontent-ref %}
 
 This guide shows you how to import data using stream ingestion with deduplication.
 
-{% content-ref url="upsert-and-dedup/dedup.md" %}
-[dedup.md](upsert-and-dedup/dedup.md)
+{% content-ref url="../../build-with-pinot/ingestion/upsert-and-dedup/dedup.md" %}
+[dedup.md](../../build-with-pinot/ingestion/../../build-with-pinot/ingestion/upsert-and-dedup/dedup.md)
 {% endcontent-ref %}
 
 This guide shows you how to import data using stream ingestion with CLP.
 
-{% content-ref url="pinot-stream-ingestion/clp.md" %}
-[clp.md](pinot-stream-ingestion/clp.md)
+{% content-ref url="../../build-with-pinot/ingestion/stream-ingestion/clp.md" %}
+[clp.md](../../build-with-pinot/ingestion/stream-ingestion/clp.md)
 {% endcontent-ref %}
 
 ## Pinot file systems
@@ -54,28 +54,28 @@ By default, Pinot does not come with a storage layer, so all the data sent won't
 
 These guides show you how to import data and persist it in these file systems.
 
-{% content-ref url="pinot-file-system/amazon-s3.md" %}
-[amazon-s3.md](pinot-file-system/amazon-s3.md)
+{% content-ref url="../../build-with-pinot/ingestion/file-systems/amazon-s3.md" %}
+[amazon-s3.md](../../build-with-pinot/ingestion/file-systems/amazon-s3.md)
 {% endcontent-ref %}
 
-{% content-ref url="pinot-file-system/import-from-adls-azure.md" %}
-[import-from-adls-azure.md](pinot-file-system/import-from-adls-azure.md)
+{% content-ref url="../../build-with-pinot/ingestion/file-systems/import-from-adls-azure.md" %}
+[import-from-adls-azure.md](../../build-with-pinot/ingestion/file-systems/import-from-adls-azure.md)
 {% endcontent-ref %}
 
-{% content-ref url="pinot-file-system/import-from-gcp.md" %}
-[import-from-gcp.md](pinot-file-system/import-from-gcp.md)
+{% content-ref url="../../build-with-pinot/ingestion/file-systems/import-from-gcp.md" %}
+[import-from-gcp.md](../../build-with-pinot/ingestion/file-systems/import-from-gcp.md)
 {% endcontent-ref %}
 
-{% content-ref url="pinot-file-system/import-from-hdfs.md" %}
-[import-from-hdfs.md](pinot-file-system/import-from-hdfs.md)
+{% content-ref url="../../build-with-pinot/ingestion/file-systems/import-from-hdfs.md" %}
+[import-from-hdfs.md](../../build-with-pinot/ingestion/file-systems/import-from-hdfs.md)
 {% endcontent-ref %}
 
 ## Pinot input formats
 
 This guide shows you how to import data from various Pinot-supported input formats.
 
-{% content-ref url="pinot-input-formats.md" %}
-[pinot-input-formats.md](pinot-input-formats.md)
+{% content-ref url="../../build-with-pinot/ingestion/pinot-input-formats.md" %}
+[../../build-with-pinot/ingestion/pinot-input-formats.md](../../build-with-pinot/ingestion/../../build-with-pinot/ingestion/pinot-input-formats.md)
 {% endcontent-ref %}
 
 This guide shows you how to handle the complex type in the ingested data, such as map and array.
@@ -86,26 +86,26 @@ This guide shows you how to handle the complex type in the ingested data, such a
 
 This guide shows additional examples on how to work with complex types.
 
-{% content-ref url="complex-type/complex-type-examples.md" %}
-[complex-type-examples.md](complex-type/complex-type-examples.md)
+{% content-ref url="../../build-with-pinot/ingestion/complex-type/complex-type-examples.md" %}
+[complex-type-examples.md](../../build-with-pinot/ingestion/../../build-with-pinot/ingestion/complex-type/complex-type-examples.md)
 {% endcontent-ref %}
 
 This guide shows you how to handle records with dynamic schemas, like JSON log events.
 
-{% content-ref url="schema-conforming-transformer.md" %}
-[schema-conforming-transformer.md](schema-conforming-transformer.md)
+{% content-ref url="../../build-with-pinot/ingestion/schema-conforming-transformer.md" %}
+[../../build-with-pinot/ingestion/schema-conforming-transformer.md](../../build-with-pinot/ingestion/../../build-with-pinot/ingestion/schema-conforming-transformer.md)
 {% endcontent-ref %}
 
 ## Reloading and uploading existing Pinot segments
 
 This guide shows you how to reload Pinot segments from your deep store.
 
-{% content-ref url="../../tutorials/operations/segment-reload.md" %}
-[segment-reload.md](../../tutorials/operations/segment-reload.md)
+{% content-ref url="../../operate-pinot/segment-reload.md" %}
+[segment-reload.md](../../operate-pinot/segment-reload.md)
 {% endcontent-ref %}
 
 This guide shows you how to upload Pinot segments from an old, closed Pinot instance.
 
-{% content-ref url="segment-upload.md" %}
-[segment-upload.md](segment-upload.md)
+{% content-ref url="../../build-with-pinot/ingestion/segment-upload.md" %}
+[../../build-with-pinot/ingestion/segment-upload.md](../../build-with-pinot/ingestion/../../build-with-pinot/ingestion/segment-upload.md)
 {% endcontent-ref %}

@@ -14,7 +14,7 @@ This section covers the **configuration** side of each plugin family: which impl
 | Plugin Family | What It Does | Config Reference | Authoring Guide |
 | --- | --- | --- | --- |
 | **Stream Ingestion** | Consume data from real-time streaming platforms (Kafka, Kinesis, Pulsar) | [Stream Ingestion Connectors](stream-ingestion-connectors.md) · [Version Matrix](stream-connector-matrix.md) | [Stream Ingestion Plugin](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md) |
-| **Input Format** | Read records from files or streams during ingestion (Avro, JSON, Parquet, ORC, CSV, …) | [Input Formats](../../manage-data/data-import/pinot-input-formats.md) | [Input Format Plugin](../../developers/plugin-architecture/write-custom-plugins/record-reader.md) |
+| **Input Format** | Read records from files or streams during ingestion (Avro, JSON, Parquet, ORC, CSV, …) | [Input Formats](../../build-with-pinot/ingestion/pinot-input-formats.md) | [Input Format Plugin](../../developers/plugin-architecture/write-custom-plugins/record-reader.md) |
 | **Filesystem** | Store and fetch segments from pluggable storage backends (S3, GCS, HDFS, ADLS) | [Filesystem Plugins](../../manage-data/data-import/pinot-file-system/) | [Filesystem Plugin](../../developers/plugin-architecture/write-custom-plugins/pluggable-storage.md) |
 | **Batch Ingestion** | Run data ingestion jobs on different execution frameworks (Standalone, Hadoop, Spark) | [Batch Ingestion](../../manage-data/data-import/batch-ingestion/) | — |
 | **Metrics** | Collect and expose internal JMX metrics via Dropwizard, Yammer, or a compound backend | [Metrics Plugins](metrics-plugins.md) | [Metrics Plugin](../../developers/plugin-architecture/write-custom-plugins/metrics-plugin.md) |
@@ -42,8 +42,8 @@ Pinot ships connectors for Apache Kafka (3.x and 4.x), Amazon Kinesis, and Apach
 
 Input format plugins read data from files or streams during ingestion. Batch ingestion uses `RecordReader` implementations; real-time ingestion uses `StreamMessageDecoder` implementations. Pinot ships with readers for Avro, CSV, JSON, ORC, Parquet, Thrift, Protobuf, Arrow, CLP-Log, and Confluent Schema Registry variants.
 
-{% content-ref url="../../manage-data/data-import/pinot-input-formats.md" %}
-[pinot-input-formats.md](../../manage-data/data-import/pinot-input-formats.md)
+{% content-ref url="../../build-with-pinot/ingestion/pinot-input-formats.md" %}
+[pinot-input-formats.md](../../build-with-pinot/ingestion/pinot-input-formats.md)
 {% endcontent-ref %}
 
 ## Filesystem

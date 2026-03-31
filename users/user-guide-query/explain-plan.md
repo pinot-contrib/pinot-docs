@@ -1,7 +1,7 @@
 # Explain Plan (Single-Stage)
 
 {% hint style="info" %}
-This page describes the explain plan in single stage query engine. In order to have a more general view of the different explain plan supported by Pinot, please see [explain-plan-1.md](multi-stage-query/explain-plan-1.md)
+This page describes the explain plan in single stage query engine. In order to have a more general view of the different explain plan supported by Pinot, please see [explain-plan-1.md](../../build-with-pinot/querying-and-sql/multi-stage-query/explain-plan-1.md)
 {% endhint %}
 
 Query execution within Pinot is modeled as a sequence of operators that are executed in a pipelined manner to produce the final result. The output of the EXPLAIN PLAN statement can be used to see how queries are being run or to further optimize queries.

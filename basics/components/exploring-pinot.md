@@ -61,7 +61,7 @@ The logical tables listing is accessible from the main **Tables** page, alongsid
 - **Edit** a logical table's configuration.
 - **Delete** a logical table with a confirmation dialog.
 
-For more information about logical tables, see the [Logical Table Support](../releases/1.4.0.md#logical-table-support-design) section in the 1.4.0 release notes.
+For more information about logical tables, see the [Logical Table Support](../../reference/releases/1.4.0.md#logical-table-support-design) section in the 1.4.0 release notes.
 
 ## Query Console
 
@@ -96,7 +96,7 @@ from baseballStats
 order by league
 ```
 
-Pinot uses SQL for querying. For the complete syntax reference, see the [SQL Syntax and Operators Reference](../../users/user-guide-query/sql-reference.md). For query options, examples, and engine details, see [Querying Pinot](../../users/user-guide-query/querying-pinot.md).
+Pinot uses SQL for querying. For the complete syntax reference, see the [SQL Syntax and Operators Reference](../../build-with-pinot/querying-and-sql/sql-reference.md). For query options, examples, and engine details, see [Querying Pinot](../../users/user-guide-query/querying-pinot.md).
 
 ### Time-series query execution
 

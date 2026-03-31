@@ -53,7 +53,7 @@ The recommended production monitoring stack is Prometheus for metrics collection
 2. Configure Prometheus scrape targets (or use Kubernetes pod annotations for auto-discovery)
 3. Import a Pinot dashboard into Grafana
 
-For a complete Kubernetes walkthrough, see [Monitor Pinot using Prometheus and Grafana](../tutorials/operations/monitor-pinot-using-prometheus-and-grafana.md).
+For a complete Kubernetes walkthrough, see [Monitor Pinot using Prometheus and Grafana](monitor-pinot-using-prometheus-and-grafana.md).
 
 ## Prerequisites
 
@@ -68,7 +68,7 @@ For a complete Kubernetes walkthrough, see [Monitor Pinot using Prometheus and G
 |------|-------------|
 | [Monitoring guide](../operators/operating-pinot/monitoring.md) | Critical metrics reference with alert thresholds and diagnosis patterns for every component |
 | [Continuous JFR](../operators/operating-pinot/continuous-jfr.md) | Runbook for always-on Java Flight Recorder profiling with dynamic cluster-level control |
-| [Monitor Pinot using Prometheus and Grafana](../tutorials/operations/monitor-pinot-using-prometheus-and-grafana.md) | Step-by-step Kubernetes setup for Prometheus scraping and Grafana dashboards |
+| [Monitor Pinot using Prometheus and Grafana](monitor-pinot-using-prometheus-and-grafana.md) | Step-by-step Kubernetes setup for Prometheus scraping and Grafana dashboards |
 
 ## Next step
 

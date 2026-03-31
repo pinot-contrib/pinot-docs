@@ -12,15 +12,15 @@ The goal is not to enable every possible index. The goal is to keep the table co
 
 | Query pattern or workload | Start with | Why |
 | --- | --- | --- |
-| Equality filters such as `WHERE userId = '...'` | [Inverted index](../../basics/indexing/inverted-index.md) | Fast point lookups and selective filtering. |
-| `IN` filters over a small value set | [Inverted index](../../basics/indexing/inverted-index.md) | Efficient membership testing within a segment. |
-| Bounded numeric or time filters | [Range index](../../basics/indexing/range-index.md) | Better than full scans for value intervals. |
-| Prefix, phrase, or token search | [Text search support](../../basics/indexing/text-search-support.md) | Designed for search-style predicates. |
-| Nested JSON predicates | [JSON index](../../basics/indexing/json-index.md) | Pushes JSON field filtering into the index. |
-| Distance or containment queries | [Geospatial support](../../basics/indexing/geospatial-support.md) | Supports spatial workloads over geographic data. |
-| Repeated `GROUP BY` and aggregate queries | [Star-tree index](../../basics/indexing/star-tree-index.md) | Pre-aggregates known query shapes. |
-| Embedding similarity search | [Vector index](../../basics/indexing/vector-index.md) | Supports approximate nearest-neighbor lookups. |
-| Stable sort-key lookups | [Sorted forward index](../../basics/indexing/forward-index.md#sorted-forward-index-with-run-length-encoding) | Useful when the segment sort order matches common filters. |
+| Equality filters such as `WHERE userId = '...'` | [Inverted index](inverted-index.md) | Fast point lookups and selective filtering. |
+| `IN` filters over a small value set | [Inverted index](inverted-index.md) | Efficient membership testing within a segment. |
+| Bounded numeric or time filters | [Range index](range-index.md) | Better than full scans for value intervals. |
+| Prefix, phrase, or token search | [Text search support](text-search-support.md) | Designed for search-style predicates. |
+| Nested JSON predicates | [JSON index](json-index.md) | Pushes JSON field filtering into the index. |
+| Distance or containment queries | [Geospatial support](geospatial-support.md) | Supports spatial workloads over geographic data. |
+| Repeated `GROUP BY` and aggregate queries | [Star-tree index](star-tree-index.md) | Pre-aggregates known query shapes. |
+| Embedding similarity search | [Vector index](vector-index.md) | Supports approximate nearest-neighbor lookups. |
+| Stable sort-key lookups | [Sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding) | Useful when the segment sort order matches common filters. |
 
 ## What to check before you configure an index
 
@@ -29,7 +29,7 @@ The goal is not to enable every possible index. The goal is to keep the table co
 3. Confirm the index can be expressed in the current table config style.
 4. Decide whether the index must exist on new segments only or should be reloaded onto existing segments.
 
-For table-level configuration details, use [Table](../../configuration-reference/table.md). For an end-to-end example that applies indexes to an ingestion pipeline, use [Configure indexes](../../manage-data/data-import/pinot-stream-ingestion/configure-indexes.md).
+For table-level configuration details, use [Table](../../configuration-reference/table.md). For an end-to-end example that applies indexes to an ingestion pipeline, use [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md).
 
 ## Query validation examples
 
@@ -78,4 +78,4 @@ Open the specific index page for the workload you are tuning, then compare it wi
 
 * [Indexing](README.md)
 * [Table](../../configuration-reference/table.md)
-* [Configure indexes](../../manage-data/data-import/pinot-stream-ingestion/configure-indexes.md)
+* [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md)

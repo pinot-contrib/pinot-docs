@@ -6,13 +6,13 @@ hidden: true
 # Explain Plan (Multi-Stage)
 
 {% hint style="warning" %}
-This page is deprecated. Please read [explain-plan-1.md](multi-stage-query/explain-plan-1.md) to get a better understanding of the different explain plans supported by Pinot.
+This page is deprecated. Please read [explain-plan-1.md](../../build-with-pinot/querying-and-sql/multi-stage-query/explain-plan-1.md) to get a better understanding of the different explain plans supported by Pinot.
 {% endhint %}
 
 {% hint style="info" %}
-This page explains how to use `EXPLAIN PLAN FOR` syntax to obtain different plans of a query in multi-stage engine. You can read more about how to interpret the plans in the [Understanding multi-stage explain plans](multi-stage-query/understanding-multi-stage-explain.md) page.
+This page explains how to use `EXPLAIN PLAN FOR` syntax to obtain different plans of a query in multi-stage engine. You can read more about how to interpret the plans in the [Understanding multi-stage explain plans](../../build-with-pinot/querying-and-sql/multi-stage-query/understanding-multi-stage-explain.md) page.
 
-Also remember that plans are logical representations of the query execution. Sometimes it is more useful to study the actual stats of the query execution, which are included on each query result. You can read more about how to interpret the stats in the [Understanding multi-stage stats](multi-stage-query/understanding-stage-stats.md) page.
+Also remember that plans are logical representations of the query execution. Sometimes it is more useful to study the actual stats of the query execution, which are included on each query result. You can read more about how to interpret the stats in the [Understanding multi-stage stats](../../build-with-pinot/querying-and-sql/multi-stage-query/understanding-stage-stats.md) page.
 {% endhint %}
 
 In [Single-stage engine Explain Plan](explain-plan.md), we do not differentiate any logical/physical plan b/c the structure of the query is fixed. By default it explain the Physical Plan

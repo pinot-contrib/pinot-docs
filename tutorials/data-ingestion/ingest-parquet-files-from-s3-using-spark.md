@@ -8,7 +8,7 @@ In this tutorial, we will use three such plugins to easily ingest data and push 
 * `pinot-s3`
 * `pinot-parquet`
 
-You can check out [Batch Ingestion](../../manage-data/data-import/batch-ingestion/), [File systems](../../manage-data/data-import/pinot-file-system/) and [Input formats](../../manage-data/data-import/pinot-input-formats.md) for all the available plugins.
+You can check out [Batch Ingestion](../../manage-data/data-import/batch-ingestion/), [File systems](../../manage-data/data-import/pinot-file-system/) and [Input formats](../../build-with-pinot/ingestion/pinot-input-formats.md) for all the available plugins.
 
 ## Setup
 
@@ -203,7 +203,7 @@ local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-depend
 ```
 
 {% hint style="success" %}
-You can go through the[ FAQ section ](../../manage-data/data-import/batch-ingestion/spark.md#faq)of our Spark ingestion guide in case you face any errors.
+You can go through the[ FAQ section ](../../build-with-pinot/ingestion/batch-ingestion/spark.md#faq)of our Spark ingestion guide in case you face any errors.
 {% endhint %}
 
 Voila! Now our data is successfully ingested. Let's try to query it from Pinot's broker

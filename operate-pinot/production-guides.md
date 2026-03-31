@@ -20,7 +20,7 @@ This section collects the guides you need to run Apache Pinot reliably in produc
 
 ### Running Pinot in Production
 
-[Running Pinot in Production](../tutorials/operations/running-pinot-in-production.md) is the comprehensive production deployment guide. It covers:
+[Running Pinot in Production](running-pinot-in-production.md) is the comprehensive production deployment guide. It covers:
 
 - **Cluster topology and prerequisites** -- ZooKeeper, deep store, controllers, brokers, servers, minions, and load balancers.
 - **Deployment and upgrade order** -- the correct sequence for rolling out and rolling back component upgrades.
@@ -36,4 +36,4 @@ This section collects the guides you need to run Apache Pinot reliably in produc
 
 ## Next step
 
-For deploying Pinot on Kubernetes with Helm charts, see [Kubernetes Deployment](../tutorials/operations/kubernetes/deployment-pinot-on-kubernetes.md).
+For deploying Pinot on Kubernetes with Helm charts, see [Kubernetes Deployment](kubernetes/deployment-pinot-on-kubernetes.md).

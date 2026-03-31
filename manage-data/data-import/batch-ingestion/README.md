@@ -68,9 +68,9 @@ To ingest data from a filesystem, perform the following steps, which are describ
 Batch ingestion currently supports the following mechanisms to upload the data:
 
 * Standalone
-* [Hadoop](hadoop.md)
-* [Spark](spark.md)
-* [Flink](flink.md)
+* [Hadoop](../../../build-with-pinot/ingestion/batch-ingestion/hadoop.md)
+* [Spark](../../../build-with-pinot/ingestion/batch-ingestion/spark.md)
+* [Flink](../../../build-with-pinot/ingestion/batch-ingestion/flink.md)
 
 Here's an example using standalone local processing.
 

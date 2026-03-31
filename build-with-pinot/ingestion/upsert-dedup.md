@@ -16,7 +16,7 @@ Use dedup when repeated records should be filtered out and only the first or uni
 
 These patterns need a careful schema, a stable primary key, and ingestion flow that understands the table-level metadata Pinot uses to keep the result consistent.
 
-The strongest detail still lives in the original docs under [Upsert and Dedup](../../manage-data/data-import/upsert-and-dedup/README.md).
+The strongest detail still lives in the original docs under [Upsert and Dedup](upsert-and-dedup/README.md).
 
 ## What this page covered
 
@@ -32,4 +32,4 @@ Read [Formats and Filesystems](formats-filesystems.md) to decide how Pinot shoul
 - [Batch Ingestion](batch-ingestion.md)
 - [Stream Ingestion](stream-ingestion.md)
 - [Formats and Filesystems](formats-filesystems.md)
-- [Original Upsert and Dedup Docs](../../manage-data/data-import/upsert-and-dedup/README.md)
+- [Original Upsert and Dedup Docs](upsert-and-dedup/README.md)

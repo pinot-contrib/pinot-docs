@@ -60,7 +60,7 @@ To roll back if issues arise:
 helm rollback pinot -n pinot-quickstart
 ```
 
-For the full Helm upgrade procedure including pre-upgrade checklist, see the [Helm Chart Values Reference -- Upgrade Procedures](../tutorials/operations/kubernetes/helm-chart-reference.md#upgrade-procedures).
+For the full Helm upgrade procedure including pre-upgrade checklist, see the [Helm Chart Values Reference -- Upgrade Procedures](kubernetes/helm-chart-reference.md#upgrade-procedures).
 
 ### Compatibility testing
 

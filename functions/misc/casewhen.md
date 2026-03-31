@@ -4,7 +4,7 @@ description: This section contains reference documentation for the caseWhen func
 
 # caseWhen
 
-Returns values depending on boolean expressions. This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
+Returns values depending on boolean expressions. This function can only be used in an [ingestion transformation function](../../build-with-pinot/ingestion/ingestion-level-transformations.md).
 
 ## Signature
 

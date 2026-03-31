@@ -29,13 +29,13 @@ The official Apache Pinot Helm chart deploys all Pinot components (controller, b
 
 For a full walkthrough of resource sizing, JVM settings, deep storage configuration, and security controls, see:
 
-* [Kubernetes Deployment](../tutorials/operations/kubernetes/deployment-pinot-on-kubernetes.md)
+* [Kubernetes Deployment](kubernetes/deployment-pinot-on-kubernetes.md)
 
 ### Helm chart reference
 
 Every Helm value that controls replica counts, resource limits, persistence, service exposure, TLS, authentication, monitoring, and deep store configuration is documented in the chart reference. Use it as a lookup when customizing `values.yaml` for your environment.
 
-* [Helm Chart Values Reference](../tutorials/operations/kubernetes/helm-chart-reference.md)
+* [Helm Chart Values Reference](kubernetes/helm-chart-reference.md)
 
 ### Cloud provider specifics
 
@@ -43,13 +43,13 @@ Every Helm value that controls replica counts, resource limits, persistence, ser
 
 When running Pinot on EKS with a Kafka cluster inside the same VPC, pay attention to `advertised.listeners` configuration and Security Group rules. If Kafka consumers run outside EKS (Lambdas, EC2), the default advertised listeners will not resolve correctly.
 
-* [Amazon EKS (Kafka)](../tutorials/operations/kubernetes/non-eks-to-eks.md)
+* [Amazon EKS (Kafka)](kubernetes/non-eks-to-eks.md)
 
 #### Connecting to Amazon MSK
 
 Integrating Pinot real-time tables with Amazon Managed Streaming for Apache Kafka (MSK) requires VPC connectivity (or VPC peering), Security Group cross-references between EKS and MSK, and plaintext broker endpoints for the Pinot stream config.
 
-* [Amazon MSK (Kafka)](../tutorials/operations/kubernetes/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
+* [Amazon MSK (Kafka)](kubernetes/how-to-connect-pinot-with-amazon-managed-streaming-for-apache-kafka-amazon-msk.md)
 
 ### Security hardening
 
@@ -62,7 +62,7 @@ The default Helm chart ships without authentication or TLS. Before exposing any 
 
 The deployment guide includes a full hardening checklist:
 
-* [Kubernetes Deployment -- Security](../tutorials/operations/kubernetes/deployment-pinot-on-kubernetes.md#security)
+* [Kubernetes Deployment -- Security](kubernetes/deployment-pinot-on-kubernetes.md#security)
 
 ## Prerequisites
 

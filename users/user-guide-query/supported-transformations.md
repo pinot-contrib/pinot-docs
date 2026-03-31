@@ -152,8 +152,8 @@ All of the functions mentioned till now only support single value columns. You c
 
 ### Geospatial Queries
 
-Pinot supports Geospatial queries on columns containing text-based geographies. For more details on the queries and how to enable them, see [Geospatial](../../basics/indexing/geospatial-support.md).
+Pinot supports Geospatial queries on columns containing text-based geographies. For more details on the queries and how to enable them, see [Geospatial](../../build-with-pinot/indexing/geospatial-support.md).
 
 ### Text Queries
 
-Pinot supports pattern matching on text-based columns. Only the columns mentioned as text columns in table config can be queried using this method. For more details on how to enable pattern matching, see [Text search support](../../basics/indexing/text-search-support.md).
+Pinot supports pattern matching on text-based columns. Only the columns mentioned as text columns in table config can be queried using this method. For more details on how to enable pattern matching, see [Text search support](../../build-with-pinot/indexing/text-search-support.md).

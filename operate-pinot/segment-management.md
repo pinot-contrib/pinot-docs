@@ -24,7 +24,7 @@ Understand the operations available when segments need to be reset, reloaded, re
 | Page | What it covers |
 |---|---|
 | [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) | Decision guide for choosing between reset, reload, refresh, rebalance, force commit, purge, and rollback |
-| [Reload a Table Segment](../tutorials/operations/segment-reload.md) | Step-by-step instructions for reloading segments via the Controller API or Admin Console |
+| [Reload a Table Segment](segment-reload.md) | Step-by-step instructions for reloading segments via the Controller API or Admin Console |
 
 ## Rebalance
 
@@ -77,7 +77,7 @@ Guarantee atomicity when replacing offline segments and quickly revert a bad dat
 |---|---|
 | Newly added servers have no segments | Run a [rebalance](../operators/operating-pinot/rebalance/rebalance-servers/) |
 | Segment stuck in ERROR state | [Reset](../operators/operating-pinot/segment-lifecycle-and-repair.md) the segment, then reload if data is corrupt |
-| Schema or index config changed | [Reload](../tutorials/operations/segment-reload.md) all segments, or schedule a [RefreshSegmentTask](../operators/operating-pinot/refresh-segment-task.md) for full rebuild |
+| Schema or index config changed | [Reload](segment-reload.md) all segments, or schedule a [RefreshSegmentTask](../operators/operating-pinot/refresh-segment-task.md) for full rebuild |
 | Too many small segments | Schedule a [MergeRollupTask](../operators/operating-pinot/minion-merge-rollup-task.md) or [UpsertCompactMergeTask](../operators/operating-pinot/upsert-compact-merge-task.md) |
 | Stale records in upsert table wasting space | Schedule an [UpsertCompactionTask](../operators/operating-pinot/upsert-compaction-task.md) |
 | Need to delete specific records (GDPR) | Schedule a [PurgeTask](../operators/operating-pinot/purge-task.md) |

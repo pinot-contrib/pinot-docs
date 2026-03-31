@@ -106,4 +106,4 @@ Pinot exposes the following metric primitives through all backends:
 
 All metrics implementations include a JMX reporter enabled by default. The `JmxReporterMetricsRegistryRegistrationListener` is automatically registered when the metrics system initializes.
 
-To configure additional metrics reporting (e.g., Prometheus, Grafana), see [Monitor Pinot Using Prometheus and Grafana](../../tutorials/operations/monitor-pinot-using-prometheus-and-grafana.md).
+To configure additional metrics reporting (e.g., Prometheus, Grafana), see [Monitor Pinot Using Prometheus and Grafana](../../operate-pinot/monitor-pinot-using-prometheus-and-grafana.md).

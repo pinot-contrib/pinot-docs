@@ -10,4 +10,4 @@ description: >-
 | -------- | ----------- |
 | [CLPDECODE](clpdecode.md) | Reconstruct (decode) the value of a CLP-encoded field from its component columns |
 
-For details on CLP encoding and ingestion, see [CLP](../../manage-data/data-import/pinot-stream-ingestion/clp.md).
+For details on CLP encoding and ingestion, see [CLP](../../build-with-pinot/ingestion/stream-ingestion/clp.md).

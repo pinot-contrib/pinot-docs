@@ -22,8 +22,8 @@ To get started with operating a Pinot cluster, first look at the tutorials in [G
 
 You can then proceed to the more advanced Pinot setup in production environment.
 
-{% content-ref url="../../tutorials/operations/running-pinot-in-production.md" %}
-[running-pinot-in-production.md](../../tutorials/operations/running-pinot-in-production.md)
+{% content-ref url="../../operate-pinot/running-pinot-in-production.md" %}
+[running-pinot-in-production.md](../../operate-pinot/running-pinot-in-production.md)
 {% endcontent-ref %}
 
 ### Related blog posts

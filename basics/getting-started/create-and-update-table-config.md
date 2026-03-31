@@ -26,12 +26,12 @@ Simple changes only require updating and saving your modified table configuratio
 
 To update existing data and segments, after you update and save the changes to the table config file, do the following as applicable:
 
-**When you add or modify indexes or the table schema**, perform a [segment reload](../../tutorials/operations/segment-reload.md). To [reload](../../troubleshooting/operations-faq.md#whats-the-difference-between-reset-refresh-and-reload) all segments:
+**When you add or modify indexes or the table schema**, perform a [segment reload](../../operate-pinot/segment-reload.md). To [reload](../../operate-pinot/troubleshooting/operations-faq.md#whats-the-difference-between-reset-refresh-and-reload) all segments:
 
 * In the Pinot UI, from the table page, click **Reload All Segments**.
 * Using the Pinot API, send `POST /segments/{tableName}/reload`.
 
-**When you re-partition data**, perform a segment [refresh](../../troubleshooting/operations-faq.md#whats-the-difference-between-reset-refresh-and-reload). To refresh, replace an existing segment with a new one by uploading a segment reusing the existing filename. Use the Pinot API, send `POST /segments?tableName={yourTableName}`.
+**When you re-partition data**, perform a segment [refresh](../../operate-pinot/troubleshooting/operations-faq.md#whats-the-difference-between-reset-refresh-and-reload). To refresh, replace an existing segment with a new one by uploading a segment reusing the existing filename. Use the Pinot API, send `POST /segments?tableName={yourTableName}`.
 
 **When you change the transform function used to populate a derived field** or **increase the number of partitions in an upsert-enabled table**, perform a table re-bootstrap. One way to do this is to delete and recreate the table:
 

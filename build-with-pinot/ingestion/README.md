@@ -20,10 +20,10 @@ The detailed controller and table-config material belongs in [Reference](../../r
 
 - [Import Data](../../manage-data/data-import/README.md)
 - [Data Ingestion Overview](../../developers/advanced/data-ingestion.md)
-- [Ingestion Transformations](../../developers/advanced/ingestion-level-transformations.md)
-- [Ingestion Aggregations](../../developers/advanced/ingestion-level-aggregations.md)
-- [Supported Data Formats](../../manage-data/data-import/pinot-input-formats.md)
-- [File Systems](../../manage-data/data-import/pinot-file-system/README.md)
+- [Ingestion Transformations](ingestion-level-transformations.md)
+- [Ingestion Aggregations](ingestion-level-aggregations.md)
+- [Supported Data Formats](pinot-input-formats.md)
+- [File Systems](file-systems/README.md)
 
 ## What this page covered
 

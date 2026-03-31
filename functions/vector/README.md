@@ -5,7 +5,7 @@ Pinot provides built-in vector similarity and utility functions for working with
 Both input vectors must have the same number of dimensions. Passing `null` or mismatched-length vectors results in an error.
 
 {% hint style="info" %}
-To accelerate vector search queries with approximate nearest-neighbor (ANN) lookup, configure a [vector index](../../basics/indexing/vector-index.md) on your float array column and use the `VECTOR_SIMILARITY` predicate described below.
+To accelerate vector search queries with approximate nearest-neighbor (ANN) lookup, configure a [vector index](../../build-with-pinot/indexing/vector-index.md) on your float array column and use the `VECTOR_SIMILARITY` predicate described below.
 {% endhint %}
 
 ## VECTOR\_SIMILARITY
@@ -20,13 +20,13 @@ WHERE VECTOR_SIMILARITY(vectorColumn, queryVector, topK)
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `vectorColumn` | identifier | A multi-valued FLOAT column with a [vector index](../../basics/indexing/vector-index.md) configured. |
+| `vectorColumn` | identifier | A multi-valued FLOAT column with a [vector index](../../build-with-pinot/indexing/vector-index.md) configured. |
 | `queryVector` | `ARRAY[...]` | A float array literal representing the query embedding. |
 | `topK` | integer literal | Number of nearest neighbors to retrieve. Defaults to `10` if omitted. |
 
 ### Prerequisites
 
-`VECTOR_SIMILARITY` requires a vector index on the target column. Without a vector index the predicate will fail. See the [vector index documentation](../../basics/indexing/vector-index.md) for setup instructions.
+`VECTOR_SIMILARITY` requires a vector index on the target column. Without a vector index the predicate will fail. See the [vector index documentation](../../build-with-pinot/indexing/vector-index.md) for setup instructions.
 
 **Minimal field config:**
 

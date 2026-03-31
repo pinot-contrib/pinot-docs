@@ -24,7 +24,7 @@ This section covers everything you need to deploy an Apache Pinot cluster, from 
 
 ### Advanced Pinot setup
 
-[Advanced Pinot Setup](../developers/advanced/advanced-pinot-setup.md) provides step-by-step instructions for starting each Pinot component individually using Docker or launcher scripts, configuring components with custom config files, creating batch and streaming tables, and loading data.
+[Advanced Pinot Setup](advanced-pinot-setup.md) provides step-by-step instructions for starting each Pinot component individually using Docker or launcher scripts, configuring components with custom config files, creating batch and streaming tables, and loading data.
 
 ### Server startup status checkers
 

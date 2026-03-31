@@ -14,7 +14,7 @@ This is a list of questions frequently asked in our troubleshooting channel on S
 
 ### Flatten my JSON Kafka stream
 
-The [json\_format\(field\)](../../developers/advanced/ingestion-level-transformations.md#json-functions) function can store a top level json field as a STRING in Pinot.
+The [json\_format\(field\)](../../build-with-pinot/ingestion/ingestion-level-transformations.md#json-functions) function can store a top level json field as a STRING in Pinot.
 
 Then, use these [json functions](../../users/user-guide-query/supported-transformations.md#json-functions) during query time, to extract fields from the json string.
 

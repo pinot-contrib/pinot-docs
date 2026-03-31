@@ -266,7 +266,7 @@ pinot-admin QuickStart -type stream_complex_type
 
 ## Upsert
 
-This example demonstrates how to do [stream processing with upsert](../../manage-data/data-import/upsert-and-dedup/upsert.md) with Pinot. The command:
+This example demonstrates how to do [stream processing with upsert](../../build-with-pinot/ingestion/upsert-and-dedup/upsert.md) with Pinot. The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
 * Creates `meetupRsvp` table
@@ -299,7 +299,7 @@ pinot-admin QuickStart -type upsert
 
 ## Upsert JSON
 
-This example demonstrates how to do [stream processing with upsert](../../manage-data/data-import/upsert-and-dedup/upsert.md) with JSON documents in Pinot. The command:
+This example demonstrates how to do [stream processing with upsert](../../build-with-pinot/ingestion/upsert-and-dedup/upsert.md) with JSON documents in Pinot. The command:
 
 * Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
 * Creates `meetupRsvp` table
@@ -366,7 +366,7 @@ pinot-admin QuickStart -type hybrid
 
 ## Join
 
-This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../users/user-guide-query/lookup-udf-join.md). The command:
+This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../build-with-pinot/querying-and-sql/lookup-udf-join.md). The command:
 
 * Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server in the same container.
 * Creates the `baseballStats` table

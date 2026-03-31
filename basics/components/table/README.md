@@ -88,21 +88,21 @@ For more details about peer segment download during real-time ingestion, refer t
 
 You can create multiple indices on a table to increase the performance of the queries. The following types of indices are supported:
 
-* [Forward Index](../../indexing/forward-index.md)
+* [Forward Index](../../../build-with-pinot/indexing/forward-index.md)
   * Dictionary-encoded forward index with bit compression
   * Raw value forward index
   * Sorted forward index with run-length encoding
-* [Inverted Index](../../indexing/inverted-index.md)
+* [Inverted Index](../../../build-with-pinot/indexing/inverted-index.md)
   * Bitmap inverted index
   * Sorted inverted index
-* [Star-tree Index](../../indexing/star-tree-index.md)
-* [Range Index](../../indexing/range-index.md)
-* [Text Index](../../indexing/text-search-support.md)
-* [Geospatial](../../indexing/geospatial-support.md)
+* [Star-tree Index](../../../build-with-pinot/indexing/star-tree-index.md)
+* [Range Index](../../../build-with-pinot/indexing/range-index.md)
+* [Text Index](../../../build-with-pinot/indexing/text-search-support.md)
+* [Geospatial](../../../build-with-pinot/indexing/geospatial-support.md)
 
 For more details on each indexing mechanism and corresponding configurations, see [Indexing](../../indexing/).
 
-Set up [Bloomfilters](../../indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
+Set up [Bloomfilters](../../../build-with-pinot/indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
 
 ### Pre-aggregation
 

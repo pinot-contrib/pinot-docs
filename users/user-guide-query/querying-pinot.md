@@ -9,7 +9,7 @@ description: Learn how to query Pinot using SQL
 Pinot provides a SQL interface for querying, which uses the **Calcite SQL** parser to parse queries and the **MYSQL\_ANSI** dialect.
 
 {% hint style="success" %}
-For a complete reference of all supported SQL statements, clauses, operators, and engine compatibility, see the [SQL Syntax and Operators Reference](sql-reference.md).
+For a complete reference of all supported SQL statements, clauses, operators, and engine compatibility, see the [SQL Syntax and Operators Reference](../../build-with-pinot/querying-and-sql/sql-reference.md).
 {% endhint %}
 
 ## Pinot 1.0
@@ -93,7 +93,7 @@ FROM myTable
   OR (baz < 42 AND quux IN ('hello', 'goodbye') AND quuux NOT IN (42, 69))
 ```
 
-For performant filtering of IDs in a list, see [Filtering with IdSet](filtering-with-idset.md).
+For performant filtering of IDs in a list, see [Filtering with IdSet](../../build-with-pinot/querying-and-sql/filtering-with-idset.md).
 
 ### Filtering with NULL predicate
 

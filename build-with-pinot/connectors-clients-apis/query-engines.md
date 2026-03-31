@@ -18,8 +18,8 @@ Use federated query engines when Pinot is one source in a broader SQL stack and 
 
 ## Detailed docs
 
-* [Trino](../../integrations/trino.md)
-* [Query engines on Kubernetes](../../basics/getting-started/kubernetes/query-engines.md)
+* [Trino](trino.md)
+* [Query engines on Kubernetes](query-engines-kubernetes.md)
 
 ## What this page covered
 

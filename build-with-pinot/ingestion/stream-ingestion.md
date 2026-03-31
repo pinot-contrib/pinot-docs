@@ -36,4 +36,4 @@ Read [Upsert and Dedup](upsert-dedup.md) if the stream should collapse duplicate
 - [Batch Ingestion](batch-ingestion.md)
 - [Upsert and Dedup](upsert-dedup.md)
 - [Formats and Filesystems](formats-filesystems.md)
-- [Original Stream Docs](../../manage-data/data-import/pinot-stream-ingestion/README.md)
+- [Original Stream Docs](stream-ingestion/README.md)
