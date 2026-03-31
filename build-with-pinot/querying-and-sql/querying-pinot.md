@@ -83,7 +83,7 @@ For a complete reference of all supported SQL statements, clauses, operators, an
 
 In Pinot 1.0, the multi-stage query engine supports inner join, left-outer, semi-join, and nested queries out of the box. It's optimized for in-memory process and latency. For more information, see how to [enable and use the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md).
 
-Pinot also supports using simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [programmatically access the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md#programmatically-access-the-multi-stage-query-engine). More DDL supports will be added in the future. But for now, the most common way for data definition is using the [Controller Admin API](../api/pinot-rest-admin-interface.md).
+Pinot also supports using simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [programmatically access the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md#programmatically-access-the-multi-stage-query-engine). More DDL supports will be added in the future. But for now, the most common way for data definition is using the [Controller Admin API](../../reference/api-reference/controller-admin-api.md).
 
 {% hint style="info" %}
 **Note:** For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage query engine (v2), we recommend using **Trino** as a federated query engine.
@@ -254,7 +254,7 @@ FROM myTable
 GROUP BY DATETIMECONVERT(timeColumnName, '1:MILLISECONDS:EPOCH', '1:HOURS:EPOCH', '1:HOURS')
 ```
 
-For more examples, see [Transform Function in Aggregation Grouping](supported-transformations.md).
+For more examples, see [Transform Function in Aggregation Grouping](../../functions/transformations.md).
 
 ### BYTES column
 

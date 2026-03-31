@@ -850,7 +850,7 @@ Follow these steps for a safe Helm-based upgrade of a running Pinot cluster.
 
 ### Pre-Upgrade Checklist
 
-1. Review the [Pinot release notes](../../basics/releases) for breaking changes.
+1. Review the [Pinot release notes](../../reference/releases) for breaking changes.
 2. Back up your ZooKeeper data (table configs, schemas, segment metadata).
 3. Ensure all tables are in a healthy state with no ongoing rebalances.
 4. Test the upgrade in a staging environment first.

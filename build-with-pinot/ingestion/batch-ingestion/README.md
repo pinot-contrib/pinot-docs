@@ -409,11 +409,11 @@ When Pinot segment files are created in external systems (Hadoop/spark/etc), the
 3. Push segment to PinotFS(HDFS/S3/GCS/ADLS) and let pinot pull segment files from PinotFS URI. See [Segment URI Push](.#2-segment-uri-push) and [Segment Metadata Push](.#3-segment-metadata-push).
 4. Push segment to other systems and implement your own segment fetcher to pull data from those systems.
 
-The first three options are supported out of the box within the Pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files, it will pick up the file and allocate it to proper Pinot servers and brokers. To enable Pinot support for PinotFS, you'll need to provide [PinotFS](../pinot-file-system/) configuration and proper Hadoop dependencies.
+The first three options are supported out of the box within the Pinot package. As long your remote jobs send Pinot controller with the corresponding URI to the files, it will pick up the file and allocate it to proper Pinot servers and brokers. To enable Pinot support for PinotFS, you'll need to provide [PinotFS](file-systems/) configuration and proper Hadoop dependencies.
 
 ### Persistence
 
-By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of a system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add deep storage. Checkout [File systems](../pinot-file-system/) for all the info and related configs.
+By default, Pinot does not come with a storage layer, so all the data sent, won't be stored in case of a system crash. In order to persistently store the generated segments, you will need to change controller and server configs to add deep storage. Checkout [File systems](file-systems/) for all the info and related configs.
 
 ### Tuning
 

@@ -61,7 +61,7 @@ description: Detailed curl examples for commonly used controller endpoints.
 This page provides detailed `curl` request and response examples for commonly used controller endpoints. For a categorized overview of all Pinot APIs, see the main [API Reference](./).
 
 {% hint style="info" %}
-The complete and interactive list of every controller endpoint is available in the Swagger UI at `http://<controller-host>:<port>/help`. For a visual walkthrough of the Swagger UI, see [Controller Admin API](pinot-rest-admin-interface.md).
+The complete and interactive list of every controller endpoint is available in the Swagger UI at `http://<controller-host>:<port>/help`. For a visual walkthrough of the Swagger UI, see [Controller Admin API](controller-admin-api.md).
 {% endhint %}
 
 ## Cluster

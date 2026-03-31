@@ -188,7 +188,7 @@ curl -X DELETE "http://localhost:9000/schemas/baseballStats" -H "accept: applica
 Using `retention=0d` permanently deletes all data immediately with no possibility of recovery. Only use this for development, testing, or cleanup scenarios where the data is no longer needed.
 {% endhint %}
 
-For more details on the delete table API and its parameters, see the [Controller API Examples](controller-api-reference.md#delete-tables-less-than-tablename-greater-than).
+For more details on the delete table API and its parameters, see the [Controller API Examples](controller-api.md#delete-tables-less-than-tablename-greater-than).
 
 ### Using the Data Explorer UI
 

@@ -158,7 +158,7 @@ Plugins implement interfaces from [pinot-spi](https://github.com/apache/pinot/tr
 
 ## Legacy compatibility pages
 
-- [STDDEV_POP](stddev_pop.md)
-- [STDDEV_SAMP](stddev_samp.md)
-- [VAR_POP](var_pop.md)
-- [VAR_SAMP](var_samp.md)
+- [STDDEV_POP](../../functions/statistical/stddevpop.md)
+- [STDDEV_SAMP](../../functions/statistical/stddevsamp.md)
+- [VAR_POP](../../functions/statistical/varpop.md)
+- [VAR_SAMP](../../functions/statistical/varsamp.md)

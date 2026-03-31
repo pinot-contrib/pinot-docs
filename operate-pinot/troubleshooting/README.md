@@ -122,7 +122,7 @@ This works well if some of your fields are nested json, but most of your fields 
 
 Inverted indexes are set in the table configuration's `tableIndexConfi`g -&gt; `invertedIndexColumns` list. See the documentation for `tableIndexConfig`: [docs](../../README.md#tableindexconfig-1) which includes a sample table that has set inverted indexes on some columns.
 
-Applying inverted indexes to a table configuration will generate an inverted index for all new segments. In order to apply the inverted indexes to all existing segments, see [How to apply inverted index to existing setup?](frequent-questions.md#how-to-apply-inverted-index-to-existing-setup).
+Applying inverted indexes to a table configuration will generate an inverted index for all new segments. In order to apply the inverted indexes to all existing segments, see [How to apply inverted index to existing setup?](README.md#how-to-apply-inverted-index-to-existing-setup).
 
 ### Apply inverted index to existing setup
 
@@ -212,7 +212,7 @@ For REALTIME table update [replicasPerPartition](../../README.md#segmentsconfig)
     ..
 ```
 
-After changing the replication, run a [table rebalance](frequent-questions.md#how-to-run-a-rebalance-on-a-table). 
+After changing the replication, run a [table rebalance](README.md#how-to-run-a-rebalance-on-a-table). 
 
 ### How to run a rebalance on a table?
 
@@ -247,7 +247,7 @@ For example, if we have 6 partitions, 2 replicas, and 4 servers:
 | p6 | S2 | S3 |
 
 In this example, the set \(S0, S2\) contains r1 of every partition, and \(s1, S3\) contains r2 of every partition. The query will only be routed to one of the sets, and not span every server.  
-If you are are adding/removing servers from an existing table setup, you have to run [rebalance](frequent-questions.md#how-to-run-a-rebalance-on-a-table) for segment assignment changes to take effect.
+If you are are adding/removing servers from an existing table setup, you have to run [rebalance](README.md#how-to-run-a-rebalance-on-a-table) for segment assignment changes to take effect.
 
 **Replica group query routing**
 
