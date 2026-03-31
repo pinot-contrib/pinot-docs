@@ -2,3 +2,7 @@
 .vscode
 .DS_Store
 *.iml
+.codex/
+.claude/
+.ai/
+.superset/
