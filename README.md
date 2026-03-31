@@ -77,8 +77,8 @@ To start importing data into Pinot, see how to import batch and stream data:
 
 To start querying data in Pinot, check out our Query guide:
 
-{% content-ref url="users/user-guide-query/" %}
-[user-guide-query](users/user-guide-query/)
+{% content-ref url="build-with-pinot/querying-and-sql/" %}
+[user-guide-query](build-with-pinot/querying-and-sql/)
 {% endcontent-ref %}
 
 ## Learn

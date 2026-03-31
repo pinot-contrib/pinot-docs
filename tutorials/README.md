@@ -70,12 +70,12 @@ Guides for securing, monitoring, tuning, and deploying Pinot in production.
 [running-pinot-in-production.md](../operate-pinot/running-pinot-in-production.md)
 {% endcontent-ref %}
 
-{% content-ref url="operations/kubernetes/" %}
-[kubernetes](operations/kubernetes/)
+{% content-ref url="../operate-pinot/kubernetes/" %}
+[kubernetes](../operate-pinot/kubernetes/)
 {% endcontent-ref %}
 
-{% content-ref url="operations/authentication/" %}
-[authentication](operations/authentication/)
+{% content-ref url="../operate-pinot/authentication/" %}
+[authentication](../operate-pinot/authentication/)
 {% endcontent-ref %}
 
 {% content-ref url="../operate-pinot/configuring-tls-ssl.md" %}
