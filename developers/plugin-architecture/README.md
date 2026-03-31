@@ -52,8 +52,8 @@ Stream ingestion plugins allow Pinot to consume data from real-time streaming pl
 
 Batch ingestion plugins run data ingestion jobs on different execution frameworks.
 
-{% content-ref url="../../manage-data/data-import/batch-ingestion/" %}
-[batch-ingestion](../../manage-data/data-import/batch-ingestion/)
+{% content-ref url="../../build-with-pinot/ingestion/batch-ingestion" %}
+[batch-ingestion](../../build-with-pinot/ingestion/batch-ingestion)
 {% endcontent-ref %}
 
 ### Metrics

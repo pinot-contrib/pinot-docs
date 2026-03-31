@@ -138,4 +138,4 @@ Before upgrading from one version to another one, read the release notes. While 
 
 ## Historical compatibility pages
 
-- [1.0 (legacy historical alias)](1.0.md)
+- [1.0 (legacy historical alias)](1.0.0.md)

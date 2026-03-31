@@ -108,7 +108,7 @@ To use the geoindex, first declare the geolocation field as bytes in the schema,
 
 Note the use of `transformFunction` that converts the created point into `SphericalGeography` format, which is needed by the `ST_Distance` function.
 
-Next, declare the geospatial index in the [table configuration](../../configuration-reference/table.md) you need to
+Next, declare the geospatial index in the [table configuration](../../reference/configuration-reference/table.md) you need to
 
 * Verify the dictionary is disabled (see how to [disable the dictionary index](dictionary-index.md)).
 * Enable the H3 index.

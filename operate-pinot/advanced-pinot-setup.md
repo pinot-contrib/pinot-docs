@@ -315,7 +315,7 @@ bin/pinot-admin.sh AddTable \
 
 By default, the inverted index type is the only type of index that isn't created automatically during segment generation. Instead, they are generated when the segments are loaded on the server. But, waiting to build indexes until load time increases the startup time and takes up resources with every new segment push, which increases the time for other operations such as rebalance.
 
-To automatically create an inverted index during segment generation, add an entry to your [table index config](../configuration-reference/table.md#table-index-config) in the table configuration file.
+To automatically create an inverted index during segment generation, add an entry to your [table index config](../reference/configuration-reference/table.md#table-index-config) in the table configuration file.
 
 This setting works with [batch (offline) tables](advanced-pinot-setup.md#batch-table-creation).
 
@@ -420,7 +420,7 @@ A sorted forward index can be used as an inverted index with better performance,
 
 ## Load Data
 
-Now that the table is configured, let's load some data. Data can be loaded in batch mode or streaming mode. See[ ingestion overview](../developers/advanced/data-ingestion.md) page for details. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster.
+Now that the table is configured, let's load some data. Data can be loaded in batch mode or streaming mode. See[ ingestion overview](../build-with-pinot/ingestion/README.md) page for details. Loading data involves generating pinot segments from raw data and pushing them to the pinot cluster.
 
 ### Load Data in Batch
 
@@ -492,7 +492,7 @@ bin/pinot-admin.sh LaunchDataIngestionJob \
 {% endtab %}
 {% endtabs %}
 
-JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. See [Pinot Ingestion Job](../manage-data/data-import/batch-ingestion) for more details.
+JobSpec yaml file has all the information regarding data format, input data location and pinot cluster coordinates. Note that this assumes that the controller is **RUNNING** to fetch the table config and schema. If not, you will have to configure the spec to point at their location. See [Pinot Ingestion Job](../build-with-pinot/ingestion/batch-ingestion) for more details.
 
 ### Load Data in Streaming
 

@@ -244,5 +244,5 @@ srcRows.addSink(new PinotSinkFunction<>(
 * [Design Proposal](https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=177045634) - Original design motivation
 * [PR #13107](https://github.com/apache/pinot/pull/13107) - Externally partitioned segments for upsert tables
 * [PR #13837](https://github.com/apache/pinot/pull/13837) - Flink connector enhancements for upsert backfill
-* [Table Configuration Reference](../../../configuration-reference/table.md)
-* [Schema Configuration Reference](../../../configuration-reference/schema.md)
+* [Table Configuration Reference](../../../reference/configuration-reference/table.md)
+* [Schema Configuration Reference](../../../reference/configuration-reference/schema.md)

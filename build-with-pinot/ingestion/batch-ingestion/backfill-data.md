@@ -8,7 +8,7 @@ description: Batch ingestion of backfill data into Apache Pinot.
 
 Pinot batch ingestion involves two parts: routine ingestion job(hourly/daily) and backfill. Here are some examples to show how routine batch ingestion works in Pinot offline table:
 
-* [Batch Ingestion Overview](../../../manage-data/data-import/batch-ingestion)
+* [Batch Ingestion Overview](.)
 * [Batch Ingestion in Practice](../../../tutorials/data-ingestion/batch-data-ingestion-in-practice.md)
 
 **High-level description**

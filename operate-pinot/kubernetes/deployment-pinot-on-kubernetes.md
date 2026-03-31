@@ -162,7 +162,7 @@ Do not hardcode passwords or tokens in `values.yaml` or ConfigMaps.
 
 See:
 
-* [Dynamic Environment](../../configuration-reference/dynamic-environment.md)
+* [Dynamic Environment](../../reference/configuration-reference/dynamic-environment.md)
 
 {% hint style="warning" %}
 When you enable controller/broker auth, internal Pinot components also need service tokens (segment fetchers, uploaders, minions). Plan a rolling restart and validate internode calls.

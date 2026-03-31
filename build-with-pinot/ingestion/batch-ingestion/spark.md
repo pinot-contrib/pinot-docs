@@ -15,7 +15,7 @@ You can follow the [local install guide](../../../basics/getting-started/install
 
 If you do build Pinot from Source, you should consider opting into using the `build-shaded-jar` jar profile with `-Pbuild-shaded-jar`. While Pinot does not bundle spark into its jar, it does bundle certain hadoop libraries.
 
-Next, you need to change the execution config in the [job spec](../../../manage-data/data-import/batch-ingestion#create-schema-configuration) to the following:
+Next, you need to change the execution config in the [job spec](.#create-schema-configuration) to the following:
 
 ```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
@@ -130,9 +130,9 @@ It can be because of misconfigured `controllerURI` in job spec yaml file. If the
 
 Q - **My data gets overwritten during ingestion.**
 
-Set [segmentPushType](../../../configuration-reference/table.md#segments-config) to `APPEND` in the tableConfig.
+Set [segmentPushType](../../../reference/configuration-reference/table.md#segments-config) to `APPEND` in the tableConfig.
 
-If already set to `APPEND`, this is likely due to a missing `timeColumnName` in your table config. If you can't provide a time column, use our[ segment name generation configs](../../../configuration-reference/job-specification.md#segment-name-generator-spec) in ingestion spec. Generally using `inputFile` segment name generator should fix your issue.
+If already set to `APPEND`, this is likely due to a missing `timeColumnName` in your table config. If you can't provide a time column, use our[ segment name generation configs](../../../reference/configuration-reference/job-specification.md#segment-name-generator-spec) in ingestion spec. Generally using `inputFile` segment name generator should fix your issue.
 
 Q - **I am getting `java.lang.RuntimeException: java.io.IOException: Failed to create directory: pinot-plugins-dir-0/plugins/*`**
 

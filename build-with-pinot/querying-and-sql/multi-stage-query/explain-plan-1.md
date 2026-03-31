@@ -245,7 +245,7 @@ Returns:
 ## Explain on single stage query engine
 
 {% hint style="info" %}
-Explain plan for single stage query engine is described in deep in [explain-plan.md](../../../users/user-guide-query/explain-plan.md)
+Explain plan for single stage query engine is described in deep in [explain-plan.md](../query-execution-controls/explain-plan.md)
 {% endhint %}
 
 Explain plan for single stage query engine is simpler and less customized, but returns the information in a tabular format. For example, the query `EXPLAIN PLAN FOR SELECT playerID, playerName FROM baseballStats`.&#x20;

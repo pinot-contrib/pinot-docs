@@ -26,7 +26,7 @@ A schema also defines what category a column belongs to. Columns in a Pinot tabl
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Dimension** | <p>Dimension columns are typically used in slice and dice operations for answering business queries. Some operations for which dimension columns are used:</p><ul><li><code>GROUP BY</code> - group by one or more dimension columns along with aggregations on one or more metric columns</li><li>Filter clauses such as <code>WHERE</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                             |
 | **Metric**    | <p>These columns represent the quantitative data of the table. Such columns are used for aggregation. In data warehouse terminology, these can also be referred to as fact or measure columns.</p><p>Some operation for which metric columns are used:</p><ul><li>Aggregation - <code>SUM</code>, <code>MIN</code>, <code>MAX</code>, <code>COUNT</code>, <code>AVG</code> etc</li><li>Filter clause such as <code>WHERE</code></li></ul>                                                                                                                                                                                                                                                                                                                          |
-| **DateTime**  | <p>This column represents time columns in the data. There can be multiple time columns in a table, but only one of them can be treated as primary. The primary time column is the one that is present in the <a href="../../../configuration-reference/table.md#segments-config">segment config</a>.<br>The primary time column is used by Pinot to maintain the time boundary between offline and real-time data in a hybrid table and for retention management. A primary time column is mandatory if the table's push type is <code>APPEND</code> and optional if the push type is <code>REFRESH</code> .</p><p>Common operations that can be done on time column:</p><ul><li><code>GROUP BY</code></li><li>Filter clauses such as <code>WHERE</code></li></ul> |
+| **DateTime**  | <p>This column represents time columns in the data. There can be multiple time columns in a table, but only one of them can be treated as primary. The primary time column is the one that is present in the <a href="../../../reference/configuration-reference/table.md#segments-config">segment config</a>.<br>The primary time column is used by Pinot to maintain the time boundary between offline and real-time data in a hybrid table and for retention management. A primary time column is mandatory if the table's push type is <code>APPEND</code> and optional if the push type is <code>REFRESH</code> .</p><p>Common operations that can be done on time column:</p><ul><li><code>GROUP BY</code></li><li>Filter clauses such as <code>WHERE</code></li></ul> |
 
 Pinot does not enforce strict rules on which of these categories columns belong to, rather the categories can be thought of as hints to Pinot to do internal optimizations.
 
@@ -36,11 +36,11 @@ The categories are also relevant when doing segment merge and rollups. Pinot use
 
 Metrics aggregation is another example where Pinot uses dimensions and time are used as the key, and automatically aggregates values for the metric columns.
 
-For configuration details, see [Schema configuration reference](../../../configuration-reference/schema.md).
+For configuration details, see [Schema configuration reference](../../../reference/configuration-reference/schema.md).
 
 ### Date and time fields
 
-Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations. You can refer to [DateTime field spec configs](../../../configuration-reference/schema.md#datetimefieldspec) for more details on supported formats.
+Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations. You can refer to [DateTime field spec configs](../../../reference/configuration-reference/schema.md#datetimefieldspec) for more details on supported formats.
 
 ### Creating a schema
 
@@ -49,7 +49,7 @@ First, Make sure your [cluster is up](../cluster/#setup-a-pinot-cluster) and run
 Let's create a schema and put it in a JSON file. For this example, we have created a schema for flight data.
 
 {% hint style="info" %}
-For more details on constructing a schema file, see the [Schema configuration reference](../../../configuration-reference/schema.md).
+For more details on constructing a schema file, see the [Schema configuration reference](../../../reference/configuration-reference/schema.md).
 {% endhint %}
 
 {% code title="flights-schema.json" %}

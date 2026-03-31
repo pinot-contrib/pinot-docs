@@ -50,7 +50,7 @@ For time columns, keep one primary time field in mind for retention and hybrid-t
 
 ## When to use the reference pages
 
-Use the [schema reference](../../configuration-reference/schema.md) when you need the exact JSON fields, validation rules, or date-time field formats. Use the [table reference](../../configuration-reference/table.md) when you need indexing, retention, or routing configuration.
+Use the [schema reference](../../reference/configuration-reference/schema.md) when you need the exact JSON fields, validation rules, or date-time field formats. Use the [table reference](../../reference/configuration-reference/table.md) when you need indexing, retention, or routing configuration.
 
 ## What this page covered
 
@@ -65,4 +65,4 @@ Read [Logical Tables](logical-tables.md) if one query name should route to multi
 - [Data Modeling](README.md)
 - [Logical Tables](logical-tables.md)
 - [Schema Evolution](schema-evolution.md)
-- [Schema Reference](../../configuration-reference/schema.md)
+- [Schema Reference](../../reference/configuration-reference/schema.md)

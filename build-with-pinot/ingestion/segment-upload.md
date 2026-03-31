@@ -12,7 +12,7 @@ Before you upload, do the following:
 
 1. [Create a schema configuration](../../basics/getting-started/first-table-and-schema.md#4-save-the-schema) or confirm one exists that matches the segment you want to upload.
 
-2. [Create a table configuration](../../configuration-reference/table.md) or confirm one exists that matches the segment you want to upload.
+2. [Create a table configuration](../../reference/configuration-reference/table.md) or confirm one exists that matches the segment you want to upload.
 
 3. If needed, upload the schema and table configs.
 
@@ -201,7 +201,7 @@ If you are pushing from a batch ingestion job, the `jobType` maps to controller 
 | `SegmentMetadataPush` or `SegmentCreationAndMetadataPush` | Metadata push | `POST /v2/segments` |
 | `SegmentMetadataPush` with `batchSegmentUpload: true` | Batch metadata push | `POST /segments/batchUpload` |
 
-For ingestion jobs, define the push behavior in the [ingestion job spec](../../configuration-reference/job-specification.md). Example:
+For ingestion jobs, define the push behavior in the [ingestion job spec](../../reference/configuration-reference/job-specification.md). Example:
 
 ```yaml
 executionFrameworkSpec:

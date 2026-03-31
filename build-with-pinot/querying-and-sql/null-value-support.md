@@ -27,7 +27,7 @@ The following table summarizes the behavior of null handling support in Pinot:
 
 ## How Pinot stores null values
 
-Pinot always stores column values in a [forward index](../../build-with-pinot/indexing/forward-index.md). Forward index never stores null values but have to store a value for each row. Therefore independent of the null handling configuration, Pinot always stores a default value for nulls rows in the forward index. The default value used in a column can be specified in the [schema](../../configuration-reference/schema.md) configuration by setting the `defaultNullValue` field spec. The `defaultNullValue` depends on the type of data.
+Pinot always stores column values in a [forward index](../../build-with-pinot/indexing/forward-index.md). Forward index never stores null values but have to store a value for each row. Therefore independent of the null handling configuration, Pinot always stores a default value for nulls rows in the forward index. The default value used in a column can be specified in the [schema](../../reference/configuration-reference/schema.md) configuration by setting the `defaultNullValue` field spec. The `defaultNullValue` depends on the type of data.
 
 {% hint style="info" %}
 Remember that in the JSON used as table configuration, `defaultNullValue` must always be a String. If the column type is not String, Pinot will convert that value to the column type automatically.
@@ -62,7 +62,7 @@ We recommend configuring column based null storing, which lets you specify null 
 
 To enable column based null handling:
 
-1. Set [enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) to `true` in the schema configuration before ingesting data.
+1. Set [enableColumnBasedNullHandling](../../reference/configuration-reference/schema.md#Schema) to `true` in the schema configuration before ingesting data.
 2. Then specify which columns are not nullable using the `notNull` field spec, which defaults to false.
 
 ```json
@@ -94,8 +94,8 @@ This is the only way to enable null storing in Pinot before 1.1.0, but it is dep
 
 When table based null storing is enabled, all columns will be considered nullable. To enable this mode you need to:
 
-1. Enable the `nullHandlingEnabled` configuration in [tableIndexConfig.nullHandlingEnabled](../../configuration-reference/table.md#table-index-config)
-2. Disable  [enableColumnBasedNullHandling](../../configuration-reference/schema.md#Schema) in the schema.
+1. Enable the `nullHandlingEnabled` configuration in [tableIndexConfig.nullHandlingEnabled](../../reference/configuration-reference/table.md#table-index-config)
+2. Disable  [enableColumnBasedNullHandling](../../reference/configuration-reference/schema.md#Schema) in the schema.
 
 {% hint style="warning" %}
 Remember `nullHandlingEnabled` table configuration enables table based null handling while `enableNullHandling` is the query option that enables advanced null handling at query time. See [advanced null handling support](null-value-support.md#advanced-null-handling-support) for more information.
@@ -201,7 +201,7 @@ Given that neither `count` or `mode` function will ignore `null` values as expec
 Advanced null handling has two requirements:
 
 1. Segments must store null values (see [storing nulls at ingestion time](null-value-support.md#store-nulls-at-ingestion-time)).
-2. The query must enable null handling by setting the `enableNullHandling` [query option](../../users/user-guide-query/query-options.md#enable-null-handling) to `true`.
+2. The query must enable null handling by setting the `enableNullHandling` [query option](query-execution-controls/query-options.md#enable-null-handling) to `true`.
 
 The later can be done in one of the following ways:
 

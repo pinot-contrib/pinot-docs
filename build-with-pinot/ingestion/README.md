@@ -18,8 +18,8 @@ The detailed controller and table-config material belongs in [Reference](../../r
 
 ## Related Existing Docs
 
-- [Import Data](../../manage-data/data-import/README.md)
-- [Data Ingestion Overview](../../developers/advanced/data-ingestion.md)
+- [Import Data](README.md)
+- [Data Ingestion Overview](README.md)
 - [Ingestion Transformations](ingestion-level-transformations.md)
 - [Ingestion Aggregations](ingestion-level-aggregations.md)
 - [Supported Data Formats](pinot-input-formats.md)

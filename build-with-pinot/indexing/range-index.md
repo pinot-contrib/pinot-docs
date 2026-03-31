@@ -31,7 +31,7 @@ A range index can also be used on a dictionary-encoded time column using `STRING
 
 ## Configuration
 
-The recommended way to enable a range index is through the `fieldConfigList` in the [table configuration](../../configuration-reference/table.md):
+The recommended way to enable a range index is through the `fieldConfigList` in the [table configuration](../../reference/configuration-reference/table.md):
 
 {% code title="Recommended: fieldConfigList" %}
 ```json

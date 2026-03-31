@@ -8,7 +8,7 @@ A preprocessing job is usually needed to perform these operations. In streaming 
 
 For simple transformations, this can result in inconsistencies in the batch/stream data source and increase maintenance and operator overhead.
 
-To make things easier, Pinot supports transformations that can be applied via the [table config](../../configuration-reference/table.md).
+To make things easier, Pinot supports transformations that can be applied via the [table config](../../reference/configuration-reference/table.md).
 
 {% hint style="warning" %}
 If a **new column is added to your table or schema configuration during ingestion**, incorrect data may appear in the consuming segment(s). To ensure accurate values are reloaded, see how to [add a new column during ingestion](ingestion-level-transformations.md#add-a-new-column-during-ingestion).
@@ -107,7 +107,7 @@ Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/j
 
 | Function name | Description                                                                                                                                                                                                                                                                                                       |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| json\_format  | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="../../users/user-guide-query/supported-transformations.md">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
+| json\_format  | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="../../functions/transformations.md">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
 
 ## Types of transformation
 

@@ -23,7 +23,7 @@ All throttling configurations are disabled by default by setting a very high par
 </code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>Integer.MAX_VALUE</td><td>The maximum parallelism to download and untar segments from deep store or peer servers <strong>after</strong> the server is ready to serve queries.</td></tr><tr><td><pre data-overflow="wrap"><code><strong>pinot.server.max.segment.download.parallelism.before.serving.queries
 </strong></code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>Integer.MAX_VALUE</td><td>The maximum parallelism to download and untar segments from deep store or peer servers <strong>before</strong> the server is ready to serve queries (start up).</td></tr></tbody></table>
 
-The above configurations can be updated via adding them as [cluster configurations](../configuration-reference/cluster.md). No server restart is required for these configurations to take effect if updated  in ZooKeeper. Pinot Server logs will provide information about the change in these configs. An example log of updated configs for all the segment operations throttling configs are:
+The above configurations can be updated via adding them as [cluster configurations](../reference/configuration-reference/cluster.md). No server restart is required for these configurations to take effect if updated  in ZooKeeper. Pinot Server logs will provide information about the change in these configs. An example log of updated configs for all the segment operations throttling configs are:
 
 ```
 2025/04/21 15:22:36.532 INFO [SegmentAllIndexPreprocessThrottler] [thread-42] Updated config: pinot.server.max.segment.preprocess.parallelism from: 2147483647 to: 4

@@ -102,4 +102,4 @@ The case-insensitive FST index (IFST) provides the same functionality as the sta
 
 The case-insensitive FST index generates one index file (`.lucene.ifst`).
 
-For more information about enabling indexes, see [enabling indexes](../../basics/indexing/README.md#enabling-indexes).
+For more information about enabling indexes, see [enabling indexes](README.md#enabling-indexes).

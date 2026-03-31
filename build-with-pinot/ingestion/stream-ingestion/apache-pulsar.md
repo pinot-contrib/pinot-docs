@@ -87,7 +87,7 @@ The Pinot-pulsar connector also supports TLS for encrypted connections. You can 
 
 Also, make sure to change the brokers url from `pulsar://localhost:6650` to `pulsar+ssl://localhost:6650` so that secure connections are used.
 
-For other table and stream configurations, you can headover to [Table configuration Reference](../../../configuration-reference/table.md)
+For other table and stream configurations, you can headover to [Table configuration Reference](../../../reference/configuration-reference/table.md)
 
 ### Supported Pulsar versions
 

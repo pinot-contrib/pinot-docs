@@ -17,7 +17,7 @@ This section covers the configuration side of each plugin family: which implemen
 | **Stream Ingestion** | Consume data from real-time streaming platforms (Kafka, Kinesis, Pulsar) | [Stream Ingestion Connectors](#stream-ingestion-connectors) / [Version Matrix](#stream-connector-version-matrix) | [Stream Ingestion Plugin](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md) |
 | **Input Format** | Read records from files or streams during ingestion (Avro, JSON, Parquet, ORC, CSV, ...) | [Input Formats](../../build-with-pinot/ingestion/pinot-input-formats.md) | [Input Format Plugin](../../developers/plugin-architecture/write-custom-plugins/record-reader.md) |
 | **Filesystem** | Store and fetch segments from pluggable storage backends (S3, GCS, HDFS, ADLS) | [Filesystem Plugins](../../manage-data/data-import/pinot-file-system/) | [Filesystem Plugin](../../developers/plugin-architecture/write-custom-plugins/pluggable-storage.md) |
-| **Batch Ingestion** | Run data ingestion jobs on different execution frameworks (Standalone, Hadoop, Spark) | [Batch Ingestion](../../manage-data/data-import/batch-ingestion/) | - |
+| **Batch Ingestion** | Run data ingestion jobs on different execution frameworks (Standalone, Hadoop, Spark) | [Batch Ingestion](../../build-with-pinot/ingestion/batch-ingestion) | - |
 | **Metrics** | Collect and expose internal JMX metrics via Dropwizard, Yammer, or a compound backend | [Metrics Plugins](#metrics-plugins) | [Metrics Plugin](../../developers/plugin-architecture/write-custom-plugins/metrics-plugin.md) |
 | **Segment Writer** | Programmatically build Pinot segments without a full batch ingestion job | - | [Segment Writer Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-writer-plugin.md) |
 | **Segment Uploader** | Upload completed segment tar files to the Pinot cluster | - | [Segment Uploader Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-uploader-plugin.md) |
@@ -274,7 +274,7 @@ For the general plugin authoring workflow, see [write-custom-plugins](../../deve
 
 ## Legacy compatibility pages
 
-- [STDDEV_POP](../../configuration-reference/plugin-reference/stddev_pop.md)
-- [STDDEV_SAMP](../../configuration-reference/plugin-reference/stddev_samp.md)
-- [VAR_POP](../../configuration-reference/plugin-reference/var_pop.md)
-- [VAR_SAMP](../../configuration-reference/plugin-reference/var_samp.md)
+- [STDDEV_POP](../../functions/statistical/stddevpop.md)
+- [STDDEV_SAMP](../../functions/statistical/stddevsamp.md)
+- [VAR_POP](../../functions/statistical/varpop.md)
+- [VAR_SAMP](../../functions/statistical/varsamp.md)

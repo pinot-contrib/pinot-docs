@@ -285,7 +285,7 @@ pushJobSpec:
   pushRetryIntervalMillis: 1000
 ```
 
-For more detail, refer to [Ingestion job spec](../../../configuration-reference/job-specification.md).
+For more detail, refer to [Ingestion job spec](../../../reference/configuration-reference/job-specification.md).
 
 Now that we have the job spec for our table `transcript`, we can trigger the job using the following command:
 

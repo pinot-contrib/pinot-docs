@@ -18,7 +18,7 @@ All the options should be prefixed with `-` (hyphen)
 
 | Option         | Description                                                                                        |
 | -------------- | -------------------------------------------------------------------------------------------------- |
-| schemaFile     | path to [schema JSON](../configuration-reference/schema.md) file mentioned in table configuration. |
+| schemaFile     | path to [schema JSON](../reference/configuration-reference/schema.md) file mentioned in table configuration. |
 | controllerHost | controllerHost on which to send the upload requests                                                |
 | controllerPort | controllerPort on which to send the upload requests                                                |
 | exec           | If not specified, a dry run will be done but configs won't actually be uploaded.                   |
@@ -37,8 +37,8 @@ All the options should be prefixed with `-` (hyphen)
 
 | Option          | Description                                                                                        |
 | --------------- | -------------------------------------------------------------------------------------------------- |
-| tableConfigFile | path to JSON file containing [Table configuration](../configuration-reference/table.md).           |
-| schemaFile      | path to [schema JSON](../configuration-reference/schema.md) file mentioned in table configuration. |
+| tableConfigFile | path to JSON file containing [Table configuration](../reference/configuration-reference/table.md).           |
+| schemaFile      | path to [schema JSON](../reference/configuration-reference/schema.md) file mentioned in table configuration. |
 | controllerHost  | controllerHost on which to send the upload requests                                                |
 | controllerPort  | controllerPort on which to send the upload requests                                                |
 | exec            | If not specified, a dry run will be done but configs won't actually be uploaded.                   |
@@ -140,8 +140,8 @@ All the options should be prefixed with `-` (hyphen)
 | format                   | Input data formats. See [Input formats](../build-with-pinot/ingestion/pinot-input-formats.md) for all the supported formats            |
 | outDir                   | Local output directory to publish the segments                                                                                      |
 | overwrite                | Set to `true` to overwrite segments of already present in the directory                                                             |
-| tableConfigFile          | Path to [Table Config](../configuration-reference/table.md)                                                                         |
-| schemaFile               | Path to [Schema Config](../configuration-reference/schema.md)                                                                       |
+| tableConfigFile          | Path to [Table Config](../reference/configuration-reference/table.md)                                                                         |
+| schemaFile               | Path to [Schema Config](../reference/configuration-reference/schema.md)                                                                       |
 | readerConfigFile         | properties file containing the config related to the reader. See [Input formats](../build-with-pinot/ingestion/pinot-input-formats.md) |
 | retry                    | Number of retry attempts in case of failure                                                                                         |
 | postCreationVerification | Set `true` to verify the segment files post creation.                                                                               |
@@ -207,7 +207,7 @@ All the options should be prefixed with `-` (hyphen)
 
 | Option       | Description                                                                                                   |
 | ------------ | ------------------------------------------------------------------------------------------------------------- |
-| jobSpecFile  | Path to[ job spec file.](../configuration-reference/job-specification.md) Only local file paths are supported |
+| jobSpecFile  | Path to[ job spec file.](../reference/configuration-reference/job-specification.md) Only local file paths are supported |
 | propertyFile | Path to properties file. This file can contain properties related to ingestion job or template paramaters     |
 | values       | list of string containing the values to replace template parameters with                                      |
 
@@ -261,7 +261,7 @@ All the options should be prefixed with `-` (hyphen)
 
 ### Operate Cluster Config
 
-Modify[ cluster level configs](../configuration-reference/cluster.md) for pinot. These are the configs which are applicable to all nodes in the cluster.
+Modify[ cluster level configs](../reference/configuration-reference/cluster.md) for pinot. These are the configs which are applicable to all nodes in the cluster.
 
 ```
 pinot-admin.sh OperateClusterConfig -controllerHost localhost -controllerPort 9000 -operation ADD -config pinot.broker.enable.query.limit.override=1

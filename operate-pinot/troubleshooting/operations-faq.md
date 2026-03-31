@@ -64,7 +64,7 @@ Note that if you are using replica groups, it's expected these configurations eq
 
 ### How to set or change table retention?
 
-By default there is no retention set for a table in Apache Pinot. You may however, set retention by setting the following properties in the [segmentsConfig](../../configuration-reference/table.md#segments-config) section inside table configs:
+By default there is no retention set for a table in Apache Pinot. You may however, set retention by setting the following properties in the [segmentsConfig](../../reference/configuration-reference/table.md#segments-config) section inside table configs:
 
 * `retentionTimeUnit`
 * `retentionTimeValue`

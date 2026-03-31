@@ -56,7 +56,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | `JSONPATHARRAY(myJsonRecord, '$.subjects[*].score')`              | `[90, 70]`             |
 | `JSONPATHARRAY(myJsonRecord, '$.subjects[*].homework_grades[1]')` | `[85, 65]`             |
 
-This function can be used in the [table config](../../configuration-reference/table.md) to extract the `name`, `score`, and second value of `homework_grades` into their respective columns , as described below:
+This function can be used in the [table config](../../reference/configuration-reference/table.md) to extract the `name`, `score`, and second value of `homework_grades` into their respective columns , as described below:
 
 ```json
 {

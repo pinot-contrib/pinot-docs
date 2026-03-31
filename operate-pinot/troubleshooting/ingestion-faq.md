@@ -28,7 +28,7 @@ You can configure the interval for this job using the`controller.realtime.segmen
 
 ### Does Pinot support partition pruning on multiple partition columns?
 
-Pinot supports multi-column partitioning for offline tables. Map multiple columns under [\`tableIndexConfig.segmentPartitionConfig.columnPartitionMap\`](../../configuration-reference/table.md#table-index-config)[.](../../configuration-reference/table.md#second-level-fields) Pinot assigns the input data to each partition according to the partition configuration individually for each column.
+Pinot supports multi-column partitioning for offline tables. Map multiple columns under [\`tableIndexConfig.segmentPartitionConfig.columnPartitionMap\`](../../reference/configuration-reference/table.md#table-index-config)[.](../../reference/configuration-reference/table.md#second-level-fields) Pinot assigns the input data to each partition according to the partition configuration individually for each column.
 
 The following example partitions the segment based on two columns, `memberID` and `caseNumber`. Note that each partition column is handled separately, so in this case the segment is partitioned on `memberID` (partition ID 1) and also partiitoned on `caseNumber` (partition ID 2).
 
@@ -96,7 +96,7 @@ For JSON, you can use a hex encoded string to ingest BYTES.
 
 See the [json\_format(field)](../../build-with-pinot/ingestion/ingestion-level-transformations.md#json-functions) function which can store a top level json field as a STRING in Pinot.
 
-Then you can use these [json functions](../../users/user-guide-query/supported-transformations.md#json-functions) during query time, to extract fields from the json string.
+Then you can use these [json functions](../../functions/transformations.md#json-functions) during query time, to extract fields from the json string.
 
 {% hint style="warning" %}
 **NOTE**\
@@ -134,7 +134,7 @@ This typically happens if:
 1. The consumer is lagging a lot.
 2. The consumer was down (server down, cluster down), and the stream moved on, resulting in offset not found when consumer comes back up.
 
-In case of Kafka, to recover, set property `"auto.offset.reset":"earliest"` in the `streamConfigs` section and reset the `CONSUMING` segment. See [Real-time table configs](../../configuration-reference/table.md#indexing-config) for more details about the configuration.
+In case of Kafka, to recover, set property `"auto.offset.reset":"earliest"` in the `streamConfigs` section and reset the `CONSUMING` segment. See [Real-time table configs](../../reference/configuration-reference/table.md#indexing-config) for more details about the configuration.
 
 You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). See [Pause Stream Ingestion](../../manage-data/data-import/pinot-stream-ingestion#pause-stream-ingestion) for more details.
 
@@ -142,7 +142,7 @@ You can also also use the "Resume Consumption" endpoint with "resumeFrom" parame
 
 ### How to set inverted indexes?
 
-Inverted indexes are set in the `tableConfig`'s `tableIndexConfig` -> `invertedIndexColumns` list. For more info on table configuration, see [Table Config Reference](../../configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../build-with-pinot/indexing/inverted-index.md).
+Inverted indexes are set in the `tableConfig`'s `tableIndexConfig` -> `invertedIndexColumns` list. For more info on table configuration, see [Table Config Reference](../../reference/configuration-reference/table.md). For an example showing how to configure an inverted index, see [Inverted Index](../../build-with-pinot/indexing/inverted-index.md).
 
 Applying inverted indexes to a table configuration will generate an inverted index for all new segments. To apply the inverted indexes to all existing segments, see [How to apply an inverted index to existing segments?](ingestion-faq.md#how-to-apply-an-inverted-index-to-existing-segments)
 

@@ -36,7 +36,7 @@ Use the decision guide when you know the query shape but not the best index yet.
 
 ## How Pinot applies indexes
 
-Most index choices are defined in the table config, usually under `fieldConfigList` or `tableIndexConfig`, depending on the index and the configuration style you are using. The canonical table-level reference is [Table](../../configuration-reference/table.md).
+Most index choices are defined in the table config, usually under `fieldConfigList` or `tableIndexConfig`, depending on the index and the configuration style you are using. The canonical table-level reference is [Table](../../reference/configuration-reference/table.md).
 
 For a practical walkthrough, see [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md).
 
@@ -67,5 +67,5 @@ Read the decision guide to map your query pattern to a specific index and config
 ## Related pages
 
 * [Choosing indexes](choosing-indexes.md)
-* [Table](../../configuration-reference/table.md)
+* [Table](../../reference/configuration-reference/table.md)
 * [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md)

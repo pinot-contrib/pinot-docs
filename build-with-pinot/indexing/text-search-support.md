@@ -223,7 +223,7 @@ Benchmarks from [PR #16103](https://github.com/apache/pinot/pull/16103) show tha
 
 ## Enable a per-column text index
 
-Enable a text index on a column in the [table configuration](../../configuration-reference/table.md) by adding a new section with the name "fieldConfigList".
+Enable a text index on a column in the [table configuration](../../reference/configuration-reference/table.md) by adding a new section with the name "fieldConfigList".
 
 ```json
 "fieldConfigList":[
@@ -362,7 +362,7 @@ All search expression types (phrase, term, boolean, prefix, regex) work identica
 
 ## Text index creation
 
-Once the text index is enabled on one or more columns through a [table configuration](../../configuration-reference/table.md), segment generation code will automatically create the text index (per column).
+Once the text index is enabled on one or more columns through a [table configuration](../../reference/configuration-reference/table.md), segment generation code will automatically create the text index (per column).
 
 Text index is supported for both offline and real-time segments.
 
@@ -731,7 +731,7 @@ When text search queries contain too many terms or clauses, Lucene may throw `To
 - Complex boolean queries with many OR conditions
 - Wildcard queries that expand to many terms
 - Queries with large numbers of search terms
-To handle such cases, you can increase the maximum clause count at the cluster level. See the [cluster configuration reference](../../configuration-reference/cluster.md) for the `pinot.lucene.max.clause.count` setting.
+To handle such cases, you can increase the maximum clause count at the cluster level. See the [cluster configuration reference](../../reference/configuration-reference/cluster.md) for the `pinot.lucene.max.clause.count` setting.
 
 ## Configuration parameters
 

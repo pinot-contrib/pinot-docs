@@ -56,5 +56,5 @@ If the field names look right but the data is not, inspect the query plan and re
 
 - [API Reference](README.md)
 - [Broker Query API](query-api.md)
-- [Query using Cursors](../../users/user-guide-query/query-using-cursors.md)
+- [Query using Cursors](../../build-with-pinot/querying-and-sql/query-execution-controls/query-using-cursors.md)
 - [Querying Pinot](../../build-with-pinot/querying-and-sql/querying-pinot.md)

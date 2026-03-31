@@ -122,7 +122,7 @@ Note: Raw value forward index currently does not support inverted index (all oth
 
 ![](../../.gitbook/assets/no-dictionary.png)
 
-The raw format is applied when the dictionary is disabled for a column and the encoding is explicitly set to `RAW`. For more details, refer to the [dictionary documentation](dictionary-index.md) and the [field config list](../../configuration-reference/table.md#field-config-list).
+The raw format is applied when the dictionary is disabled for a column and the encoding is explicitly set to `RAW`. For more details, refer to the [dictionary documentation](dictionary-index.md) and the [field config list](../../reference/configuration-reference/table.md#field-config-list).
 
 **Note:** Both configurations must be enabled together for the raw format to take effect. Setting only the `encodingType` to `RAW` in the field config is not sufficient.
 
@@ -244,7 +244,7 @@ Forward index on one or more columns(s) in your Pinot table can be disabled with
 
 Sorted columns will allow the forward index to be disabled, but this operation will be treated as a no-op and the index (which acts as both a forward index and inverted index) will be created.
 
-To disable the forward index, in [table config](../../configuration-reference/table.md) under `fieldConfigList`, set the `disabled` property to `true` as shown below:
+To disable the forward index, in [table config](../../reference/configuration-reference/table.md) under `fieldConfigList`, set the `disabled` property to `true` as shown below:
 
 {% code title="Configured in tableConfig fieldConfigList" %}
 ```javascript
@@ -281,7 +281,7 @@ The older way to do so is still supported, but not recommended.
 ```
 {% endcode %}
 
-A table reload operation must be performed for the above config to take effect. Enabling / disabling other indexes on the column can be done via the usual [table config](../../configuration-reference/table.md) options.
+A table reload operation must be performed for the above config to take effect. Enabling / disabling other indexes on the column can be done via the usual [table config](../../reference/configuration-reference/table.md) options.
 
 The forward index can also be regenerated for a column where it is disabled by enabling the index and reloading the segment. The forward index can only be regenerated if the dictionary and inverted index have been enabled for the column. If either have been disabled then the only way to get the forward index back is to regenerate the segments via the offline jobs and re-push / refresh the data.
 

@@ -52,7 +52,7 @@ Two-way TLS (mutual TLS / mTLS) adds client certificate verification, ensuring t
 
 ## Secrets management
 
-Credentials stored in plain-text config files are a risk in production. Pinot supports **Dynamic Environment Configuration** so you can inject secrets from environment variables or external stores (for example, Kubernetes Secrets, HashiCorp Vault) rather than hardcoding them in property files. See the [Dynamic Environment Configuration](../configuration-reference/dynamic-environment.md) reference for details.
+Credentials stored in plain-text config files are a risk in production. Pinot supports **Dynamic Environment Configuration** so you can inject secrets from environment variables or external stores (for example, Kubernetes Secrets, HashiCorp Vault) rather than hardcoding them in property files. See the [Dynamic Environment Configuration](../reference/configuration-reference/dynamic-environment.md) reference for details.
 
 ## Prerequisites
 

@@ -530,7 +530,7 @@ Common query options include:
 | `useStarTree` | Enable or disable star-tree index usage |
 | `skipUpsert` | Query all records in an upsert table, ignoring deletes |
 
-For the complete list of query options, see [Query Options](../../users/user-guide-query/query-options.md).
+For the complete list of query options, see [Query Options](query-execution-controls/query-options.md).
 
 ---
 

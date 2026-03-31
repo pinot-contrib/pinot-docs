@@ -311,4 +311,4 @@ These advanced properties are available across field specs:
 - [Table Configuration](table.md)
 - [First Table + Schema](../../basics/getting-started/first-table-and-schema.md)
 - [Table Overview](../../basics/components/table/README.md)
-- [Legacy Schema Page](../../configuration-reference/schema.md)
+- [Legacy Schema Page](schema.md)

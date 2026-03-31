@@ -58,7 +58,7 @@ We can
 
 * List all databases on the cluster
 * Delete all the tables under a database
-* Manage quotas like query rate and storage (check [this](../../users/user-guide-query/query-quotas.md#database-level-query-quota) out)&#x20;
+* Manage quotas like query rate and storage (check [this](../../build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md#database-level-query-quota) out)&#x20;
 
 Apart from this all the endpoints that deal with table, table config and schema is database aware and requires user to pass the right database in the header else the request will fail.
 

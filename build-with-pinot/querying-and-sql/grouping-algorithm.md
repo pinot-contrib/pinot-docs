@@ -117,7 +117,7 @@ The default V2 algorithm is shown on the following diagram:
 
 <figure><img src="../../.gitbook/assets/Screenshot 2025-07-22 at 17.43.44.png" alt="" width="389"><figcaption><p>Default V2 engine group by results approximation</p></figcaption></figure>
 
-Apart from limiting number of groups on segment level, similar limit is applied at _intermediate_ stage.  Since V2 query engine allows for subqueries, in an execution plan, there could be arbitrary number of stages doing _intermediate_ aggregation between leaf (bottom-most) and top-most stages, and each stage can be implemented with many instances of `AggregateOperator` (shown as `PinotLogicalAggregate` in  [EXPLAIN's](../../users/user-guide-query/explain-plan-multi-stage.md) output).  \
+Apart from limiting number of groups on segment level, similar limit is applied at _intermediate_ stage.  Since V2 query engine allows for subqueries, in an execution plan, there could be arbitrary number of stages doing _intermediate_ aggregation between leaf (bottom-most) and top-most stages, and each stage can be implemented with many instances of `AggregateOperator` (shown as `PinotLogicalAggregate` in  [EXPLAIN's](query-execution-controls/explain-plan-multi-stage.md) output).  \
 The operator limits number of distinct groups to 100,000 by default, which can be overridden with `numGroupsLimit` option or `num_groups_limit` aggregate hint. The limit applies to a single operator instance, meaning that next stage could receive a total of `num_instances * num_groups_limit`.
 
 It is possible to enable group limiting and trimming at other stages with:

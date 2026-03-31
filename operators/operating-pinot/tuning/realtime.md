@@ -24,7 +24,7 @@ If you don't want to use memory-mapping, set `pinot.server.instance.realtime.all
 
 The number of rows in a consuming segment needs to be balanced. Having too many rows can result in memory pressure. On the other hand, having too few rows results in having too many small segments. Having too many segments can be detrimental to query performance, and also increase pressure on the Helix.
 
-The recommended way to do this is to use the `realtime.segment.flush.threshold.segment.size` setting as described in [StreamConfigs Section](../../../configuration-reference/table.md#realtime-table-config). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
+The recommended way to do this is to use the `realtime.segment.flush.threshold.segment.size` setting as described in [StreamConfigs Section](../../../reference/configuration-reference/table.md#realtime-table-config). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
 
 ### Moving completed segments to different hosts
 
@@ -32,7 +32,7 @@ This feature is available only if the consumption type is `LowLevel`.
 
 The structure of the consuming segments and the completed segments are very different. The memory, CPU, I/O and GC characteristics could be very different while processing queries on these segments. Therefore it may be useful to move the completed segments onto different set of hosts in some use cases.
 
-You can host completed segments on a different set of hosts using the `tagOverrideConfig` as described in [Table Config](../../../configuration-reference/table.md). Pinot will automatically move them once the consuming segments are completed.
+You can host completed segments on a different set of hosts using the `tagOverrideConfig` as described in [Table Config](../../../reference/configuration-reference/table.md). Pinot will automatically move them once the consuming segments are completed.
 
 If you require more fine-tuned control over how segments are hosted on different hosts, we recommend that you use the [Tag-Based Instance Assignment](../instance-assignment.md#tag-based-instance-assignment) feature to accomplish this.
 
@@ -70,7 +70,7 @@ This feature is available only if the consumption type is `LowLevel`.
 
 When a real-time segment completes, a winner server is chosen as a committer amongst all replicas by the controller. That committer builds the segment and uploads to the controller. The non-committer servers are asked to catchup to the winning offset. If the non-committer servers are able to catch up, they are asked to build the segment and replace the in-memory segment. If they are unable to catchup, they are asked to download the segment from the controller.
 
-Building a segment can cause excessive garbage and may result in GC pauses on the server. Long GC pauses can affect query processing. You might want to force the non-committer servers to download the segment from the controller instead of building it again. The `completionConfig` as described in [Table Config](../../../configuration-reference/table.md) can be used to configure this.
+Building a segment can cause excessive garbage and may result in GC pauses on the server. Long GC pauses can affect query processing. You might want to force the non-committer servers to download the segment from the controller instead of building it again. The `completionConfig` as described in [Table Config](../../../reference/configuration-reference/table.md) can be used to configure this.
 
 ### Fine tuning the segment commit protocol
 

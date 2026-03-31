@@ -124,5 +124,5 @@ Messages without the Confluent magic byte prefix are silently dropped and logged
 ## See Also
 
 - [Ingest from Apache Kafka](import-from-apache-kafka.md) — General Kafka ingestion guide
-- [Stream Ingestion Connectors](../../../configuration-reference/plugin-reference/stream-ingestion-connectors.md) — Full connector configuration reference
+- [Stream Ingestion Connectors](../../../reference/plugin-reference/stream-ingestion-connectors.md) — Full connector configuration reference
 - [Supported Data Formats](../pinot-input-formats.md) — All supported input formats

@@ -63,7 +63,7 @@ Bloom filters only help with EQUALITY and IN predicates. They do not accelerate 
 
 ## Configuration
 
-Bloom filters are deactivated by default, implying that columns will not be indexed unless they are explicitly configured within the [table configuration](../../configuration-reference/table.md).
+Bloom filters are deactivated by default, implying that columns will not be indexed unless they are explicitly configured within the [table configuration](../../reference/configuration-reference/table.md).
 
 There are 3 optional parameters to configure the Bloom filter:
 

@@ -110,7 +110,7 @@ If you use a hybrid table, avoid overlapping offline and realtime time ranges.
 
 ## Related topics
 
-* [Batch Ingestion](../../../manage-data/data-import/batch-ingestion)
+* [Batch Ingestion](../batch-ingestion)
 * [Backfill Data](../batch-ingestion/backfill-data.md)
-* [Create and update a table configuration](../../../basics/getting-started/create-and-update-table-config.md)
+* [Create and update a table configuration](../../../operators/operating-pinot/setup-table.md)
 * [Stream ingestion with Upsert](upsert.md)

@@ -20,8 +20,8 @@ If you need dense JSON config or controller endpoints, jump to the [Reference](.
 - [Table](../../basics/components/table/README.md)
 - [Logical Table](../../basics/components/table/logical-table.md)
 - [Schema Evolution Tutorial](../../tutorials/data-ingestion/schema-evolution.md)
-- [Schema Reference](../../configuration-reference/schema.md)
-- [Table Reference](../../configuration-reference/table.md)
+- [Schema Reference](../../reference/configuration-reference/schema.md)
+- [Table Reference](../../reference/configuration-reference/table.md)
 
 ## What this page covered
 

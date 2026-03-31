@@ -8,7 +8,7 @@ In this tutorial, we will use three such plugins to easily ingest data and push 
 * `pinot-s3`
 * `pinot-parquet`
 
-You can check out [Batch Ingestion](../../manage-data/data-import/batch-ingestion/), [File systems](../../manage-data/data-import/pinot-file-system/) and [Input formats](../../build-with-pinot/ingestion/pinot-input-formats.md) for all the available plugins.
+You can check out [Batch Ingestion](../../build-with-pinot/ingestion/batch-ingestion), [File systems](../../manage-data/data-import/pinot-file-system/) and [Input formats](../../build-with-pinot/ingestion/pinot-input-formats.md) for all the available plugins.
 
 ## Setup
 
@@ -52,7 +52,7 @@ aws s3 cp /path/to/batch_input s3://my-bucket/batch-input/ --recursive
 
 ## Create Schema and Table
 
-We need to create a table to query the data that will be ingested. All tables in pinot are associated with a schema. You can check out [Table configuration](../../configuration-reference/table.md) and [Schema configuration](../../configuration-reference/schema.md) for more details on creating configurations.
+We need to create a table to query the data that will be ingested. All tables in pinot are associated with a schema. You can check out [Table configuration](../../reference/configuration-reference/table.md) and [Schema configuration](../../reference/configuration-reference/schema.md) for more details on creating configurations.
 
 For our demo, we will have the following schema and table configs
 
@@ -185,7 +185,7 @@ pushJobSpec:
 
 In the job spec, we have kept execution framework as `spark` and configured the appropriate runners for each of our steps. We also need a temporary `stagingDir` for our spark job. This directory is cleaned up after our job has executed.
 
-We also provide the S3 Filesystem and Parquet reader implementation in the config to use. You can refer [Ingestion Job Spec](../../configuration-reference/job-specification.md) for complete list of configuration.
+We also provide the S3 Filesystem and Parquet reader implementation in the config to use. You can refer [Ingestion Job Spec](../../reference/configuration-reference/job-specification.md) for complete list of configuration.
 
 We can now run our spark job to execute all the steps and populate data in pinot.
 

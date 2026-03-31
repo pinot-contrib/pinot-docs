@@ -10,7 +10,7 @@ The configuration of HTTP Basic Auth in Apache Pinot distinguishes between **Tok
 
 This is best demonstrated by example of introducing ACLs with a simple admin user setup. In order to enable authentication on a cluster without interrupting operations, we'll go these steps in sequence:
 
-{% hint style="warning" %} In order to keep secret tokens safe in production when using Kubernetes please use [Dynamic Environment Configuration](../../configuration-reference/dynamic-environment.md) {% endhint %}
+{% hint style="warning" %} In order to keep secret tokens safe in production when using Kubernetes please use [Dynamic Environment Configuration](../../reference/configuration-reference/dynamic-environment.md) {% endhint %}
 
 
 **1. Create "admin" and "user" in the controller properties**

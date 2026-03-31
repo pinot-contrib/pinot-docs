@@ -24,7 +24,7 @@ Decide on the file format, the deep-storage target, and the segment push workflo
 
 ## Learn more
 
-The original step-by-step batch docs live in [Import Data](../../manage-data/data-import/README.md) and [Data Ingestion Overview](../../developers/advanced/data-ingestion.md).
+The original step-by-step batch docs live in [Import Data](README.md) and [Data Ingestion Overview](README.md).
 
 ## What this page covered
 
@@ -39,4 +39,4 @@ Read [Stream Ingestion](stream-ingestion.md) if the source system is a live even
 - [Ingestion](README.md)
 - [Stream Ingestion](stream-ingestion.md)
 - [Formats and Filesystems](formats-filesystems.md)
-- [Original Batch Docs](../../manage-data/data-import/batch-ingestion/README.md)
+- [Original Batch Docs](batch-ingestion/README.md)

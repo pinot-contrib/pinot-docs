@@ -4,7 +4,7 @@ description: Reload a table segment in Apache Pinot.
 
 # Reload a table segment
 
-When Pinot writes data to segments in a table, it saves those segments to a deep store location specified in your [table configuration](../configuration-reference/table.md), such as a storage drive or Amazon S3 bucket.
+When Pinot writes data to segments in a table, it saves those segments to a deep store location specified in your [table configuration](../reference/configuration-reference/table.md), such as a storage drive or Amazon S3 bucket.
 
 {% hint style="info" %}
 If a **new column is added to your table or schema configuration during ingestion**, incorrect data may appear in the consuming segment(s). To ensure accurate values are reloaded, see how to [add a new column during ingestion](../build-with-pinot/ingestion/ingestion-level-transformations.md#add-a-new-column-during-ingestion).&#x20;

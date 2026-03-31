@@ -29,7 +29,7 @@ The goal is not to enable every possible index. The goal is to keep the table co
 3. Confirm the index can be expressed in the current table config style.
 4. Decide whether the index must exist on new segments only or should be reloaded onto existing segments.
 
-For table-level configuration details, use [Table](../../configuration-reference/table.md). For an end-to-end example that applies indexes to an ingestion pipeline, use [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md).
+For table-level configuration details, use [Table](../../reference/configuration-reference/table.md). For an end-to-end example that applies indexes to an ingestion pipeline, use [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md).
 
 ## Query validation examples
 
@@ -77,5 +77,5 @@ Open the specific index page for the workload you are tuning, then compare it wi
 ## Related pages
 
 * [Indexing](README.md)
-* [Table](../../configuration-reference/table.md)
+* [Table](../../reference/configuration-reference/table.md)
 * [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md)

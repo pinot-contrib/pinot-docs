@@ -135,7 +135,7 @@ pushJobSpec:
 
 ### Execution Framework Spec
 
-The configs specify the execution framework to use to ingest data. Check out [Batch Ingestion](../../manage-data/data-import/batch-ingestion/) for configs related to all the supported frameworks
+The configs specify the execution framework to use to ingest data. Check out [Batch Ingestion](../../build-with-pinot/ingestion/batch-ingestion) for configs related to all the supported frameworks
 
 | Property                              | Description                                                                                                                          |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |

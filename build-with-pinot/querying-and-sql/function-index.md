@@ -412,7 +412,7 @@ For full details, see [Type Conversion Functions](../../functions/type-conversio
 For full details, see [Window Functions](../../functions/window).
 
 {% hint style="info" %}
-Window functions require the [multi-stage query engine (v2)](../../configuration-reference/cluster.md).
+Window functions require the [multi-stage query engine (v2)](../../reference/configuration-reference/cluster.md).
 {% endhint %}
 
 | Function | Signature | Return Type | Description | Engine |

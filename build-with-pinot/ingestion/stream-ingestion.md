@@ -20,7 +20,7 @@ The stream has to support the consumption mode you choose. The table config has 
 
 ## Learn more
 
-The existing walk-throughs in [Import Data](../../manage-data/data-import/README.md) and [Data Ingestion Overview](../../developers/advanced/data-ingestion.md) still contain the detailed mechanics.
+The existing walk-throughs in [Import Data](README.md) and [Data Ingestion Overview](README.md) still contain the detailed mechanics.
 
 ## What this page covered
 

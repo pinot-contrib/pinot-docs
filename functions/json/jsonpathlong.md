@@ -52,7 +52,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | ----------------------------- | ----- |
 | `JSONPATHLONG(data, '$.age')` | `24`  |
 
-This function can be used in the [table config](../../configuration-reference/table.md) to extract the `age` property into the `age` column, as described below:
+This function can be used in the [table config](../../reference/configuration-reference/table.md) to extract the `age` property into the `age` column, as described below:
 
 ```json
 {

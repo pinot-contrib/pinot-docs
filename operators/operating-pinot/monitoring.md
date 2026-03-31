@@ -2,7 +2,7 @@
 
 This guide covers the critical metrics to monitor in an Apache Pinot cluster, organized by component. It includes recommended alert thresholds and diagnosis patterns to help operators quickly identify and resolve issues.
 
-For the full list of all available metrics, see the [Monitoring Metrics Reference](../../configuration-reference/monitoring-metrics.md).
+For the full list of all available metrics, see the [Monitoring Metrics Reference](../../reference/configuration-reference/monitoring-metrics.md).
 
 ## Metrics Overview
 
@@ -329,6 +329,6 @@ For low-overhead, always-on JVM profiling (CPU, memory, threads, locks), you can
 ## Further Reading
 
 - [Monitoring overview](../../operate-pinot/monitoring.md) -- Landing page for all monitoring topics
-- [Full Metrics Reference](../../configuration-reference/monitoring-metrics.md) -- Complete list of all Pinot metrics
+- [Full Metrics Reference](../../reference/configuration-reference/monitoring-metrics.md) -- Complete list of all Pinot metrics
 - [Prometheus and Grafana Tutorial](../../operate-pinot/monitor-pinot-using-prometheus-and-grafana.md) -- Step-by-step setup for Kubernetes
 - [Continuous JFR](continuous-jfr.md) -- Always-on JVM profiling with Java Flight Recorder
