@@ -132,6 +132,7 @@
     * [Stage-Level Spooling](build-with-pinot/querying-and-sql/multi-stage-query/stage-level-spooling.md)
   * [Time Series Queries](build-with-pinot/querying-and-sql/time-series-queries.md)
   * [Query Engines (SSE vs MSE)](build-with-pinot/querying-and-sql/sse-vs-mse.md)
+  * [Multi-Cluster Querying](build-with-pinot/querying-and-sql/multi-cluster-querying.md)
   * [Query options, quotas, cancellation & cursors](build-with-pinot/querying-and-sql/query-execution-controls/README.md)
     * [Query Options](build-with-pinot/querying-and-sql/query-execution-controls/query-options.md)
     * [Query Quotas](build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md)
