@@ -124,6 +124,31 @@ description: This document contains all the available query options
 | **minBrokerGroupTrimSize** | Minimum number of groups to keep when trimming groups at the broker level for group-by queries (SSE only). Similar to **minSegmentGroupTrimSize** and **minServerGroupTrimSize** but applied at the broker reduce phase. Setting to a non-positive value disables broker-level trim. See [#configuration-parameters](../grouping-algorithm.md#configuration-parameters) | Broker level config (default `5000`) |
 | **groupTrimThreshold** | Threshold for group-by trimming at the broker level. Controls the maximum number of groups that can be held before trimming is triggered during the broker reduce phase. | Broker level config (default `1000000`) |
 
+### Multi-Stage Engine Group-By Streaming
+
+| Key | Description | Default Behavior |
+| --- | --- | --- |
+| **streamingGroupByFlushThreshold** | For GROUP BY queries in the multi-stage engine, flushes partial group-by results when the accumulated number of groups reaches this threshold. This bounds server memory usage for high-cardinality GROUP BY queries by periodically emitting intermediate results instead of buffering all groups in memory. When set to a positive value, enables the `StreamingGroupByCombineOperator` which flushes partial results; when unset or 0, uses the standard `GroupByCombineOperator` (backward compatible). This is a middle ground between completely skipping leaf-stage group by (`is_skip_leaf_stage_group_by=true`) and full leaf-stage group by (the default). Note: result trimming is disabled in streaming mode to prevent incorrect partial aggregates. Recommended for queries with GROUP BY cardinality exceeding typical memory limits. | `0` (disabled; uses standard GroupByCombineOperator) |
+
+#### Example: Streaming Group-By with Flush Threshold
+
+For a high-cardinality GROUP BY query that might cause memory pressure, you can enable streaming mode:
+
+```sql
+-- Enable multi-stage engine with streaming group-by
+SET useMultistageEngine = true;
+SET streamingGroupByFlushThreshold = 5000;
+
+-- Query with potentially high cardinality GROUP BY
+SELECT user_id, country, COUNT(*) as event_count
+FROM events
+WHERE date = '2026-04-01'
+GROUP BY user_id, country
+LIMIT 100000;
+```
+
+In this example, the query will flush partial group-by results every time the number of accumulated groups reaches 5000, preventing unbounded memory growth. This is especially useful for queries where the GROUP BY cardinality is unknown or very high.
+
 ### Join and Window Overflow
 
 | Key | Description | Default Behavior |
