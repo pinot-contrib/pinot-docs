@@ -62,7 +62,7 @@ Whichever method you choose, make sure to:
 
 Authentication alone proves identity; authorization decides what each identity can do.
 
-- **Table-level ACLs**: Assign `CREATE`, `READ`, `UPDATE`, `DELETE` permissions per principal per table. Users without explicit table permissions receive a 403.
+- **Table-level ACLs**: Assign `CREATE`, `READ`, `UPDATE`, `DELETE` permissions per principal per table. If `*.principals.<user>.tables` is not configured, all tables are accessible to that user — configure an explicit allowlist (or `excludeTables`) to restrict access. Note that broker-level ACLs are always READ-only since all broker requests are queries.
 - **Row-Level Security (RLS)** (Pinot 1.4.0+): Inject per-user WHERE-clause filters at the broker so different principals see different row subsets. Useful for multi-tenant workloads where one table serves many customers.
 
 Configure ACLs in the same properties that define your principals:
@@ -82,14 +82,20 @@ For full details see [Access Control](../operators/operating-pinot/access-contro
 
 At a minimum, encrypt traffic between clients and the broker/controller.
 
+Setting keystore/truststore paths alone is not enough — you must also enable HTTPS listeners via the `*.access.protocols` properties. The example below shows a minimal broker and controller configuration with HTTPS enabled:
+
 ```properties
-# Broker TLS
+# Broker TLS — listener + certificates
+pinot.broker.client.access.protocols=https
+pinot.broker.client.access.protocols.https.port=8443
 pinot.broker.tls.keystore.path=/opt/pinot/tls/broker-keystore.jks
 pinot.broker.tls.keystore.password=broker-keystore-password
 pinot.broker.tls.truststore.path=/opt/pinot/tls/truststore.jks
 pinot.broker.tls.truststore.password=broker-truststore-password
 
-# Controller TLS
+# Controller TLS — listener + certificates
+controller.access.protocols=https
+controller.access.protocols.https.port=9443
 controller.tls.keystore.path=/opt/pinot/tls/controller-keystore.jks
 controller.tls.keystore.password=controller-keystore-password
 controller.tls.truststore.path=/opt/pinot/tls/truststore.jks
@@ -100,7 +106,9 @@ controller.tls.truststore.password=controller-truststore-password
 The passwords above are placeholders. Never commit real passwords to config files. Use [Dynamic Environment Configuration](../reference/configuration-reference/dynamic-environment.md) to inject secrets at runtime (see step 6 below).
 {% endhint %}
 
-See [Configuring TLS/SSL](configuring-tls-ssl.md) for the full listener specification format and the three-phase zero-downtime migration process.
+{% hint style="info" %}
+To keep HTTP available during a rolling migration, set `*.access.protocols=http,https` and configure both ports. See [Configuring TLS/SSL](configuring-tls-ssl.md) for the full three-phase zero-downtime migration process.
+{% endhint %}
 
 ### 4. Enable mTLS for intra-cluster communication
 
@@ -115,6 +123,9 @@ pinot.broker.tls.client.auth.enabled=true
 
 # Enable client certificate verification on the server
 pinot.server.tls.client.auth.enabled=true
+
+# Enable client certificate verification on the minion
+pinot.minion.tls.client.auth.enabled=true
 ```
 
 Each component presents its own certificate and validates the peer's certificate against the shared truststore. This prevents an attacker who gains network access from impersonating a Pinot component.
@@ -127,7 +138,7 @@ ZooKeeper stores cluster metadata, helix state, and (if using `ZkBasicAuthAccess
 
 - **Network-isolate ZooKeeper**: Run it on an internal network with no external access.
 - **Enable ZooKeeper authentication**: Configure SASL/Kerberos or digest-based auth so only authenticated Pinot components can read/write ZK znodes.
-- **Enable ZooKeeper TLS** (ZK 3.5.5+): Encrypt the ZK client connections. Configure ZooKeeper servers with TLS-enabled client ports and JVM keystore/truststore options, and start Pinot components with `-Dzookeeper.client.secure=true` plus matching keystore/truststore JVM options.
+- **Enable ZooKeeper TLS** (ZooKeeper 3.5+): Encrypt the ZK client connections. Configure ZooKeeper servers with a TLS-enabled `secureClientPort` and JVM keystore/truststore options; point Pinot's ZooKeeper connection strings at that `secureClientPort`; and start Pinot components with `-Dzookeeper.client.secure=true`, `-Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty`, and the appropriate `-Dzookeeper.ssl.*` JVM properties plus matching keystore/truststore options. See the ZooKeeper TLS section in [ZooKeeper configuration reference](../reference/configuration-reference/zookeeper.md) for a complete example.
 
 ### 6. Manage secrets properly
 
