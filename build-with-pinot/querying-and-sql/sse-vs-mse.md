@@ -110,6 +110,10 @@ The function index uses an engine column to indicate availability:
 - `Multi-stage only` — requires MSE
 - `Varies` — depends on the specific implementation
 
+## Running MSE in production
+
+For operational guidance on resource planning, guardrails, and known limitations when running MSE in production, see [Run the Multi-Stage Engine in Production](../../operate-pinot/production-guides/run-multi-stage-engine-in-production.md).
+
 {% embed url="https://www.youtube.com/watch?v=wbo_vPVIBkA" fullWidth="false" %}
 Apache Pinot 1.0 Multi-Stage Query Engine overview
 {% endembed %}
