@@ -23,10 +23,10 @@ The Java and JDBC client docs both use `1.4.0` artifacts in their current instal
 
 ## Detailed docs
 
-* [Java client](../../users/clients/java.md)
-* [JDBC client](../../users/clients/jdbc.md)
-* [Python client](../../users/clients/python.md)
-* [Go client](../../users/clients/golang.md)
+* [Java client](clients/java.md)
+* [JDBC client](clients/jdbc.md)
+* [Python client](clients/python.md)
+* [Go client](clients/golang.md)
 
 ## What this page covered
 

@@ -1,31 +1,58 @@
 ---
-description: Stream connector version compatibility matrix.
+description: >-
+  A version and packaging matrix for all stream ingestion connectors shipped
+  with Apache Pinot.
 ---
 
 # Stream Connector Version Matrix
 
-Use this page when you are deciding whether a stream connector upgrade is safe with the Pinot version you are running. The important part is compatibility, not the exact artifact name.
+This page provides a quick-reference matrix mapping each stream connector to its Maven module, artifact ID, underlying client library version, and consumer factory class.
 
-## Version Guidance
+## Connector matrix
 
-| Connector family | What to verify |
-| --- | --- |
-| Kafka | Broker-side connector package and Kafka major version compatibility |
-| Kinesis | AWS SDK and Pinot connector version compatibility |
-| Pulsar | Connector package and broker runtime compatibility |
+| Stream | Connector Module | Maven Artifact | Client Library Version | Consumer Factory Class | Status |
+|---|---|---|---|---|---|
+| Apache Kafka 3.x | `pinot-kafka-3.0` | `org.apache.pinot:pinot-kafka-3.0` | kafka-clients 3.9.2 | `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` | Default, included in binary distribution |
+| Apache Kafka 4.x | `pinot-kafka-4.0` | `org.apache.pinot:pinot-kafka-4.0` | kafka-clients 4.1.1 | `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` | Included in binary distribution |
+| Amazon Kinesis | `pinot-kinesis` | `org.apache.pinot:pinot-kinesis` | AWS SDK 2.42.16 (`software.amazon.awssdk:kinesis`) | `org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory` | Included in binary distribution |
+| Apache Pulsar | `pinot-pulsar` | `org.apache.pinot:pinot-pulsar` | pulsar-client 4.0.9 | `org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory` | Optional, enable with `-Dplugins.include=pinot-pulsar` |
 
-## What this page covered
+{% hint style="info" %}
+All version numbers above are from the Pinot `master` branch (1.5.0-SNAPSHOT). Released Pinot versions may ship slightly different client library versions. Check the `pom.xml` of the corresponding module in your Pinot release for the exact version.
+{% endhint %}
 
-- Why stream connector version matching matters.
-- Which connector families need the most compatibility checking.
-- Where to go next when you are ready to change a connector version.
+## Compatibility notes
 
-## Next step
+### Kafka 3.x connector (`pinot-kafka-3.0`)
 
-Confirm the source system version first, then check the connector matrix before you change the table config.
+* Compatible with Kafka brokers version 2.x and above.
+* Uses the Scala-based Kafka library alongside `kafka-clients`.
+* This is the recommended connector for most deployments.
 
-## Related pages
+### Kafka 4.x connector (`pinot-kafka-4.0`)
 
-- [Plugin Reference](README.md)
-- [Stream Ingestion Connectors](stream-ingestion-connectors.md)
-- [Ingestion](../configuration-reference/ingestion.md)
+* Requires Kafka brokers version 4.0 or above.
+* Uses the pure-Java `kafka-clients` library only (no Scala dependency).
+* Designed for KRaft-mode Kafka clusters that have removed ZooKeeper.
+* Uses Testcontainers for integration testing instead of the embedded Kafka server.
+
+### Amazon Kinesis connector (`pinot-kinesis`)
+
+* Uses AWS SDK v2 (`software.amazon.awssdk`).
+* Supports both key-based and IAM role-based authentication.
+* Included in the default Pinot distribution.
+
+### Apache Pulsar connector (`pinot-pulsar`)
+
+* Not included in the default binary distribution. Enable with `-Dplugins.include=pinot-pulsar` at startup, or add the plugin JAR to the `plugins` directory.
+* Uses the Apache Pulsar client library.
+* Supports token-based, OAuth2, and TLS authentication.
+
+## Removed connectors
+
+| Former Module | Removed In | Migration Path |
+|---|---|---|
+| `pinot-kafka-0.9` | Pre-1.0 | Migrate to `pinot-kafka-3.0` |
+| `pinot-kafka-2.0` | Pre-1.0 | Migrate to `pinot-kafka-3.0` (or `pinot-kafka-4.0` for Kafka 4.x brokers) |
+
+To migrate, update `stream.kafka.consumer.factory.class.name` in your table config from the old class to the new one. No other stream config changes are required.

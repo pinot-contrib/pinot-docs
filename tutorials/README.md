@@ -66,22 +66,22 @@ Configure external storage backends for Pinot segments.
 
 Guides for securing, monitoring, tuning, and deploying Pinot in production.
 
-{% content-ref url="operations/running-pinot-in-production.md" %}
-[running-pinot-in-production.md](operations/running-pinot-in-production.md)
+{% content-ref url="../operate-pinot/running-pinot-in-production.md" %}
+[running-pinot-in-production.md](../operate-pinot/running-pinot-in-production.md)
 {% endcontent-ref %}
 
-{% content-ref url="operations/kubernetes/" %}
-[kubernetes](operations/kubernetes/)
+{% content-ref url="../operate-pinot/kubernetes/" %}
+[kubernetes](../operate-pinot/kubernetes/)
 {% endcontent-ref %}
 
-{% content-ref url="operations/authentication/" %}
-[authentication](operations/authentication/)
+{% content-ref url="../operate-pinot/authentication/" %}
+[authentication](../operate-pinot/authentication/)
 {% endcontent-ref %}
 
-{% content-ref url="operations/configuring-tls-ssl.md" %}
-[configuring-tls-ssl.md](operations/configuring-tls-ssl.md)
+{% content-ref url="../operate-pinot/configuring-tls-ssl.md" %}
+[configuring-tls-ssl.md](../operate-pinot/configuring-tls-ssl.md)
 {% endcontent-ref %}
 
-{% content-ref url="operations/monitor-pinot-using-prometheus-and-grafana.md" %}
-[monitor-pinot-using-prometheus-and-grafana.md](operations/monitor-pinot-using-prometheus-and-grafana.md)
+{% content-ref url="../operate-pinot/monitor-pinot-using-prometheus-and-grafana.md" %}
+[monitor-pinot-using-prometheus-and-grafana.md](../operate-pinot/monitor-pinot-using-prometheus-and-grafana.md)
 {% endcontent-ref %}

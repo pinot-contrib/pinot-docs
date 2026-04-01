@@ -28,32 +28,32 @@ Plugins are collected in folders, based on their purpose. Pinot organizes its pl
 
 Input format plugins read data from files or streams during data ingestion. Batch ingestion uses `RecordReader` implementations, while real-time ingestion uses `StreamMessageDecoder` implementations.
 
-{% content-ref url="../../manage-data/data-import/pinot-input-formats.md" %}
-[pinot-input-formats.md](../../manage-data/data-import/pinot-input-formats.md)
+{% content-ref url="../../build-with-pinot/ingestion/pinot-input-formats.md" %}
+[pinot-input-formats.md](../../build-with-pinot/ingestion/pinot-input-formats.md)
 {% endcontent-ref %}
 
 ### Filesystem
 
 Filesystem plugins provide a storage abstraction layer so that Pinot segments can be stored on and fetched from different storage backends.
 
-{% content-ref url="../../manage-data/data-import/pinot-file-system/" %}
-[pinot-file-system](../../manage-data/data-import/pinot-file-system/)
+{% content-ref url="../../build-with-pinot/ingestion/file-systems/" %}
+[pinot-file-system](../../build-with-pinot/ingestion/file-systems/)
 {% endcontent-ref %}
 
 ### Stream Ingestion
 
 Stream ingestion plugins allow Pinot to consume data from real-time streaming platforms.
 
-{% content-ref url="../../manage-data/data-import/pinot-stream-ingestion/" %}
-[pinot-stream-ingestion](../../manage-data/data-import/pinot-stream-ingestion/)
+{% content-ref url="../../build-with-pinot/ingestion/stream-ingestion/" %}
+[pinot-stream-ingestion](../../build-with-pinot/ingestion/stream-ingestion/)
 {% endcontent-ref %}
 
 ### Batch Ingestion
 
 Batch ingestion plugins run data ingestion jobs on different execution frameworks.
 
-{% content-ref url="../../manage-data/data-import/batch-ingestion/" %}
-[batch-ingestion](../../manage-data/data-import/batch-ingestion/)
+{% content-ref url="../../build-with-pinot/ingestion/batch-ingestion" %}
+[batch-ingestion](../../build-with-pinot/ingestion/batch-ingestion)
 {% endcontent-ref %}
 
 ### Metrics

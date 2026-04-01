@@ -58,7 +58,7 @@ $ curl -F schemaName=@baseballStats.schema localhost:9000/schemas
 
 After you add the new column to your schema, reload the consuming segments.
 
-1. (Real-time tables only): Open [Server config](../../configuration-reference/server.md), and set `pinot.server.instance.reload.consumingSegment` to `true`.
+1. (Real-time tables only): Open [Server config](../../reference/configuration-reference/server.md), and set `pinot.server.instance.reload.consumingSegment` to `true`.
 2. To ensure the `baseballStats` column shows up, run the following command to reload the table segments--**be sure to replace** **the accurate** `reloadJobId` **for your schema:**
 
 **Command**&#x20;

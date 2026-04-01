@@ -59,4 +59,4 @@ Use this page when you are:
 
 - [Functions](README.md)
 - [SSE vs MSE](../build-with-pinot/querying-and-sql/sse-vs-mse.md)
-- [Supported Transformations](../users/user-guide-query/supported-transformations.md)
+- [Supported Transformations](transformations.md)

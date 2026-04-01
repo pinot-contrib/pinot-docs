@@ -61,7 +61,7 @@ The logical tables listing is accessible from the main **Tables** page, alongsid
 - **Edit** a logical table's configuration.
 - **Delete** a logical table with a confirmation dialog.
 
-For more information about logical tables, see the [Logical Table Support](../releases/1.4.0.md#logical-table-support-design) section in the 1.4.0 release notes.
+For more information about logical tables, see the [Logical Table Support](../../reference/releases/1.4.0.md#logical-table-support-design) section in the 1.4.0 release notes.
 
 ## Query Console
 
@@ -96,7 +96,7 @@ from baseballStats
 order by league
 ```
 
-Pinot uses SQL for querying. For the complete syntax reference, see the [SQL Syntax and Operators Reference](../../users/user-guide-query/sql-reference.md). For query options, examples, and engine details, see [Querying Pinot](../../users/user-guide-query/querying-pinot.md).
+Pinot uses SQL for querying. For the complete syntax reference, see the [SQL Syntax and Operators Reference](../../build-with-pinot/querying-and-sql/sql-reference.md). For query options, examples, and engine details, see [Querying Pinot](../../build-with-pinot/querying-and-sql/querying-pinot.md).
 
 ### Time-series query execution
 
@@ -124,4 +124,4 @@ Take a look at the schema by going to [Schema -> Get a schema](http://localhost:
 
 Finally, let's check out the data segments in the cluster by going to [Segment -> List all segments](http://localhost:9000/help#!/Segment/getSegments), click **Try it out**, type in `baseballStats` in the table name, and then click **Execute**. There's 1 segment for this table, called `baseballStats_OFFLINE_0`.
 
-To learn how to upload your own data and schema, see [Batch Ingestion](../../manage-data/data-import/batch-ingestion/) or [Stream ingestion](../../manage-data/data-import/pinot-stream-ingestion/).
+To learn how to upload your own data and schema, see [Batch Ingestion](../../build-with-pinot/ingestion/batch-ingestion) or [Stream ingestion](../../build-with-pinot/ingestion/stream-ingestion/).

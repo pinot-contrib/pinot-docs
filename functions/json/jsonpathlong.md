@@ -4,7 +4,7 @@ description: This section contains reference documentation for the JSONPATHLONG 
 
 # JSONPATHLONG
 
-Extracts the **Long** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error. This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
+Extracts the **Long** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error. This function can only be used in an [ingestion transformation function](../../build-with-pinot/ingestion/ingestion-level-transformations.md).
 
 ## Signature
 
@@ -52,7 +52,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | ----------------------------- | ----- |
 | `JSONPATHLONG(data, '$.age')` | `24`  |
 
-This function can be used in the [table config](../../configuration-reference/table.md) to extract the `age` property into the `age` column, as described below:
+This function can be used in the [table config](../../reference/configuration-reference/table.md) to extract the `age` property into the `age` column, as described below:
 
 ```json
 {

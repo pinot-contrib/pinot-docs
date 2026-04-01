@@ -4,7 +4,7 @@ description: This section contains reference documentation for the JSONPATHSTRIN
 
 # JSONPATHSTRING
 
-Extracts the **String** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error. This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
+Extracts the **String** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error. This function can only be used in an [ingestion transformation function](../../build-with-pinot/ingestion/ingestion-level-transformations.md).
 
 ## Signature
 
@@ -50,7 +50,7 @@ The usage examples are based on extracting fields from the following JSON docume
 
 <table><thead><tr><th width="490">Expression</th><th>Value</th></tr></thead><tbody><tr><td><code>JSONPATHSTRING(data, '$.age')</code></td><td><code>"24"</code></td></tr><tr><td><code>JSONPATHSTRING(data, '$.name["nick.name"]')</code></td><td>"Pete"</td></tr></tbody></table>
 
-This function can be used in the [table config](../../configuration-reference/table.md) to extract the `age` property into the `age` column, as described below:
+This function can be used in the [table config](../../reference/configuration-reference/table.md) to extract the `age` property into the `age` column, as described below:
 
 ```json
 {

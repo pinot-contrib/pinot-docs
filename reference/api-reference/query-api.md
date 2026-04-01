@@ -72,4 +72,4 @@ If you need SQL semantics rather than transport semantics, jump to the SQL synta
 - [Controller Admin API](controller-admin-api.md)
 - [Broker gRPC API](broker-grpc-api.md)
 - [Querying Pinot](../../build-with-pinot/querying-and-sql/querying-pinot.md)
-- [Query using Cursors](../../users/user-guide-query/query-using-cursors.md)
+- [Query using Cursors](../../build-with-pinot/querying-and-sql/query-execution-controls/query-using-cursors.md)

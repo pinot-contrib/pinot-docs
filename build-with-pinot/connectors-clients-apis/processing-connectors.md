@@ -21,8 +21,8 @@ If the goal is primarily to load data into Pinot, start with the ingestion guide
 
 ## Detailed docs
 
-* [Flink connector](../../integrations/flink-connector.md)
-* [Spark-Pinot connector](../../integrations/spark-pinot-connector/README.md)
+* [Flink connector](flink-connector.md)
+* [Spark-Pinot connector](spark-pinot-connector/README.md)
 
 ## What this page covered
 

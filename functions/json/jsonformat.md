@@ -4,7 +4,7 @@ description: This section contains reference documentation for the JSONFORMAT fu
 
 # JSONFORMAT
 
-Extracts the object value from jsonField based on 'jsonPath', the result type is inferred based on JSON value. This function can only be used in an [ingestion transformation function](../../developers/advanced/ingestion-level-transformations.md).
+Extracts the object value from jsonField based on 'jsonPath', the result type is inferred based on JSON value. This function can only be used in an [ingestion transformation function](../../build-with-pinot/ingestion/ingestion-level-transformations.md).
 
 ## Signature
 
@@ -22,7 +22,7 @@ The usage examples are based on extracting fields from the following JSON docume
 | ------------------ | ---------------- |
 | `JSONFORMAT(meta)` | `"{\"age\":12}"` |
 
-This function can be used in the [table config](../../configuration-reference/table.md) to extract the `meta` property into the `data` column, as described below:
+This function can be used in the [table config](../../reference/configuration-reference/table.md) to extract the `meta` property into the `data` column, as described below:
 
 ```json
 {

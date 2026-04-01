@@ -20,7 +20,7 @@ The stream has to support the consumption mode you choose. The table config has 
 
 ## Learn more
 
-The existing walk-throughs in [Import Data](../../manage-data/data-import/README.md) and [Data Ingestion Overview](../../developers/advanced/data-ingestion.md) still contain the detailed mechanics.
+The existing walk-throughs in [Import Data](README.md) and [Data Ingestion Overview](README.md) still contain the detailed mechanics.
 
 ## What this page covered
 
@@ -36,4 +36,4 @@ Read [Upsert and Dedup](upsert-dedup.md) if the stream should collapse duplicate
 - [Batch Ingestion](batch-ingestion.md)
 - [Upsert and Dedup](upsert-dedup.md)
 - [Formats and Filesystems](formats-filesystems.md)
-- [Original Stream Docs](../../manage-data/data-import/pinot-stream-ingestion/README.md)
+- [Original Stream Docs](stream-ingestion/README.md)

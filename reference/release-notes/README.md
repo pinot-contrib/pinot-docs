@@ -10,13 +10,13 @@ This section is the reference landing page for Pinot release history. The detail
 
 | Version | Source page |
 | --- | --- |
-| 1.4.0 | [1.4.0](../../basics/releases/1.4.0.md) |
-| 1.3.0 | [1.3.0](../../basics/releases/1.3.0.md) |
-| 1.2.0 | [1.2.0](../../basics/releases/1.2.0.md) |
-| 1.1.0 | [1.1.0](../../basics/releases/1.1.0.md) |
-| 1.0.0 | [1.0.0](../../basics/releases/1.0.0.md) |
-| 0.12.1 | [0.12.1](../../basics/releases/0.12.1.md) |
-| 0.12.0 | [0.12.0](../../basics/releases/0.12.0.md) |
+| 1.4.0 | [1.4.0](../releases/1.4.0.md) |
+| 1.3.0 | [1.3.0](../releases/1.3.0.md) |
+| 1.2.0 | [1.2.0](../releases/1.2.0.md) |
+| 1.1.0 | [1.1.0](../releases/1.1.0.md) |
+| 1.0.0 | [1.0.0](../releases/1.0.0.md) |
+| 0.12.1 | [0.12.1](../releases/0.12.1.md) |
+| 0.12.0 | [0.12.0](../releases/0.12.0.md) |
 
 ## Upgrade Note
 
@@ -35,6 +35,6 @@ Open the note for the release you are targeting, then run compatibility checks a
 ## Related pages
 
 - [Configuration Reference](../configuration-reference/README.md)
-- [Full Release Archive](../../basics/releases/README.md)
-- [Release 1.4.0](../../basics/releases/1.4.0.md)
+- [Full Release Archive](../releases/README.md)
+- [Release 1.4.0](../releases/1.4.0.md)
 - [Upgrade Notes](../../operators/operating-pinot/upgrade-notes.md)

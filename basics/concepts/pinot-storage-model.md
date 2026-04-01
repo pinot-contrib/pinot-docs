@@ -27,7 +27,7 @@ Pinot table types include:
 
 ## Segment
 
-Pinot tables are stored in one or more independent shards called [segments](../components/table/segment/). A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](../../developers/advanced/data-ingestion.md)). Segments have time-based partitions of table data, and are stored on Pinot [servers](../components/cluster/server.md) that scale horizontally as needed for both storage and computation.
+Pinot tables are stored in one or more independent shards called [segments](../components/table/segment/). A small table may be contained by a single segment, but Pinot lets tables grow to an unlimited number of segments. There are different processes for creating segments (see [ingestion](../../build-with-pinot/ingestion/README.md)). Segments have time-based partitions of table data, and are stored on Pinot [servers](../components/cluster/server.md) that scale horizontally as needed for both storage and computation.
 
 ## Tenant
 
@@ -63,9 +63,9 @@ Helix is a cluster management solution created by the authors of Pinot. Helix ma
 
 A[ controller](../components/cluster/controller.md) is the core orchestrator that drives the consistency and routing in a Pinot cluster. Controllers are horizontally scaled as an independent component (container) and has visibility of the state of all other components in a cluster. The controller reacts and responds to state changes in the system and schedules the allocation of resources for tables, segments, or nodes. As mentioned earlier, Helix is embedded within the controller as an agent that is a participant responsible for observing and driving state changes that are subscribed to by other components.
 
-The Pinot [controller](../components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../../manage-data/data-import/pinot-stream-ingestion/) and [offline tables](../../manage-data/data-import/batch-ingestion/)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
+The Pinot [controller](../components/cluster/controller.md) schedules and re-schedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, it schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (e.g., ingest of [real-time tables](../../build-with-pinot/ingestion/stream-ingestion/) and [offline tables](../../build-with-pinot/ingestion/batch-ingestion)). It can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
-The controller exposes a [REST API endpoint](../../users/api/controller-api-reference.md) for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
+The controller exposes a [REST API endpoint](../../reference/api-reference/controller-api.md) for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
 
 ## Server
 

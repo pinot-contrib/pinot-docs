@@ -135,7 +135,7 @@ pushJobSpec:
 
 ### Execution Framework Spec
 
-The configs specify the execution framework to use to ingest data. Check out [Batch Ingestion](../../manage-data/data-import/batch-ingestion/) for configs related to all the supported frameworks
+The configs specify the execution framework to use to ingest data. Check out [Batch Ingestion](../../build-with-pinot/ingestion/batch-ingestion) for configs related to all the supported frameworks
 
 | Property                              | Description                                                                                                                          |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -172,8 +172,8 @@ Table spec is used to specify the table in which data should be populated along 
 | Property       | Description                                                                                                                                               |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | tableName      | name of the table in which to populate the data                                                                                                           |
-| schemaURI      | location from which to read the schema for the table. Supports both [File systems](../../manage-data/data-import/pinot-file-system/) as well as `HTTP` URI |
-| tableConfigURI | location from which to read the config for the table. Supports both [File systems](../../manage-data/data-import/pinot-file-system/) as well as `HTTP` URI |
+| schemaURI      | location from which to read the schema for the table. Supports both [File systems](../../build-with-pinot/ingestion/file-systems/) as well as `HTTP` URI |
+| tableConfigURI | location from which to read the config for the table. Supports both [File systems](../../build-with-pinot/ingestion/file-systems/) as well as `HTTP` URI |
 
 #### Example
 

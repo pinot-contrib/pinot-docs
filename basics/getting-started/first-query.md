@@ -82,7 +82,7 @@ All five queries return results without errors. You have successfully completed 
 
 You have finished the linear Start Here path. From here, explore the areas most relevant to your use case:
 
-* [Query Syntax](../../users/user-guide-query/query-syntax-overview.md) -- the full SQL reference for Pinot's query language
-* [Multi-Stage Query Engine](../../users/user-guide-query/multi-stage-query/README.md) -- enable JOINs and complex queries across tables
+* [Query Syntax](../../build-with-pinot/querying-and-sql/query-syntax-overview.md) -- the full SQL reference for Pinot's query language
+* [Multi-Stage Query Engine](../../build-with-pinot/querying-and-sql/multi-stage-query/README.md) -- enable JOINs and complex queries across tables
 * [Architecture](../../basics/architecture.md) -- understand how queries flow from Broker to Server and back
-* [Stream Ingestion from Kafka](../../manage-data/data-import/pinot-stream-ingestion/import-from-apache-kafka.md) -- set up real-time ingestion for production workloads
+* [Stream Ingestion from Kafka](../../build-with-pinot/ingestion/stream-ingestion/import-from-apache-kafka.md) -- set up real-time ingestion for production workloads

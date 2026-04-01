@@ -44,7 +44,7 @@ from myTable
 ```
 {% endhint %}
 
-[Table configuration](../../../configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, and retention. It is written in JSON format and is stored in Zookeeper, along with the table schema.
+[Table configuration](../../../reference/configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, and retention. It is written in JSON format and is stored in Zookeeper, along with the table schema.
 
 Use the following properties to make your tables faster or leaner:
 
@@ -56,7 +56,7 @@ Use the following properties to make your tables faster or leaner:
 
 A table is comprised of small chunks of data known as segments. Learn more about how Pinot creates and manages segments [here](segment).
 
-For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../../../manage-data/data-import/batch-ingestion/).
+For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../../../build-with-pinot/ingestion/batch-ingestion).
 
 For real-time tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments.
 
@@ -88,21 +88,21 @@ For more details about peer segment download during real-time ingestion, refer t
 
 You can create multiple indices on a table to increase the performance of the queries. The following types of indices are supported:
 
-* [Forward Index](../../indexing/forward-index.md)
+* [Forward Index](../../../build-with-pinot/indexing/forward-index.md)
   * Dictionary-encoded forward index with bit compression
   * Raw value forward index
   * Sorted forward index with run-length encoding
-* [Inverted Index](../../indexing/inverted-index.md)
+* [Inverted Index](../../../build-with-pinot/indexing/inverted-index.md)
   * Bitmap inverted index
   * Sorted inverted index
-* [Star-tree Index](../../indexing/star-tree-index.md)
-* [Range Index](../../indexing/range-index.md)
-* [Text Index](../../indexing/text-search-support.md)
-* [Geospatial](../../indexing/geospatial-support.md)
+* [Star-tree Index](../../../build-with-pinot/indexing/star-tree-index.md)
+* [Range Index](../../../build-with-pinot/indexing/range-index.md)
+* [Text Index](../../../build-with-pinot/indexing/text-search-support.md)
+* [Geospatial](../../../build-with-pinot/indexing/geospatial-support.md)
 
-For more details on each indexing mechanism and corresponding configurations, see [Indexing](../../indexing/).
+For more details on each indexing mechanism and corresponding configurations, see [Indexing](../../../build-with-pinot/indexing).
 
-Set up [Bloomfilters](../../indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
+Set up [Bloomfilters](../../../build-with-pinot/indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
 
 ### Pre-aggregation
 

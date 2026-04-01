@@ -57,7 +57,7 @@ Table data:
 107,{"person":{"name":"scrooge mcduck"\,"companies":[{"name":"n1"\,"title":"t1"}\,{"name":"n2"\,"title":"t2"}]}}
 ```
 
-We also assume that "jsoncolumn" has a [Json Index](../../basics/indexing/json-index.md) on it. Note that the last two rows in the table have different structure than the rest of the rows. In keeping with JSON specification, a JSON column can contain any valid JSON data and doesn't need to adhere to a predefined schema. To pull out the entire JSON document for each row, we can run the query below:
+We also assume that "jsoncolumn" has a [Json Index](../../build-with-pinot/indexing/json-index.md) on it. Note that the last two rows in the table have different structure than the rest of the rows. In keeping with JSON specification, a JSON column can contain any valid JSON data and doesn't need to adhere to a predefined schema. To pull out the entire JSON document for each row, we can run the query below:
 
 ```
 SELECT id, jsoncolumn 
@@ -202,6 +202,6 @@ Now we have the string representation of the original predicate and this can be 
 
 For more JSON\_MATCH examples, please see&#x20;
 
-{% content-ref url="../../basics/indexing/json-index.md" %}
-[json-index.md](../../basics/indexing/json-index.md)
+{% content-ref url="../../build-with-pinot/indexing/json-index.md" %}
+[json-index.md](../../build-with-pinot/indexing/json-index.md)
 {% endcontent-ref %}

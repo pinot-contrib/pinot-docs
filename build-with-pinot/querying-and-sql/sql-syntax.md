@@ -46,7 +46,7 @@ If you are working on a query and do not know whether a feature is supported, ch
 
 ## Where the details live
 
-This page intentionally stays light. For the full statement-by-statement reference, use the detailed [SQL syntax and operators reference](../../users/user-guide-query/sql-reference.md). For query controls and diagnostics, use the pages under `query-execution-controls/`.
+This page intentionally stays light. For the full statement-by-statement reference, use the detailed [SQL syntax and operators reference](sql-reference.md). For query controls and diagnostics, use the pages under `query-execution-controls/`.
 
 ## What this page covered
 

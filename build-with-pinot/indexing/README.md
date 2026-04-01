@@ -22,23 +22,23 @@ Use the decision guide when you know the query shape but not the best index yet.
 
 ## Common index families
 
-* [Bloom filter](../../basics/indexing/bloom-filter.md) for segment pruning on highly selective lookups.
-* [Forward index](../../basics/indexing/forward-index.md) for Pinot's default row-to-value storage path.
-* [FST index](../../basics/indexing/fst-index.md) for prefix and pattern-style string filtering.
-* [Inverted index](../../basics/indexing/inverted-index.md) for equality, `IN`, and other highly selective filters.
-* [Timestamp index](../../basics/indexing/timestamp-index.md) for time-granularity queries and rollups.
-* [Range index](../../basics/indexing/range-index.md) for bounded numeric or time filters.
-* [Text search support](../../basics/indexing/text-search-support.md) for tokenized search and text predicates.
-* [JSON index](../../basics/indexing/json-index.md) for nested JSON predicates.
-* [Geospatial support](../../basics/indexing/geospatial-support.md) for distance and spatial filtering.
-* [Star-tree index](../../basics/indexing/star-tree-index.md) for repeatable aggregation and group-by workloads.
-* [Vector index](../../basics/indexing/vector-index.md) for similarity search on embeddings.
+* [Bloom filter](bloom-filter.md) for segment pruning on highly selective lookups.
+* [Forward index](forward-index.md) for Pinot's default row-to-value storage path.
+* [FST index](fst-index.md) for prefix and pattern-style string filtering.
+* [Inverted index](inverted-index.md) for equality, `IN`, and other highly selective filters.
+* [Timestamp index](timestamp-index.md) for time-granularity queries and rollups.
+* [Range index](range-index.md) for bounded numeric or time filters.
+* [Text search support](text-search-support.md) for tokenized search and text predicates.
+* [JSON index](json-index.md) for nested JSON predicates.
+* [Geospatial support](geospatial-support.md) for distance and spatial filtering.
+* [Star-tree index](star-tree-index.md) for repeatable aggregation and group-by workloads.
+* [Vector index](vector-index.md) for similarity search on embeddings.
 
 ## How Pinot applies indexes
 
-Most index choices are defined in the table config, usually under `fieldConfigList` or `tableIndexConfig`, depending on the index and the configuration style you are using. The canonical table-level reference is [Table](../../configuration-reference/table.md).
+Most index choices are defined in the table config, usually under `fieldConfigList` or `tableIndexConfig`, depending on the index and the configuration style you are using. The canonical table-level reference is [Table](../../reference/configuration-reference/table.md).
 
-For a practical walkthrough, see [Configure indexes](../../manage-data/data-import/pinot-stream-ingestion/configure-indexes.md).
+For a practical walkthrough, see [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md).
 
 Indexes can also be added or removed after ingestion for some workloads. When you need to change an existing table, prefer the current field-level configuration style over legacy index settings.
 
@@ -67,5 +67,5 @@ Read the decision guide to map your query pattern to a specific index and config
 ## Related pages
 
 * [Choosing indexes](choosing-indexes.md)
-* [Table](../../configuration-reference/table.md)
-* [Configure indexes](../../manage-data/data-import/pinot-stream-ingestion/configure-indexes.md)
+* [Table](../../reference/configuration-reference/table.md)
+* [Configure indexes](../ingestion/stream-ingestion/configure-indexes.md)

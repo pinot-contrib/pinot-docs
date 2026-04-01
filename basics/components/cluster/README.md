@@ -24,7 +24,7 @@ Helix is a cluster management solution that maintains a persistent, fault-tolera
 
 ## Cluster configuration
 
-For details of cluster configuration settings, see [Cluster configuration reference](../../../configuration-reference/cluster.md).
+For details of cluster configuration settings, see [Cluster configuration reference](../../../reference/configuration-reference/cluster.md).
 
 ## Cluster components
 

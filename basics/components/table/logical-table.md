@@ -391,5 +391,5 @@ This is an advanced extension point for specialized deployments. Most users shou
 
 ## See Also
 
-* [Table Configuration](../../../configuration-reference/table.md)
+* [Table Configuration](../../../reference/configuration-reference/table.md)
 * [Schema Configuration](schema.md)

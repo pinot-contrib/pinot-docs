@@ -18,6 +18,8 @@ Checks:
   6. Function SUMMARY coverage — each published functions/* page appears
                                  in SUMMARY.md.
   7. Redirect coverage     — .gitbook.yaml redirect targets that do not exist.
+  8. Orphan file check     — every .md file on disk is listed in
+                              SUMMARY.md (prevents undiscoverable pages).
 
 Modes:
   Default (no flags)   — report everything, fail on broken file links,
@@ -53,11 +55,13 @@ SUMMARY_PATH = REPO_ROOT / "SUMMARY.md"
 GITBOOK_YAML = REPO_ROOT / ".gitbook.yaml"
 FUNCTIONS_ROOT = REPO_ROOT / "functions"
 
-SKIP_DIRS = {".git", "node_modules", ".gitbook"}
-FUNCTION_FAMILY_LINK_EXCLUSIONS = {
-    # This page is currently surfaced from the Window Functions guide even
-    # though the file lives under functions/math.
-    FUNCTIONS_ROOT / "math" / "round-1-1.md",
+SKIP_DIRS = {".git", ".claude", "node_modules", ".gitbook"}
+FUNCTION_FAMILY_LINK_EXCLUSIONS = set()
+
+# Files that are intentionally NOT in SUMMARY.md (e.g. includes, internal pages)
+SUMMARY_ORPHAN_EXCLUSIONS = {
+    REPO_ROOT / "SUMMARY.md",
+    REPO_ROOT / "README.md",  # Root readme is referenced by .gitbook.yaml, not SUMMARY.md
 }
 
 # ---------------------------------------------------------------------------
@@ -357,6 +361,38 @@ def check_function_summary_coverage() -> tuple[list[str], int]:
     return errors, total
 
 
+def find_summary_orphans(md_files: set[Path]) -> list[str]:
+    """Find .md files on disk that are NOT listed in SUMMARY.md."""
+    if not SUMMARY_PATH.exists():
+        return []
+
+    # Collect all paths referenced from SUMMARY.md
+    summary_paths: set[Path] = set()
+    for raw_link, _ in extract_links(SUMMARY_PATH):
+        path_part = raw_link.split("#", 1)[0]
+        if not path_part:
+            continue
+        resolved = (REPO_ROOT / path_part).resolve()
+        summary_paths.add(resolved)
+
+    orphans = []
+    for filepath in sorted(md_files):
+        resolved = filepath.resolve()
+        if resolved in summary_paths:
+            continue
+        if resolved in SUMMARY_ORPHAN_EXCLUSIONS:
+            continue
+        # Skip .gitbook includes
+        try:
+            rel = filepath.relative_to(REPO_ROOT)
+        except ValueError:
+            continue
+        if str(rel).startswith(".gitbook"):
+            continue
+        orphans.append(f"  {rel}")
+    return orphans
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -520,6 +556,26 @@ def main() -> int:
         print(f"PASS — all {redirect_count} redirect targets exist")
     print()
 
+    # ── CHECK 8: Orphan file check ──────────────────────────────────
+    print("-" * 64)
+    print("CHECK 8: Orphan files (not in SUMMARY.md)")
+    print("-" * 64)
+    summary_orphans = find_summary_orphans(all_repo_md_files)
+    if changed_md_files is not None:
+        # In --changed-only mode, only flag orphans that are new/changed files
+        changed_rel = {
+            f"  {p.relative_to(REPO_ROOT)}" for p in changed_md_files
+        }
+        summary_orphans = [o for o in summary_orphans if o in changed_rel]
+    if summary_orphans:
+        has_error = True
+        print(f"FAIL — {len(summary_orphans)} file(s) not listed in SUMMARY.md")
+        if not args.summary_only:
+            print("\n".join(summary_orphans))
+    else:
+        print("PASS — every .md file is listed in SUMMARY.md")
+    print()
+
     # ── Summary ──────────────────────────────────────────────────────
     print("=" * 64)
     print(f"  Files checked:        {len(md_files)}")
@@ -531,6 +587,7 @@ def main() -> int:
     print(f"  Missing family links: {len(function_link_errors)}")
     print(f"  Missing SUMMARY funcs:{len(function_summary_errors)}")
     print(f"  Broken redirects:     {len(redirect_errors)}")
+    print(f"  SUMMARY orphans:      {len(summary_orphans)}")
     print("=" * 64)
 
     if args.warn_only:
