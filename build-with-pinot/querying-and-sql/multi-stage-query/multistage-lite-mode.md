@@ -12,7 +12,7 @@ MSE Lite Mode is included in Pinot 1.4 and is currently in Beta. This Beta label
 
 **
 
-Multistage Engine (MSE) Lite Mode is an optional, guardrail-oriented execution mode for self-service and high-QPS tenants. Without additional bounds, queries can scan a large number of records or run expensive operations, which can impact the reliability of a shared tenant and create friction in onboarding new use-cases. Lite Mode addresses this by applying tighter scan and resource bounds automatically.
+Multistage Engine (MSE) Lite Mode is an optional, guardrail-oriented execution mode for self-service and high-QPS tenants. Without additional bounds, queries can scan a large number of records or run expensive operations, which can impact the reliability of a shared tenant and create friction in onboarding new use-cases. Lite Mode addresses this by capping the rows returned from each leaf stage and applying tighter resource bounds automatically.
 
 It is based on the observation that most of the users need access to advanced SQL features like Window Functions, Subqueries, etc., and aren't interested in scanning a lot of data or running fully Distributed Joins.
 

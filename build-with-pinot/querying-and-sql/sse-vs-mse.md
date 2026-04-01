@@ -8,7 +8,9 @@ Pinot ships two supported query engines. The **single-stage engine (SSE)** uses 
 
 SSE is the default because it has lower overhead for the most common Pinot workloads; that default does not imply that MSE is experimental. MSE is Pinot's supported engine for queries that require relational operators beyond simple scatter-gather execution.
 
-> **History:** MSE was introduced as the "v2 query engine" in Pinot 1.0.0. You may still see references to "v1" and "v2" in configuration properties such as `useMultistageEngine`.
+{% hint style="info" %}
+**Timeline:** MSE was first introduced as an experimental feature (the "v2 query engine") in Pinot 0.11.0 and became production-ready in Pinot 1.0.0. Subsequent releases added null handling (1.1.0), performance improvements, and features such as [Lite Mode](multi-stage-query/multistage-lite-mode.md) (1.4.0). You may still see references to "v1" and "v2" in configuration properties such as `useMultistageEngine`.
+{% endhint %}
 
 ## Quick decision
 

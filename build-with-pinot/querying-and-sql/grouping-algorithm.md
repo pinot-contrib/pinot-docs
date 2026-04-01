@@ -2,11 +2,11 @@
 
 In this guide we will learn about the heuristics used for trimming results in Pinot's grouping algorithm (used when processing `GROUP BY` queries) to make sure that the server doesn't run out of memory.
 
-## V1 / Single Stage Query Engine
+## SSE (Single-Stage Engine)
 
 ![](../../.gitbook/assets/Screenshot 2025-07-22 at 17.39.21.png)
 
-*Group by results approximation at various stages of V1 query execution*
+*Group by results approximation at various stages of SSE query execution*
 
 ## Within segment
 
@@ -106,27 +106,27 @@ BROKER_REDUCE(sort:[i, j],limit:10) <- sort and trim groups to minBrokerGroupTri
 For sake of brevity, plan above doesn't mention that actual number of groups left is  \
 `min( trim_value, 5*limit )` .
 
-## V2 / Multi Stage Query Engine
+## MSE (Multi-Stage Engine)
 
-Compared to V1, V2 engine uses similar algorithm, but there are notable differences:
+Compared to the SSE, the MSE uses a similar algorithm, but there are notable differences:
 
-* V2 doesn't implicitly limit number of query results (to 10)
-* V2 doesn't limit number of groups when aggregating cross-segment data
-* V2 doesn't trim results by default in any stage
-* V2 doesn't aggregate results in the broker, pushing final aggregation processing to server(s)
+* MSE doesn't implicitly limit number of query results (to 10)
+* MSE doesn't limit number of groups when aggregating cross-segment data
+* MSE doesn't trim results by default in any stage
+* MSE doesn't aggregate results in the broker, pushing final aggregation processing to server(s)
 
-The default V2 algorithm is shown on the following diagram:
+The default MSE algorithm is shown on the following diagram:
 
 ![](../../.gitbook/assets/Screenshot 2025-07-22 at 17.43.44.png)
 
-*Default V2 engine group by results approximation*
+*Default MSE group by results approximation*
 
-Apart from limiting number of groups on segment level, similar limit is applied at _intermediate_ stage.  Since V2 query engine allows for subqueries, in an execution plan, there could be arbitrary number of stages doing _intermediate_ aggregation between leaf (bottom-most) and top-most stages, and each stage can be implemented with many instances of `AggregateOperator` (shown as `PinotLogicalAggregate` in  [EXPLAIN's](query-execution-controls/explain-plan-multi-stage.md) output).  \
+Apart from limiting number of groups on segment level, similar limit is applied at _intermediate_ stage.  Since the multi-stage engine (MSE) allows for subqueries, in an execution plan, there could be arbitrary number of stages doing _intermediate_ aggregation between leaf (bottom-most) and top-most stages, and each stage can be implemented with many instances of `AggregateOperator` (shown as `PinotLogicalAggregate` in  [EXPLAIN's](query-execution-controls/explain-plan-multi-stage.md) output).  \
 The operator limits number of distinct groups to 100,000 by default, which can be overridden with `numGroupsLimit` option or `num_groups_limit` aggregate hint. The limit applies to a single operator instance, meaning that next stage could receive a total of `num_instances * num_groups_limit`.
 
 It is possible to enable group limiting and trimming at other stages with:
 
-* `is_enable_group_trim` hint - it enables trimming at all V1/V2 levels  and group limiting at cross-segment level.  `minSegmentGroupTrimSize` value needs to be set separately. \
+* `is_enable_group_trim` hint - it enables trimming at all SSE/MSE levels  and group limiting at cross-segment level.  `minSegmentGroupTrimSize` value needs to be set separately. \
   Default value: false&#x20;
 * `mse_min_group_trim_size` hint - triggers sorting and trimming of group by results at intermediate stage. Requires `is_enable_group_trim` hint.\
   Default value: 5000
@@ -135,13 +135,13 @@ When the above hints are used, query processing looks as follows:
 
 ![](../../.gitbook/assets/Screenshot 2025-07-22 at 17.39.42.png)
 
-*Group by results trimming at various stages of V2 query execution utilizing V1 in leaf stage*
+*Group by results trimming at various stages of MSE query execution utilizing SSE in leaf stage*
 
-The actual processing depends on the query, which may not contain V1 leaf stage aggregate component, and rely on AggregateOperator on all levels. Moreover, since trimming relies on order and limit propagation, it may not happen in a subquery if order by column(s) are not available.&#x20;
+The actual processing depends on the query, which may not contain an SSE leaf stage aggregate component, and rely on AggregateOperator on all levels. Moreover, since trimming relies on order and limit propagation, it may not happen in a subquery if order by column(s) are not available.&#x20;
 
 ## Examples
 
-*   If hints are applied to query mentioned in V1 examples above, that is :\
+*   If hints are applied to query mentioned in SSE examples above, that is :\
 
 
     ```sql
@@ -211,7 +211,7 @@ The actual processing depends on the query, which may not contain V1 leaf stage 
     ```
 
     \
-    in which there is no leaf stage V1 operator and all aggregation stages are implemented with V2 operator - `PinotLogicalAggregate`. \
+    in which there is no leaf stage SSE operator and all aggregation stages are implemented with the MSE operator `PinotLogicalAggregate`. \
 
 
 ## Configuration Parameters

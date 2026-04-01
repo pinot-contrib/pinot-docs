@@ -137,6 +137,7 @@ SELECT distinctcounthll(col) FROM myTable
 
 To get consistent results across both engines, specify the `log2m` parameter explicitly:
 
+
 ```sql
 SELECT distinctcounthll(col, 8) FROM myTable
 ```
