@@ -184,13 +184,15 @@ curl -X POST \
 
 while application-specific  quotas  can be checked with :
 
-<pre class="language-shell"><code class="lang-shell"><strong># to get all effective application quotas
-</strong>curl -X GET 'http://localhost:9000/applicationQuotas'
-</code></pre>
+```shell
+# to get all effective application quotas
+curl -X GET 'http://localhost:9000/applicationQuotas'
+```
 
-<pre><code><strong># to get application's quota
-</strong><strong>curl -X POST 'http://localhost:9000/applicationQuotas/{applicationName}
-</strong></code></pre>
+```
+# to get application's quota
+curl -X POST 'http://localhost:9000/applicationQuotas/{applicationName}
+```
 
 ```shell
 # to set application's quota

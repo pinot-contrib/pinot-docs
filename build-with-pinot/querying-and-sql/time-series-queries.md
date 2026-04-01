@@ -40,7 +40,9 @@ pinot.timeseries.promql.series.builder.factory=com.example.promql.PromQLSeriesBu
 
 Pinot includes a Time Series Query page in the Controller UI for easy querying and visualization at `http://localhost:9000`.
 
-<figure><img src="../../.gitbook/assets/timeseries-controller-ui.png" alt=""><figcaption>Time Series Query UI showing the query editor, time controls, and visualization options</figcaption></figure>
+![](../../.gitbook/assets/timeseries-controller-ui.png)
+
+*Time Series Query UI showing the query editor, time controls, and visualization options*
 
 The UI includes a query editor with language selector (compatible with custom language plugins) and visualizes results as both an interactive time series chart and raw JSON. It also displays query statistics and supports explain plans and query options for enhanced control.
 

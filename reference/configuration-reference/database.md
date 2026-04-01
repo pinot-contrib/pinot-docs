@@ -21,7 +21,9 @@ To create a table under a database we can use the usual table creation endpoint 
 Its convenient to use the swagger UI as there we have an option to configure the database header at one place and use it across all operations\
 
 
-<figure><img src="../.gitbook/assets/image (17).png" alt=""><figcaption><p>Configure database header in Swagger UI</p></figcaption></figure>
+![](../.gitbook/assets/image (17).png)
+
+*Configure database header in Swagger UI*
 
 {% hint style="info" %}
 Pinot UI is not yet onboarded to handle database feature. We only tables under the default database in the UI. So we are heavily dependent on swagger UI to operate tables under different databases.
@@ -52,7 +54,9 @@ As you may have noticed 2 users can have separate tables with the same name, say
 
 Pinot exposes few APIs to get database level info
 
-<figure><img src="../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
+![](../.gitbook/assets/image (18).png)
+
+**
 
 We can
 

@@ -121,7 +121,24 @@ This mode helps to ensure that no potential insights are lost by excluding event
 
 ### Data Set
 
-<table><thead><tr><th>event_name</th><th width="287">ts</th><th>user_id</th></tr></thead><tbody><tr><td>screen_viewed</td><td>1718112402</td><td>1</td></tr><tr><td>screen_clicked</td><td>1718112403</td><td>1</td></tr><tr><td>purchased</td><td>1718112404</td><td>1</td></tr><tr><td>screen_viewed</td><td>1718112405</td><td>1</td></tr><tr><td>screen_clicked</td><td>1718112406</td><td>1</td></tr><tr><td>purchased</td><td>1718112407</td><td>1</td></tr><tr><td>screen_viewed</td><td>1718112405</td><td>2</td></tr><tr><td>screen_clicked</td><td>1718112406</td><td>2</td></tr><tr><td>purchased</td><td>1718112407</td><td>2</td></tr><tr><td>screen_viewed</td><td>1718112404</td><td>3</td></tr><tr><td>screen_clicked</td><td>1718112405</td><td>3</td></tr><tr><td>cart_viewed</td><td>1718112406</td><td>3</td></tr><tr><td>purchased</td><td>1718112407</td><td>3</td></tr><tr><td>screen_viewed</td><td>1717939609</td><td>4</td></tr><tr><td>screen_clicked</td><td>1718112405</td><td>4</td></tr><tr><td>purchased</td><td>1718112405</td><td>4</td></tr></tbody></table>
+| event_name | ts | user_id |
+| --- | --- | --- |
+| screen_viewed | 1718112402 | 1 |
+| screen_clicked | 1718112403 | 1 |
+| purchased | 1718112404 | 1 |
+| screen_viewed | 1718112405 | 1 |
+| screen_clicked | 1718112406 | 1 |
+| purchased | 1718112407 | 1 |
+| screen_viewed | 1718112405 | 2 |
+| screen_clicked | 1718112406 | 2 |
+| purchased | 1718112407 | 2 |
+| screen_viewed | 1718112404 | 3 |
+| screen_clicked | 1718112405 | 3 |
+| cart_viewed | 1718112406 | 3 |
+| purchased | 1718112407 | 3 |
+| screen_viewed | 1717939609 | 4 |
+| screen_clicked | 1718112405 | 4 |
+| purchased | 1718112405 | 4 |
 
 ### Queries
 
@@ -145,7 +162,13 @@ ORDER BY user_id
 
 **Response**
 
-<table data-header-hidden><thead><tr><th width="530"></th><th></th></tr></thead><tbody><tr><td>user_id</td><td>rounds</td></tr><tr><td>1</td><td>0</td></tr><tr><td>2</td><td>0</td></tr><tr><td>3</td><td>1</td></tr><tr><td>4</td><td>0</td></tr></tbody></table>
+|  |  |
+| --- | --- |
+| user_id | rounds |
+| 1 | 0 |
+| 2 | 0 |
+| 3 | 1 |
+| 4 | 0 |
 
 
 
@@ -224,5 +247,11 @@ ORDER BY user_id
 
 **Response**
 
-<table data-header-hidden><thead><tr><th width="530"></th><th></th></tr></thead><tbody><tr><td>user_id</td><td>rounds</td></tr><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>1</td></tr><tr><td>3</td><td>1</td></tr><tr><td>4</td><td>1</td></tr></tbody></table>
+|  |  |
+| --- | --- |
+| user_id | rounds |
+| 1 | 2 |
+| 2 | 1 |
+| 3 | 1 |
+| 4 | 1 |
 

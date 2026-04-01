@@ -4,7 +4,9 @@ In this guide we will learn about the heuristics used for trimming results in Pi
 
 ## V1 / Single Stage Query Engine
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-07-22 at 17.39.21.png" alt="" width="374"><figcaption><p>Group by results approximation at various stages of V1 query execution</p></figcaption></figure>
+![](../../.gitbook/assets/Screenshot 2025-07-22 at 17.39.21.png)
+
+*Group by results approximation at various stages of V1 query execution*
 
 ## Within segment
 
@@ -115,7 +117,9 @@ Compared to V1, V2 engine uses similar algorithm, but there are notable differen
 
 The default V2 algorithm is shown on the following diagram:
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-07-22 at 17.43.44.png" alt="" width="389"><figcaption><p>Default V2 engine group by results approximation</p></figcaption></figure>
+![](../../.gitbook/assets/Screenshot 2025-07-22 at 17.43.44.png)
+
+*Default V2 engine group by results approximation*
 
 Apart from limiting number of groups on segment level, similar limit is applied at _intermediate_ stage.  Since V2 query engine allows for subqueries, in an execution plan, there could be arbitrary number of stages doing _intermediate_ aggregation between leaf (bottom-most) and top-most stages, and each stage can be implemented with many instances of `AggregateOperator` (shown as `PinotLogicalAggregate` in  [EXPLAIN's](query-execution-controls/explain-plan-multi-stage.md) output).  \
 The operator limits number of distinct groups to 100,000 by default, which can be overridden with `numGroupsLimit` option or `num_groups_limit` aggregate hint. The limit applies to a single operator instance, meaning that next stage could receive a total of `num_instances * num_groups_limit`.
@@ -129,7 +133,9 @@ It is possible to enable group limiting and trimming at other stages with:
 
 When the above hints are used, query processing looks as follows:
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-07-22 at 17.39.42.png" alt="" width="386"><figcaption><p>Group by results trimming at various stages of V2 query execution utilizing V1 in leaf stage</p></figcaption></figure>
+![](../../.gitbook/assets/Screenshot 2025-07-22 at 17.39.42.png)
+
+*Group by results trimming at various stages of V2 query execution utilizing V1 in leaf stage*
 
 The actual processing depends on the query, which may not contain V1 leaf stage aggregate component, and rely on AggregateOperator on all levels. Moreover, since trimming relies on order and limit propagation, it may not happen in a subquery if order by column(s) are not available.&#x20;
 
@@ -210,7 +216,16 @@ The actual processing depends on the query, which may not contain V1 leaf stage 
 
 ## Configuration Parameters
 
-<table data-full-width="true"><thead><tr><th width="325">Parameter</th><th width="107">Default</th><th width="339">Query Override</th><th>Description</th></tr></thead><tbody><tr><td><code>pinot.server.query.executor.max.execution.threads</code></td><td>-1 (use all execution threads)</td><td><code>SET maxExecutionThreads = value;</code></td><td>The maximum number of execution threads (parallelism of segment processing) used per query.</td></tr><tr><td><code>pinot.server.query.executor.num.groups.limit</code></td><td>100,000</td><td><code>SET numGroupsLimit = value;</code></td><td>The maximum number of groups allowed per segment.</td></tr><tr><td><code>pinot.server.query.executor.min.segment.group.trim.size</code></td><td>-1 (disabled)</td><td><code>SET minSegmentGroupTrimSize = value;</code></td><td>The minimum number of groups to keep when trimming groups at the segment level.</td></tr><tr><td><code>pinot.server.query.executor.min.server.group.trim.size</code></td><td>5,000</td><td><code>SET minServerGroupTrimSize = value;</code></td><td>The minimum number of groups to keep when trimming groups at the server level.</td></tr><tr><td><code>pinot.server.query.executor.groupby.trim.threshold</code><br></td><td>1,000,000</td><td><code>SET groupTrimThreshold = value;</code></td><td>The number of groups to trigger the server level trim.</td></tr><tr><td><code>pinot.broker.min.group.trim.size</code></td><td>5000</td><td><code>SET minBrokerGroupTrimSize = value;</code> </td><td>The minimum number of groups to keep when trimming groups at the broker.<br>Applies only to SSQ(*).</td></tr><tr><td><code>pinot.broker.mse.enable.group.trim</code></td><td>false (disabled)</td><td><code>/*+ aggOptions(is_enable_group_trim='value') */</code></td><td>Enable group trim for the query (if possible). Applies only to MSQ(**).</td></tr><tr><td><code>pinot.server.query.executor.mse.min.group.trim.size</code></td><td>5000</td><td><code>/*+ aggOptions(mse_min_group_trim_size='value') */</code> or <code>SET mseMinGroupTrimSize = value;</code></td><td>The number of groups to keep when trimming groups at intermediate stage.<br>Applies only to MSQ(**).</td></tr></tbody></table>
+| Parameter | Default | Query Override | Description |
+| --- | --- | --- | --- |
+| `pinot.server.query.executor.max.execution.threads` | -1 (use all execution threads) | `SET maxExecutionThreads = value;` | The maximum number of execution threads (parallelism of segment processing) used per query. |
+| `pinot.server.query.executor.num.groups.limit` | 100,000 | `SET numGroupsLimit = value;` | The maximum number of groups allowed per segment. |
+| `pinot.server.query.executor.min.segment.group.trim.size` | -1 (disabled) | `SET minSegmentGroupTrimSize = value;` | The minimum number of groups to keep when trimming groups at the segment level. |
+| `pinot.server.query.executor.min.server.group.trim.size` | 5,000 | `SET minServerGroupTrimSize = value;` | The minimum number of groups to keep when trimming groups at the server level. |
+| `pinot.server.query.executor.groupby.trim.threshold` | 1,000,000 | `SET groupTrimThreshold = value;` | The number of groups to trigger the server level trim. |
+| `pinot.broker.min.group.trim.size` | 5000 | `SET minBrokerGroupTrimSize = value;` | The minimum number of groups to keep when trimming groups at the broker. Applies only to SSQ(*). |
+| `pinot.broker.mse.enable.group.trim` | false (disabled) | `/*+ aggOptions(is_enable_group_trim='value') */` | Enable group trim for the query (if possible). Applies only to MSQ(**). |
+| `pinot.server.query.executor.mse.min.group.trim.size` | 5000 | `/*+ aggOptions(mse_min_group_trim_size='value') */` or `SET mseMinGroupTrimSize = value;` | The number of groups to keep when trimming groups at intermediate stage. Applies only to MSQ(**). |
 
 (\*) SSQ - Single-Stage Query
 

@@ -10,11 +10,13 @@ Multi-stage stats (MSE) are more complex but also more expressive than single-st
 
 Each operator has its own set of statistics, which are collected during the execution of the query. See the [Operator Types](../../../build-with-pinot/querying-and-sql/multi-stage-query/operator-types) section to learn more about the different operator types and their statistics.
 
-### Multi-stage stats visualizer <a href="#multi-stage-stats-visualizer" id="multi-stage-stats-visualizer"></a>
+### Multi-stage stats visualizer [](#multi-stage-stats-visualizer)
 
 The recommended way to analyze the multi-stage stats is to use the visualizer included in the Pinot UI. It can be accessed by running a query in the Pinot controller UI and clicking on the `Visual` button.
 
-<figure><img src="../../../.gitbook/assets/visualizer.png" alt=""><figcaption></figcaption></figure>
+![](../../../.gitbook/assets/visualizer.png)
+
+**
 
 Then, the view is changed to only show the multi-stage stats in a graph format like the following, where each node represents an operator. Inside each node, you can see the operator type and the statistics collected for that operator. Nodes are connected with edges that represent the relationship between the operators. Parent operators are above their children, and the edges' width represents the time spent on the child operator.
 
@@ -31,7 +33,9 @@ on fe.userUUID = g.userUUID
 
 Creates the following graph:
 
-<figure><img src="../../../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
+![](../../../.gitbook/assets/image (21).png)
+
+**
 
 Here we can see there are 5 stages (one for each MAILBOX\_SEND operator). A significant part of the time is spent in HASH\_JOIN on stage 1, followed by the read on `userFactEvents`. We can also see that stage 5, the one that reads from `userFactEvents` , returns 40000 rows while the other stage returns 2494 rows, so as explained in [Optimizing joins](optimizing-joins.md), it is better to have the smaller table on the right side of the join, so the query would be faster if written as:
 
@@ -51,7 +55,7 @@ By default, the visualizer will only show the most important stats. To show all 
 
 The graph being drawn is usually a tree-like structure, but it can be a directed acyclic graph (DAG) in some cases, like when using [spools](stage-level-spooling.md).
 
-### The JSON format <a href="#the-json-format" id="the-json-format"></a>
+### The JSON format [](#the-json-format)
 
 The Pinot UI stats visualizer is a convenient way to see the multi-stage stats, but sometimes you may want to see the raw JSON format. For example, you may want to analyze the stats programmatically or use a different visualization tool. To do so, you can read the `stageStats` field in the JSON response of the query.
 

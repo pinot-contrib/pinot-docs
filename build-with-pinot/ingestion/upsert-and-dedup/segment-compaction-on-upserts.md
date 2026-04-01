@@ -53,15 +53,21 @@ Because segment compaction is an expensive operation, we **do not recommend** se
 
 The following example includes a dataset with 24M records and 240K unique keys that have each been duplicated 100 times. After ingesting the data, there are 6 segments (5 completed segments and 1 consuming segment) with a total estimated size of 22.8MB.
 
-<figure><img src="../../../.gitbook/assets/example-dataset (1).png" alt=""><figcaption><p>Example dataset</p></figcaption></figure>
+![](../../../.gitbook/assets/example-dataset (1).png)
+
+*Example dataset*
 
 Submitting the query `“set skipUpsert=true; select count(*) from transcript_upsert”` before compaction produces 24,000,000 results:
 
-<div align="left"><figure><img src="../../../.gitbook/assets/results-before-segment-compaction.png" alt="" width="265"><figcaption><p>Results before segment compaction</p></figcaption></figure></div>
+![](../../../.gitbook/assets/results-before-segment-compaction.png)
+
+*Results before segment compaction*
 
 After the compaction tasks are complete, the [Minion Task Manager UI](../../../basics/components/cluster/minion.md#task-manager-ui) reports the following.
 
-<figure><img src="../../../.gitbook/assets/minion-task-completed.png" alt=""><figcaption><p>Minion compaction task completed</p></figcaption></figure>
+![](../../../.gitbook/assets/minion-task-completed.png)
+
+*Minion compaction task completed*
 
 Segment compactions generates a task for each segment to compact. Five tasks were generated in this case because 90% of the records (3.6–4.5M records) are considered ready for compaction in the completed segments, exceeding the configured thresholds.
 
@@ -71,7 +77,9 @@ If a completed segment only contains old records, Pinot immediately deletes the 
 
 Submitting the query again shows the count matches the set of 240K unique keys.
 
-<figure><img src="../../../.gitbook/assets/results-after-segment-compaction.png" alt=""><figcaption><p>Results after segment compaction</p></figcaption></figure>
+![](../../../.gitbook/assets/results-after-segment-compaction.png)
+
+*Results after segment compaction*
 
 Once segment compaction has completed, the total number of segments remain the same and the total estimated size drops to 2.77MB.
 

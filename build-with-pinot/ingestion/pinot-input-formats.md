@@ -141,7 +141,7 @@ className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReade
 For the support of DECIMAL and other parquet native data types, always use `ParquetNativeRecordReader`.
 {% endhint %}
 
-| INT96                | LONG                              | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p>to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |
+| INT96 | LONG | Parquet`INT96` type converts **nanoseconds** to Pinot `INT64` type of **milliseconds** |
 | -------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | INT64                | LONG                              |                                                                                                                                                     |
 | INT32                | INT                               |                                                                                                                                                     |
@@ -177,7 +177,7 @@ ORC record reader supports the following data types -
 | VARCHAR       | String               |
 | CHAR          | String               |
 | LIST          | Object\[]            |
-| MAP           | Map\<Object, Object> |
+| MAP | Map\<Object, Object> |
 | DATE          | Long                 |
 | TIMESTAMP     | Long                 |
 | BINARY        | byte\[]              |

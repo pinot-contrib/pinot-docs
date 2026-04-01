@@ -15,13 +15,14 @@ Two variants of each config were added due to the nature of requiring different 
 
 All throttling configurations are disabled by default by setting a very high parallelism of Integer.MAX\_VALUE.
 
-<table><thead><tr><th width="229">Config</th><th width="130">Allowed Values</th><th width="116">Default</th><th>Description</th></tr></thead><tbody><tr><td><pre data-overflow="wrap"><code>pinot.server.max.segment.preprocess.parallelism
-</code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>Integer.MAX_VALUE</td><td>The maximum parallelism to perform index rebuild operations on a segment across all indexes <strong>after</strong> the server is ready to serve queries.</td></tr><tr><td><pre data-overflow="wrap" data-full-width="false"><code>pinot.server.max.segment.preprocess.parallelism.before.serving.queries
-</code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>Integer.MAX_VALUE</td><td>The maximum parallelism to perform index rebuild operations on a segment across all indexes <strong>before</strong> the server is ready to serve queries (start up).</td></tr><tr><td><pre data-overflow="wrap"><code>pinot.server.max.segment.startree.preprocess.parallelism
-</code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>Integer.MAX_VALUE</td><td>The maximum parallelism to perform StarTree index rebuild operations on a segment <strong>after</strong> the server is ready to serve queries. StarTree index rebuild can be more resource intensive than other index operations.</td></tr><tr><td><pre data-overflow="wrap"><code>pinot.server.max.segment.startree.preprocess.parallelism.before.serving.queries
-</code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>Integer.MAX_VALUE</td><td>The maximum parallelism to perform StarTree index rebuild operations on a segment <strong>before</strong> the server is ready to serve queries (start up). StarTree index rebuild can be more resource intensive than other index operations.</td></tr><tr><td><pre data-overflow="wrap"><code>pinot.server.max.segment.download.parallelism
-</code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>Integer.MAX_VALUE</td><td>The maximum parallelism to download and untar segments from deep store or peer servers <strong>after</strong> the server is ready to serve queries.</td></tr><tr><td><pre data-overflow="wrap"><code><strong>pinot.server.max.segment.download.parallelism.before.serving.queries
-</strong></code></pre></td><td>0 &#x3C; value &#x3C;= Integer.MAX_VALUE</td><td>Integer.MAX_VALUE</td><td>The maximum parallelism to download and untar segments from deep store or peer servers <strong>before</strong> the server is ready to serve queries (start up).</td></tr></tbody></table>
+| Config | Allowed Values | Default | Description |
+| --- | --- | --- | --- |
+| ``pinot.server.max.segment.preprocess.parallelism `` | 0 < value <= Integer.MAX_VALUE | Integer.MAX_VALUE | The maximum parallelism to perform index rebuild operations on a segment across all indexes **after** the server is ready to serve queries. |
+| ``pinot.server.max.segment.preprocess.parallelism.before.serving.queries `` | 0 < value <= Integer.MAX_VALUE | Integer.MAX_VALUE | The maximum parallelism to perform index rebuild operations on a segment across all indexes **before** the server is ready to serve queries (start up). |
+| ``pinot.server.max.segment.startree.preprocess.parallelism `` | 0 < value <= Integer.MAX_VALUE | Integer.MAX_VALUE | The maximum parallelism to perform StarTree index rebuild operations on a segment **after** the server is ready to serve queries. StarTree index rebuild can be more resource intensive than other index operations. |
+| ``pinot.server.max.segment.startree.preprocess.parallelism.before.serving.queries `` | 0 < value <= Integer.MAX_VALUE | Integer.MAX_VALUE | The maximum parallelism to perform StarTree index rebuild operations on a segment **before** the server is ready to serve queries (start up). StarTree index rebuild can be more resource intensive than other index operations. |
+| ``pinot.server.max.segment.download.parallelism `` | 0 < value <= Integer.MAX_VALUE | Integer.MAX_VALUE | The maximum parallelism to download and untar segments from deep store or peer servers **after** the server is ready to serve queries. |
+| ``**pinot.server.max.segment.download.parallelism.before.serving.queries **`` | 0 < value <= Integer.MAX_VALUE | Integer.MAX_VALUE | The maximum parallelism to download and untar segments from deep store or peer servers **before** the server is ready to serve queries (start up). |
 
 The above configurations can be updated via adding them as [cluster configurations](../reference/configuration-reference/cluster.md). No server restart is required for these configurations to take effect if updated  in ZooKeeper. Pinot Server logs will provide information about the change in these configs. An example log of updated configs for all the segment operations throttling configs are:
 
@@ -39,7 +40,9 @@ The above configurations can be updated via adding them as [cluster configuratio
 
 An example of what cluster configurations overridden by setting them in ZooKeeper under `/CONFIGS/CLUSTER/<PinotClusterName>` looks like is shown below:
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-04-23 at 15.23.40.png" alt=""><figcaption><p>Overridden Cluster Configs in ZooKeeper for Segment Operations Throttle Configs</p></figcaption></figure>
+![](../../.gitbook/assets/Screenshot 2025-04-23 at 15.23.40.png)
+
+*Overridden Cluster Configs in ZooKeeper for Segment Operations Throttle Configs*
 
 Some recommendations on how to choose values for these are:
 
@@ -58,7 +61,12 @@ Some recommendations on how to choose values for these are:
 
 The following Gauge type metrics exist to monitor the segment operation threshold and count of number of segments undergoing a given operation:
 
-<table><thead><tr><th width="190.30078125">Segment Operation</th><th width="109.8046875">Scope</th><th>Threshold Metric</th><th>Count Metric</th></tr></thead><tbody><tr><td>All Index Rebuild</td><td>Global</td><td><code>segmentAllPreprocessThrottleThreshold</code></td><td><code>segmentAllPreprocessCount</code></td></tr><tr><td>StarTree Index Rebuild</td><td>Global</td><td><code>segmentStartreePreprocessThreshold</code></td><td><code>segmentStartreePreprocessCount</code></td></tr><tr><td>Segment Download</td><td>Global</td><td><code>segmentDownloadThrottleThreshold</code></td><td><code>segmentDownloadCount</code></td></tr><tr><td>Segment Download</td><td>Table-Level</td><td><code>segmentTableDownloadThrottleThreshold</code></td><td><code>segmentTableDownloadCount</code></td></tr></tbody></table>
+| Segment Operation | Scope | Threshold Metric | Count Metric |
+| --- | --- | --- | --- |
+| All Index Rebuild | Global | `segmentAllPreprocessThrottleThreshold` | `segmentAllPreprocessCount` |
+| StarTree Index Rebuild | Global | `segmentStartreePreprocessThreshold` | `segmentStartreePreprocessCount` |
+| Segment Download | Global | `segmentDownloadThrottleThreshold` | `segmentDownloadCount` |
+| Segment Download | Table-Level | `segmentTableDownloadThrottleThreshold` | `segmentTableDownloadCount` |
 
 ## Relevant OSS PRs
 

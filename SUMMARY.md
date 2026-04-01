@@ -617,7 +617,7 @@
   * [Use S3 and Pinot in Docker](tutorials/deep-storage/use-s3-and-pinot-in-docker.md)
   * [Use OSS as Deep Storage for Pinot](tutorials/deep-storage/use-oss-as-deep-storage-for-pinot.md)
 
-## Resources <a href="#community-1" id="community-1"></a>
+## Resources [](#community-1)
 
 * [Community](community-1/community.md)
 * [Team](community-1/team.md)

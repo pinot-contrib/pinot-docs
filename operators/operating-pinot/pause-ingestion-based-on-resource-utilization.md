@@ -14,7 +14,12 @@ The periodic task `ResourceUtilizationChecker` runs periodically and computes th
 
 The following configurations are available to control this feature:
 
-<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th><th>Description</th></tr></thead><tbody><tr><td>controller.resource.utilization.checker.frequency</td><td>300</td><td>Value is in seconds. The disk utilization is computed for all Pinot servers in this frequency. Setting the value to -1 would disable the disk usage computation.</td></tr><tr><td>controller.disk.utilization.path</td><td>/home/pinot/data</td><td>Disk utilization is calculated for this path.</td></tr><tr><td>controller.disk.utilization.threshold</td><td>0.95</td><td>Value should be between 0 and 1.</td></tr><tr><td>controller.enable.resource.utilization.check</td><td>false</td><td>The feature is off by default.</td></tr></tbody></table>
+| Config | Default Value | Description |
+| --- | --- | --- |
+| controller.resource.utilization.checker.frequency | 300 | Value is in seconds. The disk utilization is computed for all Pinot servers in this frequency. Setting the value to -1 would disable the disk usage computation. |
+| controller.disk.utilization.path | /home/pinot/data | Disk utilization is calculated for this path. |
+| controller.disk.utilization.threshold | 0.95 | Value should be between 0 and 1. |
+| controller.enable.resource.utilization.check | false | The feature is off by default. |
 
 ## Metrics
 

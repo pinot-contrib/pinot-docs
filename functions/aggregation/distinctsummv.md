@@ -10,7 +10,7 @@ Returns the sum of the distinct row values in a group
 
 > DISTINCTSUMMV(colName)
 
-### Usage Examples <a href="#usage-examples" id="usage-examples"></a>
+### Usage Examples [](#usage-examples)
 
 These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
 

@@ -4,7 +4,9 @@ In order to execute joins, Pinot creates virtual partitions at query time. The m
 
 This partition technique can be applied to one of the tables in the join, but not to both. Otherwise, the result wouldn't be correct as some of the pairs of rows would be lost and never joined. Therefore what Pinot does is partition one of the tables and broadcast the other one.
 
-<figure><img src="../../../../.gitbook/assets/image (7) (1).png" alt="" width="563"><figcaption><p>Dotted arrows mean shuffle while solid arrows mean in-server transfer</p></figcaption></figure>
+![](../../../../.gitbook/assets/image (7) (1).png)
+
+*Dotted arrows mean shuffle while solid arrows mean in-server transfer*
 
 This technique is used by Pinot when no other technique (like semantic virtual partition or colocated joins) can be used. For example, on queries like:
 

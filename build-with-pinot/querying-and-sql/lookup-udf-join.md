@@ -69,15 +69,21 @@ several acceptable queries are:
 
 #### Dim-Fact LOOKUP example
 
-<pre><code><strong>SELECT 
-</strong>  playerName, 
-  teamID, 
-  LOOKUP('dimBaseballTeams', 'teamName', 'teamID', teamID) AS teamName, 
+```
+SELECT
+  playerName,
+  teamID,
+  LOOKUP('dimBaseballTeams', 'teamName', 'teamID', teamID) AS teamName,
   LOOKUP('dimBaseballTeams', 'teamAddress', 'teamID', teamID) AS teamAddress
-FROM baseballStats 
-</code></pre>
+FROM baseballStats
+```
 
-<table><thead><tr><th width="141">playerName</th><th width="94.33333333333331">teamID</th><th>teamName</th><th>teamAddress</th></tr></thead><tbody><tr><td>David Allan</td><td>BOS</td><td>Boston Red Caps/Beaneaters (from 1876–1900) or Boston Red Sox (since 1953)</td><td>4 Jersey Street, Boston, MA</td></tr><tr><td>David Allan</td><td>CHA</td><td>null</td><td>null</td></tr><tr><td>David Allan</td><td>SEA</td><td>Seattle Mariners (since 1977) or Seattle Pilots (1969)</td><td>1250 First Avenue South, Seattle, WA</td></tr><tr><td>David Allan</td><td>SEA</td><td>Seattle Mariners (since 1977) or Seattle Pilots (1969)</td><td>1250 First Avenue South, Seattle, WA</td></tr></tbody></table>
+| playerName | teamID | teamName | teamAddress |
+| --- | --- | --- | --- |
+| David Allan | BOS | Boston Red Caps/Beaneaters (from 1876–1900) or Boston Red Sox (since 1953) | 4 Jersey Street, Boston, MA |
+| David Allan | CHA | null | null |
+| David Allan | SEA | Seattle Mariners (since 1977) or Seattle Pilots (1969) | 1250 First Avenue South, Seattle, WA |
+| David Allan | SEA | Seattle Mariners (since 1977) or Seattle Pilots (1969) | 1250 First Avenue South, Seattle, WA |
 
 #### Self LOOKUP example
 

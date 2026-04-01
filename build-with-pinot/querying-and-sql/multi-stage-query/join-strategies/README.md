@@ -4,7 +4,9 @@ In order to execute a join, all the rows of the tables to be joined need to be i
 
 The most simple way to execute the join would be to move all data into a single server, as shown in the diagram below.
 
-<figure><img src="../../../../.gitbook/assets/image (15).png" alt="" width="563"><figcaption><p>Dotted arrows mean shuffle while solid arrows mean in-server transfer</p></figcaption></figure>
+![](../../../../.gitbook/assets/image (15).png)
+
+*Dotted arrows mean shuffle while solid arrows mean in-server transfer*
 
 This approach may work for small tables, but it would not scale for large tables that do not fit into a single server. Pinot assumes this is going to be the common case, so it never uses this technique. It is shown here only to help understand the shuffling problem.
 

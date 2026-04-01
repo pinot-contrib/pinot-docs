@@ -713,7 +713,8 @@ Scenario 2: `minimizeDataMovement=true`
 
 Under a table with a default assignment strategy, untag one of the two servers, then rebalance.
 
-<pre class="language-json"><code class="lang-json">{
+```json
+{
   "jobId": "e0c4e81b-f680-44cd-880f-3c9469594b0b",
   "status": "DONE",
   "description": "Dry-run summary mode",
@@ -808,8 +809,8 @@ Under a table with a default assignment strategy, untag one of the two servers, 
         "tagName": "DefaultTenant_REALTIME",
         "numSegmentsToDownload": 5,
         "numSegmentsUnchanged": 5,
-<strong>        "numServerParticipants": 1
-</strong>      }
+        "numServerParticipants": 1
+      }
     ]
   },
   "instanceAssignment": {
@@ -819,4 +820,4 @@ Under a table with a default assignment strategy, untag one of the two servers, 
     ...
   }
 }
-</code></pre>
+```

@@ -447,7 +447,9 @@ fetch{table="meetupRsvp_REALTIME",filter="",ts_column="__metadata$recordTimestam
 | keepLastValue{}
 ```
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+![](../../.gitbook/assets/image.png)
+
+**
 
 {% tabs %}
 {% tab title="Docker" %}

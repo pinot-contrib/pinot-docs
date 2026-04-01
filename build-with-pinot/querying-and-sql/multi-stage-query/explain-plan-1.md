@@ -43,7 +43,7 @@ graph LR
     MSE_Q_VERBOSE -- no --> MSE_IMPL_SIMPLE
 ```
 
-## Different plans for different segments <a href="#different-plans-for-different-segments" id="different-plans-for-different-segments"></a>
+## Different plans for different segments [](#different-plans-for-different-segments)
 
 Segments are the basic unit of data storage and processing in Pinot. When a query is executed, it is executed on each segment and the results are merged together. Not all segments have the data distribution, indexes, etc. Therefore the query engine may decide to execute the query differently on different segments. This includes:
 
@@ -63,9 +63,9 @@ There are 3 different types of explain plans for the multi-stage query engine:
 
 | Mode         | Syntax by default                                                                                          | Syntax if segment plan is enabled         | Description                                                                                                                                    |
 | ------------ | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Segment plan | <p><code>SET explainAskingServers=true;</code></p><p><code>EXPLAIN PLAN FOR</code></p>                     | `EXPLAIN PLAN FOR`                        | Includes the segment specific information (like indexes).                                                                                      |
-| Logical plan | <p><code>EXPLAIN PLAN FOR</code> </p><p>or </p><p><code>EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR</code></p> | `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` | Simplest multi-stage plan. No index or data shuffle information.                                                                               |
-| Workers plan | `EXPLAIN IMPLEMENTATION PLAN FOR`                                                                          | `EXPLAIN IMPLEMENTATION PLAN FOR`         | <p>Used to understand data shuffle between servers.<br><br>Note: The name of this mode is open to discussion and may change in the future.</p> |
+| Segment plan | `SET explainAskingServers=true;` `EXPLAIN PLAN FOR` | `EXPLAIN PLAN FOR` | Includes the segment specific information (like indexes). |
+| Logical plan | `EXPLAIN PLAN FOR` or `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` | `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` | Simplest multi-stage plan. No index or data shuffle information. |
+| Workers plan | `EXPLAIN IMPLEMENTATION PLAN FOR` | `EXPLAIN IMPLEMENTATION PLAN FOR` | Used to understand data shuffle between servers. Note: The name of this mode is open to discussion and may change in the future. |
 
 
 
@@ -73,7 +73,7 @@ There are 3 different types of explain plans for the multi-stage query engine:
 The syntax used to select each explain plan mode is confusing and it may be changed in the future.
 {% endhint %}
 
-### Segment plan <a href="#segment-plan" id="segment-plan"></a>
+### Segment plan [](#segment-plan)
 
 The plan with segments is a detailed representation of the query execution plan that includes the segment specific information, like data distribution, indexes, etc.
 

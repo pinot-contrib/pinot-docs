@@ -35,12 +35,12 @@ where `<column_name>` is the column text index is created on and `<search_expres
 
 | **Search Expression Type** | **Example**                                                                                                   |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"')                                                         |
-| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                                                                         |
-| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')                                                                 |
-| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')                                                                     |
-| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')                                                               |
-| Not Query                  | <p>TEXT_MATCH (&#x3C;column_name>, '<em>*:*</em> NOT c%')</p><p>NOT TEXT_MATCH (&#x3C;column_name>, 'c%')</p> |
+| Phrase query | TEXT\_MATCH (\<column\_name>, '"distributed system"') |
+| Term Query | TEXT\_MATCH (\<column\_name>, 'Java') |
+| Boolean Query | TEXT\_MATCH (\<column\_name>, 'Java AND c++') |
+| Prefix Query | TEXT\_MATCH (\<column\_name>, 'stream\*') |
+| Regex Query | TEXT\_MATCH (\<column\_name>, '/Exception.\*/') |
+| Not Query | TEXT_MATCH (&#x3C;column_name>, '**:** NOT c%') NOT TEXT_MATCH (&#x3C;column_name>, 'c%') |
 
 ## Current restrictions
 
@@ -215,7 +215,12 @@ The multi-column text index is a good fit when:
 
 ### Choosing between per-column and multi-column
 
-<table><thead><tr><th width="164.83203125">Property \ Type</th><th>Per-Column</th><th>Per-segment (multi-column)</th></tr></thead><tbody><tr><td>Querying speed</td><td><mark style="background-color:yellow;">slower - especially when querying multiple columns</mark></td><td><mark style="background-color:green;">faster</mark></td></tr><tr><td>Disk and memory usage</td><td><mark style="background-color:yellow;">higher - each column uses separate set of Lucene files and document id mapping</mark></td><td><mark style="background-color:green;">lower - Lucene file size is smaller; only one document id mapping is used for all columns</mark></td></tr><tr><td>Initial build time </td><td><mark style="background-color:yellow;">higher - because each column uses separate Lucene files</mark></td><td><mark style="background-color:green;">lower - one set of Lucene files and one document id mapping is generated</mark> </td></tr><tr><td>Rebuild time</td><td><mark style="background-color:green;">lower - rebuild affected columns only, other indexes are copied</mark></td><td><mark style="background-color:yellow;">higher - removes all files and rebuilds from scratch</mark></td></tr></tbody></table>
+| Property \ Type | Per-Column | Per-segment (multi-column) |
+| --- | --- | --- |
+| Querying speed | slower - especially when querying multiple columns | faster |
+| Disk and memory usage | higher - each column uses separate set of Lucene files and document id mapping | lower - Lucene file size is smaller; only one document id mapping is used for all columns |
+| Initial build time | higher - because each column uses separate Lucene files | lower - one set of Lucene files and one document id mapping is generated |
+| Rebuild time | lower - rebuild affected columns only, other indexes are copied | higher - removes all files and rebuilds from scratch |
 
 Benchmarks from [PR #16103](https://github.com/apache/pinot/pull/16103) show that with 50 indexed string columns, multi-column text index uses roughly 50% less disk space and builds approximately 30% faster than the equivalent per-column indexes.
 

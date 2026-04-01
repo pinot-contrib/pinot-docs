@@ -16,16 +16,17 @@ Returns a boolean value checking if `ipAddress` is in the subnet of `ipPrefix`
 
 See the following sample queries where `isSubnetOf` is used in different parts of the query.
 
-<pre class="language-sql"><code class="lang-sql">SELECT isSubnetOf('192.168.0.1/24', '192.168.0.225') 
-<strong>AS result
-</strong><strong>FROM myTable;
-</strong><strong>---> returns true
-</strong>
-SELECT isSubnetOf('1.2.3.128/26', '1.2.5.1') 
+```sql
+SELECT isSubnetOf('192.168.0.1/24', '192.168.0.225')
+AS result
+FROM myTable;
+---> returns true
+
+SELECT isSubnetOf('1.2.3.128/26', '1.2.5.1')
 AS result
 FROM myTable;
 ---> returns false
-</code></pre>
+```
 
 ```sql
 SELECT isSubnetOf('2001:4800:7825:103::/64', '2001:4800:7825:103::2050')
@@ -39,21 +40,23 @@ FROM myTable;
 ---> returns false
 ```
 
-<pre class="language-sql"><code class="lang-sql"><strong>SELECT count(*) 
-</strong><strong>FROM myTable 
-</strong><strong>WHERE isSubnetOf('192.168.0.1/24', ipAddressCol);
-</strong>
-SELECT count(*) 
-FROM myTable 
-WHERE isSubnetOf('192.168.0.1/24', ipAddressCol) 
-OR isSubnetOf(ipPrefixCol, '7890:db8:113::8a2e:370:7336');
-</code></pre>
+```sql
+SELECT count(*)
+FROM myTable
+WHERE isSubnetOf('192.168.0.1/24', ipAddressCol);
 
-<pre class="language-sql"><code class="lang-sql">SELECT 
-<strong>    CASE 
-</strong>        WHEN isSubnetOf('105.25.245.115/27', srcIPAddress) THEN 'case1' 
+SELECT count(*)
+FROM myTable
+WHERE isSubnetOf('192.168.0.1/24', ipAddressCol)
+OR isSubnetOf(ipPrefixCol, '7890:db8:113::8a2e:370:7336');
+```
+
+```sql
+SELECT
+    CASE
+        WHEN isSubnetOf('105.25.245.115/27', srcIPAddress) THEN 'case1'
         WHEN isSubnetOf('105.25.245.115/27', dstIPAddress) THEN 'case2'
-        ELSE 'case3' 
+        ELSE 'case3'
     END AS differentFlow
 FROM myTable;
-</code></pre>
+```

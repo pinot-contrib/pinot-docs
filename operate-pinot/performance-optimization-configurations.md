@@ -44,5 +44,7 @@ pinot.server.tls.ssl.provider :  OPENSSL
 
 Apache Pinot supports using native transport library [https://netty.io/wiki/native-transports.html](https://netty.io/wiki/native-transports.html)  for broker-server transmission, which would potentially boost performance under high QPS. This can be enabled using:
 
-<pre><code><strong>pinot.broker.netty.native.transports.enabled : true
-</strong>pinot.server.netty.native.transports.enabled : true</code></pre>
+```
+pinot.broker.netty.native.transports.enabled : true
+pinot.server.netty.native.transports.enabled : true
+```

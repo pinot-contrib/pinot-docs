@@ -412,16 +412,17 @@ Upsert Pinot table can support soft-deletes of primary keys. This requires the i
 
 Note that the `delete` column has to be a single-value boolean column.
 
-<pre class="language-json"><code class="lang-json">// In the Schema
+```json
+// In the Schema
 {
     ...
     {
-      "name": "&#x3C;delete_column_name>",
+      "name": "<delete_column_name>",
       "dataType": "BOOLEAN"
     },
     ...
-<strong>}
-</strong></code></pre>
+}
+```
 
 {% hint style="info" %}
 Note that when `deleteRecordColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.

@@ -48,7 +48,10 @@ The usage examples are based on extracting fields from the following JSON docume
 }
 ```
 
-<table><thead><tr><th width="490">Expression</th><th>Value</th></tr></thead><tbody><tr><td><code>JSONPATHSTRING(data, '$.age')</code></td><td><code>"24"</code></td></tr><tr><td><code>JSONPATHSTRING(data, '$.name["nick.name"]')</code></td><td>"Pete"</td></tr></tbody></table>
+| Expression | Value |
+| --- | --- |
+| `JSONPATHSTRING(data, '$.age')` | `"24"` |
+| `JSONPATHSTRING(data, '$.name["nick.name"]')` | "Pete" |
 
 This function can be used in the [table config](../../reference/configuration-reference/table.md) to extract the `age` property into the `age` column, as described below:
 

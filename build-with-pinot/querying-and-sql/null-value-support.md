@@ -8,8 +8,9 @@ For historical reasons, null support is disabled by default in Apache Pinot. Whe
 
 For example, the predicate in the query below matches all records.
 
-<pre class="language-sql"><code class="lang-sql"><strong>select count(*) from my_table where column IS NOT NULL
-</strong></code></pre>
+```sql
+select count(*) from my_table where column IS NOT NULL
+```
 
 To handle null values in your data, you must:
 
