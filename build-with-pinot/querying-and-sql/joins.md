@@ -10,7 +10,7 @@ description: >-
 This page explains the syntax used to write join. In order to get a more in deep knowledge of how joins work it is recommended to read [Optimizing joins](multi-stage-query/optimizing-joins.md) and also [this blog](https://startree.ai/resources/query-time-joins-in-apache-pinot-1-0) from Star Tree.
 
 {% hint style="info" %}
-**Important:** To query using JOINs, you must [use Pinot's multi-stage query engine (v2).](../../build-with-pinot/querying-and-sql/sse-vs-mse.md)
+**Important:** To query using JOINs, you must [use Pinot's multi-stage engine (MSE).](../../build-with-pinot/querying-and-sql/sse-vs-mse.md)
 {% endhint %}
 
 ## INNER JOIN

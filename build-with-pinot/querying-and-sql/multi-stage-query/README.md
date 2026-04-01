@@ -1,7 +1,7 @@
 ---
-description: Learn more about multi-stage query engine and how to troubleshoot issues.
+description: Deep dive into the multi-stage engine (MSE) internals, execution model, and troubleshooting.
 ---
 
 # Multi-stage query
 
-The general explanation of the multi-stage query engine is provided in the [Multi-stage query engine](../../../build-with-pinot/querying-and-sql/sse-vs-mse.md) reference documentation. This section provides a deep dive into the multi-stage query engine. Most of the concepts explained here are related to the internals of the multi-stage query engine and users don't need to know about them in order to write queries. However, understanding these concepts can help you to take advantage of the engine's capabilities and to troubleshoot issues.
+For an overview of when to use the multi-stage engine (MSE) versus the single-stage engine (SSE), see [Query Engines (SSE vs MSE)](../../../build-with-pinot/querying-and-sql/sse-vs-mse.md). This section provides a deep dive into MSE internals. Most of the concepts explained here are related to the engine's execution model and are not required for writing queries. However, understanding them can help you take advantage of MSE's capabilities and troubleshoot issues.

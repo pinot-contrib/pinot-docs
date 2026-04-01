@@ -51,4 +51,4 @@ from baseballStats
 | ------------------------------------------- |
 | AwMJAQAKzJMQAAAAAAAAAK8pD3/6nBcAQWgQ6zI8... |
 
-This function can also be used with the V2 query engine.
+This function can also be used with the multi-stage engine (MSE).

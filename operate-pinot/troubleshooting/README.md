@@ -15,7 +15,7 @@ Queries returning errors, unexpected results, or timing out.
 | Symptom | Go to |
 |---|---|
 | `BrokerResourceMissingError`, reserved keyword errors, wrong results, slow queries | [Query FAQ](query-faq.md) |
-| Errors or limitations specific to the multi-stage query engine (v2), including type mismatches, unsupported functions, or timeout errors | [Troubleshoot Multi-Stage Query Engine](troubleshoot-multi-stage-query-engine.md) |
+| Errors or limitations specific to the multi-stage engine (MSE), including type mismatches, unsupported functions, or timeout errors | [Troubleshoot Multi-Stage Engine (MSE)](troubleshoot-multi-stage-query-engine.md) |
 
 ### Ingestion issues
 

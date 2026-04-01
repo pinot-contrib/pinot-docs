@@ -32,7 +32,7 @@ These modules define the interfaces, data types, and shared utilities that the r
 
 ## Query Engine (Multi-Stage)
 
-These modules power the multi-stage query engine (V2), which enables distributed joins and other advanced SQL operations.
+These modules power the multi-stage engine (MSE), which enables distributed joins and other advanced SQL operations.
 
 | Module | Description |
 | --- | --- |
