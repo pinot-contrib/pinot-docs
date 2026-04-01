@@ -439,6 +439,15 @@
       * [Spark Pinot Connector Write Model](build-with-pinot/connectors-clients-apis/spark-pinot-connector/spark-pinot-connector-write-model.md)
   * [REST / gRPC APIs](build-with-pinot/connectors-clients-apis/rest-grpc-apis.md)
 
+## Workload Playbooks
+
+* [Overview](playbooks/README.md)
+* [Real-Time Product Analytics](playbooks/real-time-product-analytics.md)
+* [CDC / Upsert Pipeline](playbooks/cdc-upsert-pipeline.md)
+* [Hybrid Real-Time + Offline](playbooks/hybrid-offline-realtime.md)
+* [Multi-Tenant Analytics](playbooks/multi-tenant-analytics.md)
+* [Text Search Analytics](playbooks/text-search-analytics.md)
+
 ## Operate Pinot
 
 * [Deployment](operate-pinot/deployment.md)
