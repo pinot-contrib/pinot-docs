@@ -6,7 +6,7 @@ description: Troubleshoot issues with the multi-stage engine (MSE).
 
 Learn how to [troubleshoot errors](troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) when using the multi-stage engine (MSE), and see [multi-stage engine limitations](troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine).
 
-Find instructions on [how to enable the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md), or see a high-level overview of [how the multi-stage query engine works](../../build-with-pinot/querying-and-sql/sse-vs-mse.md).
+Find instructions on [how to enable the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md), or see a high-level overview of [how the multi-stage query engine works](../../build-with-pinot/querying-and-sql/sse-vs-mse.md). For operational guidance on running MSE in production, see [Run the Multi-Stage Engine in Production](../production-guides/run-multi-stage-engine-in-production.md).
 
 ## Limitations of the multi-stage query engine
 

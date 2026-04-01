@@ -499,6 +499,7 @@
   * [Reload a Table Segment](operate-pinot/segment-reload.md)
 * [Production Guides](operate-pinot/production-guides.md)
   * [Running Pinot in Production](operate-pinot/running-pinot-in-production.md)
+  * [Run MSE in Production](operate-pinot/production-guides/run-multi-stage-engine-in-production.md)
 * [Kubernetes Production](operate-pinot/kubernetes-production.md)
   * [Kubernetes Deployment](operate-pinot/kubernetes/deployment-pinot-on-kubernetes.md)
   * [Helm Chart Values Reference](operate-pinot/kubernetes/helm-chart-reference.md)

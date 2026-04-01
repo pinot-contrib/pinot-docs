@@ -30,6 +30,16 @@ This section collects the guides you need to run Apache Pinot reliably in produc
 - **Backup and disaster recovery** -- ZooKeeper state backup, deep store durability, and table config versioning.
 - **Operational runbooks** -- links to segment lifecycle, rebalance, and real-time ingestion troubleshooting.
 
+### Run the Multi-Stage Engine in Production
+
+[Run the Multi-Stage Engine in Production](production-guides/run-multi-stage-engine-in-production.md) covers operational guidance specific to the multi-stage engine (MSE). It includes:
+
+- **Intended use-cases** -- interactive joins, window functions, subqueries, and advanced SQL with distributed stages.
+- **Resource model** -- in-memory execution, stage-based distribution, and why MSE is not a batch engine.
+- **Operational guardrails** -- query quotas, workload isolation, join/window overflow limits, concurrency controls, and broker pruning.
+- **Standard MSE vs Lite Mode** -- when to use each execution mode.
+- **Known limitations vs workload misfit** -- current implementation gaps vs design boundaries.
+
 ### Managing logs
 
 [Managing Logs](../operators/operating-pinot/managing-logs.md) documents the REST APIs for inspecting and changing Log4J log levels at runtime and for downloading log files from any component, including remote log download through the controller. These capabilities are essential for debugging transient production issues without restarting services.
