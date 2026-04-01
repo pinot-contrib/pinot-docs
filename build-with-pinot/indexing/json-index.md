@@ -58,7 +58,17 @@ The JSON index is supported on STRING and MAP columns (single-valued only). It i
 
 To enable the JSON index, you can configure the following options in the table configuration:
 
-<table><thead><tr><th width="241">Config Key</th><th width="262">Description</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td><strong>maxLevels</strong></td><td>Max levels to flatten the json object (array is also counted as one level)</td><td>int</td><td>-1 (unlimited)</td></tr><tr><td><strong>excludeArray</strong></td><td>Whether to exclude array when flattening the object</td><td>boolean</td><td>false (include array)</td></tr><tr><td><strong>disableCrossArrayUnnest</strong></td><td>Whether to not unnest multiple arrays (unique combination of all elements in those arrays). If document contains two arrays holding, respectively M and N elements, then flattening produces M*N documents. If number of such combinations reaches 100k,  error with "Got too many combinations" message is thrown. </td><td>boolean</td><td>false (calculate unique combination of all elements)</td></tr><tr><td><strong>includePaths</strong></td><td>Only include the given paths, e.g. "<em>$.a.b</em>", "<em>$.a.c[*]</em>" (mutual exclusive with <strong>excludePaths</strong>). Paths under the included paths will be included, e.g. "<em>$.a.b.c</em>" will be included when "<em>$.a.b</em>" is configured to be included.</td><td>Set&#x3C;String></td><td>null (include all paths)</td></tr><tr><td><strong>excludePaths</strong></td><td>Exclude the given paths, e.g. "<em>$.a.b</em>", "<em>$.a.c[*]</em>" (mutual exclusive with <strong>includePaths</strong>). Paths under the excluded paths will also be excluded, e.g. "<em>$.a.b.c</em>" will be excluded when "<em>$.a.b</em>" is configured to be excluded.</td><td>Set&#x3C;String></td><td>null (include all paths)</td></tr><tr><td><strong>excludeFields</strong></td><td>Exclude the given fields, e.g. "<em>b</em>", "<em>c</em>", even if it is under the included paths.</td><td>Set&#x3C;String></td><td>null (include all fields)</td></tr><tr><td><strong>indexPaths</strong></td><td>Index the given paths, e.g. <code>*.*</code>, <code>a.**</code>. Paths matches the indexed paths will be indexed, e.g. <code>a.**</code> will index everything whose first layer is "a", <code>*.*</code> will index everything with maxLevels=2. This config could work together with other configs, e.g. includePaths, excludePaths, maxLevels but usually does not have to because it should be flexible enough to catch any scenarios.</td><td>Set&#x3C;String></td><td>null that is equivalent to <code>**</code> (include all fields)</td></tr><tr><td><strong>maxValueLength</strong></td><td>If the value of a json node (not the whole document)  is longer  than given value then replace it with <code>$SKIPPED$</code> before indexing. </td><td>int</td><td>0 (disabled)</td></tr><tr><td><strong>skipInvalidJson</strong></td><td>If set, while adding json to index, instead of throwing exception, replace ill-formed json with empty key/path and  $SKIPPED$ value .</td><td>boolean</td><td>false (disabled)</td></tr></tbody></table>
+| Config Key | Description | Type | Default |
+| --- | --- | --- | --- |
+| **maxLevels** | Max levels to flatten the json object (array is also counted as one level) | int | -1 (unlimited) |
+| **excludeArray** | Whether to exclude array when flattening the object | boolean | false (include array) |
+| **disableCrossArrayUnnest** | Whether to not unnest multiple arrays (unique combination of all elements in those arrays). If document contains two arrays holding, respectively M and N elements, then flattening produces M*N documents. If number of such combinations reaches 100k, error with "Got too many combinations" message is thrown. | boolean | false (calculate unique combination of all elements) |
+| **includePaths** | Only include the given paths, e.g. "*$.a.b*", "*$.a.c[*]*" (mutual exclusive with **excludePaths**). Paths under the included paths will be included, e.g. "*$.a.b.c*" will be included when "*$.a.b*" is configured to be included. | Set<String> | null (include all paths) |
+| **excludePaths** | Exclude the given paths, e.g. "*$.a.b*", "*$.a.c[*]*" (mutual exclusive with **includePaths**). Paths under the excluded paths will also be excluded, e.g. "*$.a.b.c*" will be excluded when "*$.a.b*" is configured to be excluded. | Set<String> | null (include all paths) |
+| **excludeFields** | Exclude the given fields, e.g. "*b*", "*c*", even if it is under the included paths. | Set<String> | null (include all fields) |
+| **indexPaths** | Index the given paths, e.g. `*.*`, `a.**`. Paths matches the indexed paths will be indexed, e.g. `a.**` will index everything whose first layer is "a", `*.*` will index everything with maxLevels=2. This config could work together with other configs, e.g. includePaths, excludePaths, maxLevels but usually does not have to because it should be flexible enough to catch any scenarios. | Set<String> | null that is equivalent to `**` (include all fields) |
+| **maxValueLength** | If the value of a json node (not the whole document) is longer than given value then replace it with `$SKIPPED$` before indexing. | int | 0 (disabled) |
+| **skipInvalidJson** | If set, while adding json to index, instead of throwing exception, replace ill-formed json with empty key/path and $SKIPPED$ value . | boolean | false (disabled) |
 
 ### Recommended way to configure
 
@@ -302,8 +312,9 @@ With **excludeArray** set to true:
 
 With **disableCrossArrayUnnest** set to true:
 
-<pre class="language-json"><code class="lang-json"><strong>{
-</strong>  "name": "adam",
+```json
+{
+  "name": "adam",
   "age": 20,
   "addresses[0].country": "us",
   "addresses[0].street": "main st",
@@ -326,7 +337,7 @@ With **disableCrossArrayUnnest** set to true:
   "age": 20,
   "skills[1]": "programming"
 }
-</code></pre>
+```
 
 When cross array un-nesting is disabled, then number of documents produced during JSON flattening is the sum of all array sizes, e.g. 2+2 = 4 in the example above.&#x20;
 

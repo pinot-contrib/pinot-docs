@@ -66,10 +66,10 @@ Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators
 
 | Resource            | Stored Properties                                                                                                                                               |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Controller          | <ul><li>Controller that is assigned as the current leader</li></ul>                                                                                             |
-| Servers and Brokers | <ul><li>List of servers and brokers</li><li>Configuration of all current servers and brokers</li><li>Health status of all current servers and brokers</li></ul> |
-| Tables              | <ul><li>List of tables</li><li>Table configurations</li><li>Table schema</li><li>List of the table's segments</li></ul>                                         |
-| Segment             | <ul><li>Exact server locations of a segment</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul>        |
+| Controller | - Controller that is assigned as the current leader |
+| Servers and Brokers | - List of servers and brokers - Configuration of all current servers and brokers - Health status of all current servers and brokers |
+| Tables | - List of tables - Table configurations - Table schema - List of the table's segments |
+| Segment | - Exact server locations of a segment - State of each segment (online/offline/error/consuming) - Metadata about each segment |
 
 Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 

@@ -10,7 +10,9 @@ Returns the [GeoJSON](https://datatracker.ietf.org/doc/html/rfc7946) representat
 
 > ST\_AsGeoJSON(geometryObject)
 
-<table><thead><tr><th width="232">Arguments</th><th>Description</th></tr></thead><tbody><tr><td>geometryObject</td><td>A geometry or geography object.</td></tr></tbody></table>
+| Arguments | Description |
+| --- | --- |
+| geometryObject | A geometry or geography object. |
 
 ## Usage Examples
 

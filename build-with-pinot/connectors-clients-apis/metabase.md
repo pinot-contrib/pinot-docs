@@ -4,7 +4,9 @@ description: Integrating Apache Pinot with Metabase
 
 # Metabase
 
-<figure><img src="../.gitbook/assets/pinot-metabase-driver-logo.png" alt=""><figcaption></figcaption></figure>
+![](../../.gitbook/assets/pinot-metabase-driver-logo.png)
+
+**
 
 This guide provides step-by-step instructions for setting up Metabase with an Apache Pinot connector. The integration allows you to visualize and explore data stored in Apache Pinot directly within Metabase dashboards.
 
@@ -74,25 +76,39 @@ java --add-opens java.base/java.nio=ALL-UNNAMED -jar metabase.jar
 
 Now everything should come up, you could also find the pinot plugin is loaed from the log:
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+![](<../../.gitbook/assets/image (1) (1) (1).png>)
+
+**
 
 Once Metabase is up, go to [http://localhost:3000](http://localhost:3000/) to explore it.
 
 After the login, you can click the right side bar to Add Pinot database:
 
-<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+![](<../../.gitbook/assets/image (6).png>)
 
-<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+**
+
+![](<../../.gitbook/assets/image (5).png>)
+
+**
 
 After the configuration is done, Metabase will generate some explorations automatically.\\
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+![](<../../.gitbook/assets/image (3).png>)
 
-<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+**
 
-<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+![](<../../.gitbook/assets/image (4).png>)
 
-<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+**
+
+![](<../../.gitbook/assets/image (7).png>)
+
+**
+
+![](<../../.gitbook/assets/image (8).png>)
+
+**
 
 
 
@@ -134,7 +150,9 @@ volumes:
 
 Run `docker compose up` to start everything:
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+![](<../../.gitbook/assets/image (1).png>)
+
+**
 
 
 
@@ -148,4 +166,6 @@ The supported `Auth Token Type`  is `Basic` or `Bearer` .
 
 &#x20;`Auth Token Value` is a string from your admin.
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+![](<../../.gitbook/assets/image (1) (1).png>)
+
+**

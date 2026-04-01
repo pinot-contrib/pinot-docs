@@ -40,7 +40,11 @@ FROM
 
 Output:
 
-<table data-full-width="false"><thead><tr><th>sales_date</th><th>sales_amount</th><th>previous_day_sales</th><th>difference</th></tr></thead><tbody><tr><td>2023-02-14</td><td>200</td><td>NULL</td><td>NULL</td></tr><tr><td>2023-02-15</td><td>180</td><td>200</td><td>-20</td></tr><tr><td>2023-02-16</td><td>220</td><td>180</td><td>40</td></tr></tbody></table>
+| sales_date | sales_amount | previous_day_sales | difference |
+| --- | --- | --- | --- |
+| 2023-02-14 | 200 | NULL | NULL |
+| 2023-02-15 | 180 | 200 | -20 |
+| 2023-02-16 | 220 | 180 | 40 |
 
 Retrieve the previous payment amount for comparison This query retrieves the last payment amount for each payment to see if the amount is increasing or decreasing.
 
@@ -103,4 +107,6 @@ SELECT DaysSinceEpoch,
 FROM tmp;
 ```
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption><p>CTE based LAG query</p></figcaption></figure>
+![](<../../.gitbook/assets/image (1) (1) (1) (1) (1).png>)
+
+*CTE based LAG query*

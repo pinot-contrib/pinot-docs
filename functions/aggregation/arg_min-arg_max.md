@@ -12,9 +12,10 @@ This function scans the given dataset to identify the maximum and minimum values
 
 This function has to be used with the following configuration on the broker:
 
-<pre><code>pinot.broker.query.rewriter.class.names: DEFAULT_QUERY_REWRITERS_CLASS_NAMES + ",org.apache.pinot.sql.parsers.rewriter.ExprMinMaxRewriter"
-<strong>pinot.broker.result.rewriter.class.names: "org.apache.pinot.core.query.utils.rewriter.ParentAggregationResultRewriter"
-</strong></code></pre>
+```
+pinot.broker.query.rewriter.class.names: DEFAULT_QUERY_REWRITERS_CLASS_NAMES + ",org.apache.pinot.sql.parsers.rewriter.ExprMinMaxRewriter"
+pinot.broker.result.rewriter.class.names: "org.apache.pinot.core.query.utils.rewriter.ParentAggregationResultRewriter"
+```
 
 ## Signature
 

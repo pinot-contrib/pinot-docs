@@ -14,24 +14,179 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 
 ### Pinot Server
 
-<table><thead><tr><th>Metric Name</th><th>Description</th><th>Metric type<select></select></th></tr></thead><tbody><tr><td>LLC-PARTITION-CONSUMING</td><td>This gives a binary value based on whether low-level consumption is healthy (1) or unhealthy (0). It's important to ensure at least a single replica of each partition is consuming.</td><td></td></tr><tr><td>HIGHEST-STREAM-OFFSET-CONSUMED</td><td>The highest offset which has been consumed so far</td><td></td></tr><tr><td>DOCUMENT_COUNT</td><td>total number of records in table</td><td></td></tr><tr><td>SEGMENT_COUNT</td><td>total number of segments in table</td><td></td></tr><tr><td>UPSERT_PRIMARY_KEYS_COUNT</td><td>total unique primary keys in table</td><td></td></tr><tr><td>LAST_REALTIME_SEGMENT_CREATION_DURATION_SECONDS</td><td>time in seconds it took for latest real-time segment to get created</td><td></td></tr><tr><td>LAST_REALTIME_SEGMENT_CREATION_WAIT_TIME_SECONDS</td><td>time in seconds it took for segment creation to start (generally due to waiting for a lock to get acquired)</td><td></td></tr><tr><td>LAST_REALTIME_SEGMENT_INITIAL_CONSUMPTION_DURATION_SECONDS</td><td>time in seconds spent consuming records for latest segment</td><td></td></tr><tr><td>LAST_REALTIME_SEGMENT_CATCHUP_DURATION_SECONDS</td><td>time in seconds spent on catching up to the latest offset in metadata. This can happen when multiple servers are consuming from same partition.</td><td></td></tr><tr><td>LAST_REALTIME_SEGMENT_COMPLETION_DURATION_SECONDS</td><td>time in seconds between when we stopped consuming records and when the segment gets committed</td><td></td></tr><tr><td>REALTIME_OFFHEAP_MEMORY_USED</td><td>off heap memory in bytes current used by real-time segments</td><td></td></tr><tr><td>REALTIME_SEGMENT_NUM_PARTITIONS</td><td>Number of partitions for a table</td><td></td></tr><tr><td>LLC_SIMULTANEOUS_SEGMENT_BUILDS</td><td>Number of segments being built currently</td><td></td></tr><tr><td>REALTIME_INGESTION_DELAY_MS</td><td>Per partition metric that measures the delay in milliseconds from the time an event was produced to the stream that feeds Pinot until the event was consumed by Pinot. Partitions that are not actively consuming due to lack of events will report 0 delay. Partitions that are stuck or falling behind will report their last measured delay aged by the time since the sample was taken: this enables the user to monitor partitions that have events queued but where Pinot is falling behind in consumption. This metric assumes event timestamps is UTC time zone, if timestamps are using other timezones, the delay shown will be offset.</td><td></td></tr><tr><td>ROWS_WITH_ERRORS</td><td>number of rows that either didn't get transformed or didn't get indexed.</td><td></td></tr><tr><td>REALTIME_ROWS_CONSUMED</td><td>total number of records consumed from input</td><td></td></tr><tr><td>INVALID_REALTIME_ROWS_DROPPED</td><td>number of records that were filtered based on FilterConfig specified in table config</td><td></td></tr><tr><td>REALTIME_CONSUMPTION_EXCEPTIONS</td><td>number of rows that were not consumed because of some exception. It doesn't track exceptions during transformation and indexing.</td><td></td></tr><tr><td>RELOAD_FAILURES</td><td>Number of failures occurred while reloading segments</td><td></td></tr><tr><td>REFRESH_FAILURES</td><td>Number of failures occurred while refreshing segments</td><td></td></tr><tr><td>UNTAR_FAILURES</td><td>Number of failures occurred while uncompressing segments</td><td></td></tr><tr><td>SEGMENT_DOWNLOAD_FAILURES</td><td>Number of failures occurred while downloading segments from deep store to local</td><td></td></tr><tr><td>DELETED_SEGMENT_COUNT</td><td>Number of segments deleted either because of retention policies, explicit delete request etc.</td><td></td></tr><tr><td>QUERIES</td><td>Number of queries executed</td><td></td></tr><tr><td>QUERY_EXECUTION_EXCEPTIONS</td><td>Number of exceptions encountered during query execution</td><td></td></tr><tr><td>NUM-MISSING-SEGMENTS</td><td>Number of missing segments that the broker queried for (expected to be on the server) but the server didn't have. This can be due to retention or stale routing table</td><td></td></tr><tr><td>NO_TABLE_ACCESS</td><td>number of query requests for which table access was denied either due to table not being present or access control restrictions.</td><td></td></tr><tr><td>HELIX_ZOOKEEPER_RECONNECTS</td><td>Number of times Server instance re-connected to zookeeper.</td><td></td></tr><tr><td>NETTY_CONNECTION_BYTES_RECEIVED</td><td>total bytes received by the server</td><td></td></tr><tr><td>NETTY_CONNECTION_BYTES_SENT</td><td>total bytes sent by the server</td><td></td></tr><tr><td>NETTY_CONNECTION_RESPONSES_SENT</td><td>total responses sent by the server</td><td></td></tr><tr><td>FRESHNESS_LAG_MS</td><td>time period between when the data was last updated in the table and the current time</td><td></td></tr><tr><td>NETTY_CONNECTION_SEND_RESPONSE_LATENCY</td><td>time spent in sending response to brokers after the results are available</td><td></td></tr><tr><td>EXECUTION_THREAD_CPU_TIME_NS</td><td>time spent by all threads processing query and results (doesn't includes time spent in system activities)</td><td></td></tr><tr><td>SYSTEM_ACTIVITIES_CPU_TIME_NS</td><td>time spent in nanoseconds processing query on the servers (only counts system acitivities such as GC, OS paging etc.)</td><td></td></tr><tr><td>RESPONSE_SER_CPU_TIME_NS</td><td>time spent in nanoseconds serializing query response on servers</td><td></td></tr><tr><td>TOTAL_CPU_TIME_NS</td><td>total time spent in nanoseconds processing query on the servers</td><td></td></tr><tr><td>END_TO_END_REALTIME_INGESTION_DELAY_MS</td><td>When supported by the underlying stream, this metric provides the ingestion delay in milliseconds from the time an event was ingested by the first stream in your ingestion pipeline to the time the event was ingested by Pinot. The metric is not emitted when the underlying stream does not support this feature. The metric relies on this metric being in UTC time zone. If your time stamp is in another time zone, your metric will be offset accordingly.</td><td></td></tr></tbody></table>
+| Metric Name | Description | Metric type |
+| --- | --- | --- |
+| LLC-PARTITION-CONSUMING | This gives a binary value based on whether low-level consumption is healthy (1) or unhealthy (0). It's important to ensure at least a single replica of each partition is consuming. |  |
+| HIGHEST-STREAM-OFFSET-CONSUMED | The highest offset which has been consumed so far |  |
+| DOCUMENT_COUNT | total number of records in table |  |
+| SEGMENT_COUNT | total number of segments in table |  |
+| UPSERT_PRIMARY_KEYS_COUNT | total unique primary keys in table |  |
+| LAST_REALTIME_SEGMENT_CREATION_DURATION_SECONDS | time in seconds it took for latest real-time segment to get created |  |
+| LAST_REALTIME_SEGMENT_CREATION_WAIT_TIME_SECONDS | time in seconds it took for segment creation to start (generally due to waiting for a lock to get acquired) |  |
+| LAST_REALTIME_SEGMENT_INITIAL_CONSUMPTION_DURATION_SECONDS | time in seconds spent consuming records for latest segment |  |
+| LAST_REALTIME_SEGMENT_CATCHUP_DURATION_SECONDS | time in seconds spent on catching up to the latest offset in metadata. This can happen when multiple servers are consuming from same partition. |  |
+| LAST_REALTIME_SEGMENT_COMPLETION_DURATION_SECONDS | time in seconds between when we stopped consuming records and when the segment gets committed |  |
+| REALTIME_OFFHEAP_MEMORY_USED | off heap memory in bytes current used by real-time segments |  |
+| REALTIME_SEGMENT_NUM_PARTITIONS | Number of partitions for a table |  |
+| LLC_SIMULTANEOUS_SEGMENT_BUILDS | Number of segments being built currently |  |
+| REALTIME_INGESTION_DELAY_MS | Per partition metric that measures the delay in milliseconds from the time an event was produced to the stream that feeds Pinot until the event was consumed by Pinot. Partitions that are not actively consuming due to lack of events will report 0 delay. Partitions that are stuck or falling behind will report their last measured delay aged by the time since the sample was taken: this enables the user to monitor partitions that have events queued but where Pinot is falling behind in consumption. This metric assumes event timestamps is UTC time zone, if timestamps are using other timezones, the delay shown will be offset. |  |
+| ROWS_WITH_ERRORS | number of rows that either didn't get transformed or didn't get indexed. |  |
+| REALTIME_ROWS_CONSUMED | total number of records consumed from input |  |
+| INVALID_REALTIME_ROWS_DROPPED | number of records that were filtered based on FilterConfig specified in table config |  |
+| REALTIME_CONSUMPTION_EXCEPTIONS | number of rows that were not consumed because of some exception. It doesn't track exceptions during transformation and indexing. |  |
+| RELOAD_FAILURES | Number of failures occurred while reloading segments |  |
+| REFRESH_FAILURES | Number of failures occurred while refreshing segments |  |
+| UNTAR_FAILURES | Number of failures occurred while uncompressing segments |  |
+| SEGMENT_DOWNLOAD_FAILURES | Number of failures occurred while downloading segments from deep store to local |  |
+| DELETED_SEGMENT_COUNT | Number of segments deleted either because of retention policies, explicit delete request etc. |  |
+| QUERIES | Number of queries executed |  |
+| QUERY_EXECUTION_EXCEPTIONS | Number of exceptions encountered during query execution |  |
+| NUM-MISSING-SEGMENTS | Number of missing segments that the broker queried for (expected to be on the server) but the server didn't have. This can be due to retention or stale routing table |  |
+| NO_TABLE_ACCESS | number of query requests for which table access was denied either due to table not being present or access control restrictions. |  |
+| HELIX_ZOOKEEPER_RECONNECTS | Number of times Server instance re-connected to zookeeper. |  |
+| NETTY_CONNECTION_BYTES_RECEIVED | total bytes received by the server |  |
+| NETTY_CONNECTION_BYTES_SENT | total bytes sent by the server |  |
+| NETTY_CONNECTION_RESPONSES_SENT | total responses sent by the server |  |
+| FRESHNESS_LAG_MS | time period between when the data was last updated in the table and the current time |  |
+| NETTY_CONNECTION_SEND_RESPONSE_LATENCY | time spent in sending response to brokers after the results are available |  |
+| EXECUTION_THREAD_CPU_TIME_NS | time spent by all threads processing query and results (doesn't includes time spent in system activities) |  |
+| SYSTEM_ACTIVITIES_CPU_TIME_NS | time spent in nanoseconds processing query on the servers (only counts system acitivities such as GC, OS paging etc.) |  |
+| RESPONSE_SER_CPU_TIME_NS | time spent in nanoseconds serializing query response on servers |  |
+| TOTAL_CPU_TIME_NS | total time spent in nanoseconds processing query on the servers |  |
+| END_TO_END_REALTIME_INGESTION_DELAY_MS | When supported by the underlying stream, this metric provides the ingestion delay in milliseconds from the time an event was ingested by the first stream in your ingestion pipeline to the time the event was ingested by Pinot. The metric is not emitted when the underlying stream does not support this feature. The metric relies on this metric being in UTC time zone. If your time stamp is in another time zone, your metric will be offset accordingly. |  |
 
 #### Tracking time spent in various phases of Query execution in milliseconds
 
-<table><thead><tr><th>Metric Name</th><th>Description</th><th><select></select></th></tr></thead><tbody><tr><td>REQUEST_DESERIALIZATION</td><td>Time spent in deserializing query request</td><td></td></tr><tr><td>SEGMENT_PRUNING</td><td>Time spent in Segment Pruning</td><td></td></tr><tr><td>BUILD_QUERY_PLAN</td><td>Time spent in building query plan</td><td></td></tr><tr><td>QUERY_PLAN_EXECUTION</td><td>Time spent in executing query plan</td><td></td></tr><tr><td>QUERY_PROCESSING</td><td>Total Time spent in processing the query request from receiving the parsed query to getting data. Doesn't include ser-de time.</td><td></td></tr><tr><td>SCHEDULER_WAIT</td><td>Time spent in the scheduler queue waiting for the query to be executed</td><td></td></tr><tr><td>RESPONSE_SERIALIZATION</td><td>Time spent in serializing query response</td><td></td></tr><tr><td>TOTAL_QUERY_TIME</td><td>Total time to take from receiving the query to returning the responde.</td><td></td></tr></tbody></table>
+| Metric Name | Description |  |
+| --- | --- | --- |
+| REQUEST_DESERIALIZATION | Time spent in deserializing query request |  |
+| SEGMENT_PRUNING | Time spent in Segment Pruning |  |
+| BUILD_QUERY_PLAN | Time spent in building query plan |  |
+| QUERY_PLAN_EXECUTION | Time spent in executing query plan |  |
+| QUERY_PROCESSING | Total Time spent in processing the query request from receiving the parsed query to getting data. Doesn't include ser-de time. |  |
+| SCHEDULER_WAIT | Time spent in the scheduler queue waiting for the query to be executed |  |
+| RESPONSE_SERIALIZATION | Time spent in serializing query response |  |
+| TOTAL_QUERY_TIME | Total time to take from receiving the query to returning the responde. |  |
 
 ### Pinot Broker
 
-<table><thead><tr><th>Metric Name</th><th>Description</th><th>Metric Type<select></select></th></tr></thead><tbody><tr><td>UNHEALTHY_SERVERS</td><td>Number of unhealthy servers detected</td><td></td></tr><tr><td>QUERY_QUOTA_CAPACITY_UTILIZATION_RATE</td><td>percentage of configured rate limit being used on each broker</td><td></td></tr><tr><td>MAX_BURST_QPS</td><td></td><td></td></tr><tr><td>QUERY_RATE_LIMIT_DISABLED</td><td>1 if rate limit is enabled on broker, 0 otherwise</td><td></td></tr><tr><td>REQUEST_SIZE</td><td>Query String length on each broker</td><td></td></tr><tr><td>RESIZE_TIME_MS</td><td>time spent in resizing results for the output. either because of LIMIT or maximum allowed group by keys or any other criteria</td><td></td></tr><tr><td>QUERIES</td><td>The rate which an individual broker is receiving queries. Units are in QPS</td><td></td></tr><tr><td>REQUEST_COMPILATION_EXCEPTIONS</td><td>Number of queries which failed during compilation</td><td></td></tr><tr><td>RESOURCE_MISSING_EXCEPTIONS</td><td>Number of queries for which table doesn't exists</td><td></td></tr><tr><td>QUERY_VALIDATION_EXCEPTIONS</td><td>Number of invalid queries</td><td></td></tr><tr><td>UNKNOWN_COLUMN_EXCEPTIONS</td><td>Number of queries with unknown columns</td><td></td></tr><tr><td>NO_SERVER_FOUND_EXCEPTIONS</td><td>Number of queries for which no server was found to contain its data</td><td></td></tr><tr><td>REQUEST_TIMEOUT_BEFORE_SCATTERED_EXCEPTIONS</td><td>Number of times query timed out before even being sent to the servers</td><td></td></tr><tr><td>REQUEST_CHANNEL_LOCK_TIMEOUT_EXCEPTIONS</td><td>number of times query failes while trying to acquire lock to server connections</td><td></td></tr><tr><td>REQUEST_SEND_EXCEPTIONS</td><td>Number of queries failed while sending to server</td><td></td></tr><tr><td>RESPONSE_FETCH_EXCEPTIONS</td><td>Number of queries failed while handling response from servers</td><td></td></tr><tr><td>DATA_TABLE_DESERIALIZATION_EXCEPTIONS</td><td>Number of queries failed while deserializing response data from servers</td><td></td></tr><tr><td>RESPONSE_MERGE_EXCEPTIONS</td><td>Number of queries that failed while merging responses from multiple servers. This can be due to schema inconsitency or any other issues</td><td></td></tr><tr><td>BROKER_RESPONSES_WITH_PROCESSING_EXCEPTIONS</td><td>Number of queries where atleast one exception occured</td><td></td></tr><tr><td>BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED</td><td>Number of queries with incomplete results due to missing responses from servers</td><td></td></tr><tr><td>BROKER_RESPONSES_WITH_NUM_GROUPS_LIMIT_REACHED</td><td>Number of queries where total number of groups exceeded configured limit (default limit - 100K)</td><td></td></tr><tr><td>DOCUMENTS_SCANNED</td><td>Total number of documents read from segments in each query</td><td></td></tr><tr><td>ENTRIES_SCANNED_IN_FILTER</td><td></td><td></td></tr><tr><td>ENTRIES_SCANNED_POST_FILTER</td><td></td><td></td></tr><tr><td>NUM_RESIZES</td><td>Number of result resizes for queries</td><td></td></tr><tr><td>REQUEST_DROPPED_DUE_TO_ACCESS_ERROR</td><td>Number of queries dropped due to invalid access permissions on table</td><td></td></tr><tr><td>GROUP_BY_SIZE</td><td>Number of rows in group by queries</td><td></td></tr><tr><td>TOTAL_SERVER_RESPONSE_SIZE</td><td>Total number of bytes received from servers for queries</td><td></td></tr><tr><td>QUERY_QUOTA_EXCEEDED</td><td>Number of queries failed due to query rate limit being breached</td><td></td></tr><tr><td>NO_SERVING_HOST_FOR_SEGMENT</td><td>Number of segments per query for which no servers are available</td><td></td></tr><tr><td>SERVER_MISSING_FOR_ROUTING</td><td>Number of servers that could not be added to routing table for query</td><td></td></tr><tr><td>NETTY_CONNECTION_REQUESTS_SENT</td><td>total number of requests sent to servers</td><td></td></tr><tr><td>NETTY_CONNECTION_BYTES_SENT</td><td>total bytes sent to servers</td><td></td></tr><tr><td>NETTY_CONNECTION_BYTES_RECEIVED</td><td>total bytes received from servers</td><td></td></tr><tr><td>PROACTIVE_CLUSTER_CHANGE_CHECK</td><td>Number of requests raised to zookeeper to check the cluster state such as IDEAL STATES, EXTERNAL VIEW etc.</td><td></td></tr><tr><td>HELIX_ZOOKEEPER_RECONNECTS</td><td>Number of times broker instance re-connected to zookeeper.</td><td></td></tr><tr><td>CLUSTER_CHANGE_QUEUE_TIME</td><td>Time spent in milliseconds in queue for cluster change requests</td><td></td></tr><tr><td>FRESHNESS_LAG_MS</td><td>time period between when the data was last updated in the table and the current time</td><td></td></tr><tr><td>NETTY_CONNECTION_SEND_REQUEST_LATENCY</td><td>latency of sending the request from broker to server</td><td></td></tr><tr><td>OFFLINE_THREAD_CPU_TIME_NS</td><td>aggregated thread cpu time in nanoseconds for query processing from offline servers</td><td></td></tr><tr><td>REALTIME_THREAD_CPU_TIME_NS</td><td>aggregated thread cpu time in nanoseconds for query processing from real-time servers</td><td></td></tr><tr><td>OFFLINE_SYSTEM_ACTIVITIES_CPU_TIME_NS</td><td>aggregated system activities cpu time in nanoseconds for query processing from offline servers (e.g. GC, OS paging etc.)</td><td></td></tr><tr><td>REALTIME_SYSTEM_ACTIVITIES_CPU_TIME_NS</td><td>aggregated system activities cpu time in nanoseconds for query processing from real-time servers (e.g. GC, OS paging etc.)</td><td></td></tr><tr><td>OFFLINE_RESPONSE_SER_CPU_TIME_NS</td><td>aggregated response serialization cpu time in nanoseconds for query processing from offline servers</td><td></td></tr><tr><td>REALTIME_RESPONSE_SER_CPU_TIME_NS</td><td>aggregated response serialization cpu time in nanoseconds for query processing from real-time servers</td><td></td></tr><tr><td>OFFLINE_TOTAL_CPU_TIME_NS</td><td>aggregated total cpu time(thread + system activities + response serialization) in nanoseconds for query processing from offline servers</td><td></td></tr><tr><td>REALTIME_TOTAL_CPU_TIME_NS</td><td>time(thread + system activities + response serialization) in nanoseconds for query processing from real-time servers</td><td></td></tr></tbody></table>
+| Metric Name | Description | Metric Type |
+| --- | --- | --- |
+| UNHEALTHY_SERVERS | Number of unhealthy servers detected |  |
+| QUERY_QUOTA_CAPACITY_UTILIZATION_RATE | percentage of configured rate limit being used on each broker |  |
+| MAX_BURST_QPS |  |  |
+| QUERY_RATE_LIMIT_DISABLED | 1 if rate limit is enabled on broker, 0 otherwise |  |
+| REQUEST_SIZE | Query String length on each broker |  |
+| RESIZE_TIME_MS | time spent in resizing results for the output. either because of LIMIT or maximum allowed group by keys or any other criteria |  |
+| QUERIES | The rate which an individual broker is receiving queries. Units are in QPS |  |
+| REQUEST_COMPILATION_EXCEPTIONS | Number of queries which failed during compilation |  |
+| RESOURCE_MISSING_EXCEPTIONS | Number of queries for which table doesn't exists |  |
+| QUERY_VALIDATION_EXCEPTIONS | Number of invalid queries |  |
+| UNKNOWN_COLUMN_EXCEPTIONS | Number of queries with unknown columns |  |
+| NO_SERVER_FOUND_EXCEPTIONS | Number of queries for which no server was found to contain its data |  |
+| REQUEST_TIMEOUT_BEFORE_SCATTERED_EXCEPTIONS | Number of times query timed out before even being sent to the servers |  |
+| REQUEST_CHANNEL_LOCK_TIMEOUT_EXCEPTIONS | number of times query failes while trying to acquire lock to server connections |  |
+| REQUEST_SEND_EXCEPTIONS | Number of queries failed while sending to server |  |
+| RESPONSE_FETCH_EXCEPTIONS | Number of queries failed while handling response from servers |  |
+| DATA_TABLE_DESERIALIZATION_EXCEPTIONS | Number of queries failed while deserializing response data from servers |  |
+| RESPONSE_MERGE_EXCEPTIONS | Number of queries that failed while merging responses from multiple servers. This can be due to schema inconsitency or any other issues |  |
+| BROKER_RESPONSES_WITH_PROCESSING_EXCEPTIONS | Number of queries where atleast one exception occured |  |
+| BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED | Number of queries with incomplete results due to missing responses from servers |  |
+| BROKER_RESPONSES_WITH_NUM_GROUPS_LIMIT_REACHED | Number of queries where total number of groups exceeded configured limit (default limit - 100K) |  |
+| DOCUMENTS_SCANNED | Total number of documents read from segments in each query |  |
+| ENTRIES_SCANNED_IN_FILTER |  |  |
+| ENTRIES_SCANNED_POST_FILTER |  |  |
+| NUM_RESIZES | Number of result resizes for queries |  |
+| REQUEST_DROPPED_DUE_TO_ACCESS_ERROR | Number of queries dropped due to invalid access permissions on table |  |
+| GROUP_BY_SIZE | Number of rows in group by queries |  |
+| TOTAL_SERVER_RESPONSE_SIZE | Total number of bytes received from servers for queries |  |
+| QUERY_QUOTA_EXCEEDED | Number of queries failed due to query rate limit being breached |  |
+| NO_SERVING_HOST_FOR_SEGMENT | Number of segments per query for which no servers are available |  |
+| SERVER_MISSING_FOR_ROUTING | Number of servers that could not be added to routing table for query |  |
+| NETTY_CONNECTION_REQUESTS_SENT | total number of requests sent to servers |  |
+| NETTY_CONNECTION_BYTES_SENT | total bytes sent to servers |  |
+| NETTY_CONNECTION_BYTES_RECEIVED | total bytes received from servers |  |
+| PROACTIVE_CLUSTER_CHANGE_CHECK | Number of requests raised to zookeeper to check the cluster state such as IDEAL STATES, EXTERNAL VIEW etc. |  |
+| HELIX_ZOOKEEPER_RECONNECTS | Number of times broker instance re-connected to zookeeper. |  |
+| CLUSTER_CHANGE_QUEUE_TIME | Time spent in milliseconds in queue for cluster change requests |  |
+| FRESHNESS_LAG_MS | time period between when the data was last updated in the table and the current time |  |
+| NETTY_CONNECTION_SEND_REQUEST_LATENCY | latency of sending the request from broker to server |  |
+| OFFLINE_THREAD_CPU_TIME_NS | aggregated thread cpu time in nanoseconds for query processing from offline servers |  |
+| REALTIME_THREAD_CPU_TIME_NS | aggregated thread cpu time in nanoseconds for query processing from real-time servers |  |
+| OFFLINE_SYSTEM_ACTIVITIES_CPU_TIME_NS | aggregated system activities cpu time in nanoseconds for query processing from offline servers (e.g. GC, OS paging etc.) |  |
+| REALTIME_SYSTEM_ACTIVITIES_CPU_TIME_NS | aggregated system activities cpu time in nanoseconds for query processing from real-time servers (e.g. GC, OS paging etc.) |  |
+| OFFLINE_RESPONSE_SER_CPU_TIME_NS | aggregated response serialization cpu time in nanoseconds for query processing from offline servers |  |
+| REALTIME_RESPONSE_SER_CPU_TIME_NS | aggregated response serialization cpu time in nanoseconds for query processing from real-time servers |  |
+| OFFLINE_TOTAL_CPU_TIME_NS | aggregated total cpu time(thread + system activities + response serialization) in nanoseconds for query processing from offline servers |  |
+| REALTIME_TOTAL_CPU_TIME_NS | time(thread + system activities + response serialization) in nanoseconds for query processing from real-time servers |  |
 
 #### Tracking time spent in various phases of Query execution in milliseconds
 
-<table><thead><tr><th>Metric Name</th><th>Description</th><th>Metric Type<select></select></th></tr></thead><tbody><tr><td>REQUEST_COMPILATION</td><td>Time spent in compiling SQL query</td><td></td></tr><tr><td>QUERY_EXECUTION</td><td>Total Time spent in query executiong</td><td></td></tr><tr><td>QUERY_ROUTING</td><td>Time spent in creating a routing table for segments</td><td></td></tr><tr><td>SCATTER_GATHER</td><td>Time spent in sending and collecting responses from servers.</td><td></td></tr><tr><td>REDUCE</td><td>Time spent in combining query results from multiple servers</td><td></td></tr><tr><td>AUTHORIZATION</td><td>Time spent checking table access after query compilation</td><td></td></tr></tbody></table>
+| Metric Name | Description | Metric Type |
+| --- | --- | --- |
+| REQUEST_COMPILATION | Time spent in compiling SQL query |  |
+| QUERY_EXECUTION | Total Time spent in query executiong |  |
+| QUERY_ROUTING | Time spent in creating a routing table for segments |  |
+| SCATTER_GATHER | Time spent in sending and collecting responses from servers. |  |
+| REDUCE | Time spent in combining query results from multiple servers |  |
+| AUTHORIZATION | Time spent checking table access after query compilation |  |
 
 ### Pinot Controller
 
-<table><thead><tr><th>Metric Name</th><th>Description</th><th>Metric Type<select></select></th></tr></thead><tbody><tr><td>PERCENT_SEGMENTS_AVAILABLE</td><td>Percentage of complete online replicas in external view as compared to replicas in ideal state</td><td></td></tr><tr><td>NUMBER_OF_REPLICAS</td><td>Total number of replicas available for table</td><td></td></tr><tr><td>SEGMENTS_IN_ERROR_STATE</td><td>Number of segments in an <code>ERROR</code> state for a given table.</td><td></td></tr><tr><td>TABLE_STORAGE_QUOTA_UTILIZATION</td><td>Shows how much of the table's storage quota is currently being used, metric will a percentage of a the entire quota.</td><td></td></tr><tr><td>LAST_PUSH_TIME_DELAY_HOURS</td><td>The time in hours since the last time an offline segment has been pushed to the controller.</td><td></td></tr><tr><td>HEALTHCHECK_OK_CALLS</td><td>Number of health check requests for which controller was healthy</td><td></td></tr><tr><td>HEALTHCHECK_BAD_CALLS</td><td>Number of health check requests for which controller was unhealthy</td><td></td></tr><tr><td>CONTROLLER_INSTANCE_POST_ERROR</td><td>Errors occurred while updating state for an instance (server and broker)</td><td></td></tr><tr><td>CONTROLLER_SEGMENT_UPLOAD_ERROR</td><td>Errors occurred while sending uploading segment request</td><td></td></tr><tr><td>CONTROLLER_SCHEMA_UPLOAD_ERROR</td><td>Errors occurred while uploading schema</td><td></td></tr><tr><td>CONTROLLER_TABLE_SCHEMA_UPDATE_ERROR</td><td>Errors occurred while updating schema</td><td></td></tr><tr><td>CONTROLLER_TABLE_ADD_ERROR</td><td>Errors occurred while adding table config</td><td></td></tr><tr><td>CONTROLLER_TABLE_UPDATE_ERROR</td><td>Errors occurred while updating table config</td><td></td></tr><tr><td>CONTROLLER_TABLE_TENANT_UPDATE_ERROR</td><td>Errors occurred while updating a Tenant</td><td></td></tr><tr><td>CONTROLLER_TABLE_TENANT_CREATE_ERROR</td><td>Errors occurred while creating a Tenant</td><td></td></tr><tr><td>CONTROLLER_TABLE_TENANT_DELETE_ERROR</td><td>Errors while deleting a Tenant</td><td></td></tr><tr><td>CONTROLLER_REALTIME_TABLE_SEGMENT_ASSIGNMENT_ERROR</td><td>Errors occurred while assigning a real-time segment to a server instance</td><td></td></tr><tr><td>CONTROLLER_LEADERSHIP_CHANGE_WITHOUT_CALLBACK</td><td>Number of times a controller loses/gains leadership without a callback from Helix</td><td></td></tr><tr><td>CONTROLLER_PERIODIC_TASK_RUN</td><td>Number of Periodic tasks running currently</td><td></td></tr><tr><td>CONTROLLER_PERIODIC_TASK_ERROR</td><td>Number of Periodic tasks that failed due to error</td><td></td></tr><tr><td>NUMBER_TIMES_SCHEDULE_TASKS_CALLED</td><td>Minion tasks schedule request sent to controller</td><td></td></tr><tr><td>NUMBER_TASKS_SUBMITTED</td><td>Number of minion tasks submitted to the controller.</td><td></td></tr><tr><td>NUMBER_SEGMENT_UPLOAD_TIMEOUT_EXCEEDED</td><td>Number of segments uploads failed due to timeout. Segments are re-uploaded in this case by controller itself.</td><td></td></tr><tr><td>CRON_SCHEDULER_JOB_TRIGGERED</td><td>Number of minion tasks triggered that use cron</td><td></td></tr><tr><td>NUMBER_ADHOC_TASKS_SUBMITTED</td><td>Number of minion ad hoc tasks submitted</td><td></td></tr><tr><td>LLC_STATE_MACHINE_ABORTS</td><td>Number of times a real-time segment commit operation was aborted</td><td></td></tr><tr><td>LLC_ZOOKEEPER_FETCH_FAILURES</td><td>Number of Zookeeper metadata fetch requests failed</td><td></td></tr><tr><td>LLC_ZOOKEEPER_UPDATE_FAILURES</td><td>Number of Zookeeper metadata update requests failed</td><td></td></tr><tr><td>LLC_STREAM_DATA_LOSS</td><td>Indicates data loss for table either due to offsets available to consume from topic larger than the last stored offset in pinot or segment lost in CONSUMING state</td><td></td></tr><tr><td>HELIX_ZOOKEEPER_RECONNECTS</td><td>Number of times broker instance re-connected to zookeeper.</td><td></td></tr><tr><td>CRON_SCHEDULER_JOB_EXECUTION_TIME_MS</td><td>Time spent in scheduling cron jobs</td><td></td></tr><tr><td>IDEAL_STATE_UPDATE_FAILURE</td><td>Indicates failed to update ideal state of table</td><td></td></tr><tr><td>IDEAL_STATE_UPDATE_RETRY</td><td>Number of retries update ideal state of table</td><td></td></tr><tr><td>IDEAL_STATE_UPDATE_TIME_MS</td><td>Time spent in updating ideal state for table</td><td></td></tr><tr><td>DEEP_STORE_READ_BYTES_IN_PROGRESS</td><td>Bytes being read from deep store</td><td></td></tr><tr><td>DEEP_STORE_READ_OPS_IN_PROGRESS</td><td>Active deep store read count</td><td></td></tr><tr><td>DEEP_STORE_WRITE_BYTES_IN_PROGRESS</td><td>Bytes being written to deep store</td><td></td></tr><tr><td>DEEP_STORE_WRITE_OPS_IN_PROGRESS</td><td>Active deep store write count</td><td></td></tr><tr><td>DEEP_STORE_READ_BYTES_COMPLETED</td><td>Total Bytes read from deep store</td><td></td></tr><tr><td>DEEP_STORE_WRITE_BYTES_COMPLETED</td><td>Total Bytes written to deep store</td><td></td></tr><tr><td>DEEP_STORE_SEGMENT_READ_TIME_MS</td><td>Time taken to read the segment from deep store</td><td></td></tr><tr><td>DEEP_STORE_SEGMENT_WRITE_TIME_MS</td><td>Time taken to write the segment to deep store</td><td></td></tr></tbody></table>
+| Metric Name | Description | Metric Type |
+| --- | --- | --- |
+| PERCENT_SEGMENTS_AVAILABLE | Percentage of complete online replicas in external view as compared to replicas in ideal state |  |
+| NUMBER_OF_REPLICAS | Total number of replicas available for table |  |
+| SEGMENTS_IN_ERROR_STATE | Number of segments in an `ERROR` state for a given table. |  |
+| TABLE_STORAGE_QUOTA_UTILIZATION | Shows how much of the table's storage quota is currently being used, metric will a percentage of a the entire quota. |  |
+| LAST_PUSH_TIME_DELAY_HOURS | The time in hours since the last time an offline segment has been pushed to the controller. |  |
+| HEALTHCHECK_OK_CALLS | Number of health check requests for which controller was healthy |  |
+| HEALTHCHECK_BAD_CALLS | Number of health check requests for which controller was unhealthy |  |
+| CONTROLLER_INSTANCE_POST_ERROR | Errors occurred while updating state for an instance (server and broker) |  |
+| CONTROLLER_SEGMENT_UPLOAD_ERROR | Errors occurred while sending uploading segment request |  |
+| CONTROLLER_SCHEMA_UPLOAD_ERROR | Errors occurred while uploading schema |  |
+| CONTROLLER_TABLE_SCHEMA_UPDATE_ERROR | Errors occurred while updating schema |  |
+| CONTROLLER_TABLE_ADD_ERROR | Errors occurred while adding table config |  |
+| CONTROLLER_TABLE_UPDATE_ERROR | Errors occurred while updating table config |  |
+| CONTROLLER_TABLE_TENANT_UPDATE_ERROR | Errors occurred while updating a Tenant |  |
+| CONTROLLER_TABLE_TENANT_CREATE_ERROR | Errors occurred while creating a Tenant |  |
+| CONTROLLER_TABLE_TENANT_DELETE_ERROR | Errors while deleting a Tenant |  |
+| CONTROLLER_REALTIME_TABLE_SEGMENT_ASSIGNMENT_ERROR | Errors occurred while assigning a real-time segment to a server instance |  |
+| CONTROLLER_LEADERSHIP_CHANGE_WITHOUT_CALLBACK | Number of times a controller loses/gains leadership without a callback from Helix |  |
+| CONTROLLER_PERIODIC_TASK_RUN | Number of Periodic tasks running currently |  |
+| CONTROLLER_PERIODIC_TASK_ERROR | Number of Periodic tasks that failed due to error |  |
+| NUMBER_TIMES_SCHEDULE_TASKS_CALLED | Minion tasks schedule request sent to controller |  |
+| NUMBER_TASKS_SUBMITTED | Number of minion tasks submitted to the controller. |  |
+| NUMBER_SEGMENT_UPLOAD_TIMEOUT_EXCEEDED | Number of segments uploads failed due to timeout. Segments are re-uploaded in this case by controller itself. |  |
+| CRON_SCHEDULER_JOB_TRIGGERED | Number of minion tasks triggered that use cron |  |
+| NUMBER_ADHOC_TASKS_SUBMITTED | Number of minion ad hoc tasks submitted |  |
+| LLC_STATE_MACHINE_ABORTS | Number of times a real-time segment commit operation was aborted |  |
+| LLC_ZOOKEEPER_FETCH_FAILURES | Number of Zookeeper metadata fetch requests failed |  |
+| LLC_ZOOKEEPER_UPDATE_FAILURES | Number of Zookeeper metadata update requests failed |  |
+| LLC_STREAM_DATA_LOSS | Indicates data loss for table either due to offsets available to consume from topic larger than the last stored offset in pinot or segment lost in CONSUMING state |  |
+| HELIX_ZOOKEEPER_RECONNECTS | Number of times broker instance re-connected to zookeeper. |  |
+| CRON_SCHEDULER_JOB_EXECUTION_TIME_MS | Time spent in scheduling cron jobs |  |
+| IDEAL_STATE_UPDATE_FAILURE | Indicates failed to update ideal state of table |  |
+| IDEAL_STATE_UPDATE_RETRY | Number of retries update ideal state of table |  |
+| IDEAL_STATE_UPDATE_TIME_MS | Time spent in updating ideal state for table |  |
+| DEEP_STORE_READ_BYTES_IN_PROGRESS | Bytes being read from deep store |  |
+| DEEP_STORE_READ_OPS_IN_PROGRESS | Active deep store read count |  |
+| DEEP_STORE_WRITE_BYTES_IN_PROGRESS | Bytes being written to deep store |  |
+| DEEP_STORE_WRITE_OPS_IN_PROGRESS | Active deep store write count |  |
+| DEEP_STORE_READ_BYTES_COMPLETED | Total Bytes read from deep store |  |
+| DEEP_STORE_WRITE_BYTES_COMPLETED | Total Bytes written to deep store |  |
+| DEEP_STORE_SEGMENT_READ_TIME_MS | Time taken to read the segment from deep store |  |
+| DEEP_STORE_SEGMENT_WRITE_TIME_MS | Time taken to write the segment to deep store |  |
 
 ### Pinot Minion
 
-<table><thead><tr><th>Metric Name</th><th>Description</th><th>Metric Type<select></select></th></tr></thead><tbody><tr><td>NUMBER_OF_TASKS</td><td>Number of tasks currently running</td><td></td></tr><tr><td>NUMBER_TASKS_EXECUTED</td><td>Number of tasks triggered in Minion</td><td></td></tr><tr><td>NUMBER_TASKS_COMPLETED</td><td>Number of tasks completed successfully</td><td></td></tr><tr><td>NUMBER_TASKS_CANCELLED</td><td>Number of tasks that were cancelled</td><td></td></tr><tr><td>NUMBER_TASKS_FAILED</td><td>Number of tasks that failed</td><td></td></tr><tr><td>NUMBER_TASKS_FATAL_FAILED</td><td>Number of tasks that failed with unretryable exceptions</td><td></td></tr><tr><td>TASK_QUEUEING</td><td>Time spent by tasks in queue</td><td></td></tr><tr><td>TASK_EXECUTION</td><td>Time spent by tasks in execution</td><td></td></tr></tbody></table>
+| Metric Name | Description | Metric Type |
+| --- | --- | --- |
+| NUMBER_OF_TASKS | Number of tasks currently running |  |
+| NUMBER_TASKS_EXECUTED | Number of tasks triggered in Minion |  |
+| NUMBER_TASKS_COMPLETED | Number of tasks completed successfully |  |
+| NUMBER_TASKS_CANCELLED | Number of tasks that were cancelled |  |
+| NUMBER_TASKS_FAILED | Number of tasks that failed |  |
+| NUMBER_TASKS_FATAL_FAILED | Number of tasks that failed with unretryable exceptions |  |
+| TASK_QUEUEING | Time spent by tasks in queue |  |
+| TASK_EXECUTION | Time spent by tasks in execution |  |

@@ -33,4 +33,14 @@ FROM baseballStats;
 
 Output:
 
-<table><thead><tr><th>playerName</th><th>yearID</th><th>numberOfGames</th><th data-type="number">EXPR$3</th></tr></thead><tbody><tr><td>p1</td><td>2000</td><td>10</td><td>10</td></tr><tr><td>p1</td><td>2001</td><td>15</td><td>10</td></tr><tr><td>p1</td><td>2002</td><td>12</td><td>10</td></tr><tr><td>p2</td><td>1990</td><td>120</td><td>120</td></tr><tr><td>p2</td><td>1991</td><td>124</td><td>120</td></tr><tr><td>p3</td><td>2006</td><td>30</td><td>30</td></tr><tr><td>p3</td><td>2007</td><td>25</td><td>30</td></tr><tr><td>p3</td><td>2009</td><td>20</td><td>30</td></tr><tr><td>p3</td><td>2010</td><td>15</td><td>30</td></tr></tbody></table>
+| playerName | yearID | numberOfGames | EXPR$3 |
+| --- | --- | --- | --- |
+| p1 | 2000 | 10 | 10 |
+| p1 | 2001 | 15 | 10 |
+| p1 | 2002 | 12 | 10 |
+| p2 | 1990 | 120 | 120 |
+| p2 | 1991 | 124 | 120 |
+| p3 | 2006 | 30 | 30 |
+| p3 | 2007 | 25 | 30 |
+| p3 | 2009 | 20 | 30 |
+| p3 | 2010 | 15 | 30 |

@@ -105,7 +105,9 @@ $$
 
 Note that Identity Exchange does not imply that the servers in the sender and receiver will be the same. It only implies that there will be a 1:1 mapping from senders to receivers. In the example below, the data transfer from S2 to S1 will be over the network.
 
-<figure><img src="../../../.gitbook/assets/colocated-complicated.png" alt="" width="563"><figcaption></figcaption></figure>
+![](../../../.gitbook/assets/colocated-complicated.png)
+
+**
 
 ### Automatically Skip Aggregate Exchange
 

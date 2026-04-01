@@ -23,13 +23,13 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 | controller.zk.str                                            | localhost:2181                                                           | zookeeper host:port string to connect                                                                                                                                                                                                                       |
 | controller.update\_segment\_state\_model                     | false                                                                    |                                                                                                                                                                                                                                                             |
 | controller.helix.cluster.name                                |                                                                          | Pinot Cluster Name, required.                                                                                                                                                                                                                               |
-| cluster.tenant.isolation.enable                              | true                                                                     | <p>Enable Tenant Isolation, default is single tenant cluster.<br>If enabled, each server or broker added into the cluster will be tagged with DefaultTenant.</p>                                                                                            |
+| cluster.tenant.isolation.enable | true | Enable Tenant Isolation, default is single tenant cluster. If enabled, each server or broker added into the cluster will be tagged with DefaultTenant. |
 | controller.enable.split.commit                               | false                                                                    | **(Deprecated)** Enable split commit protocol for real-time segment commit.                                                                                                                                                                                 |
 | controller.query.console.useHttps                            | false                                                                    | use https instead of http for cluster                                                                                                                                                                                                                       |
 | controller.upload.onlineToOfflineTimeout                     | 2 minutes                                                                |                                                                                                                                                                                                                                                             |
 | controller.mode                                              | `dual`                                                                   | Should be one of `helix_only`, `pinot_only` or `dual`                                                                                                                                                                                                       |
 | controller.resource.rebalance.strategy                       | `org.apache.helix.controller. rebalancer.strategy.AutoRebalanceStrategy` |                                                                                                                                                                                                                                                             |
-| controller.resource.rebalance.delay\_ms                      | 5 minutes                                                                | <p>How long the helix waits to rebalance partitions after a controller is lost.</p><p>Longer time values allow for more time for a controller to recover.</p><p>Shorter time values prevent cluster operations like segment sealing from being blocked.</p> |
+| controller.resource.rebalance.delay\_ms | 5 minutes | How long the helix waits to rebalance partitions after a controller is lost. Longer time values allow for more time for a controller to recover. Shorter time values prevent cluster operations like segment sealing from being blocked. |
 | controller.realtime.segment.commit.timeoutSeconds            | 120 seconds                                                              | request timeout for segment commit                                                                                                                                                                                                                          |
 | controller.max.segment.completion.time.millis                | 300000 (5 minutes)                                                       | maximum allowed time for real-time segment completion (build + upload). Increase for tables with large segments where build and upload to deep store exceeds 5 minutes.                                                                                          |
 | controller.deleted.segments.retentionInDays                  | 7 days                                                                   | duration for which to retain deleted segments                                                                                                                                                                                                               |
@@ -63,25 +63,39 @@ The following period tasks are
 
 This task rebuilds the BrokerResource if the instance set has changed.
 
-<table><thead><tr><th width="539.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.broker.resource.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.broker.resource.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.broker.resource.validation.frequencyPeriod | 1h |
+| controller.broker.resource.validation.initialDelayInSeconds | between 2m-5m |
 
 ### StaleInstancesCleanupTask
 
 This task periodically cleans up stale Pinot broker/server/minion instances.
 
-<table><thead><tr><th width="539.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.stale.instances.cleanup.task.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.stale.instances.cleanup.task.initialDelaySeconds</td><td>between 2m-5m</td></tr><tr><td>controller.stale.instances.cleanup.task.minOfflineTimeBeforeDeletionPeriod</td><td>1h</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.stale.instances.cleanup.task.frequencyPeriod | 1h |
+| controller.stale.instances.cleanup.task.initialDelaySeconds | between 2m-5m |
+| controller.stale.instances.cleanup.task.minOfflineTimeBeforeDeletionPeriod | 1h |
 
 ### OfflineSegmentIntervalChecker
 
 This task manages the segment ValidationMetrics (missingSegmentCount, offlineSegmentDelayHours, lastPushTimeDelayHours, TotalDocumentCount, NonConsumingPartitionCount, SegmentCount), to ensure that all offline segments are contiguous (no missing segments) and that the offline push delay isn't too high.
 
-<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.offline.segment.interval.checker.frequencyPeriod</td><td>24h</td></tr><tr><td>controller.statuschecker.waitForPushTimePeriod</td><td>10m</td></tr><tr><td>controller.offlineSegmentIntervalChecker.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.offline.segment.interval.checker.frequencyPeriod | 24h |
+| controller.statuschecker.waitForPushTimePeriod | 10m |
+| controller.offlineSegmentIntervalChecker.initialDelayInSeconds | between 2m-5m |
 
 ### PinotTaskManager
 
 This task schedules and manages Pinot minion tasks. It periodically generates tasks for each table based on the task configurations defined in the table config. Common minion tasks include `MergeRollupTask`, `RealtimeToOfflineSegmentsTask`, `SegmentGenerationAndPushTask`, and `ConvertToRawIndexTask`.
 
-<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.task.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.task.manager.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.task.frequencyPeriod | 1h |
+| controller.task.manager.initialDelayInSeconds | between 2m-5m |
 
 ### RealtimeSegmentValidationManager
 
@@ -100,7 +114,14 @@ This task does not fix consumption stalled due to
 * Kafka OOR exceptions
 {% endhint %}
 
-<table><thead><tr><th width="530.7793259820547">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.realtime.segment.validation.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.realtime.segment.validation.initialDelayInSeconds</td><td>between 2m-5m</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetryEnabled</td><td>false</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.timeoutMs</td><td>-1</td></tr><tr><td>controller.realtime.segment.deepStoreUploadRetry.parallelism</td><td>1</td></tr><tr><td>controller.realtime.segment.partialOfflineReplicaRepairEnabled</td><td>false</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.realtime.segment.validation.frequencyPeriod | 1h |
+| controller.realtime.segment.validation.initialDelayInSeconds | between 2m-5m |
+| controller.realtime.segment.deepStoreUploadRetryEnabled | false |
+| controller.realtime.segment.deepStoreUploadRetry.timeoutMs | -1 |
+| controller.realtime.segment.deepStoreUploadRetry.parallelism | 1 |
+| controller.realtime.segment.partialOfflineReplicaRepairEnabled | false |
 
 When `controller.realtime.segment.partialOfflineReplicaRepairEnabled` is enabled, the controller's periodic validation task automatically resets OFFLINE replicas back to CONSUMING for IN_PROGRESS segments that have a mix of CONSUMING and OFFLINE replicas. This handles cases where a replica's startup fails (for example, due to Kafka consumer initialization errors) while other replicas continue normally. Enable only after verifying that OFFLINE replicas are caused by transient failures rather than persistent errors.
 
@@ -108,16 +129,12 @@ When `controller.realtime.segment.partialOfflineReplicaRepairEnabled` is enabled
 
 This task manages retention of segments for all tables. During the run, it looks at the `retentionTimeUnit` and `retentionTimeValue` inside the `segmentsConfig` of every table, and deletes segments which are older than the retention. The deleted segments are moved to a DeletedSegments folder colocated with the dataDir on segment store, and permanently deleted from that folder in a configurable number of days.
 
-<table>
-    <thead>
-        <tr><th width="501.62051915945614">Config</th><th>Default Value</th></tr>
-    </thead>
-    <tbody><tr><td>controller.retention.frequencyPeriod</td><td>6h</td></tr>
-        <tr><td>controller.retentionManager.initialDelayInSeconds</td><td>between 2m-5m</td></tr>
-        <tr><td>controller.deleted.segments.retentionInDays</td><td>7d</td></tr>
-        <tr><td>controller.enable.hybrid.table.retention.strategy</td><td>false</td></tr>
-    </tbody>
-</table>
+| Config | Default Value |
+| --- | --- |
+| controller.retention.frequencyPeriod | 6h |
+| controller.retentionManager.initialDelayInSeconds | between 2m-5m |
+| controller.deleted.segments.retentionInDays | 7d |
+| controller.enable.hybrid.table.retention.strategy | false |
 
 If `controller.enable.hybrid.table.retention.strategy` is set to true, the retention manager will use the hybrid 
 retention strategy. In this strategy, the retention manager calculates a time boundary by looking at the maximum end
@@ -140,28 +157,44 @@ This task is applicable only if you have tierConfig or tagOverrideConfig. It run
 
 At most one replica is allowed to be unavailable during rebalance.
 
-<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.segment.relocator.frequencyPeriod</td><td>1h</td></tr><tr><td>controller.segmentRelocator.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.segment.relocator.frequencyPeriod | 1h |
+| controller.segmentRelocator.initialDelayInSeconds | between 2m-5m |
 
 ### SegmentStatusChecker
 
 This task manages segment status metrics such as realtimeTableCount, offlineTableCount, disableTableCount, numberOfReplicas, percentOfReplicas, percentOfSegments, idealStateZnodeSize, idealStateZnodeByteSize, segmentCount, segmentsInErrorState, tableCompressedSize.
 
-<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.statuschecker.frequencyPeriod</td><td>5m</td></tr><tr><td>controller.statusChecker.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.statuschecker.frequencyPeriod | 5m |
+| controller.statusChecker.initialDelayInSeconds | between 2m-5m |
 
 ### RebalanceChecker
 
 Currently, table rebalance triggered by user runs at best effort. It could fail if the controller running it got restarted; or some servers were not stable, making the rebalance timed out while waiting for external view to converge with ideal state, etc. This task checks for failed rebalance and retry them automatically, up to certain times as configured.
 
-<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.rebalance.checker.frequencyPeriod</td><td>5m</td></tr><tr><td>controller.rebalanceChecker.initialDelayInSeconds</td><td>between 2m-5m</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.rebalance.checker.frequencyPeriod | 5m |
+| controller.rebalanceChecker.initialDelayInSeconds | between 2m-5m |
 
 ### TaskMetricsEmitter
 
 This task periodically emits metrics about minion tasks, including task counts by state (RUNNING, WAITING, ERROR, COMPLETED) and task latencies. These metrics are useful for monitoring the health and throughput of the minion task system.
 
-<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th></tr></thead><tbody><tr><td>controller.task.metrics.emitter.frequencyPeriod</td><td>5m</td></tr></tbody></table>
+| Config | Default Value |
+| --- | --- |
+| controller.task.metrics.emitter.frequencyPeriod | 5m |
 
 ### ResourceUtilizationChecker
 
 The periodic task ResourceUtilizationChecker runs periodically and computes the disk usage info of the Pinot server instances.
 
-<table><thead><tr><th width="530.7775334537681">Config</th><th>Default Value</th><th>Description</th></tr></thead><tbody><tr><td>controller.resource.utilization.checker.frequency</td><td>300</td><td>Value is in seconds. Setting the value to -1 would disable the task.</td></tr><tr><td>controller.disk.utilization.path</td><td>/home/pinot/data</td><td>Disk utilization is calculated for this path.</td></tr><tr><td>controller.resource.utilization.checker.initial.delay</td><td>0 (when collect.usage.at.startup is true)</td><td>Initial delay for the resource utilization checker in seconds. Automatically set to 0 when controller.resource.utilization.checker.collect.usage.at.startup is enabled.</td></tr><tr><td>controller.resource.utilization.checker.collect.usage.at.startup</td><td>false</td><td>When set to <code>true</code>, the controller waits for the resource utilization checker (disk usage cache) to be populated before marking itself as healthy. This prevents segment push requests from being accepted when disk usage is already high (e.g., 90%) immediately after a restart. When enabled, <code>controller.resource.utilization.checker.initial.delay</code> is automatically set to 0 so the checker runs immediately. If the checker times out, the controller still becomes healthy (fail-open).</td></tr></tbody></table>
+| Config | Default Value | Description |
+| --- | --- | --- |
+| controller.resource.utilization.checker.frequency | 300 | Value is in seconds. Setting the value to -1 would disable the task. |
+| controller.disk.utilization.path | /home/pinot/data | Disk utilization is calculated for this path. |
+| controller.resource.utilization.checker.initial.delay | 0 (when collect.usage.at.startup is true) | Initial delay for the resource utilization checker in seconds. Automatically set to 0 when controller.resource.utilization.checker.collect.usage.at.startup is enabled. |
+| controller.resource.utilization.checker.collect.usage.at.startup | false | When set to `true`, the controller waits for the resource utilization checker (disk usage cache) to be populated before marking itself as healthy. This prevents segment push requests from being accepted when disk usage is already high (e.g., 90%) immediately after a restart. When enabled, `controller.resource.utilization.checker.initial.delay` is automatically set to 0 so the checker runs immediately. If the checker times out, the controller still becomes healthy (fail-open). |

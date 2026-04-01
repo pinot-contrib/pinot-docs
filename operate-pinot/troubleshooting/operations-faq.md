@@ -166,7 +166,7 @@ See [Running a Periodic Task Manually](../../basics/components/cluster/controlle
 
 ## Tuning and Optimizations
 
-### Do replica groups work for real-time? <a href="#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3" id="docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3"></a>
+### Do replica groups work for real-time? [](#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3)
 
 Yes, replica groups work for real-time. There's 2 parts to enabling replica groups:
 

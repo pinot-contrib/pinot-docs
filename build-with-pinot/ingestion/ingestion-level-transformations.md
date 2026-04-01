@@ -59,10 +59,10 @@ Converts from epoch milliseconds to a higher granularity.
 
 | Function name  | Description                                                                                      |
 | -------------- | ------------------------------------------------------------------------------------------------ |
-| toEpochSeconds | <p>Converts epoch millis to epoch seconds.</p><p>Usage:<code>"toEpochSeconds(millis)"</code></p> |
-| toEpochMinutes | <p>Converts epoch millis to epoch minutes</p><p>Usage: <code>"toEpochMinutes(millis)"</code></p> |
-| toEpochHours   | <p>Converts epoch millis to epoch hours</p><p>Usage: <code>"toEpochHours(millis)"</code></p>     |
-| toEpochDays    | <p>Converts epoch millis to epoch days</p><p>Usage: <code>"toEpochDays(millis)"</code></p>       |
+| toEpochSeconds | Converts epoch millis to epoch seconds. Usage:`"toEpochSeconds(millis)"` |
+| toEpochMinutes | Converts epoch millis to epoch minutes Usage: `"toEpochMinutes(millis)"` |
+| toEpochHours | Converts epoch millis to epoch hours Usage: `"toEpochHours(millis)"` |
+| toEpochDays | Converts epoch millis to epoch days Usage: `"toEpochDays(millis)"` |
 
 **toEpochXXXRounded**
 
@@ -81,10 +81,10 @@ Converts from an epoch granularity to milliseconds.
 
 | Function Name    | Description                                                                                                 |
 | ---------------- | ----------------------------------------------------------------------------------------------------------- |
-| fromEpochSeconds | <p>Converts from epoch seconds to milliseconds</p><p><code>"fromEpochSeconds(secondsSinceEpoch)"</code></p> |
-| fromEpochMinutes | <p>Converts from epoch minutes to milliseconds</p><p><code>"fromEpochMinutes(minutesSinceEpoch)"</code></p> |
-| fromEpochHours   | <p>Converts from epoch hours to milliseconds</p><p><code>"fromEpochHours(hoursSinceEpoch)"</code></p>       |
-| fromEpochDays    | <p>Converts from epoch days to milliseconds</p><p><code>"fromEpochDays(daysSinceEpoch)"</code></p>          |
+| fromEpochSeconds | Converts from epoch seconds to milliseconds `"fromEpochSeconds(secondsSinceEpoch)"` |
+| fromEpochMinutes | Converts from epoch minutes to milliseconds `"fromEpochMinutes(minutesSinceEpoch)"` |
+| fromEpochHours | Converts from epoch hours to milliseconds `"fromEpochHours(hoursSinceEpoch)"` |
+| fromEpochDays | Converts from epoch days to milliseconds `"fromEpochDays(daysSinceEpoch)"` |
 
 **Simple date format**
 
@@ -92,8 +92,8 @@ Converts simple date format strings to milliseconds and vice versa, per the prov
 
 | Function name                                     | Description                                                                                                                                                              |
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [ToDateTime](../../functions/datetime/todatetime.md)     | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
-| [FromDateTime](../../functions/datetime/fromdatetime.md) | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
+| [ToDateTime](../../functions/datetime/todatetime.md) | Converts from milliseconds to a formatted date time string, as per the provided pattern `"toDateTime(millis, 'yyyy-MM-dd')"` |
+| [FromDateTime](../../functions/datetime/fromdatetime.md) | Converts a formatted date time string to milliseconds, as per the provided pattern `"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"` |
 
 {% hint style="info" %}
 **Note**
@@ -107,7 +107,7 @@ Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/j
 
 | Function name | Description                                                                                                                                                                                                                                                                                                       |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| json\_format  | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="../../functions/transformations.md">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
+| json\_format | Converts a JSON/AVRO complex object to a string. This json map can then be queried using [jsonExtractScalar](../../functions/transformations.md) function. `"json_format(jsonMapField)"` |
 
 ## Types of transformation
 

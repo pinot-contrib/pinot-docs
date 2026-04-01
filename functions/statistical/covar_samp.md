@@ -6,8 +6,9 @@ description: This section contains reference documentation for the COVAR_SAMP fu
 
 Returns the sample covariance between of 2 numerical columns.
 
-<pre><code><strong>COVAR_SAMP(col1, col2) = COVAR_POP(col1, col2) * besselCorrection
-</strong></code></pre>
+```
+COVAR_SAMP(col1, col2) = COVAR_POP(col1, col2) * besselCorrection
+```
 
 ## Signatures
 

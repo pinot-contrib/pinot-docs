@@ -32,7 +32,7 @@ from smallTable
 cross join largeTable
 ```
 
-### Predicate push-down <a href="#predicate-push-down" id="predicate-push-down"></a>
+### Predicate push-down [](#predicate-push-down)
 
 Usually it is faster to filter data before joining it. Pinot automatically pushes down predicates to the individual tables before joining them when it can prove the change doesn't break semantics.
 
@@ -91,7 +91,7 @@ JOIN orders
 
 This optimization can be easily seen in the explain plan, where the filter operator will be pushed as one of the sides of the join.
 
-### Optimizing semi-join to use indexes <a href="#optimizing-semi-join-to-use-indexes" id="optimizing-semi-join-to-use-indexes"></a>
+### Optimizing semi-join to use indexes [](#optimizing-semi-join-to-use-indexes)
 
 Semi-joins are a special case of joins where the result of the join is not the result of the join itself but the rows of the first table that have a match in the second table.
 
@@ -152,6 +152,6 @@ But they won't be equivalent if instead of `distinct_orders` we were using `orde
 
 Pinot applies this optimization automatically if the three conditions explained above are fulfilled. Given that columns in Pinot cannot be marked as unique, the only way to indicate Pinot that the right-hand side is unique is to apply a SQL expression that guarantees that, for example `DISTINCT` or `GROUP BY` the columns used in the join condition. Sometimes, it is just easier to rewrite the original SQL to substitute the `JOIN` with a `WHERE EXISTS` .
 
-### Reduce data shuffle <a href="#reducing-data-shuffle" id="reducing-data-shuffle"></a>
+### Reduce data shuffle [](#reducing-data-shuffle)
 
 Pinot supports different types of [join strategies](../../../build-with-pinot/querying-and-sql/multi-stage-query/join-strategies). It is important to understand them and try to use when possible. This data shuffle is expensive and can be a bottleneck for the query performance. Remember to use `stageStats`  (specially [mailbox send](operator-types/mailbox-send.md) and [mailbox receive](operator-types/mailbox-receive.md)) and different explain plan modes to understand how your data is being shuffled.

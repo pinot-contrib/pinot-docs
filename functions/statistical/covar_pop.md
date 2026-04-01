@@ -6,8 +6,9 @@ description: This section contains reference documentation for the COVAR_POP fun
 
 Returns the population covariance between of 2 numerical columns.
 
-<pre><code><strong>COVAR_POP(col1, col2) = E[col1 * col2] - E[col1]E[col2]
-</strong></code></pre>
+```
+COVAR_POP(col1, col2) = E[col1 * col2] - E[col1]E[col2]
+```
 
 ## Signatures
 

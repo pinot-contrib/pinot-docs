@@ -78,7 +78,9 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-<table><thead><tr><th>id</th><th width="204">created_at_timestamp</th><th>timeInMs</th><th>convertedTime</th></tr></thead><tbody><tr><td>7044874134</td><td>2018-01-01 12:00:02.0</td><td>1514804402000</td><td>1514764800000</td></tr></tbody></table>
+| id | created_at_timestamp | timeInMs | convertedTime |
+| --- | --- | --- | --- |
+| 7044874134 | 2018-01-01 12:00:02.0 | 1514804402000 | 1514764800000 |
 
 `created_at_timestamp` bucketed to 1 day granularity using `Europe/Berlin` time zone:
 
@@ -97,7 +99,9 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-<table><thead><tr><th>id</th><th width="205">created_at_timestamp</th><th>timeInMs</th><th>convertedTime</th></tr></thead><tbody><tr><td>7044874134</td><td>2018-01-01 12:00:02.0</td><td>1514804402000</td><td>1514761200000</td></tr></tbody></table>
+| id | created_at_timestamp | timeInMs | convertedTime |
+| --- | --- | --- | --- |
+| 7044874134 | 2018-01-01 12:00:02.0 | 1514804402000 | 1514761200000 |
 
 `created_at_timestamp` bucketed to 15 minutes granularity:
 
@@ -200,4 +204,6 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-<table><thead><tr><th>id</th><th width="205">created_at_timestamp</th><th>timeInMs</th><th>convertedTime</th></tr></thead><tbody><tr><td>7044874134</td><td>2018-01-01 12:00:02.0</td><td>1514804402000</td><td>2017-12-31 23:00</td></tr></tbody></table>
+| id | created_at_timestamp | timeInMs | convertedTime |
+| --- | --- | --- | --- |
+| 7044874134 | 2018-01-01 12:00:02.0 | 1514804402000 | 2017-12-31 23:00 |

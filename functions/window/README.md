@@ -137,7 +137,22 @@ Window functions are commonly used to do the following:
 
 Supported window functions are listed in the following table.
 
-<table><thead><tr><th>Function</th><th>Description</th><th width="198">Example</th><th>Default Value When No Record Selected</th></tr></thead><tbody><tr><td><a href="../../functions/aggregation/avgmv.md"><strong>AVG</strong></a></td><td>Returns the average of the values for a numeric column in the defined window.</td><td><code>AVG(playerScore)</code></td><td><code>Double.NEGATIVE_INFINITY</code></td></tr><tr><td>BOOL_AND</td><td>Returns <code>false</code> if even a single value in the window is <code>false</code>, <code>null</code> if a single value in the window is <code>null</code>, and <code>true</code> if all the values in the window are <code>true</code>.</td><td></td><td><code>null</code></td></tr><tr><td>BOOL_OR</td><td>Returns <code>true</code> if even a single value in the window is <code>true</code> , <code>null</code> if a single value in the window is <code>null</code>, and <code>false</code> if all the values in the window are <code>false</code>.</td><td></td><td><code>null</code></td></tr><tr><td><a href="../../functions/aggregation/count.md"><strong>COUNT</strong></a></td><td>Returns the number of values in the window</td><td><code>COUNT(*)</code></td><td><code>0</code></td></tr><tr><td><a href="../../functions/aggregation/min.md"><strong>MIN</strong></a></td><td>Returns the minimum value of a numeric column as <code>Double</code></td><td><code>MIN(playerScore)</code></td><td><code>null</code></td></tr><tr><td><a href="../../functions/aggregation/max.md"><strong>MAX</strong></a></td><td>Returns the maximum value of a numeric column as <code>Double</code></td><td><code>MAX(playerScore)</code></td><td><code>null</code></td></tr><tr><td><a href="../../functions/aggregation/sum.md"><strong>SUM</strong></a></td><td>Returns the sum of the values for a numeric column as <code>Double</code></td><td><code>SUM(playerScore)</code></td><td><code>null</code></td></tr><tr><td><a href="../../functions/aggregation/lead.md">LEAD</a></td><td>The <code>LEAD</code> function provides access to a subsequent row within the same result set, without the need for a self-join.</td><td><code>LEAD(column_name, offset, default_value)</code></td><td></td></tr><tr><td><a href="../../functions/aggregation/lag.md">LAG</a></td><td>The <code>LAG</code> function provides access to a previous row within the same result set, without the need for a self-join.</td><td><code>LAG(column_name, offset, default_value)</code></td><td></td></tr><tr><td><a href="../../functions/aggregation/first_value.md">FIRST_VALUE</a></td><td>The <code>FIRST_VALUE</code> function returns the value from the first row in the window.</td><td><code>FIRST_VALUE(salary)</code></td><td></td></tr><tr><td><a href="../../functions/aggregation/last_value.md">LAST_VALUE</a></td><td>The <code>LAST_VALUE</code> function returns the value from the last row in the window</td><td><code>LAST_VALUE(salary)</code></td><td></td></tr><tr><td><a href="../math/round.md">ROW_NUMBER</a></td><td>Returns the number of the current row within its partition, counting from 1.</td><td><code>ROW_NUMBER()</code></td><td></td></tr><tr><td>RANK</td><td>Returns the rank of the current row, with gaps - i.e., the <code>row_number</code> of the first row in its peer group.</td><td><code>RANK()</code></td><td></td></tr><tr><td>DENSE_RANK</td><td>Returns the rank of the current row, without gaps.</td><td><code>DENSE_RANK()</code></td><td></td></tr></tbody></table>
+| Function | Description | Example | Default Value When No Record Selected |
+| --- | --- | --- | --- |
+| [**AVG**](../../functions/aggregation/avgmv.md) | Returns the average of the values for a numeric column in the defined window. | `AVG(playerScore)` | `Double.NEGATIVE_INFINITY` |
+| BOOL_AND | Returns `false` if even a single value in the window is `false`, `null` if a single value in the window is `null`, and `true` if all the values in the window are `true`. |  | `null` |
+| BOOL_OR | Returns `true` if even a single value in the window is `true` , `null` if a single value in the window is `null`, and `false` if all the values in the window are `false`. |  | `null` |
+| [**COUNT**](../../functions/aggregation/count.md) | Returns the number of values in the window | `COUNT(*)` | `0` |
+| [**MIN**](../../functions/aggregation/min.md) | Returns the minimum value of a numeric column as `Double` | `MIN(playerScore)` | `null` |
+| [**MAX**](../../functions/aggregation/max.md) | Returns the maximum value of a numeric column as `Double` | `MAX(playerScore)` | `null` |
+| [**SUM**](../../functions/aggregation/sum.md) | Returns the sum of the values for a numeric column as `Double` | `SUM(playerScore)` | `null` |
+| [LEAD](../../functions/aggregation/lead.md) | The `LEAD` function provides access to a subsequent row within the same result set, without the need for a self-join. | `LEAD(column_name, offset, default_value)` |  |
+| [LAG](../../functions/aggregation/lag.md) | The `LAG` function provides access to a previous row within the same result set, without the need for a self-join. | `LAG(column_name, offset, default_value)` |  |
+| [FIRST_VALUE](../../functions/aggregation/first_value.md) | The `FIRST_VALUE` function returns the value from the first row in the window. | `FIRST_VALUE(salary)` |  |
+| [LAST_VALUE](../../functions/aggregation/last_value.md) | The `LAST_VALUE` function returns the value from the last row in the window | `LAST_VALUE(salary)` |  |
+| [ROW_NUMBER](../math/round.md) | Returns the number of the current row within its partition, counting from 1. | `ROW_NUMBER()` |  |
+| RANK | Returns the rank of the current row, with gaps - i.e., the `row_number` of the first row in its peer group. | `RANK()` |  |
+| DENSE_RANK | Returns the rank of the current row, without gaps. | `DENSE_RANK()` |  |
 
 Note that no window frame clause can be specified for `ROW_NUMBER`, `RANK`, and `DENSE_RANK` window functions since they're applied on the entire partition by definition. Similarly, no window frame clause can be specified for `LAG` and `LEAD` since the row `offset` is an input to those functions themselves.
 
@@ -183,7 +198,16 @@ SELECT customer_id, payment_date, amount, MIN(amount) OVER(PARTITION BY customer
 ```
 {% endcode %}
 
-<table><thead><tr><th>customer_id</th><th width="224">payment_date</th><th width="160">amount</th><th data-type="number">min</th></tr></thead><tbody><tr><td>1</td><td>2023-02-14 23:22:38.996577</td><td>5.99</td><td>0.99</td></tr><tr><td>1</td><td>2023-02-15 16:31:19.996577</td><td>0.99</td><td>0.99</td></tr><tr><td>1</td><td>2023-02-15 19:37:12.996577</td><td>9.99</td><td>0.99</td></tr><tr><td>2</td><td>2023-04-30 04:34:36.996577</td><td>4.99</td><td>4.99</td></tr><tr><td>2</td><td>2023-04-30 12:16:09.996577</td><td>10.99</td><td>4.99</td></tr><tr><td>3</td><td>2023-03-23 05:38:40.996577</td><td>2.99</td><td>2.99</td></tr><tr><td>3</td><td>2023-04-07 08:51:51.996577</td><td>3.99</td><td>2.99</td></tr><tr><td>3</td><td>3 | 2023-04-08 11:15:37.996577</td><td>4.99</td><td>2.99</td></tr></tbody></table>
+| customer_id | payment_date | amount | min |
+| --- | --- | --- | --- |
+| 1 | 2023-02-14 23:22:38.996577 | 5.99 | 0.99 |
+| 1 | 2023-02-15 16:31:19.996577 | 0.99 | 0.99 |
+| 1 | 2023-02-15 19:37:12.996577 | 9.99 | 0.99 |
+| 2 | 2023-04-30 04:34:36.996577 | 4.99 | 4.99 |
+| 2 | 2023-04-30 12:16:09.996577 | 10.99 | 4.99 |
+| 3 | 2023-03-23 05:38:40.996577 | 2.99 | 2.99 |
+| 3 | 2023-04-07 08:51:51.996577 | 3.99 | 2.99 |
+| 3 | 3 \| 2023-04-08 11:15:37.996577 | 4.99 | 2.99 |
 
 ### Find the average transaction amount by customer ID
 
@@ -195,7 +219,16 @@ SELECT customer_id, payment_date, amount, AVG(amount) OVER(PARTITION BY customer
 ```
 {% endcode %}
 
-<table><thead><tr><th>customer_id</th><th>payment_date</th><th width="131">amount</th><th data-type="number">avg</th></tr></thead><tbody><tr><td>1</td><td>2023-02-14 23:22:38.996577</td><td>5.99</td><td>5.66</td></tr><tr><td>1</td><td>2023-02-15 16:31:19.996577</td><td>0.99</td><td>5.66</td></tr><tr><td>1</td><td>2023-02-15 19:37:12.996577</td><td>9.99</td><td>5.66</td></tr><tr><td>2</td><td>2023-04-30 04:34:36.996577</td><td>4.99</td><td>7.99</td></tr><tr><td>2</td><td>2023-04-30 12:16:09.996577</td><td>10.99</td><td>7.99</td></tr><tr><td>3</td><td>2023-03-23 05:38:40.996577</td><td>2.99</td><td>3.99</td></tr><tr><td>3</td><td>2023-04-07 08:51:51.996577</td><td>3.99</td><td>3.99</td></tr><tr><td>3</td><td>2023-04-08 11:15:37.996577</td><td>4.99</td><td>3.99</td></tr></tbody></table>
+| customer_id | payment_date | amount | avg |
+| --- | --- | --- | --- |
+| 1 | 2023-02-14 23:22:38.996577 | 5.99 | 5.66 |
+| 1 | 2023-02-15 16:31:19.996577 | 0.99 | 5.66 |
+| 1 | 2023-02-15 19:37:12.996577 | 9.99 | 5.66 |
+| 2 | 2023-04-30 04:34:36.996577 | 4.99 | 7.99 |
+| 2 | 2023-04-30 12:16:09.996577 | 10.99 | 7.99 |
+| 3 | 2023-03-23 05:38:40.996577 | 2.99 | 3.99 |
+| 3 | 2023-04-07 08:51:51.996577 | 3.99 | 3.99 |
+| 3 | 2023-04-08 11:15:37.996577 | 4.99 | 3.99 |
 
 ### Rank year-to-date sales for a sales team
 
@@ -209,7 +242,12 @@ FROM Sales.vSalesPerson;
 ```
 {% endcode %}
 
-<table><thead><tr><th>Row</th><th width="257">FirstName</th><th width="122">LastName</th><th data-type="number">Total sales YTD</th></tr></thead><tbody><tr><td>1</td><td>Joe</td><td>Smith</td><td>2251368.34</td></tr><tr><td>2</td><td>Alice</td><td>Davis</td><td>2151341.64</td></tr><tr><td>3</td><td>James</td><td>Jones</td><td>1551363.54</td></tr><tr><td>4</td><td>Dane</td><td>Scott</td><td>1251358.72</td></tr></tbody></table>
+| Row | FirstName | LastName | Total sales YTD |
+| --- | --- | --- | --- |
+| 1 | Joe | Smith | 2251368.34 |
+| 2 | Alice | Davis | 2151341.64 |
+| 3 | James | Jones | 1551363.54 |
+| 4 | Dane | Scott | 1251358.72 |
 
 ### Count the number of transactions by customer ID
 

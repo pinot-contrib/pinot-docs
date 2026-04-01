@@ -19,8 +19,8 @@ Compared to JSONEXTRACTSCALAR, this is most useful when extraction is required o
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `jsonField`      | An **Identifier**/**Expression** contains JSON documents.                                                                                                                                                                                         |
 | `'jsonPath'`     | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.                                                                                                                                            |
-| `'resultsType'` | <p>One of the Pinot supported data types:<strong><code>INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,</code></strong></p><p><strong><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></strong><code>.</code></p> |
-| `'filter'` | <p>Pushes down a filter to avoid extracting values that do not match, e.g. <strong><code>"$.arrField[*].f2" > 2</code></strong><code>.</code></p> |
+| `'resultsType'` | One of the Pinot supported data types:**`INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,`** **`INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY`**`.` |
+| `'filter'` | Pushes down a filter to avoid extracting values that do not match, e.g. **`"$.arrField[*].f2" > 2`**`.` |
 
 {% hint style="warning" %}
 **`'jsonPath'`**` and`` `` `**`'resultsType'`are literals.** Pinot uses single quotes to distinguish them from **identifiers**.

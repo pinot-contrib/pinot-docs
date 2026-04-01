@@ -81,28 +81,28 @@ This is a common scenario for development clusters and an intermediate phase dur
 
 | key                                               | value                                                     |
 | ------------------------------------------------- | --------------------------------------------------------- |
-| controller.tls.keystore.path                      | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
-| controller.tls.keystore.password                  | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
-| controller.tls.truststore.path                    | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
-| controller.tls.truststore.password                | <p>mytruststorepassword</p><p>(unset for JVM default)</p> |
+| controller.tls.keystore.path | /path/to/keystore (unset for JVM default) |
+| controller.tls.keystore.password | mykeystorepassword (unset for JVM default) |
+| controller.tls.truststore.path | /path/to/truststore (unset for JVM default) |
+| controller.tls.truststore.password | mytruststorepassword (unset for JVM default) |
 | controller.access.protocols                       | http,https                                                |
 | controller.access.protocols.http.port             | 9000                                                      |
 | controller.access.protocols.https.port            | 9443                                                      |
-| pinot.broker.tls.keystore.path                    | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
-| pinot.broker.tls.keystore.password                | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
-| pinot.broker.tls.keystore.type                    | <p>PKCS12<br>(unset for JVM default)</p>                  |
-| pinot.broker.tls.truststore.path                  | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
-| pinot.broker.tls.truststore.password              | <p>mytruststorepassword</p><p>(unset for JVM default)</p> |
-| pinot.server.tls.truststore.type                  | <p>PKCS12 </p><p>(unset for JVM default)</p>              |
+| pinot.broker.tls.keystore.path | /path/to/keystore (unset for JVM default) |
+| pinot.broker.tls.keystore.password | mykeystorepassword (unset for JVM default) |
+| pinot.broker.tls.keystore.type | PKCS12 (unset for JVM default) |
+| pinot.broker.tls.truststore.path | /path/to/truststore (unset for JVM default) |
+| pinot.broker.tls.truststore.password | mytruststorepassword (unset for JVM default) |
+| pinot.server.tls.truststore.type | PKCS12 (unset for JVM default) |
 | pinot.broker.client.access.protocols              | http,https                                                |
 | pinot.broker.client.access.protocols.http.port    | 8099                                                      |
 | pinot.broker.client.access.protocols.https.port   | 8443                                                      |
-| pinot.server.tls.keystore.path                    | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
-| pinot.server.tls.keystore.password                | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
-| pinot.server.tls.keystore.type                    | <p>PKCS12</p><p>(unset for JVM default)</p>               |
-| pinot.server.tls.truststore.path                  | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
-| pinot.server.tls.truststore.password              | <p>mytruststorepassword</p><p>(unset JVM default)</p>     |
-| pinot.server.tls.truststore.type                  | <p>PKCS12</p><p>(unset for JVM default)</p>               |
+| pinot.server.tls.keystore.path | /path/to/keystore (unset for JVM default) |
+| pinot.server.tls.keystore.password | mykeystorepassword (unset for JVM default) |
+| pinot.server.tls.keystore.type | PKCS12 (unset for JVM default) |
+| pinot.server.tls.truststore.path | /path/to/truststore (unset for JVM default) |
+| pinot.server.tls.truststore.password | mytruststorepassword (unset JVM default) |
+| pinot.server.tls.truststore.type | PKCS12 (unset for JVM default) |
 | pinot.server.netty.enabled                        | true                                                      |
 | pinot.server.netty.port                           | 8098                                                      |
 | pinot.server.nettytls.enabled                     | true                                                      |
@@ -110,10 +110,10 @@ This is a common scenario for development clusters and an intermediate phase dur
 | pinot.server.adminapi.access.protocols            | http,https                                                |
 | pinot.server.adminapi.access.protocols.http.port  | 8097                                                      |
 | pinot.server.adminapi.access.protocols.https.port | 7443                                                      |
-| pinot.minion.tls.keystore.path                    | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
-| pinot.minion.tls.keystore.password                | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
-| pinot.minion.tls.truststore.path                  | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
-| pinot.minion.tls.truststore.password              | <p>mytruststorepassword</p><p>(unset JVM default)</p>     |
+| pinot.minion.tls.keystore.path | /path/to/keystore (unset for JVM default) |
+| pinot.minion.tls.keystore.password | mykeystorepassword (unset for JVM default) |
+| pinot.minion.tls.truststore.path | /path/to/truststore (unset for JVM default) |
+| pinot.minion.tls.truststore.password | mytruststorepassword (unset JVM default) |
 
 #### HTTP/HTTPS multi-ingress (secure egress)
 
@@ -164,11 +164,11 @@ Apache Pinot also supports 2-way TLS for environments with high security require
 | key                                                                                             | value       |
 | ----------------------------------------------------------------------------------------------- | ----------- |
 | controller ...                                                                                  | (see above) |
-| <p>controller.tls.client.auth.enabled</p><p>(applies to client and internode connections)</p>   | true        |
+| controller.tls.client.auth.enabled (applies to client and internode connections) | true |
 | pinot.broker ...                                                                                | (see above) |
-| <p>pinot.broker.tls.client.auth.enabled</p><p>(applies to client and internode connections)</p> | true        |
+| pinot.broker.tls.client.auth.enabled (applies to client and internode connections) | true |
 | pinot.server ...                                                                                | (see above) |
-| <p>pinot.server.tls.client.auth.enabled</p><p>(applies to nettytls and adminapi)</p>            | true        |
+| pinot.server.tls.client.auth.enabled (applies to nettytls and adminapi) | true |
 | pinot.minion ...                                                                                | (see above) |
 | pinot.minion.tls.client.auth.enabled                                                            | true        |
 

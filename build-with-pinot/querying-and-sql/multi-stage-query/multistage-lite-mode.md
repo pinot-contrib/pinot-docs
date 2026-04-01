@@ -8,7 +8,9 @@ description: Introduces the Multistage Engine Lite Mode
 MSE Lite Mode is included in Pinot 1.4 and is currently in Beta.
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/lite-mode-idea (2).png" alt="" width="563"><figcaption></figcaption></figure>
+![](<../../../.gitbook/assets/lite-mode-idea (2).png>)
+
+**
 
 Multistage Engine (MSE) Lite Mode is a new Query Mode that aims to enable safe access to the MSE for all Pinot users. One of the risks with running regular MSE queries is that users can easily write queries that scan a lot of records or run significantly expensive operations. Such queries can impact the reliability of a tenant and create friction in onboarding new use-cases. Lite Mode aims to address this problem.
 
@@ -60,7 +62,9 @@ GROUP BY cityName
 
 The query plan for this query would be as follows. The window function, the filter in the filtered-events table, and the aggregation would be run in the Pinot Broker using a single thread. We assume that the Pinot Broker is configured with the lite mode limit value of 100k records:
 
-<figure><img src="../../../.gitbook/assets/image (24).png" alt="" width="558"><figcaption></figcaption></figure>
+![](<../../../.gitbook/assets/image (24).png>)
+
+**
 
 ```iecst
 PhysicalAggregate(group=[{0}], agg#0=[$SUM0($1)], aggType=[DIRECT])
@@ -94,7 +98,11 @@ SET runInBroker=false;
 
 You can set the following configs in your Pinot Broker.
 
-<table><thead><tr><th width="244.4921875">Configuration Key</th><th width="128.515625">Default</th><th>Description</th></tr></thead><tbody><tr><td>pinot.broker.multistage.lite.mode.leaf.stage.limit</td><td>100000</td><td>The maximum number of records that a given Leaf Stage instance on a server is allowed to return. Recommended value is 100k records or lower.</td></tr><tr><td>pinot.broker.multistage.use.lite.mode</td><td>false</td><td>Default value of the query option <code>useLiteMode</code>.</td></tr><tr><td>pinot.broker.multistage.run.in.broker</td><td>true</td><td>Whether to run the non-leaf stages in the broker by default. This controls the default value of the query option <code>runInBroker</code>.</td></tr></tbody></table>
+| Configuration Key | Default | Description |
+| --- | --- | --- |
+| pinot.broker.multistage.lite.mode.leaf.stage.limit | 100000 | The maximum number of records that a given Leaf Stage instance on a server is allowed to return. Recommended value is 100k records or lower. |
+| pinot.broker.multistage.use.lite.mode | false | Default value of the query option `useLiteMode`. |
+| pinot.broker.multistage.run.in.broker | true | Whether to run the non-leaf stages in the broker by default. This controls the default value of the query option `runInBroker`. |
 
 ### FAQ
 

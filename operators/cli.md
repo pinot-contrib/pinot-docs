@@ -273,7 +273,7 @@ All the options should be prefixed with `-` (hyphen)
 
 | Option         | Description                                                                                                         |
 | -------------- | ------------------------------------------------------------------------------------------------------------------- |
-| operation      | <p>Type of operation to perform.<br>Can be one of <code>GET, ADD, UPDATE or DELETE</code></p>                       |
+| operation | Type of operation to perform. Can be one of `GET, ADD, UPDATE or DELETE` |
 | config         | The config on which operation should be performed. In case of ADD or UPDATE, the config value is provided after `=` |
 | controllerHost | The host on which to send the request                                                                               |
 | controllerPort | The port on which to send the requests                                                                              |

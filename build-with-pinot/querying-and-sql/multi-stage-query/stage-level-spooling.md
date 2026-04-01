@@ -12,42 +12,42 @@ It is not recommended to turn them on by default but instead to enable them on a
 Users are encouraged to report any issues they encounter.
 {% endhint %}
 
-## Overview <a href="#overview" id="overview"></a>
+## Overview [](#overview)
 
 In the multi-stage query engine, it is common for queries to inadvertently read from the same table or execute the same join multiple times. This can happen, for example, when using `WITH` expressions or complex joins. Such redundant operations can lead to significant performance overhead, especially when dealing with large datasets or expensive operations like joins and aggregations.
 
 To address this issue, Apache Pinot now supports **stage-level spooling**, which identifies and eliminates redundant stages in the query execution plan. This optimization ensures that equivalent stages are executed only once, reducing unnecessary computation and improving query performance, particularly on stages involving repeated table scans, joins, or aggregations.
 
-## FAQs <a href="#faqs" id="faqs"></a>
+## FAQs [](#faqs)
 
-### How do I enable/disable this feature for specific queries? <a href="#q1-how-do-i-enabledisabled-this-feature-for-specific-queries" id="q1-how-do-i-enabledisabled-this-feature-for-specific-queries"></a>
+### How do I enable/disable this feature for specific queries? [](#q1-how-do-i-enabledisabled-this-feature-for-specific-queries)
 
 Use `SET useSpools = true;` or `SET useSpools = false;` in your query.
 
-### What happens if two stages are not equivalent? <a href="#q2-what-happens-if-two-stages-are-not-equivalent" id="q2-what-happens-if-two-stages-are-not-equivalent"></a>
+### What happens if two stages are not equivalent? [](#q2-what-happens-if-two-stages-are-not-equivalent)
 
 The query will run as usual, without any optimization.
 
-### How can I verify if stage-level spooling is working for my query? <a href="#q3-how-can-i-verify-if-stage-level-spooling-is-working-for-my-query" id="q3-how-can-i-verify-if-stage-level-spooling-is-working-for-my-query"></a>
+### How can I verify if stage-level spooling is working for my query? [](#q3-how-can-i-verify-if-stage-level-spooling-is-working-for-my-query)
 
 Use the stage stats visualizer or `EXPLAIN IMPLEMENTATION PLAN FOR` to see the query execution plan. Look for the stage ID for each send operator. If stage-level spooling is applied, you should see the same stage ID for equivalent stages.
 
-### Is this feature limited to WITH expressions? <a href="#q4-is-this-feature-limited-to-with-expressions" id="q4-is-this-feature-limited-to-with-expressions"></a>
+### Is this feature limited to WITH expressions? [](#q4-is-this-feature-limited-to-with-expressions)
 
 No, it works for any query with equivalent stages, no matter how they are written.
 
-### If a WITH expression is used twice in a query, will stage-level spooling always be applied? <a href="#q5-if-a-with-expression-is-used-twice-in-a-query-will-stage-level-spooling-always-be-applied" id="q5-if-a-with-expression-is-used-twice-in-a-query-will-stage-level-spooling-always-be-applied"></a>
+### If a WITH expression is used twice in a query, will stage-level spooling always be applied? [](#q5-if-a-with-expression-is-used-twice-in-a-query-will-stage-level-spooling-always-be-applied)
 
 No, the feature is only applied if the stages are equivalent after other optimizations are applied. See the limitations section for more details.
 
-## Configuration <a href="#configuration" id="configuration"></a>
+## Configuration [](#configuration)
 
 Stage-level spooling is **disabled by default** but can be enabled in the following ways:
 
 * **Globally**: Change `pinot.broker.multistage.spools` in the broker configuration file to set whether stage-level spooling is enabled by default for all queries.
 * **Per Query**: Use the `useSpools` option in the query to enable or disable stage-level spooling for that query.
 
-## Example <a href="#example" id="example"></a>
+## Example [](#example)
 
 See the following example to understand how stage-level spooling works:
 
@@ -92,9 +92,9 @@ flowchart BT
     S2 --> J1
 ```
 
-## Limitations <a href="#limitations" id="limitations"></a>
+## Limitations [](#limitations)
 
-### Equivalent stages <a href="#equivalent-stages" id="equivalent-stages"></a>
+### Equivalent stages [](#equivalent-stages)
 
 Stage-level spooling is automatically applied when the query planner detects equivalent stages. Users do not need to modify their queries to benefit from this optimization. However, understanding how it works can help in writing more efficient queries.
 
@@ -151,21 +151,21 @@ The same thing happens with projection pushdown, an optimization that pushes the
 
 Pinot decides to give higher priority to these optimizations than to stage-level spooling for several reasons. The main one is that these optimizations are more common and have a bigger impact on query performance. If you find use cases where you think stage-level spooling should have higher priority, please report them as a GitHub issue.
 
-## Known issues <a href="#known-issues" id="known-issues"></a>
+## Known issues [](#known-issues)
 
 Stage-level spooling is a very extensive feature, and some scenarios are difficult to predict. This is why it is considered still under development and why it is not enabled by default. Users are encouraged to test it before enabling it for all queries and open GitHub issues if they find any issues.
 
 Here is a list of known issues that were detected during the design and early development of this feature.
 
-### Blocks, timeouts and memory <a href="#blocks-timeouts-and-memory" id="blocks-timeouts-and-memory"></a>
+### Blocks, timeouts and memory [](#blocks-timeouts-and-memory)
 
 In some situations, a spooled stage may have parents that take a while to consume the data. During that time, the spooled stage will need to buffer the data, which can lead to memory pressure, timeouts, or other errors.
 
-### Limited support on intermediate stages <a href="#limited-support-on-intermediate-stages" id="limited-support-on-intermediate-stages"></a>
+### Limited support on intermediate stages [](#limited-support-on-intermediate-stages)
 
 Early adopters of stage-level spooling found some issues when multi-stage spooling was enabled in very large queries. Sometimes, the intermediate stages were not spooled, leading to planning time errors.
 
-### Version support <a href="#version-support" id="version-support"></a>
+### Version support [](#version-support)
 
 * This feature is available in Apache Pinot version **1.3.0** and later.
 * The first version that can spool intermediate stages is **1.4.0**.
@@ -173,7 +173,7 @@ Early adopters of stage-level spooling found some issues when multi-stage spooli
   * In 1.3.0, each spool is shown as a different node with the same stage ID, so the visualization is going to have the same shape of the JSON that stores the stats.
   * In **1.4.0,** the visualization spooled stages are shown as a single node with edges to the stages that read from them.
 
-### References <a href="#references" id="references"></a>
+### References [](#references)
 
 * [GitHub Issue #14196](https://github.com/apache/pinot/issues/14196): This is the GitHub issue that tracks the original design and work done to write this feature.
 * [Design Document](https://docs.google.com/document/d/1HQhbpU8x4mcdt0mTEptOiu2cABNwrVUQXTh_nNB2pH8): a bit outdated but useful to understand how the feature works internally.
