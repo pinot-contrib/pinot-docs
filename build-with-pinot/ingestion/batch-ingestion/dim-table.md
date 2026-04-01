@@ -155,7 +155,7 @@ LIMIT 10
 
 ### Multi-stage engine
 
-In the multi-stage query engine (v2), use a standard `JOIN` with the lookup join strategy hint instead of the `LOOKUP` UDF:
+In the multi-stage engine (MSE), use a standard `JOIN` with the lookup join strategy hint instead of the `LOOKUP` UDF:
 
 ```sql
 SELECT /*+ lookupJoinStrategy(dim_billing) */

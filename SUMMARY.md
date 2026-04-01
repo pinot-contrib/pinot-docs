@@ -510,7 +510,7 @@
   * [Debugging Pinot](operate-pinot/troubleshooting/troubleshooting-pinot.md)
     * [General FAQ](operate-pinot/troubleshooting/general-faq.md)
   * [Query FAQ](operate-pinot/troubleshooting/query-faq.md)
-    * [Troubleshoot Multi-Stage Query Engine (v2)](operate-pinot/troubleshooting/troubleshoot-multi-stage-query-engine.md)
+    * [Troubleshoot Multi-Stage Engine (MSE)](operate-pinot/troubleshooting/troubleshoot-multi-stage-query-engine.md)
   * [Ingestion FAQ](operate-pinot/troubleshooting/ingestion-faq.md)
     * [Realtime Ingestion Stopped](operate-pinot/troubleshooting/realtime-ingestion-stopped.md)
   * [Operations FAQ](operate-pinot/troubleshooting/operations-faq.md)

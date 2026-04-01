@@ -48,7 +48,7 @@ Use multi-stage execution when you need features that are not available in singl
 - window functions
 - more complex distributed query shapes
 
-If you are unsure, start with the single-stage engine and switch only when the query requires it.
+As a rule of thumb: use SSE for simple filtering, aggregation, and top-K queries; use MSE when your query shape requires joins, subqueries, window functions, or other advanced relational operators.
 
 ## What this page covered
 
@@ -79,14 +79,14 @@ Pinot provides a SQL interface for querying, which uses the **Calcite SQL** pars
 For a complete reference of all supported SQL statements, clauses, operators, and engine compatibility, see the [SQL Syntax and Operators Reference](../../build-with-pinot/querying-and-sql/sql-reference.md).
 {% endhint %}
 
-## Pinot 1.0
+## Multi-stage engine (MSE)
 
-In Pinot 1.0, the multi-stage query engine supports inner join, left-outer, semi-join, and nested queries out of the box. It's optimized for in-memory process and latency. For more information, see how to [enable and use the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md).
+The multi-stage engine (MSE) supports inner join, left-outer, semi-join, window functions, and nested queries. It is optimized for in-memory, low-latency execution. For more information, see [Query Engines (SSE vs MSE)](../../build-with-pinot/querying-and-sql/sse-vs-mse.md).
 
-Pinot also supports using simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [programmatically access the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md#programmatically-access-the-multi-stage-query-engine). More DDL supports will be added in the future. But for now, the most common way for data definition is using the [Controller Admin API](../../reference/api-reference/controller-admin-api.md).
+Pinot also supports using simple Data Definition Language (DDL) to insert data into a table from file directly. For details, see [programmatically access the multi-stage engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md#programmatically-access-the-multi-stage-query-engine). More DDL support will be added in the future. For now, the most common way for data definition is using the [Controller Admin API](../../reference/api-reference/controller-admin-api.md).
 
 {% hint style="info" %}
-**Note:** For queries that require a large amount of data shuffling, require spill-to-disk, or are hitting any other limitations of the multi-stage query engine (v2), we recommend using **Trino** as a federated query engine.
+**Note:** For queries that require a large amount of data shuffling or spill-to-disk, consider using **Trino** as a federated query engine. See [Workloads better served by SSE or external query engines](../../build-with-pinot/querying-and-sql/sse-vs-mse.md#workloads-better-served-by-sse-or-external-query-engines) for guidance.
 {% endhint %}
 
 ## Identifier vs Literal

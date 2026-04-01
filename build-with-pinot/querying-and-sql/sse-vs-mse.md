@@ -1,10 +1,14 @@
 ---
-description: Understand the differences between the single-stage (v1) and multi-stage (v2) query engines and when to use each.
+description: Understand the differences between the single-stage engine (SSE) and multi-stage engine (MSE) and when to use each.
 ---
 
 # Query Engines (SSE vs MSE)
 
-Pinot ships two query engines. The **single-stage engine (SSE, v1)** uses a scatter-gather model and is the default for simple analytic queries. The **multi-stage engine (MSE, v2)**, released in Pinot 1.0.0, adds distributed joins, window functions, and other multi-stage operators.
+Pinot ships two supported query engines. The **single-stage engine (SSE)** uses a scatter-gather model and is the default for simple analytic queries. The **multi-stage engine (MSE)** supports distributed joins, window functions, subqueries, and other advanced SQL operations.
+
+SSE is the default because it has lower overhead for the most common Pinot workloads; that default does not imply that MSE is experimental. MSE is Pinot's supported engine for queries that require relational operators beyond simple scatter-gather execution.
+
+> **History:** MSE was introduced as the "v2 query engine" in Pinot 1.0.0. You may still see references to "v1" and "v2" in configuration properties such as `useMultistageEngine`.
 
 ## Quick decision
 
@@ -16,13 +20,13 @@ Pinot ships two query engines. The **single-stage engine (SSE, v1)** uses a scat
 | Colocated or partitioned joins | MSE | These are multi-stage patterns |
 | Complex operator trees or advanced SQL | MSE | Built for distributed query planning |
 
-## Single-stage engine (v1)
+## Single-stage engine (SSE)
 
 The single-stage engine uses a scatter-gather execution model. The broker receives a query, fans it out to the relevant servers, each server processes its local segments, and the broker merges the partial results.
 
 ![](<../../.gitbook/assets/Multi-Stage-Pinot-Query-Engine-v1 (2).png>)
 
-*Single-stage query engine (v1)*
+*Single-stage query engine (SSE)*
 
 **Choose SSE when:**
 
@@ -32,7 +36,7 @@ The single-stage engine uses a scatter-gather execution model. The broker receiv
 
 SSE is the default fit for the most common Pinot workloads: filter, project, group, and aggregate.
 
-## Multi-stage engine (v2)
+## Multi-stage engine (MSE)
 
 The multi-stage engine decouples the data exchange layer from the query engine layer. It breaks queries into multiple sub-plans ("stages") that run across different sets of servers.
 
@@ -46,11 +50,11 @@ The multi-stage engine decouples the data exchange layer from the query engine l
 - You need distributed query execution with intermediate stages
 - You are running complex ANSI SQL
 
-**When not to use MSE:**
+**Workloads better served by SSE or external query engines:**
 
-- Large-scale, long-running queries that access entire datasets (MSE is pure in-memory)
-- Complex joins touching many tables with non-trivial join conditions
-- ETL-type workloads
+- Large-scale, long-running queries that scan entire datasets — MSE executes in-memory without spill-to-disk, so very large intermediate result sets can exceed available memory
+- Heavy ETL-style joins across many tables — consider an external engine such as Trino or Spark for batch-oriented workloads
+- Simple scatter-gather queries (filter, aggregate, top-K) — SSE handles these with lower overhead
 
 ### How queries are processed
 

@@ -1,10 +1,10 @@
 ---
-description: Troubleshoot issues with the multi-stage query engine (v2).
+description: Troubleshoot issues with the multi-stage engine (MSE).
 ---
 
-# Troubleshoot issues with the multi-stage query engine (v2)
+# Troubleshoot issues with the multi-stage engine (MSE)
 
-Learn how to [troubleshoot errors](troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) when using the multi-stage query engine (v2), and see [multi-stage query engine limitations](troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine).
+Learn how to [troubleshoot errors](troubleshoot-multi-stage-query-engine.md#troubleshoot-errors) when using the multi-stage engine (MSE), and see [multi-stage engine limitations](troubleshoot-multi-stage-query-engine.md#limitations-of-the-multi-stage-query-engine).
 
 Find instructions on [how to enable the multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md), or see a high-level overview of [how the multi-stage query engine works](../../build-with-pinot/querying-and-sql/sse-vs-mse.md).
 
@@ -258,4 +258,4 @@ Troubleshoot semantic/runtime errors and timeout errors.
 * Try executing part of the subquery or a simplified version of the query first.
   * This helps to determine the selectivity and scale of the query being executed.
 * Try adding more servers.
-  * The new multi-stage engine runs distributed across the entire cluster, so adding more servers to partitioned queries such as GROUP BY aggregates, and equality JOINs help speed up the query runtime.
+  * The multi-stage engine (MSE) runs distributed across the entire cluster, so adding more servers to partitioned queries such as GROUP BY aggregates, and equality JOINs help speed up the query runtime.

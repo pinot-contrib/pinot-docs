@@ -55,4 +55,4 @@ from baseballStats
 | ---------------------------------- |
 | 0401100c000acc933a000000120000e... |
 
-This function can also be used with the V2 query engine.
+This function can also be used with the multi-stage engine (MSE).
