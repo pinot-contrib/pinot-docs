@@ -439,6 +439,15 @@
 * [Vector / Similarity Functions](functions/vector/README.md)
 * [Window Functions](functions/window/README.md)
 
+## Workload Playbooks
+
+* [Overview](playbooks/README.md)
+* [Real-Time Product Analytics](playbooks/real-time-product-analytics.md)
+* [CDC / Upsert Pipeline](playbooks/cdc-upsert-pipeline.md)
+* [Hybrid Real-Time + Offline](playbooks/hybrid-offline-realtime.md)
+* [Multi-Tenant Analytics](playbooks/multi-tenant-analytics.md)
+* [Text Search Analytics](playbooks/text-search-analytics.md)
+
 ## Operate Pinot
 
 * [Deployment](operate-pinot/deployment.md)
