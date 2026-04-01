@@ -888,10 +888,10 @@ kubectl rollout status statefulset/pinot-server -n pinot-quickstart
 
 Upgrade components in this order to minimize disruption:
 
-1. **Minion** -- has no live query traffic.
-2. **Controller** -- manages metadata; upgrading first ensures the newest controller manages segment assignment.
-3. **Broker** -- routes queries; rolling restart briefly shifts traffic to remaining brokers.
-4. **Server** -- serves data; PDB ensures availability during rollout.
+1. **Controller** -- manages metadata; upgrading first ensures the newest controller handles segment assignment during the rollout.
+2. **Broker** -- routes queries; rolling restart briefly shifts traffic to remaining brokers.
+3. **Server** -- serves data; PDB ensures availability during rollout.
+4. **Minion** -- runs background tasks with no live query traffic; upgrading last avoids interference with critical-path components.
 
 {% hint style="warning" %}
 Avoid upgrading all components simultaneously. Use `updateStrategy.type: RollingUpdate` (the default) so pods restart one at a time.

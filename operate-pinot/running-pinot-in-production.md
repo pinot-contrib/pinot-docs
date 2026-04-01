@@ -25,16 +25,9 @@ A production Pinot cluster requires the following infrastructure:
 
 ## Deployment and upgrade order
 
-When deploying or upgrading Pinot components, follow this order to avoid protocol or compatibility issues during the rollout:
+When deploying or upgrading Pinot components, follow this order to avoid protocol or compatibility issues during the rollout: **Controller → Broker → Server → Minion**. When rolling back, reverse the order. Each component connects to ZooKeeper independently, so the ordering is a best-practice precaution rather than a hard dependency.
 
-1. Controller
-2. Broker
-3. Server
-4. Minion
-
-When rolling back, reverse the order (Minion → Server → Broker → Controller). Each component connects to ZooKeeper independently, so the ordering is a best-practice precaution rather than a hard dependency.
-
-For detailed upgrade testing with the cross-version compatibility suite, see [Upgrading Pinot](../operators/operating-pinot/upgrading-pinot-cluster.md).
+For the full upgrade procedure, compatibility testing, and per-release notes, see [Upgrades](upgrades.md).
 ## Capacity planning
 
 ### Servers
