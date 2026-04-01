@@ -43,7 +43,7 @@ A Pinot [_cluster_](../components/cluster/) is a collection of the software proc
 
 ## Physical architecture
 
-![](../../.gitbook/assets/image (2) (1).png)
+![](<../../.gitbook/assets/image (2) (1).png>)
 
 **
 

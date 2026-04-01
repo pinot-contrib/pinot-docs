@@ -20,7 +20,7 @@ Pinot ships two query engines. The **single-stage engine (SSE, v1)** uses a scat
 
 The single-stage engine uses a scatter-gather execution model. The broker receives a query, fans it out to the relevant servers, each server processes its local segments, and the broker merges the partial results.
 
-![](../../.gitbook/assets/Multi-Stage-Pinot-Query-Engine-v1 (2).png)
+![](<../../.gitbook/assets/Multi-Stage-Pinot-Query-Engine-v1 (2).png>)
 
 *Single-stage query engine (v1)*
 
@@ -36,7 +36,7 @@ SSE is the default fit for the most common Pinot workloads: filter, project, gro
 
 The multi-stage engine decouples the data exchange layer from the query engine layer. It breaks queries into multiple sub-plans ("stages") that run across different sets of servers.
 
-![](../../.gitbook/assets/Multi-Stage-Query-Engine-2 (2).png)
+![](<../../.gitbook/assets/Multi-Stage-Query-Engine-2 (2).png>)
 
 *Multi-stage query execution model*
 
@@ -72,7 +72,7 @@ Since Pinot 1.1.0, the multi-stage engine supports null handling when column-bas
 
 In the Pinot Query Console, select the **Use Multi-Stage Engine** checkbox.
 
-![](../../.gitbook/assets/pinot-query-console-multi-stage-enabled (2).png)
+![](<../../.gitbook/assets/pinot-query-console-multi-stage-enabled (2).png>)
 
 *Pinot Query Console with Use Multi Stage Engine enabled*
 

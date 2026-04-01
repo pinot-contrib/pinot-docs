@@ -33,7 +33,7 @@ on fe.userUUID = g.userUUID
 
 Creates the following graph:
 
-![](../../../.gitbook/assets/image (21).png)
+![](<../../../.gitbook/assets/image (21).png>)
 
 **
 

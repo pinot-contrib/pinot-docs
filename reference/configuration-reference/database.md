@@ -21,7 +21,7 @@ To create a table under a database we can use the usual table creation endpoint 
 Its convenient to use the swagger UI as there we have an option to configure the database header at one place and use it across all operations\
 
 
-![](../.gitbook/assets/image (17).png)
+![](<../../.gitbook/assets/image (17).png>)
 
 *Configure database header in Swagger UI*
 
@@ -54,7 +54,7 @@ As you may have noticed 2 users can have separate tables with the same name, say
 
 Pinot exposes few APIs to get database level info
 
-![](../.gitbook/assets/image (18).png)
+![](<../../.gitbook/assets/image (18).png>)
 
 **
 

@@ -642,7 +642,7 @@ Note the field to ingest is `recordArray||name` not `data_for_unnesting||name`&#
 
 ### Data in Pinot
 
-![](../../../.gitbook/assets/image (2).png)
+![](<../../../.gitbook/assets/image (2).png>)
 
 **
 

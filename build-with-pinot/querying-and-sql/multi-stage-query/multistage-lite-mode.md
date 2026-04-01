@@ -8,7 +8,7 @@ description: Introduces the Multistage Engine Lite Mode
 MSE Lite Mode is included in Pinot 1.4 and is currently in Beta.
 {% endhint %}
 
-![](../../../.gitbook/assets/lite-mode-idea (2).png)
+![](<../../../.gitbook/assets/lite-mode-idea (2).png>)
 
 **
 
@@ -62,7 +62,7 @@ GROUP BY cityName
 
 The query plan for this query would be as follows. The window function, the filter in the filtered-events table, and the aggregation would be run in the Pinot Broker using a single thread. We assume that the Pinot Broker is configured with the lite mode limit value of 100k records:
 
-![](../../../.gitbook/assets/image (24).png)
+![](<../../../.gitbook/assets/image (24).png>)
 
 **
 

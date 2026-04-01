@@ -107,6 +107,6 @@ SELECT DaysSinceEpoch,
 FROM tmp;
 ```
 
-![](../.gitbook/assets/image (1) (1) (1) (1) (1).png)
+![](<../../.gitbook/assets/image (1) (1) (1) (1) (1).png>)
 
 *CTE based LAG query*

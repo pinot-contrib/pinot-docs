@@ -53,7 +53,7 @@ Because segment compaction is an expensive operation, we **do not recommend** se
 
 The following example includes a dataset with 24M records and 240K unique keys that have each been duplicated 100 times. After ingesting the data, there are 6 segments (5 completed segments and 1 consuming segment) with a total estimated size of 22.8MB.
 
-![](../../../.gitbook/assets/example-dataset (1).png)
+![](<../../../.gitbook/assets/example-dataset (1).png>)
 
 *Example dataset*
 

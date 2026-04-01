@@ -44,7 +44,7 @@ Here is an example of sales data, where only the daily sales aggregates per prod
 
 You can also find it when running RealtimeQuickStart, there is a table called `dailySales`
 
-![](../../.gitbook/assets/image (5) (1).png)
+![](<../../.gitbook/assets/image (5) (1).png>)
 
 **
 
@@ -133,7 +133,7 @@ From the below aggregation config example, note that `price` exists in the input
 
 ### Example Final Table
 
-![](../../.gitbook/assets/image (4) (1).png)
+![](<../../.gitbook/assets/image (4) (1).png>)
 
 **
 

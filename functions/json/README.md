@@ -6,9 +6,9 @@ CommentShare feedback on the editorThese functions can only be used in Pinot SQL
 
 | Function                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ​[**JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', [defaultValue])**](../../functions/json/jsonextractscalar.md) Evaluates the `'jsonPath'` on `jsonField`, returns the result as the type `'resultsType'`, use optional `defaultValue`for null or parsing error. |
-| ​[**JSONEXTRACTKEY(jsonField, 'jsonPath', ['paramString'])**](../../functions/json/jsonextractkey.md) Extracts all matched JSON field keys based on `'jsonPath'` into a `STRING_ARRAY.` |
-| ​[**JSONEXTRACTINDEX(jsonField, 'jsonPath', index, 'resultsType', [defaultValue])**](../../functions/json/jsonextractindex.md) Extracts the indexed value from an array matched by `'jsonPath'` and returns it as the requested scalar type. |
+| ​[**JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', [defaultValue])**](jsonextractscalar.md) Evaluates the `'jsonPath'` on `jsonField`, returns the result as the type `'resultsType'`, use optional `defaultValue`for null or parsing error. |
+| ​[**JSONEXTRACTKEY(jsonField, 'jsonPath', ['paramString'])**](jsonextractkey.md) Extracts all matched JSON field keys based on `'jsonPath'` into a `STRING_ARRAY.` |
+| ​[**JSONEXTRACTINDEX(jsonField, 'jsonPath', index, 'resultsType', [defaultValue])**](jsonextractindex.md) Extracts the indexed value from an array matched by `'jsonPath'` and returns it as the requested scalar type. |
 | ​[**EXTRACT(dateTimeField FROM dateTimeExpression)**](../../functions/datetime/extract.md) Extracts the field from the DATETIME expression of the format `'YYYY-MM-DD HH:MM:SS'`. Currently, this transformation function supports `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, and `SECOND` fields. |
 
 ## **Scalar Functions** [](#scalar-functions)

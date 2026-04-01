@@ -27,7 +27,7 @@ in a scenario where we have tables A and B partitioned by the same function in e
 
 In this case, Pinot will try to execute the query in the following way:
 
-![](../../../../.gitbook/assets/image (16).png)
+![](<../../../../.gitbook/assets/image (16).png>)
 
 *Dotted arrows mean shuffle while solid arrows mean in-server transfer*
 

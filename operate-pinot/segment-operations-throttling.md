@@ -40,7 +40,7 @@ The above configurations can be updated via adding them as [cluster configuratio
 
 An example of what cluster configurations overridden by setting them in ZooKeeper under `/CONFIGS/CLUSTER/<PinotClusterName>` looks like is shown below:
 
-![](../../.gitbook/assets/Screenshot 2025-04-23 at 15.23.40.png)
+![](<../.gitbook/assets/Screenshot 2025-04-23 at 15.23.40.png>)
 
 *Overridden Cluster Configs in ZooKeeper for Segment Operations Throttle Configs*
 

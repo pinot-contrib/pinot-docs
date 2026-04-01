@@ -4,7 +4,7 @@ In order to execute a join, all the rows of the tables to be joined need to be i
 
 The most simple way to execute the join would be to move all data into a single server, as shown in the diagram below.
 
-![](../../../../.gitbook/assets/image (15).png)
+![](<../../../../.gitbook/assets/image (15).png>)
 
 *Dotted arrows mean shuffle while solid arrows mean in-server transfer*
 

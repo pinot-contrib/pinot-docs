@@ -4,7 +4,7 @@ description: Integrating Apache Pinot with Metabase
 
 # Metabase
 
-![](../.gitbook/assets/pinot-metabase-driver-logo.png)
+![](../../.gitbook/assets/pinot-metabase-driver-logo.png)
 
 **
 
@@ -76,7 +76,7 @@ java --add-opens java.base/java.nio=ALL-UNNAMED -jar metabase.jar
 
 Now everything should come up, you could also find the pinot plugin is loaed from the log:
 
-![](../.gitbook/assets/image (1) (1) (1).png)
+![](<../../.gitbook/assets/image (1) (1) (1).png>)
 
 **
 
@@ -84,29 +84,29 @@ Once Metabase is up, go to [http://localhost:3000](http://localhost:3000/) to ex
 
 After the login, you can click the right side bar to Add Pinot database:
 
-![](../.gitbook/assets/image (6).png)
+![](<../../.gitbook/assets/image (6).png>)
 
 **
 
-![](../.gitbook/assets/image (5).png)
+![](<../../.gitbook/assets/image (5).png>)
 
 **
 
 After the configuration is done, Metabase will generate some explorations automatically.\\
 
-![](../.gitbook/assets/image (3).png)
+![](<../../.gitbook/assets/image (3).png>)
 
 **
 
-![](../.gitbook/assets/image (4).png)
+![](<../../.gitbook/assets/image (4).png>)
 
 **
 
-![](../.gitbook/assets/image (7).png)
+![](<../../.gitbook/assets/image (7).png>)
 
 **
 
-![](../.gitbook/assets/image (8).png)
+![](<../../.gitbook/assets/image (8).png>)
 
 **
 
@@ -150,7 +150,7 @@ volumes:
 
 Run `docker compose up` to start everything:
 
-![](../.gitbook/assets/image (1).png)
+![](<../../.gitbook/assets/image (1).png>)
 
 **
 
@@ -166,6 +166,6 @@ The supported `Auth Token Type`  is `Basic` or `Bearer` .
 
 &#x20;`Auth Token Value` is a string from your admin.
 
-![](../.gitbook/assets/image (1) (1).png)
+![](<../../.gitbook/assets/image (1) (1).png>)
 
 **
