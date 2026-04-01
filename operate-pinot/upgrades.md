@@ -21,10 +21,10 @@ Consult these guides when you are:
 
 Upgrade components in this order to minimize disruption. If you need to roll back, reverse the order.
 
-1. **Minion** -- No live query traffic; safest to upgrade first.
-2. **Controller** -- Manages metadata and segment assignment; upgrading early ensures the newest controller handles segment operations.
-3. **Broker** -- Routes queries; a rolling restart briefly shifts traffic to remaining brokers.
-4. **Server** -- Serves data; PodDisruptionBudgets ensure availability during rollout.
+1. **Pinot Controller** (and Helix Controller, if separate) -- Manages metadata and segment assignment; upgrading first ensures the newest controller handles segment operations during the rollout.
+2. **Broker** -- Routes queries; a rolling restart briefly shifts traffic to remaining brokers.
+3. **Server** -- Serves data; PodDisruptionBudgets ensure availability during rollout.
+4. **Minion** -- Runs background tasks with no live query traffic; upgrading last avoids interference with the critical-path components above.
 
 ### Rolling upgrade mechanics
 
