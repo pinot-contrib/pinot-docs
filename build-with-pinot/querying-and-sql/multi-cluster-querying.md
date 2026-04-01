@@ -320,4 +320,4 @@ This indicates a remote cluster was unavailable. Check:
 - [Query Options](query-execution-controls/query-options.md) - Complete list of query options including `enableMultiClusterRouting`
 - [Multi-Stage Query Engine](multi-stage-query/README.md) - Advanced query execution across clusters
 - [Tables](../../basics/components/table/README.md) - Table types and concepts including logical tables
-- [Broker Configuration](../../configuration-reference/broker.md) - Broker configuration reference
+- [Broker Configuration](../../reference/configuration-reference/broker.md) - Broker configuration reference
