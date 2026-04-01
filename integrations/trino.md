@@ -8,6 +8,7 @@ Start running [Trino Image](https://hub.docker.com/r/trinodb/trino) with pre-bui
 
 {% tabs %}
 {% tab title="Kubernetes" %}
+
 #### 1. Install Pinot
 
 Run below command to install Pinot using HelmCharts.

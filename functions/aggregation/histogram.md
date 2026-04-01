@@ -27,9 +27,18 @@ SELECT HISTOGRAM(numberOfGames, 0, 200, 10) AS histogram
 FROM baseballStats 
 ```
 
-| histogram                                        |
-| ------------------------------------------------ |
-| 32348,21519,11359,7587,5488,5360,6282,7361,585,0 |
+<table>
+  <thead>
+    <tr>
+      <th>histogram</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>32348,21519,11359,7587,5488,5360,6282,7361,585,0</td>
+    </tr>
+  </tbody>
+</table>
 
 1. 6 bins `(- ∞, 1), [1, 10), [10, 50), [50,100), [100,500), [500, 1000]`
 
@@ -38,6 +47,15 @@ select HISTOGRAM(AtBatting, Array['-Infinity', 1, 10, 50, 100, 500, 1000]) AS hi
 from baseballStats
 ```
 
-| histogram                          |
-| ---------------------------------- |
-| 13520,16506,18375,12403,28591,8494 |
+<table>
+  <thead>
+    <tr>
+      <th>histogram</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13520,16506,18375,12403,28591,8494</td>
+    </tr>
+  </tbody>
+</table>

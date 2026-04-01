@@ -10,17 +10,62 @@ The goal is not to enable every possible index. The goal is to keep the table co
 
 ## Decision guide
 
-| Query pattern or workload | Start with | Why |
-| --- | --- | --- |
-| Equality filters such as `WHERE userId = '...'` | [Inverted index](../../basics/indexing/inverted-index.md) | Fast point lookups and selective filtering. |
-| `IN` filters over a small value set | [Inverted index](../../basics/indexing/inverted-index.md) | Efficient membership testing within a segment. |
-| Bounded numeric or time filters | [Range index](../../basics/indexing/range-index.md) | Better than full scans for value intervals. |
-| Prefix, phrase, or token search | [Text search support](../../basics/indexing/text-search-support.md) | Designed for search-style predicates. |
-| Nested JSON predicates | [JSON index](../../basics/indexing/json-index.md) | Pushes JSON field filtering into the index. |
-| Distance or containment queries | [Geospatial support](../../basics/indexing/geospatial-support.md) | Supports spatial workloads over geographic data. |
-| Repeated `GROUP BY` and aggregate queries | [Star-tree index](../../basics/indexing/star-tree-index.md) | Pre-aggregates known query shapes. |
-| Embedding similarity search | [Vector index](../../basics/indexing/vector-index.md) | Supports approximate nearest-neighbor lookups. |
-| Stable sort-key lookups | [Sorted forward index](../../basics/indexing/forward-index.md#sorted-forward-index-with-run-length-encoding) | Useful when the segment sort order matches common filters. |
+<table>
+  <thead>
+    <tr>
+      <th>Query pattern or workload</th>
+      <th>Start with</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Equality filters such as `WHERE userId = '...'`</td>
+      <td>[Inverted index](../../basics/indexing/inverted-index.md)</td>
+      <td>Fast point lookups and selective filtering.</td>
+    </tr>
+    <tr>
+      <td>`IN` filters over a small value set</td>
+      <td>[Inverted index](../../basics/indexing/inverted-index.md)</td>
+      <td>Efficient membership testing within a segment.</td>
+    </tr>
+    <tr>
+      <td>Bounded numeric or time filters</td>
+      <td>[Range index](../../basics/indexing/range-index.md)</td>
+      <td>Better than full scans for value intervals.</td>
+    </tr>
+    <tr>
+      <td>Prefix, phrase, or token search</td>
+      <td>[Text search support](../../basics/indexing/text-search-support.md)</td>
+      <td>Designed for search-style predicates.</td>
+    </tr>
+    <tr>
+      <td>Nested JSON predicates</td>
+      <td>[JSON index](../../basics/indexing/json-index.md)</td>
+      <td>Pushes JSON field filtering into the index.</td>
+    </tr>
+    <tr>
+      <td>Distance or containment queries</td>
+      <td>[Geospatial support](../../basics/indexing/geospatial-support.md)</td>
+      <td>Supports spatial workloads over geographic data.</td>
+    </tr>
+    <tr>
+      <td>Repeated `GROUP BY` and aggregate queries</td>
+      <td>[Star-tree index](../../basics/indexing/star-tree-index.md)</td>
+      <td>Pre-aggregates known query shapes.</td>
+    </tr>
+    <tr>
+      <td>Embedding similarity search</td>
+      <td>[Vector index](../../basics/indexing/vector-index.md)</td>
+      <td>Supports approximate nearest-neighbor lookups.</td>
+    </tr>
+    <tr>
+      <td>Stable sort-key lookups</td>
+      <td>[Sorted forward index](../../basics/indexing/forward-index.md#sorted-forward-index-with-run-length-encoding)</td>
+      <td>Useful when the segment sort order matches common filters.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What to check before you configure an index
 

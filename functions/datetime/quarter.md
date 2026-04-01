@@ -19,24 +19,51 @@ select quarter(1633046399000) AS quarter
 FROM ignoreMe
 ```
 
-| quarter |
-| ------- |
-| 3       |
+<table>
+  <thead>
+    <tr>
+      <th>quarter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select quarter(1633046399000, 'UTC') AS quarter
 FROM ignoreMe
 ```
 
-| quarter |
-| ------- |
-| 3       |
+<table>
+  <thead>
+    <tr>
+      <th>quarter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select quarter(1633046399000, 'CET') AS quarter
 FROM ignoreMe
 ```
 
-| quarter |
-| ------- |
-| 4       |
+<table>
+  <thead>
+    <tr>
+      <th>quarter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>

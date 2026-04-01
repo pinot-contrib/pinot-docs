@@ -23,24 +23,51 @@ select PERCENTILETDIGEST(homeRuns, 50, 1000) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 0     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select PERCENTILETDIGEST(homeRuns, 80) AS value
 from baseballStats 
 ```
 
-| value              |
-| ------------------ |
-| 3.6571905392487856 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3.6571905392487856</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select PERCENTILETDIGEST(homeRuns, 99.9) AS value
 from baseballStats 
 ```
 
-| value             |
-| ----------------- |
-| 46.26787306220119 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>46.26787306220119</td>
+    </tr>
+  </tbody>
+</table>

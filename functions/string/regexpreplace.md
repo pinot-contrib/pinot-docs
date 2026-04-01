@@ -53,9 +53,18 @@ select regexpReplace('foo', 'o', 'x') AS value
 from myTable
 ```
 
-| value |
-| ----- |
-| fxx   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fxx</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 2
 
@@ -66,9 +75,18 @@ select regexpReplace('foo123', '[0-9]+', 'bar') AS value
 from myTable
 ```
 
-| value  |
-| ------ |
-| foobar |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>foobar</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 3
 
@@ -79,9 +97,18 @@ select regexpReplace('foo123', '[^0-9]+', 'bar') AS value
 from myTable
 ```
 
-| value  |
-| ------ |
-| bar123 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bar123</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 4
 
@@ -92,9 +119,18 @@ select regexpReplace('foo', '(.)', '$1 ') AS value
 from myTable
 ```
 
-| value  |
-| ------ |
-| f o o  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>f o o</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 5
 
@@ -105,9 +141,18 @@ select regexpReplace('Pinot is  blazing  fast', '( ){2,}', ' ') AS value
 from myTable
 ```
 
-| value                 |
-| --------------------- |
-| Pinot is blazing fast |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pinot is blazing fast</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 6
 
@@ -118,9 +163,18 @@ select regexpReplace('11234567898','(\\d)(\\d{3})(\\d{3})(\\d{4})', '$1-($2) $3-
 from myTable
 ```
 
-| value            |
-| ---------------- |
-| 1-(123) 456-7898 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1-(123) 456-7898</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 7
 
@@ -131,9 +185,18 @@ select regexpReplace('healthy, wealthy, stealthy and wise','\\w+thy', 'something
 from myTable
 ```
 
-| value                                  |
-| -------------------------------------- |
-| healthy, something, something and wise |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>healthy, something, something and wise</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 8
 
@@ -144,9 +207,18 @@ select regexpReplace('healthy, wealthy, stealthy and wise','\\w+thy', 'something
 from myTable
 ```
 
-| value                                |
-| ------------------------------------ |
-| healthy, wealthy, something and wise |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>healthy, wealthy, something and wise</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 9
 
@@ -157,9 +229,18 @@ select regexpReplace('healthy, wealthy, stealthy and wise','\\w+THY', 'something
 from myTable
 ```
 
-| value                                 |
-| ------------------------------------- |
-| something, wealthy, stealthy and wise |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>something, wealthy, stealthy and wise</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 10
 

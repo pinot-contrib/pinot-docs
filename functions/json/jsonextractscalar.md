@@ -12,11 +12,28 @@ Evaluates the 'jsonPath' on jsonField, returns the result as the type 'resultsTy
 
 > JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', \[defaultValue])
 
-| Arguments       | Description                                                                                                                                                                                                                                       |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `jsonField`     | An **Identifier**/**Expression** contains JSON documents.                                                                                                                                                                                         |
-| `'jsonPath'`    | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.                                                                                                                                            |
-| `'resultsType'` | <p>One of the Pinot supported data types:<strong><code>INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,</code></strong></p><p><strong><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></strong><code>.</code></p> |
+<table>
+  <thead>
+    <tr>
+      <th>Arguments</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`jsonField`</td>
+      <td>An **Identifier**/**Expression** contains JSON documents.</td>
+    </tr>
+    <tr>
+      <td>`'jsonPath'`</td>
+      <td>Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.</td>
+    </tr>
+    <tr>
+      <td>`'resultsType'`</td>
+      <td><p>One of the Pinot supported data types:<strong><code>INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,</code></strong></p><p><strong><code>INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY</code></strong><code>.</code></p></td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="warning" %}
 **`'jsonPath'`**` and`` `` `**`'resultsType'`are literals.** Pinot uses single quotes to distinguish them from **identifiers**.
@@ -32,9 +49,18 @@ from githubEvents
 WHERE id = 7044874109
 ```
 
-| repo                                                                                           |
-| ---------------------------------------------------------------------------------------------- |
-| {"id":115911530,"name":"LimeVista/Tapes","url":"https://api.github.com/repos/LimeVista/Tapes"} |
+<table>
+  <thead>
+    <tr>
+      <th>repo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{"id":115911530,"name":"LimeVista/Tapes","url":"https://api.github.com/repos/LimeVista/Tapes"}</td>
+    </tr>
+  </tbody>
+</table>
 
 The following examples show how to use the `JSONEXTRACTSCALAR` function:
 
@@ -44,9 +70,20 @@ from githubEvents
 WHERE id = 7044874109
 ```
 
-| id         | name            |
-| ---------- | --------------- |
-| 7044874109 | LimeVista/Tapes |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>LimeVista/Tapes</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select id, jsonextractscalar(repo, '$.foo', 'STRING') AS name
@@ -69,9 +106,20 @@ from githubEvents
 WHERE id = 7044874109
 ```
 
-| id         | name       |
-| ---------- | ---------- |
-| 7044874109 | dummyValue |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>dummyValue</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Null Handling
 
@@ -92,8 +140,19 @@ WHERE id = 7044874109
 
 With null handling enabled, the result will be SQL NULL (empty/null in the result set) rather than the string `"null"`:
 
-| id         | missingField |
-| ---------- | ------------ |
-| 7044874109 | (null)       |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>missingField</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>(null)</td>
+    </tr>
+  </tbody>
+</table>
 
 Without null handling or when using a non-null default value, the function behaves as before, returning the specified default value or string `"null"`.

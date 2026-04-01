@@ -31,11 +31,36 @@ pinot-admin.sh AddTable \\
 
 The controller exposes three upload endpoints:
 
-| Endpoint | Use case | Content type | Notes |
-| --- | --- | --- | --- |
-| `POST /v2/segments` | Preferred single-segment upload endpoint | `multipart/form-data` or `application/json` | Recommended for tar push, URI push, and metadata push |
-| `POST /segments` | Legacy single-segment upload endpoint | `multipart/form-data` or `application/json` | Still supported, but prefer `/v2/segments` |
-| `POST /segments/batchUpload` | Batch metadata push | `multipart/form-data` | Only supports metadata push for multiple segments |
+<table>
+  <thead>
+    <tr>
+      <th>Endpoint</th>
+      <th>Use case</th>
+      <th>Content type</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`POST /v2/segments`</td>
+      <td>Preferred single-segment upload endpoint</td>
+      <td>`multipart/form-data` or `application/json`</td>
+      <td>Recommended for tar push, URI push, and metadata push</td>
+    </tr>
+    <tr>
+      <td>`POST /segments`</td>
+      <td>Legacy single-segment upload endpoint</td>
+      <td>`multipart/form-data` or `application/json`</td>
+      <td>Still supported, but prefer `/v2/segments`</td>
+    </tr>
+    <tr>
+      <td>`POST /segments/batchUpload`</td>
+      <td>Batch metadata push</td>
+      <td>`multipart/form-data`</td>
+      <td>Only supports metadata push for multiple segments</td>
+    </tr>
+  </tbody>
+</table>
 
 `/v2/segments` is the endpoint to document and use by default. The legacy `/segments` endpoint is still present for backward compatibility. Its JSON-based URI push path keeps the original `DOWNLOAD_URI` instead of moving the segment into a Pinot-chosen final location, so new integrations should use `/v2/segments`.
 
@@ -45,12 +70,42 @@ The controller exposes three upload endpoints:
 
 All three upload modes use the same query parameters:
 
-| Query parameter | Required | Default | Description |
-| --- | --- | --- | --- |
-| `tableName` | Recommended for single upload, required for batch upload | None | Table name to upload into. Pinot can sometimes derive it from the segment metadata, but you should pass it explicitly. |
-| `tableType` | No | `OFFLINE` | `OFFLINE` or `REALTIME` |
-| `enableParallelPushProtection` | No | `false` | Reject concurrent uploads for the same segment |
-| `allowRefresh` | No | `true` | Allow an existing segment to be refreshed instead of failing the upload |
+<table>
+  <thead>
+    <tr>
+      <th>Query parameter</th>
+      <th>Required</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`tableName`</td>
+      <td>Recommended for single upload, required for batch upload</td>
+      <td>None</td>
+      <td>Table name to upload into. Pinot can sometimes derive it from the segment metadata, but you should pass it explicitly.</td>
+    </tr>
+    <tr>
+      <td>`tableType`</td>
+      <td>No</td>
+      <td>`OFFLINE`</td>
+      <td>`OFFLINE` or `REALTIME`</td>
+    </tr>
+    <tr>
+      <td>`enableParallelPushProtection`</td>
+      <td>No</td>
+      <td>`false`</td>
+      <td>Reject concurrent uploads for the same segment</td>
+    </tr>
+    <tr>
+      <td>`allowRefresh`</td>
+      <td>No</td>
+      <td>`true`</td>
+      <td>Allow an existing segment to be refreshed instead of failing the upload</td>
+    </tr>
+  </tbody>
+</table>
 
 Example:
 
@@ -60,12 +115,42 @@ POST /v2/segments?tableName=myTable&tableType=OFFLINE&enableParallelPushProtecti
 
 ### Headers
 
-| Header | Required | Applies to | Description |
-| --- | --- | --- | --- |
-| `UPLOAD_TYPE` | No for tar push, yes for URI and metadata push | All uploads | `SEGMENT` (default), `URI`, or `METADATA` |
-| `DOWNLOAD_URI` | Yes for URI push and metadata push | URI push, metadata push | Source URI of the segment tar file |
-| `COPY_SEGMENT_TO_DEEP_STORE` | No | Metadata push | If `true`, controller copies the segment from the source URI into Pinot deep store and rewrites the stored download URI |
-| `CRYPTER` | No | All uploads | Crypter class name if the uploaded payload is encrypted |
+<table>
+  <thead>
+    <tr>
+      <th>Header</th>
+      <th>Required</th>
+      <th>Applies to</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`UPLOAD_TYPE`</td>
+      <td>No for tar push, yes for URI and metadata push</td>
+      <td>All uploads</td>
+      <td>`SEGMENT` (default), `URI`, or `METADATA`</td>
+    </tr>
+    <tr>
+      <td>`DOWNLOAD_URI`</td>
+      <td>Yes for URI push and metadata push</td>
+      <td>URI push, metadata push</td>
+      <td>Source URI of the segment tar file</td>
+    </tr>
+    <tr>
+      <td>`COPY_SEGMENT_TO_DEEP_STORE`</td>
+      <td>No</td>
+      <td>Metadata push</td>
+      <td>If `true`, controller copies the segment from the source URI into Pinot deep store and rewrites the stored download URI</td>
+    </tr>
+    <tr>
+      <td>`CRYPTER`</td>
+      <td>No</td>
+      <td>All uploads</td>
+      <td>Crypter class name if the uploaded payload is encrypted</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Push modes
 
@@ -194,12 +279,37 @@ This endpoint is only for metadata push.
 
 If you are pushing from a batch ingestion job, the `jobType` maps to controller upload mode like this:
 
-| Job type | Push mode | Controller endpoint |
-| --- | --- | --- |
-| `SegmentTarPush` or `SegmentCreationAndTarPush` | Tar push | `POST /v2/segments` |
-| `SegmentUriPush` or `SegmentCreationAndUriPush` | URI push | `POST /v2/segments` |
-| `SegmentMetadataPush` or `SegmentCreationAndMetadataPush` | Metadata push | `POST /v2/segments` |
-| `SegmentMetadataPush` with `batchSegmentUpload: true` | Batch metadata push | `POST /segments/batchUpload` |
+<table>
+  <thead>
+    <tr>
+      <th>Job type</th>
+      <th>Push mode</th>
+      <th>Controller endpoint</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`SegmentTarPush` or `SegmentCreationAndTarPush`</td>
+      <td>Tar push</td>
+      <td>`POST /v2/segments`</td>
+    </tr>
+    <tr>
+      <td>`SegmentUriPush` or `SegmentCreationAndUriPush`</td>
+      <td>URI push</td>
+      <td>`POST /v2/segments`</td>
+    </tr>
+    <tr>
+      <td>`SegmentMetadataPush` or `SegmentCreationAndMetadataPush`</td>
+      <td>Metadata push</td>
+      <td>`POST /v2/segments`</td>
+    </tr>
+    <tr>
+      <td>`SegmentMetadataPush` with `batchSegmentUpload: true`</td>
+      <td>Batch metadata push</td>
+      <td>`POST /segments/batchUpload`</td>
+    </tr>
+  </tbody>
+</table>
 
 For ingestion jobs, define the push behavior in the [ingestion job spec](../../configuration-reference/job-specification.md). Example:
 
@@ -231,10 +341,31 @@ pinot-admin.sh LaunchDataIngestionJob \\
 
 ## Choosing the right mode
 
-| Mode | Use it when | Tradeoff |
-| --- | --- | --- |
-| Tar push | The client has the segment tar locally and can upload it directly | Largest payload sent to controller |
-| URI push | The segment tar already exists at a controller-readable URI | Controller still downloads the full segment tar |
-| Metadata push | The segment tar already exists remotely and you want the lightest controller-side registration path | Requires a metadata bundle and a valid `DOWNLOAD_URI` |
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Use it when</th>
+      <th>Tradeoff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tar push</td>
+      <td>The client has the segment tar locally and can upload it directly</td>
+      <td>Largest payload sent to controller</td>
+    </tr>
+    <tr>
+      <td>URI push</td>
+      <td>The segment tar already exists at a controller-readable URI</td>
+      <td>Controller still downloads the full segment tar</td>
+    </tr>
+    <tr>
+      <td>Metadata push</td>
+      <td>The segment tar already exists remotely and you want the lightest controller-side registration path</td>
+      <td>Requires a metadata bundle and a valid `DOWNLOAD_URI`</td>
+    </tr>
+  </tbody>
+</table>
 
 For production clusters with deep store configured, `SegmentCreationAndMetadataPush` is generally the preferred ingestion-job mode.

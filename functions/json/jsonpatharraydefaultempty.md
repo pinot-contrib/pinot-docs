@@ -12,10 +12,24 @@ Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inf
 
 > JSONPATHARRAYDEFAULTEMPTY(jsonField, 'jsonPath')
 
-| Arguments    | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `jsonField`  | An **Identifier**/**Expression** contains JSON documents.                                              |
-| `'jsonPath'` | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents. |
+<table>
+  <thead>
+    <tr>
+      <th>Arguments</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`jsonField`</td>
+      <td>An **Identifier**/**Expression** contains JSON documents.</td>
+    </tr>
+    <tr>
+      <td>`'jsonPath'`</td>
+      <td>Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="warning" %}
 **`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers**.\
@@ -50,12 +64,32 @@ The usage examples are based on extracting fields from the following JSON docume
 }
 ```
 
-| Expression                                                                    | Value                  |
-| ----------------------------------------------------------------------------- | ---------------------- |
-| `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].name')`               | `["maths", "english"]` |
-| `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].score')`              | `[90, 70]`             |
-| `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].homework_grades[1]')` | `[85, 65]`             |
-| `JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].homework_grades[7]')` | `[]`                   |
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].name')`</td>
+      <td>`["maths", "english"]`</td>
+    </tr>
+    <tr>
+      <td>`JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].score')`</td>
+      <td>`[90, 70]`</td>
+    </tr>
+    <tr>
+      <td>`JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].homework_grades[1]')`</td>
+      <td>`[85, 65]`</td>
+    </tr>
+    <tr>
+      <td>`JSONPATHARRAYDEFAULTEMPTY(myJsonRecord, '$.subjects[*].homework_grades[7]')`</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 This function can be used in the [table config](../../configuration-reference/table.md) to extract the `name`, `score`, and second value of `homework_grades` into their respective columns , as described below:
 

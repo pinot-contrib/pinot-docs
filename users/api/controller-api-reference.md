@@ -377,10 +377,30 @@ You can override this behavior by passing the `retention` query parameter to spe
 
 **Query Parameters**
 
-| Parameter  | Type   | Required | Description                                                                                                              |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `type`     | string | No       | Table type (`OFFLINE` or `REALTIME`). If not specified, both types are deleted if they exist.                             |
-| `retention`| string | No       | Retention period for deleted segments (e.g., `0d` for immediate deletion, `1d` for one day). Overrides the cluster default. |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`type`</td>
+      <td>string</td>
+      <td>No</td>
+      <td>Table type (`OFFLINE` or `REALTIME`). If not specified, both types are deleted if they exist.</td>
+    </tr>
+    <tr>
+      <td>`retention`</td>
+      <td>string</td>
+      <td>No</td>
+      <td>Retention period for deleted segments (e.g., `0d` for immediate deletion, `1d` for one day). Overrides the cluster default.</td>
+    </tr>
+  </tbody>
+</table>
 
 **Request (default behavior)**
 
@@ -470,9 +490,22 @@ curl -X POST "http://localhost:9000/tableConfigs/validate" \
 
 **Parameters**
 
-| Parameter                  | Type  | Description                                                                 |
-| -------------------------- | ----- | --------------------------------------------------------------------------- |
-| `validationTypesToSkip`    | query | Comma-separated list of validation types to skip (e.g., `TENANT,MINION_INSTANCES`) |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`validationTypesToSkip`</td>
+      <td>query</td>
+      <td>Comma-separated list of validation types to skip (e.g., `TENANT,MINION_INSTANCES`)</td>
+    </tr>
+  </tbody>
+</table>
 
 The supported validation types that can be skipped are: `TENANT`, `MINION_INSTANCES`, `ACTIVE_TASKS`.
 
@@ -660,15 +693,52 @@ curl -X POST "http://localhost:9000/tables/myTable/resumeConsumption" -H "accept
 
 The following APIs were added or enhanced in Pinot 1.4.0. Refer to Swagger for complete request/response details.
 
-| Endpoint                                          | Method | Description                                                             |
-| ------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
-| `/tables/{tableName}/badSegments`                 | GET    | Returns bad segments grouped by partition ID                            |
-| `/tables/{tableName}/removeIngestionMetrics`       | POST   | Removes stale ingestion metrics for a table                             |
-| `/debug/serverRoutingStats`                       | GET    | Returns server routing stats as JSON (previously returned a string)     |
-| `/tables/{tableName}/idealstate`                  | GET    | Now accepts optional `segmentNames` parameter to filter results         |
-| `/tables/{tableName}/externalview`                | GET    | Now accepts optional `segmentNames` parameter to filter results         |
-| `/tenants/{tenantName}/tables`                    | GET    | Now supports `withTableProperties` parameter for richer tenant info     |
-| `/query_range`                                    | GET/POST | Prometheus-compatible time series query endpoint (Beta)                |
+<table>
+  <thead>
+    <tr>
+      <th>Endpoint</th>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`/tables/{tableName}/badSegments`</td>
+      <td>GET</td>
+      <td>Returns bad segments grouped by partition ID</td>
+    </tr>
+    <tr>
+      <td>`/tables/{tableName}/removeIngestionMetrics`</td>
+      <td>POST</td>
+      <td>Removes stale ingestion metrics for a table</td>
+    </tr>
+    <tr>
+      <td>`/debug/serverRoutingStats`</td>
+      <td>GET</td>
+      <td>Returns server routing stats as JSON (previously returned a string)</td>
+    </tr>
+    <tr>
+      <td>`/tables/{tableName}/idealstate`</td>
+      <td>GET</td>
+      <td>Now accepts optional `segmentNames` parameter to filter results</td>
+    </tr>
+    <tr>
+      <td>`/tables/{tableName}/externalview`</td>
+      <td>GET</td>
+      <td>Now accepts optional `segmentNames` parameter to filter results</td>
+    </tr>
+    <tr>
+      <td>`/tenants/{tenantName}/tables`</td>
+      <td>GET</td>
+      <td>Now supports `withTableProperties` parameter for richer tenant info</td>
+    </tr>
+    <tr>
+      <td>`/query_range`</td>
+      <td>GET/POST</td>
+      <td>Prometheus-compatible time series query endpoint (Beta)</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 For the complete and interactive list of all controller APIs, refer to the Swagger UI at `http://<controller-host>:<port>/help`. For a categorized overview of every endpoint documented on this site, see the main [API Reference](./).

@@ -16,14 +16,54 @@ The Pinot Flink Connector provides a `PinotSinkFunction` that plugs into any Fli
 
 ## When to Use Flink vs. Other Ingestion Methods
 
-| Capability | Flink Connector | Spark Batch Ingestion | Standalone `LaunchDataIngestionJob` |
-| --- | --- | --- | --- |
-| Processing framework | Apache Flink (streaming or batch) | Apache Spark | None (standalone Java process) |
-| Upsert table backfill | Yes -- generates correctly partitioned uploaded-realtime segments | Not natively supported | Not natively supported |
-| Custom transformation logic | Full Flink API (joins, windows, aggregations) | Full Spark API | Limited to ingestion config transforms |
-| Cluster dependency | Requires a Flink cluster or local Flink environment | Requires a Spark cluster | Runs as a single JVM process |
-| Typical data sources | Kafka, data lake files, JDBC, any Flink source | HDFS, S3, GCS, any Spark source | Local/remote files (CSV, JSON, Avro, Parquet, ORC, Thrift) |
-| Best for | Teams already running Flink; upsert backfill scenarios | Teams already running Spark; large-scale batch loads | Simple one-off or scheduled loads without a processing framework |
+<table>
+  <thead>
+    <tr>
+      <th>Capability</th>
+      <th>Flink Connector</th>
+      <th>Spark Batch Ingestion</th>
+      <th>Standalone `LaunchDataIngestionJob`</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Processing framework</td>
+      <td>Apache Flink (streaming or batch)</td>
+      <td>Apache Spark</td>
+      <td>None (standalone Java process)</td>
+    </tr>
+    <tr>
+      <td>Upsert table backfill</td>
+      <td>Yes -- generates correctly partitioned uploaded-realtime segments</td>
+      <td>Not natively supported</td>
+      <td>Not natively supported</td>
+    </tr>
+    <tr>
+      <td>Custom transformation logic</td>
+      <td>Full Flink API (joins, windows, aggregations)</td>
+      <td>Full Spark API</td>
+      <td>Limited to ingestion config transforms</td>
+    </tr>
+    <tr>
+      <td>Cluster dependency</td>
+      <td>Requires a Flink cluster or local Flink environment</td>
+      <td>Requires a Spark cluster</td>
+      <td>Runs as a single JVM process</td>
+    </tr>
+    <tr>
+      <td>Typical data sources</td>
+      <td>Kafka, data lake files, JDBC, any Flink source</td>
+      <td>HDFS, S3, GCS, any Spark source</td>
+      <td>Local/remote files (CSV, JSON, Avro, Parquet, ORC, Thrift)</td>
+    </tr>
+    <tr>
+      <td>Best for</td>
+      <td>Teams already running Flink; upsert backfill scenarios</td>
+      <td>Teams already running Spark; large-scale batch loads</td>
+      <td>Simple one-off or scheduled loads without a processing framework</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Maven Dependency
 

@@ -34,13 +34,36 @@ You can configured separate tenants for the table by setting this config in your
 
 In this example, the table uses servers tagged with `base_OFFLINE`. We have created two tenants of Pinot servers, tagged with `ssd_OFFLINE` and `hdd_OFFLINE`. Segments older than 7 days will move from `base_OFFLINE` to `ssd_OFFLINE`, and segments older than 15 days will move to `hdd_OFFLINE`.
 
-|                     |                                                                                                                                                                                        |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name                | Name of the server group. Every group in the list must have a unique name                                                                                                              |
-| segmentSelectorType | The strategy used for selecting segments. The only supported strategy as of now is `time`, which will pick segments based on segment age.                                              |
-| segmentAge          | This property is required when `segmentSelectorType` is `time`. Set a period string, eg. 15d, 24h, 60m. Segments which are older than the age will be moved to the the specific tenant |
-| storageType         | The type of storage. The only supported type is `pinot_server`                                                                                                                         |
-| serverTag           | This property is required when `storageType` is `pinot_server`. Set the tag of the Pinot servers you want to use for this selection criteria.                                          |
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td>Name of the server group. Every group in the list must have a unique name</td>
+    </tr>
+    <tr>
+      <td>segmentSelectorType</td>
+      <td>The strategy used for selecting segments. The only supported strategy as of now is `time`, which will pick segments based on segment age.</td>
+    </tr>
+    <tr>
+      <td>segmentAge</td>
+      <td>This property is required when `segmentSelectorType` is `time`. Set a period string, eg. 15d, 24h, 60m. Segments which are older than the age will be moved to the the specific tenant</td>
+    </tr>
+    <tr>
+      <td>storageType</td>
+      <td>The type of storage. The only supported type is `pinot_server`</td>
+    </tr>
+    <tr>
+      <td>serverTag</td>
+      <td>This property is required when `storageType` is `pinot_server`. Set the tag of the Pinot servers you want to use for this selection criteria.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Selecting All Segments with a Wildcard
 

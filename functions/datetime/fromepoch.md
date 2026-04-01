@@ -22,33 +22,69 @@ select FromEpochSeconds(1613472303) AS epochMillis
 FROM ignoreMe
 ```
 
-| epochMillis   |
-| ------------- |
-| 1613472303000 |
+<table>
+  <thead>
+    <tr>
+      <th>epochMillis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613472303000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select FromEpochMinutes(26891205) AS epochMillis
 FROM ignoreMe
 ```
 
-| epochMillis   |
-| ------------- |
-| 1613472300000 |
+<table>
+  <thead>
+    <tr>
+      <th>epochMillis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613472300000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select FromEpochHours(448186) AS epochMillis
 FROM ignoreMe
 ```
 
-| epochMillis   |
-| ------------- |
-| 1613469600000 |
+<table>
+  <thead>
+    <tr>
+      <th>epochMillis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613469600000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select FromEpochDays(18674) AS epochMillis
 FROM ignoreMe
 ```
 
-| epochMillis   |
-| ------------- |
-| 1613433600000 |
+<table>
+  <thead>
+    <tr>
+      <th>epochMillis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613433600000</td>
+    </tr>
+  </tbody>
+</table>

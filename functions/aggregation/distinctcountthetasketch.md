@@ -30,18 +30,36 @@ select distinctCountThetaSketch(teamID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 149   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>149</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select distinctCountThetaSketch(teamID, 'nominalEntries=10') AS value
 from baseballStats
 ```
 
-| value |
-| ----- |
-| 146   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>146</td>
+    </tr>
+  </tbody>
+</table>
 
 We can also provide predicates and a post aggregation expression to compute more complicated cardinalities. For example, we could can find the intersection of the following queries:
 
@@ -51,10 +69,21 @@ from baseballStats
 where teamID = 'SFN' AND numberOfGames = 28 AND homeRuns = 1
 ```
 
-| yearID |
-| ------ |
-| 1986   |
-| 1985   |
+<table>
+  <thead>
+    <tr>
+      <th>yearID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1986</td>
+    </tr>
+    <tr>
+      <td>1985</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select yearID
@@ -62,15 +91,36 @@ from baseballStats
 where teamID = 'CHN' AND numberOfGames = 28 AND homeRuns = 1
 ```
 
-| yearID |
-| ------ |
-| 1937   |
-| 2003   |
-| 1979   |
-| 1900   |
-| 1986   |
-| 1978   |
-| 2012   |
+<table>
+  <thead>
+    <tr>
+      <th>yearID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1937</td>
+    </tr>
+    <tr>
+      <td>2003</td>
+    </tr>
+    <tr>
+      <td>1979</td>
+    </tr>
+    <tr>
+      <td>1900</td>
+    </tr>
+    <tr>
+      <td>1986</td>
+    </tr>
+    <tr>
+      <td>1978</td>
+    </tr>
+    <tr>
+      <td>2012</td>
+    </tr>
+  </tbody>
+</table>
 
 (the yearId `1986` is the only one in common)
 
@@ -87,6 +137,15 @@ select distinctCountThetaSketch(
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 1     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>

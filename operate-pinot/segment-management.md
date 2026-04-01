@@ -12,74 +12,217 @@ Segments are the fundamental storage and query unit in Apache Pinot. Every table
 
 Decide how segments land on servers and how servers are selected for a table.
 
-| Page | What it covers |
-|---|---|
-| [Segment Assignment](../operators/operating-pinot/segment-assignment.md) | Balanced, replica-group, and partitioned replica-group assignment strategies |
-| [Instance Assignment](../operators/operating-pinot/instance-assignment.md) | Tag-based isolation, replica-group instance partitioning, pool-based assignment, and mirroring across tables |
+<table>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th>What it covers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Segment Assignment](../operators/operating-pinot/segment-assignment.md)</td>
+      <td>Balanced, replica-group, and partitioned replica-group assignment strategies</td>
+    </tr>
+    <tr>
+      <td>[Instance Assignment](../operators/operating-pinot/instance-assignment.md)</td>
+      <td>Tag-based isolation, replica-group instance partitioning, pool-based assignment, and mirroring across tables</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Segment lifecycle and repair
 
 Understand the operations available when segments need to be reset, reloaded, refreshed, or repaired.
 
-| Page | What it covers |
-|---|---|
-| [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) | Decision guide for choosing between reset, reload, refresh, rebalance, force commit, purge, and rollback |
-| [Reload a Table Segment](../tutorials/operations/segment-reload.md) | Step-by-step instructions for reloading segments via the Controller API or Admin Console |
+<table>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th>What it covers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md)</td>
+      <td>Decision guide for choosing between reset, reload, refresh, rebalance, force commit, purge, and rollback</td>
+    </tr>
+    <tr>
+      <td>[Reload a Table Segment](../tutorials/operations/segment-reload.md)</td>
+      <td>Step-by-step instructions for reloading segments via the Controller API or Admin Console</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Rebalance
 
 Redistribute segments after capacity changes, config updates, or tenant modifications.
 
-| Page | What it covers |
-|---|---|
-| [Rebalance overview](../operators/operating-pinot/rebalance/) | When and why to rebalance -- servers, brokers, and tenants |
-| [Rebalance Servers](../operators/operating-pinot/rebalance/rebalance-servers/) | Server rebalance API, parameters, and operational guidance |
-| [Rebalance Servers -- Examples and Scenarios](../operators/operating-pinot/rebalance/rebalance-servers/examples-and-scenarios.md) | Worked examples for common rebalance situations |
-| [Rebalance Brokers](../operators/operating-pinot/rebalance/rebalance-brokers.md) | Broker rebalance after adding or removing broker instances |
-| [Rebalance Tenant](../operators/operating-pinot/rebalance/rebalance-tenant.md) | Rebalance all tables belonging to a tenant after tagging changes |
+<table>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th>What it covers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Rebalance overview](../operators/operating-pinot/rebalance/)</td>
+      <td>When and why to rebalance -- servers, brokers, and tenants</td>
+    </tr>
+    <tr>
+      <td>[Rebalance Servers](../operators/operating-pinot/rebalance/rebalance-servers/)</td>
+      <td>Server rebalance API, parameters, and operational guidance</td>
+    </tr>
+    <tr>
+      <td>[Rebalance Servers -- Examples and Scenarios](../operators/operating-pinot/rebalance/rebalance-servers/examples-and-scenarios.md)</td>
+      <td>Worked examples for common rebalance situations</td>
+    </tr>
+    <tr>
+      <td>[Rebalance Brokers](../operators/operating-pinot/rebalance/rebalance-brokers.md)</td>
+      <td>Broker rebalance after adding or removing broker instances</td>
+    </tr>
+    <tr>
+      <td>[Rebalance Tenant](../operators/operating-pinot/rebalance/rebalance-tenant.md)</td>
+      <td>Rebalance all tables belonging to a tenant after tagging changes</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Tiered storage
 
 Move older or less-queried data to cheaper storage tiers while keeping recent data on fast disks.
 
-| Page | What it covers |
-|---|---|
-| [Separating Data Storage by Age](../operators/operating-pinot/separating-data-storage-by-age/) | Overview of tiered storage strategies |
-| [Moving Segments Across Tenants](../operators/operating-pinot/separating-data-storage-by-age/moving-segments-across-tenants.md) | Use tag overrides to move completed segments to a different server tier |
-| [Using Multiple Directories](../operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories.md) | Configure multiple data directories on a single server to span storage devices |
+<table>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th>What it covers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Separating Data Storage by Age](../operators/operating-pinot/separating-data-storage-by-age/)</td>
+      <td>Overview of tiered storage strategies</td>
+    </tr>
+    <tr>
+      <td>[Moving Segments Across Tenants](../operators/operating-pinot/separating-data-storage-by-age/moving-segments-across-tenants.md)</td>
+      <td>Use tag overrides to move completed segments to a different server tier</td>
+    </tr>
+    <tr>
+      <td>[Using Multiple Directories](../operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories.md)</td>
+      <td>Configure multiple data directories on a single server to span storage devices</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Minion tasks for segment maintenance
 
 Automate compaction, merging, purging, and ingestion using Pinot Minion.
 
-| Page | What it covers |
-|---|---|
-| [Pinot Managed Offline Flows](../operators/operating-pinot/pinot-managed-offline-flows.md) | Automatically move data from real-time tables to offline tables (RealtimeToOfflineSegmentsTask) |
-| [Merge Rollup Task](../operators/operating-pinot/minion-merge-rollup-task.md) | Merge small segments into larger time-aligned segments with optional rollup aggregation |
-| [Segment Generation and Push Task](../operators/operating-pinot/segment-generation-and-push-task.md) | Batch ingestion via Minion -- read files, build segments, push to the cluster |
-| [Refresh Segment Task](../operators/operating-pinot/refresh-segment-task.md) | Automatically rebuild segments when the table config or schema changes |
-| [Purge Task](../operators/operating-pinot/purge-task.md) | Remove or modify records for compliance or data-quality reasons |
-| [Upsert Compaction Task](../operators/operating-pinot/upsert-compaction-task.md) | Reclaim space by removing invalidated records from upsert-enabled tables |
-| [Upsert Compact Merge Task](../operators/operating-pinot/upsert-compact-merge-task.md) | Merge small segments while compacting -- reduces segment count in upsert tables |
-| [Upsert Merge Compact Task](../operators/operating-pinot/upsert-merge-compact-task.md) | Alternative merge-compact task for upsert tables |
+<table>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th>What it covers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Pinot Managed Offline Flows](../operators/operating-pinot/pinot-managed-offline-flows.md)</td>
+      <td>Automatically move data from real-time tables to offline tables (RealtimeToOfflineSegmentsTask)</td>
+    </tr>
+    <tr>
+      <td>[Merge Rollup Task](../operators/operating-pinot/minion-merge-rollup-task.md)</td>
+      <td>Merge small segments into larger time-aligned segments with optional rollup aggregation</td>
+    </tr>
+    <tr>
+      <td>[Segment Generation and Push Task](../operators/operating-pinot/segment-generation-and-push-task.md)</td>
+      <td>Batch ingestion via Minion -- read files, build segments, push to the cluster</td>
+    </tr>
+    <tr>
+      <td>[Refresh Segment Task](../operators/operating-pinot/refresh-segment-task.md)</td>
+      <td>Automatically rebuild segments when the table config or schema changes</td>
+    </tr>
+    <tr>
+      <td>[Purge Task](../operators/operating-pinot/purge-task.md)</td>
+      <td>Remove or modify records for compliance or data-quality reasons</td>
+    </tr>
+    <tr>
+      <td>[Upsert Compaction Task](../operators/operating-pinot/upsert-compaction-task.md)</td>
+      <td>Reclaim space by removing invalidated records from upsert-enabled tables</td>
+    </tr>
+    <tr>
+      <td>[Upsert Compact Merge Task](../operators/operating-pinot/upsert-compact-merge-task.md)</td>
+      <td>Merge small segments while compacting -- reduces segment count in upsert tables</td>
+    </tr>
+    <tr>
+      <td>[Upsert Merge Compact Task](../operators/operating-pinot/upsert-merge-compact-task.md)</td>
+      <td>Alternative merge-compact task for upsert tables</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Consistent push and rollback
 
 Guarantee atomicity when replacing offline segments and quickly revert a bad data push.
 
-| Page | What it covers |
-|---|---|
-| [Consistent Push and Rollback](../operators/operating-pinot/consistent-push-and-rollback.md) | Segment lineage protocol for atomic push and one-click rollback of offline table refreshes |
+<table>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th>What it covers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Consistent Push and Rollback](../operators/operating-pinot/consistent-push-and-rollback.md)</td>
+      <td>Segment lineage protocol for atomic push and one-click rollback of offline table refreshes</td>
+    </tr>
+  </tbody>
+</table>
 
 ## When to use what
 
-| Goal | Recommended action |
-|---|---|
-| Newly added servers have no segments | Run a [rebalance](../operators/operating-pinot/rebalance/rebalance-servers/) |
-| Segment stuck in ERROR state | [Reset](../operators/operating-pinot/segment-lifecycle-and-repair.md) the segment, then reload if data is corrupt |
-| Schema or index config changed | [Reload](../tutorials/operations/segment-reload.md) all segments, or schedule a [RefreshSegmentTask](../operators/operating-pinot/refresh-segment-task.md) for full rebuild |
-| Too many small segments | Schedule a [MergeRollupTask](../operators/operating-pinot/minion-merge-rollup-task.md) or [UpsertCompactMergeTask](../operators/operating-pinot/upsert-compact-merge-task.md) |
-| Stale records in upsert table wasting space | Schedule an [UpsertCompactionTask](../operators/operating-pinot/upsert-compaction-task.md) |
-| Need to delete specific records (GDPR) | Schedule a [PurgeTask](../operators/operating-pinot/purge-task.md) |
-| Bad offline push needs rollback | Use [Consistent Push and Rollback](../operators/operating-pinot/consistent-push-and-rollback.md) |
-| Recent data needs fast disks, old data can be on HDDs | Configure [tiered storage](../operators/operating-pinot/separating-data-storage-by-age/) |
+<table>
+  <thead>
+    <tr>
+      <th>Goal</th>
+      <th>Recommended action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Newly added servers have no segments</td>
+      <td>Run a [rebalance](../operators/operating-pinot/rebalance/rebalance-servers/)</td>
+    </tr>
+    <tr>
+      <td>Segment stuck in ERROR state</td>
+      <td>[Reset](../operators/operating-pinot/segment-lifecycle-and-repair.md) the segment, then reload if data is corrupt</td>
+    </tr>
+    <tr>
+      <td>Schema or index config changed</td>
+      <td>[Reload](../tutorials/operations/segment-reload.md) all segments, or schedule a [RefreshSegmentTask](../operators/operating-pinot/refresh-segment-task.md) for full rebuild</td>
+    </tr>
+    <tr>
+      <td>Too many small segments</td>
+      <td>Schedule a [MergeRollupTask](../operators/operating-pinot/minion-merge-rollup-task.md) or [UpsertCompactMergeTask](../operators/operating-pinot/upsert-compact-merge-task.md)</td>
+    </tr>
+    <tr>
+      <td>Stale records in upsert table wasting space</td>
+      <td>Schedule an [UpsertCompactionTask](../operators/operating-pinot/upsert-compaction-task.md)</td>
+    </tr>
+    <tr>
+      <td>Need to delete specific records (GDPR)</td>
+      <td>Schedule a [PurgeTask](../operators/operating-pinot/purge-task.md)</td>
+    </tr>
+    <tr>
+      <td>Bad offline push needs rollback</td>
+      <td>Use [Consistent Push and Rollback](../operators/operating-pinot/consistent-push-and-rollback.md)</td>
+    </tr>
+    <tr>
+      <td>Recent data needs fast disks, old data can be on HDDs</td>
+      <td>Configure [tiered storage](../operators/operating-pinot/separating-data-storage-by-age/)</td>
+    </tr>
+  </tbody>
+</table>

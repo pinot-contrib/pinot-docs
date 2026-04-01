@@ -179,14 +179,47 @@ Replica group segment assignment is achieved in real-time, if number of servers 
 \
 For example, consider we have 6 partitions, 2 replicas, and 4 servers.
 
-|    | r1 | r2 |
-| -- | -- | -- |
-| p1 | S0 | S1 |
-| p2 | S2 | S3 |
-| p3 | S0 | S1 |
-| p4 | S2 | S3 |
-| p5 | S0 | S1 |
-| p6 | S2 | S3 |
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>r1</th>
+      <th>r2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>p1</td>
+      <td>S0</td>
+      <td>S1</td>
+    </tr>
+    <tr>
+      <td>p2</td>
+      <td>S2</td>
+      <td>S3</td>
+    </tr>
+    <tr>
+      <td>p3</td>
+      <td>S0</td>
+      <td>S1</td>
+    </tr>
+    <tr>
+      <td>p4</td>
+      <td>S2</td>
+      <td>S3</td>
+    </tr>
+    <tr>
+      <td>p5</td>
+      <td>S0</td>
+      <td>S1</td>
+    </tr>
+    <tr>
+      <td>p6</td>
+      <td>S2</td>
+      <td>S3</td>
+    </tr>
+  </tbody>
+</table>
 
 As you can see, the set (S0, S2) contains r1 of every partition, and (s1, S3) contains r2 of every partition. The query will only be routed to one of the sets, and not span every server.\
 If you are are adding/removing servers from an existing table setup, you have to run [rebalance](./#how-to-run-a-rebalance-on-a-table) for segment assignment changes to take effect.

@@ -17,15 +17,33 @@ select FLOOR(12.1) AS value
 from ignoreMe
 ```
 
-| value |
-| ----- |
-| 12    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select FLOOR(-12.1) AS value
 from ignoreMe
 ```
 
-| value |
-| ----- |
-| -13   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-13</td>
+    </tr>
+  </tbody>
+</table>

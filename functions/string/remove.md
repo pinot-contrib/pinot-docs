@@ -17,6 +17,15 @@ select remove('foo bar foo sheep', 'foo') AS value
 from ignoreMe
 ```
 
-| value     |
-| --------- |
-| bar sheep |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bar sheep</td>
+    </tr>
+  </tbody>
+</table>

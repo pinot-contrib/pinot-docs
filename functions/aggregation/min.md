@@ -19,6 +19,15 @@ select min(yearID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 1871  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1871</td>
+    </tr>
+  </tbody>
+</table>

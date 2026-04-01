@@ -17,9 +17,18 @@ select now() AS now
 FROM ignoreMe
 ```
 
-| now           |
-| ------------- |
-| 1639150454255 |
+<table>
+  <thead>
+    <tr>
+      <th>now</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1639150454255</td>
+    </tr>
+  </tbody>
+</table>
 
 This function is typically used in predicate to filter on timestamp for recent data. e.g. filter data on recent 1 day(86400 seconds)
 

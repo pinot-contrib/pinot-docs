@@ -35,13 +35,42 @@ order by inPolygon DESC
 limit 5
 ```
 
-| group\_city   | locationString       | inPolygon |
-| ------------- | -------------------- | --------- |
-| New York      | POINT (-73.99 40.75) | 1         |
-| New York      | POINT (-73.99 40.75) | 1         |
-| Staten Island | POINT (-74.15 40.61) | 1         |
-| New York      | POINT (-73.99 40.75) | 1         |
-| New York      | POINT (-73.99 40.75) | 1         |
+<table>
+  <thead>
+    <tr>
+      <th>group\_city</th>
+      <th>locationString</th>
+      <th>inPolygon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>New York</td>
+      <td>POINT (-73.99 40.75)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>POINT (-73.99 40.75)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Staten Island</td>
+      <td>POINT (-74.15 40.61)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>POINT (-73.99 40.75)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>POINT (-73.99 40.75)</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select count(*)
@@ -57,9 +86,18 @@ WHERE ST_Contains(
 	     ) = 1
 ```
 
-| count(\*) |
-| --------- |
-| 8         |
+<table>
+  <thead>
+    <tr>
+      <th>count(\*)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 Query should avoid transforming indexed geometry/geography column in WHERE clause to allow it to use the index. Transforming location to geometry within ST\_Contains function in example above disables index. Instead, it's better to transform the literal to match column type:
@@ -104,6 +142,5 @@ Project(columns=[[event_id]])
 ```
 
 where InclusionFilterH3Index means that query uses H3 index lookup.
-
 
 

@@ -24,42 +24,87 @@ select FromEpochSecondsBucket(1613472303, 1) AS bucket
 FROM ignoreMe
 ```
 
-| bucket        |
-| ------------- |
-| 1613472303000 |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613472303000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select FromEpochSecondsBucket(1613472303, 2) AS bucket
 FROM ignoreMe
 ```
 
-| bucket        |
-| ------------- |
-| 3226944606000 |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3226944606000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select FromEpochMinutesBucket(2689120, 10) AS bucket
 FROM ignoreMe
 ```
 
-| bucket        |
-| ------------- |
-| 1613472000000 |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613472000000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select FromEpochHoursBucket(89637, 5) AS bucket
 FROM ignoreMe
 ```
 
-| bucket        |
-| ------------- |
-| 1613466000000 |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613466000000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select FromEpochDaysBucket(1867, 10) AS bucket
 FROM ignoreMe
 ```
 
-| bucket        |
-| ------------- |
-| 1613088000000 |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613088000000</td>
+    </tr>
+  </tbody>
+</table>

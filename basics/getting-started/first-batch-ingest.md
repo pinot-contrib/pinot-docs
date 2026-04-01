@@ -127,12 +127,57 @@ SELECT * FROM transcript
 
 3. You should see **4 rows** returned, matching the CSV data you loaded:
 
-| studentID | firstName | lastName | gender | subject | score | timestampInEpoch |
-| --- | --- | --- | --- | --- | --- | --- |
-| 200 | Lucy | Smith | Female | Maths | 3.8 | 1570863600000 |
-| 200 | Lucy | Smith | Female | English | 3.5 | 1571036400000 |
-| 201 | Bob | King | Male | Maths | 3.2 | 1571900400000 |
-| 202 | Nick | Young | Male | Physics | 3.6 | 1572418800000 |
+<table>
+  <thead>
+    <tr>
+      <th>studentID</th>
+      <th>firstName</th>
+      <th>lastName</th>
+      <th>gender</th>
+      <th>subject</th>
+      <th>score</th>
+      <th>timestampInEpoch</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>200</td>
+      <td>Lucy</td>
+      <td>Smith</td>
+      <td>Female</td>
+      <td>Maths</td>
+      <td>3.8</td>
+      <td>1570863600000</td>
+    </tr>
+    <tr>
+      <td>200</td>
+      <td>Lucy</td>
+      <td>Smith</td>
+      <td>Female</td>
+      <td>English</td>
+      <td>3.5</td>
+      <td>1571036400000</td>
+    </tr>
+    <tr>
+      <td>201</td>
+      <td>Bob</td>
+      <td>King</td>
+      <td>Male</td>
+      <td>Maths</td>
+      <td>3.2</td>
+      <td>1571900400000</td>
+    </tr>
+    <tr>
+      <td>202</td>
+      <td>Nick</td>
+      <td>Young</td>
+      <td>Male</td>
+      <td>Physics</td>
+      <td>3.6</td>
+      <td>1572418800000</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Next step
 

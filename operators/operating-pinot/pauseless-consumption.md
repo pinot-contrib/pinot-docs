@@ -90,11 +90,28 @@ You must set `peerSegmentDownloadScheme` (for example, `"http"` or `"https"`) in
 
 Pauseless consumption supports the same segment flush thresholds as standard real-time ingestion:
 
-| Configuration | Description |
-|---|---|
-| `realtime.segment.flush.threshold.rows` | Number of rows after which the segment is committed. |
-| `realtime.segment.flush.threshold.time` | Time duration after which the segment is committed (for example, `1h`, `30m`). |
-| `realtime.segment.flush.threshold.segment.size` | Target segment size. When set, Pinot automatically tunes the row threshold based on previous segment sizes. |
+<table>
+  <thead>
+    <tr>
+      <th>Configuration</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`realtime.segment.flush.threshold.rows`</td>
+      <td>Number of rows after which the segment is committed.</td>
+    </tr>
+    <tr>
+      <td>`realtime.segment.flush.threshold.time`</td>
+      <td>Time duration after which the segment is committed (for example, `1h`, `30m`).</td>
+    </tr>
+    <tr>
+      <td>`realtime.segment.flush.threshold.segment.size`</td>
+      <td>Target segment size. When set, Pinot automatically tunes the row threshold based on previous segment sizes.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Size-based threshold
 
@@ -133,10 +150,24 @@ For tables with dedup or upsert enabled, reingestion may conflict with data cons
 }
 ```
 
-| Mode | Behavior |
-|---|---|
-| `DEFAULT` | Skips the disaster recovery (reingestion) job for dedup and upsert tables, prioritizing data consistency over availability. Failed segments must be resolved manually. |
-| `ALWAYS` | Always runs the disaster recovery job, even for dedup and upsert tables. This prioritizes availability over strict dedup/upsert metadata correctness. Use this when fast recovery from data loss is more important than temporary dedup inconsistency. |
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`DEFAULT`</td>
+      <td>Skips the disaster recovery (reingestion) job for dedup and upsert tables, prioritizing data consistency over availability. Failed segments must be resolved manually.</td>
+    </tr>
+    <tr>
+      <td>`ALWAYS`</td>
+      <td>Always runs the disaster recovery job, even for dedup and upsert tables. This prioritizes availability over strict dedup/upsert metadata correctness. Use this when fast recovery from data loss is more important than temporary dedup inconsistency.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 When using `ALWAYS` mode with dedup tables, dedup metadata may be temporarily inconsistent until a full metadata rebuild is performed after recovery.
@@ -148,13 +179,42 @@ When using `ALWAYS` mode with dedup tables, dedup metadata may be temporarily in
 
 The following metrics have been added for monitoring pauseless consumption:
 
-| Metric | Type | Description |
-|---|---|---|
-| `pauselessConsumptionEnabled` | Gauge (Server, Controller) | Indicates whether pauseless consumption is enabled. Useful for verifying the feature is active. |
-| `segmentBuildFailures` | Counter | Tracks segment build failures during the commit process. In standard ingestion, build failures halt consumption and are immediately visible. In pauseless mode, ingestion continues even after a build failure, so this metric is essential for detecting issues. |
-| `reingestionFailures` | Counter | Tracks failures during the reingestion (disaster recovery) process. Applicable only to pauseless tables. |
-| `segmentsInErrorState` | Gauge | Number of segments currently in ERROR state. Helps identify segments that need recovery. |
-| `segmentsMissingDownloadUrl` | Gauge | Number of segments without a download URL in ZK metadata. Indicates `COMMIT_END_METADATA` failures where the segment was built but the metadata was not finalized. |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pauselessConsumptionEnabled`</td>
+      <td>Gauge (Server, Controller)</td>
+      <td>Indicates whether pauseless consumption is enabled. Useful for verifying the feature is active.</td>
+    </tr>
+    <tr>
+      <td>`segmentBuildFailures`</td>
+      <td>Counter</td>
+      <td>Tracks segment build failures during the commit process. In standard ingestion, build failures halt consumption and are immediately visible. In pauseless mode, ingestion continues even after a build failure, so this metric is essential for detecting issues.</td>
+    </tr>
+    <tr>
+      <td>`reingestionFailures`</td>
+      <td>Counter</td>
+      <td>Tracks failures during the reingestion (disaster recovery) process. Applicable only to pauseless tables.</td>
+    </tr>
+    <tr>
+      <td>`segmentsInErrorState`</td>
+      <td>Gauge</td>
+      <td>Number of segments currently in ERROR state. Helps identify segments that need recovery.</td>
+    </tr>
+    <tr>
+      <td>`segmentsMissingDownloadUrl`</td>
+      <td>Gauge</td>
+      <td>Number of segments without a download URL in ZK metadata. Indicates `COMMIT_END_METADATA` failures where the segment was built but the metadata was not finalized.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Key things to monitor
 

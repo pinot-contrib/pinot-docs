@@ -4,39 +4,115 @@
 
 CommentShare feedback on the editorThese functions can only be used in Pinot SQL queries.CommentShare feedback on the editor
 
-| Function                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <p>​<a href="../../functions/json/jsonextractscalar.md"><strong>JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', [defaultValue])</strong></a> </p><p>Evaluates the <code>'jsonPath'</code> on <code>jsonField</code>, returns the result as the type <code>'resultsType'</code>, use optional <code>defaultValue</code>for null or parsing error.</p>                                                     |
-| <p>​<a href="../../functions/json/jsonextractkey.md"><strong>JSONEXTRACTKEY(jsonField, 'jsonPath', ['paramString'])</strong></a> </p><p>Extracts all matched JSON field keys based on <code>'jsonPath'</code> into a <code>STRING_ARRAY.</code></p>                                                                                       |
-| <p>​<a href="../../functions/json/jsonextractindex.md"><strong>JSONEXTRACTINDEX(jsonField, 'jsonPath', index, 'resultsType', [defaultValue])</strong></a> </p><p>Extracts the indexed value from an array matched by <code>'jsonPath'</code> and returns it as the requested scalar type.</p> |
-| <p>​<a href="../../functions/datetime/extract.md"><strong>EXTRACT(dateTimeField FROM dateTimeExpression)</strong></a> </p><p>Extracts the field from the DATETIME expression of the format <code>'YYYY-MM-DD HH:MM:SS'</code>. Currently, this transformation function supports <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>HOUR</code>, <code>MINUTE</code>, and <code>SECOND</code> fields.</p> |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p>​<a href="../../functions/json/jsonextractscalar.md"><strong>JSONEXTRACTSCALAR(jsonField, 'jsonPath', 'resultsType', [defaultValue])</strong></a> </p><p>Evaluates the <code>'jsonPath'</code> on <code>jsonField</code>, returns the result as the type <code>'resultsType'</code>, use optional <code>defaultValue</code>for null or parsing error.</p></td>
+    </tr>
+    <tr>
+      <td><p>​<a href="../../functions/json/jsonextractkey.md"><strong>JSONEXTRACTKEY(jsonField, 'jsonPath', ['paramString'])</strong></a> </p><p>Extracts all matched JSON field keys based on <code>'jsonPath'</code> into a <code>STRING_ARRAY.</code></p></td>
+    </tr>
+    <tr>
+      <td><p>​<a href="../../functions/json/jsonextractindex.md"><strong>JSONEXTRACTINDEX(jsonField, 'jsonPath', index, 'resultsType', [defaultValue])</strong></a> </p><p>Extracts the indexed value from an array matched by <code>'jsonPath'</code> and returns it as the requested scalar type.</p></td>
+    </tr>
+    <tr>
+      <td><p>​<a href="../../functions/datetime/extract.md"><strong>EXTRACT(dateTimeField FROM dateTimeExpression)</strong></a> </p><p>Extracts the field from the DATETIME expression of the format <code>'YYYY-MM-DD HH:MM:SS'</code>. Currently, this transformation function supports <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>HOUR</code>, <code>MINUTE</code>, and <code>SECOND</code> fields.</p></td>
+    </tr>
+  </tbody>
+</table>
 
 ## **Scalar Functions** <a href="#scalar-functions" id="scalar-functions"></a>
 
 CommentShare feedback on the editorThese functions can be used for column transformation in table ingestion configs.CommentShare feedback on the editor
 
-| Function                                                                                                 | Usage                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ​[**TOJSONMAPSTR**(map) ](../../functions/json/tojsonmapstr.md)​                                            | Convert map to JSON String                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ​[**JSONFORMAT**(object)](../../functions/json/jsonformat.md)                                               | Convert object to JSON String                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ​[**JSONPATH(jsonField, 'jsonPath')**](../../functions/json/jsonpath.md)                                    | Extracts the object value from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. **Cannot be used in query because data type is not specified.**                                                                                                                                                                                                                                              |
-| ​[**JSONPATHLONG**(jsonField, 'jsonPath', \[defaultValue\])](../../functions/json/jsonpathlong.md)          | Extracts the **Long** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.                                                                                                                                                                                                                                                                                                       |
-| ​[**JSONPATHDOUBLE**(jsonField, 'jsonPath', \[defaultValue\])](../../functions/json/jsonpathdouble.md)      | Extracts the **Double** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.                                                                                                                                                                                                                                                                                                     |
-| ​[**JSONPATHSTRING(jsonField, 'jsonPath', \[defaultValue\])**](../../functions/json/jsonpathstring.md)      | Extracts the **String** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.                                                                                                                                                                                                                                                                                                     |
-| ​[**JSONPATHARRAY**(jsonField, 'jsonPath')](../../functions/json/jsonpatharray.md)                          | Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. **Cannot be used in query because data type is not specified.**                                                                                                                                                                                                                                                      |
-| ​[**JSONPATHARRAYDEFAULTEMPTY**(jsonField, 'jsonPath')](../../functions/json/jsonpatharraydefaultempty.md)  | Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. Returns empty array for null or parsing error. **Cannot be used in query because data type is not specified.**                                                                                                                                                                                                       |
-| ​[**JSONPATHEXISTS**(jsonField, 'jsonPath')](../../functions/json/jsonpathexists.md)                    | Check if path exists in JSON object                                                                                                                                                                                                                                                                                                                                                                                             |
-| **c**(keyValueArray, \[keyColumnName], \[valueColumnName])                                               | <p>Extract an array of key-value maps to a map. Default <code>keyColumnName</code> is <code>key</code> and default <code>valueColumnName</code> is <code>value</code> . E.g. <strong>JsonKeyValueArrayToMap(input, 'key', 'value'):</strong><br>Input: <code>[{"key": "k1", "value": "v1"}, {"key": "k2", "value": "v2"}, {"key": "k3", "value": "v3"}]</code><br>Output: <code>{"k1": "v1", "k2": "v2", "k3": "v3"}</code></p> |
-| **JsonStringToArray**(jsonString)                                                                        | Convert a JSON String to Java List                                                                                                                                                                                                                                                                                                                                                                                              |
-| **JsonStringToMap**(jsonString)                                                                          | Convert a JSON String to Java Map                                                                                                                                                                                                                                                                                                                                                                                               |
-| **JsonStringToListOrMap**(jsonString)                                                                    | Convert a JSON String to either Java List or Map                                                                                                                                                                                                                                                                                                                                                                                |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>​[**TOJSONMAPSTR**(map) ](../../functions/json/tojsonmapstr.md)​</td>
+      <td>Convert map to JSON String</td>
+    </tr>
+    <tr>
+      <td>​[**JSONFORMAT**(object)](../../functions/json/jsonformat.md)</td>
+      <td>Convert object to JSON String</td>
+    </tr>
+    <tr>
+      <td>​[**JSONPATH(jsonField, 'jsonPath')**](../../functions/json/jsonpath.md)</td>
+      <td>Extracts the object value from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. **Cannot be used in query because data type is not specified.**</td>
+    </tr>
+    <tr>
+      <td>​[**JSONPATHLONG**(jsonField, 'jsonPath', \[defaultValue\])](../../functions/json/jsonpathlong.md)</td>
+      <td>Extracts the **Long** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.</td>
+    </tr>
+    <tr>
+      <td>​[**JSONPATHDOUBLE**(jsonField, 'jsonPath', \[defaultValue\])](../../functions/json/jsonpathdouble.md)</td>
+      <td>Extracts the **Double** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.</td>
+    </tr>
+    <tr>
+      <td>​[**JSONPATHSTRING(jsonField, 'jsonPath', \[defaultValue\])**](../../functions/json/jsonpathstring.md)</td>
+      <td>Extracts the **String** value from `jsonField` based on `'jsonPath'`, use optional `defaultValue`for null or parsing error.</td>
+    </tr>
+    <tr>
+      <td>​[**JSONPATHARRAY**(jsonField, 'jsonPath')](../../functions/json/jsonpatharray.md)</td>
+      <td>Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. **Cannot be used in query because data type is not specified.**</td>
+    </tr>
+    <tr>
+      <td>​[**JSONPATHARRAYDEFAULTEMPTY**(jsonField, 'jsonPath')](../../functions/json/jsonpatharraydefaultempty.md)</td>
+      <td>Extracts an array from `jsonField` based on `'jsonPath'`, the result type is inferred based on JSON value. Returns empty array for null or parsing error. **Cannot be used in query because data type is not specified.**</td>
+    </tr>
+    <tr>
+      <td>​[**JSONPATHEXISTS**(jsonField, 'jsonPath')](../../functions/json/jsonpathexists.md)</td>
+      <td>Check if path exists in JSON object</td>
+    </tr>
+    <tr>
+      <td>**c**(keyValueArray, \[keyColumnName], \[valueColumnName])</td>
+      <td><p>Extract an array of key-value maps to a map. Default <code>keyColumnName</code> is <code>key</code> and default <code>valueColumnName</code> is <code>value</code> . E.g. <strong>JsonKeyValueArrayToMap(input, 'key', 'value'):</strong><br>Input: <code>[{"key": "k1", "value": "v1"}, {"key": "k2", "value": "v2"}, {"key": "k3", "value": "v3"}]</code><br>Output: <code>{"k1": "v1", "k2": "v2", "k3": "v3"}</code></p></td>
+    </tr>
+    <tr>
+      <td>**JsonStringToArray**(jsonString)</td>
+      <td>Convert a JSON String to Java List</td>
+    </tr>
+    <tr>
+      <td>**JsonStringToMap**(jsonString)</td>
+      <td>Convert a JSON String to Java Map</td>
+    </tr>
+    <tr>
+      <td>**JsonStringToListOrMap**(jsonString)</td>
+      <td>Convert a JSON String to either Java List or Map</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Additional Reference Pages
 
-| Function | Function |
-| --- | --- |
-| [JSONPATHLONG](jsonpathlong.md) | [JSONPATHDOUBLE](jsonpathdouble.md) |
-| [JSONPATHSTRING](jsonpathstring.md) |  |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[JSONPATHLONG](jsonpathlong.md)</td>
+      <td>[JSONPATHDOUBLE](jsonpathdouble.md)</td>
+    </tr>
+    <tr>
+      <td>[JSONPATHSTRING](jsonpathstring.md)</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 ## More Examples
 
@@ -64,15 +140,44 @@ SELECT id, jsoncolumn
   FROM myTable
 ```
 
-| id    | jsoncolumn                                                                                                   |
-| ----- | ------------------------------------------------------------------------------------------------------------ |
-| "101" | "{"name":{"first":"daffy","last":"duck"},"score":101,"data":\["a","b","c","d"]}"                             |
-| 102"  | "{"name":{"first":"donald","last":"duck"},"score":102,"data":\["a","b","e","f"]}                             |
-| "103" | "{"name":{"first":"mickey","last":"mouse"},"score":103,"data":\["a","b","g","h"]}                            |
-| "104" | "{"name":{"first":"minnie","last":"mouse"},"score":104,"data":\["a","b","i","j"]}"                           |
-| "105" | "{"name":{"first":"goofy","last":"dwag"},"score":104,"data":\["a","b","i","j"]}"                             |
-| "106" | "{"person":{"name":"daffy duck","companies":\[{"name":"n1","title":"t1"},{"name":"n2","title":"t2"}]\}}"     |
-| "107" | "{"person":{"name":"scrooge mcduck","companies":\[{"name":"n1","title":"t1"},{"name":"n2","title":"t2"}]\}}" |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>jsoncolumn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"101"</td>
+      <td>"{"name":{"first":"daffy","last":"duck"},"score":101,"data":\["a","b","c","d"]}"</td>
+    </tr>
+    <tr>
+      <td>102"</td>
+      <td>"{"name":{"first":"donald","last":"duck"},"score":102,"data":\["a","b","e","f"]}</td>
+    </tr>
+    <tr>
+      <td>"103"</td>
+      <td>"{"name":{"first":"mickey","last":"mouse"},"score":103,"data":\["a","b","g","h"]}</td>
+    </tr>
+    <tr>
+      <td>"104"</td>
+      <td>"{"name":{"first":"minnie","last":"mouse"},"score":104,"data":\["a","b","i","j"]}"</td>
+    </tr>
+    <tr>
+      <td>"105"</td>
+      <td>"{"name":{"first":"goofy","last":"dwag"},"score":104,"data":\["a","b","i","j"]}"</td>
+    </tr>
+    <tr>
+      <td>"106"</td>
+      <td>"{"person":{"name":"daffy duck","companies":\[{"name":"n1","title":"t1"},{"name":"n2","title":"t2"}]\}}"</td>
+    </tr>
+    <tr>
+      <td>"107"</td>
+      <td>"{"person":{"name":"scrooge mcduck","companies":\[{"name":"n1","title":"t1"},{"name":"n2","title":"t2"}]\}}"</td>
+    </tr>
+  </tbody>
+</table>
 
 To drill down and pull out specific keys within the JSON column, we simply append the JsonPath expression of those keys to the end of the column name.
 
@@ -84,15 +189,60 @@ SELECT id,
   FROM myTable
 ```
 
-| id  | last\_name | first\_name | value |
-| --- | ---------- | ----------- | ----- |
-| 101 | duck       | daffy       | b     |
-| 102 | duck       | donald      | b     |
-| 103 | mouse      | mickey      | b     |
-| 104 | mouse      | minnie      | b     |
-| 105 | dwag       | goofy       | b     |
-| 106 | null       | null        | null  |
-| 107 | null       | null        | null  |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>last\_name</th>
+      <th>first\_name</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>duck</td>
+      <td>daffy</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>duck</td>
+      <td>donald</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>mouse</td>
+      <td>mickey</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>104</td>
+      <td>mouse</td>
+      <td>minnie</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>105</td>
+      <td>dwag</td>
+      <td>goofy</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>106</td>
+      <td>null</td>
+      <td>null</td>
+      <td>null</td>
+    </tr>
+    <tr>
+      <td>107</td>
+      <td>null</td>
+      <td>null</td>
+      <td>null</td>
+    </tr>
+  </tbody>
+</table>
 
 Note that the third column (value) is null for rows with id 106 and 107. This is because these rows have JSON documents that don't have a key with JsonPath $.data\[1]. We can filter out these rows.
 
@@ -105,13 +255,48 @@ SELECT id,
  WHERE JSON_MATCH(jsoncolumn, '"$.data[1]" IS NOT NULL')
 ```
 
-| id  | last\_name | first\_name | value |
-| --- | ---------- | ----------- | ----- |
-| 101 | duck       | daffy       | b     |
-| 102 | duck       | donald      | b     |
-| 103 | mouse      | mickey      | b     |
-| 104 | mouse      | minnie      | b     |
-| 105 | dwag       | goofy       | b     |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>last\_name</th>
+      <th>first\_name</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>duck</td>
+      <td>daffy</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>duck</td>
+      <td>donald</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>mouse</td>
+      <td>mickey</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>104</td>
+      <td>mouse</td>
+      <td>minnie</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td>105</td>
+      <td>dwag</td>
+      <td>goofy</td>
+      <td>b</td>
+    </tr>
+  </tbody>
+</table>
 
 Certain last names (duck and mouse for example) repeat in the data above. We can get a count of each last name by running a GROUP BY query on a JsonPath expression.
 
@@ -124,11 +309,28 @@ GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
 ORDER BY 2 DESC
 ```
 
-| jsoncolumn.name.last | count(\*) |
-| -------------------- | --------- |
-| "mouse"              | "2"       |
-| "duck"               | "2"       |
-| "dwag"               | "1"       |
+<table>
+  <thead>
+    <tr>
+      <th>jsoncolumn.name.last</th>
+      <th>count(\*)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"mouse"</td>
+      <td>"2"</td>
+    </tr>
+    <tr>
+      <td>"duck"</td>
+      <td>"2"</td>
+    </tr>
+    <tr>
+      <td>"dwag"</td>
+      <td>"1"</td>
+    </tr>
+  </tbody>
+</table>
 
 Also there is numerical information (jsconcolumn.$.id) embeded within the JSON document. We can extract those numerical values from JSON data into SQL and sum them up using the query below.
 
@@ -140,11 +342,28 @@ Also there is numerical information (jsconcolumn.$.id) embeded within the JSON d
 GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
 ```
 
-| jsoncolumn.name.last | sum(jsoncolumn.score) |
-| -------------------- | --------------------- |
-| "mouse"              | "207"                 |
-| "dwag"               | "104"                 |
-| "duck"               | "203"                 |
+<table>
+  <thead>
+    <tr>
+      <th>jsoncolumn.name.last</th>
+      <th>sum(jsoncolumn.score)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"mouse"</td>
+      <td>"207"</td>
+    </tr>
+    <tr>
+      <td>"dwag"</td>
+      <td>"104"</td>
+    </tr>
+    <tr>
+      <td>"duck"</td>
+      <td>"203"</td>
+    </tr>
+  </tbody>
+</table>
 
 ### JSON\_MATCH and JSON\_EXTRACT\_SCALAR
 
@@ -160,9 +379,20 @@ Note that the `JSON_MATCH` function utilizes `JsonIndex` and can only be used if
 GROUP BY json_extract_scalar(jsoncolumn, '$.name.last', 'STRING', 'null')
 ```
 
-| last\_name | total |
-| ---------- | ----- |
-| "duck"     | "102" |
+<table>
+  <thead>
+    <tr>
+      <th>last\_name</th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"duck"</td>
+      <td>"102"</td>
+    </tr>
+  </tbody>
+</table>
 
 While, JSON\_MATCH supports `IS NULL` and `IS NOT NULL` operators, these operators should only be applied to leaf-level path elements, i.e the predicate `JSON_MATCH(jsoncolumn, '"$.data[*]" IS NOT NULL')` is not valid since `"$.data[*]"` does not address a "leaf" element of the path; however, `"$.data[0]" IS NOT NULL')` is valid since `"$.data[0]"` unambigously identifies a leaf element of the path.
 

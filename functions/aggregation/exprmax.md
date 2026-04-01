@@ -12,10 +12,24 @@ Projects one or more columns from the row where a measuring column has its maxim
 
 Parameters:
 
-| Parameter | Description |
-| --------- | ----------- |
-| `measureCol` | The column whose maximum value determines which row to project from |
-| `exprCol1, exprCol2, ...` | One or more columns to project from the row with the maximum measure |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`measureCol`</td>
+      <td>The column whose maximum value determines which row to project from</td>
+    </tr>
+    <tr>
+      <td>`exprCol1, exprCol2, ...`</td>
+      <td>One or more columns to project from the row with the maximum measure</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Examples
 
@@ -26,6 +40,15 @@ select EXPRMAX(hits, playerName, yearID) AS value
 from baseballStats
 ```
 
-| value                  |
-| ---------------------- |
-| [Ichiro Suzuki, 2004]  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Ichiro Suzuki, 2004]</td>
+    </tr>
+  </tbody>
+</table>

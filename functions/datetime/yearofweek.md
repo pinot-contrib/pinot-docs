@@ -23,33 +23,69 @@ select yearOfWeek(1609731386000) AS year
 FROM ignoreMe
 ```
 
-| year |
-| ---- |
-| 2021 |
+<table>
+  <thead>
+    <tr>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2021</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select yearOfWeek(1609731386000, 'America/Toronto') AS year
 FROM ignoreMe
 ```
 
-| year |
-| ---- |
-| 2020 |
+<table>
+  <thead>
+    <tr>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2020</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select yow(1609731386000) AS year
 FROM ignoreMe
 ```
 
-| year |
-| ---- |
-| 2021 |
+<table>
+  <thead>
+    <tr>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2021</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select yow(1609731386000, 'America/Toronto') AS year
 FROM ignoreMe
 ```
 
-| year |
-| ---- |
-| 2020 |
+<table>
+  <thead>
+    <tr>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2020</td>
+    </tr>
+  </tbody>
+</table>

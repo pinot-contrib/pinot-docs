@@ -25,6 +25,15 @@ select SEGMENTPARTITIONEDDISTINCTCOUNT(teamID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 149   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>149</td>
+    </tr>
+  </tbody>
+</table>

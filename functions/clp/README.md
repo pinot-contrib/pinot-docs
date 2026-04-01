@@ -6,8 +6,19 @@ description: >-
 
 # CLP Functions
 
-| Function | Description |
-| -------- | ----------- |
-| [CLPDECODE](clpdecode.md) | Reconstruct (decode) the value of a CLP-encoded field from its component columns |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[CLPDECODE](clpdecode.md)</td>
+      <td>Reconstruct (decode) the value of a CLP-encoded field from its component columns</td>
+    </tr>
+  </tbody>
+</table>
 
 For details on CLP encoding and ingestion, see [CLP](../../manage-data/data-import/pinot-stream-ingestion/clp.md).

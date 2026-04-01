@@ -194,17 +194,62 @@ bin/pinot-admin.sh StartController -configFileName config/pinot-controller.conf
 
 Below are some configurations you can set in Pinot Controller. You can head over to [Controller](../../configuration-reference/controller.md#primary-configuration) for complete list of available configs.
 
-| Config Name                       | Description                                                    | Default Value                                                      |
-| --------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------ |
-| controller.helix.cluster.name     | Pinot Cluster name                                             | PinotCluster                                                       |
-| controller.host                   | Pinot Controller Host                                          | Required if config **pinot.set.instance.id.to.hostname** is false. |
-| pinot.set.instance.id.to.hostname | When enabled, use server hostname to infer **controller.host** | false                                                              |
-| controller.port                   | Pinot Controller Port                                          | 9000                                                               |
-| controller.vip.host               | The VIP hostname used to set the download URL for segments     | ${controller.host}                                                 |
-| controller.vip.port               | The VIP port used to set the download URL for segments         | ${controller.port}                                                 |
-| controller.data.dir               | Directory to host segment data                                 | ${java.io.tmpdir}/PinotController                                  |
-| controller.zk.str                 | Zookeeper URL                                                  | localhost:2181                                                     |
-| cluster.tenant.isolation.enable   | Enable Tenant Isolation, default is single tenant cluster      | true                                                               |
+<table>
+  <thead>
+    <tr>
+      <th>Config Name</th>
+      <th>Description</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller.helix.cluster.name</td>
+      <td>Pinot Cluster name</td>
+      <td>PinotCluster</td>
+    </tr>
+    <tr>
+      <td>controller.host</td>
+      <td>Pinot Controller Host</td>
+      <td>Required if config **pinot.set.instance.id.to.hostname** is false.</td>
+    </tr>
+    <tr>
+      <td>pinot.set.instance.id.to.hostname</td>
+      <td>When enabled, use server hostname to infer **controller.host**</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>controller.port</td>
+      <td>Pinot Controller Port</td>
+      <td>9000</td>
+    </tr>
+    <tr>
+      <td>controller.vip.host</td>
+      <td>The VIP hostname used to set the download URL for segments</td>
+      <td>${controller.host}</td>
+    </tr>
+    <tr>
+      <td>controller.vip.port</td>
+      <td>The VIP port used to set the download URL for segments</td>
+      <td>${controller.port}</td>
+    </tr>
+    <tr>
+      <td>controller.data.dir</td>
+      <td>Directory to host segment data</td>
+      <td>${java.io.tmpdir}/PinotController</td>
+    </tr>
+    <tr>
+      <td>controller.zk.str</td>
+      <td>Zookeeper URL</td>
+      <td>localhost:2181</td>
+    </tr>
+    <tr>
+      <td>cluster.tenant.isolation.enable</td>
+      <td>Enable Tenant Isolation, default is single tenant cluster</td>
+      <td>true</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Pinot Broker
 
@@ -226,15 +271,52 @@ bin/pinot-admin.sh StartBroker -clusterName pinot-quickstart -zkAddress pinot-zo
 
 Below are some configurations you can set in Pinot Broker. You can head over to [Broker](../../configuration-reference/broker.md) for complete list of available configs.
 
-| Config Name                              | Description                                                                                                                                                                                                                                   | Default Value                                             |
-| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| instanceId                               | Unique id to register Pinot Broker in the cluster.                                                                                                                                                                                            | BROKER\_${BROKER\_HOST}\_${pinot.broker.client.queryPort} |
-| pinot.set.instance.id.to.hostname        | When enabled, use server hostname to set ${BROKER\_HOST} in above config, else use IP address.                                                                                                                                                | false                                                     |
-| pinot.broker.client.queryPort            | Port to query Pinot Broker                                                                                                                                                                                                                    | 8099                                                      |
-| pinot.broker.timeoutMs                   | Timeout for Broker Query in Milliseconds                                                                                                                                                                                                      | 10000                                                     |
-| pinot.broker.enable.query.limit.override | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back.                                                                                                                             | false                                                     |
-| pinot.broker.query.response.limit        | When config **pinot.broker.enable.query.limit.override** is enabled, reset limit for selection query if it exceeds this value.                                                                                                                | 2147483647                                                |
-| pinot.broker.startup.minResourcePercent  | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources (tables) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve | 100.0                                                     |
+<table>
+  <thead>
+    <tr>
+      <th>Config Name</th>
+      <th>Description</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>instanceId</td>
+      <td>Unique id to register Pinot Broker in the cluster.</td>
+      <td>BROKER\_${BROKER\_HOST}\_${pinot.broker.client.queryPort}</td>
+    </tr>
+    <tr>
+      <td>pinot.set.instance.id.to.hostname</td>
+      <td>When enabled, use server hostname to set ${BROKER\_HOST} in above config, else use IP address.</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.queryPort</td>
+      <td>Port to query Pinot Broker</td>
+      <td>8099</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.timeoutMs</td>
+      <td>Timeout for Broker Query in Milliseconds</td>
+      <td>10000</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.enable.query.limit.override</td>
+      <td>Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back.</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.query.response.limit</td>
+      <td>When config **pinot.broker.enable.query.limit.override** is enabled, reset limit for selection query if it exceeds this value.</td>
+      <td>2147483647</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.startup.minResourcePercent</td>
+      <td>Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources (tables) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve</td>
+      <td>100.0</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Pinot Server
 
@@ -258,15 +340,52 @@ bin/pinot-admin.sh StartServer -clusterName pinot-quickstart -zkAddress pinot-zo
 
 Below are some outstanding configurations you can set in Pinot Server. You can head over to [Server](../../configuration-reference/server.md) for complete list of available configs.
 
-| Config Name                         | Description                                                                                    | Default Value                                       |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| instanceId                          | Unique id to register Pinot Server in the cluster.                                             | Server\_${SERVER\_HOST}\_${pinot.server.netty.port} |
-| pinot.set.instance.id.to.hostname   | When enabled, use server hostname to set ${SERVER\_HOST} in above config, else use IP address. | false                                               |
-| pinot.server.netty.port             | Port to query Pinot Server                                                                     | 8098                                                |
-| pinot.server.adminapi.port          | Port for Pinot Server Admin UI                                                                 | 8097                                                |
-| pinot.server.instance.dataDir       | Directory to hold all the data                                                                 | ${java.io.tmpDir}/PinotServer/index                 |
-| pinot.server.instance.segmentTarDir | Directory to hold temporary segments downloaded from Controller or Deep Store                  | ${java.io.tmpDir}/PinotServer/segmentTar            |
-| pinot.server.query.executor.timeout | Timeout for Server to process Query in Milliseconds                                            | 15000                                               |
+<table>
+  <thead>
+    <tr>
+      <th>Config Name</th>
+      <th>Description</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>instanceId</td>
+      <td>Unique id to register Pinot Server in the cluster.</td>
+      <td>Server\_${SERVER\_HOST}\_${pinot.server.netty.port}</td>
+    </tr>
+    <tr>
+      <td>pinot.set.instance.id.to.hostname</td>
+      <td>When enabled, use server hostname to set ${SERVER\_HOST} in above config, else use IP address.</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>pinot.server.netty.port</td>
+      <td>Port to query Pinot Server</td>
+      <td>8098</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.port</td>
+      <td>Port for Pinot Server Admin UI</td>
+      <td>8097</td>
+    </tr>
+    <tr>
+      <td>pinot.server.instance.dataDir</td>
+      <td>Directory to hold all the data</td>
+      <td>${java.io.tmpDir}/PinotServer/index</td>
+    </tr>
+    <tr>
+      <td>pinot.server.instance.segmentTarDir</td>
+      <td>Directory to hold temporary segments downloaded from Controller or Deep Store</td>
+      <td>${java.io.tmpDir}/PinotServer/segmentTar</td>
+    </tr>
+    <tr>
+      <td>pinot.server.query.executor.timeout</td>
+      <td>Timeout for Server to process Query in Milliseconds</td>
+      <td>15000</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Create and Configure table
 

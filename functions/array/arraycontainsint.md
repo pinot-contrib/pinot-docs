@@ -24,10 +24,33 @@ WHERE arraylength(DivAirportIDs) >= 2
 limit 5
 ```
 
-| DivAirportIDs | containsValue |
-| ------------- | ------------- |
-| 13891,12892   | false         |
-| 14683,14683   | true          |
-| 12339,12339   | false         |
-| 13487,13930   | false         |
-| 13029,11292   | false         |
+<table>
+  <thead>
+    <tr>
+      <th>DivAirportIDs</th>
+      <th>containsValue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13891,12892</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>14683,14683</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>12339,12339</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>13487,13930</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>13029,11292</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>

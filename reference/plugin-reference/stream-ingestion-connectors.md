@@ -8,11 +8,32 @@ Pinot ships stream ingestion connectors for Kafka, Kinesis, and Pulsar. This pag
 
 ## Built-in Connectors
 
-| Connector | Factory class | Notes |
-| --- | --- | --- |
-| Kafka 3.x | `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` | Default modern Kafka connector |
-| Kinesis | `org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory` | Amazon Kinesis integration |
-| Pulsar | `org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory` | Apache Pulsar integration |
+<table>
+  <thead>
+    <tr>
+      <th>Connector</th>
+      <th>Factory class</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Kafka 3.x</td>
+      <td>`org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory`</td>
+      <td>Default modern Kafka connector</td>
+    </tr>
+    <tr>
+      <td>Kinesis</td>
+      <td>`org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory`</td>
+      <td>Amazon Kinesis integration</td>
+    </tr>
+    <tr>
+      <td>Pulsar</td>
+      <td>`org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory`</td>
+      <td>Apache Pulsar integration</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What this page covered
 

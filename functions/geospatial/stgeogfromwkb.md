@@ -20,9 +20,20 @@ select STPOINT(-122, 37) AS point,
 from ignoreMe 
 ```
 
-| point                              | value                              |
-| ---------------------------------- | ---------------------------------- |
-| 00c05e8000000000004042800000000000 | 80c05e8000000000004042800000000000 |
+<table>
+  <thead>
+    <tr>
+      <th>point</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>00c05e8000000000004042800000000000</td>
+      <td>80c05e8000000000004042800000000000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select STPOINT(-122, 37, 1) AS point,
@@ -32,9 +43,20 @@ select STPOINT(-122, 37, 1) AS point,
 from ignoreMe 
 ```
 
-| point                              | value                              |
-| ---------------------------------- | ---------------------------------- |
-| 80c05e8000000000004042800000000000 | 80c05e8000000000004042800000000000 |
+<table>
+  <thead>
+    <tr>
+      <th>point</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>80c05e8000000000004042800000000000</td>
+      <td>80c05e8000000000004042800000000000</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 You can create geometry objects in the WKB format using the [ST\_AsBinary](stasbinary.md) function.

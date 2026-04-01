@@ -18,11 +18,28 @@ To use MSE-only features such as JOINs, subqueries, window functions, and set op
 
 Pinot supports the following top-level statement types:
 
-| Statement | Description |
-|---|---|
-| `SELECT` | Query data from one or more tables |
-| `SET` | Set query options for the session (e.g., `SET useMultistageEngine = true`) |
-| `EXPLAIN PLAN FOR` | Display the query execution plan without running the query |
+<table>
+  <thead>
+    <tr>
+      <th>Statement</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`SELECT`</td>
+      <td>Query data from one or more tables</td>
+    </tr>
+    <tr>
+      <td>`SET`</td>
+      <td>Set query options for the session (e.g., `SET useMultistageEngine = true`)</td>
+    </tr>
+    <tr>
+      <td>`EXPLAIN PLAN FOR`</td>
+      <td>Display the query execution plan without running the query</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 -- Set a query option, then run a query
@@ -121,17 +138,52 @@ WHERE avg_revenue > 1000
 
 The multi-stage engine supports the following join types:
 
-| Join Type | Description |
-|---|---|
-| `[INNER] JOIN` | Rows that match in both tables |
-| `LEFT [OUTER] JOIN` | All rows from the left table, matching rows from the right |
-| `RIGHT [OUTER] JOIN` | All rows from the right table, matching rows from the left |
-| `FULL [OUTER] JOIN` | All rows from both tables |
-| `CROSS JOIN` | Cartesian product of both tables |
-| `SEMI JOIN` | Rows from the left table that have a match in the right table |
-| `ANTI JOIN` | Rows from the left table that have no match in the right table |
-| `ASOF JOIN` | Rows matched by closest value (e.g., closest timestamp) |
-| `LEFT ASOF JOIN` | Like `ASOF JOIN` but keeps all left rows |
+<table>
+  <thead>
+    <tr>
+      <th>Join Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`[INNER] JOIN`</td>
+      <td>Rows that match in both tables</td>
+    </tr>
+    <tr>
+      <td>`LEFT [OUTER] JOIN`</td>
+      <td>All rows from the left table, matching rows from the right</td>
+    </tr>
+    <tr>
+      <td>`RIGHT [OUTER] JOIN`</td>
+      <td>All rows from the right table, matching rows from the left</td>
+    </tr>
+    <tr>
+      <td>`FULL [OUTER] JOIN`</td>
+      <td>All rows from both tables</td>
+    </tr>
+    <tr>
+      <td>`CROSS JOIN`</td>
+      <td>Cartesian product of both tables</td>
+    </tr>
+    <tr>
+      <td>`SEMI JOIN`</td>
+      <td>Rows from the left table that have a match in the right table</td>
+    </tr>
+    <tr>
+      <td>`ANTI JOIN`</td>
+      <td>Rows from the left table that have no match in the right table</td>
+    </tr>
+    <tr>
+      <td>`ASOF JOIN`</td>
+      <td>Rows matched by closest value (e.g., closest timestamp)</td>
+    </tr>
+    <tr>
+      <td>`LEFT ASOF JOIN`</td>
+      <td>Like `ASOF JOIN` but keeps all left rows</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SET useMultistageEngine = true;
@@ -151,14 +203,47 @@ The `WHERE` clause filters rows using predicates. Multiple predicates can be com
 
 ### Comparison Operators
 
-| Operator | Description | Example |
-|---|---|---|
-| `=` | Equal to | `WHERE city = 'NYC'` |
-| `<>` or `!=` | Not equal to | `WHERE status <> 'canceled'` |
-| `<` | Less than | `WHERE price < 100` |
-| `>` | Greater than | `WHERE price > 50` |
-| `<=` | Less than or equal to | `WHERE quantity <= 10` |
-| `>=` | Greater than or equal to | `WHERE rating >= 4.0` |
+<table>
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`=`</td>
+      <td>Equal to</td>
+      <td>`WHERE city = 'NYC'`</td>
+    </tr>
+    <tr>
+      <td>`<>` or `!=`</td>
+      <td>Not equal to</td>
+      <td>`WHERE status <> 'canceled'`</td>
+    </tr>
+    <tr>
+      <td>`<`</td>
+      <td>Less than</td>
+      <td>`WHERE price < 100`</td>
+    </tr>
+    <tr>
+      <td>`>`</td>
+      <td>Greater than</td>
+      <td>`WHERE price > 50`</td>
+    </tr>
+    <tr>
+      <td>`<=`</td>
+      <td>Less than or equal to</td>
+      <td>`WHERE quantity <= 10`</td>
+    </tr>
+    <tr>
+      <td>`>=`</td>
+      <td>Greater than or equal to</td>
+      <td>`WHERE rating >= 4.0`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### BETWEEN
 
@@ -354,11 +439,28 @@ LIMIT 40, 20
 
 ## Logical Operators
 
-| Operator | Description |
-|---|---|
-| `AND` | True if both conditions are true |
-| `OR` | True if either condition is true |
-| `NOT` | Negates a condition |
+<table>
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`AND`</td>
+      <td>True if both conditions are true</td>
+    </tr>
+    <tr>
+      <td>`OR`</td>
+      <td>True if either condition is true</td>
+    </tr>
+    <tr>
+      <td>`NOT`</td>
+      <td>Negates a condition</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Precedence
 
@@ -382,13 +484,42 @@ WHERE (status = 'completed' OR status = 'shipped')
 
 Arithmetic expressions can be used in `SELECT` expressions, `WHERE` clauses, and other contexts:
 
-| Operator | Description | Example |
-|---|---|---|
-| `+` | Addition | `price + tax` |
-| `-` | Subtraction | `total - discount` |
-| `*` | Multiplication | `price * quantity` |
-| `/` | Division | `total / count` |
-| `%` | Modulo (remainder) | `id % 10` |
+<table>
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`+`</td>
+      <td>Addition</td>
+      <td>`price + tax`</td>
+    </tr>
+    <tr>
+      <td>`-`</td>
+      <td>Subtraction</td>
+      <td>`total - discount`</td>
+    </tr>
+    <tr>
+      <td>`*`</td>
+      <td>Multiplication</td>
+      <td>`price * quantity`</td>
+    </tr>
+    <tr>
+      <td>`/`</td>
+      <td>Division</td>
+      <td>`total / count`</td>
+    </tr>
+    <tr>
+      <td>`%`</td>
+      <td>Modulo (remainder)</td>
+      <td>`id % 10`</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT order_id, price * quantity AS line_total
@@ -408,17 +539,52 @@ SELECT CAST(revenue AS BIGINT) FROM orders
 
 ### Supported Target Types
 
-| Type | Description |
-|---|---|
-| `INT` / `INTEGER` | 32-bit signed integer |
-| `BIGINT` / `LONG` | 64-bit signed integer |
-| `FLOAT` | 32-bit floating point |
-| `DOUBLE` | 64-bit floating point |
-| `BOOLEAN` | Boolean value |
-| `TIMESTAMP` | Timestamp value |
-| `VARCHAR` / `STRING` | Variable-length string |
-| `BYTES` | Byte array |
-| `JSON` | JSON value |
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`INT` / `INTEGER`</td>
+      <td>32-bit signed integer</td>
+    </tr>
+    <tr>
+      <td>`BIGINT` / `LONG`</td>
+      <td>64-bit signed integer</td>
+    </tr>
+    <tr>
+      <td>`FLOAT`</td>
+      <td>32-bit floating point</td>
+    </tr>
+    <tr>
+      <td>`DOUBLE`</td>
+      <td>64-bit floating point</td>
+    </tr>
+    <tr>
+      <td>`BOOLEAN`</td>
+      <td>Boolean value</td>
+    </tr>
+    <tr>
+      <td>`TIMESTAMP`</td>
+      <td>Timestamp value</td>
+    </tr>
+    <tr>
+      <td>`VARCHAR` / `STRING`</td>
+      <td>Variable-length string</td>
+    </tr>
+    <tr>
+      <td>`BYTES`</td>
+      <td>Byte array</td>
+    </tr>
+    <tr>
+      <td>`JSON`</td>
+      <td>JSON value</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT CAST(event_time AS TIMESTAMP), CAST(user_id AS VARCHAR)
@@ -431,12 +597,32 @@ FROM events
 
 The multi-stage engine supports combining results from multiple queries:
 
-| Operation | Description |
-|---|---|
-| `UNION ALL` | Combine all rows from both queries (including duplicates) |
-| `UNION` | Combine rows from both queries, removing duplicates |
-| `INTERSECT` | Return rows that appear in both queries |
-| `EXCEPT` | Return rows from the first query that do not appear in the second |
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`UNION ALL`</td>
+      <td>Combine all rows from both queries (including duplicates)</td>
+    </tr>
+    <tr>
+      <td>`UNION`</td>
+      <td>Combine rows from both queries, removing duplicates</td>
+    </tr>
+    <tr>
+      <td>`INTERSECT`</td>
+      <td>Return rows that appear in both queries</td>
+    </tr>
+    <tr>
+      <td>`EXCEPT`</td>
+      <td>Return rows from the first query that do not appear in the second</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SET useMultistageEngine = true;
@@ -521,14 +707,40 @@ SELECT * FROM orders WHERE city = 'NYC'
 
 Common query options include:
 
-| Option | Description |
-|---|---|
-| `timeoutMs` | Query timeout in milliseconds |
-| `useMultistageEngine` | Use the multi-stage engine (`true`/`false`) |
-| `enableNullHandling` | Enable three-valued null logic |
-| `maxExecutionThreads` | Limit CPU threads used by the query |
-| `useStarTree` | Enable or disable star-tree index usage |
-| `skipUpsert` | Query all records in an upsert table, ignoring deletes |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`timeoutMs`</td>
+      <td>Query timeout in milliseconds</td>
+    </tr>
+    <tr>
+      <td>`useMultistageEngine`</td>
+      <td>Use the multi-stage engine (`true`/`false`)</td>
+    </tr>
+    <tr>
+      <td>`enableNullHandling`</td>
+      <td>Enable three-valued null logic</td>
+    </tr>
+    <tr>
+      <td>`maxExecutionThreads`</td>
+      <td>Limit CPU threads used by the query</td>
+    </tr>
+    <tr>
+      <td>`useStarTree`</td>
+      <td>Enable or disable star-tree index usage</td>
+    </tr>
+    <tr>
+      <td>`skipUpsert`</td>
+      <td>Query all records in an upsert table, ignoring deletes</td>
+    </tr>
+  </tbody>
+</table>
 
 For the complete list of query options, see [Query Options](query-options.md).
 
@@ -556,14 +768,61 @@ SELECT * FROM orders WHERE discount IS NULL
 
 When null handling is enabled, Pinot follows standard SQL three-valued logic:
 
-| `A` | `B` | `A AND B` | `A OR B` | `NOT A` |
-|---|---|---|---|---|
-| TRUE | TRUE | TRUE | TRUE | FALSE |
-| TRUE | FALSE | FALSE | TRUE | FALSE |
-| TRUE | NULL | NULL | TRUE | NULL |
-| FALSE | FALSE | FALSE | FALSE | TRUE |
-| FALSE | NULL | FALSE | NULL | TRUE |
-| NULL | NULL | NULL | NULL | NULL |
+<table>
+  <thead>
+    <tr>
+      <th>`A`</th>
+      <th>`B`</th>
+      <th>`A AND B`</th>
+      <th>`A OR B`</th>
+      <th>`NOT A`</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TRUE</td>
+      <td>TRUE</td>
+      <td>TRUE</td>
+      <td>TRUE</td>
+      <td>FALSE</td>
+    </tr>
+    <tr>
+      <td>TRUE</td>
+      <td>FALSE</td>
+      <td>FALSE</td>
+      <td>TRUE</td>
+      <td>FALSE</td>
+    </tr>
+    <tr>
+      <td>TRUE</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>TRUE</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>FALSE</td>
+      <td>FALSE</td>
+      <td>FALSE</td>
+      <td>FALSE</td>
+      <td>TRUE</td>
+    </tr>
+    <tr>
+      <td>FALSE</td>
+      <td>NULL</td>
+      <td>FALSE</td>
+      <td>NULL</td>
+      <td>TRUE</td>
+    </tr>
+    <tr>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table>
 
 Key behaviors with null handling enabled:
 
@@ -618,26 +877,119 @@ Aggregation functions inside the `ELSE` clause are not supported.
 
 The following table summarizes feature support across the single-stage engine (SSE) and multi-stage engine (MSE):
 
-| Feature | SSE | MSE |
-|---|---|---|
-| SELECT, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT | Yes | Yes |
-| DISTINCT | Yes | Yes |
-| Aggregation functions | Yes | Yes |
-| CASE WHEN | Yes | Yes |
-| BETWEEN, IN, LIKE, IS NULL | Yes | Yes |
-| Arithmetic operators (+, -, *, /, %) | Yes | Yes |
-| CAST | Yes | Yes |
-| OPTION / SET query hints | Yes | Yes |
-| EXPLAIN PLAN | Yes | Yes |
-| OFFSET | Yes | Yes |
-| JOINs (INNER, LEFT, RIGHT, FULL, CROSS) | No | Yes |
-| Semi / Anti joins | No | Yes |
-| ASOF / LEFT ASOF joins | No | Yes |
-| Subqueries | No | Yes |
-| Set operations (UNION, INTERSECT, EXCEPT) | No | Yes |
-| Window functions (OVER, PARTITION BY) | No | Yes |
-| Correlated subqueries | No | No |
-| INSERT INTO (from file) | No | Yes |
-| CREATE TABLE / DROP TABLE DDL | No | No |
-| DISTINCT with * | No | No |
-| DISTINCT with GROUP BY | No | No |
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>SSE</th>
+      <th>MSE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SELECT, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DISTINCT</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Aggregation functions</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CASE WHEN</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BETWEEN, IN, LIKE, IS NULL</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Arithmetic operators (+, -, *, /, %)</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CAST</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>OPTION / SET query hints</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>EXPLAIN PLAN</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>OFFSET</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>JOINs (INNER, LEFT, RIGHT, FULL, CROSS)</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Semi / Anti joins</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ASOF / LEFT ASOF joins</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Subqueries</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Set operations (UNION, INTERSECT, EXCEPT)</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Window functions (OVER, PARTITION BY)</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Correlated subqueries</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>INSERT INTO (from file)</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CREATE TABLE / DROP TABLE DDL</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>DISTINCT with *</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>DISTINCT with GROUP BY</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>

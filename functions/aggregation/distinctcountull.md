@@ -22,15 +22,33 @@ select distinctCountULL(teamID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 150   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>150</td>
+    </tr>
+  </tbody>
+</table>
 
 ```
 select distinctCountULL(teamID, 14) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 149   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>149</td>
+    </tr>
+  </tbody>
+</table>

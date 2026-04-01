@@ -9,10 +9,27 @@ Apache Pinot provides multiple Kafka connector versions to match different Kafka
 
 ## Available Connectors
 
-| Connector Plugin | Kafka Client Version | Notes |
-|---|---|---|
-| `pinot-kafka-3.0` | 3.9.x | Recommended for Kafka 3.x clusters. Requires Scala dependency. |
-| `pinot-kafka-4.0` | 4.1.x | Recommended for Kafka 4.x clusters (KRaft mode). Pure Java — no Scala dependency. |
+<table>
+  <thead>
+    <tr>
+      <th>Connector Plugin</th>
+      <th>Kafka Client Version</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinot-kafka-3.0`</td>
+      <td>3.9.x</td>
+      <td>Recommended for Kafka 3.x clusters. Requires Scala dependency.</td>
+    </tr>
+    <tr>
+      <td>`pinot-kafka-4.0`</td>
+      <td>4.1.x</td>
+      <td>Recommended for Kafka 4.x clusters (KRaft mode). Pure Java — no Scala dependency.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="warning" %}
 The `pinot-kafka-2.0` (kafka20) plugin is deprecated. If your table config references `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`, you should migrate to either `kafka30` or `kafka40`.
@@ -54,10 +71,24 @@ To migrate from an older Kafka connector to Kafka 4.0:
 
 1. Update the consumer factory class name in your table configuration:
 
-| From | To |
-|---|---|
-| `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory` | `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` |
-| `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` | `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` |
+<table>
+  <thead>
+    <tr>
+      <th>From</th>
+      <th>To</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`</td>
+      <td>`org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory`</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory`</td>
+      <td>`org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory`</td>
+    </tr>
+  </tbody>
+</table>
 
 2. Ensure the `pinot-kafka-4.0` plugin JAR is available in your Pinot plugin directory.
 

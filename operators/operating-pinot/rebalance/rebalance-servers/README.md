@@ -222,31 +222,132 @@ Typically, the flags that need to be changed from the default values are
 
 ### Rebalance Parameters
 
-| Query param                           | Default value                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dryRun                                | false                           | If set to true, **rebalance is run as a dry-run** so that you can see the expected changes to the ideal state and instance partition assignment.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| preChecks                             | false                           | If set to true, some pre-checks are performed and their status is returned. This can only be used with **dryRun=true.** See the section below for more details.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| diskUtilizationThreshold              | -1.0                            | Override disk utilization threshold used in pre-check (0.0 to 1.0, e.g., 0.85 for 85%). If negative, the pre-check uses `controller.rebalance.disk.utilization.threshold` in the controller config.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| includeConsuming                      | true                            | <p>Applicable for REALTIME tables.</p><p><strong>CONSUMING segments are rebalanced only if this is set to true</strong>.<br>Moving a CONSUMING segment involves dropping the data consumed so far on old server, and re-consuming on the new server. If an application is sensitive to <strong>increased memory utilization due to re-consumption or to a momentary data staleness</strong>, they may choose to not include consuming in the rebalance. Whenever the CONSUMING segment completes, the completed segment will be assigned to the right instances, and the new CONSUMING segment will also be started on the correct instances. If you choose to includeConsuming=false and let the segments move later on, any downsized nodes need to remain untagged in the cluster, until the segment completion happens.</p>                                                                         |
-| downtime                              | false                           | <p><strong>This controls whether Pinot allows downtime while rebalancing.</strong><br>If downtime = true, all replicas of a segment can be moved around in one go, which could result in a momentary downtime for that segment (time gap between ideal state updated to new servers and new servers downloading the segments).<br>If downtime = false, Pinot will make sure to keep certain number of replicas (config in next row) always up. The rebalance will be done in multiple iterations under the hood, in order to fulfill this constraint.</p><p></p><p><strong>Warning:</strong> If peer-download is enabled for a REALTIME table, it is not recommended to rebalance with downtime=true or minAvailableReplicas=0 to avoid potential data loss.</p><p></p><p><strong>Note</strong>: <em>If you have only 1 replica for your table, rebalance with downtime=false is not possible.</em></p> |
-| minAvailableReplicas                  | -1                              | <p>Applicable for rebalance with downtime=false.</p><p>This is the <strong>minimum number of replicas that are expected to stay alive</strong> through the rebalance.</p><p></p><p><strong>Warning:</strong> If peer-download is enabled for a REALTIME table, it is not recommended to rebalance with downtime=true or minAvailableReplicas=0 to avoid potential data loss.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| lowDiskMode                           | false                           | <p>Applicable for rebalance with downtime=false.<br>When enabled, segments will first be offloaded from servers, then added to servers after offload is done. It may increase the total time of the rebalance, but can be useful when servers are low on disk space, and we want to scale up the cluster and rebalance the table to more servers.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| bestEfforts                           | false                           | <p>Applicable for rebalance with downtime=false.</p><p>If a no-downtime rebalance cannot be performed successfully, this flag <strong>controls whether to fail the rebalance or do a best-effort rebalance</strong>. <strong>Warning:</strong> <em>setting this flag to true can cause downtime under two scenarios: 1) any segments get into ERROR state and 2) EV-IS convergence times out</em></p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| reassignInstances                     | true                            | Applicable to tables where the instance assignment has been persisted to zookeeper. Setting this to true will make the rebalance **first update the instance assignment, and then rebalance the segments**. This option should be set to true if the instance assignment will be changed (e.g. increasing replication or instances per replica for replicaGroup based assignment)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| minimizeDataMovement                  | ENABLE                          | Whether to ENABLE minimizeDataMovement, DISABLE it, or DEFAULT to the value in the TableConfig. If enabled, it reduces the segments that will be moved by trying to minimize the changes to the instance assignment. For tables using implicit instance assignment (no INSTANCE\_PARTITIONS) this is a no-op.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| batchSizePerServer                    | -1                              | How many maximum segment adds per server to update in the IdealState in each step. For non-strict replica group based assignment, this number will be capped at the batchSizePerServer value per rebalance step (some servers may get fewer segments). For strict replica group based assignment, this is a per-server best effort value since each partition of a replica group must be moved as a whole and at least one partition in a replica group should be moved. A value of -1 is used to disable batching (select as many segments as possible per incremental step in rebalance such that minAvailableReplicas is honored). Support for batching is available from commit [https://github.com/apache/pinot/pull/15617](https://github.com/apache/pinot/pull/15617) onwards.                                                                                                                   |
-| bootstrap                             | false                           | Rebalances all segments again, **as if adding segments to an empty table**. If this is false, then the rebalance will try to minimize segment movements. **Warning:** _Only use this option if a reshuffle of all segments is desirable._                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| externalViewCheckIntervalInMs         | 1000                            | How often to check if external view converges with ideal states                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| externalViewStabilizationTimeoutInMs  | 3600000                         | Maximum time (in milliseconds) to wait for external view to converge with ideal states. It automatically extends the time if progress has been made                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| heartbeatIntervalInMs                 | 300000                          | How often to make a status update (i.e. heartbeat)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| heartbeatTimeoutInMs                  | 3600000                         | How long to wait for next status update (i.e. heartbeat) before the job is considered failed                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| maxAttempts                           | 3                               | Max number of attempts to rebalance                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| retryInitialDelayInMs                 | 300000                          | Initial delay to exponentially backoff retry                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| updateTargetTier                      | false                           | Whether to update segment target tier as part of the rebalance. Only relevant for tiered storage enabled tables.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| forceCommit                           | false                           | Whether to force commit consuming segments for a REALTIME table before they are rebalanced.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| forceCommitBatchSize                  | 2147483647 (Integer.MAX\_VALUE) | Batch size for force commit operations, i.e. the number of segments to force commit in a batch.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| forceCommitBatchStatusCheckIntervalMs | 5000                            | Interval in milliseconds for checking force commit batch status.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| forceCommitBatchStatusCheckTimeoutMs  | 180000                          | Timeout in milliseconds for force commit batch status check.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+<table>
+  <thead>
+    <tr>
+      <th>Query param</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dryRun</td>
+      <td>false</td>
+      <td>If set to true, **rebalance is run as a dry-run** so that you can see the expected changes to the ideal state and instance partition assignment.</td>
+    </tr>
+    <tr>
+      <td>preChecks</td>
+      <td>false</td>
+      <td>If set to true, some pre-checks are performed and their status is returned. This can only be used with **dryRun=true.** See the section below for more details.</td>
+    </tr>
+    <tr>
+      <td>diskUtilizationThreshold</td>
+      <td>-1.0</td>
+      <td>Override disk utilization threshold used in pre-check (0.0 to 1.0, e.g., 0.85 for 85%). If negative, the pre-check uses `controller.rebalance.disk.utilization.threshold` in the controller config.</td>
+    </tr>
+    <tr>
+      <td>includeConsuming</td>
+      <td>true</td>
+      <td><p>Applicable for REALTIME tables.</p><p><strong>CONSUMING segments are rebalanced only if this is set to true</strong>.<br>Moving a CONSUMING segment involves dropping the data consumed so far on old server, and re-consuming on the new server. If an application is sensitive to <strong>increased memory utilization due to re-consumption or to a momentary data staleness</strong>, they may choose to not include consuming in the rebalance. Whenever the CONSUMING segment completes, the completed segment will be assigned to the right instances, and the new CONSUMING segment will also be started on the correct instances. If you choose to includeConsuming=false and let the segments move later on, any downsized nodes need to remain untagged in the cluster, until the segment completion happens.</p></td>
+    </tr>
+    <tr>
+      <td>downtime</td>
+      <td>false</td>
+      <td><p><strong>This controls whether Pinot allows downtime while rebalancing.</strong><br>If downtime = true, all replicas of a segment can be moved around in one go, which could result in a momentary downtime for that segment (time gap between ideal state updated to new servers and new servers downloading the segments).<br>If downtime = false, Pinot will make sure to keep certain number of replicas (config in next row) always up. The rebalance will be done in multiple iterations under the hood, in order to fulfill this constraint.</p><p></p><p><strong>Warning:</strong> If peer-download is enabled for a REALTIME table, it is not recommended to rebalance with downtime=true or minAvailableReplicas=0 to avoid potential data loss.</p><p></p><p><strong>Note</strong>: <em>If you have only 1 replica for your table, rebalance with downtime=false is not possible.</em></p></td>
+    </tr>
+    <tr>
+      <td>minAvailableReplicas</td>
+      <td>-1</td>
+      <td><p>Applicable for rebalance with downtime=false.</p><p>This is the <strong>minimum number of replicas that are expected to stay alive</strong> through the rebalance.</p><p></p><p><strong>Warning:</strong> If peer-download is enabled for a REALTIME table, it is not recommended to rebalance with downtime=true or minAvailableReplicas=0 to avoid potential data loss.</p></td>
+    </tr>
+    <tr>
+      <td>lowDiskMode</td>
+      <td>false</td>
+      <td><p>Applicable for rebalance with downtime=false.<br>When enabled, segments will first be offloaded from servers, then added to servers after offload is done. It may increase the total time of the rebalance, but can be useful when servers are low on disk space, and we want to scale up the cluster and rebalance the table to more servers.</p></td>
+    </tr>
+    <tr>
+      <td>bestEfforts</td>
+      <td>false</td>
+      <td><p>Applicable for rebalance with downtime=false.</p><p>If a no-downtime rebalance cannot be performed successfully, this flag <strong>controls whether to fail the rebalance or do a best-effort rebalance</strong>. <strong>Warning:</strong> <em>setting this flag to true can cause downtime under two scenarios: 1) any segments get into ERROR state and 2) EV-IS convergence times out</em></p></td>
+    </tr>
+    <tr>
+      <td>reassignInstances</td>
+      <td>true</td>
+      <td>Applicable to tables where the instance assignment has been persisted to zookeeper. Setting this to true will make the rebalance **first update the instance assignment, and then rebalance the segments**. This option should be set to true if the instance assignment will be changed (e.g. increasing replication or instances per replica for replicaGroup based assignment)</td>
+    </tr>
+    <tr>
+      <td>minimizeDataMovement</td>
+      <td>ENABLE</td>
+      <td>Whether to ENABLE minimizeDataMovement, DISABLE it, or DEFAULT to the value in the TableConfig. If enabled, it reduces the segments that will be moved by trying to minimize the changes to the instance assignment. For tables using implicit instance assignment (no INSTANCE\_PARTITIONS) this is a no-op.</td>
+    </tr>
+    <tr>
+      <td>batchSizePerServer</td>
+      <td>-1</td>
+      <td>How many maximum segment adds per server to update in the IdealState in each step. For non-strict replica group based assignment, this number will be capped at the batchSizePerServer value per rebalance step (some servers may get fewer segments). For strict replica group based assignment, this is a per-server best effort value since each partition of a replica group must be moved as a whole and at least one partition in a replica group should be moved. A value of -1 is used to disable batching (select as many segments as possible per incremental step in rebalance such that minAvailableReplicas is honored). Support for batching is available from commit [https://github.com/apache/pinot/pull/15617](https://github.com/apache/pinot/pull/15617) onwards.</td>
+    </tr>
+    <tr>
+      <td>bootstrap</td>
+      <td>false</td>
+      <td>Rebalances all segments again, **as if adding segments to an empty table**. If this is false, then the rebalance will try to minimize segment movements. **Warning:** _Only use this option if a reshuffle of all segments is desirable._</td>
+    </tr>
+    <tr>
+      <td>externalViewCheckIntervalInMs</td>
+      <td>1000</td>
+      <td>How often to check if external view converges with ideal states</td>
+    </tr>
+    <tr>
+      <td>externalViewStabilizationTimeoutInMs</td>
+      <td>3600000</td>
+      <td>Maximum time (in milliseconds) to wait for external view to converge with ideal states. It automatically extends the time if progress has been made</td>
+    </tr>
+    <tr>
+      <td>heartbeatIntervalInMs</td>
+      <td>300000</td>
+      <td>How often to make a status update (i.e. heartbeat)</td>
+    </tr>
+    <tr>
+      <td>heartbeatTimeoutInMs</td>
+      <td>3600000</td>
+      <td>How long to wait for next status update (i.e. heartbeat) before the job is considered failed</td>
+    </tr>
+    <tr>
+      <td>maxAttempts</td>
+      <td>3</td>
+      <td>Max number of attempts to rebalance</td>
+    </tr>
+    <tr>
+      <td>retryInitialDelayInMs</td>
+      <td>300000</td>
+      <td>Initial delay to exponentially backoff retry</td>
+    </tr>
+    <tr>
+      <td>updateTargetTier</td>
+      <td>false</td>
+      <td>Whether to update segment target tier as part of the rebalance. Only relevant for tiered storage enabled tables.</td>
+    </tr>
+    <tr>
+      <td>forceCommit</td>
+      <td>false</td>
+      <td>Whether to force commit consuming segments for a REALTIME table before they are rebalanced.</td>
+    </tr>
+    <tr>
+      <td>forceCommitBatchSize</td>
+      <td>2147483647 (Integer.MAX\_VALUE)</td>
+      <td>Batch size for force commit operations, i.e. the number of segments to force commit in a batch.</td>
+    </tr>
+    <tr>
+      <td>forceCommitBatchStatusCheckIntervalMs</td>
+      <td>5000</td>
+      <td>Interval in milliseconds for checking force commit batch status.</td>
+    </tr>
+    <tr>
+      <td>forceCommitBatchStatusCheckTimeoutMs</td>
+      <td>180000</td>
+      <td>Timeout in milliseconds for force commit batch status check.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Checking status
 
@@ -388,14 +489,47 @@ The above API will return a list of `jobIds` that were canceled.
 
 With options `dryRun=true, preChecks=true`, some pre-checks relevant to rebalance will be performed:
 
-| Pre-check item name            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Result                                                                                                                                                                                                                                                                     |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| isMinimizeDataMovement         | Check if the rebalance will run with `minimizeDataMovement=true` . This is an important flag for instance assignment strategies such as replicaGroups which controls how much data movement may occur.                                                                                                                                                                                                                                                                            | <p>PASS if enabled, or when this flag is irrelevant.<br><br>WARN if it's not enabled.</p>                                                                                                                                                                                  |
-| diskUtilizationDuringRebalance | <p>Check if the disk utilization could become a problem "during" rebalance based on a default threshold defined by the config (defaulted to 0.9): <code>controller.rebalance.disk.utilization.threshold</code> .<br><br>Note that this pre-check could have false negatives. The pre-check passes but a server could still suffer from disk utilization problem, as there are other sources that increase the disk usage, especially under a long time running rebalance job.</p> | <p>PASS if the disk utilization of all servers in the rebalance will be within <code>controller.rebalance.disk.utilization.threshold</code> if all assigned segments added. <br><br>ERROR otherwise, and show the problematic servers.</p>                                 |
-| diskUtilizationAfterRebalance  | <p>Similar to <code>diskUtilizationDuringRebalance</code> but checks the size "after" the rebalance.<br><br>This test could pass while <code>diskUtilizationDuringRebalance</code> fails. For example, a server gets segments but also will delete some, and the net size change falls in the threshold.</p>                                                                                                                                                                      | <p>PASS if the disk utilization of all servers in the rebalance will be within <code>controller.rebalance.disk.utilization.threshold</code> if all assigned segments added and unassigned segments removed. <br><br>ERROR otherwise, and show the problematic servers.</p> |
-| needsReloadStatus              | Check if any of the servers needs to be reloaded (do the segments on these servers need to be updated based on the latest TableConfig and Schema).                                                                                                                                                                                                                                                                                                                                | <p>PASS if all servers assigned to the table don't need a reload.<br><br>WARN if any of the server need a reload.<br><br>ERROR if any of the server fails to answer the need reload status.</p>                                                                            |
-| rebalanceConfigOptions         | Mark any parameters in the rebalance that need a double check, as they might cause performance impact                                                                                                                                                                                                                                                                                                                                                                             | <p>PASS if no rebalance parameter needs a double-check.<br><br>WARN if any rebalance parameter that is flagged is set, followed by the description.</p>                                                                                                                    |
-| replicaGroupsInfo              | If replicaGroups are enabled, provides information about the number of replica groups and the number of instances per replica group, otherwise provides information about the replication factor. Provides information for OFFLINE, CONSUMING, COMPLETED and tier depending on what is enabled.                                                                                                                                                                                   | <p>PASS if replicaGroups are disabled or if enabled but the rebalance config reassignInstances=true<br><br>WARN if replicaGroups is enabled but the rebalance config reassignInstances=false</p>                                                                           |
+<table>
+  <thead>
+    <tr>
+      <th>Pre-check item name</th>
+      <th>Description</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>isMinimizeDataMovement</td>
+      <td>Check if the rebalance will run with `minimizeDataMovement=true` . This is an important flag for instance assignment strategies such as replicaGroups which controls how much data movement may occur.</td>
+      <td><p>PASS if enabled, or when this flag is irrelevant.<br><br>WARN if it's not enabled.</p></td>
+    </tr>
+    <tr>
+      <td>diskUtilizationDuringRebalance</td>
+      <td><p>Check if the disk utilization could become a problem "during" rebalance based on a default threshold defined by the config (defaulted to 0.9): <code>controller.rebalance.disk.utilization.threshold</code> .<br><br>Note that this pre-check could have false negatives. The pre-check passes but a server could still suffer from disk utilization problem, as there are other sources that increase the disk usage, especially under a long time running rebalance job.</p></td>
+      <td><p>PASS if the disk utilization of all servers in the rebalance will be within <code>controller.rebalance.disk.utilization.threshold</code> if all assigned segments added. <br><br>ERROR otherwise, and show the problematic servers.</p></td>
+    </tr>
+    <tr>
+      <td>diskUtilizationAfterRebalance</td>
+      <td><p>Similar to <code>diskUtilizationDuringRebalance</code> but checks the size "after" the rebalance.<br><br>This test could pass while <code>diskUtilizationDuringRebalance</code> fails. For example, a server gets segments but also will delete some, and the net size change falls in the threshold.</p></td>
+      <td><p>PASS if the disk utilization of all servers in the rebalance will be within <code>controller.rebalance.disk.utilization.threshold</code> if all assigned segments added and unassigned segments removed. <br><br>ERROR otherwise, and show the problematic servers.</p></td>
+    </tr>
+    <tr>
+      <td>needsReloadStatus</td>
+      <td>Check if any of the servers needs to be reloaded (do the segments on these servers need to be updated based on the latest TableConfig and Schema).</td>
+      <td><p>PASS if all servers assigned to the table don't need a reload.<br><br>WARN if any of the server need a reload.<br><br>ERROR if any of the server fails to answer the need reload status.</p></td>
+    </tr>
+    <tr>
+      <td>rebalanceConfigOptions</td>
+      <td>Mark any parameters in the rebalance that need a double check, as they might cause performance impact</td>
+      <td><p>PASS if no rebalance parameter needs a double-check.<br><br>WARN if any rebalance parameter that is flagged is set, followed by the description.</p></td>
+    </tr>
+    <tr>
+      <td>replicaGroupsInfo</td>
+      <td>If replicaGroups are enabled, provides information about the number of replica groups and the number of instances per replica group, otherwise provides information about the replication factor. Provides information for OFFLINE, CONSUMING, COMPLETED and tier depending on what is enabled.</td>
+      <td><p>PASS if replicaGroups are disabled or if enabled but the rebalance config reassignInstances=true<br><br>WARN if replicaGroups is enabled but the rebalance config reassignInstances=false</p></td>
+    </tr>
+  </tbody>
+</table>
 
 For each check the return includes a `preCheckStatus`which is one of: `PASS`|`WARN`|`ERROR` and a message to explain what the status means from this OSS PR [https://github.com/apache/pinot/pull/15233](https://github.com/apache/pinot/pull/15233) onwards. Prior to this, these just returned `true`| `false`|`error` with no further explanation.
 
@@ -448,33 +582,109 @@ See [examples-and-scenarios.md](examples-and-scenarios.md) for how the rebalance
 
 ### Server Level (serverInfo)
 
-| Field                        | Description                                                                                                                                                                                                                                                                                                     |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| numServersGettingNewSegments | The number of servers that will get new segment replicas added as part of this rebalance.                                                                                                                                                                                                                       |
-| numServers                   | The number of servers assigned to this table, including values before and after the rebalance.                                                                                                                                                                                                                  |
-| serversAdded                 | A list of servers to be newly added to the assignment of this table in this rebalance.                                                                                                                                                                                                                          |
-| serversRemoved               | A list of servers to be removed from the assignment of this table in this rebalance.                                                                                                                                                                                                                            |
-| serversUnchanged             | A list of servers remaining unchanged in the assignment of this table in this rebalance.                                                                                                                                                                                                                        |
-| serversGettingNewSegments    | A list of servers that will get new segment replicas added in this rebalance.                                                                                                                                                                                                                                   |
-| serverSegmentChangeInfo      | A detail breakdown of the segment change information per server. This includes segments to be added, deleted, unchanged, the total segments assigned to this server before and after the rebalance, and the tag list for the given server. See [examples-and-scenarios.md](examples-and-scenarios.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>numServersGettingNewSegments</td>
+      <td>The number of servers that will get new segment replicas added as part of this rebalance.</td>
+    </tr>
+    <tr>
+      <td>numServers</td>
+      <td>The number of servers assigned to this table, including values before and after the rebalance.</td>
+    </tr>
+    <tr>
+      <td>serversAdded</td>
+      <td>A list of servers to be newly added to the assignment of this table in this rebalance.</td>
+    </tr>
+    <tr>
+      <td>serversRemoved</td>
+      <td>A list of servers to be removed from the assignment of this table in this rebalance.</td>
+    </tr>
+    <tr>
+      <td>serversUnchanged</td>
+      <td>A list of servers remaining unchanged in the assignment of this table in this rebalance.</td>
+    </tr>
+    <tr>
+      <td>serversGettingNewSegments</td>
+      <td>A list of servers that will get new segment replicas added in this rebalance.</td>
+    </tr>
+    <tr>
+      <td>serverSegmentChangeInfo</td>
+      <td>A detail breakdown of the segment change information per server. This includes segments to be added, deleted, unchanged, the total segments assigned to this server before and after the rebalance, and the tag list for the given server. See [examples-and-scenarios.md](examples-and-scenarios.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Segment Level (segmentInfo)
 
-| Field                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| totalSegmentsToBeMoved                                                              | The number of segment replicas that will be added across all servers. This is essentially equivalent to how many segments the servers need to download.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| totalSegmentsToBeDeleted                                                            | The number of segment replicas that will be removed from across all servers.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| maxSegmentsAddedToASingleServer                                                     | The maximum number of segment replicas added to a single server across all servers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| estimatedAverageSegmentSizeInBytes                                                  | The average size of a segment in one replica of this table.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| totalEstimatedDataToBeMovedInBytes                                                  | <p>Calculated by</p><p><code>segmentInfo.totalSegmentsToBeMoved * segmentInfo.estimatedAverageSegmentSizeInBytes</code></p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| replicationFactor                                                                   | The number of replications, including values before and after the rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| numSegmentsInSingleReplica                                                          | The number of segments in a single replica, including values before and after the rebalance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| numSegmentsAcrossAllReplicas                                                        | The total number of segment replicas, including values before and after the rebalance. Equivalent to `segmentInfo.replicationFactor * segmentInfo.numSegmentsInSingleReplica`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| consumingSegmentToBeMovedSummary.numConsumingSegmentsToBeMoved                      | <p>For REALTIME tables, the number of CONSUMING segment replicas that will be added to a server. A segment replica is a CONSUMING segment replica if none of the replica of the segment is ONLINE and any of the replica of the segment is CONSUMING.<br><br>OFFLINE tables do not have this field.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| consumingSegmentToBeMovedSummary.numServersGettingConsumingSegmentsAdded            | <p>For REALTIME tables, the number of servers that will get a new CONSUMING segment replicas.<br><br>OFFLINE tables do not have this field.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| consumingSegmentToBeMovedSummary.consumingSegmentsToBeMovedWithMostOffsetsToCatchUp | <p>For REALTIME tables, up to the top 10 CONSUMING segments with the largest offset difference between the start offset and the latest offset across all consuming segments being added servers. This determines how many offsets a server needs to re-consume from the stream after adding this CONSUMING segment replica. The actual overhead (memory / CPU utilization) of re-consuming depends on the data in the stream as the overhead varies across different streams.</p><p></p><p>This is meant to be an indicator for the amount of work (and thus additional resource utilization) that needs to be redone when the CONSUMING segment moves and can be used to decided whether a <code>forceCommit</code> is desirable prior to rebalance.</p><p><br>Note that only ingestion from Kafka has this information available as of now. If the information cannot be fetched, this field will not be included in the summary.<br><br>OFFLINE tables do not have this field.</p> |
-| consumingSegmentToBeMovedSummary.consumingSegmentsToBeMovedWithOldestAgeInMinutes   | <p>For REALTIME tables, up to the top 10 oldest CONSUMING segments based on their segment creation time in the SegmentZkMetadata across all consuming segments being added to servers. This approximates the oldest data that will need to be re-consumed when the segment is moved and can give a high-level estimate of staleness.<br>Note that this is captured as the segment's creation time instead of the actual data age. The oldest event covered by the consuming segment might be older or newer than the segment's creation time and is dependent on the stream's data. If the information cannot be fetched, this field will not be included in the summary.</p><p></p><p>This is meant to be an indicator for the data staleness expected while running queries when the CONSUMING segment moves and can be used to decided whether a <code>forceCommit</code> is desirable prior to rebalance.</p><p><br>OFFLINE tables do not have this field.</p>                    |
-| consumingSegmentToBeMovedSummary.serverConsumingSegmentSummary                      | <p>For REALTIME tables, a map from server name to its detailed information of consuming segments that are added to the server. Each has two fields <code>numConsumingSegmentsToBeAdded</code> and <code>totalOffsetsToCatchUpAcrossAllConsumingSegments</code> . If the offset information fails to be fetched, the latter will be set to <code>-1</code> .<br><br>OFFLINE tables do not have this field.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>totalSegmentsToBeMoved</td>
+      <td>The number of segment replicas that will be added across all servers. This is essentially equivalent to how many segments the servers need to download.</td>
+    </tr>
+    <tr>
+      <td>totalSegmentsToBeDeleted</td>
+      <td>The number of segment replicas that will be removed from across all servers.</td>
+    </tr>
+    <tr>
+      <td>maxSegmentsAddedToASingleServer</td>
+      <td>The maximum number of segment replicas added to a single server across all servers</td>
+    </tr>
+    <tr>
+      <td>estimatedAverageSegmentSizeInBytes</td>
+      <td>The average size of a segment in one replica of this table.</td>
+    </tr>
+    <tr>
+      <td>totalEstimatedDataToBeMovedInBytes</td>
+      <td><p>Calculated by</p><p><code>segmentInfo.totalSegmentsToBeMoved * segmentInfo.estimatedAverageSegmentSizeInBytes</code></p></td>
+    </tr>
+    <tr>
+      <td>replicationFactor</td>
+      <td>The number of replications, including values before and after the rebalance.</td>
+    </tr>
+    <tr>
+      <td>numSegmentsInSingleReplica</td>
+      <td>The number of segments in a single replica, including values before and after the rebalance.</td>
+    </tr>
+    <tr>
+      <td>numSegmentsAcrossAllReplicas</td>
+      <td>The total number of segment replicas, including values before and after the rebalance. Equivalent to `segmentInfo.replicationFactor * segmentInfo.numSegmentsInSingleReplica`</td>
+    </tr>
+    <tr>
+      <td>consumingSegmentToBeMovedSummary.numConsumingSegmentsToBeMoved</td>
+      <td><p>For REALTIME tables, the number of CONSUMING segment replicas that will be added to a server. A segment replica is a CONSUMING segment replica if none of the replica of the segment is ONLINE and any of the replica of the segment is CONSUMING.<br><br>OFFLINE tables do not have this field.</p></td>
+    </tr>
+    <tr>
+      <td>consumingSegmentToBeMovedSummary.numServersGettingConsumingSegmentsAdded</td>
+      <td><p>For REALTIME tables, the number of servers that will get a new CONSUMING segment replicas.<br><br>OFFLINE tables do not have this field.</p></td>
+    </tr>
+    <tr>
+      <td>consumingSegmentToBeMovedSummary.consumingSegmentsToBeMovedWithMostOffsetsToCatchUp</td>
+      <td><p>For REALTIME tables, up to the top 10 CONSUMING segments with the largest offset difference between the start offset and the latest offset across all consuming segments being added servers. This determines how many offsets a server needs to re-consume from the stream after adding this CONSUMING segment replica. The actual overhead (memory / CPU utilization) of re-consuming depends on the data in the stream as the overhead varies across different streams.</p><p></p><p>This is meant to be an indicator for the amount of work (and thus additional resource utilization) that needs to be redone when the CONSUMING segment moves and can be used to decided whether a <code>forceCommit</code> is desirable prior to rebalance.</p><p><br>Note that only ingestion from Kafka has this information available as of now. If the information cannot be fetched, this field will not be included in the summary.<br><br>OFFLINE tables do not have this field.</p></td>
+    </tr>
+    <tr>
+      <td>consumingSegmentToBeMovedSummary.consumingSegmentsToBeMovedWithOldestAgeInMinutes</td>
+      <td><p>For REALTIME tables, up to the top 10 oldest CONSUMING segments based on their segment creation time in the SegmentZkMetadata across all consuming segments being added to servers. This approximates the oldest data that will need to be re-consumed when the segment is moved and can give a high-level estimate of staleness.<br>Note that this is captured as the segment's creation time instead of the actual data age. The oldest event covered by the consuming segment might be older or newer than the segment's creation time and is dependent on the stream's data. If the information cannot be fetched, this field will not be included in the summary.</p><p></p><p>This is meant to be an indicator for the data staleness expected while running queries when the CONSUMING segment moves and can be used to decided whether a <code>forceCommit</code> is desirable prior to rebalance.</p><p><br>OFFLINE tables do not have this field.</p></td>
+    </tr>
+    <tr>
+      <td>consumingSegmentToBeMovedSummary.serverConsumingSegmentSummary</td>
+      <td><p>For REALTIME tables, a map from server name to its detailed information of consuming segments that are added to the server. Each has two fields <code>numConsumingSegmentsToBeAdded</code> and <code>totalOffsetsToCatchUpAcrossAllConsumingSegments</code> . If the offset information fails to be fetched, the latter will be set to <code>-1</code> .<br><br>OFFLINE tables do not have this field.</p></td>
+    </tr>
+  </tbody>
+</table>
 
 ### Tag Level (tagsInfo)
 
@@ -486,12 +696,32 @@ If an assigned server does not contain any tag present in the table config (coul
 
 The fields of each entry will consist of:
 
-| Field                 | Description                                                                    |
-| --------------------- | ------------------------------------------------------------------------------ |
-| tagName               | Name of the tag                                                                |
-| numSegmentsToDownload | Number of segments that will be downloaded on servers tagged with this tagName |
-| numSegmentsUnchanged  | Number of segments that will remain on the servers tagged with this tagName    |
-| numServerParticipants | Total number of servers tagged wtih tagName                                    |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tagName</td>
+      <td>Name of the tag</td>
+    </tr>
+    <tr>
+      <td>numSegmentsToDownload</td>
+      <td>Number of segments that will be downloaded on servers tagged with this tagName</td>
+    </tr>
+    <tr>
+      <td>numSegmentsUnchanged</td>
+      <td>Number of segments that will remain on the servers tagged with this tagName</td>
+    </tr>
+    <tr>
+      <td>numServerParticipants</td>
+      <td>Total number of servers tagged wtih tagName</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example Output
 

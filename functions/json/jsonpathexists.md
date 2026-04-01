@@ -10,10 +10,24 @@ Checks if specified jsonPath exists in jsonField.
 
 > JSONPATH(jsonField, 'jsonPath')
 
-| Arguments    | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `jsonField`  | An **Identifier**/**Expression** containing JSON documents.                                            |
-| `'jsonPath'` | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents. |
+<table>
+  <thead>
+    <tr>
+      <th>Arguments</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`jsonField`</td>
+      <td>An **Identifier**/**Expression** containing JSON documents.</td>
+    </tr>
+    <tr>
+      <td>`'jsonPath'`</td>
+      <td>Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="warning" %}
 **`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers.** \
@@ -48,8 +62,25 @@ The usage examples are based on extracting fields from the following JSON docume
 }
 ```
 
-| Expression                 | Value    |
-| -------------------------- | -------- |
-| `JSONPATHEXISTS(data, '$.name')` | `true` |
-| `JSONPATHEXISTS(data, '$.age')`  | `true` |
-| `JSONPATHEXISTS(data, '$.shoeSize')`  | `false` |
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`JSONPATHEXISTS(data, '$.name')`</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`JSONPATHEXISTS(data, '$.age')`</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`JSONPATHEXISTS(data, '$.shoeSize')`</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>

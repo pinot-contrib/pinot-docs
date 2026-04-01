@@ -17,9 +17,18 @@ SELECT FromDateTime('2019-08-07', 'yyyy-MM-dd') AS epochMillis
 FROM ignoreMe
 ```
 
-| epochMillis   |
-| ------------- |
-| 1565136000000 |
+<table>
+  <thead>
+    <tr>
+      <th>epochMillis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1565136000000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT FromDateTime(
@@ -29,9 +38,18 @@ SELECT FromDateTime(
 FROM ignoreMe
 ```
 
-| epochMillis   |
-| ------------- |
-| 1565190733000 |
+<table>
+  <thead>
+    <tr>
+      <th>epochMillis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1565190733000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT FromDateTime(
@@ -41,9 +59,18 @@ SELECT FromDateTime(
 FROM ignoreMe
 ```
 
-| epochMillis   |
-| ------------- |
-| 1565190733000 |
+<table>
+  <thead>
+    <tr>
+      <th>epochMillis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1565190733000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT FromDateTime(
@@ -53,6 +80,15 @@ SELECT FromDateTime(
 FROM ignoreMe
 ```
 
-| epochMillis   |
-| ------------- |
-| 1565190733000 |
+<table>
+  <thead>
+    <tr>
+      <th>epochMillis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1565190733000</td>
+    </tr>
+  </tbody>
+</table>

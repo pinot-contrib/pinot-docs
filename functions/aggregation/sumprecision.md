@@ -14,10 +14,24 @@ Returns the sum of values in a group using BigDecimal for high-precision arithme
 
 Parameters:
 
-| Parameter | Description |
-| --------- | ----------- |
-| `colName` | The numeric column to sum |
-| `precision` | Optional. The number of decimal places in the result (default: 10) |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`colName`</td>
+      <td>The numeric column to sum</td>
+    </tr>
+    <tr>
+      <td>`precision`</td>
+      <td>Optional. The number of decimal places in the result (default: 10)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Examples
 
@@ -28,15 +42,33 @@ select SUMPRECISION(hits) AS value
 from baseballStats
 ```
 
-| value       |
-| ----------- |
-| 2667636     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2667636</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select SUMPRECISION(hits, 5) AS value
 from baseballStats
 ```
 
-| value          |
-| -------------- |
-| 2667636.00000  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2667636.00000</td>
+    </tr>
+  </tbody>
+</table>

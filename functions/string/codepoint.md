@@ -17,6 +17,15 @@ SELECT CODEPOINT('Apache Pinot') AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| 65    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>65</td>
+    </tr>
+  </tbody>
+</table>

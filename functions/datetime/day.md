@@ -23,33 +23,69 @@ select day(1639351800000) AS day
 FROM ignoreMe
 ```
 
-| day |
-| --- |
-| 12  |
+<table>
+  <thead>
+    <tr>
+      <th>day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select day(1639351800000, 'CET') AS day
 FROM ignoreMe
 ```
 
-| day |
-| --- |
-| 13  |
+<table>
+  <thead>
+    <tr>
+      <th>day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select dayOfMonth(1639351800000) AS day
 FROM ignoreMe
 ```
 
-| day |
-| --- |
-| 12  |
+<table>
+  <thead>
+    <tr>
+      <th>day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select dayOfMonth(1639351800000, 'CET') AS day
 FROM ignoreMe
 ```
 
-| day |
-| --- |
-| 13  |
+<table>
+  <thead>
+    <tr>
+      <th>day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13</td>
+    </tr>
+  </tbody>
+</table>

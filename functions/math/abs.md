@@ -17,15 +17,33 @@ select ABS(-12.1) AS value
 from ignoreMe
 ```
 
-| value |
-| ----- |
-| 12.1  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>12.1</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ABS(12.1) AS value
 from ignoreMe
 ```
 
-| value |
-| ----- |
-| 12.1  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>12.1</td>
+    </tr>
+  </tbody>
+</table>

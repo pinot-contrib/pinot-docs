@@ -130,15 +130,52 @@ controller.task.frequencyPeriod=1h
 
 ### Configuration Properties
 
-| Property                         | Description                                                                                                                                                                       | Default                               |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| schedule                         | Cron expression for task scheduling. Less frequent scheduling (e.g., every 6 hours) is recommended as this is a resource-intensive operation                                      | None (required)                       |
-| bufferTimePeriod                 | Minimum time that must elapse since segment completion (endTime) before it becomes eligible for merging                                                                           | 2d                                    |
-| maxNumRecordsPerSegment          | Maximum number of valid rows to include in a merged segment. Controls the size of output segments                                                                                 | 5000000                               |
-| maxNumRecordsPerTask             | Maximum number of records to process in a single task. Prevents overly large tasks                                                                                                | 50000000                              |
-| maxNumSegmentsPerTask            | Maximum number of segments to merge in a single task. Prevents overly large tasks                                                                                                 | 10                                    |
-| outputSegmentMaxSize             | Maximum size of output segments in bytes. When specified, enables size-based segment merging in addition to record-count-based merging. Accepts formats like '200MB', '1GB', etc. | None (size-based disabled by default) |
-| numSegmentsBatchPerServerRequest | Number of segments to query in one batch when fetching validDocIds from servers                                                                                                   | 500                                   |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>schedule</td>
+      <td>Cron expression for task scheduling. Less frequent scheduling (e.g., every 6 hours) is recommended as this is a resource-intensive operation</td>
+      <td>None (required)</td>
+    </tr>
+    <tr>
+      <td>bufferTimePeriod</td>
+      <td>Minimum time that must elapse since segment completion (endTime) before it becomes eligible for merging</td>
+      <td>2d</td>
+    </tr>
+    <tr>
+      <td>maxNumRecordsPerSegment</td>
+      <td>Maximum number of valid rows to include in a merged segment. Controls the size of output segments</td>
+      <td>5000000</td>
+    </tr>
+    <tr>
+      <td>maxNumRecordsPerTask</td>
+      <td>Maximum number of records to process in a single task. Prevents overly large tasks</td>
+      <td>50000000</td>
+    </tr>
+    <tr>
+      <td>maxNumSegmentsPerTask</td>
+      <td>Maximum number of segments to merge in a single task. Prevents overly large tasks</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>outputSegmentMaxSize</td>
+      <td>Maximum size of output segments in bytes. When specified, enables size-based segment merging in addition to record-count-based merging. Accepts formats like '200MB', '1GB', etc.</td>
+      <td>None (size-based disabled by default)</td>
+    </tr>
+    <tr>
+      <td>numSegmentsBatchPerServerRequest</td>
+      <td>Number of segments to query in one batch when fetching validDocIds from servers</td>
+      <td>500</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Prerequisites
 

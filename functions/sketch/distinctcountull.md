@@ -24,27 +24,62 @@ SELECT distinctCountULL(teamID) AS value
 FROM baseballStats
 ```
 
-| value |
-| ----- |
-| 150   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>150</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT distinctCountULL(teamID, 14) AS value
 FROM baseballStats
 ```
 
-| value |
-| ----- |
-| 150   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>150</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ### Related Functions
 
-| Function | Description |
-| -------- | ----------- |
-| [DISTINCTCOUNTULL](distinctcountull.md) | Returns the estimated distinct count as a Long |
-| [DISTINCTCOUNTRAWULL](distinctcountrawull.md) | Returns the serialized UltraLogLog sketch as a Base64-encoded String |
-| [DISTINCTCOUNTSMARTULL](#distinctcountsmartull) | Hybrid approach that uses a Set for low cardinality and converts to ULL when a threshold is exceeded |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[DISTINCTCOUNTULL](distinctcountull.md)</td>
+      <td>Returns the estimated distinct count as a Long</td>
+    </tr>
+    <tr>
+      <td>[DISTINCTCOUNTRAWULL](distinctcountrawull.md)</td>
+      <td>Returns the serialized UltraLogLog sketch as a Base64-encoded String</td>
+    </tr>
+    <tr>
+      <td>[DISTINCTCOUNTSMARTULL](#distinctcountsmartull)</td>
+      <td>Hybrid approach that uses a Set for low cardinality and converts to ULL when a threshold is exceeded</td>
+    </tr>
+  </tbody>
+</table>
 
 ## DISTINCTCOUNTRAWULL
 

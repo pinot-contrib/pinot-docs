@@ -31,10 +31,33 @@ Because the data is fully replicated and held in memory, dimension tables must b
 
 Pinot supports two loading modes controlled by the `disablePreload` setting in `dimensionTableConfig`:
 
-| Mode | `disablePreload` | Memory usage | Lookup speed | Description |
-| --- | --- | --- | --- | --- |
-| **Fast lookup** (default) | `false` | Higher | Faster | All rows are fully materialized into an in-memory hash map (`Object[] -> Object[]`). Every column value is stored in the map for constant-time retrieval. |
-| **Memory-optimized** | `true` | Lower | Slightly slower | Only the primary key and a segment/docId reference are stored in the hash map. Column values are read from the segment on each lookup. This trades lookup speed for lower heap usage. |
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>`disablePreload`</th>
+      <th>Memory usage</th>
+      <th>Lookup speed</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Fast lookup** (default)</td>
+      <td>`false`</td>
+      <td>Higher</td>
+      <td>Faster</td>
+      <td>All rows are fully materialized into an in-memory hash map (`Object[] -> Object[]`). Every column value is stored in the map for constant-time retrieval.</td>
+    </tr>
+    <tr>
+      <td>**Memory-optimized**</td>
+      <td>`true`</td>
+      <td>Lower</td>
+      <td>Slightly slower</td>
+      <td>Only the primary key and a segment/docId reference are stored in the hash map. Column values are read from the segment on each lookup. This trades lookup speed for lower heap usage.</td>
+    </tr>
+  </tbody>
+</table>
 
 Choose the memory-optimized mode when the dimension table is relatively large and you want to reduce heap pressure, at the cost of slightly slower lookups.
 
@@ -54,13 +77,42 @@ As a guideline, keep dimension tables under a few hundred thousand rows and well
 
 Mark a table as a dimension table by setting the following properties in the table config:
 
-| Property | Required | Description |
-| --- | --- | --- |
-| `isDimTable` | Yes | Set to `true` to designate the table as a dimension table. |
-| `ingestionConfig.batchIngestionConfig.segmentIngestionType` | Yes | Must be set to `REFRESH`. Dimension tables use segment replacement rather than append semantics so that the in-memory hash map is rebuilt with the latest data. |
-| `quota.storage` | Recommended | Storage quota for the table. Must not exceed the cluster-level `controller.dimTable.maxSize` (default 200 MB). |
-| `dimensionTableConfig.disablePreload` | No | Set to `true` to use memory-optimized mode (store only primary key and segment reference instead of full rows). Defaults to `false` (fast lookup). |
-| `dimensionTableConfig.errorOnDuplicatePrimaryKey` | No | Set to `true` to fail segment loading if duplicate primary keys are detected across segments. Defaults to `false` (last-loaded segment wins). |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`isDimTable`</td>
+      <td>Yes</td>
+      <td>Set to `true` to designate the table as a dimension table.</td>
+    </tr>
+    <tr>
+      <td>`ingestionConfig.batchIngestionConfig.segmentIngestionType`</td>
+      <td>Yes</td>
+      <td>Must be set to `REFRESH`. Dimension tables use segment replacement rather than append semantics so that the in-memory hash map is rebuilt with the latest data.</td>
+    </tr>
+    <tr>
+      <td>`quota.storage`</td>
+      <td>Recommended</td>
+      <td>Storage quota for the table. Must not exceed the cluster-level `controller.dimTable.maxSize` (default 200 MB).</td>
+    </tr>
+    <tr>
+      <td>`dimensionTableConfig.disablePreload`</td>
+      <td>No</td>
+      <td>Set to `true` to use memory-optimized mode (store only primary key and segment reference instead of full rows). Defaults to `false` (fast lookup).</td>
+    </tr>
+    <tr>
+      <td>`dimensionTableConfig.errorOnDuplicatePrimaryKey`</td>
+      <td>No</td>
+      <td>Set to `true` to fail segment loading if duplicate primary keys are detected across segments. Defaults to `false` (last-loaded segment wins).</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Schema configuration
 

@@ -209,21 +209,68 @@ The multi-stage engine uses different type names than the single-stage engine. A
 
 The following table shows the differences in type names:
 
-| Single-stage engine | Multi-stage engine |
-| ------------------- | ------------------ |
-| NULL                | NULL               |
-| BOOLEAN             | BOOLEAN            |
-| INT                 | INT                |
-| LONG                | BIGINT             |
-| BIG\_DECIMAL        | DECIMAL            |
-| FLOAT               | FLOAT/REAL         |
-| DOUBLE              | DOUBLE             |
-| INTERVAL            | INTERVAL           |
-| TIMESTAMP           | TIMESTAMP          |
-| STRING              | VARCHAR            |
-| BYTES               | VARBINARY          |
-| -                   | ARRAY              |
-| JSON                | -                  |
+<table>
+  <thead>
+    <tr>
+      <th>Single-stage engine</th>
+      <th>Multi-stage engine</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>BOOLEAN</td>
+      <td>BOOLEAN</td>
+    </tr>
+    <tr>
+      <td>INT</td>
+      <td>INT</td>
+    </tr>
+    <tr>
+      <td>LONG</td>
+      <td>BIGINT</td>
+    </tr>
+    <tr>
+      <td>BIG\_DECIMAL</td>
+      <td>DECIMAL</td>
+    </tr>
+    <tr>
+      <td>FLOAT</td>
+      <td>FLOAT/REAL</td>
+    </tr>
+    <tr>
+      <td>DOUBLE</td>
+      <td>DOUBLE</td>
+    </tr>
+    <tr>
+      <td>INTERVAL</td>
+      <td>INTERVAL</td>
+    </tr>
+    <tr>
+      <td>TIMESTAMP</td>
+      <td>TIMESTAMP</td>
+    </tr>
+    <tr>
+      <td>STRING</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <td>BYTES</td>
+      <td>VARBINARY</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>ARRAY</td>
+    </tr>
+    <tr>
+      <td>JSON</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Varbinary literals
 

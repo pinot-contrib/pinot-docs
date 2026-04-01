@@ -28,14 +28,40 @@ public interface SegmentWriter extends Closeable {
 
 ### Key Methods
 
-| Method | Description |
-| --- | --- |
-| `init(TableConfig, Schema)` | Initializes the writer with table config and Pinot schema. |
-| `init(TableConfig, Schema, Map)` | Initializes with additional batch config overrides. |
-| `collect(GenericRow)` | Buffers a single row. The row is not written to a segment until `flush()` is called. |
-| `collect(GenericRow[])` | Buffers a batch of rows. |
-| `flush()` | Builds a Pinot segment from buffered rows and returns the URI of the generated segment tar file. Resets the buffer on success. |
-| `close()` | Releases resources. |
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`init(TableConfig, Schema)`</td>
+      <td>Initializes the writer with table config and Pinot schema.</td>
+    </tr>
+    <tr>
+      <td>`init(TableConfig, Schema, Map)`</td>
+      <td>Initializes with additional batch config overrides.</td>
+    </tr>
+    <tr>
+      <td>`collect(GenericRow)`</td>
+      <td>Buffers a single row. The row is not written to a segment until `flush()` is called.</td>
+    </tr>
+    <tr>
+      <td>`collect(GenericRow[])`</td>
+      <td>Buffers a batch of rows.</td>
+    </tr>
+    <tr>
+      <td>`flush()`</td>
+      <td>Builds a Pinot segment from buffered rows and returns the URI of the generated segment tar file. Resets the buffer on success.</td>
+    </tr>
+    <tr>
+      <td>`close()`</td>
+      <td>Releases resources.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## File-Based Implementation
 
@@ -66,10 +92,27 @@ The segment writer is configured through `batchConfigMaps` in the table config:
 }
 ```
 
-| Property | Required | Description |
-| --- | --- | --- |
-| `outputDirURI` | Yes | Directory where generated segment tar files are written. |
-| `overwrite` | No | Whether to overwrite segments with duplicate names. Defaults to `false`. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`outputDirURI`</td>
+      <td>Yes</td>
+      <td>Directory where generated segment tar files are written.</td>
+    </tr>
+    <tr>
+      <td>`overwrite`</td>
+      <td>No</td>
+      <td>Whether to overwrite segments with duplicate names. Defaults to `false`.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Example
 

@@ -19,27 +19,69 @@ select DISTINCT league AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| NL    |
-| UA    |
-| AL    |
-| NA    |
-| PL    |
-| AA    |
-| FL    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>NL</td>
+    </tr>
+    <tr>
+      <td>UA</td>
+    </tr>
+    <tr>
+      <td>AL</td>
+    </tr>
+    <tr>
+      <td>NA</td>
+    </tr>
+    <tr>
+      <td>PL</td>
+    </tr>
+    <tr>
+      <td>AA</td>
+    </tr>
+    <tr>
+      <td>FL</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select DISTINCT(league) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| NL    |
-| UA    |
-| AL    |
-| NA    |
-| PL    |
-| AA    |
-| FL    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>NL</td>
+    </tr>
+    <tr>
+      <td>UA</td>
+    </tr>
+    <tr>
+      <td>AL</td>
+    </tr>
+    <tr>
+      <td>NA</td>
+    </tr>
+    <tr>
+      <td>PL</td>
+    </tr>
+    <tr>
+      <td>AA</td>
+    </tr>
+    <tr>
+      <td>FL</td>
+    </tr>
+  </tbody>
+</table>

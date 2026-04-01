@@ -19,6 +19,15 @@ select MINMAXRANGE(yearID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 142   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>142</td>
+    </tr>
+  </tbody>
+</table>

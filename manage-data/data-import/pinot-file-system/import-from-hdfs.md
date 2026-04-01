@@ -158,7 +158,9 @@ To use HDFS as deep storage, configure each Pinot component with the HDFS plugin
 pinot.server.instance.enable.split.commit=true
 pinot.server.storage.factory.class.hdfs=org.apache.pinot.plugin.filesystem.HadoopPinotFS
 pinot.server.storage.factory.hdfs.hadoop.conf.path=/path/to/hadoop/conf/directory/
+
 # For server, instructing the HadoopPinotFS plugin to use the specified keytab and principal when accessing HDFS paths
+
 pinot.server.storage.factory.hdfs.hadoop.kerberos.principle=<hdfs-principle>
 pinot.server.storage.factory.hdfs.hadoop.kerberos.keytab=<hdfs-keytab>
 pinot.server.segment.fetcher.protocols=file,http,hdfs
@@ -204,7 +206,9 @@ controller.access.protocols.http.port=9000
 controller.helix.cluster.name=PinotCluster
 pinot.controller.storage.factory.class.hdfs=org.apache.pinot.plugin.filesystem.HadoopPinotFS
 pinot.controller.storage.factory.hdfs.hadoop.conf.path=/path/to/hadoop/conf/directory/
+
 # For controller, instructing the HadoopPinotFS plugin to use the specified keytab and principal when accessing the HDFS path defined in controller.data.dir
+
 pinot.controller.storage.factory.hdfs.hadoop.kerberos.principle=<hdfs-principle>
 pinot.controller.storage.factory.hdfs.hadoop.kerberos.keytab=<hdfs-keytab>
 pinot.controller.segment.fetcher.protocols=file,http,hdfs
@@ -359,13 +363,17 @@ And then export `/opt/pinot/lib/hadoop-common-<release-version>.jar` in the clas
 
 **Solution:**
 ```bash
+
 # Verify keytab contains the correct principal
+
 klist -kt /path/to/your.keytab
 
 # Test authentication manually
+
 kinit -kt /path/to/your.keytab your-principal@YOUR.REALM
 
 # Check if authentication succeeded
+
 klist
 ```
 
@@ -384,11 +392,17 @@ klist
 
 **Solution:**
 ```bash
+
 # Check time synchronization
+
 date
+
 # Ensure NTP is running and synchronized
+
 sudo systemctl status ntpd
+
 # Or for chrony
+
 sudo systemctl status chronyd
 ```
 
@@ -408,18 +422,24 @@ Kerberos requires clock synchronization within 5 minutes (default) between clien
 To verify your Kerberos setup is working correctly:
 
 ```bash
+
 # 1. Test keytab authentication
+
 kinit -kt /path/to/your.keytab your-principal@YOUR.REALM
 
 # 2. Verify you can list HDFS directories
+
 hdfs dfs -ls /
 
 # 3. Check Pinot logs for authentication messages
+
 tail -f /path/to/pinot/logs/pinot-controller.log | grep -i kerberos
 tail -f /path/to/pinot/logs/pinot-server.log | grep -i kerberos
 
 # 4. Look for successful authentication messages like:
+
 # "Login successful for user <principal> using keytab file <keytab-path>"
+
 ```
 
 #### Best practices

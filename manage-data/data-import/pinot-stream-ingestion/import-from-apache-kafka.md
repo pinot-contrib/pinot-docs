@@ -635,10 +635,24 @@ Use `ProtoBufMessageDecoder` when you have a pre-compiled `.desc` (descriptor) f
 
 Required stream config properties:
 
-| Property | Description |
-|---|---|
-| `stream.kafka.decoder.prop.descriptorFile` | Path or URI to the `.desc` descriptor file. Supports local file paths, HDFS, and other Pinot-supported file systems. |
-| `stream.kafka.decoder.prop.protoClassName` | (Optional) Fully qualified Protobuf message name within the descriptor. If omitted, the first message type in the descriptor is used. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`stream.kafka.decoder.prop.descriptorFile`</td>
+      <td>Path or URI to the `.desc` descriptor file. Supports local file paths, HDFS, and other Pinot-supported file systems.</td>
+    </tr>
+    <tr>
+      <td>`stream.kafka.decoder.prop.protoClassName`</td>
+      <td>(Optional) Fully qualified Protobuf message name within the descriptor. If omitted, the first message type in the descriptor is used.</td>
+    </tr>
+  </tbody>
+</table>
 
 Example `streamConfigs`:
 
@@ -660,10 +674,24 @@ Use `ProtoBufCodeGenMessageDecoder` when you have a compiled JAR containing your
 
 Required stream config properties:
 
-| Property | Description |
-|---|---|
-| `stream.kafka.decoder.prop.jarFile` | Path or URI to the JAR file containing compiled Protobuf classes. |
-| `stream.kafka.decoder.prop.protoClassName` | Fully qualified Java class name of the Protobuf message (required). |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`stream.kafka.decoder.prop.jarFile`</td>
+      <td>Path or URI to the JAR file containing compiled Protobuf classes.</td>
+    </tr>
+    <tr>
+      <td>`stream.kafka.decoder.prop.protoClassName`</td>
+      <td>Fully qualified Java class name of the Protobuf message (required).</td>
+    </tr>
+  </tbody>
+</table>
 
 Example `streamConfigs`:
 
@@ -685,16 +713,41 @@ Use `KafkaConfluentSchemaRegistryProtoBufMessageDecoder` when your Protobuf sche
 
 Required stream config properties:
 
-| Property | Description |
-|---|---|
-| `stream.kafka.decoder.prop.schema.registry.rest.url` | URL of the Confluent Schema Registry. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`stream.kafka.decoder.prop.schema.registry.rest.url`</td>
+      <td>URL of the Confluent Schema Registry.</td>
+    </tr>
+  </tbody>
+</table>
 
 Optional properties:
 
-| Property | Description |
-|---|---|
-| `stream.kafka.decoder.prop.cached.schema.map.capacity` | Maximum number of cached schemas. Default: `1000`. |
-| `stream.kafka.decoder.prop.schema.registry.*` | SSL and authentication options for connecting to Schema Registry (same pattern as the Avro Confluent decoder). |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`stream.kafka.decoder.prop.cached.schema.map.capacity`</td>
+      <td>Maximum number of cached schemas. Default: `1000`.</td>
+    </tr>
+    <tr>
+      <td>`stream.kafka.decoder.prop.schema.registry.*`</td>
+      <td>SSL and authentication options for connecting to Schema Registry (same pattern as the Avro Confluent decoder).</td>
+    </tr>
+  </tbody>
+</table>
 
 Example `streamConfigs`:
 
@@ -715,9 +768,20 @@ Pinot supports decoding Apache Arrow IPC streaming format messages from Kafka us
 
 Optional stream config properties:
 
-| Property | Description |
-|---|---|
-| `stream.kafka.decoder.prop.arrow.allocator.limit` | Maximum memory (in bytes) for the Arrow allocator. Default: `268435456` (256 MB). |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`stream.kafka.decoder.prop.arrow.allocator.limit`</td>
+      <td>Maximum memory (in bytes) for the Arrow allocator. Default: `268435456` (256 MB).</td>
+    </tr>
+  </tbody>
+</table>
 
 Example `streamConfigs`:
 

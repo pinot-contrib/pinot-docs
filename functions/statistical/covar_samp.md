@@ -22,6 +22,15 @@ SELECT COVAR_SAMP(numberOfGames, AtBatting) AS covariance
 FROM baseballStats
 ```
 
-| covariance        |
-| ----------------- |
-| 8270.973200974102 |
+<table>
+  <thead>
+    <tr>
+      <th>covariance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>8270.973200974102</td>
+    </tr>
+  </tbody>
+</table>

@@ -8,11 +8,28 @@ The controller admin UI at `http://<controller-host>:<port>/help` is the quickes
 
 ## What It Covers
 
-| Area | Typical task |
-| --- | --- |
-| Tables | List, inspect, delete, and update table configs |
-| Schemas | List, inspect, create, and delete schemas |
-| Segments | List, inspect, upload, and reload segments |
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Typical task</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tables</td>
+      <td>List, inspect, delete, and update table configs</td>
+    </tr>
+    <tr>
+      <td>Schemas</td>
+      <td>List, inspect, create, and delete schemas</td>
+    </tr>
+    <tr>
+      <td>Segments</td>
+      <td>List, inspect, upload, and reload segments</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Operational Reminder
 

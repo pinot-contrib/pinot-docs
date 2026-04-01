@@ -16,12 +16,32 @@ The `DICTIONARY` encoding can be even more efficient if the segment is sorted by
 
 When working out whether a column should use dictionary encoded or raw value encoding, the following comparison table may help:
 
-| Dictionary                                                                  | Raw Value                                                                             |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Provides compression when low to medium cardinality.                        | Eliminates padding overhead                                                           |
-| Allows for indexing (esp inv index).                                        | No inv index (only JSON/Text/FST index)                                               |
-| Adds one level of dereferencing, so can increase disk seeks                 | Eliminates additional dereferencing, so good when all docs of interest are contiguous |
-| For Strings, adds padding to make all values equal length in the dictionary | Chunk de-compression overhead with docs selected don't have spatial locality          |
+<table>
+  <thead>
+    <tr>
+      <th>Dictionary</th>
+      <th>Raw Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Provides compression when low to medium cardinality.</td>
+      <td>Eliminates padding overhead</td>
+    </tr>
+    <tr>
+      <td>Allows for indexing (esp inv index).</td>
+      <td>No inv index (only JSON/Text/FST index)</td>
+    </tr>
+    <tr>
+      <td>Adds one level of dereferencing, so can increase disk seeks</td>
+      <td>Eliminates additional dereferencing, so good when all docs of interest are contiguous</td>
+    </tr>
+    <tr>
+      <td>For Strings, adds padding to make all values equal length in the dictionary</td>
+      <td>Chunk de-compression overhead with docs selected don't have spatial locality</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Dictionary-encoded forward index with bit compression (default)
 
@@ -39,9 +59,22 @@ When using the dictionary-encoded forward index for multi-value column, to furth
 
 It can be enabled with parameter:
 
-| Parameter             | Default | Description                                                            |
-| --------------------- | ------- | ---------------------------------------------------------------------- |
-| dictIdCompressionType | null    | The compression that will be used for dictionary-encoded forward index |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dictIdCompressionType</td>
+      <td>null</td>
+      <td>The compression that will be used for dictionary-encoded forward index</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Sorted forward index with run-length encoding
 
@@ -128,14 +161,47 @@ The raw format is applied when the dictionary is disabled for a column and the e
 
 When using the raw format, you can configure the following parameters:
 
-| Parameter             | Default | Description                                                                             |
-| --------------------- | ------- | --------------------------------------------------------------------------------------- |
-| chunkCompressionType  | null    | The compression that will be used. Replaced by `compressionCodec` since release `1.2.0` |
-| compressionCodec      | null    | The compression that will be used. Introduced in release `1.2.0`                        |
-| deriveNumDocsPerChunk | false   | Modifies the behavior when storing variable length values (like string or bytes)        |
-| rawIndexWriterVersion | 2       | The version initially used                                                              |
-| targetDocsPerChunk    | 1000    | The target number of docs per chunk                                                     |
-| targetMaxChunkSize    | 1MB     | The target max chunk size                                                               |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>chunkCompressionType</td>
+      <td>null</td>
+      <td>The compression that will be used. Replaced by `compressionCodec` since release `1.2.0`</td>
+    </tr>
+    <tr>
+      <td>compressionCodec</td>
+      <td>null</td>
+      <td>The compression that will be used. Introduced in release `1.2.0`</td>
+    </tr>
+    <tr>
+      <td>deriveNumDocsPerChunk</td>
+      <td>false</td>
+      <td>Modifies the behavior when storing variable length values (like string or bytes)</td>
+    </tr>
+    <tr>
+      <td>rawIndexWriterVersion</td>
+      <td>2</td>
+      <td>The version initially used</td>
+    </tr>
+    <tr>
+      <td>targetDocsPerChunk</td>
+      <td>1000</td>
+      <td>The target number of docs per chunk</td>
+    </tr>
+    <tr>
+      <td>targetMaxChunkSize</td>
+      <td>1MB</td>
+      <td>The target max chunk size</td>
+    </tr>
+  </tbody>
+</table>
 
 The `compressionCodec` parameter has the following valid values for raw-encoded columns:
 

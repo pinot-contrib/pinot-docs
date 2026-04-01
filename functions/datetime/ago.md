@@ -28,9 +28,18 @@ select ago('P1D') AS oneDayAgo
 FROM ignoreMe
 ```
 
-| oneDayAgo     |
-| ------------- |
-| 1639150454255 |
+<table>
+  <thead>
+    <tr>
+      <th>oneDayAgo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1639150454255</td>
+    </tr>
+  </tbody>
+</table>
 
 This function is typically used in the predicate to filter on timestamps for recent data. e.g. filter data on recent 1 day.
 

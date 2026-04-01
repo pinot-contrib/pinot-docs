@@ -12,9 +12,22 @@ Pinot supports inspecting and modifying Log4J log levels dynamically in producti
 GET /loggers
 ```
 
-| Parameter Type | Parameter Name  | Description                                            |
-| -------------- | --------------- | ------------------------------------------------------ |
-| Header         | `accept` string | Setting to `"accept: application/json"` is recommended |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter Type</th>
+      <th>Parameter Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>`accept` string</td>
+      <td>Setting to `"accept: application/json"` is recommended</td>
+    </tr>
+  </tbody>
+</table>
 
 Sample Usage:
 
@@ -29,10 +42,27 @@ $ curl -X GET -H "accept: application/json" localhost:8000/loggers
 GET /loggers/{loggerName}
 ```
 
-| Parameter Type | Parameter Name      | Description                                            |
-| -------------- | ------------------- | ------------------------------------------------------ |
-| Header         | `accept` string     | Setting to `"accept: application/json"` is recommended |
-| Path Parameter | `loggerName` string | The name of the logger (fully qualified path)          |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter Type</th>
+      <th>Parameter Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>`accept` string</td>
+      <td>Setting to `"accept: application/json"` is recommended</td>
+    </tr>
+    <tr>
+      <td>Path Parameter</td>
+      <td>`loggerName` string</td>
+      <td>The name of the logger (fully qualified path)</td>
+    </tr>
+  </tbody>
+</table>
 
 Sample Usage:
 
@@ -47,11 +77,32 @@ Sample Usage:
 PUT /loggers/{loggerName}?level={level}
 ```
 
-| Parameter Type  | Parameter Name      | Description                                            |
-| --------------- | ------------------- | ------------------------------------------------------ |
-| Header          | `accept` string     | Setting to `"accept: application/json"` is recommended |
-| Path Parameter  | `loggerName` string | The name of the logger (fully qualified path)          |
-| Query Parameter | `level` string      | the log level (such as `DEBUG` or `INFO`               |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter Type</th>
+      <th>Parameter Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>`accept` string</td>
+      <td>Setting to `"accept: application/json"` is recommended</td>
+    </tr>
+    <tr>
+      <td>Path Parameter</td>
+      <td>`loggerName` string</td>
+      <td>The name of the logger (fully qualified path)</td>
+    </tr>
+    <tr>
+      <td>Query Parameter</td>
+      <td>`level` string</td>
+      <td>the log level (such as `DEBUG` or `INFO`</td>
+    </tr>
+  </tbody>
+</table>
 
 Sample Usage
 
@@ -74,9 +125,22 @@ If the operator has access to the Controller, they can download log files from a
 GET /loggers/files
 ```
 
-| Parameter Type | Parameter Name  | Description                                            |
-| -------------- | --------------- | ------------------------------------------------------ |
-| Header         | `accept` string | Setting to `"accept: application/json"` is recommended |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter Type</th>
+      <th>Parameter Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>`accept` string</td>
+      <td>Setting to `"accept: application/json"` is recommended</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Download a Log File
 
@@ -84,10 +148,27 @@ GET /loggers/files
 GET /loggers/download?filePath={filePath}
 ```
 
-| Parameter Type  | Parameter name    | Description                                                      |
-| --------------- | ----------------- | ---------------------------------------------------------------- |
-| Header          | `accept` string   | Setting to `"accept: application/octet_string"` is recommended   |
-| Query Parameter | `filePath` string | The path to the file, can be obtained using `GET /loggers/files` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter Type</th>
+      <th>Parameter name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>`accept` string</td>
+      <td>Setting to `"accept: application/octet_string"` is recommended</td>
+    </tr>
+    <tr>
+      <td>Query Parameter</td>
+      <td>`filePath` string</td>
+      <td>The path to the file, can be obtained using `GET /loggers/files`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Remote Log APIs
 
@@ -101,9 +182,22 @@ These APIs are only supported on the Controller
 GET /loggers/instances
 ```
 
-| Parameter Type | Parameter Name  | Description                                             |
-| -------------- | --------------- | ------------------------------------------------------- |
-| Header         | `accept` string | Setting to `"accept": application/json"` is recommended |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter Type</th>
+      <th>Parameter Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>`accept` string</td>
+      <td>Setting to `"accept": application/json"` is recommended</td>
+    </tr>
+  </tbody>
+</table>
 
 #### List Log Files on a Specific Instance
 
@@ -111,10 +205,27 @@ GET /loggers/instances
 GET /loggers/instances/{instanceName}
 ```
 
-| Parameter Type | Parameter Name        | Description                                             |
-| -------------- | --------------------- | ------------------------------------------------------- |
-| Header         | `accept` string       | Setting to `"accept": application/json"` is recommended |
-| Path Parameter | `instanceName` string | Indicates which instance to collect logs from           |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter Type</th>
+      <th>Parameter Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>`accept` string</td>
+      <td>Setting to `"accept": application/json"` is recommended</td>
+    </tr>
+    <tr>
+      <td>Path Parameter</td>
+      <td>`instanceName` string</td>
+      <td>Indicates which instance to collect logs from</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Download Remote Log From Given Instance
 
@@ -122,8 +233,29 @@ GET /loggers/instances/{instanceName}
 GET /loggers/instances/{instanceName}/download?filePath={filePath}
 ```
 
-| Parameter Type  | Parameter Name        | Description                                   |
-| --------------- | --------------------- | --------------------------------------------- |
-| Header          | `accept` string       | Setting to `"accept: application/octet`       |
-| Path Parameter  | `instanceName` string | Indicates which instance to collect logs from |
-| Query Parameter | `filePath` string     | Indicates which file to download              |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter Type</th>
+      <th>Parameter Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>`accept` string</td>
+      <td>Setting to `"accept: application/octet`</td>
+    </tr>
+    <tr>
+      <td>Path Parameter</td>
+      <td>`instanceName` string</td>
+      <td>Indicates which instance to collect logs from</td>
+    </tr>
+    <tr>
+      <td>Query Parameter</td>
+      <td>`filePath` string</td>
+      <td>Indicates which file to download</td>
+    </tr>
+  </tbody>
+</table>

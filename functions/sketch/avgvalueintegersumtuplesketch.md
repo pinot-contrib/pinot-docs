@@ -38,15 +38,33 @@ select avgValueIntegerSumTupleSketch(playerHomeRuns) as value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 16    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>16</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select avgValueIntegerSumTupleSketch(playerHomeRuns, 'nominalEntries=4096;accumulatorThreshold=10') as value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 12    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>

@@ -17,6 +17,15 @@ SELECT CHR(65) AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| A     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A</td>
+    </tr>
+  </tbody>
+</table>

@@ -22,6 +22,19 @@ AND yearID = 1956
 AND playerName = 'Henry Louis'
 ```
 
-| homeRuns | numberOfGames | total               |
-| -------- | ------------- | ------------------- |
-| 26       | 153           | 0.16993464052287582 |
+<table>
+  <thead>
+    <tr>
+      <th>homeRuns</th>
+      <th>numberOfGames</th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>26</td>
+      <td>153</td>
+      <td>0.16993464052287582</td>
+    </tr>
+  </tbody>
+</table>

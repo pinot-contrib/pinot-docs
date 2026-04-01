@@ -33,9 +33,24 @@ from githubEvents
 LIMIT 1
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime |
-| ---------- | ---------------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804400000 | 17532         |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804400000</td>
+      <td>17532</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select id, 
@@ -46,9 +61,24 @@ from githubEvents
 LIMIT 1
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime |
-| ---------- | ---------------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804400000 | 420779        |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804400000</td>
+      <td>420779</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select id, 
@@ -59,9 +89,24 @@ from githubEvents
 LIMIT 1
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime |
-| ---------- | ---------------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804400000 | 1514804400    |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804400000</td>
+      <td>1514804400</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select id, 
@@ -72,9 +117,24 @@ from githubEvents
 LIMIT 1
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime |
-| ---------- | ---------------------- | ------------- | ------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804400000 | 1514804400000 |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804400000</td>
+      <td>1514804400000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select id, 
@@ -85,9 +145,24 @@ from githubEvents
 LIMIT 1
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime    |
-| ---------- | ---------------------- | ------------- | ---------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804400000 | 1514804400000000 |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804400000</td>
+      <td>1514804400000000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select id, 
@@ -98,6 +173,21 @@ from githubEvents
 LIMIT 1
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime       |
-| ---------- | ---------------------- | ------------- | ------------------- |
-| 7044874109 | 2018-01-01 11:00:00.0  | 1514804400000 | 1514804400000000000 |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874109</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804400000</td>
+      <td>1514804400000000000</td>
+    </tr>
+  </tbody>
+</table>

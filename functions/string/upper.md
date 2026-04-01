@@ -17,6 +17,15 @@ select UPPER('pinot') AS name
 FROM ignoreMe
 ```
 
-| name  |
-| ----- |
-| PINOT |
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PINOT</td>
+    </tr>
+  </tbody>
+</table>

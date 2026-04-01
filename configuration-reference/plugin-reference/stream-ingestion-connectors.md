@@ -21,13 +21,36 @@ Pinot ships two Kafka connector modules: `pinot-kafka-3.0` (Kafka client 3.9.2, 
 
 ### Supported Decoder Classes
 
-| Decoder Class | Description |
-| --- | --- |
-| `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder` | Decodes plain JSON messages without a schema registry. |
-| `org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder` | Decodes Avro messages using a schema provided via `stream.kafka.decoder.prop.schema`. |
-| `org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder` | Decodes Avro messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`. |
-| `org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder` | Decodes JSON messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`. Added in Pinot 1.4. |
-| `org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder` | Decodes Protocol Buffer messages. |
+<table>
+  <thead>
+    <tr>
+      <th>Decoder Class</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder`</td>
+      <td>Decodes plain JSON messages without a schema registry.</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder`</td>
+      <td>Decodes Avro messages using a schema provided via `stream.kafka.decoder.prop.schema`.</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder`</td>
+      <td>Decodes Avro messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`.</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder`</td>
+      <td>Decodes JSON messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`. Added in Pinot 1.4.</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder`</td>
+      <td>Decodes Protocol Buffer messages.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Kinesis Partition-level Connector
 

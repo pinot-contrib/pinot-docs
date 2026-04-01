@@ -20,9 +20,18 @@ from baseballStats
 WHERE AtBatting != 0 AND yearID > 2001
 ```
 
-| value |
-| ----- |
-| 2008  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2008</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select mode(yearID, 'AVG') AS value
@@ -30,9 +39,18 @@ from baseballStats
 WHERE AtBatting != 0 AND yearID > 2001
 ```
 
-| value |
-| ----- |
-| 2010  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2010</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select mode(yearID, 'MIN') AS value
@@ -40,9 +58,18 @@ from baseballStats
 WHERE AtBatting != 0 AND yearID > 2001
 ```
 
-| value |
-| ----- |
-| 2008  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2008</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select mode(yearID, 'MAX') AS value
@@ -50,6 +77,15 @@ from baseballStats
 WHERE AtBatting != 0 AND yearID > 2001
 ```
 
-| value |
-| ----- |
-| 2012  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2012</td>
+    </tr>
+  </tbody>
+</table>

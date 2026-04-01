@@ -19,15 +19,33 @@ select millisecond(1639351800000) AS millisecond
 FROM ignoreMe
 ```
 
-| millisecond |
-| ----------- |
-| 0           |
+<table>
+  <thead>
+    <tr>
+      <th>millisecond</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select millisecond(1639351800000, 'America/St_Johns') AS millisecond
 FROM ignoreMe
 ```
 
-| millisecond |
-| ----------- |
-| 0           |
+<table>
+  <thead>
+    <tr>
+      <th>millisecond</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>

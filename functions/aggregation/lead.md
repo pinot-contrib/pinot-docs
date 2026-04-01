@@ -39,11 +39,32 @@ FROM
 
 Output:
 
-| sales\_date | sales\_amount | next\_day\_sales |
-| ----------- | ------------- | ---------------- |
-| 2023-02-14  | 200           | 180              |
-| 2023-02-15  | 180           | 220              |
-| 2023-02-16  | 220           | NULL             |
+<table>
+  <thead>
+    <tr>
+      <th>sales\_date</th>
+      <th>sales\_amount</th>
+      <th>next\_day\_sales</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023-02-14</td>
+      <td>200</td>
+      <td>180</td>
+    </tr>
+    <tr>
+      <td>2023-02-15</td>
+      <td>180</td>
+      <td>220</td>
+    </tr>
+    <tr>
+      <td>2023-02-16</td>
+      <td>220</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table>
 
 Anticipate the next payment amount for budget planning This query retrieves the next payment amount for each transaction to assist in financial forecasting and budgeting.
 
@@ -59,11 +80,36 @@ FROM
 
 Output:
 
-| transaction\_id | payment\_date              | amount | next\_payment\_amount |
-| --------------- | -------------------------- | ------ | --------------------- |
-| 416             | 2023-02-14 21:21:59.996577 | 2.99   | 4.99                  |
-| 516             | 2023-02-14 21:23:39.996577 | 4.99   | 4.99                  |
-| 239             | 2023-02-14 21:29:00.996577 | 4.99   | 6.99                  |
+<table>
+  <thead>
+    <tr>
+      <th>transaction\_id</th>
+      <th>payment\_date</th>
+      <th>amount</th>
+      <th>next\_payment\_amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>416</td>
+      <td>2023-02-14 21:21:59.996577</td>
+      <td>2.99</td>
+      <td>4.99</td>
+    </tr>
+    <tr>
+      <td>516</td>
+      <td>2023-02-14 21:23:39.996577</td>
+      <td>4.99</td>
+      <td>4.99</td>
+    </tr>
+    <tr>
+      <td>239</td>
+      <td>2023-02-14 21:29:00.996577</td>
+      <td>4.99</td>
+      <td>6.99</td>
+    </tr>
+  </tbody>
+</table>
 
 Identify potential increases in expenses or revenue Utilize the LEAD function to examine monthly data and predict potential increases or trends in expenses or revenue for future planning.
 
@@ -79,11 +125,36 @@ FROM
 
 Output:
 
-| month | year | expenses | next\_month\_expenses |
-| ----- | ---- | -------- | --------------------- |
-| 1     | 2023 | 1000     | 1100                  |
-| 2     | 2023 | 1100     | 1200                  |
-| 3     | 2023 | 1200     | NULL                  |
+<table>
+  <thead>
+    <tr>
+      <th>month</th>
+      <th>year</th>
+      <th>expenses</th>
+      <th>next\_month\_expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2023</td>
+      <td>1000</td>
+      <td>1100</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2023</td>
+      <td>1100</td>
+      <td>1200</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2023</td>
+      <td>1200</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table>
 
 Use with CTE:
 

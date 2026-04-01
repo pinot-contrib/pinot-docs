@@ -27,11 +27,28 @@ Table naming in Pinot follows typical naming conventions, such as starting names
 
 Pinot supports the following types of tables:
 
-| Type          | Description                                                                                                                   |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Offline**   | Offline tables ingest pre-built Pinot segments from external data stores and are generally used for batch ingestion.          |
-| **Real-time** | Real-time tables ingest data from streams (such as Kafka) and build segments from the consumed data.                          |
-| **Hybrid**    | Hybrid Pinot tables have both real-time as well as offline tables under the hood. By default, all tables in Pinot are hybrid. |
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Offline**</td>
+      <td>Offline tables ingest pre-built Pinot segments from external data stores and are generally used for batch ingestion.</td>
+    </tr>
+    <tr>
+      <td>**Real-time**</td>
+      <td>Real-time tables ingest data from streams (such as Kafka) and build segments from the consumed data.</td>
+    </tr>
+    <tr>
+      <td>**Hybrid**</td>
+      <td>Hybrid Pinot tables have both real-time as well as offline tables under the hood. By default, all tables in Pinot are hybrid.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 The user querying the database does not need to know the type of the table. They only need to specify the table name in the query.
@@ -201,10 +218,13 @@ bin/pinot-admin.sh AddTable \
 
 {% tab title="curl" %}
 ```bash
+
 # add schema
+
 curl -F schemaName=@airlineStats_schema.json  localhost:9000/schemas
 
 # add table
+
 curl -i -X POST -H 'Content-Type: application/json' \
     -d @airlineStats_offline_table_config.json localhost:9000/tables
 ```

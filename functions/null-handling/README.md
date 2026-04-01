@@ -123,13 +123,42 @@ bool_col1 AND bool_col2
 
 Logical AND operator with three-valued logic. Returns `false` if either operand is `false`, `null` if either operand is `null` and the other is not `false`, and `true` only when both operands are `true`.
 
-| a | b | a AND b |
-|---|---|---|
-| TRUE | TRUE | TRUE |
-| TRUE | FALSE | FALSE |
-| TRUE | NULL | NULL |
-| FALSE | NULL | FALSE |
-| NULL | NULL | NULL |
+<table>
+  <thead>
+    <tr>
+      <th>a</th>
+      <th>b</th>
+      <th>a AND b</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TRUE</td>
+      <td>TRUE</td>
+      <td>TRUE</td>
+    </tr>
+    <tr>
+      <td>TRUE</td>
+      <td>FALSE</td>
+      <td>FALSE</td>
+    </tr>
+    <tr>
+      <td>TRUE</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>FALSE</td>
+      <td>NULL</td>
+      <td>FALSE</td>
+    </tr>
+    <tr>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT *
@@ -146,13 +175,42 @@ bool_col1 OR bool_col2
 
 Logical OR operator with three-valued logic. Returns `true` if either operand is `true`, `null` if either operand is `null` and the other is not `true`, and `false` only when both operands are `false`.
 
-| a | b | a OR b |
-|---|---|---|
-| TRUE | FALSE | TRUE |
-| TRUE | NULL | TRUE |
-| FALSE | FALSE | FALSE |
-| FALSE | NULL | NULL |
-| NULL | NULL | NULL |
+<table>
+  <thead>
+    <tr>
+      <th>a</th>
+      <th>b</th>
+      <th>a OR b</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TRUE</td>
+      <td>FALSE</td>
+      <td>TRUE</td>
+    </tr>
+    <tr>
+      <td>TRUE</td>
+      <td>NULL</td>
+      <td>TRUE</td>
+    </tr>
+    <tr>
+      <td>FALSE</td>
+      <td>FALSE</td>
+      <td>FALSE</td>
+    </tr>
+    <tr>
+      <td>FALSE</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT *
@@ -169,11 +227,28 @@ NOT bool_col
 
 Logical NOT operator. Returns `null` if the input is `null`, otherwise returns the boolean negation.
 
-| a | NOT a |
-|---|---|
-| TRUE | FALSE |
-| FALSE | TRUE |
-| NULL | NULL |
+<table>
+  <thead>
+    <tr>
+      <th>a</th>
+      <th>NOT a</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TRUE</td>
+      <td>FALSE</td>
+    </tr>
+    <tr>
+      <td>FALSE</td>
+      <td>TRUE</td>
+    </tr>
+    <tr>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT *

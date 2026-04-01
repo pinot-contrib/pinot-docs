@@ -17,6 +17,15 @@ select sqrt(25) AS value
 from ignoreMe
 ```
 
-| value |
-| ----- |
-| 5     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>

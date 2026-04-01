@@ -29,18 +29,36 @@ select distinctCountCpcSketch(teamID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 150   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>150</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select distinctCountCpcSketch(teamID, 'nominalEntries=256;accumulatorThreshold=10') AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 150   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>150</td>
+    </tr>
+  </tbody>
+</table>
 
 We can also extract estimates when combining CPC sketches together via `cpcSketchUnion`  for more complex use cases:
 
@@ -55,8 +73,17 @@ select
 from baseballStats
 ```
 
-| value |
-| ----- |
-| 58    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>58</td>
+    </tr>
+  </tbody>
+</table>
 
 This function can also be used with the V2 query engine.

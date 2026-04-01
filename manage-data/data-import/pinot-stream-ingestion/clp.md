@@ -158,12 +158,32 @@ V2 uses fixed-byte encoding with Zstandard chunk compression instead of V1's unc
 
 You can select the compression codec for CLP-encoded columns using the `compressionCodec` in `fieldConfig`:
 
-| Codec         | Description                                  |
-| ------------- | -------------------------------------------- |
-| `CLPV2`       | CLP V2 with default ZStandard compression    |
-| `CLPV2_ZSTD`  | CLP V2 with explicit ZStandard compression   |
-| `CLPV2_LZ4`   | CLP V2 with LZ4 compression                 |
-| `CLP`         | Legacy V1 (uncompressed, pass-through)       |
+<table>
+  <thead>
+    <tr>
+      <th>Codec</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`CLPV2`</td>
+      <td>CLP V2 with default ZStandard compression</td>
+    </tr>
+    <tr>
+      <td>`CLPV2_ZSTD`</td>
+      <td>CLP V2 with explicit ZStandard compression</td>
+    </tr>
+    <tr>
+      <td>`CLPV2_LZ4`</td>
+      <td>CLP V2 with LZ4 compression</td>
+    </tr>
+    <tr>
+      <td>`CLP`</td>
+      <td>Legacy V1 (uncompressed, pass-through)</td>
+    </tr>
+  </tbody>
+</table>
 
 Example field config:
 

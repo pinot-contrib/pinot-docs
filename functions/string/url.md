@@ -19,15 +19,33 @@ SELECT concat('https://www.google.com/search?q=', encodeUrl('key1=val1 key2=45% 
 FROM ignoreMe
 ```
 
-| encoded                                                               |
-| --------------------------------------------------------------------- |
-| https://www.google.com/search?q=key1%3Dval1+key2%3D45%25+key3%3D%2347 |
+<table>
+  <thead>
+    <tr>
+      <th>encoded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>https://www.google.com/search?q=key1%3Dval1+key2%3D45%25+key3%3D%2347</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT decodeUrl('https://www.google.com/search?q=key1%3Dval1+key2%3D45%25+key3%3D%2347') AS decoded
 FROM ignoreMe
 ```
 
-| decoded                                                     |
-| ----------------------------------------------------------- |
-| https://www.google.com/search?q=key1=val1 key2=45% key3=#47 |
+<table>
+  <thead>
+    <tr>
+      <th>decoded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>https://www.google.com/search?q=key1=val1 key2=45% key3=#47</td>
+    </tr>
+  </tbody>
+</table>

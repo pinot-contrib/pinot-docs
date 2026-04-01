@@ -11,18 +11,78 @@ This section covers the **configuration** side of each plugin family: which impl
 
 ## Plugin Families at a Glance
 
-| Plugin Family | What It Does | Config Reference | Authoring Guide |
-| --- | --- | --- | --- |
-| **Stream Ingestion** | Consume data from real-time streaming platforms (Kafka, Kinesis, Pulsar) | [Stream Ingestion Connectors](stream-ingestion-connectors.md) · [Version Matrix](stream-connector-matrix.md) | [Stream Ingestion Plugin](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md) |
-| **Input Format** | Read records from files or streams during ingestion (Avro, JSON, Parquet, ORC, CSV, …) | [Input Formats](../../manage-data/data-import/pinot-input-formats.md) | [Input Format Plugin](../../developers/plugin-architecture/write-custom-plugins/record-reader.md) |
-| **Filesystem** | Store and fetch segments from pluggable storage backends (S3, GCS, HDFS, ADLS) | [Filesystem Plugins](../../manage-data/data-import/pinot-file-system/) | [Filesystem Plugin](../../developers/plugin-architecture/write-custom-plugins/pluggable-storage.md) |
-| **Batch Ingestion** | Run data ingestion jobs on different execution frameworks (Standalone, Hadoop, Spark) | [Batch Ingestion](../../manage-data/data-import/batch-ingestion/) | — |
-| **Metrics** | Collect and expose internal JMX metrics via Dropwizard, Yammer, or a compound backend | [Metrics Plugins](metrics-plugins.md) | [Metrics Plugin](../../developers/plugin-architecture/write-custom-plugins/metrics-plugin.md) |
-| **Segment Writer** | Programmatically build Pinot segments without a full batch ingestion job | — | [Segment Writer Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-writer-plugin.md) |
-| **Segment Uploader** | Upload completed segment tar files to the Pinot cluster | — | [Segment Uploader Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-uploader-plugin.md) |
-| **Minion Tasks** | Run background processing tasks on Pinot Minion nodes (merge, purge, compaction, …) | [Minion](../../basics/components/cluster/minion.md) · [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md) | [Minion Task Plugin](../../developers/plugin-architecture/write-custom-plugins/minion-task-plugin.md) |
-| **Environment** | Discover cloud-specific instance metadata for failure-domain–aware placement | [Environment Provider](environment-provider.md) | — |
-| **Time Series Language** | Support custom time series query languages (M3QL, PromQL) | — | [Time Series Language Plugin](../../developers/plugin-architecture/write-custom-plugins/time-series-language-plugin.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Plugin Family</th>
+      <th>What It Does</th>
+      <th>Config Reference</th>
+      <th>Authoring Guide</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Stream Ingestion**</td>
+      <td>Consume data from real-time streaming platforms (Kafka, Kinesis, Pulsar)</td>
+      <td>[Stream Ingestion Connectors](stream-ingestion-connectors.md) · [Version Matrix](stream-connector-matrix.md)</td>
+      <td>[Stream Ingestion Plugin](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md)</td>
+    </tr>
+    <tr>
+      <td>**Input Format**</td>
+      <td>Read records from files or streams during ingestion (Avro, JSON, Parquet, ORC, CSV, …)</td>
+      <td>[Input Formats](../../manage-data/data-import/pinot-input-formats.md)</td>
+      <td>[Input Format Plugin](../../developers/plugin-architecture/write-custom-plugins/record-reader.md)</td>
+    </tr>
+    <tr>
+      <td>**Filesystem**</td>
+      <td>Store and fetch segments from pluggable storage backends (S3, GCS, HDFS, ADLS)</td>
+      <td>[Filesystem Plugins](../../manage-data/data-import/pinot-file-system/)</td>
+      <td>[Filesystem Plugin](../../developers/plugin-architecture/write-custom-plugins/pluggable-storage.md)</td>
+    </tr>
+    <tr>
+      <td>**Batch Ingestion**</td>
+      <td>Run data ingestion jobs on different execution frameworks (Standalone, Hadoop, Spark)</td>
+      <td>[Batch Ingestion](../../manage-data/data-import/batch-ingestion/)</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>**Metrics**</td>
+      <td>Collect and expose internal JMX metrics via Dropwizard, Yammer, or a compound backend</td>
+      <td>[Metrics Plugins](metrics-plugins.md)</td>
+      <td>[Metrics Plugin](../../developers/plugin-architecture/write-custom-plugins/metrics-plugin.md)</td>
+    </tr>
+    <tr>
+      <td>**Segment Writer**</td>
+      <td>Programmatically build Pinot segments without a full batch ingestion job</td>
+      <td>—</td>
+      <td>[Segment Writer Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-writer-plugin.md)</td>
+    </tr>
+    <tr>
+      <td>**Segment Uploader**</td>
+      <td>Upload completed segment tar files to the Pinot cluster</td>
+      <td>—</td>
+      <td>[Segment Uploader Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-uploader-plugin.md)</td>
+    </tr>
+    <tr>
+      <td>**Minion Tasks**</td>
+      <td>Run background processing tasks on Pinot Minion nodes (merge, purge, compaction, …)</td>
+      <td>[Minion](../../basics/components/cluster/minion.md) · [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md)</td>
+      <td>[Minion Task Plugin](../../developers/plugin-architecture/write-custom-plugins/minion-task-plugin.md)</td>
+    </tr>
+    <tr>
+      <td>**Environment**</td>
+      <td>Discover cloud-specific instance metadata for failure-domain–aware placement</td>
+      <td>[Environment Provider](environment-provider.md)</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>**Time Series Language**</td>
+      <td>Support custom time series query languages (M3QL, PromQL)</td>
+      <td>—</td>
+      <td>[Time Series Language Plugin](../../developers/plugin-architecture/write-custom-plugins/time-series-language-plugin.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 

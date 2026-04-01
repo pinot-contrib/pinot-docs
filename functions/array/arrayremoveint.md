@@ -23,10 +23,33 @@ AND arrayContainsInt(DivAirportIDs, 12892) = 1
 limit 5
 ```
 
-| DivAirportIDs | value |
-| ------------- | ----- |
-| 13891,12892   | 13891 |
-| 13198,12892   | 13198 |
-| 11066,12892   | 11066 |
-| 13198,12892   | 13198 |
-| 13891,12892   | 13891 |
+<table>
+  <thead>
+    <tr>
+      <th>DivAirportIDs</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13891,12892</td>
+      <td>13891</td>
+    </tr>
+    <tr>
+      <td>13198,12892</td>
+      <td>13198</td>
+    </tr>
+    <tr>
+      <td>11066,12892</td>
+      <td>11066</td>
+    </tr>
+    <tr>
+      <td>13198,12892</td>
+      <td>13198</td>
+    </tr>
+    <tr>
+      <td>13891,12892</td>
+      <td>13891</td>
+    </tr>
+  </tbody>
+</table>

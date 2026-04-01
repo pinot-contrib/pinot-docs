@@ -8,26 +8,95 @@ This page is the flat reference for Pinot schema JSON. It brings the top-level s
 
 ## Key Areas
 
-| Area | What it covers | Jump |
-| --- | --- | --- |
-| Schema object | Top-level schema fields and a complete example | [Schema object](#schema-object) |
-| Field specs | Dimension, metric, and date-time column definitions | [Field specs](#field-specs) |
-| Null handling | `enableColumnBasedNullHandling` and default null values | [Null handling](#null-handling) |
-| Complex fields | `MAP` columns and `childFieldSpecs` | [ComplexFieldSpecs](#complexfieldspecs) |
-| Date-time formats | New and legacy format syntaxes | [New DateTime Formats](#new-datetime-formats) |
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>What it covers</th>
+      <th>Jump</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Schema object</td>
+      <td>Top-level schema fields and a complete example</td>
+      <td>[Schema object](#schema-object)</td>
+    </tr>
+    <tr>
+      <td>Field specs</td>
+      <td>Dimension, metric, and date-time column definitions</td>
+      <td>[Field specs](#field-specs)</td>
+    </tr>
+    <tr>
+      <td>Null handling</td>
+      <td>`enableColumnBasedNullHandling` and default null values</td>
+      <td>[Null handling](#null-handling)</td>
+    </tr>
+    <tr>
+      <td>Complex fields</td>
+      <td>`MAP` columns and `childFieldSpecs`</td>
+      <td>[ComplexFieldSpecs](#complexfieldspecs)</td>
+    </tr>
+    <tr>
+      <td>Date-time formats</td>
+      <td>New and legacy format syntaxes</td>
+      <td>[New DateTime Formats](#new-datetime-formats)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Schema Object
 
 Use a schema to define the column names, data types, null-handling behavior, and field groups for a Pinot table.
 
-| Field | Release Version | Default | Description |
-| --- | --- | --- | --- |
-| `schemaName` | - | required | Name of the schema. This must match the table name without the `OFFLINE` or `REALTIME` suffix, so both physical tables of a hybrid table share one schema. |
-| `enableColumnBasedNullHandling` | 1.1.0 | `false` | When `true`, enables column-based null handling. When `false`, Pinot uses table-based null handling. See [Null value support](../../developers/advanced/null-value-support.md). |
-| `dimensionFieldSpecs` | - | `[]` | Dimension-column definitions. See [DimensionFieldSpecs](#dimensionfieldspecs). |
-| `metricFieldSpecs` | - | `[]` | Metric-column definitions. See [MetricFieldSpecs](#metricfieldspecs). |
-| `dateTimeFieldSpecs` | - | `[]` | Time-column definitions. A schema can define multiple time columns. See [DateTimeFieldSpecs](#datetimefieldspecs). |
-| `complexFieldSpecs` | - | `[]` | Complex-column definitions. Pinot currently supports `MAP` through this section. See [ComplexFieldSpecs](#complexfieldspecs). |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Release Version</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`schemaName`</td>
+      <td>-</td>
+      <td>required</td>
+      <td>Name of the schema. This must match the table name without the `OFFLINE` or `REALTIME` suffix, so both physical tables of a hybrid table share one schema.</td>
+    </tr>
+    <tr>
+      <td>`enableColumnBasedNullHandling`</td>
+      <td>1.1.0</td>
+      <td>`false`</td>
+      <td>When `true`, enables column-based null handling. When `false`, Pinot uses table-based null handling. See [Null value support](../../developers/advanced/null-value-support.md).</td>
+    </tr>
+    <tr>
+      <td>`dimensionFieldSpecs`</td>
+      <td>-</td>
+      <td>`[]`</td>
+      <td>Dimension-column definitions. See [DimensionFieldSpecs](#dimensionfieldspecs).</td>
+    </tr>
+    <tr>
+      <td>`metricFieldSpecs`</td>
+      <td>-</td>
+      <td>`[]`</td>
+      <td>Metric-column definitions. See [MetricFieldSpecs](#metricfieldspecs).</td>
+    </tr>
+    <tr>
+      <td>`dateTimeFieldSpecs`</td>
+      <td>-</td>
+      <td>`[]`</td>
+      <td>Time-column definitions. A schema can define multiple time columns. See [DateTimeFieldSpecs](#datetimefieldspecs).</td>
+    </tr>
+    <tr>
+      <td>`complexFieldSpecs`</td>
+      <td>-</td>
+      <td>`[]`</td>
+      <td>Complex-column definitions. Pinot currently supports `MAP` through this section. See [ComplexFieldSpecs](#complexfieldspecs).</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Example Schema
 
@@ -107,18 +176,67 @@ Use a schema to define the column names, data types, null-handling behavior, and
 
 Pinot supports the following schema data types:
 
-| Data Type | Default Dimension Value | Default Metric Value |
-| --- | --- | --- |
-| `INT` | [Integer.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN_VALUE) | `0` |
-| `LONG` | [Long.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE) | `0` |
-| `FLOAT` | [Float.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY) | `0.0` |
-| `DOUBLE` | [Double.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY) | `0.0` |
-| `BIG_DECIMAL` | Not supported | `0.0` |
-| `BOOLEAN` | `0` (`false`) | N/A |
-| `TIMESTAMP` | `0` (`1970-01-01 00:00:00 UTC`) | N/A |
-| `STRING` | `"null"` | N/A |
-| `JSON` | `"null"` | N/A |
-| `BYTES` | byte array of length `0` | byte array of length `0` |
+<table>
+  <thead>
+    <tr>
+      <th>Data Type</th>
+      <th>Default Dimension Value</th>
+      <th>Default Metric Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`INT`</td>
+      <td>[Integer.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN_VALUE)</td>
+      <td>`0`</td>
+    </tr>
+    <tr>
+      <td>`LONG`</td>
+      <td>[Long.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE)</td>
+      <td>`0`</td>
+    </tr>
+    <tr>
+      <td>`FLOAT`</td>
+      <td>[Float.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY)</td>
+      <td>`0.0`</td>
+    </tr>
+    <tr>
+      <td>`DOUBLE`</td>
+      <td>[Double.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY)</td>
+      <td>`0.0`</td>
+    </tr>
+    <tr>
+      <td>`BIG_DECIMAL`</td>
+      <td>Not supported</td>
+      <td>`0.0`</td>
+    </tr>
+    <tr>
+      <td>`BOOLEAN`</td>
+      <td>`0` (`false`)</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>`TIMESTAMP`</td>
+      <td>`0` (`1970-01-01 00:00:00 UTC`)</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>`STRING`</td>
+      <td>`"null"`</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>`JSON`</td>
+      <td>`"null"`</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>`BYTES`</td>
+      <td>byte array of length `0`</td>
+      <td>byte array of length `0`</td>
+    </tr>
+  </tbody>
+</table>
 
 The `TIMESTAMP` type supports milliseconds epoch precision. Nanoseconds are not supported.
 
@@ -142,61 +260,182 @@ At schema level, null handling is controlled by `enableColumnBasedNullHandling` 
 
 ### Dimension Default Null Values
 
-| Data Type | Internal Default Null Value |
-| --- | --- |
-| `INT` | [Integer.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN_VALUE) |
-| `LONG` | [Long.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE) |
-| `FLOAT` | [Float.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY) |
-| `DOUBLE` | [Double.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY) |
-| `BOOLEAN` | `0` (`false`) |
-| `TIMESTAMP` | `0` (`1970-01-01 00:00:00 UTC`) |
-| `STRING` | `"null"` |
-| `BYTES` | byte array of length `0` |
-| `JSON` | `"null"` |
+<table>
+  <thead>
+    <tr>
+      <th>Data Type</th>
+      <th>Internal Default Null Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`INT`</td>
+      <td>[Integer.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html#MIN_VALUE)</td>
+    </tr>
+    <tr>
+      <td>`LONG`</td>
+      <td>[Long.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE)</td>
+    </tr>
+    <tr>
+      <td>`FLOAT`</td>
+      <td>[Float.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY)</td>
+    </tr>
+    <tr>
+      <td>`DOUBLE`</td>
+      <td>[Double.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY)</td>
+    </tr>
+    <tr>
+      <td>`BOOLEAN`</td>
+      <td>`0` (`false`)</td>
+    </tr>
+    <tr>
+      <td>`TIMESTAMP`</td>
+      <td>`0` (`1970-01-01 00:00:00 UTC`)</td>
+    </tr>
+    <tr>
+      <td>`STRING`</td>
+      <td>`"null"`</td>
+    </tr>
+    <tr>
+      <td>`BYTES`</td>
+      <td>byte array of length `0`</td>
+    </tr>
+    <tr>
+      <td>`JSON`</td>
+      <td>`"null"`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Metric Default Null Values
 
-| Data Type | Internal Default Null Value |
-| --- | --- |
-| `INT` | `0` |
-| `LONG` | `0` |
-| `FLOAT` | `0.0` |
-| `DOUBLE` | `0.0` |
-| `BIG_DECIMAL` | `0.0` |
-| `BYTES` | byte array of length `0` |
+<table>
+  <thead>
+    <tr>
+      <th>Data Type</th>
+      <th>Internal Default Null Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`INT`</td>
+      <td>`0`</td>
+    </tr>
+    <tr>
+      <td>`LONG`</td>
+      <td>`0`</td>
+    </tr>
+    <tr>
+      <td>`FLOAT`</td>
+      <td>`0.0`</td>
+    </tr>
+    <tr>
+      <td>`DOUBLE`</td>
+      <td>`0.0`</td>
+    </tr>
+    <tr>
+      <td>`BIG_DECIMAL`</td>
+      <td>`0.0`</td>
+    </tr>
+    <tr>
+      <td>`BYTES`</td>
+      <td>byte array of length `0`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## DimensionFieldSpecs
 
 Define one dimension field spec for each dimension column.
 
-| Property | Description |
-| --- | --- |
-| `name` | Name of the dimension column. |
-| `dataType` | Data type of the dimension column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `BYTES`, and `JSON`. |
-| `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. |
-| `singleValueField` | Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. The default null value for a multi-value column is a single-element list containing the configured or internal null value. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`name`</td>
+      <td>Name of the dimension column.</td>
+    </tr>
+    <tr>
+      <td>`dataType`</td>
+      <td>Data type of the dimension column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `BYTES`, and `JSON`.</td>
+    </tr>
+    <tr>
+      <td>`defaultNullValue`</td>
+      <td>Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type.</td>
+    </tr>
+    <tr>
+      <td>`singleValueField`</td>
+      <td>Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. The default null value for a multi-value column is a single-element list containing the configured or internal null value.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## MetricFieldSpecs
 
 Define one metric field spec for each metric column.
 
-| Property | Description |
-| --- | --- |
-| `name` | Name of the metric column. |
-| `dataType` | Data type of the metric column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, and `BYTES` for serialized sketches such as HLL or TDigest. |
-| `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`name`</td>
+      <td>Name of the metric column.</td>
+    </tr>
+    <tr>
+      <td>`dataType`</td>
+      <td>Data type of the metric column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, and `BYTES` for serialized sketches such as HLL or TDigest.</td>
+    </tr>
+    <tr>
+      <td>`defaultNullValue`</td>
+      <td>Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## DateTimeFieldSpecs
 
 Use date-time field specs to define time columns.
 
-| Property | Description |
-| --- | --- |
-| `name` | Name of the date-time column. |
-| `dataType` | Data type of the date-time column. Supported types are `STRING`, `INT`, `LONG`, and `TIMESTAMP`. Internally `TIMESTAMP` is stored as `LONG` milliseconds since epoch. If you use `TIMESTAMP`, source data must be either `LONG` epoch values or JDBC timestamp strings such as `2021-01-01 01:01:01.123`. |
-| `format` | Format in which the time value is stored. See [New DateTime Formats](#new-datetime-formats). |
-| `granularity` | Bucket size and unit in `bucketSize:bucketUnit` form, for example `15:MINUTES`. This is descriptive metadata only; Pinot does not automatically round values to the declared granularity. |
-| `defaultNullValue` | Value Pinot should write when the source record is null. String-based date-time fields default to `"null"`. `TIMESTAMP` defaults to epoch `0` (`1970-01-01 00:00:00 UTC`). For the primary time column named in table `segmentsConfig`, the default value must fall between `1971-01-01 UTC` and `2071-01-01 UTC`; otherwise Pinot uses segment creation time for segment-management features such as retention and time boundary. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`name`</td>
+      <td>Name of the date-time column.</td>
+    </tr>
+    <tr>
+      <td>`dataType`</td>
+      <td>Data type of the date-time column. Supported types are `STRING`, `INT`, `LONG`, and `TIMESTAMP`. Internally `TIMESTAMP` is stored as `LONG` milliseconds since epoch. If you use `TIMESTAMP`, source data must be either `LONG` epoch values or JDBC timestamp strings such as `2021-01-01 01:01:01.123`.</td>
+    </tr>
+    <tr>
+      <td>`format`</td>
+      <td>Format in which the time value is stored. See [New DateTime Formats](#new-datetime-formats).</td>
+    </tr>
+    <tr>
+      <td>`granularity`</td>
+      <td>Bucket size and unit in `bucketSize:bucketUnit` form, for example `15:MINUTES`. This is descriptive metadata only; Pinot does not automatically round values to the declared granularity.</td>
+    </tr>
+    <tr>
+      <td>`defaultNullValue`</td>
+      <td>Value Pinot should write when the source record is null. String-based date-time fields default to `"null"`. `TIMESTAMP` defaults to epoch `0` (`1970-01-01 00:00:00 UTC`). For the primary time column named in table `segmentsConfig`, the default value must fall between `1971-01-01 UTC` and `2071-01-01 UTC`; otherwise Pinot uses segment creation time for segment-management features such as retention and time boundary.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## New DateTime Formats
 
@@ -250,13 +489,36 @@ Examples:
 
 Use complex field specs for complex data types. Pinot currently supports `MAP`.
 
-| Property | Description |
-| --- | --- |
-| `name` | Name of the complex column. |
-| `dataType` | Complex data type. Currently supports `MAP`. |
-| `fieldType` | Must be `COMPLEX`. |
-| `notNull` | Whether the column can contain null values. |
-| `childFieldSpecs` | Definition of the map `key` and `value` sub-fields. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`name`</td>
+      <td>Name of the complex column.</td>
+    </tr>
+    <tr>
+      <td>`dataType`</td>
+      <td>Complex data type. Currently supports `MAP`.</td>
+    </tr>
+    <tr>
+      <td>`fieldType`</td>
+      <td>Must be `COMPLEX`.</td>
+    </tr>
+    <tr>
+      <td>`notNull`</td>
+      <td>Whether the column can contain null values.</td>
+    </tr>
+    <tr>
+      <td>`childFieldSpecs`</td>
+      <td>Definition of the map `key` and `value` sub-fields.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## childFieldSpecs
 
@@ -266,44 +528,129 @@ The `childFieldSpecs` object describes the structure of the `key` and `value` en
 
 Map keys are always strings.
 
-| Property | Description |
-| --- | --- |
-| `name` | Must be `key`. |
-| `dataType` | Must be `STRING`. |
-| `fieldType` | Must be `DIMENSION`. |
-| `notNull` | Whether the key can be null. In practice this is typically `false`. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`name`</td>
+      <td>Must be `key`.</td>
+    </tr>
+    <tr>
+      <td>`dataType`</td>
+      <td>Must be `STRING`.</td>
+    </tr>
+    <tr>
+      <td>`fieldType`</td>
+      <td>Must be `DIMENSION`.</td>
+    </tr>
+    <tr>
+      <td>`notNull`</td>
+      <td>Whether the key can be null. In practice this is typically `false`.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### value childFieldSpec
 
 Map values can use several scalar types.
 
-| Property | Description |
-| --- | --- |
-| `name` | Must be `value`. |
-| `dataType` | Data type for the map value, for example `STRING`, `INT`, `LONG`, `FLOAT`, or `DOUBLE`. |
-| `fieldType` | Should be `DIMENSION` for non-numeric values. |
-| `notNull` | Whether the value can be null. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`name`</td>
+      <td>Must be `value`.</td>
+    </tr>
+    <tr>
+      <td>`dataType`</td>
+      <td>Data type for the map value, for example `STRING`, `INT`, `LONG`, `FLOAT`, or `DOUBLE`.</td>
+    </tr>
+    <tr>
+      <td>`fieldType`</td>
+      <td>Should be `DIMENSION` for non-numeric values.</td>
+    </tr>
+    <tr>
+      <td>`notNull`</td>
+      <td>Whether the value can be null.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Built-in Virtual Columns
 
 Pinot exposes several built-in virtual columns that you can query for debugging and inspection:
 
-| Column Name | Column Type | Data Type | Description |
-| --- | --- | --- | --- |
-| `$hostName` | Dimension | `STRING` | Name of the server hosting the data. |
-| `$segmentName` | Dimension | `STRING` | Name of the segment containing the record. |
-| `$docId` | Dimension | `INT` | Document ID of the record within the segment. |
+<table>
+  <thead>
+    <tr>
+      <th>Column Name</th>
+      <th>Column Type</th>
+      <th>Data Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`$hostName`</td>
+      <td>Dimension</td>
+      <td>`STRING`</td>
+      <td>Name of the server hosting the data.</td>
+    </tr>
+    <tr>
+      <td>`$segmentName`</td>
+      <td>Dimension</td>
+      <td>`STRING`</td>
+      <td>Name of the segment containing the record.</td>
+    </tr>
+    <tr>
+      <td>`$docId`</td>
+      <td>Dimension</td>
+      <td>`INT`</td>
+      <td>Document ID of the record within the segment.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Advanced Fields
 
 These advanced properties are available across field specs:
 
-| Property | Description |
-| --- | --- |
-| `maxLength` | Maximum length for `STRING`, `JSON`, and `BYTES` columns. |
-| `maxLengthExceedStrategy` | Behavior when incoming values exceed `maxLength`. Supported values are `TRIM_LENGTH`, `SUBSTITUTE_DEFAULT_VALUE`, `NO_ACTION`, and `ERROR`. Defaults to `TRIM_LENGTH` for `STRING` and `NO_ACTION` for `JSON` and `BYTES`. |
-| `allowTrailingZeros` | Whether `BIG_DECIMAL` should preserve trailing zeros. Defaults to `false`, which strips them. |
-| `virtualColumnProvider` | Provider used to populate a virtual column value. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`maxLength`</td>
+      <td>Maximum length for `STRING`, `JSON`, and `BYTES` columns.</td>
+    </tr>
+    <tr>
+      <td>`maxLengthExceedStrategy`</td>
+      <td>Behavior when incoming values exceed `maxLength`. Supported values are `TRIM_LENGTH`, `SUBSTITUTE_DEFAULT_VALUE`, `NO_ACTION`, and `ERROR`. Defaults to `TRIM_LENGTH` for `STRING` and `NO_ACTION` for `JSON` and `BYTES`.</td>
+    </tr>
+    <tr>
+      <td>`allowTrailingZeros`</td>
+      <td>Whether `BIG_DECIMAL` should preserve trailing zeros. Defaults to `false`, which strips them.</td>
+    </tr>
+    <tr>
+      <td>`virtualColumnProvider`</td>
+      <td>Provider used to populate a virtual column value.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Related Pages
 

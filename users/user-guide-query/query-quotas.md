@@ -25,11 +25,28 @@ The table level query quota is configured in table config itself.
 
 There are few factors that affect the way the query quota is imposed on the incoming queries on the table.
 
-| Affecting factors | Description                                                                                                                                                                                                                                                                                                                                   |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Number of brokers | The provided query quota is distributed among all the active brokers that serve the table. That means if there are 5 brokers that serve a table and query quota is provided as 300, each broker will get a quota of 60 qps and will fail queries that goes over it                                                                            |
-| Table types       | In case of a hybrid table (table with both OFFLINE and REALTIME counterparts) user can provide quotas to each of them separately in their respective table configs. But if a query is made on table name without type, that will contribute to the quota limits of both the tables. If any one of the quotas are reached the query will fail. |
-| Multi stage query | As multi stage query can span across multiple tables, this will contribute to the quota limits of all the tables being queried. If quota limit of any of the table is breached the query will fail                                                                                                                                            |
+<table>
+  <thead>
+    <tr>
+      <th>Affecting factors</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Number of brokers</td>
+      <td>The provided query quota is distributed among all the active brokers that serve the table. That means if there are 5 brokers that serve a table and query quota is provided as 300, each broker will get a quota of 60 qps and will fail queries that goes over it</td>
+    </tr>
+    <tr>
+      <td>Table types</td>
+      <td>In case of a hybrid table (table with both OFFLINE and REALTIME counterparts) user can provide quotas to each of them separately in their respective table configs. But if a query is made on table name without type, that will contribute to the quota limits of both the tables. If any one of the quotas are reached the query will fail.</td>
+    </tr>
+    <tr>
+      <td>Multi stage query</td>
+      <td>As multi stage query can span across multiple tables, this will contribute to the quota limits of all the tables being queried. If quota limit of any of the table is breached the query will fail</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Database Level Query Quota
 
@@ -55,12 +72,16 @@ curl -X POST \
 For database specific quota we can leverage the controller endpoints
 
 ```shell
+
 # to set database specific quota
+
 curl -X POST 'http://localhost:9000/databases/{databaseName}/quotas?maxQueriesPerSecond=1200'
 ```
 
 ```shell
+
 # to get the effective quota on a database
+
 curl -X GET 'http://localhost:9000/databases/{databaseName}/quotas'
 ```
 
@@ -68,12 +89,28 @@ curl -X GET 'http://localhost:9000/databases/{databaseName}/quotas'
 
 There are few factors that affect the way the database query quota is imposed.
 
-| Affecting factors | Description                                                                                                                                                                                                                                      |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Number of brokers | The provided query quota is distributed among all the active brokers. That means if there are total 5 brokers online and database query quota is provided as 300, each broker will get a quota of 60 qps and will fail queries that goes over it |
-| Tables            | When a table is queried under a particular database the rate limiter is incremented for that database if database query quota is configured.                                                                                                     |
-| Multi stage query | As multi stage query can span across multiple tables in a database (cross database query is not allowed), this will contribute just to the database query quota of the database which the tables belong to.                                      |
-
+<table>
+  <thead>
+    <tr>
+      <th>Affecting factors</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Number of brokers</td>
+      <td>The provided query quota is distributed among all the active brokers. That means if there are total 5 brokers online and database query quota is provided as 300, each broker will get a quota of 60 qps and will fail queries that goes over it</td>
+    </tr>
+    <tr>
+      <td>Tables</td>
+      <td>When a table is queried under a particular database the rate limiter is incremented for that database if database query quota is configured.</td>
+    </tr>
+    <tr>
+      <td>Multi stage query</td>
+      <td>As multi stage query can span across multiple tables in a database (cross database query is not allowed), this will contribute just to the database query quota of the database which the tables belong to.</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ## **Application level Query Quota**&#x20;
@@ -102,15 +139,19 @@ curl -X POST \
 while application-specific  quotas  can be checked with :
 
 <pre class="language-shell"><code class="lang-shell"><strong># to get all effective application quotas
+
 </strong>curl -X GET 'http://localhost:9000/applicationQuotas'
 </code></pre>
 
 <pre><code><strong># to get application's quota
+
 </strong><strong>curl -X POST 'http://localhost:9000/applicationQuotas/{applicationName}
 </strong></code></pre>
 
 ```shell
+
 # to set application's quota
+
 curl -X POST 'http://localhost:9000/applicationQuotas/{applicationName}?maxQueriesPerSecond=1200'
 ```
 

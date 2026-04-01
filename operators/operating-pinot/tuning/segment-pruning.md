@@ -148,12 +148,32 @@ When the [physical optimizer](../../../users/user-guide-query/multi-stage-query/
 
 Use the following metrics to assess pruning effectiveness:
 
-| Metric | Description |
-|---|---|
-| `SEGMENT_PRUNING` | Time spent pruning segments (part of server query latency) |
-| `NUM_SEGMENTS_PRUNED_BY_VALUE` | Number of segments pruned by value-based pruning |
-| `numSegmentsQueried` | Segments sent to servers by the broker |
-| `numSegmentsProcessed` | Segments actually scanned by servers |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`SEGMENT_PRUNING`</td>
+      <td>Time spent pruning segments (part of server query latency)</td>
+    </tr>
+    <tr>
+      <td>`NUM_SEGMENTS_PRUNED_BY_VALUE`</td>
+      <td>Number of segments pruned by value-based pruning</td>
+    </tr>
+    <tr>
+      <td>`numSegmentsQueried`</td>
+      <td>Segments sent to servers by the broker</td>
+    </tr>
+    <tr>
+      <td>`numSegmentsProcessed`</td>
+      <td>Segments actually scanned by servers</td>
+    </tr>
+  </tbody>
+</table>
 
 A large gap between `numSegmentsQueried` and `numSegmentsProcessed` indicates that server-side pruning is doing significant work. If `numSegmentsQueried` is close to the total segment count, consider enabling broker-side pruning.
 

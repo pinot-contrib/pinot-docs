@@ -25,32 +25,123 @@ The broker receives queries, compiles them, routes them to servers, and merges r
 
 ### Critical Broker Metrics
 
-| Metric | Type | Description | Alert Threshold |
-|--------|------|-------------|-----------------|
-| `QUERIES` | Meter | Query rate (QPS) per table. Use to track traffic patterns. | Baseline-dependent; alert on sudden drops (>50% below baseline) which may indicate client issues |
-| `BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED` | Meter | Queries where not all servers responded. Indicates servers are down or overloaded. | > 0 sustained over 5 minutes |
-| `BROKER_RESPONSES_WITH_PROCESSING_EXCEPTIONS` | Meter | Queries with at least one processing exception from servers. | > 1% of total QPS |
-| `QUERY_EXECUTION_EXCEPTIONS` (via timer) | Timer | Total query execution time. Monitor p99 for latency SLAs. | p99 > your SLA (e.g., 500ms) |
-| `NO_SERVER_FOUND_EXCEPTIONS` | Meter | Queries where no server was found to serve data. Critical availability issue. | > 0 |
-| `REQUEST_TIMEOUT_BEFORE_SCATTERED_EXCEPTIONS` | Meter | Queries that timed out before being sent to servers. | > 0 sustained |
-| `QUERY_QUOTA_EXCEEDED` | Meter | Queries rejected due to rate limiting. | > 0 (if unexpected) |
-| `UNHEALTHY_SERVERS` | Gauge | Number of servers detected as unhealthy. | > 0 |
-| `HEAP_CRITICAL_LEVEL_EXCEEDED` | Meter | Times heap usage exceeded the critical threshold. | > 0 |
-| `JVM_HEAP_USED_BYTES` | Gauge | Current JVM heap usage on the broker. | > 85% of max heap |
-| `QUERY_QUOTA_CAPACITY_UTILIZATION_RATE` | Gauge | Percentage of configured rate limit in use. | > 80% |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Alert Threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`QUERIES`</td>
+      <td>Meter</td>
+      <td>Query rate (QPS) per table. Use to track traffic patterns.</td>
+      <td>Baseline-dependent; alert on sudden drops (>50% below baseline) which may indicate client issues</td>
+    </tr>
+    <tr>
+      <td>`BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED`</td>
+      <td>Meter</td>
+      <td>Queries where not all servers responded. Indicates servers are down or overloaded.</td>
+      <td>> 0 sustained over 5 minutes</td>
+    </tr>
+    <tr>
+      <td>`BROKER_RESPONSES_WITH_PROCESSING_EXCEPTIONS`</td>
+      <td>Meter</td>
+      <td>Queries with at least one processing exception from servers.</td>
+      <td>> 1% of total QPS</td>
+    </tr>
+    <tr>
+      <td>`QUERY_EXECUTION_EXCEPTIONS` (via timer)</td>
+      <td>Timer</td>
+      <td>Total query execution time. Monitor p99 for latency SLAs.</td>
+      <td>p99 > your SLA (e.g., 500ms)</td>
+    </tr>
+    <tr>
+      <td>`NO_SERVER_FOUND_EXCEPTIONS`</td>
+      <td>Meter</td>
+      <td>Queries where no server was found to serve data. Critical availability issue.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`REQUEST_TIMEOUT_BEFORE_SCATTERED_EXCEPTIONS`</td>
+      <td>Meter</td>
+      <td>Queries that timed out before being sent to servers.</td>
+      <td>> 0 sustained</td>
+    </tr>
+    <tr>
+      <td>`QUERY_QUOTA_EXCEEDED`</td>
+      <td>Meter</td>
+      <td>Queries rejected due to rate limiting.</td>
+      <td>> 0 (if unexpected)</td>
+    </tr>
+    <tr>
+      <td>`UNHEALTHY_SERVERS`</td>
+      <td>Gauge</td>
+      <td>Number of servers detected as unhealthy.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`HEAP_CRITICAL_LEVEL_EXCEEDED`</td>
+      <td>Meter</td>
+      <td>Times heap usage exceeded the critical threshold.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`JVM_HEAP_USED_BYTES`</td>
+      <td>Gauge</td>
+      <td>Current JVM heap usage on the broker.</td>
+      <td>> 85% of max heap</td>
+    </tr>
+    <tr>
+      <td>`QUERY_QUOTA_CAPACITY_UTILIZATION_RATE`</td>
+      <td>Gauge</td>
+      <td>Percentage of configured rate limit in use.</td>
+      <td>> 80%</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Broker Query Latency Breakdown
 
 These timers help identify which phase of query execution is slow:
 
-| Metric | Description |
-|--------|-------------|
-| `REQUEST_COMPILATION` | Time spent compiling the SQL query |
-| `AUTHORIZATION` | Time spent checking table access permissions |
-| `QUERY_ROUTING` | Time spent building the routing table for segments |
-| `SCATTER_GATHER` | Time spent sending requests to servers and collecting responses |
-| `REDUCE` | Time spent merging results from multiple servers |
-| `QUERY_EXECUTION` | Total end-to-end query execution time |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`REQUEST_COMPILATION`</td>
+      <td>Time spent compiling the SQL query</td>
+    </tr>
+    <tr>
+      <td>`AUTHORIZATION`</td>
+      <td>Time spent checking table access permissions</td>
+    </tr>
+    <tr>
+      <td>`QUERY_ROUTING`</td>
+      <td>Time spent building the routing table for segments</td>
+    </tr>
+    <tr>
+      <td>`SCATTER_GATHER`</td>
+      <td>Time spent sending requests to servers and collecting responses</td>
+    </tr>
+    <tr>
+      <td>`REDUCE`</td>
+      <td>Time spent merging results from multiple servers</td>
+    </tr>
+    <tr>
+      <td>`QUERY_EXECUTION`</td>
+      <td>Total end-to-end query execution time</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Broker Diagnosis Patterns
 
@@ -81,31 +172,127 @@ Servers store segments and execute queries. Monitoring servers helps detect inge
 
 ### Critical Server Metrics
 
-| Metric | Type | Description | Alert Threshold |
-|--------|------|-------------|-----------------|
-| `REALTIME_INGESTION_DELAY_MS` | Gauge | Delay in milliseconds between event production and Pinot consumption. Per-partition metric. | > 5 minutes (300000ms) for most use cases; adjust based on freshness SLA |
-| `LLC_PARTITION_CONSUMING` | Gauge | Binary: 1 if low-level consumption is healthy, 0 if unhealthy. Per table-partition. | = 0 on any partition |
-| `REALTIME_CONSUMPTION_EXCEPTIONS` | Meter | Exceptions during real-time consumption. | > 0 sustained |
-| `QUERY_EXECUTION_EXCEPTIONS` | Meter | Exceptions during query execution on the server. | > 1% of queries |
-| `QUERIES` | Meter | Query rate hitting this server. | Sudden drop or spike vs. baseline |
-| `NUM_MISSING_SEGMENTS` | Meter | Segments the broker expected but the server did not have. | > 0 sustained |
-| `SEGMENT_DOWNLOAD_FAILURES` | Meter | Failures downloading segments from deep store. | > 0 |
-| `RELOAD_FAILURES` | Meter | Failures reloading segments after config changes. | > 0 |
-| `ROWS_WITH_ERRORS` | Meter | Rows that failed transformation or indexing during ingestion. | > 0.1% of `REALTIME_ROWS_CONSUMED` |
-| `JVM_HEAP_USED_BYTES` | Gauge | Current JVM heap usage on the server. | > 85% of max heap |
-| `HEAP_CRITICAL_LEVEL_EXCEEDED` | Meter | Times heap usage exceeded the critical threshold, triggering query killing. | > 0 |
-| `REALTIME_OFFHEAP_MEMORY_USED` | Gauge | Off-heap memory used by real-time segments. | Approaching configured `MaxDirectMemorySize` |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Alert Threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`REALTIME_INGESTION_DELAY_MS`</td>
+      <td>Gauge</td>
+      <td>Delay in milliseconds between event production and Pinot consumption. Per-partition metric.</td>
+      <td>> 5 minutes (300000ms) for most use cases; adjust based on freshness SLA</td>
+    </tr>
+    <tr>
+      <td>`LLC_PARTITION_CONSUMING`</td>
+      <td>Gauge</td>
+      <td>Binary: 1 if low-level consumption is healthy, 0 if unhealthy. Per table-partition.</td>
+      <td>= 0 on any partition</td>
+    </tr>
+    <tr>
+      <td>`REALTIME_CONSUMPTION_EXCEPTIONS`</td>
+      <td>Meter</td>
+      <td>Exceptions during real-time consumption.</td>
+      <td>> 0 sustained</td>
+    </tr>
+    <tr>
+      <td>`QUERY_EXECUTION_EXCEPTIONS`</td>
+      <td>Meter</td>
+      <td>Exceptions during query execution on the server.</td>
+      <td>> 1% of queries</td>
+    </tr>
+    <tr>
+      <td>`QUERIES`</td>
+      <td>Meter</td>
+      <td>Query rate hitting this server.</td>
+      <td>Sudden drop or spike vs. baseline</td>
+    </tr>
+    <tr>
+      <td>`NUM_MISSING_SEGMENTS`</td>
+      <td>Meter</td>
+      <td>Segments the broker expected but the server did not have.</td>
+      <td>> 0 sustained</td>
+    </tr>
+    <tr>
+      <td>`SEGMENT_DOWNLOAD_FAILURES`</td>
+      <td>Meter</td>
+      <td>Failures downloading segments from deep store.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`RELOAD_FAILURES`</td>
+      <td>Meter</td>
+      <td>Failures reloading segments after config changes.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`ROWS_WITH_ERRORS`</td>
+      <td>Meter</td>
+      <td>Rows that failed transformation or indexing during ingestion.</td>
+      <td>> 0.1% of `REALTIME_ROWS_CONSUMED`</td>
+    </tr>
+    <tr>
+      <td>`JVM_HEAP_USED_BYTES`</td>
+      <td>Gauge</td>
+      <td>Current JVM heap usage on the server.</td>
+      <td>> 85% of max heap</td>
+    </tr>
+    <tr>
+      <td>`HEAP_CRITICAL_LEVEL_EXCEEDED`</td>
+      <td>Meter</td>
+      <td>Times heap usage exceeded the critical threshold, triggering query killing.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`REALTIME_OFFHEAP_MEMORY_USED`</td>
+      <td>Gauge</td>
+      <td>Off-heap memory used by real-time segments.</td>
+      <td>Approaching configured `MaxDirectMemorySize`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Server Query Latency Breakdown
 
-| Metric | Description |
-|--------|-------------|
-| `SCHEDULER_WAIT` | Time waiting in the scheduler queue before execution begins |
-| `SEGMENT_PRUNING` | Time spent pruning irrelevant segments |
-| `BUILD_QUERY_PLAN` | Time spent building the query execution plan |
-| `QUERY_PLAN_EXECUTION` | Time spent executing the query plan against segments |
-| `RESPONSE_SERIALIZATION` | Time spent serializing results to send back to the broker |
-| `TOTAL_QUERY_TIME` | Total time from receiving the query to returning the response |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`SCHEDULER_WAIT`</td>
+      <td>Time waiting in the scheduler queue before execution begins</td>
+    </tr>
+    <tr>
+      <td>`SEGMENT_PRUNING`</td>
+      <td>Time spent pruning irrelevant segments</td>
+    </tr>
+    <tr>
+      <td>`BUILD_QUERY_PLAN`</td>
+      <td>Time spent building the query execution plan</td>
+    </tr>
+    <tr>
+      <td>`QUERY_PLAN_EXECUTION`</td>
+      <td>Time spent executing the query plan against segments</td>
+    </tr>
+    <tr>
+      <td>`RESPONSE_SERIALIZATION`</td>
+      <td>Time spent serializing results to send back to the broker</td>
+    </tr>
+    <tr>
+      <td>`TOTAL_QUERY_TIME`</td>
+      <td>Total time from receiving the query to returning the response</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Server Diagnosis Patterns
 
@@ -144,19 +331,84 @@ The controller manages cluster metadata, segment assignments, and periodic maint
 
 ### Critical Controller Metrics
 
-| Metric | Type | Description | Alert Threshold |
-|--------|------|-------------|-----------------|
-| `PERCENT_SEGMENTS_AVAILABLE` | Gauge | Percentage of segments with at least one online replica. Per table. | < 100% |
-| `SEGMENTS_IN_ERROR_STATE` | Gauge | Number of segments in ERROR state. Per table. | > 0 |
-| `NUMBER_OF_REPLICAS` | Gauge | Number of complete replicas available. Per table. | Less than configured replication factor |
-| `LLC_STREAM_DATA_LOSS` | Meter | Indicates data loss: offsets in stream are ahead of stored offsets or segments lost in CONSUMING state. | > 0 |
-| `LLC_ZOOKEEPER_UPDATE_FAILURES` | Meter | Failures updating segment metadata in ZooKeeper. | > 0 |
-| `IDEAL_STATE_UPDATE_FAILURE` | Meter | Failures updating the table ideal state in ZooKeeper. | > 0 |
-| `CONTROLLER_PERIODIC_TASK_ERROR` | Meter | Periodic maintenance tasks (retention, validation) that failed. | > 0 |
-| `HELIX_ZOOKEEPER_RECONNECTS` | Meter | ZooKeeper reconnections. Frequent reconnects indicate ZooKeeper instability. | > 1 per hour |
-| `HEALTHCHECK_BAD_CALLS` | Meter | Failed health check requests. | > 0 sustained |
-| `TABLE_STORAGE_QUOTA_UTILIZATION` | Gauge | Percentage of table storage quota in use. | > 85% |
-| `MISSING_CONSUMING_SEGMENT_TOTAL_COUNT` | Gauge | Partitions with missing consuming segments. | > 0 |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Alert Threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`PERCENT_SEGMENTS_AVAILABLE`</td>
+      <td>Gauge</td>
+      <td>Percentage of segments with at least one online replica. Per table.</td>
+      <td>< 100%</td>
+    </tr>
+    <tr>
+      <td>`SEGMENTS_IN_ERROR_STATE`</td>
+      <td>Gauge</td>
+      <td>Number of segments in ERROR state. Per table.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`NUMBER_OF_REPLICAS`</td>
+      <td>Gauge</td>
+      <td>Number of complete replicas available. Per table.</td>
+      <td>Less than configured replication factor</td>
+    </tr>
+    <tr>
+      <td>`LLC_STREAM_DATA_LOSS`</td>
+      <td>Meter</td>
+      <td>Indicates data loss: offsets in stream are ahead of stored offsets or segments lost in CONSUMING state.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`LLC_ZOOKEEPER_UPDATE_FAILURES`</td>
+      <td>Meter</td>
+      <td>Failures updating segment metadata in ZooKeeper.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`IDEAL_STATE_UPDATE_FAILURE`</td>
+      <td>Meter</td>
+      <td>Failures updating the table ideal state in ZooKeeper.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`CONTROLLER_PERIODIC_TASK_ERROR`</td>
+      <td>Meter</td>
+      <td>Periodic maintenance tasks (retention, validation) that failed.</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`HELIX_ZOOKEEPER_RECONNECTS`</td>
+      <td>Meter</td>
+      <td>ZooKeeper reconnections. Frequent reconnects indicate ZooKeeper instability.</td>
+      <td>> 1 per hour</td>
+    </tr>
+    <tr>
+      <td>`HEALTHCHECK_BAD_CALLS`</td>
+      <td>Meter</td>
+      <td>Failed health check requests.</td>
+      <td>> 0 sustained</td>
+    </tr>
+    <tr>
+      <td>`TABLE_STORAGE_QUOTA_UTILIZATION`</td>
+      <td>Gauge</td>
+      <td>Percentage of table storage quota in use.</td>
+      <td>> 85%</td>
+    </tr>
+    <tr>
+      <td>`MISSING_CONSUMING_SEGMENT_TOTAL_COUNT`</td>
+      <td>Gauge</td>
+      <td>Partitions with missing consuming segments.</td>
+      <td>> 0</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller Diagnosis Patterns
 
@@ -193,13 +445,48 @@ The controller manages cluster metadata, segment assignments, and periodic maint
 
 Minions run background tasks such as segment compaction, purge, and merge. These metrics help track task health.
 
-| Metric | Type | Description | Alert Threshold |
-|--------|------|-------------|-----------------|
-| `NUMBER_OF_TASKS` | Gauge | Tasks currently running | Baseline-dependent |
-| `NUMBER_TASKS_FAILED` | Meter | Tasks that failed | > 0 |
-| `NUMBER_TASKS_FATAL_FAILED` | Meter | Tasks with unretryable failures | > 0 |
-| `TASK_QUEUEING` | Timer | Time tasks spend waiting in queue | > 10 minutes |
-| `TASK_EXECUTION` | Timer | Time tasks spend executing | Baseline-dependent; watch for sustained increases |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Alert Threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`NUMBER_OF_TASKS`</td>
+      <td>Gauge</td>
+      <td>Tasks currently running</td>
+      <td>Baseline-dependent</td>
+    </tr>
+    <tr>
+      <td>`NUMBER_TASKS_FAILED`</td>
+      <td>Meter</td>
+      <td>Tasks that failed</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`NUMBER_TASKS_FATAL_FAILED`</td>
+      <td>Meter</td>
+      <td>Tasks with unretryable failures</td>
+      <td>> 0</td>
+    </tr>
+    <tr>
+      <td>`TASK_QUEUEING`</td>
+      <td>Timer</td>
+      <td>Time tasks spend waiting in queue</td>
+      <td>> 10 minutes</td>
+    </tr>
+    <tr>
+      <td>`TASK_EXECUTION`</td>
+      <td>Timer</td>
+      <td>Time tasks spend executing</td>
+      <td>Baseline-dependent; watch for sustained increases</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
@@ -216,26 +503,34 @@ The recommended approach for production monitoring is to expose JMX metrics to P
 **Step 1: Download the JMX Exporter agent and config**
 
 ```bash
+
 # Download the JMX Exporter Java agent
+
 wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar
 
 # Download the Pinot-specific JMX config
+
 wget https://raw.githubusercontent.com/fx19880617/jmx_exporter/master/example_configs/pinot.yml
 ```
 
 **Step 2: Add the agent to each Pinot component's JVM options**
 
 ```bash
+
 # For each Pinot component (broker, server, controller), add the agent to JAVA_OPTS.
+
 # Use a different port for each component if running on the same host.
 
 # Controller (port 9000 for metrics)
+
 export JAVA_OPTS="-javaagent:jmx_prometheus_javaagent-0.20.0.jar=9000:pinot.yml ${JAVA_OPTS}"
 
 # Broker (port 9001 for metrics)
+
 export JAVA_OPTS="-javaagent:jmx_prometheus_javaagent-0.20.0.jar=9001:pinot.yml ${JAVA_OPTS}"
 
 # Server (port 9002 for metrics)
+
 export JAVA_OPTS="-javaagent:jmx_prometheus_javaagent-0.20.0.jar=9002:pinot.yml ${JAVA_OPTS}"
 ```
 

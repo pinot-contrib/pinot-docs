@@ -143,13 +143,42 @@ public class MyTaskGenerator implements PinotTaskGenerator {
 
 ### Optional Generator Overrides
 
-| Method | Default | Description |
-|--------|---------|-------------|
-| `getTaskTimeoutMs(String minionTag)` | 3,600,000 (1 hour) | Task timeout in milliseconds |
-| `getNumConcurrentTasksPerInstance(String minionTag)` | 1 | Max concurrent tasks per Minion |
-| `getMaxAttemptsPerTask(String minionTag)` | 1 (no retry) | Max retry attempts |
-| `getMinionInstanceTag(TableConfig tableConfig)` | `UNTAGGED_MINION_INSTANCE` | Tag for routing tasks to specific Minion instances |
-| `validateTaskConfigs(TableConfig, Schema, Map)` | no-op | Validate task-specific configs at table creation time |
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`getTaskTimeoutMs(String minionTag)`</td>
+      <td>3,600,000 (1 hour)</td>
+      <td>Task timeout in milliseconds</td>
+    </tr>
+    <tr>
+      <td>`getNumConcurrentTasksPerInstance(String minionTag)`</td>
+      <td>1</td>
+      <td>Max concurrent tasks per Minion</td>
+    </tr>
+    <tr>
+      <td>`getMaxAttemptsPerTask(String minionTag)`</td>
+      <td>1 (no retry)</td>
+      <td>Max retry attempts</td>
+    </tr>
+    <tr>
+      <td>`getMinionInstanceTag(TableConfig tableConfig)`</td>
+      <td>`UNTAGGED_MINION_INSTANCE`</td>
+      <td>Tag for routing tasks to specific Minion instances</td>
+    </tr>
+    <tr>
+      <td>`validateTaskConfigs(TableConfig, Schema, Map)`</td>
+      <td>no-op</td>
+      <td>Validate task-specific configs at table creation time</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Step 3: Enable the Task in Table Config
 
@@ -176,10 +205,13 @@ The `schedule` property uses a CRON expression to define when the task generator
 To manually trigger task generation:
 
 ```bash
+
 # Generate tasks for all tables with this task type
+
 POST /tasks/schedule?taskType=MyCustomTask
 
 # Generate tasks for a specific table
+
 POST /tasks/execute?taskType=MyCustomTask&tableName=myTable_OFFLINE
 ```
 
@@ -187,14 +219,43 @@ POST /tasks/execute?taskType=MyCustomTask&tableName=myTable_OFFLINE
 
 Pinot includes several built-in Minion tasks:
 
-| Task Type | Description |
-|-----------|-------------|
-| `RealtimeToOfflineSegmentsTask` | Converts realtime segments to offline segments |
-| `UpsertCompactionTask` | Compacts segments in upsert-enabled tables |
-| `UpsertCompactMergeTask` | Merges and compacts upsert segments |
-| `PurgeTask` | Purges records matching a purge function |
-| `MergeRollupTask` | Merges and rolls up small segments |
-| `SegmentGenerationAndPushTask` | Generates and pushes segments from external data |
-| `RefreshSegmentTask` | Refreshes segments from deep store |
+<table>
+  <thead>
+    <tr>
+      <th>Task Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`RealtimeToOfflineSegmentsTask`</td>
+      <td>Converts realtime segments to offline segments</td>
+    </tr>
+    <tr>
+      <td>`UpsertCompactionTask`</td>
+      <td>Compacts segments in upsert-enabled tables</td>
+    </tr>
+    <tr>
+      <td>`UpsertCompactMergeTask`</td>
+      <td>Merges and compacts upsert segments</td>
+    </tr>
+    <tr>
+      <td>`PurgeTask`</td>
+      <td>Purges records matching a purge function</td>
+    </tr>
+    <tr>
+      <td>`MergeRollupTask`</td>
+      <td>Merges and rolls up small segments</td>
+    </tr>
+    <tr>
+      <td>`SegmentGenerationAndPushTask`</td>
+      <td>Generates and pushes segments from external data</td>
+    </tr>
+    <tr>
+      <td>`RefreshSegmentTask`</td>
+      <td>Refreshes segments from deep store</td>
+    </tr>
+  </tbody>
+</table>
 
 For more details on built-in tasks, see [Minion Merge Rollup Task](../../../operators/operating-pinot/minion-merge-rollup-task.md) and [Upsert Compaction Task](../../../operators/operating-pinot/upsert-compaction-task.md).

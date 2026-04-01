@@ -16,11 +16,28 @@ This page is the single source of truth for version information across the Start
 
 ## Current stable release
 
-| Artifact | Version |
-| --- | --- |
-| Apache Pinot binary | **1.4.0** |
-| Docker image | `apachepinot/pinot:1.4.0` |
-| Maven / Gradle clients | `1.4.0` |
+<table>
+  <thead>
+    <tr>
+      <th>Artifact</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apache Pinot binary</td>
+      <td>**1.4.0**</td>
+    </tr>
+    <tr>
+      <td>Docker image</td>
+      <td>`apachepinot/pinot:1.4.0`</td>
+    </tr>
+    <tr>
+      <td>Maven / Gradle clients</td>
+      <td>`1.4.0`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Using PINOT\_VERSION in examples
 
@@ -30,6 +47,7 @@ Most code samples in these docs set a `PINOT_VERSION` environment variable near 
 export PINOT_VERSION=1.4.0
 
 # Then use ${PINOT_VERSION} in commands:
+
 docker pull apachepinot/pinot:${PINOT_VERSION}
 ```
 
@@ -41,12 +59,32 @@ Start Here pages never use the `latest` Docker tag. Always pin to a specific ver
 
 ## Compatibility notes
 
-| Requirement | Detail |
-| --- | --- |
-| Recommended JDK | **JDK 11** or **JDK 21** |
-| JDK 17 | Should work but is not officially supported |
-| Pinot 1.0+ minimum | JDK 11 or higher required |
-| JDK 8 support | Pinot **0.12.1** is the last version that supports JDK 8 |
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>Detail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Recommended JDK</td>
+      <td>**JDK 11** or **JDK 21**</td>
+    </tr>
+    <tr>
+      <td>JDK 17</td>
+      <td>Should work but is not officially supported</td>
+    </tr>
+    <tr>
+      <td>Pinot 1.0+ minimum</td>
+      <td>JDK 11 or higher required</td>
+    </tr>
+    <tr>
+      <td>JDK 8 support</td>
+      <td>Pinot **0.12.1** is the last version that supports JDK 8</td>
+    </tr>
+  </tbody>
+</table>
 
 If you are running JDK 8 and cannot upgrade, use Pinot 0.12.1. For all new deployments, JDK 11 or 21 is recommended.
 

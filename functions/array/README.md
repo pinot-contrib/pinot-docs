@@ -296,7 +296,6 @@ LIMIT 10
 For more details, see [filterMv](filtermv.md).
 
 
-
 ## Array Reversal
 
 ### arrayReverseInt
@@ -833,17 +832,61 @@ SELECT arrayToString(ARRAY['foo', NULL, 'bar'], '|', 'NA');
 
 ## Additional Reference Pages
 
-| Function | Function |
-| --- | --- |
-| [ARRAY_AGG](array_agg.md) | [arrayConcatDouble](arrayconcatdouble.md) |
-| [arrayConcatFloat](arrayconcatfloat.md) | [arrayConcatInt](arrayconcatint.md) |
-| [arrayConcatLong](arrayconcatlong.md) | [arrayConcatString](arrayconcatstring.md) |
-| [arrayContainsInt](arraycontainsint.md) | [arrayContainsString](arraycontainsstring.md) |
-| [arrayDistinctInt](arraydistinctint.md) | [arrayDistinctString](arraydistinctstring.md) |
-| [arrayIndexOfInt](arrayindexofint.md) | [arrayIndexOfString](arrayindexofstring.md) |
-| [ARRAYLENGTH](arraylength.md) | [arrayRemoveInt](arrayremoveint.md) |
-| [arrayRemoveString](arrayremovestring.md) | [arrayReverseInt](arrayreverseint.md) |
-| [arrayReverseString](arrayreversestring.md) | [arraySliceInt](arraysliceint.md) |
-| [arraySliceString](arrayslicestring.md) | [arraySortInt](arraysortint.md) |
-| [arraySortString](arraysortstring.md) | [arrayUnionInt](arrayunionint.md) |
-| [arrayUnionString](arrayunionstring.md) | [isEqualSet](isequalset.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[ARRAY_AGG](array_agg.md)</td>
+      <td>[arrayConcatDouble](arrayconcatdouble.md)</td>
+    </tr>
+    <tr>
+      <td>[arrayConcatFloat](arrayconcatfloat.md)</td>
+      <td>[arrayConcatInt](arrayconcatint.md)</td>
+    </tr>
+    <tr>
+      <td>[arrayConcatLong](arrayconcatlong.md)</td>
+      <td>[arrayConcatString](arrayconcatstring.md)</td>
+    </tr>
+    <tr>
+      <td>[arrayContainsInt](arraycontainsint.md)</td>
+      <td>[arrayContainsString](arraycontainsstring.md)</td>
+    </tr>
+    <tr>
+      <td>[arrayDistinctInt](arraydistinctint.md)</td>
+      <td>[arrayDistinctString](arraydistinctstring.md)</td>
+    </tr>
+    <tr>
+      <td>[arrayIndexOfInt](arrayindexofint.md)</td>
+      <td>[arrayIndexOfString](arrayindexofstring.md)</td>
+    </tr>
+    <tr>
+      <td>[ARRAYLENGTH](arraylength.md)</td>
+      <td>[arrayRemoveInt](arrayremoveint.md)</td>
+    </tr>
+    <tr>
+      <td>[arrayRemoveString](arrayremovestring.md)</td>
+      <td>[arrayReverseInt](arrayreverseint.md)</td>
+    </tr>
+    <tr>
+      <td>[arrayReverseString](arrayreversestring.md)</td>
+      <td>[arraySliceInt](arraysliceint.md)</td>
+    </tr>
+    <tr>
+      <td>[arraySliceString](arrayslicestring.md)</td>
+      <td>[arraySortInt](arraysortint.md)</td>
+    </tr>
+    <tr>
+      <td>[arraySortString](arraysortstring.md)</td>
+      <td>[arrayUnionInt](arrayunionint.md)</td>
+    </tr>
+    <tr>
+      <td>[arrayUnionString](arrayunionstring.md)</td>
+      <td>[isEqualSet](isequalset.md)</td>
+    </tr>
+  </tbody>
+</table>

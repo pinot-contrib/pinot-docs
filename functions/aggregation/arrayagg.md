@@ -24,9 +24,18 @@ from baseballStats
 WHERE playerName = 'Barry Bonds'
 ```
 
-| years                                                          |
-| -------------------------------------------------------------- |
-| [1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, ...] |
+<table>
+  <thead>
+    <tr>
+      <th>years</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, ...]</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ARRAYAGG(league, 'STRING', 'DISTINCT') AS leagues
@@ -34,6 +43,15 @@ from baseballStats
 WHERE playerName = 'Barry Bonds'
 ```
 
-| leagues      |
-| ------------ |
-| [NL, AL]     |
+<table>
+  <thead>
+    <tr>
+      <th>leagues</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[NL, AL]</td>
+    </tr>
+  </tbody>
+</table>

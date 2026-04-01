@@ -17,15 +17,33 @@ select SUBSTR('Pinot', 1, -1) AS name
 FROM ignoreMe
 ```
 
-| name |
-| ---- |
-| inot |
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inot</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select SUBSTR('Pinot', 0, 2) AS name
 FROM ignoreMe
 ```
 
-| name |
-| ---- |
-| Pi   |
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pi</td>
+    </tr>
+  </tbody>
+</table>

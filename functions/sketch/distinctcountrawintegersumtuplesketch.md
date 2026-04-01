@@ -38,17 +38,35 @@ select distinctCountRawIntegerSumTupleSketch(playerHomeRuns) as value
 from baseballStats 
 ```
 
-| value                                       |
-| ------------------------------------------- |
-| AgMJAQAKzJONRAAAAAAAAAcADPv9ido0XwAAAAAP... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AgMJAQAKzJONRAAAAAAAAAcADPv9ido0XwAAAAAP...</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select distinctCountRawIntegerSumTupleSketch(playerHomeRuns, 'nominalEntries=4096;accumulatorThreshold=10') as value
 from baseballStats 
 ```
 
-| value                                       |
-| ------------------------------------------- |
-| AwMJAQAKzJMQAAAAAAAAAK8pD3/6nBcAQWgQ6zI8... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AwMJAQAKzJMQAAAAAAAAAK8pD3/6nBcAQWgQ6zI8...</td>
+    </tr>
+  </tbody>
+</table>
 
 This function can also be used with the V2 query engine.

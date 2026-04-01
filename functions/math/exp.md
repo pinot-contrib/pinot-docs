@@ -17,15 +17,33 @@ select EXP(1) AS value
 from ignoreMe
 ```
 
-| value             |
-| ----------------- |
-| 2.718281828459045 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2.718281828459045</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select EXP(12) AS value
 from ignoreMe
 ```
 
-| value              |
-| ------------------ |
-| 162754.79141900392 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>162754.79141900392</td>
+    </tr>
+  </tbody>
+</table>

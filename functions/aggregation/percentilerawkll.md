@@ -22,6 +22,15 @@ select percentileRawKll(ArrDelayMinutes, 90) as sketch
 from airlineStats
 ```
 
-| sketch   |
-| -------- |
-| BQEPC... |
+<table>
+  <thead>
+    <tr>
+      <th>sketch</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BQEPC...</td>
+    </tr>
+  </tbody>
+</table>

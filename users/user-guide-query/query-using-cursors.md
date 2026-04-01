@@ -40,6 +40,7 @@ _FsResponseStore_ is the default implementation of the ResponseStore. Internally
 _By default, the broker's local storage is used to store responses._
 
 ```
+
 # Example configuration for file using local storage
 
 pinot.broker.cursor.response.store.type=file
@@ -120,19 +121,60 @@ Response:
 
 The output above shows response fields that are specific to cursor responses. Other than  numRowsResultSet and requestId, fields common with BrokerResponse are not shown for brevity.
 
-| Field                   | Description                                                                                                                             |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| numRowsResultSet        | Total numbers of rows in the result set. Same as in default BrokerResponse                                                              |
-| requestId               | The unique ID for the query. It has to be used in subsequent calls to cursor API. Same as in default BrokerResponse                     |
-| offset                  | The offset of the first row in the resultTable.                                                                                         |
-| numRows                 | The number of rows in the resultTable.                                                                                                  |
-| cursorResultWriteTimeMs | Time in milliseconds to write the response to ResponseStore. It is applicable only for the query submission API.                        |
-| submissionTimeMs        | Unix timestamp in milliseconds when the query was submitted.                                                                            |
-| expirationTimeMs        | Expiration time of the ResponseStore in unix timestamp in milliseconds.                                                                 |
-| brokerHost              | Hostname or IP address of the broker that manages the ResponseStore. All subsequent cursor API calls should be directed to this broker. |
-| brokerPort              | The port of the broker that manages the ResponseStore                                                                                   |
-| bytesWritten            | The number of bytes written to ResponseStore when storing the result set.                                                               |
-| cursorFetchTimeMs       | Time in milliseconds to fetch the cursor from ResponseStore. It is applicable for cursor fetch API.                                     |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>numRowsResultSet</td>
+      <td>Total numbers of rows in the result set. Same as in default BrokerResponse</td>
+    </tr>
+    <tr>
+      <td>requestId</td>
+      <td>The unique ID for the query. It has to be used in subsequent calls to cursor API. Same as in default BrokerResponse</td>
+    </tr>
+    <tr>
+      <td>offset</td>
+      <td>The offset of the first row in the resultTable.</td>
+    </tr>
+    <tr>
+      <td>numRows</td>
+      <td>The number of rows in the resultTable.</td>
+    </tr>
+    <tr>
+      <td>cursorResultWriteTimeMs</td>
+      <td>Time in milliseconds to write the response to ResponseStore. It is applicable only for the query submission API.</td>
+    </tr>
+    <tr>
+      <td>submissionTimeMs</td>
+      <td>Unix timestamp in milliseconds when the query was submitted.</td>
+    </tr>
+    <tr>
+      <td>expirationTimeMs</td>
+      <td>Expiration time of the ResponseStore in unix timestamp in milliseconds.</td>
+    </tr>
+    <tr>
+      <td>brokerHost</td>
+      <td>Hostname or IP address of the broker that manages the ResponseStore. All subsequent cursor API calls should be directed to this broker.</td>
+    </tr>
+    <tr>
+      <td>brokerPort</td>
+      <td>The port of the broker that manages the ResponseStore</td>
+    </tr>
+    <tr>
+      <td>bytesWritten</td>
+      <td>The number of bytes written to ResponseStore when storing the result set.</td>
+    </tr>
+    <tr>
+      <td>cursorFetchTimeMs</td>
+      <td>Time in milliseconds to fetch the cursor from ResponseStore. It is applicable for cursor fetch API.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### GET /responseStore/{requestId}/results
 

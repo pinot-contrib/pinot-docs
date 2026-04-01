@@ -25,6 +25,15 @@ from airlineStats
 where arraylength(DivLongestGTimes) > 1
 ```
 
-| value |
-| ----- |
-| 34    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>34</td>
+    </tr>
+  </tbody>
+</table>

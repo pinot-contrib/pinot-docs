@@ -41,16 +41,48 @@ To ingest events from an Amazon Kinesis stream into Pinot, set the following con
 
 where the Kinesis specific properties are:
 
-| Property                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| streamType                   | This should be set to "kinesis"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| stream.kinesis.topic.name    | Kinesis stream name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| region                       | Kinesis region e.g. us-west-1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| accessKey                    | Kinesis access key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| secretKey                    | Kinesis secret key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| shardIteratorType            | Only supports TRIM\_HORIZON to consume from earliest. The support for LATEST, AT\_SEQUENCE\_NUMBER, AFTER\_SEQUENCE\_NUMBER is in progress but unsupported at this point                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| maxRecordsToFetch            | <p>Specifies the maximum number of records to retrieve in a single <code>getRecords</code> API call to Kinesis. This parameter controls the batch size for data retrieval.<br><br>Can be set between 1 and 10,000 (Kinesis API limit by AWS)</p><p><br>Larger values reduce the number of API calls needed but may increase latency and memory usage per batch.</p><p>Default value is set to max 10000. Only lower this when you have memory constraints</p>                                                                                                                                                                                                                                                                                                 |
-| requests\_per\_second\_limit | <p>Controls the maximum number of <code>getRecords</code> requests per second that the consumer will make to a Kinesis shard. This parameter is crucial for avoiding AWS Kinesis API throttling.</p><p><br>Kinesis enforces a hard limit of 5 <code>getRecords</code> requests per second per shard. Exceeding this limit results in <code>ProvisionedThroughputExceededException</code>.</p><p><br>The default value of 1 is intentionally conservative to prevent throttling in replicated setups where multiple consumers might be reading from the same shard simultaneously.<br><br>You should only increase this if you are experiencing slow consumption rates and do not have <code>ProvisionedThroughputExceededException</code> in the logs yet</p> |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>streamType</td>
+      <td>This should be set to "kinesis"</td>
+    </tr>
+    <tr>
+      <td>stream.kinesis.topic.name</td>
+      <td>Kinesis stream name</td>
+    </tr>
+    <tr>
+      <td>region</td>
+      <td>Kinesis region e.g. us-west-1</td>
+    </tr>
+    <tr>
+      <td>accessKey</td>
+      <td>Kinesis access key</td>
+    </tr>
+    <tr>
+      <td>secretKey</td>
+      <td>Kinesis secret key</td>
+    </tr>
+    <tr>
+      <td>shardIteratorType</td>
+      <td>Only supports TRIM\_HORIZON to consume from earliest. The support for LATEST, AT\_SEQUENCE\_NUMBER, AFTER\_SEQUENCE\_NUMBER is in progress but unsupported at this point</td>
+    </tr>
+    <tr>
+      <td>maxRecordsToFetch</td>
+      <td><p>Specifies the maximum number of records to retrieve in a single <code>getRecords</code> API call to Kinesis. This parameter controls the batch size for data retrieval.<br><br>Can be set between 1 and 10,000 (Kinesis API limit by AWS)</p><p><br>Larger values reduce the number of API calls needed but may increase latency and memory usage per batch.</p><p>Default value is set to max 10000. Only lower this when you have memory constraints</p></td>
+    </tr>
+    <tr>
+      <td>requests\_per\_second\_limit</td>
+      <td><p>Controls the maximum number of <code>getRecords</code> requests per second that the consumer will make to a Kinesis shard. This parameter is crucial for avoiding AWS Kinesis API throttling.</p><p><br>Kinesis enforces a hard limit of 5 <code>getRecords</code> requests per second per shard. Exceeding this limit results in <code>ProvisionedThroughputExceededException</code>.</p><p><br>The default value of 1 is intentionally conservative to prevent throttling in replicated setups where multiple consumers might be reading from the same shard simultaneously.<br><br>You should only increase this if you are experiencing slow consumption rates and do not have <code>ProvisionedThroughputExceededException</code> in the logs yet</p></td>
+    </tr>
+  </tbody>
+</table>
 
 Kinesis supports authentication using the [DefaultCredentialsProviderChain](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html). The credential provider looks for the credentials in the following order:
 

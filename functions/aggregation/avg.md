@@ -19,6 +19,15 @@ select AVG(hits) AS value
 from baseballStats
 ```
 
-| value              |
-| ------------------ |
-| 27.254965229242498 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>27.254965229242498</td>
+    </tr>
+  </tbody>
+</table>

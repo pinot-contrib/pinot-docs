@@ -19,24 +19,51 @@ select percentileest(homeRuns, 50) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 0     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select percentileest(homeRuns, 80) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 4     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select percentileest(homeRuns, 99.9) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 46    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>46</td>
+    </tr>
+  </tbody>
+</table>

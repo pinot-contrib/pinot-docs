@@ -11,9 +11,22 @@ Reverses the byte order of a long value. Useful for converting between big-endia
 
 > byteswapLong(col)
 
-| Argument | Type | Description           |
-| -------- | ---- | --------------------- |
-| `col`    | LONG | Long value to reverse |
+<table>
+  <thead>
+    <tr>
+      <th>Argument</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`col`</td>
+      <td>LONG</td>
+      <td>Long value to reverse</td>
+    </tr>
+  </tbody>
+</table>
 
 Returns: **LONG**
 

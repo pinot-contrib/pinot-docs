@@ -33,14 +33,40 @@ WHERE TEXT_MATCH (<column_name>, '<search_expression>')
 
 where `<column_name>` is the column text index is created on and `<search_expression>` conforms to one of the following:
 
-| **Search Expression Type** | **Example**                                                                                                   |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Phrase query               | TEXT\_MATCH (\<column\_name>, '"distributed system"')                                                         |
-| Term Query                 | TEXT\_MATCH (\<column\_name>, 'Java')                                                                         |
-| Boolean Query              | TEXT\_MATCH (\<column\_name>, 'Java AND c++')                                                                 |
-| Prefix Query               | TEXT\_MATCH (\<column\_name>, 'stream\*')                                                                     |
-| Regex Query                | TEXT\_MATCH (\<column\_name>, '/Exception.\*/')                                                               |
-| Not Query                  | <p>TEXT_MATCH (&#x3C;column_name>, '<em>*:*</em> NOT c%')</p><p>NOT TEXT_MATCH (&#x3C;column_name>, 'c%')</p> |
+<table>
+  <thead>
+    <tr>
+      <th>**Search Expression Type**</th>
+      <th>**Example**</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Phrase query</td>
+      <td>TEXT\_MATCH (\<column\_name>, '"distributed system"')</td>
+    </tr>
+    <tr>
+      <td>Term Query</td>
+      <td>TEXT\_MATCH (\<column\_name>, 'Java')</td>
+    </tr>
+    <tr>
+      <td>Boolean Query</td>
+      <td>TEXT\_MATCH (\<column\_name>, 'Java AND c++')</td>
+    </tr>
+    <tr>
+      <td>Prefix Query</td>
+      <td>TEXT\_MATCH (\<column\_name>, 'stream\*')</td>
+    </tr>
+    <tr>
+      <td>Regex Query</td>
+      <td>TEXT\_MATCH (\<column\_name>, '/Exception.\*/')</td>
+    </tr>
+    <tr>
+      <td>Not Query</td>
+      <td><p>TEXT_MATCH (&#x3C;column_name>, '<em>*:*</em> NOT c%')</p><p>NOT TEXT_MATCH (&#x3C;column_name>, 'c%')</p></td>
+    </tr>
+  </tbody>
+</table>
 
 ## Current restrictions
 
@@ -220,7 +246,6 @@ The multi-column text index is a good fit when:
 Benchmarks from [PR #16103](https://github.com/apache/pinot/pull/16103) show that with 50 indexed string columns, multi-column text index uses roughly 50% less disk space and builds approximately 30% faster than the equivalent per-column indexes.
 
 
-
 ## Enable a per-column text index
 
 Enable a text index on a column in the [table configuration](../../configuration-reference/table.md) by adding a new section with the name "fieldConfigList".
@@ -297,11 +322,32 @@ Unlike the per-column text index (which is configured per column in `fieldConfig
 
 The configuration has three parts:
 
-| Field | Required | Description |
-|---|---|---|
-| `columns` | Yes | List of column names to include in the multi-column text index. |
-| `properties` | No | Shared properties applied to all columns. |
-| `perColumnProperties` | No | Per-column property overrides. Keys are column names; values are property maps. These override any matching key in `properties` for that specific column. |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`columns`</td>
+      <td>Yes</td>
+      <td>List of column names to include in the multi-column text index.</td>
+    </tr>
+    <tr>
+      <td>`properties`</td>
+      <td>No</td>
+      <td>Shared properties applied to all columns.</td>
+    </tr>
+    <tr>
+      <td>`perColumnProperties`</td>
+      <td>No</td>
+      <td>Per-column property overrides. Keys are column names; values are property maps. These override any matching key in `properties` for that specific column.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 As with per-column text indexes, columns in a multi-column text index should also be listed in `noDictionaryColumns` to reduce unnecessary storage overhead.
@@ -311,12 +357,32 @@ As with per-column text indexes, columns in a multi-column text index should als
 
 Shared properties apply to every column in the index. The following keys are allowed:
 
-| Key | Description |
-|---|---|
-| `enableQueryCacheForTextIndex` | Enable Lucene query result caching. |
-| `luceneUseCompoundFile` | Use Lucene compound file format to reduce open file handles. |
-| `luceneMaxBufferSizeMB` | Maximum RAM buffer size (in MB) for the Lucene index writer. |
-| `reuseMutableIndex` | Reuse the mutable index across real-time segments. |
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`enableQueryCacheForTextIndex`</td>
+      <td>Enable Lucene query result caching.</td>
+    </tr>
+    <tr>
+      <td>`luceneUseCompoundFile`</td>
+      <td>Use Lucene compound file format to reduce open file handles.</td>
+    </tr>
+    <tr>
+      <td>`luceneMaxBufferSizeMB`</td>
+      <td>Maximum RAM buffer size (in MB) for the Lucene index writer.</td>
+    </tr>
+    <tr>
+      <td>`reuseMutableIndex`</td>
+      <td>Reuse the mutable index across real-time segments.</td>
+    </tr>
+  </tbody>
+</table>
 
 In addition, all keys listed under per-column properties below are also valid as shared properties (they set the default for every column).
 
@@ -324,17 +390,52 @@ In addition, all keys listed under per-column properties below are also valid as
 
 Per-column properties override any shared property for a specific column. The following keys are allowed:
 
-| Key | Description |
-|---|---|
-| `useANDForMultiTermTextIndexQueries` | Use AND as the default operator for multi-term queries (default is OR). |
-| `enablePrefixSuffixMatchingInPhraseQueries` | Allow wildcard prefix/suffix matching inside phrase queries. |
-| `stopWordInclude` | Comma-separated list of additional stop words to exclude during indexing and search. |
-| `stopWordExclude` | Comma-separated list of default stop words to keep (un-exclude). |
-| `caseSensitive` | Whether text matching is case-sensitive (`"true"` or `"false"`). |
-| `luceneAnalyzerClass` | Fully qualified class name of a custom Lucene analyzer. |
-| `luceneAnalyzerClassArgs` | Arguments for the custom analyzer constructor. |
-| `luceneAnalyzerClassArgTypes` | Argument types for the custom analyzer constructor. |
-| `luceneQueryParserClass` | Fully qualified class name of a custom Lucene query parser. |
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`useANDForMultiTermTextIndexQueries`</td>
+      <td>Use AND as the default operator for multi-term queries (default is OR).</td>
+    </tr>
+    <tr>
+      <td>`enablePrefixSuffixMatchingInPhraseQueries`</td>
+      <td>Allow wildcard prefix/suffix matching inside phrase queries.</td>
+    </tr>
+    <tr>
+      <td>`stopWordInclude`</td>
+      <td>Comma-separated list of additional stop words to exclude during indexing and search.</td>
+    </tr>
+    <tr>
+      <td>`stopWordExclude`</td>
+      <td>Comma-separated list of default stop words to keep (un-exclude).</td>
+    </tr>
+    <tr>
+      <td>`caseSensitive`</td>
+      <td>Whether text matching is case-sensitive (`"true"` or `"false"`).</td>
+    </tr>
+    <tr>
+      <td>`luceneAnalyzerClass`</td>
+      <td>Fully qualified class name of a custom Lucene analyzer.</td>
+    </tr>
+    <tr>
+      <td>`luceneAnalyzerClassArgs`</td>
+      <td>Arguments for the custom analyzer constructor.</td>
+    </tr>
+    <tr>
+      <td>`luceneAnalyzerClassArgTypes`</td>
+      <td>Argument types for the custom analyzer constructor.</td>
+    </tr>
+    <tr>
+      <td>`luceneQueryParserClass`</td>
+      <td>Fully qualified class name of a custom Lucene query parser.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 Keys that are only valid as shared properties (such as `luceneMaxBufferSizeMB`) have no effect when placed in `perColumnProperties` and will be ignored.
@@ -453,11 +554,32 @@ TEXT_MATCH(text_column_name, search_expression [, options])
 
 **Available Options:**
 
-| Option                  | Values                              | Description                                                                                 |
-|-------------------------|-------------------------------------|---------------------------------------------------------------------------------------------|
-| `parser`                | `CLASSIC`, `STANDARD`, `COMPLEX`    | Selects the Lucene query parser to use. Default is `CLASSIC`.                               |
-| `allowLeadingWildcard`  | `true`, `false`                     | Allows queries to start with a wildcard (e.g., `*term`). Default is `false`.                |
-| `defaultOperator`       | `AND`, `OR`                         | Sets the default boolean operator for multi-term queries. Default is `OR`.                  |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Values</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`parser`</td>
+      <td>`CLASSIC`, `STANDARD`, `COMPLEX`</td>
+      <td>Selects the Lucene query parser to use. Default is `CLASSIC`.</td>
+    </tr>
+    <tr>
+      <td>`allowLeadingWildcard`</td>
+      <td>`true`, `false`</td>
+      <td>Allows queries to start with a wildcard (e.g., `*term`). Default is `false`.</td>
+    </tr>
+    <tr>
+      <td>`defaultOperator`</td>
+      <td>`AND`, `OR`</td>
+      <td>Sets the default boolean operator for multi-term queries. Default is `OR`.</td>
+    </tr>
+  </tbody>
+</table>
 
 **Examples:**
 ```sql
@@ -727,6 +849,7 @@ TEXT_MATCH(column, 'Java AND C++')
 To improve Lucene index creation time, some configs have been provided. Field Config properties `luceneUseCompoundFile` and `luceneMaxBufferSizeMB` can provide faster index writing at but may increase file descriptors and/or memory pressure.
 
 #### Cluster Configuration for Text Search
+
 When text search queries contain too many terms or clauses, Lucene may throw `TooManyClauses` exceptions, causing query failures. This commonly occurs with:
 - Complex boolean queries with many OR conditions
 - Wildcard queries that expand to many terms
@@ -737,27 +860,112 @@ To handle such cases, you can increase the maximum clause count at the cluster l
 
 The text index supports the following configuration parameters in the `indexes.text` object of `fieldConfigList`:
 
-| Parameter | Default | Description |
-| --- | --- | --- |
-| `fst` | - | FST type to use: `LUCENE` or `NATIVE` |
-| `rawValue` | - | Whether to store raw text values |
-| `queryCache` | false | Enable Lucene query result cache |
-| `useANDForMultiTermQueries` | false | Use AND (instead of OR) for multi-term queries |
-| `stopWordsInclude` | [] | Additional stop words to include |
-| `stopWordsExclude` | [] | Default stop words to exclude |
-| `luceneUseCompoundFile` | true | Use Lucene compound file format |
-| `luceneMaxBufferSizeMB` | 500 | Maximum RAM buffer size for the Lucene index writer |
-| `luceneAnalyzerClass` | StandardAnalyzer | Custom Lucene analyzer class name |
-| `luceneAnalyzerClassArgs` | - | Arguments for the custom analyzer constructor |
-| `luceneAnalyzerClassArgTypes` | - | Argument types for the custom analyzer constructor |
-| `luceneQueryParserClass` | QueryParser | Custom Lucene query parser class name |
-| `enablePrefixSuffixMatchingInPhraseQueries` | false | Enable prefix/suffix matching in phrase queries |
-| `reuseMutableIndex` | false | Reuse the mutable index across real-time segments |
-| `luceneNRTCachingDirectoryMaxBufferSizeMB` | 0 | Max buffer size for NRT caching directory (0 = disabled) |
-| `useLogByteSizeMergePolicy` | false | Use log-byte-size merge policy for Lucene segments |
-| `docIdTranslatorMode` | Default | Doc ID translator mode: `Default`, `TryOptimize`, or `Skip` |
-| `caseSensitive` | false | Whether the text index should be case-sensitive |
-| `storeInSegmentFile` | false | Store the text index inside the segment file |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`fst`</td>
+      <td>-</td>
+      <td>FST type to use: `LUCENE` or `NATIVE`</td>
+    </tr>
+    <tr>
+      <td>`rawValue`</td>
+      <td>-</td>
+      <td>Whether to store raw text values</td>
+    </tr>
+    <tr>
+      <td>`queryCache`</td>
+      <td>false</td>
+      <td>Enable Lucene query result cache</td>
+    </tr>
+    <tr>
+      <td>`useANDForMultiTermQueries`</td>
+      <td>false</td>
+      <td>Use AND (instead of OR) for multi-term queries</td>
+    </tr>
+    <tr>
+      <td>`stopWordsInclude`</td>
+      <td>[]</td>
+      <td>Additional stop words to include</td>
+    </tr>
+    <tr>
+      <td>`stopWordsExclude`</td>
+      <td>[]</td>
+      <td>Default stop words to exclude</td>
+    </tr>
+    <tr>
+      <td>`luceneUseCompoundFile`</td>
+      <td>true</td>
+      <td>Use Lucene compound file format</td>
+    </tr>
+    <tr>
+      <td>`luceneMaxBufferSizeMB`</td>
+      <td>500</td>
+      <td>Maximum RAM buffer size for the Lucene index writer</td>
+    </tr>
+    <tr>
+      <td>`luceneAnalyzerClass`</td>
+      <td>StandardAnalyzer</td>
+      <td>Custom Lucene analyzer class name</td>
+    </tr>
+    <tr>
+      <td>`luceneAnalyzerClassArgs`</td>
+      <td>-</td>
+      <td>Arguments for the custom analyzer constructor</td>
+    </tr>
+    <tr>
+      <td>`luceneAnalyzerClassArgTypes`</td>
+      <td>-</td>
+      <td>Argument types for the custom analyzer constructor</td>
+    </tr>
+    <tr>
+      <td>`luceneQueryParserClass`</td>
+      <td>QueryParser</td>
+      <td>Custom Lucene query parser class name</td>
+    </tr>
+    <tr>
+      <td>`enablePrefixSuffixMatchingInPhraseQueries`</td>
+      <td>false</td>
+      <td>Enable prefix/suffix matching in phrase queries</td>
+    </tr>
+    <tr>
+      <td>`reuseMutableIndex`</td>
+      <td>false</td>
+      <td>Reuse the mutable index across real-time segments</td>
+    </tr>
+    <tr>
+      <td>`luceneNRTCachingDirectoryMaxBufferSizeMB`</td>
+      <td>0</td>
+      <td>Max buffer size for NRT caching directory (0 = disabled)</td>
+    </tr>
+    <tr>
+      <td>`useLogByteSizeMergePolicy`</td>
+      <td>false</td>
+      <td>Use log-byte-size merge policy for Lucene segments</td>
+    </tr>
+    <tr>
+      <td>`docIdTranslatorMode`</td>
+      <td>Default</td>
+      <td>Doc ID translator mode: `Default`, `TryOptimize`, or `Skip`</td>
+    </tr>
+    <tr>
+      <td>`caseSensitive`</td>
+      <td>false</td>
+      <td>Whether the text index should be case-sensitive</td>
+    </tr>
+    <tr>
+      <td>`storeInSegmentFile`</td>
+      <td>false</td>
+      <td>Store the text index inside the segment file</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example with custom parameters
 

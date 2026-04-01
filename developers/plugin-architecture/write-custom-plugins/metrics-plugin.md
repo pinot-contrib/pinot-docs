@@ -6,11 +6,32 @@ The Metrics plugin controls which metrics library Pinot uses to collect and expo
 
 Pinot ships with three metrics implementations:
 
-| Implementation | Class | Description |
-| --- | --- | --- |
-| **Dropwizard** | `DropwizardMetricsFactory` | Based on Dropwizard Metrics (formerly Codahale). This is the default. |
-| **Yammer** | `YammerMetricsFactory` | Based on Yammer Metrics, used in older Pinot versions. |
-| **Compound** | `CompoundPinotMetricsFactory` | A meta-implementation that fans metrics out to multiple registries simultaneously. Useful for comparing or migrating between metrics libraries. |
+<table>
+  <thead>
+    <tr>
+      <th>Implementation</th>
+      <th>Class</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Dropwizard**</td>
+      <td>`DropwizardMetricsFactory`</td>
+      <td>Based on Dropwizard Metrics (formerly Codahale). This is the default.</td>
+    </tr>
+    <tr>
+      <td>**Yammer**</td>
+      <td>`YammerMetricsFactory`</td>
+      <td>Based on Yammer Metrics, used in older Pinot versions.</td>
+    </tr>
+    <tr>
+      <td>**Compound**</td>
+      <td>`CompoundPinotMetricsFactory`</td>
+      <td>A meta-implementation that fans metrics out to multiple registries simultaneously. Useful for comparing or migrating between metrics libraries.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Configuration
 
@@ -46,11 +67,32 @@ pinot.<component>.metrics.factory.className=org.apache.pinot.plugin.metrics.comp
 
 The following additional properties control how the Compound factory discovers sub-factories:
 
-| Property Suffix | Values | Description |
-| --- | --- | --- |
-| `compound.algorithm` | `CLASSPATH` (default), `SERVICE_LOADER`, `LIST` | How to discover sub-factories. |
-| `compound.ignored` | Comma-separated class names | Metrics factory classes to exclude. |
-| `compound.list` | Comma-separated class names | Explicit list of factory classes (used with `LIST` algorithm). |
+<table>
+  <thead>
+    <tr>
+      <th>Property Suffix</th>
+      <th>Values</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`compound.algorithm`</td>
+      <td>`CLASSPATH` (default), `SERVICE_LOADER`, `LIST`</td>
+      <td>How to discover sub-factories.</td>
+    </tr>
+    <tr>
+      <td>`compound.ignored`</td>
+      <td>Comma-separated class names</td>
+      <td>Metrics factory classes to exclude.</td>
+    </tr>
+    <tr>
+      <td>`compound.list`</td>
+      <td>Comma-separated class names</td>
+      <td>Explicit list of factory classes (used with `LIST` algorithm).</td>
+    </tr>
+  </tbody>
+</table>
 
 ## SPI Interface
 
@@ -69,14 +111,40 @@ public interface PinotMetricsFactory {
 
 ### Key Methods
 
-| Method | Description |
-| --- | --- |
-| `init(PinotConfiguration)` | Initializes the factory with Pinot configuration. |
-| `getPinotMetricsRegistry()` | Returns the singleton metrics registry instance. |
-| `makePinotMetricName(Class, String)` | Creates a metric name scoped to a class. |
-| `makePinotGauge(Function)` | Creates a gauge metric backed by the provided function. |
-| `makePinotJmxReporter(PinotMetricsRegistry)` | Creates a JMX reporter for the given registry. |
-| `getMetricsFactoryName()` | Returns a human-readable name for the factory. |
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`init(PinotConfiguration)`</td>
+      <td>Initializes the factory with Pinot configuration.</td>
+    </tr>
+    <tr>
+      <td>`getPinotMetricsRegistry()`</td>
+      <td>Returns the singleton metrics registry instance.</td>
+    </tr>
+    <tr>
+      <td>`makePinotMetricName(Class, String)`</td>
+      <td>Creates a metric name scoped to a class.</td>
+    </tr>
+    <tr>
+      <td>`makePinotGauge(Function)`</td>
+      <td>Creates a gauge metric backed by the provided function.</td>
+    </tr>
+    <tr>
+      <td>`makePinotJmxReporter(PinotMetricsRegistry)`</td>
+      <td>Creates a JMX reporter for the given registry.</td>
+    </tr>
+    <tr>
+      <td>`getMetricsFactoryName()`</td>
+      <td>Returns a human-readable name for the factory.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Writing a Custom Metrics Plugin
 

@@ -8,19 +8,72 @@ Plugins are collected in folders, based on their purpose. Pinot organizes its pl
 
 ## Plugin Families at a Glance
 
-| Plugin Family | SPI Interface / Module | Built-in Implementations |
-| --- | --- | --- |
-| **Input Format** | `RecordReader` / `StreamMessageDecoder` | Avro, CSV, JSON, ORC, Parquet, Thrift, Protobuf, Arrow, CLP-Log, Confluent Avro, Confluent JSON, Confluent Protobuf |
-| **Filesystem** | `PinotFS` | S3, GCS, HDFS, ADLS |
-| **Stream Ingestion** | `StreamConsumerFactory` | Kafka 3.0, Kafka 4.0, Kinesis, Pulsar |
-| **Batch Ingestion** | `IngestionJobRunner` | Standalone, Hadoop, Spark 3 |
-| **Metrics** | `PinotMetricsFactory` | Dropwizard, Yammer, Compound |
-| **Segment Writer** | `SegmentWriter` | File-based |
-| **Segment Uploader** | `SegmentUploader` | Default |
-| **Minion Tasks** | `PinotTaskGenerator` / `PinotTaskExecutor` | MergeRollup, Purge, RealtimeToOfflineSegments, SegmentGenerationAndPush, UpsertCompaction, UpsertCompactMerge, RefreshSegment |
-| **Environment** | `PinotEnv` | Azure |
-| **Time Series Language** | `TimeSeriesLogicalPlanner` | M3QL |
-| **OpChain Converter** | `OpChainConverter` | Default |
+<table>
+  <thead>
+    <tr>
+      <th>Plugin Family</th>
+      <th>SPI Interface / Module</th>
+      <th>Built-in Implementations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Input Format**</td>
+      <td>`RecordReader` / `StreamMessageDecoder`</td>
+      <td>Avro, CSV, JSON, ORC, Parquet, Thrift, Protobuf, Arrow, CLP-Log, Confluent Avro, Confluent JSON, Confluent Protobuf</td>
+    </tr>
+    <tr>
+      <td>**Filesystem**</td>
+      <td>`PinotFS`</td>
+      <td>S3, GCS, HDFS, ADLS</td>
+    </tr>
+    <tr>
+      <td>**Stream Ingestion**</td>
+      <td>`StreamConsumerFactory`</td>
+      <td>Kafka 3.0, Kafka 4.0, Kinesis, Pulsar</td>
+    </tr>
+    <tr>
+      <td>**Batch Ingestion**</td>
+      <td>`IngestionJobRunner`</td>
+      <td>Standalone, Hadoop, Spark 3</td>
+    </tr>
+    <tr>
+      <td>**Metrics**</td>
+      <td>`PinotMetricsFactory`</td>
+      <td>Dropwizard, Yammer, Compound</td>
+    </tr>
+    <tr>
+      <td>**Segment Writer**</td>
+      <td>`SegmentWriter`</td>
+      <td>File-based</td>
+    </tr>
+    <tr>
+      <td>**Segment Uploader**</td>
+      <td>`SegmentUploader`</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td>**Minion Tasks**</td>
+      <td>`PinotTaskGenerator` / `PinotTaskExecutor`</td>
+      <td>MergeRollup, Purge, RealtimeToOfflineSegments, SegmentGenerationAndPush, UpsertCompaction, UpsertCompactMerge, RefreshSegment</td>
+    </tr>
+    <tr>
+      <td>**Environment**</td>
+      <td>`PinotEnv`</td>
+      <td>Azure</td>
+    </tr>
+    <tr>
+      <td>**Time Series Language**</td>
+      <td>`TimeSeriesLogicalPlanner`</td>
+      <td>M3QL</td>
+    </tr>
+    <tr>
+      <td>**OpChain Converter**</td>
+      <td>`OpChainConverter`</td>
+      <td>Default</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 

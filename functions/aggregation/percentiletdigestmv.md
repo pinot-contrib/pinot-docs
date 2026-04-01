@@ -24,9 +24,18 @@ from airlineStats
 where arraylength(DivLongestGTimes) > 1
 ```
 
-| value |
-| ----- |
-| 10    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select PERCENTILETDIGESTMV(DivLongestGTimes, 90) AS value
@@ -34,9 +43,18 @@ from airlineStats
 where arraylength(DivLongestGTimes) > 1
 ```
 
-| value |
-| ----- |
-| 44    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>44</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select PERCENTILETDIGESTMV(DivLongestGTimes, 99.9) AS value
@@ -44,6 +62,15 @@ from airlineStats
 where arraylength(DivLongestGTimes) > 1
 ```
 
-| value |
-| ----- |
-| 108   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>108</td>
+    </tr>
+  </tbody>
+</table>

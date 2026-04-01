@@ -23,33 +23,69 @@ select week(1639351800000) AS week
 FROM ignoreMe
 ```
 
-| week |
-| ---- |
-| 49   |
+<table>
+  <thead>
+    <tr>
+      <th>week</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>49</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select week(1639351800000, 'CET') AS week
 FROM ignoreMe
 ```
 
-| week |
-| ---- |
-| 50   |
+<table>
+  <thead>
+    <tr>
+      <th>week</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select weekOfYear(1639351800000) AS week
 FROM ignoreMe
 ```
 
-| week |
-| ---- |
-| 49   |
+<table>
+  <thead>
+    <tr>
+      <th>week</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>49</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select weekOfYear(1639351800000, 'CET') AS week
 FROM ignoreMe
 ```
 
-| week |
-| ---- |
-| 50   |
+<table>
+  <thead>
+    <tr>
+      <th>week</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>

@@ -37,10 +37,30 @@ To enable PurgeTask on a table, add it to the table's task configuration:
 
 ### Configuration Parameters
 
-| Parameter | Description | Default | Example |
-|-----------|-------------|---------|---------|
-| `lastPurgeTimeThresholdPeriod` | Minimum time between purge operations on the same segment (default: 14 days) | `"14d"` | `"7d"`, `"1h"`, `"30d"` |
-| `tableMaxNumTasks` | Maximum number of concurrent purge tasks per table | `Integer.MAX_VALUE` | `"3"`, `"10"` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`lastPurgeTimeThresholdPeriod`</td>
+      <td>Minimum time between purge operations on the same segment (default: 14 days)</td>
+      <td>`"14d"`</td>
+      <td>`"7d"`, `"1h"`, `"30d"`</td>
+    </tr>
+    <tr>
+      <td>`tableMaxNumTasks`</td>
+      <td>Maximum number of concurrent purge tasks per table</td>
+      <td>`Integer.MAX_VALUE`</td>
+      <td>`"3"`, `"10"`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Implementation Requirements
 
@@ -121,10 +141,13 @@ For more information on developing Pinot plugins, see the [Plugin Architecture d
 Use the Controller REST API to manually trigger PurgeTask:
 
 ```bash
+
 # Schedule PurgeTask for all enabled tables
+
 POST /tasks/schedule?taskType=PurgeTask
 
 # Schedule PurgeTask for a specific table
+
 POST /tasks/schedule?taskType=PurgeTask&tableName=myTable_OFFLINE
 ```
 

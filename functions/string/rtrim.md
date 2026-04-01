@@ -18,6 +18,17 @@ SELECT ' Pinot with spaces  ' AS notTrimmed,
 FROM ignoreMe
 ```
 
-| notTrimmed              | trimmed                |
-| ----------------------- | ---------------------- |
-| `" Pinot with spaces "` | `" Pinot with spaces"` |
+<table>
+  <thead>
+    <tr>
+      <th>notTrimmed</th>
+      <th>trimmed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`" Pinot with spaces "`</td>
+      <td>`" Pinot with spaces"`</td>
+    </tr>
+  </tbody>
+</table>

@@ -18,9 +18,20 @@ The usage examples are based on extracting fields from the following JSON docume
 {"timestamp": "2019-10-09 21:25:25", "meta": {"age": 12}}
 ```
 
-| Expression         | Value            |
-| ------------------ | ---------------- |
-| `JSONFORMAT(meta)` | `"{\"age\":12}"` |
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`JSONFORMAT(meta)`</td>
+      <td>`"{\"age\":12}"`</td>
+    </tr>
+  </tbody>
+</table>
 
 This function can be used in the [table config](../../configuration-reference/table.md) to extract the `meta` property into the `data` column, as described below:
 

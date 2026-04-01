@@ -31,18 +31,36 @@ select distinctCountRawThetaSketch(teamID) AS value
 from baseballStats 
 ```
 
-| value                          |
-| ------------------------------ |
-| AgMDAAAKzJOVAAAAAACAPwDAATj... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AgMDAAAKzJOVAAAAAACAPwDAATj...</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select distinctCountRawThetaSketch(teamID, 'nominalEntries=10') AS value
 from baseballStats
 ```
 
-| value                                       |
-| ------------------------------------------- |
-| AwMDAAAKzJMQAAAAAACAP4vpfPBbbQsO5N1zYV2c... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AwMDAAAKzJMQAAAAAACAP4vpfPBbbQsO5N1zYV2c...</td>
+    </tr>
+  </tbody>
+</table>
 
 We can also provide predicates and a post aggregation expression to compute more complicated cardinalities:
 
@@ -57,6 +75,15 @@ select distinctCountRawThetaSketch(
 from baseballStats 
 ```
 
-| value                    |
-| ------------------------ |
-| AQMDAAA6zJN8QPYIsvHMNQ== |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AQMDAAA6zJN8QPYIsvHMNQ==</td>
+    </tr>
+  </tbody>
+</table>

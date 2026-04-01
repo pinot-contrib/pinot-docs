@@ -19,6 +19,15 @@ select SUMARRAYDOUBLE(doubleArrayCol) AS value
 from myTable
 ```
 
-| value               |
-| ------------------- |
-| [1.5, 2.7, 3.9]    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[1.5, 2.7, 3.9]</td>
+    </tr>
+  </tbody>
+</table>

@@ -16,12 +16,32 @@ pinot-admin.sh AddSchema -schemaFile /path/to/schema.json -controllerHost localh
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option         | Description                                                                                        |
-| -------------- | -------------------------------------------------------------------------------------------------- |
-| schemaFile     | path to [schema JSON](../configuration-reference/schema.md) file mentioned in table configuration. |
-| controllerHost | controllerHost on which to send the upload requests                                                |
-| controllerPort | controllerPort on which to send the upload requests                                                |
-| exec           | If not specified, a dry run will be done but configs won't actually be uploaded.                   |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>schemaFile</td>
+      <td>path to [schema JSON](../configuration-reference/schema.md) file mentioned in table configuration.</td>
+    </tr>
+    <tr>
+      <td>controllerHost</td>
+      <td>controllerHost on which to send the upload requests</td>
+    </tr>
+    <tr>
+      <td>controllerPort</td>
+      <td>controllerPort on which to send the upload requests</td>
+    </tr>
+    <tr>
+      <td>exec</td>
+      <td>If not specified, a dry run will be done but configs won't actually be uploaded.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Add Table
 
@@ -35,13 +55,36 @@ pinot-admin.sh AddTable -tableConfigFile /path/to/table.json -schemaFile /path/t
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option          | Description                                                                                        |
-| --------------- | -------------------------------------------------------------------------------------------------- |
-| tableConfigFile | path to JSON file containing [Table configuration](../configuration-reference/table.md).           |
-| schemaFile      | path to [schema JSON](../configuration-reference/schema.md) file mentioned in table configuration. |
-| controllerHost  | controllerHost on which to send the upload requests                                                |
-| controllerPort  | controllerPort on which to send the upload requests                                                |
-| exec            | If not specified, a dry run will be done but configs won't actually be uploaded.                   |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tableConfigFile</td>
+      <td>path to JSON file containing [Table configuration](../configuration-reference/table.md).</td>
+    </tr>
+    <tr>
+      <td>schemaFile</td>
+      <td>path to [schema JSON](../configuration-reference/schema.md) file mentioned in table configuration.</td>
+    </tr>
+    <tr>
+      <td>controllerHost</td>
+      <td>controllerHost on which to send the upload requests</td>
+    </tr>
+    <tr>
+      <td>controllerPort</td>
+      <td>controllerPort on which to send the upload requests</td>
+    </tr>
+    <tr>
+      <td>exec</td>
+      <td>If not specified, a dry run will be done but configs won't actually be uploaded.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Add Tenant
 
@@ -55,16 +98,48 @@ pinot-admin.sh AddTenant -name myTenant -role SERVER -instanceCount 10 -controll
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option                | Description                                                                                                      |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| controllerHost        | controllerHost on which to send the upload requests                                                              |
-| controllerPort        | controllerPort on which to send the upload requests                                                              |
-| name                  | name of the tenant                                                                                               |
-| role                  | where the tenant should reside. can be `BROKER` or `SERVER`                                                      |
-| instanceCount         | total number of instances to assign to this tenant                                                               |
-| offlineInstanceCount  | (only applicable for `SERVER`) total number of instances which can host offline tables belonging to this tenant  |
-| realTimeInstanceCount | (only applicable for `SERVER`)total number of instances which can host real-time tables belonging to this tenant |
-| exec                  | If not specified, a dry run will be done but configs won't actually be uploaded.                                 |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controllerHost</td>
+      <td>controllerHost on which to send the upload requests</td>
+    </tr>
+    <tr>
+      <td>controllerPort</td>
+      <td>controllerPort on which to send the upload requests</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>name of the tenant</td>
+    </tr>
+    <tr>
+      <td>role</td>
+      <td>where the tenant should reside. can be `BROKER` or `SERVER`</td>
+    </tr>
+    <tr>
+      <td>instanceCount</td>
+      <td>total number of instances to assign to this tenant</td>
+    </tr>
+    <tr>
+      <td>offlineInstanceCount</td>
+      <td>(only applicable for `SERVER`) total number of instances which can host offline tables belonging to this tenant</td>
+    </tr>
+    <tr>
+      <td>realTimeInstanceCount</td>
+      <td>(only applicable for `SERVER`)total number of instances which can host real-time tables belonging to this tenant</td>
+    </tr>
+    <tr>
+      <td>exec</td>
+      <td>If not specified, a dry run will be done but configs won't actually be uploaded.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Check Offline Segment Intervals
 
@@ -78,11 +153,28 @@ pinot-admin.sh CheckOfflineSegmentIntervals -zkAddress localhost:2181 -clusterNa
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option      | Description                                                                                               |
-| ----------- | --------------------------------------------------------------------------------------------------------- |
-| zkAddress   | comma-separated host:port string of Zookeeper to connect                                                  |
-| clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                  |
-| tableName   | Comma separated list of tables to check for invalid segment intervals. By default all tables are checked. |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of Zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>tableName</td>
+      <td>Comma separated list of tables to check for invalid segment intervals. By default all tables are checked.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Change Num Replicas
 
@@ -96,12 +188,32 @@ pinot-admin.sh ChangeNumReplicas -tableName myTable -clusterName PinotCluster -z
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option      | Description                                                                              |
-| ----------- | ---------------------------------------------------------------------------------------- |
-| zkAddress   | comma-separated host:port string of zookeeper to connect                                 |
-| clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
-| tableName   | name of the table on which to perform operation                                          |
-| exec        | If not specified, a dry run will be done but configs won't actually be uploaded.         |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>tableName</td>
+      <td>name of the table on which to perform operation</td>
+    </tr>
+    <tr>
+      <td>exec</td>
+      <td>If not specified, a dry run will be done but configs won't actually be uploaded.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Change Table State
 
@@ -115,12 +227,32 @@ pinot-admin.sh ChangeTableState -tableName myTable -state disable -controllerHos
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option         | Description                                         |
-| -------------- | --------------------------------------------------- |
-| controllerHost | controllerHost on which to send the upload requests |
-| controllerPort | controllerPort on which to send the upload requests |
-| tableName      | name of the table to modify                         |
-| state          | can be one of `enable` , `disable` or `drop`        |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controllerHost</td>
+      <td>controllerHost on which to send the upload requests</td>
+    </tr>
+    <tr>
+      <td>controllerPort</td>
+      <td>controllerPort on which to send the upload requests</td>
+    </tr>
+    <tr>
+      <td>tableName</td>
+      <td>name of the table to modify</td>
+    </tr>
+    <tr>
+      <td>state</td>
+      <td>can be one of `enable` , `disable` or `drop`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Create Segment
 
@@ -134,18 +266,56 @@ pinot-admin.sh CreateSegment -dataDir /path/to/data/dir -format CSV -outDir /pat
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option                   | Description                                                                                                                         |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
-| dataDir                  | Directory containing input files                                                                                                    |
-| format                   | Input data formats. See [Input formats](../manage-data/data-import/pinot-input-formats.md) for all the supported formats            |
-| outDir                   | Local output directory to publish the segments                                                                                      |
-| overwrite                | Set to `true` to overwrite segments of already present in the directory                                                             |
-| tableConfigFile          | Path to [Table Config](../configuration-reference/table.md)                                                                         |
-| schemaFile               | Path to [Schema Config](../configuration-reference/schema.md)                                                                       |
-| readerConfigFile         | properties file containing the config related to the reader. See [Input formats](../manage-data/data-import/pinot-input-formats.md) |
-| retry                    | Number of retry attempts in case of failure                                                                                         |
-| postCreationVerification | Set `true` to verify the segment files post creation.                                                                               |
-| numThreads               | Number of threads to use to execute the segment creation job                                                                        |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dataDir</td>
+      <td>Directory containing input files</td>
+    </tr>
+    <tr>
+      <td>format</td>
+      <td>Input data formats. See [Input formats](../manage-data/data-import/pinot-input-formats.md) for all the supported formats</td>
+    </tr>
+    <tr>
+      <td>outDir</td>
+      <td>Local output directory to publish the segments</td>
+    </tr>
+    <tr>
+      <td>overwrite</td>
+      <td>Set to `true` to overwrite segments of already present in the directory</td>
+    </tr>
+    <tr>
+      <td>tableConfigFile</td>
+      <td>Path to [Table Config](../configuration-reference/table.md)</td>
+    </tr>
+    <tr>
+      <td>schemaFile</td>
+      <td>Path to [Schema Config](../configuration-reference/schema.md)</td>
+    </tr>
+    <tr>
+      <td>readerConfigFile</td>
+      <td>properties file containing the config related to the reader. See [Input formats](../manage-data/data-import/pinot-input-formats.md)</td>
+    </tr>
+    <tr>
+      <td>retry</td>
+      <td>Number of retry attempts in case of failure</td>
+    </tr>
+    <tr>
+      <td>postCreationVerification</td>
+      <td>Set `true` to verify the segment files post creation.</td>
+    </tr>
+    <tr>
+      <td>numThreads</td>
+      <td>Number of threads to use to execute the segment creation job</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Convert Pinot Segment
 
@@ -159,15 +329,44 @@ pinot-admin.sh ConvertPinotSegment -dataDir /path/to/data/dir -outputDir /path/t
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option           | Description                                                                |
-| ---------------- | -------------------------------------------------------------------------- |
-| dataDir          | directory containing the segment files. Only local filePaths are supported |
-| outputDir        | directory to put the converted segment files in.                           |
-| outputFormat     | format to output the files in. Can be one of `CSV`, `AVRO`, `JSON`, or `PARQUET` |
-| overwrite        | set it to overwrite the files if already present in output directory       |
-| csvDelimiter     | delimiter to use for CSV files. only applicable to `CSV`                   |
-| csvListDelimiter | delimiter to use for list/array in CSV files. only applicable to `CSV`     |
-| csvWithHeader    | set to print CSV header in output file. Default is `false`.                |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dataDir</td>
+      <td>directory containing the segment files. Only local filePaths are supported</td>
+    </tr>
+    <tr>
+      <td>outputDir</td>
+      <td>directory to put the converted segment files in.</td>
+    </tr>
+    <tr>
+      <td>outputFormat</td>
+      <td>format to output the files in. Can be one of `CSV`, `AVRO`, `JSON`, or `PARQUET`</td>
+    </tr>
+    <tr>
+      <td>overwrite</td>
+      <td>set it to overwrite the files if already present in output directory</td>
+    </tr>
+    <tr>
+      <td>csvDelimiter</td>
+      <td>delimiter to use for CSV files. only applicable to `CSV`</td>
+    </tr>
+    <tr>
+      <td>csvListDelimiter</td>
+      <td>delimiter to use for list/array in CSV files. only applicable to `CSV`</td>
+    </tr>
+    <tr>
+      <td>csvWithHeader</td>
+      <td>set to print CSV header in output file. Default is `false`.</td>
+    </tr>
+  </tbody>
+</table>
 
 ##### Parquet Format Notes
 
@@ -188,10 +387,24 @@ pinot-admin.sh DeleteCluster -clusterName PinotCluster -zkAddress localhost:2181
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option      | Description                                                                            |
-| ----------- | -------------------------------------------------------------------------------------- |
-| clusterName | name of the cluster to delete                                                          |
-| zkAddress   | Comma separated host:port list of zookeeper from which to delete the cluster namespace |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to delete</td>
+    </tr>
+    <tr>
+      <td>zkAddress</td>
+      <td>Comma separated host:port list of zookeeper from which to delete the cluster namespace</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Launch Data Ingestion Job
 
@@ -205,11 +418,28 @@ pinot-admin.sh LaunchDataIngestionJob -jobSpecFile /path/to/job_spec.json -prope
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option       | Description                                                                                                   |
-| ------------ | ------------------------------------------------------------------------------------------------------------- |
-| jobSpecFile  | Path to[ job spec file.](../configuration-reference/job-specification.md) Only local file paths are supported |
-| propertyFile | Path to properties file. This file can contain properties related to ingestion job or template paramaters     |
-| values       | list of string containing the values to replace template parameters with                                      |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>jobSpecFile</td>
+      <td>Path to[ job spec file.](../configuration-reference/job-specification.md) Only local file paths are supported</td>
+    </tr>
+    <tr>
+      <td>propertyFile</td>
+      <td>Path to properties file. This file can contain properties related to ingestion job or template paramaters</td>
+    </tr>
+    <tr>
+      <td>values</td>
+      <td>list of string containing the values to replace template parameters with</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Merge/Rollup Segments
 
@@ -225,17 +455,52 @@ pinot-admin.sh SegmentProcessorFramework -segmentProcessorFrameworkSpec /path/to
 
 #### Fields within the spec file
 
-| Field              | Description                                                                                                                                 |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| inputSegmentsDir   | directory that contains all the input segment files or directories to be merged                                                             |
-| outputSegmentsDir  | directory in which merged segment file should be put                                                                                        |
-| tableConfigFile    | path to table config for which segments are to be merged                                                                                    |
-| schemaFile         | path to schema of the table for which segment should be merged                                                                              |
-| timeHandlerConfig  | configs related to time handling, including `type`, `startTimeMs`, `endTimeMs`, `roundBucketMs`, `partitionBucketMs`                        |
-| partitionerConfigs | list of partition related configs, including `partitionerType`, `numPartitions`, `columnName`, `transformFunction`, `columnPartitionConfig` |
-| mergeType          | `CONCAT`, `ROLLUP`, `DEDUP`                                                                                                                 |
-| aggregationTypes   | map from metric column to aggregation function type for the `ROLLUP` merge type                                                             |
-| segmentConfig      | configs related to the generated segments, including `maxNumRecordsPerSegment`, `segmentNamePrefix`                                         |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inputSegmentsDir</td>
+      <td>directory that contains all the input segment files or directories to be merged</td>
+    </tr>
+    <tr>
+      <td>outputSegmentsDir</td>
+      <td>directory in which merged segment file should be put</td>
+    </tr>
+    <tr>
+      <td>tableConfigFile</td>
+      <td>path to table config for which segments are to be merged</td>
+    </tr>
+    <tr>
+      <td>schemaFile</td>
+      <td>path to schema of the table for which segment should be merged</td>
+    </tr>
+    <tr>
+      <td>timeHandlerConfig</td>
+      <td>configs related to time handling, including `type`, `startTimeMs`, `endTimeMs`, `roundBucketMs`, `partitionBucketMs`</td>
+    </tr>
+    <tr>
+      <td>partitionerConfigs</td>
+      <td>list of partition related configs, including `partitionerType`, `numPartitions`, `columnName`, `transformFunction`, `columnPartitionConfig`</td>
+    </tr>
+    <tr>
+      <td>mergeType</td>
+      <td>`CONCAT`, `ROLLUP`, `DEDUP`</td>
+    </tr>
+    <tr>
+      <td>aggregationTypes</td>
+      <td>map from metric column to aggregation function type for the `ROLLUP` merge type</td>
+    </tr>
+    <tr>
+      <td>segmentConfig</td>
+      <td>configs related to the generated segments, including `maxNumRecordsPerSegment`, `segmentNamePrefix`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Move Replica Group
 
@@ -249,15 +514,44 @@ pinot-admin.sh MoveReplicaGroup -zkHost localhost:2181 -cluster PinotCluster -sr
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option            | Description                                                                                        |
-| ----------------- | -------------------------------------------------------------------------------------------------- |
-| srcHosts          | path of the file with all the source hosts or comma-separated list of hostnames                    |
-| destHostsFile     | path of the file with all the destination hosts                                                    |
-| tableName         | name of the table for which replica group is to be moved. Supports only `OFFLINE` tables currently |
-| maxSegmentsToMove | maximum number of segments to move. default is `Integer.MAX_VALUE`                                 |
-| zkHost            | zookeeper host:port string                                                                         |
-| cluster           | name of the cluster inside zookeeper .                                                             |
-| exec              | set to execute the command. If unset, only a dry run will be done                                  |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>srcHosts</td>
+      <td>path of the file with all the source hosts or comma-separated list of hostnames</td>
+    </tr>
+    <tr>
+      <td>destHostsFile</td>
+      <td>path of the file with all the destination hosts</td>
+    </tr>
+    <tr>
+      <td>tableName</td>
+      <td>name of the table for which replica group is to be moved. Supports only `OFFLINE` tables currently</td>
+    </tr>
+    <tr>
+      <td>maxSegmentsToMove</td>
+      <td>maximum number of segments to move. default is `Integer.MAX_VALUE`</td>
+    </tr>
+    <tr>
+      <td>zkHost</td>
+      <td>zookeeper host:port string</td>
+    </tr>
+    <tr>
+      <td>cluster</td>
+      <td>name of the cluster inside zookeeper .</td>
+    </tr>
+    <tr>
+      <td>exec</td>
+      <td>set to execute the command. If unset, only a dry run will be done</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Operate Cluster Config
 
@@ -271,12 +565,32 @@ pinot-admin.sh OperateClusterConfig -controllerHost localhost -controllerPort 90
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option         | Description                                                                                                         |
-| -------------- | ------------------------------------------------------------------------------------------------------------------- |
-| operation      | <p>Type of operation to perform.<br>Can be one of <code>GET, ADD, UPDATE or DELETE</code></p>                       |
-| config         | The config on which operation should be performed. In case of ADD or UPDATE, the config value is provided after `=` |
-| controllerHost | The host on which to send the request                                                                               |
-| controllerPort | The port on which to send the requests                                                                              |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>operation</td>
+      <td><p>Type of operation to perform.<br>Can be one of <code>GET, ADD, UPDATE or DELETE</code></p></td>
+    </tr>
+    <tr>
+      <td>config</td>
+      <td>The config on which operation should be performed. In case of ADD or UPDATE, the config value is provided after `=`</td>
+    </tr>
+    <tr>
+      <td>controllerHost</td>
+      <td>The host on which to send the request</td>
+    </tr>
+    <tr>
+      <td>controllerPort</td>
+      <td>The port on which to send the requests</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Post Query
 
@@ -290,11 +604,28 @@ pinot-admin.sh PostQuery -brokerHost localhost -brokerPort 8000 -query "SELECT *
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option     | Description                         |
-| ---------- | ----------------------------------- |
-| brokerHost | broker host to execute the query on |
-| brokerPort | broker port to execute the query on |
-| query      | SQL query to execute                |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>brokerHost</td>
+      <td>broker host to execute the query on</td>
+    </tr>
+    <tr>
+      <td>brokerPort</td>
+      <td>broker port to execute the query on</td>
+    </tr>
+    <tr>
+      <td>query</td>
+      <td>SQL query to execute</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Rebalance Table
 
@@ -325,17 +656,52 @@ pinot-admin.sh RebalanceTable -zkAddress localhost:2181 -clusterName PinotCluste
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option               | Description                                                                                                                                                                                           |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| zkAddress            | comma-separated host:port string of zookeeper to connect                                                                                                                                              |
-| clusterName          | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                                                                                              |
-| tableName            | name of the table on which to perform operation                                                                                                                                                       |
-| reassignInstances    | set to reassign instances before reassigning segments (`false` by default)                                                                                                                            |
-| includeConsuming     | set to reassign `CONSUMING` segments for real-time table (`false` by default)                                                                                                                         |
-| bootstrap            | set to rebalance table in bootstrap mode (regardless of minimum segment movement, reassign all segments in a round-robin fashion as if adding new segments to an empty table, `false` by default)     |
-| downtime             | Set to allow downtime for the rebalance (`false` by default)                                                                                                                                          |
-| minAvailableReplicas | minimum number of replicas to keep alive during rebalance, or maximum number of replicas allowed to be unavailable if value is negative (default is 1), Only applicable if downtime is set to `false` |
-| bestEfforts          | set to use best-efforts to rebalance i.e. not fail the rebalance when the no-downtime contract cannot be achieved, `false` by default                                                                 |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>tableName</td>
+      <td>name of the table on which to perform operation</td>
+    </tr>
+    <tr>
+      <td>reassignInstances</td>
+      <td>set to reassign instances before reassigning segments (`false` by default)</td>
+    </tr>
+    <tr>
+      <td>includeConsuming</td>
+      <td>set to reassign `CONSUMING` segments for real-time table (`false` by default)</td>
+    </tr>
+    <tr>
+      <td>bootstrap</td>
+      <td>set to rebalance table in bootstrap mode (regardless of minimum segment movement, reassign all segments in a round-robin fashion as if adding new segments to an empty table, `false` by default)</td>
+    </tr>
+    <tr>
+      <td>downtime</td>
+      <td>Set to allow downtime for the rebalance (`false` by default)</td>
+    </tr>
+    <tr>
+      <td>minAvailableReplicas</td>
+      <td>minimum number of replicas to keep alive during rebalance, or maximum number of replicas allowed to be unavailable if value is negative (default is 1), Only applicable if downtime is set to `false`</td>
+    </tr>
+    <tr>
+      <td>bestEfforts</td>
+      <td>set to use best-efforts to rebalance i.e. not fail the rebalance when the no-downtime contract cannot be achieved, `false` by default</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Start Broker
 
@@ -349,13 +715,36 @@ pinot-admin.sh StartBroker -zkAddress localhost:2181 -clusterName PinotCluster -
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option         | Description                                                                                                                          |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| brokerHost     | hostname of the instance on which to run the broker                                                                                  |
-| brokerPort     | port on which the broker should listen. Default 8099.                                                                                |
-| zkAddress      | comma-separated host:port string of Zookeeper to connect                                                                             |
-| clusterName    | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                             |
-| configFileName | path to properties file containing controller configs. See [Broker](../configuration-reference/broker.md) for complete configuration |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>brokerHost</td>
+      <td>hostname of the instance on which to run the broker</td>
+    </tr>
+    <tr>
+      <td>brokerPort</td>
+      <td>port on which the broker should listen. Default 8099.</td>
+    </tr>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of Zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>configFileName</td>
+      <td>path to properties file containing controller configs. See [Broker](../configuration-reference/broker.md) for complete configuration</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Start Controller
 
@@ -369,15 +758,44 @@ pinot-admin.sh StartController -controllerMode helix_only -dataDir /path/to/data
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option         | Description                                                                                                                                  |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| controllerMode | Should be one of `dual`, `pinot_only` or `helix_only`. Default is `dual`                                                                     |
-| controllerHost | hostname of the instance on which to run the controller                                                                                      |
-| controllerPort | port on which the controller should listen. Default 9000.                                                                                    |
-| dataDir        | path to directory to store data. Default is `java.io.tmpDir` + `PinotController`                                                             |
-| zkAddress      | comma-separated host:port string of Zookeeper to connect                                                                                     |
-| clusterName    | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                                     |
-| configFileName | path to properties file containing controller configs. See [Controller](../configuration-reference/controller.md) for complete configuration |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controllerMode</td>
+      <td>Should be one of `dual`, `pinot_only` or `helix_only`. Default is `dual`</td>
+    </tr>
+    <tr>
+      <td>controllerHost</td>
+      <td>hostname of the instance on which to run the controller</td>
+    </tr>
+    <tr>
+      <td>controllerPort</td>
+      <td>port on which the controller should listen. Default 9000.</td>
+    </tr>
+    <tr>
+      <td>dataDir</td>
+      <td>path to directory to store data. Default is `java.io.tmpDir` + `PinotController`</td>
+    </tr>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of Zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>configFileName</td>
+      <td>path to properties file containing controller configs. See [Controller](../configuration-reference/controller.md) for complete configuration</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Start Server
 
@@ -391,16 +809,48 @@ pinot-admin.sh StartServer -dataDir /path/to/data/dir -zkAddress localhost:2181 
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option          | Description                                                                                                                          |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| serverHost      | hostname of the instance on which to run the broker                                                                                  |
-| serverPort      | port on which the broker should listen. Default 8099.                                                                                |
-| serverAdminPort | port on which admin API should be available. Default it 8097                                                                         |
-| dataDir         | directory in which to store the data                                                                                                 |
-| segmentDir      | directory in which to download the .tar segment files temporarily                                                                    |
-| zkAddress       | comma-separated host:port string of zookeeper to connect                                                                             |
-| clusterName     | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                             |
-| configFileName  | path to properties file containing controller configs. See [Server](../configuration-reference/server.md) for complete configuration |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>serverHost</td>
+      <td>hostname of the instance on which to run the broker</td>
+    </tr>
+    <tr>
+      <td>serverPort</td>
+      <td>port on which the broker should listen. Default 8099.</td>
+    </tr>
+    <tr>
+      <td>serverAdminPort</td>
+      <td>port on which admin API should be available. Default it 8097</td>
+    </tr>
+    <tr>
+      <td>dataDir</td>
+      <td>directory in which to store the data</td>
+    </tr>
+    <tr>
+      <td>segmentDir</td>
+      <td>directory in which to download the .tar segment files temporarily</td>
+    </tr>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>configFileName</td>
+      <td>path to properties file containing controller configs. See [Server](../configuration-reference/server.md) for complete configuration</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Start Service Manager
 
@@ -414,13 +864,36 @@ pinot-admin.sh StartServiceManager -zkAddress localhost:2181 -clusterName PinotC
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option               | Description                                                                                                                                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| zkAddress            | comma-separated host:port string of zookeeper to connect                                                                                                                                               |
-| clusterName          | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.                                                                                                               |
-| port                 | set to -1 to disable, 0 to run service manager on any available port                                                                                                                                   |
-| bootstrapConfigPaths | list of Pinot config file paths. Each config file requires an extra config: `pinot.service.role` to indicate which service to start. The service role can be one of `CONTROLLER`, `BROKER` or `SERVER` |
-| bootstrapServices    | list of service roles to start with default configurations. For these roles, the default configuration will be taken even if bootstrapConfig is provided.                                              |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>port</td>
+      <td>set to -1 to disable, 0 to run service manager on any available port</td>
+    </tr>
+    <tr>
+      <td>bootstrapConfigPaths</td>
+      <td>list of Pinot config file paths. Each config file requires an extra config: `pinot.service.role` to indicate which service to start. The service role can be one of `CONTROLLER`, `BROKER` or `SERVER`</td>
+    </tr>
+    <tr>
+      <td>bootstrapServices</td>
+      <td>list of service roles to start with default configurations. For these roles, the default configuration will be taken even if bootstrapConfig is provided.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Show Cluster Info
 
@@ -434,12 +907,32 @@ pinot-admin.sh ShowClusterInfo -clusterName PinotCluster -zkAddress localhost:21
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option      | Description                                                                              |
-| ----------- | ---------------------------------------------------------------------------------------- |
-| zkAddress   | comma-separated host:port string of zookeeper to connect                                 |
-| clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
-| tables      |                                                                                          |
-| tags        |                                                                                          |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>tables</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>tags</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 ### Stop Process
 
@@ -453,13 +946,36 @@ pinot-admin.sh StopProcess -controller -broker -server
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option     | Description                                                                                                              |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------ |
-| controller | Stop all the controller processes                                                                                        |
-| broker     | Stop all the broker processes                                                                                            |
-| server     | Stop all the server processes                                                                                            |
-| zookeeper  | Stop all the zookeeper process. The process should have been started by pinot admin script otherwise it won't be killed. |
-| kafka      | Stop all the kafka process. The process should have been started by pinot admin script otherwise it won't be killed.     |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller</td>
+      <td>Stop all the controller processes</td>
+    </tr>
+    <tr>
+      <td>broker</td>
+      <td>Stop all the broker processes</td>
+    </tr>
+    <tr>
+      <td>server</td>
+      <td>Stop all the server processes</td>
+    </tr>
+    <tr>
+      <td>zookeeper</td>
+      <td>Stop all the zookeeper process. The process should have been started by pinot admin script otherwise it won't be killed.</td>
+    </tr>
+    <tr>
+      <td>kafka</td>
+      <td>Stop all the kafka process. The process should have been started by pinot admin script otherwise it won't be killed.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Upload Segments
 
@@ -473,12 +989,32 @@ pinot-admin.sh UploadSegment -controllerHost localhost -controllerPort 9000 -seg
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option         | Description                               |
-| -------------- | ----------------------------------------- |
-| controllerHost | hostname or ip of the controller          |
-| controllerPort | port of the controller                    |
-| segmentDir     | local directory containing segment files  |
-| tableName      | name of the table to push the segments in |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controllerHost</td>
+      <td>hostname or ip of the controller</td>
+    </tr>
+    <tr>
+      <td>controllerPort</td>
+      <td>port of the controller</td>
+    </tr>
+    <tr>
+      <td>segmentDir</td>
+      <td>local directory containing segment files</td>
+    </tr>
+    <tr>
+      <td>tableName</td>
+      <td>name of the table to push the segments in</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Validate Config
 
@@ -492,14 +1028,40 @@ pinot-admin.sh ValidateConfig -clusterName PinotCluster -zkAddress localhost:218
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option      | Description                                                                              |
-| ----------- | ---------------------------------------------------------------------------------------- |
-| zkAddress   | comma-separated host:port string of Zookeeper to connect                                 |
-| clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
-| tableConfig | if set, table configs are validated                                                      |
-| tableNames  | space seperated list of table names. By default, all tables are validated                |
-| schema      | if set, schemas are validated                                                            |
-| schemaNames | space seperated list of schema names. By default, all schemas are validated              |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of Zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>tableConfig</td>
+      <td>if set, table configs are validated</td>
+    </tr>
+    <tr>
+      <td>tableNames</td>
+      <td>space seperated list of table names. By default, all tables are validated</td>
+    </tr>
+    <tr>
+      <td>schema</td>
+      <td>if set, schemas are validated</td>
+    </tr>
+    <tr>
+      <td>schemaNames</td>
+      <td>space seperated list of schema names. By default, all schemas are validated</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Validate Segment
 
@@ -513,11 +1075,28 @@ pinot-admin.sh ValidateSegment -tablePrefix myTable -clusterName PinotCluster -z
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option      | Description                                                                              |
-| ----------- | ---------------------------------------------------------------------------------------- |
-| zkAddress   | comma-separated host:port string of Zookeeper to connect                                 |
-| clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper. |
-| tablePrefix | prefix of the table names for which the validation should be done                        |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of Zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>tablePrefix</td>
+      <td>prefix of the table names for which the validation should be done</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Verify Cluster State
 
@@ -531,9 +1110,29 @@ pinot-admin.sh VerifyClusterState -zkAddress localhost:2181 -clusterName PinotCl
 
 All the options should be prefixed with `-` (hyphen)
 
-| Option      | Description                                                                                     |
-| ----------- | ----------------------------------------------------------------------------------------------- |
-| zkAddress   | comma-separated host:port string of Zookeeper to connect                                        |
-| clusterName | name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.        |
-| tableName   | name of the table for which the validation should be done. By default, all tables are verified. |
-| timeoutSec  | timeout in seconds for the request to check the cluster state.                                  |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>zkAddress</td>
+      <td>comma-separated host:port string of Zookeeper to connect</td>
+    </tr>
+    <tr>
+      <td>clusterName</td>
+      <td>name of the cluster to connect to. It can be thought of as a namespace inside zookeeper.</td>
+    </tr>
+    <tr>
+      <td>tableName</td>
+      <td>name of the table for which the validation should be done. By default, all tables are verified.</td>
+    </tr>
+    <tr>
+      <td>timeoutSec</td>
+      <td>timeout in seconds for the request to check the cluster state.</td>
+    </tr>
+  </tbody>
+</table>

@@ -19,10 +19,18 @@ SELECT DISTINCTSUM(runs) AS VALUE
 FROM baseballStats
 ```
 
-| VALUE |
-| ----- |
-| 13922 |
-
+<table>
+  <thead>
+    <tr>
+      <th>VALUE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13922</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ```sql
@@ -30,6 +38,15 @@ SELECT SUM(DISTINCT AtBatting) AS VALUE
 FROM baseballStats
 ```
 
-| VALUE  |
-| ------ |
-| 244032 |
+<table>
+  <thead>
+    <tr>
+      <th>VALUE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>244032</td>
+    </tr>
+  </tbody>
+</table>

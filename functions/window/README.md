@@ -7,7 +7,6 @@ description: >-
 # Window Functions
 
 
-
 {% hint style="info" %}
 **Important:** To query using Windows functions, you must enable Pinot's [multi-stage query engine (v2)](../../configuration-reference/cluster.md). See how to [enable and use the multi-stage query engine (v2](../../build-with-pinot/querying-and-sql/sse-vs-mse.md)).
 {% endhint %}
@@ -159,19 +158,84 @@ SELECT customer_id, payment_date, amount, SUM(amount) OVER(PARTITION BY customer
 ```
 {% endcode %}
 
-| customer\_id | payment\_date              | amount | sum   |
-| ------------ | -------------------------- | ------ | ----- |
-| 1            | 2023-02-14 23:22:38.996577 | 5.99   | 5.99  |
-| 1            | 2023-02-15 16:31:19.996577 | 0.99   | 6.98  |
-| 1            | 2023-02-15 19:37:12.996577 | 9.99   | 16.97 |
-| 1            | 2023-02-16 13:47:23.996577 | 4.99   | 21.96 |
-| 2            | 2023-02-17 19:23:24.996577 | 2.99   | 2.99  |
-| 2            | 2023-02-17 19:23:24.996577 | 0.99   | 3.98  |
-| 3            | 2023-02-16 00:02:31.996577 | 8.99   | 8.99  |
-| 3            | 2023-02-16 13:47:36.996577 | 6.99   | 15.98 |
-| 3            | 2023-02-17 03:43:41.996577 | 6.99   | 22.97 |
-| 4            | 2023-02-15 07:59:54.996577 | 4.99   | 4.99  |
-| 4            | 2023-02-16 06:37:06.996577 | 0.99   | 5.98  |
+<table>
+  <thead>
+    <tr>
+      <th>customer\_id</th>
+      <th>payment\_date</th>
+      <th>amount</th>
+      <th>sum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2023-02-14 23:22:38.996577</td>
+      <td>5.99</td>
+      <td>5.99</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2023-02-15 16:31:19.996577</td>
+      <td>0.99</td>
+      <td>6.98</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2023-02-15 19:37:12.996577</td>
+      <td>9.99</td>
+      <td>16.97</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2023-02-16 13:47:23.996577</td>
+      <td>4.99</td>
+      <td>21.96</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2023-02-17 19:23:24.996577</td>
+      <td>2.99</td>
+      <td>2.99</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2023-02-17 19:23:24.996577</td>
+      <td>0.99</td>
+      <td>3.98</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2023-02-16 00:02:31.996577</td>
+      <td>8.99</td>
+      <td>8.99</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2023-02-16 13:47:36.996577</td>
+      <td>6.99</td>
+      <td>15.98</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2023-02-17 03:43:41.996577</td>
+      <td>6.99</td>
+      <td>22.97</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2023-02-15 07:59:54.996577</td>
+      <td>4.99</td>
+      <td>4.99</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2023-02-16 06:37:06.996577</td>
+      <td>0.99</td>
+      <td>5.98</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Find the minimum or maximum transaction by customer ID
 
@@ -221,10 +285,45 @@ SELECT customer_id, payment_date, amount, count(amount) OVER(PARTITION BY custom
 ```
 {% endcode %}
 
-| customer\_id | payment\_date              | amount | count |
-| ------------ | -------------------------- | ------ | ----- |
-| 1            | 2023-02-14 23:22:38.99657  | 10.99  | 2     |
-| 1            | 2023-02-15 16:31:19.996577 | 8.99   | 2     |
-| 2            | 2023-04-30 04:34:36.996577 | 23.50  | 3     |
-| 2            | 2023-04-07 08:51:51.996577 | 12.35  | 3     |
-| 2            | 2023-04-08 11:15:37.996577 | 8.29   | 3     |
+<table>
+  <thead>
+    <tr>
+      <th>customer\_id</th>
+      <th>payment\_date</th>
+      <th>amount</th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2023-02-14 23:22:38.99657</td>
+      <td>10.99</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2023-02-15 16:31:19.996577</td>
+      <td>8.99</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2023-04-30 04:34:36.996577</td>
+      <td>23.50</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2023-04-07 08:51:51.996577</td>
+      <td>12.35</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2023-04-08 11:15:37.996577</td>
+      <td>8.29</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>

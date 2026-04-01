@@ -105,14 +105,54 @@ val data = spark.read
 
 #### HTTPS Configuration Options
 
-| Option               | Description                                                | Required | Default |
-| -------------------- | ---------------------------------------------------------- | -------- | ------- |
-| `secureMode`         | Unified switch to enable HTTPS and gRPC TLS                | No       | `false` |
-| `useHttps`           | Enable HTTPS connections (overrides `secureMode` for REST) | No       | `false` |
-| `keystorePath`       | Path to client keystore file (JKS format)                  | No       | None    |
-| `keystorePassword`   | Password for the keystore                                  | No       | None    |
-| `truststorePath`     | Path to truststore file (JKS format)                       | No       | None    |
-| `truststorePassword` | Password for the truststore                                | No       | None    |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`secureMode`</td>
+      <td>Unified switch to enable HTTPS and gRPC TLS</td>
+      <td>No</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`useHttps`</td>
+      <td>Enable HTTPS connections (overrides `secureMode` for REST)</td>
+      <td>No</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`keystorePath`</td>
+      <td>Path to client keystore file (JKS format)</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>`keystorePassword`</td>
+      <td>Password for the keystore</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>`truststorePath`</td>
+      <td>Path to truststore file (JKS format)</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>`truststorePassword`</td>
+      <td>Password for the truststore</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
 
 **Note:** If no truststore is provided when HTTPS is enabled, the connector will trust all certificates (not recommended for production use).
 
@@ -158,10 +198,30 @@ val data = spark.read
 This feature is supported after 1.4.0 release, please use current master or wait for 1.5.0
 {% endhint %}
 
-| Option       | Description                       | Required | Default                                        |
-| ------------ | --------------------------------- | -------- | ---------------------------------------------- |
-| `authHeader` | Custom authentication header name | No       | `Authorization` (when `authToken` is provided) |
-| `authToken`  | Authentication token/value        | No       | None                                           |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`authHeader`</td>
+      <td>Custom authentication header name</td>
+      <td>No</td>
+      <td>`Authorization` (when `authToken` is provided)</td>
+    </tr>
+    <tr>
+      <td>`authToken`</td>
+      <td>Authentication token/value</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
 
 **Note:** If only `authToken` is provided without `authHeader`, the connector will automatically use `Authorization: Bearer <token>`.
 
@@ -208,9 +268,24 @@ val data = spark.read
 
 #### Proxy Configuration Options
 
-| Option          | Description                                        | Required | Default |
-| --------------- | -------------------------------------------------- | -------- | ------- |
-| `proxy.enabled` | Use Pinot Proxy for controller and broker requests | No       | `false` |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`proxy.enabled`</td>
+      <td>Use Pinot Proxy for controller and broker requests</td>
+      <td>No</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
 
 **Note:** When proxy is enabled, the connector adds `FORWARD_HOST` and `FORWARD_PORT` headers to route requests to the actual Pinot services.
 
@@ -258,19 +333,84 @@ val data = spark.read
 
 #### gRPC Configuration Options
 
-| Option                          | Description                                                             | Required | Default |
-| ------------------------------- | ----------------------------------------------------------------------- | -------- | ------- |
-| `grpc.port`                     | Pinot gRPC port                                                         | No       | `8090`  |
-| `grpc.max-inbound-message-size` | Max inbound message bytes when init gRPC client                         | No       | `128MB` |
-| `grpc.use-plain-text`           | Use plain text for gRPC communication (overrides `secureMode` for gRPC) | No       | `true`  |
-| `grpc.tls.keystore-type`        | TLS keystore type for gRPC connection                                   | No       | `JKS`   |
-| `grpc.tls.keystore-path`        | TLS keystore file location for gRPC connection                          | No       | None    |
-| `grpc.tls.keystore-password`    | TLS keystore password                                                   | No       | None    |
-| `grpc.tls.truststore-type`      | TLS truststore type for gRPC connection                                 | No       | `JKS`   |
-| `grpc.tls.truststore-path`      | TLS truststore file location for gRPC connection                        | No       | None    |
-| `grpc.tls.truststore-password`  | TLS truststore password                                                 | No       | None    |
-| `grpc.tls.ssl-provider`         | SSL provider                                                            | No       | `JDK`   |
-| `grpc.proxy-uri`                | Pinot Rest Proxy gRPC endpoint URI                                      | No       | None    |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+      <th>Required</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`grpc.port`</td>
+      <td>Pinot gRPC port</td>
+      <td>No</td>
+      <td>`8090`</td>
+    </tr>
+    <tr>
+      <td>`grpc.max-inbound-message-size`</td>
+      <td>Max inbound message bytes when init gRPC client</td>
+      <td>No</td>
+      <td>`128MB`</td>
+    </tr>
+    <tr>
+      <td>`grpc.use-plain-text`</td>
+      <td>Use plain text for gRPC communication (overrides `secureMode` for gRPC)</td>
+      <td>No</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`grpc.tls.keystore-type`</td>
+      <td>TLS keystore type for gRPC connection</td>
+      <td>No</td>
+      <td>`JKS`</td>
+    </tr>
+    <tr>
+      <td>`grpc.tls.keystore-path`</td>
+      <td>TLS keystore file location for gRPC connection</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>`grpc.tls.keystore-password`</td>
+      <td>TLS keystore password</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>`grpc.tls.truststore-type`</td>
+      <td>TLS truststore type for gRPC connection</td>
+      <td>No</td>
+      <td>`JKS`</td>
+    </tr>
+    <tr>
+      <td>`grpc.tls.truststore-path`</td>
+      <td>TLS truststore file location for gRPC connection</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>`grpc.tls.truststore-password`</td>
+      <td>TLS truststore password</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>`grpc.tls.ssl-provider`</td>
+      <td>SSL provider</td>
+      <td>No</td>
+      <td>`JDK`</td>
+    </tr>
+    <tr>
+      <td>`grpc.proxy-uri`</td>
+      <td>Pinot Rest Proxy gRPC endpoint URI</td>
+      <td>No</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
 
 **Note:** When using gRPC with proxy, the connector automatically adds `FORWARD_HOST` and `FORWARD_PORT` metadata headers for proper request routing.
 
@@ -447,6 +587,7 @@ You can also run the tests in _cluster mode_ using following command:
 export SPARK_CLUSTER=<YOUR_YARN_OR_SPARK_CLUSTER>
 
 # Edit the ExampleSparkPinotConnectorTest to get rid of `.master("local")` and rebuild the jar before running this command
+
 spark-submit \
     --class org.apache.pinot.connector.spark.v3.datasource.ExampleSparkPinotConnectorTest \
     --jars ./target/pinot-spark-3-connector-1.3.0-shaded.jar \

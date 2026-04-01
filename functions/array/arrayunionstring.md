@@ -25,9 +25,34 @@ WHERE arraylength(DivTailNums) >= 2
 limit 5
 ```
 
-| DivTailNums   | DivAirports | unionIds       |
-| ------------- | ----------- | -------------- |
-| N7713A,N7713A | IND,IND     | N7713A,IND     |
-| N344AA,N344AA | MCI,BOS     | N344AA,MCI,BOS |
-| N7713A,N7713A | IND,IND     | N7713A,IND     |
-| N344AA,N344AA | MCI,BOS     | N344AA,MCI,BOS |
+<table>
+  <thead>
+    <tr>
+      <th>DivTailNums</th>
+      <th>DivAirports</th>
+      <th>unionIds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>N7713A,N7713A</td>
+      <td>IND,IND</td>
+      <td>N7713A,IND</td>
+    </tr>
+    <tr>
+      <td>N344AA,N344AA</td>
+      <td>MCI,BOS</td>
+      <td>N344AA,MCI,BOS</td>
+    </tr>
+    <tr>
+      <td>N7713A,N7713A</td>
+      <td>IND,IND</td>
+      <td>N7713A,IND</td>
+    </tr>
+    <tr>
+      <td>N344AA,N344AA</td>
+      <td>MCI,BOS</td>
+      <td>N344AA,MCI,BOS</td>
+    </tr>
+  </tbody>
+</table>

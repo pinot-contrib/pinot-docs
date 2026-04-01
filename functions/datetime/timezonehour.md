@@ -17,24 +17,51 @@ SELECT timezoneHour('America/Toronto') AS hour
 FROM ignoreMe
 ```
 
-| hour |
-| ---- |
-| 19   |
+<table>
+  <thead>
+    <tr>
+      <th>hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT timezoneHour('UTC') AS hour
 FROM ignoreMe
 ```
 
-| hour |
-| ---- |
-| 0    |
+<table>
+  <thead>
+    <tr>
+      <th>hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT timezoneHour('Europe/Rome') AS hour
 FROM ignoreMe
 ```
 
-| hour |
-| ---- |
-| 1    |
+<table>
+  <thead>
+    <tr>
+      <th>hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>

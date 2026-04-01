@@ -8,9 +8,20 @@ The environment provider plugin lets Pinot discover cloud-specific instance meta
 
 ## Built-in Provider
 
-| Provider | Purpose |
-| --- | --- |
-| Azure environment provider | Supplies cloud metadata for instance placement decisions |
+<table>
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Azure environment provider</td>
+      <td>Supplies cloud metadata for instance placement decisions</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What this page covered
 

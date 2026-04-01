@@ -42,7 +42,6 @@ Most JVM's default certificate store can be configured with command-line argumen
 {% endhint %}
 
 
-
 ### Listener Specifications
 
 This section contains a number of examples for common situations. The complete configuration reference can be found is each component's configuration reference.
@@ -53,124 +52,415 @@ If you're bootstrapping a new cluster, scroll down towards the end. We order thi
 
 This is a minimal example of network configuration options prior to 0.7.0. This specification is still supported for backwards-compatibility and translated internally to a listener specification.
 
-| key                           | value |
-| ----------------------------- | ----- |
-| controller.port               | 9000  |
-| pinot.broker.client.queryPort | 8099  |
-| pinot.server.netty.port       | 8098  |
-| pinot.server.adminapi.port    | 8097  |
+<table>
+  <thead>
+    <tr>
+      <th>key</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller.port</td>
+      <td>9000</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.queryPort</td>
+      <td>8099</td>
+    </tr>
+    <tr>
+      <td>pinot.server.netty.port</td>
+      <td>8098</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.port</td>
+      <td>8097</td>
+    </tr>
+  </tbody>
+</table>
 
 #### HTTP with listener specification (unsecured)
 
 This HTTP listener specification is the equivalent of manually translating the legacy configuration above to a listener specification.
 
-| key                                              | value |
-| ------------------------------------------------ | ----- |
-| controller.access.protocols                      | http  |
-| controller.access.protocols.http.port            | 9000  |
-| pinot.broker.client.access.protocols             | http  |
-| pinot.broker.client.access.protocols.http.port   | 8099  |
-| pinot.server.netty.enabled                       | true  |
-| pinot.server.netty.port                          | 8098  |
-| pinot.server.adminapi.access.protocols           | http  |
-| pinot.server.adminapi.access.protocols.http.port | 8097  |
+<table>
+  <thead>
+    <tr>
+      <th>key</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller.access.protocols</td>
+      <td>http</td>
+    </tr>
+    <tr>
+      <td>controller.access.protocols.http.port</td>
+      <td>9000</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.access.protocols</td>
+      <td>http</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.access.protocols.http.port</td>
+      <td>8099</td>
+    </tr>
+    <tr>
+      <td>pinot.server.netty.enabled</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.server.netty.port</td>
+      <td>8098</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.access.protocols</td>
+      <td>http</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.access.protocols.http.port</td>
+      <td>8097</td>
+    </tr>
+  </tbody>
+</table>
 
 #### HTTP/HTTPS multi-ingress (unsecured egress)
 
 This is a common scenario for development clusters and an intermediate phase during a zero-downtime migration of an unsecured cluster towards TLS. This configuration optionally accepts secure ingress on alternate ports, but still defaults to unsecured egress for all operations.
 
-| key                                               | value                                                     |
-| ------------------------------------------------- | --------------------------------------------------------- |
-| controller.tls.keystore.path                      | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
-| controller.tls.keystore.password                  | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
-| controller.tls.truststore.path                    | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
-| controller.tls.truststore.password                | <p>mytruststorepassword</p><p>(unset for JVM default)</p> |
-| controller.access.protocols                       | http,https                                                |
-| controller.access.protocols.http.port             | 9000                                                      |
-| controller.access.protocols.https.port            | 9443                                                      |
-| pinot.broker.tls.keystore.path                    | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
-| pinot.broker.tls.keystore.password                | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
-| pinot.broker.tls.keystore.type                    | <p>PKCS12<br>(unset for JVM default)</p>                  |
-| pinot.broker.tls.truststore.path                  | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
-| pinot.broker.tls.truststore.password              | <p>mytruststorepassword</p><p>(unset for JVM default)</p> |
-| pinot.server.tls.truststore.type                  | <p>PKCS12 </p><p>(unset for JVM default)</p>              |
-| pinot.broker.client.access.protocols              | http,https                                                |
-| pinot.broker.client.access.protocols.http.port    | 8099                                                      |
-| pinot.broker.client.access.protocols.https.port   | 8443                                                      |
-| pinot.server.tls.keystore.path                    | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
-| pinot.server.tls.keystore.password                | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
-| pinot.server.tls.keystore.type                    | <p>PKCS12</p><p>(unset for JVM default)</p>               |
-| pinot.server.tls.truststore.path                  | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
-| pinot.server.tls.truststore.password              | <p>mytruststorepassword</p><p>(unset JVM default)</p>     |
-| pinot.server.tls.truststore.type                  | <p>PKCS12</p><p>(unset for JVM default)</p>               |
-| pinot.server.netty.enabled                        | true                                                      |
-| pinot.server.netty.port                           | 8098                                                      |
-| pinot.server.nettytls.enabled                     | true                                                      |
-| pinot.server.nettytls.port                        | 8089                                                      |
-| pinot.server.adminapi.access.protocols            | http,https                                                |
-| pinot.server.adminapi.access.protocols.http.port  | 8097                                                      |
-| pinot.server.adminapi.access.protocols.https.port | 7443                                                      |
-| pinot.minion.tls.keystore.path                    | <p>/path/to/keystore<br>(unset for JVM default)</p>       |
-| pinot.minion.tls.keystore.password                | <p>mykeystorepassword</p><p>(unset for JVM default)</p>   |
-| pinot.minion.tls.truststore.path                  | <p>/path/to/truststore<br>(unset for JVM default)</p>     |
-| pinot.minion.tls.truststore.password              | <p>mytruststorepassword</p><p>(unset JVM default)</p>     |
+<table>
+  <thead>
+    <tr>
+      <th>key</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller.tls.keystore.path</td>
+      <td><p>/path/to/keystore<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>controller.tls.keystore.password</td>
+      <td><p>mykeystorepassword</p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>controller.tls.truststore.path</td>
+      <td><p>/path/to/truststore<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>controller.tls.truststore.password</td>
+      <td><p>mytruststorepassword</p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>controller.access.protocols</td>
+      <td>http,https</td>
+    </tr>
+    <tr>
+      <td>controller.access.protocols.http.port</td>
+      <td>9000</td>
+    </tr>
+    <tr>
+      <td>controller.access.protocols.https.port</td>
+      <td>9443</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.tls.keystore.path</td>
+      <td><p>/path/to/keystore<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.broker.tls.keystore.password</td>
+      <td><p>mykeystorepassword</p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.broker.tls.keystore.type</td>
+      <td><p>PKCS12<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.broker.tls.truststore.path</td>
+      <td><p>/path/to/truststore<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.broker.tls.truststore.password</td>
+      <td><p>mytruststorepassword</p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.server.tls.truststore.type</td>
+      <td><p>PKCS12 </p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.access.protocols</td>
+      <td>http,https</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.access.protocols.http.port</td>
+      <td>8099</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.access.protocols.https.port</td>
+      <td>8443</td>
+    </tr>
+    <tr>
+      <td>pinot.server.tls.keystore.path</td>
+      <td><p>/path/to/keystore<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.server.tls.keystore.password</td>
+      <td><p>mykeystorepassword</p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.server.tls.keystore.type</td>
+      <td><p>PKCS12</p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.server.tls.truststore.path</td>
+      <td><p>/path/to/truststore<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.server.tls.truststore.password</td>
+      <td><p>mytruststorepassword</p><p>(unset JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.server.tls.truststore.type</td>
+      <td><p>PKCS12</p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.server.netty.enabled</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.server.netty.port</td>
+      <td>8098</td>
+    </tr>
+    <tr>
+      <td>pinot.server.nettytls.enabled</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.server.nettytls.port</td>
+      <td>8089</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.access.protocols</td>
+      <td>http,https</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.access.protocols.http.port</td>
+      <td>8097</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.access.protocols.https.port</td>
+      <td>7443</td>
+    </tr>
+    <tr>
+      <td>pinot.minion.tls.keystore.path</td>
+      <td><p>/path/to/keystore<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.minion.tls.keystore.password</td>
+      <td><p>mykeystorepassword</p><p>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.minion.tls.truststore.path</td>
+      <td><p>/path/to/truststore<br>(unset for JVM default)</p></td>
+    </tr>
+    <tr>
+      <td>pinot.minion.tls.truststore.password</td>
+      <td><p>mytruststorepassword</p><p>(unset JVM default)</p></td>
+    </tr>
+  </tbody>
+</table>
 
 #### HTTP/HTTPS multi-ingress (secure egress)
 
 After all pinot components have been configured and restarted to offer secure ingress, we can modify egress to default to secure connections internode. Clients, such as **pinot-admin.sh**, support an optional flag `-controllerProtocol https` to enable secure access. Ingestion jobs similarly support an optional `tlsSpec` key to configure key/trststores. Note, that any console clients must have access to appropriate certificates via the JVM's default key/truststore.
 
-| key                             | value       |
-| ------------------------------- | ----------- |
-| controller.tls ...              | (see above) |
-| controller.access ...           | (see above) |
-| controller.broker.protocol      | https       |
-| controller.broker.port.override | 8443        |
-| controller.vip.protocol         | https       |
-| controller.vip.port             | 9443        |
-| pinot.broker.tls ...            | (see above) |
-| pinot.broker.client.access ...  | (see above) |
-| pinot.broker.nettytls.enabled   | true        |
-| pinot.server ...                | (see above) |
-| pinot.minion ...                | (see above) |
+<table>
+  <thead>
+    <tr>
+      <th>key</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller.tls ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>controller.access ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>controller.broker.protocol</td>
+      <td>https</td>
+    </tr>
+    <tr>
+      <td>controller.broker.port.override</td>
+      <td>8443</td>
+    </tr>
+    <tr>
+      <td>controller.vip.protocol</td>
+      <td>https</td>
+    </tr>
+    <tr>
+      <td>controller.vip.port</td>
+      <td>9443</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.tls ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.access ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.nettytls.enabled</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.server ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>pinot.minion ...</td>
+      <td>(see above)</td>
+    </tr>
+  </tbody>
+</table>
 
 #### TLS only
 
 This is the default for a newly bootstrapped secure pinot cluster. It is also the final stage for any migration of an existing cluster. With this configuration applied, pinot's components will reject any unsecured connection attempt.
 
-| key                                               | value       |
-| ------------------------------------------------- | ----------- |
-| controller.tls ...                                | (see above) |
-| controller.access.protocols                       | https       |
-| controller.access.protocols.https.port            | 9443        |
-| controller.broker.protocol                        | https       |
-| controller.vip.protocol                           | https       |
-| controller.vip.port                               | 9443        |
-| pinot.broker.tls ...                              | (see above) |
-| pinot.broker.client.access.protocols              | https       |
-| pinot.broker.client.access.protocols.https.port   | 8443        |
-| pinot.broker.nettytls.enabled                     | true        |
-| pinot.server.tls ...                              | (see above) |
-| pinot.server.adminapi.access.protocols            | https       |
-| pinot.server.adminapi.access.protocols.https.port | 7443        |
-| pinot.server.netty.enabled                        | false       |
-| pinot.server.nettytls.enabled                     | true        |
-| pinot.server.nettytls.port                        | 8089        |
-| pinot.minon.tls ...                               | (see above) |
+<table>
+  <thead>
+    <tr>
+      <th>key</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller.tls ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>controller.access.protocols</td>
+      <td>https</td>
+    </tr>
+    <tr>
+      <td>controller.access.protocols.https.port</td>
+      <td>9443</td>
+    </tr>
+    <tr>
+      <td>controller.broker.protocol</td>
+      <td>https</td>
+    </tr>
+    <tr>
+      <td>controller.vip.protocol</td>
+      <td>https</td>
+    </tr>
+    <tr>
+      <td>controller.vip.port</td>
+      <td>9443</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.tls ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.access.protocols</td>
+      <td>https</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.client.access.protocols.https.port</td>
+      <td>8443</td>
+    </tr>
+    <tr>
+      <td>pinot.broker.nettytls.enabled</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.server.tls ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.access.protocols</td>
+      <td>https</td>
+    </tr>
+    <tr>
+      <td>pinot.server.adminapi.access.protocols.https.port</td>
+      <td>7443</td>
+    </tr>
+    <tr>
+      <td>pinot.server.netty.enabled</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>pinot.server.nettytls.enabled</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.server.nettytls.port</td>
+      <td>8089</td>
+    </tr>
+    <tr>
+      <td>pinot.minon.tls ...</td>
+      <td>(see above)</td>
+    </tr>
+  </tbody>
+</table>
 
 #### 2-way TLS
 
 Apache Pinot also supports 2-way TLS for environments with high security requirements. This can be enabled per component with the optional `client.auth.enabled` flag. Bear in mind that any client (or server) interacting with a component expecting client auth must have access to both, a keystore and a truststore. This setting does NOT have apply to unsecured http or netty connections.
 
-| key                                                                                             | value       |
-| ----------------------------------------------------------------------------------------------- | ----------- |
-| controller ...                                                                                  | (see above) |
-| <p>controller.tls.client.auth.enabled</p><p>(applies to client and internode connections)</p>   | true        |
-| pinot.broker ...                                                                                | (see above) |
-| <p>pinot.broker.tls.client.auth.enabled</p><p>(applies to client and internode connections)</p> | true        |
-| pinot.server ...                                                                                | (see above) |
-| <p>pinot.server.tls.client.auth.enabled</p><p>(applies to nettytls and adminapi)</p>            | true        |
-| pinot.minion ...                                                                                | (see above) |
-| pinot.minion.tls.client.auth.enabled                                                            | true        |
+<table>
+  <thead>
+    <tr>
+      <th>key</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td><p>controller.tls.client.auth.enabled</p><p>(applies to client and internode connections)</p></td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.broker ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td><p>pinot.broker.tls.client.auth.enabled</p><p>(applies to client and internode connections)</p></td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.server ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td><p>pinot.server.tls.client.auth.enabled</p><p>(applies to nettytls and adminapi)</p></td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>pinot.minion ...</td>
+      <td>(see above)</td>
+    </tr>
+    <tr>
+      <td>pinot.minion.tls.client.auth.enabled</td>
+      <td>true</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Multi-stage query engine
 

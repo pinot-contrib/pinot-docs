@@ -18,6 +18,15 @@ These examples are based on the [Batch Quick Start](../../basics/getting-started
 select MINSTRING(playerName) as minString from baseballStats
 ```
 
-| minString |
-|-----------|
-| A. Harry  |
+<table>
+  <thead>
+    <tr>
+      <th>minString</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A. Harry</td>
+    </tr>
+  </tbody>
+</table>

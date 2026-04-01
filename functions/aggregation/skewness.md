@@ -20,6 +20,15 @@ from baseballStats
 WHERE hits > 0
 ```
 
-| value             |
-| ----------------- |
-| 3.427189313498882 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3.427189313498882</td>
+    </tr>
+  </tbody>
+</table>

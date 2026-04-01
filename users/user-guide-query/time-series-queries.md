@@ -67,13 +67,42 @@ POST /timeseries/api/v1/query_range
 
 #### Request Parameters
 
-| Parameter  | Required | Description |
-| ---------- | -------- | ----------- |
-| `language` | Yes      | The time series query language to use (e.g., `promql`). Must match one of the configured language plugins. |
-| `query`    | Yes      | The time series query expression (e.g., a PromQL expression). |
-| `start`    | Yes      | Start timestamp for the query range. Accepts Unix timestamp in seconds (e.g., `1700000000`) or RFC3339 format. |
-| `end`      | Yes      | End timestamp for the query range. Same format as `start`. |
-| `step`     | Yes      | Query resolution step width as a duration string (e.g., `15s`, `1m`, `1h`). |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`language`</td>
+      <td>Yes</td>
+      <td>The time series query language to use (e.g., `promql`). Must match one of the configured language plugins.</td>
+    </tr>
+    <tr>
+      <td>`query`</td>
+      <td>Yes</td>
+      <td>The time series query expression (e.g., a PromQL expression).</td>
+    </tr>
+    <tr>
+      <td>`start`</td>
+      <td>Yes</td>
+      <td>Start timestamp for the query range. Accepts Unix timestamp in seconds (e.g., `1700000000`) or RFC3339 format.</td>
+    </tr>
+    <tr>
+      <td>`end`</td>
+      <td>Yes</td>
+      <td>End timestamp for the query range. Same format as `start`.</td>
+    </tr>
+    <tr>
+      <td>`step`</td>
+      <td>Yes</td>
+      <td>Query resolution step width as a duration string (e.g., `15s`, `1m`, `1h`).</td>
+    </tr>
+  </tbody>
+</table>
 
 For GET requests, parameters are passed as query parameters. For POST requests, parameters can be sent as URL-encoded form data or query parameters.
 
@@ -119,12 +148,37 @@ When querying through the Controller (e.g., `http://localhost:9000/timeseries/ap
 
 #### Differences from `/query/timeseries`
 
-| Feature | `POST /query/timeseries` | `GET/POST /query_range` |
-| ------- | ------------------------ | ----------------------- |
-| Request format | JSON body with `language`, `query`, and time parameters | Query parameters (Prometheus-compatible) |
-| HTTP methods | POST only | GET and POST |
-| Time range | Specified inside the JSON body | Specified via `start`, `end`, and `step` parameters |
-| Compatibility | Pinot-native API | Prometheus-compatible, works with tools like Grafana |
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>`POST /query/timeseries`</th>
+      <th>`GET/POST /query_range`</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Request format</td>
+      <td>JSON body with `language`, `query`, and time parameters</td>
+      <td>Query parameters (Prometheus-compatible)</td>
+    </tr>
+    <tr>
+      <td>HTTP methods</td>
+      <td>POST only</td>
+      <td>GET and POST</td>
+    </tr>
+    <tr>
+      <td>Time range</td>
+      <td>Specified inside the JSON body</td>
+      <td>Specified via `start`, `end`, and `step` parameters</td>
+    </tr>
+    <tr>
+      <td>Compatibility</td>
+      <td>Pinot-native API</td>
+      <td>Prometheus-compatible, works with tools like Grafana</td>
+    </tr>
+  </tbody>
+</table>
 
 The `/query_range` endpoint is particularly useful when integrating Pinot with existing Prometheus-compatible tooling such as Grafana, since it follows the same API conventions.
 

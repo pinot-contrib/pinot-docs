@@ -31,9 +31,22 @@ For filtering documents within a segment, Pinot supports the following indexing 
 
 Let's see how we can apply these indexing techniques to our data. To recap, the `events` table has the following fields:
 
-| Date Time Fields | Dimensions Fields | Metric Fields |
-| ---------------- | ----------------- | ------------- |
-| `ts`             | `uuid`            | `count`       |
+<table>
+  <thead>
+    <tr>
+      <th>Date Time Fields</th>
+      <th>Dimensions Fields</th>
+      <th>Metric Fields</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`ts`</td>
+      <td>`uuid`</td>
+      <td>`count`</td>
+    </tr>
+  </tbody>
+</table>
 
 We might want to write queries that filter on the `ts` and `uuid` columns, so these are the columns on which we would want to configure indexes.
 

@@ -39,19 +39,53 @@ N-grams solve performance issues with:
 - **Wildcard matching** - Reduce O(N * length) complexity
 
 ### How to Make Wildcards Fast
+
 Need to do prefiltering to avoid full scan of all rows.
 **How to prefilter → use ngram!**
 
 ## Function Parameters
 
-| Function | Parameters | Description |
-|----------|------------|-------------|
-| `prefixes` | `String input, int maxlength` | Generate array of prefix strings shorter than maxlength |
-| `prefixesWithPrefix` | `String input, int maxlength, @Nullable String prefix` | Generate array of prefix matchers with prepended prefix (e.g. '^' for regex) |
-| `suffixes` | `String input, int maxlength` | Generate array of suffix strings shorter than maxlength |
-| `suffixesWithSuffix` | `String input, int maxlength, @Nullable String suffix` | Generate array of suffix matchers with appended suffix (e.g. '$' for regex) |
-| `uniqueNgrams` | `String input, int length` | Generate array of unique ngrams of exact specified length |
-| `uniqueNgrams` | `String input, int minGram, int maxGram` | Generate array of unique ngrams within length range [minGram, maxGram] |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Parameters</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`prefixes`</td>
+      <td>`String input, int maxlength`</td>
+      <td>Generate array of prefix strings shorter than maxlength</td>
+    </tr>
+    <tr>
+      <td>`prefixesWithPrefix`</td>
+      <td>`String input, int maxlength, @Nullable String prefix`</td>
+      <td>Generate array of prefix matchers with prepended prefix (e.g. '^' for regex)</td>
+    </tr>
+    <tr>
+      <td>`suffixes`</td>
+      <td>`String input, int maxlength`</td>
+      <td>Generate array of suffix strings shorter than maxlength</td>
+    </tr>
+    <tr>
+      <td>`suffixesWithSuffix`</td>
+      <td>`String input, int maxlength, @Nullable String suffix`</td>
+      <td>Generate array of suffix matchers with appended suffix (e.g. '$' for regex)</td>
+    </tr>
+    <tr>
+      <td>`uniqueNgrams`</td>
+      <td>`String input, int length`</td>
+      <td>Generate array of unique ngrams of exact specified length</td>
+    </tr>
+    <tr>
+      <td>`uniqueNgrams`</td>
+      <td>`String input, int minGram, int maxGram`</td>
+      <td>Generate array of unique ngrams within length range [minGram, maxGram]</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Examples
 
@@ -75,18 +109,36 @@ SELECT prefixes('data', 3) AS result
 FROM myTable
 ```
 
-| result      |
-| ----------- |
-| ["d", "da", "dat"] |
+<table>
+  <thead>
+    <tr>
+      <th>result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>["d", "da", "dat"]</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT prefixesWithPrefix('data', 3, '^') AS result
 FROM myTable
 ```
 
-| result      |
-| ----------- |
-| ["^d", "^da", "^dat"] |
+<table>
+  <thead>
+    <tr>
+      <th>result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>["^d", "^da", "^dat"]</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Suffix Operations
 
@@ -95,18 +147,36 @@ SELECT suffixes('data', 3) AS result
 FROM myTable
 ```
 
-| result      |
-| ----------- |
-| ["a", "ta", "ata"] |
+<table>
+  <thead>
+    <tr>
+      <th>result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>["a", "ta", "ata"]</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT suffixesWithSuffix('data', 3, '$') AS result
 FROM myTable
 ```
 
-| result      |
-| ----------- |
-| ["a$", "ta$", "ata$"] |
+<table>
+  <thead>
+    <tr>
+      <th>result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>["a$", "ta$", "ata$"]</td>
+    </tr>
+  </tbody>
+</table>
 
 ### N-gram Generation
 
@@ -140,18 +210,36 @@ SELECT uniqueNgrams('Apache pinot', 2) AS bigrams
 FROM myTable
 ```
 
-| bigrams |
-| ------- |
-| ["Ap", "pa", "ac", "ch", "he", "e ", " p", "pi", "in", "no", "ot"] |
+<table>
+  <thead>
+    <tr>
+      <th>bigrams</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>["Ap", "pa", "ac", "ch", "he", "e ", " p", "pi", "in", "no", "ot"]</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT uniqueNgrams('data', 2, 4) AS ngrams
 FROM myTable
 ```
 
-| ngrams |
-| ------ |
-| ["da", "at", "ta", "dat", "ata", "data"] |
+<table>
+  <thead>
+    <tr>
+      <th>ngrams</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>["da", "at", "ta", "dat", "ata", "data"]</td>
+    </tr>
+  </tbody>
+</table>
 
 **Using Generated N-grams**
 

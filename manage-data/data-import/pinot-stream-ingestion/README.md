@@ -465,10 +465,13 @@ The ingestion status of a connector can be observed by querying either the `/con
 
 {% code overflow="wrap" lineNumbers="true" %}
 ```shell
+
 # GET /tables/{tableName}/consumingSegmentsInfo
+
 curl -X GET "http://<controller_url:controller_admin_port>/tables/meetupRsvp/consumingSegmentsInfo" -H "accept: application/json"
 
 # GET /debug/tables/{tableName}
+
 curl -X GET "http://localhost:9000/debug/tables/meetupRsvp?type=REALTIME&verbosity=1" -H "accept: application/json"
 ```
 {% endcode %}

@@ -12,10 +12,24 @@ Projects one or more columns from the row where a measuring column has its minim
 
 Parameters:
 
-| Parameter | Description |
-| --------- | ----------- |
-| `measureCol` | The column whose minimum value determines which row to project from |
-| `exprCol1, exprCol2, ...` | One or more columns to project from the row with the minimum measure |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`measureCol`</td>
+      <td>The column whose minimum value determines which row to project from</td>
+    </tr>
+    <tr>
+      <td>`exprCol1, exprCol2, ...`</td>
+      <td>One or more columns to project from the row with the minimum measure</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Examples
 
@@ -27,6 +41,15 @@ from baseballStats
 WHERE hits > 0
 ```
 
-| value                   |
-| ----------------------- |
-| [Ed Fusselback, 1882]   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Ed Fusselback, 1882]</td>
+    </tr>
+  </tbody>
+</table>

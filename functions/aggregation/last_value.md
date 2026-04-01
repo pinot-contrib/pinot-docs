@@ -17,7 +17,6 @@ LAST_VALUE(expression) [IGNORE NULLS | RESPECT NULLS] OVER ()
 The default behavior is `RESPECT NULLS`. If the `IGNORE NULLS` option is specified, the function returns the last non-null row in each window (assuming one exists, `null` otherwise).
 
 
-
 ### Example 1
 
 This example computes the number of games played by a player in their last year.
@@ -38,7 +37,6 @@ Output:
 <table><thead><tr><th>playerName</th><th>yearID</th><th>numberOfGames</th><th data-type="number">EXPR$3</th></tr></thead><tbody><tr><td>p1</td><td>2000</td><td>10</td><td>12</td></tr><tr><td>p1</td><td>2001</td><td>15</td><td>12</td></tr><tr><td>p1</td><td>2002</td><td>12</td><td>12</td></tr><tr><td>p2</td><td>1990</td><td>120</td><td>124</td></tr><tr><td>p2</td><td>1991</td><td>124</td><td>124</td></tr><tr><td>p3</td><td>2006</td><td>30</td><td>15</td></tr><tr><td>p3</td><td>2007</td><td>25</td><td>15</td></tr><tr><td>p3</td><td>2009</td><td>20</td><td>15</td></tr><tr><td>p3</td><td>2010</td><td>15</td><td>15</td></tr></tbody></table>
 
 
-
 ### Example 2
 
 This example uses the `IGNORE NULLS` option to "gapfill" missing values (that are represented as `null`). Note that we use the default window frame here which is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`.
@@ -54,13 +52,54 @@ FROM telemetryData;
 
 Output:
 
-| ts                    | reading | imputedReading |
-| --------------------- | ------- | -------------- |
-| 2014-01-01 00:00:00.0 | 10.0    | 10.0           |
-| 2014-01-01 00:30:00.0 | 12.0    | 12.0           |
-| 2014-01-01 01:00:00.0 | 12.5    | 12.5           |
-| 2014-01-01 01:30:00.0 | null    | 12.5           |
-| 2014-01-01 02:00:00.0 | null    | 12.5           |
-| 2014-01-01 02:30:00.0 | 11.5    | 11.5           |
-| 2014-01-01 03:00:00.0 | null    | 11.5           |
-| 2014-01-01 03:30:00.0 | 11.0    | 11.0           |
+<table>
+  <thead>
+    <tr>
+      <th>ts</th>
+      <th>reading</th>
+      <th>imputedReading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2014-01-01 00:00:00.0</td>
+      <td>10.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <td>2014-01-01 00:30:00.0</td>
+      <td>12.0</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <td>2014-01-01 01:00:00.0</td>
+      <td>12.5</td>
+      <td>12.5</td>
+    </tr>
+    <tr>
+      <td>2014-01-01 01:30:00.0</td>
+      <td>null</td>
+      <td>12.5</td>
+    </tr>
+    <tr>
+      <td>2014-01-01 02:00:00.0</td>
+      <td>null</td>
+      <td>12.5</td>
+    </tr>
+    <tr>
+      <td>2014-01-01 02:30:00.0</td>
+      <td>11.5</td>
+      <td>11.5</td>
+    </tr>
+    <tr>
+      <td>2014-01-01 03:00:00.0</td>
+      <td>null</td>
+      <td>11.5</td>
+    </tr>
+    <tr>
+      <td>2014-01-01 03:30:00.0</td>
+      <td>11.0</td>
+      <td>11.0</td>
+    </tr>
+  </tbody>
+</table>

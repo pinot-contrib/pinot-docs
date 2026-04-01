@@ -19,10 +19,18 @@ select stAsGeoJSON( STPOINT(-122, 37) ) AS value
 from ignoreMe
 ```
 
-| value                                                                                           |
-| ----------------------------------------------------------------------------------------------- |
-| {"type":"Point","coordinates":\[-122,37],"crs":{"type":"name","properties":{"name":"EPSG:0"\}}} |
-
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{"type":"Point","coordinates":\[-122,37],"crs":{"type":"name","properties":{"name":"EPSG:0"\}}}</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ```sql
@@ -30,7 +38,16 @@ select stAsGeoJSON( ST_GeogFromText('LINESTRING (30 10, 10 30, 40 40)') ) AS val
 from ignoreMe 
 ```
 
-| value                                                                                                                      |
-| -------------------------------------------------------------------------------------------------------------------------- |
-| {"type":"LineString","coordinates":\[\[30,10],\[10,30],\[40,40]],"crs":{"type":"name","properties":{"name":"EPSG:4326"\}}} |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{"type":"LineString","coordinates":\[\[30,10],\[10,30],\[40,40]],"crs":{"type":"name","properties":{"name":"EPSG:4326"\}}}</td>
+    </tr>
+  </tbody>
+</table>
 

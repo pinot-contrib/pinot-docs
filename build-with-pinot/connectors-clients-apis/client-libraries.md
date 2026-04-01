@@ -8,12 +8,37 @@ Use client libraries when your application code needs to query Pinot directly in
 
 ## What belongs here
 
-| Client | Best for | Notes |
-| --- | --- | --- |
-| Java | JVM services and libraries | Native client with blocking and async execution, prepared statements, request tracing, and tenant-aware broker selection. The linked docs use `org.apache.pinot:pinot-java-client:1.4.0`. |
-| JDBC | SQL-first applications and BI plumbing | Standard JDBC interface that is easy to embed in SQL tooling. The linked docs use `org.apache.pinot:pinot-jdbc-client:1.4.0`. |
-| Python | Data apps, notebooks, and SQLAlchemy workflows | DB-API and SQLAlchemy support through `pinotdb`. The linked docs call out SQL API support in `pinotdb` 0.3.2+ and older PQL compatibility in 0.2.x. |
-| Go | Services and batch tools written in Go | Native Go client with direct SQL execution and response inspection. |
+<table>
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Best for</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Java</td>
+      <td>JVM services and libraries</td>
+      <td>Native client with blocking and async execution, prepared statements, request tracing, and tenant-aware broker selection. The linked docs use `org.apache.pinot:pinot-java-client:1.4.0`.</td>
+    </tr>
+    <tr>
+      <td>JDBC</td>
+      <td>SQL-first applications and BI plumbing</td>
+      <td>Standard JDBC interface that is easy to embed in SQL tooling. The linked docs use `org.apache.pinot:pinot-jdbc-client:1.4.0`.</td>
+    </tr>
+    <tr>
+      <td>Python</td>
+      <td>Data apps, notebooks, and SQLAlchemy workflows</td>
+      <td>DB-API and SQLAlchemy support through `pinotdb`. The linked docs call out SQL API support in `pinotdb` 0.3.2+ and older PQL compatibility in 0.2.x.</td>
+    </tr>
+    <tr>
+      <td>Go</td>
+      <td>Services and batch tools written in Go</td>
+      <td>Native Go client with direct SQL execution and response inspection.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## How to choose
 

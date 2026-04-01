@@ -33,20 +33,64 @@ By default Pinot loads all the plugins, so you can just drop this plugin there. 
 
 You can configure the S3 file system using the following options:
 
-| Configuration            | Description                                                                                                                                                                                                                           |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| region                   | The AWS Data center region in which the bucket is located                                                                                                                                                                             |
-| accessKey                | (Optional) AWS access key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.                                                                                          |
-| secretKey                | (Optional) AWS secret key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.                                                                                          |
-| <p></p><p>endpoint</p>   | (Optional) Override endpoint for s3 client.                                                                                                                                                                                           |
-| <p></p><p>disableAcl</p> | If this is set to`false`, bucket owner is granted full access to the objects created by pinot. Default value is `true`.                                                                                                               |
-| serverSideEncryption     | (Optional) The server-side encryption algorithm used when storing this object in Amazon S3 (Now supports `aws:kms`), set to null to disable SSE.                                                                                      |
-| ssekmsKeyId              | (Optional, but **required** when `serverSideEncryption=aws:kms`) Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. |
-| ssekmsEncryptionContext  | (Optional) Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.                                 |
-| requestChecksumCalculation | (Optional) Controls whether checksums are calculated for request payloads. Default: `WHEN_SUPPORTED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.                                                                                  |
-| responseChecksumValidation | (Optional) Controls whether checksums are validated on response payloads. Default: `WHEN_SUPPORTED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.                                                                                    |
-| useLegacyMd5Plugin         | (Optional) When set to `true`, uses the LegacyMd5Plugin to restore pre-2.30.0 MD5 checksum behavior. Default: `false`.                                                                                                             |
-| enableCrossRegionAccess  | (Optional) If you want to copy objects b/w two buckets that lie in different regions. Defaults to `true` if not configured. |
+<table>
+  <thead>
+    <tr>
+      <th>Configuration</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>region</td>
+      <td>The AWS Data center region in which the bucket is located</td>
+    </tr>
+    <tr>
+      <td>accessKey</td>
+      <td>(Optional) AWS access key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.</td>
+    </tr>
+    <tr>
+      <td>secretKey</td>
+      <td>(Optional) AWS secret key required for authentication. This should only be used for testing purposes as we don't store these keys in secret.</td>
+    </tr>
+    <tr>
+      <td><p></p><p>endpoint</p></td>
+      <td>(Optional) Override endpoint for s3 client.</td>
+    </tr>
+    <tr>
+      <td><p></p><p>disableAcl</p></td>
+      <td>If this is set to`false`, bucket owner is granted full access to the objects created by pinot. Default value is `true`.</td>
+    </tr>
+    <tr>
+      <td>serverSideEncryption</td>
+      <td>(Optional) The server-side encryption algorithm used when storing this object in Amazon S3 (Now supports `aws:kms`), set to null to disable SSE.</td>
+    </tr>
+    <tr>
+      <td>ssekmsKeyId</td>
+      <td>(Optional, but **required** when `serverSideEncryption=aws:kms`) Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4.</td>
+    </tr>
+    <tr>
+      <td>ssekmsEncryptionContext</td>
+      <td>(Optional) Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.</td>
+    </tr>
+    <tr>
+      <td>requestChecksumCalculation</td>
+      <td>(Optional) Controls whether checksums are calculated for request payloads. Default: `WHEN_SUPPORTED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.</td>
+    </tr>
+    <tr>
+      <td>responseChecksumValidation</td>
+      <td>(Optional) Controls whether checksums are validated on response payloads. Default: `WHEN_SUPPORTED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.</td>
+    </tr>
+    <tr>
+      <td>useLegacyMd5Plugin</td>
+      <td>(Optional) When set to `true`, uses the LegacyMd5Plugin to restore pre-2.30.0 MD5 checksum behavior. Default: `false`.</td>
+    </tr>
+    <tr>
+      <td>enableCrossRegionAccess</td>
+      <td>(Optional) If you want to copy objects b/w two buckets that lie in different regions. Defaults to `true` if not configured.</td>
+    </tr>
+  </tbody>
+</table>
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.s3.` where `node` is either `controller` or `server` depending on the config
 
@@ -86,10 +130,24 @@ pinot.controller.storage.factory.s3.requestChecksumCalculation=WHEN_REQUIRED
 pinot.controller.storage.factory.s3.responseChecksumValidation=WHEN_REQUIRED
 ```
 
-| Value            | Behavior                                                |
-| ---------------- | ------------------------------------------------------- |
-| WHEN_SUPPORTED   | Calculate/validate checksums whenever the API supports it (default) |
-| WHEN_REQUIRED    | Only calculate/validate checksums when the API requires it          |
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>WHEN_SUPPORTED</td>
+      <td>Calculate/validate checksums whenever the API supports it (default)</td>
+    </tr>
+    <tr>
+      <td>WHEN_REQUIRED</td>
+      <td>Only calculate/validate checksums when the API requires it</td>
+    </tr>
+  </tbody>
+</table>
 
 ### LegacyMd5Plugin for S3-compatible stores
 

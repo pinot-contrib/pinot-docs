@@ -8,11 +8,32 @@ Use Pinot APIs when you need programmatic access rather than a direct client lib
 
 ## What belongs here
 
-| Surface | Best for | Notes |
-| --- | --- | --- |
-| Broker REST query APIs | SQL queries from applications or scripts | The broker exposes the query endpoints used by the query console and the standard SQL docs. |
-| Broker gRPC API | Higher-throughput query clients | The gRPC surface supports binary transport and client-specific encoding or compression options. |
-| Controller admin APIs | Cluster, schema, table, segment, quota, and task operations | The controller is the management surface and is what the Admin UI exposes through Swagger. |
+<table>
+  <thead>
+    <tr>
+      <th>Surface</th>
+      <th>Best for</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Broker REST query APIs</td>
+      <td>SQL queries from applications or scripts</td>
+      <td>The broker exposes the query endpoints used by the query console and the standard SQL docs.</td>
+    </tr>
+    <tr>
+      <td>Broker gRPC API</td>
+      <td>Higher-throughput query clients</td>
+      <td>The gRPC surface supports binary transport and client-specific encoding or compression options.</td>
+    </tr>
+    <tr>
+      <td>Controller admin APIs</td>
+      <td>Cluster, schema, table, segment, quota, and task operations</td>
+      <td>The controller is the management surface and is what the Admin UI exposes through Swagger.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## How to choose
 

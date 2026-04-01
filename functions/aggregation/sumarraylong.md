@@ -19,6 +19,15 @@ select SUMARRAYLONG(longArrayCol) AS value
 from myTable
 ```
 
-| value             |
-| ----------------- |
-| [100, 200, 300]   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[100, 200, 300]</td>
+    </tr>
+  </tbody>
+</table>

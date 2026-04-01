@@ -17,9 +17,18 @@ select BOOLOR(hasError) AS value
 from myTable
 ```
 
-| value |
-| ----- |
-| true  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>true</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select city, BOOLOR(hasError) AS anyErrors
@@ -27,7 +36,21 @@ from myTable
 GROUP BY city
 ```
 
-| city         | anyErrors |
-| ------------ | --------- |
-| San Francisco | true      |
-| New York     | false     |
+<table>
+  <thead>
+    <tr>
+      <th>city</th>
+      <th>anyErrors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>San Francisco</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>

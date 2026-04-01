@@ -10,50 +10,227 @@ bin/pinot-admin.sh StartController -configFileName /path/to/controller.conf
 
 ## Primary configuration
 
-| Property                                                     | Default                                                                  | Description                                                                                                                                                                                                                                                 |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| controller.vip.host                                          | same as `controller.host`                                                | The VIP hostname used to set the download URL for segments                                                                                                                                                                                                  |
-| controller.vip.port                                          | same as `controller.port`                                                |                                                                                                                                                                                                                                                             |
-| controller.vip.protocol                                      |                                                                          |                                                                                                                                                                                                                                                             |
-| controller.host                                              | localhost                                                                | The ip of the host on which controller is running                                                                                                                                                                                                           |
-| controller.port                                              | 9000                                                                     | The port on which controller should run                                                                                                                                                                                                                     |
-| controller.access.protocol                                   |                                                                          |                                                                                                                                                                                                                                                             |
-| controller.data.dir                                          | ${java.io.tmpdir}/PinotController                                        | Directory to host segment data                                                                                                                                                                                                                              |
-| controller.local.temp.dir                                    |                                                                          |                                                                                                                                                                                                                                                             |
-| controller.zk.str                                            | localhost:2181                                                           | zookeeper host:port string to connect                                                                                                                                                                                                                       |
-| controller.update\_segment\_state\_model                     | false                                                                    |                                                                                                                                                                                                                                                             |
-| controller.helix.cluster.name                                |                                                                          | Pinot Cluster Name, required.                                                                                                                                                                                                                               |
-| cluster.tenant.isolation.enable                              | true                                                                     | <p>Enable Tenant Isolation, default is single tenant cluster.<br>If enabled, each server or broker added into the cluster will be tagged with DefaultTenant.</p>                                                                                            |
-| controller.enable.split.commit                               | false                                                                    | **(Deprecated)** Enable split commit protocol for real-time segment commit.                                                                                                                                                                                 |
-| controller.query.console.useHttps                            | false                                                                    | use https instead of http for cluster                                                                                                                                                                                                                       |
-| controller.upload.onlineToOfflineTimeout                     | 2 minutes                                                                |                                                                                                                                                                                                                                                             |
-| controller.mode                                              | `dual`                                                                   | Should be one of `helix_only`, `pinot_only` or `dual`                                                                                                                                                                                                       |
-| controller.resource.rebalance.strategy                       | `org.apache.helix.controller. rebalancer.strategy.AutoRebalanceStrategy` |                                                                                                                                                                                                                                                             |
-| controller.resource.rebalance.delay\_ms                      | 5 minutes                                                                | <p>How long the helix waits to rebalance partitions after a controller is lost.</p><p>Longer time values allow for more time for a controller to recover.</p><p>Shorter time values prevent cluster operations like segment sealing from being blocked.</p> |
-| controller.realtime.segment.commit.timeoutSeconds            | 120 seconds                                                              | request timeout for segment commit                                                                                                                                                                                                                          |
-| controller.max.segment.completion.time.millis                | 300000 (5 minutes)                                                       | maximum allowed time for real-time segment completion (build + upload). Increase for tables with large segments where build and upload to deep store exceeds 5 minutes.                                                                                          |
-| controller.deleted.segments.retentionInDays                  | 7 days                                                                   | duration for which to retain deleted segments                                                                                                                                                                                                               |
-| controller.admin.access.control.factory.class                | `org.apache.pinot.controller. api.access.AllowAllAccessFactory`          |                                                                                                                                                                                                                                                             |
-| controller.segment.upload.timeoutInMillis                    | 10 minutes                                                               | timeout for upload of segments.                                                                                                                                                                                                                             |
-| controller.realtime.segment.metadata.commit.numLocks         | 64                                                                       |                                                                                                                                                                                                                                                             |
-| controller.enable.storage.quota.check                        | true                                                                     |                                                                                                                                                                                                                                                             |
-| controller.enable.batch.message.mode                         | false                                                                    |                                                                                                                                                                                                                                                             |
-| controller.storage.factory.class.file                        | `org.apache.pinot.spi. filesystem.LocalPinotFS`                          |                                                                                                                                                                                                                                                             |
-| table.minReplicas                                            | 1                                                                        |                                                                                                                                                                                                                                                             |
-| controller.access.protocols                                  | http                                                                     | Ingress protocols to access controller (http or https or http,https)                                                                                                                                                                                        |
-| controller.access.protocols.http.port                        |                                                                          | Port to access controller via http                                                                                                                                                                                                                          |
-| controller.broker.protocols.https.port                       |                                                                          | Port to access controller via https                                                                                                                                                                                                                         |
-| controller.broker.protocol                                   | http                                                                     | protocol for forwarding query requests (http or https)                                                                                                                                                                                                      |
-| controller.broker.port.override                              |                                                                          | override for broker port when forwarding query requests (use in multi-ingress scenarios)                                                                                                                                                                    |
-| controller.tls.keystore.path                                 |                                                                          | Path to controller TLS keystore                                                                                                                                                                                                                             |
-| controller.tls.keystore.password                             |                                                                          | keystore password                                                                                                                                                                                                                                           |
-| controller.tls.truststore.path                               |                                                                          | Path to controller TLS truststore                                                                                                                                                                                                                           |
-| controller.tls.truststore.password                           |                                                                          | truststore password                                                                                                                                                                                                                                         |
-| controller.tls.client.auth                                   | false                                                                    | toggle for requiring TLS client auth                                                                                                                                                                                                                        |
-| pinot.controller.http.server.thread.pool.corePoolSize        | 2 \* cores                                                               | Config for the thread-pool used by pinot-controller's http-server.                                                                                                                                                                                          |
-| pinot.controller.http.server.thread.pool.maxPoolSize         | 2 \* cores                                                               | Config for the thread-pool used by pinot-controller's http-server.                                                                                                                                                                                          |
-| pinot.controller.segment.fetcher.http.client.maxConnTotal    |                                                                          | Config for the http-client used by HttpSegmentFetcher for downloading segments                                                                                                                                                                              |
-| pinot.controller.segment.fetcher.http.client.maxConnPerRoute |                                                                          | Config for the http-client used by HttpSegmentFetcher for downloading segments                                                                                                                                                                              |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>controller.vip.host</td>
+      <td>same as `controller.host`</td>
+      <td>The VIP hostname used to set the download URL for segments</td>
+    </tr>
+    <tr>
+      <td>controller.vip.port</td>
+      <td>same as `controller.port`</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.vip.protocol</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.host</td>
+      <td>localhost</td>
+      <td>The ip of the host on which controller is running</td>
+    </tr>
+    <tr>
+      <td>controller.port</td>
+      <td>9000</td>
+      <td>The port on which controller should run</td>
+    </tr>
+    <tr>
+      <td>controller.access.protocol</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.data.dir</td>
+      <td>${java.io.tmpdir}/PinotController</td>
+      <td>Directory to host segment data</td>
+    </tr>
+    <tr>
+      <td>controller.local.temp.dir</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.zk.str</td>
+      <td>localhost:2181</td>
+      <td>zookeeper host:port string to connect</td>
+    </tr>
+    <tr>
+      <td>controller.update\_segment\_state\_model</td>
+      <td>false</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.helix.cluster.name</td>
+      <td></td>
+      <td>Pinot Cluster Name, required.</td>
+    </tr>
+    <tr>
+      <td>cluster.tenant.isolation.enable</td>
+      <td>true</td>
+      <td><p>Enable Tenant Isolation, default is single tenant cluster.<br>If enabled, each server or broker added into the cluster will be tagged with DefaultTenant.</p></td>
+    </tr>
+    <tr>
+      <td>controller.enable.split.commit</td>
+      <td>false</td>
+      <td>**(Deprecated)** Enable split commit protocol for real-time segment commit.</td>
+    </tr>
+    <tr>
+      <td>controller.query.console.useHttps</td>
+      <td>false</td>
+      <td>use https instead of http for cluster</td>
+    </tr>
+    <tr>
+      <td>controller.upload.onlineToOfflineTimeout</td>
+      <td>2 minutes</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.mode</td>
+      <td>`dual`</td>
+      <td>Should be one of `helix_only`, `pinot_only` or `dual`</td>
+    </tr>
+    <tr>
+      <td>controller.resource.rebalance.strategy</td>
+      <td>`org.apache.helix.controller. rebalancer.strategy.AutoRebalanceStrategy`</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.resource.rebalance.delay\_ms</td>
+      <td>5 minutes</td>
+      <td><p>How long the helix waits to rebalance partitions after a controller is lost.</p><p>Longer time values allow for more time for a controller to recover.</p><p>Shorter time values prevent cluster operations like segment sealing from being blocked.</p></td>
+    </tr>
+    <tr>
+      <td>controller.realtime.segment.commit.timeoutSeconds</td>
+      <td>120 seconds</td>
+      <td>request timeout for segment commit</td>
+    </tr>
+    <tr>
+      <td>controller.max.segment.completion.time.millis</td>
+      <td>300000 (5 minutes)</td>
+      <td>maximum allowed time for real-time segment completion (build + upload). Increase for tables with large segments where build and upload to deep store exceeds 5 minutes.</td>
+    </tr>
+    <tr>
+      <td>controller.deleted.segments.retentionInDays</td>
+      <td>7 days</td>
+      <td>duration for which to retain deleted segments</td>
+    </tr>
+    <tr>
+      <td>controller.admin.access.control.factory.class</td>
+      <td>`org.apache.pinot.controller. api.access.AllowAllAccessFactory`</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.segment.upload.timeoutInMillis</td>
+      <td>10 minutes</td>
+      <td>timeout for upload of segments.</td>
+    </tr>
+    <tr>
+      <td>controller.realtime.segment.metadata.commit.numLocks</td>
+      <td>64</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.enable.storage.quota.check</td>
+      <td>true</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.enable.batch.message.mode</td>
+      <td>false</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.storage.factory.class.file</td>
+      <td>`org.apache.pinot.spi. filesystem.LocalPinotFS`</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>table.minReplicas</td>
+      <td>1</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>controller.access.protocols</td>
+      <td>http</td>
+      <td>Ingress protocols to access controller (http or https or http,https)</td>
+    </tr>
+    <tr>
+      <td>controller.access.protocols.http.port</td>
+      <td></td>
+      <td>Port to access controller via http</td>
+    </tr>
+    <tr>
+      <td>controller.broker.protocols.https.port</td>
+      <td></td>
+      <td>Port to access controller via https</td>
+    </tr>
+    <tr>
+      <td>controller.broker.protocol</td>
+      <td>http</td>
+      <td>protocol for forwarding query requests (http or https)</td>
+    </tr>
+    <tr>
+      <td>controller.broker.port.override</td>
+      <td></td>
+      <td>override for broker port when forwarding query requests (use in multi-ingress scenarios)</td>
+    </tr>
+    <tr>
+      <td>controller.tls.keystore.path</td>
+      <td></td>
+      <td>Path to controller TLS keystore</td>
+    </tr>
+    <tr>
+      <td>controller.tls.keystore.password</td>
+      <td></td>
+      <td>keystore password</td>
+    </tr>
+    <tr>
+      <td>controller.tls.truststore.path</td>
+      <td></td>
+      <td>Path to controller TLS truststore</td>
+    </tr>
+    <tr>
+      <td>controller.tls.truststore.password</td>
+      <td></td>
+      <td>truststore password</td>
+    </tr>
+    <tr>
+      <td>controller.tls.client.auth</td>
+      <td>false</td>
+      <td>toggle for requiring TLS client auth</td>
+    </tr>
+    <tr>
+      <td>pinot.controller.http.server.thread.pool.corePoolSize</td>
+      <td>2 \* cores</td>
+      <td>Config for the thread-pool used by pinot-controller's http-server.</td>
+    </tr>
+    <tr>
+      <td>pinot.controller.http.server.thread.pool.maxPoolSize</td>
+      <td>2 \* cores</td>
+      <td>Config for the thread-pool used by pinot-controller's http-server.</td>
+    </tr>
+    <tr>
+      <td>pinot.controller.segment.fetcher.http.client.maxConnTotal</td>
+      <td></td>
+      <td>Config for the http-client used by HttpSegmentFetcher for downloading segments</td>
+    </tr>
+    <tr>
+      <td>pinot.controller.segment.fetcher.http.client.maxConnPerRoute</td>
+      <td></td>
+      <td>Config for the http-client used by HttpSegmentFetcher for downloading segments</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Periodic task configuration
 

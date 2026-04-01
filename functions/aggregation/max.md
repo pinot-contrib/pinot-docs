@@ -19,6 +19,15 @@ select max(homeRuns) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 73    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>73</td>
+    </tr>
+  </tbody>
+</table>

@@ -11,10 +11,27 @@ Returns the input value if it is finite, otherwise returns the specified default
 
 > ifNotFinite(valueToCheck, defaultValue)
 
-| Argument        | Type   | Description                                  |
-| --------------- | ------ | -------------------------------------------- |
-| `valueToCheck`  | DOUBLE | Value to check for finiteness                |
-| `defaultValue`  | DOUBLE | Value to return if `valueToCheck` is not finite |
+<table>
+  <thead>
+    <tr>
+      <th>Argument</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`valueToCheck`</td>
+      <td>DOUBLE</td>
+      <td>Value to check for finiteness</td>
+    </tr>
+    <tr>
+      <td>`defaultValue`</td>
+      <td>DOUBLE</td>
+      <td>Value to return if `valueToCheck` is not finite</td>
+    </tr>
+  </tbody>
+</table>
 
 Returns: **DOUBLE**
 
@@ -32,15 +49,33 @@ SELECT ifNotFinite(1.0 / 0.0, -1) AS value
 FROM myTable
 ```
 
-| value |
-| ----- |
-| -1.0  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-1.0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT ifNotFinite(42.5, -1) AS value
 FROM myTable
 ```
 
-| value |
-| ----- |
-| 42.5  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>42.5</td>
+    </tr>
+  </tbody>
+</table>

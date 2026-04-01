@@ -9,9 +9,22 @@ Environment Provider plugins allow Pinot to discover cloud-specific instance met
 
 ## Available Implementations
 
-| Plugin | Class Name | Cloud Provider |
-|--------|-----------|---------------|
-| **Azure** | `org.apache.pinot.plugin.provider.AzureEnvironmentProvider` | Microsoft Azure |
+<table>
+  <thead>
+    <tr>
+      <th>Plugin</th>
+      <th>Class Name</th>
+      <th>Cloud Provider</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Azure**</td>
+      <td>`org.apache.pinot.plugin.provider.AzureEnvironmentProvider`</td>
+      <td>Microsoft Azure</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Azure Environment Provider
 
@@ -19,12 +32,42 @@ The Azure Environment Provider queries the [Azure Instance Metadata Service (IMD
 
 ### Configuration
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `maxRetry` | Integer | Yes | Maximum number of HTTP retries (must be > 0) |
-| `imdsEndpoint` | String | Yes | Azure IMDS endpoint URL |
-| `connectionTimeoutMillis` | Integer | Yes | HTTP connection timeout in milliseconds |
-| `requestTimeoutMillis` | Integer | Yes | HTTP request/response timeout in milliseconds |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`maxRetry`</td>
+      <td>Integer</td>
+      <td>Yes</td>
+      <td>Maximum number of HTTP retries (must be > 0)</td>
+    </tr>
+    <tr>
+      <td>`imdsEndpoint`</td>
+      <td>String</td>
+      <td>Yes</td>
+      <td>Azure IMDS endpoint URL</td>
+    </tr>
+    <tr>
+      <td>`connectionTimeoutMillis`</td>
+      <td>Integer</td>
+      <td>Yes</td>
+      <td>HTTP connection timeout in milliseconds</td>
+    </tr>
+    <tr>
+      <td>`requestTimeoutMillis`</td>
+      <td>Integer</td>
+      <td>Yes</td>
+      <td>HTTP request/response timeout in milliseconds</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example Configuration
 

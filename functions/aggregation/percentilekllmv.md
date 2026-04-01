@@ -23,6 +23,15 @@ select percentileKLLMV(ArrOfInts, 90) as value
 from MyTable
 ```
 
-| value |
-| ----- |
-| 40    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>

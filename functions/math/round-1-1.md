@@ -49,14 +49,47 @@ SELECT customer_id, count(*), ROW_NUMBER() OVER(ORDER BY count(*) DESC, customer
 ```
 {% endcode %}
 
-| customer\_id | count | row\_number |
-| ------------ | ----- | ----------- |
-| 148          | 45    | 1           |
-| 245          | 42    | 2           |
-| 144          | 39    | 3           |
-| 253          | 39    | 4           |
-| 410          | 36    | 5           |
-| 368          | 34    | 6           |
+<table>
+  <thead>
+    <tr>
+      <th>customer\_id</th>
+      <th>count</th>
+      <th>row\_number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>148</td>
+      <td>45</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>245</td>
+      <td>42</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>144</td>
+      <td>39</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>253</td>
+      <td>39</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>410</td>
+      <td>36</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>368</td>
+      <td>34</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
 
 \
 \\

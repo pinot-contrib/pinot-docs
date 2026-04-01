@@ -51,13 +51,36 @@ Here is a sample Pulsar stream config. You can use the `streamConfigs` section f
 
 You can change the following Pulsar specifc configurations for your tables
 
-| Property                          | Description                                    |
-| --------------------------------- | ---------------------------------------------- |
-| `streamType`                      | This should be set to "pulsar"                 |
-| `stream.pulsar.topic.name`        | Your pulsar topic name                         |
-| `stream.pulsar.bootstrap.servers` | Comma-separated broker list for Apache Pulsar  |
-| `stream.pulsar.metadata.populate` | set to `true` to populate metadata             |
-| `stream.pulsar.metadata.fields`   | set to comma separated list of metadata fields |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`streamType`</td>
+      <td>This should be set to "pulsar"</td>
+    </tr>
+    <tr>
+      <td>`stream.pulsar.topic.name`</td>
+      <td>Your pulsar topic name</td>
+    </tr>
+    <tr>
+      <td>`stream.pulsar.bootstrap.servers`</td>
+      <td>Comma-separated broker list for Apache Pulsar</td>
+    </tr>
+    <tr>
+      <td>`stream.pulsar.metadata.populate`</td>
+      <td>set to `true` to populate metadata</td>
+    </tr>
+    <tr>
+      <td>`stream.pulsar.metadata.fields`</td>
+      <td>set to comma separated list of metadata fields</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Authentication
 
@@ -99,23 +122,108 @@ Pinot's Pulsar connector supports automatically extracting record headers and me
 
 The following table shows the mapping for record header/metadata to Pinot table column names:
 
-| Pulsar Message                    | Pinot table Column                                                                | Comments                                                                                   | Available By Default |
-| --------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | -------------------- |
-| key : String                      | `__key` : String                                                                  |                                                                                            | Yes                  |
-| properties : Map\<String, String> | Each header key is listed as a separate column: `__header$HeaderKeyName` : String |                                                                                            | Yes                  |
-| publishTime : Long                | `__metadata$publishTime` : String                                                 | publish time as determined by the producer                                                 | Yes                  |
-| brokerPublishTime: Optional       | `__metadata$brokerPublishTime` : String                                           | publish time as determined by the broker                                                   | Yes                  |
-| eventTime : Long                  | `__metadata$eventTime` : String                                                   |                                                                                            | Yes                  |
-| messageId : MessageId -> String   | `__metadata$messageId` : String                                                   | String representation of the MessagId field. The format is ledgerId:entryId:partitionIndex |                      |
-| messageId : MessageId -> bytes    | `__metadata$messageBytes` : String                                                | Base64 encoded version of the bytes returned from calling MessageId.toByteArray()          |                      |
-| producerName : String             | `__metadata$producerName` : String                                                |                                                                                            |                      |
-| schemaVersion : byte\[]           | `__metadata$schemaVersion` : String                                               | Base64 encoded value                                                                       |                      |
-| sequenceId : Long                 | `__metadata$sequenceId` : String                                                  |                                                                                            |                      |
-| orderingKey : byte\[]             | `__metadata$orderingKey` : String                                                 | Base64 encoded value                                                                       |                      |
-| size : Integer                    | `__metadata$size` : String                                                        |                                                                                            |                      |
-| topicName : String                | `__metadata$topicName` : String                                                   |                                                                                            |                      |
-| index : String                    | `__metadata$index` : String                                                       |                                                                                            |                      |
-| redeliveryCount : Integer         | `__metadata$redeliveryCount` : String                                             |                                                                                            |                      |
+<table>
+  <thead>
+    <tr>
+      <th>Pulsar Message</th>
+      <th>Pinot table Column</th>
+      <th>Comments</th>
+      <th>Available By Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>key : String</td>
+      <td>`__key` : String</td>
+      <td></td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>properties : Map\<String, String></td>
+      <td>Each header key is listed as a separate column: `__header$HeaderKeyName` : String</td>
+      <td></td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>publishTime : Long</td>
+      <td>`__metadata$publishTime` : String</td>
+      <td>publish time as determined by the producer</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>brokerPublishTime: Optional</td>
+      <td>`__metadata$brokerPublishTime` : String</td>
+      <td>publish time as determined by the broker</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>eventTime : Long</td>
+      <td>`__metadata$eventTime` : String</td>
+      <td></td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>messageId : MessageId -> String</td>
+      <td>`__metadata$messageId` : String</td>
+      <td>String representation of the MessagId field. The format is ledgerId:entryId:partitionIndex</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>messageId : MessageId -> bytes</td>
+      <td>`__metadata$messageBytes` : String</td>
+      <td>Base64 encoded version of the bytes returned from calling MessageId.toByteArray()</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>producerName : String</td>
+      <td>`__metadata$producerName` : String</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>schemaVersion : byte\[]</td>
+      <td>`__metadata$schemaVersion` : String</td>
+      <td>Base64 encoded value</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>sequenceId : Long</td>
+      <td>`__metadata$sequenceId` : String</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>orderingKey : byte\[]</td>
+      <td>`__metadata$orderingKey` : String</td>
+      <td>Base64 encoded value</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>size : Integer</td>
+      <td>`__metadata$size` : String</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>topicName : String</td>
+      <td>`__metadata$topicName` : String</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>index : String</td>
+      <td>`__metadata$index` : String</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>redeliveryCount : Integer</td>
+      <td>`__metadata$redeliveryCount` : String</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 In order to enable the metadata extraction in a Pulsar table, set the stream config `metadata.populate` to `true`. The fields `eventTime`, `publishTime`, `brokerPublishTime`, and `key` are populated by default. If you would like to extract additional fields from the Pulsar Message, populate the `metadataFields` config with a comma separated list of fields to populate. The fields are referenced by the field name in the Pulsar Message. For example, setting:
 

@@ -12,12 +12,32 @@ Returns the count of entities that completed all steps in a funnel. This functio
 
 Parameters:
 
-| Parameter | Description |
-| --------- | ----------- |
-| `stepColumn` | Column used to identify which step an event belongs to |
-| `correlationColumn` | Column used to correlate events from the same entity (e.g., user ID) |
-| `settings` | Configuration string for funnel behavior |
-| `step1, step2, ...` | Boolean expressions defining each funnel step |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`stepColumn`</td>
+      <td>Column used to identify which step an event belongs to</td>
+    </tr>
+    <tr>
+      <td>`correlationColumn`</td>
+      <td>Column used to correlate events from the same entity (e.g., user ID)</td>
+    </tr>
+    <tr>
+      <td>`settings`</td>
+      <td>Configuration string for funnel behavior</td>
+    </tr>
+    <tr>
+      <td>`step1, step2, ...`</td>
+      <td>Boolean expressions defining each funnel step</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Examples
 
@@ -33,8 +53,17 @@ select FUNNELCOMPLETECOUNT(
 from eventTable
 ```
 
-| completedCount |
-| -------------- |
-| 1250           |
+<table>
+  <thead>
+    <tr>
+      <th>completedCount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1250</td>
+    </tr>
+  </tbody>
+</table>
 
 For more information on funnel analysis, see [Funnel Count](funnelcount.md) and [Funnel Max Step](funnelmaxstep.md).

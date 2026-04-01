@@ -12,17 +12,62 @@ Converts a value to the specified target type. This is the standard SQL cast syn
 
 **Supported target types:**
 
-| Type | Aliases | Description |
-|---|---|---|
-| `INT` | `INTEGER` | 32-bit integer |
-| `LONG` | `BIGINT` | 64-bit integer |
-| `FLOAT` | | 32-bit floating point |
-| `DOUBLE` | | 64-bit floating point |
-| `BOOLEAN` | | Boolean value |
-| `TIMESTAMP` | | Timestamp value |
-| `STRING` | `VARCHAR` | String value |
-| `BYTES` | `VARBINARY` | Byte array |
-| `BIG_DECIMAL` | `DECIMAL` | Arbitrary-precision decimal |
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Aliases</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`INT`</td>
+      <td>`INTEGER`</td>
+      <td>32-bit integer</td>
+    </tr>
+    <tr>
+      <td>`LONG`</td>
+      <td>`BIGINT`</td>
+      <td>64-bit integer</td>
+    </tr>
+    <tr>
+      <td>`FLOAT`</td>
+      <td></td>
+      <td>32-bit floating point</td>
+    </tr>
+    <tr>
+      <td>`DOUBLE`</td>
+      <td></td>
+      <td>64-bit floating point</td>
+    </tr>
+    <tr>
+      <td>`BOOLEAN`</td>
+      <td></td>
+      <td>Boolean value</td>
+    </tr>
+    <tr>
+      <td>`TIMESTAMP`</td>
+      <td></td>
+      <td>Timestamp value</td>
+    </tr>
+    <tr>
+      <td>`STRING`</td>
+      <td>`VARCHAR`</td>
+      <td>String value</td>
+    </tr>
+    <tr>
+      <td>`BYTES`</td>
+      <td>`VARBINARY`</td>
+      <td>Byte array</td>
+    </tr>
+    <tr>
+      <td>`BIG_DECIMAL`</td>
+      <td>`DECIMAL`</td>
+      <td>Arbitrary-precision decimal</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT CAST(revenue AS DOUBLE) AS revenue_double,

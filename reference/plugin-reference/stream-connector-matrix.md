@@ -8,11 +8,28 @@ Use this page when you are deciding whether a stream connector upgrade is safe w
 
 ## Version Guidance
 
-| Connector family | What to verify |
-| --- | --- |
-| Kafka | Broker-side connector package and Kafka major version compatibility |
-| Kinesis | AWS SDK and Pinot connector version compatibility |
-| Pulsar | Connector package and broker runtime compatibility |
+<table>
+  <thead>
+    <tr>
+      <th>Connector family</th>
+      <th>What to verify</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Kafka</td>
+      <td>Broker-side connector package and Kafka major version compatibility</td>
+    </tr>
+    <tr>
+      <td>Kinesis</td>
+      <td>AWS SDK and Pinot connector version compatibility</td>
+    </tr>
+    <tr>
+      <td>Pulsar</td>
+      <td>Connector package and broker runtime compatibility</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What this page covered
 

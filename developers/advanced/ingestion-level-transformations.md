@@ -57,43 +57,117 @@ These functions enable time transformations.
 
 Converts from epoch milliseconds to a higher granularity.
 
-| Function name  | Description                                                                                      |
-| -------------- | ------------------------------------------------------------------------------------------------ |
-| toEpochSeconds | <p>Converts epoch millis to epoch seconds.</p><p>Usage:<code>"toEpochSeconds(millis)"</code></p> |
-| toEpochMinutes | <p>Converts epoch millis to epoch minutes</p><p>Usage: <code>"toEpochMinutes(millis)"</code></p> |
-| toEpochHours   | <p>Converts epoch millis to epoch hours</p><p>Usage: <code>"toEpochHours(millis)"</code></p>     |
-| toEpochDays    | <p>Converts epoch millis to epoch days</p><p>Usage: <code>"toEpochDays(millis)"</code></p>       |
+<table>
+  <thead>
+    <tr>
+      <th>Function name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>toEpochSeconds</td>
+      <td><p>Converts epoch millis to epoch seconds.</p><p>Usage:<code>"toEpochSeconds(millis)"</code></p></td>
+    </tr>
+    <tr>
+      <td>toEpochMinutes</td>
+      <td><p>Converts epoch millis to epoch minutes</p><p>Usage: <code>"toEpochMinutes(millis)"</code></p></td>
+    </tr>
+    <tr>
+      <td>toEpochHours</td>
+      <td><p>Converts epoch millis to epoch hours</p><p>Usage: <code>"toEpochHours(millis)"</code></p></td>
+    </tr>
+    <tr>
+      <td>toEpochDays</td>
+      <td><p>Converts epoch millis to epoch days</p><p>Usage: <code>"toEpochDays(millis)"</code></p></td>
+    </tr>
+  </tbody>
+</table>
 
 **toEpochXXXRounded**
 
 Converts from epoch milliseconds to another granularity, rounding to the nearest rounding bucket. For example, `1588469352000` (2020-05-01 42:29:12) is `26474489` minutesSinceEpoch. `` `toEpochMinutesRounded(1588469352000) = 26474480 `` (2020-05-01 42:20:00)
 
-| Function Name         | Description                                                                                                      |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| toEpochSecondsRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochSecondsRounded(millis, 30)"` |
-| toEpochMinutesRounded | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochMinutesRounded(millis, 10)"` |
-| toEpochHoursRounded   | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochHoursRounded(millis, 6)"`    |
-| toEpochDaysRounded    | Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochDaysRounded(millis, 7)"`     |
+<table>
+  <thead>
+    <tr>
+      <th>Function Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>toEpochSecondsRounded</td>
+      <td>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochSecondsRounded(millis, 30)"`</td>
+    </tr>
+    <tr>
+      <td>toEpochMinutesRounded</td>
+      <td>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochMinutesRounded(millis, 10)"`</td>
+    </tr>
+    <tr>
+      <td>toEpochHoursRounded</td>
+      <td>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochHoursRounded(millis, 6)"`</td>
+    </tr>
+    <tr>
+      <td>toEpochDaysRounded</td>
+      <td>Converts epoch millis to epoch seconds, rounding to nearest rounding bucket`"toEpochDaysRounded(millis, 7)"`</td>
+    </tr>
+  </tbody>
+</table>
 
 **fromEpochXXX**
 
 Converts from an epoch granularity to milliseconds.
 
-| Function Name    | Description                                                                                                 |
-| ---------------- | ----------------------------------------------------------------------------------------------------------- |
-| fromEpochSeconds | <p>Converts from epoch seconds to milliseconds</p><p><code>"fromEpochSeconds(secondsSinceEpoch)"</code></p> |
-| fromEpochMinutes | <p>Converts from epoch minutes to milliseconds</p><p><code>"fromEpochMinutes(minutesSinceEpoch)"</code></p> |
-| fromEpochHours   | <p>Converts from epoch hours to milliseconds</p><p><code>"fromEpochHours(hoursSinceEpoch)"</code></p>       |
-| fromEpochDays    | <p>Converts from epoch days to milliseconds</p><p><code>"fromEpochDays(daysSinceEpoch)"</code></p>          |
+<table>
+  <thead>
+    <tr>
+      <th>Function Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fromEpochSeconds</td>
+      <td><p>Converts from epoch seconds to milliseconds</p><p><code>"fromEpochSeconds(secondsSinceEpoch)"</code></p></td>
+    </tr>
+    <tr>
+      <td>fromEpochMinutes</td>
+      <td><p>Converts from epoch minutes to milliseconds</p><p><code>"fromEpochMinutes(minutesSinceEpoch)"</code></p></td>
+    </tr>
+    <tr>
+      <td>fromEpochHours</td>
+      <td><p>Converts from epoch hours to milliseconds</p><p><code>"fromEpochHours(hoursSinceEpoch)"</code></p></td>
+    </tr>
+    <tr>
+      <td>fromEpochDays</td>
+      <td><p>Converts from epoch days to milliseconds</p><p><code>"fromEpochDays(daysSinceEpoch)"</code></p></td>
+    </tr>
+  </tbody>
+</table>
 
 **Simple date format**
 
 Converts simple date format strings to milliseconds and vice versa, per the provided pattern string.
 
-| Function name                                     | Description                                                                                                                                                              |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [ToDateTime](../../functions/datetime/todatetime.md)     | <p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p>                     |
-| [FromDateTime](../../functions/datetime/fromdatetime.md) | <p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p> |
+<table>
+  <thead>
+    <tr>
+      <th>Function name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[ToDateTime](../../functions/datetime/todatetime.md)</td>
+      <td><p>Converts from milliseconds to a formatted date time string, as per the provided pattern</p><p><code>"toDateTime(millis, 'yyyy-MM-dd')"</code></p></td>
+    </tr>
+    <tr>
+      <td>[FromDateTime](../../functions/datetime/fromdatetime.md)</td>
+      <td><p>Converts a formatted date time string to milliseconds, as per the provided pattern</p><p><code>"fromDateTime(dateTimeStr, 'EEE MMM dd HH:mm:ss ZZZ yyyy')"</code></p></td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 **Note**
@@ -105,9 +179,20 @@ Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/j
 
 #### JSON functions
 
-| Function name | Description                                                                                                                                                                                                                                                                                                       |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| json\_format  | <p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="../../users/user-guide-query/supported-transformations.md">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p> |
+<table>
+  <thead>
+    <tr>
+      <th>Function name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>json\_format</td>
+      <td><p>Converts a JSON/AVRO complex object to a string. This json map can then be queried using <a href="../../users/user-guide-query/supported-transformations.md">jsonExtractScalar</a> function.</p><p><code>"json_format(jsonMapField)"</code></p></td>
+    </tr>
+  </tbody>
+</table>
 
 ## Types of transformation
 

@@ -9,11 +9,32 @@ Apache Pinot uses a pluggable metrics factory to support multiple metrics backen
 
 ## Available Implementations
 
-| Plugin | Class Name | Description |
-|--------|-----------|-------------|
-| **Yammer** (default) | `org.apache.pinot.plugin.metrics.yammer.YammerMetricsFactory` | Lightweight, default metrics implementation |
-| **Dropwizard** | `org.apache.pinot.plugin.metrics.dropwizard.DropwizardMetricsFactory` | Full Dropwizard Metrics integration with sliding time window reservoirs |
-| **Compound** | `org.apache.pinot.plugin.metrics.compound.CompoundPinotMetricsFactory` | Registers metrics in multiple backends simultaneously |
+<table>
+  <thead>
+    <tr>
+      <th>Plugin</th>
+      <th>Class Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Yammer** (default)</td>
+      <td>`org.apache.pinot.plugin.metrics.yammer.YammerMetricsFactory`</td>
+      <td>Lightweight, default metrics implementation</td>
+    </tr>
+    <tr>
+      <td>**Dropwizard**</td>
+      <td>`org.apache.pinot.plugin.metrics.dropwizard.DropwizardMetricsFactory`</td>
+      <td>Full Dropwizard Metrics integration with sliding time window reservoirs</td>
+    </tr>
+    <tr>
+      <td>**Compound**</td>
+      <td>`org.apache.pinot.plugin.metrics.compound.CompoundPinotMetricsFactory`</td>
+      <td>Registers metrics in multiple backends simultaneously</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Configuration
 
@@ -43,9 +64,22 @@ pinot.server.metrics.factory.className=org.apache.pinot.plugin.metrics.dropwizar
 
 **Additional properties:**
 
-| Property | Default | Description |
-|----------|---------|-------------|
-| `pinot.<component>.metrics.dropwizard.domain` | `org.apache.pinot.common.metrics` | JMX domain name for metrics |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinot.<component>.metrics.dropwizard.domain`</td>
+      <td>`org.apache.pinot.common.metrics`</td>
+      <td>JMX domain name for metrics</td>
+    </tr>
+  </tbody>
+</table>
 
 **Example:**
 
@@ -64,11 +98,32 @@ pinot.server.metrics.factory.className=org.apache.pinot.plugin.metrics.compound.
 
 **Additional properties:**
 
-| Property | Default | Description |
-|----------|---------|-------------|
-| `pinot.<component>.metrics.compound.algorithm` | `CLASSPATH` | Discovery algorithm: `CLASSPATH`, `SERVICE_LOADER`, or `LIST` |
-| `pinot.<component>.metrics.compound.ignored` | (empty) | Comma-separated list of factory class names to exclude |
-| `pinot.<component>.metrics.compound.list` | (empty) | Comma-separated list of factory class names to include (only with `algorithm=LIST`) |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinot.<component>.metrics.compound.algorithm`</td>
+      <td>`CLASSPATH`</td>
+      <td>Discovery algorithm: `CLASSPATH`, `SERVICE_LOADER`, or `LIST`</td>
+    </tr>
+    <tr>
+      <td>`pinot.<component>.metrics.compound.ignored`</td>
+      <td>(empty)</td>
+      <td>Comma-separated list of factory class names to exclude</td>
+    </tr>
+    <tr>
+      <td>`pinot.<component>.metrics.compound.list`</td>
+      <td>(empty)</td>
+      <td>Comma-separated list of factory class names to include (only with `algorithm=LIST`)</td>
+    </tr>
+  </tbody>
+</table>
 
 **Example: Use both Yammer and Dropwizard:**
 
@@ -94,13 +149,42 @@ When using Compound metrics, ensure JMX MBean names don't conflict between regis
 
 Pinot exposes the following metric primitives through all backends:
 
-| Type | Description | Example |
-|------|-------------|---------|
-| **Counter** | Discrete event counts | Total queries processed |
-| **Meter** | Event rates | Queries per second |
-| **Timer** | Latency and throughput | Query execution time |
-| **Histogram** | Value distributions | Query result sizes |
-| **Gauge** | Point-in-time values | Segment count, heap usage |
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Counter**</td>
+      <td>Discrete event counts</td>
+      <td>Total queries processed</td>
+    </tr>
+    <tr>
+      <td>**Meter**</td>
+      <td>Event rates</td>
+      <td>Queries per second</td>
+    </tr>
+    <tr>
+      <td>**Timer**</td>
+      <td>Latency and throughput</td>
+      <td>Query execution time</td>
+    </tr>
+    <tr>
+      <td>**Histogram**</td>
+      <td>Value distributions</td>
+      <td>Query result sizes</td>
+    </tr>
+    <tr>
+      <td>**Gauge**</td>
+      <td>Point-in-time values</td>
+      <td>Segment count, heap usage</td>
+    </tr>
+  </tbody>
+</table>
 
 ## JMX Reporting
 

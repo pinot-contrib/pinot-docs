@@ -21,20 +21,77 @@ recommended component upgrade order, see
 
 The following 12 controller configuration constants that were deprecated since v0.8.0 (2020-2021) have been removed:
 
-| Deprecated Constant | Replacement Constant | Property Name |
-| --- | --- | --- |
-| `DEPRECATED_RETENTION_MANAGER_FREQUENCY_IN_SECONDS` | `RETENTION_MANAGER_FREQUENCY_PERIOD` | `controller.retention.frequencyPeriod` |
-| `DEPRECATED_OFFLINE_SEGMENT_INTERVAL_CHECKER_FREQUENCY_IN_SECONDS` | `OFFLINE_SEGMENT_INTERVAL_CHECKER_FREQUENCY_PERIOD` | `controller.offline.segment.interval.checker.frequencyPeriod` |
-| `DEPRECATED_REALTIME_SEGMENT_VALIDATION_FREQUENCY_IN_SECONDS` | `REALTIME_SEGMENT_VALIDATION_FREQUENCY_PERIOD` | `controller.realtime.segment.validation.frequencyPeriod` |
-| `DEPRECATED_STATUS_CHECKER_FREQUENCY_IN_SECONDS` | `STATUS_CHECKER_FREQUENCY_PERIOD` | `controller.status.checker.frequencyPeriod` |
-| `DEPRECATED_OFFLINE_SEGMENT_INTERVAL_CHECKER_INITIAL_DELAY_IN_SECONDS` | `OFFLINE_SEGMENT_INTERVAL_CHECKER_INITIAL_DELAY_IN_SECONDS` | `controller.offlineSegmentIntervalChecker.initialDelayInSeconds` |
-| `DEPRECATED_REALTIME_SEGMENT_VALIDATION_INITIAL_DELAY_IN_SECONDS` | `REALTIME_SEGMENT_VALIDATION_INITIAL_DELAY_IN_SECONDS` | `controller.realtime.segment.validation.initialDelayInSeconds` |
-| `DEPRECATED_STATUS_CHECKER_INITIAL_DELAY_IN_SECONDS` | `STATUS_CHECKER_INITIAL_DELAY_IN_SECONDS` | `controller.status.checker.initialDelayInSeconds` |
-| `DEPRECATED_RETENTION_MANAGER_INITIAL_DELAY_IN_SECONDS` | `RETENTION_MANAGER_INITIAL_DELAY_IN_SECONDS` | `controller.retentionManager.initialDelayInSeconds` |
-| `DEPRECATED_BROKER_RESOURCE_VALIDATION_FREQUENCY_IN_SECONDS` | `BROKER_RESOURCE_VALIDATION_FREQUENCY_PERIOD` | `controller.broker.resource.validation.frequencyPeriod` |
-| `DEPRECATED_LEAD_CONTROLLER_RESOURCE_ENABLED` | `LEAD_CONTROLLER_RESOURCE_ENABLED` | `controller.leadController.resource.enabled` |
-| `DEPRECATED_SEGMENT_RELOCATOR_FREQUENCY_IN_SECONDS` | `SEGMENT_RELOCATOR_FREQUENCY_PERIOD` | `controller.segment.relocator.frequencyPeriod` |
-| `DEPRECATED_SEGMENT_RELOCATOR_INITIAL_DELAY_IN_SECONDS` | `SEGMENT_RELOCATOR_INITIAL_DELAY_IN_SECONDS` | `controller.segment.relocator.initialDelayInSeconds` |
+<table>
+  <thead>
+    <tr>
+      <th>Deprecated Constant</th>
+      <th>Replacement Constant</th>
+      <th>Property Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`DEPRECATED_RETENTION_MANAGER_FREQUENCY_IN_SECONDS`</td>
+      <td>`RETENTION_MANAGER_FREQUENCY_PERIOD`</td>
+      <td>`controller.retention.frequencyPeriod`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_OFFLINE_SEGMENT_INTERVAL_CHECKER_FREQUENCY_IN_SECONDS`</td>
+      <td>`OFFLINE_SEGMENT_INTERVAL_CHECKER_FREQUENCY_PERIOD`</td>
+      <td>`controller.offline.segment.interval.checker.frequencyPeriod`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_REALTIME_SEGMENT_VALIDATION_FREQUENCY_IN_SECONDS`</td>
+      <td>`REALTIME_SEGMENT_VALIDATION_FREQUENCY_PERIOD`</td>
+      <td>`controller.realtime.segment.validation.frequencyPeriod`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_STATUS_CHECKER_FREQUENCY_IN_SECONDS`</td>
+      <td>`STATUS_CHECKER_FREQUENCY_PERIOD`</td>
+      <td>`controller.status.checker.frequencyPeriod`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_OFFLINE_SEGMENT_INTERVAL_CHECKER_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`OFFLINE_SEGMENT_INTERVAL_CHECKER_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`controller.offlineSegmentIntervalChecker.initialDelayInSeconds`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_REALTIME_SEGMENT_VALIDATION_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`REALTIME_SEGMENT_VALIDATION_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`controller.realtime.segment.validation.initialDelayInSeconds`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_STATUS_CHECKER_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`STATUS_CHECKER_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`controller.status.checker.initialDelayInSeconds`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_RETENTION_MANAGER_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`RETENTION_MANAGER_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`controller.retentionManager.initialDelayInSeconds`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_BROKER_RESOURCE_VALIDATION_FREQUENCY_IN_SECONDS`</td>
+      <td>`BROKER_RESOURCE_VALIDATION_FREQUENCY_PERIOD`</td>
+      <td>`controller.broker.resource.validation.frequencyPeriod`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_LEAD_CONTROLLER_RESOURCE_ENABLED`</td>
+      <td>`LEAD_CONTROLLER_RESOURCE_ENABLED`</td>
+      <td>`controller.leadController.resource.enabled`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_SEGMENT_RELOCATOR_FREQUENCY_IN_SECONDS`</td>
+      <td>`SEGMENT_RELOCATOR_FREQUENCY_PERIOD`</td>
+      <td>`controller.segment.relocator.frequencyPeriod`</td>
+    </tr>
+    <tr>
+      <td>`DEPRECATED_SEGMENT_RELOCATOR_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`SEGMENT_RELOCATOR_INITIAL_DELAY_IN_SECONDS`</td>
+      <td>`controller.segment.relocator.initialDelayInSeconds`</td>
+    </tr>
+  </tbody>
+</table>
 
 These constants have had explicit replacements available since v0.8.0, which have been in production use for several years.
 
@@ -43,7 +100,6 @@ These constants have had explicit replacements available since v0.8.0, which hav
 Check your controller configuration files and any automation that generates controller configurations to ensure they use the new property names.
 
 *Source: [PR #18001](https://github.com/apache/pinot/pull/18001)*
-
 
 
 ## 1.4.0
@@ -56,10 +112,27 @@ default.
 
 Two controller properties control this behavior:
 
-| Property | Default | Effect |
-| --- | --- | --- |
-| `controller.startup.exitOnTableConfigCheckFailure` | `true` | Exit if any table is missing its `TableConfig` |
-| `controller.startup.exitOnSchemaCheckFailure` | `true` | Exit if any table is missing its `Schema` |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.startup.exitOnTableConfigCheckFailure`</td>
+      <td>`true`</td>
+      <td>Exit if any table is missing its `TableConfig`</td>
+    </tr>
+    <tr>
+      <td>`controller.startup.exitOnSchemaCheckFailure`</td>
+      <td>`true`</td>
+      <td>Exit if any table is missing its `Schema`</td>
+    </tr>
+  </tbody>
+</table>
 
 **Action required.** Before upgrading, verify that every table has a schema. If
 you have tables without schemas (for example, legacy tables created before
@@ -89,14 +162,47 @@ with CPU and memory budgets. Queries are assigned to workloads using the
 
 Key cluster-level configuration properties:
 
-| Property | Default | Description |
-| --- | --- | --- |
-| `accounting.workload.enable.cost.collection` | `false` | Enable workload cost tracking |
-| `accounting.workload.enable.cost.enforcement` | `false` | Enable enforcement of budgets |
-| `accounting.workload.enforcement.window.ms` | `60000` | Enforcement window duration (ms) |
-| `accounting.workload.sleep.time.ms` | `100` | Polling interval for enforcement |
-| `accounting.secondary.workload.name` | `defaultSecondary` | Name of the secondary workload |
-| `accounting.secondary.workload.cpu.percentage` | `0.0` | CPU percentage cap for the secondary workload |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`accounting.workload.enable.cost.collection`</td>
+      <td>`false`</td>
+      <td>Enable workload cost tracking</td>
+    </tr>
+    <tr>
+      <td>`accounting.workload.enable.cost.enforcement`</td>
+      <td>`false`</td>
+      <td>Enable enforcement of budgets</td>
+    </tr>
+    <tr>
+      <td>`accounting.workload.enforcement.window.ms`</td>
+      <td>`60000`</td>
+      <td>Enforcement window duration (ms)</td>
+    </tr>
+    <tr>
+      <td>`accounting.workload.sleep.time.ms`</td>
+      <td>`100`</td>
+      <td>Polling interval for enforcement</td>
+    </tr>
+    <tr>
+      <td>`accounting.secondary.workload.name`</td>
+      <td>`defaultSecondary`</td>
+      <td>Name of the secondary workload</td>
+    </tr>
+    <tr>
+      <td>`accounting.secondary.workload.cpu.percentage`</td>
+      <td>`0.0`</td>
+      <td>CPU percentage cap for the secondary workload</td>
+    </tr>
+  </tbody>
+</table>
 
 This feature extends the
 [binary workload scheduler](tuning/workload-query-isolation.md) introduced in
@@ -146,11 +252,32 @@ still function but will be removed in a future release.
 Server-side MSE and segment-split tasks are now throttled when heap usage
 exceeds a configurable threshold. Queued tasks resume when heap usage drops.
 
-| Property | Default | Description |
-| --- | --- | --- |
-| `accounting.oom.alarming.heap.usage.ratio` | `0.75` | Log warnings above this ratio |
-| `accounting.oom.critical.heap.usage.ratio` | `0.96` | Begin throttling tasks above this ratio |
-| `accounting.oom.panic.heap.usage.ratio` | `0.99` | Aggressive back-off above this ratio |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`accounting.oom.alarming.heap.usage.ratio`</td>
+      <td>`0.75`</td>
+      <td>Log warnings above this ratio</td>
+    </tr>
+    <tr>
+      <td>`accounting.oom.critical.heap.usage.ratio`</td>
+      <td>`0.96`</td>
+      <td>Begin throttling tasks above this ratio</td>
+    </tr>
+    <tr>
+      <td>`accounting.oom.panic.heap.usage.ratio`</td>
+      <td>`0.99`</td>
+      <td>Aggressive back-off above this ratio</td>
+    </tr>
+  </tbody>
+</table>
 
 **Action required.** None. The defaults are conservative, but you should
 verify they are compatible with your heap-sizing strategy, especially on
@@ -206,9 +333,22 @@ The `BinaryWorkloadScheduler` categorizes queries into a primary workload
 (unbounded, FCFS) and a secondary workload with strict concurrency and thread
 limits. Secondary queries that exceed the queue limit are pruned.
 
-| Property | Default | Description |
-| --- | --- | --- |
-| `binarywlm.maxSecondaryRunnerThreads` | `5` | Max worker threads for the secondary workload |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`binarywlm.maxSecondaryRunnerThreads`</td>
+      <td>`5`</td>
+      <td>Max worker threads for the secondary workload</td>
+    </tr>
+  </tbody>
+</table>
 
 To assign a query to the secondary workload, set the query option
 `isSecondaryWorkload=true`.
@@ -225,10 +365,27 @@ Operators can now impose query-rate limits at the database level. Quotas are
 configured per database via a `DatabaseConfig` znode in the Helix property
 store.
 
-| API | Method | Path |
-| --- | --- | --- |
-| Set quota | POST | `/databases/{databaseName}/quotas?maxQueriesPerSecond=` |
-| Get quota | GET | `/databases/{databaseName}/quotas` |
+<table>
+  <thead>
+    <tr>
+      <th>API</th>
+      <th>Method</th>
+      <th>Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Set quota</td>
+      <td>POST</td>
+      <td>`/databases/{databaseName}/quotas?maxQueriesPerSecond=`</td>
+    </tr>
+    <tr>
+      <td>Get quota</td>
+      <td>GET</td>
+      <td>`/databases/{databaseName}/quotas`</td>
+    </tr>
+  </tbody>
+</table>
 
 A default cluster-wide limit can be set with the cluster config key
 `databaseMaxQueriesPerSecond`. The default in code is `-1` (disabled); the
@@ -336,11 +493,28 @@ should tag minion instances and update table-level task configs.
 A new `upsertConfig.consistencyMode` field accepts `NONE`, `SYNC`, or
 `SNAPSHOT`. The default is `NONE` (no change from prior behavior).
 
-| Mode | Trade-off |
-| --- | --- |
-| `NONE` | Best throughput; no consistency guarantee across segments |
-| `SYNC` | Strong freshness; higher query latency; suited for low-QPS tables |
-| `SNAPSHOT` | High-QPS/high-ingestion; periodic snapshot refresh controlled by `upsertViewFreshnessMs` query option |
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Trade-off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`NONE`</td>
+      <td>Best throughput; no consistency guarantee across segments</td>
+    </tr>
+    <tr>
+      <td>`SYNC`</td>
+      <td>Strong freshness; higher query latency; suited for low-QPS tables</td>
+    </tr>
+    <tr>
+      <td>`SNAPSHOT`</td>
+      <td>High-QPS/high-ingestion; periodic snapshot refresh controlled by `upsertViewFreshnessMs` query option</td>
+    </tr>
+  </tbody>
+</table>
 
 **Action required.** None unless you need stronger consistency for upsert
 queries. Evaluate `SYNC` or `SNAPSHOT` based on your latency and freshness

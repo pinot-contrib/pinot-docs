@@ -17,42 +17,87 @@ SELECT levenshtein_distance('kitten', 'sitting') AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| 3     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT levenshtein_distance('hello', 'world') AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| 4     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT levenshtein_distance('same', 'same') AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| 0     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT levenshtein_distance('', 'abc') AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| 3     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT levenshtein_distance('abc', '') AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| 3     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>

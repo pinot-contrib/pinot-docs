@@ -58,9 +58,24 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime |
-| ---------- | ---------------------- | ------------- | ------------- |
-| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 17532         |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874134</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804402000</td>
+      <td>17532</td>
+    </tr>
+  </tbody>
+</table>
 
 `created_at_timestamp` bucketed to 1 day granularity without time zone:
 
@@ -116,10 +131,24 @@ WHERE id = 7044874134
 ```
 
 
-
-| id         | created\_at\_timestamp | timeInMs      | convertedTime |
-| ---------- | ---------------------- | ------------- | ------------- |
-| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 1514804400000 |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874134</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804402000</td>
+      <td>1514804400000</td>
+    </tr>
+  </tbody>
+</table>
 
 `created_at_timestamp` to format `yyyy-MM-dd`, bucketed to 1 days granularity:
 
@@ -137,9 +166,24 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime |
-| ---------- | ---------------------- | ------------- | ------------- |
-| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-01    |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874134</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804402000</td>
+      <td>2018-01-01</td>
+    </tr>
+  </tbody>
+</table>
 
 `created_at_timestamp` to format `yyyy-MM-dd HH:mm`, in timezone `Pacific/Kiritimati`:
 
@@ -157,9 +201,24 @@ from githubEvents
 WHERE id = 7044874134
 ```
 
-| id         | created\_at\_timestamp | timeInMs      | convertedTime    |
-| ---------- | ---------------------- | ------------- | ---------------- |
-| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 01:00 |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874134</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804402000</td>
+      <td>2018-01-02 01:00</td>
+    </tr>
+  </tbody>
+</table>
 
 `created_at_timestamp` to format `yyyy-MM-dd`, in timezone `Pacific/Kiritimati` and bucketed to 1 day granularity:
 
@@ -178,10 +237,24 @@ WHERE id = 7044874134
 ```
 
 
-
-| id         | created\_at\_timestamp | timeInMs      | convertedTime    |
-| ---------- | ---------------------- | ------------- | ---------------- |
-| 7044874134 | 2018-01-01 11:00:00.0  | 1514804402000 | 2018-01-02 00:00 |
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>created\_at\_timestamp</th>
+      <th>timeInMs</th>
+      <th>convertedTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7044874134</td>
+      <td>2018-01-01 11:00:00.0</td>
+      <td>1514804402000</td>
+      <td>2018-01-02 00:00</td>
+    </tr>
+  </tbody>
+</table>
 
 `created_at_timestamp` to format `yyyy-MM-dd`, in UTC (default) timezone  and bucketed to 1 day granularity :
 

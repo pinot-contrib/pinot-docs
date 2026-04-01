@@ -19,15 +19,33 @@ select month(1633046399000, 'UTC') AS month
 FROM ignoreMe
 ```
 
-| month |
-| ----- |
-| 9     |
+<table>
+  <thead>
+    <tr>
+      <th>month</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select month(1633046399000, 'CET') AS month
 FROM ignoreMe
 ```
 
-| month |
-| ----- |
-| 10    |
+<table>
+  <thead>
+    <tr>
+      <th>month</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>

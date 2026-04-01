@@ -4,13 +4,36 @@ This page provides a comprehensive reference for the Apache Pinot Helm chart con
 
 ## Chart Overview
 
-| Field | Value |
-| --- | --- |
-| Chart Name | `pinot` |
-| Chart Version | `1.0.0` |
-| App Version | `1.0.0` |
-| Source | [github.com/apache/pinot/tree/master/helm](https://github.com/apache/pinot/tree/master/helm) |
-| Maintainer | `dev@pinot.apache.org` |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Chart Name</td>
+      <td>`pinot`</td>
+    </tr>
+    <tr>
+      <td>Chart Version</td>
+      <td>`1.0.0`</td>
+    </tr>
+    <tr>
+      <td>App Version</td>
+      <td>`1.0.0`</td>
+    </tr>
+    <tr>
+      <td>Source</td>
+      <td>[github.com/apache/pinot/tree/master/helm](https://github.com/apache/pinot/tree/master/helm)</td>
+    </tr>
+    <tr>
+      <td>Maintainer</td>
+      <td>`dev@pinot.apache.org`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Prerequisites
 
@@ -30,357 +53,1427 @@ Do not use blob-store-backed storage classes (such as AzureFile, GCS FUSE, or S3
 
 ## Global Parameters
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `image.repository` | Pinot container image repository | `apachepinot/pinot` |
-| `image.tag` | Pinot container image tag | `latest` |
-| `image.pullPolicy` | Image pull policy | `Always` |
-| `cluster.name` | Pinot cluster name | `pinot-quickstart` |
-| `imagePullSecrets` | Docker registry secret names | `[]` |
-| `terminationGracePeriodSeconds` | Grace period for pod termination | `30` |
-| `securityContext` | Pod-level security context | `{}` |
-| `serviceAccount.create` | Create a service account | `true` |
-| `serviceAccount.annotations` | Service account annotations | `{}` |
-| `serviceAccount.name` | Service account name (auto-generated if empty) | `""` |
-| `additionalMatchLabels` | Extra labels for pod selectors | `{}` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`image.repository`</td>
+      <td>Pinot container image repository</td>
+      <td>`apachepinot/pinot`</td>
+    </tr>
+    <tr>
+      <td>`image.tag`</td>
+      <td>Pinot container image tag</td>
+      <td>`latest`</td>
+    </tr>
+    <tr>
+      <td>`image.pullPolicy`</td>
+      <td>Image pull policy</td>
+      <td>`Always`</td>
+    </tr>
+    <tr>
+      <td>`cluster.name`</td>
+      <td>Pinot cluster name</td>
+      <td>`pinot-quickstart`</td>
+    </tr>
+    <tr>
+      <td>`imagePullSecrets`</td>
+      <td>Docker registry secret names</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`terminationGracePeriodSeconds`</td>
+      <td>Grace period for pod termination</td>
+      <td>`30`</td>
+    </tr>
+    <tr>
+      <td>`securityContext`</td>
+      <td>Pod-level security context</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`serviceAccount.create`</td>
+      <td>Create a service account</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`serviceAccount.annotations`</td>
+      <td>Service account annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`serviceAccount.name`</td>
+      <td>Service account name (auto-generated if empty)</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`additionalMatchLabels`</td>
+      <td>Extra labels for pod selectors</td>
+      <td>`{}`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Default Probe Settings
 
 These defaults apply to all components unless overridden at the component level.
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `probes.initialDelaySeconds` | Seconds before probes start | `60` |
-| `probes.periodSeconds` | Probe interval | `10` |
-| `probes.failureThreshold` | Failures before marking unhealthy | `10` |
-| `probes.successThreshold` | Successes before marking healthy | `1` |
-| `probes.timeoutSeconds` | Probe timeout | `10` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`probes.initialDelaySeconds`</td>
+      <td>Seconds before probes start</td>
+      <td>`60`</td>
+    </tr>
+    <tr>
+      <td>`probes.periodSeconds`</td>
+      <td>Probe interval</td>
+      <td>`10`</td>
+    </tr>
+    <tr>
+      <td>`probes.failureThreshold`</td>
+      <td>Failures before marking unhealthy</td>
+      <td>`10`</td>
+    </tr>
+    <tr>
+      <td>`probes.successThreshold`</td>
+      <td>Successes before marking healthy</td>
+      <td>`1`</td>
+    </tr>
+    <tr>
+      <td>`probes.timeoutSeconds`</td>
+      <td>Probe timeout</td>
+      <td>`10`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Authentication
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `pinotAuth.enabled` | Enable Pinot basic auth | `false` |
-| `pinotAuth.controllerFactoryClass` | Controller access control factory | `org.apache.pinot.controller.api.access.BasicAuthAccessControlFactory` |
-| `pinotAuth.brokerFactoryClass` | Broker access control factory | `org.apache.pinot.broker.broker.BasicAuthAccessControlFactory` |
-| `pinotAuth.configs` | Auth config lines (principals, passwords, permissions) | `[]` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinotAuth.enabled`</td>
+      <td>Enable Pinot basic auth</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`pinotAuth.controllerFactoryClass`</td>
+      <td>Controller access control factory</td>
+      <td>`org.apache.pinot.controller.api.access.BasicAuthAccessControlFactory`</td>
+    </tr>
+    <tr>
+      <td>`pinotAuth.brokerFactoryClass`</td>
+      <td>Broker access control factory</td>
+      <td>`org.apache.pinot.broker.broker.BasicAuthAccessControlFactory`</td>
+    </tr>
+    <tr>
+      <td>`pinotAuth.configs`</td>
+      <td>Auth config lines (principals, passwords, permissions)</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Controller
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.name` | Controller component name | `controller` |
-| `controller.replicaCount` | Number of controller replicas | `1` |
-| `controller.configureControllerPort` | Include `controller.port` in config | `true` |
-| `controller.podManagementPolicy` | StatefulSet pod management policy | `Parallel` |
-| `controller.startCommand` | Start command for the container | `StartController` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.name`</td>
+      <td>Controller component name</td>
+      <td>`controller`</td>
+    </tr>
+    <tr>
+      <td>`controller.replicaCount`</td>
+      <td>Number of controller replicas</td>
+      <td>`1`</td>
+    </tr>
+    <tr>
+      <td>`controller.configureControllerPort`</td>
+      <td>Include `controller.port` in config</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`controller.podManagementPolicy`</td>
+      <td>StatefulSet pod management policy</td>
+      <td>`Parallel`</td>
+    </tr>
+    <tr>
+      <td>`controller.startCommand`</td>
+      <td>Start command for the container</td>
+      <td>`StartController`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller Resources and JVM
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.resources.requests.memory` | Memory request | `1.25Gi` |
-| `controller.jvmOpts` | JVM options for the controller | `-XX:ActiveProcessorCount=2 -Xms256M -Xmx1G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 ...` |
-| `controller.log4j2ConfFile` | Log4j2 configuration file path | `/opt/pinot/etc/conf/pinot-controller-log4j2.xml` |
-| `controller.pluginsDir` | Plugins directory | `/opt/pinot/plugins` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.resources.requests.memory`</td>
+      <td>Memory request</td>
+      <td>`1.25Gi`</td>
+    </tr>
+    <tr>
+      <td>`controller.jvmOpts`</td>
+      <td>JVM options for the controller</td>
+      <td>`-XX:ActiveProcessorCount=2 -Xms256M -Xmx1G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 ...`</td>
+    </tr>
+    <tr>
+      <td>`controller.log4j2ConfFile`</td>
+      <td>Log4j2 configuration file path</td>
+      <td>`/opt/pinot/etc/conf/pinot-controller-log4j2.xml`</td>
+    </tr>
+    <tr>
+      <td>`controller.pluginsDir`</td>
+      <td>Plugins directory</td>
+      <td>`/opt/pinot/plugins`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller Persistence
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.persistence.enabled` | Enable PVC for controller data | `true` |
-| `controller.persistence.accessMode` | PVC access mode | `ReadWriteOnce` |
-| `controller.persistence.size` | PVC size | `1G` |
-| `controller.persistence.mountPath` | Data mount path | `/var/pinot/controller/data` |
-| `controller.persistence.storageClass` | Storage class (empty for default) | `""` |
-| `controller.persistence.extraVolumes` | Additional volumes | `[]` |
-| `controller.persistence.extraVolumeMounts` | Additional volume mounts | `[]` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.persistence.enabled`</td>
+      <td>Enable PVC for controller data</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`controller.persistence.accessMode`</td>
+      <td>PVC access mode</td>
+      <td>`ReadWriteOnce`</td>
+    </tr>
+    <tr>
+      <td>`controller.persistence.size`</td>
+      <td>PVC size</td>
+      <td>`1G`</td>
+    </tr>
+    <tr>
+      <td>`controller.persistence.mountPath`</td>
+      <td>Data mount path</td>
+      <td>`/var/pinot/controller/data`</td>
+    </tr>
+    <tr>
+      <td>`controller.persistence.storageClass`</td>
+      <td>Storage class (empty for default)</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`controller.persistence.extraVolumes`</td>
+      <td>Additional volumes</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`controller.persistence.extraVolumeMounts`</td>
+      <td>Additional volume mounts</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller Data Directory
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.data.dir` | Controller data directory | `/var/pinot/controller/data` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.data.dir`</td>
+      <td>Controller data directory</td>
+      <td>`/var/pinot/controller/data`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller VIP
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.vip.enabled` | Enable VIP host | `false` |
-| `controller.vip.host` | VIP hostname | `pinot-controller` |
-| `controller.vip.port` | VIP port | `9000` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.vip.enabled`</td>
+      <td>Enable VIP host</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`controller.vip.host`</td>
+      <td>VIP hostname</td>
+      <td>`pinot-controller`</td>
+    </tr>
+    <tr>
+      <td>`controller.vip.port`</td>
+      <td>VIP port</td>
+      <td>`9000`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller Service
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.service.type` | Headless service type | `ClusterIP` |
-| `controller.service.clusterIP` | Cluster IP (None for headless) | `None` |
-| `controller.service.port` | Service port | `9000` |
-| `controller.service.protocol` | Service protocol | `TCP` |
-| `controller.service.name` | Service port name | `controller` |
-| `controller.service.nodePort` | Node port (if type is NodePort) | `""` |
-| `controller.service.annotations` | Service annotations | `{}` |
-| `controller.service.extraPorts` | Additional ports to expose | `[]` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.service.type`</td>
+      <td>Headless service type</td>
+      <td>`ClusterIP`</td>
+    </tr>
+    <tr>
+      <td>`controller.service.clusterIP`</td>
+      <td>Cluster IP (None for headless)</td>
+      <td>`None`</td>
+    </tr>
+    <tr>
+      <td>`controller.service.port`</td>
+      <td>Service port</td>
+      <td>`9000`</td>
+    </tr>
+    <tr>
+      <td>`controller.service.protocol`</td>
+      <td>Service protocol</td>
+      <td>`TCP`</td>
+    </tr>
+    <tr>
+      <td>`controller.service.name`</td>
+      <td>Service port name</td>
+      <td>`controller`</td>
+    </tr>
+    <tr>
+      <td>`controller.service.nodePort`</td>
+      <td>Node port (if type is NodePort)</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`controller.service.annotations`</td>
+      <td>Service annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`controller.service.extraPorts`</td>
+      <td>Additional ports to expose</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller External Service
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.external.enabled` | Expose controller externally | `true` |
-| `controller.external.type` | External service type | `LoadBalancer` |
-| `controller.external.port` | External service port | `9000` |
-| `controller.external.annotations` | External service annotations | `{}` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.external.enabled`</td>
+      <td>Expose controller externally</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`controller.external.type`</td>
+      <td>External service type</td>
+      <td>`LoadBalancer`</td>
+    </tr>
+    <tr>
+      <td>`controller.external.port`</td>
+      <td>External service port</td>
+      <td>`9000`</td>
+    </tr>
+    <tr>
+      <td>`controller.external.annotations`</td>
+      <td>External service annotations</td>
+      <td>`{}`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller Ingress
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.ingress.v1.enabled` | Enable v1 Ingress | `false` |
-| `controller.ingress.v1.ingressClassName` | Ingress class name | `""` |
-| `controller.ingress.v1.annotations` | Ingress annotations | `{}` |
-| `controller.ingress.v1.tls` | TLS configuration | `[]` |
-| `controller.ingress.v1.path` | Ingress path | `/` |
-| `controller.ingress.v1.hosts` | Ingress hostnames | `[]` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.ingress.v1.enabled`</td>
+      <td>Enable v1 Ingress</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`controller.ingress.v1.ingressClassName`</td>
+      <td>Ingress class name</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`controller.ingress.v1.annotations`</td>
+      <td>Ingress annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`controller.ingress.v1.tls`</td>
+      <td>TLS configuration</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`controller.ingress.v1.path`</td>
+      <td>Ingress path</td>
+      <td>`/`</td>
+    </tr>
+    <tr>
+      <td>`controller.ingress.v1.hosts`</td>
+      <td>Ingress hostnames</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller Probes
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.probes.endpoint` | Health check endpoint | `/health` |
-| `controller.probes.livenessEnabled` | Enable liveness probe | `false` |
-| `controller.probes.readinessEnabled` | Enable readiness probe | `false` |
-| `controller.probes.startupEnabled` | Enable startup probe | `false` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.probes.endpoint`</td>
+      <td>Health check endpoint</td>
+      <td>`/health`</td>
+    </tr>
+    <tr>
+      <td>`controller.probes.livenessEnabled`</td>
+      <td>Enable liveness probe</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`controller.probes.readinessEnabled`</td>
+      <td>Enable readiness probe</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`controller.probes.startupEnabled`</td>
+      <td>Enable startup probe</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller Scheduling and Miscellaneous
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.nodeSelector` | Node selector labels | `{}` |
-| `controller.tolerations` | Pod tolerations | `[]` |
-| `controller.affinity` | Pod affinity rules | `{}` |
-| `controller.podAnnotations` | Pod annotations | `{}` |
-| `controller.initContainers` | Init containers | `[]` |
-| `controller.podSecurityContext` | Pod security context | `{}` |
-| `controller.securityContext` | Container security context | `{}` |
-| `controller.updateStrategy.type` | StatefulSet update strategy | `RollingUpdate` |
-| `controller.automaticReload.enabled` | Auto-roll on ConfigMap change | `false` |
-| `controller.envFrom` | ConfigMap/Secret references for env vars | `[]` |
-| `controller.extraEnv` | Extra environment variables | `[{name: LOG4J_CONSOLE_LEVEL, value: info}]` |
-| `controller.extra.configs` | Extra lines appended to pinot-controller.conf | `pinot.set.instance.id.to.hostname=true` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.nodeSelector`</td>
+      <td>Node selector labels</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`controller.tolerations`</td>
+      <td>Pod tolerations</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`controller.affinity`</td>
+      <td>Pod affinity rules</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`controller.podAnnotations`</td>
+      <td>Pod annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`controller.initContainers`</td>
+      <td>Init containers</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`controller.podSecurityContext`</td>
+      <td>Pod security context</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`controller.securityContext`</td>
+      <td>Container security context</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`controller.updateStrategy.type`</td>
+      <td>StatefulSet update strategy</td>
+      <td>`RollingUpdate`</td>
+    </tr>
+    <tr>
+      <td>`controller.automaticReload.enabled`</td>
+      <td>Auto-roll on ConfigMap change</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`controller.envFrom`</td>
+      <td>ConfigMap/Secret references for env vars</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`controller.extraEnv`</td>
+      <td>Extra environment variables</td>
+      <td>`[{name: LOG4J_CONSOLE_LEVEL, value: info}]`</td>
+    </tr>
+    <tr>
+      <td>`controller.extra.configs`</td>
+      <td>Extra lines appended to pinot-controller.conf</td>
+      <td>`pinot.set.instance.id.to.hostname=true`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Controller PodDisruptionBudget
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `controller.pdb.enabled` | Enable PDB | `false` |
-| `controller.pdb.minAvailable` | Minimum available pods | `""` |
-| `controller.pdb.maxUnavailable` | Maximum unavailable pods | `50%` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`controller.pdb.enabled`</td>
+      <td>Enable PDB</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`controller.pdb.minAvailable`</td>
+      <td>Minimum available pods</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`controller.pdb.maxUnavailable`</td>
+      <td>Maximum unavailable pods</td>
+      <td>`50%`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Broker
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `broker.name` | Broker component name | `broker` |
-| `broker.replicaCount` | Number of broker replicas | `1` |
-| `broker.configureBrokerPort` | Include `pinot.broker.client.queryPort` in config | `true` |
-| `broker.podManagementPolicy` | StatefulSet pod management policy | `Parallel` |
-| `broker.startCommand` | Start command for the container | `StartBroker` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`broker.name`</td>
+      <td>Broker component name</td>
+      <td>`broker`</td>
+    </tr>
+    <tr>
+      <td>`broker.replicaCount`</td>
+      <td>Number of broker replicas</td>
+      <td>`1`</td>
+    </tr>
+    <tr>
+      <td>`broker.configureBrokerPort`</td>
+      <td>Include `pinot.broker.client.queryPort` in config</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`broker.podManagementPolicy`</td>
+      <td>StatefulSet pod management policy</td>
+      <td>`Parallel`</td>
+    </tr>
+    <tr>
+      <td>`broker.startCommand`</td>
+      <td>Start command for the container</td>
+      <td>`StartBroker`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Broker Resources and JVM
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `broker.resources.requests.memory` | Memory request | `1.25Gi` |
-| `broker.jvmOpts` | JVM options for the broker | `-XX:ActiveProcessorCount=2 -Xms256M -Xmx1G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 ...` |
-| `broker.log4j2ConfFile` | Log4j2 configuration file path | `/opt/pinot/etc/conf/pinot-broker-log4j2.xml` |
-| `broker.pluginsDir` | Plugins directory | `/opt/pinot/plugins` |
-| `broker.routingTable.builderClass` | Routing table builder class | `random` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`broker.resources.requests.memory`</td>
+      <td>Memory request</td>
+      <td>`1.25Gi`</td>
+    </tr>
+    <tr>
+      <td>`broker.jvmOpts`</td>
+      <td>JVM options for the broker</td>
+      <td>`-XX:ActiveProcessorCount=2 -Xms256M -Xmx1G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 ...`</td>
+    </tr>
+    <tr>
+      <td>`broker.log4j2ConfFile`</td>
+      <td>Log4j2 configuration file path</td>
+      <td>`/opt/pinot/etc/conf/pinot-broker-log4j2.xml`</td>
+    </tr>
+    <tr>
+      <td>`broker.pluginsDir`</td>
+      <td>Plugins directory</td>
+      <td>`/opt/pinot/plugins`</td>
+    </tr>
+    <tr>
+      <td>`broker.routingTable.builderClass`</td>
+      <td>Routing table builder class</td>
+      <td>`random`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Broker Service
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `broker.service.type` | Headless service type | `ClusterIP` |
-| `broker.service.clusterIP` | Cluster IP (None for headless) | `None` |
-| `broker.service.port` | Service port | `8099` |
-| `broker.service.protocol` | Service protocol | `TCP` |
-| `broker.service.name` | Service port name | `broker` |
-| `broker.service.nodePort` | Node port (if type is NodePort) | `""` |
-| `broker.service.annotations` | Service annotations | `{}` |
-| `broker.service.extraPorts` | Additional ports to expose | `[]` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`broker.service.type`</td>
+      <td>Headless service type</td>
+      <td>`ClusterIP`</td>
+    </tr>
+    <tr>
+      <td>`broker.service.clusterIP`</td>
+      <td>Cluster IP (None for headless)</td>
+      <td>`None`</td>
+    </tr>
+    <tr>
+      <td>`broker.service.port`</td>
+      <td>Service port</td>
+      <td>`8099`</td>
+    </tr>
+    <tr>
+      <td>`broker.service.protocol`</td>
+      <td>Service protocol</td>
+      <td>`TCP`</td>
+    </tr>
+    <tr>
+      <td>`broker.service.name`</td>
+      <td>Service port name</td>
+      <td>`broker`</td>
+    </tr>
+    <tr>
+      <td>`broker.service.nodePort`</td>
+      <td>Node port (if type is NodePort)</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`broker.service.annotations`</td>
+      <td>Service annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`broker.service.extraPorts`</td>
+      <td>Additional ports to expose</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Broker External Service
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `broker.external.enabled` | Expose broker externally | `true` |
-| `broker.external.type` | External service type | `LoadBalancer` |
-| `broker.external.port` | External service port | `8099` |
-| `broker.external.annotations` | External service annotations | `{}` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`broker.external.enabled`</td>
+      <td>Expose broker externally</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`broker.external.type`</td>
+      <td>External service type</td>
+      <td>`LoadBalancer`</td>
+    </tr>
+    <tr>
+      <td>`broker.external.port`</td>
+      <td>External service port</td>
+      <td>`8099`</td>
+    </tr>
+    <tr>
+      <td>`broker.external.annotations`</td>
+      <td>External service annotations</td>
+      <td>`{}`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Broker Ingress
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `broker.ingress.v1.enabled` | Enable v1 Ingress | `false` |
-| `broker.ingress.v1.ingressClassName` | Ingress class name | `""` |
-| `broker.ingress.v1.annotations` | Ingress annotations | `{}` |
-| `broker.ingress.v1.tls` | TLS configuration | `[]` |
-| `broker.ingress.v1.path` | Ingress path | `/` |
-| `broker.ingress.v1.hosts` | Ingress hostnames | `[]` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`broker.ingress.v1.enabled`</td>
+      <td>Enable v1 Ingress</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`broker.ingress.v1.ingressClassName`</td>
+      <td>Ingress class name</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`broker.ingress.v1.annotations`</td>
+      <td>Ingress annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`broker.ingress.v1.tls`</td>
+      <td>TLS configuration</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`broker.ingress.v1.path`</td>
+      <td>Ingress path</td>
+      <td>`/`</td>
+    </tr>
+    <tr>
+      <td>`broker.ingress.v1.hosts`</td>
+      <td>Ingress hostnames</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Broker Probes
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `broker.probes.endpoint` | Health check endpoint | `/health` |
-| `broker.probes.livenessEnabled` | Enable liveness probe | `true` |
-| `broker.probes.readinessEnabled` | Enable readiness probe | `true` |
-| `broker.probes.startupEnabled` | Enable startup probe | `false` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`broker.probes.endpoint`</td>
+      <td>Health check endpoint</td>
+      <td>`/health`</td>
+    </tr>
+    <tr>
+      <td>`broker.probes.livenessEnabled`</td>
+      <td>Enable liveness probe</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`broker.probes.readinessEnabled`</td>
+      <td>Enable readiness probe</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`broker.probes.startupEnabled`</td>
+      <td>Enable startup probe</td>
+      <td>`false`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Broker Scheduling and Miscellaneous
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `broker.nodeSelector` | Node selector labels | `{}` |
-| `broker.tolerations` | Pod tolerations | `[]` |
-| `broker.affinity` | Pod affinity rules | `{}` |
-| `broker.podAnnotations` | Pod annotations | `{}` |
-| `broker.initContainers` | Init containers | `[]` |
-| `broker.podSecurityContext` | Pod security context | `{}` |
-| `broker.securityContext` | Container security context | `{}` |
-| `broker.updateStrategy.type` | StatefulSet update strategy | `RollingUpdate` |
-| `broker.automaticReload.enabled` | Auto-roll on ConfigMap change | `false` |
-| `broker.envFrom` | ConfigMap/Secret references for env vars | `[]` |
-| `broker.extraEnv` | Extra environment variables | `[{name: LOG4J_CONSOLE_LEVEL, value: info}]` |
-| `broker.extra.configs` | Extra lines appended to pinot-broker.conf | `pinot.set.instance.id.to.hostname=true` |
-| `broker.pdb.enabled` | Enable PDB | `false` |
-| `broker.pdb.maxUnavailable` | Maximum unavailable pods | `50%` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`broker.nodeSelector`</td>
+      <td>Node selector labels</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`broker.tolerations`</td>
+      <td>Pod tolerations</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`broker.affinity`</td>
+      <td>Pod affinity rules</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`broker.podAnnotations`</td>
+      <td>Pod annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`broker.initContainers`</td>
+      <td>Init containers</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`broker.podSecurityContext`</td>
+      <td>Pod security context</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`broker.securityContext`</td>
+      <td>Container security context</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`broker.updateStrategy.type`</td>
+      <td>StatefulSet update strategy</td>
+      <td>`RollingUpdate`</td>
+    </tr>
+    <tr>
+      <td>`broker.automaticReload.enabled`</td>
+      <td>Auto-roll on ConfigMap change</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`broker.envFrom`</td>
+      <td>ConfigMap/Secret references for env vars</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`broker.extraEnv`</td>
+      <td>Extra environment variables</td>
+      <td>`[{name: LOG4J_CONSOLE_LEVEL, value: info}]`</td>
+    </tr>
+    <tr>
+      <td>`broker.extra.configs`</td>
+      <td>Extra lines appended to pinot-broker.conf</td>
+      <td>`pinot.set.instance.id.to.hostname=true`</td>
+    </tr>
+    <tr>
+      <td>`broker.pdb.enabled`</td>
+      <td>Enable PDB</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`broker.pdb.maxUnavailable`</td>
+      <td>Maximum unavailable pods</td>
+      <td>`50%`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Server
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `server.name` | Server component name | `server` |
-| `server.replicaCount` | Number of server replicas | `1` |
-| `server.configureServerPort` | Include `pinot.server.netty.port` in config | `true` |
-| `server.podManagementPolicy` | StatefulSet pod management policy | `Parallel` |
-| `server.startCommand` | Start command for the container | `StartServer` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`server.name`</td>
+      <td>Server component name</td>
+      <td>`server`</td>
+    </tr>
+    <tr>
+      <td>`server.replicaCount`</td>
+      <td>Number of server replicas</td>
+      <td>`1`</td>
+    </tr>
+    <tr>
+      <td>`server.configureServerPort`</td>
+      <td>Include `pinot.server.netty.port` in config</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`server.podManagementPolicy`</td>
+      <td>StatefulSet pod management policy</td>
+      <td>`Parallel`</td>
+    </tr>
+    <tr>
+      <td>`server.startCommand`</td>
+      <td>Start command for the container</td>
+      <td>`StartServer`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Server Resources and JVM
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `server.resources.requests.memory` | Memory request | `1.25Gi` |
-| `server.jvmOpts` | JVM options for the server | `-Xms512M -Xmx1G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 ...` |
-| `server.log4j2ConfFile` | Log4j2 configuration file path | `/opt/pinot/etc/conf/pinot-server-log4j2.xml` |
-| `server.pluginsDir` | Plugins directory | `/opt/pinot/plugins` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`server.resources.requests.memory`</td>
+      <td>Memory request</td>
+      <td>`1.25Gi`</td>
+    </tr>
+    <tr>
+      <td>`server.jvmOpts`</td>
+      <td>JVM options for the server</td>
+      <td>`-Xms512M -Xmx1G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 ...`</td>
+    </tr>
+    <tr>
+      <td>`server.log4j2ConfFile`</td>
+      <td>Log4j2 configuration file path</td>
+      <td>`/opt/pinot/etc/conf/pinot-server-log4j2.xml`</td>
+    </tr>
+    <tr>
+      <td>`server.pluginsDir`</td>
+      <td>Plugins directory</td>
+      <td>`/opt/pinot/plugins`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Server Data Directories
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `server.dataDir` | Index data directory | `/var/pinot/server/data/index` |
-| `server.segmentTarDir` | Segment tar directory | `/var/pinot/server/data/segment` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`server.dataDir`</td>
+      <td>Index data directory</td>
+      <td>`/var/pinot/server/data/index`</td>
+    </tr>
+    <tr>
+      <td>`server.segmentTarDir`</td>
+      <td>Segment tar directory</td>
+      <td>`/var/pinot/server/data/segment`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Server Persistence
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `server.persistence.enabled` | Enable PVC for server data | `true` |
-| `server.persistence.accessMode` | PVC access mode | `ReadWriteOnce` |
-| `server.persistence.size` | PVC size | `4G` |
-| `server.persistence.mountPath` | Data mount path | `/var/pinot/server/data` |
-| `server.persistence.storageClass` | Storage class (empty for default) | `""` |
-| `server.persistence.extraVolumes` | Additional volumes | `[]` |
-| `server.persistence.extraVolumeMounts` | Additional volume mounts | `[]` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`server.persistence.enabled`</td>
+      <td>Enable PVC for server data</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`server.persistence.accessMode`</td>
+      <td>PVC access mode</td>
+      <td>`ReadWriteOnce`</td>
+    </tr>
+    <tr>
+      <td>`server.persistence.size`</td>
+      <td>PVC size</td>
+      <td>`4G`</td>
+    </tr>
+    <tr>
+      <td>`server.persistence.mountPath`</td>
+      <td>Data mount path</td>
+      <td>`/var/pinot/server/data`</td>
+    </tr>
+    <tr>
+      <td>`server.persistence.storageClass`</td>
+      <td>Storage class (empty for default)</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`server.persistence.extraVolumes`</td>
+      <td>Additional volumes</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`server.persistence.extraVolumeMounts`</td>
+      <td>Additional volume mounts</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Server Service
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `server.service.type` | Service type | `ClusterIP` |
-| `server.service.nettyPort` | Netty data port | `8098` |
-| `server.service.nettyPortName` | Netty port name | `netty` |
-| `server.service.adminPort` | Admin HTTP port | `8097` |
-| `server.service.adminExposePort` | Admin exposed port | `80` |
-| `server.service.adminPortName` | Admin port name | `admin` |
-| `server.service.nodePort` | Node port (if type is NodePort) | `""` |
-| `server.service.protocol` | Service protocol | `TCP` |
-| `server.service.annotations` | Service annotations | `{}` |
-| `server.service.extraPorts` | Additional ports to expose | `[]` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`server.service.type`</td>
+      <td>Service type</td>
+      <td>`ClusterIP`</td>
+    </tr>
+    <tr>
+      <td>`server.service.nettyPort`</td>
+      <td>Netty data port</td>
+      <td>`8098`</td>
+    </tr>
+    <tr>
+      <td>`server.service.nettyPortName`</td>
+      <td>Netty port name</td>
+      <td>`netty`</td>
+    </tr>
+    <tr>
+      <td>`server.service.adminPort`</td>
+      <td>Admin HTTP port</td>
+      <td>`8097`</td>
+    </tr>
+    <tr>
+      <td>`server.service.adminExposePort`</td>
+      <td>Admin exposed port</td>
+      <td>`80`</td>
+    </tr>
+    <tr>
+      <td>`server.service.adminPortName`</td>
+      <td>Admin port name</td>
+      <td>`admin`</td>
+    </tr>
+    <tr>
+      <td>`server.service.nodePort`</td>
+      <td>Node port (if type is NodePort)</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`server.service.protocol`</td>
+      <td>Service protocol</td>
+      <td>`TCP`</td>
+    </tr>
+    <tr>
+      <td>`server.service.annotations`</td>
+      <td>Service annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`server.service.extraPorts`</td>
+      <td>Additional ports to expose</td>
+      <td>`[]`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Server Probes
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `server.probes.endpoint` | Health check endpoint | `/health` |
-| `server.probes.livenessEnabled` | Enable liveness probe | `false` |
-| `server.probes.readinessEnabled` | Enable readiness probe | `false` |
-| `server.probes.startupEnabled` | Enable startup probe | `false` |
-| `server.probes.liveness.endpoint` | Liveness-specific endpoint | `/health/liveness` |
-| `server.probes.readiness.endpoint` | Readiness-specific endpoint | `/health/readiness` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`server.probes.endpoint`</td>
+      <td>Health check endpoint</td>
+      <td>`/health`</td>
+    </tr>
+    <tr>
+      <td>`server.probes.livenessEnabled`</td>
+      <td>Enable liveness probe</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`server.probes.readinessEnabled`</td>
+      <td>Enable readiness probe</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`server.probes.startupEnabled`</td>
+      <td>Enable startup probe</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`server.probes.liveness.endpoint`</td>
+      <td>Liveness-specific endpoint</td>
+      <td>`/health/liveness`</td>
+    </tr>
+    <tr>
+      <td>`server.probes.readiness.endpoint`</td>
+      <td>Readiness-specific endpoint</td>
+      <td>`/health/readiness`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Server Scheduling and Miscellaneous
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `server.nodeSelector` | Node selector labels | `{}` |
-| `server.tolerations` | Pod tolerations | `[]` |
-| `server.affinity` | Pod affinity rules | `{}` |
-| `server.podAnnotations` | Pod annotations | `{}` |
-| `server.initContainers` | Init containers | `[]` |
-| `server.podSecurityContext` | Pod security context | `{}` |
-| `server.securityContext` | Container security context | `{}` |
-| `server.updateStrategy.type` | StatefulSet update strategy | `RollingUpdate` |
-| `server.automaticReload.enabled` | Auto-roll on ConfigMap change | `false` |
-| `server.envFrom` | ConfigMap/Secret references for env vars | `[]` |
-| `server.extraEnv` | Extra environment variables | `[{name: LOG4J_CONSOLE_LEVEL, value: info}]` |
-| `server.extra.configs` | Extra lines appended to pinot-server.conf | See values.yaml |
-| `server.pdb.enabled` | Enable PDB | `false` |
-| `server.pdb.maxUnavailable` | Maximum unavailable pods | `1` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`server.nodeSelector`</td>
+      <td>Node selector labels</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`server.tolerations`</td>
+      <td>Pod tolerations</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`server.affinity`</td>
+      <td>Pod affinity rules</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`server.podAnnotations`</td>
+      <td>Pod annotations</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`server.initContainers`</td>
+      <td>Init containers</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`server.podSecurityContext`</td>
+      <td>Pod security context</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`server.securityContext`</td>
+      <td>Container security context</td>
+      <td>`{}`</td>
+    </tr>
+    <tr>
+      <td>`server.updateStrategy.type`</td>
+      <td>StatefulSet update strategy</td>
+      <td>`RollingUpdate`</td>
+    </tr>
+    <tr>
+      <td>`server.automaticReload.enabled`</td>
+      <td>Auto-roll on ConfigMap change</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`server.envFrom`</td>
+      <td>ConfigMap/Secret references for env vars</td>
+      <td>`[]`</td>
+    </tr>
+    <tr>
+      <td>`server.extraEnv`</td>
+      <td>Extra environment variables</td>
+      <td>`[{name: LOG4J_CONSOLE_LEVEL, value: info}]`</td>
+    </tr>
+    <tr>
+      <td>`server.extra.configs`</td>
+      <td>Extra lines appended to pinot-server.conf</td>
+      <td>See values.yaml</td>
+    </tr>
+    <tr>
+      <td>`server.pdb.enabled`</td>
+      <td>Enable PDB</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`server.pdb.maxUnavailable`</td>
+      <td>Maximum unavailable pods</td>
+      <td>`1`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Minion (StatefulSet)
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `minion.enabled` | Deploy Minion StatefulSet | `false` |
-| `minion.name` | Minion component name | `minion` |
-| `minion.replicaCount` | Number of minion replicas | `0` |
-| `minion.configureMinionPort` | Include `pinot.minion.port` in config | `true` |
-| `minion.podManagementPolicy` | StatefulSet pod management policy | `Parallel` |
-| `minion.startCommand` | Start command for the container | `StartMinion` |
-| `minion.resources.requests.memory` | Memory request | `1.25Gi` |
-| `minion.jvmOpts` | JVM options for minion | `-XX:ActiveProcessorCount=2 -Xms256M -Xmx1G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 ...` |
-| `minion.dataDir` | Minion data directory | `/var/pinot/minion/data` |
-| `minion.persistence.enabled` | Enable PVC for minion data | `true` |
-| `minion.persistence.size` | PVC size | `4G` |
-| `minion.persistence.storageClass` | Storage class (empty for default) | `""` |
-| `minion.service.port` | Service port | `9514` |
-| `minion.extra.configs` | Extra lines appended to pinot-minion.conf | `pinot.set.instance.id.to.hostname=true` |
-| `minion.pdb.enabled` | Enable PDB | `false` |
-| `minion.pdb.maxUnavailable` | Maximum unavailable pods | `1` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`minion.enabled`</td>
+      <td>Deploy Minion StatefulSet</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`minion.name`</td>
+      <td>Minion component name</td>
+      <td>`minion`</td>
+    </tr>
+    <tr>
+      <td>`minion.replicaCount`</td>
+      <td>Number of minion replicas</td>
+      <td>`0`</td>
+    </tr>
+    <tr>
+      <td>`minion.configureMinionPort`</td>
+      <td>Include `pinot.minion.port` in config</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`minion.podManagementPolicy`</td>
+      <td>StatefulSet pod management policy</td>
+      <td>`Parallel`</td>
+    </tr>
+    <tr>
+      <td>`minion.startCommand`</td>
+      <td>Start command for the container</td>
+      <td>`StartMinion`</td>
+    </tr>
+    <tr>
+      <td>`minion.resources.requests.memory`</td>
+      <td>Memory request</td>
+      <td>`1.25Gi`</td>
+    </tr>
+    <tr>
+      <td>`minion.jvmOpts`</td>
+      <td>JVM options for minion</td>
+      <td>`-XX:ActiveProcessorCount=2 -Xms256M -Xmx1G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 ...`</td>
+    </tr>
+    <tr>
+      <td>`minion.dataDir`</td>
+      <td>Minion data directory</td>
+      <td>`/var/pinot/minion/data`</td>
+    </tr>
+    <tr>
+      <td>`minion.persistence.enabled`</td>
+      <td>Enable PVC for minion data</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`minion.persistence.size`</td>
+      <td>PVC size</td>
+      <td>`4G`</td>
+    </tr>
+    <tr>
+      <td>`minion.persistence.storageClass`</td>
+      <td>Storage class (empty for default)</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`minion.service.port`</td>
+      <td>Service port</td>
+      <td>`9514`</td>
+    </tr>
+    <tr>
+      <td>`minion.extra.configs`</td>
+      <td>Extra lines appended to pinot-minion.conf</td>
+      <td>`pinot.set.instance.id.to.hostname=true`</td>
+    </tr>
+    <tr>
+      <td>`minion.pdb.enabled`</td>
+      <td>Enable PDB</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`minion.pdb.maxUnavailable`</td>
+      <td>Maximum unavailable pods</td>
+      <td>`1`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Minion Stateless (Deployment)
 
 The stateless minion runs as a Kubernetes Deployment instead of a StatefulSet, making it suitable for ephemeral task execution.
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `minionStateless.enabled` | Deploy Minion Stateless Deployment | `true` |
-| `minionStateless.name` | Component name | `minion-stateless` |
-| `minionStateless.replicaCount` | Number of replicas | `1` |
-| `minionStateless.configureMinionStatelessPort` | Include `pinot.minion.port` in config | `true` |
-| `minionStateless.startCommand` | Start command | `StartMinion` |
-| `minionStateless.resources.requests.memory` | Memory request | `1.25Gi` |
-| `minionStateless.jvmOpts` | JVM options | `-XX:ActiveProcessorCount=2 -Xms256M -Xmx1G ...` |
-| `minionStateless.persistence.enabled` | Enable PVC | `false` |
-| `minionStateless.persistence.size` | PVC size (when enabled) | `4G` |
-| `minionStateless.service.port` | Service port | `9514` |
-| `minionStateless.extra.configs` | Extra config lines | `pinot.set.instance.id.to.hostname=true` |
-| `minionStateless.pdb.enabled` | Enable PDB | `false` |
-| `minionStateless.pdb.maxUnavailable` | Maximum unavailable pods | `1` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`minionStateless.enabled`</td>
+      <td>Deploy Minion Stateless Deployment</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.name`</td>
+      <td>Component name</td>
+      <td>`minion-stateless`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.replicaCount`</td>
+      <td>Number of replicas</td>
+      <td>`1`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.configureMinionStatelessPort`</td>
+      <td>Include `pinot.minion.port` in config</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.startCommand`</td>
+      <td>Start command</td>
+      <td>`StartMinion`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.resources.requests.memory`</td>
+      <td>Memory request</td>
+      <td>`1.25Gi`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.jvmOpts`</td>
+      <td>JVM options</td>
+      <td>`-XX:ActiveProcessorCount=2 -Xms256M -Xmx1G ...`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.persistence.enabled`</td>
+      <td>Enable PVC</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.persistence.size`</td>
+      <td>PVC size (when enabled)</td>
+      <td>`4G`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.service.port`</td>
+      <td>Service port</td>
+      <td>`9514`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.extra.configs`</td>
+      <td>Extra config lines</td>
+      <td>`pinot.set.instance.id.to.hostname=true`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.pdb.enabled`</td>
+      <td>Enable PDB</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`minionStateless.pdb.maxUnavailable`</td>
+      <td>Maximum unavailable pods</td>
+      <td>`1`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## ZooKeeper
 
@@ -400,24 +1493,97 @@ See the [migration guidance](#zookeeper-migration-guide) section below for upgra
 For production deployments, consider using the [ZooKeeper Kubernetes Operator](https://github.com/pravega/zookeeper-operator) instead of the bundled chart.
 {% endhint %}
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `zookeeper.enabled` | Install bundled ZooKeeper | `true` |
-| `zookeeper.urlOverride` | External ZooKeeper connection string (used when `enabled: false`) | `my-zookeeper:2181/my-pinot` |
-| `zookeeper.port` | ZooKeeper client port | `2181` |
-| `zookeeper.replicaCount` | Number of ZooKeeper replicas | `1` |
-| `zookeeper.resources.requests.memory` | Memory request | `1.25Gi` |
-| `zookeeper.heapSize` | Java heap size in MB | `1024` |
-| `zookeeper.jvmFlags` | Extra JVM flags | `-Djute.maxbuffer=4000000` |
-| `zookeeper.persistence.enabled` | Enable persistent storage | `true` |
-| `zookeeper.persistence.storageClass` | Storage class | `""` |
-| `zookeeper.persistence.size` | PVC size | `8Gi` |
-| `zookeeper.autopurge.purgeInterval` | Purge interval in hours | `1` |
-| `zookeeper.autopurge.snapRetainCount` | Snapshots to retain | `5` |
-| `zookeeper.image.repository` | ZooKeeper image (Apache official) | `zookeeper` |
-| `zookeeper.image.tag` | ZooKeeper image tag | `3.9.3` |
-| `zookeeper.image.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `zookeeper.affinity` | Pod affinity rules | `{}` |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`zookeeper.enabled`</td>
+      <td>Install bundled ZooKeeper</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.urlOverride`</td>
+      <td>External ZooKeeper connection string (used when `enabled: false`)</td>
+      <td>`my-zookeeper:2181/my-pinot`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.port`</td>
+      <td>ZooKeeper client port</td>
+      <td>`2181`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.replicaCount`</td>
+      <td>Number of ZooKeeper replicas</td>
+      <td>`1`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.resources.requests.memory`</td>
+      <td>Memory request</td>
+      <td>`1.25Gi`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.heapSize`</td>
+      <td>Java heap size in MB</td>
+      <td>`1024`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.jvmFlags`</td>
+      <td>Extra JVM flags</td>
+      <td>`-Djute.maxbuffer=4000000`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.persistence.enabled`</td>
+      <td>Enable persistent storage</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.persistence.storageClass`</td>
+      <td>Storage class</td>
+      <td>`""`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.persistence.size`</td>
+      <td>PVC size</td>
+      <td>`8Gi`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.autopurge.purgeInterval`</td>
+      <td>Purge interval in hours</td>
+      <td>`1`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.autopurge.snapRetainCount`</td>
+      <td>Snapshots to retain</td>
+      <td>`5`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.image.repository`</td>
+      <td>ZooKeeper image (Apache official)</td>
+      <td>`zookeeper`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.image.tag`</td>
+      <td>ZooKeeper image tag</td>
+      <td>`3.9.3`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.image.pullPolicy`</td>
+      <td>Image pull policy</td>
+      <td>`IfNotPresent`</td>
+    </tr>
+    <tr>
+      <td>`zookeeper.affinity`</td>
+      <td>Pod affinity rules</td>
+      <td>`{}`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Using an External ZooKeeper
 
@@ -535,7 +1701,9 @@ kubectl rollout status statefulset/${RELEASE}-zookeeper -n ${NAMESPACE}
 ```bash
 kubectl exec -n ${NAMESPACE} ${RELEASE}-zookeeper-0 -- \
   bash -c 'echo ruok | nc localhost 2181'
+
 # Expected output: imok
+
 ```
 
 11. **Restart Pinot components** and verify cluster state:
@@ -559,13 +1727,42 @@ zookeeper:
 
 ### Breaking Changes Summary
 
-| Aspect | Bitnami (v0.3.6) | Native (v1.0.0) |
-| --- | --- | --- |
-| Image | `bitnamilegacy/zookeeper:3.9.3-debian-12-r22` | `zookeeper:3.9.3` |
-| StatefulSet Selectors | `app.kubernetes.io/name: zookeeper` | `app: pinot, component: zookeeper` |
-| Data Mount Path | `/bitnami/zookeeper` | `/data` |
-| Datalog VCT | `data-log` | `datalog` |
-| Removed Parameters | `image.registry`, `global.security.*`, `tls.*`, `auth.*` | N/A |
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Bitnami (v0.3.6)</th>
+      <th>Native (v1.0.0)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Image</td>
+      <td>`bitnamilegacy/zookeeper:3.9.3-debian-12-r22`</td>
+      <td>`zookeeper:3.9.3`</td>
+    </tr>
+    <tr>
+      <td>StatefulSet Selectors</td>
+      <td>`app.kubernetes.io/name: zookeeper`</td>
+      <td>`app: pinot, component: zookeeper`</td>
+    </tr>
+    <tr>
+      <td>Data Mount Path</td>
+      <td>`/bitnami/zookeeper`</td>
+      <td>`/data`</td>
+    </tr>
+    <tr>
+      <td>Datalog VCT</td>
+      <td>`data-log`</td>
+      <td>`datalog`</td>
+    </tr>
+    <tr>
+      <td>Removed Parameters</td>
+      <td>`image.registry`, `global.security.*`, `tls.*`, `auth.*`</td>
+      <td>N/A</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Deep Store Configuration
 
@@ -756,6 +1953,7 @@ Below is a values override file suitable as a starting point for production depl
 ```yaml
 image:
   tag: "1.0.0"        # Pin to a specific release
+
   pullPolicy: IfNotPresent
 
 controller:
@@ -771,6 +1969,7 @@ controller:
   persistence:
     size: 10G
     storageClass: "gp2"   # Adjust for your cloud
+
   pdb:
     enabled: true
     maxUnavailable: 1
@@ -862,6 +2061,7 @@ Follow these steps for a safe Helm-based upgrade of a running Pinot cluster.
 ```yaml
 image:
   tag: "1.1.0"   # Target version
+
 ```
 
 2. Run a dry-run to review changes:

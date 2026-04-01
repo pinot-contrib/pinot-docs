@@ -8,11 +8,36 @@ Use BI tools when the main goal is dashboards, self-service exploration, or visu
 
 ## What belongs here
 
-| Tool | Connection style | Best for | Notes |
-| --- | --- | --- | --- |
-| Superset | Native Pinot connector | Dashboards and SQL exploration | The current guide covers Docker and Kubernetes setup paths and a prebuilt Pinot connector image. |
-| Tableau | JDBC | Enterprise BI and drag-and-drop analysis | The current guide builds the JDBC artifacts from source and copies the required jars into Tableau's driver directory. |
-| Metabase | Community Pinot driver | Lightweight dashboards and exploration | The current quickstart is marked preview and uses Pinot 1.3.0, Metabase v0.55.7, and driver v1.1.0 in the source doc. |
+<table>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Connection style</th>
+      <th>Best for</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Superset</td>
+      <td>Native Pinot connector</td>
+      <td>Dashboards and SQL exploration</td>
+      <td>The current guide covers Docker and Kubernetes setup paths and a prebuilt Pinot connector image.</td>
+    </tr>
+    <tr>
+      <td>Tableau</td>
+      <td>JDBC</td>
+      <td>Enterprise BI and drag-and-drop analysis</td>
+      <td>The current guide builds the JDBC artifacts from source and copies the required jars into Tableau's driver directory.</td>
+    </tr>
+    <tr>
+      <td>Metabase</td>
+      <td>Community Pinot driver</td>
+      <td>Lightweight dashboards and exploration</td>
+      <td>The current quickstart is marked preview and uses Pinot 1.3.0, Metabase v0.55.7, and driver v1.1.0 in the source doc.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## How to choose
 

@@ -8,48 +8,160 @@ Cluster configuration values are stored centrally and applied across Pinot compo
 
 ## Key Areas
 
-| Area | Why it matters | Jump to |
-| --- | --- | --- |
-| [Cluster configs](#cluster-configs) | Global config values stored in ZooKeeper and read by Pinot components | Core cluster behavior |
-| [Query safety](#query-safety) | Broker query limits, query-console visibility, and multi-stage engine controls | Query guardrails |
-| [Resource accounting](#resource-accounting) | CPU and memory sampling plus automatic query killing | Workload isolation |
-| [Cluster config APIs](#cluster-config-apis) | Controller endpoints for reading and updating cluster config | Operational workflows |
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Why it matters</th>
+      <th>Jump to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Cluster configs](#cluster-configs)</td>
+      <td>Global config values stored in ZooKeeper and read by Pinot components</td>
+      <td>Core cluster behavior</td>
+    </tr>
+    <tr>
+      <td>[Query safety](#query-safety)</td>
+      <td>Broker query limits, query-console visibility, and multi-stage engine controls</td>
+      <td>Query guardrails</td>
+    </tr>
+    <tr>
+      <td>[Resource accounting](#resource-accounting)</td>
+      <td>CPU and memory sampling plus automatic query killing</td>
+      <td>Workload isolation</td>
+    </tr>
+    <tr>
+      <td>[Cluster config APIs](#cluster-config-apis)</td>
+      <td>Controller endpoints for reading and updating cluster config</td>
+      <td>Operational workflows</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Cluster Configs
 
 These settings control baseline cluster behavior and compatibility semantics.
 
-| Property | Default | Description |
-| --- | --- | --- |
-| allowParticipantAutoJoin | true | Helix property that allows Pinot servers, brokers, and controllers to automatically join the cluster. When set to `false`, you must explicitly invoke the `/Instance/addInstance` API. Pinot checks this property only when a node starts and it has no effect once the node is already connected. |
-| enable.case.insensitive | true | Pinot queries are case insensitive by default, including table and column names. If you set this to `false`, Pinot uses the exact case defined in the schema. This property is applicable to brokers and is read only when the broker starts, so changing it requires a broker restart. |
-| default.hyperloglog.log2m | 8 | Default `log2m` value for HyperLogLog-based approximate distinct-count functions. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>allowParticipantAutoJoin</td>
+      <td>true</td>
+      <td>Helix property that allows Pinot servers, brokers, and controllers to automatically join the cluster. When set to `false`, you must explicitly invoke the `/Instance/addInstance` API. Pinot checks this property only when a node starts and it has no effect once the node is already connected.</td>
+    </tr>
+    <tr>
+      <td>enable.case.insensitive</td>
+      <td>true</td>
+      <td>Pinot queries are case insensitive by default, including table and column names. If you set this to `false`, Pinot uses the exact case defined in the schema. This property is applicable to brokers and is read only when the broker starts, so changing it requires a broker restart.</td>
+    </tr>
+    <tr>
+      <td>default.hyperloglog.log2m</td>
+      <td>8</td>
+      <td>Default `log2m` value for HyperLogLog-based approximate distinct-count functions.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Query Safety
 
 These settings control broker-side query protection, query-console exposure, and cluster-wide query engine behavior.
 
-| Property | Default | Description |
-| --- | --- | --- |
-| pinot.broker.enable.query.limit.override | false | Protects the cluster from queries with very large `LIMIT` values. When enabled, Pinot brokers override query limits that exceed the broker config `pinot.broker.query.response.limit` (default `2147483647`). For example, if `pinot.broker.query.response.limit=1000`, then `SELECT * FROM myTable LIMIT 25000` is rewritten to use `LIMIT 1000`. |
-| queryConsoleOnlyView | false | Shows only the query console in the controller web UI. Use this when you do not want to expose cluster or ZooKeeper UI pages to end users. |
-| hideQueryConsoleTab | false | Hides the query console tab from the controller web UI. |
-| pinot.multistage.engine.tls.enabled | false | Enables TLS on brokers and servers for the multi-stage query engine. When enabled, Pinot uses TLS for gRPC connections between brokers and servers for plan dispatch and final results, and between servers for data shuffle and exchange. |
-| pinot.lucene.max.clause.count | 1024 | Maximum number of clauses allowed in Lucene text-search queries. Increase this value when complex text queries hit Lucene `TooManyClauses` exceptions. |
-| pinot.multistage.engine.enabled | true | Enables the multi-stage query engine for the cluster. When set to `false`, all queries use the single-stage engine. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pinot.broker.enable.query.limit.override</td>
+      <td>false</td>
+      <td>Protects the cluster from queries with very large `LIMIT` values. When enabled, Pinot brokers override query limits that exceed the broker config `pinot.broker.query.response.limit` (default `2147483647`). For example, if `pinot.broker.query.response.limit=1000`, then `SELECT * FROM myTable LIMIT 25000` is rewritten to use `LIMIT 1000`.</td>
+    </tr>
+    <tr>
+      <td>queryConsoleOnlyView</td>
+      <td>false</td>
+      <td>Shows only the query console in the controller web UI. Use this when you do not want to expose cluster or ZooKeeper UI pages to end users.</td>
+    </tr>
+    <tr>
+      <td>hideQueryConsoleTab</td>
+      <td>false</td>
+      <td>Hides the query console tab from the controller web UI.</td>
+    </tr>
+    <tr>
+      <td>pinot.multistage.engine.tls.enabled</td>
+      <td>false</td>
+      <td>Enables TLS on brokers and servers for the multi-stage query engine. When enabled, Pinot uses TLS for gRPC connections between brokers and servers for plan dispatch and final results, and between servers for data shuffle and exchange.</td>
+    </tr>
+    <tr>
+      <td>pinot.lucene.max.clause.count</td>
+      <td>1024</td>
+      <td>Maximum number of clauses allowed in Lucene text-search queries. Increase this value when complex text queries hit Lucene `TooManyClauses` exceptions.</td>
+    </tr>
+    <tr>
+      <td>pinot.multistage.engine.enabled</td>
+      <td>true</td>
+      <td>Enables the multi-stage query engine for the cluster. When set to `false`, all queries use the single-stage engine.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Resource Accounting
 
 These settings enable per-query CPU and memory tracking plus optional protection against runaway queries.
 
-| Property | Default | Description |
-| --- | --- | --- |
-| accounting.factory.name |  | Fully qualified class name for the resource-accounting factory. Resource accounting tracks CPU time and memory allocation per query for workload isolation. |
-| accounting.enable.thread.cpu.sampling | false | Enables per-thread CPU time sampling for resource accounting. This adds visibility into CPU usage per query, but also adds measurement overhead. |
-| accounting.enable.thread.memory.sampling | false | Enables per-thread memory-allocation sampling for resource accounting. |
-| accounting.oom.enable.killing.query | false | When `true` and resource accounting is enabled, Pinot can kill queries that consume excessive memory in order to prevent `OutOfMemoryError`. |
-| accounting.cpu.time.based.killing.enabled | false | When `true`, Pinot can kill queries that exceed the CPU time threshold configured by `accounting.cpu.time.based.killing.threshold.ms`. |
-| accounting.cpu.time.based.killing.threshold.ms | 30000 | CPU time threshold in milliseconds beyond which a query may be killed when CPU-based killing is enabled. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>accounting.factory.name</td>
+      <td></td>
+      <td>Fully qualified class name for the resource-accounting factory. Resource accounting tracks CPU time and memory allocation per query for workload isolation.</td>
+    </tr>
+    <tr>
+      <td>accounting.enable.thread.cpu.sampling</td>
+      <td>false</td>
+      <td>Enables per-thread CPU time sampling for resource accounting. This adds visibility into CPU usage per query, but also adds measurement overhead.</td>
+    </tr>
+    <tr>
+      <td>accounting.enable.thread.memory.sampling</td>
+      <td>false</td>
+      <td>Enables per-thread memory-allocation sampling for resource accounting.</td>
+    </tr>
+    <tr>
+      <td>accounting.oom.enable.killing.query</td>
+      <td>false</td>
+      <td>When `true` and resource accounting is enabled, Pinot can kill queries that consume excessive memory in order to prevent `OutOfMemoryError`.</td>
+    </tr>
+    <tr>
+      <td>accounting.cpu.time.based.killing.enabled</td>
+      <td>false</td>
+      <td>When `true`, Pinot can kill queries that exceed the CPU time threshold configured by `accounting.cpu.time.based.killing.threshold.ms`.</td>
+    </tr>
+    <tr>
+      <td>accounting.cpu.time.based.killing.threshold.ms</td>
+      <td>30000</td>
+      <td>CPU time threshold in milliseconds beyond which a query may be killed when CPU-based killing is enabled.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Cluster Config APIs
 
@@ -84,9 +196,22 @@ Add new cluster configs or update existing ones.
 
 #### Request Body
 
-| Name | Type | Description |
-| --- | --- | --- |
-|  | string | JSON body containing the configs map for new or updated values. Example: `{\"queryConsoleOnlyView\":\"true\"}` |
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td>string</td>
+      <td>JSON body containing the configs map for new or updated values. Example: `{\"queryConsoleOnlyView\":\"true\"}`</td>
+    </tr>
+  </tbody>
+</table>
 
 {% tabs %}
 {% tab title="200 " %}

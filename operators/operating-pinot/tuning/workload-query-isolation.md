@@ -21,10 +21,27 @@ Workload-based query resource isolation addresses this by allowing administrator
 
 Pinot provides two scheduler implementations for workload isolation:
 
-| Scheduler | Config Name | Approach |
-| --- | --- | --- |
-| **BinaryWorkloadScheduler** | `binary_workload` | Splits queries into two classes: primary (unbounded) and secondary (thread-limited). Simple and effective when you only need to protect production queries from ad-hoc traffic. |
-| **WorkloadScheduler** | `workload` | Uses the `WorkloadBudgetManager` to enforce per-workload CPU and memory budgets. Supports an arbitrary number of named workloads via the `workloadName` query option. |
+<table>
+  <thead>
+    <tr>
+      <th>Scheduler</th>
+      <th>Config Name</th>
+      <th>Approach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**BinaryWorkloadScheduler**</td>
+      <td>`binary_workload`</td>
+      <td>Splits queries into two classes: primary (unbounded) and secondary (thread-limited). Simple and effective when you only need to protect production queries from ad-hoc traffic.</td>
+    </tr>
+    <tr>
+      <td>**WorkloadScheduler**</td>
+      <td>`workload`</td>
+      <td>Uses the `WorkloadBudgetManager` to enforce per-workload CPU and memory budgets. Supports an arbitrary number of named workloads via the `workloadName` query option.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Configuration
 
@@ -33,15 +50,19 @@ Pinot provides two scheduler implementations for workload isolation:
 Workload cost collection relies on thread-level CPU and memory sampling. Enable the following server and broker configs before using workload isolation:
 
 ```properties
+
 # Accounting factory (required)
+
 pinot.server.accounting.factory.name=org.apache.pinot.core.accounting.ResourceUsageAccountantFactory
 
 # Thread sampling (required)
+
 pinot.server.accounting.enable.thread.cpu.sampling=true
 pinot.server.accounting.enable.thread.memory.sampling=true
 pinot.server.accounting.enable.thread.sampling.mse=true
 
 # Instance-level JVM measurement (required)
+
 pinot.server.instance.enableThreadCpuTimeMeasurement=true
 pinot.server.instance.enableThreadAllocatedBytesMeasurement=true
 ```
@@ -51,10 +72,13 @@ pinot.server.instance.enableThreadAllocatedBytesMeasurement=true
 Set the query scheduler on each **server** instance:
 
 ```properties
+
 # For BinaryWorkloadScheduler (primary vs. secondary):
+
 pinot.query.scheduler.name=binary_workload
 
 # For WorkloadScheduler (named workloads with budgets):
+
 pinot.query.scheduler.name=workload
 ```
 
@@ -62,32 +86,99 @@ pinot.query.scheduler.name=workload
 
 These configs apply when using the `workload` scheduler. They are set on each server/broker instance under the `accounting.workload.*` prefix:
 
-| Config | Default | Description |
-| --- | --- | --- |
-| `accounting.workload.enable.cost.collection` | `false` | Enable workload cost collection for CPU and memory. |
-| `accounting.workload.enable.cost.enforcement` | `false` | Enable enforcement of workload budgets. When enabled, queries exceeding their workload budget are rejected. |
-| `accounting.workload.enforcement.window.ms` | `60000` (1 minute) | Duration of the enforcement window in milliseconds. Budgets are reset at the end of each window. |
-| `accounting.workload.sleep.time.ms` | `100` | Sleep interval in milliseconds for the accounting thread. |
+<table>
+  <thead>
+    <tr>
+      <th>Config</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`accounting.workload.enable.cost.collection`</td>
+      <td>`false`</td>
+      <td>Enable workload cost collection for CPU and memory.</td>
+    </tr>
+    <tr>
+      <td>`accounting.workload.enable.cost.enforcement`</td>
+      <td>`false`</td>
+      <td>Enable enforcement of workload budgets. When enabled, queries exceeding their workload budget are rejected.</td>
+    </tr>
+    <tr>
+      <td>`accounting.workload.enforcement.window.ms`</td>
+      <td>`60000` (1 minute)</td>
+      <td>Duration of the enforcement window in milliseconds. Budgets are reset at the end of each window.</td>
+    </tr>
+    <tr>
+      <td>`accounting.workload.sleep.time.ms`</td>
+      <td>`100`</td>
+      <td>Sleep interval in milliseconds for the accounting thread.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Secondary Workload Configs
 
 For a simpler setup that only distinguishes between primary and secondary queries:
 
-| Config | Default | Description |
-| --- | --- | --- |
-| `accounting.secondary.workload.name` | `defaultSecondary` | Name assigned to the secondary workload budget. |
-| `accounting.secondary.workload.cpu.percentage` | `0.0` | Fraction of total CPU capacity allocated to the secondary workload (e.g., `0.1` for 10%). The budget is computed as `enforcementWindow * 1,000,000 * availableProcessors * percentage`. Set to a value greater than 0 to activate. |
+<table>
+  <thead>
+    <tr>
+      <th>Config</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`accounting.secondary.workload.name`</td>
+      <td>`defaultSecondary`</td>
+      <td>Name assigned to the secondary workload budget.</td>
+    </tr>
+    <tr>
+      <td>`accounting.secondary.workload.cpu.percentage`</td>
+      <td>`0.0`</td>
+      <td>Fraction of total CPU capacity allocated to the secondary workload (e.g., `0.1` for 10%). The budget is computed as `enforcementWindow * 1,000,000 * availableProcessors * percentage`. Set to a value greater than 0 to activate.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### BinaryWorkloadScheduler Configs
 
 When using the `binary_workload` scheduler, these additional configs control secondary query behavior:
 
-| Config | Default | Description |
-| --- | --- | --- |
-| `binarywlm.maxSecondaryRunnerThreads` | `5` | Maximum number of runner threads dedicated to processing secondary queries concurrently. |
-| `binarywlm.maxPendingSecondaryQueries` | `20` | Maximum number of secondary queries that can be queued. Queries beyond this limit receive an out-of-capacity error. |
-| `binarywlm.secondaryQueueQueryTimeout` | `40` (seconds) | Time in seconds before a queued secondary query expires and is removed from the queue. |
-| `binarywlm.queueWakeupMs` | `1` | Interval in milliseconds at which the scheduler checks for schedulable secondary queries. |
+<table>
+  <thead>
+    <tr>
+      <th>Config</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`binarywlm.maxSecondaryRunnerThreads`</td>
+      <td>`5`</td>
+      <td>Maximum number of runner threads dedicated to processing secondary queries concurrently.</td>
+    </tr>
+    <tr>
+      <td>`binarywlm.maxPendingSecondaryQueries`</td>
+      <td>`20`</td>
+      <td>Maximum number of secondary queries that can be queued. Queries beyond this limit receive an out-of-capacity error.</td>
+    </tr>
+    <tr>
+      <td>`binarywlm.secondaryQueueQueryTimeout`</td>
+      <td>`40` (seconds)</td>
+      <td>Time in seconds before a queued secondary query expires and is removed from the queue.</td>
+    </tr>
+    <tr>
+      <td>`binarywlm.queueWakeupMs`</td>
+      <td>`1`</td>
+      <td>Interval in milliseconds at which the scheduler checks for schedulable secondary queries.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Defining Workloads via REST API
 
@@ -95,10 +186,15 @@ Named workload configs (with CPU/memory budgets) can be managed through the cont
 
 ```
 GET    /queryWorkloadConfigs                  # List all workload configs
+
 GET    /queryWorkloadConfigs/{configName}      # Get a specific workload config
+
 POST   /queryWorkloadConfigs                  # Create a new workload config
+
 PUT    /queryWorkloadConfigs/{configName}      # Update a workload config
+
 DELETE /queryWorkloadConfigs/{configName}      # Delete a workload config
+
 ```
 
 A workload config defines resource budgets and propagation rules. Example:
@@ -201,17 +297,51 @@ Resource usage (CPU time, allocated bytes) is tracked at the thread level and ch
 
 ### BinaryWorkloadScheduler Metrics
 
-| Metric | Type | Description |
-| --- | --- | --- |
-| `NUM_SECONDARY_QUERIES` | Meter (per-table) | Number of secondary queries received. |
-| `NUM_SECONDARY_QUERIES_SCHEDULED` | Meter (per-table) | Number of secondary queries that were dequeued and scheduled for execution. |
-| `SECONDARY_Q_WAIT_TIME_MS` | Timer (per-table) | Time a secondary query spent waiting in the queue before being scheduled. |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`NUM_SECONDARY_QUERIES`</td>
+      <td>Meter (per-table)</td>
+      <td>Number of secondary queries received.</td>
+    </tr>
+    <tr>
+      <td>`NUM_SECONDARY_QUERIES_SCHEDULED`</td>
+      <td>Meter (per-table)</td>
+      <td>Number of secondary queries that were dequeued and scheduled for execution.</td>
+    </tr>
+    <tr>
+      <td>`SECONDARY_Q_WAIT_TIME_MS`</td>
+      <td>Timer (per-table)</td>
+      <td>Time a secondary query spent waiting in the queue before being scheduled.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### WorkloadScheduler Metrics
 
-| Metric | Type | Description |
-| --- | --- | --- |
-| `WORKLOAD_BUDGET_EXCEEDED` | Meter (per-workload, per-table, global) | Number of queries rejected because the workload budget was exhausted. |
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`WORKLOAD_BUDGET_EXCEEDED`</td>
+      <td>Meter (per-workload, per-table, global)</td>
+      <td>Number of queries rejected because the workload budget was exhausted.</td>
+    </tr>
+  </tbody>
+</table>
 
 Monitor these metrics to detect workload saturation and tune budgets accordingly.
 

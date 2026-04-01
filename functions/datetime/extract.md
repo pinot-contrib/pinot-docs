@@ -16,14 +16,32 @@ Returns the selected field from the DATETIME expression.
 select EXTRACT(MONTH FROM '2017-06-15')
 ```
 
-| value |
-| ----- |
-| 06    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>06</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select EXTRACT(YEAR FROM '2017-06-15 09:34:21')
 ```
 
-| value |
-| ----- |
-| 2017  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2017</td>
+    </tr>
+  </tbody>
+</table>

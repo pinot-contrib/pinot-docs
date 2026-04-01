@@ -8,13 +8,42 @@ Pinot ships two query engines. The **single-stage engine (SSE, v1)** uses a scat
 
 ## Quick decision
 
-| If your query needs… | Use | Why |
-| --- | --- | --- |
-| Basic filtering, projection, aggregation | SSE | Lowest overhead; simple scatter-gather model |
-| JOINs | MSE | JOIN support requires the multi-stage engine |
-| Window functions | MSE | Window functions require multi-stage execution |
-| Colocated or partitioned joins | MSE | These are multi-stage patterns |
-| Complex operator trees or advanced SQL | MSE | Built for distributed query planning |
+<table>
+  <thead>
+    <tr>
+      <th>If your query needs…</th>
+      <th>Use</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Basic filtering, projection, aggregation</td>
+      <td>SSE</td>
+      <td>Lowest overhead; simple scatter-gather model</td>
+    </tr>
+    <tr>
+      <td>JOINs</td>
+      <td>MSE</td>
+      <td>JOIN support requires the multi-stage engine</td>
+    </tr>
+    <tr>
+      <td>Window functions</td>
+      <td>MSE</td>
+      <td>Window functions require multi-stage execution</td>
+    </tr>
+    <tr>
+      <td>Colocated or partitioned joins</td>
+      <td>MSE</td>
+      <td>These are multi-stage patterns</td>
+    </tr>
+    <tr>
+      <td>Complex operator trees or advanced SQL</td>
+      <td>MSE</td>
+      <td>Built for distributed query planning</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Single-stage engine (v1)
 

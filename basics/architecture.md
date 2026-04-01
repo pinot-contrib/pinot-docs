@@ -53,23 +53,69 @@ In addition, Helix defines two logical components to express its storage abstrac
 
 In summary, the Pinot architecture maps onto Helix components as follows:
 
-| Pinot Component | Helix Component                                                                                                                                                                 |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Segment         | **Helix Partition**                                                                                                                                                             |
-| Table           | **Helix Resource**                                                                                                                                                              |
-| Controller      | **Helix Controller** or Helix agent that drives the overall state of the cluster                                                                                                |
-| Server          | **Helix Participant**                                                                                                                                                           |
-| Broker          | A **Helix Spectator** that observes the cluster for changes in the state of segments and servers. To support multi-tenancy, brokers are also modeled as **Helix Participants**. |
-| Minion          | **Helix Participant** that performs computation rather than storing data                                                                                                        |
+<table>
+  <thead>
+    <tr>
+      <th>Pinot Component</th>
+      <th>Helix Component</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Segment</td>
+      <td>**Helix Partition**</td>
+    </tr>
+    <tr>
+      <td>Table</td>
+      <td>**Helix Resource**</td>
+    </tr>
+    <tr>
+      <td>Controller</td>
+      <td>**Helix Controller** or Helix agent that drives the overall state of the cluster</td>
+    </tr>
+    <tr>
+      <td>Server</td>
+      <td>**Helix Participant**</td>
+    </tr>
+    <tr>
+      <td>Broker</td>
+      <td>A **Helix Spectator** that observes the cluster for changes in the state of segments and servers. To support multi-tenancy, brokers are also modeled as **Helix Participants**.</td>
+    </tr>
+    <tr>
+      <td>Minion</td>
+      <td>**Helix Participant** that performs computation rather than storing data</td>
+    </tr>
+  </tbody>
+</table>
 
 Helix uses ZooKeeper to maintain cluster state. ZooKeeper sends Helix spectators notifications of changes in cluster state (which correspond to changes in ZNodes). Zookeeper stores the following information about the cluster:
 
-| Resource            | Stored Properties                                                                                                                                               |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Controller          | <ul><li>Controller that is assigned as the current leader</li></ul>                                                                                             |
-| Servers and Brokers | <ul><li>List of servers and brokers</li><li>Configuration of all current servers and brokers</li><li>Health status of all current servers and brokers</li></ul> |
-| Tables              | <ul><li>List of tables</li><li>Table configurations</li><li>Table schema</li><li>List of the table's segments</li></ul>                                         |
-| Segment             | <ul><li>Exact server locations of a segment</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul>        |
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>Stored Properties</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Controller</td>
+      <td><ul><li>Controller that is assigned as the current leader</li></ul></td>
+    </tr>
+    <tr>
+      <td>Servers and Brokers</td>
+      <td><ul><li>List of servers and brokers</li><li>Configuration of all current servers and brokers</li><li>Health status of all current servers and brokers</li></ul></td>
+    </tr>
+    <tr>
+      <td>Tables</td>
+      <td><ul><li>List of tables</li><li>Table configurations</li><li>Table schema</li><li>List of the table's segments</li></ul></td>
+    </tr>
+    <tr>
+      <td>Segment</td>
+      <td><ul><li>Exact server locations of a segment</li><li>State of each segment (online/offline/error/consuming)</li><li>Metadata about each segment</li></ul></td>
+    </tr>
+  </tbody>
+</table>
 
 Zookeeper, as a first-class citizen of a Pinot cluster, may use the well-known `ZNode` structure for operations and troubleshooting purposes. Be advised that this structure can change in future Pinot releases.
 

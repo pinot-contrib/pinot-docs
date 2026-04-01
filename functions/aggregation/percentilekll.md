@@ -25,9 +25,18 @@ select percentileKLL(ArrDelayMinutes, 90) as DelayP90
 from airlineStats
 ```
 
-| DelayP90 |
-| -------- |
-| 40       |
+<table>
+  <thead>
+    <tr>
+      <th>DelayP90</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select Carrier, percentileKll(ArrDelay, 50, 600) as MedianDelay
@@ -38,8 +47,25 @@ order by 2 desc
 limit 3
 ```
 
-| Carrier | MedianDelay |
-| ------- | ----------- |
-| MQ      | 28          |
-| B6      | 28          |
-| EV      | 24          |
+<table>
+  <thead>
+    <tr>
+      <th>Carrier</th>
+      <th>MedianDelay</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MQ</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <td>B6</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <td>EV</td>
+      <td>24</td>
+    </tr>
+  </tbody>
+</table>

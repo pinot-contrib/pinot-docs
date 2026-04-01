@@ -17,24 +17,51 @@ SELECT STRPOS('Apache Pinot is a column-oriented, open-source, distributed data 
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| 10    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT STRPOS('Apache Pinot is a column-oriented, open-source, distributed data store written in Java', 'o', 2) AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| 19    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>19</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT STRPOS('Apache Pinot is a column-oriented, open-source, distributed data store written in Java', 'z', 1) AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| -1    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-1</td>
+    </tr>
+  </tbody>
+</table>

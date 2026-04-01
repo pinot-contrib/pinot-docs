@@ -61,12 +61,36 @@ Following the more complex nature of the multi-stage query engine, its explain p
 
 There are 3 different types of explain plans for the multi-stage query engine:
 
-| Mode         | Syntax by default                                                                                          | Syntax if segment plan is enabled         | Description                                                                                                                                    |
-| ------------ | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Segment plan | <p><code>SET explainAskingServers=true;</code></p><p><code>EXPLAIN PLAN FOR</code></p>                     | `EXPLAIN PLAN FOR`                        | Includes the segment specific information (like indexes).                                                                                      |
-| Logical plan | <p><code>EXPLAIN PLAN FOR</code> </p><p>or </p><p><code>EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR</code></p> | `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` | Simplest multi-stage plan. No index or data shuffle information.                                                                               |
-| Workers plan | `EXPLAIN IMPLEMENTATION PLAN FOR`                                                                          | `EXPLAIN IMPLEMENTATION PLAN FOR`         | <p>Used to understand data shuffle between servers.<br><br>Note: The name of this mode is open to discussion and may change in the future.</p> |
-
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Syntax by default</th>
+      <th>Syntax if segment plan is enabled</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Segment plan</td>
+      <td><p><code>SET explainAskingServers=true;</code></p><p><code>EXPLAIN PLAN FOR</code></p></td>
+      <td>`EXPLAIN PLAN FOR`</td>
+      <td>Includes the segment specific information (like indexes).</td>
+    </tr>
+    <tr>
+      <td>Logical plan</td>
+      <td><p><code>EXPLAIN PLAN FOR</code> </p><p>or </p><p><code>EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR</code></p></td>
+      <td>`EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR`</td>
+      <td>Simplest multi-stage plan. No index or data shuffle information.</td>
+    </tr>
+    <tr>
+      <td>Workers plan</td>
+      <td>`EXPLAIN IMPLEMENTATION PLAN FOR`</td>
+      <td>`EXPLAIN IMPLEMENTATION PLAN FOR`</td>
+      <td><p>Used to understand data shuffle between servers.<br><br>Note: The name of this mode is open to discussion and may change in the future.</p></td>
+    </tr>
+  </tbody>
+</table>
 
 
 {% hint style="info" %}

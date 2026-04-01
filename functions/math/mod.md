@@ -17,15 +17,33 @@ select MOD(12, 5) AS value
 from ignoreMe
 ```
 
-| value |
-| ----- |
-| 2     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select MOD(12, 2) AS value
 from ignoreMe
 ```
 
-| value |
-| ----- |
-| 0     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>

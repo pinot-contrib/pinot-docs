@@ -8,15 +8,52 @@ Pinot exposes two broker query endpoints: `/query/sql` for the single-stage path
 
 ## Endpoints
 
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `POST` | `/query/sql` | Submit SQL to the broker query endpoint |
-| `POST` | `/query` | Submit SQL through the multi-stage endpoint |
-| `POST` | `/query/sql?getCursor=true` | Submit a query and return a cursor-backed first page |
-| `GET` | `/responseStore/{requestId}/results` | Fetch additional cursor pages |
-| `GET` | `/responseStore/{requestId}` | Fetch cursor metadata |
-| `GET` | `/responseStore` | List active cursor stores |
-| `DELETE` | `/responseStore/{requestId}` | Delete a cursor response store |
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Endpoint</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`POST`</td>
+      <td>`/query/sql`</td>
+      <td>Submit SQL to the broker query endpoint</td>
+    </tr>
+    <tr>
+      <td>`POST`</td>
+      <td>`/query`</td>
+      <td>Submit SQL through the multi-stage endpoint</td>
+    </tr>
+    <tr>
+      <td>`POST`</td>
+      <td>`/query/sql?getCursor=true`</td>
+      <td>Submit a query and return a cursor-backed first page</td>
+    </tr>
+    <tr>
+      <td>`GET`</td>
+      <td>`/responseStore/{requestId}/results`</td>
+      <td>Fetch additional cursor pages</td>
+    </tr>
+    <tr>
+      <td>`GET`</td>
+      <td>`/responseStore/{requestId}`</td>
+      <td>Fetch cursor metadata</td>
+    </tr>
+    <tr>
+      <td>`GET`</td>
+      <td>`/responseStore`</td>
+      <td>List active cursor stores</td>
+    </tr>
+    <tr>
+      <td>`DELETE`</td>
+      <td>`/responseStore/{requestId}`</td>
+      <td>Delete a cursor response store</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Query Submission
 

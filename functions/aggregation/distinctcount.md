@@ -25,15 +25,33 @@ select DISTINCTCOUNT(league) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 7     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select DISTINCTCOUNT(teamID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 149   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>149</td>
+    </tr>
+  </tbody>
+</table>

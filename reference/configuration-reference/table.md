@@ -8,14 +8,47 @@ The detailed table config page stays in the original location. This page is the 
 
 ## Key Areas
 
-| Area | Why it matters | Source |
-| --- | --- | --- |
-| Table identity | OFFLINE, REALTIME, and hybrid table structure | [Table](../../configuration-reference/table.md) |
-| Routing | Broker-to-server routing and pruning behavior | [Table](../../configuration-reference/table.md) |
-| Query settings | Query timeout, resource limits, and engine toggles | [Table](../../configuration-reference/table.md) |
-| Ingestion | Batch and streaming ingestion config nested in table config | [Ingestion](../../configuration-reference/ingestion.md) |
-| Indexing | Per-column index configuration and deprecated forms | [Table](../../configuration-reference/table.md) |
-| Upsert and dedup | Real-time correctness controls for mutable streams | [Table](../../configuration-reference/table.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Why it matters</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Table identity</td>
+      <td>OFFLINE, REALTIME, and hybrid table structure</td>
+      <td>[Table](../../configuration-reference/table.md)</td>
+    </tr>
+    <tr>
+      <td>Routing</td>
+      <td>Broker-to-server routing and pruning behavior</td>
+      <td>[Table](../../configuration-reference/table.md)</td>
+    </tr>
+    <tr>
+      <td>Query settings</td>
+      <td>Query timeout, resource limits, and engine toggles</td>
+      <td>[Table](../../configuration-reference/table.md)</td>
+    </tr>
+    <tr>
+      <td>Ingestion</td>
+      <td>Batch and streaming ingestion config nested in table config</td>
+      <td>[Ingestion](../../configuration-reference/ingestion.md)</td>
+    </tr>
+    <tr>
+      <td>Indexing</td>
+      <td>Per-column index configuration and deprecated forms</td>
+      <td>[Table](../../configuration-reference/table.md)</td>
+    </tr>
+    <tr>
+      <td>Upsert and dedup</td>
+      <td>Real-time correctness controls for mutable streams</td>
+      <td>[Table](../../configuration-reference/table.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What this page covered
 

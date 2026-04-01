@@ -12,11 +12,36 @@ Partial upserts are convenient as you only need to specify the columns where val
 
 Upsert is supported across REALTIME, OFFLINE, and HYBRID table types. The available modes depend on the table type:
 
-| Table type | FULL upsert | PARTIAL upsert | Notes |
-| ---------- | ----------- | -------------- | ----- |
-| REALTIME   | Yes         | Yes            | Stream-based ingestion with full upsert feature set |
-| OFFLINE    | Yes         | No             | Batch ingestion; replaces full rows only |
-| HYBRID     | Yes         | No             | Avoid overlapping time ranges between offline and realtime |
+<table>
+  <thead>
+    <tr>
+      <th>Table type</th>
+      <th>FULL upsert</th>
+      <th>PARTIAL upsert</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>REALTIME</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Stream-based ingestion with full upsert feature set</td>
+    </tr>
+    <tr>
+      <td>OFFLINE</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Batch ingestion; replaces full rows only</td>
+    </tr>
+    <tr>
+      <td>HYBRID</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Avoid overlapping time ranges between offline and realtime</td>
+    </tr>
+  </tbody>
+</table>
 
 For OFFLINE table upsert configuration details, see [Offline Table Upsert](offline-table-upsert.md).
 
@@ -128,15 +153,44 @@ For example:
 
 Pinot supports the following partial upsert strategies:
 
-| Strategy  | Description                                                               |
-| --------- | ------------------------------------------------------------------------- |
-| OVERWRITE | Overwrite the column of the last record                                   |
-| INCREMENT | Add the new value to the existing values                                  |
-| APPEND    | Add the new item to the Pinot unordered set                               |
-| UNION     | Add the new item to the Pinot unordered set if not exists                 |
-| IGNORE    | Ignore the new value, keep the existing value (v0.10.0+)                  |
-| MAX       | Keep the maximum value betwen the existing value and new value (v0.12.0+) |
-| MIN       | Keep the minimum value betwen the existing value and new value (v0.12.0+) |
+<table>
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>OVERWRITE</td>
+      <td>Overwrite the column of the last record</td>
+    </tr>
+    <tr>
+      <td>INCREMENT</td>
+      <td>Add the new value to the existing values</td>
+    </tr>
+    <tr>
+      <td>APPEND</td>
+      <td>Add the new item to the Pinot unordered set</td>
+    </tr>
+    <tr>
+      <td>UNION</td>
+      <td>Add the new item to the Pinot unordered set if not exists</td>
+    </tr>
+    <tr>
+      <td>IGNORE</td>
+      <td>Ignore the new value, keep the existing value (v0.10.0+)</td>
+    </tr>
+    <tr>
+      <td>MAX</td>
+      <td>Keep the maximum value betwen the existing value and new value (v0.12.0+)</td>
+    </tr>
+    <tr>
+      <td>MIN</td>
+      <td>Keep the minimum value betwen the existing value and new value (v0.12.0+)</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 With partial upsert, if the value is `null` in either the existing record or the new coming record, Pinot will ignore the upsert strategy and the `null` value:
@@ -146,6 +200,7 @@ With partial upsert, if the value is `null` in either the existing record or the
 (_oldValue_, `null`) -> _oldValue_
 
 (`null`, `null`) -> `null`
+
 ### Post-Partial-Upsert Transforms (Derived Columns)
 
 When using partial upserts, you may have derived columns that need to be recomputed after the row is merged from the incoming record and the existing record. The `postPartialUpsertTransformConfigs` feature allows you to apply transformation functions to compute derived columns from the fully merged row.
@@ -198,13 +253,42 @@ To enable post-partial-upsert transforms, add the `postPartialUpsertTransformCon
 
 Ingestion-time transforms and post-partial-upsert transforms serve different purposes:
 
-| Aspect | Ingestion Transforms | Post-Partial-Upsert Transforms |
-| --- | --- | --- |
-| Execution timing | Before ingestion into Pinot | After partial upsert merge, during ingestion |
-| Input record | Incoming source record | Merged row (incoming + existing) |
-| Use case | Normalize/clean raw input data | Recompute derived columns from merged state |
-| Applies to | All table types (upsert and non-upsert) | Partial upsert tables only |
-| Example | Convert timestamp format | `total = plus(score, bonus)` where `score` and `bonus` come from merged row |
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Ingestion Transforms</th>
+      <th>Post-Partial-Upsert Transforms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Execution timing</td>
+      <td>Before ingestion into Pinot</td>
+      <td>After partial upsert merge, during ingestion</td>
+    </tr>
+    <tr>
+      <td>Input record</td>
+      <td>Incoming source record</td>
+      <td>Merged row (incoming + existing)</td>
+    </tr>
+    <tr>
+      <td>Use case</td>
+      <td>Normalize/clean raw input data</td>
+      <td>Recompute derived columns from merged state</td>
+    </tr>
+    <tr>
+      <td>Applies to</td>
+      <td>All table types (upsert and non-upsert)</td>
+      <td>Partial upsert tables only</td>
+    </tr>
+    <tr>
+      <td>Example</td>
+      <td>Convert timestamp format</td>
+      <td>`total = plus(score, bonus)` where `score` and `bonus` come from merged row</td>
+    </tr>
+  </tbody>
+</table>
 
 Both can be used together:
 
@@ -947,11 +1031,28 @@ Pinot server maintains a primary key to record location map across all the segme
 
 For partial upsert tables or tables with `dropOutOfOrder=true`, configure how the server handles segment reloads and force commits via `pinot.server.consuming.segment.consistency.mode` in `pinot-server.conf`:
 
-| Mode | Description |
-|---|---|
-| `RESTRICTED` | *(Default for partial upsert tables with RF > 1)* Disables segment reloads and force commits to prevent data inconsistency. |
-| `PROTECTED` | Enables reloads/force commits with upsert metadata reversion during segment replacements. Requires `ParallelSegmentConsumptionPolicy` set to `DISALLOW_ALWAYS` or `ALLOW_DURING_BUILD_ONLY`. |
-| `UNSAFE` | Allows reloads without metadata reversion. Use only if inconsistency is acceptable or handled externally. |
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`RESTRICTED`</td>
+      <td>*(Default for partial upsert tables with RF > 1)* Disables segment reloads and force commits to prevent data inconsistency.</td>
+    </tr>
+    <tr>
+      <td>`PROTECTED`</td>
+      <td>Enables reloads/force commits with upsert metadata reversion during segment replacements. Requires `ParallelSegmentConsumptionPolicy` set to `DISALLOW_ALWAYS` or `ALLOW_DURING_BUILD_ONLY`.</td>
+    </tr>
+    <tr>
+      <td>`UNSAFE`</td>
+      <td>Allows reloads without metadata reversion. Use only if inconsistency is acceptable or handled externally.</td>
+    </tr>
+  </tbody>
+</table>
 
 > **Note:** This is a server-level property distinct from the table-level `upsertConfig.consistencyMode` setting.
 
@@ -959,10 +1060,27 @@ For partial upsert tables or tables with `dropOutOfOrder=true`, configure how th
 
 As of Pinot 1.4.0, the following upsert config fields have been renamed:
 
-| Deprecated field  | New field  | Values                              |
-| ----------------- | ---------- | ----------------------------------- |
-| `enableSnapshot`  | `snapshot` | `ENABLE`, `DISABLE`, or `DEFAULT`   |
-| `enablePreload`   | `preload`  | `ENABLE`, `DISABLE`, or `DEFAULT`   |
+<table>
+  <thead>
+    <tr>
+      <th>Deprecated field</th>
+      <th>New field</th>
+      <th>Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`enableSnapshot`</td>
+      <td>`snapshot`</td>
+      <td>`ENABLE`, `DISABLE`, or `DEFAULT`</td>
+    </tr>
+    <tr>
+      <td>`enablePreload`</td>
+      <td>`preload`</td>
+      <td>`ENABLE`, `DISABLE`, or `DEFAULT`</td>
+    </tr>
+  </tbody>
+</table>
 
 The new fields use the `Enablement` enum (`ENABLE`, `DISABLE`, `DEFAULT`) instead of boolean values. `DEFAULT` defers to the server-level configuration, which allows table-level overrides when the feature is enabled at the instance level.
 
@@ -973,14 +1091,18 @@ The deprecated boolean fields still work but will be removed in a future release
 To illustrate how the full upsert works, the Pinot binary comes with a quick start example. Use the following command to creates a real-time upsert table `meetupRSVP`.
 
 ```bash
+
 # stop previous quick start cluster, if any
+
 bin/quick-start-upsert-streaming.sh
 ```
 
 You can also run partial upsert demo with the following command
 
 ```bash
+
 # stop previous quick start cluster, if any
+
 bin/quick-start-partial-upsert-streaming.sh
 ```
 

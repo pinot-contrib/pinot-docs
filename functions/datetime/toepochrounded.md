@@ -24,33 +24,69 @@ select ToEpochSecondsRounded(1613472303000, 1000) AS epochSeconds
 FROM ignoreMe
 ```
 
-| epochSeconds |
-| ------------ |
-| 1613472000   |
+<table>
+  <thead>
+    <tr>
+      <th>epochSeconds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613472000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ToEpochMinutesRounded(1613472303000, 10) AS epochMins
 FROM ignoreMe
 ```
 
-| epochMins |
-| --------- |
-| 26891200  |
+<table>
+  <thead>
+    <tr>
+      <th>epochMins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>26891200</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ToEpochHoursRounded(1613472303000, 5) AS epochHours
 FROM ignoreMe
 ```
 
-| epochHours |
-| ---------- |
-| 448185     |
+<table>
+  <thead>
+    <tr>
+      <th>epochHours</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>448185</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ToEpochDaysRounded(1613472303000, 10) AS epochDays
 FROM ignoreMe
 ```
 
-| epochDays |
-| --------- |
-| 18670     |
+<table>
+  <thead>
+    <tr>
+      <th>epochDays</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>18670</td>
+    </tr>
+  </tbody>
+</table>

@@ -8,15 +8,44 @@ This section is the reference landing page for Pinot release history. The detail
 
 ## Release Index
 
-| Version | Source page |
-| --- | --- |
-| 1.4.0 | [1.4.0](../../basics/releases/1.4.0.md) |
-| 1.3.0 | [1.3.0](../../basics/releases/1.3.0.md) |
-| 1.2.0 | [1.2.0](../../basics/releases/1.2.0.md) |
-| 1.1.0 | [1.1.0](../../basics/releases/1.1.0.md) |
-| 1.0.0 | [1.0.0](../../basics/releases/1.0.0.md) |
-| 0.12.1 | [0.12.1](../../basics/releases/0.12.1.md) |
-| 0.12.0 | [0.12.0](../../basics/releases/0.12.0.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Source page</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.4.0</td>
+      <td>[1.4.0](../../basics/releases/1.4.0.md)</td>
+    </tr>
+    <tr>
+      <td>1.3.0</td>
+      <td>[1.3.0](../../basics/releases/1.3.0.md)</td>
+    </tr>
+    <tr>
+      <td>1.2.0</td>
+      <td>[1.2.0](../../basics/releases/1.2.0.md)</td>
+    </tr>
+    <tr>
+      <td>1.1.0</td>
+      <td>[1.1.0](../../basics/releases/1.1.0.md)</td>
+    </tr>
+    <tr>
+      <td>1.0.0</td>
+      <td>[1.0.0](../../basics/releases/1.0.0.md)</td>
+    </tr>
+    <tr>
+      <td>0.12.1</td>
+      <td>[0.12.1](../../basics/releases/0.12.1.md)</td>
+    </tr>
+    <tr>
+      <td>0.12.0</td>
+      <td>[0.12.0](../../basics/releases/0.12.0.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Upgrade Note
 

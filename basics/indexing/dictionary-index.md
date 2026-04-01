@@ -16,15 +16,52 @@ For variable-length types (STRING, BYTES, BIG_DECIMAL), consider enabling `useVa
 
 In Pinot, dictionaries serve as both an index and actual encoding. Consequently, when dictionaries are enabled, the behavior or layout of certain other indexes undergoes modification. The relationship between dictionaries and other indexes is outlined in the following table:
 
-| Index                                       | Conditional               | Description                                                         |
-| ------------------------------------------- | ------------------------- | ------------------------------------------------------------------- |
-| [forward](forward-index.md)                 |                           | Implementation depends on whether the dictionary is enabled or not. |
-| [range](range-index.md)                     |                           | Implementation depends on whether the dictionary is enabled or not. |
-| [inverted](inverted-index.md)               |                           | Requires the dictionary index to be enabled.                        |
-| [json](json-index.md)                       | when `optimizeDictionary` | Disables dictionary.                                                |
-| [text](text-search-support.md)              | when `optimizeDictionary` | Disables dictionary.                                                |
-| FST                                         |                           | Requires dictionary.                                                |
-| [H3 (or geospatial)](geospatial-support.md) |                           | Incompatible with dictionary.                                       |
+<table>
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>Conditional</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[forward](forward-index.md)</td>
+      <td></td>
+      <td>Implementation depends on whether the dictionary is enabled or not.</td>
+    </tr>
+    <tr>
+      <td>[range](range-index.md)</td>
+      <td></td>
+      <td>Implementation depends on whether the dictionary is enabled or not.</td>
+    </tr>
+    <tr>
+      <td>[inverted](inverted-index.md)</td>
+      <td></td>
+      <td>Requires the dictionary index to be enabled.</td>
+    </tr>
+    <tr>
+      <td>[json](json-index.md)</td>
+      <td>when `optimizeDictionary`</td>
+      <td>Disables dictionary.</td>
+    </tr>
+    <tr>
+      <td>[text](text-search-support.md)</td>
+      <td>when `optimizeDictionary`</td>
+      <td>Disables dictionary.</td>
+    </tr>
+    <tr>
+      <td>FST</td>
+      <td></td>
+      <td>Requires dictionary.</td>
+    </tr>
+    <tr>
+      <td>[H3 (or geospatial)](geospatial-support.md)</td>
+      <td></td>
+      <td>Incompatible with dictionary.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Configuration
 
@@ -87,11 +124,32 @@ Optionally this feature can be applied only to metric columns, skipping dimensio
 
 This functionality can be enabled within the `indexingConfig` object within the table configuration. The parameters that govern these heuristics are:
 
-| Parameter                      | Default | Description                                                           |
-| ------------------------------ | ------- | --------------------------------------------------------------------- |
-| optimizeDictionary             | false   | Enables the heuristic for all columns and activates some extra rules. |
-| optimizeDictionaryForMetrics   | false   | Enables the heuristic for metric columns.                             |
-| noDictionarySizeRatioThreshold | 0.85    | The saving ratio used in the heuristics.                              |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>optimizeDictionary</td>
+      <td>false</td>
+      <td>Enables the heuristic for all columns and activates some extra rules.</td>
+    </tr>
+    <tr>
+      <td>optimizeDictionaryForMetrics</td>
+      <td>false</td>
+      <td>Enables the heuristic for metric columns.</td>
+    </tr>
+    <tr>
+      <td>noDictionarySizeRatioThreshold</td>
+      <td>0.85</td>
+      <td>The saving ratio used in the heuristics.</td>
+    </tr>
+  </tbody>
+</table>
 
 It's important to emphasize that:
 
@@ -102,12 +160,37 @@ It's important to emphasize that:
 
 Dictionaries can be configured with the following options
 
-| Parameter              | Default      | Description                                                                        |
-| ---------------------- | ------------ | ---------------------------------------------------------------------------------- |
-| onHeap                 | false        | Specifies whether the index should be loaded on heap or off heap.                  |
-| useVarLengthDictionary | false        | Determines how to store variable-length values.                                    |
-| intern                 | empty object | Configuration for interning. Only for on-heap dictionaries. Read about that below. |
-| intern.capacity        | null         | how many values should be interning                                                |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>onHeap</td>
+      <td>false</td>
+      <td>Specifies whether the index should be loaded on heap or off heap.</td>
+    </tr>
+    <tr>
+      <td>useVarLengthDictionary</td>
+      <td>false</td>
+      <td>Determines how to store variable-length values.</td>
+    </tr>
+    <tr>
+      <td>intern</td>
+      <td>empty object</td>
+      <td>Configuration for interning. Only for on-heap dictionaries. Read about that below.</td>
+    </tr>
+    <tr>
+      <td>intern.capacity</td>
+      <td>null</td>
+      <td>how many values should be interning</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Variable length dictionaries
 

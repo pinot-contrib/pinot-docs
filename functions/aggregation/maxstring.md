@@ -18,6 +18,15 @@ These examples are based on the [Batch Quick Start](../../basics/getting-started
 select MAXSTRING(playerName) as maxString from baseballStats
 ```
 
-| maxString      |
-|----------------|
-| Zoilo Casanova |
+<table>
+  <thead>
+    <tr>
+      <th>maxString</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Zoilo Casanova</td>
+    </tr>
+  </tbody>
+</table>

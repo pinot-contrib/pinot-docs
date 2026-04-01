@@ -21,9 +21,18 @@ description: >-
 select FREQUENTLONGSSKETCH(AirlineID, 16) from airlineStats
 ```
 
-| frequentlongssketch(AirlineID) |
-| ------------------------------ |
-| BAEKCAUAAAAOAAAAAA...          |
+<table>
+  <thead>
+    <tr>
+      <th>frequentlongssketch(AirlineID)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BAEKCAUAAAAOAAAAAA...</td>
+    </tr>
+  </tbody>
+</table>
 
 Which can be used, for example in Java as:
 

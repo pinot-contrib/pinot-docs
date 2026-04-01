@@ -12,13 +12,36 @@ Calculates duration statistics between funnel steps. Returns an array of compute
 
 Parameters:
 
-| Parameter | Description |
-| --------- | ----------- |
-| `stepColumn` | Column used to identify which step an event belongs to |
-| `correlationColumn` | Column used to correlate events from the same entity (e.g., user ID) |
-| `timestampColumn` | Column containing the event timestamp |
-| `settings` | Configuration string including `DURATIONFUNCTIONS` (comma-separated: AVG, MEDIAN, MIN, MAX, COUNT, PERCENTILEx) |
-| `step1, step2, ...` | Boolean expressions defining each funnel step |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`stepColumn`</td>
+      <td>Column used to identify which step an event belongs to</td>
+    </tr>
+    <tr>
+      <td>`correlationColumn`</td>
+      <td>Column used to correlate events from the same entity (e.g., user ID)</td>
+    </tr>
+    <tr>
+      <td>`timestampColumn`</td>
+      <td>Column containing the event timestamp</td>
+    </tr>
+    <tr>
+      <td>`settings`</td>
+      <td>Configuration string including `DURATIONFUNCTIONS` (comma-separated: AVG, MEDIAN, MIN, MAX, COUNT, PERCENTILEx)</td>
+    </tr>
+    <tr>
+      <td>`step1, step2, ...`</td>
+      <td>Boolean expressions defining each funnel step</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Examples
 
@@ -35,8 +58,17 @@ select FUNNELSTEPDURATIONSTATS(
 from eventTable
 ```
 
-| durationStats              |
-| -------------------------- |
-| [120.5, 100.0, 350.0, ...] |
+<table>
+  <thead>
+    <tr>
+      <th>durationStats</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[120.5, 100.0, 350.0, ...]</td>
+    </tr>
+  </tbody>
+</table>
 
 For more information on funnel analysis, see [Funnel Functions](../funnel/).

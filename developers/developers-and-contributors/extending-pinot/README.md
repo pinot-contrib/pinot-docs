@@ -6,10 +6,27 @@ This section covers how to extend Apache Pinot by writing custom code that plugs
 
 Pinot has two levels of extensibility:
 
-| Approach | What it is | When to use |
-|----------|-----------|-------------|
-| **Extension point** (this section) | Custom code compiled into Pinot or loaded on the classpath. Requires changes to Pinot core or registration in a factory class. | You need a new aggregation function, a new segment fetcher protocol, or a UDF that is not available as a plugin SPI. |
-| **Plugin** (plugin architecture) | A self-contained JAR loaded from the `/plugins` directory at startup. Uses Pinot's SPI interfaces and does not require changes to Pinot core. | You need a new input format, filesystem backend, stream connector, metrics library, or other capability covered by the plugin SPI. |
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>What it is</th>
+      <th>When to use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Extension point** (this section)</td>
+      <td>Custom code compiled into Pinot or loaded on the classpath. Requires changes to Pinot core or registration in a factory class.</td>
+      <td>You need a new aggregation function, a new segment fetcher protocol, or a UDF that is not available as a plugin SPI.</td>
+    </tr>
+    <tr>
+      <td>**Plugin** (plugin architecture)</td>
+      <td>A self-contained JAR loaded from the `/plugins` directory at startup. Uses Pinot's SPI interfaces and does not require changes to Pinot core.</td>
+      <td>You need a new input format, filesystem backend, stream connector, metrics library, or other capability covered by the plugin SPI.</td>
+    </tr>
+  </tbody>
+</table>
 
 If a plugin SPI exists for your use case, prefer the plugin approach because it does not require modifying Pinot source code and is easier to maintain across upgrades. Use the extension-point approach only when no plugin SPI covers your requirement.
 

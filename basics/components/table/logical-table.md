@@ -54,16 +54,57 @@ A logical table configuration defines the mapping between the logical table and 
 
 ### Configuration Properties
 
-| Property | Description | Required |
-|----------|-------------|----------|
-| `tableName` | Name of the logical table | Yes |
-| `brokerTenant` | The broker tenant to use for routing | Yes |
-| `physicalTableConfigMap` | Map of physical table names to their configurations | Yes |
-| `refOfflineTableName` | Reference offline table for table config metadata | Required if offline tables exist |
-| `refRealtimeTableName` | Reference realtime table for table config metadata | Required if realtime tables exist |
-| `query` | Query configuration (timeout, response size limits, etc.) | No |
-| `quota` | Quota configuration for rate limiting | No |
-| `timeBoundaryConfig` | Time boundary configuration for hybrid tables | Required for hybrid logical tables |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`tableName`</td>
+      <td>Name of the logical table</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>`brokerTenant`</td>
+      <td>The broker tenant to use for routing</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>`physicalTableConfigMap`</td>
+      <td>Map of physical table names to their configurations</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>`refOfflineTableName`</td>
+      <td>Reference offline table for table config metadata</td>
+      <td>Required if offline tables exist</td>
+    </tr>
+    <tr>
+      <td>`refRealtimeTableName`</td>
+      <td>Reference realtime table for table config metadata</td>
+      <td>Required if realtime tables exist</td>
+    </tr>
+    <tr>
+      <td>`query`</td>
+      <td>Query configuration (timeout, response size limits, etc.)</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`quota`</td>
+      <td>Quota configuration for rate limiting</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`timeBoundaryConfig`</td>
+      <td>Time boundary configuration for hybrid tables</td>
+      <td>Required for hybrid logical tables</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example Configuration
 
@@ -217,9 +258,20 @@ For hybrid logical tables that contain both offline and realtime physical tables
 
 ### Available Strategies
 
-| Strategy | Description |
-|----------|-------------|
-| `min` | Uses the minimum time boundary from the specified tables |
+<table>
+  <thead>
+    <tr>
+      <th>Strategy</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`min`</td>
+      <td>Uses the minimum time boundary from the specified tables</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Configuration Example
 
@@ -255,12 +307,32 @@ Logical tables support query-level configurations:
 }
 ```
 
-| Property | Description |
-|----------|-------------|
-| `timeoutMs` | Query timeout in milliseconds |
-| `disableGroovy` | Disable Groovy functions in queries |
-| `maxServerResponseSizeBytes` | Maximum response size from each server |
-| `maxQueryResponseSizeBytes` | Maximum total query response size |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`timeoutMs`</td>
+      <td>Query timeout in milliseconds</td>
+    </tr>
+    <tr>
+      <td>`disableGroovy`</td>
+      <td>Disable Groovy functions in queries</td>
+    </tr>
+    <tr>
+      <td>`maxServerResponseSizeBytes`</td>
+      <td>Maximum response size from each server</td>
+    </tr>
+    <tr>
+      <td>`maxQueryResponseSizeBytes`</td>
+      <td>Maximum total query response size</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Quota Configuration
 
@@ -297,12 +369,32 @@ The Pinot Controller UI provides full CRUD management for logical tables, access
 
 ### Supported Operations
 
-| Operation | Description |
-|---|---|
-| **List** | View all logical tables with search and filter |
-| **View** | Inspect the logical table's configuration and physical table assignments |
-| **Update** | Edit the logical table configuration in-place |
-| **Delete** | Remove a logical table from the cluster |
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**List**</td>
+      <td>View all logical tables with search and filter</td>
+    </tr>
+    <tr>
+      <td>**View**</td>
+      <td>Inspect the logical table's configuration and physical table assignments</td>
+    </tr>
+    <tr>
+      <td>**Update**</td>
+      <td>Edit the logical table configuration in-place</td>
+    </tr>
+    <tr>
+      <td>**Delete**</td>
+      <td>Remove a logical table from the cluster</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="tip" %}
 All operations are also available via the REST API at `/logicalTables/{tableName}` using GET, PUT, and DELETE.

@@ -4,13 +4,36 @@ Apache Pinot welcomes contributions of all kinds -- code, documentation, bug rep
 
 ## Contribution paths at a glance
 
-| What you want to do | Guide |
-| --- | --- |
-| Contribute code (features, bug fixes, tests) | [Contribution Guidelines](../developers/developers-and-contributors/contribution-guidelines.md) |
-| Update or improve the documentation (via GitHub PR) | [Contributing to the Apache Pinot Documentation](../contributing/contributing.md) |
-| Follow the documentation style conventions | [Pinot Documentation Style Guide](../contributing/style-guide.md) |
-| Edit documentation directly in GitBook | [Contributing to the Apache Pinot Documentation -- GitBook section](../contributing/contributing.md#edit-directly-on-gitbook) |
-| Understand the documentation toolchain | [Update Documentation](../developers/developers-and-contributors/update-document.md) |
+<table>
+  <thead>
+    <tr>
+      <th>What you want to do</th>
+      <th>Guide</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Contribute code (features, bug fixes, tests)</td>
+      <td>[Contribution Guidelines](../developers/developers-and-contributors/contribution-guidelines.md)</td>
+    </tr>
+    <tr>
+      <td>Update or improve the documentation (via GitHub PR)</td>
+      <td>[Contributing to the Apache Pinot Documentation](../contributing/contributing.md)</td>
+    </tr>
+    <tr>
+      <td>Follow the documentation style conventions</td>
+      <td>[Pinot Documentation Style Guide](../contributing/style-guide.md)</td>
+    </tr>
+    <tr>
+      <td>Edit documentation directly in GitBook</td>
+      <td>[Contributing to the Apache Pinot Documentation -- GitBook section](../contributing/contributing.md#edit-directly-on-gitbook)</td>
+    </tr>
+    <tr>
+      <td>Understand the documentation toolchain</td>
+      <td>[Update Documentation](../developers/developers-and-contributors/update-document.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Code contribution workflow (summary)
 

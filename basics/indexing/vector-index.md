@@ -82,7 +82,6 @@ In this schema:
 • Other fields, such as ProductId, UserId, and Text, store metadata and review text.
 
 
-
 ### Table Config
 
 To enable the **Vector Index**, configure the table with the appropriate `fieldConfigList`. The embedding column is specified to use the Vector Index with HNSW for similarity searches.
@@ -149,14 +148,47 @@ Specifies the version of the Vector Index implementation.
 
 The HNSW index supports additional tuning via the `properties` map in the field config. These are passed through to the underlying Lucene HNSW implementation:
 
-| Property | Default | Description |
-| --- | --- | --- |
-| `maxCon` | 16 | Maximum number of connections per node in the HNSW graph. Higher values improve recall but increase index size and build time. |
-| `beamWidth` | 100 | Beam width used during index construction. Higher values improve recall at the cost of slower indexing. |
-| `maxDimensions` | 2048 | Maximum number of vector dimensions supported. |
-| `maxBufferSizeMB` | 16 | RAM buffer size for the Lucene index writer. |
-| `useCompoundFile` | true | Whether to use Lucene compound file format. |
-| `mode` | BEST_SPEED | Lucene codec mode. Options: `BEST_SPEED`, `BEST_COMPRESSION`. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`maxCon`</td>
+      <td>16</td>
+      <td>Maximum number of connections per node in the HNSW graph. Higher values improve recall but increase index size and build time.</td>
+    </tr>
+    <tr>
+      <td>`beamWidth`</td>
+      <td>100</td>
+      <td>Beam width used during index construction. Higher values improve recall at the cost of slower indexing.</td>
+    </tr>
+    <tr>
+      <td>`maxDimensions`</td>
+      <td>2048</td>
+      <td>Maximum number of vector dimensions supported.</td>
+    </tr>
+    <tr>
+      <td>`maxBufferSizeMB`</td>
+      <td>16</td>
+      <td>RAM buffer size for the Lucene index writer.</td>
+    </tr>
+    <tr>
+      <td>`useCompoundFile`</td>
+      <td>true</td>
+      <td>Whether to use Lucene compound file format.</td>
+    </tr>
+    <tr>
+      <td>`mode`</td>
+      <td>BEST_SPEED</td>
+      <td>Lucene codec mode. Options: `BEST_SPEED`, `BEST_COMPRESSION`.</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Recommended configuration (new format)
 

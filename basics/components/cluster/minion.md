@@ -194,15 +194,52 @@ public interface MinionEventObserver {
 
 Pinot ships with the following built-in Minion tasks:
 
-| Task | Purpose | Table Types |
-|------|---------|-------------|
-| [SegmentGenerationAndPushTask](../../../operators/operating-pinot/segment-generation-and-push-task.md) | Batch ingestion: reads raw data files and converts them into Pinot segments | OFFLINE |
-| [RealtimeToOfflineSegmentsTask](../../../operators/operating-pinot/pinot-managed-offline-flows.md) | Converts completed real-time segments into optimized offline segments | REALTIME to OFFLINE |
-| [MergeRollupTask](../../../operators/operating-pinot/minion-merge-rollup-task.md) | Merges small segments into larger ones and optionally rolls up data at coarser granularity | OFFLINE, REALTIME (without upsert/dedup) |
-| [PurgeTask](../../../operators/operating-pinot/purge-task.md) | Removes or modifies records for data retention and compliance (e.g., GDPR) | OFFLINE, REALTIME |
-| [RefreshSegmentTask](../../../operators/operating-pinot/refresh-segment-task.md) | Reprocesses segments after table config or schema changes (new indexes, columns, data types) | OFFLINE, REALTIME |
-| [UpsertCompactionTask](../../../operators/operating-pinot/upsert-compaction-task.md) | Compacts individual upsert segments by removing invalidated records | REALTIME (upsert only) |
-| [UpsertCompactMergeTask](../../../operators/operating-pinot/upsert-compact-merge-task.md) | Merges multiple small upsert segments into larger ones to reduce segment count | REALTIME (upsert only) |
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Purpose</th>
+      <th>Table Types</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[SegmentGenerationAndPushTask](../../../operators/operating-pinot/segment-generation-and-push-task.md)</td>
+      <td>Batch ingestion: reads raw data files and converts them into Pinot segments</td>
+      <td>OFFLINE</td>
+    </tr>
+    <tr>
+      <td>[RealtimeToOfflineSegmentsTask](../../../operators/operating-pinot/pinot-managed-offline-flows.md)</td>
+      <td>Converts completed real-time segments into optimized offline segments</td>
+      <td>REALTIME to OFFLINE</td>
+    </tr>
+    <tr>
+      <td>[MergeRollupTask](../../../operators/operating-pinot/minion-merge-rollup-task.md)</td>
+      <td>Merges small segments into larger ones and optionally rolls up data at coarser granularity</td>
+      <td>OFFLINE, REALTIME (without upsert/dedup)</td>
+    </tr>
+    <tr>
+      <td>[PurgeTask](../../../operators/operating-pinot/purge-task.md)</td>
+      <td>Removes or modifies records for data retention and compliance (e.g., GDPR)</td>
+      <td>OFFLINE, REALTIME</td>
+    </tr>
+    <tr>
+      <td>[RefreshSegmentTask](../../../operators/operating-pinot/refresh-segment-task.md)</td>
+      <td>Reprocesses segments after table config or schema changes (new indexes, columns, data types)</td>
+      <td>OFFLINE, REALTIME</td>
+    </tr>
+    <tr>
+      <td>[UpsertCompactionTask](../../../operators/operating-pinot/upsert-compaction-task.md)</td>
+      <td>Compacts individual upsert segments by removing invalidated records</td>
+      <td>REALTIME (upsert only)</td>
+    </tr>
+    <tr>
+      <td>[UpsertCompactMergeTask](../../../operators/operating-pinot/upsert-compact-merge-task.md)</td>
+      <td>Merges multiple small upsert segments into larger ones to reduce segment count</td>
+      <td>REALTIME (upsert only)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SegmentGenerationAndPushTask
 
@@ -333,12 +370,32 @@ As shown below, the RealtimeToOfflineSegmentsTask will be scheduled at the first
 
 Tasks can be manually scheduled using the following controller rest APIs:
 
-| Rest API                                                             | Description                                                  |
-| -------------------------------------------------------------------- | ------------------------------------------------------------ |
-| **POST /tasks/schedule**                                             | Schedule tasks for all task types on all enabled tables      |
-| **POST /tasks/schedule?taskType=myTask**                             | Schedule tasks for the given task type on all enabled tables |
-| **POST /tasks/schedule?tableName=myTable\_OFFLINE**                  | Schedule tasks for all task types on the given table         |
-| **POST /tasks/schedule?taskType=myTask\&tableName=myTable\_OFFLINE** | Schedule tasks for the given task type on the given table    |
+<table>
+  <thead>
+    <tr>
+      <th>Rest API</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**POST /tasks/schedule**</td>
+      <td>Schedule tasks for all task types on all enabled tables</td>
+    </tr>
+    <tr>
+      <td>**POST /tasks/schedule?taskType=myTask**</td>
+      <td>Schedule tasks for the given task type on all enabled tables</td>
+    </tr>
+    <tr>
+      <td>**POST /tasks/schedule?tableName=myTable\_OFFLINE**</td>
+      <td>Schedule tasks for all task types on the given table</td>
+    </tr>
+    <tr>
+      <td>**POST /tasks/schedule?taskType=myTask\&tableName=myTable\_OFFLINE**</td>
+      <td>Schedule tasks for the given task type on the given table</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Schedule task on specific instances
 
@@ -358,9 +415,20 @@ Tasks can be scheduled on specific instances using the following config at task 
 
 By default, the value is `minion_untagged` to have backward-compatibility. This will allow users to schedule tasks on specific nodes and isolate tasks among tables / task-types.
 
-| Rest API                                                                                             | Description                                                                                          |
-|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| **POST /tasks/schedule?taskType=myTask\&tableName=myTable\_OFFLINE\&minionInstanceTag=tag1\_MINION** | Schedule tasks for the given task type of the given table on the minion nodes tagged as tag1_MINION. |
+<table>
+  <thead>
+    <tr>
+      <th>Rest API</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**POST /tasks/schedule?taskType=myTask\&tableName=myTable\_OFFLINE\&minionInstanceTag=tag1\_MINION**</td>
+      <td>Schedule tasks for the given task type of the given table on the minion nodes tagged as tag1_MINION.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Task level advanced configs
 
@@ -374,11 +442,28 @@ We can also set this config at a minion instance level `pinot.minion.task.allow.
 
 To plug in a custom task, implement `PinotTaskGenerator`, `PinotTaskExecutorFactory` and `MinionEventObserverFactory` (optional) for the task type (all of them should return the same string for `getTaskType()`), and annotate them with the following annotations:
 
-| Implementation             | Annotation            |
-| -------------------------- | --------------------- |
-| PinotTaskGenerator         | @TaskGenerator        |
-| PinotTaskExecutorFactory   | @TaskExecutorFactory  |
-| MinionEventObserverFactory | @EventObserverFactory |
+<table>
+  <thead>
+    <tr>
+      <th>Implementation</th>
+      <th>Annotation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PinotTaskGenerator</td>
+      <td>@TaskGenerator</td>
+    </tr>
+    <tr>
+      <td>PinotTaskExecutorFactory</td>
+      <td>@TaskExecutorFactory</td>
+    </tr>
+    <tr>
+      <td>MinionEventObserverFactory</td>
+      <td>@EventObserverFactory</td>
+    </tr>
+  </tbody>
+</table>
 
 After annotating the classes, put them under the package of name `org.apache.pinot.*.plugin.minion.tasks.*`, then they will be auto-registered by the controller and minion.
 

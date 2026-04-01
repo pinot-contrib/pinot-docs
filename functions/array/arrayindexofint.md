@@ -24,10 +24,33 @@ WHERE arraylength(DivAirportIDs) >= 2
 limit 5
 ```
 
-| DivAirportIDs | index |
-| ------------- | ----- |
-| 13891,12892   | -1    |
-| 14683,14683   | 0     |
-| 12339,12339   | -1    |
-| 13487,13930   | -1    |
-| 13029,11292   | -1    |
+<table>
+  <thead>
+    <tr>
+      <th>DivAirportIDs</th>
+      <th>index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13891,12892</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td>14683,14683</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>12339,12339</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td>13487,13930</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td>13029,11292</td>
+      <td>-1</td>
+    </tr>
+  </tbody>
+</table>

@@ -22,15 +22,33 @@ select DISTINCTCOUNTBITMAP(league) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 7     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select DISTINCTCOUNTBITMAP(teamID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 148   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>148</td>
+    </tr>
+  </tbody>
+</table>

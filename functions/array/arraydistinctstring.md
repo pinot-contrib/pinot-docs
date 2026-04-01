@@ -24,9 +24,29 @@ WHERE arraylength(DivTailNums) >= 2
 limit 5
 ```
 
-| DivTailNums   | unique |
-| ------------- | ------ |
-| N7713A,N7713A | N7713A |
-| N344AA,N344AA | N344AA |
-| N344AA,N344AA | N344AA |
-| N7713A,N7713A | N7713A |
+<table>
+  <thead>
+    <tr>
+      <th>DivTailNums</th>
+      <th>unique</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>N7713A,N7713A</td>
+      <td>N7713A</td>
+    </tr>
+    <tr>
+      <td>N344AA,N344AA</td>
+      <td>N344AA</td>
+    </tr>
+    <tr>
+      <td>N344AA,N344AA</td>
+      <td>N344AA</td>
+    </tr>
+    <tr>
+      <td>N7713A,N7713A</td>
+      <td>N7713A</td>
+    </tr>
+  </tbody>
+</table>

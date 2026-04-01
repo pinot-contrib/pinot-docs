@@ -88,22 +88,87 @@ controller.task.frequencyPeriod=1h  #Specify the frequency (more frequent is bet
 
 For detail about these advanced configurations, see the following table:
 
-| Property                                                       | Description                                                                                                                                                                                                                                                                                                                                                            | Default                                                       |
-|----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| mergeType                                                      | <p>Allowed values are<br><strong>concat</strong> - no aggregations<br><strong>rollup</strong> - perform metrics aggregations across common dimensions + time<br></p>                                                                                                                                                                                                   | concat                                                        |
-| bucketTimePeriod                                               | **Time bucket size**. Adjust this to change the time bucket. E.g. if set to 1h, the output segments will have records in 1 hour range.                                                                                                                                                                                                                                 | None                                                          |
-| bufferTimePeriod                                               | <p><strong>Buffer time</strong>. Will not schedule tasks unless time bucket is older than this buffer.<br>Configure this according to how late you expect your data. E.g. if your system can emit events later than 3d, set this to 3d to make sure those are included.</p><p>Note: Once a given time window has been processed, it will never be processed again.</p> | None                                                          |
-| roundBucketTimePeriod                                          | **Round the time value before merging the rows**. This is useful if time column is highly granular than needed, you can rollup the time values (e.g. milliseconds granularity in the original data, but okay with minute level granularity in the application - set to `1m`                                                                                            | None                                                          |
-| {metricName}.aggregationType                                   | **Aggregation function to apply to the metric** for aggregations. Only applicable for `rollup` cases. Allowed values are `sum`, `max`, `min`, `distinctCountHLL`, `distinctCountThetaSketch`, `distinctCountTupleSketch`, `distinctCountCpcSketch`, `distinctCountULL`                                                                                                 | sum                                                           |
-| maxNumRecordsPerSegment                                        | Control the **number of records you want in a segment generated**. Useful if the time bucket has many records, but you don't want them all in the same segment.                                                                                                                                                                                                        | 5,000,000                                                     |
-| maxNumRecordsPerTask                                           | Control **single task workload**. Useful to protect minion from overloading by a single task.                                                                                                                                                                                                                                                                          | 50,000,000                                                    |
-| maxNumParallelBuckets                                          | Control **number of processing buckets per run**. Useful to speed up the task scheduling for bootstrapping. E.g. if set to 10, the task generator will schedule 10 buckets per run.                                                                                                                                                                                    | 1                                                             |
-| eraseDimensionValues                                           | Erase dimension values from a merged segment before rollup to reduce cardinality and increase the degree to which common dimension coordinates are aggregated. This can result in a space saving for some dimensions which are not important in historic data.  Dimensions in this list will use the configured `defaultValue`.                                        | None                                                          |
-| aggregationFunctionParameters.{metricName}.nominalEntries      | Configure the nominal entries for a `Theta` or `Tuple` DataSketch metric, providing more control over how sketches are merged in different time buckets.  This can result in a space saving for use cases where historical data does not require high precision.                                                                                                       | `16384` for Theta/Tuple sketches and `4096` for CPC sketches. |
-| aggregationFunctionParameters.{metricName}.samplingProbability | Configure the sampling probability for a `Theta` sketch metric, providing more control over sampling when merging over different time buckets.  This can result in a space saving for use cases where historical data does not require high precision.                                                                                                                 | `1.0` (no sampling)                                           |
-| aggregationFunctionParameters.{metricName}.lgK                 | Configure the nominal entries for a `CPC` DataSketch metric, providing more control over how sketches are merged in different time buckets.  This can result in a space saving for use cases where historical data does not require high precision.                                                                                                                    | `16384` for Theta/Tuple sketches and `4096` for CPC sketches. |
-| push.mode                                                      | Push mode as in [Job Spec](../../configuration-reference/job-specification.md#ingestion-job-spec) supports `TAR`, `URI` and `METADATA` ingestion. This config is general to the job and not specific to any aggregation granularity.                                                                                                                                        | TAR                                                           |
-| output.segment.dir.uri                                         | Path where the merged segments will be stored. This config is general to the job and not specific to any aggregation granularity.                                                                                                                                                                                                                                      | Controller Config `data.dir`                                  |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>mergeType</td>
+      <td><p>Allowed values are<br><strong>concat</strong> - no aggregations<br><strong>rollup</strong> - perform metrics aggregations across common dimensions + time<br></p></td>
+      <td>concat</td>
+    </tr>
+    <tr>
+      <td>bucketTimePeriod</td>
+      <td>**Time bucket size**. Adjust this to change the time bucket. E.g. if set to 1h, the output segments will have records in 1 hour range.</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>bufferTimePeriod</td>
+      <td><p><strong>Buffer time</strong>. Will not schedule tasks unless time bucket is older than this buffer.<br>Configure this according to how late you expect your data. E.g. if your system can emit events later than 3d, set this to 3d to make sure those are included.</p><p>Note: Once a given time window has been processed, it will never be processed again.</p></td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>roundBucketTimePeriod</td>
+      <td>**Round the time value before merging the rows**. This is useful if time column is highly granular than needed, you can rollup the time values (e.g. milliseconds granularity in the original data, but okay with minute level granularity in the application - set to `1m`</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>{metricName}.aggregationType</td>
+      <td>**Aggregation function to apply to the metric** for aggregations. Only applicable for `rollup` cases. Allowed values are `sum`, `max`, `min`, `distinctCountHLL`, `distinctCountThetaSketch`, `distinctCountTupleSketch`, `distinctCountCpcSketch`, `distinctCountULL`</td>
+      <td>sum</td>
+    </tr>
+    <tr>
+      <td>maxNumRecordsPerSegment</td>
+      <td>Control the **number of records you want in a segment generated**. Useful if the time bucket has many records, but you don't want them all in the same segment.</td>
+      <td>5,000,000</td>
+    </tr>
+    <tr>
+      <td>maxNumRecordsPerTask</td>
+      <td>Control **single task workload**. Useful to protect minion from overloading by a single task.</td>
+      <td>50,000,000</td>
+    </tr>
+    <tr>
+      <td>maxNumParallelBuckets</td>
+      <td>Control **number of processing buckets per run**. Useful to speed up the task scheduling for bootstrapping. E.g. if set to 10, the task generator will schedule 10 buckets per run.</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>eraseDimensionValues</td>
+      <td>Erase dimension values from a merged segment before rollup to reduce cardinality and increase the degree to which common dimension coordinates are aggregated. This can result in a space saving for some dimensions which are not important in historic data.  Dimensions in this list will use the configured `defaultValue`.</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>aggregationFunctionParameters.{metricName}.nominalEntries</td>
+      <td>Configure the nominal entries for a `Theta` or `Tuple` DataSketch metric, providing more control over how sketches are merged in different time buckets.  This can result in a space saving for use cases where historical data does not require high precision.</td>
+      <td>`16384` for Theta/Tuple sketches and `4096` for CPC sketches.</td>
+    </tr>
+    <tr>
+      <td>aggregationFunctionParameters.{metricName}.samplingProbability</td>
+      <td>Configure the sampling probability for a `Theta` sketch metric, providing more control over sampling when merging over different time buckets.  This can result in a space saving for use cases where historical data does not require high precision.</td>
+      <td>`1.0` (no sampling)</td>
+    </tr>
+    <tr>
+      <td>aggregationFunctionParameters.{metricName}.lgK</td>
+      <td>Configure the nominal entries for a `CPC` DataSketch metric, providing more control over how sketches are merged in different time buckets.  This can result in a space saving for use cases where historical data does not require high precision.</td>
+      <td>`16384` for Theta/Tuple sketches and `4096` for CPC sketches.</td>
+    </tr>
+    <tr>
+      <td>push.mode</td>
+      <td>Push mode as in [Job Spec](../../configuration-reference/job-specification.md#ingestion-job-spec) supports `TAR`, `URI` and `METADATA` ingestion. This config is general to the job and not specific to any aggregation granularity.</td>
+      <td>TAR</td>
+    </tr>
+    <tr>
+      <td>output.segment.dir.uri</td>
+      <td>Path where the merged segments will be stored. This config is general to the job and not specific to any aggregation granularity.</td>
+      <td>Controller Config `data.dir`</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Metrics
 

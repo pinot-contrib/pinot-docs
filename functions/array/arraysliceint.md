@@ -23,10 +23,39 @@ WHERE arraylength(DivAirportIDs) >= 2
 limit 5
 ```
 
-| FlightNum | airports | DivAirportIDs |
-| --------- | -------- | ------------- |
-| 1531      | 13891    | 13891,12892   |
-| 19        | 14683    | 14683,14683   |
-| 829       | 12339    | 12339,12339   |
-| 24        | 13198    | 13198,10721   |
-| 548       | 10721    | 10721,12478   |
+<table>
+  <thead>
+    <tr>
+      <th>FlightNum</th>
+      <th>airports</th>
+      <th>DivAirportIDs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1531</td>
+      <td>13891</td>
+      <td>13891,12892</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>14683</td>
+      <td>14683,14683</td>
+    </tr>
+    <tr>
+      <td>829</td>
+      <td>12339</td>
+      <td>12339,12339</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td>13198</td>
+      <td>13198,10721</td>
+    </tr>
+    <tr>
+      <td>548</td>
+      <td>10721</td>
+      <td>10721,12478</td>
+    </tr>
+  </tbody>
+</table>

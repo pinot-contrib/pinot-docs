@@ -19,9 +19,18 @@ select stAsText(
 from ignoreMe 
 ```
 
-| value           |
-| --------------- |
-| POINT (-122 37) |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>POINT (-122 37)</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select stAsText(
@@ -30,6 +39,15 @@ select stAsText(
 from ignoreMe 
 ```
 
-| value                            |
-| -------------------------------- |
-| LINESTRING (30 10, 10 30, 40 40) |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>LINESTRING (30 10, 10 30, 40 40)</td>
+    </tr>
+  </tbody>
+</table>

@@ -16,11 +16,32 @@ Optional parameters can configure the IdSet type and properties.
 
 Supported parameters (semicolon-separated):
 
-| Parameter | Description | Default |
-| --------- | ----------- | ------- |
-| `sizeThresholdInBytes` | Maximum size before switching to BloomFilter | 8MB |
-| `expectedInsertions` | Expected number of insertions for BloomFilter | 5000000 |
-| `fpp` | False positive probability for BloomFilter | 0.03 |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`sizeThresholdInBytes`</td>
+      <td>Maximum size before switching to BloomFilter</td>
+      <td>8MB</td>
+    </tr>
+    <tr>
+      <td>`expectedInsertions`</td>
+      <td>Expected number of insertions for BloomFilter</td>
+      <td>5000000</td>
+    </tr>
+    <tr>
+      <td>`fpp`</td>
+      <td>False positive probability for BloomFilter</td>
+      <td>0.03</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Examples
 

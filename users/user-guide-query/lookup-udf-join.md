@@ -44,26 +44,81 @@ Here are some of the examples
 
 Consider the table `baseballStats`
 
-| Column                | Type   |
-| --------------------- | ------ |
-| playerID              | STRING |
-| yearID                | INT    |
-| teamID                | STRING |
-| league                | STRING |
-| playerName            | STRING |
-| playerStint           | INT    |
-| numberOfGames         | INT    |
-| numberOfGamesAsBatter | INT    |
-| AtBatting             | INT    |
-| runs                  | INT    |
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>playerID</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>yearID</td>
+      <td>INT</td>
+    </tr>
+    <tr>
+      <td>teamID</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>league</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>playerName</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>playerStint</td>
+      <td>INT</td>
+    </tr>
+    <tr>
+      <td>numberOfGames</td>
+      <td>INT</td>
+    </tr>
+    <tr>
+      <td>numberOfGamesAsBatter</td>
+      <td>INT</td>
+    </tr>
+    <tr>
+      <td>AtBatting</td>
+      <td>INT</td>
+    </tr>
+    <tr>
+      <td>runs</td>
+      <td>INT</td>
+    </tr>
+  </tbody>
+</table>
 
 and dim table `dimBaseballTeams`
 
-| Column      | Type   |
-| ----------- | ------ |
-| teamID      | STRING |
-| teamName    | STRING |
-| teamAddress | STRING |
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>teamID</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>teamName</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>teamAddress</td>
+      <td>STRING</td>
+    </tr>
+  </tbody>
+</table>
 
 several acceptable queries are:
 
@@ -89,12 +144,37 @@ SELECT
 FROM dimBaseballTeams
 ```
 
-| teamID | nameFromLocal                                               | nameFromLookup                                              |
-| ------ | ----------------------------------------------------------- | ----------------------------------------------------------- |
-| ANA    | Anaheim Angels                                              | Anaheim Angels                                              |
-| ARI    | Arizona Diamondbacks                                        | Arizona Diamondbacks                                        |
-| ATL    | Atlanta Braves                                              | Atlanta Braves                                              |
-| BAL    | Baltimore Orioles (original- 1901–1902 current- since 1954) | Baltimore Orioles (original- 1901–1902 current- since 1954) |
+<table>
+  <thead>
+    <tr>
+      <th>teamID</th>
+      <th>nameFromLocal</th>
+      <th>nameFromLookup</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ANA</td>
+      <td>Anaheim Angels</td>
+      <td>Anaheim Angels</td>
+    </tr>
+    <tr>
+      <td>ARI</td>
+      <td>Arizona Diamondbacks</td>
+      <td>Arizona Diamondbacks</td>
+    </tr>
+    <tr>
+      <td>ATL</td>
+      <td>Atlanta Braves</td>
+      <td>Atlanta Braves</td>
+    </tr>
+    <tr>
+      <td>BAL</td>
+      <td>Baltimore Orioles (original- 1901–1902 current- since 1954)</td>
+      <td>Baltimore Orioles (original- 1901–1902 current- since 1954)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Complex-partition-key-columns Example
 
@@ -102,18 +182,56 @@ Consider a single dimension table with schema:
 
 BILLING SCHEMA
 
-| Column        | Type    |
-| ------------- | ------- |
-| customerId    | INT     |
-| creditHistory | STRING  |
-| firstName     | STRING  |
-| lastName      | STRING  |
-| isCarOwner    | BOOLEAN |
-| city          | STRING  |
-| maritalStatus | STRING  |
-| buildingType  | STRING  |
-| missedPayment | STRING  |
-| billingMonth  | STRING  |
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>customerId</td>
+      <td>INT</td>
+    </tr>
+    <tr>
+      <td>creditHistory</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>firstName</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>lastName</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>isCarOwner</td>
+      <td>BOOLEAN</td>
+    </tr>
+    <tr>
+      <td>city</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>maritalStatus</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>buildingType</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>missedPayment</td>
+      <td>STRING</td>
+    </tr>
+    <tr>
+      <td>billingMonth</td>
+      <td>STRING</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Self LOOKUP example
 
@@ -125,13 +243,42 @@ select
 from billing
 ```
 
-| customerId | missedPayment | lookedupCity  |
-| ---------- | ------------- | ------------- |
-| 341        | Paid          | Palo Alto     |
-| 374        | Paid          | Mountain View |
-| 398        | Paid          | Palo Alto     |
-| 427        | Paid          | Cupertino     |
-| 435        | Paid          | Cupertino     |
+<table>
+  <thead>
+    <tr>
+      <th>customerId</th>
+      <th>missedPayment</th>
+      <th>lookedupCity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>341</td>
+      <td>Paid</td>
+      <td>Palo Alto</td>
+    </tr>
+    <tr>
+      <td>374</td>
+      <td>Paid</td>
+      <td>Mountain View</td>
+    </tr>
+    <tr>
+      <td>398</td>
+      <td>Paid</td>
+      <td>Palo Alto</td>
+    </tr>
+    <tr>
+      <td>427</td>
+      <td>Paid</td>
+      <td>Cupertino</td>
+    </tr>
+    <tr>
+      <td>435</td>
+      <td>Paid</td>
+      <td>Cupertino</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage FAQ
 

@@ -10,29 +10,93 @@ Pinot query responses are SQL-like tabular payloads with a small set of executio
 
 The broker response always includes a `resultTable` with:
 
-| Field | Meaning |
-| --- | --- |
-| `resultTable.dataSchema.columnNames` | Names returned by the query |
-| `resultTable.dataSchema.columnDataTypes` | Data types for each returned column |
-| `resultTable.rows` | Row values in column order |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`resultTable.dataSchema.columnNames`</td>
+      <td>Names returned by the query</td>
+    </tr>
+    <tr>
+      <td>`resultTable.dataSchema.columnDataTypes`</td>
+      <td>Data types for each returned column</td>
+    </tr>
+    <tr>
+      <td>`resultTable.rows`</td>
+      <td>Row values in column order</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Execution Stats
 
-| Field | Meaning |
-| --- | --- |
-| `timeUsedMs` | Broker-side time spent handling the query |
-| `numServersQueried` | Number of servers asked to process the query |
-| `numServersResponded` | Number of servers that returned a response |
-| `numSegmentsQueried` | Number of segments considered for the query |
-| `numSegmentsProcessed` | Number of segments actually processed |
-| `numSegmentsMatched` | Number of segments with at least one match |
-| `numDocsScanned` | Number of documents selected after filtering |
-| `numEntriesScannedInFilter` | Filter-phase entries scanned |
-| `numEntriesScannedPostFilter` | Post-filter entries scanned |
-| `numGroupsLimitReached` | Whether group-by trimming hit the limit |
-| `stageStats` | Per-stage stats for multi-stage queries |
-| `exceptions` | Query-processing exceptions, if any |
-| `rlsFiltersApplied` | Whether row-level security predicates were injected |
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`timeUsedMs`</td>
+      <td>Broker-side time spent handling the query</td>
+    </tr>
+    <tr>
+      <td>`numServersQueried`</td>
+      <td>Number of servers asked to process the query</td>
+    </tr>
+    <tr>
+      <td>`numServersResponded`</td>
+      <td>Number of servers that returned a response</td>
+    </tr>
+    <tr>
+      <td>`numSegmentsQueried`</td>
+      <td>Number of segments considered for the query</td>
+    </tr>
+    <tr>
+      <td>`numSegmentsProcessed`</td>
+      <td>Number of segments actually processed</td>
+    </tr>
+    <tr>
+      <td>`numSegmentsMatched`</td>
+      <td>Number of segments with at least one match</td>
+    </tr>
+    <tr>
+      <td>`numDocsScanned`</td>
+      <td>Number of documents selected after filtering</td>
+    </tr>
+    <tr>
+      <td>`numEntriesScannedInFilter`</td>
+      <td>Filter-phase entries scanned</td>
+    </tr>
+    <tr>
+      <td>`numEntriesScannedPostFilter`</td>
+      <td>Post-filter entries scanned</td>
+    </tr>
+    <tr>
+      <td>`numGroupsLimitReached`</td>
+      <td>Whether group-by trimming hit the limit</td>
+    </tr>
+    <tr>
+      <td>`stageStats`</td>
+      <td>Per-stage stats for multi-stage queries</td>
+    </tr>
+    <tr>
+      <td>`exceptions`</td>
+      <td>Query-processing exceptions, if any</td>
+    </tr>
+    <tr>
+      <td>`rlsFiltersApplied`</td>
+      <td>Whether row-level security predicates were injected</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Example
 

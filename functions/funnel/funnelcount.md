@@ -18,11 +18,32 @@ Returns array of distinct correlated counts for each funnel step.
 > >
 > > SETTINGS ( **setting1, setting2** ... ) **)**
 
-| Parameter       | Arguments            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| --------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| _STEPS_         | `predicates 1...n`   | (required) These are individual predicates representing funnel steps which are applied on rows selected by the `where` clause. Distinct values from the `correlation_column` that satisfy these predicates are counted per step. For example, all filtered rows that match `url = '/checkout'` are unionized into a set. Sets are intersected with the sets resulted from the preceding steps, each step retaining only individuals present in previous steps. Finally, unique counts are returned for each step in the funnel.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| _CORRELATE\_BY_ | `correlation_column` | (required) Column to leverage for funnel correlation, distinct values from this column are counted per step during aggregation. Only dictionary-encoded columns are supported.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| _SETTINGS_      | `settings 1...n`     | <p>(optional) Settings to select and configure a funnel counting strategy:<br></p><p><code>bitmap</code> (default): This strategy is accurate for <em>INT</em> column, but approximate for other cases where hash codes are used in distinct counting and there may be hash collisions. For accurate distinct counting on all column types, use 'set' instead. See also <a href="../aggregation/distinctcountbitmap.md">DISTINCTCOUNTBITMAP</a>.</p><p><code>set</code>: This strategy uses <a href="https://fastutil.di.unimi.it/">fastutil</a> hash sets. Use with care, unbounded memory cost. See also <a href="../aggregation/distinctcount.md">DISTINCTCOUNT</a>.</p><p><code>theta_sketch</code>: This strategy leverages <a href="https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html">Theta Sketch</a> framework to provide an approximate funnel count with a small memory footprint. See also <a href="../aggregation/distinctcountthetasketch.md">DISTINCTCOUNTTHETASKETCH</a>.</p><p><code>nominalEntries</code>: theta-sketch strategy parameter (defaults to 4096). Can only be used in conjunction with <em>theta_sketch</em> setting.</p><p><code>partitioned</code>: This strategy counts funnel steps per segment, then sums up step counts across segments. Correlation column should be configured as partition column for this strategy. See also <a href="../aggregation/segmentpartitioneddistinctcount.md">SEGMENTPARTITIONEDDISTINCTCOUNT</a>.</p><p><code>sorted</code>: This strategy counts funnel steps per segment with zero memory footprint. Correlation column should be configured as sort column for this strategy. Can only be used in conjunction with <code>partitioned</code> setting.</p> |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Arguments</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>_STEPS_</td>
+      <td>`predicates 1...n`</td>
+      <td>(required) These are individual predicates representing funnel steps which are applied on rows selected by the `where` clause. Distinct values from the `correlation_column` that satisfy these predicates are counted per step. For example, all filtered rows that match `url = '/checkout'` are unionized into a set. Sets are intersected with the sets resulted from the preceding steps, each step retaining only individuals present in previous steps. Finally, unique counts are returned for each step in the funnel.</td>
+    </tr>
+    <tr>
+      <td>_CORRELATE\_BY_</td>
+      <td>`correlation_column`</td>
+      <td>(required) Column to leverage for funnel correlation, distinct values from this column are counted per step during aggregation. Only dictionary-encoded columns are supported.</td>
+    </tr>
+    <tr>
+      <td>_SETTINGS_</td>
+      <td>`settings 1...n`</td>
+      <td><p>(optional) Settings to select and configure a funnel counting strategy:<br></p><p><code>bitmap</code> (default): This strategy is accurate for <em>INT</em> column, but approximate for other cases where hash codes are used in distinct counting and there may be hash collisions. For accurate distinct counting on all column types, use 'set' instead. See also <a href="../aggregation/distinctcountbitmap.md">DISTINCTCOUNTBITMAP</a>.</p><p><code>set</code>: This strategy uses <a href="https://fastutil.di.unimi.it/">fastutil</a> hash sets. Use with care, unbounded memory cost. See also <a href="../aggregation/distinctcount.md">DISTINCTCOUNT</a>.</p><p><code>theta_sketch</code>: This strategy leverages <a href="https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html">Theta Sketch</a> framework to provide an approximate funnel count with a small memory footprint. See also <a href="../aggregation/distinctcountthetasketch.md">DISTINCTCOUNTTHETASKETCH</a>.</p><p><code>nominalEntries</code>: theta-sketch strategy parameter (defaults to 4096). Can only be used in conjunction with <em>theta_sketch</em> setting.</p><p><code>partitioned</code>: This strategy counts funnel steps per segment, then sums up step counts across segments. Correlation column should be configured as partition column for this strategy. See also <a href="../aggregation/segmentpartitioneddistinctcount.md">SEGMENTPARTITIONEDDISTINCTCOUNT</a>.</p><p><code>sorted</code>: This strategy counts funnel steps per segment with zero memory footprint. Correlation column should be configured as sort column for this strategy. Can only be used in conjunction with <code>partitioned</code> setting.</p></td>
+    </tr>
+  </tbody>
+</table>
 
 ## Usage Examples
 
@@ -30,23 +51,92 @@ Many datasets are time series in nature, tracking events of an entity over time.
 
 ### Example
 
-| user\_id | event\_time             | url                    |
-| -------- | ----------------------- | ---------------------- |
-| U1       | 2021-10-01 09:01:00.000 | /product/listing       |
-| U2       | 2021-10-01 09:17:00.000 | /product/search        |
-| U1       | 2021-10-01 09:33:00.000 | /product/details       |
-| U1       | 2021-10-01 09:47:00.000 | /cart/add              |
-| U3       | 2021-10-01 10:02:00.000 | /product/listing       |
-| U3       | 2021-10-01 10:05:00.000 | /product/search        |
-| U2       | 2021-10-01 10:06:00.000 | /product/search        |
-| U2       | 2021-10-01 10:15:00.000 | /checkout/start        |
-| U2       | 2021-10-01 10:16:00.000 | /cart/add              |
-| U3       | 2021-10-01 11:17:00.000 | /product/details       |
-| U2       | 2021-10-01 11:18:00.000 | /checkout/confirmation |
-| U3       | 2021-10-01 11:21:00.000 | /cart/add              |
-| U1       | 2021-10-01 11:33:00.000 | /cart/add              |
-| U1       | 2021-10-01 11:46:00.000 | /checkout/start        |
-| U1       | 2021-10-01 11:54:00.000 | /checkout/confirmation |
+<table>
+  <thead>
+    <tr>
+      <th>user\_id</th>
+      <th>event\_time</th>
+      <th>url</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>U1</td>
+      <td>2021-10-01 09:01:00.000</td>
+      <td>/product/listing</td>
+    </tr>
+    <tr>
+      <td>U2</td>
+      <td>2021-10-01 09:17:00.000</td>
+      <td>/product/search</td>
+    </tr>
+    <tr>
+      <td>U1</td>
+      <td>2021-10-01 09:33:00.000</td>
+      <td>/product/details</td>
+    </tr>
+    <tr>
+      <td>U1</td>
+      <td>2021-10-01 09:47:00.000</td>
+      <td>/cart/add</td>
+    </tr>
+    <tr>
+      <td>U3</td>
+      <td>2021-10-01 10:02:00.000</td>
+      <td>/product/listing</td>
+    </tr>
+    <tr>
+      <td>U3</td>
+      <td>2021-10-01 10:05:00.000</td>
+      <td>/product/search</td>
+    </tr>
+    <tr>
+      <td>U2</td>
+      <td>2021-10-01 10:06:00.000</td>
+      <td>/product/search</td>
+    </tr>
+    <tr>
+      <td>U2</td>
+      <td>2021-10-01 10:15:00.000</td>
+      <td>/checkout/start</td>
+    </tr>
+    <tr>
+      <td>U2</td>
+      <td>2021-10-01 10:16:00.000</td>
+      <td>/cart/add</td>
+    </tr>
+    <tr>
+      <td>U3</td>
+      <td>2021-10-01 11:17:00.000</td>
+      <td>/product/details</td>
+    </tr>
+    <tr>
+      <td>U2</td>
+      <td>2021-10-01 11:18:00.000</td>
+      <td>/checkout/confirmation</td>
+    </tr>
+    <tr>
+      <td>U3</td>
+      <td>2021-10-01 11:21:00.000</td>
+      <td>/cart/add</td>
+    </tr>
+    <tr>
+      <td>U1</td>
+      <td>2021-10-01 11:33:00.000</td>
+      <td>/cart/add</td>
+    </tr>
+    <tr>
+      <td>U1</td>
+      <td>2021-10-01 11:46:00.000</td>
+      <td>/checkout/start</td>
+    </tr>
+    <tr>
+      <td>U1</td>
+      <td>2021-10-01 11:54:00.000</td>
+      <td>/checkout/confirmation</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Funnel
 
@@ -78,9 +168,18 @@ select
 from user_log 
 ```
 
-| counts  |
-| ------- |
-| 3, 2, 2 |
+<table>
+  <thead>
+    <tr>
+      <th>counts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3, 2, 2</td>
+    </tr>
+  </tbody>
+</table>
 
 > **Notes**
 >
@@ -127,9 +226,18 @@ from user_log
 where url in ('/cart/add', '/checkout/start', '/checkout/confirmation')
 ```
 
-| counts  |
-| ------- |
-| 3, 2, 2 |
+<table>
+  <thead>
+    <tr>
+      <th>counts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3, 2, 2</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Another Example
 
@@ -155,9 +263,18 @@ select
 from user_log 
 ```
 
-| counts     |
-| ---------- |
-| 2, 2, 1, 1 |
+<table>
+  <thead>
+    <tr>
+      <th>counts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2, 2, 1, 1</td>
+    </tr>
+  </tbody>
+</table>
 
 > **Notes**
 >

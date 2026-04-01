@@ -19,15 +19,33 @@ select year(1609472186000) AS year
 FROM ignoreMe
 ```
 
-| year |
-| ---- |
-| 2021 |
+<table>
+  <thead>
+    <tr>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2021</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select year(1609472186000, 'America/Toronto') AS year
 FROM ignoreMe
 ```
 
-| year |
-| ---- |
-| 2020 |
+<table>
+  <thead>
+    <tr>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2020</td>
+    </tr>
+  </tbody>
+</table>

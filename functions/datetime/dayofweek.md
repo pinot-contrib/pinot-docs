@@ -23,33 +23,69 @@ select dayOfWeek(1639351800000) AS dayOfWeek
 FROM ignoreMe
 ```
 
-| dayOfWeek |
-| --------- |
-| 7         |
+<table>
+  <thead>
+    <tr>
+      <th>dayOfWeek</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select dayOfWeek(1639351800000, 'CET') AS dayOfWeek
 FROM ignoreMe
 ```
 
-| dayOfWeek |
-| --------- |
-| 1         |
+<table>
+  <thead>
+    <tr>
+      <th>dayOfWeek</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select dow(1639351800000) AS dayOfWeek
 FROM ignoreMe
 ```
 
-| dayOfWeek |
-| --------- |
-| 7         |
+<table>
+  <thead>
+    <tr>
+      <th>dayOfWeek</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select dow(1639351800000, 'CET') AS dayOfWeek
 FROM ignoreMe
 ```
 
-| dayOfWeek |
-| --------- |
-| 1         |
+<table>
+  <thead>
+    <tr>
+      <th>dayOfWeek</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>

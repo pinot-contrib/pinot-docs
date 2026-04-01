@@ -22,9 +22,18 @@ from airlineStats
 where arraylength(DivLongestGTimes) > 1
 ```
 
-| value |
-| ----- |
-| 34    |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>34</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select DISTINCTCOUNTBITMAPMV(DivTailNums) AS value
@@ -32,6 +41,15 @@ from airlineStats
 where arraylength(DivTailNums) > 1
 ```
 
-| value |
-| ----- |
-| 2     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>

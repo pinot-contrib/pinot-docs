@@ -25,12 +25,32 @@ public interface SegmentUploader {
 
 ### Key Methods
 
-| Method | Description |
-| --- | --- |
-| `init(TableConfig)` | Initializes the uploader using batch config from the table config. |
-| `init(TableConfig, Map)` | Initializes with additional config overrides on top of the table config. |
-| `uploadSegment(URI, AuthProvider)` | Uploads a single segment tar file to the cluster. |
-| `uploadSegmentsFromDir(URI, AuthProvider)` | Recursively finds and uploads all `.tar.gz` segment files from a directory. |
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`init(TableConfig)`</td>
+      <td>Initializes the uploader using batch config from the table config.</td>
+    </tr>
+    <tr>
+      <td>`init(TableConfig, Map)`</td>
+      <td>Initializes with additional config overrides on top of the table config.</td>
+    </tr>
+    <tr>
+      <td>`uploadSegment(URI, AuthProvider)`</td>
+      <td>Uploads a single segment tar file to the cluster.</td>
+    </tr>
+    <tr>
+      <td>`uploadSegmentsFromDir(URI, AuthProvider)`</td>
+      <td>Recursively finds and uploads all `.tar.gz` segment files from a directory.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Default Implementation
 
@@ -60,10 +80,27 @@ The segment uploader is configured through `batchConfigMaps` in the table config
 }
 ```
 
-| Property | Required | Description |
-| --- | --- | --- |
-| `push.controllerUri` | Yes | URI of the Pinot controller for segment upload. |
-| `push.mode` | No | Push mode: `tar` (default), `uri`, or `metadata`. |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`push.controllerUri`</td>
+      <td>Yes</td>
+      <td>URI of the Pinot controller for segment upload.</td>
+    </tr>
+    <tr>
+      <td>`push.mode`</td>
+      <td>No</td>
+      <td>Push mode: `tar` (default), `uri`, or `metadata`.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Writing a Custom Segment Uploader
 

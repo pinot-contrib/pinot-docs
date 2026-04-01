@@ -10,18 +10,60 @@ Pinot exposes several segment-level operations that serve different purposes. Th
 
 Use the table below to match your situation to the right operation. The sections that follow explain each operation in more detail.
 
-| Situation | Operation | Scope |
-|---|---|---|
-| A segment is stuck in ERROR state | [Reset](#reset-a-segment) | Single segment or all error segments on a table |
-| You changed the table config or schema and want indexes or column metadata updated on existing segments | [Reload](#reload-a-segment) | All segments on a table, or a single segment |
-| You need segments fully rebuilt with new indexes, added columns, or compatible data-type changes | [RefreshSegmentTask](#refresh-segments-with-a-minion-task) | Automated via Minion; targets stale segments |
-| Segments are unevenly distributed after adding or removing servers | [Rebalance](#rebalance-segments) | Entire table |
-| A consuming segment is buffering stale data after a schema change, or you need to prep a real-time table for rebalance | [Force commit](#force-commit-consuming-segments) | All or selected consuming segments on a table |
-| You need to delete specific records for compliance or data-quality reasons | [PurgeTask](#purge-records-from-segments) | Automated via Minion; processes eligible segments |
-| You need to roll back a bad offline data push | [Consistent push rollback](#roll-back-a-bad-data-push) | Table-level lineage revert |
-| You want to compact or aggregate old real-time segments into offline segments | [MergeRollupTask / RealtimeToOfflineSegmentsTask](#compact-and-convert-segments) | Automated via Minion |
+<table>
+  <thead>
+    <tr>
+      <th>Situation</th>
+      <th>Operation</th>
+      <th>Scope</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A segment is stuck in ERROR state</td>
+      <td>[Reset](#reset-a-segment)</td>
+      <td>Single segment or all error segments on a table</td>
+    </tr>
+    <tr>
+      <td>You changed the table config or schema and want indexes or column metadata updated on existing segments</td>
+      <td>[Reload](#reload-a-segment)</td>
+      <td>All segments on a table, or a single segment</td>
+    </tr>
+    <tr>
+      <td>You need segments fully rebuilt with new indexes, added columns, or compatible data-type changes</td>
+      <td>[RefreshSegmentTask](#refresh-segments-with-a-minion-task)</td>
+      <td>Automated via Minion; targets stale segments</td>
+    </tr>
+    <tr>
+      <td>Segments are unevenly distributed after adding or removing servers</td>
+      <td>[Rebalance](#rebalance-segments)</td>
+      <td>Entire table</td>
+    </tr>
+    <tr>
+      <td>A consuming segment is buffering stale data after a schema change, or you need to prep a real-time table for rebalance</td>
+      <td>[Force commit](#force-commit-consuming-segments)</td>
+      <td>All or selected consuming segments on a table</td>
+    </tr>
+    <tr>
+      <td>You need to delete specific records for compliance or data-quality reasons</td>
+      <td>[PurgeTask](#purge-records-from-segments)</td>
+      <td>Automated via Minion; processes eligible segments</td>
+    </tr>
+    <tr>
+      <td>You need to roll back a bad offline data push</td>
+      <td>[Consistent push rollback](#roll-back-a-bad-data-push)</td>
+      <td>Table-level lineage revert</td>
+    </tr>
+    <tr>
+      <td>You want to compact or aggregate old real-time segments into offline segments</td>
+      <td>[MergeRollupTask / RealtimeToOfflineSegmentsTask](#compact-and-convert-segments)</td>
+      <td>Automated via Minion</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Reset a segment
+
 **What it does.** Resets a segment by transitioning it through the OFFLINE state in the Helix state machine and back to ONLINE (for offline segments) or CONSUMING (for real-time segments). This forces the server to reinitialize the segment without deleting its data.
 
 **When to use it.** Use reset when a segment is in ERROR state — for example, because a consumer threw an unrecoverable exception or a segment download failed during a state transition.
@@ -29,10 +71,13 @@ Use the table below to match your situation to the right operation. The sections
 **API.**
 
 ```
+
 # Reset a single segment
+
 POST /segments/{tableNameWithType}/{segmentName}/reset
 
 # Reset all error segments on a table
+
 POST /segments/{tableNameWithType}/reset?errorSegmentsOnly=true
 ```
 
@@ -50,13 +95,17 @@ Reset does **not** re-download or rebuild the segment. If the underlying segment
 **API.**
 
 ```
+
 # Reload all segments
+
 POST /segments/{tableName}/reload
 
 # Reload a single segment
+
 POST /segments/{tableName}/{segmentName}/reload
 
 # Force re-download from deep store before reloading
+
 POST /segments/{tableName}/reload?forceDownload=true
 ```
 
@@ -69,6 +118,7 @@ Reload applies config changes to the segment's existing data. If you need the se
 {% endhint %}
 
 ## Refresh segments with a Minion task
+
 **What it does.** The RefreshSegmentTask is a Minion task that detects segments whose last-refresh timestamp is older than the table config or schema modification time. For each stale segment it downloads the data, regenerates the segment from scratch using the current config and schema, and uploads the result.
 
 **When to use it.** Use RefreshSegmentTask when you need structural changes applied that reload alone cannot handle — for example, adding a column that must be back-filled with default values across all records, removing an index that should no longer be stored on disk, or changing a column to a compatible data type.
@@ -95,16 +145,50 @@ POST /tasks/schedule?taskType=RefreshSegmentTask&tableName=myTable_OFFLINE
 ```
 
 For full configuration details, see [RefreshSegmentTask](refresh-segment-task.md).
+
 ### Reload vs. RefreshSegmentTask
 
-| Aspect | Reload | RefreshSegmentTask |
-|---|---|---|
-| Runs on | Server (in-place) | Minion (downloads, rebuilds, uploads) |
-| Adds new indexes | Yes | Yes |
-| Back-fills new columns with default values across all records | No — adds the column to metadata only | Yes — rewrites every record |
-| Changes column data types | No | Yes (compatible types) |
-| Requires Minion | No | Yes |
-| Typical latency | Seconds to minutes | Minutes to hours, depending on segment size |
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Reload</th>
+      <th>RefreshSegmentTask</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Runs on</td>
+      <td>Server (in-place)</td>
+      <td>Minion (downloads, rebuilds, uploads)</td>
+    </tr>
+    <tr>
+      <td>Adds new indexes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Back-fills new columns with default values across all records</td>
+      <td>No — adds the column to metadata only</td>
+      <td>Yes — rewrites every record</td>
+    </tr>
+    <tr>
+      <td>Changes column data types</td>
+      <td>No</td>
+      <td>Yes (compatible types)</td>
+    </tr>
+    <tr>
+      <td>Requires Minion</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Typical latency</td>
+      <td>Seconds to minutes</td>
+      <td>Minutes to hours, depending on segment size</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Rebalance segments
 
@@ -178,6 +262,7 @@ Two Minion tasks handle long-term segment hygiene:
 - **RealtimeToOfflineSegmentsTask** converts completed real-time segments into optimized offline segments, optionally filtering by time window and aggregating data. See [Pinot Managed Offline Flows](pinot-managed-offline-flows.md).
 
 Both tasks are configured in the table's `taskTypeConfigsMap` and run automatically on a schedule or on demand via `POST /tasks/schedule?taskType={taskType}`.
+
 ## Common multi-step workflows
 
 ### Apply a new index to an existing offline table

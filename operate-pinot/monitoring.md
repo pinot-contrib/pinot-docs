@@ -10,21 +10,63 @@ Pinot clusters serve real-time analytics workloads where latency spikes, ingesti
 
 Every Pinot component (controller, broker, server, minion) publishes metrics via [Dropwizard Metrics](https://metrics.dropwizard.io/4.0.0/) in three forms:
 
-| Metric type | What it measures | Example |
-|-------------|-----------------|---------|
-| **Gauge** | Point-in-time value | Segment count, JVM heap usage, ingestion delay |
-| **Meter** | Rate per unit of time | Queries per second, exceptions per second |
-| **Timer** | Duration with percentiles | Query latency p50/p95/p99 |
+<table>
+  <thead>
+    <tr>
+      <th>Metric type</th>
+      <th>What it measures</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Gauge**</td>
+      <td>Point-in-time value</td>
+      <td>Segment count, JVM heap usage, ingestion delay</td>
+    </tr>
+    <tr>
+      <td>**Meter**</td>
+      <td>Rate per unit of time</td>
+      <td>Queries per second, exceptions per second</td>
+    </tr>
+    <tr>
+      <td>**Timer**</td>
+      <td>Duration with percentiles</td>
+      <td>Query latency p50/p95/p99</td>
+    </tr>
+  </tbody>
+</table>
 
 Metrics are available at **global** scope (per-instance) and **table-level** scope (per-table).
 
 ## Metrics export paths
 
-| Method | Best for | How it works |
-|--------|----------|-------------|
-| **JMX (default)** | Development, ad-hoc inspection | Metrics published via `JmxReporterMetricsRegistryRegistrationListener`; view with JConsole or VisualVM |
-| **Prometheus via JMX Exporter** | Production Kubernetes and bare-metal | Attach the JMX Exporter Java agent to each component; Prometheus scrapes the `/metrics` endpoint |
-| **Custom reporter** | Datadog, InfluxDB, or other backends | Implement `MetricsRegistryRegistrationListener` and register via config |
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Best for</th>
+      <th>How it works</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**JMX (default)**</td>
+      <td>Development, ad-hoc inspection</td>
+      <td>Metrics published via `JmxReporterMetricsRegistryRegistrationListener`; view with JConsole or VisualVM</td>
+    </tr>
+    <tr>
+      <td>**Prometheus via JMX Exporter**</td>
+      <td>Production Kubernetes and bare-metal</td>
+      <td>Attach the JMX Exporter Java agent to each component; Prometheus scrapes the `/metrics` endpoint</td>
+    </tr>
+    <tr>
+      <td>**Custom reporter**</td>
+      <td>Datadog, InfluxDB, or other backends</td>
+      <td>Implement `MetricsRegistryRegistrationListener` and register via config</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Key metrics to watch
 
@@ -64,11 +106,28 @@ For a complete Kubernetes walkthrough, see [Monitor Pinot using Prometheus and G
 
 ## Child pages
 
-| Page | Description |
-|------|-------------|
-| [Monitoring guide](../operators/operating-pinot/monitoring.md) | Critical metrics reference with alert thresholds and diagnosis patterns for every component |
-| [Continuous JFR](../operators/operating-pinot/continuous-jfr.md) | Runbook for always-on Java Flight Recorder profiling with dynamic cluster-level control |
-| [Monitor Pinot using Prometheus and Grafana](../tutorials/operations/monitor-pinot-using-prometheus-and-grafana.md) | Step-by-step Kubernetes setup for Prometheus scraping and Grafana dashboards |
+<table>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Monitoring guide](../operators/operating-pinot/monitoring.md)</td>
+      <td>Critical metrics reference with alert thresholds and diagnosis patterns for every component</td>
+    </tr>
+    <tr>
+      <td>[Continuous JFR](../operators/operating-pinot/continuous-jfr.md)</td>
+      <td>Runbook for always-on Java Flight Recorder profiling with dynamic cluster-level control</td>
+    </tr>
+    <tr>
+      <td>[Monitor Pinot using Prometheus and Grafana](../tutorials/operations/monitor-pinot-using-prometheus-and-grafana.md)</td>
+      <td>Step-by-step Kubernetes setup for Prometheus scraping and Grafana dashboards</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Next step
 

@@ -8,16 +8,57 @@ This section reorganizes the configuration surface into the core objects operato
 
 ## Reference Map
 
-| Area | Use it for | Reference page |
-| --- | --- | --- |
-| Cluster | Cluster-wide knobs, query protection, and broker behavior | [Cluster](cluster.md) |
-| Schema | Column definitions, null handling, data types, and MAP field support | [Schema](schema.md) |
-| Table | Offline, real-time, hybrid, routing, query, and indexing config | [Table](table.md) |
-| Ingestion | Stream and batch ingestion settings embedded in table config | [Ingestion](ingestion.md) |
-| Job spec | Offline ingestion job configuration and templating | [Ingestion Job Spec](job-specification.md) |
-| Monitoring metrics | Server, broker, and controller metric configuration | [Monitoring Metrics](monitoring-metrics.md) |
-| Dynamic environment | Environment-variable substitution in config payloads | [Dynamic Environment](dynamic-environment.md) |
-| Plugin reference | Plugin-family configuration and version guidance | [Plugin Configuration Reference](plugin-reference.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Use it for</th>
+      <th>Reference page</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cluster</td>
+      <td>Cluster-wide knobs, query protection, and broker behavior</td>
+      <td>[Cluster](cluster.md)</td>
+    </tr>
+    <tr>
+      <td>Schema</td>
+      <td>Column definitions, null handling, data types, and MAP field support</td>
+      <td>[Schema](schema.md)</td>
+    </tr>
+    <tr>
+      <td>Table</td>
+      <td>Offline, real-time, hybrid, routing, query, and indexing config</td>
+      <td>[Table](table.md)</td>
+    </tr>
+    <tr>
+      <td>Ingestion</td>
+      <td>Stream and batch ingestion settings embedded in table config</td>
+      <td>[Ingestion](ingestion.md)</td>
+    </tr>
+    <tr>
+      <td>Job spec</td>
+      <td>Offline ingestion job configuration and templating</td>
+      <td>[Ingestion Job Spec](job-specification.md)</td>
+    </tr>
+    <tr>
+      <td>Monitoring metrics</td>
+      <td>Server, broker, and controller metric configuration</td>
+      <td>[Monitoring Metrics](monitoring-metrics.md)</td>
+    </tr>
+    <tr>
+      <td>Dynamic environment</td>
+      <td>Environment-variable substitution in config payloads</td>
+      <td>[Dynamic Environment](dynamic-environment.md)</td>
+    </tr>
+    <tr>
+      <td>Plugin reference</td>
+      <td>Plugin-family configuration and version guidance</td>
+      <td>[Plugin Configuration Reference](plugin-reference.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What this page covers
 

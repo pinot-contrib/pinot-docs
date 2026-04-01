@@ -17,24 +17,51 @@ SELECT timezoneMinute('America/Toronto') AS minute
 FROM ignoreMe
 ```
 
-| minute |
-| ------ |
-| 0      |
+<table>
+  <thead>
+    <tr>
+      <th>minute</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT timezoneMinute('Asia/Colombo') AS minute
 FROM ignoreMe
 ```
 
-| minute |
-| ------ |
-| 30     |
+<table>
+  <thead>
+    <tr>
+      <th>minute</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>30</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT timezoneMinute('Asia/Kathmandu') AS minute
 FROM ignoreMe
 ```
 
-| minute |
-| ------ |
-| 45     |
+<table>
+  <thead>
+    <tr>
+      <th>minute</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>45</td>
+    </tr>
+  </tbody>
+</table>

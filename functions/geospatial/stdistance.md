@@ -22,6 +22,19 @@ from meetupRsvp
 LIMIT 1
 ```
 
-| group\_city | locationString      | distanceInMetres  |
-| ----------- | ------------------- | ----------------- |
-| Madrid      | POINT (-3.71 40.42) | 504376.5534398629 |
+<table>
+  <thead>
+    <tr>
+      <th>group\_city</th>
+      <th>locationString</th>
+      <th>distanceInMetres</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Madrid</td>
+      <td>POINT (-3.71 40.42)</td>
+      <td>504376.5534398629</td>
+    </tr>
+  </tbody>
+</table>

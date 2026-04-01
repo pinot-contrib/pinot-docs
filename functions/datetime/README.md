@@ -2242,19 +2242,69 @@ SELECT timestampDiffMVReverse('days', 1700000000000, [1700086400000, 17001728000
 
 ## Additional Reference Pages
 
-| Function | Function |
-| --- | --- |
-| [ago](ago.md) | [DATETIMECONVERT](datetimeconvert.md) |
-| [DATETRUNC](datetrunc.md) | [day](day.md) |
-| [dayOfWeek](dayofweek.md) | [dayOfYear](dayofyear.md) |
-| [Extract](extract.md) | [FromDateTime](fromdatetime.md) |
-| [FromEpoch](fromepoch.md) | [FromEpochBucket](fromepochbucket.md) |
-| [hour](hour.md) | [millisecond](millisecond.md) |
-| [minute](minute.md) | [month](month.md) |
-| [now](now.md) | [quarter](quarter.md) |
-| [second](second.md) | [TIMECONVERT](timeconvert.md) |
-| [timezoneHour](timezonehour.md) | [timezoneMinute](timezoneminute.md) |
-| [ToDateTime](todatetime.md) | [ToEpoch](toepoch.md) |
-| [ToEpochBucket](toepochbucket.md) | [ToEpochRounded](toepochrounded.md) |
-| [week](week.md) | [year](year.md) |
-| [yearOfWeek](yearofweek.md) |  |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[ago](ago.md)</td>
+      <td>[DATETIMECONVERT](datetimeconvert.md)</td>
+    </tr>
+    <tr>
+      <td>[DATETRUNC](datetrunc.md)</td>
+      <td>[day](day.md)</td>
+    </tr>
+    <tr>
+      <td>[dayOfWeek](dayofweek.md)</td>
+      <td>[dayOfYear](dayofyear.md)</td>
+    </tr>
+    <tr>
+      <td>[Extract](extract.md)</td>
+      <td>[FromDateTime](fromdatetime.md)</td>
+    </tr>
+    <tr>
+      <td>[FromEpoch](fromepoch.md)</td>
+      <td>[FromEpochBucket](fromepochbucket.md)</td>
+    </tr>
+    <tr>
+      <td>[hour](hour.md)</td>
+      <td>[millisecond](millisecond.md)</td>
+    </tr>
+    <tr>
+      <td>[minute](minute.md)</td>
+      <td>[month](month.md)</td>
+    </tr>
+    <tr>
+      <td>[now](now.md)</td>
+      <td>[quarter](quarter.md)</td>
+    </tr>
+    <tr>
+      <td>[second](second.md)</td>
+      <td>[TIMECONVERT](timeconvert.md)</td>
+    </tr>
+    <tr>
+      <td>[timezoneHour](timezonehour.md)</td>
+      <td>[timezoneMinute](timezoneminute.md)</td>
+    </tr>
+    <tr>
+      <td>[ToDateTime](todatetime.md)</td>
+      <td>[ToEpoch](toepoch.md)</td>
+    </tr>
+    <tr>
+      <td>[ToEpochBucket](toepochbucket.md)</td>
+      <td>[ToEpochRounded](toepochrounded.md)</td>
+    </tr>
+    <tr>
+      <td>[week](week.md)</td>
+      <td>[year](year.md)</td>
+    </tr>
+    <tr>
+      <td>[yearOfWeek](yearofweek.md)</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

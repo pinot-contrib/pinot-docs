@@ -17,6 +17,15 @@ select REVERSE('Pinot') AS name
 FROM ignoreMe
 ```
 
-| name  |
-| ----- |
-| toniP |
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>toniP</td>
+    </tr>
+  </tbody>
+</table>

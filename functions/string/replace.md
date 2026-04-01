@@ -17,15 +17,33 @@ SELECT REPLACE('Hello, World', 'Hello', 'Goodbye') AS value
 FROM ignoreMe
 ```
 
-| value          |
-| -------------- |
-| Goodbye, World |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Goodbye, World</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT REPLACE('Hello, World', 'Hellow', 'Goodbye') AS value
 FROM ignoreMe
 ```
 
-| value        |
-| ------------ |
-| Hello, World |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Hello, World</td>
+    </tr>
+  </tbody>
+</table>

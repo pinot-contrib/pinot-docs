@@ -17,15 +17,33 @@ SELECT concat('Apache', 'Pinot', ' ') AS value
 FROM ignoreMe
 ```
 
-| value        |
-| ------------ |
-| Apache Pinot |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apache Pinot</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT concat('real-time', 'analytics', '__') AS value
 FROM ignoreMe
 ```
 
-| value                  |
-| ---------------------- |
-| real-time\_\_analytics |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>real-time\_\_analytics</td>
+    </tr>
+  </tbody>
+</table>

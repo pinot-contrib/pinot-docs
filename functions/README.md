@@ -10,28 +10,138 @@ Most core function families work in both engines. Window functions require the m
 
 ## Browse by family
 
-| Family | Typical use | Engine signal | Detailed docs |
-| --- | --- | --- | --- |
-| Aggregation | Metrics, distinct counts, sketches, percentiles | Both, with a few window-oriented helpers | [Aggregation Functions](aggregation/README.md) |
-| Array | Multi-value and array manipulation | Both | [Array Functions](array/README.md) |
-| Binary | Hashing and encoding | Both | [Binary Functions](binary/README.md) |
-| DateTime | Bucketing, truncation, epoch conversion | Both | [DateTime Functions](datetime/README.md) |
-| Funnel | Funnel analytics | Both | [Funnel Functions](funnel/README.md) |
-| Geospatial | Spatial predicates and geometry conversion | Both | [GeoSpatial Functions](geospatial/README.md) |
-| Hash | Hash-based distribution and routing helpers | Both | [Hash Functions](hash/README.md) |
-| IP Address | Network and subnet checks | Both | [IP Address Functions](ip-address/README.md) |
-| JSON | Path extraction, formatting, and typed JSON access | Both, with query-safe typed variants | [JSON Functions](json/README.md) |
-| Math | Arithmetic and numeric shaping | Both | [Math Functions](math/README.md) |
-| Miscellaneous | Utility predicates and helpers | Both | [Miscellaneous Functions](misc/README.md) |
-| Null handling | Null-aware query behavior | Both, when null support is enabled | [Null Handling Functions](null-handling/README.md) |
-| Sketch | Approximate analytics helpers | Both | [Sketch Functions](sketch/README.md) |
-| Statistical | Variance and covariance functions | Both | [Statistical Functions](statistical/README.md) |
-| String | Case, slicing, tokenizing, regex, and formatting | Both | [String Functions](string/README.md) |
-| Trigonometric | Sine, cosine, and related math | Both | [Trigonometric Functions](trigonometric/README.md) |
-| Type conversion | Cast-like and conversion helpers | Both | [Type Conversion Functions](type-conversion/README.md) |
-| UDFs | Custom extension points | Varies by implementation | [User-Defined Functions](udf/README.md) |
-| Vector / similarity | Embeddings and similarity search helpers | Both, where supported | [Vector / Similarity Functions](vector/README.md) |
-| Window | Ranking, framing, and rolling calculations | Multi-stage only | [Window Functions](window/README.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Family</th>
+      <th>Typical use</th>
+      <th>Engine signal</th>
+      <th>Detailed docs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Aggregation</td>
+      <td>Metrics, distinct counts, sketches, percentiles</td>
+      <td>Both, with a few window-oriented helpers</td>
+      <td>[Aggregation Functions](aggregation/README.md)</td>
+    </tr>
+    <tr>
+      <td>Array</td>
+      <td>Multi-value and array manipulation</td>
+      <td>Both</td>
+      <td>[Array Functions](array/README.md)</td>
+    </tr>
+    <tr>
+      <td>Binary</td>
+      <td>Hashing and encoding</td>
+      <td>Both</td>
+      <td>[Binary Functions](binary/README.md)</td>
+    </tr>
+    <tr>
+      <td>DateTime</td>
+      <td>Bucketing, truncation, epoch conversion</td>
+      <td>Both</td>
+      <td>[DateTime Functions](datetime/README.md)</td>
+    </tr>
+    <tr>
+      <td>Funnel</td>
+      <td>Funnel analytics</td>
+      <td>Both</td>
+      <td>[Funnel Functions](funnel/README.md)</td>
+    </tr>
+    <tr>
+      <td>Geospatial</td>
+      <td>Spatial predicates and geometry conversion</td>
+      <td>Both</td>
+      <td>[GeoSpatial Functions](geospatial/README.md)</td>
+    </tr>
+    <tr>
+      <td>Hash</td>
+      <td>Hash-based distribution and routing helpers</td>
+      <td>Both</td>
+      <td>[Hash Functions](hash/README.md)</td>
+    </tr>
+    <tr>
+      <td>IP Address</td>
+      <td>Network and subnet checks</td>
+      <td>Both</td>
+      <td>[IP Address Functions](ip-address/README.md)</td>
+    </tr>
+    <tr>
+      <td>JSON</td>
+      <td>Path extraction, formatting, and typed JSON access</td>
+      <td>Both, with query-safe typed variants</td>
+      <td>[JSON Functions](json/README.md)</td>
+    </tr>
+    <tr>
+      <td>Math</td>
+      <td>Arithmetic and numeric shaping</td>
+      <td>Both</td>
+      <td>[Math Functions](math/README.md)</td>
+    </tr>
+    <tr>
+      <td>Miscellaneous</td>
+      <td>Utility predicates and helpers</td>
+      <td>Both</td>
+      <td>[Miscellaneous Functions](misc/README.md)</td>
+    </tr>
+    <tr>
+      <td>Null handling</td>
+      <td>Null-aware query behavior</td>
+      <td>Both, when null support is enabled</td>
+      <td>[Null Handling Functions](null-handling/README.md)</td>
+    </tr>
+    <tr>
+      <td>Sketch</td>
+      <td>Approximate analytics helpers</td>
+      <td>Both</td>
+      <td>[Sketch Functions](sketch/README.md)</td>
+    </tr>
+    <tr>
+      <td>Statistical</td>
+      <td>Variance and covariance functions</td>
+      <td>Both</td>
+      <td>[Statistical Functions](statistical/README.md)</td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td>Case, slicing, tokenizing, regex, and formatting</td>
+      <td>Both</td>
+      <td>[String Functions](string/README.md)</td>
+    </tr>
+    <tr>
+      <td>Trigonometric</td>
+      <td>Sine, cosine, and related math</td>
+      <td>Both</td>
+      <td>[Trigonometric Functions](trigonometric/README.md)</td>
+    </tr>
+    <tr>
+      <td>Type conversion</td>
+      <td>Cast-like and conversion helpers</td>
+      <td>Both</td>
+      <td>[Type Conversion Functions](type-conversion/README.md)</td>
+    </tr>
+    <tr>
+      <td>UDFs</td>
+      <td>Custom extension points</td>
+      <td>Varies by implementation</td>
+      <td>[User-Defined Functions](udf/README.md)</td>
+    </tr>
+    <tr>
+      <td>Vector / similarity</td>
+      <td>Embeddings and similarity search helpers</td>
+      <td>Both, where supported</td>
+      <td>[Vector / Similarity Functions](vector/README.md)</td>
+    </tr>
+    <tr>
+      <td>Window</td>
+      <td>Ranking, framing, and rolling calculations</td>
+      <td>Multi-stage only</td>
+      <td>[Window Functions](window/README.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Ingestion-time transformations
 

@@ -25,10 +25,39 @@ WHERE arraylength(RandomAirports) BETWEEN 2 AND 4
 limit 5
 ```
 
-| FlightNum | sortedAirports  | RandomAirports  |
-| --------- | --------------- | --------------- |
-| 3846      | PSC,SEA         | SEA,PSC         |
-| 3635      | MSY,PHX,PSC,SEA | SEA,PSC,PHX,MSY |
-| 429       | MSY,PHX,PSC,SEA | SEA,PSC,PHX,MSY |
-| 1206      | PSC,SEA         | SEA,PSC         |
-| 5300      | PSC,SEA         | SEA,PSC         |
+<table>
+  <thead>
+    <tr>
+      <th>FlightNum</th>
+      <th>sortedAirports</th>
+      <th>RandomAirports</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3846</td>
+      <td>PSC,SEA</td>
+      <td>SEA,PSC</td>
+    </tr>
+    <tr>
+      <td>3635</td>
+      <td>MSY,PHX,PSC,SEA</td>
+      <td>SEA,PSC,PHX,MSY</td>
+    </tr>
+    <tr>
+      <td>429</td>
+      <td>MSY,PHX,PSC,SEA</td>
+      <td>SEA,PSC,PHX,MSY</td>
+    </tr>
+    <tr>
+      <td>1206</td>
+      <td>PSC,SEA</td>
+      <td>SEA,PSC</td>
+    </tr>
+    <tr>
+      <td>5300</td>
+      <td>PSC,SEA</td>
+      <td>SEA,PSC</td>
+    </tr>
+  </tbody>
+</table>

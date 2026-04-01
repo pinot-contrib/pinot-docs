@@ -38,17 +38,35 @@ select distinctCountTupleSketch(playerHomeRuns) as value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 17549 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>17549</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select distinctCountTupleSketch(playerHomeRuns, 'nominalEntries=65536;accumulatorThreshold=10) as value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 17549 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>17549</td>
+    </tr>
+  </tbody>
+</table>
 
 This function can also be used with the V2 query engine.

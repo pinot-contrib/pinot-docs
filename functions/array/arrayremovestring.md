@@ -24,10 +24,33 @@ WHERE arraylength(RandomAirports) BETWEEN 2 AND 4
 limit 5
 ```
 
-| DivAirportIDs   | value       |
-| --------------- | ----------- |
-| SEA,PSC         | PSC         |
-| SEA,PSC,PHX,MSY | PSC,PHX,MSY |
-| SEA,PSC,PHX,MSY | PSC,PHX,MSY |
-| SEA,PSC         | PSC         |
-| SEA,PSC         | PSC         |
+<table>
+  <thead>
+    <tr>
+      <th>DivAirportIDs</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SEA,PSC</td>
+      <td>PSC</td>
+    </tr>
+    <tr>
+      <td>SEA,PSC,PHX,MSY</td>
+      <td>PSC,PHX,MSY</td>
+    </tr>
+    <tr>
+      <td>SEA,PSC,PHX,MSY</td>
+      <td>PSC,PHX,MSY</td>
+    </tr>
+    <tr>
+      <td>SEA,PSC</td>
+      <td>PSC</td>
+    </tr>
+    <tr>
+      <td>SEA,PSC</td>
+      <td>PSC</td>
+    </tr>
+  </tbody>
+</table>

@@ -25,15 +25,33 @@ select DISTINCTCOUNTHLLPLUS(teamID) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 158   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>158</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select DISTINCTCOUNTHLLPLUS(teamID, 12) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 149   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>149</td>
+    </tr>
+  </tbody>
+</table>

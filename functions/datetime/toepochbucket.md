@@ -22,33 +22,69 @@ select ToEpochSecondsBucket(1613472303000, 1000) AS bucket
 FROM ignoreMe
 ```
 
-| bucket  |
-| ------- |
-| 1613472 |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1613472</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ToEpochMinutesBucket(1613472303000, 10) AS bucket
 FROM ignoreMe
 ```
 
-| bucket  |
-| ------- |
-| 2689120 |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2689120</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ToEpochHoursBucket(1613472303000, 5) AS bucket
 FROM ignoreMe
 ```
 
-| bucket |
-| ------ |
-| 89637  |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>89637</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ToEpochDaysBucket(1613472303000, 10) AS bucket
 FROM ignoreMe
 ```
 
-| bucket |
-| ------ |
-| 1867   |
+<table>
+  <thead>
+    <tr>
+      <th>bucket</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1867</td>
+    </tr>
+  </tbody>
+</table>

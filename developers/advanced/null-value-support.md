@@ -18,12 +18,42 @@ To handle null values in your data, you must:
 
 The following table summarizes the behavior of null handling support in Pinot:
 
-|                          | disabled (default) | basic (enabled at ingestion time) | advanced (enabled at query time) |
-| ------------------------ | ------------------ | --------------------------------- | -------------------------------- |
-| IS NULL                  | always false       | depends on data                   | depends on data                  |
-| IS NOT NULL              | always true        | depends on data                   | depends on data                  |
-| Transformation functions | use default value  | use default value                 | null aware                       |
-| Null aware aggregations  | use default value  | use default value                 | null aware                       |
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>disabled (default)</th>
+      <th>basic (enabled at ingestion time)</th>
+      <th>advanced (enabled at query time)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IS NULL</td>
+      <td>always false</td>
+      <td>depends on data</td>
+      <td>depends on data</td>
+    </tr>
+    <tr>
+      <td>IS NOT NULL</td>
+      <td>always true</td>
+      <td>depends on data</td>
+      <td>depends on data</td>
+    </tr>
+    <tr>
+      <td>Transformation functions</td>
+      <td>use default value</td>
+      <td>use default value</td>
+      <td>null aware</td>
+    </tr>
+    <tr>
+      <td>Null aware aggregations</td>
+      <td>use default value</td>
+      <td>use default value</td>
+      <td>null aware</td>
+    </tr>
+  </tbody>
+</table>
 
 ## How Pinot stores null values
 
@@ -132,13 +162,36 @@ In this mode, Pinot is able to handle simple predicates like `IS NULL` or `IS NO
 
 For example, in the following table:
 
-| rowId | col1 |
-| ----- | ---- |
-| 0     | null |
-| 1     | 1    |
-| 2     | 2    |
-| 3     | 2    |
-| 4     | null |
+<table>
+  <thead>
+    <tr>
+      <th>rowId</th>
+      <th>col1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>null</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>null</td>
+    </tr>
+  </tbody>
+</table>
 
 If the default value for `col1` is `1`, the following query:
 
@@ -148,11 +201,28 @@ select $docId as rowId, col1 from my_table where col1 IS NOT NULL
 
 Will return the following result:
 
-| rowId | col1 |
-| ----- | ---- |
-| 1     | 1    |
-| 2     | 2    |
-| 3     | 2    |
+<table>
+  <thead>
+    <tr>
+      <th>rowId</th>
+      <th>col1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
 
 While
 
@@ -162,13 +232,36 @@ select $docId as rowId, col1 + 1 as result from my_table
 
 While return the following:
 
-| rowId | col1 |
-| ----- | ---- |
-| 0     | 2    |
-| 1     | 2    |
-| 2     | 3    |
-| 3     | 3    |
-| 4     | 2    |
+<table>
+  <thead>
+    <tr>
+      <th>rowId</th>
+      <th>col1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
 
 And queries like
 
@@ -178,11 +271,28 @@ select $docId as rowId, col1 from my_table where col1 = 1
 
 Will return
 
-| rowId | col1 |
-| ----- | ---- |
-| 0     | null |
-| 1     | 1    |
-| 4     | null |
+<table>
+  <thead>
+    <tr>
+      <th>rowId</th>
+      <th>col1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>null</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>null</td>
+    </tr>
+  </tbody>
+</table>
 
 Also
 
@@ -190,9 +300,20 @@ Also
 select count(col1)  as count, mode(col1) as mode from my_table
 ```
 
-| count | mode |
-| ----- | ---- |
-| 5     | 1    |
+<table>
+  <thead>
+    <tr>
+      <th>count</th>
+      <th>mode</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
 
 Given that neither `count` or `mode` function will ignore `null` values as expected but read instead the default value (in this case `1`) stored in the forward index.
 

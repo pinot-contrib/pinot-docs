@@ -24,8 +24,25 @@ WHERE arraylength(DivTailNums) >= 2
 limit 5
 ```
 
-| DivTailNums   | index |
-| ------------- | ----- |
-| N7713A,N7713A | 0     |
-| N344AA,N344AA | -1    |
-| N7713A,N7713A | 0     |
+<table>
+  <thead>
+    <tr>
+      <th>DivTailNums</th>
+      <th>index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>N7713A,N7713A</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>N344AA,N344AA</td>
+      <td>-1</td>
+    </tr>
+    <tr>
+      <td>N7713A,N7713A</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>

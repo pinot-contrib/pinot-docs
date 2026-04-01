@@ -56,38 +56,148 @@ To enable SegmentGenerationAndPushTask, configure both `ingestionConfig` and `ta
 
 These properties are specified inside each entry of `batchConfigMaps`:
 
-| Property | Description | Required |
-|----------|-------------|----------|
-| `inputDirURI` | URI of the directory containing input data files | Yes |
-| `inputFormat` | Input file format (e.g., `avro`, `parquet`, `csv`, `json`, `orc`) | Yes |
-| `includeFileNamePattern` | Glob pattern for files to include (e.g., `glob:**/*.avro`) | No |
-| `excludeFileNamePattern` | Glob pattern for files to exclude (e.g., `glob:**/*.tmp`) | No |
-| `input.fs.className` | Fully qualified class name of the input filesystem | No (inferred from URI) |
-| `input.fs.prop.<key>` | Properties to initialize the input filesystem | No |
-| `outputDirURI` | URI for writing output segments before push | No (uses local temp dir) |
-| `output.fs.className` | Fully qualified class name of the output filesystem | No |
-| `output.fs.prop.<key>` | Properties to initialize the output filesystem | No |
-| `overwriteOutput` | Delete existing output segment directory if `true` | No |
-| `recordReader.className` | Fully qualified class name of the RecordReader | No (inferred from inputFormat) |
-| `recordReader.configClassName` | Fully qualified class name of the RecordReaderConfig | No (inferred from inputFormat) |
-| `recordReader.prop.<key>` | Properties to initialize RecordReaderConfig | No |
-| `schema` | Pinot schema as a JSON string | No (fetched from controller) |
-| `schemaURI` | URI to fetch the Pinot schema | No (fetched from controller) |
-| `segmentNameGenerator.type` | Segment name generator type (`simple` or `fixed`) | No (defaults to `simple`) |
-| `segmentNameGenerator.configs.<key>` | Segment name generator configuration properties | No |
-| `push.mode` | Segment push mode: `TAR`, `URI`, or `METADATA` | No (defaults to `TAR`) |
-| `push.controllerUri` | Controller URI for push requests | No (defaults to controller VIP) |
-| `push.segmentUriPrefix` | URI prefix for segment download (used with `URI` push mode) | No |
-| `push.segmentUriSuffix` | URI suffix for segment download (used with `URI` push mode) | No |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`inputDirURI`</td>
+      <td>URI of the directory containing input data files</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>`inputFormat`</td>
+      <td>Input file format (e.g., `avro`, `parquet`, `csv`, `json`, `orc`)</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>`includeFileNamePattern`</td>
+      <td>Glob pattern for files to include (e.g., `glob:**/*.avro`)</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`excludeFileNamePattern`</td>
+      <td>Glob pattern for files to exclude (e.g., `glob:**/*.tmp`)</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`input.fs.className`</td>
+      <td>Fully qualified class name of the input filesystem</td>
+      <td>No (inferred from URI)</td>
+    </tr>
+    <tr>
+      <td>`input.fs.prop.<key>`</td>
+      <td>Properties to initialize the input filesystem</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`outputDirURI`</td>
+      <td>URI for writing output segments before push</td>
+      <td>No (uses local temp dir)</td>
+    </tr>
+    <tr>
+      <td>`output.fs.className`</td>
+      <td>Fully qualified class name of the output filesystem</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`output.fs.prop.<key>`</td>
+      <td>Properties to initialize the output filesystem</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`overwriteOutput`</td>
+      <td>Delete existing output segment directory if `true`</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`recordReader.className`</td>
+      <td>Fully qualified class name of the RecordReader</td>
+      <td>No (inferred from inputFormat)</td>
+    </tr>
+    <tr>
+      <td>`recordReader.configClassName`</td>
+      <td>Fully qualified class name of the RecordReaderConfig</td>
+      <td>No (inferred from inputFormat)</td>
+    </tr>
+    <tr>
+      <td>`recordReader.prop.<key>`</td>
+      <td>Properties to initialize RecordReaderConfig</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`schema`</td>
+      <td>Pinot schema as a JSON string</td>
+      <td>No (fetched from controller)</td>
+    </tr>
+    <tr>
+      <td>`schemaURI`</td>
+      <td>URI to fetch the Pinot schema</td>
+      <td>No (fetched from controller)</td>
+    </tr>
+    <tr>
+      <td>`segmentNameGenerator.type`</td>
+      <td>Segment name generator type (`simple` or `fixed`)</td>
+      <td>No (defaults to `simple`)</td>
+    </tr>
+    <tr>
+      <td>`segmentNameGenerator.configs.<key>`</td>
+      <td>Segment name generator configuration properties</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`push.mode`</td>
+      <td>Segment push mode: `TAR`, `URI`, or `METADATA`</td>
+      <td>No (defaults to `TAR`)</td>
+    </tr>
+    <tr>
+      <td>`push.controllerUri`</td>
+      <td>Controller URI for push requests</td>
+      <td>No (defaults to controller VIP)</td>
+    </tr>
+    <tr>
+      <td>`push.segmentUriPrefix`</td>
+      <td>URI prefix for segment download (used with `URI` push mode)</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>`push.segmentUriSuffix`</td>
+      <td>URI suffix for segment download (used with `URI` push mode)</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Task Config Properties
 
 These properties go under `taskTypeConfigsMap.SegmentGenerationAndPushTask`:
 
-| Property | Description | Default |
-|----------|-------------|---------|
-| `schedule` | Cron expression for automatic task scheduling | None (manual only) |
-| `tableMaxNumTasks` | Maximum number of concurrent tasks per table per run | `Integer.MAX_VALUE` |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`schedule`</td>
+      <td>Cron expression for automatic task scheduling</td>
+      <td>None (manual only)</td>
+    </tr>
+    <tr>
+      <td>`tableMaxNumTasks`</td>
+      <td>Maximum number of concurrent tasks per table per run</td>
+      <td>`Integer.MAX_VALUE`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## How It Works
 
@@ -180,10 +290,13 @@ These properties go under `taskTypeConfigsMap.SegmentGenerationAndPushTask`:
 Use the Controller REST API to manually trigger SegmentGenerationAndPushTask:
 
 ```bash
+
 # Schedule SegmentGenerationAndPushTask for all enabled tables
+
 POST /tasks/schedule?taskType=SegmentGenerationAndPushTask
 
 # Schedule SegmentGenerationAndPushTask for a specific table
+
 POST /tasks/schedule?taskType=SegmentGenerationAndPushTask&tableName=myTable_OFFLINE
 ```
 

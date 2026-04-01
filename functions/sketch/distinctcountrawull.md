@@ -28,15 +28,33 @@ select distinctCountRawULL(teamID) AS value
 from baseballStats 
 ```
 
-| value                                     |
-| ----------------------------------------- |
-| AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select distinctCountRawULL(teamID, 14) AS value
 from baseballStats 
 ```
 
-| value                                     |
-| ----------------------------------------- |
-| AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...</td>
+    </tr>
+  </tbody>
+</table>

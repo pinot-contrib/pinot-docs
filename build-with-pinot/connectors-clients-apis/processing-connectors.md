@@ -8,10 +8,27 @@ Use processing connectors when Pinot is part of a larger Flink or Spark job and 
 
 ## What belongs here
 
-| Connector | Best for | Notes |
-| --- | --- | --- |
-| Flink connector | Streaming or batch jobs that write into Pinot | The current guide focuses on the `PinotSinkFunction`, offline and realtime table support, and upsert bootstrapping. |
-| Spark-Pinot connector | Spark jobs that read from or write to Pinot | The current guide covers distributed scans, column and filter pushdown, SQL support, gRPC streaming reads, and secure connections. |
+<table>
+  <thead>
+    <tr>
+      <th>Connector</th>
+      <th>Best for</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Flink connector</td>
+      <td>Streaming or batch jobs that write into Pinot</td>
+      <td>The current guide focuses on the `PinotSinkFunction`, offline and realtime table support, and upsert bootstrapping.</td>
+    </tr>
+    <tr>
+      <td>Spark-Pinot connector</td>
+      <td>Spark jobs that read from or write to Pinot</td>
+      <td>The current guide covers distributed scans, column and filter pushdown, SQL support, gRPC streaming reads, and secure connections.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## How to choose
 

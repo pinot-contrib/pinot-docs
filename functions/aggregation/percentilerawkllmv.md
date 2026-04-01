@@ -22,6 +22,15 @@ select percentileKLLMV(ArrOfInts, 90) as value
 from MyTable
 ```
 
-| sketch   |
-| -------- |
-| BQEPC... |
+<table>
+  <thead>
+    <tr>
+      <th>sketch</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BQEPC...</td>
+    </tr>
+  </tbody>
+</table>

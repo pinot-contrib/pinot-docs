@@ -17,6 +17,15 @@ select LOWER('Pinot') AS name
 FROM ignoreMe
 ```
 
-| name  |
-| ----- |
-| pinot |
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>pinot</td>
+    </tr>
+  </tbody>
+</table>

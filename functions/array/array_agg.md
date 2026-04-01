@@ -7,11 +7,9 @@ description: This section contains reference documentation for the ARRAY_AGG fun
 Concatenates the input values into an array.
 
 
-
 ## Signature
 
 > ARRAY\_AGG(dataColumn, 'dataType', \[isDistinct])
-
 
 
 ## Usage Examples
@@ -21,7 +19,15 @@ SELECT ARRAY_AGG(firstName, 'STRING', true) AS firstNames from transcript;
 ```
 
 
-
-| firstNames    |
-| ------------- |
-| Bob,Nick,Lucy |
+<table>
+  <thead>
+    <tr>
+      <th>firstNames</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bob,Nick,Lucy</td>
+    </tr>
+  </tbody>
+</table>

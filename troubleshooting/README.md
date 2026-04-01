@@ -12,52 +12,127 @@ Use this page to find the right troubleshooting guide for your situation. Start 
 
 Queries returning errors, unexpected results, or timing out.
 
-| Symptom | Go to |
-|---|---|
-| `BrokerResourceMissingError`, reserved keyword errors, wrong results, slow queries | [Query FAQ](query-faq.md) |
-| Errors or limitations specific to the multi-stage query engine (v2), including type mismatches, unsupported functions, or timeout errors | [Troubleshoot Multi-Stage Query Engine](troubleshoot-multi-stage-query-engine.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Go to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`BrokerResourceMissingError`, reserved keyword errors, wrong results, slow queries</td>
+      <td>[Query FAQ](query-faq.md)</td>
+    </tr>
+    <tr>
+      <td>Errors or limitations specific to the multi-stage query engine (v2), including type mismatches, unsupported functions, or timeout errors</td>
+      <td>[Troubleshoot Multi-Stage Query Engine](troubleshoot-multi-stage-query-engine.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Ingestion issues
 
 Data not appearing, segments stuck, or ingestion pipelines failing.
 
-| Symptom | Go to |
-|---|---|
-| Segment sizing, partitioning, indexing, Kafka ingestion, data encoding, or real-time ingestion questions | [Ingestion FAQ](ingestion-faq.md) |
-| Kafka partitions stopped consuming, segment commit failures, `Controller response was FAILED` errors | [Realtime Ingestion Stopped](realtime-ingestion-stopped.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Go to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Segment sizing, partitioning, indexing, Kafka ingestion, data encoding, or real-time ingestion questions</td>
+      <td>[Ingestion FAQ](ingestion-faq.md)</td>
+    </tr>
+    <tr>
+      <td>Kafka partitions stopped consuming, segment commit failures, `Controller response was FAILED` errors</td>
+      <td>[Realtime Ingestion Stopped](realtime-ingestion-stopped.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Operations and cluster issues
 
 Cluster instability, memory problems, segment errors, rebalancing, or configuration questions.
 
-| Symptom | Go to |
-|---|---|
-| Heap sizing, backup/restore, schema changes, rebalancing, segment states (BAD/ERROR), tenant configuration, minion tasks, tiered storage | [Operations FAQ](operations-faq.md) |
-| Using the debug API, slow query diagnosis, GC pressure on servers | [Troubleshooting Pinot](troubleshooting-pinot.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Go to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Heap sizing, backup/restore, schema changes, rebalancing, segment states (BAD/ERROR), tenant configuration, minion tasks, tiered storage</td>
+      <td>[Operations FAQ](operations-faq.md)</td>
+    </tr>
+    <tr>
+      <td>Using the debug API, slow query diagnosis, GC pressure on servers</td>
+      <td>[Troubleshooting Pinot](troubleshooting-pinot.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Kubernetes issues
 
 Problems specific to running Pinot on Kubernetes.
 
-| Symptom | Go to |
-|---|---|
-| Increasing server disk size on AWS EKS, PVC resizing, pod restarts | [Pinot on Kubernetes FAQ](pinot-on-kubernetes-faq.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Go to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Increasing server disk size on AWS EKS, PVC resizing, pod restarts</td>
+      <td>[Pinot on Kubernetes FAQ](pinot-on-kubernetes-faq.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### ZooKeeper issues
 
 ZooKeeper errors related to metadata storage limits.
 
-| Symptom | Go to |
-|---|---|
-| `packet len is out of range` errors, znode size exceeded, too many segments | [Troubleshoot ZooKeeper](troubleshoot-zookeeper.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Go to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`packet len is out of range` errors, znode size exceeded, too many segments</td>
+      <td>[Troubleshoot ZooKeeper](troubleshoot-zookeeper.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### General questions
 
 Broad questions about Pinot architecture and behavior.
 
-| Symptom | Go to |
-|---|---|
-| How deep storage works, how Pinot uses ZooKeeper, JDK compatibility, timezone configuration | [General FAQ](general-faq.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Go to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>How deep storage works, how Pinot uses ZooKeeper, JDK compatibility, timezone configuration</td>
+      <td>[General FAQ](general-faq.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Quick diagnostic checklist
 

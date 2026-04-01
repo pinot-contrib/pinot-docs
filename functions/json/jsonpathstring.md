@@ -10,10 +10,24 @@ Extracts the **String** value from `jsonField` based on `'jsonPath'`, use option
 
 > JSONPATHSTRING(jsonField, 'jsonPath', \[defaultValue])
 
-| Arguments    | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `jsonField`  | An **Identifier**/**Expression** contains JSON documents.                                              |
-| `'jsonPath'` | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents. |
+<table>
+  <thead>
+    <tr>
+      <th>Arguments</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`jsonField`</td>
+      <td>An **Identifier**/**Expression** contains JSON documents.</td>
+    </tr>
+    <tr>
+      <td>`'jsonPath'`</td>
+      <td>Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="warning" %}
 **`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers**.\

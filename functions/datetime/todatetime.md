@@ -19,9 +19,18 @@ SELECT ToDateTime(1639137263000, 'yyyy-MM-dd') AS dateTimeString
 FROM ignoreMe
 ```
 
-| dateTimeString |
-| -------------- |
-| 2021-12-10     |
+<table>
+  <thead>
+    <tr>
+      <th>dateTimeString</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2021-12-10</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT ToDateTime(
@@ -31,9 +40,18 @@ SELECT ToDateTime(
 FROM ignoreMe
 ```
 
-| dateTimeString         |
-| ---------------------- |
-| 2021-12-10 11:54:23 AM |
+<table>
+  <thead>
+    <tr>
+      <th>dateTimeString</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2021-12-10 11:54:23 AM</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT ToDateTime(
@@ -44,6 +62,15 @@ SELECT ToDateTime(
 FROM ignoreMe
 ```
 
-| dateTimeString            |
-| ------------------------- |
-| 2021-12-10 12:54:23 +0100 |
+<table>
+  <thead>
+    <tr>
+      <th>dateTimeString</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2021-12-10 12:54:23 +0100</td>
+    </tr>
+  </tbody>
+</table>

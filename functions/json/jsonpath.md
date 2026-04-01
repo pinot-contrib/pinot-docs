@@ -10,10 +10,24 @@ Extracts the object value from jsonField based on 'jsonPath', the result type is
 
 > JSONPATH(jsonField, 'jsonPath')
 
-| Arguments    | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `jsonField`  | An **Identifier**/**Expression** contains JSON documents.                                              |
-| `'jsonPath'` | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents. |
+<table>
+  <thead>
+    <tr>
+      <th>Arguments</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`jsonField`</td>
+      <td>An **Identifier**/**Expression** contains JSON documents.</td>
+    </tr>
+    <tr>
+      <td>`'jsonPath'`</td>
+      <td>Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="warning" %}
 **`'jsonPath'`**\` is a literal. Pinot uses single quotes to distinguish them from **identifiers.**\
@@ -48,10 +62,24 @@ The usage examples are based on extracting fields from the following JSON docume
 }
 ```
 
-| Expression                 | Value    |
-| -------------------------- | -------- |
-| `JSONPATH(data, '$.name')` | `"Pete"` |
-| `JSONPATH(data, '$.age')`  | `24`     |
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`JSONPATH(data, '$.name')`</td>
+      <td>`"Pete"`</td>
+    </tr>
+    <tr>
+      <td>`JSONPATH(data, '$.age')`</td>
+      <td>`24`</td>
+    </tr>
+  </tbody>
+</table>
 
 This function can be used in the [table config](../../configuration-reference/table.md) to extract the `name` property into the `name` column and `age` property into the `age` column, as described below:
 

@@ -24,9 +24,18 @@ from baseballStats
 WHERE playerName = 'Barry Bonds'
 ```
 
-| value                               |
-| ----------------------------------- |
-| NL/NL/NL/NL/NL/NL/NL/NL/NL/NL/... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>NL/NL/NL/NL/NL/NL/NL/NL/NL/NL/...</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select LISTAGG(DISTINCT league, ', ') AS value
@@ -34,6 +43,15 @@ from baseballStats
 WHERE playerName = 'Barry Bonds'
 ```
 
-| value  |
-| ------ |
-| NL, AL |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>NL, AL</td>
+    </tr>
+  </tbody>
+</table>

@@ -22,6 +22,15 @@ select FIRSTWITHTIME(group_name, __metadata$recordTimestamp, 'STRING')
 from meetupRsvp 
 ```
 
-| value                 |
-| --------------------- |
-| group\_name1016303453 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>group\_name1016303453</td>
+    </tr>
+  </tbody>
+</table>

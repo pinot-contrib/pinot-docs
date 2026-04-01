@@ -11,10 +11,27 @@ Compares two multi-value columns (treated as sets) and returns `true` if they co
 
 > isEqualSet(mvCol1, mvCol2)
 
-| Argument  | Type         | Description       |
-| --------- | ------------ | ----------------- |
-| `mvCol1`  | Multi-value  | First collection  |
-| `mvCol2`  | Multi-value  | Second collection |
+<table>
+  <thead>
+    <tr>
+      <th>Argument</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`mvCol1`</td>
+      <td>Multi-value</td>
+      <td>First collection</td>
+    </tr>
+    <tr>
+      <td>`mvCol2`</td>
+      <td>Multi-value</td>
+      <td>Second collection</td>
+    </tr>
+  </tbody>
+</table>
 
 Returns: **BOOLEAN**
 

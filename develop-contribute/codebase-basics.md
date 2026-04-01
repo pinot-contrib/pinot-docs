@@ -4,12 +4,32 @@ This section helps you get the Apache Pinot source code onto your machine, under
 
 ## What you will learn
 
-| Topic | Description |
-| --- | --- |
-| [Code Setup](../developers/developers-and-contributors/code-setup.md) | Fork and clone the Pinot repository, install Maven, configure your IDE, and run a local QuickStart from source. |
-| [Code Modules and Organization](../developers/developers-and-contributors/code-modules-and-organization.md) | Understand every top-level Maven module -- SPI, core services, plugins, connectors, testing, and deployment artifacts. |
-| [Dependency Management](../developers/developers-and-contributors/dependency-management.md) | Follow the project's guidelines for adding, updating, and shading external dependencies in both core modules and plugins. |
-| [Build Docker Images](../tutorials/operations/build-docker-images.md) | Build Pinot and Pinot-Superset Docker images from any branch or fork, including ARM64 builds. |
+<table>
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Code Setup](../developers/developers-and-contributors/code-setup.md)</td>
+      <td>Fork and clone the Pinot repository, install Maven, configure your IDE, and run a local QuickStart from source.</td>
+    </tr>
+    <tr>
+      <td>[Code Modules and Organization](../developers/developers-and-contributors/code-modules-and-organization.md)</td>
+      <td>Understand every top-level Maven module -- SPI, core services, plugins, connectors, testing, and deployment artifacts.</td>
+    </tr>
+    <tr>
+      <td>[Dependency Management](../developers/developers-and-contributors/dependency-management.md)</td>
+      <td>Follow the project's guidelines for adding, updating, and shading external dependencies in both core modules and plugins.</td>
+    </tr>
+    <tr>
+      <td>[Build Docker Images](../tutorials/operations/build-docker-images.md)</td>
+      <td>Build Pinot and Pinot-Superset Docker images from any branch or fork, including ARM64 builds.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Recommended reading order
 

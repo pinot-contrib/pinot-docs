@@ -12,13 +12,54 @@ Pinot provides several batch ingestion modes. Use the table below to pick the on
 
 ### Decision Guide
 
-| Mode | Best For | Infrastructure | Data Scale | Status |
-|------|----------|---------------|------------|--------|
-| Standalone | Dev/test, small jobs, scripted pipelines | None (single JVM) | Up to a few GB | Recommended for dev |
-| Spark 3 | Production batch ingestion | Spark 3.x cluster | GB to TB+ | Recommended for production |
-| Hadoop | Existing MapReduce pipelines | Hadoop cluster | GB to TB+ | Legacy |
-| Flink | Streaming-first orgs, backfill, upsert bootstrap | Flink cluster | GB to TB+ | Active |
-| LaunchDataIngestionJob | CLI wrapper for Standalone | None | Up to a few GB | Convenience tool |
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Best For</th>
+      <th>Infrastructure</th>
+      <th>Data Scale</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Standalone</td>
+      <td>Dev/test, small jobs, scripted pipelines</td>
+      <td>None (single JVM)</td>
+      <td>Up to a few GB</td>
+      <td>Recommended for dev</td>
+    </tr>
+    <tr>
+      <td>Spark 3</td>
+      <td>Production batch ingestion</td>
+      <td>Spark 3.x cluster</td>
+      <td>GB to TB+</td>
+      <td>Recommended for production</td>
+    </tr>
+    <tr>
+      <td>Hadoop</td>
+      <td>Existing MapReduce pipelines</td>
+      <td>Hadoop cluster</td>
+      <td>GB to TB+</td>
+      <td>Legacy</td>
+    </tr>
+    <tr>
+      <td>Flink</td>
+      <td>Streaming-first orgs, backfill, upsert bootstrap</td>
+      <td>Flink cluster</td>
+      <td>GB to TB+</td>
+      <td>Active</td>
+    </tr>
+    <tr>
+      <td>LaunchDataIngestionJob</td>
+      <td>CLI wrapper for Standalone</td>
+      <td>None</td>
+      <td>Up to a few GB</td>
+      <td>Convenience tool</td>
+    </tr>
+  </tbody>
+</table>
 
 ### When to Use Each Mode
 
@@ -36,13 +77,42 @@ Pinot provides several batch ingestion modes. Use the table below to pick the on
 
 All artifacts use the group ID `org.apache.pinot`. Replace `${pinot.version}` with your Pinot release version.
 
-| Mode | Artifact ID | Notes |
-|------|------------|-------|
-| Standalone | `pinot-batch-ingestion-standalone` | Included in the Pinot binary distribution |
-| Spark 3 | `pinot-batch-ingestion-spark-3` | Located in `plugins-external/pinot-batch-ingestion/` |
-| Hadoop | `pinot-batch-ingestion-hadoop` | Located in `plugins-external/pinot-batch-ingestion/` |
-| Flink | `pinot-flink-connector` | Located in `pinot-connectors/` |
-| Common | `pinot-batch-ingestion-common` | Shared library used by all modes |
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Artifact ID</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Standalone</td>
+      <td>`pinot-batch-ingestion-standalone`</td>
+      <td>Included in the Pinot binary distribution</td>
+    </tr>
+    <tr>
+      <td>Spark 3</td>
+      <td>`pinot-batch-ingestion-spark-3`</td>
+      <td>Located in `plugins-external/pinot-batch-ingestion/`</td>
+    </tr>
+    <tr>
+      <td>Hadoop</td>
+      <td>`pinot-batch-ingestion-hadoop`</td>
+      <td>Located in `plugins-external/pinot-batch-ingestion/`</td>
+    </tr>
+    <tr>
+      <td>Flink</td>
+      <td>`pinot-flink-connector`</td>
+      <td>Located in `pinot-connectors/`</td>
+    </tr>
+    <tr>
+      <td>Common</td>
+      <td>`pinot-batch-ingestion-common`</td>
+      <td>Shared library used by all modes</td>
+    </tr>
+  </tbody>
+</table>
 
 Example Maven dependency for Spark 3:
 
@@ -263,6 +333,7 @@ executionFrameworkSpec:
   segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentMetadataPushJobRunner'
 
 # Recommended to set jobType to SegmentCreationAndMetadataPush for production environment where Pinot Deep Store is configured  
+
 jobType: SegmentCreationAndTarPush
 
 inputDirURI: '/tmp/pinot-quick-start/rawdata/'

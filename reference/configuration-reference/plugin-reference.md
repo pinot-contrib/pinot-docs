@@ -12,18 +12,78 @@ This section covers the configuration side of each plugin family: which implemen
 
 ## Plugin Families at a Glance
 
-| Plugin Family | What It Does | Config Reference | Authoring Guide |
-| --- | --- | --- | --- |
-| **Stream Ingestion** | Consume data from real-time streaming platforms (Kafka, Kinesis, Pulsar) | [Stream Ingestion Connectors](#stream-ingestion-connectors) / [Version Matrix](#stream-connector-version-matrix) | [Stream Ingestion Plugin](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md) |
-| **Input Format** | Read records from files or streams during ingestion (Avro, JSON, Parquet, ORC, CSV, ...) | [Input Formats](../../manage-data/data-import/pinot-input-formats.md) | [Input Format Plugin](../../developers/plugin-architecture/write-custom-plugins/record-reader.md) |
-| **Filesystem** | Store and fetch segments from pluggable storage backends (S3, GCS, HDFS, ADLS) | [Filesystem Plugins](../../manage-data/data-import/pinot-file-system/) | [Filesystem Plugin](../../developers/plugin-architecture/write-custom-plugins/pluggable-storage.md) |
-| **Batch Ingestion** | Run data ingestion jobs on different execution frameworks (Standalone, Hadoop, Spark) | [Batch Ingestion](../../manage-data/data-import/batch-ingestion/) | - |
-| **Metrics** | Collect and expose internal JMX metrics via Dropwizard, Yammer, or a compound backend | [Metrics Plugins](#metrics-plugins) | [Metrics Plugin](../../developers/plugin-architecture/write-custom-plugins/metrics-plugin.md) |
-| **Segment Writer** | Programmatically build Pinot segments without a full batch ingestion job | - | [Segment Writer Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-writer-plugin.md) |
-| **Segment Uploader** | Upload completed segment tar files to the Pinot cluster | - | [Segment Uploader Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-uploader-plugin.md) |
-| **Minion Tasks** | Run background processing tasks on Pinot Minion nodes (merge, purge, compaction, ...) | [Minion](../../basics/components/cluster/minion.md) / [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md) | [Minion Task Plugin](../../developers/plugin-architecture/write-custom-plugins/minion-task-plugin.md) |
-| **Environment** | Discover cloud-specific instance metadata for failure-domain-aware placement | [Environment Provider](#environment-provider-plugins) | - |
-| **Time Series Language** | Support custom time series query languages (M3QL, PromQL) | - | [Time Series Language Plugin](../../developers/plugin-architecture/write-custom-plugins/time-series-language-plugin.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Plugin Family</th>
+      <th>What It Does</th>
+      <th>Config Reference</th>
+      <th>Authoring Guide</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Stream Ingestion**</td>
+      <td>Consume data from real-time streaming platforms (Kafka, Kinesis, Pulsar)</td>
+      <td>[Stream Ingestion Connectors](#stream-ingestion-connectors) / [Version Matrix](#stream-connector-version-matrix)</td>
+      <td>[Stream Ingestion Plugin](../../developers/plugin-architecture/write-custom-plugins/write-your-stream.md)</td>
+    </tr>
+    <tr>
+      <td>**Input Format**</td>
+      <td>Read records from files or streams during ingestion (Avro, JSON, Parquet, ORC, CSV, ...)</td>
+      <td>[Input Formats](../../manage-data/data-import/pinot-input-formats.md)</td>
+      <td>[Input Format Plugin](../../developers/plugin-architecture/write-custom-plugins/record-reader.md)</td>
+    </tr>
+    <tr>
+      <td>**Filesystem**</td>
+      <td>Store and fetch segments from pluggable storage backends (S3, GCS, HDFS, ADLS)</td>
+      <td>[Filesystem Plugins](../../manage-data/data-import/pinot-file-system/)</td>
+      <td>[Filesystem Plugin](../../developers/plugin-architecture/write-custom-plugins/pluggable-storage.md)</td>
+    </tr>
+    <tr>
+      <td>**Batch Ingestion**</td>
+      <td>Run data ingestion jobs on different execution frameworks (Standalone, Hadoop, Spark)</td>
+      <td>[Batch Ingestion](../../manage-data/data-import/batch-ingestion/)</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>**Metrics**</td>
+      <td>Collect and expose internal JMX metrics via Dropwizard, Yammer, or a compound backend</td>
+      <td>[Metrics Plugins](#metrics-plugins)</td>
+      <td>[Metrics Plugin](../../developers/plugin-architecture/write-custom-plugins/metrics-plugin.md)</td>
+    </tr>
+    <tr>
+      <td>**Segment Writer**</td>
+      <td>Programmatically build Pinot segments without a full batch ingestion job</td>
+      <td>-</td>
+      <td>[Segment Writer Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-writer-plugin.md)</td>
+    </tr>
+    <tr>
+      <td>**Segment Uploader**</td>
+      <td>Upload completed segment tar files to the Pinot cluster</td>
+      <td>-</td>
+      <td>[Segment Uploader Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-uploader-plugin.md)</td>
+    </tr>
+    <tr>
+      <td>**Minion Tasks**</td>
+      <td>Run background processing tasks on Pinot Minion nodes (merge, purge, compaction, ...)</td>
+      <td>[Minion](../../basics/components/cluster/minion.md) / [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md)</td>
+      <td>[Minion Task Plugin](../../developers/plugin-architecture/write-custom-plugins/minion-task-plugin.md)</td>
+    </tr>
+    <tr>
+      <td>**Environment**</td>
+      <td>Discover cloud-specific instance metadata for failure-domain-aware placement</td>
+      <td>[Environment Provider](#environment-provider-plugins)</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>**Time Series Language**</td>
+      <td>Support custom time series query languages (M3QL, PromQL)</td>
+      <td>-</td>
+      <td>[Time Series Language Plugin](../../developers/plugin-architecture/write-custom-plugins/time-series-language-plugin.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Stream Ingestion Connectors
 
@@ -39,13 +99,36 @@ Pinot ships two Kafka connector modules: `pinot-kafka-3.0` (Kafka client 3.9.2, 
 
 ### Supported Decoder Classes
 
-| Decoder Class | Description |
-| --- | --- |
-| `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder` | Decodes plain JSON messages without a schema registry. |
-| `org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder` | Decodes Avro messages using a schema provided via `stream.kafka.decoder.prop.schema`. |
-| `org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder` | Decodes Avro messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`. |
-| `org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder` | Decodes JSON messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`. Added in Pinot 1.4. |
-| `org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder` | Decodes Protocol Buffer messages. |
+<table>
+  <thead>
+    <tr>
+      <th>Decoder Class</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder`</td>
+      <td>Decodes plain JSON messages without a schema registry.</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder`</td>
+      <td>Decodes Avro messages using a schema provided via `stream.kafka.decoder.prop.schema`.</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder`</td>
+      <td>Decodes Avro messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`.</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder`</td>
+      <td>Decodes JSON messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`. Added in Pinot 1.4.</td>
+    </tr>
+    <tr>
+      <td>`org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder`</td>
+      <td>Decodes Protocol Buffer messages.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Kinesis
 
@@ -63,12 +146,52 @@ Pinot ships two Kafka connector modules: `pinot-kafka-3.0` (Kafka client 3.9.2, 
 
 This matrix maps each stream connector to its Maven module, artifact ID, client library version, and consumer factory class.
 
-| Stream | Connector Module | Maven Artifact | Client Library Version | Consumer Factory Class | Status |
-| --- | --- | --- | --- | --- | --- |
-| Apache Kafka 3.x | `pinot-kafka-3.0` | `org.apache.pinot:pinot-kafka-3.0` | kafka-clients 3.9.2 | `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` | Default, included in binary distribution |
-| Apache Kafka 4.x | `pinot-kafka-4.0` | `org.apache.pinot:pinot-kafka-4.0` | kafka-clients 4.1.1 | `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` | Included in binary distribution |
-| Amazon Kinesis | `pinot-kinesis` | `org.apache.pinot:pinot-kinesis` | AWS SDK 2.42.16 (`software.amazon.awssdk:kinesis`) | `org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory` | Included in binary distribution |
-| Apache Pulsar | `pinot-pulsar` | `org.apache.pinot:pinot-pulsar` | pulsar-client 4.0.9 | `org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory` | Optional, enable with `-Dplugins.include=pinot-pulsar` |
+<table>
+  <thead>
+    <tr>
+      <th>Stream</th>
+      <th>Connector Module</th>
+      <th>Maven Artifact</th>
+      <th>Client Library Version</th>
+      <th>Consumer Factory Class</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apache Kafka 3.x</td>
+      <td>`pinot-kafka-3.0`</td>
+      <td>`org.apache.pinot:pinot-kafka-3.0`</td>
+      <td>kafka-clients 3.9.2</td>
+      <td>`org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory`</td>
+      <td>Default, included in binary distribution</td>
+    </tr>
+    <tr>
+      <td>Apache Kafka 4.x</td>
+      <td>`pinot-kafka-4.0`</td>
+      <td>`org.apache.pinot:pinot-kafka-4.0`</td>
+      <td>kafka-clients 4.1.1</td>
+      <td>`org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory`</td>
+      <td>Included in binary distribution</td>
+    </tr>
+    <tr>
+      <td>Amazon Kinesis</td>
+      <td>`pinot-kinesis`</td>
+      <td>`org.apache.pinot:pinot-kinesis`</td>
+      <td>AWS SDK 2.42.16 (`software.amazon.awssdk:kinesis`)</td>
+      <td>`org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory`</td>
+      <td>Included in binary distribution</td>
+    </tr>
+    <tr>
+      <td>Apache Pulsar</td>
+      <td>`pinot-pulsar`</td>
+      <td>`org.apache.pinot:pinot-pulsar`</td>
+      <td>pulsar-client 4.0.9</td>
+      <td>`org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory`</td>
+      <td>Optional, enable with `-Dplugins.include=pinot-pulsar`</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 All version numbers above are from the Pinot `master` branch (1.5.0-SNAPSHOT). Released Pinot versions may ship slightly different client library versions. Check the `pom.xml` of the corresponding module in your Pinot release for the exact version.
@@ -103,10 +226,27 @@ All version numbers above are from the Pinot `master` branch (1.5.0-SNAPSHOT). R
 
 ### Removed connectors
 
-| Former Module | Removed In | Migration Path |
-| --- | --- | --- |
-| `pinot-kafka-0.9` | Pre-1.0 | Migrate to `pinot-kafka-3.0` |
-| `pinot-kafka-2.0` | Pre-1.0 | Migrate to `pinot-kafka-3.0` (or `pinot-kafka-4.0` for Kafka 4.x brokers) |
+<table>
+  <thead>
+    <tr>
+      <th>Former Module</th>
+      <th>Removed In</th>
+      <th>Migration Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinot-kafka-0.9`</td>
+      <td>Pre-1.0</td>
+      <td>Migrate to `pinot-kafka-3.0`</td>
+    </tr>
+    <tr>
+      <td>`pinot-kafka-2.0`</td>
+      <td>Pre-1.0</td>
+      <td>Migrate to `pinot-kafka-3.0` (or `pinot-kafka-4.0` for Kafka 4.x brokers)</td>
+    </tr>
+  </tbody>
+</table>
 
 To migrate, update `stream.kafka.consumer.factory.class.name` in your table config from the old class to the new one. No other stream config changes are required.
 
@@ -116,11 +256,32 @@ Apache Pinot uses a pluggable metrics factory to support multiple metrics backen
 
 ### Available Implementations
 
-| Plugin | Class Name | Description |
-|--------|-----------|-------------|
-| **Yammer** (default) | `org.apache.pinot.plugin.metrics.yammer.YammerMetricsFactory` | Lightweight, default metrics implementation |
-| **Dropwizard** | `org.apache.pinot.plugin.metrics.dropwizard.DropwizardMetricsFactory` | Full Dropwizard Metrics integration with sliding time window reservoirs |
-| **Compound** | `org.apache.pinot.plugin.metrics.compound.CompoundPinotMetricsFactory` | Registers metrics in multiple backends simultaneously |
+<table>
+  <thead>
+    <tr>
+      <th>Plugin</th>
+      <th>Class Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Yammer** (default)</td>
+      <td>`org.apache.pinot.plugin.metrics.yammer.YammerMetricsFactory`</td>
+      <td>Lightweight, default metrics implementation</td>
+    </tr>
+    <tr>
+      <td>**Dropwizard**</td>
+      <td>`org.apache.pinot.plugin.metrics.dropwizard.DropwizardMetricsFactory`</td>
+      <td>Full Dropwizard Metrics integration with sliding time window reservoirs</td>
+    </tr>
+    <tr>
+      <td>**Compound**</td>
+      <td>`org.apache.pinot.plugin.metrics.compound.CompoundPinotMetricsFactory`</td>
+      <td>Registers metrics in multiple backends simultaneously</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Configuration
 
@@ -150,9 +311,22 @@ pinot.server.metrics.factory.className=org.apache.pinot.plugin.metrics.dropwizar
 
 **Additional properties:**
 
-| Property | Default | Description |
-|----------|---------|-------------|
-| `pinot.<component>.metrics.dropwizard.domain` | `org.apache.pinot.common.metrics` | JMX domain name for metrics |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinot.<component>.metrics.dropwizard.domain`</td>
+      <td>`org.apache.pinot.common.metrics`</td>
+      <td>JMX domain name for metrics</td>
+    </tr>
+  </tbody>
+</table>
 
 **Example:**
 
@@ -171,11 +345,32 @@ pinot.server.metrics.factory.className=org.apache.pinot.plugin.metrics.compound.
 
 **Additional properties:**
 
-| Property | Default | Description |
-|----------|---------|-------------|
-| `pinot.<component>.metrics.compound.algorithm` | `CLASSPATH` | Discovery algorithm: `CLASSPATH`, `SERVICE_LOADER`, or `LIST` |
-| `pinot.<component>.metrics.compound.ignored` | (empty) | Comma-separated list of factory class names to exclude |
-| `pinot.<component>.metrics.compound.list` | (empty) | Comma-separated list of factory class names to include (only with `algorithm=LIST`) |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinot.<component>.metrics.compound.algorithm`</td>
+      <td>`CLASSPATH`</td>
+      <td>Discovery algorithm: `CLASSPATH`, `SERVICE_LOADER`, or `LIST`</td>
+    </tr>
+    <tr>
+      <td>`pinot.<component>.metrics.compound.ignored`</td>
+      <td>(empty)</td>
+      <td>Comma-separated list of factory class names to exclude</td>
+    </tr>
+    <tr>
+      <td>`pinot.<component>.metrics.compound.list`</td>
+      <td>(empty)</td>
+      <td>Comma-separated list of factory class names to include (only with `algorithm=LIST`)</td>
+    </tr>
+  </tbody>
+</table>
 
 **Example: Use both Yammer and Dropwizard:**
 
@@ -201,13 +396,42 @@ When using Compound metrics, ensure JMX MBean names don't conflict between regis
 
 Pinot exposes the following metric primitives through all backends:
 
-| Type | Description | Example |
-|------|-------------|---------|
-| **Counter** | Discrete event counts | Total queries processed |
-| **Meter** | Event rates | Queries per second |
-| **Timer** | Latency and throughput | Query execution time |
-| **Histogram** | Value distributions | Query result sizes |
-| **Gauge** | Point-in-time values | Segment count, heap usage |
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Counter**</td>
+      <td>Discrete event counts</td>
+      <td>Total queries processed</td>
+    </tr>
+    <tr>
+      <td>**Meter**</td>
+      <td>Event rates</td>
+      <td>Queries per second</td>
+    </tr>
+    <tr>
+      <td>**Timer**</td>
+      <td>Latency and throughput</td>
+      <td>Query execution time</td>
+    </tr>
+    <tr>
+      <td>**Histogram**</td>
+      <td>Value distributions</td>
+      <td>Query result sizes</td>
+    </tr>
+    <tr>
+      <td>**Gauge**</td>
+      <td>Point-in-time values</td>
+      <td>Segment count, heap usage</td>
+    </tr>
+  </tbody>
+</table>
 
 ### JMX Reporting
 
@@ -221,9 +445,22 @@ Environment Provider plugins allow Pinot to discover cloud-specific instance met
 
 ### Available Implementations
 
-| Plugin | Class Name | Cloud Provider |
-|--------|-----------|---------------|
-| **Azure** | `org.apache.pinot.plugin.provider.AzureEnvironmentProvider` | Microsoft Azure |
+<table>
+  <thead>
+    <tr>
+      <th>Plugin</th>
+      <th>Class Name</th>
+      <th>Cloud Provider</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Azure**</td>
+      <td>`org.apache.pinot.plugin.provider.AzureEnvironmentProvider`</td>
+      <td>Microsoft Azure</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Azure Environment Provider
 
@@ -231,12 +468,42 @@ The Azure Environment Provider queries the [Azure Instance Metadata Service (IMD
 
 #### Configuration
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `maxRetry` | Integer | Yes | Maximum number of HTTP retries (must be > 0) |
-| `imdsEndpoint` | String | Yes | Azure IMDS endpoint URL |
-| `connectionTimeoutMillis` | Integer | Yes | HTTP connection timeout in milliseconds |
-| `requestTimeoutMillis` | Integer | Yes | HTTP request/response timeout in milliseconds |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`maxRetry`</td>
+      <td>Integer</td>
+      <td>Yes</td>
+      <td>Maximum number of HTTP retries (must be > 0)</td>
+    </tr>
+    <tr>
+      <td>`imdsEndpoint`</td>
+      <td>String</td>
+      <td>Yes</td>
+      <td>Azure IMDS endpoint URL</td>
+    </tr>
+    <tr>
+      <td>`connectionTimeoutMillis`</td>
+      <td>Integer</td>
+      <td>Yes</td>
+      <td>HTTP connection timeout in milliseconds</td>
+    </tr>
+    <tr>
+      <td>`requestTimeoutMillis`</td>
+      <td>Integer</td>
+      <td>Yes</td>
+      <td>HTTP request/response timeout in milliseconds</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Example Configuration
 

@@ -21,9 +21,20 @@ WHERE RandomAirports = 'SEA'
 GROUP BY airport
 ```
 
-| airport | count(\*) |
-| ------- | --------- |
-| SEA     | 4858      |
+<table>
+  <thead>
+    <tr>
+      <th>airport</th>
+      <th>count(\*)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SEA</td>
+      <td>4858</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT VALUEIN(RandomAirports, 'SEA', 'PSC') as airport, count(*)
@@ -32,10 +43,24 @@ WHERE RandomAirports IN ('SEA', 'PSC')
 GROUP BY airport
 ```
 
-| airport | count(\*) |
-| ------- | --------- |
-| PSC     | 4832      |
-| SEA     | 4858      |
+<table>
+  <thead>
+    <tr>
+      <th>airport</th>
+      <th>count(\*)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PSC</td>
+      <td>4832</td>
+    </tr>
+    <tr>
+      <td>SEA</td>
+      <td>4858</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 The `count(*)` values returned by these queries will increase each time we execute the query as data is constantly being ingested by the Hybrid Quick Start.

@@ -37,7 +37,6 @@ This function returns how many times the funnel has been went through.
    * **Description**: Defines additional modes or options that alter how the funnel analysis is calculated. Common modes might include settings to handle overlapping events, reset the window upon each step, or other custom behaviors specific to the needs of the funnel analysis. If unspecified, the default behavior as defined by Pinot is used.
 
 
-
 ## **Optional Mode Supported**
 
 ### STRICT\_DEDUPLICATION
@@ -54,7 +53,6 @@ The `STRICT_DEDUPLICATION` mode ensures that repeating occurrences of the same e
 For instance, if a funnel is designed to track user progression from a homepage visit, to a search, to adding an item to a cart, and then to checkout, the `strict_deduplication` mode would stop processing the funnel sequence if the user performs multiple searches without proceeding to add an item to the cart. This ensures that only a linear, non-repetitive progression through these steps is considered as valid funnel movement.
 
 This mode helps maintain the integrity of each step in the user's journey, ensuring that the data reflects true user behavior without overcounting repetitive actions that do not lead to actual progression.
-
 
 
 ### STRICT\_ORDER
@@ -148,7 +146,6 @@ ORDER BY user_id
 <table data-header-hidden><thead><tr><th width="530"></th><th></th></tr></thead><tbody><tr><td>user_id</td><td>rounds</td></tr><tr><td>1</td><td>0</td></tr><tr><td>2</td><td>0</td></tr><tr><td>3</td><td>1</td></tr><tr><td>4</td><td>0</td></tr></tbody></table>
 
 
-
 #### Query with strict\_order
 
 ```sql
@@ -169,12 +166,32 @@ ORDER BY user_id
 
 **Response**
 
-| user\_id | rounds |
-| -------- | ------ |
-| 1        | 2      |
-| 2        | 1      |
-| 3        | 1      |
-| 4        | 0      |
+<table>
+  <thead>
+    <tr>
+      <th>user\_id</th>
+      <th>rounds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Query with strict\_order and keep\_all
 
@@ -197,12 +214,32 @@ ORDER BY user_id
 
 **Response**
 
-| user\_id | rounds |
-| -------- | ------ |
-| 1        | 2      |
-| 2        | 1      |
-| 3        | 0      |
-| 4        | 0      |
+<table>
+  <thead>
+    <tr>
+      <th>user\_id</th>
+      <th>rounds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Query with longer window
 

@@ -22,6 +22,15 @@ select LASTWITHTIME(group_name, __metadata$recordTimestamp, 'STRING')
 from meetupRsvp 
 ```
 
-| value                |
-| -------------------- |
-| group\_name809822304 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>group\_name809822304</td>
+    </tr>
+  </tbody>
+</table>

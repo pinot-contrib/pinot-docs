@@ -10,11 +10,32 @@ By default, Pinot ships with all security disabled (`AllowAllAccessFactory`) so 
 
 Pinot security is organized into three independent layers that can be adopted incrementally:
 
-| Layer | What it protects | Key mechanism |
-|-------|-----------------|---------------|
-| **Authentication** | Verifies the identity of users and services | HTTP Basic Auth (static config or ZooKeeper-managed) |
-| **Authorization / ACLs** | Controls what each principal can do | Per-table and per-operation permissions, Row-Level Security (RLS) |
-| **Transport encryption (TLS)** | Protects data in transit between clients, brokers, servers, and controllers | 1-way or 2-way (mutual) TLS |
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>What it protects</th>
+      <th>Key mechanism</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Authentication**</td>
+      <td>Verifies the identity of users and services</td>
+      <td>HTTP Basic Auth (static config or ZooKeeper-managed)</td>
+    </tr>
+    <tr>
+      <td>**Authorization / ACLs**</td>
+      <td>Controls what each principal can do</td>
+      <td>Per-table and per-operation permissions, Row-Level Security (RLS)</td>
+    </tr>
+    <tr>
+      <td>**Transport encryption (TLS)**</td>
+      <td>Protects data in transit between clients, brokers, servers, and controllers</td>
+      <td>1-way or 2-way (mutual) TLS</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Authentication models
 
@@ -64,13 +85,36 @@ Before enabling security, ensure:
 
 ## Child pages
 
-| Page | Description |
-|------|-------------|
-| [Access Control](../operators/operating-pinot/access-control.md) | ACL framework, custom `AccessControlFactory`, and Row-Level Security (RLS) |
-| [Authentication overview](../tutorials/operations/authentication/README.md) | Introduction to Pinot's HTTP Basic Auth and links to setup guides |
-| [Basic Auth Access Control](../tutorials/operations/authentication/basic-auth-access-control.md) | Step-by-step setup of static Basic Auth for controller, broker, server, and minion |
-| [ZK Basic Auth Access Control](../tutorials/operations/authentication/zkbasicauthaccesscontrol.md) | ZooKeeper-managed Basic Auth with hot deployment and bcrypt encryption |
-| [Configuring TLS/SSL](../tutorials/operations/configuring-tls-ssl.md) | Listener configuration, zero-downtime TLS migration, and 2-way TLS setup |
+<table>
+  <thead>
+    <tr>
+      <th>Page</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[Access Control](../operators/operating-pinot/access-control.md)</td>
+      <td>ACL framework, custom `AccessControlFactory`, and Row-Level Security (RLS)</td>
+    </tr>
+    <tr>
+      <td>[Authentication overview](../tutorials/operations/authentication/README.md)</td>
+      <td>Introduction to Pinot's HTTP Basic Auth and links to setup guides</td>
+    </tr>
+    <tr>
+      <td>[Basic Auth Access Control](../tutorials/operations/authentication/basic-auth-access-control.md)</td>
+      <td>Step-by-step setup of static Basic Auth for controller, broker, server, and minion</td>
+    </tr>
+    <tr>
+      <td>[ZK Basic Auth Access Control](../tutorials/operations/authentication/zkbasicauthaccesscontrol.md)</td>
+      <td>ZooKeeper-managed Basic Auth with hot deployment and bcrypt encryption</td>
+    </tr>
+    <tr>
+      <td>[Configuring TLS/SSL](../tutorials/operations/configuring-tls-ssl.md)</td>
+      <td>Listener configuration, zero-downtime TLS migration, and 2-way TLS setup</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Next step
 

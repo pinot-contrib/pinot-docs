@@ -11,10 +11,27 @@ Returns the hypotenuse of a right-angled triangle, computed as `sqrt(col1² + co
 
 > hypot(col1, col2)
 
-| Argument | Type   | Description                 |
-| -------- | ------ | --------------------------- |
-| `col1`   | DOUBLE | Length of one side           |
-| `col2`   | DOUBLE | Length of the other side     |
+<table>
+  <thead>
+    <tr>
+      <th>Argument</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`col1`</td>
+      <td>DOUBLE</td>
+      <td>Length of one side</td>
+    </tr>
+    <tr>
+      <td>`col2`</td>
+      <td>DOUBLE</td>
+      <td>Length of the other side</td>
+    </tr>
+  </tbody>
+</table>
 
 Returns: **DOUBLE**
 
@@ -25,15 +42,33 @@ SELECT hypot(3, 4) AS value
 FROM myTable
 ```
 
-| value |
-| ----- |
-| 5.0   |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT hypot(5, 12) AS value
 FROM myTable
 ```
 
-| value |
-| ----- |
-| 13.0  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13.0</td>
+    </tr>
+  </tbody>
+</table>

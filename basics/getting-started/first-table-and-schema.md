@@ -24,11 +24,28 @@ export PINOT_VERSION=<your-pinot-version>
 
 A Pinot schema defines every column in your table and assigns each one a column type. There are three column types:
 
-| Column type | Description |
-| --- | --- |
-| Dimension | Used in filters and GROUP BY clauses for slicing and dicing data. |
-| Metric | Used in aggregations; represents quantitative measurements. |
-| DateTime | Represents the timestamp associated with each row. |
+<table>
+  <thead>
+    <tr>
+      <th>Column type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dimension</td>
+      <td>Used in filters and GROUP BY clauses for slicing and dicing data.</td>
+    </tr>
+    <tr>
+      <td>Metric</td>
+      <td>Used in aggregations; represents quantitative measurements.</td>
+    </tr>
+    <tr>
+      <td>DateTime</td>
+      <td>Represents the timestamp associated with each row.</td>
+    </tr>
+  </tbody>
+</table>
 
 Every table must have a schema before it can accept data. The schema tells Pinot how to interpret, index, and store each field.
 

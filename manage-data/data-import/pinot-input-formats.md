@@ -78,28 +78,117 @@ The Avro record reader converts the data in file to a `GenericRecord`. A Java cl
 
 We use the following conversion table to translate between Avro and Pinot data types. The conversions are done using the offical Avro methods present in `org.apache.avro.Conversions`.
 
-| Avro Data Type    | Pinot Data Type | Comment                  |
-| ----------------- | --------------- | ------------------------ |
-| INT               | INT             |                          |
-| LONG              | LONG            |                          |
-| FLOAT             | FLOAT           |                          |
-| DOUBLE            | DOUBLE          |                          |
-| BOOLEAN           | BOOLEAN         |                          |
-| STRING            | STRING          |                          |
-| ENUM              | STRING          |                          |
-| BYTES             | BYTES           |                          |
-| FIXED             | BYTES           |                          |
-| MAP               | JSON            |                          |
-| ARRAY             | JSON            |                          |
-| RECORD            | JSON            |                          |
-| UNION             | JSON            |                          |
-| DECIMAL           | BYTES           |                          |
-| UUID              | STRING          |                          |
-| DATE              | STRING          | `yyyy-MM-dd` format      |
-| TIME\_MILLIS      | STRING          | `HH:mm:ss.SSS` format    |
-| TIME\_MICROS      | STRING          | `HH:mm:ss.SSSSSS` format |
-| TIMESTAMP\_MILLIS | TIMESTAMP       |                          |
-| TIMESTAMP\_MICROS | TIMESTAMP       |                          |
+<table>
+  <thead>
+    <tr>
+      <th>Avro Data Type</th>
+      <th>Pinot Data Type</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>INT</td>
+      <td>INT</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>LONG</td>
+      <td>LONG</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>FLOAT</td>
+      <td>FLOAT</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DOUBLE</td>
+      <td>DOUBLE</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>BOOLEAN</td>
+      <td>BOOLEAN</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>STRING</td>
+      <td>STRING</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ENUM</td>
+      <td>STRING</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>BYTES</td>
+      <td>BYTES</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>FIXED</td>
+      <td>BYTES</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>MAP</td>
+      <td>JSON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ARRAY</td>
+      <td>JSON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>RECORD</td>
+      <td>JSON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>UNION</td>
+      <td>JSON</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DECIMAL</td>
+      <td>BYTES</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>UUID</td>
+      <td>STRING</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DATE</td>
+      <td>STRING</td>
+      <td>`yyyy-MM-dd` format</td>
+    </tr>
+    <tr>
+      <td>TIME\_MILLIS</td>
+      <td>STRING</td>
+      <td>`HH:mm:ss.SSS` format</td>
+    </tr>
+    <tr>
+      <td>TIME\_MICROS</td>
+      <td>STRING</td>
+      <td>`HH:mm:ss.SSSSSS` format</td>
+    </tr>
+    <tr>
+      <td>TIMESTAMP\_MILLIS</td>
+      <td>TIMESTAMP</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>TIMESTAMP\_MICROS</td>
+      <td>TIMESTAMP</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 ### JSON
 
@@ -141,18 +230,67 @@ className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReade
 For the support of DECIMAL and other parquet native data types, always use `ParquetNativeRecordReader`.
 {% endhint %}
 
-| INT96                | LONG                              | <p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p>to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p> |
-| -------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| INT64                | LONG                              |                                                                                                                                                     |
-| INT32                | INT                               |                                                                                                                                                     |
-| FLOAT                | FLOAT                             |                                                                                                                                                     |
-| DOUBLE               | DOUBLE                            |                                                                                                                                                     |
-| BINARY               | BYTES                             |                                                                                                                                                     |
-| FIXED-LEN-BYTE-ARRAY | BYTES                             |                                                                                                                                                     |
-| DECIMAL              | DOUBLE                            |                                                                                                                                                     |
-| ENUM                 | STRING                            |                                                                                                                                                     |
-| UTF8                 | STRING                            |                                                                                                                                                     |
-| REPEATED             | MULTIVALUE/MAP (represented as MV | if parquet original type is LIST, then it is converted to MULTIVALUE column otherwise a MAP column.                                                 |
+<table>
+  <thead>
+    <tr>
+      <th>INT96</th>
+      <th>LONG</th>
+      <th><p>Parquet<code>INT96</code> type converts <strong>nanoseconds</strong></p><p>to Pinot <code>INT64</code> type of <strong>milliseconds</strong></p></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>INT64</td>
+      <td>LONG</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>INT32</td>
+      <td>INT</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>FLOAT</td>
+      <td>FLOAT</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DOUBLE</td>
+      <td>DOUBLE</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>BINARY</td>
+      <td>BYTES</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>FIXED-LEN-BYTE-ARRAY</td>
+      <td>BYTES</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DECIMAL</td>
+      <td>DOUBLE</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ENUM</td>
+      <td>STRING</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>UTF8</td>
+      <td>STRING</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>REPEATED</td>
+      <td>MULTIVALUE/MAP (represented as MV</td>
+      <td>if parquet original type is LIST, then it is converted to MULTIVALUE column otherwise a MAP column.</td>
+    </tr>
+  </tbody>
+</table>
 
 For `ParquetAvroRecordReader` , you can refer to the [Avro section above](pinot-input-formats.md#avro) for the type conversions.
 
@@ -165,23 +303,76 @@ className: 'org.apache.pinot.plugin.inputformat.orc.ORCRecordReader'
 
 ORC record reader supports the following data types -
 
-| ORC Data Type | Java Data Type       |
-| ------------- | -------------------- |
-| BOOLEAN       | String               |
-| SHORT         | Integer              |
-| INT           | Integer              |
-| LONG          | Integer              |
-| FLOAT         | Float                |
-| DOUBLE        | Double               |
-| STRING        | String               |
-| VARCHAR       | String               |
-| CHAR          | String               |
-| LIST          | Object\[]            |
-| MAP           | Map\<Object, Object> |
-| DATE          | Long                 |
-| TIMESTAMP     | Long                 |
-| BINARY        | byte\[]              |
-| BYTE          | Integer              |
+<table>
+  <thead>
+    <tr>
+      <th>ORC Data Type</th>
+      <th>Java Data Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BOOLEAN</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>SHORT</td>
+      <td>Integer</td>
+    </tr>
+    <tr>
+      <td>INT</td>
+      <td>Integer</td>
+    </tr>
+    <tr>
+      <td>LONG</td>
+      <td>Integer</td>
+    </tr>
+    <tr>
+      <td>FLOAT</td>
+      <td>Float</td>
+    </tr>
+    <tr>
+      <td>DOUBLE</td>
+      <td>Double</td>
+    </tr>
+    <tr>
+      <td>STRING</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>VARCHAR</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>CHAR</td>
+      <td>String</td>
+    </tr>
+    <tr>
+      <td>LIST</td>
+      <td>Object\[]</td>
+    </tr>
+    <tr>
+      <td>MAP</td>
+      <td>Map\<Object, Object></td>
+    </tr>
+    <tr>
+      <td>DATE</td>
+      <td>Long</td>
+    </tr>
+    <tr>
+      <td>TIMESTAMP</td>
+      <td>Long</td>
+    </tr>
+    <tr>
+      <td>BINARY</td>
+      <td>byte\[]</td>
+    </tr>
+    <tr>
+      <td>BYTE</td>
+      <td>Integer</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 In LIST and MAP types, the object should only belong to one of the data types supported by Pinot.
@@ -222,8 +413,21 @@ stream.kafka.decoder.class.name=org.apache.pinot.plugin.inputformat.arrow.ArrowM
 
 **Configuration properties:**
 
-| Property | Default | Description |
-|----------|---------|-------------|
-| `arrow.allocator.limit` | 268435456 (256 MB) | Memory limit for Arrow's off-heap allocator in bytes |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`arrow.allocator.limit`</td>
+      <td>268435456 (256 MB)</td>
+      <td>Memory limit for Arrow's off-heap allocator in bytes</td>
+    </tr>
+  </tbody>
+</table>
 
 The decoder handles Arrow type conversions automatically: `Text` → `String`, `LocalDateTime` → `Timestamp`, Arrow Maps → flattened `Map<String, Object>`, and Arrow Lists → `List<Object>`. Dictionary-encoded columns are also supported.

@@ -16,11 +16,32 @@ pinot.broker.grpc.tls.port=8020
 
 ## Client Options
 
-| Option | Default | Notes |
-| --- | --- | --- |
-| `blockRowSize` | `10000` | Rows per response block |
-| `compression` | `ZSTD` | Wire compression choice |
-| `encoding` | `JSON` | Result transport encoding; `ARROW` is also supported |
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Default</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`blockRowSize`</td>
+      <td>`10000`</td>
+      <td>Rows per response block</td>
+    </tr>
+    <tr>
+      <td>`compression`</td>
+      <td>`ZSTD`</td>
+      <td>Wire compression choice</td>
+    </tr>
+    <tr>
+      <td>`encoding`</td>
+      <td>`JSON`</td>
+      <td>Result transport encoding; `ARROW` is also supported</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Client Examples
 

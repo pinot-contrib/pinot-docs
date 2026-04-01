@@ -35,6 +35,7 @@ When deploying or upgrading Pinot components, follow this order to avoid protoco
 When rolling back, reverse the order (Minion → Server → Broker → Controller). Each component connects to ZooKeeper independently, so the ordering is a best-practice precaution rather than a hard dependency.
 
 For detailed upgrade testing with the cross-version compatibility suite, see [Upgrading Pinot](../../operators/operating-pinot/upgrading-pinot-cluster.md).
+
 ## Capacity planning
 
 ### Servers
@@ -54,16 +55,37 @@ Broker capacity is primarily driven by QPS and result-set merge cost. Each broke
 ### Controllers
 
 Controllers are lightweight relative to brokers and servers. Two controllers are sufficient for most clusters. Add more only if you observe high API latency or segment-push bottlenecks.
+
 ## Health checks and SLIs
 
 Every Pinot component exposes health-check endpoints for use in load-balancer probes, Kubernetes readiness/liveness checks, and monitoring:
 
-| Component | Endpoints |
-|---|---|
-| Controller | `GET /health` |
-| Broker | `GET /health` |
-| Server | `GET /health`, `GET /health/liveness`, `GET /health/readiness` |
-| Minion | `GET /health` |
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Endpoints</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Controller</td>
+      <td>`GET /health`</td>
+    </tr>
+    <tr>
+      <td>Broker</td>
+      <td>`GET /health`</td>
+    </tr>
+    <tr>
+      <td>Server</td>
+      <td>`GET /health`, `GET /health/liveness`, `GET /health/readiness`</td>
+    </tr>
+    <tr>
+      <td>Minion</td>
+      <td>`GET /health`</td>
+    </tr>
+  </tbody>
+</table>
 
 All endpoints return HTTP 200 when healthy and 503 when unhealthy.
 
@@ -82,6 +104,7 @@ Define SLIs around these dimensions and alert when they breach your thresholds:
 **Cluster stability.** `SEGMENTS_IN_ERROR_STATE > 0`, `HELIX_ZOOKEEPER_RECONNECTS > 1/hour`, and `LLC_STREAM_DATA_LOSS > 0` all warrant investigation.
 
 For the full metrics catalog, alert thresholds, and diagnosis patterns, see [Monitoring](../../operators/operating-pinot/monitoring.md).
+
 ## Graceful operations
 
 ### Graceful server shutdown
@@ -107,6 +130,7 @@ On cloud platforms, node replacement is common. Pinot supports predownloading se
 4. Start the new node in normal mode.
 
 The new node must be assigned the same `instanceId` as the original. Predownload parallelism is controlled by `pinot.server.predownload.parallelism` (defaults to `numProcessors × 3`).
+
 ### Rolling restarts
 
 When restarting all servers (for example, for a JVM configuration change), restart them one at a time and wait for external-view convergence between each restart. This ensures that at least `replication - 1` replicas remain available for every segment throughout the process. Use the `/health/readiness` endpoint to gate each restart.
@@ -132,6 +156,7 @@ For day-to-day segment operations — choosing between reset, reload, refresh, r
 For rebalancing after capacity changes, see [Rebalance](../../operators/operating-pinot/rebalance/README.md).
 
 For managing real-time ingestion issues, see the [Real-time Ingestion Stopped](../../troubleshooting/realtime-ingestion-stopped.md) troubleshooting guide.
+
 ## Further reading
 
 - [Monitoring](../../operators/operating-pinot/monitoring.md) — metrics, alert thresholds, and diagnosis patterns

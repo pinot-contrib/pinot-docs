@@ -12,9 +12,13 @@ Here we will introduce how to monitor Pinot with Prometheus and Grafana in Kuber
 ### Install Pinot helm repo
 
 ```
+
 ## Adding Pinot helm repo
+
 helm repo add pinot https://raw.githubusercontent.com/apache/pinot/master/helm
+
 ## Extract all the configurable values of Pinot Helm into a config.
+
 helm inspect values pinot/pinot > /tmp/pinot-values.yaml
 ```
 

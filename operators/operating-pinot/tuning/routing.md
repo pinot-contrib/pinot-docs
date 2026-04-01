@@ -213,12 +213,37 @@ SELECT max(colA) FROM myTable OPTION(orderedPreferredPools='0|1')
 
 The broker evaluates the preferred pools in order and selects the first one that is fully available. If none of the preferred pools can serve the query, the broker falls back to any available pool.
 
-| Query option | Available pools | Pool selected |
-|---|---|---|
-| `0` | 0, 1, 2 | 0 |
-| `0\|1` | 0, 1, 2 | 0 |
-| `0\|1` | 1, 2 | 1 |
-| `0\|1` | 2 | 2 (fallback) |
+<table>
+  <thead>
+    <tr>
+      <th>Query option</th>
+      <th>Available pools</th>
+      <th>Pool selected</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`0`</td>
+      <td>0, 1, 2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>`0|1`</td>
+      <td>0, 1, 2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>`0|1`</td>
+      <td>1, 2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>`0|1`</td>
+      <td>2</td>
+      <td>2 (fallback)</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Use cases
 
@@ -256,7 +281,24 @@ In single-tenant clusters where all brokers serve all tables, this setting is no
 
 ### Configuration
 
-| Property | Description | Default |
-|---|---|---|
-| `pinot.broker.enforce.instance.tags` | When `true`, the broker will fail to start if `pinot.broker.instance.tags` is not set. Only checked on first join when instance tags are empty. | `false` |
-| `pinot.broker.instance.tags` | Comma-separated list of tenant tags for this broker instance (e.g., `myTenant_BROKER`). | _(empty)_ |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinot.broker.enforce.instance.tags`</td>
+      <td>When `true`, the broker will fail to start if `pinot.broker.instance.tags` is not set. Only checked on first join when instance tags are empty.</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+      <td>`pinot.broker.instance.tags`</td>
+      <td>Comma-separated list of tenant tags for this broker instance (e.g., `myTenant_BROKER`).</td>
+      <td>_(empty)_</td>
+    </tr>
+  </tbody>
+</table>

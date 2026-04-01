@@ -17,15 +17,33 @@ SELECT STARTSWITH('Apache Pinot', 'Apache') AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| true  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>true</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT STARTSWITH('Apache Pinot', 'Pinot') AS value
 FROM ignoreMe
 ```
 
-| value |
-| ----- |
-| false |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>

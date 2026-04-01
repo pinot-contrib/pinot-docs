@@ -8,11 +8,28 @@ Pinot's metrics plugins select which JMX backend publishes internal metrics. The
 
 ## Built-in Backends
 
-| Plugin | Role |
-| --- | --- |
-| Yammer | Default metrics backend in many Pinot deployments |
-| Dropwizard | Alternate JMX metrics backend |
-| Compound | Fan-out backend that publishes to multiple registries |
+<table>
+  <thead>
+    <tr>
+      <th>Plugin</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Yammer</td>
+      <td>Default metrics backend in many Pinot deployments</td>
+    </tr>
+    <tr>
+      <td>Dropwizard</td>
+      <td>Alternate JMX metrics backend</td>
+    </tr>
+    <tr>
+      <td>Compound</td>
+      <td>Fan-out backend that publishes to multiple registries</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What this page covered
 

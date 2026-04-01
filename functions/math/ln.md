@@ -17,15 +17,33 @@ select ln(1) AS value
 from ignoreMe
 ```
 
-| value |
-| ----- |
-| 0     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ln(12) AS value
 from ignoreMe
 ```
 
-| value              |
-| ------------------ |
-| 2.4849066497880004 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2.4849066497880004</td>
+    </tr>
+  </tbody>
+</table>

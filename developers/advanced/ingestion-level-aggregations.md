@@ -133,26 +133,95 @@ From the below aggregation config example, note that `price` exists in the input
 
 <figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
-| product\_name | sales\_count | total\_sales | daysSinceEpoch |
-| ------------- | ------------ | ------------ | -------------- |
-| car           | 2            | 2800.00      | 18193          |
-| truck         | 1            | 2200.00      | 18193          |
-| truck         | 1            | 700.00       | 18199          |
-| car           | 2            | 3200.00      | 18200          |
-| truck         | 1            | 800.00       | 18202          |
-| car           | 3            | 3700.00      | 18202          |
+<table>
+  <thead>
+    <tr>
+      <th>product\_name</th>
+      <th>sales\_count</th>
+      <th>total\_sales</th>
+      <th>daysSinceEpoch</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>car</td>
+      <td>2</td>
+      <td>2800.00</td>
+      <td>18193</td>
+    </tr>
+    <tr>
+      <td>truck</td>
+      <td>1</td>
+      <td>2200.00</td>
+      <td>18193</td>
+    </tr>
+    <tr>
+      <td>truck</td>
+      <td>1</td>
+      <td>700.00</td>
+      <td>18199</td>
+    </tr>
+    <tr>
+      <td>car</td>
+      <td>2</td>
+      <td>3200.00</td>
+      <td>18200</td>
+    </tr>
+    <tr>
+      <td>truck</td>
+      <td>1</td>
+      <td>800.00</td>
+      <td>18202</td>
+    </tr>
+    <tr>
+      <td>car</td>
+      <td>3</td>
+      <td>3700.00</td>
+      <td>18202</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Allowed Aggregation Functions
 
-| function name        | notes                                                                                                                                                                                                                                                             |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MAX                  |                                                                                                                                                                                                                                                                   |
-| MIN                  |                                                                                                                                                                                                                                                                   |
-| SUM                  |                                                                                                                                                                                                                                                                   |
-| COUNT                | Specify as `COUNT(*)`                                                                                                                                                                                                                                             |
-| DISTINCTCOUNTHLL     | Specify as `DISTINCTCOUNTHLL(field, log2m)`, default is 12. See [function reference](../../functions/aggregation/distinctcounthll.md) for how to define `log2m`. Cannot be changed later, a new field must be used. The schema for the output field should be `BYTES` type. |
-| DISTINCTCOUNTHLLPLUS | Specify as `DISTINCTCOUNTHLLPLUS(field, s, p)`. See [function reference](../../functions/sketch/distinctcounthllplus.md) for how to define `s` and `p`, they cannot be changed later. The schema for the output field should be `BYTES` type.    |
-| SUMPRECISION         | Specify as `SUMPRECISION(field, precision)`, precision must be defined. Used to compute the maximum possible size of the field. Cannot be changed later, a new field must be used. The schema for the output field should be `BIG_DECIMAL` type.                  |
+<table>
+  <thead>
+    <tr>
+      <th>function name</th>
+      <th>notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MAX</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>MIN</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>SUM</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>COUNT</td>
+      <td>Specify as `COUNT(*)`</td>
+    </tr>
+    <tr>
+      <td>DISTINCTCOUNTHLL</td>
+      <td>Specify as `DISTINCTCOUNTHLL(field, log2m)`, default is 12. See [function reference](../../functions/aggregation/distinctcounthll.md) for how to define `log2m`. Cannot be changed later, a new field must be used. The schema for the output field should be `BYTES` type.</td>
+    </tr>
+    <tr>
+      <td>DISTINCTCOUNTHLLPLUS</td>
+      <td>Specify as `DISTINCTCOUNTHLLPLUS(field, s, p)`. See [function reference](../../functions/sketch/distinctcounthllplus.md) for how to define `s` and `p`, they cannot be changed later. The schema for the output field should be `BYTES` type.</td>
+    </tr>
+    <tr>
+      <td>SUMPRECISION</td>
+      <td>Specify as `SUMPRECISION(field, precision)`, precision must be defined. Used to compute the maximum possible size of the field. Cannot be changed later, a new field must be used. The schema for the output field should be `BIG_DECIMAL` type.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Frequently Asked Questions
 

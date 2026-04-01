@@ -11,9 +11,22 @@ Returns the negation of the input value.
 
 > negate(col)
 
-| Argument | Type   | Description      |
-| -------- | ------ | ---------------- |
-| `col`    | DOUBLE | Value to negate  |
+<table>
+  <thead>
+    <tr>
+      <th>Argument</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`col`</td>
+      <td>DOUBLE</td>
+      <td>Value to negate</td>
+    </tr>
+  </tbody>
+</table>
 
 Returns: **DOUBLE**
 
@@ -24,15 +37,33 @@ SELECT negate(42.5) AS value
 FROM myTable
 ```
 
-| value  |
-| ------ |
-| -42.5  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-42.5</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT negate(-10) AS value
 FROM myTable
 ```
 
-| value |
-| ----- |
-| 10.0  |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10.0</td>
+    </tr>
+  </tbody>
+</table>

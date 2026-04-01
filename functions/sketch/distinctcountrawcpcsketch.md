@@ -27,18 +27,36 @@ select distinctCountRawCpcSketch(teamID) AS value
 from baseballStats 
 ```
 
-| value                                |
-| ------------------------------------ |
-| CAEQDAAOzJOVAAAAJwAAAAAAAAAMm69Al... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CAEQDAAOzJOVAAAAJwAAAAAAAAAMm69Al...</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select distinctCountRawCpcSketch(teamID, 'nominalEntries=256;accumulatorThreshold=10') AS value
 from baseballStats 
 ```
 
-| value                               |
-| ----------------------------------- |
-| CAEQCAAWzJOIAAAAEwAAAAAAAADAbGpA... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CAEQCAAWzJOIAAAAEwAAAAAAAADAbGpA...</td>
+    </tr>
+  </tbody>
+</table>
 
 We can also combine CPC sketches together via `cpcSketchUnion` for more complex use cases:
 
@@ -51,8 +69,17 @@ select
 from baseballStats
 ```
 
-| value                              |
-| ---------------------------------- |
-| 0401100c000acc933a000000120000e... |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0401100c000acc933a000000120000e...</td>
+    </tr>
+  </tbody>
+</table>
 
 This function can also be used with the V2 query engine.

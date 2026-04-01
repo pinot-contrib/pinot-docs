@@ -20,7 +20,21 @@ from baseballStats
 GROUP BY league
 ```
 
-| league | samplePlayer |
-| ------ | ------------ |
-| AA     | David Orr    |
-| NL     | Fred Pfeffer |
+<table>
+  <thead>
+    <tr>
+      <th>league</th>
+      <th>samplePlayer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AA</td>
+      <td>David Orr</td>
+    </tr>
+    <tr>
+      <td>NL</td>
+      <td>Fred Pfeffer</td>
+    </tr>
+  </tbody>
+</table>

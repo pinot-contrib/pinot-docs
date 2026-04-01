@@ -19,15 +19,33 @@ select second(1639351800000) AS second
 FROM ignoreMe
 ```
 
-| second |
-| ------ |
-| 0      |
+<table>
+  <thead>
+    <tr>
+      <th>second</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select second(1639351800000, 'America/St_Johns') AS second
 FROM ignoreMe
 ```
 
-| second |
-| ------ |
-| 0      |
+<table>
+  <thead>
+    <tr>
+      <th>second</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>

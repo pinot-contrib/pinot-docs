@@ -10,18 +10,78 @@ description: >-
 
 Recommendation Engine is a rule based engine that recommends optimal configuration options for Pinot tables. The configuration options currently covered by the engine are mostly TableConfig related (e.g indexes, real-time config). Note that not all configuration options in TableConfig are currently covered. The following table shows the ones that are currently covered.
 
-| Rule                                | Config Entity            | Config Name                                                                                                                                                                                                                                               | Applicable Table Type |
-| ----------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| Kafka Partitions                    | Kafka                    | <ul><li><code>num.partitions</code></li></ul>                                                                                                                                                                                                             | Real-time             |
-| Table Partitioning                  | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>segmentPartitionConfig</code></li></ul>                                                                                                                                                                       | Real-time & Offline   |
-| Inverted Sorted Index Joint         | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>invertedIndexColumns</code></li><li><code>tableIndexConfig</code>→<code>sortedColumn</code></li></ul>                                                                                                         | Real-time & Offline   |
-| NoDictionary OnHeapDictionary Joint | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>noDictionaryColumns</code></li><li><code>tableIndexConfig</code>→<code>onHeapDictionaryColumns</code></li></ul>                                                                                               | Real-time & Offline   |
-| Bloom Filter                        | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>bloomFilterColumns</code></li></ul>                                                                                                                                                                           | Real-time & Offline   |
-| Varied Length Dictionary            | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>variedLengthDictionaryColumns</code></li></ul>                                                                                                                                                                | Real-time & Offline   |
-| Segment Size                        | Segment Build & Push Job | <p>Recommendations on:</p><ul><li>Segment size in Bytes</li><li>Number of segments</li><li>Number of rows per segment</li></ul>                                                                                                                           | Offline               |
-| Aggregate Metrics                   | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>aggregateMetrics</code></li></ul>                                                                                                                                                                             | Real-time             |
-| Real-time Provisioning              | Table Config             | <ul><li><code>tableIndexConfig</code>→<code>streamConfigs</code>→<code>realtime.segment.flush.threshold.time</code></li><li><code>tableIndexConfig</code>→<code>streamConfigs</code>→<code>realtime.segment.flush.threshold.segment.size</code></li></ul> | Real-time             |
-| Real-time Provisioning              | Host Management          | Number of hosts needed in terms of memory consumption                                                                                                                                                                                                     | Real-time             |
+<table>
+  <thead>
+    <tr>
+      <th>Rule</th>
+      <th>Config Entity</th>
+      <th>Config Name</th>
+      <th>Applicable Table Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Kafka Partitions</td>
+      <td>Kafka</td>
+      <td><ul><li><code>num.partitions</code></li></ul></td>
+      <td>Real-time</td>
+    </tr>
+    <tr>
+      <td>Table Partitioning</td>
+      <td>Table Config</td>
+      <td><ul><li><code>tableIndexConfig</code>→<code>segmentPartitionConfig</code></li></ul></td>
+      <td>Real-time & Offline</td>
+    </tr>
+    <tr>
+      <td>Inverted Sorted Index Joint</td>
+      <td>Table Config</td>
+      <td><ul><li><code>tableIndexConfig</code>→<code>invertedIndexColumns</code></li><li><code>tableIndexConfig</code>→<code>sortedColumn</code></li></ul></td>
+      <td>Real-time & Offline</td>
+    </tr>
+    <tr>
+      <td>NoDictionary OnHeapDictionary Joint</td>
+      <td>Table Config</td>
+      <td><ul><li><code>tableIndexConfig</code>→<code>noDictionaryColumns</code></li><li><code>tableIndexConfig</code>→<code>onHeapDictionaryColumns</code></li></ul></td>
+      <td>Real-time & Offline</td>
+    </tr>
+    <tr>
+      <td>Bloom Filter</td>
+      <td>Table Config</td>
+      <td><ul><li><code>tableIndexConfig</code>→<code>bloomFilterColumns</code></li></ul></td>
+      <td>Real-time & Offline</td>
+    </tr>
+    <tr>
+      <td>Varied Length Dictionary</td>
+      <td>Table Config</td>
+      <td><ul><li><code>tableIndexConfig</code>→<code>variedLengthDictionaryColumns</code></li></ul></td>
+      <td>Real-time & Offline</td>
+    </tr>
+    <tr>
+      <td>Segment Size</td>
+      <td>Segment Build & Push Job</td>
+      <td><p>Recommendations on:</p><ul><li>Segment size in Bytes</li><li>Number of segments</li><li>Number of rows per segment</li></ul></td>
+      <td>Offline</td>
+    </tr>
+    <tr>
+      <td>Aggregate Metrics</td>
+      <td>Table Config</td>
+      <td><ul><li><code>tableIndexConfig</code>→<code>aggregateMetrics</code></li></ul></td>
+      <td>Real-time</td>
+    </tr>
+    <tr>
+      <td>Real-time Provisioning</td>
+      <td>Table Config</td>
+      <td><ul><li><code>tableIndexConfig</code>→<code>streamConfigs</code>→<code>realtime.segment.flush.threshold.time</code></li><li><code>tableIndexConfig</code>→<code>streamConfigs</code>→<code>realtime.segment.flush.threshold.segment.size</code></li></ul></td>
+      <td>Real-time</td>
+    </tr>
+    <tr>
+      <td>Real-time Provisioning</td>
+      <td>Host Management</td>
+      <td>Number of hosts needed in terms of memory consumption</td>
+      <td>Real-time</td>
+    </tr>
+  </tbody>
+</table>
 
 Recommendation Engine can be used to optimize the configuration parameters for both new and existing tables. Also since the recommendation engine tries to generate near-optimal configurations, users are strongly encouraged to provide the input information to the best of their knowledge. It is ok if the information is not fully accurate. However, random/arbitrary and incomplete information will not help the Recommendation Engine’s algorithms.
 

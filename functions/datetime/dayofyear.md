@@ -23,33 +23,69 @@ select dayOfYear(1639351800000) AS dayOfYear
 FROM ignoreMe
 ```
 
-| dayOfYear |
-| --------- |
-| 346       |
+<table>
+  <thead>
+    <tr>
+      <th>dayOfYear</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>346</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select dayOfYear(1639351800000, 'CET') AS dayOfYear
 FROM ignoreMe
 ```
 
-| dayOfYear |
-| --------- |
-| 347       |
+<table>
+  <thead>
+    <tr>
+      <th>dayOfYear</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>347</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select doy(1639351800000) AS dayOfYear
 FROM ignoreMe
 ```
 
-| dayOfYear |
-| --------- |
-| 346       |
+<table>
+  <thead>
+    <tr>
+      <th>dayOfYear</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>346</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select doy(1639351800000, 'CET') AS dayOfYear
 FROM ignoreMe
 ```
 
-| dayOfYear |
-| --------- |
-| 347       |
+<table>
+  <thead>
+    <tr>
+      <th>dayOfYear</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>347</td>
+    </tr>
+  </tbody>
+</table>

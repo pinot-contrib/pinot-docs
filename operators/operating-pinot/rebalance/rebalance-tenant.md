@@ -31,14 +31,47 @@ To run a tenant rebalance, use the following API. `POST /tenants/{tenantName}/re
 
 These are the available query parameters:
 
-| Query param         | Default vale | Description                                                                                                                                                                                                                                                                                         |
-| ------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| degreeOfParallelism | 1            | Number of tables to rebalance in parallel at a time                                                                                                                                                                                                                                                 |
-| includeTables       | `[]`         | <p>Comma separated list of tables with type that should be included in this tenant rebalance job. Leaving blank defaults to include all tables from the tenant. Example: "table1_REALTIME, table2_REALTIME"<br><br>Notice that a table will not be included if it doesn't belong to the tenant.</p> |
-| excludeTables       | `[]`         | Comma separated list of tables with type that would be excluded in this tenant rebalance job. These tables will be removed from includeTables (that said, if a table appears in both list, it will be excluded). Example: "table1\_REALTIME, table2\_REALTIME"                                      |
-| parallelWhitelist   | `[]`         | Comma separated list of tables with type that are allowed to be rebalanced in parallel. Leaving blank defaults to allow any table of this tenant to run in parallel.                                                                                                                                |
-| parallelBlacklist   | `[]`         | Comma separated list of tables with type that are restricted to be rebalanced in single thread. These tables will be removed from parallelWhitelist (that said, if a table appears in both list, it will be run in single thread)                                                                   |
-| verboseResult       | false        | When set to true it will return all the server rebalance output for each table. When set to false it will only return the server rebalance job tracking id and status                                                                                                                               |
+<table>
+  <thead>
+    <tr>
+      <th>Query param</th>
+      <th>Default vale</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>degreeOfParallelism</td>
+      <td>1</td>
+      <td>Number of tables to rebalance in parallel at a time</td>
+    </tr>
+    <tr>
+      <td>includeTables</td>
+      <td>`[]`</td>
+      <td><p>Comma separated list of tables with type that should be included in this tenant rebalance job. Leaving blank defaults to include all tables from the tenant. Example: "table1_REALTIME, table2_REALTIME"<br><br>Notice that a table will not be included if it doesn't belong to the tenant.</p></td>
+    </tr>
+    <tr>
+      <td>excludeTables</td>
+      <td>`[]`</td>
+      <td>Comma separated list of tables with type that would be excluded in this tenant rebalance job. These tables will be removed from includeTables (that said, if a table appears in both list, it will be excluded). Example: "table1\_REALTIME, table2\_REALTIME"</td>
+    </tr>
+    <tr>
+      <td>parallelWhitelist</td>
+      <td>`[]`</td>
+      <td>Comma separated list of tables with type that are allowed to be rebalanced in parallel. Leaving blank defaults to allow any table of this tenant to run in parallel.</td>
+    </tr>
+    <tr>
+      <td>parallelBlacklist</td>
+      <td>`[]`</td>
+      <td>Comma separated list of tables with type that are restricted to be rebalanced in single thread. These tables will be removed from parallelWhitelist (that said, if a table appears in both list, it will be run in single thread)</td>
+    </tr>
+    <tr>
+      <td>verboseResult</td>
+      <td>false</td>
+      <td>When set to true it will return all the server rebalance output for each table. When set to false it will only return the server rebalance job tracking id and status</td>
+    </tr>
+  </tbody>
+</table>
 
 The request body is the same set of [parameters](rebalance-servers/#rebalance-parameters) as the server rebalance API.&#x20;
 

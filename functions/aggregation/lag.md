@@ -55,11 +55,32 @@ FROM
 
 Output:
 
-| payment\_date              | amount | previous\_amount |
-| -------------------------- | ------ | ---------------- |
-| 2023-02-14 21:21:59.996577 | 2.99   | NULL             |
-| 2023-02-14 21:23:39.996577 | 4.99   | 2.99             |
-| 2023-02-14 21:29:00.996577 | 4.99   | 4.99             |
+<table>
+  <thead>
+    <tr>
+      <th>payment\_date</th>
+      <th>amount</th>
+      <th>previous\_amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2023-02-14 21:21:59.996577</td>
+      <td>2.99</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>2023-02-14 21:23:39.996577</td>
+      <td>4.99</td>
+      <td>2.99</td>
+    </tr>
+    <tr>
+      <td>2023-02-14 21:29:00.996577</td>
+      <td>4.99</td>
+      <td>4.99</td>
+    </tr>
+  </tbody>
+</table>
 
 Identify trends by comparing current data with historical data Use the LAG function to compare the current month's data with the same month from the previous year to identify trends or significant changes.
 
@@ -75,11 +96,30 @@ FROM
 
 Output:
 
-| month | year | data\_value | previous\_year\_data |
-| ----- | ---- | ----------- | -------------------- |
-| 1     | 2023 | 150         | NULL                 |
-| 1     | 2024 | 170         | 150                  |
-
+<table>
+  <thead>
+    <tr>
+      <th>month</th>
+      <th>year</th>
+      <th>data\_value</th>
+      <th>previous\_year\_data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2023</td>
+      <td>150</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2024</td>
+      <td>170</td>
+      <td>150</td>
+    </tr>
+  </tbody>
+</table>
 
 
 Use with CTE:

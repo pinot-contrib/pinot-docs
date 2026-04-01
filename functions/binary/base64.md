@@ -28,18 +28,36 @@ SELECT toBase64(toUtf8('hello!')) AS encoded
 FROM ignoreMe
 ```
 
-| encoded  |
-| -------- |
-| aGVsbG8h |
+<table>
+  <thead>
+    <tr>
+      <th>encoded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>aGVsbG8h</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT fromUtf8(fromBase64('aGVsbG8h')) AS decoded
 FROM ignoreMe
 ```
 
-| decoded |
-| ------- |
-| hello!  |
+<table>
+  <thead>
+    <tr>
+      <th>decoded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>hello!</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 Note that without UTF8 string conversion, returned BYTES will be represented as a Hex string following Pinot's [BYTES column representation](../../users/user-guide-query/querying-pinot.md#bytes-column). See the example below.
@@ -50,9 +68,18 @@ SELECT fromBase64('aGVsbG8h') AS decoded
 FROM ignoreMe
 ```
 
-| decoded      |
-| ------------ |
-| 68656c6c6f21 |
+<table>
+  <thead>
+    <tr>
+      <th>decoded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>68656c6c6f21</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="warning" %}
 Note that the following query will throw compilation error as string is not a valid input type for `toBase64`.

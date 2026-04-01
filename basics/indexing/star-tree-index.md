@@ -31,15 +31,60 @@ A star-tree index is not a good fit when:
 
 Consider the following data set, which is used here as an example to discuss these indexes:
 
-| Country | Browser | Locale | Impressions |
-| ------- | ------- | ------ | ----------- |
-| CA      | Chrome  | en     | 400         |
-| CA      | Firefox | fr     | 200         |
-| MX      | Safari  | es     | 300         |
-| MX      | Safari  | en     | 100         |
-| USA     | Chrome  | en     | 600         |
-| USA     | Firefox | es     | 200         |
-| USA     | Firefox | en     | 400         |
+<table>
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>Browser</th>
+      <th>Locale</th>
+      <th>Impressions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CA</td>
+      <td>Chrome</td>
+      <td>en</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>CA</td>
+      <td>Firefox</td>
+      <td>fr</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>MX</td>
+      <td>Safari</td>
+      <td>es</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <td>MX</td>
+      <td>Safari</td>
+      <td>en</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>Chrome</td>
+      <td>en</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>Firefox</td>
+      <td>es</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>Firefox</td>
+      <td>en</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Sorted index
 
@@ -58,17 +103,51 @@ In this approach, for each value of a given column, we maintain a list of docume
 
 Below are the inverted indexes for columns ‘Browser’ and ‘Locale’ for our example data set:
 
-| Browser | Doc Id |
-| ------- | ------ |
-| Firefox | 1,5,6  |
-| Chrome  | 0,4    |
-| Safari  | 2,3    |
+<table>
+  <thead>
+    <tr>
+      <th>Browser</th>
+      <th>Doc Id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Firefox</td>
+      <td>1,5,6</td>
+    </tr>
+    <tr>
+      <td>Chrome</td>
+      <td>0,4</td>
+    </tr>
+    <tr>
+      <td>Safari</td>
+      <td>2,3</td>
+    </tr>
+  </tbody>
+</table>
 
-| Locale | Doc Id  |
-| ------ | ------- |
-| en     | 0,3,4,6 |
-| es     | 2,5     |
-| fr     | 1       |
+<table>
+  <thead>
+    <tr>
+      <th>Locale</th>
+      <th>Doc Id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>en</td>
+      <td>0,3,4,6</td>
+    </tr>
+    <tr>
+      <td>es</td>
+      <td>2,5</td>
+    </tr>
+    <tr>
+      <td>fr</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
 
 For example, if we want to get all the documents where ‘Browser’ is ‘Firefox’, we can look up the inverted index for ‘Browser’ and identify that it appears in documents \[1, 5, 6].
 
@@ -80,11 +159,28 @@ In this technique, we pre-compute the answer for a given query set upfront.
 
 In the example below, we have pre-aggregated the total impressions for each country:
 
-| Country | Impressions |
-| ------- | ----------- |
-| CA      | 600         |
-| MX      | 400         |
-| USA     | 1200        |
+<table>
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>Impressions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CA</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td>MX</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>1200</td>
+    </tr>
+  </tbody>
+</table>
 
 With this approach, answering queries about total impressions for a country is a value lookup, because we have eliminated the need to process a large number of documents. However, to be able to answer queries that have multiple predicates means we would need to pre-aggregate for various combinations of different dimensions, which leads to an exponential increase in storage space.
 
@@ -185,7 +281,6 @@ All types of aggregation function that have a bounded-sized intermediate result 
   * The `p` value (precision parameter) for the `UltraLogLog` structure can be optionally configured in `functionParameters`, for example: `{"p": 20}`. If not configured, the default value of `12` will be used.
 
 
-
 **Unsupported functions**
 
 * DISTINCT\_COUNT
@@ -203,13 +298,36 @@ All types of aggregation function that have a bounded-sized intermediate result 
 
 Multiple index generation configurations can be provided to generate multiple star-trees. Each configuration should contain the following properties:
 
-| Property                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dimensionsSplitOrder              | <p>An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. The nodes will be split based on the order of this list. For example, split at level i is performed on the values of dimension at index i in the list.<br>- The star-tree dimension does not have to be a dimension column in the table, it can also be time column, date-time column, or metric column if necessary.<br>- The star-tree dimension column should be dictionary encoded in order to generate the star-tree index.<br>- All columns in the filter and group-by clause of a query should be included in this list in order to use the star-tree index.</p> |
-| skipStarNodeCreationForDimensions | (Optional, default empty): A list of dimension names for which to not create the Star-Node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| functionColumnPairs               | A list of aggregation function and column pairs (split by double underscore “\_\_”). E.g. **SUM\_\_Impressions** (_SUM_ of column _Impressions_) or **COUNT\_\_\***.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| aggregationConfigs                | Check [AggregationConfigs](../../basics/indexing/star-tree-index.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| maxLeafRecords                    | (Optional, default 10000): The threshold _T_ to determine whether to further split each node.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dimensionsSplitOrder</td>
+      <td><p>An ordered list of dimension names can be specified to configure the split order. Only the dimensions in this list are reserved in the aggregated documents. The nodes will be split based on the order of this list. For example, split at level i is performed on the values of dimension at index i in the list.<br>- The star-tree dimension does not have to be a dimension column in the table, it can also be time column, date-time column, or metric column if necessary.<br>- The star-tree dimension column should be dictionary encoded in order to generate the star-tree index.<br>- All columns in the filter and group-by clause of a query should be included in this list in order to use the star-tree index.</p></td>
+    </tr>
+    <tr>
+      <td>skipStarNodeCreationForDimensions</td>
+      <td>(Optional, default empty): A list of dimension names for which to not create the Star-Node.</td>
+    </tr>
+    <tr>
+      <td>functionColumnPairs</td>
+      <td>A list of aggregation function and column pairs (split by double underscore “\_\_”). E.g. **SUM\_\_Impressions** (_SUM_ of column _Impressions_) or **COUNT\_\_\***.</td>
+    </tr>
+    <tr>
+      <td>aggregationConfigs</td>
+      <td>Check [AggregationConfigs](../../basics/indexing/star-tree-index.md)</td>
+    </tr>
+    <tr>
+      <td>maxLeafRecords</td>
+      <td>(Optional, default 10000): The threshold _T_ to determine whether to further split each node.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 \`functionColumnPairs\` and \`aggregationConfigs\` are interchangeable. Consider using \`aggregationConfigs\` since it supports additional parameters like compression.
@@ -221,16 +339,48 @@ Multiple index generation configurations can be provided to generate multiple st
 All aggregations of a query should be included in \`aggregationConfigs\` or in \`functionColumnPairs\` in order to use the star-tree index.
 {% endhint %}
 
-| Property              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| columnName            | (Required) Name of the column to aggregate. The column can be either dictionary encoded or raw.                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| aggregationFunction   | (Required) Name of the aggregation function to use.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| compressionCodec      | (Optional, default `PASS_THROUGH`, introduced in release `1.1.0`) Used to configure the compression enabled on the star-tree-index. Useful when aggregating on columns that contain big values. For example, a `BYTES` column containing **HLL counters serialisations** used to calculate `DISTINCTCOUNTHLL`. In this case setting `"compressionCodec": "LZ4"` can significantly reduce the space used by the index. Equivalent to `compressionCodec` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention") |
-| deriveNumDocsPerChunk | (Optional, introduced in release `1.2.0`) Equivalent to `deriveNumDocsPerChunk` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")                                                                                                                                                                                                                                                                                                                                                                        |
-| indexVersion          | (Optional, introduced in release `1.2.0`) Equivalent to `rawIndexWriterVersion` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")                                                                                                                                                                                                                                                                                                                                                                        |
-| targetMaxChunkSize    | (Optional, introduced in release `1.2.0`) Equivalent to `targetMaxChunkSize` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")                                                                                                                                                                                                                                                                                                                                                                           |
-| targetDocsPerChunk    | (Optional, introduced in release `1.2.0`) Equivalent to `targetDocsPerChunk` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")                                                                                                                                                                                                                                                                                                                                                                           |
-| functionParameters    | (Optional) A configuration map used to pass in additional configurations to the aggregation function. For example, on `DISTINCTCOUNTHLL`, this could look like `{"log2m": 16}`  in order to build the star-tree index using `DISTINCTCOUNTHLL` with a non-default value for `log2m`. Note that the index will only be used for queries using the same value for `log2m` with `DISTINCTCOUNTHLL`.                                                                                                                                         |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>columnName</td>
+      <td>(Required) Name of the column to aggregate. The column can be either dictionary encoded or raw.</td>
+    </tr>
+    <tr>
+      <td>aggregationFunction</td>
+      <td>(Required) Name of the aggregation function to use.</td>
+    </tr>
+    <tr>
+      <td>compressionCodec</td>
+      <td>(Optional, default `PASS_THROUGH`, introduced in release `1.1.0`) Used to configure the compression enabled on the star-tree-index. Useful when aggregating on columns that contain big values. For example, a `BYTES` column containing **HLL counters serialisations** used to calculate `DISTINCTCOUNTHLL`. In this case setting `"compressionCodec": "LZ4"` can significantly reduce the space used by the index. Equivalent to `compressionCodec` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")</td>
+    </tr>
+    <tr>
+      <td>deriveNumDocsPerChunk</td>
+      <td>(Optional, introduced in release `1.2.0`) Equivalent to `deriveNumDocsPerChunk` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")</td>
+    </tr>
+    <tr>
+      <td>indexVersion</td>
+      <td>(Optional, introduced in release `1.2.0`) Equivalent to `rawIndexWriterVersion` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")</td>
+    </tr>
+    <tr>
+      <td>targetMaxChunkSize</td>
+      <td>(Optional, introduced in release `1.2.0`) Equivalent to `targetMaxChunkSize` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")</td>
+    </tr>
+    <tr>
+      <td>targetDocsPerChunk</td>
+      <td>(Optional, introduced in release `1.2.0`) Equivalent to `targetDocsPerChunk` in [#raw-value-forward-index](forward-index.md#raw-value-forward-index "mention")</td>
+    </tr>
+    <tr>
+      <td>functionParameters</td>
+      <td>(Optional) A configuration map used to pass in additional configurations to the aggregation function. For example, on `DISTINCTCOUNTHLL`, this could look like `{"log2m": 16}`  in order to build the star-tree index using `DISTINCTCOUNTHLL` with a non-default value for `log2m`. Note that the index will only be used for queries using the same value for `log2m` with `DISTINCTCOUNTHLL`.</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Default index generation configuration
 
@@ -302,7 +452,6 @@ Alternatively using `aggregationConfigs` instead of `functionColumnPairs` and en
 ```
 
 
-
 {% hint style="info" %}
 Note: In above example configs maxLeafRecords is set to 1 so that all of the dimension combinations are pre-aggregated for clarity in visual below.
 {% endhint %}
@@ -317,35 +466,180 @@ The values in the parentheses are the aggregated sum of _Impressions_ for all th
 
 **Star-tree documents**
 
-| Country | Browser | Locale | SUM\_\_Impressions |
-| ------- | ------- | ------ | ------------------ |
-| CA      | Chrome  | en     | 400                |
-| CA      | Firefox | fr     | 200                |
-| MX      | Safari  | en     | 100                |
-| MX      | Safari  | es     | 300                |
-| USA     | Chrome  | en     | 600                |
-| USA     | Firefox | en     | 400                |
-| USA     | Firefox | es     | 200                |
-| CA      | \*      | en     | 400                |
-| CA      | \*      | fr     | 200                |
-| CA      | \*      | \*     | 600                |
-| MX      | Safari  | \*     | 400                |
-| USA     | Firefox | \*     | 600                |
-| USA     | \*      | en     | 1000               |
-| USA     | \*      | es     | 200                |
-| USA     | \*      | \*     | 1200               |
-| \*      | Chrome  | en     | 1000               |
-| \*      | Firefox | en     | 400                |
-| \*      | Firefox | es     | 200                |
-| \*      | Firefox | fr     | 200                |
-| \*      | Firefox | \*     | 800                |
-| \*      | Safari  | en     | 100                |
-| \*      | Safari  | es     | 300                |
-| \*      | Safari  | \*     | 400                |
-| \*      | \*      | en     | 1500               |
-| \*      | \*      | es     | 500                |
-| \*      | \*      | fr     | 200                |
-| \*      | \*      | \*     | 2200               |
+<table>
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>Browser</th>
+      <th>Locale</th>
+      <th>SUM\_\_Impressions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CA</td>
+      <td>Chrome</td>
+      <td>en</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>CA</td>
+      <td>Firefox</td>
+      <td>fr</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>MX</td>
+      <td>Safari</td>
+      <td>en</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>MX</td>
+      <td>Safari</td>
+      <td>es</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>Chrome</td>
+      <td>en</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>Firefox</td>
+      <td>en</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>Firefox</td>
+      <td>es</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>CA</td>
+      <td>\*</td>
+      <td>en</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>CA</td>
+      <td>\*</td>
+      <td>fr</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>CA</td>
+      <td>\*</td>
+      <td>\*</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td>MX</td>
+      <td>Safari</td>
+      <td>\*</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>Firefox</td>
+      <td>\*</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>\*</td>
+      <td>en</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>\*</td>
+      <td>es</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>USA</td>
+      <td>\*</td>
+      <td>\*</td>
+      <td>1200</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>Chrome</td>
+      <td>en</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>Firefox</td>
+      <td>en</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>Firefox</td>
+      <td>es</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>Firefox</td>
+      <td>fr</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>Firefox</td>
+      <td>\*</td>
+      <td>800</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>Safari</td>
+      <td>en</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>Safari</td>
+      <td>es</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>Safari</td>
+      <td>\*</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>\*</td>
+      <td>en</td>
+      <td>1500</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>\*</td>
+      <td>es</td>
+      <td>500</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>\*</td>
+      <td>fr</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>\*</td>
+      <td>\*</td>
+      <td>\*</td>
+      <td>2200</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Query execution
 

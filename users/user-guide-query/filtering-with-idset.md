@@ -5,7 +5,6 @@ description: Learn how to write fast queries for looking up IDs in a list of val
 # Filtering with IdSet
 
 
-
 {% hint style="info" %}
 Filtering with IdSet is **only supported with the single-stage query engine (v1)**.
 {% endhint %}
@@ -69,9 +68,18 @@ FROM baseballStats
 WHERE teamID = 'WS1'
 ```
 
-| idset(yearID)                                                                                                                                                                            |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc= |
+<table>
+  <thead>
+    <tr>
+      <th>idset(yearID)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ATowAAABAAAAAAA7ABAAAABtB24HbwdwB3EHcgdzB3QHdQd2B3cHeAd5B3oHewd8B30Hfgd/B4AHgQeCB4MHhAeFB4YHhweIB4kHigeLB4wHjQeOB48HkAeRB5IHkweUB5UHlgeXB5gHmQeaB5sHnAedB54HnwegB6EHogejB6QHpQemB6cHqAc=</td>
+    </tr>
+  </tbody>
+</table>
 
 When creating an IdSet for values in non INT/LONG columns, we can configure the _expectedInsertions_:
 
@@ -81,9 +89,18 @@ FROM baseballStats
 WHERE teamID = 'WS1'
 ```
 
-| idset(playerName)                |
-| -------------------------------- |
-| AwIBBQAAAAL///////////////////// |
+<table>
+  <thead>
+    <tr>
+      <th>idset(playerName)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AwIBBQAAAAL/////////////////////</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT ID_SET(playerName, 'expectedInsertions=100')
@@ -91,9 +108,18 @@ FROM baseballStats
 WHERE teamID = 'WS1'
 ```
 
-| idset(playerName)                                                                                                                            |
-| -------------------------------------------------------------------------------------------------------------------------------------------- |
-| AwIBBQAAAAz///////////////////////////////////////////////9///////f///9/////7///////////////+/////////////////////////////////////////////8= |
+<table>
+  <thead>
+    <tr>
+      <th>idset(playerName)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AwIBBQAAAAz///////////////////////////////////////////////9///////f///9/////7///////////////+/////////////////////////////////////////////8=</td>
+    </tr>
+  </tbody>
+</table>
 
 We can also configure the fpp parameter:
 
@@ -103,9 +129,18 @@ FROM baseballStats
 WHERE teamID = 'WS1'
 ```
 
-| idset(playerName)                                                                                                                                                            |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AwIBBwAAAA/////////////////////////////////////////////////////////////////////////////////////////////////////////9///////////////////////////////////////////////7//////8= |
+<table>
+  <thead>
+    <tr>
+      <th>idset(playerName)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AwIBBwAAAA/////////////////////////////////////////////////////////////////////////////////////////////////////////9///////////////////////////////////////////////7//////8=</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Filter by values in IdSet
 

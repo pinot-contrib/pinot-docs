@@ -8,13 +8,42 @@ This section reorganizes the Pinot API surface into broker query APIs, query res
 
 ## Reference Map
 
-| Area | Use it for | Source page |
-| --- | --- | --- |
-| Broker query API | SQL query submission, broker cursors, and response-store lifecycle | [Broker Query API](query-api.md) |
-| Query response format | Response fields and cursor payload structure | [Query Response Format](query-response-format.md) |
-| Controller admin API | Swagger UI walkthrough for cluster and table administration | [Controller Admin API](controller-admin-api.md) |
-| Controller API examples | Endpoint families and representative admin requests | [Controller API Examples](controller-api.md) |
-| Broker gRPC | gRPC query transport and client configuration | [Broker gRPC API](broker-grpc-api.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Use it for</th>
+      <th>Source page</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Broker query API</td>
+      <td>SQL query submission, broker cursors, and response-store lifecycle</td>
+      <td>[Broker Query API](query-api.md)</td>
+    </tr>
+    <tr>
+      <td>Query response format</td>
+      <td>Response fields and cursor payload structure</td>
+      <td>[Query Response Format](query-response-format.md)</td>
+    </tr>
+    <tr>
+      <td>Controller admin API</td>
+      <td>Swagger UI walkthrough for cluster and table administration</td>
+      <td>[Controller Admin API](controller-admin-api.md)</td>
+    </tr>
+    <tr>
+      <td>Controller API examples</td>
+      <td>Endpoint families and representative admin requests</td>
+      <td>[Controller API Examples](controller-api.md)</td>
+    </tr>
+    <tr>
+      <td>Broker gRPC</td>
+      <td>gRPC query transport and client configuration</td>
+      <td>[Broker gRPC API](broker-grpc-api.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What this page covered
 

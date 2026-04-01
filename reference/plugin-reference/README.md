@@ -8,12 +8,37 @@ This section is the reference map for Pinot's built-in plugin families. The deta
 
 ## Plugin Families
 
-| Family | Use it for | Page |
-| --- | --- | --- |
-| Stream ingestion connectors | Kafka, Kinesis, and Pulsar consumer factories | [Stream Ingestion Connectors](stream-ingestion-connectors.md) |
-| Stream connector version matrix | Compatibility between broker, connector, and Kafka major versions | [Stream Connector Version Matrix](stream-connector-matrix.md) |
-| Metrics plugins | JMX metric backends and registry fan-out | [Metrics Plugins](metrics-plugins.md) |
-| Environment provider | Cloud metadata discovery for instance placement | [Environment Provider](environment-provider.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Family</th>
+      <th>Use it for</th>
+      <th>Page</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Stream ingestion connectors</td>
+      <td>Kafka, Kinesis, and Pulsar consumer factories</td>
+      <td>[Stream Ingestion Connectors](stream-ingestion-connectors.md)</td>
+    </tr>
+    <tr>
+      <td>Stream connector version matrix</td>
+      <td>Compatibility between broker, connector, and Kafka major versions</td>
+      <td>[Stream Connector Version Matrix](stream-connector-matrix.md)</td>
+    </tr>
+    <tr>
+      <td>Metrics plugins</td>
+      <td>JMX metric backends and registry fan-out</td>
+      <td>[Metrics Plugins](metrics-plugins.md)</td>
+    </tr>
+    <tr>
+      <td>Environment provider</td>
+      <td>Cloud metadata discovery for instance placement</td>
+      <td>[Environment Provider](environment-provider.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What this page covered
 

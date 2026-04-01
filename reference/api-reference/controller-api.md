@@ -8,15 +8,44 @@ The controller exposes the administrative API surface for cluster, schema, table
 
 ## Endpoint Families
 
-| Family | Representative endpoints |
-| --- | --- |
-| Cluster | `GET /cluster/configs`, `POST /cluster/configs`, `DELETE /cluster/configs/{configName}`, `GET /cluster/info` |
-| Health and leadership | `GET /health`, `GET /leader/tables` |
-| Schema | `GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}` |
-| Table | `GET /tables`, `POST /tables`, `PUT /tables/{tableName}`, `DELETE /tables/{tableName}`, `POST /tableConfigs/validate` |
-| Logical tables | `GET /logicalTables`, `POST /logicalTables`, `PUT /logicalTables/{tableName}`, `DELETE /logicalTables/{tableName}` |
-| Segments | `GET /segments/{tableName}`, `POST /segments`, `POST /segments/{tableName}/{segmentName}/reload`, `DELETE /segments/{tableName}` |
-| Tenant and instance management | `GET /tenants`, `GET /tenants/{tenantName}`, `GET /instances`, `POST /instances` |
+<table>
+  <thead>
+    <tr>
+      <th>Family</th>
+      <th>Representative endpoints</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cluster</td>
+      <td>`GET /cluster/configs`, `POST /cluster/configs`, `DELETE /cluster/configs/{configName}`, `GET /cluster/info`</td>
+    </tr>
+    <tr>
+      <td>Health and leadership</td>
+      <td>`GET /health`, `GET /leader/tables`</td>
+    </tr>
+    <tr>
+      <td>Schema</td>
+      <td>`GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}`</td>
+    </tr>
+    <tr>
+      <td>Table</td>
+      <td>`GET /tables`, `POST /tables`, `PUT /tables/{tableName}`, `DELETE /tables/{tableName}`, `POST /tableConfigs/validate`</td>
+    </tr>
+    <tr>
+      <td>Logical tables</td>
+      <td>`GET /logicalTables`, `POST /logicalTables`, `PUT /logicalTables/{tableName}`, `DELETE /logicalTables/{tableName}`</td>
+    </tr>
+    <tr>
+      <td>Segments</td>
+      <td>`GET /segments/{tableName}`, `POST /segments`, `POST /segments/{tableName}/{segmentName}/reload`, `DELETE /segments/{tableName}`</td>
+    </tr>
+    <tr>
+      <td>Tenant and instance management</td>
+      <td>`GET /tenants`, `GET /tenants/{tenantName}`, `GET /instances`, `POST /instances`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Swagger UI
 

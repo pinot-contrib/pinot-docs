@@ -769,16 +769,48 @@ POST /query/sql
 
 The following table summarizes query patterns and whether they are supported by the index-based distinct operator:
 
-| Pattern | Supported |
-|---|---|
-| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING')` | Yes |
-| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'INT')` | Yes (all single-value types) |
-| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default')` | Yes (with default value) |
-| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default', '$.filter')` | Yes (with filter JSON path) |
-| With `WHERE` clause filters | Yes |
-| With `ORDER BY` | Yes |
-| Multi-value types (`STRING_ARRAY`, etc.) | No (falls back to default execution) |
-| Multiple columns in `SELECT DISTINCT` | No (falls back to default execution) |
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Supported</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING')`</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>`SELECT DISTINCT jsonExtractIndex(col, '$.path', 'INT')`</td>
+      <td>Yes (all single-value types)</td>
+    </tr>
+    <tr>
+      <td>`SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default')`</td>
+      <td>Yes (with default value)</td>
+    </tr>
+    <tr>
+      <td>`SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default', '$.filter')`</td>
+      <td>Yes (with filter JSON path)</td>
+    </tr>
+    <tr>
+      <td>With `WHERE` clause filters</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>With `ORDER BY`</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Multi-value types (`STRING_ARRAY`, etc.)</td>
+      <td>No (falls back to default execution)</td>
+    </tr>
+    <tr>
+      <td>Multiple columns in `SELECT DISTINCT`</td>
+      <td>No (falls back to default execution)</td>
+    </tr>
+  </tbody>
+</table>
 
 When a query pattern is not supported, the query still executes correctly using the default execution path.
 

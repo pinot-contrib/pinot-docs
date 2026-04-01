@@ -9,32 +9,96 @@ Pinot supports decoding Kafka messages serialized with [Confluent Schema Registr
 
 ## Available Decoders
 
-| Format | Decoder Class | Plugin |
-|--------|--------------|--------|
-| **Avro** | `org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder` | `pinot-confluent-avro` |
-| **JSON Schema** | `org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder` | `pinot-confluent-json` |
-| **Protocol Buffers** | `org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder` | `pinot-confluent-protobuf` |
+<table>
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th>Decoder Class</th>
+      <th>Plugin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Avro**</td>
+      <td>`org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder`</td>
+      <td>`pinot-confluent-avro`</td>
+    </tr>
+    <tr>
+      <td>**JSON Schema**</td>
+      <td>`org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder`</td>
+      <td>`pinot-confluent-json`</td>
+    </tr>
+    <tr>
+      <td>**Protocol Buffers**</td>
+      <td>`org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder`</td>
+      <td>`pinot-confluent-protobuf`</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Common Configuration
 
 All Confluent Schema Registry decoders share the same configuration properties:
 
-| Property | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `schema.registry.rest.url` | Yes | — | Confluent Schema Registry REST endpoint URL |
-| `cached.schema.map.capacity` | No | 1000 | Maximum number of schemas to cache locally |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Required</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`schema.registry.rest.url`</td>
+      <td>Yes</td>
+      <td>—</td>
+      <td>Confluent Schema Registry REST endpoint URL</td>
+    </tr>
+    <tr>
+      <td>`cached.schema.map.capacity`</td>
+      <td>No</td>
+      <td>1000</td>
+      <td>Maximum number of schemas to cache locally</td>
+    </tr>
+  </tbody>
+</table>
 
 ### SSL/TLS Configuration
 
 To connect to a Schema Registry endpoint over SSL/TLS, add properties with the `schema.registry.` prefix:
 
-| Property | Description |
-|----------|-------------|
-| `schema.registry.ssl.truststore.location` | Path to truststore file |
-| `schema.registry.ssl.truststore.password` | Truststore password |
-| `schema.registry.ssl.keystore.location` | Path to keystore file |
-| `schema.registry.ssl.keystore.password` | Keystore password |
-| `schema.registry.ssl.key.password` | Private key password |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`schema.registry.ssl.truststore.location`</td>
+      <td>Path to truststore file</td>
+    </tr>
+    <tr>
+      <td>`schema.registry.ssl.truststore.password`</td>
+      <td>Truststore password</td>
+    </tr>
+    <tr>
+      <td>`schema.registry.ssl.keystore.location`</td>
+      <td>Path to keystore file</td>
+    </tr>
+    <tr>
+      <td>`schema.registry.ssl.keystore.password`</td>
+      <td>Keystore password</td>
+    </tr>
+    <tr>
+      <td>`schema.registry.ssl.key.password`</td>
+      <td>Private key password</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Confluent Avro Decoder
 

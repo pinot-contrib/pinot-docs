@@ -14,11 +14,32 @@ These guides walk you through creating a managed Kubernetes cluster on your clou
 
 ## Cloud providers
 
-| Provider | Service | Guide |
-|---|---|---|
-| Amazon Web Services | Amazon EKS | [AWS setup](aws.md) |
-| Google Cloud Platform | Google GKE | [GCP setup](gcp.md) |
-| Microsoft Azure | Azure AKS | [Azure setup](azure.md) |
+<table>
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th>Service</th>
+      <th>Guide</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Amazon Web Services</td>
+      <td>Amazon EKS</td>
+      <td>[AWS setup](aws.md)</td>
+    </tr>
+    <tr>
+      <td>Google Cloud Platform</td>
+      <td>Google GKE</td>
+      <td>[GCP setup](gcp.md)</td>
+    </tr>
+    <tr>
+      <td>Microsoft Azure</td>
+      <td>Azure AKS</td>
+      <td>[Azure setup](azure.md)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Next step
 

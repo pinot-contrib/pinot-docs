@@ -716,6 +716,7 @@ if auto_refresh:
     st.session_state.sleep_time = number
 
 # Find changes that happened in the last 1 minute
+
 # Find changes that happened between 1 and 2 minutes ago
 
 query = """
@@ -779,6 +780,7 @@ fig.update_yaxes(range=[0, df_ts["changes"].max() * 1.1])
 st.plotly_chart(fig, use_container_width=True)
 
 # Refresh the page
+
 if auto_refresh:
     time.sleep(number)
     st.experimental_rerun()

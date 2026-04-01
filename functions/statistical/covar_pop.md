@@ -22,6 +22,15 @@ SELECT COVAR_POP(numberOfGames, hits) AS covariance
 FROM baseballStats
 ```
 
-| covariance        |
-| ----------------- |
-| 2314.249154477403 |
+<table>
+  <thead>
+    <tr>
+      <th>covariance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2314.249154477403</td>
+    </tr>
+  </tbody>
+</table>

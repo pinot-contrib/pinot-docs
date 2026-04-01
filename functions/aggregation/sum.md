@@ -19,6 +19,15 @@ select sum(hits) AS value
 from baseballStats 
 ```
 
-| value   |
-| ------- |
-| 3692601 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3692601</td>
+    </tr>
+  </tbody>
+</table>

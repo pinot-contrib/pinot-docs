@@ -10,15 +10,60 @@ The most important split is whether the function returns a typed value that can 
 
 ## Core families
 
-| Family | Common functions | Best fit | Notes |
-| --- | --- | --- | --- |
-| Math | `ADD`, `SUB`, `MULT`, `DIV`, `MOD`, `ABS`, `CEIL`, `FLOOR`, `EXP`, `LN`, `SQRT`, `ROUND` | Query projections and ingestion transforms | Use these when you need deterministic numeric shaping before aggregation or filtering. |
-| String | `UPPER`, `LOWER`, `SUBSTR`, `CONCAT`, `TRIM`, `LTRIM`, `RTRIM`, `REGEXPEXTRACT`, `REGEXPREPLACE`, `REPLACE`, `STARTSWITH` | Query projections and ingestion transforms | Strong fit for normalization, tokenization, and cleanup. |
-| Date/time | `DATETRUNC`, `FROMDATETIME`, `TODATETIME`, `TOEPOCH*`, `FROMEPOCH*`, `DATETIMECONVERT` | Query projections and ingestion transforms | Use these to align timestamps to consistent buckets and storage formats. |
-| JSON | `JSONEXTRACTSCALAR`, `JSONPATHSTRING`, `JSONPATHLONG`, `JSONPATHDOUBLE`, `JSONFORMAT`, `TOJSONMAPSTR` | Typed query output and ingestion configs | Prefer the typed helpers when the output column needs a stable SQL type. |
-| Binary | `SHA`, `SHA256`, `SHA512`, `MD5`, `TOBASE64`, `UTF8` | Query projections and ingestion transforms | Useful for fingerprinting and encoding. |
-| Array and multi-value | `ARRAYLENGTH`, `VALUEIN`, `MAP_VALUE`, array helpers | Query projections and ingestion transforms | Use these when a source column contains arrays or maps. |
-| Utility | `EXTRACT`, `ISJSON`, `ISSUBNETOF` | Query projections and filtering | These helpers tend to sit at the boundary between shape cleanup and query logic. |
+<table>
+  <thead>
+    <tr>
+      <th>Family</th>
+      <th>Common functions</th>
+      <th>Best fit</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Math</td>
+      <td>`ADD`, `SUB`, `MULT`, `DIV`, `MOD`, `ABS`, `CEIL`, `FLOOR`, `EXP`, `LN`, `SQRT`, `ROUND`</td>
+      <td>Query projections and ingestion transforms</td>
+      <td>Use these when you need deterministic numeric shaping before aggregation or filtering.</td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td>`UPPER`, `LOWER`, `SUBSTR`, `CONCAT`, `TRIM`, `LTRIM`, `RTRIM`, `REGEXPEXTRACT`, `REGEXPREPLACE`, `REPLACE`, `STARTSWITH`</td>
+      <td>Query projections and ingestion transforms</td>
+      <td>Strong fit for normalization, tokenization, and cleanup.</td>
+    </tr>
+    <tr>
+      <td>Date/time</td>
+      <td>`DATETRUNC`, `FROMDATETIME`, `TODATETIME`, `TOEPOCH*`, `FROMEPOCH*`, `DATETIMECONVERT`</td>
+      <td>Query projections and ingestion transforms</td>
+      <td>Use these to align timestamps to consistent buckets and storage formats.</td>
+    </tr>
+    <tr>
+      <td>JSON</td>
+      <td>`JSONEXTRACTSCALAR`, `JSONPATHSTRING`, `JSONPATHLONG`, `JSONPATHDOUBLE`, `JSONFORMAT`, `TOJSONMAPSTR`</td>
+      <td>Typed query output and ingestion configs</td>
+      <td>Prefer the typed helpers when the output column needs a stable SQL type.</td>
+    </tr>
+    <tr>
+      <td>Binary</td>
+      <td>`SHA`, `SHA256`, `SHA512`, `MD5`, `TOBASE64`, `UTF8`</td>
+      <td>Query projections and ingestion transforms</td>
+      <td>Useful for fingerprinting and encoding.</td>
+    </tr>
+    <tr>
+      <td>Array and multi-value</td>
+      <td>`ARRAYLENGTH`, `VALUEIN`, `MAP_VALUE`, array helpers</td>
+      <td>Query projections and ingestion transforms</td>
+      <td>Use these when a source column contains arrays or maps.</td>
+    </tr>
+    <tr>
+      <td>Utility</td>
+      <td>`EXTRACT`, `ISJSON`, `ISSUBNETOF`</td>
+      <td>Query projections and filtering</td>
+      <td>These helpers tend to sit at the boundary between shape cleanup and query logic.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## JSON helpers worth calling out
 

@@ -35,10 +35,27 @@ To enable RefreshSegmentTask on a table, add it to the table's task configuratio
 
 ### Configuration Parameters
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `tableMaxNumTasks` | Maximum number of concurrent refresh tasks per table per scheduling run | `20` |
-| `schedule` | Cron expression for automatic task scheduling | None (manual only) |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`tableMaxNumTasks`</td>
+      <td>Maximum number of concurrent refresh tasks per table per scheduling run</td>
+      <td>`20`</td>
+    </tr>
+    <tr>
+      <td>`schedule`</td>
+      <td>Cron expression for automatic task scheduling</td>
+      <td>None (manual only)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## How It Works
 
@@ -95,10 +112,13 @@ After adding a new column to the schema, existing segments will not contain this
 Use the Controller REST API to manually trigger RefreshSegmentTask:
 
 ```bash
+
 # Schedule RefreshSegmentTask for all enabled tables
+
 POST /tasks/schedule?taskType=RefreshSegmentTask
 
 # Schedule RefreshSegmentTask for a specific table
+
 POST /tasks/schedule?taskType=RefreshSegmentTask&tableName=myTable_OFFLINE
 ```
 

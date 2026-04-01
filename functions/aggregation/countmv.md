@@ -22,12 +22,27 @@ from airlineStats
 where arraylength(DivTailNums) > 1
 ```
 
-| DivTailNums   |
-| ------------- |
-| N7713A,N7713A |
-| N344AA,N344AA |
-| N344AA,N344AA |
-| N7713A,N7713A |
+<table>
+  <thead>
+    <tr>
+      <th>DivTailNums</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>N7713A,N7713A</td>
+    </tr>
+    <tr>
+      <td>N344AA,N344AA</td>
+    </tr>
+    <tr>
+      <td>N344AA,N344AA</td>
+    </tr>
+    <tr>
+      <td>N7713A,N7713A</td>
+    </tr>
+  </tbody>
+</table>
 
 You can count the number of items in these rows by running the following query:
 
@@ -37,6 +52,15 @@ from airlineStats
 where arraylength(DivTailNums) > 1
 ```
 
-| value |
-| ----- |
-| 8     |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>

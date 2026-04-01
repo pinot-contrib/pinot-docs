@@ -19,10 +19,18 @@ SELECT DISTINCTAVG(runs) AS VALUE
 FROM baseballStats
 ```
 
-| VALUE             |
-| ----------------- |
-| 83.36526946107784 |
-
+<table>
+  <thead>
+    <tr>
+      <th>VALUE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>83.36526946107784</td>
+    </tr>
+  </tbody>
+</table>
 
 
 ```sql
@@ -30,7 +38,16 @@ SELECT AVG(DISTINCT AtBatting) AS VALUE
 FROM baseballStats
 ```
 
-| VALUE             |
-| ----------------- |
-| 349.1158798283262 |
+<table>
+  <thead>
+    <tr>
+      <th>VALUE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>349.1158798283262</td>
+    </tr>
+  </tbody>
+</table>
 

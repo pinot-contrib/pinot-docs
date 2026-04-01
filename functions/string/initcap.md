@@ -17,24 +17,51 @@ select INITCAP('hello world') AS name
 FROM ignoreMe
 ```
 
-| name        |
-| ----------- |
-| Hello World |
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Hello World</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select INITCAP('APACHE PINOT') AS name
 FROM ignoreMe
 ```
 
-| name         |
-| ------------ |
-| Apache Pinot |
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apache Pinot</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select INITCAP('tHiS iS a TeSt') AS name
 FROM ignoreMe
 ```
 
-| name           |
-| -------------- |
-| This Is A Test |
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>This Is A Test</td>
+    </tr>
+  </tbody>
+</table>

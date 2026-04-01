@@ -50,11 +50,32 @@ controller.task.scheduler.enabled=true
 controller.task.frequencyPeriod=1h  #Alternative to "schedule" in task config. 
 ```
 
-| Property                     | Description                                                                                                                            | Default |
-| ---------------------------- |----------------------------------------------------------------------------------------------------------------------------------------|---------|
-| bufferTimePeriod                    | <p>The minimum amount of time that has elapsed since the segment was consuming</p>                                                     | 7d      |
-| invalidRecordsThresholdPercent             | A limit to the amount of older records allowed in the completed segment represented as a percentage of the total number of records in the segment (i.e. old records / total records). Must be configured if invalidRecordsThresholdCount isn’t configured. | 0       |
-| invalidRecordsThresholdCount             | <p>A limit to the amount of older records allowed in the completed segment represented as a record count. Must be configured if invalidRecordsThresholdPercent isn’t configured.</p> | 0       |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bufferTimePeriod</td>
+      <td><p>The minimum amount of time that has elapsed since the segment was consuming</p></td>
+      <td>7d</td>
+    </tr>
+    <tr>
+      <td>invalidRecordsThresholdPercent</td>
+      <td>A limit to the amount of older records allowed in the completed segment represented as a percentage of the total number of records in the segment (i.e. old records / total records). Must be configured if invalidRecordsThresholdCount isn’t configured.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>invalidRecordsThresholdCount</td>
+      <td><p>A limit to the amount of older records allowed in the completed segment represented as a record count. Must be configured if invalidRecordsThresholdPercent isn’t configured.</p></td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 **Original design doc**: [https://docs.google.com/document/d/1tDFjyun81KiMfAVO-A7ZFL1mGNm1VEkXDcxqOov8aeI/edit?usp=sharing](https://docs.google.com/document/d/1tDFjyun81KiMfAVO-A7ZFL1mGNm1VEkXDcxqOov8aeI/edit?usp=sharing)

@@ -11,7 +11,6 @@ When a column is configured to use this filter, Pinot creates one Bloom filter p
 {% endhint %}
 
 
-
 This is useful for query patterns like below where Bloom Filter is defined on playerID column in the table:
 
 <pre class="language-sql"><code class="lang-sql"><strong>SELECT COUNT(*) 
@@ -67,11 +66,32 @@ Bloom filters are deactivated by default, implying that columns will not be inde
 
 There are 3 optional parameters to configure the Bloom filter:
 
-| Parameter      | Default       | Description                                                            |
-| -------------- | ------------- | ---------------------------------------------------------------------- |
-| fpp            | 0.05          | False positive probability of the Bloom filter (from `0` to `1`).      |
-| maxSizeInBytes | 0 (unlimited) | Maximum size of the Bloom filter.                                      |
-| loadOnHeap     | false         | Whether to load the Bloom filter using heap memory or off-heap memory. |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fpp</td>
+      <td>0.05</td>
+      <td>False positive probability of the Bloom filter (from `0` to `1`).</td>
+    </tr>
+    <tr>
+      <td>maxSizeInBytes</td>
+      <td>0 (unlimited)</td>
+      <td>Maximum size of the Bloom filter.</td>
+    </tr>
+    <tr>
+      <td>loadOnHeap</td>
+      <td>false</td>
+      <td>Whether to load the Bloom filter using heap memory or off-heap memory.</td>
+    </tr>
+  </tbody>
+</table>
 
 The lower the `fpp` (false positive probability), the greater the accuracy of the Bloom filter, but this reduction in `fpp` will also lead to an increase in the index size. It's important to note that `maxSizeInBytes` takes precedence over `fpp`. If `maxSizeInBytes` is set to a value greater than 0 and the calculated size of the Bloom filter, based on the specified `fpp`, exceeds this size limit, Pinot will adjust the `fpp` to ensure that the Bloom filter size remains within the specified limit.
 

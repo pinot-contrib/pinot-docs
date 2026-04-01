@@ -25,33 +25,69 @@ select STPOINT(-122, 37) AS value
 from ignoreMe 
 ```
 
-| value                              |
-| ---------------------------------- |
-| 00c05e8000000000004042800000000000 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>00c05e8000000000004042800000000000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select STPOINT(-122, 37, 0) AS value
 from ignoreMe 
 ```
 
-| value                              |
-| ---------------------------------- |
-| 00c05e8000000000004042800000000000 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>00c05e8000000000004042800000000000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select STPOINT(-122, 37, 1) AS value
 from ignoreMe 
 ```
 
-| value                              |
-| ---------------------------------- |
-| 80c05e8000000000004042800000000000 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>80c05e8000000000004042800000000000</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select ST_POINT(-122, 37, 1) AS value
 from ignoreMe 
 ```
 
-| value                              |
-| ---------------------------------- |
-| 80c05e8000000000004042800000000000 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>80c05e8000000000004042800000000000</td>
+    </tr>
+  </tbody>
+</table>

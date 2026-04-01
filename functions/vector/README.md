@@ -18,11 +18,32 @@ To accelerate vector search queries with approximate nearest-neighbor (ANN) look
 WHERE VECTOR_SIMILARITY(vectorColumn, queryVector, topK)
 ```
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `vectorColumn` | identifier | A multi-valued FLOAT column with a [vector index](../../basics/indexing/vector-index.md) configured. |
-| `queryVector` | `ARRAY[...]` | A float array literal representing the query embedding. |
-| `topK` | integer literal | Number of nearest neighbors to retrieve. Defaults to `10` if omitted. |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`vectorColumn`</td>
+      <td>identifier</td>
+      <td>A multi-valued FLOAT column with a [vector index](../../basics/indexing/vector-index.md) configured.</td>
+    </tr>
+    <tr>
+      <td>`queryVector`</td>
+      <td>`ARRAY[...]`</td>
+      <td>A float array literal representing the query embedding.</td>
+    </tr>
+    <tr>
+      <td>`topK`</td>
+      <td>integer literal</td>
+      <td>Number of nearest neighbors to retrieve. Defaults to `10` if omitted.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Prerequisites
 
@@ -306,14 +327,59 @@ This query first uses the HNSW index to retrieve the 10 approximate nearest neig
 
 ## Function Summary
 
-| Function | Return type | Description |
-| --- | --- | --- |
-| `VECTOR_SIMILARITY(col, query, topK)` | predicate | ANN filter — requires a vector index. |
-| `cosineDistance(v1, v2 [, default])` | `DOUBLE` | Cosine distance (`1 - cosine_similarity`). |
-| `innerProduct(v1, v2)` | `DOUBLE` | Inner product (sum of element-wise products). |
-| `l1Distance(v1, v2)` | `DOUBLE` | Manhattan distance. |
-| `l2Distance(v1, v2)` | `DOUBLE` | Euclidean distance (with square root). |
-| `euclideanDistance(v1, v2)` | `DOUBLE` | Squared Euclidean distance (no square root). |
-| `dotProduct(v1, v2)` | `DOUBLE` | Dot product (equivalent to `innerProduct`). |
-| `vectorDims(v)` | `INT` | Number of vector dimensions. |
-| `vectorNorm(v)` | `DOUBLE` | L2 norm (magnitude) of a vector. |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Return type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`VECTOR_SIMILARITY(col, query, topK)`</td>
+      <td>predicate</td>
+      <td>ANN filter — requires a vector index.</td>
+    </tr>
+    <tr>
+      <td>`cosineDistance(v1, v2 [, default])`</td>
+      <td>`DOUBLE`</td>
+      <td>Cosine distance (`1 - cosine_similarity`).</td>
+    </tr>
+    <tr>
+      <td>`innerProduct(v1, v2)`</td>
+      <td>`DOUBLE`</td>
+      <td>Inner product (sum of element-wise products).</td>
+    </tr>
+    <tr>
+      <td>`l1Distance(v1, v2)`</td>
+      <td>`DOUBLE`</td>
+      <td>Manhattan distance.</td>
+    </tr>
+    <tr>
+      <td>`l2Distance(v1, v2)`</td>
+      <td>`DOUBLE`</td>
+      <td>Euclidean distance (with square root).</td>
+    </tr>
+    <tr>
+      <td>`euclideanDistance(v1, v2)`</td>
+      <td>`DOUBLE`</td>
+      <td>Squared Euclidean distance (no square root).</td>
+    </tr>
+    <tr>
+      <td>`dotProduct(v1, v2)`</td>
+      <td>`DOUBLE`</td>
+      <td>Dot product (equivalent to `innerProduct`).</td>
+    </tr>
+    <tr>
+      <td>`vectorDims(v)`</td>
+      <td>`INT`</td>
+      <td>Number of vector dimensions.</td>
+    </tr>
+    <tr>
+      <td>`vectorNorm(v)`</td>
+      <td>`DOUBLE`</td>
+      <td>L2 norm (magnitude) of a vector.</td>
+    </tr>
+  </tbody>
+</table>

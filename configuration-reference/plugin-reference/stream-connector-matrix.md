@@ -10,12 +10,52 @@ This page provides a quick-reference matrix mapping each stream connector to its
 
 ## Connector matrix
 
-| Stream | Connector Module | Maven Artifact | Client Library Version | Consumer Factory Class | Status |
-|---|---|---|---|---|---|
-| Apache Kafka 3.x | `pinot-kafka-3.0` | `org.apache.pinot:pinot-kafka-3.0` | kafka-clients 3.9.2 | `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` | Default, included in binary distribution |
-| Apache Kafka 4.x | `pinot-kafka-4.0` | `org.apache.pinot:pinot-kafka-4.0` | kafka-clients 4.1.1 | `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` | Included in binary distribution |
-| Amazon Kinesis | `pinot-kinesis` | `org.apache.pinot:pinot-kinesis` | AWS SDK 2.42.16 (`software.amazon.awssdk:kinesis`) | `org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory` | Included in binary distribution |
-| Apache Pulsar | `pinot-pulsar` | `org.apache.pinot:pinot-pulsar` | pulsar-client 4.0.9 | `org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory` | Optional, enable with `-Dplugins.include=pinot-pulsar` |
+<table>
+  <thead>
+    <tr>
+      <th>Stream</th>
+      <th>Connector Module</th>
+      <th>Maven Artifact</th>
+      <th>Client Library Version</th>
+      <th>Consumer Factory Class</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apache Kafka 3.x</td>
+      <td>`pinot-kafka-3.0`</td>
+      <td>`org.apache.pinot:pinot-kafka-3.0`</td>
+      <td>kafka-clients 3.9.2</td>
+      <td>`org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory`</td>
+      <td>Default, included in binary distribution</td>
+    </tr>
+    <tr>
+      <td>Apache Kafka 4.x</td>
+      <td>`pinot-kafka-4.0`</td>
+      <td>`org.apache.pinot:pinot-kafka-4.0`</td>
+      <td>kafka-clients 4.1.1</td>
+      <td>`org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory`</td>
+      <td>Included in binary distribution</td>
+    </tr>
+    <tr>
+      <td>Amazon Kinesis</td>
+      <td>`pinot-kinesis`</td>
+      <td>`org.apache.pinot:pinot-kinesis`</td>
+      <td>AWS SDK 2.42.16 (`software.amazon.awssdk:kinesis`)</td>
+      <td>`org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory`</td>
+      <td>Included in binary distribution</td>
+    </tr>
+    <tr>
+      <td>Apache Pulsar</td>
+      <td>`pinot-pulsar`</td>
+      <td>`org.apache.pinot:pinot-pulsar`</td>
+      <td>pulsar-client 4.0.9</td>
+      <td>`org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory`</td>
+      <td>Optional, enable with `-Dplugins.include=pinot-pulsar`</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 All version numbers above are from the Pinot `master` branch (1.5.0-SNAPSHOT). Released Pinot versions may ship slightly different client library versions. Check the `pom.xml` of the corresponding module in your Pinot release for the exact version.
@@ -50,9 +90,26 @@ All version numbers above are from the Pinot `master` branch (1.5.0-SNAPSHOT). R
 
 ## Removed connectors
 
-| Former Module | Removed In | Migration Path |
-|---|---|---|
-| `pinot-kafka-0.9` | Pre-1.0 | Migrate to `pinot-kafka-3.0` |
-| `pinot-kafka-2.0` | Pre-1.0 | Migrate to `pinot-kafka-3.0` (or `pinot-kafka-4.0` for Kafka 4.x brokers) |
+<table>
+  <thead>
+    <tr>
+      <th>Former Module</th>
+      <th>Removed In</th>
+      <th>Migration Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`pinot-kafka-0.9`</td>
+      <td>Pre-1.0</td>
+      <td>Migrate to `pinot-kafka-3.0`</td>
+    </tr>
+    <tr>
+      <td>`pinot-kafka-2.0`</td>
+      <td>Pre-1.0</td>
+      <td>Migrate to `pinot-kafka-3.0` (or `pinot-kafka-4.0` for Kafka 4.x brokers)</td>
+    </tr>
+  </tbody>
+</table>
 
 To migrate, update `stream.kafka.consumer.factory.class.name` in your table config from the old class to the new one. No other stream config changes are required.

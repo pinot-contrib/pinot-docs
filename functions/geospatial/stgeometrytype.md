@@ -22,6 +22,17 @@ from meetupRsvp
 LIMIT 1
 ```
 
-| location                           | type  |
-| ---------------------------------- | ----- |
-| 80c00dae147ae147ae404435c28f5c28f6 | Point |
+<table>
+  <thead>
+    <tr>
+      <th>location</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>80c00dae147ae147ae404435c28f5c28f6</td>
+      <td>Point</td>
+    </tr>
+  </tbody>
+</table>

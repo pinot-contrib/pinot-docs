@@ -86,8 +86,25 @@ Returns true if first geometry is completely inside second geometry.
 
 ## Additional Reference Pages
 
-| Function | Function |
-| --- | --- |
-| [ST_Union](stunion.md) | [GridDistance](griddistance.md) |
-| [ST_AsGeoJSON](st_asgeojson.md) | [ST_GeogFromGeoJSON](st_geogfromgeojson.md) |
-| [ST_GeomFromGeoJSON](st_geomfromgeojson.md) |  |
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[ST_Union](stunion.md)</td>
+      <td>[GridDistance](griddistance.md)</td>
+    </tr>
+    <tr>
+      <td>[ST_AsGeoJSON](st_asgeojson.md)</td>
+      <td>[ST_GeogFromGeoJSON](st_geogfromgeojson.md)</td>
+    </tr>
+    <tr>
+      <td>[ST_GeomFromGeoJSON](st_geomfromgeojson.md)</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

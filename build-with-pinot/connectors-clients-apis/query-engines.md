@@ -8,9 +8,22 @@ Use federated query engines when Pinot is one source in a broader SQL stack and 
 
 ## What belongs here
 
-| Engine | Best for | Notes |
-| --- | --- | --- |
-| Trino | Interactive federated SQL across multiple data sources | The current guide covers Kubernetes deployment, Pinot catalog configuration, and CLI-based validation. |
+<table>
+  <thead>
+    <tr>
+      <th>Engine</th>
+      <th>Best for</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Trino</td>
+      <td>Interactive federated SQL across multiple data sources</td>
+      <td>The current guide covers Kubernetes deployment, Pinot catalog configuration, and CLI-based validation.</td>
+    </tr>
+  </tbody>
+</table>
 
 {% hint style="info" %}
 **Presto support removed**: The Pinot Presto connector, Docker images, and Helm chart have been removed as of [apache/pinot#17947](https://github.com/apache/pinot/pull/17947). Trino (the Presto successor) is the recommended query engine for federated SQL over Pinot.

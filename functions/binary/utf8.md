@@ -23,15 +23,35 @@ FROM testTable
 LIMIT 1
 ```
 
-| bytesCol1    | utf8Str |
-| ------------ | ------- |
-| 68656c6c6f21 | hello!  |
+<table>
+  <thead>
+    <tr>
+      <th>bytesCol1</th>
+      <th>utf8Str</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>68656c6c6f21</td>
+      <td>hello!</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 SELECT toUtf8('hello!') AS binaryOutput
 FROM ignoreMe
 ```
 
-| binaryOutput |
-| ------------ |
-| 68656c6c6f21 |
+<table>
+  <thead>
+    <tr>
+      <th>binaryOutput</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>68656c6c6f21</td>
+    </tr>
+  </tbody>
+</table>

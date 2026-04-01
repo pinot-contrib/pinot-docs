@@ -61,7 +61,6 @@ For instance, if a funnel is designed to track user progression from a homepage 
 This mode helps maintain the integrity of each step in the user's journey, ensuring that the data reflects true user behavior without overcounting repetitive actions that do not lead to actual progression.
 
 
-
 ### STRICT\_ORDER
 
 The `strict_order` mode enforces a stringent sequence order for events within a funnel. This mode ensures that the progression through the steps follows the exact specified order without any intervening events that are not part of the defined sequence.
@@ -177,6 +176,15 @@ SELECT sumArrayLong(matchedsteps) as funnelCounts FROM funnelMatchSteps
 
 **Response**
 
-| funnelCounts  |
-| ------------- |
-| \[4, 4, 1, 1] |
+<table>
+  <thead>
+    <tr>
+      <th>funnelCounts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\[4, 4, 1, 1]</td>
+    </tr>
+  </tbody>
+</table>

@@ -20,6 +20,15 @@ FROM airlineStats
 WHERE arraylength(DivLongestGTimes) > 1
 ```
 
-| VALUE |
-| ----- |
-| 32.4  |
+<table>
+  <thead>
+    <tr>
+      <th>VALUE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>32.4</td>
+    </tr>
+  </tbody>
+</table>

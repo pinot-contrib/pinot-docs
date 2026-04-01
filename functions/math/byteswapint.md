@@ -11,9 +11,22 @@ Reverses the byte order of an integer value. Useful for converting between big-e
 
 > byteswapInt(col)
 
-| Argument | Type | Description              |
-| -------- | ---- | ------------------------ |
-| `col`    | INT  | Integer value to reverse |
+<table>
+  <thead>
+    <tr>
+      <th>Argument</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`col`</td>
+      <td>INT</td>
+      <td>Integer value to reverse</td>
+    </tr>
+  </tbody>
+</table>
 
 Returns: **INT**
 

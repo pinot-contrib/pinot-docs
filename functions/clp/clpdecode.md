@@ -36,9 +36,22 @@ Consider a record that contains a "message" field with the following value:
 
 [CLPLogMessageDecoder](../../manage-data/data-import/pinot-stream-ingestion/clp.md) encodes this information into 3 columns:
 
-| message_logtype                                                                                              | message_dictionaryVars      | message_encodedVars     |
-|--------------------------------------------------------------------------------------------------------------|-----------------------------|-------------------------|
-| INFO Task \x12 assigned to container: [ContainerID:\x12], operation took \x13 seconds. \x11 tasks remaining. | ["task_12", "container_15"] | [0x190000000000014f, 8] |
+<table>
+  <thead>
+    <tr>
+      <th>message_logtype</th>
+      <th>message_dictionaryVars</th>
+      <th>message_encodedVars</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>INFO Task \x12 assigned to container: [ContainerID:\x12], operation took \x13 seconds. \x11 tasks remaining.</td>
+      <td>["task_12", "container_15"]</td>
+      <td>[0x190000000000014f, 8]</td>
+    </tr>
+  </tbody>
+</table>
 
 Then we can use `CLPDECODE` as follows:
 
@@ -47,9 +60,18 @@ SELECT CLPDECODE(message) AS message
 FROM myTable
 ```
 
-| message                                                                                                               |
-|-----------------------------------------------------------------------------------------------------------------------|
-| INFO Task task_12 assigned to container: [ContainerID:container_15], operation took 0.335 seconds. 8 tasks remaining. |
+<table>
+  <thead>
+    <tr>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>INFO Task task_12 assigned to container: [ContainerID:container_15], operation took 0.335 seconds. 8 tasks remaining.</td>
+    </tr>
+  </tbody>
+</table>
 
 # Enable the column-group syntax
 

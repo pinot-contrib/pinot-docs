@@ -96,16 +96,69 @@ Matrix below show which combinations of data types, cardinality and encoding are
 
 Use this decision guide to pick the right index for your query pattern:
 
-| Query pattern | Recommended index | Notes |
-| --- | --- | --- |
-| `WHERE col = value` | [Inverted index](inverted-index.md) | Best starting point for equality filters |
-| `WHERE col IN (v1, v2, ...)` | [Inverted index](inverted-index.md) + [Bloom filter](bloom-filter.md) | Bloom filter prunes segments; inverted index accelerates within-segment lookup |
-| `WHERE col > value` / `BETWEEN` | [Range index](range-index.md) | Especially useful on high-cardinality metric columns |
-| `WHERE col LIKE 'prefix%'` | [FST index](fst-index.md) | For regex/LIKE on dictionary-encoded STRING columns |
-| `WHERE TEXT_MATCH(col, 'query')` | [Text index](text-search-support.md) | Full-text search with Lucene. Use for tokenized search |
-| `WHERE JSON_MATCH(col, '...')` | [JSON index](json-index.md) | For filtering on nested JSON fields |
-| `WHERE ST_Distance(...) < x` | [Geospatial index](geospatial-support.md) | H3-based spatial index for distance queries |
-| `WHERE VECTOR_SIMILARITY(...)` | [Vector index](vector-index.md) | Approximate nearest-neighbor search on embeddings |
-| `GROUP BY dateTrunc('DAY', ts)` | [Timestamp index](timestamp-index.md) | Pre-generates granularity columns for fast time-based grouping |
-| `SUM(metric) GROUP BY dim1, dim2` | [Star-tree index](star-tree-index.md) | Pre-aggregated results for known query patterns |
-| Sorted column, range + equality | [Sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding) | Automatically acts as inverted index with O(log n) lookup |
+<table>
+  <thead>
+    <tr>
+      <th>Query pattern</th>
+      <th>Recommended index</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`WHERE col = value`</td>
+      <td>[Inverted index](inverted-index.md)</td>
+      <td>Best starting point for equality filters</td>
+    </tr>
+    <tr>
+      <td>`WHERE col IN (v1, v2, ...)`</td>
+      <td>[Inverted index](inverted-index.md) + [Bloom filter](bloom-filter.md)</td>
+      <td>Bloom filter prunes segments; inverted index accelerates within-segment lookup</td>
+    </tr>
+    <tr>
+      <td>`WHERE col > value` / `BETWEEN`</td>
+      <td>[Range index](range-index.md)</td>
+      <td>Especially useful on high-cardinality metric columns</td>
+    </tr>
+    <tr>
+      <td>`WHERE col LIKE 'prefix%'`</td>
+      <td>[FST index](fst-index.md)</td>
+      <td>For regex/LIKE on dictionary-encoded STRING columns</td>
+    </tr>
+    <tr>
+      <td>`WHERE TEXT_MATCH(col, 'query')`</td>
+      <td>[Text index](text-search-support.md)</td>
+      <td>Full-text search with Lucene. Use for tokenized search</td>
+    </tr>
+    <tr>
+      <td>`WHERE JSON_MATCH(col, '...')`</td>
+      <td>[JSON index](json-index.md)</td>
+      <td>For filtering on nested JSON fields</td>
+    </tr>
+    <tr>
+      <td>`WHERE ST_Distance(...) < x`</td>
+      <td>[Geospatial index](geospatial-support.md)</td>
+      <td>H3-based spatial index for distance queries</td>
+    </tr>
+    <tr>
+      <td>`WHERE VECTOR_SIMILARITY(...)`</td>
+      <td>[Vector index](vector-index.md)</td>
+      <td>Approximate nearest-neighbor search on embeddings</td>
+    </tr>
+    <tr>
+      <td>`GROUP BY dateTrunc('DAY', ts)`</td>
+      <td>[Timestamp index](timestamp-index.md)</td>
+      <td>Pre-generates granularity columns for fast time-based grouping</td>
+    </tr>
+    <tr>
+      <td>`SUM(metric) GROUP BY dim1, dim2`</td>
+      <td>[Star-tree index](star-tree-index.md)</td>
+      <td>Pre-aggregated results for known query patterns</td>
+    </tr>
+    <tr>
+      <td>Sorted column, range + equality</td>
+      <td>[Sorted forward index](forward-index.md#sorted-forward-index-with-run-length-encoding)</td>
+      <td>Automatically acts as inverted index with O(log n) lookup</td>
+    </tr>
+  </tbody>
+</table>

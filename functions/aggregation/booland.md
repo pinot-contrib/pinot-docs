@@ -17,9 +17,18 @@ select BOOLAND(isActive) AS value
 from myTable
 ```
 
-| value |
-| ----- |
-| false |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
 
 ```sql
 select city, BOOLAND(isActive) AS allActive
@@ -27,7 +36,21 @@ from myTable
 GROUP BY city
 ```
 
-| city         | allActive |
-| ------------ | --------- |
-| San Francisco | true      |
-| New York     | false     |
+<table>
+  <thead>
+    <tr>
+      <th>city</th>
+      <th>allActive</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>San Francisco</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>

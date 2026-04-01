@@ -19,6 +19,15 @@ select count(*) AS value
 from baseballStats 
 ```
 
-| value |
-| ----- |
-| 97889 |
+<table>
+  <thead>
+    <tr>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>97889</td>
+    </tr>
+  </tbody>
+</table>
