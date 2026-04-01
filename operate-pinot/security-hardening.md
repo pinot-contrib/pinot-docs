@@ -73,7 +73,7 @@ pinot.broker.access.control.principals.analyst.tables=orders_table
 pinot.broker.access.control.principals.analyst.permissions=READ
 
 # Example: RLS filter — analyst sees only their own region
-pinot.broker.access.control.principals.analyst.tables.orders_table.rls.filter=region='us-west'
+pinot.broker.access.control.principals.analyst.rls.orders_table=region='us-west'
 ```
 
 For full details see [Access Control](../operators/operating-pinot/access-control.md).
@@ -83,17 +83,22 @@ For full details see [Access Control](../operators/operating-pinot/access-contro
 At a minimum, encrypt traffic between clients and the broker/controller.
 
 ```properties
-# Broker listener — HTTPS on port 8443
+# Broker TLS
 pinot.broker.tls.keystore.path=/opt/pinot/tls/broker-keystore.jks
-pinot.broker.tls.keystore.password=${BROKER_KS_PASSWORD}
+pinot.broker.tls.keystore.password=broker-keystore-password
 pinot.broker.tls.truststore.path=/opt/pinot/tls/truststore.jks
-pinot.broker.tls.truststore.password=${BROKER_TS_PASSWORD}
+pinot.broker.tls.truststore.password=broker-truststore-password
 
+# Controller TLS
 controller.tls.keystore.path=/opt/pinot/tls/controller-keystore.jks
-controller.tls.keystore.password=${CONTROLLER_KS_PASSWORD}
+controller.tls.keystore.password=controller-keystore-password
 controller.tls.truststore.path=/opt/pinot/tls/truststore.jks
-controller.tls.truststore.password=${CONTROLLER_TS_PASSWORD}
+controller.tls.truststore.password=controller-truststore-password
 ```
+
+{% hint style="warning" %}
+The passwords above are placeholders. Never commit real passwords to config files. Use [Dynamic Environment Configuration](../reference/configuration-reference/dynamic-environment.md) to inject secrets at runtime (see step 6 below).
+{% endhint %}
 
 See [Configuring TLS/SSL](configuring-tls-ssl.md) for the full listener specification format and the three-phase zero-downtime migration process.
 
@@ -122,7 +127,7 @@ ZooKeeper stores cluster metadata, helix state, and (if using `ZkBasicAuthAccess
 
 - **Network-isolate ZooKeeper**: Run it on an internal network with no external access.
 - **Enable ZooKeeper authentication**: Configure SASL/Kerberos or digest-based auth so only authenticated Pinot components can read/write ZK znodes.
-- **Enable ZooKeeper TLS** (ZK 3.5.5+): Encrypt the ZK client connections. Set `zookeeper.client.secure=true` and the appropriate keystore/truststore JVM options on both ZK servers and Pinot components.
+- **Enable ZooKeeper TLS** (ZK 3.5.5+): Encrypt the ZK client connections. Configure ZooKeeper servers with TLS-enabled client ports and JVM keystore/truststore options, and start Pinot components with `-Dzookeeper.client.secure=true` plus matching keystore/truststore JVM options.
 
 ### 6. Manage secrets properly
 
@@ -184,7 +189,7 @@ Avoid placing cloud credentials directly in Pinot property files.
 Use this checklist to verify your cluster is production-ready:
 
 - [ ] **Authentication enabled** on both controller and broker
-- [ ] **Service tokens configured** for inter-component auth (controller → server, controller → minion, broker → server)
+- [ ] **Service tokens configured** for inter-component auth (controller → broker, controller → server, controller → minion, broker → server)
 - [ ] **Table-level ACLs** restricting each principal to only the tables they need
 - [ ] **Row-Level Security** configured for multi-tenant tables (Pinot 1.4.0+)
 - [ ] **TLS enabled** on all client-facing endpoints (broker, controller)
