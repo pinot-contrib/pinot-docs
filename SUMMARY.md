@@ -451,6 +451,7 @@
   * [Command-Line Interface (CLI)](operators/cli.md)
   * [Configuration Recommendation Engine](operators/configuration-recommendation-engine.md)
 * [Security](operate-pinot/security.md)
+  * [Security Hardening Guide](operate-pinot/security-hardening.md)
   * [Access Control](operators/operating-pinot/access-control.md)
   * [Authentication](operate-pinot/authentication/README.md)
     * [Basic Auth Access Control](operate-pinot/authentication/basic-auth-access-control.md)

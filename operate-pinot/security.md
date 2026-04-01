@@ -62,10 +62,15 @@ Before enabling security, ensure:
 - For TLS: JKS or PKCS12 keystores and truststores have been generated for each component
 - For production: a secrets management solution is in place for credential injection
 
+## Hardening for production
+
+For a step-by-step walkthrough covering endpoint exposure, mTLS, ZooKeeper auth, secrets management, and a full production checklist, see the [Security Hardening Guide](security-hardening.md).
+
 ## Child pages
 
 | Page | Description |
 |------|-------------|
+| [Security Hardening Guide](security-hardening.md) | End-to-end production hardening: endpoint exposure, mTLS, ZooKeeper auth, secrets, and checklist |
 | [Access Control](../operators/operating-pinot/access-control.md) | ACL framework, custom `AccessControlFactory`, and Row-Level Security (RLS) |
 | [Authentication overview](authentication/README.md) | Introduction to Pinot's HTTP Basic Auth and links to setup guides |
 | [Basic Auth Access Control](authentication/basic-auth-access-control.md) | Step-by-step setup of static Basic Auth for controller, broker, server, and minion |
