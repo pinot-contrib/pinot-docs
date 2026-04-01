@@ -22,7 +22,7 @@ For OFFLINE table upsert configuration details, see [Offline Table Upsert](offli
 
 ## Overview of upserts in Pinot
 
-See an overview of how upserts work in Pinot 1.0.
+See an overview of how upserts work in Pinot.
 
 {% embed url="https://youtu.be/byzF91PQ6hE" %}
 Apache Pinot 1.0 Upserts overview
