@@ -3,7 +3,7 @@
 Query execution within Pinot is modeled as a sequence of operators that are executed in a pipelined manner to produce the final result. The `EXPLAIN PLAN FOR` syntax can be used to obtain the execution plan of a query, which can be useful to further optimize them.
 
 {% hint style="warning" %}
-The explain plan is a feature that is still under development and may change in future releases. Pinot explain plans are human-readable and are intended to be used for debugging and optimization purposes. This is specially important when using the explain plan in automated scripts or tools. The explain plan, even the ones returned as tables or JSON, are not guaranteed to be stable across releases.
+The explain plan output format is still under development and may change in future releases. This under-development label applies to the explain plan output format specifically, not to the core multi-stage engine, which is generally available. Pinot explain plans are human-readable and are intended to be used for debugging and optimization purposes. This is especially important when using the explain plan in automated scripts or tools. The explain plan, even the ones returned as tables or JSON, are not guaranteed to be stable across releases.
 {% endhint %}
 
 Pinot supports different type of explain plans depending on the query engine and the granularity or details we want to obtain.
@@ -241,6 +241,65 @@ Returns:
                                                     └── [5]@192.168.0.98:54214|[0] FILTER
                                                         └── [5]@192.168.0.98:54214|[0] TABLE SCAN (userGroups) null
 ```
+
+## Interpreting multi-stage explain plans [](#interpreting-multi-stage-explain-plans)
+
+Multi-stage plans are more complex than single-stage plans. This section explains how to interpret them.
+
+You can use the `EXPLAIN PLAN` syntax to obtain the logical plan of a query. There are different formats for the output, but all of them represent the logical plan of the query.
+
+The query
+
+```sql
+explain plan for
+select customer.c_address, orders.o_shippriority
+from customer
+join orders
+    on customer.c_custkey = orders.o_custkey
+limit 10
+```
+
+Can produce the following output:
+
+```
+LogicalSort(offset=[0], fetch=[10])
+  PinotLogicalSortExchange(distribution=[hash], collation=[[]], isSortOnSender=[false], isSortOnReceiver=[false])
+    LogicalSort(fetch=[10])
+      LogicalProject(c_address=[$0], o_shippriority=[$3])
+        LogicalJoin(condition=[=($1, $2)], joinType=[inner])
+          PinotLogicalExchange(distribution=[hash[1]])
+            LogicalProject(c_address=[$4], c_custkey=[$6])
+              LogicalTableScan(table=[[default, customer]])
+          PinotLogicalExchange(distribution=[hash[0]])
+            LogicalProject(o_custkey=[$5], o_shippriority=[$10])
+              LogicalTableScan(table=[[default, orders]])
+```
+
+Each node in the tree represents an operation, and each operator has attributes. For example the `LogicalJoin` operator has a `condition` attribute that specifies the join condition and a `joinType`.
+
+### Understanding indexed references
+
+Expressions like `$2` are indexed references into the input row for each operator. To understand them, look at the operator's children to see which attributes are being referenced, usually starting from the leaf operators.
+
+For example, `LogicalTableScan` always returns the whole row of the table, so its attributes are the columns of the table:
+
+```
+         PinotLogicalExchange(distribution=[hash[0]])
+            LogicalProject(o_custkey=[$5], o_shippriority=[$10])
+              LogicalTableScan(table=[[default, orders]])
+```
+
+The `LogicalProject` operator selects columns `o_custkey` and `o_shippriority` (at positions `$5` and `$10` in the table row) and generates a row with two columns. The `PinotLogicalExchange` distributes rows using `hash[0]`, meaning the hash of the first column from `LogicalProject` — which is `o_custkey`.
+
+### Virtual rows in joins
+
+The `LogicalJoin` operator receives rows from two upstream stages. The virtual row seen by the join is the concatenation of the left-hand side plus the right-hand side.
+
+In the example above, the left stage sends `[c_address, c_custkey]` and the right stage sends `[o_custkey, o_shippriority]`. The join sees a row with columns `[c_address, c_custkey, o_custkey, o_shippriority]`. The condition `=($1, $2)` joins on `c_custkey` and `o_custkey`. The join passes through all columns unchanged, so its downstream `LogicalProject` selecting `$0` and `$3` produces `[c_address, o_shippriority]`.
+
+### LogicalSort without ORDER BY
+
+A `LogicalSort` operator can appear even when the SQL query has no `ORDER BY`. In relational algebra, a sort node is used to express `LIMIT`. When no sort condition is specified, no actual sorting is performed — only the row limit is applied.
 
 ## Explain on single stage query engine
 

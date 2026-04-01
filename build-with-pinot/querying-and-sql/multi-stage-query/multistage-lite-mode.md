@@ -5,14 +5,14 @@ description: Introduces the Multistage Engine Lite Mode
 # Multistage Lite Mode
 
 {% hint style="warning" %}
-MSE Lite Mode is included in Pinot 1.4 and is currently in Beta.
+MSE Lite Mode is included in Pinot 1.4 and is currently in Beta. This Beta label applies to Lite Mode specifically, not to the core multi-stage engine, which is generally available.
 {% endhint %}
 
 ![](<../../../.gitbook/assets/lite-mode-idea (2).png>)
 
 **
 
-Multistage Engine (MSE) Lite Mode is a new Query Mode that aims to enable safe access to the MSE for all Pinot users. One of the risks with running regular MSE queries is that users can easily write queries that scan a lot of records or run significantly expensive operations. Such queries can impact the reliability of a tenant and create friction in onboarding new use-cases. Lite Mode aims to address this problem.
+Multistage Engine (MSE) Lite Mode is an optional, guardrail-oriented execution mode for self-service and high-QPS tenants. Without additional bounds, queries can scan a large number of records or run expensive operations, which can impact the reliability of a shared tenant and create friction in onboarding new use-cases. Lite Mode addresses this by applying tighter scan and resource bounds automatically.
 
 It is based on the observation that most of the users need access to advanced SQL features like Window Functions, Subqueries, etc., and aren't interested in scanning a lot of data or running fully Distributed Joins.
 
@@ -31,7 +31,7 @@ At present, all joins in MSE Lite Mode are run in the Broker. This may change wi
 
 ### Example
 
-To illustrate how MSE Lite Mode can be safely enabled without significant reliability risks, consider the query below based on the `colocated_join` Quickstart. If this query were allowed in production with the regular MSE, it would scan all the rows of the `userFactEvents` table. With Lite Mode, the full scan will be prevented because Lite Mode will automatically add a Sort to the leaf stage with a configurable limit (aka "fetch") value.
+To illustrate how MSE Lite Mode applies automatic resource bounds, consider the query below based on the `colocated_join` Quickstart. If this query were allowed in production with the regular MSE, it would scan all the rows of the `userFactEvents` table. With Lite Mode, the full scan will be prevented because Lite Mode will automatically add a Sort to the leaf stage with a configurable limit (aka "fetch") value.
 
 ```sql
 SET useMultistageEngine = true;
@@ -108,7 +108,7 @@ You can set the following configs in your Pinot Broker.
 
 #### Q1: What is the Lite Mode intended for?
 
-Lite Mode was contributed by Uber and is inspired from [their Presto over Pinot architecture](https://www.uber.com/blog/serving-millions-of-apache-pinot-queries-with-neutrino/). Lite Mode is for use-cases where users are interested in Advanced SQL features but are not interested in distributed execution of joins, CTEs, etc. One can think of this as an advanced version of the Single-Stage Engine.
+Lite Mode was contributed by Uber and is inspired from [their Presto over Pinot architecture](https://www.uber.com/blog/serving-millions-of-apache-pinot-queries-with-neutrino/). Lite Mode is an optional execution mode with tighter scan and resource bounds, designed for use-cases where users need advanced SQL features (window functions, subqueries, etc.) but do not need fully distributed execution of joins or CTEs. One can think of this as an advanced version of the Single-Stage Engine.
 
 #### Q2: Why use a single thread in the broker for the non-leaf stages?
 

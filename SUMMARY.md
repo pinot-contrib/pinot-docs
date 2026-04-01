@@ -106,7 +106,6 @@
     * [Multistage Lite Mode](build-with-pinot/querying-and-sql/multi-stage-query/multistage-lite-mode.md)
     * [Physical Optimizer](build-with-pinot/querying-and-sql/multi-stage-query/physical-optimizer.md)
     * [Explain Plan](build-with-pinot/querying-and-sql/multi-stage-query/explain-plan-1.md)
-    * [Explain](build-with-pinot/querying-and-sql/multi-stage-query/understanding-multi-stage-explain.md)
     * [Stats](build-with-pinot/querying-and-sql/multi-stage-query/understanding-stage-stats.md)
     * [Optimizing Joins](build-with-pinot/querying-and-sql/multi-stage-query/optimizing-joins.md)
     * [Join Strategies](build-with-pinot/querying-and-sql/multi-stage-query/join-strategies/README.md)
