@@ -17,7 +17,7 @@ A Pinot cluster has several network boundaries worth thinking about:
 | **Controller ↔ Broker ↔ Server ↔ Minion** | Internal Pinot components | Spoofed components, unencrypted data in transit |
 | **Controller / Server → Deep Store** | Segment reads and writes (S3, GCS, HDFS, etc.) | Segment data exposure |
 | **Controller → ZooKeeper** | Cluster metadata, helix state | Metadata tampering, credential leakage |
-| **Broker → Kafka / Pulsar / Kinesis** | Stream consumption | Unauthenticated stream reads, data in transit exposure |
+| **Server → Kafka / Pulsar / Kinesis** | Stream consumption | Unauthenticated stream reads, data in transit exposure |
 
 A hardened cluster adds authentication, authorization, and encryption at each of these boundaries.
 
