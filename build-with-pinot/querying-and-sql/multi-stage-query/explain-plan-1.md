@@ -3,7 +3,7 @@
 Query execution within Pinot is modeled as a sequence of operators that are executed in a pipelined manner to produce the final result. The `EXPLAIN PLAN FOR` syntax can be used to obtain the execution plan of a query, which can be useful to further optimize them.
 
 {% hint style="warning" %}
-The explain plan is a feature that is still under development and may change in future releases. Pinot explain plans are human-readable and are intended to be used for debugging and optimization purposes. This is specially important when using the explain plan in automated scripts or tools. The explain plan, even the ones returned as tables or JSON, are not guaranteed to be stable across releases.
+The explain plan output format is still under development and may change in future releases. This under-development label applies to the explain plan output format specifically, not to the core multi-stage engine, which is generally available. Pinot explain plans are human-readable and are intended to be used for debugging and optimization purposes. This is especially important when using the explain plan in automated scripts or tools. The explain plan, even the ones returned as tables or JSON, are not guaranteed to be stable across releases.
 {% endhint %}
 
 Pinot supports different type of explain plans depending on the query engine and the granularity or details we want to obtain.

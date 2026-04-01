@@ -5,9 +5,9 @@ description: Also know as reuse common expressions
 # Stage-Level Spooling
 
 {% hint style="warning" %}
-Stage-level spooling is still under development and may have some limitations.&#x20;
+Stage-level spooling is an optional optimization for the multi-stage engine that is still under development and may have some limitations. This under-development label applies to spooling specifically, not to the core multi-stage engine, which is generally available.
 
-It is not recommended to turn them on by default but instead to enable them on a per-query basis after testing it actually improves the query performance.&#x20;
+It is not recommended to turn spooling on by default but instead to enable it on a per-query basis after testing it actually improves the query performance.&#x20;
 
 Users are encouraged to report any issues they encounter.
 {% endhint %}

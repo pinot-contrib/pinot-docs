@@ -1,19 +1,17 @@
 ---
-description: Learn more about multi-stage explain plans and how to interpret them.
+description: "Deprecated: see Explain Plan for current multi-stage explain documentation."
 hidden: true
 ---
 
-# Explain
+# Explain (Deprecated)
 
-{% hint style="warning" %}
-This page is deprecated. Please read [explain-plan-1.md](explain-plan-1.md)to get a better understanding of the different explain plans supported by Pinot.
+{% hint style="danger" %}
+**This page is deprecated.** The content below is kept for historical reference only and is no longer maintained. For current, comprehensive documentation on multi-stage explain plans, see [Explain Plan](explain-plan-1.md).
 {% endhint %}
 
+Multi-stage plans are a bit more complex than single-stage plans. This page previously explained how to interpret multi-stage explain plans.
 
-
-Multi-stage plans are a bit more complex than single-stage plans. This page explains how to interpret multi-stage explain plans.
-
-As explained in [Explaining multi-stage queries](../query-execution-controls/explain-plan-multi-stage.md), you can use the `EXPLAIN PLAN` syntax to obtain the logical plan of a query. There are different formats for the output of the `EXPLAIN PLAN` command, but all of them represent the logical plan of the query.
+As explained in [Explain Plan](explain-plan-1.md), you can use the `EXPLAIN PLAN` syntax to obtain the logical plan of a query. There are different formats for the output of the `EXPLAIN PLAN` command, but all of them represent the logical plan of the query.
 
 The query
 

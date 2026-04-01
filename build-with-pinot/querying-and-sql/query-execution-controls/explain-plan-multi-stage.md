@@ -4,6 +4,10 @@ description: Multi-stage explain plan guidance for Pinot SQL.
 
 # Explain Plan for Multi-Stage Queries
 
+{% hint style="info" %}
+For the complete, up-to-date explain plan reference (including segment plans, logical plans, and workers plans), see [Explain Plan](../multi-stage-query/explain-plan-1.md) in the multi-stage query section.
+{% endhint %}
+
 Multi-stage explain plans are useful when a query uses features such as joins, subqueries, or distributed reshaping that do not exist in the single-stage path.
 
 ## What to look for
