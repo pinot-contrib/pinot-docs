@@ -57,4 +57,4 @@ As it happens with all queries, the logical plan forms a tree-like structure. In
 * The next stage starts with this `PinotLogicalSortExchange` operator and includes the `LogicalSort` operator, the `LogicalProject` operator, the `LogicalJoin` operator and the two `PinotLogicalExchange` operators. This stage clearly is not a root stage and it is not reading data from the segments, so it is not a leaf stage. Therefore it has to be an intermediate stage.
 * The join has two children, which are the `PinotLogicalExchange` operators. In this specific case, both sides are very similar. They start with a `PinotLogicalExchange` operator and end with a `LogicalTableScan` operator. All stages that end with a `LogicalTableScan` operator are leaf stages.
 
-Now that we have identified the stages, we can understand what each stage is doing by [understanding multi-stage explain plans](understanding-multi-stage-explain.md).
+Now that we have identified the stages, we can understand what each stage is doing by [interpreting multi-stage explain plans](explain-plan-1.md#interpreting-multi-stage-explain-plans).
