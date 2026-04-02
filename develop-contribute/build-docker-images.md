@@ -40,7 +40,7 @@ The docker image is tagged as `[Docker Tag]`.
 
 `Pinot Git URL`: The Pinot Git Repo to build, users can set it to their own fork. Note that the URL is `https://` based, not `git://`. Default is the Apache Repo: `https://github.com/apache/pinot.git`.
 
-`Kafka Version`: The Kafka Version to build pinot with. Default is `2.0`
+`Kafka Version`: The Kafka Version to build pinot with. Default is `3.0`. Supported values are `3.0` and `4.0`.
 
 `Java Version`: The Java Build and Runtime image version. Default is `21`
 
