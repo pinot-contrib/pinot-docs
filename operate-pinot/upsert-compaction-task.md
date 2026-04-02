@@ -43,7 +43,7 @@ The Upsert Compaction Task uses the Minion Task Framework, and therefore consist
 }
 ```
 
-3. Enable PinotTaskManager (disabled by default) by adding the `controller.task` properties below to your [controller conf](../../reference/configuration-reference/controller.md), and then restart the controller (required).
+3. Enable PinotTaskManager (disabled by default) by adding the `controller.task` properties below to your [controller conf](../reference/configuration-reference/controller.md), and then restart the controller (required).
 
 ```
 controller.task.scheduler.enabled=true
