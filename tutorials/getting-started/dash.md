@@ -20,7 +20,7 @@ We're going to use the following Docker compose file, which spins up instances o
 version: '3.7'
 services:
   zookeeper:
-    image: zookeeper:3.9
+    image: zookeeper:3.9.5
     container_name: "zookeeper-wiki"
     ports:
       - "2181:2181"

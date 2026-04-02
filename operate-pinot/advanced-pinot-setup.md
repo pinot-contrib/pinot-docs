@@ -46,7 +46,7 @@ docker run \
     --name  pinot-zookeeper \
     --restart always \
     -p 2181:2181 \
-    -d zookeeper:3.9
+    -d zookeeper:3.9.5
 ```
 
 Start [ZKUI](https://github.com/DeemOpen/zkui) to browse Zookeeper data at [http://localhost:9090](http://localhost:9090).
@@ -112,7 +112,7 @@ CONTAINER ID        IMAGE                              COMMAND                  
 9e80c3fcd29b        apachepinot/pinot:latest   "./bin/pinot-admin.s…"   18 seconds ago       Up 17 seconds         8096-8099/tcp, 9000/tcp                                pinot-server
 f4c42a5865c7        apachepinot/pinot:latest   "./bin/pinot-admin.s…"   21 seconds ago       Up 21 seconds         8096-8099/tcp, 9000/tcp                                pinot-broker
 a413b0013806        apachepinot/pinot:latest   "./bin/pinot-admin.s…"   26 seconds ago       Up 25 seconds         8096-8099/tcp, 0.0.0.0:9000->9000/tcp                  pinot-controller
-9d3b9c4d454b        zookeeper:3.9                    "/docker-entrypoint.…"   About a minute ago   Up About a minute     2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
+9d3b9c4d454b        zookeeper:3.9.5                  "/docker-entrypoint.…"   About a minute ago   Up About a minute     2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   pinot-zookeeper
 ```
 {% endtab %}
 

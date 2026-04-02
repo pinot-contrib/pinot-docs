@@ -17,7 +17,7 @@ docker run \
     --name zookeeper \
     --restart always \
     --network=pinot-demo \
-    -d zookeeper:3.9
+    -d zookeeper:3.9.5
 ```
 
 ### Prepare Pinot configuration files

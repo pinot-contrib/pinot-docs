@@ -24,7 +24,7 @@ Start a multi-component Pinot cluster using Docker, suitable for local evaluatio
 ```bash
 export PINOT_VERSION=1.4.0
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
-export ZK_IMAGE=zookeeper:3.9.2
+export ZK_IMAGE=zookeeper:3.9.5
 export KAFKA_IMAGE=bitnami/kafka:3.6
 ```
 
@@ -50,7 +50,7 @@ version: '3.7'
 
 services:
   pinot-zookeeper:
-    image: ${ZK_IMAGE:-zookeeper:3.9.2}
+    image: ${ZK_IMAGE:-zookeeper:3.9.5}
     container_name: "pinot-zookeeper"
     restart: unless-stopped
     ports:
