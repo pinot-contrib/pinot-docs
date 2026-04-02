@@ -561,7 +561,7 @@ zookeeper:
 
 | Aspect | Bitnami (v0.3.6) | Native (v1.0.0) |
 | --- | --- | --- |
-| Image | `bitnamilegacy/zookeeper:3.9.3-debian-12-r22` | `zookeeper:3.9.3` |
+| Image | `bitnamilegacy/zookeeper:3.9.5-debian-12-r22` | `zookeeper:3.9.5` |
 | StatefulSet Selectors | `app.kubernetes.io/name: zookeeper` | `app: pinot, component: zookeeper` |
 | Data Mount Path | `/bitnami/zookeeper` | `/data` |
 | Datalog VCT | `data-log` | `datalog` |

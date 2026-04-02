@@ -87,7 +87,7 @@ ZooKeeper TLS settings can be configured in `zoo.cfg`.
 
 Exact keys vary by ZooKeeper version.
 
-Common options (ZooKeeper 3.5+):
+Common options (ZooKeeper 3.9.5+):
 
 ```properties
 secureClientPort=2281
