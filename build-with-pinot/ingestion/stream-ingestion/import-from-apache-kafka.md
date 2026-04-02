@@ -21,7 +21,7 @@ Let's start by downloading Kafka to our local machine.
 To pull down the latest Docker image, run the following command:
 
 ```bash
-docker pull wurstmeister/kafka:latest
+docker pull apache/kafka:4.0.0
 ```
 {% endtab %}
 
@@ -29,37 +29,41 @@ docker pull wurstmeister/kafka:latest
 Download Kafka from [kafka.apache.org/quickstart#quickstart\_download](https://kafka.apache.org/quickstart#quickstart\_download) and then extract it:
 
 ```bash
-tar -xzf kafka_2.13-3.7.0.tgz
-cd kafka_2.13-3.7.0
+tar -xzf kafka_2.13-4.0.0.tgz
+cd kafka_2.13-4.0.0
 ```
 {% endtab %}
 {% endtabs %}
 
-Next we'll spin up a Kafka broker:
+Next we'll spin up a Kafka broker. Kafka 4.0 uses KRaft mode by default and does not require ZooKeeper:
 
 {% tabs %}
 {% tab title="Docker" %}
 ```bash
-docker run --network pinot-demo --name=kafka -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181/kafka -e KAFKA_BROKER_ID=0 -e KAFKA_ADVERTISED_HOST_NAME=kafka wurstmeister/kafka:latest
+docker run --network pinot-demo --name=kafka \
+    -e KAFKA_NODE_ID=1 \
+    -e KAFKA_PROCESS_ROLES=broker,controller \
+    -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 \
+    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092 \
+    -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+    -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
+    -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka:9093 \
+    -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+    -e CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk \
+    apache/kafka:4.0.0
 ```
 
 Note: The --network pinot-demo flag is optional and assumes that you have a Docker network named pinot-demo that you want to connect the Kafka container to.
 {% endtab %}
 
 {% tab title="Launcher Scripts" %}
-On one terminal window run this command:
+Kafka 4.0 uses KRaft mode by default. Generate a cluster ID and format the storage directory, then start the broker:
 
-**Start Zookeeper**
-
-```bash
-bin/zookeeper-server-start.sh config/zookeeper.properties
-```
-
-And on another window, run this command:
-
-**Start Kafka Broker**
+**Start Kafka Broker (KRaft mode)**
 
 ```bash
+KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
+bin/kafka-storage.sh format --standalone -t $KAFKA_CLUSTER_ID -c config/server.properties
 bin/kafka-server-start.sh config/server.properties
 ```
 {% endtab %}

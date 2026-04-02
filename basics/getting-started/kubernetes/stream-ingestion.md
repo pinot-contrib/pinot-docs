@@ -10,17 +10,14 @@ This guide walks you through loading streaming data into a Pinot cluster running
 
 ### **Bring up a Kafka cluster for real-time data ingestion**
 
-{% hint style="warning" %}
-Bitnami's Kafka Helm chart now defaults to **KRaft mode**, which does not deploy ZooKeeper. Because the Pinot Helm chart already runs its own ZooKeeper quorum, you must configure Kafka to use **ZooKeeper mode** so that it registers with the existing ZooKeeper ensemble. Add the flags below to disable KRaft and enable ZooKeeper.
+{% hint style="info" %}
+Kafka 4.0 uses **KRaft mode** by default and does not require ZooKeeper. The Bitnami Helm chart deploys Kafka with its own built-in controller quorum, so no separate ZooKeeper is needed for Kafka.
 {% endhint %}
 
 ```bash
 helm repo add kafka https://charts.bitnami.com/bitnami
 helm install -n pinot-quickstart kafka kafka/kafka \
     --set replicas=1 \
-    --set kraft.enabled=false \
-    --set zookeeper.enabled=true \
-    --set zookeeper.replicaCount=3 \
     --set listeners.client.protocol=PLAINTEXT
 ```
 

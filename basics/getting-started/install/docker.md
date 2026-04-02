@@ -25,7 +25,7 @@ Start a multi-component Pinot cluster using Docker, suitable for local evaluatio
 export PINOT_VERSION=1.4.0
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 export ZK_IMAGE=zookeeper:3.9.5
-export KAFKA_IMAGE=bitnami/kafka:3.6
+export KAFKA_IMAGE=apache/kafka:4.0.0
 ```
 
 See the [Version reference](../pinot-versions.md) page for the current stable release.
@@ -143,22 +143,25 @@ services:
       - pinot-demo
 
   pinot-kafka:
-    image: ${KAFKA_IMAGE:-bitnami/kafka:3.6}
+    image: ${KAFKA_IMAGE:-apache/kafka:4.0.0}
     container_name: "kafka"
     restart: unless-stopped
     ports:
       - "9092:9092"
     environment:
-      KAFKA_ZOOKEEPER_CONNECT: pinot-zookeeper:2181/kafka
-      KAFKA_BROKER_ID: 0
-      KAFKA_ADVERTISED_HOST_NAME: kafka
-    depends_on:
-      pinot-zookeeper:
-        condition: service_healthy
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
     networks:
       - pinot-demo
     healthcheck:
-      test: ["CMD-SHELL", "kafka-broker-api-versions.sh -bootstrap-server kafka:9092"]
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -254,12 +257,20 @@ docker run --rm -ti \
 
 **Start Kafka (optional)**
 
+Kafka 4.0 runs in KRaft mode and does not require ZooKeeper:
+
 ```bash
 docker run --rm -ti \
     --network pinot-demo --name=kafka \
-    -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
-    -e KAFKA_BROKER_ID=0 \
-    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
+    -e KAFKA_NODE_ID=1 \
+    -e KAFKA_PROCESS_ROLES=broker,controller \
+    -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 \
+    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092 \
+    -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+    -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
+    -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka:9093 \
+    -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+    -e CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk \
     -p 9092:9092 \
     -d ${KAFKA_IMAGE}
 ```
