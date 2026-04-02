@@ -221,7 +221,7 @@ We'll see the following (truncated) output:
 Now we're going to import each of the events into Apache Kafka. First let's create a Kafka topic called `wiki_events` with 5 partitions:
 
 ```bash
-docker exec -it kafka-wiki kafka-topics.sh \
+docker exec -it kafka-wiki /opt/kafka/bin/kafka-topics.sh \
   --bootstrap-server localhost:9092 \
   --create \
   --topic wiki_events \
@@ -339,7 +339,7 @@ wiki_events:4:58
 Looks good. We can also stream all the messages in this topic by running the following command:
 
 ```bash
-docker exec -it kafka-wiki kafka-console-consumer.sh \
+docker exec -it kafka-wiki /opt/kafka/bin/kafka-console-consumer.sh \
   --bootstrap-server localhost:9092 \
   --topic wiki_events \
   --from-beginning

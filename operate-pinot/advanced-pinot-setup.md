@@ -395,6 +395,11 @@ Sending request: http://pinot-controller:9000/schemas to controller: 8fbe601012f
 {% endtab %}
 
 {% tab title="Using launcher scripts" %}
+
+{% hint style="info" %}
+Pinot's built-in `StartKafka` launcher starts an embedded Kafka instance that uses ZooKeeper for coordination. This is separate from standalone Kafka 4.0 (KRaft mode) shown in the Docker tab.
+{% endhint %}
+
 **Start Kafka-Zookeeper**
 
 ```
