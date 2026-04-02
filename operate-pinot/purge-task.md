@@ -112,7 +112,7 @@ public interface RecordModifier {
 
 To implement custom purge logic, you need to create plugins that implement the `RecordPurger` and/or `RecordModifier` interfaces. These plugins follow Pinot's standard plugin architecture and must be packaged and deployed with your Pinot cluster.
 
-For more information on developing Pinot plugins, see the [Plugin Architecture documentation](../../developers/plugin-architecture/).
+For more information on developing Pinot plugins, see the [Plugin Architecture documentation](../developers/plugin-architecture/).
 
 ## Scheduling
 

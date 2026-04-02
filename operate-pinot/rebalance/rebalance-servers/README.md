@@ -25,9 +25,9 @@ By default, a server in the cluster gets added to the `DefaultTenant` i.e. gets 
 
 Below is an example of how this looks in the znode, as seen in ZooInspector.
 
-![](../../../../.gitbook/assets/zookeeper-browser-server-tenant.png)
+![](../../../.gitbook/assets/zookeeper-browser-server-tenant.png)
 
-A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../../basics/components/cluster/tenant.md) section.
+A Pinot table config has a tenants section, to define the tenant to be used by the table. The Pinot table will use all the servers which belong to the tenant as described in this config. For more details about this, see the [Tenants](../../../basics/components/cluster/tenant.md) section.
 
 ```
  {   
@@ -84,7 +84,7 @@ REALTIME table - update the `replicasPerPartition` field
 
 ### Segment Assignment changes
 
-The most common segment assignment change is moving from the default segment assignment to replica group segment assignment. Discussing the details of the segment assignment is beyond the scope of this page. More details can be found in [Routing](../../tuning/routing.md) and in this [FAQ question](../../../../operate-pinot/troubleshooting/operations-faq.md#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3).
+The most common segment assignment change is moving from the default segment assignment to replica group segment assignment. Discussing the details of the segment assignment is beyond the scope of this page. More details can be found in [Routing](../../tuning/routing.md) and in this [FAQ question](../../troubleshooting/operations-faq.md#docs-internal-guid-3eddb872-7fff-0e2a-b4e3-b1b43454add3).
 
 ### Table Migration to a different tenant
 

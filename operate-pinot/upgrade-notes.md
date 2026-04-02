@@ -9,7 +9,7 @@ description: >-
 This page summarizes the behavior changes, new defaults, deprecations, and
 migration hazards that operators should review before upgrading Apache Pinot.
 For the full list of features and fixes in each release, see the
-[release notes](../../reference/releases/README.md).
+[release notes](../reference/releases/README.md).
 
 For guidance on running the cross-release compatibility tester and the
 recommended component upgrade order, see

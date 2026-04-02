@@ -70,7 +70,7 @@ Use this to catch incompatibilities before they reach production -- especially i
 
 For full instructions on running `checkoutAndBuild.sh` and `compCheck.sh`, see:
 
-* [Upgrading Pinot with confidence](../operators/operating-pinot/upgrading-pinot-cluster.md)
+* [Upgrading Pinot with confidence](upgrading-pinot-cluster.md)
 
 ## Upgrade notes by release
 
@@ -83,7 +83,7 @@ Before every upgrade, review the upgrade notes for your target release. These do
 
 For the per-release breakdown, see:
 
-* [Upgrade Notes](../operators/operating-pinot/upgrade-notes.md)
+* [Upgrade Notes](upgrade-notes.md)
 
 ## Prerequisites
 

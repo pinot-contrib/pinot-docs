@@ -89,4 +89,4 @@ RLS filters are applied as additional WHERE-clause predicates. For best performa
 
 When RLS filters are applied to a query, the broker response includes a `rlsFiltersApplied` field set to `true`. This field appears in the standard broker query response JSON alongside other metadata fields like `numDocsScanned` and `timeUsedMs`. When no RLS filters are in effect, the field is set to `false`.
 
-You can use this field to verify that RLS policies are being applied as expected. For more details on the broker response format, see [Query Response Format](../../reference/api-reference/query-response-format.md).
+You can use this field to verify that RLS policies are being applied as expected. For more details on the broker response format, see [Query Response Format](../reference/api-reference/query-response-format.md).

@@ -16,19 +16,19 @@ There are 3 types of instance partitions for the InstanceAssignmentConfig: `OFFL
 
 The default instance assignment strategy simply assigns all the servers in the cluster to each table, and uses the [Balanced Segment Assignment](segment-assignment.md#balanced-segment-assignment) for the table. This strategy requires no extra configurations for the cluster, and it works well for small clusters with few tables where all the resources can be shared among all the tables.
 
-![](../../.gitbook/assets/default-instance-assignment.png)
+![](../.gitbook/assets/default-instance-assignment.png)
 
 ## Tag-Based Instance Assignment
 
 For performance critical use cases, we might not want to share the server resources for multiple use cases to prevent the use case being impacted by other use cases hosted on the same set of servers. We can use the Tag-Based Instance Assignment to achieve isolation for tables.
 
-(Note: Logically the Tag-Based Instance Assignment is identical to the [Tenant](../../basics/components/cluster/tenant.md) concept in Pinot, but just a different way of configuring the table. We recommend using the instance assignment over the tenant config because it can achieve more complex assignment strategies, as described below.)
+(Note: Logically the Tag-Based Instance Assignment is identical to the [Tenant](../basics/components/cluster/tenant.md) concept in Pinot, but just a different way of configuring the table. We recommend using the instance assignment over the tenant config because it can achieve more complex assignment strategies, as described below.)
 
 In order to use the Tag-Based Instance Assignment, the servers should be tagged via the Helix **InstanceConfig**, where the tag suffix (`_OFFLINE` or `_REALTIME`) denotes the type of table the server is going to serve. Each server can have multiple tags if necessary.
 
 After configuring the server tags, the Tag-Based Instance Assignment can be enabled by setting the `tag` within the InstanceAssignmentConfig for the table as shown below. Only the servers with this tag will be assigned to host this table, and the table will use the [Balanced Segment Assignment](segment-assignment.md#balanced-segment-assignment).
 
-![](../../.gitbook/assets/tag.png)
+![](../.gitbook/assets/tag.png)
 
 {% code title="Helix InstanceConfig for Server 1:" %}
 ```javascript
@@ -64,7 +64,7 @@ After configuring the server tags, the Tag-Based Instance Assignment can be enab
 
 On top of the Tag-Based Instance Assignment, we can also control the number of servers assigned to each table by configuring the `numInstances` in the InstanceAssignmentConfig. This is useful when we want to serve multiple tables of different sizes on the same set of servers. For example, suppose we have 30 servers hosting hundreds of tables for different analytics, we don’t want to use all 30 servers for each table, especially the tiny tables with only megabytes of data.
 
-![](../../.gitbook/assets/control-instance-assigment.png)
+![](../.gitbook/assets/control-instance-assigment.png)
 
 {% code title="TableConfig for Table 1:" %}
 ```javascript
@@ -88,7 +88,7 @@ On top of the Tag-Based Instance Assignment, we can also control the number of s
 
 In order to use the [Replica-Group Segment Assignment](segment-assignment.md#replica-group-segment-assignment), the servers need to be assigned to multiple replica-groups of the table, where the Replica-Group Instance Assignment comes into the picture. Enable it and configure the `numReplicaGroups` and `numInstancesPerReplicaGroup` in the InstanceAssignmentConfig, and Pinot will assign the instances accordingly.
 
-![](../../.gitbook/assets/replica-instance-assignment.png)
+![](../.gitbook/assets/replica-instance-assignment.png)
 
 {% code title="TableConfig for Table 1:" %}
 ```javascript
@@ -116,7 +116,7 @@ Similar to the Replica-Group Segment Assignment, in order to use the [Partitione
 
 (Note: The `numPartitions` configured here does not have to match the actual number of partitions for the table in case the partitions of the table changed for some reason. If they do not match, the table partition will be assigned to the server partition in a round-robin fashion. For example, if there are 2 server partitions, but 4 table partitions, table partition 1 and 3 will be assigned to server partition 1, and table partition 2 and 4 will be assigned to server partition 2.)
 
-![](../../.gitbook/assets/partition-instance-assignment.png)
+![](../.gitbook/assets/partition-instance-assignment.png)
 
 {% code title="TableConfig for Table 1:" %}
 ```javascript
@@ -150,7 +150,7 @@ For LLC real-time table, all the stream events are split into several stream par
 
 Without explicitly configuring the replica-group based instance assignment, the replicas of the stream partitions will be evenly spread over all the available instances as shown in the following diagram:
 
-![](../../.gitbook/assets/low-level-consumer-assignment.png)
+![](../.gitbook/assets/low-level-consumer-assignment.png)
 
 With replica-group based instance assignment, the stream partitions will be evenly spread over the instances within the replica group.
 
@@ -166,7 +166,7 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 
 (Note: A table can have more replicas than the number of pools for the cluster, in which case the replica-group will be assigned to the pools in a round-robin fashion, and the servers within a pool can host more than one replicas of the table. It is still okay to shut down the whole pool without bringing down the table because there are other replicas hosted by servers from other pools.)
 
-![](../../.gitbook/assets/pool-instance-assignment.png)
+![](../.gitbook/assets/pool-instance-assignment.png)
 
 {% code title="Helix InstanceConfig for Server 1:" %}
 ```javascript
@@ -251,7 +251,7 @@ The configuration of this comes in two folds:
 
 ## Pre-configured Instance Assignment
 
-A table can be configured to use the same instance assignment as another table - this can be useful for supporting [co-located joins](../../build-with-pinot/querying-and-sql/multi-stage-query/join-strategies/colocated-join-strategy.md). This requires the reference table to have an explicitly configured instance assignment (via  `instanceAssignmentConfigMap`). The table that is being configured to copy the instance assignment of another table can do so via the `instancePartitionsMap` table config key which is a map containing keys representing the instance partition type (`OFFLINE`, `CONSUMING`, `COMPLETED`) and values representing the reference instance partition `<tableName_instancePartitionType>`. This configuration setup ensures that the instance assignment for each partition and replica group is identical for the two tables - this can be verified by checking the instance assignment in ZooKeeper under the `PROPERTYSTORE/INSTANCE_PARTITIONS/<tableName_instancePartitionType>` path or through the controller REST API - `GET /tables/{tableName}/instancePartitions`.
+A table can be configured to use the same instance assignment as another table - this can be useful for supporting [co-located joins](../build-with-pinot/querying-and-sql/multi-stage-query/join-strategies/colocated-join-strategy.md). This requires the reference table to have an explicitly configured instance assignment (via  `instanceAssignmentConfigMap`). The table that is being configured to copy the instance assignment of another table can do so via the `instancePartitionsMap` table config key which is a map containing keys representing the instance partition type (`OFFLINE`, `CONSUMING`, `COMPLETED`) and values representing the reference instance partition `<tableName_instancePartitionType>`. This configuration setup ensures that the instance assignment for each partition and replica group is identical for the two tables - this can be verified by checking the instance assignment in ZooKeeper under the `PROPERTYSTORE/INSTANCE_PARTITIONS/<tableName_instancePartitionType>` path or through the controller REST API - `GET /tables/{tableName}/instancePartitions`.
 
 {% code title="Table config for table1:" %}
 ```json

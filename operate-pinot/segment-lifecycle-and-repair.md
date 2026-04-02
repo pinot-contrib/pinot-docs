@@ -62,7 +62,7 @@ POST /segments/{tableName}/reload?forceDownload=true
 
 **UI.** The Cluster Manager offers **Reload All Segments** at the table level and **Reload Segment** at the individual segment level.
 
-For a step-by-step walkthrough, see [Reload a Table Segment](../../operate-pinot/segment-reload.md).
+For a step-by-step walkthrough, see [Reload a Table Segment](segment-reload.md).
 
 {% hint style="info" %}
 Reload applies config changes to the segment's existing data. If you need the segment rebuilt with new columns or compatible data-type changes applied to every record, use [RefreshSegmentTask](#refresh-segments-with-a-minion-task) instead.

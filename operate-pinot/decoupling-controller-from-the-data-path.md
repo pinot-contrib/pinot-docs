@@ -46,7 +46,7 @@ Replace _pinot.server.storage.factory.class.(scheme)_ with the corresponding sch
 
 ### Table config
 
-Add the following to the real-time [segments config](../../reference/configuration-reference/table.md#segmentsconfig):
+Add the following to the real-time [segments config](../reference/configuration-reference/table.md#segmentsconfig):
 
 ```
     "segmentsConfig": {

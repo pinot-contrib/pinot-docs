@@ -25,7 +25,7 @@ Recommendation Engine is a rule based engine that recommends optimal configurati
 
 Recommendation Engine can be used to optimize the configuration parameters for both new and existing tables. Also since the recommendation engine tries to generate near-optimal configurations, users are strongly encouraged to provide the input information to the best of their knowledge. It is ok if the information is not fully accurate. However, random/arbitrary and incomplete information will not help the Recommendation Engine’s algorithms.
 
-Also see the section on [RealtimeProvisioningHelper](operating-pinot/tuning/realtime.md#realtimeprovisioninghelper).
+Also see the section on [RealtimeProvisioningHelper](tuning/realtime.md#realtimeprovisioninghelper).
 
 ## How to use the engine
 

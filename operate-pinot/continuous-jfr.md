@@ -143,7 +143,7 @@ Share only relevant chunks for triage.
 ## Related
 
 - [Monitoring](monitoring.md) — Metrics, Prometheus, and Grafana.
-- [Configuration Reference / Monitoring Metrics](../../reference/configuration-reference/monitoring-metrics.md) — Pinot metrics reference.
+- [Configuration Reference / Monitoring Metrics](../reference/configuration-reference/monitoring-metrics.md) — Pinot metrics reference.
 
 ## Opening and analyzing JFR files
 

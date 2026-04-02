@@ -2,5 +2,5 @@
 
 For details on how to set up ingestion, refer to:
 
-* [Load Data](../../basics/components/table/segment/#creating-a-segment)&#x20;
-* [Batch Data Ingestion In Practice](../../tutorials/data-ingestion/batch-data-ingestion-in-practice.md)
+* [Load Data](../basics/components/table/segment/#creating-a-segment)&#x20;
+* [Batch Data Ingestion In Practice](../tutorials/data-ingestion/batch-data-ingestion-in-practice.md)

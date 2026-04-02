@@ -125,7 +125,7 @@ Events are available to queries as soon as they are ingested. This is because ev
 
 The ingestion of events into the real-time table is not transactional, so replicas of the open segment are not immediately consistent. Pinot trades consistency for availability upon network partitioning (CAP theorem) to provide ultra-low ingestion latencies at high throughput.
 
-However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent, with the [commit protocol](../../operators/operating-pinot/decoupling-controller-from-the-data-path.md).
+However, when the open segment is closed and its in-memory indexes are flushed to persistent storage, all its replicas are guaranteed to be consistent, with the [commit protocol](../decoupling-controller-from-the-data-path.md).
 
 ### How to reset a CONSUMING segment stuck on an offset which has expired from the stream?
 

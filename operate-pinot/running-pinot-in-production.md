@@ -4,7 +4,7 @@ description: Production deployment guide covering topology, capacity, health che
 
 # Running Pinot in Production
 
-This page covers the operational concerns you should address before running Apache Pinot in a production environment. It focuses on topology decisions, capacity planning, availability, graceful operations, and disaster recovery. For metrics and alerting, see [Monitoring](../operators/operating-pinot/monitoring.md). For upgrade procedures, see [Upgrading Pinot](../operators/operating-pinot/upgrading-pinot-cluster.md).
+This page covers the operational concerns you should address before running Apache Pinot in a production environment. It focuses on topology decisions, capacity planning, availability, graceful operations, and disaster recovery. For metrics and alerting, see [Monitoring](monitoring.md). For upgrade procedures, see [Upgrading Pinot](upgrading-pinot-cluster.md).
 
 ## Cluster topology and prerequisites
 
@@ -74,7 +74,7 @@ Define SLIs around these dimensions and alert when they breach your thresholds:
 
 **Cluster stability.** `SEGMENTS_IN_ERROR_STATE > 0`, `HELIX_ZOOKEEPER_RECONNECTS > 1/hour`, and `LLC_STREAM_DATA_LOSS > 0` all warrant investigation.
 
-For the full metrics catalog, alert thresholds, and diagnosis patterns, see [Monitoring](../operators/operating-pinot/monitoring.md).
+For the full metrics catalog, alert thresholds, and diagnosis patterns, see [Monitoring](monitoring.md).
 ## Graceful operations
 
 ### Graceful server shutdown
@@ -120,16 +120,16 @@ Store table configs and schemas in version control alongside your deployment man
 
 ## Operational runbooks
 
-For day-to-day segment operations — choosing between reset, reload, refresh, rebalance, force commit, and Minion repair tasks — see the [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) runbook.
+For day-to-day segment operations — choosing between reset, reload, refresh, rebalance, force commit, and Minion repair tasks — see the [Segment Lifecycle and Repair](segment-lifecycle-and-repair.md) runbook.
 
-For rebalancing after capacity changes, see [Rebalance](../operators/operating-pinot/rebalance/README.md).
+For rebalancing after capacity changes, see [Rebalance](rebalance/README.md).
 
 For managing real-time ingestion issues, see the [Real-time Ingestion Stopped](troubleshooting/realtime-ingestion-stopped.md) troubleshooting guide.
 ## Further reading
 
-- [Monitoring](../operators/operating-pinot/monitoring.md) — metrics, alert thresholds, and diagnosis patterns
-- [Upgrading Pinot](../operators/operating-pinot/upgrading-pinot-cluster.md) — upgrade order and compatibility testing
-- [Segment Lifecycle and Repair](../operators/operating-pinot/segment-lifecycle-and-repair.md) — when to reset vs. reload vs. refresh vs. rebalance
+- [Monitoring](monitoring.md) — metrics, alert thresholds, and diagnosis patterns
+- [Upgrading Pinot](upgrading-pinot-cluster.md) — upgrade order and compatibility testing
+- [Segment Lifecycle and Repair](segment-lifecycle-and-repair.md) — when to reset vs. reload vs. refresh vs. rebalance
 - [Kubernetes Deployment](kubernetes/deployment-pinot-on-kubernetes.md) — Helm-based deployment on Kubernetes
 - [Helm Chart Values Reference](kubernetes/helm-chart-reference.md) — all configurable Helm values
-- [Performance Tuning](../operators/operating-pinot/tuning/README.md) — query routing, scheduling, and segment pruning
+- [Performance Tuning](tuning/README.md) — query routing, scheduling, and segment pruning

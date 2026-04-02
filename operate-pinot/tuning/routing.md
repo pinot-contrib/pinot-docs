@@ -2,7 +2,7 @@
 
 ## Optimizing routing
 
-As explained in [architecture](../../../basics/architecture.md), Apache Pinot is a distributed system where different components have specific roles. Queries arrive at one of the [brokers](../../../basics/components/cluster/broker.md), that calculates which [servers](../../../basics/components/cluster/server.md) are going to participate in the query. In most clusters, a single server cannot hold all the segments, so each server has a partial view of the complete data. At the same time, segments are usually replicated on different servers in order to have high availability and better performance. In order to produce a complete result, the broker needs to calculate a subset of servers that contains all the segments that are required to resolve the query. Once this subset is calculated, the router uses a _scatter and gather_ algorithm that sends the query to each server and then merges the partial results into the complete one.
+As explained in [architecture](../../basics/architecture.md), Apache Pinot is a distributed system where different components have specific roles. Queries arrive at one of the [brokers](../../basics/components/cluster/broker.md), that calculates which [servers](../../basics/components/cluster/server.md) are going to participate in the query. In most clusters, a single server cannot hold all the segments, so each server has a partial view of the complete data. At the same time, segments are usually replicated on different servers in order to have high availability and better performance. In order to produce a complete result, the broker needs to calculate a subset of servers that contains all the segments that are required to resolve the query. Once this subset is calculated, the router uses a _scatter and gather_ algorithm that sends the query to each server and then merges the partial results into the complete one.
 
 There may be several subsets of servers that contain all the required segments. Any of them will return the correct result for the given query, but the subset used may affect the query performance. It is clear that the more servers participate in the query, the more CPUs, memory and IO can be used and therefore the better peak performance can be achieved. This is why, by default, brokers uniformly distribute the workload among as many servers as possible with balanced workload. Given that servers use segments as the minimum unit of work, the maximum parallelism is defined by the number of segments that are required to resolve the query.
 
@@ -53,7 +53,7 @@ In order to make this pruning more efficient, segments should have the least num
 
 Data cannot always be partitioned by a dimension column or even when it is, not all queries can take advantage of the distribution. But when this optimization can be applied, a lot of segments can be pruned. The current implementation for partitioning only works for **EQUALITY** and **IN** filter (e.g. `memberId = xx`, `memberId IN (x, y, z)`). Below diagram gives the example of data partitioned on member ID while the query includes an equality filter on member ID.
 
-![](../../../.gitbook/assets/partition-on-member-id.png)
+![](../../.gitbook/assets/partition-on-member-id.png)
 
 Apache Pinot currently supports `Modulo`, `Murmur`, `ByteArray` and `HashCode` hash functions and partitioning can be enabled by setting the following configuration in the table config.
 
@@ -114,7 +114,7 @@ Remember that Pinot does not impose a hard requirement here. It is fine if segme
 
 Although using partitions can drastically reduce the fanout, it only applies to specific queries and requires a specific data distribution between segments. The most consistent way to limit the fanout is to define replica group segment alignment. A `Replica Group` is a subset of servers that contains a ‘complete’ set of segments of a table. Once we assign the segment based on the replica group, each query can be answered by fanning out to a single replica group instead of all servers.
 
-![](../../../.gitbook/assets/ReplicaGroup.png)
+![](../../.gitbook/assets/ReplicaGroup.png)
 
 To use replica groups, the table configuration must be changed in the following ways:
 

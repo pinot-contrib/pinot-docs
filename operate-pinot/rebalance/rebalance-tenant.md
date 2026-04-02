@@ -10,7 +10,7 @@ Basically all the factors which require server rebalance apply here. The only di
 
 The tenant rebalance operation just provides a tunable orchestration of server rebalancing on multiple tables. Under the hood it leverages the existing server rebalance operation to perform the actual rebalance on each table. It provides the user a way to perform server rebalance on tables selectively in series and parallel. This is achieved using additional tuning parameters on top of usual [rebalance parameters](rebalance-servers/#rebalance-parameters).
 
-![img.png](../../../.gitbook/assets/tenant-rebalance-flow.png)
+![img.png](../../.gitbook/assets/tenant-rebalance-flow.png)
 
 ## Control which tables to rebalance
 

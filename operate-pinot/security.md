@@ -71,7 +71,7 @@ For a step-by-step walkthrough covering endpoint exposure, mTLS, ZooKeeper auth,
 | Page | Description |
 |------|-------------|
 | [Security Hardening Guide](security-hardening.md) | End-to-end production hardening: endpoint exposure, mTLS, ZooKeeper auth, secrets, and checklist |
-| [Access Control](../operators/operating-pinot/access-control.md) | ACL framework, custom `AccessControlFactory`, and Row-Level Security (RLS) |
+| [Access Control](access-control.md) | ACL framework, custom `AccessControlFactory`, and Row-Level Security (RLS) |
 | [Authentication overview](authentication/README.md) | Introduction to Pinot's HTTP Basic Auth and links to setup guides |
 | [Basic Auth Access Control](authentication/basic-auth-access-control.md) | Step-by-step setup of static Basic Auth for controller, broker, server, and minion |
 | [ZK Basic Auth Access Control](authentication/zkbasicauthaccesscontrol.md) | ZooKeeper-managed Basic Auth with hot deployment and bcrypt encryption |

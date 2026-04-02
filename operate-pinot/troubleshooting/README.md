@@ -66,7 +66,7 @@ Before diving into a specific guide, gather the following information to speed u
 1. **Which component is affected?** Controller, broker, server, or minion?
 2. **Check the logs.** All Pinot components log error conditions. Look for stack traces or error messages.
 3. **Use the debug API.** The [Table Debug API](../../reference/api-reference/controller-api.md) surfaces common problems including table size, ingestion status, and state transition errors.
-4. **Check metrics.** If you have [monitoring](../../operators/operating-pinot/monitoring.md) set up, review dashboards for anomalies in query latency, ingestion lag, or GC pressure.
+4. **Check metrics.** If you have [monitoring](../monitoring.md) set up, review dashboards for anomalies in query latency, ingestion lag, or GC pressure.
 5. **Review recent changes.** Did you recently update a table config, schema, or cluster configuration?
 
 ## Related Operate Pinot pages
@@ -74,14 +74,14 @@ Before diving into a specific guide, gather the following information to speed u
 Many troubleshooting issues connect back to operational configuration and tuning. These pages may help:
 
 * [Deployment and Monitoring](../deployment.md) -- overview of operating Pinot clusters
-* [Monitoring](../../operators/operating-pinot/monitoring.md) -- set up dashboards and alerts to catch issues early
-* [Rebalance](../../operators/operating-pinot/rebalance) -- resolve uneven segment distribution or add new servers
-* [Segment Lifecycle and Repair](../../operators/operating-pinot/segment-lifecycle-and-repair.md) -- understand segment states and repair procedures
-* [Decoupling Controller from the Data Path](../../operators/operating-pinot/decoupling-controller-from-the-data-path.md) -- reduce controller bottlenecks for real-time ingestion
-* [Tuning](../../operators/operating-pinot/tuning) -- optimize query routing, real-time performance, and segment pruning
-* [Managing Logs](../../operators/operating-pinot/managing-logs.md) -- configure log levels for debugging
-* [Upgrading Pinot](../../operators/operating-pinot/upgrading-pinot-cluster.md) -- check upgrade notes before and after cluster upgrades
-* [Setup Cluster](../../operators/operating-pinot/setup-cluster.md) -- verify cluster configuration
+* [Monitoring](../monitoring.md) -- set up dashboards and alerts to catch issues early
+* [Rebalance](../rebalance) -- resolve uneven segment distribution or add new servers
+* [Segment Lifecycle and Repair](../segment-lifecycle-and-repair.md) -- understand segment states and repair procedures
+* [Decoupling Controller from the Data Path](../decoupling-controller-from-the-data-path.md) -- reduce controller bottlenecks for real-time ingestion
+* [Tuning](../tuning) -- optimize query routing, real-time performance, and segment pruning
+* [Managing Logs](../managing-logs.md) -- configure log levels for debugging
+* [Upgrading Pinot](../upgrading-pinot-cluster.md) -- check upgrade notes before and after cluster upgrades
+* [Setup Cluster](../setup-cluster.md) -- verify cluster configuration
 
 ## Next step
 
@@ -216,7 +216,7 @@ After changing the replication, run a [table rebalance](README.md#how-to-run-a-r
 
 ### How to run a rebalance on a table?
 
-See [Rebalance](../../operators/operating-pinot/rebalance/).
+See [Rebalance](../rebalance/).
 
 ### How to control number of segments generated?
 

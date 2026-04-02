@@ -75,7 +75,7 @@ Updating the retention value in the table config should be good enough, there is
 
 ### How to run a rebalance on a table?
 
-See [Rebalance](../../operators/operating-pinot/rebalance).
+See [Rebalance](../rebalance).
 
 ### Why does my real-time table not use the new nodes I added to the cluster?
 
@@ -208,7 +208,7 @@ Once replica group segment assignment is in effect, the query routing can take a
 
 ### Overwrite index configs at tier level
 
-When using [tiered storage](../../operators/operating-pinot/separating-data-storage-by-age/README.md), user may want to have different encoding and indexing types for a column in different tiers to balance query latency and cost saving more flexibly. For example, segments in the hot tier can use dict-encoding, bloom filter and all kinds of relevant index types for very fast query execution. But for segments in the cold tier, where cost saving matters more than low query latency, one may want to use raw values and bloom filters only.
+When using [tiered storage](../separating-data-storage-by-age/README.md), user may want to have different encoding and indexing types for a column in different tiers to balance query latency and cost saving more flexibly. For example, segments in the hot tier can use dict-encoding, bloom filter and all kinds of relevant index types for very fast query execution. But for segments in the cold tier, where cost saving matters more than low query latency, one may want to use raw values and bloom filters only.
 
 The following two examples show how to overwrite encoding type and index configs for tiers. Similar changes are also demonstrated in the [MultiDirQuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/java/org/apache/pinot/tools/MultiDirQuickstart.java).
 

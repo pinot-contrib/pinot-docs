@@ -109,7 +109,7 @@ This pruner works automatically and requires no special configuration. Column st
 
 ### Bloom Filter Pruning
 
-When a [Bloom filter index](../../../build-with-pinot/indexing/bloom-filter.md) is configured on a column, the server uses it to prune segments that definitely do not contain a queried value. This is especially effective for high-cardinality equality lookups.
+When a [Bloom filter index](../../build-with-pinot/indexing/bloom-filter.md) is configured on a column, the server uses it to prune segments that definitely do not contain a queried value. This is especially effective for high-cardinality equality lookups.
 
 **Configuration** (in `fieldConfigList`):
 
@@ -142,7 +142,7 @@ SET "useBrokerPruning" = true;
 SELECT count(*) FROM events WHERE ts > 1700000000000
 ```
 
-When the [physical optimizer](../../../build-with-pinot/querying-and-sql/multi-stage-query/physical-optimizer.md) is enabled, time and partition pruning are automatically applied to the Leaf Stage of multi-stage queries.
+When the [physical optimizer](../../build-with-pinot/querying-and-sql/multi-stage-query/physical-optimizer.md) is enabled, time and partition pruning are automatically applied to the Leaf Stage of multi-stage queries.
 
 ## Monitoring Pruning Effectiveness
 
