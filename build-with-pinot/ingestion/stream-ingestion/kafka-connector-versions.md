@@ -48,14 +48,13 @@ The Kafka 4.0 connector uses the same configuration properties as the Kafka 3.0 
 }
 ```
 
-### Migration from Kafka 3.0
+### Migration from Kafka 2.0 or 3.0
 
-To migrate from the Kafka 3.0 connector to Kafka 4.0:
-
-1. Update the consumer factory class name in your table configuration:
+To migrate from an older Kafka connector to Kafka 3.0 or 4.0, update the consumer factory class name in your table configuration:
 
 | From | To |
 |---|---|
+| `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory` | `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` (Kafka 3.x) or `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` (Kafka 4.x) |
 | `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` | `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` |
 
 2. Ensure the `pinot-kafka-4.0` plugin JAR is available in your Pinot plugin directory.
