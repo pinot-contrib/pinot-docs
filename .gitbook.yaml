@@ -149,7 +149,7 @@ redirects:
     users/user-guide-query/multi-stage-query/optimizing-joins: build-with-pinot/querying-and-sql/multi-stage-query/optimizing-joins.md
     users/user-guide-query/multi-stage-query/physical-optimizer: build-with-pinot/querying-and-sql/multi-stage-query/physical-optimizer.md
     users/user-guide-query/multi-stage-query/stage-level-spooling: build-with-pinot/querying-and-sql/multi-stage-query/stage-level-spooling.md
-    users/user-guide-query/multi-stage-query/understanding-multi-stage-explain: build-with-pinot/querying-and-sql/multi-stage-query/understanding-multi-stage-explain.md
+    users/user-guide-query/multi-stage-query/understanding-multi-stage-explain: build-with-pinot/querying-and-sql/multi-stage-query/explain-plan-1.md
     users/user-guide-query/multi-stage-query/understanding-stage-stats: build-with-pinot/querying-and-sql/multi-stage-query/understanding-stage-stats.md
     users/user-guide-query/multi-stage-query/understanding-stages: build-with-pinot/querying-and-sql/multi-stage-query/understanding-stages.md
     users/user-guide-query/multi-stage-query/join-strategies: build-with-pinot/querying-and-sql/multi-stage-query/join-strategies/README.md
