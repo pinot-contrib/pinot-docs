@@ -348,10 +348,16 @@ See [Streaming Tables](advanced-pinot-setup.md) for table configuration details 
 ```
 docker run \
     --network pinot-demo --name=kafka \
-    -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
-    -e KAFKA_BROKER_ID=0 \
-    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
-    -d wurstmeister/kafka:latest
+    -e KAFKA_NODE_ID=1 \
+    -e KAFKA_PROCESS_ROLES=broker,controller \
+    -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 \
+    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092 \
+    -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+    -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
+    -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka:9093 \
+    -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+    -e CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk \
+    -d apache/kafka:4.0.0
 ```
 
 **Create a Kafka Topic**
@@ -360,7 +366,7 @@ docker run \
 docker exec \
   -t kafka \
   /opt/kafka/bin/kafka-topics.sh \
-  --zookeeper pinot-zookeeper:2181/kafka \
+  --bootstrap-server kafka:9092 \
   --partitions=1 --replication-factor=1 \
   --create --topic flights-realtime
 ```
@@ -389,6 +395,11 @@ Sending request: http://pinot-controller:9000/schemas to controller: 8fbe601012f
 {% endtab %}
 
 {% tab title="Using launcher scripts" %}
+
+{% hint style="info" %}
+Pinot's built-in `StartKafka` launcher starts an embedded Kafka instance that uses ZooKeeper for coordination. This is separate from standalone Kafka 4.0 (KRaft mode) shown in the Docker tab.
+{% endhint %}
+
 **Start Kafka-Zookeeper**
 
 ```

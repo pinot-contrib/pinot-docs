@@ -60,7 +60,7 @@ Create a Kafka topic called `pullRequestMergedEvents` for the demo.
 ```bash
 docker exec \
   -it kafka \
-  /opt/bitnami/kafka/bin/kafka-topics.sh \
+  /opt/kafka/bin/kafka-topics.sh \
   --bootstrap-server kafka:9092 --partitions=1 \
   --replication-factor=1 --create \
   --topic pullRequestMergedEvents

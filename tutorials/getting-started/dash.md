@@ -28,22 +28,23 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
   kafka:
-    image: wurstmeister/kafka:latest
+    image: apache/kafka:4.0.0
     restart: unless-stopped
     container_name: "kafka-wiki"
     ports:
       - "9092:9092"
     expose:
       - "9093"
-    depends_on:
-      - zookeeper
     environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-wiki:2181/kafka
-      KAFKA_BROKER_ID: 0
-      KAFKA_ADVERTISED_HOST_NAME: kafka-wiki
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092,CONTROLLER://0.0.0.0:29093
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-wiki:9093,OUTSIDE://localhost:9092
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-wiki:29093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
   pinot-controller:
     image: apachepinot/pinot:latest
     command: "StartController -zkAddress zookeeper-wiki:2181 -dataDir /data"
@@ -220,7 +221,7 @@ We'll see the following (truncated) output:
 Now we're going to import each of the events into Apache Kafka. First let's create a Kafka topic called `wiki_events` with 5 partitions:
 
 ```bash
-docker exec -it kafka-wiki kafka-topics.sh \
+docker exec -it kafka-wiki /opt/kafka/bin/kafka-topics.sh \
   --bootstrap-server localhost:9092 \
   --create \
   --topic wiki_events \
@@ -320,8 +321,8 @@ Let's check that the data has made its way into Kafka.
 The following command returns the message offset for each partition in the `wiki_events` topic:
 
 ```bash
-docker exec -it kafka-wiki kafka-run-class.sh kafka.tools.GetOffsetShell \
-  --broker-list localhost:9092 \
+docker exec -it kafka-wiki /opt/kafka/bin/kafka-get-offsets.sh \
+  --bootstrap-server localhost:9092 \
   --topic wiki_events
 ```
 
@@ -338,7 +339,7 @@ wiki_events:4:58
 Looks good. We can also stream all the messages in this topic by running the following command:
 
 ```bash
-docker exec -it kafka-wiki kafka-console-consumer.sh \
+docker exec -it kafka-wiki /opt/kafka/bin/kafka-console-consumer.sh \
   --bootstrap-server localhost:9092 \
   --topic wiki_events \
   --from-beginning
