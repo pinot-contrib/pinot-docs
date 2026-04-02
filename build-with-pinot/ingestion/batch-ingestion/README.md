@@ -398,7 +398,7 @@ pushJobSpec:
 
 Pinot supports atomic update on segment level, which means that when data consisting of multiple segments are pushed to a table, as segments are replaced one at a time, queries to the broker during this upload phase may produce inconsistent results due to interleaving of old and new data.
 
-See [consistent-push-and-rollback.md](../../../operators/operating-pinot/consistent-push-and-rollback.md) for how to enable this feature.
+See [consistent-push-and-rollback.md](../../../operate-pinot/consistent-push-and-rollback.md) for how to enable this feature.
 
 ### Segment fetchers
 

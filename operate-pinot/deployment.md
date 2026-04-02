@@ -20,7 +20,7 @@ This section covers everything you need to deploy an Apache Pinot cluster, from 
 
 ### Cluster setup
 
-[Set up a Pinot cluster](../operators/operating-pinot/setup-cluster.md) walks through creating a cluster namespace and starting controller, broker, and server instances.
+[Set up a Pinot cluster](setup-cluster.md) walks through creating a cluster namespace and starting controller, broker, and server instances.
 
 ### Advanced Pinot setup
 
@@ -28,27 +28,27 @@ This section covers everything you need to deploy an Apache Pinot cluster, from 
 
 ### Server startup status checkers
 
-[Server Startup Status Checkers](../operators/operating-pinot/server-startup-status-checkers.md) explains readiness and liveness health checks, static consumption wait, offset-based and freshness-based segment checkers, and recommended configurations for QA and production environments.
+[Server Startup Status Checkers](server-startup-status-checkers.md) explains readiness and liveness health checks, static consumption wait, offset-based and freshness-based segment checkers, and recommended configurations for QA and production environments.
 
 ### Table setup
 
-[Set up a table](../operators/operating-pinot/setup-table.md) links to table creation instructions including schema design, table configuration, and index settings.
+[Set up a table](setup-table.md) links to table creation instructions including schema design, table configuration, and index settings.
 
 ### Ingestion setup
 
-[Set up ingestion](../operators/operating-pinot/setup-ingestion.md) covers creating segments and running batch data ingestion jobs to load data into your tables.
+[Set up ingestion](setup-ingestion.md) covers creating segments and running batch data ingestion jobs to load data into your tables.
 
 ### Decoupling controller from the data path
 
-[Decoupling Controller from the Data Path](../operators/operating-pinot/decoupling-controller-from-the-data-path.md) explains how to bypass the controller during real-time segment completion by uploading completed segments directly to deep store, and how to enable peer download for failure recovery.
+[Decoupling Controller from the Data Path](decoupling-controller-from-the-data-path.md) explains how to bypass the controller during real-time segment completion by uploading completed segments directly to deep store, and how to enable peer download for failure recovery.
 
 ### Command-line interface (CLI)
 
-[CLI Reference](../operators/cli.md) documents every `pinot-admin.sh` command -- from `AddSchema` and `AddTable` through `RebalanceTable`, `LaunchDataIngestionJob`, and cluster validation utilities.
+[CLI Reference](cli.md) documents every `pinot-admin.sh` command -- from `AddSchema` and `AddTable` through `RebalanceTable`, `LaunchDataIngestionJob`, and cluster validation utilities.
 
 ### Configuration recommendation engine
 
-[Configuration Recommendation Engine](../operators/configuration-recommendation-engine.md) describes the rule-based engine accessible via the controller REST API that recommends optimal index, partitioning, segment size, and real-time provisioning settings based on your schema, query patterns, and workload characteristics.
+[Configuration Recommendation Engine](configuration-recommendation-engine.md) describes the rule-based engine accessible via the controller REST API that recommends optimal index, partitioning, segment size, and real-time provisioning settings based on your schema, query patterns, and workload characteristics.
 
 ## Next step
 

@@ -6,7 +6,7 @@ description: >-
 
 # Ingest streaming data from Apache Kafka
 
-Learn how to ingest data from Kafka, a stream processing platform. You should have a local cluster up and running, following the instructions in [Set up a cluster](../../../operators/operating-pinot/setup-cluster.md).
+Learn how to ingest data from Kafka, a stream processing platform. You should have a local cluster up and running, following the instructions in [Set up a cluster](../../../operate-pinot/setup-cluster.md).
 
 {% hint style="info" %}
 This guide uses the Kafka 3.0 connector (`kafka30`). Pinot also supports a **Kafka 4.0 connector** for KRaft-mode Kafka clusters. See [Kafka Connector Versions](kafka-connector-versions.md) for details on choosing the right connector.

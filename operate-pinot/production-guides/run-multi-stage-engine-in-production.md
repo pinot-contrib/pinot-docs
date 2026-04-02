@@ -70,7 +70,7 @@ Use [Query Quotas](../../build-with-pinot/querying-and-sql/query-execution-contr
 
 The `workloadName` and `isSecondaryWorkload` query options assign queries to named workloads with resource budgets. Combined with the `workload` or `binary_workload` query scheduler, this lets operators isolate MSE traffic from latency-sensitive SSE traffic on the same servers.
 
-See [Workload-Based Query Resource Isolation](../../operators/operating-pinot/tuning/workload-query-isolation.md) for configuration details.
+See [Workload-Based Query Resource Isolation](../tuning/workload-query-isolation.md) for configuration details.
 
 ### Join and window overflow controls
 
@@ -185,7 +185,7 @@ Refer to the [Release Notes](../../reference/release-notes/README.md) for the co
 - [Physical Optimizer](../../build-with-pinot/querying-and-sql/multi-stage-query/physical-optimizer.md)
 - [Query Options](../../build-with-pinot/querying-and-sql/query-execution-controls/query-options.md)
 - [Query Quotas](../../build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md)
-- [Workload-Based Query Resource Isolation](../../operators/operating-pinot/tuning/workload-query-isolation.md)
+- [Workload-Based Query Resource Isolation](../tuning/workload-query-isolation.md)
 - [Optimizing Joins](../../build-with-pinot/querying-and-sql/multi-stage-query/optimizing-joins.md)
 - [Troubleshoot MSE](../troubleshooting/troubleshoot-multi-stage-query-engine.md)
 - [Running Pinot in Production](../running-pinot-in-production.md)

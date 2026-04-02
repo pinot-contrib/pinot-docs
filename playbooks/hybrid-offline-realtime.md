@@ -261,4 +261,4 @@ For recent data (last few hours), the query hits real-time segments. For older d
 - [Batch Ingestion Guide](../build-with-pinot/ingestion/batch-ingestion/README.md)
 - [Spark Connector](../build-with-pinot/ingestion/batch-ingestion/spark.md)
 - [Backfill Data](../build-with-pinot/ingestion/batch-ingestion/backfill-data.md)
-- [Pinot Managed Offline Flows](../operators/operating-pinot/pinot-managed-offline-flows.md)
+- [Pinot Managed Offline Flows](../operate-pinot/pinot-managed-offline-flows.md)

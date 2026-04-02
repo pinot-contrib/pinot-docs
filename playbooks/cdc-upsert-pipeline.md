@@ -281,5 +281,5 @@ See [Segment Compaction on Upserts](../build-with-pinot/ingestion/upsert-and-ded
 - [Stream Ingestion with Upsert](../build-with-pinot/ingestion/upsert-and-dedup/upsert.md)
 - [Offline Table Upsert](../build-with-pinot/ingestion/upsert-and-dedup/offline-table-upsert.md)
 - [Segment Compaction on Upserts](../build-with-pinot/ingestion/upsert-and-dedup/segment-compaction-on-upserts.md)
-- [Upsert Compaction Task](../operators/operating-pinot/upsert-compaction-task.md)
+- [Upsert Compaction Task](../operate-pinot/upsert-compaction-task.md)
 - [Ingestion Transformations](../build-with-pinot/ingestion/ingestion-level-transformations.md)

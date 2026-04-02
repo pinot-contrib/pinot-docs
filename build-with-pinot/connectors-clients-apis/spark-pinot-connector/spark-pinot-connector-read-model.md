@@ -73,7 +73,7 @@ Connector uses SQL, as a result all sql filters are supported.
 
 
 
-Connector receives routing table of given query to get information on which Pinot servers to will be queried and which segments will be scan. If partitioning is enabled for given Pinot table, and created query in Spark will be scan the specific partitions, only required Pinot server and segment informations will be got(that means segment pruning operation will be applied before data reading like Pinot brokers). For more information; [Optimizing Scatter and Gather in Pinot](../../../operators/operating-pinot/tuning/routing.md#optimizing-scatter-and-gather)
+Connector receives routing table of given query to get information on which Pinot servers to will be queried and which segments will be scan. If partitioning is enabled for given Pinot table, and created query in Spark will be scan the specific partitions, only required Pinot server and segment informations will be got(that means segment pruning operation will be applied before data reading like Pinot brokers). For more information; [Optimizing Scatter and Gather in Pinot](../../../operate-pinot/tuning/routing.md#optimizing-scatter-and-gather)
 
 #### Table Querying
 

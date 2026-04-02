@@ -35,7 +35,7 @@ A concise summary of the most important metrics per component:
 - **Controller**: segment availability percentage, segments in error state, ZooKeeper reconnects, stream data loss, missing consuming segments
 - **Minion**: task failure count, task queue time, task execution time
 
-For the complete list of metrics, alert thresholds, and diagnosis patterns, see the [Monitoring guide](../operators/operating-pinot/monitoring.md).
+For the complete list of metrics, alert thresholds, and diagnosis patterns, see the [Monitoring guide](monitoring.md).
 
 ## JVM diagnostics with Continuous JFR
 
@@ -43,7 +43,7 @@ For low-overhead, always-on JVM profiling, Pinot supports **Continuous Java Flig
 
 Key configuration: set `pinot.jfr.enabled=true` in cluster config. Start with `configuration=default` for production safety; use `configuration=profile` only during active investigations.
 
-For the full runbook, see [Continuous JFR](../operators/operating-pinot/continuous-jfr.md).
+For the full runbook, see [Continuous JFR](continuous-jfr.md).
 
 ## Setting up Prometheus and Grafana
 
@@ -66,8 +66,8 @@ For a complete Kubernetes walkthrough, see [Monitor Pinot using Prometheus and G
 
 | Page | Description |
 |------|-------------|
-| [Monitoring guide](../operators/operating-pinot/monitoring.md) | Critical metrics reference with alert thresholds and diagnosis patterns for every component |
-| [Continuous JFR](../operators/operating-pinot/continuous-jfr.md) | Runbook for always-on Java Flight Recorder profiling with dynamic cluster-level control |
+| [Monitoring guide](monitoring.md) | Critical metrics reference with alert thresholds and diagnosis patterns for every component |
+| [Continuous JFR](continuous-jfr.md) | Runbook for always-on Java Flight Recorder profiling with dynamic cluster-level control |
 | [Monitor Pinot using Prometheus and Grafana](monitor-pinot-using-prometheus-and-grafana.md) | Step-by-step Kubernetes setup for Prometheus scraping and Grafana dashboards |
 
 ## Next step

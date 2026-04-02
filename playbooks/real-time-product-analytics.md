@@ -204,7 +204,7 @@ Use `OPTION(timeoutMs=5000)` on dashboard queries so a single slow query does no
 
 - **`CONSUMING` segment lag**: Monitor Kafka consumer lag via `pinot.server.realtimeConsumptionCatchupRatio`. If lag grows, add more servers or partitions.
 - **Query latency P99**: Track via broker metrics. If P99 exceeds your SLA, consider adding star-tree indexes or scaling brokers.
-- **Segment count per table**: A very large number of small segments degrades query performance. Use the [Minion Merge Rollup Task](../operators/operating-pinot/minion-merge-rollup-task.md) to compact completed segments.
+- **Segment count per table**: A very large number of small segments degrades query performance. Use the [Minion Merge Rollup Task](../operate-pinot/minion-merge-rollup-task.md) to compact completed segments.
 - **Heap and direct memory**: Real-time servers hold consuming segments in memory. Monitor JVM heap and off-heap usage.
 
 See [Monitoring](../operate-pinot/monitoring.md) and [Running Pinot in Production](../operate-pinot/running-pinot-in-production.md) for a comprehensive metric list.
@@ -222,5 +222,5 @@ See [Monitoring](../operate-pinot/monitoring.md) and [Running Pinot in Productio
 
 - [Stream Ingestion Guide](../build-with-pinot/ingestion/stream-ingestion/README.md)
 - [Star-Tree Index](../build-with-pinot/indexing/star-tree-index.md)
-- [Real-Time Tuning](../operators/operating-pinot/tuning/realtime.md)
+- [Real-Time Tuning](../operate-pinot/tuning/realtime.md)
 - [Performance Optimization Configurations](../operate-pinot/performance-optimization-configurations.md)

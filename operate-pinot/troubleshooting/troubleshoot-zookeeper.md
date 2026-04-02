@@ -21,7 +21,7 @@ To address the size limit is exceeded error, do the following:
 
 Reduce the number of segments to reduce the metadata stored in the `IDEALSTATE` and `EXTERNALVIEW` znodes, which are the two znodes most likely to exceed 1MB.
 
-To do this for new segments, configure the [segment threshold](../../basics/concepts/segment-threshold.md) to a higher value. For existing segments, run the [Minion merge rollup task](../../operators/operating-pinot/minion-merge-rollup-task.md).
+To do this for new segments, configure the [segment threshold](../../basics/concepts/segment-threshold.md) to a higher value. For existing segments, run the [Minion merge rollup task](../minion-merge-rollup-task.md).
 
 ## Adjust Zookeeper znode size
 

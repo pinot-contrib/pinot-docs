@@ -42,7 +42,7 @@ This section collects the guides you need to run Apache Pinot reliably in produc
 
 ### Managing logs
 
-[Managing Logs](../operators/operating-pinot/managing-logs.md) documents the REST APIs for inspecting and changing Log4J log levels at runtime and for downloading log files from any component, including remote log download through the controller. These capabilities are essential for debugging transient production issues without restarting services.
+[Managing Logs](managing-logs.md) documents the REST APIs for inspecting and changing Log4J log levels at runtime and for downloading log files from any component, including remote log download through the controller. These capabilities are essential for debugging transient production issues without restarting services.
 
 ## Next step
 

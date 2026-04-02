@@ -242,5 +242,5 @@ It is not a scaling strategy.
 Also do at least one of these:
 
 * Create bigger segments via [Segment threshold](../../basics/concepts/segment-threshold.md).
-* Merge small segments via the [Minion merge rollup task](../../operators/operating-pinot/minion-merge-rollup-task.md).
+* Merge small segments via the [Minion merge rollup task](../../operate-pinot/minion-merge-rollup-task.md).
 * Delete old segments via table retention.

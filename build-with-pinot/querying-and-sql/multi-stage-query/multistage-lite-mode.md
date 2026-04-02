@@ -116,4 +116,4 @@ Using a single thread, or more importantly a single Operator Chain, means that t
 
 #### Q3: Can Lite Mode be used in tandem with server/segment pruning for high QPS use-cases?
 
-Yes, if you setup `segmentPrunerTypes` as [described here](../../../operators/operating-pinot/tuning/routing.md) in your Table Config, then segments and servers will be pruned. You can use this to scale out Read QPS.
+Yes, if you setup `segmentPrunerTypes` as [described here](../../../operate-pinot/tuning/routing.md) in your Table Config, then segments and servers will be pruned. You can use this to scale out Read QPS.

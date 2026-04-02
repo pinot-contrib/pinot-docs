@@ -50,7 +50,7 @@ Pinot ships with `AllowAllAccessFactory` by default -- no auth at all. Start by 
 | **Best for** | Small clusters, GitOps-managed config | Larger teams, dynamic user management |
 | **Setup guide** | [Basic Auth Access Control](authentication/basic-auth-access-control.md) | [ZK Basic Auth Access Control](authentication/zkbasicauthaccesscontrol.md) |
 
-**Alternatively**, if your organization uses an external identity provider, implement the `AccessControlFactory` interface to integrate with LDAP, OAuth 2.0, or your own token service. See [Access Control](../operators/operating-pinot/access-control.md) for the extension point.
+**Alternatively**, if your organization uses an external identity provider, implement the `AccessControlFactory` interface to integrate with LDAP, OAuth 2.0, or your own token service. See [Access Control](access-control.md) for the extension point.
 
 Whichever method you choose, make sure to:
 
@@ -76,7 +76,7 @@ pinot.broker.access.control.principals.analyst.permissions=READ
 pinot.broker.access.control.principals.analyst.rls.orders_table=region='us-west'
 ```
 
-For full details see [Access Control](../operators/operating-pinot/access-control.md).
+For full details see [Access Control](access-control.md).
 
 ### 3. Enable TLS for client-facing connections
 
@@ -270,6 +270,6 @@ A typical production deployment looks like this:
 | [Security overview](security.md) | High-level summary of Pinot's security layers |
 | [Basic Auth Access Control](authentication/basic-auth-access-control.md) | Static Basic Auth setup |
 | [ZK Basic Auth Access Control](authentication/zkbasicauthaccesscontrol.md) | ZooKeeper-managed Basic Auth setup |
-| [Access Control](../operators/operating-pinot/access-control.md) | ACL framework and Row-Level Security |
+| [Access Control](access-control.md) | ACL framework and Row-Level Security |
 | [Configuring TLS/SSL](configuring-tls-ssl.md) | Listener specs, zero-downtime TLS migration, mTLS |
 | [Dynamic Environment Reference](../reference/configuration-reference/dynamic-environment.md) | Secret injection via environment variables |

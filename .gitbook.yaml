@@ -42,6 +42,53 @@ redirects:
     manage-data/data-import/pinot-file-system/hdfs-as-deepstorage: build-with-pinot/ingestion/file-systems/import-from-hdfs.md
     # Redirects for Operations → Operate Pinot restructure
     operators/operating-pinot/README: operate-pinot/deployment.md
+    operators/cli: operate-pinot/cli.md
+    operators/configuration-recommendation-engine: operate-pinot/configuration-recommendation-engine.md
+    operators/operating-pinot/access-control: operate-pinot/access-control.md
+    operators/operating-pinot/consistent-push-and-rollback: operate-pinot/consistent-push-and-rollback.md
+    operators/operating-pinot/continuous-jfr: operate-pinot/continuous-jfr.md
+    operators/operating-pinot/decoupling-controller-from-the-data-path: operate-pinot/decoupling-controller-from-the-data-path.md
+    operators/operating-pinot/instance-assignment: operate-pinot/instance-assignment.md
+    operators/operating-pinot/managing-logs: operate-pinot/managing-logs.md
+    operators/operating-pinot/minion-merge-rollup-task: operate-pinot/minion-merge-rollup-task.md
+    operators/operating-pinot/monitoring: operate-pinot/metrics-and-monitoring.md
+    operators/operating-pinot/oom-protection-using-automatic-query-killing: operate-pinot/oom-protection-using-automatic-query-killing.md
+    operators/operating-pinot/pause-ingestion-based-on-resource-utilization: operate-pinot/pause-ingestion-based-on-resource-utilization.md
+    operators/operating-pinot/pauseless-consumption: operate-pinot/pauseless-consumption.md
+    operators/operating-pinot/pinot-managed-offline-flows: operate-pinot/pinot-managed-offline-flows.md
+    operators/operating-pinot/purge-task: operate-pinot/purge-task.md
+    operators/operating-pinot/refresh-segment-task: operate-pinot/refresh-segment-task.md
+    operators/operating-pinot/segment-assignment: operate-pinot/segment-assignment.md
+    operators/operating-pinot/segment-generation-and-push-task: operate-pinot/segment-generation-and-push-task.md
+    operators/operating-pinot/segment-lifecycle-and-repair: operate-pinot/segment-lifecycle-and-repair.md
+    operators/operating-pinot/server-startup-status-checkers: operate-pinot/server-startup-status-checkers.md
+    operators/operating-pinot/setup-cluster: operate-pinot/setup-cluster.md
+    operators/operating-pinot/setup-ingestion: operate-pinot/setup-ingestion.md
+    operators/operating-pinot/setup-table: operate-pinot/setup-table.md
+    operators/operating-pinot/upgrade-notes: operate-pinot/upgrade-notes.md
+    operators/operating-pinot/upgrading-pinot-cluster: operate-pinot/upgrading-pinot-cluster.md
+    operators/operating-pinot/upsert-compact-merge-task: operate-pinot/upsert-compact-merge-task.md
+    operators/operating-pinot/upsert-compaction-task: operate-pinot/upsert-compaction-task.md
+    operators/operating-pinot/upsert-merge-compact-task: operate-pinot/upsert-merge-compact-task.md
+    operators/operating-pinot/rebalance: operate-pinot/rebalance/README.md
+    operators/operating-pinot/rebalance/rebalance-brokers: operate-pinot/rebalance/rebalance-brokers.md
+    operators/operating-pinot/rebalance/rebalance-tenant: operate-pinot/rebalance/rebalance-tenant.md
+    operators/operating-pinot/rebalance/rebalance-servers: operate-pinot/rebalance/rebalance-servers/README.md
+    operators/operating-pinot/rebalance/rebalance-servers/examples-and-scenarios: operate-pinot/rebalance/rebalance-servers/examples-and-scenarios.md
+    operators/operating-pinot/separating-data-storage-by-age: operate-pinot/separating-data-storage-by-age/README.md
+    operators/operating-pinot/separating-data-storage-by-age/moving-segments-across-tenants: operate-pinot/separating-data-storage-by-age/moving-segments-across-tenants.md
+    operators/operating-pinot/separating-data-storage-by-age/using-multiple-directories: operate-pinot/separating-data-storage-by-age/using-multiple-directories.md
+    operators/operating-pinot/tuning: operate-pinot/tuning/README.md
+    operators/operating-pinot/tuning/tuning-default-mmap-advice: operate-pinot/tuning/tuning-default-mmap-advice.md
+    operators/operating-pinot/tuning/realtime: operate-pinot/tuning/realtime.md
+    operators/operating-pinot/tuning/routing: operate-pinot/tuning/routing.md
+    operators/operating-pinot/tuning/query-routing-using-adaptive-server-selection: operate-pinot/tuning/query-routing-using-adaptive-server-selection.md
+    operators/operating-pinot/tuning/query-scheduling: operate-pinot/tuning/query-scheduling.md
+    operators/operating-pinot/tuning/workload-query-isolation: operate-pinot/tuning/workload-query-isolation.md
+    operators/operating-pinot/tuning/segment-pruning: operate-pinot/tuning/segment-pruning.md
+    # Legacy operations/ paths (surfaced by web search)
+    operations/monitoring: operate-pinot/monitoring.md
+    operations/configuring-tls-ssl: operate-pinot/configuring-tls-ssl.md
     # Redirects for SSE vs MSE consolidation
     reference/single-stage-engine: build-with-pinot/querying-and-sql/sse-vs-mse.md
     reference/multi-stage-engine: build-with-pinot/querying-and-sql/sse-vs-mse.md

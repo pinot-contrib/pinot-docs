@@ -196,19 +196,19 @@ Pinot ships with the following built-in Minion tasks:
 
 | Task | Purpose | Table Types |
 |------|---------|-------------|
-| [SegmentGenerationAndPushTask](../../../operators/operating-pinot/segment-generation-and-push-task.md) | Batch ingestion: reads raw data files and converts them into Pinot segments | OFFLINE |
-| [RealtimeToOfflineSegmentsTask](../../../operators/operating-pinot/pinot-managed-offline-flows.md) | Converts completed real-time segments into optimized offline segments | REALTIME to OFFLINE |
-| [MergeRollupTask](../../../operators/operating-pinot/minion-merge-rollup-task.md) | Merges small segments into larger ones and optionally rolls up data at coarser granularity | OFFLINE, REALTIME (without upsert/dedup) |
-| [PurgeTask](../../../operators/operating-pinot/purge-task.md) | Removes or modifies records for data retention and compliance (e.g., GDPR) | OFFLINE, REALTIME |
-| [RefreshSegmentTask](../../../operators/operating-pinot/refresh-segment-task.md) | Reprocesses segments after table config or schema changes (new indexes, columns, data types) | OFFLINE, REALTIME |
-| [UpsertCompactionTask](../../../operators/operating-pinot/upsert-compaction-task.md) | Compacts individual upsert segments by removing invalidated records | REALTIME (upsert only) |
-| [UpsertCompactMergeTask](../../../operators/operating-pinot/upsert-compact-merge-task.md) | Merges multiple small upsert segments into larger ones to reduce segment count | REALTIME (upsert only) |
+| [SegmentGenerationAndPushTask](../../../operate-pinot/segment-generation-and-push-task.md) | Batch ingestion: reads raw data files and converts them into Pinot segments | OFFLINE |
+| [RealtimeToOfflineSegmentsTask](../../../operate-pinot/pinot-managed-offline-flows.md) | Converts completed real-time segments into optimized offline segments | REALTIME to OFFLINE |
+| [MergeRollupTask](../../../operate-pinot/minion-merge-rollup-task.md) | Merges small segments into larger ones and optionally rolls up data at coarser granularity | OFFLINE, REALTIME (without upsert/dedup) |
+| [PurgeTask](../../../operate-pinot/purge-task.md) | Removes or modifies records for data retention and compliance (e.g., GDPR) | OFFLINE, REALTIME |
+| [RefreshSegmentTask](../../../operate-pinot/refresh-segment-task.md) | Reprocesses segments after table config or schema changes (new indexes, columns, data types) | OFFLINE, REALTIME |
+| [UpsertCompactionTask](../../../operate-pinot/upsert-compaction-task.md) | Compacts individual upsert segments by removing invalidated records | REALTIME (upsert only) |
+| [UpsertCompactMergeTask](../../../operate-pinot/upsert-compact-merge-task.md) | Merges multiple small upsert segments into larger ones to reduce segment count | REALTIME (upsert only) |
 
 ### SegmentGenerationAndPushTask
 
 The SegmentGenerationAndPushTask can fetch files from an input folder (e.g. from an S3 bucket) and convert them into segments. It converts one file into one segment and keeps the file name in segment metadata to avoid duplicate ingestion.
 
-See [SegmentGenerationAndPushTask runbook](../../../operators/operating-pinot/segment-generation-and-push-task.md) for full configuration details.
+See [SegmentGenerationAndPushTask runbook](../../../operate-pinot/segment-generation-and-push-task.md) for full configuration details.
 
 Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.
 
@@ -249,27 +249,27 @@ When performing ingestion at scale remember that Pinot will list all of the file
 
 ### RealtimeToOfflineSegmentsTask
 
-See [Pinot managed Offline flows](../../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
+See [Pinot managed Offline flows](../../../operate-pinot/pinot-managed-offline-flows.md) for details.
 
 ### MergeRollupTask
 
-See [Minion merge rollup task](../../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
+See [Minion merge rollup task](../../../operate-pinot/minion-merge-rollup-task.md) for details.
 
 ### PurgeTask
 
-See [PurgeTask runbook](../../../operators/operating-pinot/purge-task.md) for details.
+See [PurgeTask runbook](../../../operate-pinot/purge-task.md) for details.
 
 ### RefreshSegmentTask
 
-See [RefreshSegmentTask runbook](../../../operators/operating-pinot/refresh-segment-task.md) for details.
+See [RefreshSegmentTask runbook](../../../operate-pinot/refresh-segment-task.md) for details.
 
 ### UpsertCompactionTask
 
-See [UpsertCompactionTask runbook](../../../operators/operating-pinot/upsert-compaction-task.md) for details.
+See [UpsertCompactionTask runbook](../../../operate-pinot/upsert-compaction-task.md) for details.
 
 ### UpsertCompactMergeTask
 
-See [UpsertCompactMergeTask runbook](../../../operators/operating-pinot/upsert-compact-merge-task.md) for details.
+See [UpsertCompactMergeTask runbook](../../../operate-pinot/upsert-compact-merge-task.md) for details.
 
 ## Enable tasks
 
