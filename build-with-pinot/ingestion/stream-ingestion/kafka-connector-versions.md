@@ -15,7 +15,7 @@ Apache Pinot provides multiple Kafka connector versions to match different Kafka
 | `pinot-kafka-4.0` | 4.1.x | Recommended for Kafka 4.x clusters (KRaft mode). Pure Java — no Scala dependency. |
 
 {% hint style="warning" %}
-The `pinot-kafka-2.0` (kafka20) plugin is deprecated. If your table config references `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`, you should migrate to either `kafka30` or `kafka40`.
+The `pinot-kafka-2.0` (kafka20) plugin has been removed. If your table config references `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory`, you must migrate to either `kafka30` or `kafka40`.
 {% endhint %}
 
 ## Kafka 4.0 Connector
@@ -48,15 +48,13 @@ The Kafka 4.0 connector uses the same configuration properties as the Kafka 3.0 
 }
 ```
 
-### Migration from Kafka 2.0/3.0
+### Migration from Kafka 2.0 or 3.0
 
-To migrate from an older Kafka connector to Kafka 4.0:
-
-1. Update the consumer factory class name in your table configuration:
+To migrate from an older Kafka connector to Kafka 3.0 or 4.0, update the consumer factory class name in your table configuration:
 
 | From | To |
 |---|---|
-| `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory` | `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` |
+| `org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory` | `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` (Kafka 3.x) or `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` (Kafka 4.x) |
 | `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` | `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` |
 
 2. Ensure the `pinot-kafka-4.0` plugin JAR is available in your Pinot plugin directory.
