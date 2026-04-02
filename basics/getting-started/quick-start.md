@@ -36,6 +36,44 @@ java.lang.RuntimeException: java.net.BindException: Address already in use
 If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
 {% endhint %}
 
+## Command Options
+
+All QuickStart commands support the following optional parameters in addition to `-type`:
+
+| Option | Aliases | Description |
+|--------|---------|-------------|
+| `-type` | | The quickstart type to run (see sections below). |
+| `-tmpDir` | `-quickstartDir`, `-dataDir` | Directory to store quickstart data. Use this to persist data across restarts so that tables and segments are reloaded from disk instead of being regenerated. |
+| `-bootstrapTableDir` | | A list of directories, each containing a table schema, table config, and raw data. Use this with `-type EMPTY` or `-type GENERIC` to load your own tables into the quickstart cluster. |
+| `-configFile` | `-configFilePath` | Path to a properties file that overrides default Pinot configuration values (controller, broker, server, etc.). |
+| `-zkAddress` | `-zkUrl`, `-zkExternalAddress` | URL for an external ZooKeeper instance (e.g. `localhost:2181`) instead of using the default embedded instance. |
+| `-kafkaBrokerList` | | Kafka broker list for streaming quickstarts (e.g. `localhost:9092`). Use this to connect to an external Kafka cluster instead of the embedded one. |
+
+**Example: Persist data across restarts**
+
+```bash
+# First run: quickstart generates data in the specified directory
+./bin/pinot-admin.sh QuickStart -type batch -dataDir /tmp/pinot-quick-start
+
+# Subsequent runs: quickstart reloads existing data from disk
+./bin/pinot-admin.sh QuickStart -type batch -dataDir /tmp/pinot-quick-start
+```
+
+**Example: Use an external ZooKeeper and custom config**
+
+```bash
+./bin/pinot-admin.sh QuickStart -type batch \
+    -zkAddress localhost:2181 \
+    -configFile /path/to/pinot-quickstart.conf
+```
+
+**Example: Load custom tables into an empty cluster**
+
+```bash
+./bin/pinot-admin.sh QuickStart -type EMPTY \
+    -bootstrapTableDir /path/to/my-table-dir
+```
+
 ## Batch Processing
 
 This example demonstrates how to do batch processing with Pinot. The command:
@@ -431,6 +469,451 @@ pinot-admin QuickStart -type LOGICAL_TABLE
 {% endtabs %}
 
 For more details on logical tables, see [Logical Table](../../basics/components/table/logical-table.md).
+
+## Empty
+
+This example starts a bare Pinot cluster with no tables or data loaded. Use this when you want to set up your own tables and schemas from scratch. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* No tables or data are created
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type EMPTY
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type EMPTY
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type EMPTY
+```
+{% endtab %}
+{% endtabs %}
+
+## Multi-Stage Query Engine
+
+This example demonstrates the [multi-stage query engine](../../build-with-pinot/querying-and-sql/multi-stage-query/README.md) with self-joins, dimension table joins, and vector distance queries. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates the `baseballStats` table and a fine food reviews table
+* Launches data ingestion jobs to build segments and push them to the Pinot Controller.
+* Issues sample multi-stage queries including joins and vector distance queries
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type MULTI_STAGE
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type MULTI_STAGE
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type MULTI_STAGE
+```
+{% endtab %}
+{% endtabs %}
+
+## Partial Upsert
+
+This example demonstrates how to do [stream processing with partial upsert](../../build-with-pinot/ingestion/upsert-and-dedup/upsert.md) in Pinot, where individual fields can be updated independently while preserving other column values. The command:
+
+* Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates a realtime table with partial upsert enabled
+* Publishes data to a Kafka topic that is subscribed to by Pinot
+* Issues sample queries to Pinot
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type PARTIAL_UPSERT
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type PARTIAL_UPSERT
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type PARTIAL_UPSERT
+```
+{% endtab %}
+{% endtabs %}
+
+## Geospatial
+
+This example demonstrates [geospatial indexing and query capabilities](../../build-with-pinot/indexing/geospatial-support.md) in Pinot. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates a table with geospatial indexes
+* Launches a data ingestion job and pushes segments to the Pinot Controller.
+* Issues sample geospatial queries to Pinot
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type GEOSPATIAL
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type GEOSPATIAL
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type GEOSPATIAL
+```
+{% endtab %}
+{% endtabs %}
+
+## Null Handling
+
+This example demonstrates [null value handling](../../build-with-pinot/querying-and-sql/null-value-support.md) features in Pinot. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates a table containing null values
+* Launches a data ingestion job and pushes segments to the Pinot Controller.
+* Issues sample queries demonstrating IS NULL, IS NOT NULL, and aggregate behavior with nulls
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type NULL_HANDLING
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type NULL_HANDLING
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type NULL_HANDLING
+```
+{% endtab %}
+{% endtabs %}
+
+## TPC-H
+
+This example loads the 8 TPC-H benchmark tables (customer, lineitem, nation, orders, part, partsupp, region, supplier) for multi-stage query testing. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates all 8 TPC-H tables
+* Launches data ingestion jobs to build segments for each table and pushes them to the Pinot Controller.
+* Issues sample TPC-H benchmark queries using the multi-stage query engine
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type TPCH
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type TPCH
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type TPCH
+```
+{% endtab %}
+{% endtabs %}
+
+## Colocated Join
+
+This example demonstrates [colocated join](../../build-with-pinot/querying-and-sql/multi-stage-query/join-strategies/colocated-join-strategy.md) operations using the multi-stage query engine with various partition configurations and parallelism hints. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates tables with matching partition configurations for colocated joins
+* Launches data ingestion jobs and pushes segments to the Pinot Controller.
+* Issues sample colocated join queries
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type COLOCATED_JOIN
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type COLOCATED_JOIN
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type COLOCATED_JOIN
+```
+{% endtab %}
+{% endtabs %}
+
+## Lookup Join
+
+This example demonstrates the [lookup join strategy](../../build-with-pinot/querying-and-sql/multi-stage-query/join-strategies/lookup-join-strategy.md) using dimension tables with the multi-stage query engine. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates fact and dimension tables
+* Launches data ingestion jobs and pushes segments to the Pinot Controller.
+* Issues sample lookup join queries
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type LOOKUP_JOIN
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type LOOKUP_JOIN
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type LOOKUP_JOIN
+```
+{% endtab %}
+{% endtabs %}
+
+## Auth
+
+This example demonstrates how to run Pinot with [basic authentication](../../operate-pinot/authentication/basic-auth-access-control.md) enabled. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server with basic auth configured.
+* Creates tables and loads data with authentication enabled
+* Issues sample authenticated queries to Pinot
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type AUTH
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type AUTH
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type AUTH
+```
+{% endtab %}
+{% endtabs %}
+
+## Sorted Column
+
+This example demonstrates sorted column indexing in Pinot with a generated dataset containing sorted columns. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates a table with sorted column configuration
+* Generates a 100,000-row dataset and ingests it into Pinot
+* Issues sample queries demonstrating sorted index performance
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type SORTED
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type SORTED
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type SORTED
+```
+{% endtab %}
+{% endtabs %}
+
+## Timestamp Index
+
+This example demonstrates [timestamp index](../../build-with-pinot/indexing/timestamp-index.md) functionality, showing timestamp extraction at different granularities and dateTrunc bucketing. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates the `airlineStats` table with timestamp indexes
+* Launches a data ingestion job and pushes segments to the Pinot Controller.
+* Issues sample queries demonstrating timestamp extraction and bucketing
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type TIMESTAMP
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type TIMESTAMP
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type TIMESTAMP
+```
+{% endtab %}
+{% endtabs %}
+
+## GitHub Events
+
+This example sets up a streaming demo using GitHub events data. The command:
+
+* Starts Apache Kafka, Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server.
+* Creates a `pullRequestMergedEvents` realtime table
+* Publishes GitHub event data to a Kafka topic that is subscribed to by Pinot
+* Issues sample analytical queries on the GitHub event data
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type GITHUB_EVENTS
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type GITHUB_EVENTS
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type GITHUB_EVENTS
+```
+{% endtab %}
+{% endtabs %}
+
+## Multi-Cluster
+
+This example demonstrates cross-cluster querying via [logical tables](../../basics/components/table/logical-table.md) by initializing two independent Pinot clusters. The command:
+
+* Starts two independent Pinot clusters, each with their own Zookeeper, Controller, Broker, and Server.
+* Creates physical tables in each cluster
+* Creates a logical table that spans both clusters
+* Issues sample cross-cluster queries
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type MULTI_CLUSTER
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type MULTI_CLUSTER
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type MULTI_CLUSTER
+```
+{% endtab %}
+{% endtabs %}
+
+## Batch with Multi-Directory (Tiered Storage)
+
+This example demonstrates multi-directory (tiered storage) support with hot and cold tiers. The command:
+
+* Starts Apache Zookeeper, Pinot Controller, Pinot Broker, and Pinot Server with tiered storage configured.
+* Creates the `airlineStats` table with hot and cold storage tiers
+* Launches a data ingestion job and pushes segments to the Pinot Controller.
+* Issues sample queries that run across storage tiers
+
+{% tabs %}
+{% tab title="Docker" %}
+```
+docker run \
+    -p 9000:9000 \
+    apachepinot/pinot:latest QuickStart \
+    -type BATCH_MULTIDIR
+```
+{% endtab %}
+
+{% tab title="Launcher scripts" %}
+```
+./bin/pinot-admin.sh QuickStart -type BATCH_MULTIDIR
+```
+{% endtab %}
+
+{% tab title="Brew" %}
+```
+pinot-admin QuickStart -type BATCH_MULTIDIR
+```
+{% endtab %}
+{% endtabs %}
 
 ## Time Series
 
