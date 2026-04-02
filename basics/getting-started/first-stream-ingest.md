@@ -220,7 +220,7 @@ Create the file `/tmp/pinot-quick-start/rawdata/transcript.json`:
 {% tab title="Local" %}
 ```bash
 bin/kafka-console-producer.sh \
-    --broker-list localhost:9876 \
+    --bootstrap-server localhost:9876 \
     --topic transcript-topic < /tmp/pinot-quick-start/rawdata/transcript.json
 ```
 {% endtab %}
@@ -228,7 +228,7 @@ bin/kafka-console-producer.sh \
 {% tab title="Docker" %}
 ```bash
 docker exec -t kafka /opt/kafka/bin/kafka-console-producer.sh \
-    --broker-list localhost:9092 \
+    --bootstrap-server localhost:9092 \
     --topic transcript-topic < /tmp/pinot-quick-start/rawdata/transcript.json
 ```
 {% endtab %}

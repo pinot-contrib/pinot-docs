@@ -321,8 +321,8 @@ Let's check that the data has made its way into Kafka.
 The following command returns the message offset for each partition in the `wiki_events` topic:
 
 ```bash
-docker exec -it kafka-wiki kafka-run-class.sh kafka.tools.GetOffsetShell \
-  --broker-list localhost:9092 \
+docker exec -it kafka-wiki /opt/kafka/bin/kafka-get-offsets.sh \
+  --bootstrap-server localhost:9092 \
   --topic wiki_events
 ```
 

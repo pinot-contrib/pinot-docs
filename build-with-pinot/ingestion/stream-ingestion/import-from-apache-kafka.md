@@ -122,13 +122,13 @@ We can check how many messages have been ingested by running the following comma
 {% tabs %}
 {% tab title="Docker" %}
 ```bash
-docker exec -i kafka kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic events
+docker exec -i kafka /opt/kafka/bin/kafka-get-offsets.sh --bootstrap-server localhost:9092 --topic events
 ```
 {% endtab %}
 
 {% tab title="Launcher Scripts" %}
 ```bash
-kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic events
+bin/kafka-get-offsets.sh --bootstrap-server localhost:9092 --topic events
 ```
 {% endtab %}
 {% endtabs %}
