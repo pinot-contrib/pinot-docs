@@ -122,7 +122,7 @@ We can now upload these configurations to pinot and create an empty table. We wi
 pinot-admin.sh AddTable -tableConfigFile /path/to/student_table.json -schemaFile /path/to/student_schema.json -controllerHost localhost -controllerPort 9000 -exec
 ```
 
-You can check out [Command-Line Interface (CLI)](../../operators/cli.md) for all the available commands.
+You can check out [Command-Line Interface (CLI)](../../operate-pinot/cli.md) for all the available commands.
 
 Our table will now be available in the [Pinot data explorer](../../basics/components/exploring-pinot.md)
 

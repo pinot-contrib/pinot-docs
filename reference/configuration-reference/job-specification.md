@@ -32,7 +32,7 @@ inputDirURI: 'file:///path/to/input/${year}/${month}/${day}/${hour}'
 
 The values for the template strings in the jobSpecFile can be passed in one of the following three ways mentioned in their order of precedence, for same key, 1 will override 2 will override 3.
 
-1. Values from the `-values` array passed from the Cmd Line. See [Launch Data Ingestion Job](../../operators/cli.md#launch-data-ingestion-job)
+1. Values from the `-values` array passed from the Cmd Line. See [Launch Data Ingestion Job](../../operate-pinot/cli.md#launch-data-ingestion-job)
 2. Values from the environment variables
 3. Values from the propertyFile
 

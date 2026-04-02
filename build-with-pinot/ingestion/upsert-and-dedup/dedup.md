@@ -32,7 +32,7 @@ An important requirement for the Pinot dedup table is to partition the input str
 
 ### Use strictReplicaGroup for routing
 
-The dedup Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../../operators/operating-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover, dedup poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
+The dedup Pinot table can use only the low-level consumer for the input streams. As a result, it uses the [partitioned replica-group assignment](../../../operate-pinot/segment-assignment.md#partitioned-replica-group-segment-assignment) for the segments. Moreover, dedup poses the additional requirement that all segments of the same partition must be served from the same server to ensure the data consistency across the segments. Accordingly, it requires `strictReplicaGroup` as the routing strategy. To use that, configure `instanceSelectorType` in `Routing` as the following:
 
 {% code title="routing" %}
 ```json

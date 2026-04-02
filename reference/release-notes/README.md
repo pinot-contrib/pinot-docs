@@ -37,4 +37,4 @@ Open the note for the release you are targeting, then run compatibility checks a
 - [Configuration Reference](../configuration-reference/README.md)
 - [Full Release Archive](../releases/README.md)
 - [Release 1.4.0](../releases/1.4.0.md)
-- [Upgrade Notes](../../operators/operating-pinot/upgrade-notes.md)
+- [Upgrade Notes](../../operate-pinot/upgrade-notes.md)

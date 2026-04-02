@@ -69,14 +69,14 @@ The Pinot real-time consumer ingests the data, creates the segment, and then flu
 * **Max time duration to wait**: Pinot consumers wait for the configured time duration after which segments are persisted to the disk.
 
 **Replicas**\
-A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment [using the CLI](../../../operators/cli.md#change-num-replicas).
+A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment [using the CLI](../../../operate-pinot/cli.md#change-num-replicas).
 
 **Completion Mode**\
 By default, if the in-memory segment in the [non-winner server](../cluster/server.md) is equivalent to the committed segment, then the non-winner server builds and replaces the segment. If the available segment is not equivalent to the committed segment, the server just downloads the committed segment from the controller.
 
 However, in certain scenarios, the segment build can get very memory-intensive. In these cases, you might want to enforce the non-committer servers to just download the segment from the controller instead of building it again. You can do this by setting `completionMode: "DOWNLOAD"` in the table configuration.
 
-For details, see [Completion Config](../../../operators/operating-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers).
+For details, see [Completion Config](../../../operate-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers).
 
 **Download Scheme**
 
@@ -144,7 +144,7 @@ Optionally, override if a table should move to a server with different tenant ba
 
 In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTenantName_OFFLINE`.
 
-You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
+You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../../operate-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
 
 ## Hybrid table
 

@@ -52,7 +52,7 @@ This section covers the **configuration** side of each plugin family: which impl
 | **Metrics** | Collect and expose internal JMX metrics via Dropwizard, Yammer, or a compound backend | [Metrics Plugins](metrics-plugins.md) | [Metrics Plugin](../../developers/plugin-architecture/write-custom-plugins/metrics-plugin.md) |
 | **Segment Writer** | Programmatically build Pinot segments without a full batch ingestion job | — | [Segment Writer Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-writer-plugin.md) |
 | **Segment Uploader** | Upload completed segment tar files to the Pinot cluster | — | [Segment Uploader Plugin](../../developers/plugin-architecture/write-custom-plugins/segment-uploader-plugin.md) |
-| **Minion Tasks** | Run background processing tasks on Pinot Minion nodes (merge, purge, compaction, …) | [Minion](../../basics/components/cluster/minion.md) · [Merge/Rollup Task](../../operators/operating-pinot/minion-merge-rollup-task.md) | [Minion Task Plugin](../../developers/plugin-architecture/write-custom-plugins/minion-task-plugin.md) |
+| **Minion Tasks** | Run background processing tasks on Pinot Minion nodes (merge, purge, compaction, …) | [Minion](../../basics/components/cluster/minion.md) · [Merge/Rollup Task](../../operate-pinot/minion-merge-rollup-task.md) | [Minion Task Plugin](../../developers/plugin-architecture/write-custom-plugins/minion-task-plugin.md) |
 | **Environment** | Discover cloud-specific instance metadata for failure-domain–aware placement | [Environment Provider](environment-provider.md) | — |
 | **Time Series Language** | Support custom time series query languages (M3QL, PromQL) | — | [Time Series Language Plugin](../../developers/plugin-architecture/write-custom-plugins/time-series-language-plugin.md) |
 
@@ -126,8 +126,8 @@ Minion task plugins define background processing tasks that run on Pinot Minion 
 [minion.md](../../basics/components/cluster/minion.md)
 {% endcontent-ref %}
 
-{% content-ref url="../../operators/operating-pinot/minion-merge-rollup-task.md" %}
-[minion-merge-rollup-task.md](../../operators/operating-pinot/minion-merge-rollup-task.md)
+{% content-ref url="../../operate-pinot/minion-merge-rollup-task.md" %}
+[minion-merge-rollup-task.md](../../operate-pinot/minion-merge-rollup-task.md)
 {% endcontent-ref %}
 
 ## Environment Provider

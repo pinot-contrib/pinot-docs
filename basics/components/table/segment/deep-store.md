@@ -28,7 +28,7 @@ For real-time tables, by default, a segment is first built-in memory by the serv
 
 ![Server sends segment to Controller, which writes segments into the deep store](<../../../../.gitbook/assets/server-controller-deep-store (1).png>)
 
-Having all segments go through the controller can become a system bottleneck under heavy load, in which case you can use the peer download policy, as described in [Decoupling Controller from the Data Path](../../../../operators/operating-pinot/decoupling-controller-from-the-data-path.md).
+Having all segments go through the controller can become a system bottleneck under heavy load, in which case you can use the peer download policy, as described in [Decoupling Controller from the Data Path](../../../../operate-pinot/decoupling-controller-from-the-data-path.md).
 
 When using this configuration, the server will directly write a completed segment to the deep store, as shown in the diagram below:
 

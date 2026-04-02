@@ -197,4 +197,4 @@ Pinot includes several built-in Minion tasks:
 | `SegmentGenerationAndPushTask` | Generates and pushes segments from external data |
 | `RefreshSegmentTask` | Refreshes segments from deep store |
 
-For more details on built-in tasks, see [Minion Merge Rollup Task](../../../operators/operating-pinot/minion-merge-rollup-task.md) and [Upsert Compaction Task](../../../operators/operating-pinot/upsert-compaction-task.md).
+For more details on built-in tasks, see [Minion Merge Rollup Task](../../../operate-pinot/minion-merge-rollup-task.md) and [Upsert Compaction Task](../../../operate-pinot/upsert-compaction-task.md).

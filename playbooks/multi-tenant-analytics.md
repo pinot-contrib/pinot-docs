@@ -164,7 +164,7 @@ SET workload = 'free_tier';
 SELECT ...
 ```
 
-See [Workload-Based Query Resource Isolation](../operators/operating-pinot/tuning/workload-query-isolation.md) for configuration details.
+See [Workload-Based Query Resource Isolation](../operate-pinot/tuning/workload-query-isolation.md) for configuration details.
 
 ### Broker-level query quotas
 
@@ -281,7 +281,7 @@ Restrict access to this query pattern to internal admin users only.
 ## Further reading
 
 - [Tenant](../basics/components/cluster/tenant.md)
-- [Workload-Based Query Resource Isolation](../operators/operating-pinot/tuning/workload-query-isolation.md)
+- [Workload-Based Query Resource Isolation](../operate-pinot/tuning/workload-query-isolation.md)
 - [Query Quotas](../build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md)
-- [Routing](../operators/operating-pinot/tuning/routing.md)
-- [Access Control](../operators/operating-pinot/access-control.md)
+- [Routing](../operate-pinot/tuning/routing.md)
+- [Access Control](../operate-pinot/access-control.md)
