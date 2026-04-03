@@ -12,7 +12,7 @@ The ingestion configuration (`ingestionConfig`) is a section of the [table confi
 
 | Config key | Description |
 | --- | --- |
-| `streamConfigMaps` | See the [streamConfigMaps](ingestion.md#streamconfigmaps) section for details. |
+| `streamIngestionConfig` | See the [streamIngestionConfig](ingestion.md#streamingestionconfig) section for details. |
 | `batchIngestionConfig` | See the [batchIngestionConfig](ingestion.md#batchingestionconfig) section for details. |
 | `continueOnError` | Set to `true` to skip any row indexing error and move on to the next row. Otherwise, an error evaluating a transform or filter function may block ingestion (real-time or offline), and result in data loss or corruption. Consider your use case to determine if it's preferable to set this option to `false`, and fail the ingestion if an error occurs to maintain data integrity. |
 | `rowTimeValueCheck` | Set to `true` to validate the time column values ingested during segment upload. Validates each row of data in a segment matches the specified time format, and falls within a valid time range (1971-2071). If the value doesn't meet both criteria, Pinot replaces the value with null. This option ensures that the time values are strictly increasing and that there are no duplicates or gaps in the data. |
@@ -49,6 +49,15 @@ Take the above example, if you set `realtime.segment.flush.threshold.segment.row
 Since [this PR](https://github.com/apache/pinot/pull/13790), `streamConfigMaps` could contain multiple maps pointing to multiple Kafka topics. This would allow creating one single Pinot table with data from multiple stream topics.
 {% endhint %}
 
+## `streamIngestionConfig`
+
+The `streamIngestionConfig` section contains configuration properties for stream ingestion behavior.
+
+| Config key | Description | Default | Supported values |
+| --- | --- | --- | --- |
+| `streamConfigMaps` | See the [streamConfigMaps](ingestion.md#streamconfigmaps) section for details. | N/A | Array of config maps |
+| `dropRecordOnPartitionMismatch` | Set to `true` to drop records whose partition column value does not map to the segment's designated partition during real-time ingestion. Records with null partition column value will raise an `IllegalStateException`. When records are dropped, the `REALTIME_PARTITION_MISMATCH` server meter is emitted. | `false` | Boolean |
+
 ### Example table config with `ingestionConfig`
 
 ```json
@@ -62,10 +71,11 @@ Since [this PR](https://github.com/apache/pinot/pull/13790), `streamConfigMaps` 
   },
   "tenants": {},
   "tableIndexConfig": {
-    "loadMode": "MMAP",
+    "loadMode": "MMAP"
   },
   "ingestionConfig": {
     "streamIngestionConfig": {
+      "dropRecordOnPartitionMismatch": false,
       "streamConfigMaps": [{
         "stream.kafka.decoder.prop.format": "JSON",
         "key.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
@@ -108,7 +118,7 @@ Since [this PR](https://github.com/apache/pinot/pull/13790), `streamConfigMaps` 
   },
   "tenants": {},
   "tableIndexConfig": {
-    "loadMode": "MMAP",
+    "loadMode": "MMAP"
   },
   "ingestionConfig": {
     "batchIngestionConfig": {
