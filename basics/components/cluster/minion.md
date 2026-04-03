@@ -52,6 +52,18 @@ bin/pinot-admin.sh StartMinion \
 The Pinot task generator interface defines the APIs for the controller to generate tasks for minions to execute.
 
 ```java
+
+{% hint style="warning" %}
+**Duplicate Keys in Configuration File**
+
+Starting from Apache Pinot 1.3.0, duplicate keys in the minion configuration file will cause a `ConfigurationException` to be thrown during startup. Previously, duplicate keys would be silently merged into a list. If you encounter this error, ensure that each configuration property appears only once in your configuration file. The exception will include the exact file path, duplicate key name, and the line numbers where the duplicates were found.
+
+Example error:
+```
+ConfigurationException: Duplicate key found in /path/to/minion.conf at line 10 and line 15: pinot.minion.task.allow.download.from.server
+```
+{% endhint %}
+
 public interface PinotTaskGenerator {
 
   /**
