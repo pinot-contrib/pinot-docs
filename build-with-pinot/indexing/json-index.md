@@ -787,11 +787,34 @@ The following table summarizes query patterns and whether they are supported by 
 | `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default')` | Yes (with default value) |
 | `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default', '$.filter')` | Yes (with filter JSON path) |
 | With `WHERE` clause filters | Yes |
+| With `WHERE JSON_MATCH` (same-path) | Yes (optimized) |
 | With `ORDER BY` | Yes |
 | Multi-value types (`STRING_ARRAY`, etc.) | No (falls back to default execution) |
 | Multiple columns in `SELECT DISTINCT` | No (falls back to default execution) |
 
 When a query pattern is not supported, the query still executes correctly using the default execution path.
+
+### Same-path JSON_MATCH optimization
+
+When a `WHERE` clause contains a single same-path `JSON_MATCH` predicate applied to the same path as the `DISTINCT` extraction, the index-based distinct operator applies an advanced optimization:
+
+Instead of the previous two-pass approach (scanning the dictionary twice and materializing bitmaps), the optimizer now performs a **single dictionary scan with direct predicate evaluation**. This eliminates:
+- Redundant dictionary scans
+- Posting list reads
+- Bitmap materialization operations
+
+#### Example
+
+For this query:
+
+```sql
+SELECT DISTINCT jsonExtractIndex(person, '$.country', 'STRING')
+FROM mytable
+WHERE JSON_MATCH(person, '"$.country"=''us''')
+ORDER BY jsonExtractIndex(person, '$.country', 'STRING')
+```
+
+The optimizer detects that the `WHERE` clause predicates match the extraction path (`$.country`), and evaluates the predicate directly on the dictionary value strings without intermediate bitmap operations. This provides significant performance improvements, especially for high-cardinality JSON columns with selective predicates.
 
 ### Prerequisites
 
@@ -841,6 +864,18 @@ SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING') FROM myTable;
 ```
 
 This reduces `numEntriesScannedPostFilter` to zero for qualifying queries, providing significant speedups on large tables.
+
+### Same-Path DISTINCT with JSON_MATCH Filters
+
+For optimal performance when using `SELECT DISTINCT` with a `JSON_MATCH` filter on the same path, the index-based distinct operator automatically applies an optimized execution plan:
+
+```sql
+SET useIndexBasedDistinctOperator = true;
+SELECT DISTINCT jsonExtractIndex(person, '$.country', 'STRING') FROM mytable
+WHERE JSON_MATCH(person, '"$.country" IN (''us'', ''ca'')');
+```
+
+This query benefits from single-pass dictionary evaluation with zero bitmap materialization. For high-cardinality columns with selective predicates, this optimization can provide 10x+ performance improvements compared to document-by-document evaluation.
 
 ## Limitations
 
