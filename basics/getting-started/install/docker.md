@@ -277,6 +277,96 @@ docker run --rm -ti \
 {% endtab %}
 {% endtabs %}
 
+## Developer Setup: All-in-One Without Demo Data
+
+For development and testing purposes, you may want to start a persistent, empty Pinot cluster without the QuickStart's sample data. This is useful for testing custom configurations, developing new features, or building integration tests.
+
+### Prerequisites
+
+* Java 11 or higher installed
+* Maven installed
+* Pinot source code cloned locally
+
+```bash
+git clone https://github.com/apache/pinot.git
+cd pinot
+mvn install package -DskipTests -Pbin-dist
+```
+
+### Using StartServiceManager
+
+The `StartServiceManager` command starts multiple Pinot components in a single JVM process, providing a lightweight alternative to QuickStart for developers.
+
+**Start all services (ZooKeeper, Controller, Broker, Server):**
+
+```bash
+bin/pinot-admin.sh StartServiceManager \
+  -zkAddress localhost:2181 \
+  -clusterName PinotCluster \
+  -bootstrapServices CONTROLLER BROKER SERVER
+```
+
+This command:
+* Starts ZooKeeper internally
+* Starts the Controller on port 9000
+* Starts the Broker on port 8099
+* Starts the Server on port 8098
+* Creates an empty cluster without sample data
+
+Access the Pinot Query Console at [http://localhost:9000](http://localhost:9000).
+
+### With Kafka for Real-time Ingestion
+
+To add Kafka for streaming data ingestion, use the Docker Compose setup below with KRaft mode (no ZooKeeper required for Kafka):
+
+{% code title="docker-compose.yml" %}
+```yaml
+version: '3.7'
+
+services:
+  pinot-kafka:
+    image: ${KAFKA_IMAGE:-apache/kafka:4.0.0}
+    container_name: "kafka"
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+
+networks:
+  default:
+    name: pinot-dev
+    driver: bridge
+```
+{% endcode %}
+
+Start Kafka:
+
+```bash
+docker compose up -d pinot-kafka
+```
+
+Then configure Pinot to connect to Kafka for real-time ingestion. Refer to the [First Stream Ingest](../first-stream-ingest.md) guide for table and schema configuration.
+
+### Key Differences from Docker QuickStart
+
+| Aspect | StartServiceManager | Docker QuickStart |
+|--------|-------------------|-------------------|
+| **Setup** | Minimal - all in single JVM | Full containerized cluster |
+| **Data** | Empty cluster | Pre-loaded sample data |
+| **Configuration** | Customizable via CLI arguments | Via docker-compose.yml |
+| **Resource Usage** | Lightweight | Higher resource requirements |
+| **Development Focus** | Building/testing custom features | Evaluation and demos |
+| **Kafka Integration** | Optional Docker container | Containerized in compose |
+
 ## Verify
 
 Check that all containers are running:
