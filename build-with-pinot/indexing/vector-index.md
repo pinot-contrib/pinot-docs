@@ -14,10 +14,13 @@ The vector index is supported on multi-valued FLOAT columns (float arrays). The 
 
 ## Key Features
 
-* Vector Index is implemented using HNSW (Hierarchical Navigable Small World) for approximate nearest neighbor (ANN) search.
+* Vector Index supports multiple backend implementations for approximate nearest neighbor (ANN) search:
+  * **HNSW** (Hierarchical Navigable Small World) - highly accurate graph-based approach
+  * **IVF_FLAT** (Inverted File with Flat Quantization) - efficient vector partitioning approach
 * Adds support for a predicate and function:
   * VECTOR\_SIMILARITY(v1, v2, \[optional topK]) to retrieve the topK closest vectors based on similarity.
   * The similarity function can be used as part of a query to filter and rank results.
+* Query-time tuning options for optimizing accuracy and performance trade-offs
 
 ## Examples
 
@@ -187,13 +190,109 @@ The recommended way to configure the vector index uses the `indexes` object in `
 ```
 {% endcode %}
 
+## IVF_FLAT Vector Index
+
+In addition to HNSW, Pinot now supports **IVF_FLAT** (Inverted File with Flat Quantization), a highly efficient vector indexing backend. IVF_FLAT is optimized for faster indexing and lower memory overhead while maintaining strong query performance through intelligent vector partitioning.
+
+### IVF_FLAT Configuration
+
+IVF_FLAT uses a clustering-based approach to partition vectors into groups (lists), enabling efficient filtering of candidate vectors during similarity search. Here's an example configuration:
+
+{% code title="IVF_FLAT configuration in fieldConfigList" %}
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "embedding",
+      "encodingType": "RAW",
+      "indexes": {
+        "vector": {
+          "vectorIndexType": "IVF_FLAT",
+          "vectorDimension": 128,
+          "vectorDistanceFunction": "EUCLIDEAN",
+          "nlist": 64
+        }
+      }
+    }
+  ]
+}
+```
+{% endcode %}
+
+### IVF_FLAT Properties
+
+| Property | Required | Description |
+| --- | --- | --- |
+| `vectorIndexType` | Yes | Set to `IVF_FLAT` |
+| `vectorDimension` | Yes | Dimensionality of the vectors (e.g., 128, 768) |
+| `vectorDistanceFunction` | Yes | Distance metric: `EUCLIDEAN` (L2), `COSINE`, `INNER_PRODUCT`, or `DOT_PRODUCT` |
+| `nlist` | Yes | Number of inverted file lists (clusters). Higher values reduce search scope but increase memory. Typical range: 16-256 |
+
+### Supported Distance Functions
+
+IVF_FLAT supports the same distance functions as HNSW:
+
+* **EUCLIDEAN** (L2): Euclidean distance in vector space
+* **COSINE**: Cosine similarity, ideal for normalized vectors
+* **INNER_PRODUCT**: Dot product, used for pre-normalized vectors
+* **DOT_PRODUCT**: Equivalent to INNER_PRODUCT
+
+### Query-Time Tuning Options
+
+IVF_FLAT supports query-time parameters to fine-tune the accuracy-performance trade-off:
+
+```sql
+-- Set the number of clusters to probe (default: 1)
+SET vectorNprobe=16;
+
+-- Enable exact reranking of candidate vectors (default: false)
+SET vectorExactRerank=true;
+
+-- Maximum number of candidate vectors to examine (default: depends on nlist)
+SET vectorMaxCandidates=1000;
+
+-- Execute the vector similarity query
+SELECT ProductId,
+       UserId,
+       l2_distance(embedding, ARRAY[0.1, 0.2, ...]) AS l2_dist
+FROM fineFoodReviews
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[0.1, 0.2, ...], 10)
+ORDER BY l2_dist ASC
+LIMIT 10;
+```
+
+**Query-time parameters explanation:**
+
+* **vectorNprobe**: Number of inverted file lists to probe. Higher values increase recall at the cost of more computation. Start with nlist/4 and adjust based on query performance.
+* **vectorExactRerank**: When enabled, candidate vectors are re-ranked using exact distance computation for improved accuracy. Recommended when recall is critical.
+* **vectorMaxCandidates**: Maximum number of vectors to examine during candidate generation. Useful for controlling query latency.
+
+### IVF_FLAT vs HNSW
+
+| Aspect | IVF_FLAT | HNSW |
+| --- | --- | --- |
+| **Index Build Speed** | Fast | Slower |
+| **Memory Overhead** | Lower | Higher (maintains graph structure) |
+| **Recall** | Good with proper tuning | Excellent |
+| **Query Latency** | Faster (with vectorNprobe tuning) | Consistent |
+| **Use Case** | Large-scale similarity search, memory-constrained | High-accuracy retrieval |
+
+## Backward Compatibility
+
+Existing HNSW configurations continue to work without modification. The vector index implementation is fully backward compatible:
+
+* Existing tables with HNSW indexes will continue to function as before
+* Both HNSW and IVF_FLAT can coexist in the same Pinot cluster
+* You can migrate individual tables from HNSW to IVF_FLAT by updating the table configuration and reindexing
+
 ## Limitations
 
-- Only HNSW is supported as the vector index type.
+- Supported vector index types: HNSW and IVF_FLAT. IVF_FLAT does not support mutable segments in phase 1; segments must be immutable.
 - The column must be a multi-valued FLOAT column.
-- Maximum vector dimension is 2048 (configurable via the `maxDimensions` property).
-- `VECTOR_SIMILARITY` is an approximate nearest-neighbor predicate; results are not exact.
-- The vector index uses Lucene under the hood and generates Lucene index files per segment.
+- Maximum vector dimension is 2048 (configurable via the `maxDimensions` property for HNSW).
+- `VECTOR_SIMILARITY` is an approximate nearest-neighbor predicate; results are not exact unless `vectorExactRerank=true` is set.
+- HNSW uses Lucene under the hood and generates Lucene index files per segment.
+- IVF_FLAT does not support online index updates; segments must be immutable.
 
 ### **Query**
 
