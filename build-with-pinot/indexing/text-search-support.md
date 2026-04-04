@@ -7,7 +7,7 @@ description: This page talks about support for text search in Pinot.
 {% hint style="info" %}
 This text index method is recommended over the experimental [native text index](native-text-index.md).
 
-Click to skip the background info and go straight to the procedure [to enable this text index](text-search-support.md#enable-a-text-index).
+Click to skip the background info and go straight to the procedure [to enable a per-column text index](#enable-a-per-column-text-index).
 {% endhint %}
 
 ## Why do we need text search?
@@ -409,19 +409,37 @@ The words should be **comma separated** and in **lowercase**. Words appearing in
 
 The `TEXT_MATCH` function enables using text search in SQL.
 
-TEXT\_MATCH(text\_column\_name, search\_expression)
-
-* text\_column\_name - name of the column to do text search on.
-* search\_expression - search query
-
-You can use TEXT\_MATCH function as part of queries in the WHERE clause, like this:
-
 ```sql
-SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(...)
-SELECT * FROM Foo WHERE TEXT_MATCH(...)
+TEXT_MATCH(text_column_name, search_expression [, options])
 ```
 
-You can also use the `TEXT_MATCH` filter clause with other filter operators. For example:
+- `text_column_name` must be a single-valued column with a text index.
+- `search_expression` must be a single-valued string literal containing the Lucene query.
+- `options` is an optional parser-options string described in [TEXT_MATCH Query Options](#text_match-query-options).
+
+`TEXT_MATCH` returns a BOOLEAN value. You can use it as a filter predicate in `WHERE`, and you can also project or sort on it like any other boolean expression:
+
+```sql
+SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(text_col, 'pinot')
+
+SELECT id, TEXT_MATCH(text_col, 'pinot') AS matched
+FROM Foo
+ORDER BY TEXT_MATCH(text_col, 'pinot') DESC, id
+
+SELECT TEXT_MATCH(text_col, 'pinot') AS matched, COUNT(*)
+FROM Foo
+GROUP BY 1
+```
+
+Common placements include:
+
+- `WHERE`
+- `SELECT`
+- `CASE WHEN`
+- `ORDER BY`
+- `GROUP BY`
+
+When you use `TEXT_MATCH` in `WHERE`, you can combine it with other filter operators. For example:
 
 ```sql
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(...) AND some_other_column_1 > 20000
@@ -434,12 +452,7 @@ You can combine multiple `TEXT_MATCH` filter clauses:
 SELECT COUNT(*) FROM Foo WHERE TEXT_MATCH(text_col_1, ....) AND TEXT_MATCH(text_col_2, ...)
 ```
 
-`TEXT_MATCH` can be used in WHERE clause of all kinds of queries supported by Pinot.
-
-* Selection query which projects one or more columns
-  * User can also include the text column name in select list
-* Aggregation query
-* Aggregation GROUP BY query
+In practice, Pinot supports `TEXT_MATCH` across selection, aggregation, and aggregation-with-group-by queries. When it appears outside `WHERE`, Pinot evaluates the expression for each row and returns the boolean result.
 
 The search expression (the second argument to `TEXT_MATCH` function) is the query string that Pinot will use to perform text search on the column's text index.
 

@@ -36,24 +36,30 @@ curl -H "Content-Type: application/json" -X POST \
 
 ## Cursor Pagination
 
-The cursor flow returns a `requestId`, `brokerHost`, and `brokerPort` that the client must reuse for subsequent fetches.
+Cursor-backed queries return the first page together with metadata that the client must reuse for later fetches. The most important fields are `requestId`, `brokerHost`, `brokerPort`, `offset`, `numRows`, `numRowsResultSet`, and `expirationTimeMs`.
 
 ```bash
 curl --request POST http://localhost:8099/query/sql?getCursor=true&numRows=1 \
   --data '{"sql":"SELECT * FROM nation limit 100"}' | jq
 ```
 
-The page size is controlled by the request parameter and the broker cursor defaults. Fetch the next page with:
+If `numRows` is omitted or set to `0`, Pinot uses `pinot.broker.cursor.fetch.rows` (default `10000`). Fetch the next page with:
 
 ```bash
 curl -X GET http://localhost:8099/responseStore/236490978000000006/results?offset=1&numRows=1 | jq
 ```
 
+Read cursor metadata without returning the row slice:
+
+```bash
+curl -X GET http://localhost:8099/responseStore/236490978000000006 | jq
+```
+
 ## Operational Notes
 
 - Cursors are broker-affine; follow-up requests must go back to the same broker.
-- The response store is eventually cleaned up by the controller.
-- `GET /responseStore` is useful for operational inspection, not for client pagination.
+- Cursor results expire according to `pinot.broker.cursor.response.store.expiration` and are eventually cleaned up by the controller.
+- `GET /responseStore` and `DELETE /responseStore/{requestId}` are operator-oriented response-store endpoints, not the normal client pagination flow.
 
 ## What this page covered
 

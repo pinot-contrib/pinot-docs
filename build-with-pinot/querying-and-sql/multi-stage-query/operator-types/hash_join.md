@@ -102,6 +102,71 @@ GROUP BY
   promotion_type
 ```
 
+### left\_distribution\_type / right\_distribution\_type
+
+Type: String
+
+Default: planner chosen
+
+These hints override how Pinot distributes each input before the join. Supported values are:
+
+* `local`: keep rows on the current worker
+* `hash`: repartition rows by hash
+* `broadcast`: send rows to every worker
+* `random`: randomly shuffle rows
+
+The two hints are typically used together because Pinot plans the join from the pair of distributions.
+
+Example:
+
+```sql
+SELECT /*+ joinOptions(left_distribution_type='local', right_distribution_type='broadcast') */
+  orders.order_id, dim.name
+FROM orders
+JOIN dim ON orders.dim_id = dim.id
+```
+
+This keeps the left side local and broadcasts the right side to all workers.
+
+### Related tableOptions for joins
+
+Some join plans also rely on hints attached to the table scans.
+
+#### partition\_parallelism
+
+Type: Integer
+
+Default: not set
+
+Specifies how many workers Pinot uses per partition in the following stage. When you want a partition-local join plan to stay local, keep `partition_parallelism` aligned across both inputs. If the values do not match, Pinot falls back to a shuffled join plan.
+
+Example:
+
+```sql
+SELECT *
+FROM orders /*+ tableOptions(partition_parallelism='2') */
+JOIN lineitem /*+ tableOptions(partition_parallelism='2') */
+  ON orders.order_id = lineitem.order_id
+```
+
+#### is\_replicated
+
+Type: Boolean
+
+Default: `false`
+
+Marks a table as replicated across all workers. This is commonly paired with `left_distribution_type='local'` and `right_distribution_type='local'` when the right-hand side is a replicated dimension table.
+
+Example:
+
+```sql
+SELECT /*+ joinOptions(left_distribution_type='local', right_distribution_type='local') */
+  fact.id, dim.name
+FROM fact
+JOIN dim /*+ tableOptions(is_replicated='true') */
+  ON fact.dim_id = dim.id
+```
+
 ## Stats
 
 ### executionTimeMs

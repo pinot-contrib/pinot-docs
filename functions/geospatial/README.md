@@ -89,5 +89,5 @@ Returns true if first geometry is completely inside second geometry.
 | Function | Function |
 | --- | --- |
 | [ST_Union](stunion.md) | [GridDistance](griddistance.md) |
-| [ST_AsGeoJSON](st_asgeojson.md) | [ST_GeogFromGeoJSON](st_geogfromgeojson.md) |
-| [ST_GeomFromGeoJSON](st_geomfromgeojson.md) |  |
+| [GridDisk](griddisk.md) | [ST_AsGeoJSON](st_asgeojson.md) |
+| [ST_GeogFromGeoJSON](st_geogfromgeojson.md) | [ST_GeomFromGeoJSON](st_geomfromgeojson.md) |

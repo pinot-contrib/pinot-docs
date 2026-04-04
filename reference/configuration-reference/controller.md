@@ -80,6 +80,15 @@ This task rebuilds the BrokerResource if the instance set has changed.
 | controller.broker.resource.validation.frequencyPeriod | 1h |
 | controller.broker.resource.validation.initialDelayInSeconds | between 2m-5m |
 
+### ResponseStoreCleaner
+
+This task removes expired cursor response-store entries from brokers. Cursor expiration itself is controlled by the broker setting `pinot.broker.cursor.response.store.expiration`.
+
+| Config | Default Value |
+| --- | --- |
+| controller.cluster.response.store.cleaner.frequencyPeriod | 1h |
+| controller.cluster.response.store.cleaner.initialDelay | between 2m-5m |
+
 ### StaleInstancesCleanupTask
 
 This task periodically cleans up stale Pinot broker/server/minion instances.
