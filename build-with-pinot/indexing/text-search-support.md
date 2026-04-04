@@ -342,8 +342,20 @@ Per-column properties override any shared property for a specific column. The fo
 | `luceneQueryParserClass` | Fully qualified class name of a custom Lucene query parser. |
 
 {% hint style="info" %}
-Keys that are only valid as shared properties (such as `luceneMaxBufferSizeMB`) have no effect when placed in `perColumnProperties` and will be ignored.
+Keys that are only valid as shared properties (such as `luceneMaxBufferSizeMB`) are rejected at table-config validation time when placed in `perColumnProperties`.
 {% endhint %}
+
+### Validation rules
+
+Pinot validates `multiColumnTextIndexConfig` when you create or update the table config:
+
+* `columns` must contain at least one column.
+* `columns` cannot contain duplicates.
+* Keys under `properties` must be valid shared-property keys.
+* Each key under `perColumnProperties` must match a column listed in `columns`.
+* Each property under `perColumnProperties` must be one of the per-column keys listed above.
+
+If any of these checks fail, Pinot rejects the table-config change instead of silently ignoring the invalid setting.
 
 ### Query syntax
 

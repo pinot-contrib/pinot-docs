@@ -37,6 +37,8 @@ These settings control broker-side query protection, query-console exposure, and
 | pinot.multistage.engine.tls.enabled | false | Enables TLS on brokers and servers for the multi-stage query engine. When enabled, Pinot uses TLS for gRPC connections between brokers and servers for plan dispatch and final results, and between servers for data shuffle and exchange. |
 | pinot.lucene.max.clause.count | 1024 | Maximum number of clauses allowed in Lucene text-search queries. Increase this value when complex text queries hit Lucene `TooManyClauses` exceptions. |
 | pinot.multistage.engine.enabled | true | Enables the multi-stage query engine for the cluster. When set to `false`, all queries use the single-stage engine. |
+| pinot.beta.multistage.engine.max.server.query.threads | -1 | Cluster-wide fallback for multi-stage query concurrency controls. Brokers use this value when `pinot.broker.mse.max.server.query.threads` is not set to a positive number. Servers also use it as the base value for deriving a hard limit when `pinot.server.query.executor.mse.max.execution.threads` is not set to a positive number. |
+| pinot.beta.multistage.engine.max.server.query.threads.hardlimit.factor | 4 | Multiplier used by servers to derive a hard limit for multi-stage executor tasks when no server-local limit is configured. The derived hard limit is `pinot.beta.multistage.engine.max.server.query.threads * pinot.beta.multistage.engine.max.server.query.threads.hardlimit.factor`. If either value is non-positive, server hard limiting is disabled. |
 
 ## Resource Accounting
 

@@ -92,7 +92,21 @@ For production clusters, review whether the defaults are appropriate for your da
 | Control | Description |
 | --- | --- |
 | `maxExecutionThreads` | Per-query option that limits the number of CPU threads used by a single query. Useful for preventing a heavy MSE query from consuming all server threads. |
+| `pinot.broker.mse.max.server.query.threads` | Broker-side concurrency throttle for multi-stage queries, expressed as estimated server query threads. This broker-local setting overrides the cluster fallback `pinot.beta.multistage.engine.max.server.query.threads` when set to a positive value. |
+| `pinot.broker.mse.max.server.query.threads.exceed.strategy` | Broker behavior when a query would exceed the broker-side throttle. `WAIT` blocks until capacity is available. `LOG` allows the query through and emits a warning instead of throttling it. |
+| `pinot.server.query.executor.mse.max.execution.threads` | Server-side hard limit for concurrently executing multi-stage tasks. When set to a positive value, it overrides the cluster-derived hard limit. When left non-positive, Pinot derives a hard limit from `pinot.beta.multistage.engine.max.server.query.threads * pinot.beta.multistage.engine.max.server.query.threads.hardlimit.factor` if both cluster values are positive. |
+| `pinot.server.query.executor.mse.max.execution.threads.exceed.strategy` | Server behavior when the hard limit is exceeded. `ERROR` rejects additional work immediately. `LOG` allows execution to continue and emits a warning. |
 | `timeoutMs` | Per-query timeout. Set this to a value appropriate for interactive workloads (e.g. 10-30 seconds) to prevent runaway queries from holding resources indefinitely. |
+
+The broker and server controls protect different parts of the system:
+
+* The broker throttle limits how much multi-stage work a broker dispatches concurrently across the cluster.
+* The server hard limit caps how many multi-stage executor tasks can run at the same time on an individual server.
+* The cluster config `pinot.beta.multistage.engine.max.server.query.threads` is only a fallback. Broker-local and server-local configs take precedence when they are set to positive values.
+
+{% hint style="warning" %}
+Changing the broker-side throttle from disabled to enabled, or from enabled to disabled, requires a broker restart to take effect. Updating the limit value while the throttle remains enabled is applied dynamically.
+{% endhint %}
 
 ### Broker pruning and routing
 
