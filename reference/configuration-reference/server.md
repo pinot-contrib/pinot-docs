@@ -6,6 +6,18 @@ Server configuration can be provided as part of the server startup parameters.
 bin/pinot-admin.sh StartServer -configFileName /path/to/server.conf
 ```
 
+
+{% hint style="warning" %}
+**Duplicate Keys in Configuration File**
+
+Starting from Apache Pinot 1.3.0, duplicate keys in the configuration file will cause a `ConfigurationException` to be thrown during startup. Previously, duplicate keys would be silently merged into a list. If you encounter this error, ensure that each configuration property appears only once in your configuration file. The exception will include the exact file path, duplicate key name, and the line numbers where the duplicates were found.
+
+Example error:
+```
+ConfigurationException: Duplicate key found in /path/to/server.conf at line 10 and line 15: pinot.server.netty.port
+```
+{% endhint %}
+
 `server.conf` can have the following properties
 
 | Property                                                                  | Default                                                                                                                              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |

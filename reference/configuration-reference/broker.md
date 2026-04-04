@@ -6,6 +6,18 @@ You can set broker properties in a configuration file. The file can be provided 
 bin/pinot-admin.sh StartBroker -configFileName /path/to/broker.conf
 ```
 
+
+{% hint style="warning" %}
+**Duplicate Keys in Configuration File**
+
+Starting from Apache Pinot 1.3.0, duplicate keys in the configuration file will cause a `ConfigurationException` to be thrown during startup. Previously, duplicate keys would be silently merged into a list. If you encounter this error, ensure that each configuration property appears only once in your configuration file. The exception will include the exact file path, duplicate key name, and the line numbers where the duplicates were found.
+
+Example error:
+```
+ConfigurationException: Duplicate key found in /path/to/broker.conf at line 10 and line 15: pinot.broker.timeoutMs
+```
+{% endhint %}
+
 `broker.conf` can have the following properties. All properties are defined in this class.
 
 | Property                                                        | Default                                                               | Description                                                                                                                                                                                                                                                                                            |
