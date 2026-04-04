@@ -46,7 +46,7 @@ Take the above example, if you set `realtime.segment.flush.threshold.segment.row
 {% endhint %}
 
 {% hint style="info" %}
-Since [this PR](https://github.com/apache/pinot/pull/13790), `streamConfigMaps` could contain multiple maps pointing to multiple Kafka topics. This would allow creating one single Pinot table with data from multiple stream topics.
+`streamConfigMaps` can contain more than one config map. When you configure multiple entries, Pinot requires all of them to use the same `streamType`, requires the segment-flush parameters to match across all entries, requires topic names to be unique, and rejects the configuration for upsert tables or when `pauselessConsumptionEnabled=true`.
 {% endhint %}
 
 ## `streamIngestionConfig`
