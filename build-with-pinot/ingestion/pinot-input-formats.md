@@ -204,15 +204,24 @@ protoc --include_imports --descriptor_set_out=/absolute/path/to/output.desc /abs
 
 ### Apache Arrow
 
-```
-dataFormat: 'arrow'
-```
-
-The Arrow input format plugin supports reading data in [Apache Arrow IPC streaming format](https://arrow.apache.org/docs/format/Columnar.html#ipc-streaming-format). This is useful for ingesting data from systems that produce Arrow-formatted output.
+The Arrow input format plugin supports reading data in [Apache Arrow IPC format](https://arrow.apache.org/docs/format/Columnar.html#ipc-streaming-format). This is useful for ingesting data from systems that produce Arrow-formatted output.
 
 {% hint style="success" %}
-The `pinot-arrow` plugin is included in the standard Pinot binary distribution (tarball and Docker image). The `ArrowMessageDecoder` is available out of the box, and no additional installation steps are required to use Apache Arrow format for data ingestion.
+The `pinot-arrow` plugin is included in the standard Pinot binary distribution (tarball and Docker image). No additional installation steps are required to use Apache Arrow format for data ingestion.
 {% endhint %}
+
+#### Batch ingestion
+
+For batch ingestion from Arrow IPC files:
+
+```
+dataFormat: 'arrow'
+className: 'org.apache.pinot.plugin.inputformat.arrow.ArrowRecordReader'
+```
+
+The `ArrowRecordReader` reads Arrow IPC files for batch ingestion. Note that Arrow IPC files require seekable channels, so **gzip compression is not supported**.
+
+#### Stream ingestion
 
 For stream ingestion, the Arrow decoder converts Arrow columnar batches to Pinot rows:
 
@@ -226,4 +235,4 @@ stream.kafka.decoder.class.name=org.apache.pinot.plugin.inputformat.arrow.ArrowM
 |----------|---------|-------------|
 | `arrow.allocator.limit` | 268435456 (256 MB) | Memory limit for Arrow's off-heap allocator in bytes |
 
-The decoder handles Arrow type conversions automatically: `Text` → `String`, `LocalDateTime` → `Timestamp`, Arrow Maps → flattened `Map<String, Object>`, and Arrow Lists → `List<Object>`. Dictionary-encoded columns are also supported.
+Arrow type conversions are handled automatically: `Text` → `String`, `LocalDateTime` → `Timestamp`, Arrow Maps → flattened `Map<String, Object>`, and Arrow Lists → `List<Object>`. Dictionary-encoded columns are also supported.
