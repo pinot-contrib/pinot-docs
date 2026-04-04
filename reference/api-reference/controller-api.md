@@ -422,6 +422,42 @@ curl -X POST "http://localhost:9000/applicationQuotas/myApp" \
   -H "accept: application/json"
 ```
 
+## Segments
+
+### GET /segments/\{tableName\}/invalidPartitionMetadata
+
+Return a map of segment name to raw partition metadata JSON for segments whose partition metadata is invalid.
+
+Use this endpoint when you need to find segments whose stored partition metadata cannot be trusted for partition-based routing or validation.
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/segments/myTable/invalidPartitionMetadata?type=OFFLINE" \
+  -H "accept: application/json"
+```
+
+You can optionally scope the validation to a single partition column:
+
+```bash
+curl -X GET "http://localhost:9000/segments/myTable/invalidPartitionMetadata?type=OFFLINE&partitionColumn=memberId" \
+  -H "accept: application/json"
+```
+
+**Behavior**
+
+* Without `partitionColumn`, Pinot treats `null` partition metadata as valid and returns segments whose metadata is malformed or where any column maps to more than one partition.
+* With `partitionColumn`, Pinot validates only that column and treats `null` metadata, malformed metadata, missing column metadata, or multiple partitions for the column as invalid.
+
+**Response**
+
+```json
+{
+  "seg2": "{\"columnPartitionMap\":{\"memberId\":{\"functionName\":\"Modulo\",\"numPartitions\":4,\"partitions\":[0,1]}}}",
+  "seg3": "not-valid-json"
+}
+```
+
 
 ### DELETE /tables/\<tableName>
 

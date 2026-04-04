@@ -70,7 +70,8 @@ Assuming the user wants to encode `message` and `logPath` as in the example, the
   "tableIndexConfig": {
     "streamConfigs": {
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.clplog.CLPLogMessageDecoder",
-      "stream.kafka.decoder.prop.fieldsForClpEncoding": "message,logPath"
+      "stream.kafka.decoder.prop.fieldsForClpEncoding": "message,logPath",
+      "stream.kafka.decoder.prop.removeProcessedFields": "true"
     },
     "varLengthDictionaryColumns": [
       "message_logtype",
@@ -83,6 +84,7 @@ Assuming the user wants to encode `message` and `logPath` as in the example, the
 ```
 
 * `stream.kafka.decoder.prop.fieldsForClpEncoding` is a comma-separated list of names for fields that should be encoded with CLP.
+* `stream.kafka.decoder.prop.removeProcessedFields` is optional. When set to `true`, Pinot removes the original input field after writing the derived CLP columns (`<field>_logtype`, `<field>_dictionaryVars`, `<field>_encodedVars`). The default is `false`, which keeps the original field alongside the derived columns.
 * We use [variable-length dictionaries](../../../reference/configuration-reference/table.md#table-index-config) for the logtype and dictionary variables since their length can vary significantly.
 
 ### Schema
