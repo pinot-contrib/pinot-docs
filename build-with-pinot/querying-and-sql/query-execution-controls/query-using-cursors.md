@@ -4,7 +4,7 @@ description: Cursor pagination for large Pinot result sets.
 
 # Cursor Pagination
 
-Cursor pagination lets Pinot return a query result in pages instead of forcing the whole result set into one response.
+Cursor pagination lets Pinot return a query result in pages instead of forcing the whole result set into one response. Pinot stores the full result in the broker response store and returns slices of it as the client asks for more rows.
 
 ## When to use it
 
@@ -22,7 +22,19 @@ curl --request POST 'http://localhost:8099/query/sql?getCursor=true&numRows=1' \
   --data '{"sql":"SELECT * FROM nation LIMIT 100"}'
 ```
 
-The initial response includes a `requestId`, the broker that owns the cursor state, and the number of rows returned in the first page.
+If `numRows` is omitted, or set to `0`, Pinot uses the broker default from `pinot.broker.cursor.fetch.rows` (default `10000`).
+
+The initial response includes the first page in `resultTable` together with cursor metadata:
+
+| Field | Meaning |
+| --- | --- |
+| `requestId` | Cursor identifier used in later fetches |
+| `numRowsResultSet` | Total rows available across the full result set |
+| `offset` | Zero-based offset of the current page |
+| `numRows` | Number of rows returned in the current page |
+| `brokerHost` / `brokerPort` | Broker that owns the cursor state |
+| `submissionTimeMs` | When Pinot created the response-store entry |
+| `expirationTimeMs` | When the cursor expires |
 
 ## Fetch the next page
 
@@ -30,13 +42,27 @@ The initial response includes a `requestId`, the broker that owns the cursor sta
 curl -X GET 'http://localhost:8099/responseStore/236490978000000006/results?offset=1&numRows=1'
 ```
 
-Subsequent requests must go back to the same broker that created the cursor state.
+Subsequent requests must go back to the same broker that created the cursor state. `offset` is zero-based, and `numRows` controls the next page size. If you omit `numRows` on a fetch request, Pinot again falls back to `pinot.broker.cursor.fetch.rows`.
+
+## Inspect or delete cursor state
+
+Use the metadata endpoint to inspect a cursor without fetching the row slice:
+
+```sh
+curl -X GET 'http://localhost:8099/responseStore/236490978000000006'
+```
+
+For operator workflows, Pinot also exposes:
+
+- `GET /responseStore` to list active response-store entries on the broker
+- `DELETE /responseStore/{requestId}` to delete a stored result early
 
 ## What to watch for
 
 - the cursor response is tied to the original request ID
 - the broker owns the cursor state
-- cursor results expire after the configured retention window
+- cursor results expire after `pinot.broker.cursor.response.store.expiration` (default `1h`)
+- the controller's `ResponseStoreCleaner` periodic task removes expired entries
 
 ## What this page covered
 

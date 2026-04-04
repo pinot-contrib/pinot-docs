@@ -208,6 +208,7 @@ For full details, see [JSON Functions](../../functions/json/).
 | [`JSONPATHARRAY`](../../functions/json/jsonpatharray.md) | `JSONPATHARRAY(obj, path)` | OBJECT[] | Extracts array via JSONPath | Both |
 | [`JSONPATHARRAYDEFAULTEMPTY`](../../functions/json/jsonpatharraydefaultempty.md) | `JSONPATHARRAYDEFAULTEMPTY(obj, path)` | OBJECT[] | Extracts array, returns empty if null | Both |
 | [`JSONPATHEXISTS`](../../functions/json/jsonpathexists.md) | `JSONPATHEXISTS(obj, path)` | BOOLEAN | Checks if JSONPath exists | Both |
+| [`JSONKEYVALUEARRAYTOMAP`](../../functions/json/jsonkeyvaluearraytomap.md) | `JSONKEYVALUEARRAYTOMAP(arr [, keyColumnName, valueColumnName])` | MAP | Converts key/value-object array to map | Both |
 | [`JSONEXTRACTKEY`](../../functions/json/jsonextractkey.md) | `JSONEXTRACTKEY(obj, path)` | STRING[] | Extracts keys at JSONPath | Both |
 | [`JSONEXTRACTSCALAR`](../../functions/json/jsonextractscalar.md) | `JSONEXTRACTSCALAR(json, path, type [, default])` | varies | Extracts scalar value from JSON | Both |
 | [`JSONFORMAT`](../../functions/json/jsonformat.md) | `JSONFORMAT(obj)` | STRING | Serializes object to JSON string | Both |
@@ -342,6 +343,8 @@ For full details, see [GeoSpatial Functions](../../functions/geospatial/).
 | [`STASGEOJSON`](../../functions/geospatial/st_asgeojson.md) | `STASGEOJSON(geo)` | STRING | Converts geometry to GeoJSON | Both |
 | [`STGEOMETRYTYPE`](../../functions/geospatial/stgeometrytype.md) | `STGEOMETRYTYPE(geo)` | STRING | Returns geometry type | Both |
 | [`TOSPHERICALGEOGRAPHY`](../../functions/geospatial/tosphericalgeography.md) | `TOSPHERICALGEOGRAPHY(geo)` | BYTES | Converts geometry to spherical geography | Both |
+| [`GridDistance`](../../functions/geospatial/griddistance.md) | `gridDistance(h3Index1, h3Index2)` | LONG | H3 grid distance between two cells | Both |
+| [`GridDisk`](../../functions/geospatial/griddisk.md) | `gridDisk(h3Index, k)` | LONG[] | H3 cells within `k` grid steps of a center cell | Both |
 | [`IDSET`](../../functions/aggregation/idset.md) | `IDSET(col [, params])` | BYTES | Serialized IdSet for use with IN_ID_SET filter | Both |
 | [`STUNION`](../../functions/geospatial/stunion.md) | `STUNION(geoCol)` | BYTES | Aggregation: union of geometries | Both |
 

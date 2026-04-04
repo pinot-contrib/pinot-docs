@@ -8,7 +8,7 @@ Checks if specified jsonPath exists in jsonField.
 
 ## Signature
 
-> JSONPATH(jsonField, 'jsonPath')
+> JSONPATHEXISTS(jsonField, 'jsonPath')
 
 | Arguments    | Description                                                                                            |
 | ------------ | ------------------------------------------------------------------------------------------------------ |

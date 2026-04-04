@@ -16,6 +16,26 @@ The broker response always includes a `resultTable` with:
 | `resultTable.dataSchema.columnDataTypes` | Data types for each returned column |
 | `resultTable.rows` | Row values in column order |
 
+Cursor-backed responses still use the same `resultTable` shape, but the `rows` array contains only the current page.
+
+## Cursor Fields
+
+When a query is submitted with `getCursor=true`, Pinot adds cursor metadata around the normal broker response:
+
+| Field | Meaning |
+| --- | --- |
+| `requestId` | Cursor identifier used with `/responseStore/{requestId}` |
+| `numRowsResultSet` | Total rows available across the full result set |
+| `offset` | Zero-based offset of the current page |
+| `numRows` | Number of rows returned in the current page |
+| `brokerHost` | Broker host that owns the response store |
+| `brokerPort` | Broker port that owns the response store |
+| `submissionTimeMs` | Timestamp when Pinot created the response-store entry |
+| `expirationTimeMs` | Timestamp when Pinot considers the cursor expired |
+| `cursorResultWriteTimeMs` | Time spent writing the original result into the response store; typically populated on the initial cursor-creating response |
+| `cursorFetchTimeMs` | Time spent reading the current page from the response store |
+| `bytesWritten` | Serialized size of the stored result |
+
 ## Execution Stats
 
 | Field | Meaning |
@@ -40,6 +60,14 @@ The broker response always includes a `resultTable` with:
 curl -H "Content-Type: application/json" -X POST \
   -d '{"sql":"SELECT moo, bar, foo FROM myTable ORDER BY foo DESC"}' \
   http://localhost:8099/query/sql
+```
+
+Cursor example:
+
+```bash
+curl -H "Content-Type: application/json" -X POST \
+  -d '{"sql":"SELECT * FROM myTable LIMIT 100000"}' \
+  'http://localhost:8099/query/sql?getCursor=true&numRows=1000'
 ```
 
 ## What this page covered

@@ -66,6 +66,31 @@ A `select_expression` can be any of the following:
 - An aggregation function: `COUNT(*)`, `SUM(revenue)`
 - A `CASE WHEN` expression
 
+### MAP Element Access
+
+If a column is declared as `MAP`, use bracket syntax to read a value by key:
+
+```sql
+mapColumn['key']
+```
+
+Pinot treats map lookups as scalar expressions, so you can use them in `SELECT`, `WHERE`, `GROUP BY`, and `ORDER BY`:
+
+```sql
+SELECT attributes['country'] AS country, metrics['latencyMs'] AS latency
+FROM events
+WHERE metrics['latencyMs'] > 100
+ORDER BY metrics['latencyMs']
+
+SELECT attributes['country'] AS country, COUNT(*)
+FROM events
+GROUP BY attributes['country']
+```
+
+If a key is missing, Pinot returns the value type's default null value. For example, a missing STRING map value returns `"null"` and a missing INT map value returns `Integer.MIN_VALUE`.
+
+For schema syntax, see [Schema Configuration](../../reference/configuration-reference/schema.md#complexfieldspecs).
+
 ### Aliases
 
 Use `AS` to assign an alias to any select expression:
