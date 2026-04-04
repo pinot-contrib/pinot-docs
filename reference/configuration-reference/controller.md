@@ -211,11 +211,16 @@ This task periodically emits metrics about minion tasks, including task counts b
 
 ### ResourceUtilizationChecker
 
-The periodic task ResourceUtilizationChecker runs periodically and computes the disk usage info of the Pinot server instances.
+The periodic task `ResourceUtilizationChecker` runs periodically and fetches disk-usage information from Pinot server instances via `GET /instance/diskUtilization`.
 
 | Config | Default Value | Description |
 | --- | --- | --- |
-| controller.resource.utilization.checker.frequency | 300 | Value is in seconds. Setting the value to -1 would disable the task. |
-| controller.disk.utilization.path | /home/pinot/data | Disk utilization is calculated for this path. |
-| controller.resource.utilization.checker.initial.delay | 0 (when collect.usage.at.startup is true) | Initial delay for the resource utilization checker in seconds. Automatically set to 0 when controller.resource.utilization.checker.collect.usage.at.startup is enabled. |
+| controller.enable.resource.utilization.check | false | Master switch for enforcing resource-utilization checks during real-time ingestion validation and minion task generation. |
+| controller.enable.all.resource.utilization.checkers | true | Registers all resource-utilization checkers for backward compatibility. |
+| controller.enable.disk.utilization.checker | false | Registers the disk-utilization checker when `controller.enable.all.resource.utilization.checkers` is `false`. |
+| controller.resource.utilization.checker.frequency | 300 | Value is in seconds. Setting the value to `-1` disables the periodic checker task. |
+| controller.resource.utilization.checker.initial.delay | 300 (or 0 when collect.usage.at.startup is true) | Initial delay for the resource-utilization checker in seconds. Automatically set to 0 when `controller.resource.utilization.checker.collect.usage.at.startup` is enabled. |
 | controller.resource.utilization.checker.collect.usage.at.startup | false | When set to `true`, the controller waits for the resource utilization checker (disk usage cache) to be populated before marking itself as healthy. This prevents segment push requests from being accepted when disk usage is already high (e.g., 90%) immediately after a restart. When enabled, `controller.resource.utilization.checker.initial.delay` is automatically set to 0 so the checker runs immediately. If the checker times out, the controller still becomes healthy (fail-open). |
+| controller.disk.utilization.threshold | 0.95 | Disk-usage threshold expressed as a fraction between 0 and 1. |
+| controller.disk.utilization.check.timeoutMs | 30000 | Timeout in milliseconds for collecting disk-usage responses from servers. |
+| controller.disk.utilization.path | /home/pinot/data | Compatibility config sent by the controller when requesting disk usage. The current server endpoint ignores this value and always measures the server `instanceDataDir`. |

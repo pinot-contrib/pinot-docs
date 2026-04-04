@@ -1,43 +1,59 @@
 ---
-description: Pause and Un-pause Ingestion based on Resource Utilization
+description: Pause and resume ingestion based on resource utilization.
 ---
 
 # Pause ingestion based on resource utilization
 
-A new capability has been added to Pinot to pause and un-pause ingestion based on resource utilization. This feature is designed to help users manage their Pinot clusters more effectively by pausing ingestion when resource utilization exceeds a specified threshold. Ingestion is un-paused when resource utilization falls below the threshold.
+Pinot can pause real-time ingestion when disk utilization exceeds a configured threshold, and resume it when utilization returns within limits. The same resource-utilization status is also used to skip minion task generation for affected tables.
 
 ## How It Works
 
-The periodic task `ResourceUtilizationChecker` runs periodically and computes the disk usage info of the Pinot server instances. The periodic task `RealTimeSegmentValidationManager` utilizes the disk usage info captured by the `ResourceUtilizationChecker` task and pauses consumption on REALTIME tables if disk utilization is above the threshold. The `RealTimeSegmentValidationManager` task would un-pause ingestion when disk utilization falls below the threshold. The periodic task `PinotTaskManager` utilizes the disk usage info and prevents minion based task generation if disk utilization is above threshold. The `PinotTaskManager` task would allow minion based task generation when disk utilization falls below the threshold.
+The periodic task `ResourceUtilizationChecker` fetches disk-usage information from each Pinot server and stores it in the controller-side resource-utilization cache. Pinot then uses that cached status in two places:
+
+* `RealtimeSegmentValidationManager` pauses REALTIME tables when disk utilization is above the configured threshold.
+* `PinotTaskManager` skips minion task generation for tables whose servers are above the configured threshold.
+
+When the cached status returns to `PASS`, Pinot clears the resource-utilization pause state and allows ingestion to resume. If the status is `UNDETERMINED` and the table is already paused because of resource utilization, Pinot leaves it paused until fresh disk-usage data is available.
+
+## How disk usage is collected
+
+The controller calls the server endpoint `GET /instance/diskUtilization` on each server instance.
+
+In the current implementation, that endpoint always computes disk usage for the server's `instanceDataDir`. The controller still sends the configured `controller.disk.utilization.path` header, but the server endpoint ignores that header today.
 
 ## Configuration
 
-The following configurations are available to control this feature:
+The following controller configurations control this feature:
 
 | Config | Default Value | Description |
 | --- | --- | --- |
-| controller.resource.utilization.checker.frequency | 300 | Value is in seconds. The disk utilization is computed for all Pinot servers in this frequency. Setting the value to -1 would disable the disk usage computation. |
-| controller.disk.utilization.path | /home/pinot/data | Disk utilization is calculated for this path. |
-| controller.disk.utilization.threshold | 0.95 | Value should be between 0 and 1. |
-| controller.enable.resource.utilization.check | false | The feature is off by default. |
+| controller.enable.resource.utilization.check | false | Master switch for enforcing resource-utilization checks during real-time ingestion validation and minion task generation. |
+| controller.enable.all.resource.utilization.checkers | true | Registers all resource-utilization checkers for backward compatibility. |
+| controller.enable.disk.utilization.checker | false | Registers the disk-utilization checker when `controller.enable.all.resource.utilization.checkers` is `false`. |
+| controller.resource.utilization.checker.frequency | 300 | Checker frequency in seconds. Setting this value to `-1` disables the periodic checker task. |
+| controller.resource.utilization.checker.initial.delay | 300 | Initial delay in seconds before the checker runs. If `controller.resource.utilization.checker.collect.usage.at.startup=true`, Pinot forces this value to `0`. |
+| controller.resource.utilization.checker.collect.usage.at.startup | false | When enabled, the controller waits for the checker cache to be populated before reporting itself healthy. If the startup collection times out, the controller still becomes healthy (fail-open). |
+| controller.disk.utilization.threshold | 0.95 | Disk-usage threshold, expressed as a fraction between 0 and 1. |
+| controller.disk.utilization.check.timeoutMs | 30000 | Timeout in milliseconds for collecting disk-usage responses from servers. |
+| controller.disk.utilization.path | /home/pinot/data | Compatibility config sent by the controller when requesting disk usage. The current server endpoint ignores this value and always measures `instanceDataDir`. |
 
 ## Metrics
 
-The metric `pinot_controller_resourceUtilizationLimitExceeded_Value` would be set to `1` when disk utilization is above the threshold. The metric would be set to `0` when disk utilization is below the threshold.
+The gauge `pinot_controller_resourceUtilizationLimitExceeded_Value` is set to `1` when resource utilization is above the threshold for a table, and reset to `0` when the table is back within limits.
 
 ## FAQs
 
 ### Is controller restart required after changing any of the configuration properties?
 
-Yes, update the property to the desired value and restart the controller(s).
+Yes. Update the property to the desired value and restart the controller(s).
 
 ### Does ResourceUtilizationChecker run only on the lead controller?
 
-The periodic task `ResourceUtilizationChecker` runs on all controllers. The controller periodic tasks `RealtimeSegmentValidationManager` and `PinotTaskManager` runs only on the lead controller.
+The periodic task `ResourceUtilizationChecker` runs on all controllers. The controller periodic tasks `RealtimeSegmentValidationManager` and `PinotTaskManager` run only on the lead controller.
 
 ### How to identify the Pinot servers that are low on disk capacity?
 
-Grep for the keyword `Disk utilization for server` on any Pinot controller log to find the relevant servers.
+Search the controller logs for the message prefix `Disk utilization for server` to find the relevant instances.
 
 ## References
 

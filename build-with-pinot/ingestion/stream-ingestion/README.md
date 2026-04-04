@@ -136,9 +136,9 @@ For our sample data and schema, the table config will look like this:
 }
 ```
 
-### Example `ingestionConfig` for multi-topics ingestion
+### Example `ingestionConfig` with multiple stream configs
 
-From [this PR](https://github.com/apache/pinot/pull/13790), Pinot starts to support ingesting data from multiple stream partitions. (It is currently in Beta mode, and only supports multiple Kafka topics. Other stream types would be supported in the near future.) For our sample data and schema, assume that we duplicate it to 2 topics, `transcript-topic1` and `transcript-topic2`. If we want to ingest from both topics, then the table config will look like this:
+Pinot allows `streamConfigMaps` to contain more than one stream config. For the example below, assume the sample data is duplicated to two Kafka topics, `transcript-topic1` and `transcript-topic2`, and the table should ingest from both topics:
 
 ```json
 {
@@ -200,14 +200,28 @@ From [this PR](https://github.com/apache/pinot/pull/13790), Pinot starts to supp
 }
 ```
 
-With multi-topics ingestion: (details please refer to the [design doc](https://docs.google.com/document/d/1Er2Tmtl5Pgwdapn5iOJ5qlCDU_2P67YMdpdsmL36MCk/edit?usp=sharing))
+When `streamConfigMaps` contains multiple entries, Pinot validates the combined configuration before allowing the table to be created or updated:
 
-* All transform functions would apply to both topics' ingestions.
-* Existing instance assignment strategy would all work as usual.
-* [Partition changes](../../../build-with-pinot/ingestion/stream-ingestion#handle-partition-changes-in-streams) would still be handled in the same way.
-* Underlying ingestion still works as `LOWLEVEL` mode, where
-  * `transcript-topic1` segments would be named like transcript\_\_0\_\_0\_\_20250101T0000Z
-  * `transcript-topic2` segments would be named like transcript\_\_10000\_\_0\_\_20250101T0000Z
+* Each entry must still be a valid stream config on its own.
+* All entries must use the same `streamType`.
+* Segment flush settings must match across all entries:
+  * `realtime.segment.flush.threshold.rows`
+  * `realtime.segment.flush.threshold.time`
+  * `realtime.segment.flush.threshold.variance.fraction`
+  * `realtime.segment.flush.threshold.segment.size`
+  * `realtime.segment.flush.threshold.segment.rows`
+* Topic names must be unique across the entries.
+* Multiple stream configs are not supported together with `pauselessConsumptionEnabled=true`.
+* Multiple stream configs are not supported for upsert tables.
+
+Once validated, Pinot applies the rest of the ingestion config normally:
+
+* Transform functions apply to records from every configured stream.
+* Existing instance-assignment strategies continue to work as usual.
+* [Partition changes](../../../build-with-pinot/ingestion/stream-ingestion#handle-partition-changes-in-streams) are handled the same way as for a single stream config.
+* Underlying ingestion still works in `LOWLEVEL` mode, where:
+  * `transcript-topic1` segments are named like `transcript__0__0__20250101T0000Z`
+  * `transcript-topic2` segments are named like `transcript__10000__0__20250101T0000Z`
 
 ## Upload schema and table config
 
@@ -451,9 +465,9 @@ $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=
 
 ## Handle partition changes in streams
 
-If a Pinot table is configured to consume using a [Low Level](../../../build-with-pinot/ingestion/stream-ingestion#create-table-configuration) (partition-based) stream type, then it is possible that the partitions of the table change over time. In Kafka, for example, the number of partitions may increase. In Kinesis, the number of partitions may increase _or_ decrease -- some partitions could be merged to create a new one, or existing partitions split to create new ones.
+If a Pinot table is configured to consume using a [Low Level](../../../build-with-pinot/ingestion/stream-ingestion/README.md#create-table-configuration-with-ingestion-configuration) (partition-based) stream type, then it is possible that the partitions of the table change over time. In Kafka, for example, the number of partitions may increase. In Kinesis, the number of partitions may increase _or_ decrease -- some partitions could be merged to create a new one, or existing partitions split to create new ones.
 
-Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monitors such changes and starts consumption on new partitions (or stops consumptions from old ones) as necessary. Since this is a [periodic task](../../../basics/components/cluster/controller.md#controller-periodic-tasks) that is run on the controller, it may take some time for Pinot to recognize new partitions and start consuming from them. This may delay the data in new partitions appearing in the results that pinot returns.
+Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monitors such changes and starts consumption on new partitions (or stops consumptions from old ones) as necessary. Since this is a controller [periodic task](../../../basics/components/cluster/controller.md#running-the-periodic-task-manually), it may take some time for Pinot to recognize new partitions and start consuming from them. This may delay the data in new partitions appearing in the results that pinot returns.
 
 If you want to recognize the new partitions sooner, then [manually trigger](../../../basics/components/cluster/controller.md#running-the-periodic-task-manually) the periodic task so as to recognize such data immediately.
 
