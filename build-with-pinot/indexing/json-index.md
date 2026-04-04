@@ -68,7 +68,10 @@ To enable the JSON index, you can configure the following options in the table c
 | **excludeFields** | Exclude the given fields, e.g. "*b*", "*c*", even if it is under the included paths. | Set<String> | null (include all fields) |
 | **indexPaths** | Index the given paths, e.g. `*.*`, `a.**`. Paths matches the indexed paths will be indexed, e.g. `a.**` will index everything whose first layer is "a", `*.*` will index everything with maxLevels=2. This config could work together with other configs, e.g. includePaths, excludePaths, maxLevels but usually does not have to because it should be flexible enough to catch any scenarios. | Set<String> | null that is equivalent to `**` (include all fields) |
 | **maxValueLength** | If the value of a json node (not the whole document) is longer than given value then replace it with `$SKIPPED$` before indexing. | int | 0 (disabled) |
+| **maxBytesSize** | Approximate on-heap byte budget for the mutable JSON index used during real-time ingestion. Pinot stops growing the mutable JSON index once the tracked size reaches this limit. This excludes posting lists, so use it as a practical guardrail rather than an exact cap. | long | null (no limit) |
 | **skipInvalidJson** | If set, while adding json to index, instead of throwing exception, replace ill-formed json with empty key/path and $SKIPPED$ value . | boolean | false (disabled) |
+
+`maxBytesSize` is most useful for real-time tables that ingest large or highly variable JSON documents. It helps bound heap growth in the mutable JSON index and can reduce the risk of building unexpectedly large segments.
 
 ### Recommended way to configure
 
@@ -85,6 +88,7 @@ The recommended way to configure a JSON index is in the `fieldConfigList.indexes
           "maxLevels": 2,
           "excludeArray": false,
           "disableCrossArrayUnnest": true,
+          "maxBytesSize": 134217728,
           "includePaths": null,
           "excludePaths": null,
           "excludeFields": null,

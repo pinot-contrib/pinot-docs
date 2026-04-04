@@ -167,6 +167,18 @@ There are additional special-purpose compression codecs available for specific u
 
 `targetMaxChunkSize` changes the target max chunk size. For `rawIndexWriterVersion` versions 2 and 3, this can only be used with deriveNumDocsPerChunk. For `rawIndexWriterVersion` version 4, this sets the upper bound for a dynamically calculated chunk size. Documents larger than the `targetMaxChunkSize` will be given their own 'huge' chunk, therefore, it is recommended to size this such that huge chunks are avoided.
 
+#### Cluster and instance defaults
+
+If you want operator-managed defaults for raw forward indexes, Pinot can read the following properties from local instance config or ZK cluster config:
+
+| Property | Applies to |
+| --- | --- |
+| `pinot.forward.index.default.raw.index.writer.version` | `rawIndexWriterVersion` |
+| `pinot.forward.index.default.target.max.chunk.size` | `targetMaxChunkSize` |
+| `pinot.forward.index.default.target.docs.per.chunk` | `targetDocsPerChunk` |
+
+These defaults are only used when the corresponding property is not explicitly set in the table config.
+
 #### Raw forward index configuration
 
 The recommended way to configure the forward index using raw format is by including the parameters explained above in the `indexes.forward` object. For example:
