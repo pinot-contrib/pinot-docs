@@ -1,62 +1,105 @@
-# Row Expression Comparison 
+# Row Expression Comparison
 
-***
+Pinot supports implicit row-style comparisons in multi-stage queries. These comparisons are useful for keyset pagination and other lexicographic comparisons across multiple columns.
 
-## Row Expression
+Pinot does not materialize a row type at runtime. Instead, it rewrites the comparison during planning using the same lexicographic semantics described in the [jOOQ row-value comparison transformations](https://www.jooq.org/doc/latest/manual/sql-building/conditional-expressions/comparison-predicate-degree-n/).
 
-### ROW()
+## Supported syntax
 
-#### **Description**:
+Use a parenthesized list of expressions on both sides of one of the supported comparison operators:
 
-ROW value expressions is supported in Pinot in comparison contexts, enabling efficient keyset pagination queries. ROW expressions allow users to write cleaner multi-column comparisons like WHERE (col1, col2, col3) > (val1, val2, val3) instead of verbose nested conditions.
-The evaluation of row expression is based on the ([JOOQ transformations](https://www.jooq.org/doc/latest/manual/sql-building/conditional-expressions/comparison-predicate-degree-n/)) for the comparison operators.
-
-
-#### **Syntax**:
-
-Pinot supports implicit ROW-style expressions in comparison predicates using a parenthesized list of expressions on both sides of the comparator:
-
+```sql
 WHERE (col1, col2, col3) > (val1, val2, val3)
-
+```
 
 Supported comparison operators:
-```
+
+```text
 =, <>, <, <=, >, >=
 ```
 
-Note: Explicit use of the ROW() keyword (e.g., WHERE ROW(col1, col2) = ROW(1, 2)) is not yet supported due to the current SQL parser configuration (SqlConformanceEnum.BABEL). Future improvements may enable explicit row value constructors.
+{% hint style="info" %}
+Explicit `ROW()` syntax is not supported. Use implicit parenthesized expressions such as `(col1, col2) > (1, 2)` instead of `ROW(col1, col2) > ROW(1, 2)`.
+{% endhint %}
 
+## Validation rules
 
-#### **Note**:
+Pinot validates row-style comparisons before planning the query:
 
-- ROW comparisons are lexicographic, not element-wise
-- Pinot does not materialize row types — it rewrites comparisons at planning time
-- Rewrite complexity grows linearly with the number of columns
-- Mixed data types are supported as long as pairwise comparisons are valid
+* Both sides of the comparison must be row expressions.
+* Both row expressions must have the same number of fields.
+* Row expressions cannot be empty.
+* Row expressions are only supported in comparison predicates.
 
+If any of these checks fail, Pinot rejects the query during validation.
 
-#### **Sample Example Usage**:
+## Supported contexts
 
-**Equality (=)**
+Row-style comparisons are supported in comparison predicates, including:
+
+* `WHERE` clauses
+* comparison predicates inside subqueries
+* comparison predicates inside CTEs
+
+Examples:
+
 ```sql
-WHERE (a, b, c) = (x, y, z)
+SELECT COUNT(*)
+FROM myTable
+WHERE (airTime, actualElapsedTime) > (200, 230)
 ```
 
-is rewritten to
-
 ```sql
-WHERE a = x
-  AND b = y
-  AND c = z
+SELECT airlineId, carrier, airTime
+FROM myTable
+WHERE (airlineId, carrier, airTime) > (20000, 'AA', 120)
+ORDER BY airlineId, carrier, airTime
+LIMIT 10
 ```
 
+```sql
+WITH filtered AS (
+  SELECT airlineId, carrier, airTime
+  FROM myTable
+  WHERE airlineId > 19000
+)
+SELECT COUNT(*)
+FROM filtered
+WHERE (airlineId, carrier) > (20000, 'AA')
+```
 
-**Greater Than (>)**
+## Unsupported contexts
+
+Row expressions are rejected outside comparison predicates. In particular, they are not supported in:
+
+* `SELECT` lists
+* `GROUP BY`
+* `ORDER BY`
+* function arguments
+
+Examples that Pinot rejects:
+
+```sql
+SELECT (airTime, actualElapsedTime) FROM myTable
+```
+
+```sql
+SELECT COUNT(*) FROM myTable GROUP BY (airlineId, carrier)
+```
+
+```sql
+SELECT airlineId, carrier FROM myTable ORDER BY (airlineId, carrier)
+```
+
+## Semantics
+
+Row comparisons are lexicographic, not element-wise. For example:
+
 ```sql
 WHERE (a, b, c) > (x, y, z)
 ```
 
-is rewritten to 
+is equivalent to:
 
 ```sql
 WHERE a > x
@@ -64,15 +107,16 @@ WHERE a > x
    OR (a = x AND b = y AND c > z)
 ```
 
-**Less Than (<)**
+Likewise:
+
 ```sql
-WHERE (a, b, c) < (x, y, z)
+WHERE (a, b, c) = (x, y, z)
 ```
 
-is rewritten to 
-```sql
-WHERE a < x
-OR (a = x AND b < y)
-OR (a = x AND b = y AND c < z)
-```
+is equivalent to:
 
+```sql
+WHERE a = x
+  AND b = y
+  AND c = z
+```
