@@ -160,6 +160,7 @@
   * [Client libraries](build-with-pinot/connectors-clients-apis/client-libraries.md)
     * [JDBC](build-with-pinot/connectors-clients-apis/clients/jdbc.md)
     * [Java](build-with-pinot/connectors-clients-apis/clients/java.md)
+    * [Java admin client](build-with-pinot/connectors-clients-apis/clients/java-admin-client.md)
     * [Python](build-with-pinot/connectors-clients-apis/clients/python.md)
     * [Golang](build-with-pinot/connectors-clients-apis/clients/golang.md)
   * [BI tools](build-with-pinot/connectors-clients-apis/bi-tools.md)
