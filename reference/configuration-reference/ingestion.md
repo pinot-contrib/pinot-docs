@@ -56,7 +56,7 @@ The `streamIngestionConfig` section contains configuration properties for stream
 | Config key | Description | Default | Supported values |
 | --- | --- | --- | --- |
 | `streamConfigMaps` | See the [streamConfigMaps](ingestion.md#streamconfigmaps) section for details. | N/A | Array of config maps |
-| `dropRecordOnPartitionMismatch` | Set to `true` to drop records whose partition column value does not map to the segment's designated partition during real-time ingestion. Records with null partition column value will raise an `IllegalStateException`. When records are dropped, the `REALTIME_PARTITION_MISMATCH` server meter is emitted. | `false` | Boolean |
+| `dropRecordOnPartitionMismatch` | Set to `true` to drop records whose partition column value does not map to the segment's designated partition during real-time ingestion. Records with null partition column value will raise an `IllegalStateException`. Pinot emits the `REALTIME_PARTITION_MISMATCH` server meter on every partition mismatch, whether the row is dropped or kept. | `false` | Boolean |
 
 ### Example table config with `ingestionConfig`
 

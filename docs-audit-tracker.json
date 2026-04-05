@@ -1,0 +1,174 @@
+{
+  "generated_at": "2026-04-05",
+  "scope": {
+    "program": "apache/pinot merged-PR documentation audit follow-up in pinot-contrib/pinot-docs",
+    "starts_at_pr": 621,
+    "base_branch": "latest",
+    "notes": "This tracker covers the coordinated audit PR chain that started with PR #621."
+  },
+  "summary": {
+    "merged_prs": 22,
+    "open_prs": 1,
+    "remaining_backlog_items": 1
+  },
+  "merged_prs": [
+    {
+      "number": 621,
+      "title": "docs: close user-facing gaps from Pinot PR audit",
+      "merged_at": "2026-04-04T21:29:53Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/621"
+    },
+    {
+      "number": 622,
+      "title": "docs: close high-confidence gaps from Pinot PR audit",
+      "merged_at": "2026-04-04T22:22:51Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/622"
+    },
+    {
+      "number": 623,
+      "title": "docs: cover audited MSE and validation gaps",
+      "merged_at": "2026-04-04T23:05:03Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/623"
+    },
+    {
+      "number": 624,
+      "title": "docs: cover audited ingestion and resource-utilization gaps",
+      "merged_at": "2026-04-04T23:57:08Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/624"
+    },
+    {
+      "number": 625,
+      "title": "docs: add audited function reference coverage",
+      "merged_at": "2026-04-05T00:25:42Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/625"
+    },
+    {
+      "number": 626,
+      "title": "docs: cover audited query option and API gaps",
+      "merged_at": "2026-04-05T01:26:25Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/626"
+    },
+    {
+      "number": 627,
+      "title": "docs: add audited query fingerprint coverage",
+      "merged_at": "2026-04-05T01:35:52Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/627"
+    },
+    {
+      "number": 628,
+      "title": "docs: add audited server gRPC config coverage",
+      "merged_at": "2026-04-05T02:10:17Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/628"
+    },
+    {
+      "number": 629,
+      "title": "docs: correct logical table API and UI coverage",
+      "merged_at": "2026-04-05T02:14:27Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/629"
+    },
+    {
+      "number": 630,
+      "title": "docs: add table sampler configuration coverage",
+      "merged_at": "2026-04-05T02:36:35Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/630"
+    },
+    {
+      "number": 631,
+      "title": "docs: add broker gRPC transport configuration coverage",
+      "merged_at": "2026-04-05T02:58:36Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/631"
+    },
+    {
+      "number": 632,
+      "title": "docs: document Spark connector gRPC TLS and proxy options",
+      "merged_at": "2026-04-05T03:23:53Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/632"
+    },
+    {
+      "number": 633,
+      "title": "docs: document Spark connector write options",
+      "merged_at": "2026-04-05T03:53:49Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/633"
+    },
+    {
+      "number": 634,
+      "title": "docs: document broker gRPC client transport options",
+      "merged_at": "2026-04-05T04:45:16Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/634"
+    },
+    {
+      "number": 635,
+      "title": "docs: document segment reload controller APIs",
+      "merged_at": "2026-04-05T04:45:35Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/635"
+    },
+    {
+      "number": 636,
+      "title": "docs: add Java admin client guide",
+      "merged_at": "2026-04-05T04:47:27Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/636"
+    },
+    {
+      "number": 637,
+      "title": "docs: refresh Java query client guide",
+      "merged_at": "2026-04-05T05:13:45Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/637"
+    },
+    {
+      "number": 638,
+      "title": "docs: refresh JDBC client guide",
+      "merged_at": "2026-04-05T05:14:04Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/638"
+    },
+    {
+      "number": 639,
+      "title": "docs: correct server and cluster config reference gaps",
+      "merged_at": "2026-04-05T05:41:49Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/639"
+    },
+    {
+      "number": 640,
+      "title": "docs: correct post-partial-upsert transform config shape",
+      "merged_at": "2026-04-05T08:14:21Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/640"
+    },
+    {
+      "number": 641,
+      "title": "docs: add schema and table metadata fields",
+      "merged_at": "2026-04-05T08:24:06Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/641"
+    },
+    {
+      "number": 642,
+      "title": "docs: refresh partition pruning function coverage",
+      "merged_at": "2026-04-05T08:50:15Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/642"
+    }
+  ],
+  "open_prs": [
+    {
+      "number": 643,
+      "title": "docs: add audit tracker and tighten config accuracy",
+      "state": "OPEN",
+      "created_at": "2026-04-05T08:57:45Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/643",
+      "head_ref": "docs/audit-pinot-batch23",
+      "items": [
+        "tracker.bootstrap",
+        "ingestion.partition_mismatch_meter_wording",
+        "partitioning.murmur2_alias_docs"
+      ]
+    }
+  ],
+  "backlog_items": [
+    {
+      "id": "query_options.allow_reverse_order",
+      "status": "backlog",
+      "confidence": "medium",
+      "files": [
+        "build-with-pinot/querying-and-sql/query-execution-controls/query-options.md"
+      ],
+      "reason": "allowReverseOrder is a supported query option with test coverage, but it is not yet documented in the query options reference."
+    }
+  ]
+}
