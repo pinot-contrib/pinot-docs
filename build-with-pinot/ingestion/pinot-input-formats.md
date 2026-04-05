@@ -67,6 +67,8 @@ Your CSV file may have raw text fields that cannot be reliably delimited using a
 
 ### Avro
 
+To keep the defaults explicit, the example below shows `enableLogicalTypes: true`, but Pinot enables Avro logical-type conversion by default.
+
 ```
 dataFormat: 'avro'
 className: 'org.apache.pinot.plugin.inputformat.avro.AvroRecordReader'
@@ -74,7 +76,7 @@ configs:
     enableLogicalTypes: true
 ```
 
-The Avro record reader converts the data in file to a `GenericRecord`. A Java class or `.avro` file is not required. By default, the Avro record reader only supports primitive types. To enable support for rest of the Avro data types, set `enableLogicalTypes` to `true` .
+The Avro record reader converts the data in file to a `GenericRecord`. A Java class or `.avro` file is not required. By default, Pinot applies Avro logical-type conversions during extraction. If you need the older primitive-only behavior, set `enableLogicalTypes` to `false`.
 
 We use the following conversion table to translate between Avro and Pinot data types. The conversions are done using the offical Avro methods present in `org.apache.avro.Conversions`.
 
