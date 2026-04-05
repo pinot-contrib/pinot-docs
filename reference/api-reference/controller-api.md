@@ -16,7 +16,7 @@ The controller exposes the administrative API surface for cluster, schema, table
 | Schema | `GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}` |
 | Table | `GET /tables`, `POST /tables`, `PUT /tables/{tableName}`, `DELETE /tables/{tableName}`, `POST /tableConfigs/validate` |
 | Logical tables | `GET /logicalTables`, `POST /logicalTables`, `PUT /logicalTables/{tableName}`, `DELETE /logicalTables/{tableName}` |
-| Segments | `GET /segments/{tableName}/invalidPartitionMetadata`, `POST /segments/{tableName}/reload`, `GET /segments/segmentReloadStatus/{jobId}`, `GET /segments/{tableNameWithType}/needReload` |
+| Segments | `GET /segments/{tableName}/invalidPartitionMetadata`, `POST /segments/{tableName}/reload`, `POST /segments/{tableNameWithType}/uploadFromServerToDeepstore`, `GET /segments/segmentReloadStatus/{jobId}`, `GET /segments/{tableNameWithType}/needReload` |
 | Tenant and instance management | `GET /tenants`, `GET /tenants/{tenantName}`, `GET /instances`, `POST /instances` |
 
 ## Swagger UI
@@ -564,6 +564,32 @@ curl -X POST "http://localhost:9000/segments/myTable_OFFLINE/myTable_0/reload?ta
   "status": "Submitted reload job id: 4f947c6f-8f51-4dbf-b4e7-a8f4f446ce88, sent 1 reload messages. Job meta ZK storage status: SUCCESS"
 }
 ```
+
+### POST /segments/\{tableNameWithType\}/uploadFromServerToDeepstore
+
+Queue one or more realtime segments for upload from an online server replica into deep store. This is useful when a segment is missing from deep store or when you need to force a re-upload. The endpoint only accepts realtime tables with a type suffix such as `myTable_REALTIME`.
+
+| Query parameter | Type | Meaning |
+| --- | --- | --- |
+| `segmentNames` | string list | Segment names to upload. When omitted or empty, Pinot returns success without queueing any uploads. |
+| `forceMode` | boolean | When `false` (default), upload only when Pinot decides the deep-store copy is missing. When `true`, re-upload even if deep store already has a copy. |
+
+**Request**
+
+```bash
+curl -X POST "http://localhost:9000/segments/myTable_REALTIME/uploadFromServerToDeepstore?segmentNames=myTable__0__0__20251120T0000Z&segmentNames=myTable__1__0__20251120T0000Z&forceMode=true" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "status": "Successfully queued 2 segment(s) for force upload to deep store for table: myTable_REALTIME"
+}
+```
+
+If the table is not realtime, Pinot returns `400 Bad Request`. If named segments are missing from ZooKeeper metadata, Pinot skips them and only queues the segments it can resolve. When no segments remain after resolution, Pinot returns a success response saying there are no segments to upload.
 
 ### GET /segments/segmentReloadStatus/\{jobId\}
 
