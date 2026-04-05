@@ -7,7 +7,7 @@
     "notes": "This tracker covers the coordinated audit PR chain that started with PR #621."
   },
   "summary": {
-    "merged_prs": 23,
+    "merged_prs": 24,
     "open_prs": 1,
     "remaining_backlog_items": 0
   },
@@ -149,18 +149,24 @@
       "title": "docs: add audit tracker and tighten config accuracy",
       "merged_at": "2026-04-05T09:46:13Z",
       "url": "https://github.com/pinot-contrib/pinot-docs/pull/643"
+    },
+    {
+      "number": 644,
+      "title": "docs: document allowReverseOrder query option",
+      "merged_at": "2026-04-05T09:57:51Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/644"
     }
   ],
   "open_prs": [
     {
-      "number": 644,
-      "title": "docs: document allowReverseOrder query option",
+      "number": 645,
+      "title": "docs: add upsert view query options",
       "state": "OPEN",
-      "created_at": "2026-04-05T09:48:48Z",
-      "url": "https://github.com/pinot-contrib/pinot-docs/pull/644",
-      "head_ref": "docs/audit-pinot-batch24",
+      "created_at": "2026-04-05T09:59:47Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/645",
+      "head_ref": "docs/audit-pinot-batch25",
       "items": [
-        "query_options.allow_reverse_order"
+        "query_options.upsert_view_controls"
       ]
     }
   ],
