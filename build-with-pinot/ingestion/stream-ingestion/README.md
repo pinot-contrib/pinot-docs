@@ -412,6 +412,14 @@ $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
 $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
 ```
 
+For tables with many consuming segments, you can batch the pause request so the controller commits fewer segments at a time:
+
+```bash
+$ curl -X POST "{controllerHost}/tables/{tableName}/pauseConsumption?batchSize=50&batchStatusCheckIntervalSec=5&batchStatusCheckTimeoutSec=180"
+```
+
+`batchSize` limits how many consuming segments Pinot commits in one batch. `batchStatusCheckIntervalSec` and `batchStatusCheckTimeoutSec` control how often and how long the controller waits for each batch to finish before moving on or failing the pause request.
+
 When a `Pause` request is issued, the controller instructs the real-time servers hosting your table to commit their consuming segments immediately. However, the commit process may take some time to complete. Note that `Pause` and `Resume` requests are async. An `OK` response means that instructions for pausing or resuming has been successfully sent to the real-time server. If you want to know if the consumption has actually stopped or resumed, issue a pause status request.
 
 ```bash
