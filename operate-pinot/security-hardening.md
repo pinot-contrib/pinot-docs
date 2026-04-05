@@ -73,7 +73,7 @@ pinot.broker.access.control.principals.analyst.tables=orders_table
 pinot.broker.access.control.principals.analyst.permissions=READ
 
 # Example: RLS filter — analyst sees only their own region
-pinot.broker.access.control.principals.analyst.rls.orders_table=region='us-west'
+pinot.broker.access.control.principals.analyst.orders_table.rls=region='us-west'
 ```
 
 For full details see [Access Control](access-control.md).

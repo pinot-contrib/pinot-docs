@@ -40,22 +40,22 @@ pinot.broker.access.control.principals.admin.password=verysecret
 # Alice can only access the sales_table and user_table
 pinot.broker.access.control.principals.alice.password=alice123
 pinot.broker.access.control.principals.alice.tables=sales_table,user_table
-pinot.broker.access.control.principals.alice.rls.sales_table=department='marketing'
-pinot.broker.access.control.principals.alice.rls.user_table=user_id='alice'
+pinot.broker.access.control.principals.alice.sales_table.rls=department='marketing'
+pinot.broker.access.control.principals.alice.user_table.rls=user_id='alice'
 
 # Bob can access sales_table but only for a different department
 pinot.broker.access.control.principals.bob.password=bob456
 pinot.broker.access.control.principals.bob.tables=sales_table
-pinot.broker.access.control.principals.bob.rls.sales_table=department='engineering'
+pinot.broker.access.control.principals.bob.sales_table.rls=department='engineering'
 ```
 
 The configuration key format is:
 
 ```
-pinot.broker.access.control.principals.<user>.rls.<tableName>=<filter_predicate>
+pinot.broker.access.control.principals.<user>.<tableName>.rls=<filter_predicate>
 ```
 
-Where `<filter_predicate>` is any valid SQL predicate expression such as `department='marketing'` or `region IN ('US', 'EU')`.
+The value is parsed as a comma-separated list of filter predicates for that table. Pinot trims each predicate and combines them with `AND`.
 
 ### Query rewriting example
 
@@ -75,7 +75,7 @@ The additional filter is combined with the original WHERE clause using AND. If m
 
 ### Custom access control implementations
 
-If you use a custom `AccessControlFactory`, you can support RLS by implementing the `getRowColFilters()` method on your `AccessControl` class. This method receives the `RequesterIdentity` and table name, and returns a `TableRowColAuthResult` containing the RLS filter predicates to apply.
+If you use a custom `AccessControlFactory`, you can support RLS by implementing the `getRowColFilters()` method on your `AccessControl` class. This method receives the `RequesterIdentity` and table name, and returns a `TableRowColAccessResult` containing the RLS filter predicates to apply.
 
 ### Performance considerations
 
