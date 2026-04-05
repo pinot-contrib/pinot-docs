@@ -55,6 +55,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | NETTY_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the server's Netty query service |  |
 | GRPC_TOTAL_MAX_DIRECT_MEMORY | Maximum direct memory available to the shaded Netty runtime used by the server gRPC query service and MSE mailbox traffic |  |
 | GRPC_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the shaded Netty runtime used by the server gRPC query service and MSE mailbox traffic |  |
+| STARTUP_SUCCESS_DURATION_MS | Time spent starting the server when startup finishes in a healthy state |  |
+| STARTUP_FAILURE_DURATION_MS | Time spent starting the server when startup finishes in an unhealthy state |  |
 | EXECUTION_THREAD_CPU_TIME_NS | time spent by all threads processing query and results (doesn't includes time spent in system activities) |  |
 | SYSTEM_ACTIVITIES_CPU_TIME_NS | time spent in nanoseconds processing query on the servers (only counts system acitivities such as GC, OS paging etc.) |  |
 | RESPONSE_SER_CPU_TIME_NS | time spent in nanoseconds serializing query response on servers |  |
@@ -129,6 +131,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | REALTIME_RESPONSE_SER_CPU_TIME_NS | aggregated response serialization cpu time in nanoseconds for query processing from real-time servers |  |
 | OFFLINE_TOTAL_CPU_TIME_NS | aggregated total cpu time(thread + system activities + response serialization) in nanoseconds for query processing from offline servers |  |
 | REALTIME_TOTAL_CPU_TIME_NS | time(thread + system activities + response serialization) in nanoseconds for query processing from real-time servers |  |
+| STARTUP_SUCCESS_DURATION_MS | Time spent starting the broker when startup completes successfully |  |
 | GRPC_TOTAL_MAX_DIRECT_MEMORY | Maximum direct memory available to the shaded Netty runtime used by broker gRPC services and MSE mailbox traffic |  |
 | GRPC_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the shaded Netty runtime used by broker gRPC services and MSE mailbox traffic |  |
 
@@ -183,6 +186,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | IDEAL_STATE_UPDATE_FAILURE | Indicates failed to update ideal state of table |  |
 | IDEAL_STATE_UPDATE_RETRY | Number of retries update ideal state of table |  |
 | IDEAL_STATE_UPDATE_TIME_MS | Time spent in updating ideal state for table |  |
+| STARTUP_SUCCESS_DURATION_MS | Time spent starting the controller when startup completes successfully |  |
 | DEEP_STORE_READ_BYTES_IN_PROGRESS | Bytes being read from deep store |  |
 | DEEP_STORE_READ_OPS_IN_PROGRESS | Active deep store read count |  |
 | DEEP_STORE_WRITE_BYTES_IN_PROGRESS | Bytes being written to deep store |  |
@@ -204,3 +208,4 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | NUMBER_TASKS_FATAL_FAILED | Number of tasks that failed with unretryable exceptions |  |
 | TASK_QUEUEING | Time spent by tasks in queue |  |
 | TASK_EXECUTION | Time spent by tasks in execution |  |
+| STARTUP_SUCCESS_DURATION_MS | Time spent starting the minion when startup completes successfully |  |
