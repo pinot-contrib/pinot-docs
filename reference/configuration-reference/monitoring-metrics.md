@@ -155,6 +155,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | PERCENT_SEGMENTS_AVAILABLE | Percentage of complete online replicas in external view as compared to replicas in ideal state |  |
 | NUMBER_OF_REPLICAS | Total number of replicas available for table |  |
 | SEGMENTS_IN_ERROR_STATE | Number of segments in an `ERROR` state for a given table. |  |
+| SEGMENTS_WITH_INVALID_START_TIME | Number of completed segments whose stored start time falls outside Pinot's valid time range. When this is non-zero, time-based broker pruning may stop working correctly for those segments. |  |
+| SEGMENTS_WITH_INVALID_END_TIME | Number of completed segments whose stored end time falls outside Pinot's valid time range. When this is non-zero, time-based retention may fail to remove those segments. |  |
 | TABLE_STORAGE_QUOTA_UTILIZATION | Shows how much of the table's storage quota is currently being used, metric will a percentage of a the entire quota. |  |
 | LAST_PUSH_TIME_DELAY_HOURS | The time in hours since the last time an offline segment has been pushed to the controller. |  |
 | HEALTHCHECK_OK_CALLS | Number of health check requests for which controller was healthy |  |
