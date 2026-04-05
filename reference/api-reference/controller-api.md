@@ -10,7 +10,7 @@ The controller exposes the administrative API surface for cluster, schema, table
 
 | Family | Representative endpoints |
 | --- | --- |
-| Cluster | `GET /cluster/configs`, `POST /cluster/configs`, `DELETE /cluster/configs/{configName}`, `GET /cluster/info` |
+| Cluster | `GET /cluster/configs`, `POST /cluster/configs`, `DELETE /cluster/configs/{configName}`, `GET /cluster/configs/groovy/staticAnalyzerConfig`, `POST /cluster/configs/groovy/staticAnalyzerConfig`, `GET /cluster/configs/groovy/staticAnalyzerConfig/default`, `GET /cluster/info` |
 | Health and leadership | `GET /health`, `GET /leader/tables` |
 | Query validation | `POST /validateMultiStageQuery`, `POST /query/tableNames` |
 | Schema | `GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}` |
@@ -170,6 +170,159 @@ curl -X DELETE "http://localhost:9000/cluster/configs/custom.cluster.prop"
 ```
 {
   "status": "Deleted cluster config: custom.cluster.prop"
+}
+```
+
+### Groovy static analysis configs
+
+Pinot stores Groovy static analysis settings as cluster configs. These configs are keyed by:
+
+- `pinot.groovy.all.static.analyzer`
+- `pinot.groovy.ingestion.static.analyzer`
+- `pinot.groovy.query.static.analyzer`
+
+The ingestion-specific and query-specific configs override `pinot.groovy.all.static.analyzer` for their respective contexts. `POST /cluster/configs/groovy/staticAnalyzerConfig` rejects any other top-level config key.
+
+Each config value is a JSON object with these fields:
+
+- `allowedReceivers`
+- `allowedImports`
+- `allowedStaticImports`
+- `disallowedMethodNames`
+- `methodDefinitionAllowed`
+
+### GET /cluster/configs/groovy/staticAnalyzerConfig
+
+Return the currently configured Groovy static analyzer configs, keyed by cluster config name.
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/cluster/configs/groovy/staticAnalyzerConfig" -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "pinot.groovy.all.static.analyzer": {
+    "allowedReceivers": [
+      "java.lang.String",
+      "java.lang.Math",
+      "java.util.List",
+      "java.lang.Object",
+      "java.util.Map"
+    ],
+    "allowedImports": [
+      "java.lang.Math",
+      "java.util.List",
+      "java.lang.String",
+      "java.util.Map"
+    ],
+    "allowedStaticImports": [
+      "java.lang.Math",
+      "java.util.List",
+      "java.lang.String",
+      "java.util.Map"
+    ],
+    "disallowedMethodNames": [
+      "execute",
+      "invoke"
+    ],
+    "methodDefinitionAllowed": false
+  }
+}
+```
+
+### POST /cluster/configs/groovy/staticAnalyzerConfig
+
+Update one or more Groovy static analyzer configs. The request body is a map keyed by one or more of the three supported config names listed above.
+
+**Request**
+
+```bash
+curl -X POST "http://localhost:9000/cluster/configs/groovy/staticAnalyzerConfig" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "pinot.groovy.ingestion.static.analyzer": {
+      "allowedReceivers": [
+        "java.lang.String",
+        "java.lang.Math",
+        "java.util.List",
+        "java.lang.Object",
+        "java.util.Map"
+      ],
+      "allowedImports": [
+        "java.lang.Math",
+        "java.util.List",
+        "java.lang.String",
+        "java.util.Map"
+      ],
+      "allowedStaticImports": [
+        "java.lang.Math",
+        "java.util.List",
+        "java.lang.String",
+        "java.util.Map"
+      ],
+      "disallowedMethodNames": [
+        "execute",
+        "invoke"
+      ],
+      "methodDefinitionAllowed": false
+    }
+  }'
+```
+
+**Response**
+
+```json
+{
+  "status": "Updated Groovy Static Analyzer config."
+}
+```
+
+### GET /cluster/configs/groovy/staticAnalyzerConfig/default
+
+Return Pinot's built-in default Groovy static analyzer config. Use this endpoint to fetch a full sample payload before editing cluster overrides.
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/cluster/configs/groovy/staticAnalyzerConfig/default" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "pinot.groovy.all.static.analyzer": {
+    "allowedReceivers": [
+      "java.lang.String",
+      "java.lang.Math",
+      "java.util.List",
+      "java.lang.Object",
+      "java.util.Map"
+    ],
+    "allowedImports": [
+      "java.lang.Math",
+      "java.util.List",
+      "java.lang.String",
+      "java.util.Map"
+    ],
+    "allowedStaticImports": [
+      "java.lang.Math",
+      "java.util.List",
+      "java.lang.String",
+      "java.util.Map"
+    ],
+    "disallowedMethodNames": [
+      "execute",
+      "invoke"
+    ],
+    "methodDefinitionAllowed": false
+  }
 }
 ```
 

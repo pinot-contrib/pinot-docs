@@ -43,6 +43,34 @@ Allowing executable Groovy in ingestion transformation can be a security vulnera
 
 If not set, Groovy for ingestion transformation is disabled by default.
 
+#### Groovy static analysis
+
+Pinot can also apply static analysis to Groovy scripts before compiling them. This is configured with cluster-level Groovy analyzer configs:
+
+- `pinot.groovy.all.static.analyzer`: default analyzer for both query-time and ingestion-time Groovy
+- `pinot.groovy.ingestion.static.analyzer`: ingestion-specific override used when Pinot validates Groovy in table configs
+- `pinot.groovy.query.static.analyzer`: query-specific override used when Pinot validates Groovy in broker queries
+
+If the ingestion-specific or query-specific config is not set, Pinot falls back to `pinot.groovy.all.static.analyzer`. If none of these cluster configs are set, Groovy static analysis is disabled.
+
+Each static analyzer config is a JSON object with these fields:
+
+- `allowedReceivers`: fully qualified receiver classes Groovy method calls can target
+- `allowedImports`: fully qualified imports allowed in the script
+- `allowedStaticImports`: fully qualified static imports allowed in the script
+- `disallowedMethodNames`: method names Pinot rejects even if the receiver is otherwise allowed
+- `methodDefinitionAllowed`: whether Groovy method definitions are allowed inside the script
+
+Static analysis does not enable Groovy by itself. You still need `controller.disable.ingestion.groovy=false` to use Groovy in ingestion transforms.
+
+Use the controller API to inspect and update these configs:
+
+- `GET /cluster/configs/groovy/staticAnalyzerConfig/default` returns Pinot's built-in sample config
+- `GET /cluster/configs/groovy/staticAnalyzerConfig` returns the cluster's current Groovy static analyzer config overrides
+- `POST /cluster/configs/groovy/staticAnalyzerConfig` updates one or more of the Groovy analyzer configs
+
+The full request and response examples for these endpoints are in the [controller API reference](../../reference/api-reference/controller-api.md#groovy-static-analysis-configs).
+
 ### Built-in Pinot functions
 
 All the functions defined in [this directory](https://github.com/apache/pinot/tree/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar) annotated with `@ScalarFunction` (for example, [toEpochSeconds](https://github.com/apache/pinot/blob/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar/DateTimeFunctions.java#L78)) are supported ingestion transformation functions.
