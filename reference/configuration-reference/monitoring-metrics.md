@@ -65,6 +65,17 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | SYSTEM_ACTIVITIES_CPU_TIME_NS | time spent in nanoseconds processing query on the servers (only counts system acitivities such as GC, OS paging etc.) |  |
 | RESPONSE_SER_CPU_TIME_NS | time spent in nanoseconds serializing query response on servers |  |
 | TOTAL_CPU_TIME_NS | total time spent in nanoseconds processing query on the servers |  |
+| HASH_JOIN_TIMES_MAX_ROWS_REACHED | Global multi-stage server meter counting how many hash-join operators hit the configured max-rows guardrail. |  |
+| AGGREGATE_TIMES_NUM_GROUPS_LIMIT_REACHED | Global multi-stage server meter counting how many aggregate operators hit the configured hard limit on number of groups. |  |
+| MULTI_STAGE_IN_MEMORY_MESSAGES | Global multi-stage server meter counting exchange blocks sent without serialization because the sender and receiver can share them in memory. |  |
+| MULTI_STAGE_RAW_MESSAGES | Global multi-stage server meter counting exchange blocks sent in serialized form between stages. |  |
+| MULTI_STAGE_RAW_BYTES | Global multi-stage server meter counting serialized bytes sent between multi-stage operators. |  |
+| WINDOW_TIMES_MAX_ROWS_REACHED | Global multi-stage server meter counting how many window operators hit the configured max-rows guardrail. |  |
+| HASH_JOIN_BUILD_TABLE_CPU_TIME_MS | Global multi-stage server timer for CPU time spent building hash tables during hash joins. |  |
+| MULTI_STAGE_SERIALIZATION_CPU_TIME_MS | Global multi-stage server timer for CPU time spent serializing exchange blocks between stages. |  |
+| MULTI_STAGE_DESERIALIZATION_CPU_TIME_MS | Global multi-stage server timer for CPU time spent deserializing exchange blocks received from other stages. |  |
+| RECEIVE_DOWNSTREAM_WAIT_CPU_TIME_MS | Global multi-stage server timer for CPU time spent by sending mailboxes waiting for downstream readers to consume data. |  |
+| RECEIVE_UPSTREAM_WAIT_CPU_TIME_MS | Global multi-stage server timer for CPU time spent by receiving mailboxes waiting for upstream senders to produce data. |  |
 | END_TO_END_REALTIME_INGESTION_DELAY_MS | When supported by the underlying stream, this metric provides the ingestion delay in milliseconds from the time an event was ingested by the first stream in your ingestion pipeline to the time the event was ingested by Pinot. The metric is not emitted when the underlying stream does not support this feature. The metric relies on this metric being in UTC time zone. If your time stamp is in another time zone, your metric will be offset accordingly. |  |
 
 #### Tracking time spent in various phases of Query execution in milliseconds
