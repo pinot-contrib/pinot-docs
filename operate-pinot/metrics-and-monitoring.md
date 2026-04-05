@@ -39,6 +39,8 @@ The broker receives queries, compiles them, routes them to servers, and merges r
 | `JVM_HEAP_USED_BYTES` | Gauge | Current JVM heap usage on the broker. | > 85% of max heap |
 | `QUERY_QUOTA_CAPACITY_UTILIZATION_RATE` | Gauge | Percentage of configured rate limit in use. | > 80% |
 
+For broker transport memory pressure, also monitor `GRPC_TOTAL_USED_DIRECT_MEMORY` and compare it with `GRPC_TOTAL_MAX_DIRECT_MEMORY`. These gauges cover the shaded Netty runtime used by the broker gRPC listener and MSE mailbox traffic.
+
 ### Broker Query Latency Breakdown
 
 These timers help identify which phase of query execution is slow:
@@ -95,6 +97,8 @@ Servers store segments and execute queries. Monitoring servers helps detect inge
 | `JVM_HEAP_USED_BYTES` | Gauge | Current JVM heap usage on the server. | > 85% of max heap |
 | `HEAP_CRITICAL_LEVEL_EXCEEDED` | Meter | Times heap usage exceeded the critical threshold, triggering query killing. | > 0 |
 | `REALTIME_OFFHEAP_MEMORY_USED` | Gauge | Off-heap memory used by real-time segments. | Approaching configured `MaxDirectMemorySize` |
+
+For server transport memory pressure, also monitor `NETTY_TOTAL_USED_DIRECT_MEMORY` and `GRPC_TOTAL_USED_DIRECT_MEMORY`, and compare them with the corresponding `*_MAX_DIRECT_MEMORY` gauges. `NETTY_*` covers the server Netty query service, while `GRPC_*` covers the server gRPC query service and MSE mailbox traffic.
 
 ### Server Query Latency Breakdown
 
