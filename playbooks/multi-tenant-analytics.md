@@ -182,11 +182,20 @@ See [Query Quotas](../build-with-pinot/querying-and-sql/query-execution-controls
 
 ## Data isolation (row-level security)
 
-Pinot does not have built-in row-level security. The standard approach is to enforce tenant filtering in the **application layer** that sits between the user and the Pinot broker.
+Pinot has built-in row-level security (RLS) at the broker. You can configure per-principal, per-table filter predicates so Pinot rewrites incoming SQL queries before execution. This is the preferred enforcement point when the tenant policy maps cleanly to broker-authenticated principals.
 
 ### Implementation pattern
 
-Your application backend should:
+For Pinot-managed enforcement, define tenant-scoped RLS filters in broker access-control config:
+
+```properties
+pinot.broker.access.control.principals=tenant_app
+pinot.broker.access.control.principals.tenant_app.password=verysecret
+pinot.broker.access.control.principals.tenant_app.tables=events
+pinot.broker.access.control.principals.tenant_app.events.rls=tenantId='tenant_123'
+```
+
+If your application needs to derive filters dynamically at request time, you can still enforce tenant filtering in the application layer that sits between the user and the Pinot broker. In that model, your application backend should:
 
 1. Authenticate the user and determine their `tenantId`.
 2. Inject `AND tenantId = '<tenantId>'` into every SQL query before sending it to the Pinot broker.
