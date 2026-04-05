@@ -10,13 +10,23 @@ For real-time tables, when a Pinot server finishes consuming a segment, the segm
 
 ### Upload completed segment to deep store directly
 
-To upload the completed segment to the deep store directly, add the following stream-level configuration.
+Pinot now supports both a server-level default and a table-level override for direct-to-deep-store segment uploads during realtime segment completion.
+
+Set the server-level default in `server.conf`:
+
+```ini
+pinot.server.instance.segment.upload.to.deep.store=true
+```
+
+If you only want to enable this for specific real-time tables, or if you want to override the server default, add the following stream-level configuration:
 
 ```
 realtime.segment.serverUploadToDeepStore = true
 ```
 
-When this configuration is enabled, Pinot servers attempt to upload the completed segment to the segment store directly, bypassing the controller. When finished, Pinot updates the controller with the corresponding segment metadata.
+When direct-to-deep-store upload is enabled, Pinot servers attempt to upload the completed segment to the segment store directly, bypassing the controller. When finished, Pinot updates the controller with the corresponding segment metadata.
+
+If `realtime.segment.serverUploadToDeepStore` is present in the table config, it overrides the server-level default. If the table config omits the property, Pinot falls back to `pinot.server.instance.segment.upload.to.deep.store`.
 
 {% hint style="info" %}
 `pinot.server.instance.segment.store.uri` is optional by default. However, this config is required so that the server knows where the deep store is. Before enabling `realtime.segment.serverUploadToDeepStore` on the table, verify the `pinot.server.instance.segment.store.uri=<controller.data.dir>` is configured on the servers.
