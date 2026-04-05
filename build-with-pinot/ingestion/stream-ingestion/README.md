@@ -255,6 +255,28 @@ bin/pinot-admin.sh AddTable \
 
 ## Tune the stream config
 
+### Skip ahead when a partition falls too far behind
+
+If a realtime partition is too far behind, Pinot can skip the backlog at segment-commit time and start the next segment from the latest stream offset instead of the previous segment's `nextOffset`.
+
+Use the following stream configs inside `streamConfigMaps`:
+
+```json
+{
+  "realtime.segment.offsetAutoReset.enable": "true",
+  "realtime.segment.offsetAutoReset.offsetThreshold": "1000000",
+  "realtime.segment.offsetAutoReset.timeThresholdSeconds": "3600"
+}
+```
+
+Pinot checks the thresholds when it seals a consuming segment:
+
+* If `latestOffset - nextOffset` exceeds `realtime.segment.offsetAutoReset.offsetThreshold`, Pinot skips to the latest offset.
+* If the next offset is older than `realtime.segment.offsetAutoReset.timeThresholdSeconds`, Pinot also skips to the latest offset.
+* Set at least one threshold to a positive value. If both thresholds are unset or non-positive, Pinot keeps the normal `nextOffset`.
+
+This is useful when you prefer to drop an ingestion backlog instead of replaying a partition that has fallen far behind.
+
 ### Throttle stream consumption
 
 There are some scenarios where the message rate in the input stream can come in bursts which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other real-time tables on the same server. If this happens to you, throttle the consumption rate during stream ingestion to better manage overall performance.
