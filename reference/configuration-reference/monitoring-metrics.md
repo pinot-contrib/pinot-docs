@@ -78,6 +78,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | --- | --- | --- |
 | UNHEALTHY_SERVERS | Number of unhealthy servers detected |  |
 | QUERY_QUOTA_CAPACITY_UTILIZATION_RATE | percentage of configured rate limit being used on each broker |  |
+| ESTIMATED_MSE_SERVER_THREADS | Estimated number of server query threads currently consumed by all running multi-stage queries on this broker. This gauge is emitted even when MSE query throttling is not configured, so it can be used as a standalone view of broker-side MSE workload. |  |
 | MAX_BURST_QPS |  |  |
 | QUERY_RATE_LIMIT_DISABLED | 1 if rate limit is enabled on broker, 0 otherwise |  |
 | REQUEST_SIZE | Query String length on each broker |  |
