@@ -91,12 +91,14 @@ This functionality can be enabled within the `indexingConfig` object within the 
 | ------------------------------ | ------- | --------------------------------------------------------------------- |
 | optimizeDictionary             | false   | Enables the heuristic for all columns and activates some extra rules. |
 | optimizeDictionaryForMetrics   | false   | Enables the heuristic for metric columns.                             |
+| optimizeDictionaryType         | false   | For variable-width columns, automatically chooses fixed-width dictionaries when all values in a segment have the same length. |
 | noDictionarySizeRatioThreshold | 0.85    | The saving ratio used in the heuristics.                              |
 
 It's important to emphasize that:
 
 * These parameters are configured for all columns within the table.
 * `optimizeDictionary` takes precedence over `optimizeDictionaryForMetrics`.
+* `optimizeDictionaryType` does not disable dictionaries. It only decides whether Pinot stores dictionary values for variable-width columns in fixed-width or variable-width format.
 
 ### Parameters
 
