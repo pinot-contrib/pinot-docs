@@ -46,6 +46,7 @@ This section covers the configuration side of each plugin family: which implemen
 | realtime.segment.flush.threshold.rows | Row count based flush threshold for realtime segments. If this value is set to 0, then the consumers adjust the number of rows consumed by a partition so the completed segment is the correct size (unless threshold.time is reached first) |
 | realtime.segment.flush.autotune.initialRows | Initial number of rows to use for `SegmentSizeBasedFlushThresholdUpdater` . This threshold updater is used by the controller to compute the new segment's flush threshold based on the previous segment's size. Warning: This flush threshold updater is used only when `realtime.segment.flush.threshold.rows` is set to `<=0` . Otherwise, the `DefaultFlushThresholdUpdater` is used. |
 | realtime.segment.commit.timeoutSeconds | Time threshold that controller will wait for the segment to be built by the server |
+| realtime.segment.pauseless.download.timeoutSeconds | For pauseless consumption, the time in seconds that a replica waits for a committed segment to become downloadable from deep store or a peer server before timing out. Default: `600` seconds. Pinot prefers this key over the older `segmentDownloadTimeoutMinutes` setting. |
 
 ### Kafka 3.x / 4.x
 
