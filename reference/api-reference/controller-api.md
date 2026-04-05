@@ -943,10 +943,26 @@ curl -X POST "http://localhost:9000/tables/myTable/rebalance?type=OFFLINE&dryRun
 
 Pause real-time consumption for a table.
 
+| Query parameter | Type | Meaning |
+| --- | --- | --- |
+| `comment` | string | Optional comment stored with the administrative pause state. |
+| `batchSize` | integer | Maximum number of consuming segments Pinot commits at once while pausing. Defaults to queueing all consuming segments in one batch. |
+| `batchStatusCheckIntervalSec` | integer | How often, in seconds, the controller checks whether the current pause batch has finished committing. Default: `5`. |
+| `batchStatusCheckTimeoutSec` | integer | How long, in seconds, the controller waits for a pause batch to finish before failing the request. Default: `180`. |
+
+For realtime tables with many partitions, use the batch parameters to spread the commit work across smaller pause batches instead of asking every consuming segment to commit at once. Pinot returns `400 Bad Request` if any batch parameter is non-positive.
+
 **Request**
 
 ```
 curl -X POST "http://localhost:9000/tables/myTable/pauseConsumption" -H "accept: application/json"
+```
+
+Example with batching:
+
+```bash
+curl -X POST "http://localhost:9000/tables/myTable/pauseConsumption?comment=maintenance&batchSize=50&batchStatusCheckIntervalSec=5&batchStatusCheckTimeoutSec=180" \
+  -H "accept: application/json"
 ```
 
 ### POST /tables/\<tableName>/resumeConsumption
