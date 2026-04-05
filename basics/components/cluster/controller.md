@@ -8,7 +8,7 @@ description: >-
 
 The Pinot controller schedules and reschedules resources in a Pinot cluster when metadata changes or a node fails. As an Apache Helix Controller, the Pinot controller schedules the resources that comprise the cluster and orchestrates connections between certain external processes and cluster components (for example, ingest of [real-time tables](../../../reference/configuration-reference/table.md#real-time-table-config) and [offline tables](../../../reference/configuration-reference/table.md#offline-table)). The Pinot controller can be deployed as a single process on its own server or as a group of redundant servers in an active/passive configuration.
 
-The controller exposes a [REST API endpoint](../../../reference/api-reference/controller-api.md) for cluster-wide administrative operations as well as a web-based query console to execute interactive SQL queries and perform simple administrative tasks.
+The controller exposes a [REST API endpoint](../../../reference/api-reference/controller-api.md) for cluster-wide administrative operations as well as a web-based query console for interactive SQL queries, time-series queries, and simple administrative tasks.
 
 The Pinot controller is responsible for the following:
 
