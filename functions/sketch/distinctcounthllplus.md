@@ -37,3 +37,31 @@ from baseballStats
 | value |
 | ----- |
 | 149   |
+
+## DISTINCTCOUNTSMARTHLLPLUS
+
+`DISTINCTCOUNTSMARTHLLPLUS` starts with exact distinct counting in a set and switches to HyperLogLog++ when the number of distinct values exceeds a threshold. This is useful when some groups stay small enough for exact counting while larger groups still need bounded memory usage.
+
+### Signature
+
+> DISTINCTCOUNTSMARTHLLPLUS(colName)
+> DISTINCTCOUNTSMARTHLLPLUS(colName, 'threshold=<n>;p=<p>;sp=<sp>')
+
+### Parameters
+
+* `colName` (required): Column to aggregate.
+* `threshold` (optional): Number of distinct values Pinot keeps exactly before converting to HLL++. Default: `100000`. A non-positive value disables the conversion.
+* `p` (optional): HyperLogLog++ normal precision after conversion. Default: `14`.
+* `sp` (optional): HyperLogLog++ sparse precision after conversion. Default: `0`.
+
+### Usage Examples
+
+```sql
+SELECT DISTINCTCOUNTSMARTHLLPLUS(teamID) AS value
+FROM baseballStats
+```
+
+```sql
+SELECT DISTINCTCOUNTSMARTHLLPLUS(teamID, 'threshold=10000;p=12') AS value
+FROM baseballStats
+```

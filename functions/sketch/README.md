@@ -26,6 +26,7 @@ HyperLogLogPlus (HLL++) provides approximate distinct counts with configurable p
 | Function | Description |
 | -------- | ----------- |
 | [DISTINCTCOUNTHLLPLUS](distinctcounthllplus.md) | Approximate distinct count using HLL++ |
+| [DISTINCTCOUNTSMARTHLLPLUS](distinctcounthllplus.md#distinctcountsmarthllplus) | Starts exact and converts to HLL++ after a threshold |
 | [DISTINCTCOUNTHLLPLUSMV](distinctcounthllplusmv.md) | HLL++ for multi-value columns |
 | [DISTINCTCOUNTRAWHLLPLUS](distinctcountrawhllplus.md) | Returns serialized HLL++ sketch |
 | [DISTINCTCOUNTRAWHLLPLUSMV](distinctcountrawhllplusmv.md) | Serialized HLL++ sketch for multi-value columns |

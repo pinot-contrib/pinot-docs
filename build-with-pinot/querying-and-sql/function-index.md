@@ -22,6 +22,7 @@ For full details, see [Aggregation Functions](../../functions/aggregation/README
 | [`DISTINCTCOUNT`](../../functions/aggregation/distinctcount.md) | `DISTINCTCOUNT(col)` | INT | Returns the exact distinct count | Both |
 | [`DISTINCTCOUNTHLL`](../../functions/aggregation/distinctcounthll.md) | `DISTINCTCOUNTHLL(col [, log2m])` | LONG | Approximate distinct count using HyperLogLog | Both |
 | [`DISTINCTCOUNTHLLPLUS`](../../functions/sketch/distinctcounthllplus.md) | `DISTINCTCOUNTHLLPLUS(col [, p])` | LONG | Approximate distinct count using HyperLogLog++ | Both |
+| [`DISTINCTCOUNTSMARTHLLPLUS`](../../functions/sketch/distinctcounthllplus.md#distinctcountsmarthllplus) | `DISTINCTCOUNTSMARTHLLPLUS(col [, params])` | LONG | Exact-then-approximate distinct count that switches to HLL++ after a threshold | Both |
 | [`DISTINCTCOUNTBITMAP`](../../functions/aggregation/distinctcountbitmap.md) | `DISTINCTCOUNTBITMAP(col)` | INT | Distinct count using bitmap | Both |
 | [`DISTINCTCOUNTTHETASKETCH`](../../functions/aggregation/distinctcountthetasketch.md) | `DISTINCTCOUNTTHETASKETCH(col [, predicates...])` | LONG | Distinct count using Theta Sketch | Both |
 | [`DISTINCTCOUNTCPCSKETCH`](../../functions/sketch/distinctcountcpcsketch.md) | `DISTINCTCOUNTCPCSKETCH(col [, lgK])` | LONG | Distinct count using CPC Sketch | Both |
