@@ -94,13 +94,13 @@ Key cluster-level configuration properties:
 | `accounting.workload.enable.cost.collection` | `false` | Enable workload cost tracking |
 | `accounting.workload.enable.cost.enforcement` | `false` | Enable enforcement of budgets |
 | `accounting.workload.enforcement.window.ms` | `60000` | Enforcement window duration (ms) |
-| `accounting.workload.sleep.time.ms` | `100` | Polling interval for enforcement |
+| `accounting.workload.sleep.time.ms` | `1` | Polling interval for enforcement |
 | `accounting.secondary.workload.name` | `defaultSecondary` | Name of the secondary workload |
 | `accounting.secondary.workload.cpu.percentage` | `0.0` | CPU percentage cap for the secondary workload |
 
-This feature extends the
-[binary workload scheduler](tuning/workload-query-isolation.md) introduced in
-1.3.0 with configurable per-workload budgets.
+This feature adds accounting-based workload budgets on brokers and servers.
+The later `workload` scheduler can build on the same workload names, but these
+configs do not require that scheduler.
 
 **Action required.** None unless you want to adopt workload isolation. The
 feature is opt-in and disabled by default.

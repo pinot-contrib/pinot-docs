@@ -17,7 +17,9 @@ Workload-based query resource isolation addresses this by allowing administrator
 * Define named workloads with CPU and memory budgets.
 * Classify incoming queries into workloads using query options.
 * Enforce resource budgets so that one workload cannot consume more than its allocated share.
-* Reject or throttle queries that exceed their workload budget within a configurable time window.
+* Interrupt over-budget queries or reject them at admission time, depending on the isolation mechanism you enable.
+
+The `accounting.workload.*` settings control host-side workload accounting and enforcement on brokers and servers. Pinot can also layer scheduler-based isolation on top through the `binary_workload` and `workload` schedulers.
 
 Pinot provides two scheduler implementations for workload isolation:
 
@@ -58,16 +60,16 @@ pinot.query.scheduler.name=binary_workload
 pinot.query.scheduler.name=workload
 ```
 
-### Workload Budget Configs (WorkloadScheduler)
+### Workload Budget Configs
 
-These configs apply when using the `workload` scheduler. They are set on each server/broker instance under the `accounting.workload.*` prefix:
+These configs apply to host-side workload accounting and enforcement on each broker and server under the `accounting.workload.*` prefix. They do not require `pinot.query.scheduler.name=workload`, although the `workload` scheduler can use the same workload names.
 
 | Config | Default | Description |
 | --- | --- | --- |
 | `accounting.workload.enable.cost.collection` | `false` | Enable workload cost collection for CPU and memory. |
-| `accounting.workload.enable.cost.enforcement` | `false` | Enable enforcement of workload budgets. When enabled, queries exceeding their workload budget are rejected. |
+| `accounting.workload.enable.cost.enforcement` | `false` | Enable enforcement of workload budgets. When enabled, Pinot interrupts queries whose workload exhausts its remaining CPU or memory budget within the current enforcement window. |
 | `accounting.workload.enforcement.window.ms` | `60000` (1 minute) | Duration of the enforcement window in milliseconds. Budgets are reset at the end of each window. |
-| `accounting.workload.sleep.time.ms` | `100` | Sleep interval in milliseconds for the accounting thread. |
+| `accounting.workload.sleep.time.ms` | `1` | Sleep interval in milliseconds for the accounting thread. |
 
 ### Secondary Workload Configs
 
@@ -149,14 +151,14 @@ Workload configs are stored in ZooKeeper under `/CONFIGS/QUERYWORKLOAD` and prop
 
 ### workloadName
 
-Assigns a query to a named workload for budget enforcement. Use this with the `workload` scheduler.
+Assigns a query to a named workload for CPU and memory accounting and workload budget enforcement. When the `workload` scheduler is enabled, the same option also selects the scheduler-managed workload.
 
 ```sql
 SET workloadName = 'analytics-workload';
 SELECT COUNT(*) FROM myTable WHERE city = 'San Francisco'
 ```
 
-When a query specifies a `workloadName`, the `WorkloadScheduler` checks the corresponding workload budget before admitting the query. If the budget is exhausted, the query is rejected with an out-of-capacity error.
+When a query specifies a `workloadName`, Pinot charges the query's broker and server CPU or memory usage to that named workload. If accounting-based enforcement is enabled and the workload budget is exhausted, Pinot interrupts queries in that workload. When the `workload` scheduler is enabled, the same workload name is also used for scheduler-side admission control.
 
 Queries that do not specify a `workloadName` are treated as belonging to the `default` workload and are always admitted (no budget enforcement).
 
