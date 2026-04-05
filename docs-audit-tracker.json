@@ -7,9 +7,9 @@
     "notes": "This tracker covers the coordinated audit PR chain that started with PR #621."
   },
   "summary": {
-    "merged_prs": 22,
+    "merged_prs": 23,
     "open_prs": 1,
-    "remaining_backlog_items": 1
+    "remaining_backlog_items": 0
   },
   "merged_prs": [
     {
@@ -143,32 +143,26 @@
       "title": "docs: refresh partition pruning function coverage",
       "merged_at": "2026-04-05T08:50:15Z",
       "url": "https://github.com/pinot-contrib/pinot-docs/pull/642"
+    },
+    {
+      "number": 643,
+      "title": "docs: add audit tracker and tighten config accuracy",
+      "merged_at": "2026-04-05T09:46:13Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/643"
     }
   ],
   "open_prs": [
     {
-      "number": 643,
-      "title": "docs: add audit tracker and tighten config accuracy",
+      "number": 644,
+      "title": "docs: document allowReverseOrder query option",
       "state": "OPEN",
-      "created_at": "2026-04-05T08:57:45Z",
-      "url": "https://github.com/pinot-contrib/pinot-docs/pull/643",
-      "head_ref": "docs/audit-pinot-batch23",
+      "created_at": "2026-04-05T09:48:48Z",
+      "url": "https://github.com/pinot-contrib/pinot-docs/pull/644",
+      "head_ref": "docs/audit-pinot-batch24",
       "items": [
-        "tracker.bootstrap",
-        "ingestion.partition_mismatch_meter_wording",
-        "partitioning.murmur2_alias_docs"
+        "query_options.allow_reverse_order"
       ]
     }
   ],
-  "backlog_items": [
-    {
-      "id": "query_options.allow_reverse_order",
-      "status": "backlog",
-      "confidence": "medium",
-      "files": [
-        "build-with-pinot/querying-and-sql/query-execution-controls/query-options.md"
-      ],
-      "reason": "allowReverseOrder is a supported query option with test coverage, but it is not yet documented in the query options reference."
-    }
-  ]
+  "backlog_items": []
 }
