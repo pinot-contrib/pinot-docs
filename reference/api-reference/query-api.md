@@ -4,7 +4,7 @@ description: Pinot query API reference.
 
 # Broker Query API
 
-Pinot exposes two broker query endpoints: `/query/sql` for the single-stage path and `/query` for multi-stage execution. Cursor-based pagination is available through query parameters on the SQL endpoint, and the response-store lifecycle is managed through broker endpoints on the same broker that executed the query.
+Pinot exposes broker endpoints for single-stage execution, multi-stage execution, and query fingerprint generation. Cursor-based pagination is available through query parameters on the SQL endpoint, and the response-store lifecycle is managed through broker endpoints on the same broker that executed the query.
 
 ## Endpoints
 
@@ -12,6 +12,7 @@ Pinot exposes two broker query endpoints: `/query/sql` for the single-stage path
 | --- | --- | --- |
 | `POST` | `/query/sql` | Submit SQL to the broker query endpoint |
 | `POST` | `/query` | Submit SQL through the multi-stage endpoint |
+| `POST` | `/query/sql/queryFingerprint` | Generate a normalized fingerprint and stable hash for a DQL query |
 | `POST` | `/query/sql?getCursor=true` | Submit a query and return a cursor-backed first page |
 | `GET` | `/responseStore/{requestId}/results` | Fetch additional cursor pages |
 | `GET` | `/responseStore/{requestId}` | Fetch cursor metadata |
@@ -33,6 +34,31 @@ curl -H "Content-Type: application/json" -X POST \
   -d '{"sql":"select count(*) from a JOIN b ON a.x = b.x"}' \
   http://localhost:8099/query
 ```
+
+## Query Fingerprints
+
+Use `POST /query/sql/queryFingerprint` to generate a normalized fingerprint for a DQL query without executing it. Pinot returns a small JSON object with:
+
+- `queryHash`: a stable hash of the normalized fingerprint
+- `fingerprint`: the normalized SQL shape
+
+The request body must include `sql`:
+
+```bash
+curl -H "Content-Type: application/json" -X POST \
+  -d '{"sql":"SELECT * FROM myTable WHERE id IN (1, 2, 3)"}' \
+  http://localhost:8099/query/sql/queryFingerprint
+```
+
+Pinot normalizes literals into placeholders, so the returned fingerprint for the example above is:
+
+```text
+SELECT * FROM `myTable` WHERE `id` IN (?)
+```
+
+The same endpoint also accepts multi-stage queries. For example, a query with `SET useMultistageEngine=true;` still returns a normalized fingerprint instead of executing the statement.
+
+This endpoint is DQL-only. Invalid SQL or non-DQL statements return HTTP 500 with an error payload. Unlike the broker config `pinot.broker.enable.query.fingerprinting`, this helper endpoint can generate fingerprints on demand without enabling automatic fingerprinting for normal query execution.
 
 ## Cursor Pagination
 
