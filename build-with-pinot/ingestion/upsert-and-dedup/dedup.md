@@ -90,7 +90,7 @@ Server stores the existing primary keys in dedup metadata map kept on JVM heap. 
 
 ## Enable preload for faster server restarts
 
-When ingesting new records, the server has to read the metadata map to check for duplicates. But when server restarts, the documents in existing segments are all unique as ensured by the dedup logic during real-time ingestion. So we can do write-only to bootstrap the metadata map faster.&#x20;
+When ingesting new records, the server has to read the metadata map to check for duplicates. But when server restarts, the documents in existing segments are all unique as ensured by the dedup logic during real-time ingestion. So we can do write-only to bootstrap the metadata map faster. Set `preload` to `ENABLE` to turn this on.&#x20;
 
 ```json
 { 
@@ -100,7 +100,7 @@ When ingesting new records, the server has to read the metadata map to check for
         "hashFunction": "NONE",
         "dedupTimeColumn": "mtime",
         "metadataTTL": 30000,
-        "enablePreload": true
+        "preload": "ENABLE"
    }, 
  ...
 }

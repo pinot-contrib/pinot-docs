@@ -73,7 +73,7 @@ The task uses a safe two-phase approach for segment management:
 1. **Phase 1**: Upload new merged segments without immediately deleting the original segments
 2. **Phase 2**: Post one segment commit cycle when validDocIDSnapshot is updated, identify original segments with `validDocIDCount = 0` and delete them
 
-This approach leverages ZooKeeper metadata and `enableSnapshot` runs to safely clean up old segments while avoiding data inconsistencies.
+This approach leverages ZooKeeper metadata and snapshot-enabled commit cycles to safely clean up old segments while avoiding data inconsistencies.
 
 #### Implementation details
 
@@ -87,7 +87,7 @@ This approach leverages ZooKeeper metadata and `enableSnapshot` runs to safely c
 
 **Partition constraints**: All segments selected for merging must belong to the same partition. The task validates this constraint before proceeding with the merge operation.
 
-**validDocIds snapshot requirement**: The task requires validDocIds to be available from the servers hosting the segments. This depends on the `enableSnapshot` configuration being active.
+**validDocIds snapshot requirement**: The task requires validDocIds to be available from the servers hosting the segments. This depends on `upsertConfig.snapshot` not being set to `DISABLE`.
 
 ### Configuration
 
@@ -112,12 +112,12 @@ This approach leverages ZooKeeper metadata and `enableSnapshot` runs to safely c
 }
 ```
 
-3. Ensure your upsert table has snapshot enabled:
+3. Ensure your upsert table has snapshot recovery enabled:
 
 ```json
 "upsertConfig": {
     "mode": "FULL", // or "PARTIAL"
-    "enableSnapshot": true
+    "snapshot": "ENABLE"
 }
 ```
 
@@ -143,7 +143,7 @@ controller.task.frequencyPeriod=1h
 ### Prerequisites
 
 * **Pinot version**: Requires Pinot version 1.3.0 or later
-* **Upsert enabled**: Table must have upsert configuration with `enableSnapshot: true`
+* **Upsert enabled**: Table must have upsert configuration with snapshot recovery enabled. Set `snapshot` to `ENABLE`, or leave it at `DEFAULT` only if the instance-level default enables snapshots.
 * **Completed segments**: Task only operates on completed (non-consuming) segments with validDocIds available
 * **Same partition**: All segments being merged must belong to the same partition to maintain upsert consistency
 * **Minion cluster**: At least one Pinot Minion must be running and accessible to the controller
@@ -198,14 +198,14 @@ Monitor task execution through the following methods:
 
 **Task not generating**:
 
-* Verify `enableSnapshot: true` in upsert config
+* Verify `snapshot` is not set to `DISABLE` in upsert config
 * Check that segments meet the selection criteria (small enough and old enough based on `bufferTimePeriod`)
 * Ensure completed segments exist for the table with validDocIds available
 * Verify table configuration passes validation (upsert enabled, correct table type)
 
 **Segments not being cleaned up**:
 
-* Verify `enableSnapshot` is running between task executions
+* Verify snapshot recovery remains enabled between task executions
 * Check ZooKeeper metadata for merge timestamps
 * Original segments should be cleaned up in subsequent task runs when validDocIDCount = 0
 * Ensure the two-phase cleanup process is completing properly
@@ -234,7 +234,7 @@ Monitor task execution through the following methods:
 ### Limitations
 
 * Only supports upsert-enabled REALTIME tables
-* Requires `enableSnapshot: true` in upsert configuration
+* Requires `upsertConfig.snapshot` not to be `DISABLE`
 * Cannot merge segments across different partitions
 * Original segments are not immediately deleted (cleaned up in subsequent runs)
 * Resource-intensive operation that should be scheduled appropriately
