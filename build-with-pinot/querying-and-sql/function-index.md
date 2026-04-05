@@ -55,7 +55,8 @@ For full details, see [Aggregation Functions](../../functions/aggregation/README
 | [`FUNNELCOUNT`](../../functions/funnel/funnelcount.md) | `FUNNELCOUNT(stepCol, corCol, settings, step1, step2, ...)` | LONG[] | Funnel step counts | Both |
 | [`FUNNELMAXSTEP`](../../functions/funnel/funnelmaxstep.md) | `FUNNELMAXSTEP(stepCol, corCol, settings, step1, step2, ...)` | INT | Maximum funnel step reached | Both |
 | [`FUNNELCOMPLETECOUNT`](../../functions/funnel/funnelcompletecount.md) | `FUNNELCOMPLETECOUNT(stepCol, corCol, settings, step1, step2, ...)` | INT | Count of completed funnels | Both |
-| [`FUNNELSTEPDURATIONSTATS`](../../functions/aggregation/funnelstepdurationstats.md) | `FUNNELSTEPDURATIONSTATS(stepCol, corCol, tsCol, settings, step1, step2, ...)` | STRING | Step duration statistics | Both |
+| [`FUNNELSTEPDURATIONSTATS`](../../functions/aggregation/funnelstepdurationstats.md) | `FUNNELSTEPDURATIONSTATS(timestampExpression, windowSize, numberSteps, step1, ..., 'durationFunctions=...')` | DOUBLE[] | Step-to-step duration statistics for completed funnel runs | Both |
+| [`FUNNELEVENTSFUNCTIONEVAL`](../../functions/aggregation/funneleventsfunctioneval.md) | `FUNNELEVENTSFUNCTIONEVAL(timestampExpression, windowSize, numberSteps, step1, ..., extraFieldCount, extraField1, ...)` | STRING[] | Extra-field values from matched funnel events | Both |
 | [`DISTINCTSUM`](../../functions/aggregation/distinctsum.md) | `DISTINCTSUM(col)` | DOUBLE | Sum of distinct values | Both |
 | [`DISTINCTAVG`](../../functions/aggregation/distinctavg.md) | `DISTINCTAVG(col)` | DOUBLE | Average of distinct values | Both |
 | [`SUMPRECISION`](../../functions/aggregation/sumprecision.md) | `SUMPRECISION(col [, precision])` | STRING | High-precision sum using BigDecimal | Both |

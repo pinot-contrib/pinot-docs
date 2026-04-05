@@ -43,3 +43,5 @@ This function evaluates funnel steps and returns the distinct correlated counts 
 ## Additional Reference Pages
 
 - [funnelmaxstep.md](funnelmaxstep.md)
+- [FUNNELSTEPDURATIONSTATS](../aggregation/funnelstepdurationstats.md)
+- [FUNNELEVENTSFUNCTIONEVAL](../aggregation/funneleventsfunctioneval.md)
