@@ -120,9 +120,51 @@ When no server has the segment on disk, Pinot can recover by re-ingesting the da
 
 1. The `RealtimeSegmentValidationManager` detects an `ERROR` segment with no completed replica.
 2. The controller selects an alive server from the ideal state for that segment.
-3. The controller calls `POST /reingestSegment` on the selected server with the table name and segment name.
-4. The server re-consumes data from the stream for the offset range of the failed segment, builds the segment, and uploads it.
-5. The controller copies the segment to deep store, updates ZK metadata to `DONE`, and resets the segment to `ONLINE`.
+3. The controller calls `POST /reingestSegment/{segmentName}` on the selected server.
+4. The server re-consumes data for the failed LLC segment's offset range, builds the segment, copies the tarball to the segment store, and uploads reingestion metadata back to the controller.
+5. The controller finalizes the segment metadata, updates ZK metadata to `DONE`, and resets the segment to `ONLINE`.
+
+#### Server reingestion APIs
+
+The controller normally calls these server endpoints automatically during disaster recovery, but they are also useful when you need to inspect or trigger reingestion manually on a specific server.
+
+Start an asynchronous reingestion job for one LLC segment:
+
+```bash
+curl -X POST "http://server-host:8097/reingestSegment/myTable__0__17__20250320T1530Z" \
+  -H "accept: application/json"
+```
+
+Successful requests return a job object immediately while the reingestion continues in the background:
+
+```json
+{
+  "jobId": "4c8514dd-7804-4a55-a180-ef1d0b9b2855",
+  "segmentName": "myTable__0__17__20250320T1530Z",
+  "startTimeMs": 1743865200000
+}
+```
+
+This endpoint only accepts LLC realtime segment names. Pinot derives the realtime table from the segment name and rejects the request if the segment already has a download URL or is already being re-ingested on that server.
+
+List the reingestion jobs still running on that server:
+
+```bash
+curl -X GET "http://server-host:8097/reingestSegment/jobs" \
+  -H "accept: application/json"
+```
+
+```json
+[
+  {
+    "jobId": "4c8514dd-7804-4a55-a180-ef1d0b9b2855",
+    "segmentName": "myTable__0__17__20250320T1530Z",
+    "startTimeMs": 1743865200000
+  }
+]
+```
+
+The controller-side completion call that finalizes the reingested segment is documented in the [controller API reference](../reference/api-reference/controller-api.md#post-segmentsreingested).
 
 ### Disaster recovery modes
 
