@@ -23,6 +23,8 @@ Use a schema to define the column names, data types, null-handling behavior, and
 | Field | Release Version | Default | Description |
 | --- | --- | --- | --- |
 | `schemaName` | - | required | Name of the schema. This must match the table name without the `OFFLINE` or `REALTIME` suffix, so both physical tables of a hybrid table share one schema. |
+| `description` | - | omitted | Optional human-readable description of the schema. |
+| `tags` | - | omitted | Optional list of tags for categorizing the schema. |
 | `enableColumnBasedNullHandling` | 1.1.0 | `false` | When `true`, enables column-based null handling. When `false`, Pinot uses table-based null handling. See [Null value support](../../build-with-pinot/querying-and-sql/null-value-support.md). |
 | `dimensionFieldSpecs` | - | `[]` | Dimension-column definitions. See [DimensionFieldSpecs](#dimensionfieldspecs). |
 | `metricFieldSpecs` | - | `[]` | Metric-column definitions. See [MetricFieldSpecs](#metricfieldspecs). |
@@ -34,11 +36,14 @@ Use a schema to define the column names, data types, null-handling behavior, and
 ```json
 {
   "schemaName": "flights",
+  "description": "Tracks flight events and attributes.",
+  "tags": ["production", "real-time"],
   "enableColumnBasedNullHandling": false,
   "dimensionFieldSpecs": [
     {
       "name": "flightNumber",
-      "dataType": "LONG"
+      "dataType": "LONG",
+      "description": "Unique flight identifier."
     },
     {
       "name": "airline",
@@ -172,6 +177,8 @@ Define one dimension field spec for each dimension column.
 | Property | Description |
 | --- | --- |
 | `name` | Name of the dimension column. |
+| `description` | Optional human-readable description of the column. |
+| `tags` | Optional list of tags for categorizing the column. |
 | `dataType` | Data type of the dimension column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `BYTES`, and `JSON`. |
 | `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. |
 | `singleValueField` | Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. The default null value for a multi-value column is a single-element list containing the configured or internal null value. |
@@ -183,6 +190,8 @@ Define one metric field spec for each metric column.
 | Property | Description |
 | --- | --- |
 | `name` | Name of the metric column. |
+| `description` | Optional human-readable description of the column. |
+| `tags` | Optional list of tags for categorizing the column. |
 | `dataType` | Data type of the metric column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, and `BYTES` for serialized sketches such as HLL or TDigest. |
 | `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. |
 
@@ -193,6 +202,8 @@ Use date-time field specs to define time columns.
 | Property | Description |
 | --- | --- |
 | `name` | Name of the date-time column. |
+| `description` | Optional human-readable description of the column. |
+| `tags` | Optional list of tags for categorizing the column. |
 | `dataType` | Data type of the date-time column. Supported types are `STRING`, `INT`, `LONG`, and `TIMESTAMP`. Internally `TIMESTAMP` is stored as `LONG` milliseconds since epoch. If you use `TIMESTAMP`, source data must be either `LONG` epoch values or JDBC timestamp strings such as `2021-01-01 01:01:01.123`. |
 | `format` | Format in which the time value is stored. See [New DateTime Formats](#new-datetime-formats). |
 | `granularity` | Bucket size and unit in `bucketSize:bucketUnit` form, for example `15:MINUTES`. This is descriptive metadata only; Pinot does not automatically round values to the declared granularity. |
@@ -253,6 +264,8 @@ Use complex field specs for complex data types. Pinot currently supports `MAP`.
 | Property | Description |
 | --- | --- |
 | `name` | Name of the complex column. |
+| `description` | Optional human-readable description of the column. |
+| `tags` | Optional list of tags for categorizing the column. |
 | `dataType` | Complex data type. Currently supports `MAP`. |
 | `fieldType` | Must be `COMPLEX`. |
 | `notNull` | Whether the column can contain null values. |
