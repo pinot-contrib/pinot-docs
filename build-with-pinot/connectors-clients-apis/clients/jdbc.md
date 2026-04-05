@@ -1,10 +1,10 @@
 # JDBC
 
-Pinot offers standard JDBC interface to query the database. This makes it easier to integrate Pinot with other applications such as Tableau.
+Pinot offers a standard JDBC interface for broker-routed SQL queries. This makes it easier to integrate Pinot with SQL tooling and JVM applications that expect a JDBC driver.
 
 ## Installation
 
-You can include the JDBC dependency in your code as follows -
+You can include the JDBC dependency in your code as follows:
 
 {% tabs %}
 {% tab title="Maven" %}
@@ -19,7 +19,7 @@ You can include the JDBC dependency in your code as follows -
 
 {% tab title="Gradle" %}
 ```java
-include 'org.apache.pinot:pinot-jdbc-client:1.4.0'
+implementation "org.apache.pinot:pinot-jdbc-client:1.4.0"
 ```
 {% endtab %}
 {% endtabs %}
@@ -30,26 +30,48 @@ There is no need to register the driver manually as it will automatically regist
 
 ## Usage
 
-Here's an example of how to use the `pinot-jdbc-client` for querying. The client only requires the controller URL.
+Here's an example of how to use `pinot-jdbc-client` for querying. The JDBC URL points at the controller, not directly at a broker.
 
 ```java
-public static final String DB_URL = "jdbc:pinot://localhost:9000?brokers=localhost:8099"
-DriverManager.registerDriver(new PinotDriver());
-Connection conn = DriverManager.getConnection(DB_URL);
-Statement statement = conn.createStatement();
-Integer limitResults = 10;
-ResultSet rs = statement.executeQuery(String.format("SELECT UPPER(playerName) AS name FROM baseballStats LIMIT %d", limitResults));
-Set<String> results = new HashSet<>();
+String dbUrl = "jdbc:pinot://localhost:9000";
 
-while(rs.next()){
- String playerName = rs.getString("name");
- results.add(playerName);
+try (Connection conn = DriverManager.getConnection(dbUrl);
+     Statement statement = conn.createStatement();
+     ResultSet rs = statement.executeQuery(
+         "SELECT UPPER(playerName) AS name FROM baseballStats LIMIT 10")) {
+  while (rs.next()) {
+    String playerName = rs.getString("name");
+    System.out.println(playerName);
+  }
 }
-
-conn.close();
 ```
 
-You can also use PreparedStatements. The placeholder parameters are represented using `?` _\*\*_ (question mark) symbol.
+The driver auto-registers itself, so manual `DriverManager.registerDriver(...)` calls are not required.
+
+## Connection URL and routing
+
+The current driver recognizes two JDBC schemes:
+
+* `jdbc:pinot://<controller-host>:<controller-port>` for the HTTP query path
+* `jdbc:pinotgrpc://<controller-host>:<controller-port>` for the broker gRPC query path
+
+Optional URL and property keys that affect routing:
+
+| Key | Default | Notes |
+| --- | --- | --- |
+| `tenant` | `DefaultTenant` | Restricts broker discovery to one Pinot tenant |
+| `brokers` | None | Semicolon-separated broker override such as `broker-1:8099;broker-2:8099`. When present on the HTTP path, the driver uses the provided brokers instead of controller broker lookup. |
+| `scheme` | `http` | Switches controller and broker HTTP transport to HTTPS |
+
+Example:
+
+```java
+String dbUrl =
+    "jdbc:pinot://controller.example.com:9000?tenant=DefaultTenant&brokers=broker-1:8099;broker-2:8099";
+Connection conn = DriverManager.getConnection(dbUrl);
+```
+
+You can also use `PreparedStatement`. Placeholder parameters are represented using `?`.
 
 ```java
 Connection conn = DriverManager.getConnection(DB_URL);
@@ -102,11 +124,27 @@ The `pinotgrpc` driver accepts the following gRPC transport properties through e
 | `tls.insecure` | `false` | Skip broker certificate verification. Only appropriate for non-production testing. |
 | `tls.protocols` | JVM TLS defaults | Comma-separated TLS protocol allowlist such as `TLSv1.2,TLSv1.3`. |
 
-The JDBC gRPC path also accepts request metadata options such as `blockRowSize`, `encoding`, `compression`, and `headers.<name>` through URL parameters or connection properties and forwards them to each gRPC request.
+The JDBC gRPC path also forwards these per-request settings when they appear in the URL query string or connection properties:
+
+* Metadata options: `blockRowSize`, `encoding`, `compression`, `Authorization`
+* Header-prefixed metadata: `headers.<name>`
+* Query options: `enableNullHandling`, `useMultistageEngine`
 
 ## Authentication
 
-Pinot supports [basic HTTP authorization](../../../operate-pinot/authentication/basic-auth-access-control.md), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0 or later. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
+Pinot supports [basic HTTP authorization](../../../operate-pinot/authentication/basic-auth-access-control.md), which can be enabled for your cluster using configuration. The JDBC driver supports authentication through:
+
+* `headers.Authorization`
+* `user` and `password` URL parameters
+* `user` and `password` connection properties
+
+Auth precedence in the current driver is:
+
+1. `headers.Authorization`
+2. `user` and `password` in the JDBC URL
+3. `user` and `password` in the `Properties` object
+
+Example with an explicit auth header:
 
 ```java
 final String username = "admin";
@@ -137,21 +175,34 @@ while (rs.next()) {
 }
 ```
 
-## Configuring client time-out
+The same auth flow also works for `jdbc:pinotgrpc://...`. In the gRPC path, the driver forwards `Authorization` as gRPC request metadata.
 
-The following timeouts can be set:
+## Connection Properties
 
-* brokerConnectTimeoutMs (default 2000)
-* brokerReadTimeoutMs (default 60000)
-* brokerHandshakeTimeoutMs (default 2000)
-* controllerConnectTimeoutMs (default 2000)
-* controllerReadTimeoutMs (default 60000)
-* controllerHandshakeTimeoutMs (default 2000)
+The JDBC driver currently reads these connection properties:
 
-Timeouts for the JDBC connector can be added as a parameter to the JDBC Connection URL. The following example enables https and configures a very low timeout of 10ms:
+| Property | Default | Used by | Notes |
+| --- | --- | --- | --- |
+| `tenant` | `DefaultTenant` | HTTP and gRPC JDBC | Limits controller broker discovery to one tenant |
+| `brokers` | None | HTTP and gRPC JDBC | Semicolon-separated broker override |
+| `scheme` | `http` | HTTP broker transport and controller transport | Set to `https` for TLS-enabled controller and HTTP brokers |
+| `headers.<name>` | None | HTTP and gRPC JDBC | Adds default headers or metadata such as `headers.Authorization` |
+| `user` | None | HTTP and gRPC JDBC | Used for basic auth when no explicit auth header is set |
+| `password` | None | HTTP and gRPC JDBC | Used for basic auth when no explicit auth header is set |
+| `brokerConnectTimeoutMs` | `2000` | HTTP broker transport | Broker connect timeout in milliseconds |
+| `brokerReadTimeoutMs` | `60000` | HTTP broker transport | Broker read timeout in milliseconds |
+| `brokerHandshakeTimeoutMs` | `2000` | HTTP broker transport | Broker TLS handshake timeout |
+| `controllerConnectTimeoutMs` | `2000` | Controller transport | Controller connect timeout in milliseconds |
+| `controllerReadTimeoutMs` | `60000` | Controller transport | Controller read timeout in milliseconds |
+| `controllerHandshakeTimeoutMs` | `2000` | Controller transport | Controller TLS handshake timeout |
+| `controllerTlsV10Enabled` | `false` | Controller transport | Re-enable TLSv1.0 for controller requests |
+| `pinot.jdbc.tls.*` | None | HTTP broker transport and controller transport | TLS config namespace consumed by the JDBC driver |
+
+Example:
 
 ```java
-final String DB_URL = "jdbc:pinot://hostname?brokerConnectTimeoutMs=10&brokerReadTimeoutMs=10&brokerHandshakeTimeoutMs=10&controllerConnectTimeoutMs=10&controllerReadTimeoutMs=10&scheme=https";
+String dbUrl =
+    "jdbc:pinot://controller.example.com:9000?scheme=https&brokerReadTimeoutMs=10000&controllerReadTimeoutMs=10000";
 ```
 
 ## Limitation
@@ -160,5 +211,5 @@ The JDBC client doesn't support `INSERT`, `DELETE` or `UPDATE` statements due to
 The driver is also not completely ANSI SQL 92 compliant.
 
 {% hint style="warning" %}
-If you want to use JDBC driver to integrate Pinot with other applications, do make sure to check JDBC ConnectionMetadata in your code. This will help in determining which features cannot be supported by Pinot since it is an OLAP database.
+If you integrate Pinot through JDBC, check `Connection.getMetaData()` and other `DatabaseMetaData` methods in your consuming tool. Pinot is an OLAP database, and some JDBC features expected by ANSI SQL tools are intentionally unsupported.
 {% endhint %}
