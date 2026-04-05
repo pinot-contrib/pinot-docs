@@ -58,6 +58,9 @@ CSV Record Reader supports the following configs:
 * **`quoteCharacter`**: Single character used for quotes in CSV files.
 * **`recordSeparator`**: Character used to separate records in the input file. Default is  or `\r` depending on the platform.
 * **`nullStringValue`**: String value that represents null in CSV files. Default is empty string.
+* **`stopOnError`**: Stop processing the file when Pinot encounters a malformed CSV record. Boolean. Default is `false`.
+
+By default, Pinot attempts to recover from malformed data rows and continue reading the rest of the file. Set `stopOnError: true` if you want batch ingestion to stop at the first malformed record instead. Pinot still validates the CSV header during initialization, so an invalid header or first record fails fast.
 
 {% hint style="info" %}
 Your CSV file may have raw text fields that cannot be reliably delimited using any character. In this case, explicitly set the **multiValueDelimeter** field to empty in the ingestion config.\
