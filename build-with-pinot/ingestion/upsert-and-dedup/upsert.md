@@ -967,6 +967,26 @@ Putting these together, you can find the table configurations of the quick start
 Pinot server maintains a primary key to record location map across all the segments served in an upsert-enabled table. As a result, when updating the config for an existing upsert table (e.g. change the columns in the primary key, change the comparison column), servers need to be restarted in order to apply the changes and rebuild the map.
 {% endhint %}
 
+### Parallel consumption during commit, download, and replacement
+
+For partial upsert tables, Pinot can pause the next consuming segment while the previous segment is still being finalized so that replicas do not advance with different merged-row state during commit handling.
+
+* By default, partial upsert tables do **not** keep consuming in parallel during commit handling.
+* When pauseless consumption is enabled, Pinot can still continue during the build phase while stopping during download and replacement, depending on `parallelSegmentConsumptionPolicy`.
+
+For backward compatibility, partial upsert tables still accept the deprecated table-level flag `upsertConfig.allowPartialUpsertConsumptionDuringCommit`. Setting it to `true` restores the older behavior and allows the replica to keep consuming throughout commit handling, including segment download and replacement:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "PARTIAL",
+    "allowPartialUpsertConsumptionDuringCommit": true
+  }
+}
+```
+
+If the table-level flag is left at its default `false`, the server-level fallback `pinot.server.instance.upsert.default.allow.partial.upsert.consumption.during.commit` can enable the same legacy behavior for partial upsert tables on that server. New deployments should prefer `parallelSegmentConsumptionPolicy` in `streamIngestionConfig` when they need explicit control over parallel consumption.
+
 ## Advanced Server Configuration
 
 ### Consuming Segment Consistency Mode
