@@ -68,6 +68,7 @@ description: This document contains all the available query options
 | Key | Description | Default Behavior |
 | --- | --- | --- |
 | **timeoutMs** | Timeout of the query in milliseconds | Use table/broker level timeout |
+| **extraPassiveTimeoutMs** | For multi-stage queries, add this many milliseconds to the passive deadline Pinot uses while waiting on upstream stages or mailbox data. This does not change the active query deadline from `timeoutMs`; it only gives passive waits more time before Pinot treats them as timed out. This overrides the broker-level `pinot.broker.extraPassiveTimeoutMs` setting for the query. | Broker level config (default `100`) |
 | **enableNullHandling** | Enables advanced null handling. See [Null value support](../null-value-support.md) for more information.(since 0.11.0) | `false` (disabled) |
 | **explainPlanVerbose** | Return verbose result for `EXPLAIN` query (since 0.11.0) | `false` (not verbose) |
 | **useMultistageEngine** | Use multi-stage engine to execute the query (since 0.11.0) | `false` (use single-stage engine) |
