@@ -170,6 +170,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | LLC_ZOOKEEPER_FETCH_FAILURES | Number of Zookeeper metadata fetch requests failed |  |
 | LLC_ZOOKEEPER_UPDATE_FAILURES | Number of Zookeeper metadata update requests failed |  |
 | LLC_STREAM_DATA_LOSS | Indicates data loss for table either due to offsets available to consume from topic larger than the last stored offset in pinot or segment lost in CONSUMING state |  |
+| TABLE_WITHOUT_TABLE_CONFIG_COUNT | Number of tables missing a `TableConfig` when startup enforcement is configured not to exit. |  |
+| TABLE_WITHOUT_SCHEMA_COUNT | Number of tables that have a `TableConfig` but no `Schema` when startup enforcement is configured not to exit. |  |
 | HELIX_ZOOKEEPER_RECONNECTS | Number of times broker instance re-connected to zookeeper. |  |
 | CRON_SCHEDULER_JOB_EXECUTION_TIME_MS | Time spent in scheduling cron jobs |  |
 | IDEAL_STATE_UPDATE_FAILURE | Indicates failed to update ideal state of table |  |
