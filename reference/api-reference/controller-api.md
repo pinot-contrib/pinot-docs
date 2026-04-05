@@ -16,7 +16,7 @@ The controller exposes the administrative API surface for cluster, schema, table
 | Schema | `GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}` |
 | Table | `GET /tables`, `POST /tables`, `PUT /tables/{tableName}`, `DELETE /tables/{tableName}`, `POST /tableConfigs/validate` |
 | Logical tables | `GET /logicalTables`, `POST /logicalTables`, `PUT /logicalTables/{tableName}`, `DELETE /logicalTables/{tableName}` |
-| Segments | `GET /segments/{tableName}/invalidPartitionMetadata`, `POST /segments/{tableName}/reload`, `POST /segments/{tableNameWithType}/uploadFromServerToDeepstore`, `GET /segments/segmentReloadStatus/{jobId}`, `GET /segments/{tableNameWithType}/needReload` |
+| Segments | `GET /segments/{tableName}/invalidPartitionMetadata`, `POST /segments/{tableName}/reload`, `POST /segments/{tableNameWithType}/uploadFromServerToDeepstore`, `DELETE /deleteSegmentsFromSequenceNum/{tableNameWithType}`, `GET /segments/segmentReloadStatus/{jobId}`, `GET /segments/{tableNameWithType}/needReload` |
 | Tenant and instance management | `GET /tenants`, `GET /tenants/{tenantName}`, `GET /instances`, `POST /instances` |
 
 ## Swagger UI
@@ -590,6 +590,57 @@ curl -X POST "http://localhost:9000/segments/myTable_REALTIME/uploadFromServerTo
 ```
 
 If the table is not realtime, Pinot returns `400 Bad Request`. If named segments are missing from ZooKeeper metadata, Pinot skips them and only queues the segments it can resolve. When no segments remain after resolution, Pinot returns a success response saying there are no segments to upload.
+
+### DELETE /deleteSegmentsFromSequenceNum/\{tableNameWithType\}
+
+Delete a contiguous tail of LLC segments per partition for a pauseless realtime table. For each input segment, Pinot finds that segment's partition and deletes every segment in the same partition whose sequence number is greater than or equal to the oldest supplied segment for that partition.
+
+Use this endpoint during manual pauseless recovery when a failed segment build or upload left later segments inconsistent and you need Pinot to recreate them from the stream.
+
+| Query parameter | Type | Meaning |
+| --- | --- | --- |
+| `segments` | string list | Required LLC segment names. Pinot treats the oldest supplied segment in each partition as the deletion starting point. |
+| `dryRun` | boolean | When `true`, Pinot returns the per-partition deletion plan without deleting anything. When `false`, Pinot performs the deletion. |
+| `force` | boolean | When `false`, Pinot requires the table to be realtime, pauseless-enabled, and currently paused. When `true`, Pinot bypasses the pauseless-enabled and paused-state checks. |
+
+**Request**
+
+Preview the deletion plan first:
+
+```bash
+curl -X DELETE "http://localhost:9000/deleteSegmentsFromSequenceNum/myTable_REALTIME?segments=myTable__0__17__20250320T1530Z&dryRun=true" \
+  -H "accept: application/json"
+```
+
+Apply the deletion after you have paused ingestion and verified the target partitions:
+
+```bash
+curl -X DELETE "http://localhost:9000/deleteSegmentsFromSequenceNum/myTable_REALTIME?segments=myTable__0__17__20250320T1530Z&dryRun=false" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "tableName": "myTable_REALTIME",
+  "dryRun": true,
+  "partitions": {
+    "0": {
+      "segmentsToDelete": [
+        "myTable__0__17__20250320T1530Z",
+        "myTable__0__18__20250320T1540Z"
+      ],
+      "oldestSegment": "myTable__0__17__20250320T1530Z",
+      "latestSegment": "myTable__0__18__20250320T1540Z",
+      "segmentCount": 2
+    }
+  },
+  "message": "Dry run completed. Segments identified for deletion but not actually deleted."
+}
+```
+
+Pinot skips segment names that are no longer present in the ideal state. For operational safety, run the endpoint once with `dryRun=true` and only rerun with `dryRun=false` after you verify the per-partition segment list.
 
 ### GET /segments/segmentReloadStatus/\{jobId\}
 
