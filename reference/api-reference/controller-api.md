@@ -835,6 +835,46 @@ On success, returns the validated config. On failure, returns an error message d
 }
 ```
 
+## Minion Task APIs
+
+### GET /tasks/\<taskType>/taskcounts
+
+Returns a map from parent task name to aggregated subtask counts for the given minion task type.
+
+**Query Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `state` | string | No | Filter by one or more comma-separated Helix task states such as `IN_PROGRESS`, `FAILED`, or `COMPLETED`. The filter applies to the parent task state, not to the per-subtask counters returned in the response. |
+| `table` | string | No | Filter to parent tasks that have at least one subtask for the specified table name with type, such as `myTable_OFFLINE`. |
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/tasks/SegmentGenerationAndPushTask/taskcounts?state=IN_PROGRESS,FAILED&table=myTable_OFFLINE" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "Task_SegmentGenerationAndPushTask_12345": {
+    "total": 4,
+    "completed": 1,
+    "running": 2,
+    "waiting": 0,
+    "error": 1,
+    "unknown": 0,
+    "dropped": 0,
+    "timedOut": 0,
+    "aborted": 0
+  }
+}
+```
+
+Each response value is a subtask-count summary for one parent task. The counters represent the number of subtasks in each result bucket, while `state` only controls which parent tasks are included in the map.
+
 ## Logical Table Management
 
 {% hint style="info" %}
