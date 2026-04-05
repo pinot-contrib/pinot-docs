@@ -431,7 +431,7 @@ There are some scenarios in which you may want to pause the real-time ingestion 
 
 ```bash
 $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
-$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
+$ curl -X POST "{controllerHost}/tables/{tableName}/resumeConsumption?comment=maintenance-complete"
 ```
 
 For tables with many consuming segments, you can batch the pause request so the controller commits fewer segments at a time:
@@ -445,8 +445,10 @@ $ curl -X POST "{controllerHost}/tables/{tableName}/pauseConsumption?batchSize=5
 When a `Pause` request is issued, the controller instructs the real-time servers hosting your table to commit their consuming segments immediately. However, the commit process may take some time to complete. Note that `Pause` and `Resume` requests are async. An `OK` response means that instructions for pausing or resuming has been successfully sent to the real-time server. If you want to know if the consumption has actually stopped or resumed, issue a pause status request.
 
 ```bash
-$ curl -X POST {controllerHost}/tables/{tableName}/pauseStatus
+$ curl -X GET {controllerHost}/tables/{tableName}/pauseStatus
 ```
+
+The pause status response includes the current `pauseFlag`, the set of `consumingSegments`, the stored `reasonCode`, any persisted `comment`, and the controller-side `timestamp` for the current pause state. When no explicit comment was stored, Pinot returns a default paused or unpaused message.
 
 It's worth noting that consuming segments on real-time servers are stored in volatile memory, and their resources are allocated when the consuming segments are first created. These resources cannot be altered if consumption parameters are changed midway through consumption. It may take hours before these changes take effect. Furthermore, if the parameters are changed in an incompatible way (for example, changing the underlying stream with a completely new set of offsets, or changing the stream endpoint from which to consume messages), it will result in the table getting into an error state.
 
@@ -491,8 +493,8 @@ This API is async, as it doesn't wait for the segment commit to complete. But a 
 For incompatible parameter changes, an option is added to the resume request to handle the case of a completely new set of offsets. Operators can now follow a three-step process: First, issue a pause request. Second, change the consumption parameters. Finally, issue the resume request with the appropriate option. These steps will preserve the old data and allow the new data to be consumed immediately. All through the operation, queries will continue to be served.
 
 ```bash
-$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=smallest
-$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?resumeFrom=largest
+$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?consumeFrom=smallest
+$ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption?consumeFrom=largest
 ```
 
 ## Handle partition changes in streams
