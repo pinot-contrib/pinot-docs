@@ -1074,13 +1074,40 @@ Resume real-time consumption for a table.
 curl -X POST "http://localhost:9000/tables/myTable/resumeConsumption" -H "accept: application/json"
 ```
 
+### GET /tables/\<tableName>/badLLCSegmentsPerPartition
+
+Return the bad LLC segments for a realtime table, grouped by partition ID. Pinot sorts the segment names within each partition by increasing sequence number, which makes this endpoint useful before calling repair workflows such as `deleteSegmentsFromSequenceNum`.
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/tables/myTable/badLLCSegmentsPerPartition" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "0": [
+    "myTable__0__12__20250610T2140Z",
+    "myTable__0__13__20250610T2200Z"
+  ],
+  "1": [
+    "myTable__1__7__20250610T2145Z"
+  ]
+}
+```
+
+If Pinot finds no bad LLC segments, it returns an empty JSON object.
+
 ## Other Notable APIs (1.4.0)
 
 The following APIs were added or enhanced in Pinot 1.4.0. Refer to Swagger for complete request/response details.
 
 | Endpoint                                          | Method | Description                                                             |
 | ------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
-| `/tables/{tableName}/badSegments`                 | GET    | Returns bad segments grouped by partition ID                            |
+| `/tables/{tableName}/badLLCSegmentsPerPartition`  | GET    | Returns bad LLC segments grouped by partition ID                        |
 | `/tables/{tableName}/removeIngestionMetrics`       | POST   | Removes stale ingestion metrics for a table                             |
 | `/debug/serverRoutingStats`                       | GET    | Returns server routing stats as JSON (previously returned a string)     |
 | `/tables/{tableName}/idealstate`                  | GET    | Now accepts optional `segmentNames` parameter to filter results         |
