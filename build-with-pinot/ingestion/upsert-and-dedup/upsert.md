@@ -515,6 +515,8 @@ These new consistency modes provide flexibility, allowing applications to balanc
 
 For **SNAPSHOT** mode, one can configure how often the upsert view should be refreshed via a upsertConfig called `upsertViewRefreshIntervalMs`, which is 3000ms by default. Both the write and query threads can refresh the upsert view when it gets stale according to this config. Changing this config requires server restarts.
 
+Pinot also tracks newly added segments on the server for a bounded time via `newSegmentTrackingTimeMs` (default `10000`). During that window, Pinot can include those newly added segments as optional segments while broker routing catches up, which helps queries see a more complete upserted view immediately after segment addition. Setting `newSegmentTrackingTimeMs` to `0` disables this tracking. When `consistencyMode` is `SYNC` or `SNAPSHOT`, `newSegmentTrackingTimeMs` must stay positive.
+
 One can further adjust the view's freshness during query time without restarting servers via a query option called `upsertViewFreshnessMs` . By default, this query option matches with that upsertConfig `upsertViewRefreshIntervalMs` , but if a query sets it to a smaller value, the upsert view may get refreshed sooner for the query; and if set to 0, the query simply forces to refresh upsert view every time.
 
 For debugging purposes, there's a query option called `skipUpsertView`. If set to `true`, it bypasses the consistent upsert view maintained by SYNC or SNAPSHOT modes. This effectively executes the query as if it were in NONE mode.
