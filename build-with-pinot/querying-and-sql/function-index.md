@@ -94,7 +94,7 @@ For full details, see [String Functions](../../functions/string/).
 | [`REPLACE`](../../functions/string/replace.md) | `REPLACE(str, target, replacement)` | STRING | Replaces occurrences of target | Both |
 | [`REMOVE`](../../functions/string/remove.md) | `REMOVE(str, search)` | STRING | Removes all occurrences of search string | Both |
 | `SPLIT` | `SPLIT(str, delimiter [, limit])` | STRING[] | Splits string by delimiter | Both |
-| `SPLITPART` | `SPLITPART(str, delimiter, index)` | STRING | Returns Nth part after splitting | Both |
+| [`SPLITPART`](../../functions/string/splitpart.md) | `SPLITPART(str, delimiter, index)` or `SPLITPART(str, delimiter, limit, index)` | STRING | Returns the selected element after splitting; negative indices count from the end | Both |
 | `REPEAT` | `REPEAT(str, times)` | STRING | Repeats string N times | Both |
 | [`REGEXP_EXTRACT`](../../functions/string/regexpextract.md) | `REGEXP_EXTRACT(str, pattern [, group])` | STRING | Extracts regex match from string | Both |
 | [`CHR`](../../functions/string/chr.md) | `CHR(codepoint)` | STRING | Returns character for Unicode code point | Both |
@@ -236,6 +236,16 @@ For full details, see [Array Functions](../../functions/array).
 | [`ARRAYDISTINCTSTRING`](../../functions/array/arraydistinctstring.md) | `ARRAYDISTINCTSTRING(arr)` | STRING[] | Removes duplicates from string array | Both |
 | [`ARRAYINDEXOFINT`](../../functions/array/arrayindexofint.md) | `ARRAYINDEXOFINT(arr, val)` | INT | Index of value in integer array | Both |
 | [`ARRAYINDEXOFSTRING`](../../functions/array/arrayindexofstring.md) | `ARRAYINDEXOFSTRING(arr, val)` | INT | Index of value in string array | Both |
+| [`ARRAYPUSHBACKINT`](../../functions/array/arraypushback.md) | `ARRAYPUSHBACKINT(arr, val)` | INT[] | Appends an integer to the end of an array | Both |
+| [`ARRAYPUSHBACKLONG`](../../functions/array/arraypushback.md) | `ARRAYPUSHBACKLONG(arr, val)` | LONG[] | Appends a long to the end of an array | Both |
+| [`ARRAYPUSHBACKFLOAT`](../../functions/array/arraypushback.md) | `ARRAYPUSHBACKFLOAT(arr, val)` | FLOAT[] | Appends a float to the end of an array | Both |
+| [`ARRAYPUSHBACKDOUBLE`](../../functions/array/arraypushback.md) | `ARRAYPUSHBACKDOUBLE(arr, val)` | DOUBLE[] | Appends a double to the end of an array | Both |
+| [`ARRAYPUSHBACKSTRING`](../../functions/array/arraypushback.md) | `ARRAYPUSHBACKSTRING(arr, val)` | STRING[] | Appends a string to the end of an array | Both |
+| [`ARRAYPUSHFRONTINT`](../../functions/array/arraypushfront.md) | `ARRAYPUSHFRONTINT(arr, val)` | INT[] | Prepends an integer to the beginning of an array | Both |
+| [`ARRAYPUSHFRONTLONG`](../../functions/array/arraypushfront.md) | `ARRAYPUSHFRONTLONG(arr, val)` | LONG[] | Prepends a long to the beginning of an array | Both |
+| [`ARRAYPUSHFRONTFLOAT`](../../functions/array/arraypushfront.md) | `ARRAYPUSHFRONTFLOAT(arr, val)` | FLOAT[] | Prepends a float to the beginning of an array | Both |
+| [`ARRAYPUSHFRONTDOUBLE`](../../functions/array/arraypushfront.md) | `ARRAYPUSHFRONTDOUBLE(arr, val)` | DOUBLE[] | Prepends a double to the beginning of an array | Both |
+| [`ARRAYPUSHFRONTSTRING`](../../functions/array/arraypushfront.md) | `ARRAYPUSHFRONTSTRING(arr, val)` | STRING[] | Prepends a string to the beginning of an array | Both |
 | [`ARRAYREMOVEINT`](../../functions/array/arrayremoveint.md) | `ARRAYREMOVEINT(arr, val)` | INT[] | Removes first occurrence from integer array | Both |
 | [`ARRAYREMOVESTRING`](../../functions/array/arrayremovestring.md) | `ARRAYREMOVESTRING(arr, val)` | STRING[] | Removes first occurrence from string array | Both |
 | [`ARRAYREVERSEINT`](../../functions/array/arrayreverseint.md) | `ARRAYREVERSEINT(arr)` | INT[] | Reverses integer array | Both |
@@ -246,10 +256,10 @@ For full details, see [Array Functions](../../functions/array).
 | [`ARRAYSORTSTRING`](../../functions/array/arraysortstring.md) | `ARRAYSORTSTRING(arr)` | STRING[] | Sorts string array ascending | Both |
 | [`ARRAYUNIONINT`](../../functions/array/arrayunionint.md) | `ARRAYUNIONINT(arr1, arr2)` | INT[] | Union of two integer arrays (unique) | Both |
 | [`ARRAYUNIONSTRING`](../../functions/array/arrayunionstring.md) | `ARRAYUNIONSTRING(arr1, arr2)` | STRING[] | Union of two string arrays (unique) | Both |
-| `ARRAYSOVERLAP` | `ARRAYSOVERLAP(arr1, arr2)` | BOOLEAN | True if arrays share any element | Both |
+| [`ARRAYS_OVERLAP`](../../functions/array/arraysoverlap.md) | `ARRAYS_OVERLAP(arr1, arr2)` | BOOLEAN | True if same-type arrays share any element | Both |
 | `ARRAYSUMINT` | `ARRAYSUMINT(arr)` | INT | Sum of integer array elements | Both |
 | `ARRAYSUMLONG` | `ARRAYSUMLONG(arr)` | LONG | Sum of long array elements | Both |
-| `ARRAYTOSTRING` | `ARRAYTOSTRING(arr, delimiter [, null])` | STRING | Joins array elements into string | Both |
+| [`ARRAYTOSTRING`](../../functions/array/arraytostring.md) | `ARRAYTOSTRING(arr, delimiter [, null])` | STRING | Joins string array elements into one string | Both |
 | [`SUMARRAYLONG`](../../functions/aggregation/sumarraylong.md) | `SUMARRAYLONG(arrCol)` | LONG | Aggregate: sums all elements across rows | Both |
 | [`SUMARRAYDOUBLE`](../../functions/aggregation/sumarraydouble.md) | `SUMARRAYDOUBLE(arrCol)` | DOUBLE | Aggregate: sums all elements across rows | Both |
 

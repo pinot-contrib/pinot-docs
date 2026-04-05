@@ -116,8 +116,10 @@ Splits the input string by the specified delimiter and returns an array of strin
 Usage: `split(col, delimiter)` or `split(col, delimiter, limit)`\
 Example: `SELECT split('a,b,c', ',') FROM myTable` returns `['a', 'b', 'c']`
 
-**splitPart(col, delimiter, index)** / **splitPart(col, delimiter, limit, index)**\
+[**splitPart(col, delimiter, index)** / **splitPart(col, delimiter, limit, index)**](splitpart.md)\
 Splits the input string by the specified delimiter and returns the element at the given index. The index is 0-based and supports negative values to index from the end. Returns `"null"` if the index is out of bounds.
+
+Also available as `split_part`.
 
 Usage: `splitPart(col, delimiter, index)` or `splitPart(col, delimiter, limit, index)`\
 Example: `SELECT splitPart('a,b,c', ',', 1) FROM myTable` returns `'b'`\

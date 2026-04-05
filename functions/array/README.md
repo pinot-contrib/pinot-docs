@@ -657,6 +657,62 @@ SELECT arrayConcatString(ARRAY['a', 'b'], ARRAY['c']);
 
 ***
 
+## Array Push
+
+### arrayPushBack
+
+**Description**: Returns a new array with one element appended to the end.
+
+**Supported variants**:
+
+- `arrayPushBackInt(array, element)`
+- `arrayPushBackLong(array, element)`
+- `arrayPushBackFloat(array, element)`
+- `arrayPushBackDouble(array, element)`
+- `arrayPushBackString(array, element)`
+
+**Example**:
+
+```sql
+SELECT arrayPushBackInt(intArray, 7)
+```
+
+If `intArray` is `[3, 2, 10, 6, 1, 12]`, the result is `[3, 2, 10, 6, 1, 12, 7]`.
+
+```sql
+SELECT arrayPushBackString(stringArray, 'x')
+```
+
+If `stringArray` is `['3', '2', '10', '6', '1', '12']`, the result is `['3', '2', '10', '6', '1', '12', 'x']`.
+
+### arrayPushFront
+
+**Description**: Returns a new array with one element inserted at the beginning.
+
+**Supported variants**:
+
+- `arrayPushFrontInt(array, element)`
+- `arrayPushFrontLong(array, element)`
+- `arrayPushFrontFloat(array, element)`
+- `arrayPushFrontDouble(array, element)`
+- `arrayPushFrontString(array, element)`
+
+**Example**:
+
+```sql
+SELECT arrayPushFrontInt(intArray, 7)
+```
+
+If `intArray` is `[3, 2, 10, 6, 1, 12]`, the result is `[7, 3, 2, 10, 6, 1, 12]`.
+
+```sql
+SELECT arrayPushFrontString(stringArray, 'x')
+```
+
+If `stringArray` is `['3', '2', '10', '6', '1', '12']`, the result is `['x', '3', '2', '10', '6', '1', '12']`.
+
+***
+
 ## Array Element Access
 
 ### arrayElementAtInt
@@ -841,7 +897,9 @@ SELECT arrayToString(ARRAY['foo', NULL, 'bar'], '|', 'NA');
 | [arrayContainsInt](arraycontainsint.md) | [arrayContainsString](arraycontainsstring.md) |
 | [arrayDistinctInt](arraydistinctint.md) | [arrayDistinctString](arraydistinctstring.md) |
 | [arrayIndexOfInt](arrayindexofint.md) | [arrayIndexOfString](arrayindexofstring.md) |
-| [ARRAYLENGTH](arraylength.md) | [arrayRemoveInt](arrayremoveint.md) |
+| [ARRAYLENGTH](arraylength.md) | [arraysOverlap](arraysoverlap.md) |
+| [arrayPushBack](arraypushback.md) | [arrayPushFront](arraypushfront.md) |
+| [arrayToString](arraytostring.md) | [arrayRemoveInt](arrayremoveint.md) |
 | [arrayRemoveString](arrayremovestring.md) | [arrayReverseInt](arrayreverseint.md) |
 | [arrayReverseString](arrayreversestring.md) | [arraySliceInt](arraysliceint.md) |
 | [arraySliceString](arrayslicestring.md) | [arraySortInt](arraysortint.md) |
