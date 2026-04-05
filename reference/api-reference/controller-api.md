@@ -651,7 +651,7 @@ curl -X GET "http://localhost:9000/logicalTables" -H "accept: application/json"
 
 ### GET /logicalTables/\<tableName>
 
-Get the configuration of a specific logical table.
+Get the configuration of a specific logical table. The response body is the logical table config JSON.
 
 **Request**
 
@@ -664,19 +664,18 @@ curl -X GET "http://localhost:9000/logicalTables/logicalEvents" -H "accept: appl
 ```
 {
   "tableName": "logicalEvents",
-  "physicalTableNames": [
-    "events_REALTIME",
-    "events_2024_OFFLINE",
-    "events_2023_OFFLINE"
-  ],
+  "physicalTableConfigMap": {
+    "events_2024_OFFLINE": {},
+    "events_2023_OFFLINE": {}
+  },
   "brokerTenant": "DefaultTenant",
-  "logicalTableConfig": { ... }
+  "refOfflineTableName": "events_2024_OFFLINE"
 }
 ```
 
 ### POST /logicalTables
 
-Create a new logical table. The physical tables referenced must already exist. All physical tables must share a compatible schema.
+Create a new logical table. The request body is a logical table config. The physical tables referenced must already exist, and all physical tables must share a compatible schema.
 
 **Request**
 
@@ -685,11 +684,19 @@ curl -X POST "http://localhost:9000/logicalTables" \
   -H "Content-Type: application/json" \
   -d '{
     "tableName": "logicalEvents",
-    "physicalTableNames": [
-      "events_REALTIME",
-      "events_2024_OFFLINE"
-    ],
-    "brokerTenant": "DefaultTenant"
+    "physicalTableConfigMap": {
+      "events_REALTIME": {},
+      "events_2024_OFFLINE": {}
+    },
+    "brokerTenant": "DefaultTenant",
+    "refOfflineTableName": "events_2024_OFFLINE",
+    "refRealtimeTableName": "events_REALTIME",
+    "timeBoundaryConfig": {
+      "boundaryStrategy": "min",
+      "parameters": {
+        "includedTables": ["events_2024_OFFLINE"]
+      }
+    }
   }'
 ```
 
@@ -703,7 +710,7 @@ curl -X POST "http://localhost:9000/logicalTables" \
 
 ### PUT /logicalTables/\<tableName>
 
-Update an existing logical table, for example to add or remove physical tables.
+Update an existing logical table by sending the full logical table config, for example to add or remove physical tables.
 
 **Request**
 
@@ -712,12 +719,20 @@ curl -X PUT "http://localhost:9000/logicalTables/logicalEvents" \
   -H "Content-Type: application/json" \
   -d '{
     "tableName": "logicalEvents",
-    "physicalTableNames": [
-      "events_REALTIME",
-      "events_2024_OFFLINE",
-      "events_2023_OFFLINE"
-    ],
-    "brokerTenant": "DefaultTenant"
+    "physicalTableConfigMap": {
+      "events_REALTIME": {},
+      "events_2024_OFFLINE": {},
+      "events_2023_OFFLINE": {}
+    },
+    "brokerTenant": "DefaultTenant",
+    "refOfflineTableName": "events_2024_OFFLINE",
+    "refRealtimeTableName": "events_REALTIME",
+    "timeBoundaryConfig": {
+      "boundaryStrategy": "min",
+      "parameters": {
+        "includedTables": ["events_2024_OFFLINE"]
+      }
+    }
   }'
 ```
 
