@@ -97,6 +97,9 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | RESPONSE_MERGE_EXCEPTIONS | Number of queries that failed while merging responses from multiple servers. This can be due to schema inconsitency or any other issues |  |
 | BROKER_RESPONSES_WITH_PROCESSING_EXCEPTIONS | Number of queries where atleast one exception occured |  |
 | BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED | Number of queries with incomplete results due to missing responses from servers |  |
+| SECONDARY_WORKLOAD_BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED | Number of secondary-workload queries with incomplete results due to missing responses from servers |  |
+| SECONDARY_WORKLOAD_BROKER_RESPONSES_WITH_TIMEOUTS | Number of secondary-workload queries that timed out |  |
+| SECONDARY_WORKLOAD_QUERY_TOTAL_TIME_MS | Total broker query time for secondary-workload queries only |  |
 | BROKER_RESPONSES_WITH_NUM_GROUPS_LIMIT_REACHED | Number of queries where total number of groups exceeded configured limit (default limit - 100K) |  |
 | DOCUMENTS_SCANNED | Total number of documents read from segments in each query |  |
 | ENTRIES_SCANNED_IN_FILTER |  |  |

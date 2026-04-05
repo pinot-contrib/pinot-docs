@@ -208,6 +208,11 @@ Resource usage (CPU time, allocated bytes) is tracked at the thread level and ch
 | `NUM_SECONDARY_QUERIES` | Meter (per-table) | Number of secondary queries received. |
 | `NUM_SECONDARY_QUERIES_SCHEDULED` | Meter (per-table) | Number of secondary queries that were dequeued and scheduled for execution. |
 | `SECONDARY_Q_WAIT_TIME_MS` | Timer (per-table) | Time a secondary query spent waiting in the queue before being scheduled. |
+| `SECONDARY_WORKLOAD_QUERY_TOTAL_TIME_MS` | Timer (global) | End-to-end broker query time for secondary-workload queries only. |
+| `SECONDARY_WORKLOAD_BROKER_RESPONSES_WITH_TIMEOUTS` | Meter (global) | Number of secondary-workload queries that timed out. |
+| `SECONDARY_WORKLOAD_BROKER_RESPONSES_WITH_PARTIAL_SERVERS_RESPONDED` | Meter (global) | Number of secondary-workload queries that returned partial results because not all servers responded. |
+
+These broker metrics are the secondary-workload counterparts of the standard broker timeout, partial-response, and total-query-time metrics, so they let you separate ad-hoc or background query health from primary query traffic.
 
 ### WorkloadScheduler Metrics
 
