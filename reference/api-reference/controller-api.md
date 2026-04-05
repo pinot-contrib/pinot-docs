@@ -656,6 +656,65 @@ curl -X GET "http://localhost:9000/segments/myTable_OFFLINE/needReload?verbose=t
 
 Without `verbose=true`, Pinot still returns the top-level `needReload` flag but leaves `serverToSegmentsCheckReloadList` empty.
 
+### PUT /tables/\<tableName>
+
+Update the config for an existing typed table.
+
+**Query parameters**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `validationTypesToSkip` | string | Comma-separated validation types to skip during table-config validation. |
+| `force` | boolean | Defaults to `false`. When `true`, Pinot still applies backward-incompatible upsert or dedup config changes that it would otherwise reject. Use only for controlled migrations. |
+
+By default, Pinot returns `400 Bad Request` for backward-incompatible changes on existing upsert or dedup tables. The protected fields include upsert comparison columns, hash function, mode, out-of-order settings, partial-upsert strategies, dedup hash function, dedup time column, and the table time column when Pinot is using it as the default comparison or dedup time column. The safest path for those changes is still to create a new table and reingest the data.
+
+**Request**
+
+```bash
+curl -X PUT "http://localhost:9000/tables/myTable_REALTIME?force=true" \
+  -H "Content-Type: application/json" \
+  -d @table-config.json
+```
+
+**Response**
+
+```json
+{
+  "status": "Table config updated for myTable_REALTIME"
+}
+```
+
+### PUT /tableConfigs/\<tableName>
+
+Update a combined `TableConfigs` payload for the raw table name. Pinot uses this endpoint when you want to update schema-linked offline and realtime table configs together.
+
+**Query parameters**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `validationTypesToSkip` | string | Comma-separated validation types to skip during validation. |
+| `reload` | boolean | Defaults to `false`. When `true`, Pinot reloads the table if the schema update is backward compatible. |
+| `forceTableSchemaUpdate` | boolean | Defaults to `false`. When `true`, Pinot forces both the schema update and the included table-config updates even when they would normally be rejected as backward incompatible. This is intended for exceptional cases and should be used with caution. |
+
+The same upsert and dedup compatibility checks described above apply to the realtime or offline configs inside the `TableConfigs` payload. Without `forceTableSchemaUpdate=true`, Pinot rejects those backward-incompatible changes with `400 Bad Request`.
+
+**Request**
+
+```bash
+curl -X PUT "http://localhost:9000/tableConfigs/myTable?forceTableSchemaUpdate=true" \
+  -H "Content-Type: application/json" \
+  -d @table-configs.json
+```
+
+**Response**
+
+```json
+{
+  "status": "TableConfigs updated for myTable"
+}
+```
+
 
 ### DELETE /tables/\<tableName>
 

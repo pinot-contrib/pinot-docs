@@ -1023,6 +1023,10 @@ Not recommended. Existing segments contain validDocId snapshots computed using t
 
 **Avoid changing:** primary key columns, comparison columns, partial upsert strategies, upsert mode, and hashFunction.
 
+Pinot now enforces this guard on the controller update APIs. By default, `PUT /tables/{tableName}` and `PUT /tableConfigs/{tableName}` reject backward-incompatible upsert or dedup config changes with `400 Bad Request`. For upsert tables, this includes comparison columns, hash function, mode, out-of-order settings, partial-upsert strategies, and the table time column when Pinot is using it as the default comparison column. For dedup tables, this includes the dedup hash function, dedup time column, and the table time column when Pinot is using it as the default dedup time column.
+
+You can still bypass the guard with `force=true` on `PUT /tables/{tableName}` or `forceTableSchemaUpdate=true` on `PUT /tableConfigs/{tableName}`, but Pinot recommends using that only for controlled recovery or migration workflows.
+
 If changes are unavoidable:
 
 **Best option:** Create a new table and reingest all data.
