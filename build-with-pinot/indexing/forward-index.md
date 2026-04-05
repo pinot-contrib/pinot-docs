@@ -133,7 +133,7 @@ When using the raw format, you can configure the following parameters:
 | chunkCompressionType  | null    | The compression that will be used. Replaced by `compressionCodec` since release `1.2.0` |
 | compressionCodec      | null    | The compression that will be used. Introduced in release `1.2.0`                        |
 | deriveNumDocsPerChunk | false   | Modifies the behavior when storing variable length values (like string or bytes)        |
-| rawIndexWriterVersion | 2       | The version initially used                                                              |
+| rawIndexWriterVersion | 4       | The raw forward-index writer version used when you do not override it explicitly.                                                              |
 | targetDocsPerChunk    | 1000    | The target number of docs per chunk                                                     |
 | targetMaxChunkSize    | 1MB     | The target max chunk size                                                               |
 
@@ -159,7 +159,7 @@ There are additional special-purpose compression codecs available for specific u
 
 `deriveNumDocsPerChunk` is only used when the datatype may have a variable length, such as with `string`, `big decimal`, `bytes`, etc. By default, Pinot uses a fixed number of elements that was chosen empirically. If changed to true, Pinot will use a heuristic value that depends on the column data.
 
-`rawIndexWriterVersion` changes the algorithm used to create the index. This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions. The latest version right now is 6.
+`rawIndexWriterVersion` changes the algorithm used to create the index. This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions. Pinot now defaults new raw forward indexes to version 4. The latest available version right now is 6 when you want to opt in explicitly.
 
 **V6 Forward Index Format (Delta-Encoded Chunk Headers):** As of Pinot 1.3.0, version 6 provides improved compression for the forward index chunk headers. The V6 format delta-encodes chunk headers, storing individual entry sizes (deltas of cumulative offsets) instead of full offsets. These delta values are small, repetitive integers that compress dramatically better than the original offsets. V6 is a thin layer on top of V4/V5 — only the chunk header encoding differs; the data section and on-disk file layout remain identical. When `PASS_THROUGH` compression is used, V6 falls back to V4-style offsets since delta encoding provides no benefit without compression. The reader converts the delta-encoded sizes back to cumulative offsets in a single forward pass in-place, then reuses V4's standard random-access read logic unchanged, ensuring compatibility and performance.
 
@@ -195,7 +195,7 @@ The recommended way to configure the forward index using raw format is by includ
         "forward": {
           "compressionCodec": "PASS_THROUGH", // or "SNAPPY", "ZSTANDARD", "LZ4" or "GZIP"
           "deriveNumDocsPerChunk": false,
-          "rawIndexWriterVersion": 2
+          "rawIndexWriterVersion": 4
         }
       }
     },
@@ -227,7 +227,7 @@ For example:
       "chunkCompressionType": "PASS_THROUGH", // it can also be defined here
       "properties": {
         "deriveNumDocsPerChunkForRawIndex": "false", // here the string value has to be used
-        "rawIndexWriterVersion": "2" // here the string value has to be used
+        "rawIndexWriterVersion": "4" // here the string value has to be used
       }
     },
     ...
