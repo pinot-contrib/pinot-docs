@@ -43,8 +43,8 @@ You can configure the S3 file system using the following options:
 | serverSideEncryption     | (Optional) The server-side encryption algorithm used when storing this object in Amazon S3 (Now supports `aws:kms`), set to null to disable SSE.                                                                                      |
 | ssekmsKeyId              | (Optional, but **required** when `serverSideEncryption=aws:kms`) Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. |
 | ssekmsEncryptionContext  | (Optional) Specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.                                 |
-| requestChecksumCalculation | (Optional) Controls whether checksums are calculated for request payloads. Default: `WHEN_SUPPORTED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.                                                                                  |
-| responseChecksumValidation | (Optional) Controls whether checksums are validated on response payloads. Default: `WHEN_SUPPORTED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.                                                                                    |
+| requestChecksumCalculation | (Optional) Controls the AWS SDK checksum mode for S3 requests. Default: `WHEN_REQUIRED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.                                                                                                |
+| responseChecksumValidation | (Optional) Controls the AWS SDK checksum mode for S3 responses. Default: `WHEN_REQUIRED`. Options: `WHEN_SUPPORTED`, `WHEN_REQUIRED`.                                                                                               |
 | useLegacyMd5Plugin         | (Optional) When set to `true`, uses the LegacyMd5Plugin to restore pre-2.30.0 MD5 checksum behavior. Default: `false`.                                                                                                             |
 | enableCrossRegionAccess  | (Optional) If you want to copy objects b/w two buckets that lie in different regions. Defaults to `true` if not configured. |
 
@@ -77,19 +77,19 @@ Starting with AWS SDK 2.30.0, the S3 client enables request and response checksu
 
 ### Request and response checksums
 
-By default, Pinot sets both `requestChecksumCalculation` and `responseChecksumValidation` to `WHEN_SUPPORTED`, which means the S3 client calculates checksums on uploads and validates them on downloads whenever the API supports it. This provides data integrity verification for segment files stored in your deep store.
+By default, Pinot sets both `requestChecksumCalculation` and `responseChecksumValidation` to `WHEN_REQUIRED`. This keeps Pinot on the AWS SDK's required-only checksum path unless the S3 API explicitly requires checksum calculation or validation.
 
-If you want to disable automatic checksums and only use them when the S3 API strictly requires it, set both properties to `WHEN_REQUIRED`:
+If you want the S3 client to calculate or validate checksums whenever the API supports it, set both properties to `WHEN_SUPPORTED`:
 
 ```
-pinot.controller.storage.factory.s3.requestChecksumCalculation=WHEN_REQUIRED
-pinot.controller.storage.factory.s3.responseChecksumValidation=WHEN_REQUIRED
+pinot.controller.storage.factory.s3.requestChecksumCalculation=WHEN_SUPPORTED
+pinot.controller.storage.factory.s3.responseChecksumValidation=WHEN_SUPPORTED
 ```
 
 | Value            | Behavior                                                |
 | ---------------- | ------------------------------------------------------- |
-| WHEN_SUPPORTED   | Calculate/validate checksums whenever the API supports it (default) |
-| WHEN_REQUIRED    | Only calculate/validate checksums when the API requires it          |
+| WHEN_REQUIRED    | Only use checksum calculation or validation when the S3 API requires it (default) |
+| WHEN_SUPPORTED   | Use checksum calculation or validation whenever the S3 API supports it             |
 
 ### LegacyMd5Plugin for S3-compatible stores
 
