@@ -50,15 +50,20 @@ Reset does **not** re-download or rebuild the segment. If the underlying segment
 **API.**
 
 ```
-# Reload all segments
-POST /segments/{tableName}/reload
+# Reload all segments on an offline table
+POST /segments/{tableName}/reload?type=OFFLINE
 
 # Reload a single segment
 POST /segments/{tableName}/{segmentName}/reload
 
-# Force re-download from deep store before reloading
-POST /segments/{tableName}/reload?forceDownload=true
+# Force re-download immutable segments from deep store before reloading
+POST /segments/{tableName}/reload?type=OFFLINE&forceDownload=true
+
+# Poll job status
+GET /segments/segmentReloadStatus/{jobId}
 ```
+
+`targetInstance` is available on both reload endpoints when you want to reload only one server's copy. `instanceToSegmentsMap` is also available on the table-level endpoint when you need to reload a specific set of segments on specific servers.
 
 **UI.** The Cluster Manager offers **Reload All Segments** at the table level and **Reload Segment** at the individual segment level.
 
@@ -184,7 +189,7 @@ Both tasks are configured in the table's `taskTypeConfigsMap` and run automatica
 
 1. Update the table config to include the new index column.
 2. Run `POST /segments/{tableName}/reload` to rebuild indexes in-place on every server.
-3. Monitor reload job status via `GET /segments/{tableName}/reload/status/{jobId}`.
+3. Monitor reload job status via `GET /segments/segmentReloadStatus/{jobId}`.
 
 If the table has RefreshSegmentTask enabled, the task will also detect the config change and rebuild stale segments on its next run.
 
