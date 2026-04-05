@@ -38,6 +38,8 @@ POST /segments/{tableNameWithType}/reset?errorSegmentsOnly=true
 
 **UI.** The Pinot Data Explorer table detail screen includes a **Reset Segment** action. You can also filter segments by the ERROR state to find candidates quickly.
 
+If you want Pinot to retry this automatically during periodic validation, enable `controller.segment.error.autoReset`. That controller setting applies to both offline and realtime validation tasks and is disabled by default.
+
 {% hint style="warning" %}
 Reset does **not** re-download or rebuild the segment. If the underlying segment data on the server is corrupted, follow up with a [reload](#reload-a-segment) using `forceDownload=true`.
 {% endhint %}
