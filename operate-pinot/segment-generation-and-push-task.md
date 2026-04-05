@@ -73,8 +73,8 @@ These properties are specified inside each entry of `batchConfigMaps`:
 | `recordReader.prop.<key>` | Properties to initialize RecordReaderConfig | No |
 | `schema` | Pinot schema as a JSON string | No (fetched from controller) |
 | `schemaURI` | URI to fetch the Pinot schema | No (fetched from controller) |
-| `segmentNameGenerator.type` | Segment name generator type (`simple` or `fixed`) | No (defaults to `simple`) |
-| `segmentNameGenerator.configs.<key>` | Segment name generator configuration properties | No |
+| `segmentNameGenerator.type` | Segment name generator type (`simple`, `fixed`, `normalizedDate`, `inputFile`, or `uploadedRealtime`) | No (defaults to `simple`) |
+| `segmentNameGenerator.configs.<key>` | Segment name generator configuration properties. For `uploadedRealtime`, provide at least `segment.partitionId` and a non-empty `segment.name.prefix`; you can also set `segment.uploadTimeMs` and `segment.name.postfix`. | No |
 | `push.mode` | Segment push mode: `TAR`, `URI`, or `METADATA` | No (defaults to `TAR`) |
 | `push.controllerUri` | Controller URI for push requests | No (defaults to controller VIP) |
 | `push.segmentUriPrefix` | URI prefix for segment download (used with `URI` push mode) | No |
@@ -88,6 +88,8 @@ These properties go under `taskTypeConfigsMap.SegmentGenerationAndPushTask`:
 |----------|-------------|---------|
 | `schedule` | Cron expression for automatic task scheduling | None (manual only) |
 | `tableMaxNumTasks` | Maximum number of concurrent tasks per table per run | `Integer.MAX_VALUE` |
+
+When you use `segmentNameGenerator.type=uploadedRealtime`, Pinot generates uploaded realtime segment names as `{prefix}__{tableName}__{partitionId}__{uploadTimeMs}__{suffixOrSequenceId}`. This is the naming convention to use when you are backfilling an externally partitioned realtime upsert table and need the uploaded segments to preserve the external partition id for assignment and upsert consistency.
 
 ## How It Works
 

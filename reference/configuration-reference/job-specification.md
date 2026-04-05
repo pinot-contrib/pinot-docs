@@ -197,16 +197,18 @@ tableSpec:
 
 | Property                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **type** | The type of name generator to use. If not specified, an appropriate type will be inferred based on segment generator config properties. The following values are supported - - `simple` - this is the default spec. - `normalizedDate` - use this type when the time column in your data is in the String format instead of epoch time. - `fixed` - configure the segment name by the user. - `inputFile` - supports naming the resulting segment file based on the input file name &#x26; path. Use this if your table doesn't have a time column. Ensure that input file names are unique though otherwise will lead to several issues. |
+| **type** | The type of name generator to use. If not specified, Pinot infers an appropriate type from the segment generator config. Supported values are `simple`, `normalizedDate`, `fixed`, `inputFile`, and `uploadedRealtime`. Use `uploadedRealtime` when you are generating externally partitioned segments that will be uploaded into a realtime upsert table. |
 | **configs**                      | Configs to init SegmentNameGenerator                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | segment.name                     | For `fixed` SegmentNameGenerator. Explicitly set the segment name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| segment.name.postfix | For `simple` SegmentNameGenerator. Postfix will be appended to all the segment names. |
-| segment.name.prefix | For `normalizedDate` SegmentNameGenerator. The Prefix will be prepended to all the segment names. |
+| segment.name.postfix | For `simple` SegmentNameGenerator. Postfix will be appended to all the segment names. For `uploadedRealtime`, this is an optional suffix override; if omitted, Pinot uses the segment sequence id. |
+| segment.name.prefix | For `normalizedDate` and `uploadedRealtime` SegmentNameGenerator. The prefix will be prepended to generated segment names. `uploadedRealtime` requires a non-empty prefix. |
 | exclude.sequence.id | Whether to include sequence ids in segment name. Needed when there are multiple segments for the same time range. |
 | use.global.directory.sequence.id | Assign sequence ids to input files based on all input files under the directory. Set to `false` to use local directory sequence id. This is useful when generating multiple segments for multiple days. In that case, each of the days will start from sequence id 0. |
 | append.uuid.to.segment.name      | If the input data doesn't contain a time column, set this to `true` to generate unique segment names. Can be used with any name generator type.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | file.path.pattern                | For `inputFile`, a Java regular expression used to match against the input file URI. e.g. `'.+/(.+).gz'` to extract file name from a .gz file without the extension                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | segment.name.template | For `inputFile` , the string template that should be used to substitute extracted fileName. Currently only supports `${filePathPattern:<match group>}` |
+| segment.partitionId | For `uploadedRealtime`, the external partition id to encode in the generated segment name. This value is required. |
+| segment.uploadTimeMs | For `uploadedRealtime`, the upload timestamp to encode in the generated segment name. If omitted, Pinot uses the segment creation time. |
 
 #### Example
 
@@ -229,6 +231,19 @@ segmentNameGeneratorSpec:
 ```
 
 Note that `$` in the yaml file must be escaped, since Pinot uses Groovy's SimpleTemplateEngine to process the yaml file, and a raw `$` is treated as a template specifier.
+
+To generate externally partitioned uploaded-realtime segments for a realtime upsert table, use:
+
+```
+segmentNameGeneratorSpec:
+  type: uploadedRealtime
+  configs:
+    segment.name.prefix: 'spark'
+    segment.partitionId: 1
+    segment.uploadTimeMs: 1717701199455
+```
+
+Pinot encodes uploaded realtime segments as `{prefix}__{tableName}__{partitionId}__{uploadTimeMs}__{suffixOrSequenceId}` so the uploaded segment can be assigned consistently with the external partitioning scheme.
 
 ### Pinot Cluster Spec
 
