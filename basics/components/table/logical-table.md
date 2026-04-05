@@ -284,7 +284,7 @@ Storage quota (`quota.storage`) is not supported for logical tables since they d
 
 ## Managing Logical Tables via the Controller UI
 
-The Pinot Controller UI provides full CRUD management for logical tables, accessible directly from the main Tables page.
+The Pinot Controller UI provides browsing and in-place management for logical tables, accessible directly from the main Tables page.
 
 ### Accessing Logical Tables
 
@@ -305,7 +305,7 @@ The Pinot Controller UI provides full CRUD management for logical tables, access
 | **Delete** | Remove a logical table from the cluster |
 
 {% hint style="tip" %}
-All operations are also available via the REST API at `/logicalTables/{tableName}` using GET, PUT, and DELETE.
+Create logical tables with `POST /logicalTables`. Get, update, and delete are available at `/logicalTables/{tableName}` using GET, PUT, and DELETE.
 {% endhint %}
 
 ## Quick Start Example
