@@ -198,7 +198,7 @@ If a segment remains in `COMMITTING` state for an extended period, the server ma
 Segments in `ERROR` state with no completed replica on any server indicate a non-recoverable failure. If `disasterRecoveryMode` is set to `DEFAULT` for a dedup or upsert table, these segments will not be automatically recovered. Options include:
 
 1. Set `disasterRecoveryMode` to `ALWAYS` to enable automatic reingestion (with the caveat of temporary metadata inconsistency for dedup/upsert tables).
-2. Manually delete the affected segments and allow Pinot to re-create them.
+2. Pause ingestion for the table and use `DELETE /deleteSegmentsFromSequenceNum/{tableNameWithType}` to remove the affected segment and every later segment in the same partition. Start with `dryRun=true` to inspect the deletion plan, then rerun with `dryRun=false` after you confirm the target segments. Pinot recreates the deleted range from the stream when consumption resumes.
 
 ### Slow replicas and segment download
 
