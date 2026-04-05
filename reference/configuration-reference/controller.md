@@ -141,8 +141,11 @@ This task does not fix consumption stalled due to
 | controller.realtime.segment.deepStoreUploadRetryEnabled | false |
 | controller.realtime.segment.deepStoreUploadRetry.timeoutMs | -1 |
 | controller.realtime.segment.deepStoreUploadRetry.parallelism | 1 |
+| controller.segment.error.autoReset | true |
 | controller.realtime.segment.partialOfflineReplicaRepairEnabled | false |
 | controller.segment.disaster.recovery.mode | DEFAULT |
+
+`controller.segment.error.autoReset` controls whether the controller's periodic realtime-segment validation task automatically resets segments in `ERROR` state so they can retry normal recovery. Pinot enables this by default.
 
 When `controller.realtime.segment.partialOfflineReplicaRepairEnabled` is enabled, the controller's periodic validation task automatically resets OFFLINE replicas back to CONSUMING for IN_PROGRESS segments that have a mix of CONSUMING and OFFLINE replicas. This handles cases where a replica's startup fails (for example, due to Kafka consumer initialization errors) while other replicas continue normally. Enable only after verifying that OFFLINE replicas are caused by transient failures rather than persistent errors.
 
