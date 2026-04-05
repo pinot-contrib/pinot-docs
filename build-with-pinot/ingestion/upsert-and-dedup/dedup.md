@@ -108,6 +108,27 @@ When ingesting new records, the server has to read the metadata map to check for
 
 The feature also requires you to specify `pinot.server.instance.max.segment.preload.threads: N` in the server config where N should be replaced with the number of threads that should be used for preload. It's 0 by default to disable the preloading feature. This preloading thread pool is shared with [upsert table's preloading](upsert.md#enable-preload-for-faster-server-restarts).
 
+## Ignore non-default tier segments during dedup metadata construction
+
+When real-time segments are moved to a non-default tier, they are often already outside the metadata TTL window. In that case, you can skip them when Pinot rebuilds dedup metadata on the server.
+
+Set `dedupConfig.ignoreNonDefaultTiers` to one of the following values:
+
+* `ENABLE`: Always skip immutable segments on non-default tiers when constructing dedup metadata.
+* `DISABLE`: Always include immutable segments on non-default tiers.
+* `DEFAULT`: Use the server-level default from `pinot.server.instance.dedup.default.ignore.non.default.tiers`.
+
+```json
+{
+  "dedupConfig": {
+    "dedupEnabled": true,
+    "ignoreNonDefaultTiers": "ENABLE"
+  }
+}
+```
+
+The server-level default is `false`, so tables with `ignoreNonDefaultTiers: "DEFAULT"` continue to include non-default-tier segments unless you override the server setting.
+
 ## Immutable dedup configuration fields
 
 {% hint style="danger" %}
