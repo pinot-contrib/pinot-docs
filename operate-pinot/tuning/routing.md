@@ -159,6 +159,8 @@ To enable for a specific query via _query options_, which overrides the table/br
 SET "useFixedReplica"=true;
 ```
 
+When replica-group based routing is enabled, Pinot still honors [`numReplicaGroupsToQuery`](../../build-with-pinot/querying-and-sql/query-execution-controls/query-options.md). For example, if `useFixedReplica=true` and `numReplicaGroupsToQuery=2`, Pinot deterministically selects one replica within each of the two queried replica-groups instead of pinning the query to only one replica-group.
+
 To enable for a specific table using _table config settings_, which overrides the broker level configuration, add the following in your table config:
 
 ```
