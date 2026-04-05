@@ -142,8 +142,11 @@ This task does not fix consumption stalled due to
 | controller.realtime.segment.deepStoreUploadRetry.timeoutMs | -1 |
 | controller.realtime.segment.deepStoreUploadRetry.parallelism | 1 |
 | controller.realtime.segment.partialOfflineReplicaRepairEnabled | false |
+| controller.segment.disaster.recovery.mode | DEFAULT |
 
 When `controller.realtime.segment.partialOfflineReplicaRepairEnabled` is enabled, the controller's periodic validation task automatically resets OFFLINE replicas back to CONSUMING for IN_PROGRESS segments that have a mix of CONSUMING and OFFLINE replicas. This handles cases where a replica's startup fails (for example, due to Kafka consumer initialization errors) while other replicas continue normally. Enable only after verifying that OFFLINE replicas are caused by transient failures rather than persistent errors.
+
+`controller.segment.disaster.recovery.mode` sets the cluster-wide default disaster-recovery policy used by the controller's realtime segment validation task for pauseless ingestion. Supported values are `DEFAULT` and `ALWAYS`, matching the table-level `disasterRecoveryMode` setting in `streamIngestionConfig`. You can set this in `controller.conf`, or update the same key through cluster configs so the controller picks up the new mode without restart.
 
 ### RetentionManager
 

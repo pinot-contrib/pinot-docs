@@ -142,6 +142,8 @@ For tables with dedup or upsert enabled, reingestion may conflict with data cons
 When using `ALWAYS` mode with dedup tables, dedup metadata may be temporarily inconsistent until a full metadata rebuild is performed after recovery.
 {% endhint %}
 
+For a cluster-wide default, set `controller.segment.disaster.recovery.mode` to `DEFAULT` or `ALWAYS`. This applies the same policy through the controller's periodic realtime validation task without requiring every table config to repeat the setting. Table-level `disasterRecoveryMode` remains available when you want to opt an individual table into `ALWAYS` while the cluster default stays at `DEFAULT`.
+
 ## Observability
 
 ### Metrics
