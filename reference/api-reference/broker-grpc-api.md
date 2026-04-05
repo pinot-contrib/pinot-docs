@@ -14,6 +14,8 @@ pinot.broker.grpc.tls.enabled=true
 pinot.broker.grpc.tls.port=8020
 ```
 
+If you expose the secure broker gRPC listener, the current broker startup path reuses the TLS material under `pinot.broker.tls.*` for the keystore and truststore. See the [broker configuration reference](../configuration-reference/broker.md#broker-grpc-transport) for the full listener and TLS setup.
+
 ## Client Options
 
 | Option | Default | Notes |
@@ -42,6 +44,7 @@ try (Connection connection = DriverManager.getConnection("jdbc:pinotgrpc://local
 - Use the same `--add-opens` JVM flag when running Arrow-based clients.
 - Connection establishment performs a lightweight validation query.
 - Request headers can be attached with the `headers.` prefix.
+- If the broker also uses `pinot.broker.request.handler.type=grpc` for broker-to-server communication, the outbound gRPC channels can be tuned with `channelKeepAliveTimeSeconds`, `channelKeepAliveTimeoutSeconds`, `channelKeepAliveWithoutCalls`, and `channelShutdownTimeoutSeconds` in `broker.conf`.
 
 ## What this page covered
 

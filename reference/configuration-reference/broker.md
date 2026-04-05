@@ -37,6 +37,9 @@ ConfigurationException: Duplicate key found in /path/to/broker.conf at line 10 a
 | pinot.broker.client.access.protocols                            |                                                                       | Ingress protocols to query broker (http or https or http,https)                                                                                                                                                                                                                                        |
 | pinot.broker.client.access.protocols.http.port                  |                                                                       | Port to query broker via http                                                                                                                                                                                                                                                                          |
 | pinot.broker.client.access.protocols.https.port                 |                                                                       | Port to query broker via https                                                                                                                                                                                                                                                                         |
+| pinot.broker.grpc.port                                          |                                                                       | Port for the broker gRPC query listener. Set this to expose the plaintext broker gRPC API.                                                                                                                                                                                                             |
+| pinot.broker.grpc.tls.enabled                                   | false                                                                 | Enable TLS for the broker gRPC query listener. When `true`, start the secure listener on `pinot.broker.grpc.tls.port`.                                                                                                                                                                                |
+| pinot.broker.grpc.tls.port                                      |                                                                       | Port for the secure broker gRPC query listener.                                                                                                                                                                                                                                                        |
 | pinot.broker.netty.enabled                                      | true                                                                  | Enable unsecured netty connections to pinot-server                                                                                                                                                                                                                                                     |
 | pinot.broker.nettytls.enabled                                   | false                                                                 | Enable secured netty connections to pinot-server                                                                                                                                                                                                                                                       |
 | pinot.broker.tls.keystore.path                                  |                                                                       | Path to broker TLS keystore                                                                                                                                                                                                                                                                            |
@@ -79,6 +82,47 @@ ConfigurationException: Duplicate key found in /path/to/broker.conf at line 10 a
 | pinot.broker.mse.max.server.query.threads                       | -1                                                                    | Broker-local concurrency throttle for multi-stage queries, expressed as estimated server query threads. When set to a positive value, this overrides the cluster fallback `pinot.beta.multistage.engine.max.server.query.threads`. When left at `-1`, the broker uses the cluster fallback value, or disables this throttle if the cluster fallback is also non-positive. |
 | pinot.broker.mse.max.server.query.threads.exceed.strategy       | WAIT                                                                  | Behavior when a multi-stage query would exceed the broker-side concurrency throttle. Supported values: `WAIT` (block until capacity is available) and `LOG` (allow the query but log a warning).                                                                                                                                              |
 | pinot.broker.request.handler.type                               | netty                                                                 | Type of request handler for broker-to-server communication. Options: `netty`, `grpc`, `multistage`.                                                                                                                                                                                                    |
+| channelKeepAliveTimeSeconds                                     | -1 (disabled)                                                         | Top-level `broker.conf` key for the broker-to-server gRPC query client keepalive interval, in seconds. Only applies when `pinot.broker.request.handler.type=grpc`. Set a positive value to enable keepalive pings.                                                                                 |
+| channelKeepAliveTimeoutSeconds                                  | 20                                                                    | Top-level `broker.conf` key for the keepalive ACK timeout, in seconds, for the broker-to-server gRPC query client. Only applies when keepalive is enabled and `pinot.broker.request.handler.type=grpc`.                                                                                          |
+| channelKeepAliveWithoutCalls                                    | true                                                                  | Top-level `broker.conf` key controlling whether the broker-to-server gRPC query client sends keepalive pings while idle. Only applies when keepalive is enabled and `pinot.broker.request.handler.type=grpc`.                                                                                        |
+| channelShutdownTimeoutSeconds                                   | 10                                                                    | Top-level `broker.conf` key for how long the broker waits for broker-to-server gRPC query client channels to terminate during shutdown. Only applies when `pinot.broker.request.handler.type=grpc`.                                                                                                  |
 | pinot.broker.max.reduce.threads.per.query                       | min(10, cores/2)                                                      | Maximum number of threads used to reduce (merge) results from multiple servers for a single query.                                                                                                                                                                                                     |
 | pinot.broker.failure.detector.type                              | NO_OP                                                                 | Type of failure detector for detecting unhealthy servers. Options: `NO_OP`, `CONNECTION_BASED`.                                                                                                                                                                                                        |
 | pinot.broker.use.fixed.replica                                  | false                                                                 | When true, routes queries to a fixed replica group for better cache locality.                                                                                                                                                                                                                          |
+
+## Broker gRPC transport
+
+Pinot brokers can participate in two different gRPC query paths:
+
+- **Client to broker**: the broker exposes the [Broker gRPC API](../api-reference/broker-grpc-api.md) on `pinot.broker.grpc.port` or `pinot.broker.grpc.tls.port`.
+- **Broker to server**: the broker talks to Pinot servers over gRPC only when `pinot.broker.request.handler.type=grpc`.
+
+For the secure broker gRPC listener, Pinot currently reuses the TLS material configured under `pinot.broker.tls.*`. In other words, `pinot.broker.grpc.tls.enabled` and `pinot.broker.grpc.tls.port` select the secure listener, while the keystore and truststore still come from the normal broker TLS prefix.
+
+Example:
+
+```properties
+pinot.broker.grpc.port=8010
+pinot.broker.grpc.tls.enabled=true
+pinot.broker.grpc.tls.port=8020
+
+pinot.broker.tls.keystore.path=/path/to/broker-keystore.p12
+pinot.broker.tls.keystore.password=changeit
+pinot.broker.tls.keystore.type=PKCS12
+pinot.broker.tls.truststore.path=/path/to/broker-truststore.p12
+pinot.broker.tls.truststore.password=changeit
+pinot.broker.tls.truststore.type=PKCS12
+```
+
+If you use `pinot.broker.request.handler.type=grpc`, the broker's outbound gRPC channels to servers can be tuned with the keepalive and shutdown settings above. Keepalive remains disabled unless `channelKeepAliveTimeSeconds` is set to a positive value.
+
+Example:
+
+```properties
+pinot.broker.request.handler.type=grpc
+
+channelKeepAliveTimeSeconds=60
+channelKeepAliveTimeoutSeconds=20
+channelKeepAliveWithoutCalls=true
+channelShutdownTimeoutSeconds=10
+```
