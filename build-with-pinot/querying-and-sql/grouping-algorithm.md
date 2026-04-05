@@ -12,7 +12,7 @@ In this guide we will learn about the heuristics used for trimming results in Pi
 
 When grouping rows within a segment, Pinot keeps a maximum of `numGroupsLimit` groups per segment. This value is set to 100,000 by default and can be configured by the `pinot.server.query.executor.num.groups.limit` property.
 
-If the number of groups of a segment reaches this value, the extra groups will be ignored and the results returned may not be completely accurate. The `numGroupsLimitReached` property will be set to `true` in the query response if the value is reached.
+If the number of groups of a segment reaches this value, the extra groups will be ignored and the results returned may not be completely accurate. The `numGroupsLimitReached` property will be set to `true` in the query response if the value is reached. For multi-stage queries, you can set `errorOnNumGroupsLimit=true` to fail the query instead of returning partial results when the limit is hit.
 
 ### Trimming tail groups
 
@@ -220,6 +220,7 @@ The actual processing depends on the query, which may not contain an SSE leaf st
 | --- | --- | --- | --- |
 | `pinot.server.query.executor.max.execution.threads` | -1 (use all execution threads) | `SET maxExecutionThreads = value;` | The maximum number of execution threads (parallelism of segment processing) used per query. |
 | `pinot.server.query.executor.num.groups.limit` | 100,000 | `SET numGroupsLimit = value;` | The maximum number of groups allowed per segment. |
+| `pinot.server.query.executor.num.groups.warn.limit` | 150,000 | `SET numGroupsWarningLimit = value;` | The warning threshold for the number of groups kept by a query operator. When reached, Pinot sets `numGroupsWarningLimitReached=true` in the response metadata and logs a warning, but continues query execution. |
 | `pinot.server.query.executor.min.segment.group.trim.size` | -1 (disabled) | `SET minSegmentGroupTrimSize = value;` | The minimum number of groups to keep when trimming groups at the segment level. |
 | `pinot.server.query.executor.min.server.group.trim.size` | 5,000 | `SET minServerGroupTrimSize = value;` | The minimum number of groups to keep when trimming groups at the server level. |
 | `pinot.server.query.executor.groupby.trim.threshold` | 1,000,000 | `SET groupTrimThreshold = value;` | The number of groups to trigger the server level trim. |

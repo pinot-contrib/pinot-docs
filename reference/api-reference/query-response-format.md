@@ -50,6 +50,7 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 | `numEntriesScannedInFilter` | Filter-phase entries scanned |
 | `numEntriesScannedPostFilter` | Post-filter entries scanned |
 | `numGroupsLimitReached` | Whether group-by trimming hit the limit |
+| `numGroupsWarningLimitReached` | Whether group-by execution crossed the configured warning threshold for number of groups |
 | `stageStats` | Per-stage stats for multi-stage queries |
 | `exceptions` | Query-processing exceptions, if any |
 | `rlsFiltersApplied` | Whether row-level security predicates were injected |
