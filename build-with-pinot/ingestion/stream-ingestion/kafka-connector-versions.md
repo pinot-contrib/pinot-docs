@@ -11,7 +11,7 @@ Apache Pinot provides multiple Kafka connector versions to match different Kafka
 
 | Connector Plugin | Kafka Client Version | Notes |
 |---|---|---|
-| `pinot-kafka-3.0` | 3.9.x | Recommended for Kafka 3.x clusters. Requires Scala dependency. |
+| `pinot-kafka-3.0` | 3.9.x | Recommended for Kafka 3.x clusters. Built with Scala 2.13 (default); use `-Pscala-2.12` profile for Scala 2.12. |
 | `pinot-kafka-4.0` | 4.1.x | Recommended for Kafka 4.x clusters (KRaft mode). Pure Java — no Scala dependency. |
 
 {% hint style="warning" %}
@@ -68,6 +68,14 @@ The Kafka 4.0 connector is fully compatible with all existing Kafka consumer con
 ## Kafka 3.0 Connector
 
 The Kafka 3.0 connector (`pinot-kafka-3.0`) supports Apache Kafka 3.x brokers. This is the most widely deployed connector version.
+
+### Scala Version
+
+The Kafka 3.0 connector is built with **Scala 2.13** by default. If you need Scala 2.12 compatibility, build Pinot with the `-Pscala-2.12` Maven profile:
+
+```
+mvn clean install -Pscala-2.12 -DskipTests
+```
 
 ### Configuration
 

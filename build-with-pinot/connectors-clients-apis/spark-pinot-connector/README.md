@@ -358,7 +358,7 @@ Welcome to
    /___/ .__/\_,_/_/ /_/\_\   version 3.5.1
       /_/
 
-Using Scala version 2.12.18 (OpenJDK 64-Bit Server VM, Java 17.0.15)
+Using Scala version 2.13 (default) (OpenJDK 64-Bit Server VM, Java 17.0.15)
 Type in expressions to have them evaluated.
 Type :help for more information.
 

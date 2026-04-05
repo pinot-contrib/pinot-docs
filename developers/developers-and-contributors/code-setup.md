@@ -38,6 +38,23 @@ Run the following maven command to set up the project.
 $mvn install package -DskipTests -Pbin-dist -DdownloadSources -DdownloadJavadocs
 ```
 
+### Scala Version
+
+As of recent versions, Pinot defaults to **Scala 2.13** for all Scala-based dependencies and connectors (Spark, Kafka 3.x, etc.). 
+
+If you need to build with **Scala 2.12** for compatibility with your environment, use the Maven profile:
+
+```
+# compile with Scala 2.12
+$ mvn install package -DskipTests -Pbin-dist -Pscala-2.12 -DdownloadSources -DdownloadJavadocs
+```
+
+This affects connectors and libraries like:
+- Spark Pinot Connector
+- Kafka 3.0 Connector
+- Any other Scala-based dependencies
+
+
 ### Set up IDE
 
 Import the project into your favorite IDE. Set up stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, ensure you use stylesheet based on [this](https://github.com/apache/pinot/blob/master/config/codestyle-intellij.xml).
