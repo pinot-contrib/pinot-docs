@@ -264,8 +264,10 @@ LIMIT 10;
 **Query-time parameters explanation:**
 
 * **vectorNprobe**: Number of inverted file lists to probe. Higher values increase recall at the cost of more computation. Start with nlist/4 and adjust based on query performance.
-* **vectorExactRerank**: When enabled, candidate vectors are re-ranked using exact distance computation for improved accuracy. Recommended when recall is critical.
-* **vectorMaxCandidates**: Maximum number of vectors to examine during candidate generation. Useful for controlling query latency.
+* **vectorExactRerank**: When enabled, Pinot re-ranks the ANN candidates using exact distance from the forward index. This improves accuracy, but it does not turn the query into a full exact scan.
+* **vectorMaxCandidates**: Maximum number of ANN candidates to examine before exact rerank. This only affects queries with `vectorExactRerank=true`.
+
+If a segment does not have a vector index, Pinot falls back to an exact forward-index scan for that segment. In that path Pinot ignores IVF_FLAT-specific tuning such as `vectorNprobe` and `vectorMaxCandidates`.
 
 ### IVF_FLAT vs HNSW
 
@@ -290,7 +292,7 @@ Existing HNSW configurations continue to work without modification. The vector i
 - Supported vector index types: HNSW and IVF_FLAT. IVF_FLAT does not support mutable segments in phase 1; segments must be immutable.
 - The column must be a multi-valued FLOAT column.
 - Maximum vector dimension is 2048 (configurable via the `maxDimensions` property for HNSW).
-- `VECTOR_SIMILARITY` is an approximate nearest-neighbor predicate; results are not exact unless `vectorExactRerank=true` is set.
+- When Pinot uses a vector index, `VECTOR_SIMILARITY` is an approximate nearest-neighbor predicate. `vectorExactRerank=true` only re-scores the ANN candidates returned by the index; it does not guarantee a full exact search. When a segment has no vector index, Pinot falls back to an exact forward-index scan for that segment.
 - HNSW uses Lucene under the hood and generates Lucene index files per segment.
 - IVF_FLAT does not support online index updates; segments must be immutable.
 
@@ -317,4 +319,3 @@ Inputs:
 * embedding: The vector column.
 * Query vector (literal array).
 * Optional topK parameter (default: 10).
-
