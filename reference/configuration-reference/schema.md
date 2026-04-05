@@ -318,6 +318,8 @@ These advanced properties are available across field specs:
 | `allowTrailingZeros` | Whether `BIG_DECIMAL` should preserve trailing zeros. Defaults to `false`, which strips them. |
 | `virtualColumnProvider` | Provider used to populate a virtual column value. |
 
+For `JSON` columns, Pinot also supports cluster-wide or node-local fallback defaults when the field spec omits `maxLength` or `maxLengthExceedStrategy`. By default, Pinot uses `512` and `NO_ACTION`. You can override those defaults with `pinot.field.spec.default.json.max.length` and `pinot.field.spec.default.json.max.length.exceed.strategy`. Explicit field-spec values still take precedence.
+
 ## Related Pages
 
 - [Configuration Reference](README.md)

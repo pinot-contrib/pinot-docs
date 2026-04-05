@@ -25,6 +25,8 @@ These settings control baseline cluster behavior and compatibility semantics.
 | enable.case.insensitive | true | Pinot queries are case insensitive by default, including table and column names. If you set this to `false`, Pinot uses the exact case defined in the schema. This property is applicable to brokers and is read only when the broker starts, so changing it requires a broker restart. |
 | default.hyperloglog.log2m | 8 | Default `log2m` value for HyperLogLog-based approximate distinct-count functions. |
 | max.segment.completion.time.millis | 300000 (5 minutes) | Cluster config for the maximum time allowed for LLC real-time segment completion after `segmentCommitStart`. Increase this when large segments, deep-store upload time, or retries can push real-time segment completion beyond 5 minutes. Removing the cluster config reverts Pinot to the default. |
+| pinot.field.spec.default.json.max.length | 512 | Default `maxLength` Pinot applies to `JSON` columns when the field spec does not set one explicitly. Set this as a cluster config for a cluster-wide default, or in local instance config for a node-local override. |
+| pinot.field.spec.default.json.max.length.exceed.strategy | NO_ACTION | Default `maxLengthExceedStrategy` Pinot applies to `JSON` columns when the field spec does not set one explicitly. Supported values are `TRIM_LENGTH`, `SUBSTITUTE_DEFAULT_VALUE`, `NO_ACTION`, and `ERROR`. Set this as a cluster config for a cluster-wide default, or in local instance config for a node-local override. |
 
 ## Query Safety
 
