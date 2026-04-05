@@ -49,6 +49,10 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | NETTY_CONNECTION_RESPONSES_SENT | total responses sent by the server |  |
 | FRESHNESS_LAG_MS | time period between when the data was last updated in the table and the current time |  |
 | NETTY_CONNECTION_SEND_RESPONSE_LATENCY | time spent in sending response to brokers after the results are available |  |
+| NETTY_TOTAL_MAX_DIRECT_MEMORY | Maximum direct memory available to the server's Netty query service |  |
+| NETTY_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the server's Netty query service |  |
+| GRPC_TOTAL_MAX_DIRECT_MEMORY | Maximum direct memory available to the shaded Netty runtime used by the server gRPC query service and MSE mailbox traffic |  |
+| GRPC_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the shaded Netty runtime used by the server gRPC query service and MSE mailbox traffic |  |
 | EXECUTION_THREAD_CPU_TIME_NS | time spent by all threads processing query and results (doesn't includes time spent in system activities) |  |
 | SYSTEM_ACTIVITIES_CPU_TIME_NS | time spent in nanoseconds processing query on the servers (only counts system acitivities such as GC, OS paging etc.) |  |
 | RESPONSE_SER_CPU_TIME_NS | time spent in nanoseconds serializing query response on servers |  |
@@ -119,6 +123,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | REALTIME_RESPONSE_SER_CPU_TIME_NS | aggregated response serialization cpu time in nanoseconds for query processing from real-time servers |  |
 | OFFLINE_TOTAL_CPU_TIME_NS | aggregated total cpu time(thread + system activities + response serialization) in nanoseconds for query processing from offline servers |  |
 | REALTIME_TOTAL_CPU_TIME_NS | time(thread + system activities + response serialization) in nanoseconds for query processing from real-time servers |  |
+| GRPC_TOTAL_MAX_DIRECT_MEMORY | Maximum direct memory available to the shaded Netty runtime used by broker gRPC services and MSE mailbox traffic |  |
+| GRPC_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the shaded Netty runtime used by broker gRPC services and MSE mailbox traffic |  |
 
 #### Tracking time spent in various phases of Query execution in milliseconds
 
