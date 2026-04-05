@@ -188,12 +188,17 @@ This task is applicable only if you have tierConfig or tagOverrideConfig. It run
 1. relocate COMPLETED segments to tag overrides
 2. relocate ONLINE segments to tiers if tier configs are set
 
-At most one replica is allowed to be unavailable during rebalance.
+At most one replica is allowed to be unavailable during rebalance unless you override the periodic rebalance defaults below.
 
-| Config | Default Value |
-| --- | --- |
-| controller.segment.relocator.frequencyPeriod | 1h |
-| controller.segmentRelocator.initialDelayInSeconds | between 2m-5m |
+| Config | Default Value | Description |
+| --- | --- | --- |
+| controller.segment.relocator.frequencyPeriod | 1h | How often the segment relocator scans tables and triggers relocation work. |
+| controller.segmentRelocator.initialDelayInSeconds | between 2m-5m | Randomized startup delay before the first segment relocator run. |
+| controller.segment.relocator.bestEfforts | true | Whether the periodic rebalance should continue in best-effort mode if the no-downtime contract cannot be fully achieved. |
+| controller.segment.relocator.minAvailableReplicas | -1 | Minimum replicas to keep available during no-downtime rebalance. Negative values mean the maximum number of replicas that may be unavailable. |
+| controller.segment.relocator.reassignInstances | false | Whether the periodic rebalance should recompute instance assignment before rebalancing segments. |
+| controller.segment.relocator.bootstrap | false | Whether the periodic rebalance should bootstrap newly added servers during relocation. |
+| controller.segment.relocator.downtime | false | Whether the periodic rebalance is allowed to use downtime mode instead of enforcing no-downtime movement. |
 
 ### SegmentStatusChecker
 
