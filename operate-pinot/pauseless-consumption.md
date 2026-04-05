@@ -100,6 +100,12 @@ Pauseless consumption supports the same segment flush thresholds as standard rea
 
 Pinot 1.4.0 also added support for a size-based flush threshold that works with pauseless consumption. When `realtime.segment.flush.threshold.segment.size` is configured, the `FlushThresholdUpdater` updates statistics from committing segments and computes the threshold for new consuming segments. This allows pauseless tables to automatically tune their flush thresholds based on actual segment sizes.
 
+### Segment download timeout
+
+Non-committing replicas wait for the committing segment to become downloadable from deep store or from a peer server. Use `realtime.segment.pauseless.download.timeoutSeconds` in the stream config map to control how long Pinot waits before timing out that download attempt. If you do not set the property, Pinot defaults to 600 seconds.
+
+Older table configs may still use `segmentDownloadTimeoutMinutes`. Pinot continues to read that key as a fallback, but new configs should use `realtime.segment.pauseless.download.timeoutSeconds`.
+
 ## Disaster recovery
 
 Pauseless consumption introduces new failure scenarios because segments can be marked `ONLINE` in the ideal state before they have been built and uploaded. If the committing server crashes during the build or upload phase, and no other replica has the segment, the segment enters an `ERROR` state with no data on disk.
@@ -204,7 +210,7 @@ Segments in `ERROR` state with no completed replica on any server indicate a non
 
 Non-committing replicas rely on downloading the segment from the committing server or deep store. Pauseless consumption implements a waited download mechanism that repeatedly checks for the download URL in ZK metadata and attempts peer download. If downloads are consistently slow, consider:
 
-* Increasing the download timeout.
+* Increasing `realtime.segment.pauseless.download.timeoutSeconds` in the stream config map.
 * Ensuring `peerSegmentDownloadScheme` is configured correctly.
 * Verifying network connectivity between servers.
 
