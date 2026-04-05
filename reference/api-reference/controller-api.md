@@ -16,7 +16,7 @@ The controller exposes the administrative API surface for cluster, schema, table
 | Schema | `GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}` |
 | Table | `GET /tables`, `POST /tables`, `PUT /tables/{tableName}`, `DELETE /tables/{tableName}`, `POST /tableConfigs/validate` |
 | Logical tables | `GET /logicalTables`, `POST /logicalTables`, `PUT /logicalTables/{tableName}`, `DELETE /logicalTables/{tableName}` |
-| Segments | `GET /segments/{tableName}/invalidPartitionMetadata`, `POST /segments/{tableName}/reload`, `POST /segments/{tableNameWithType}/uploadFromServerToDeepstore`, `DELETE /deleteSegmentsFromSequenceNum/{tableNameWithType}`, `GET /segments/segmentReloadStatus/{jobId}`, `GET /segments/{tableNameWithType}/needReload` |
+| Segments | `GET /segments/{tableName}/invalidPartitionMetadata`, `POST /segments/{tableName}/reload`, `POST /segments/{tableNameWithType}/uploadFromServerToDeepstore`, `POST /segments/reingested`, `DELETE /deleteSegmentsFromSequenceNum/{tableNameWithType}`, `GET /segments/segmentReloadStatus/{jobId}`, `GET /segments/{tableNameWithType}/needReload` |
 | Tenant and instance management | `GET /tenants`, `GET /tenants/{tenantName}`, `GET /instances`, `POST /instances` |
 
 ## Swagger UI
@@ -743,6 +743,42 @@ curl -X POST "http://localhost:9000/segments/myTable_REALTIME/uploadFromServerTo
 ```
 
 If the table is not realtime, Pinot returns `400 Bad Request`. If named segments are missing from ZooKeeper metadata, Pinot skips them and only queues the segments it can resolve. When no segments remain after resolution, Pinot returns a success response saying there are no segments to upload.
+
+### POST /segments/reingested
+
+Finalize a reingested realtime segment upload. Pinot uses this endpoint during pauseless disaster recovery after a server has rebuilt a failed LLC segment and uploaded the segment tarball into the segment store.
+
+This endpoint only accepts realtime-table uploads in metadata mode. Operators usually do not call it directly; the server's reingestion flow calls it after `POST /reingestSegment/{segmentName}` finishes rebuilding the segment.
+
+| Query parameter | Type | Meaning |
+| --- | --- | --- |
+| `tableName` | string | Required raw table name. Pinot resolves the realtime table internally. |
+
+| Required header | Value |
+| --- | --- |
+| `UPLOAD_TYPE` | `METADATA` |
+| `DOWNLOAD_URI` | URI of the reingested segment tarball already copied to the segment store |
+| `COPY_SEGMENT_TO_DEEP_STORE` | `true` |
+
+**Request**
+
+```bash
+curl -X POST "http://localhost:9000/segments/reingested?tableName=myTable" \
+  -H "UPLOAD_TYPE: METADATA" \
+  -H "DOWNLOAD_URI: s3://my-bucket/myTable/myTable__0__17__20250320T1530Z.tmp.tar.gz" \
+  -H "COPY_SEGMENT_TO_DEEP_STORE: true" \
+  -F "file=@myTable__0__17__20250320T1530Z.metadata.tar.gz"
+```
+
+The multipart body contains one segment metadata tarball. Pinot reads the segment metadata from that tarball, updates the download URI, and marks the realtime segment as complete.
+
+**Response**
+
+```json
+{
+  "status": "Successfully uploaded reingested segment: myTable__0__17__20250320T1530Z of table: myTable_REALTIME"
+}
+```
 
 ### DELETE /deleteSegmentsFromSequenceNum/\{tableNameWithType\}
 
