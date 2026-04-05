@@ -12,6 +12,7 @@ The controller exposes the administrative API surface for cluster, schema, table
 | --- | --- |
 | Cluster | `GET /cluster/configs`, `POST /cluster/configs`, `DELETE /cluster/configs/{configName}`, `GET /cluster/info` |
 | Health and leadership | `GET /health`, `GET /leader/tables` |
+| Query validation | `POST /validateMultiStageQuery`, `POST /query/tableNames` |
 | Schema | `GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}` |
 | Table | `GET /tables`, `POST /tables`, `PUT /tables/{tableName}`, `DELETE /tables/{tableName}`, `POST /tableConfigs/validate` |
 | Logical tables | `GET /logicalTables`, `POST /logicalTables`, `PUT /logicalTables/{tableName}`, `DELETE /logicalTables/{tableName}` |
@@ -63,6 +64,52 @@ This page provides detailed `curl` request and response examples for commonly us
 {% hint style="info" %}
 The complete and interactive list of every controller endpoint is available in the Swagger UI at `http://<controller-host>:<port>/help`. For a visual walkthrough of the Swagger UI, see [Controller Admin API](controller-admin-api.md).
 {% endhint %}
+
+## Query Validation
+
+### POST /validateMultiStageQuery
+
+Compile one or more SQL statements with the multi-stage engine without executing them. Pinot returns one validation result per input query, in the same order that the queries were submitted.
+
+Use `sql` for a single statement:
+
+```bash
+curl -X POST "http://localhost:9000/validateMultiStageQuery" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"sql":"SELECT * FROM mytable"}'
+```
+
+Use `sqls` for batch validation:
+
+```bash
+curl -X POST "http://localhost:9000/validateMultiStageQuery" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"sqls":["SELECT COUNT(*) FROM mytable","SELECT invalidColumn FROM mytable"]}'
+```
+
+**Response**
+
+```json
+[
+  {
+    "compiledSuccessfully": true,
+    "errorMessage": null,
+    "errorCode": null,
+    "sql": "SELECT * FROM mytable"
+  }
+]
+```
+
+Each response object contains:
+
+- `compiledSuccessfully`: whether Pinot compiled the query successfully
+- `errorMessage`: compiler error text on failure, otherwise `null`
+- `errorCode`: Pinot query error code on failure, otherwise `null`
+- `sql`: the input SQL string for that result
+
+For static validation, you can also send `tableConfigs` and `schemas` so the controller compiles against the provided table metadata instead of the controller's ZooKeeper-backed table cache. `logicalTableConfigs` and `ignoreCase` are also accepted for this static-cache path. When populating `tableConfigs` and `schemas`, use the same JSON objects returned by `GET /tables/{tableName}` and `GET /schemas/{schemaName}`.
 
 ## Cluster
 
