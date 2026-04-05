@@ -30,6 +30,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | REALTIME_SEGMENT_NUM_PARTITIONS | Number of partitions for a table |  |
 | LLC_SIMULTANEOUS_SEGMENT_BUILDS | Number of segments being built currently |  |
 | REALTIME_INGESTION_DELAY_MS | Per partition metric that measures the delay in milliseconds from the time an event was produced to the stream that feeds Pinot until the event was consumed by Pinot. Partitions that are not actively consuming due to lack of events will report 0 delay. Partitions that are stuck or falling behind will report their last measured delay aged by the time since the sample was taken: this enables the user to monitor partitions that have events queued but where Pinot is falling behind in consumption. This metric assumes event timestamps is UTC time zone, if timestamps are using other timezones, the delay shown will be offset. |  |
+| REALTIME_CONSUMER_DIR_USAGE | Total bytes currently used by the server's real-time consumer directories across all tables on the instance |  |
 | ROWS_WITH_ERRORS | number of rows that either didn't get transformed or didn't get indexed. |  |
 | REALTIME_ROWS_CONSUMED | total number of records consumed from input |  |
 | REALTIME_BYTES_CONSUMED | total serialized bytes consumed from real-time input |  |
