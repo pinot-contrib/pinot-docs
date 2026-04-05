@@ -52,6 +52,8 @@ Need to do prefiltering to avoid full scan of all rows.
 | `suffixesWithSuffix` | `String input, int maxlength, @Nullable String suffix` | Generate array of suffix matchers with appended suffix (e.g. '$' for regex) |
 | `uniqueNgrams` | `String input, int length` | Generate array of unique ngrams of exact specified length |
 | `uniqueNgrams` | `String input, int minGram, int maxGram` | Generate array of unique ngrams within length range [minGram, maxGram] |
+| `uniqueNgramsMV` / `generateUniqueNgramsMV` | `String[] inputs, int length` | Generate unique ngrams of exact specified length across all input strings in a multi-value column |
+| `uniqueNgramsMV` / `generateUniqueNgramsMV` | `String[] inputs, int minGram, int maxGram` | Generate unique ngrams within length range `[minGram, maxGram]` across all input strings in a multi-value column |
 
 ## Usage Examples
 
@@ -152,6 +154,28 @@ FROM myTable
 | ngrams |
 | ------ |
 | ["da", "at", "ta", "dat", "ata", "data"] |
+
+#### Multi-value Column Examples
+
+```sql
+SELECT uniqueNgramsMV(ARRAY['ab', 'bc'], 2) AS ngrams
+FROM myTable
+```
+
+| ngrams |
+| ------ |
+| ["ab", "bc"] |
+
+```sql
+SELECT uniqueNgramsMV(ARRAY['abcd'], 1, 2) AS ngrams
+FROM myTable
+```
+
+| ngrams |
+| ------ |
+| ["a", "b", "c", "d", "ab", "bc", "cd"] |
+
+When the input array is null or empty, Pinot returns an empty array. Null elements and values shorter than the requested ngram length are skipped.
 
 **Using Generated N-grams**
 
