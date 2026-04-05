@@ -458,6 +458,8 @@ There is another feature called `Force Commit` which utilizes the primitives of 
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 ```
 
+Real-time tables can also be paused automatically by Pinot itself. In particular, when a table exceeds `quota.storage`, the controller marks it paused with reason code `STORAGE_QUOTA_EXCEEDED` and stops creating new consuming segments during periodic validation. Once the table is back within quota, Pinot clears that pause state and allows segment creation to resume. If you want to resume sooner after fixing the quota issue, you can still call `resumeConsumption` manually.
+
 (v 0.12.0+) Once submitted, the forceCommit API returns a jobId that can be used to get the current progress of the forceCommit operation. A sample response and status API call:
 
 ```bash
