@@ -93,6 +93,49 @@ Connection connection = ConnectionFactory.fromHostList
   ("broker-1:1234", "broker-2:1234", ...);
 ```
 
+## gRPC Connections
+
+The Java client also exposes gRPC broker connections via `ConnectionFactory.fromControllerGrpc(...)`, `fromZookeeperGrpc(...)`, and `fromHostListGrpc(...)`.
+
+```java
+Properties properties = new Properties();
+properties.setProperty("usePlainText", "false");
+properties.setProperty("maxInboundMessageSizeBytes", "134217728");
+properties.setProperty("channelKeepAliveTimeSeconds", "60");
+properties.setProperty("channelKeepAliveTimeoutSeconds", "20");
+properties.setProperty("channelKeepAliveWithoutCalls", "true");
+properties.setProperty("channelShutdownTimeoutSeconds", "10");
+properties.setProperty("tls.truststore.path", "/path/to/grpc-truststore.jks");
+properties.setProperty("tls.truststore.password", "changeit");
+
+GrpcConnection connection = ConnectionFactory.fromControllerGrpc(properties, "localhost:9000");
+ResultSetGroup resultSetGroup = connection.execute(
+    "SELECT COUNT(*) FROM myTable",
+    Map.of("blockRowSize", "10000", "encoding", "JSON", "compression", "ZSTD"));
+```
+
+The gRPC transport properties below are read directly from the connection `Properties` through `GrpcConfig`. TLS settings use the `tls.*` namespace, not `pinot.*.tls.*`.
+
+| Property | Default | Notes |
+| --- | --- | --- |
+| `usePlainText` | `true` | Use plaintext gRPC transport. Set to `false` to enable TLS. |
+| `maxInboundMessageSizeBytes` | `134217728` (128 MB) | Maximum inbound gRPC message size accepted by the client. |
+| `channelKeepAliveTimeSeconds` | `-1` (disabled) | Keepalive ping interval. Set a positive value to enable keepalive. |
+| `channelKeepAliveTimeoutSeconds` | `20` | Timeout waiting for keepalive acknowledgements. |
+| `channelKeepAliveWithoutCalls` | `true` | Allows keepalive pings even without active RPCs. |
+| `channelShutdownTimeoutSeconds` | `10` | How long the client waits for the gRPC channel to terminate on close. |
+| `tls.keystore.type` | JVM default keystore type (`KeyStore.getDefaultType()`) | Client keystore type for mutual TLS. |
+| `tls.keystore.path` | None | Client keystore path for mutual TLS. |
+| `tls.keystore.password` | None | Client keystore password. |
+| `tls.truststore.type` | JVM default keystore type (`KeyStore.getDefaultType()`) | Truststore type used to validate the broker certificate. |
+| `tls.truststore.path` | None | Truststore path used to validate the broker certificate. |
+| `tls.truststore.password` | None | Truststore password. |
+| `tls.ssl.provider` | `JDK` | SSL provider used when building the gRPC client SSL context. |
+| `tls.insecure` | `false` | Skip broker certificate verification. Only appropriate for non-production testing. |
+| `tls.protocols` | JVM TLS defaults | Comma-separated TLS protocol allowlist such as `TLSv1.2,TLSv1.3`. |
+
+For default metadata such as auth headers, use the `headers.<name>` property prefix. Query-specific gRPC metadata such as `blockRowSize`, `compression`, and `encoding` should be passed in the metadata map for `execute(..., metadataMap)` or `executeGrpc(..., metadataMap)`.
+
 ## Query Methods
 
 You can run the query in both blocking as well as async manner. Use
