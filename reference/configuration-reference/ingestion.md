@@ -34,6 +34,9 @@ The ingestion configuration (`ingestionConfig`) is a section of the [table confi
 | `realtime.segment.flush.threshold.segment.rows` | The maximum number of rows to consume before persisting the consuming segment. Added since `release-1.2.0`. See note below this table for more information. | Int |
 | `realtime.segment.flush.threshold.segment.size` | Size the completed segments should be. This value is used when `realtime.segment.flush.threshold.rows` is set to 0. | String, such as `150M` or `1.1G`., etc. Default is `200M` (200 megabytes). You can also specify additional configurations for the consumer directly into `streamConfigMaps`. For example, for Kafka streams, add any of the configs described in [Kafka configuration page](https://kafka.apache.org/documentation/#consumerconfigs) to pass them directly to the Kafka consumer. |
 | ``realtime.segment.flush.threshold.variance.fraction` `` | For realtime table with many partitions, the consumers have relatively same size which causes all the segments are committed at roughly same time. This causes the segment build time increases and ingestion delay increases more. The variance fraction allowed for the segment size auto tuning | The valid value is [0.0, 0.5), default is 0.0. |
+| `realtime.segment.offsetAutoReset.enable` | When `true`, Pinot can skip a lagging realtime partition forward during segment commit instead of starting the next segment at the previous segment's `nextOffset`. Pinot only resets when at least one positive threshold below is configured. | Boolean. Default is `false`. |
+| `realtime.segment.offsetAutoReset.offsetThreshold` | If positive, Pinot resets the next segment to the latest stream offset when `latestOffset - nextOffset` exceeds this many offsets at commit time. | Integer. Default is `-1` (disabled). |
+| `realtime.segment.offsetAutoReset.timeThresholdSeconds` | If positive, Pinot resets the next segment to the latest stream offset when the next offset is older than this many seconds at commit time. Pinot compares the next offset against the stream position at `now - threshold`. | Long. Default is `-1` (disabled). |
 
 {% hint style="info" %}
 The number of rows per segment is computed using the following formula: `realtime.segment.flush.threshold.rows / maxPartitionsConsumedByServer` For example, if you set `realtime.segment.flush.threshold.rows = 1000` and each server consumes 10 partitions, the rows per segment is `1000/10 = 100`.
@@ -47,6 +50,10 @@ Take the above example, if you set `realtime.segment.flush.threshold.segment.row
 
 {% hint style="info" %}
 `streamConfigMaps` can contain more than one config map. When you configure multiple entries, Pinot requires all of them to use the same `streamType`, requires the segment-flush parameters to match across all entries, requires topic names to be unique, and rejects the configuration for upsert tables or when `pauselessConsumptionEnabled=true`.
+{% endhint %}
+
+{% hint style="info" %}
+When offset auto reset is enabled, Pinot checks the configured lag thresholds during segment commit. If either threshold is exceeded, the new consuming segment starts from the latest stream offset instead of the previous segment's `nextOffset`. If both thresholds are unset or non-positive, Pinot keeps the original `nextOffset`.
 {% endhint %}
 
 ## `streamIngestionConfig`
