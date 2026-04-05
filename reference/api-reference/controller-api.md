@@ -16,7 +16,7 @@ The controller exposes the administrative API surface for cluster, schema, table
 | Schema | `GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}` |
 | Table | `GET /tables`, `POST /tables`, `PUT /tables/{tableName}`, `DELETE /tables/{tableName}`, `POST /tableConfigs/validate` |
 | Logical tables | `GET /logicalTables`, `POST /logicalTables`, `PUT /logicalTables/{tableName}`, `DELETE /logicalTables/{tableName}` |
-| Segments | `GET /segments/{tableName}`, `POST /segments`, `POST /segments/{tableName}/{segmentName}/reload`, `DELETE /segments/{tableName}` |
+| Segments | `GET /segments/{tableName}/invalidPartitionMetadata`, `POST /segments/{tableName}/reload`, `GET /segments/segmentReloadStatus/{jobId}`, `GET /segments/{tableNameWithType}/needReload` |
 | Tenant and instance management | `GET /tenants`, `GET /tenants/{tenantName}`, `GET /instances`, `POST /instances` |
 
 ## Swagger UI
@@ -504,6 +504,131 @@ curl -X GET "http://localhost:9000/segments/myTable/invalidPartitionMetadata?typ
   "seg3": "not-valid-json"
 }
 ```
+
+### POST /segments/\{tableName\}/reload
+
+Submit an asynchronous reload job for every segment in a table. The controller accepts either a table name with a type suffix such as `myTable_OFFLINE`, or a raw table name such as `myTable`.
+
+Use the optional query parameters to scope the request:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `type` | string | Optional table type filter when the path uses a raw table name. Supported values are `OFFLINE` and `REALTIME`. |
+| `forceDownload` | boolean | Re-download immutable segments from deep store before reloading. Defaults to `false`. |
+| `targetInstance` | string | Send reload messages only to a specific server instance. |
+| `instanceToSegmentsMap` | string | JSON map of server instance to segment list. When present, this overrides `targetInstance` and reloads only the listed segments on the listed servers. |
+
+When `forceDownload=true` and the path uses a raw table name without a type, Pinot restricts the reload to the `OFFLINE` table because forced deep-store download is only supported for immutable segments.
+
+**Request**
+
+```bash
+curl -X POST "http://localhost:9000/segments/myTable/reload?type=OFFLINE&forceDownload=true" \
+  -H "accept: application/json"
+```
+
+If you use `instanceToSegmentsMap`, URL-encode the JSON map and send it as a query parameter.
+
+**Response**
+
+```json
+{
+  "status": "{\"myTable_OFFLINE\":{\"numMessagesSent\":\"24\",\"reloadJobId\":\"6b2f9d35-0d3f-4ef5-91db-f77cb6fdd1c0\",\"reloadJobMetaZKStorageStatus\":\"SUCCESS\"}}"
+}
+```
+
+The `status` string is itself a JSON object keyed by table name. Each entry includes the submitted `reloadJobId`, the number of server reload messages sent, and whether Pinot persisted job metadata in ZooKeeper for later status checks.
+
+### POST /segments/\{tableName\}/\{segmentName\}/reload
+
+Submit an asynchronous reload job for a single segment. If the table path omits the type suffix, Pinot derives the table type from the segment name.
+
+**Query parameters**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `forceDownload` | boolean | Re-download the segment from deep store before reloading. Defaults to `false`. |
+| `targetInstance` | string | Reload the segment only on a specific server instance. |
+
+**Request**
+
+```bash
+curl -X POST "http://localhost:9000/segments/myTable_OFFLINE/myTable_0/reload?targetInstance=Server_localhost_8098" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "status": "Submitted reload job id: 4f947c6f-8f51-4dbf-b4e7-a8f4f446ce88, sent 1 reload messages. Job meta ZK storage status: SUCCESS"
+}
+```
+
+### GET /segments/segmentReloadStatus/\{jobId\}
+
+Fetch the current status for a previously submitted reload job.
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/segments/segmentReloadStatus/6b2f9d35-0d3f-4ef5-91db-f77cb6fdd1c0" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "status": "IN_PROGRESS",
+  "timeElapsedInMinutes": 0.6,
+  "estimatedTimeRemainingInMinutes": 1.4,
+  "totalSegmentCount": 24,
+  "successCount": 10,
+  "totalServersQueried": 6,
+  "totalServerCallsFailed": 0,
+  "failureCount": 0,
+  "metadata": {
+    "jobId": "6b2f9d35-0d3f-4ef5-91db-f77cb6fdd1c0"
+  },
+  "segmentReloadFailures": []
+}
+```
+
+The typed response tracks overall progress, estimated completion time, job metadata, and any per-segment failures Pinot has collected so far.
+
+### GET /segments/\{tableNameWithType\}/needReload
+
+Ask every server hosting a typed table whether any of its segments need a reload. This endpoint requires a table name with type suffix such as `myTable_OFFLINE` or `myTable_REALTIME`.
+
+**Query parameters**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `verbose` | boolean | Include per-server reload decisions in the response. Defaults to `false`. |
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/segments/myTable_OFFLINE/needReload?verbose=true" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "needReload": true,
+  "serverToSegmentsCheckReloadList": {
+    "instance123": {
+      "needReload": true,
+      "instanceId": "instance123"
+    }
+  }
+}
+```
+
+Without `verbose=true`, Pinot still returns the top-level `needReload` flag but leaves `serverToSegmentsCheckReloadList` empty.
 
 
 ### DELETE /tables/\<tableName>
