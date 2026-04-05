@@ -1,10 +1,12 @@
 # Java
 
-Pinot provides a native java client to execute queries on the cluster. The client makes it easier for user to query data. The client is also tenant-aware and thus is able to redirect the queries to the correct broker.
+Pinot provides a native Java query client for broker-routed SQL queries. The client is tenant-aware, supports blocking and async execution, and can discover brokers through ZooKeeper or the controller.
+
+For controller REST operations such as table, schema, segment, tenant, instance, or task management, use the [Java admin client](java-admin-client.md).
 
 ## Installation
 
-You can use the client by including the following dependency -
+You can use the client by including the following dependency:
 
 {% tabs %}
 {% tab title="Maven" %}
@@ -32,7 +34,7 @@ Basic authorization is supported in the JDBC and Java clients since Pinot 0.10.0
 
 ## Usage
 
-Here's an example of how to use the `pinot-java-client` to query Pinot.
+Here's an example of how to use `pinot-java-client` to query Pinot.
 
 ```java
 import org.apache.pinot.client.Connection;
@@ -41,13 +43,13 @@ import org.apache.pinot.client.ResultSetGroup;
 import org.apache.pinot.client.ResultSet;
 
 /**
- * Demonstrates the use of the pinot-client to query Pinot from Java
+ * Demonstrates the use of pinot-java-client to query Pinot from Java.
  */
 public class PinotClientExample {
 
   public static void main(String[] args) {
 
-    // pinot connection
+    // Pinot connection
     String zkUrl = "localhost:2181";
     String pinotClusterName = "PinotCluster";
     Connection pinotConnection = ConnectionFactory.fromZookeeper(zkUrl + "/" + pinotClusterName);
@@ -66,14 +68,16 @@ public class PinotClientExample {
 }
 ```
 
-## Connection Factory
+## ConnectionFactory
 
-The client provides a `ConnectionFactory` class to create connections to a Pinot cluster. The factory supports the following methods to create a connection -
+The client provides a `ConnectionFactory` class to create connections to a Pinot cluster. The current source supports the following query-connection patterns:
 
-* **Zookeeper (Recommended)** - Comma-separated list of zookeeper of the cluster. This is the recommended method which can redirect queries to appropriate brokers based on tenant/table.
-* **Broker list** - Comma separated list of the brokers in the cluster. This should only be used in standalone setups or for POC, unless you have a load balancer setup for brokers.
-* **Controller URL** - (v 0.11.0+) Controller URL. This will use periodic controller API calls to keep the table level broker list updated (hence there might be delay b/w the broker mapping changing and the client state getting updated).
-* **Properties file** - You can also put the broker list as `brokerList` in a properties file and provide the path to that file to the factory. This should only be used in standalone setups or for POC, unless you have a load balancer setup for brokers.
+* **ZooKeeper (recommended)**: `ConnectionFactory.fromZookeeper(...)` dynamically resolves brokers from Helix external view and routes queries by table.
+* **Broker list**: `ConnectionFactory.fromHostList(...)` uses a fixed broker list. This is mainly useful for simple deployments, load-balanced brokers, or local testing.
+* **Controller address**: `ConnectionFactory.fromController(...)` periodically refreshes broker mappings from the controller instead of watching ZooKeeper directly.
+* **Properties object**: `ConnectionFactory.fromProperties(Properties)` reads a `brokerList` property and builds a fixed broker-list connection.
+
+For `fromController(...)` and `fromControllerGrpc(...)`, pass the controller as `host:port`. The client applies `http` or `https` from the `scheme` property.
 
 {% hint style="info" %}
 If your Pinot cluster is running inside Kubernetes and you're trying to connect to it from outside Kubernetes, the Zookeeper method will probably return internal host names that can't be resolved.\
@@ -81,16 +85,22 @@ If your Pinot cluster is running inside Kubernetes and you're trying to connect 
 For Kubernetes deployments, it's therefore recommended to pass in the host-name of a load balancer sitting in front of the brokers.
 {% endhint %}
 
-Here's an example demonstrating all methods of Connection factory -
+Example:
 
 ```java
-Connection connection = ConnectionFactory.fromZookeeper
-  ("some-zookeeper-server:2181/zookeeperPath");
+Properties properties = new Properties();
+properties.setProperty("brokerList", "broker-1:8099,broker-2:8099");
 
-Connection connection = ConnectionFactory.fromProperties("demo.properties");
+Connection zkConnection =
+    ConnectionFactory.fromZookeeper("some-zookeeper-server:2181/zookeeperPath/pinot-cluster");
 
-Connection connection = ConnectionFactory.fromHostList
-  ("broker-1:1234", "broker-2:1234", ...);
+Connection controllerConnection =
+    ConnectionFactory.fromController("controller.example.com:9000");
+
+Connection brokerConnection =
+    ConnectionFactory.fromHostList("broker-1:8099", "broker-2:8099");
+
+Connection propertiesConnection = ConnectionFactory.fromProperties(properties);
 ```
 
 ## gRPC Connections
@@ -163,14 +173,42 @@ ResultSetGroup resultSetGroup = statement.execute();
 Future<ResultSetGroup> futureResultSetGroup = statement.executeAsync();
 ```
 
+`Connection.execute(...)` also has overloads that accept an explicit table name or iterable of table names. Those overloads let the client choose the broker without re-parsing SQL.
+
+## Cursor Pagination
+
+The HTTP transport behind `Connection` implements cursor pagination. Use `openCursor(query, pageSize)` when a query can return a large result set and you want page-by-page navigation instead of loading everything into one response.
+
+```java
+try (ResultCursor cursor = connection.openCursor(
+    "SELECT playerName, yearID FROM baseballStats ORDER BY yearID", 1000)) {
+  CursorResultSetGroup firstPage = cursor.getCurrentPage();
+
+  while (cursor.hasNext()) {
+    CursorResultSetGroup nextPage = cursor.next();
+    // Process nextPage.getResultSet(...)
+  }
+}
+```
+
+The cursor API supports:
+
+* `getCurrentPage()` to inspect the currently loaded page
+* `next()` / `nextAsync()` and `previous()` / `previousAsync()` for navigation
+* `seekToPage()` / `seekToPageAsync()` for direct page jumps
+* `getCursorId()`, `getCurrentPageNumber()`, `getTotalRows()`, and `isExpired()` for cursor metadata
+* `close()` to delete the server-side cursor and free resources
+
+Cursor pagination is available only when the underlying transport implements `CursorCapable`, which the default HTTP transport does.
+
 ## Result Set
 
-Results can be obtained with the various get methods in the first ResultSet, obtained through the `getResultSet(int)` method:
+Results can be obtained with the various getter methods on the first `ResultSet`, obtained through `getResultSet(int)`:
 
 ```java
 String query = "select foo, bar from baz where quux = 'quuux'";
 ResultSetGroup resultSetGroup = connection.execute(query);
-ResultSet resultTableResultSet = pinotResultSetGroup.getResultSet(0);
+ResultSet resultSet = resultSetGroup.getResultSet(0);
 
 for (int i = 0; i < resultSet.getRowCount(); ++i) {
   System.out.println("foo: " + resultSet.getString(i, 0));
@@ -211,42 +249,43 @@ System.out.println(rs);
 connection.close();
 ```
 
-## Configuring client time-out
+## Connection Properties
 
-The following timeouts can be set:
+The Java query client reads the following connection properties directly from `Properties`:
 
-* brokerConnectTimeoutMs (default 2000)
-* brokerReadTimeoutMs (default 60000)
-* brokerHandshakeTimeoutMs (default 2000)
-* controllerConnectTimeoutMs (default 2000)
-* controllerReadTimeoutMs (default 60000)
-* controllerHandshakeTimeoutMs (default 2000)
+| Property | Default | Used by | Notes |
+| --- | --- | --- | --- |
+| `brokerConnectTimeoutMs` | `2000` | HTTP broker transport | Broker connect timeout in milliseconds |
+| `brokerReadTimeoutMs` | `60000` | HTTP broker transport and cursor fetches | Broker read timeout in milliseconds |
+| `brokerHandshakeTimeoutMs` | `2000` | HTTP broker transport | TLS handshake timeout in milliseconds |
+| `controllerConnectTimeoutMs` | `2000` | Controller-based broker cache | Controller connect timeout for `fromController(...)` |
+| `controllerReadTimeoutMs` | `60000` | Controller-based broker cache | Controller read timeout for broker-map refresh |
+| `controllerHandshakeTimeoutMs` | `2000` | Controller-based broker cache | Controller TLS handshake timeout |
+| `headers.<name>` | None | HTTP broker transport and controller broker cache | Adds default HTTP headers such as `headers.Authorization` |
+| `scheme` | `http` | HTTP broker transport and controller broker cache | Set to `https` for TLS-enabled brokers and controller |
+| `queryOptions` | Empty string | HTTP broker transport | Injected into the JSON request body as Pinot query options |
+| `useMultistageEngine` | `false` | HTTP broker transport | Switches HTTP requests from `/query/sql` to `/query` |
+| `appId` | None | HTTP broker transport and controller broker cache | Prefixes the generated user agent string |
+| `failOnExceptions` | `true` | `Connection` | Throw `PinotClientException` when the broker response includes query-processing exceptions |
+| `preferTLS` | `false` | ZooKeeper-based broker discovery | Prefer broker TLS ports when discovering brokers from Helix |
+| `useGrpcPort` | `false` | ZooKeeper/controller broker discovery | Prefer broker gRPC ports when building broker lists |
+| `pinot.java_client.tls.*` | None | HTTP broker transport and controller broker cache | TLS config namespace consumed by `TlsUtils.extractTlsConfig(...)` |
+| `brokerTlsV10Enabled` | `false` | HTTP broker transport | Re-enable TLSv1.0 for broker requests |
+| `controllerTlsV10Enabled` | `false` | Controller broker cache | Re-enable TLSv1.0 for controller requests |
 
-Timeouts for the Java connector can be added as a connection properties. The following example configures a very low timeout of 10ms:
+Example:
 
 ```java
-Properties connectionProperties = new Properties();
-connectionProperties.setProperty("controllerReadTimeoutMs", "10");
-connectionProperties.setProperty("controllerHandshakeTimeoutMs", "10");
-connectionProperties.setProperty("controllerConnectTimeoutMs", "10");
-connectionProperties.setProperty("brokerReadTimeoutMs", "10");
-connectionProperties.setProperty("brokerHandshakeTimeoutMs", "10");
-connectionProperties.setProperty("brokerConnectTimeoutMs", "10");
+Properties properties = new Properties();
+properties.setProperty("scheme", "https");
+properties.setProperty("headers.Authorization", "Basic <base64-credentials>");
+properties.setProperty("queryOptions", "timeoutMs=10000");
+properties.setProperty("brokerReadTimeoutMs", "10000");
+properties.setProperty("controllerReadTimeoutMs", "10000");
+properties.setProperty("pinot.java_client.tls.truststore.path", "/path/to/truststore.jks");
+properties.setProperty("pinot.java_client.tls.truststore.password", "changeit");
 
-// Register new Pinot JDBC driver
-DriverManager.registerDriver(new PinotDriver());
-
-// Get a client connection and set the connection timeouts
-Connection connection = DriverManager.getConnection(DB_URL, connectionProperties);
-
-// Test that your query successfully times out
-Statement statement = connection.createStatement();
-ResultSet rs = statement.executeQuery("SELECT count(*) FROM baseballStats LIMIT 1;");
-
-while (rs.next()) {
-    String result = rs.getString("count(*)");
-    System.out.println(result);
-}
+Connection connection = ConnectionFactory.fromController(properties, "controller.example.com:9000");
 ```
 
 ## Request Tracing
