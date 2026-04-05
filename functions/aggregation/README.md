@@ -135,8 +135,9 @@ FROM MyTable WHERE COL3 > 50
 | --- | --- |
 | [DISTINCT_COUNT_OFF_HEAP](distinct_count_off_heap.md) | [DISTINCTCOUNTHLLPLUS](distinctcounthll-1.md) |
 | [DISTINCTCOUNTRAWHLL](distinctcountrawhll.md) | [DISTINCTCOUNTRAWTHETASKETCH](distinctcountrawthetasketch.md) |
-| [DISTINCTCOUNTULL](distinctcountull.md) | [FUNNELSTEPDURATIONSTATS](funnelstepdurationstats.md) |
-| [maxString](maxstring.md) | [minmaxrange](minmaxrange.md) |
-| [minString](minstring.md) | [percentilekllmv](percentilekllmv.md) |
-| [percentilerawkll](percentilerawkll.md) | [percentilerawkllmv](percentilerawkllmv.md) |
-| [SEGMENTPARTITIONEDDISTINCTCOUNT](segmentpartitioneddistinctcount.md) | [VALUEIN](valuein.md) |
+| [DISTINCTCOUNTULL](distinctcountull.md) | [FUNNELEVENTSFUNCTIONEVAL](funneleventsfunctioneval.md) |
+| [FUNNELSTEPDURATIONSTATS](funnelstepdurationstats.md) | [maxString](maxstring.md) |
+| [minmaxrange](minmaxrange.md) | [minString](minstring.md) |
+| [percentilekllmv](percentilekllmv.md) | [percentilerawkll](percentilerawkll.md) |
+| [percentilerawkllmv](percentilerawkllmv.md) | [SEGMENTPARTITIONEDDISTINCTCOUNT](segmentpartitioneddistinctcount.md) |
+| [VALUEIN](valuein.md) |  |

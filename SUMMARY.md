@@ -242,6 +242,7 @@
   * [DISTINCTCOUNTRAWHLL](functions/aggregation/distinctcountrawhll.md)
   * [DISTINCTCOUNTRAWTHETASKETCH](functions/aggregation/distinctcountrawthetasketch.md)
   * [DISTINCTCOUNTULL](functions/aggregation/distinctcountull.md)
+  * [FUNNELEVENTSFUNCTIONEVAL](functions/aggregation/funneleventsfunctioneval.md)
   * [FUNNELSTEPDURATIONSTATS](functions/aggregation/funnelstepdurationstats.md)
   * [maxString](functions/aggregation/maxstring.md)
   * [minmaxrange](functions/aggregation/minmaxrange.md)
