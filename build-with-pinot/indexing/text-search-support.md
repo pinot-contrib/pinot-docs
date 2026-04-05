@@ -483,11 +483,14 @@ TEXT_MATCH(text_column_name, search_expression [, options])
 
 **Available Options:**
 
-| Option                  | Values                              | Description                                                                                 |
-|-------------------------|-------------------------------------|---------------------------------------------------------------------------------------------|
-| `parser`                | `CLASSIC`, `STANDARD`, `COMPLEX`    | Selects the Lucene query parser to use. Default is `CLASSIC`.                               |
-| `allowLeadingWildcard`  | `true`, `false`                     | Allows queries to start with a wildcard (e.g., `*term`). Default is `false`.                |
-| `defaultOperator`       | `AND`, `OR`                         | Sets the default boolean operator for multi-term queries. Default is `OR`.                  |
+| Option                  | Values                                           | Description                                                                                 |
+|-------------------------|--------------------------------------------------|---------------------------------------------------------------------------------------------|
+| `parser`                | `CLASSIC`, `STANDARD`, `COMPLEX`, `MATCHPHRASE`  | Selects the Lucene query parser to use. Default is `CLASSIC`. `MATCHPHRASE` uses the phrase-oriented parser that also supports prefix matching on the last term. |
+| `allowLeadingWildcard`  | `true`, `false`                                  | Allows queries to start with a wildcard (e.g., `*term`). Default is `false`.                |
+| `defaultOperator`       | `AND`, `OR`                                      | Sets the default boolean operator for multi-term queries. Default is `OR`.                  |
+| `enablePrefixMatch`     | `true`, `false`                                  | Only applies with `parser=MATCHPHRASE`. When `true`, Pinot treats the last term as a prefix match instead of an exact match. Default is `false`. |
+| `slop`                  | Non-negative integer                             | Only applies with `parser=MATCHPHRASE`. Controls how many positions apart phrase terms may appear. Default is `0`. |
+| `inOrder`               | `true`, `false`                                  | Only applies with `parser=MATCHPHRASE`. Controls whether phrase terms must appear in query order. Default is `true`. |
 
 **Examples:**
 ```sql
@@ -499,6 +502,13 @@ SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'term1 term2', 'parser=STANDARD, d
 
 -- Use COMPLEX parser for advanced queries
 SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'complex query', 'parser=COMPLEX')
+
+-- Use MATCHPHRASE for exact phrase matching
+SELECT * FROM myTable WHERE TEXT_MATCH(myCol, 'realtime streaming system', 'parser=MATCHPHRASE')
+
+-- Let the last term act as a prefix and allow one-position gaps
+SELECT * FROM myTable
+WHERE TEXT_MATCH(myCol, 'Tensor database', 'parser=MATCHPHRASE,enablePrefixMatch=true,slop=1')
 ```
 
 ### Phrase query
