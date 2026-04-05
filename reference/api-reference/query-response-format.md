@@ -4,11 +4,11 @@ description: Pinot broker response payload reference.
 
 # Query Response Format
 
-Pinot query responses are SQL-like tabular payloads with a small set of execution statistics around them. This page documents the fields you are most likely to inspect when debugging query behavior, paging responses, or comparing single-stage and multi-stage output.
+Pinot query responses are SQL-like tabular payloads with a small set of execution statistics around them. This page documents the fields you are most likely to inspect when debugging query behavior or paging through large results.
 
 ## Response Shape
 
-The broker response always includes a `resultTable` with:
+Standard broker query responses include a `resultTable` with:
 
 | Field | Meaning |
 | --- | --- |
