@@ -404,6 +404,7 @@ For e.g if query contains `round(colA,600) as roundedValue from tableA group by 
 - `DISTINCT_COUNT` (exact), `SEGMENT_PARTITIONED_DISTINCT_COUNT`, and `PERCENTILE` (exact) are not supported because their intermediate results are unbounded.
 - `REGEXP_LIKE` predicates are not supported in star-tree queries.
 - `IS NULL` and `IS NOT NULL` are not supported because null value info is not stored in the star-tree index. Use `col = <default>` or `col != <default>` as workarounds.
+- When the query option `enableNullHandling=true` is used, Pinot can still use the star-tree index for a segment if the aggregated columns, filtered columns, and group-by columns involved in the query do not actually contain null values in that segment.
 - `OR` predicates across multiple dimensions are not supported (they cause double counting with pre-aggregated results).
 - `NOT` on top of `AND`/`OR` is not supported for the same double-counting reason.
 - All star-tree dimension columns should be dictionary-encoded.
