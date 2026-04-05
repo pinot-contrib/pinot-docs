@@ -100,7 +100,7 @@ Pinot uses SQL for querying. For the complete syntax reference, see the [SQL Syn
 
 ### Time-series query execution
 
-The Query Console also supports time-series query execution ([#16305](https://github.com/apache/pinot/pull/16305)), introduced as part of the Time Series Engine beta. This feature provides a dedicated interface for running and visualizing time-series queries using languages such as PromQL. It connects to a Prometheus-compatible `/query_range` endpoint ([#16286](https://github.com/apache/pinot/pull/16286)) exposed by the Pinot controller, letting you explore time-series data and inspect query execution plans directly from the UI.
+The Query Console also supports time-series query execution ([#16305](https://github.com/apache/pinot/pull/16305)), introduced as part of the Time Series Engine beta. The current Controller UI adds a dedicated page for running M3QL queries against the controller's Prometheus-compatible `/query_range` endpoint ([#16286](https://github.com/apache/pinot/pull/16286)). It provides time-range controls and shows the raw JSON response directly in the UI.
 
 ## REST API
 

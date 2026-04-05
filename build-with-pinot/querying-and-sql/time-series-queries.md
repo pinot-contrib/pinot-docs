@@ -38,13 +38,13 @@ pinot.timeseries.promql.series.builder.factory=com.example.promql.PromQLSeriesBu
 
 ### Controller UI
 
-Pinot includes a Time Series Query page in the Controller UI for easy querying and visualization at `http://localhost:9000`.
+Pinot includes a Time Series Query page in the Controller UI at `http://localhost:9000/query/timeseries`.
 
 ![](../../.gitbook/assets/timeseries-controller-ui.png)
 
-*Time Series Query UI showing the query editor, time controls, and visualization options*
+*Time Series Query UI showing the query editor and time controls*
 
-The UI includes a query editor with language selector (compatible with custom language plugins) and visualizes results as both an interactive time series chart and raw JSON. It also displays query statistics and supports explain plans and query options for enhanced control.
+The current Controller UI implementation is scoped to M3QL queries. It provides an editor, `start` and `end` Unix timestamp inputs, a `timeout` input, and a raw JSON result viewer. The UI sends requests through the Controller's `/timeseries/api/v1/query_range` proxy with a fixed `step` of `1m`. It does not currently expose plugin-specific language selection, chart visualization, explain plans, or generic query-option controls.
 
 ### Broker-Compatible API
 
