@@ -114,6 +114,8 @@ Pinot stores all cluster metadata — table configs, schemas, segment assignment
 
 The deep store is the authoritative copy of all segment data. Ensure your deep-store backend (S3, GCS, HDFS) has its own durability and backup strategy (for example, S3 versioning or cross-region replication). If a server loses local segment files, it re-downloads them from deep store automatically on startup or via a reload with `forceDownload=true`.
 
+If your controllers use a deep-store-backed `controller.data.dir` and you want them to stay up when that path cannot be validated during boot, set `controller.startup.continueWithoutDeepStore=true`. This changes controller startup from fail-fast to continue-on-error for the initial PinotFS check on `controller.data.dir`.
+
 ### Table config and schema versioning
 
 Store table configs and schemas in version control alongside your deployment manifests. This makes it straightforward to recreate tables if ZK state is lost and provides an audit trail of configuration changes.
