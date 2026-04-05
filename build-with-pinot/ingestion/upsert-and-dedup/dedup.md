@@ -129,6 +129,26 @@ Set `dedupConfig.ignoreNonDefaultTiers` to one of the following values:
 
 The server-level default is `false`, so tables with `ignoreNonDefaultTiers: "DEFAULT"` continue to include non-default-tier segments unless you override the server setting.
 
+## Parallel consumption during commit, download, and replacement
+
+Pinot protects dedup correctness by limiting how much a slow replica can keep consuming while the previous segment is still being finalized.
+
+* For non-pauseless dedup tables, Pinot disallows parallel consumption during commit by default.
+* For pauseless dedup tables, Pinot still allows consumption during the build phase, but it stops the slow replica during segment download and replacement so the dedup metadata stays consistent with the lead replica.
+
+For backward compatibility, dedup tables still accept the deprecated table-level flag `dedupConfig.allowDedupConsumptionDuringCommit`. Setting it to `true` restores the older behavior and allows the replica to continue consuming throughout commit handling, including download and replacement:
+
+```json
+{
+  "dedupConfig": {
+    "dedupEnabled": true,
+    "allowDedupConsumptionDuringCommit": true
+  }
+}
+```
+
+If the table-level flag is left at its default `false`, the server-level fallback `pinot.server.instance.dedup.default.allow.dedup.consumption.during.commit` can enable the same legacy behavior for dedup tables on that server. New deployments should prefer `parallelSegmentConsumptionPolicy` in `streamIngestionConfig` when they need explicit control over parallel consumption.
+
 ## Immutable dedup configuration fields
 
 {% hint style="danger" %}
