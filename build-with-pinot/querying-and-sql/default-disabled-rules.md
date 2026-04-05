@@ -7,7 +7,9 @@ transformation rule that is enabled will be fired once its condition matches.
 
 There are certain rules that 
 are helpful and only helpful under certain circumstances (with certain selectivity and cardinality conditions). 
-We disable them by default and list them here for users to enable on demand.
+We disable them by default and list Pinot's built-in default set here for users to enable on demand.
+
+Brokers can replace this built-in set with the `pinot.broker.mse.planner.disabled.rules` config. When they do, the `usePlannerRules` query option applies to the broker-configured set instead of the built-in list below.
 
 ## Default Disabled Rules
 
