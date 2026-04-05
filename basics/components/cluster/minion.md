@@ -424,9 +424,9 @@ Then clicking into any table in this list, one can see how the task is configure
 
 **
 
-At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed.
+At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed. The task list also includes a **Status Filter** control so you can focus on a single task state, and a **Sub Tasks (Total/Completed/Running/Waiting/Error/Other)** column that summarizes the subtasks for each task. The **Other** bucket combines `UNKNOWN`, `DROPPED`, `TIMED_OUT`, and `ABORTED` subtasks.
 
-Clicking into a task from that list, we can see start/end time for it, and the subtasks generated for that task (as context, one minion task can have multiple subtasks to process data in parallel). In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
+Clicking into a task from that list, we can see start/end time for it, and the subtasks generated for that task (as context, one minion task can have multiple subtasks to process data in parallel). The subtask table also has its own **Status Filter** control, which is useful when a task fanout creates many subtasks across multiple minion workers. In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
 
 ![](../../../.gitbook/assets/minion-task-manager-subtask.png)
 
