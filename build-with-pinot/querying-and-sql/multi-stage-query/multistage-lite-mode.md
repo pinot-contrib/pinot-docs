@@ -100,7 +100,8 @@ You can set the following configs in your Pinot Broker.
 
 | Configuration Key | Default | Description |
 | --- | --- | --- |
-| pinot.broker.multistage.lite.mode.leaf.stage.limit | 100000 | The maximum number of records that a given Leaf Stage instance on a server is allowed to return. Recommended value is 100k records or lower. |
+| pinot.broker.multistage.lite.mode.leaf.stage.limit | 100000 | The maximum number of records that a given Leaf Stage instance on a server is allowed to return. This controls the default value of the query option `liteModeLeafStageLimit`. Recommended value is 100k records or lower. |
+| pinot.broker.multistage.lite.mode.leaf.stage.fanOutAdjustedLimit | -1 | If set to a positive value, Pinot divides this value by the number of workers assigned to the leaf stage and uses the quotient as the per-worker hard limit. This controls the default value of the query option `liteModeLeafStageFanOutAdjustedLimit`. |
 | pinot.broker.multistage.use.lite.mode | false | Default value of the query option `useLiteMode`. |
 | pinot.broker.multistage.run.in.broker | true | Whether to run the non-leaf stages in the broker by default. This controls the default value of the query option `runInBroker`. |
 
