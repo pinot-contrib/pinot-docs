@@ -137,15 +137,22 @@ Pinot supports the following partial upsert strategies:
 | IGNORE    | Ignore the new value, keep the existing value (v0.10.0+)                  |
 | MAX       | Keep the maximum value betwen the existing value and new value (v0.12.0+) |
 | MIN       | Keep the minimum value betwen the existing value and new value (v0.12.0+) |
+| FORCE_OVERWRITE | Always replace the existing value with the incoming value, including `null` (v1.4.0+) |
 
 {% hint style="info" %}
-With partial upsert, if the value is `null` in either the existing record or the new coming record, Pinot will ignore the upsert strategy and the `null` value:
+For partial upsert strategies other than `FORCE_OVERWRITE`, if the value is `null` in either the existing record or the incoming record, Pinot ignores the upsert strategy and keeps the non-null value:
 
 (`null`, _newValue_) -> _newValue_
 
 (_oldValue_, `null`) -> _oldValue_
 
 (`null`, `null`) -> `null`
+{% endhint %}
+
+Use `FORCE_OVERWRITE` when an incoming `null` should clear the previously stored value:
+
+(_oldValue_, `null`) -> `null`
+
 ### Post-Partial-Upsert Transforms (Derived Columns)
 
 When using partial upserts, you may have derived columns that need to be recomputed after the row is merged from the incoming record and the existing record. The `postPartialUpsertTransformConfigs` feature allows you to apply transformation functions to compute derived columns from the fully merged row.
