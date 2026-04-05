@@ -139,7 +139,7 @@ description: This document contains all the available query options
 
 | Key | Description | Default Behavior |
 | --- | --- | --- |
-| **explainAskingServers** | Controls the explain behavior in the multi-stage engine. When set to `true`, servers are asked to return the physical plan. When `false`, only the logical plan is returned (mimics behavior of Pinot 1.2.0 and earlier). | `true` |
+| **explainAskingServers** | Controls the explain behavior in the multi-stage engine. When set to `true`, servers are asked to return the segment plan. When `false`, Pinot returns only the logical plan. This overrides the broker-level `pinot.query.multistage.explain.include.segment.plan` setting for the query. | Broker level config (default `false`) |
 
 ### Group-By Trim
 
