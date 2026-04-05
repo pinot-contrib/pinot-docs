@@ -159,7 +159,7 @@ Consider an e-commerce table tracking orders:
 - `bonus`: Bonus points awarded
 - `total`: Derived column that should equal `score + bonus`
 
-With partial upserts, incoming records may only contain updated values for `score` or `bonus`. The ingestion-time transforms only see the incoming record, so they cannot correctly compute `total` from a partially merged row. The `postPartialUpsertTransformConfigs` allows you to recompute `total` from the complete merged row after the partial upsert merge happens.
+With partial upserts, incoming records may only contain updated values for `score` or `bonus`. The ingestion-time transforms only see the incoming record, so they cannot correctly compute `total` from a partially merged row. The `postPartialUpsertTransformConfigs` feature allows you to recompute `total` from the complete merged row after the partial upsert merge happens.
 
 **Configuration**
 
@@ -175,9 +175,12 @@ To enable post-partial-upsert transforms, add the `postPartialUpsertTransformCon
       "score": "OVERWRITE",
       "bonus": "OVERWRITE"
     },
-    "postPartialUpsertTransformConfigs": {
-      "total": "plus(score, bonus)"
-    }
+    "postPartialUpsertTransformConfigs": [
+      {
+        "columnName": "total",
+        "transformFunction": "plus(score,bonus)"
+      }
+    ]
   },
   "tableIndexConfig": {
     "nullHandlingEnabled": true
@@ -185,6 +188,16 @@ To enable post-partial-upsert transforms, add the `postPartialUpsertTransformCon
 }
 ```
 {% endcode %}
+
+`postPartialUpsertTransformConfigs` uses the same `TransformConfig` shape as ingestion-time transforms: each entry provides a destination `columnName` and a `transformFunction`.
+
+Pinot validates these configs before accepting the table:
+
+- They are only supported for `PARTIAL` upsert tables.
+- The destination column must exist in the schema.
+- The destination column cannot be a primary key, comparison column, `deleteRecordColumn`, or `outOfOrderRecordColumn`.
+- Each destination column can appear at most once.
+- The transform function cannot reference its own destination column.
 
 **Evaluation Semantics**
 
@@ -224,9 +237,12 @@ Given a partial upsert table with this configuration:
       "score": "OVERWRITE",
       "bonus": "OVERWRITE"
     },
-    "postPartialUpsertTransformConfigs": {
-      "total": "plus(score, bonus)"
-    }
+    "postPartialUpsertTransformConfigs": [
+      {
+        "columnName": "total",
+        "transformFunction": "plus(score,bonus)"
+      }
+    ]
   },
   "tableIndexConfig": {
     "nullHandlingEnabled": true
@@ -1012,4 +1028,3 @@ If changes are unavoidable:
 **Best option:** Create a new table and reingest all data.
 
 **Alternative:** Disable SNAPSHOT, pause consumption and restart all the servers. This will work for new incoming keys only; consistency across existing data is not guaranteed.
-
