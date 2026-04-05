@@ -24,6 +24,7 @@ These settings control baseline cluster behavior and compatibility semantics.
 | allowParticipantAutoJoin | true | Helix property that allows Pinot servers, brokers, and controllers to automatically join the cluster. When set to `false`, you must explicitly invoke the `/Instance/addInstance` API. Pinot checks this property only when a node starts and it has no effect once the node is already connected. |
 | enable.case.insensitive | true | Pinot queries are case insensitive by default, including table and column names. If you set this to `false`, Pinot uses the exact case defined in the schema. This property is applicable to brokers and is read only when the broker starts, so changing it requires a broker restart. |
 | default.hyperloglog.log2m | 8 | Default `log2m` value for HyperLogLog-based approximate distinct-count functions. |
+| max.segment.completion.time.millis | 300000 (5 minutes) | Cluster config for the maximum time allowed for LLC real-time segment completion after `segmentCommitStart`. Increase this when large segments, deep-store upload time, or retries can push real-time segment completion beyond 5 minutes. Removing the cluster config reverts Pinot to the default. |
 
 ## Query Safety
 
