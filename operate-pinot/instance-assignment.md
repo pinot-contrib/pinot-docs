@@ -214,7 +214,7 @@ In order to use [Partitioned Replica-Group Segment Assignment](segment-assignmen
 {% endhint %}
 
 {% hint style="info" %}
-Set `enforce.pool.based.assignment=true` in the controller configuration to enforce pool-based instance assignment in table config during table creation. If this property is set and pool-based instance assignment is not enabled in the table config, table creation fails.
+Set `enforce.pool.based.assignment=true` in the controller configuration to require both pool-based instance assignment and replica-group-based assignment in validated table configs. When this property is enabled, Pinot rejects table configs whose `instanceAssignmentConfigMap` entries are not pool-based or whose replica-group partition configs are not replica-group-based.
 {% endhint %}
 
 ## Fault-Domain-Aware Instance Assignment
