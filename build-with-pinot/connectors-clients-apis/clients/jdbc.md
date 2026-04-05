@@ -67,6 +67,43 @@ while(rs.next()){
 conn.close();
 ```
 
+## gRPC Connections
+
+To use the broker gRPC transport from JDBC, switch the scheme from `jdbc:pinot://` to `jdbc:pinotgrpc://`.
+
+```java
+Properties connectionProperties = new Properties();
+connectionProperties.setProperty("usePlainText", "false");
+connectionProperties.setProperty("tls.truststore.path", "/path/to/grpc-truststore.jks");
+connectionProperties.setProperty("tls.truststore.password", "changeit");
+
+Connection conn = DriverManager.getConnection(
+    "jdbc:pinotgrpc://localhost:9000?blockRowSize=10000&encoding=JSON&compression=ZSTD",
+    connectionProperties);
+```
+
+The `pinotgrpc` driver accepts the following gRPC transport properties through either the JDBC URL query string or the `Properties` object passed to `DriverManager.getConnection(...)`. TLS settings use the `tls.*` namespace, not broker-side keys such as `pinot.broker.tls.*`.
+
+| Property | Default | Notes |
+| --- | --- | --- |
+| `usePlainText` | `true` | Use plaintext gRPC transport. Set to `false` to enable TLS. |
+| `maxInboundMessageSizeBytes` | `134217728` (128 MB) | Maximum inbound gRPC message size accepted by the client. |
+| `channelKeepAliveTimeSeconds` | `-1` (disabled) | Keepalive ping interval. Set a positive value to enable keepalive. |
+| `channelKeepAliveTimeoutSeconds` | `20` | Timeout waiting for keepalive acknowledgements. |
+| `channelKeepAliveWithoutCalls` | `true` | Allows keepalive pings even without active RPCs. |
+| `channelShutdownTimeoutSeconds` | `10` | How long the client waits for the gRPC channel to terminate on close. |
+| `tls.keystore.type` | JVM default keystore type (`KeyStore.getDefaultType()`) | Client keystore type for mutual TLS. |
+| `tls.keystore.path` | None | Client keystore path for mutual TLS. |
+| `tls.keystore.password` | None | Client keystore password. |
+| `tls.truststore.type` | JVM default keystore type (`KeyStore.getDefaultType()`) | Truststore type used to validate the broker certificate. |
+| `tls.truststore.path` | None | Truststore path used to validate the broker certificate. |
+| `tls.truststore.password` | None | Truststore password. |
+| `tls.ssl.provider` | `JDK` | SSL provider used when building the gRPC client SSL context. |
+| `tls.insecure` | `false` | Skip broker certificate verification. Only appropriate for non-production testing. |
+| `tls.protocols` | JVM TLS defaults | Comma-separated TLS protocol allowlist such as `TLSv1.2,TLSv1.3`. |
+
+The JDBC gRPC path also accepts request metadata options such as `blockRowSize`, `encoding`, `compression`, and `headers.<name>` through URL parameters or connection properties and forwards them to each gRPC request.
+
 ## Authentication
 
 Pinot supports [basic HTTP authorization](../../../operate-pinot/authentication/basic-auth-access-control.md), which can be enabled for your cluster using configuration. To support basic HTTP authorization in your client-side JDBC applications, make sure you are using Pinot JDBC 0.10.0 or later. The following code snippet shows you how to connect to and query a Pinot cluster that has basic HTTP authorization enabled when using the JDBC client.
