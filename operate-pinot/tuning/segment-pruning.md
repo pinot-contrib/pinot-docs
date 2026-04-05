@@ -146,6 +146,8 @@ SELECT count(*) FROM events WHERE ts > 1700000000000
 
 When the [physical optimizer](../../build-with-pinot/querying-and-sql/multi-stage-query/physical-optimizer.md) is enabled, time and partition pruning are automatically applied to the Leaf Stage of multi-stage queries.
 
+For partitioned realtime tables, Pinot normally relies on the segment-partition metadata computed for each segment. If that metadata is invalid, you can set `inferRealtimeSegmentPartition=true` to have Pinot infer the partition from LLC or uploaded-realtime segment names instead. Pinot still uses the table's `segmentPartitionConfig` for the partition column, function, and partition count. If inference fails for the routed realtime segments, Pinot falls back to unpartitioned distribution for the query.
+
 ## Monitoring Pruning Effectiveness
 
 Use the following metrics to assess pruning effectiveness:
