@@ -88,6 +88,8 @@ Servers store segments and execute queries. Monitoring servers helps detect inge
 | `REALTIME_INGESTION_DELAY_MS` | Gauge | Delay in milliseconds between event production and Pinot consumption. Per-partition metric. | > 5 minutes (300000ms) for most use cases; adjust based on freshness SLA |
 | `LLC_PARTITION_CONSUMING` | Gauge | Binary: 1 if low-level consumption is healthy, 0 if unhealthy. Per table-partition. | = 0 on any partition |
 | `REALTIME_CONSUMPTION_EXCEPTIONS` | Meter | Exceptions during real-time consumption. | > 0 sustained |
+| `REALTIME_BYTES_CONSUMED` | Meter | Serialized bytes Pinot successfully consumes from a real-time stream. Use it with `REALTIME_ROWS_CONSUMED` to spot abrupt payload-size changes. | Sudden drop or spike vs. baseline |
+| `REALTIME_BYTES_DROPPED` | Meter | Serialized bytes Pinot drops during real-time ingestion because records were filtered out or failed decode, transform, or indexing. | > 0 sustained |
 | `QUERY_EXECUTION_EXCEPTIONS` | Meter | Exceptions during query execution on the server. | > 1% of queries |
 | `QUERIES` | Meter | Query rate hitting this server. | Sudden drop or spike vs. baseline |
 | `NUM_MISSING_SEGMENTS` | Meter | Segments the broker expected but the server did not have. | > 0 sustained |

@@ -32,6 +32,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | REALTIME_INGESTION_DELAY_MS | Per partition metric that measures the delay in milliseconds from the time an event was produced to the stream that feeds Pinot until the event was consumed by Pinot. Partitions that are not actively consuming due to lack of events will report 0 delay. Partitions that are stuck or falling behind will report their last measured delay aged by the time since the sample was taken: this enables the user to monitor partitions that have events queued but where Pinot is falling behind in consumption. This metric assumes event timestamps is UTC time zone, if timestamps are using other timezones, the delay shown will be offset. |  |
 | ROWS_WITH_ERRORS | number of rows that either didn't get transformed or didn't get indexed. |  |
 | REALTIME_ROWS_CONSUMED | total number of records consumed from input |  |
+| REALTIME_BYTES_CONSUMED | total serialized bytes consumed from real-time input |  |
+| REALTIME_BYTES_DROPPED | total serialized bytes dropped during real-time ingestion because Pinot rejected or failed to process the records |  |
 | INVALID_REALTIME_ROWS_DROPPED | number of records that were filtered based on FilterConfig specified in table config |  |
 | REALTIME_CONSUMPTION_EXCEPTIONS | number of rows that were not consumed because of some exception. It doesn't track exceptions during transformation and indexing. |  |
 | RELOAD_FAILURES | Number of failures occurred while reloading segments |  |
