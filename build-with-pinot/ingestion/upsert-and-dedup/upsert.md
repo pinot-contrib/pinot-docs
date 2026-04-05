@@ -126,6 +126,26 @@ For example:
 ```
 {% endcode %}
 
+### Custom row merger for partial upsert
+
+If column-level `partialUpsertStrategies` are not expressive enough, you can provide a custom row merger class with `upsertConfig.partialUpsertMergerClass`.
+
+```json
+{
+  "upsertConfig": {
+    "mode": "PARTIAL",
+    "partialUpsertMergerClass": "org.apache.pinot.segment.local.upsert.merger.PartialUpsertMyCustomMerger"
+  },
+  "tableIndexConfig": {
+    "nullHandlingEnabled": true
+  }
+}
+```
+
+When `partialUpsertMergerClass` is set, Pinot instantiates that `PartialUpsertMerger` implementation instead of the built-in columnar partial-upsert merger. The custom merger class must be available on the server classpath and expose a constructor with `(List<String> primaryKeyColumns, List<String> comparisonColumns, UpsertConfig upsertConfig)`.
+
+`partialUpsertMergerClass` is mutually exclusive with `partialUpsertStrategies`. Pinot rejects table configs that try to set both at the same time.
+
 Pinot supports the following partial upsert strategies:
 
 | Strategy  | Description                                                               |
