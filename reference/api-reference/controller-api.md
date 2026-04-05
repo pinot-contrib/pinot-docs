@@ -1308,10 +1308,57 @@ curl -X POST "http://localhost:9000/tables/myTable/pauseConsumption?comment=main
 
 Resume real-time consumption for a table.
 
+| Query parameter | Type | Meaning |
+| --- | --- | --- |
+| `comment` | string | Optional comment stored with the administrative resume state. |
+| `consumeFrom` | string | Optional resume offset policy. Use `lastConsumed` to continue from the offsets stored in Pinot metadata, `smallest` to restart from the earliest available offsets, or `largest` to restart from the latest available offsets. Default: `lastConsumed`. |
+
 **Request**
 
 ```
 curl -X POST "http://localhost:9000/tables/myTable/resumeConsumption" -H "accept: application/json"
+```
+
+Example with an administrative comment and an explicit resume policy:
+
+```bash
+curl -X POST "http://localhost:9000/tables/myTable/resumeConsumption?comment=maintenance-complete&consumeFrom=smallest" \
+  -H "accept: application/json"
+```
+
+### GET /tables/\<tableName>/pauseStatus
+
+Return the current pause state for a realtime table together with the currently consuming segments.
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/tables/myTable/pauseStatus" -H "accept: application/json"
+```
+
+**Response fields**
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `pauseFlag` | boolean | Whether Pinot currently considers the realtime table paused. |
+| `consumingSegments` | array of strings | Segment names that are still in the consuming state when the status is fetched. |
+| `reasonCode` | string | Pause reason code, such as `ADMINISTRATIVE` for operator-driven pauses or `STORAGE_QUOTA_EXCEEDED` for automatic storage-quota pauses. |
+| `comment` | string | Stored administrative or automatic pause comment. If no explicit comment was stored, Pinot returns a default paused or unpaused message. |
+| `timestamp` | string | Stored pause-state timestamp from the controller metadata. |
+
+**Example response**
+
+```json
+{
+  "pauseFlag": true,
+  "consumingSegments": [
+    "myTable__0__12__20250610T2140Z",
+    "myTable__1__12__20250610T2140Z"
+  ],
+  "reasonCode": "ADMINISTRATIVE",
+  "comment": "maintenance",
+  "timestamp": "<stored pause-state timestamp>"
+}
 ```
 
 ### GET /tables/\<tableName>/badLLCSegmentsPerPartition
