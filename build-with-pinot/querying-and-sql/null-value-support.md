@@ -219,6 +219,8 @@ When the `enableNullHandling` option is set to `true`, the Pinot query engine us
 
 In this mode, some indexes may not be usable, and queries may be significantly more expensive. Performance degradation impacts all the columns in the table, including columns in the query that do not contain null values. This degradation happens even when table uses column based null storing.
 
+Star-tree is one exception to the all-or-nothing rule: Pinot can still use a star-tree index for a segment when `enableNullHandling=true` if the aggregated columns, filtered columns, and group-by columns used by the query do not contain null values in that segment. Predicates such as `IS NULL` and `IS NOT NULL` still cannot use the star-tree index.
+
 ### Examples queries
 
 #### Select Query
