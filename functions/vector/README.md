@@ -26,7 +26,7 @@ WHERE VECTOR_SIMILARITY(vectorColumn, queryVector, topK)
 
 ### Prerequisites
 
-`VECTOR_SIMILARITY` uses a vector index when one is available on the target column. If a segment does not have a vector index, Pinot falls back to an exact scan over the forward index for that segment. Exact scans are much slower than ANN lookups, so configure a vector index for production workloads. See the [vector index documentation](../../build-with-pinot/indexing/vector-index.md) for setup instructions.
+`VECTOR_SIMILARITY` uses a vector index when one is available on the target column. Pinot supports three backends: HNSW, IVF_FLAT, and IVF_PQ. If a segment does not have a vector index (e.g., realtime segments with IVF_FLAT or IVF_PQ), Pinot falls back to an exact scan over the forward index for that segment. Exact scans are much slower than ANN lookups, so configure a vector index for production workloads. See the [vector index documentation](../../build-with-pinot/indexing/vector-index.md) for setup instructions.
 
 **Minimal field config:**
 
@@ -75,7 +75,7 @@ LIMIT 10
 ```
 
 {% hint style="warning" %}
-When Pinot uses a vector index, `VECTOR_SIMILARITY` is an **approximate** nearest-neighbor predicate. `vectorExactRerank=true` re-scores the ANN candidates returned by the index, but it does not turn ANN search into a full exact scan. To get better recall, request a larger `topK` than the final `LIMIT` and combine with an `ORDER BY` on a distance function.
+When Pinot uses a vector index, `VECTOR_SIMILARITY` is an **approximate** nearest-neighbor predicate. `vectorExactRerank=true` re-scores the ANN candidates returned by the index, but it does not turn ANN search into a full exact scan. IVF_PQ defaults to `vectorExactRerank=true` because PQ distances are approximate by construction. To get better recall, request a larger `topK` than the final `LIMIT` and combine with an `ORDER BY` on a distance function.
 {% endhint %}
 
 ## Distance Functions

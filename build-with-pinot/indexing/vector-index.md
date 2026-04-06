@@ -17,6 +17,7 @@ The vector index is supported on multi-valued FLOAT columns (float arrays). The 
 * Vector Index supports multiple backend implementations for approximate nearest neighbor (ANN) search:
   * **HNSW** (Hierarchical Navigable Small World) - highly accurate graph-based approach
   * **IVF_FLAT** (Inverted File with Flat Quantization) - efficient vector partitioning approach
+  * **IVF_PQ** (Inverted File with Product Quantization) - compressed ANN with up to 32× smaller index footprint
 * Adds support for a predicate and function:
   * VECTOR\_SIMILARITY(v1, v2, \[optional topK]) to retrieve the topK closest vectors based on similarity.
   * The similarity function can be used as part of a query to filter and rank results.
@@ -113,7 +114,7 @@ Explanation of Properties:
 
 1. vectorIndexType:
 
-Specifies the type of vector index to use. Currently supports HNSW.
+Specifies the type of vector index to use. Supported values: `HNSW`, `IVF_FLAT`, `IVF_PQ`.
 
 2. vectorDimension:
 
@@ -239,7 +240,7 @@ IVF_FLAT supports the same distance functions as HNSW:
 
 ### Query-Time Tuning Options
 
-IVF_FLAT supports query-time parameters to fine-tune the accuracy-performance trade-off:
+IVF_FLAT (and IVF_PQ) support query-time parameters to fine-tune the accuracy-performance trade-off:
 
 ```sql
 -- Set the number of clusters to probe (default: 1)
@@ -263,8 +264,8 @@ LIMIT 10;
 
 **Query-time parameters explanation:**
 
-* **vectorNprobe**: Number of inverted file lists to probe. Higher values increase recall at the cost of more computation. Start with nlist/4 and adjust based on query performance.
-* **vectorExactRerank**: When enabled, Pinot re-ranks the ANN candidates using exact distance from the forward index. This improves accuracy, but it does not turn the query into a full exact scan.
+* **vectorNprobe**: Number of inverted file lists to probe. Higher values increase recall at the cost of more computation. Start with nlist/4 and adjust based on query performance. Applies to IVF_FLAT and IVF_PQ; ignored for HNSW.
+* **vectorExactRerank**: When enabled, Pinot re-ranks the ANN candidates using exact distance from the forward index. This improves accuracy, but it does not turn the query into a full exact scan. Defaults to `true` for IVF_PQ (since PQ distances are approximate) and `false` for HNSW and IVF_FLAT.
 * **vectorMaxCandidates**: Maximum number of ANN candidates to examine before exact rerank. This only affects queries with `vectorExactRerank=true`.
 
 If a segment does not have a vector index, Pinot falls back to an exact forward-index scan for that segment. In that path Pinot ignores IVF_FLAT-specific tuning such as `vectorNprobe` and `vectorMaxCandidates`.
@@ -279,22 +280,124 @@ If a segment does not have a vector index, Pinot falls back to an exact forward-
 | **Query Latency** | Faster (with vectorNprobe tuning) | Consistent |
 | **Use Case** | Large-scale similarity search, memory-constrained | High-accuracy retrieval |
 
+## IVF_PQ Vector Index
+
+**IVF_PQ** (Inverted File with Product Quantization) compresses vectors using product quantization, producing indexes up to 32× smaller than IVF_FLAT. This makes it a good fit for very large datasets where memory and disk are constrained and some recall loss is acceptable.
+
+### IVF_PQ Configuration
+
+{% code title="IVF_PQ configuration in fieldConfigList" %}
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "embedding",
+      "encodingType": "RAW",
+      "indexes": {
+        "vector": {
+          "vectorIndexType": "IVF_PQ",
+          "vectorDimension": 128,
+          "vectorDistanceFunction": "EUCLIDEAN",
+          "version": 1,
+          "properties": {
+            "nlist": "128",
+            "pqM": "16",
+            "pqNbits": "8",
+            "trainSampleSize": "10000"
+          }
+        }
+      }
+    }
+  ]
+}
+```
+{% endcode %}
+
+### IVF_PQ Properties
+
+| Property | Required | Description |
+| --- | --- | --- |
+| `vectorIndexType` | Yes | Set to `IVF_PQ` |
+| `vectorDimension` | Yes | Dimensionality of the vectors (e.g., 128, 768) |
+| `vectorDistanceFunction` | Yes | Distance metric: `EUCLIDEAN` (L2), `COSINE`, `INNER_PRODUCT`, or `DOT_PRODUCT` |
+| `nlist` | Yes | Number of coarse clusters. Typical range: 16–256 |
+| `pqM` | Yes | Number of PQ sub-quantizers. Must evenly divide `vectorDimension` |
+| `pqNbits` | Yes | Bits per PQ code: `4`, `6`, or `8` |
+| `trainSampleSize` | Yes | Number of training vectors for codebook construction. Must be ≥ `nlist` |
+| `trainingSeed` | No | Random seed for reproducible index builds |
+
+### IVF_PQ Validation Rules
+
+* `pqM` must evenly divide `vectorDimension`
+* `pqNbits` must be one of 4, 6, or 8
+* `trainSampleSize` must be ≥ `nlist`
+* Backend-specific properties cannot be mixed across HNSW, IVF_FLAT, and IVF_PQ
+
+### IVF_PQ Runtime Behavior
+
+* **Default exact rerank**: IVF_PQ defaults to `vectorExactRerank=true` (unlike HNSW and IVF_FLAT which default to `false`). Because PQ distances are approximate by construction, reranking with exact distances from the forward index significantly improves recall.
+* **Mutable segments**: IVF_PQ does not support mutable (realtime) segments. Realtime segments fall back to an exact forward-index scan with `fallbackReason=ivf_pq_index_unavailable` in the explain output.
+* **Query-time tuning**: `vectorNprobe`, `vectorExactRerank`, and `vectorMaxCandidates` all apply to IVF_PQ the same way as IVF_FLAT.
+
+### Disk Footprint Comparison
+
+| Backend | Bytes per vector (dim=128) |
+| --- | --- |
+| HNSW | ~640–800 bytes |
+| IVF_FLAT | 512 bytes |
+| IVF_PQ (pqM=16, pqNbits=8) | 16 bytes (32× compression) |
+
+### IVF_PQ vs IVF_FLAT vs HNSW
+
+| Aspect | IVF_PQ | IVF_FLAT | HNSW |
+| --- | --- | --- | --- |
+| **Index Size** | Smallest (PQ compression) | Medium | Largest (graph structure) |
+| **Index Build Speed** | Slower (PQ training) | Fast | Slower |
+| **Raw ANN Recall** | Lower (quantization loss) | Good | Excellent |
+| **Recall with Rerank** | Good (default rerank=true) | Good | Excellent |
+| **Query Latency** | Fast (compact codes) | Fast | Consistent |
+| **Memory Overhead** | Lowest | Medium | Highest |
+| **Mutable Segments** | No (exact fallback) | No (exact fallback) | Yes |
+| **Use Case** | Very large datasets, memory-constrained | Large-scale similarity search | High-accuracy retrieval |
+
+### Explain Plan Output
+
+When `explainAskingServers=true`, the explain output for vector queries includes:
+
+* **backend**: Which vector index backend is used (`HNSW`, `IVF_FLAT`, or `IVF_PQ`)
+* **distanceFunction**: The configured distance metric
+* **nprobe**: Effective number of inverted lists probed (IVF_FLAT and IVF_PQ only)
+* **exactRerank**: Whether exact reranking is enabled
+* **candidateCount**: Number of ANN candidates examined
+* **fallbackReason**: Present when a segment falls back to exact scan (e.g., `ivf_pq_index_unavailable` for realtime segments)
+
+```sql
+SET explainAskingServers=true;
+SET vectorNprobe=8;
+EXPLAIN PLAN FOR
+SELECT l2Distance(embedding, ARRAY[1.1, 1.1, ...]) AS dist
+FROM myTable
+WHERE vectorSimilarity(embedding, ARRAY[1.1, 1.1, ...], 10)
+ORDER BY dist ASC LIMIT 10
+```
+
 ## Backward Compatibility
 
-Existing HNSW configurations continue to work without modification. The vector index implementation is fully backward compatible:
+Existing HNSW and IVF_FLAT configurations continue to work without modification. The vector index implementation is fully backward compatible:
 
-* Existing tables with HNSW indexes will continue to function as before
-* Both HNSW and IVF_FLAT can coexist in the same Pinot cluster
-* You can migrate individual tables from HNSW to IVF_FLAT by updating the table configuration and reindexing
+* Existing tables with HNSW or IVF_FLAT indexes will continue to function as before
+* All three backends (HNSW, IVF_FLAT, IVF_PQ) can coexist in the same Pinot cluster
+* You can migrate individual tables between backends by updating the table configuration and reindexing
 
 ## Limitations
 
-- Supported vector index types: HNSW and IVF_FLAT. IVF_FLAT does not support mutable segments in phase 1; segments must be immutable.
+- Supported vector index types: HNSW, IVF_FLAT, and IVF_PQ.
+- **Mutable segment support**: Only HNSW supports mutable (realtime) segments. IVF_FLAT and IVF_PQ do not support mutable segments; realtime segments fall back to an exact forward-index scan.
 - The column must be a multi-valued FLOAT column.
 - Maximum vector dimension is 2048 (configurable via the `maxDimensions` property for HNSW).
 - When Pinot uses a vector index, `VECTOR_SIMILARITY` is an approximate nearest-neighbor predicate. `vectorExactRerank=true` only re-scores the ANN candidates returned by the index; it does not guarantee a full exact search. When a segment has no vector index, Pinot falls back to an exact forward-index scan for that segment.
 - HNSW uses Lucene under the hood and generates Lucene index files per segment.
-- IVF_FLAT does not support online index updates; segments must be immutable.
+- IVF_PQ raw ANN recall is lower than IVF_FLAT and HNSW due to quantization; enable `vectorExactRerank=true` (the default for IVF_PQ) for better accuracy.
 
 ### **Query**
 
