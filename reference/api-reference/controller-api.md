@@ -1269,6 +1269,10 @@ Trigger a rebalance for a table. In 1.4.0, this API gained several new capabilit
 - **Tenant info**: The rebalance response now includes tenant information.
 - **minimizeDataMovement**: Pass `minimizeDataMovement=true` to reduce the amount of data moved during the rebalance.
 
+{% hint style="warning" %}
+**Nullable Response Fields**: Some fields in the RebalanceResult API response may be `null` depending on the table type (offline vs realtime) and the rebalance configuration options used. When checking rebalance results programmatically, always null-check response fields before using them.
+{% endhint %}
+
 **Request**
 
 ```
