@@ -381,6 +381,37 @@ WHERE vectorSimilarity(embedding, ARRAY[1.1, 1.1, ...], 10)
 ORDER BY dist ASC LIMIT 10
 ```
 
+## Index Debug Information
+
+All vector index backends (HNSW, IVF_FLAT, and IVF_PQ) now support the `getIndexDebugInfo()` method, which provides detailed statistics and diagnostic information about the index. This is useful for monitoring, debugging, and understanding index behavior at runtime.
+
+### Using getIndexDebugInfo()
+
+The debug info is available through the Pinot segment metadata and includes:
+
+* **Index configuration**: The exact parameters used to build the index
+* **Index statistics**: Number of vectors indexed, memory usage, codebook information (for IVF_PQ)
+* **Build time**: Time taken to construct the index
+* **Backend-specific metrics**:
+  * HNSW: Graph structure info (number of nodes, edges, layers)
+  * IVF_FLAT: Cluster distribution and inverted list statistics
+  * IVF_PQ: Quantization codebook details, compression metrics
+
+### Accessing Debug Information
+
+Debug information can be accessed through:
+
+1. **Query explain output**: When running with `explainAskingServers=true`, segment-level index debug info is included
+2. **REST API**: Via the segment metadata endpoint
+3. **Pinot shell/client**: Using server-side utilities
+
+Example REST endpoint:
+```
+GET /tables/{tableName}/segments/{segmentName}/metadata
+```
+
+This endpoint returns detailed segment metadata including vector index debug information.
+
 ## Backward Compatibility
 
 Existing HNSW and IVF_FLAT configurations continue to work without modification. The vector index implementation is fully backward compatible:
