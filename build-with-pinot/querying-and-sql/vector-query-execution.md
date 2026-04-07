@@ -501,7 +501,7 @@ ORDER BY dist ASC;
 
 ## See Also
 
-- [Vector Index Documentation](../../indexing/vector-index.md) — Configure and tune vector indexes
+- [Vector Index Documentation](../indexing/vector-index.md) — Configure and tune vector indexes
 - [Vector / Similarity Functions](../../functions/vector/) — Distance functions and VECTOR_SIMILARITY syntax
-- [Query Options](query-options.md) — Full reference of query-time settings
+- [Query Options](query-execution-controls/query-options.md) — Full reference of query-time settings
 - [Query Execution](querying-pinot.md) — General query execution concepts
