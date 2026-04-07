@@ -11,11 +11,48 @@ This page provides a comprehensive reference for the Apache Pinot Helm chart con
 | App Version | `1.0.0` |
 | Source | [github.com/apache/pinot/tree/master/helm](https://github.com/apache/pinot/tree/master/helm) |
 | Maintainer | `dev@pinot.apache.org` |
+| Helm API Version | `v2` (Helm 3+) |
+
+## Helm 3 Migration Notice
+
+The Pinot Helm charts have been migrated to **Helm 3 (apiVersion v2)** to follow Helm best practices and improve maintainability. Key changes:
+
+### Chart Structure Changes
+
+- **apiVersion:** Upgraded from `v1` to `v2`
+- **Chart type:** Added explicit `type: application`
+- **Dependencies:** Now declared in `Chart.yaml` (previously `requirements.yaml`)
+- **Lock file:** Renamed from `requirements.lock` to `Chart.lock`
+- **Chart versions:** No longer use `-SNAPSHOT` suffix; standard SemVer only
+- **Chart archives:** No longer checked into the repository; fetched dynamically via `helm dependency build`
+- **Icons:** Added official Apache Pinot icons for both charts
+
+### Migration Impact for Users
+
+If you deployed Pinot using older Helm v1 charts:
+
+1. **Helm 3 is required:** Update to Helm 3.0+ if you haven't already
+2. **Rebuild dependencies:** Always run `helm dependency build` when deploying from source
+3. **Use latest chart versions:** Pull the newest chart version from the Pinot Helm repository
+4. **Update your CI/CD:** Replace `helm dependency update` with `helm dependency build` in deployment scripts
+
+### Upgrading Your Deployment
+
+```bash
+# Update Helm repository
+helm repo update pinot
+
+# For source deployments, fetch dependencies
+helm dependency build
+
+# Upgrade your release
+helm upgrade pinot pinot/pinot -n pinot-quickstart -f values.yaml
+```
 
 ## Prerequisites
 
 * Kubernetes 1.20+
-* Helm 3.x
+* **Helm 3.0+** (apiVersion v2 support required) -- [Install Helm 3](https://helm.sh/docs/intro/install/)
 * `kubectl` configured to connect to your cluster
 * Persistent volume provisioner support in the cluster (for controller, server, and ZooKeeper data)
 * A StorageClass appropriate for your cloud provider:

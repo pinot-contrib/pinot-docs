@@ -4,6 +4,10 @@ Pinot community has provided a Helm-based [Kubernetes install guide](../../basic
 
 You can deploy it as simple as run a `helm install` command.
 
+{% hint style="info" %}
+**Helm 3 (v2 apiVersion):** Pinot Helm charts now require Helm 3.0+ with support for apiVersion v2. When deploying from source, always run `helm dependency build` to fetch chart dependencies. See the [Helm 3 Migration Notice](helm-chart-reference.md#helm-3-migration-notice) for details.
+{% endhint %}
+
 However there are a few things to be noted before starting the benchmark/production.
 
 ## Container Resources
