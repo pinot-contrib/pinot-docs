@@ -453,3 +453,37 @@ Inputs:
 * embedding: The vector column.
 * Query vector (literal array).
 * Optional topK parameter (default: 10).
+
+
+## Query Execution Modes and Options
+
+For advanced vector query execution strategies, including filtered ANN, threshold search, and execution mode selection, see [Vector Query Execution Semantics](../querying-and-sql/vector-query-execution.md).
+
+### Key Query Options
+
+- **`vectorDistanceThreshold`**: Return all results within a specified distance rather than top-K
+- **`vectorExactRerank`**: Re-rank ANN candidates using exact distance from forward index (improves accuracy, enabled by default for IVF_PQ)
+- **`vectorNprobe`**: Control recall-vs-latency tradeoff for IVF_FLAT and IVF_PQ by adjusting cluster probe count
+- **`vectorMaxCandidates`**: Limit how many ANN candidates to examine before exact reranking
+
+### Filtered ANN Queries
+
+Pinot automatically optimizes queries combining `VECTOR_SIMILARITY` with metadata filters:
+
+```sql
+SELECT ProductId, Summary,
+       cosineDistance(embedding, ARRAY[0.1, 0.2, ...]) AS dist
+FROM products
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[0.1, 0.2, ...], 50)
+  AND category = 'electronics'
+ORDER BY dist ASC
+LIMIT 10;
+```
+
+The vector index handles the ANN candidate retrieval, and metadata filters are applied to the result set. For best accuracy with approximate indexes, enable `vectorExactRerank = true`.
+
+### Viewing Query Execution Plans
+
+Use `EXPLAIN` with `explainAskingServers=true` to see which execution mode Pinot selected (one of: ANN_TOP_K, ANN_TOP_K_WITH_RERANK, ANN_THEN_FILTER, ANN_THEN_FILTER_THEN_RERANK, ANN_THRESHOLD_SCAN, ANN_THRESHOLD_THEN_FILTER, or EXACT_SCAN). The EXPLAIN output also shows the vector backend, distance function, and any fallback reasons.
+
+See [Vector Query Execution Semantics](../querying-and-sql/vector-query-execution.md) for detailed documentation on all execution modes and query patterns.
