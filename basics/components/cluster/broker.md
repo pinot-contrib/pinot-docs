@@ -22,7 +22,7 @@ In the case of hybrid tables, the brokers ensure that the overlap between real-t
 
 Let's take this example, we have real-time data for five days - March 23 to March 27, and offline data has been pushed until Mar 25, which is two days behind real-time. The brokers maintain this time boundary.
 
-![](../../../.gitbook/assets/broker-time-boundary-diagram.jpg)
+![](../../../.gitbook/assets/broker-time-boundary-diagram.jpg.jpg)
 
 Suppose, we get a query to this table : `select sum(metric) from table`. The broker will split the query into 2 queries based on this time boundary – one for offline and one for real-time. This query becomes `select sum(metric) from table_REALTIME where date >= Mar 25`\
 and `select sum(metric) from table_OFFLINE where date < Mar 25`

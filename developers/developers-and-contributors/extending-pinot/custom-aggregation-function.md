@@ -1,6 +1,6 @@
 # Writing Custom Aggregation Function
 
-Pinot has many built-in Aggregation Functions such as MIN, MAX, SUM, AVG etc. See [PQL](../../../users/user-guide-query/querying-pinot.md) page for the list of aggregation functions.
+Pinot has many built-in Aggregation Functions such as MIN, MAX, SUM, AVG etc. See the [Querying Pinot](../../../build-with-pinot/querying-and-sql/querying-pinot.md) page for the list of aggregation functions.
 
 Adding a new AggregationFunction requires two things
 

@@ -24,7 +24,7 @@ Helix is a cluster management solution that maintains a persistent, fault-tolera
 
 ## Cluster configuration
 
-For details of cluster configuration settings, see [Cluster configuration reference](https://docs.pinot.apache.org/configuration-reference/cluster).
+For details of cluster configuration settings, see [Cluster configuration reference](../../../reference/configuration-reference/cluster.md).
 
 ## Cluster components
 
@@ -64,5 +64,5 @@ Typically, there is only one cluster per environment/data center. There is no ne
 
 To set up a cluster, see one of the following guides:
 
-* [Running Pinot in Docker](../../getting-started/running-pinot-in-docker.md)
-* [Running Pinot locally](../../getting-started/running-pinot-locally.md)
+* [Running Pinot in Docker](../../getting-started/install/docker.md)
+* [Running Pinot locally](../../getting-started/install/local.md)

@@ -11,7 +11,7 @@ The removal of segments is done by the retention manager. By default, the retent
 The retention manager purges two types of segments:
 
 * Expired segments: Segments whose end time has exceeded the retention period.
-* Replaced segments: Segments that have been replaced as part of the [merge rollup task. ](https://docs.pinot.apache.org/operators/operating-pinot/minion-merge-rollup-task)
+* Replaced segments: Segments that have been replaced as part of the [merge rollup task. ](../../operate-pinot/minion-merge-rollup-task.md)
 
 There are a couple of scenarios where segments in offline tables won't be purged:
 
@@ -20,4 +20,6 @@ There are a couple of scenarios where segments in offline tables won't be purged
 
 If the retention period isn't specified, segments aren't purged from tables.
 
-The retention manager initially moves these segments into a _Deleted Segments_ area, from where they will eventually be permanently removed.
+The retention manager initially moves these segments into a _Deleted Segments_ area, from where they will eventually be permanently removed. The duration that deleted segments are kept is controlled by the `controller.deleted.segments.retentionInDays` configuration (default: 7 days).
+
+When deleting a table via the API, you can override this behavior by passing a `retention` query parameter. For example, `DELETE /tables/{tableName}?retention=0d` deletes all segments immediately without moving them to the deleted-segments area. See the [Controller API Examples](../../reference/api-reference/controller-api.md#delete-tables-less-than-tablename-greater-than) for more details.

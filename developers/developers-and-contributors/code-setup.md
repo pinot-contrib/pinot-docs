@@ -38,6 +38,23 @@ Run the following maven command to set up the project.
 $mvn install package -DskipTests -Pbin-dist -DdownloadSources -DdownloadJavadocs
 ```
 
+### Scala Version
+
+As of recent versions, Pinot defaults to **Scala 2.13** for all Scala-based dependencies and connectors (Spark, Kafka 3.x, etc.). 
+
+If you need to build with **Scala 2.12** for compatibility with your environment, use the Maven profile:
+
+```
+# compile with Scala 2.12
+$ mvn install package -DskipTests -Pbin-dist -Pscala-2.12 -DdownloadSources -DdownloadJavadocs
+```
+
+This affects connectors and libraries like:
+- Spark Pinot Connector
+- Kafka 3.0 Connector
+- Any other Scala-based dependencies
+
+
 ### Set up IDE
 
 Import the project into your favorite IDE. Set up stylesheet according to your IDE. We have provided instructions for intellij and eclipse. If you are using other IDEs, ensure you use stylesheet based on [this](https://github.com/apache/pinot/blob/master/config/codestyle-intellij.xml).
@@ -50,7 +67,7 @@ To import the Pinot stylesheet this launch intellij and navigate to `Preferences
 * Select `Import Scheme` -> `Intellij IDES code style XML`
 * Choose `codestyle-intellij.xml` from `pinot/config` folder of your workspace. Click Apply.
 
-![](../../.gitbook/assets/.unused/import\_scheme.png)
+![](../../.gitbook/assets/.unused/import_scheme.png)
 
 #### Eclipse
 
@@ -59,9 +76,9 @@ To import the Pinot stylesheet this launch eclipse and navigate to `Preferences`
 * Navigate to Java->Code Style->Formatter
 * Choose `codestyle-eclipse.xml` from `pinot/config folder` of your workspace. Click Apply.
 
-![](../../.gitbook/assets/.unused/eclipse\_style.png)
+![](../../.gitbook/assets/.unused/eclipse_style.png)
 
-Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#batch) for batch mode or [`Realtime QuickStart`](https://docs.pinot.apache.org/basics/getting-started/running-pinot-locally#streaming) for real-time mode.
+Once the IDE is set up, you can run [`Batch QuickStart`](../../basics/getting-started/quick-start.md#batch-processing) for batch mode or [`Realtime QuickStart`](../../basics/getting-started/quick-start.md#streaming) for real-time mode.
 
 **Batch Quickstart**
 
@@ -69,6 +86,18 @@ Once the IDE is set up, you can run [`Batch QuickStart`](https://docs.pinot.apac
 * create Baseball Stats table
 
 Go to localhost:9000 in your browser and play with the query console.
+
+Note for JDK 17 or 21 you need to add below to the VM Options:
+
+```
+--add-opens=java.base/java.nio=ALL-UNNAMED
+--add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+--add-opens=java.base/java.lang=ALL-UNNAMED
+--add-opens=java.base/java.util=ALL-UNNAMED
+--add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+--enable-native-access=ALL-UNNAMED
+--add-modules jdk.incubator.vector
+```
 
 **Real-time Quickstart**
 

@@ -1,104 +1,136 @@
 ---
-description: 'TODO: Deprecated'
+description: Overview of the Apache Pinot Maven modules and how the codebase is organized.
 ---
 
 # Code Modules and Organization
 
-Before proceeding to contributing changes to Pinot, review the contents of this section.
+Apache Pinot is a multi-module Maven project. Each module provides specific functionality and can be composed into individually deployable services. This page describes every top-level module in the repository, grouped by architectural layer.
 
-### External Dependencies
+Source code lives under `src/main/java` in each module, with corresponding unit tests under `src/test/java`.
 
-Pinot depends on a number of external projects, the most notable ones are:
+## SPI / Foundation
 
-* Apache Zookeeper
-* Apache Helix
-* Apache Kafka
-* Apache Thrift
-* Netty
-* Google Guava
-* Yammer
+These modules define the interfaces, data types, and shared utilities that the rest of Pinot depends on. They intentionally have a minimal dependency footprint.
 
-_Helix_ is used for ClusterManagement, and Pinot code is tightly integrated with Helix and Zookeeper interfaces.
+| Module | Description |
+| --- | --- |
+| `pinot-spi` | Service Provider Interface -- defines plugin contracts for file systems, stream ingestion, input formats, metrics, authentication, and more. All plugin implementations depend on this module. |
+| `pinot-segment-spi` | Segment-level SPI -- abstractions for column data sources, readers, and segment metadata used by both local and remote segment implementations. |
+| `pinot-common` | Shared classes used across Pinot components including table config definitions, metrics helpers, Zookeeper metadata models, request/response formats, and common utilities. |
 
-_Kafka_ is the default real-time stream provider, but can be replaced with others. See customizations section for more info.
+## Segment Storage
 
-_Thrift_ is used for message exchange between broker and server components, with _Netty_ providing the server functionality for processing messages in a non-blocking fashion.
+| Module | Description |
+| --- | --- |
+| `pinot-segment-local` | Local (on-server) segment implementation -- column index structures (forward index, inverted index, range index, text index, etc.), segment creation, and segment loading logic. |
 
-_Guava_ is used for number of auxiliary components such as Caches and RateLimiters. _Yammer_ metrics is used to register and expose metrics from Pinot components.
+## Core
 
-In addition, Pinot relies on several key external libraries for some of its core functionality: _Roaring Bitmaps_: Pinot’s inverted indices are built using [RoaringBitmap](https://github.com/RoaringBitmap/RoaringBitmap) library. _t-Digest_: Pinot’s digest based percentile calculations are based on [T-Digest](https://github.com/tdunning/t-digest) library.
+| Module | Description |
+| --- | --- |
+| `pinot-core` | Central module containing single-stage query execution (filters, aggregations, transformations, group-by), real-time segment ingestion, upsert handling, and data-plane utilities shared by Broker and Server. |
 
-### Pinot Modules
+## Query Engine (Multi-Stage)
 
-Pinot is a multi-module project, with each module providing specific functionality that helps us to build services from a combination of modules. This helps keep clean interface contracts between different modules as well as reduce the overall executable size for individually deployable component.
+These modules power the multi-stage engine (MSE), which enables distributed joins and other advanced SQL operations.
 
-Each module has a `src/main/java` folder where the code resides and `src/test/java` where the _unit_ tests corresponding to the module’s code reside.
+| Module | Description |
+| --- | --- |
+| `pinot-query-planner` | SQL query parsing, validation, and logical/physical plan generation using Apache Calcite. Produces a distributed query plan that is split across Broker and Server stages. |
+| `pinot-query-runtime` | Execution runtime for multi-stage query plans -- operator implementations, inter-stage data transfer (mailbox), and scheduling of query stages on Broker and Server. |
 
-### Foundational modules
+## Services
 
-The following figure provides a high-level overview of the foundational Pinot modules.
+Each Pinot service runs as a separate process and corresponds to a Maven module.
 
-![](../../.gitbook/assets/PinotFoundation.png)
+| Module | Description |
+| --- | --- |
+| `pinot-broker` | Broker service -- accepts SQL queries, performs query routing using routing tables, scatters requests to Servers, gathers and merges partial results, and returns the final response. |
+| `pinot-controller` | Controller service -- cluster administration APIs, segment management (upload, assignment, retention, rebalance), schema and table configuration, and task scheduling via Helix. |
+| `pinot-server` | Server service -- hosts segments, executes query plans on local data, serves real-time and offline segments, and exposes admin REST APIs. |
+| `pinot-minion` | Minion service -- runs asynchronous, distributed tasks such as segment merge, segment purge (e.g. GDPR compliance), and segment conversion. Task types are pluggable. |
 
-#### pinot-common
+## Time Series
 
-`pinot-common` provides classes common to Pinot components. Some key classes you will find here are:
+| Module | Description |
+| --- | --- |
+| `pinot-timeseries/pinot-timeseries-spi` | SPI for the time series query engine -- defines the language-agnostic interfaces for time series query planning and execution. |
+| `pinot-timeseries/pinot-timeseries-planner` | Planner for time series queries -- translates time series language expressions into executable query plans that run on top of Pinot segments. |
 
-* `config`: Definitions for various elements of Pinot’s table config.
-* `metrics`: Definitions for base metrics provided by Controller, Broker and Server.
-* `metadata`: Definitions of metadata stored in Zookeeper.
-* `pql.parsers`: Code to compile PQL strings into corresponding AbstractSyntaxTrees (AST).
-* `request`: Autogenerated thrift classes representing various parts of PQL requests.
-* `response`: Definitions of response format returned by the Broker.
-* `filesystem`: provides abstractions for working with `segments` on local or remote filesystems. This module allows for users to plugin filesystems specific to their usecase. Extensions to the base `PinotFS` should ideally be housed in their specific modules so as not pull in unnecessary dependencies for all users.
+Time series language implementations (e.g. M3QL) are provided as plugins under `pinot-plugins/pinot-timeseries-lang`.
 
-#### pinot-transport
+## Connectors
 
-`pinot-transport` module provides classes required to handle scatter-gather on Pinot Broker and netty wrapper classes used by Server to handle connections from Broker.
+The `pinot-connectors` module contains integrations for ingesting data from external compute frameworks.
 
-#### pinot-core
+| Module | Description |
+| --- | --- |
+| `pinot-spark-common` | Shared code for Spark-based segment generation. |
+| `pinot-spark-3-connector` | Connector for Apache Spark 3.x batch segment generation. |
+| `pinot-flink-connector` | Connector for Apache Flink segment generation and real-time ingestion. |
 
-`pinot-core` modules provides the core functionality of Pinot, specifically for handling segments, various index structures, query execution - filters, transformations, aggregations etc and support for real-time segments.
+## Clients
 
-#### pinot-server
+The `pinot-clients` module provides client libraries for querying Pinot from applications.
 
-`pinot-server` provides server specific functionality including server startup and REST APIs exposed by the server.
+| Module | Description |
+| --- | --- |
+| `pinot-java-client` | Native Java client for sending SQL queries to the Broker and reading results. |
+| `pinot-jdbc-client` | JDBC driver implementation, allowing Pinot to be used with standard JDBC tooling and BI applications. |
+| `pinot-cli` | Command-line interface client for interactive querying. |
 
-![](../../.gitbook/assets/PinotServer.png)
+## Plugins
 
-#### pinot-controller
+The `pinot-plugins` module is an umbrella for all first-party plugin implementations. Plugins are loaded at runtime via the SPI mechanism defined in `pinot-spi`. For details on the plugin architecture, see the [Plugin Architecture](../../developers/plugin-architecture/) section.
 
-`pinot-controller` houses all the controller specific functionality, including many cluster administration APIs, segment upload (for both offline and real-time), segment assignment, retention strategies etc.
+| Plugin Group | Submodules | Description |
+| --- | --- | --- |
+| `pinot-stream-ingestion` | `pinot-kafka-base`, `pinot-kafka-3.0`, `pinot-kafka-4.0`, `pinot-kinesis`, `pinot-pulsar` | Stream connectors for real-time ingestion from Kafka, Kinesis, and Pulsar. |
+| `pinot-file-system` | `pinot-s3`, `pinot-gcs`, `pinot-hdfs`, `pinot-adls` | PinotFS implementations for deep store on S3, GCS, HDFS, and Azure Data Lake. |
+| `pinot-input-format` | `pinot-avro`, `pinot-json`, `pinot-csv`, `pinot-parquet`, `pinot-orc`, `pinot-thrift`, `pinot-protobuf`, `pinot-arrow`, `pinot-clp-log`, and Confluent schema-registry variants | Record readers/decoders for various data serialization formats. |
+| `pinot-batch-ingestion` | `pinot-batch-ingestion-standalone`, `pinot-batch-ingestion-hadoop`, `pinot-batch-ingestion-spark-*` | Ingestion job runners for standalone, Hadoop MapReduce, and Spark-based offline segment generation. |
+| `pinot-metrics` | `pinot-yammer`, `pinot-dropwizard`, `pinot-compound-metrics` | Metrics reporter implementations (Yammer, Dropwizard) and compound metric support. |
+| `pinot-minion-tasks` | `pinot-minion-builtin-tasks` | Built-in Minion task types (merge/rollup, purge, segment conversion, etc.). |
+| `pinot-segment-uploader` | `pinot-segment-uploader-default` | Default segment uploader for pushing completed segments to the Controller. |
+| `pinot-segment-writer` | `pinot-segment-writer-file-based` | File-based segment writer implementation used during ingestion. |
+| `pinot-environment` | `pinot-azure` | Environment-specific configuration provider for Azure deployments. |
+| `pinot-timeseries-lang` | `pinot-timeseries-m3ql` | Time series query language plugins (M3QL). |
 
-![](../../.gitbook/assets/PinotController.png)
+## Tools and Distribution
 
-#### pinot-broker
+| Module | Description |
+| --- | --- |
+| `pinot-tools` | Collection of command-line tools for cluster setup, segment management, data generation, and the Pinot quick-start launchers. |
+| `pinot-distribution` | Assembly module that packages all modules into the final Pinot binary distribution (tar.gz). |
 
-`pinot-broker` provides broker functionality that includes wiring the broker startup sequence, building broker routing tables, PQL request handling.
+## Testing and Verification
 
-![](../../.gitbook/assets/PinotBroker.png)
+| Module | Description |
+| --- | --- |
+| `pinot-integration-test-base` | Base framework and utilities shared by integration tests (cluster setup helpers, test table configs, etc.). |
+| `pinot-integration-tests` | End-to-end integration tests that spin up multi-component Pinot clusters and validate cross-module behavior without mocking. |
+| `pinot-perf` | JMH-based micro-benchmarks for evaluating performance of critical code paths (index reads, aggregations, encoding). |
+| `pinot-compatibility-verifier` | Backward and forward compatibility tests that verify rolling upgrades work across Pinot versions. |
+| `pinot-udf-test` | Test harness for validating user-defined scalar and aggregate functions. |
+| `pinot-dependency-verifier` | Build-time checks to detect dependency conflicts and enforce dependency convergence. |
 
-#### pinot-minion
+## Deployment
 
-`pinot-minion` provides functionality for running auxiliary/periodic tasks on a Pinot Cluster such as purging records for compliance with regulations like GDPR.
+These directories are not Maven modules but contain deployment artifacts.
 
-#### pinot-hadoop
+| Directory | Description |
+| --- | --- |
+| `docker/` | Dockerfiles and supporting scripts for building Pinot container images. |
+| `helm/` | Helm charts for deploying Pinot on Kubernetes, including templates for Broker, Controller, Server, Minion, and Zookeeper. |
 
-`pinot-hadoop` provides classes for segment generation jobs using Hadoop infrastructure.
+## Key External Dependencies
 
-![](../../.gitbook/assets/PinotMinionHadoop.png)
+Pinot builds on top of several important external projects:
 
-### Auxiliary modules
-
-In addition to the core modules described above, Pinot code provides the following modules:
-
-* `pinot-tools`: This module is a collection of many tools useful for setting up Pinot cluster, creating/updating segments.It also houses the Pinot quick start guide code.
-* `pinot-perf`: This module has a collection of benchmark test code used to evaluate design options.
-* `pinot-client-api`: This module houses the Java client API. See [Executing queries via Java Client API](../../users/clients/java.md) for more info.
-* `pinot-integration-tests`: This module holds integration tests that test functionality across multiple classes or components.
-
-These tests typically do not rely on mocking and provide more end to end coverage for code.
-
-### Extension modules
-
-`pinot-hadoop-filesystem` and `pinot-azure-filesystem` are module added to support extensions to Pinot filesystem. The functionality is broken down into modules of their own to avoid polluting the common modules with additional large libraries. These libraries bring in transitive dependencies of their own that can cause classpath conflicts at runtime. We would like to avoid this for the common usage of Pinot as much as possible.
+* **Apache Helix / ZooKeeper** -- cluster management, resource assignment, and distributed state coordination.
+* **Apache Calcite** -- SQL parsing and query planning for the multi-stage query engine.
+* **Apache Kafka** -- default stream provider for real-time ingestion (pluggable via SPI).
+* **Netty** -- non-blocking network transport between Broker and Server.
+* **Google Guava** -- caches, rate limiters, and general-purpose utilities.
+* **RoaringBitmap** -- compressed bitmap library used for inverted indices and filtering.
+* **T-Digest** -- quantile estimation for percentile aggregation functions.

@@ -10,7 +10,7 @@ description: >-
 Apache Pinot™ is a real-time distributed online analytical processing (OLAP) datastore. Use Pinot to ingest and immediately query data from streaming or batch data sources (including, Apache Kafka, Amazon Kinesis, Hadoop HDFS, Amazon S3, Azure ADLS, and Google Cloud Storage).
 
 {% hint style="info" %}
-We'd love to hear from you! [Join us in our Slack channel](https://communityinviter.com/apps/apache-pinot/apache-pinot) to ask questions, troubleshoot, and share feedback.&#x20;
+We'd love to hear from you! [Join us in our Slack channel](https://inviter.co/apache-pinot) to ask questions, troubleshoot, and share feedback.&#x20;
 {% endhint %}
 
 Apache Pinot includes the following:
@@ -59,7 +59,7 @@ For analysts and data scientists, Pinot works well as a highly-scalable data pla
 
 For application developers, Pinot works well as an aggregate store that sources events from streaming data sources, such as Kafka, and makes it available for a query using SQL. You can also use Pinot to aggregate data across a microservice architecture into one easily queryable view of the domain.
 
-Pinot [tenants](https://docs.pinot.apache.org/basics/components/tenant) prevent any possibility of sharing ownership of database tables across microservice teams. Developers can create their own query models of data from multiple systems of record depending on their use case and needs. As with all aggregate stores, query models are eventually consistent.
+Pinot [tenants](basics/components/cluster/tenant.md) prevent any possibility of sharing ownership of database tables across microservice teams. Developers can create their own query models of data from multiple systems of record depending on their use case and needs. As with all aggregate stores, query models are eventually consistent.
 
 ## Get started
 
@@ -71,14 +71,14 @@ If you're new to Pinot, take a look at our Getting Started guide:
 
 To start importing data into Pinot, see how to import batch and stream data:
 
-{% content-ref url="manage-data/data-import/" %}
-[data-import](manage-data/data-import/)
+{% content-ref url="build-with-pinot/ingestion/" %}
+[data-import](build-with-pinot/ingestion/)
 {% endcontent-ref %}
 
 To start querying data in Pinot, check out our Query guide:
 
-{% content-ref url="users/user-guide-query/" %}
-[user-guide-query](users/user-guide-query/)
+{% content-ref url="build-with-pinot/querying-and-sql/" %}
+[user-guide-query](build-with-pinot/querying-and-sql/)
 {% endcontent-ref %}
 
 ## Learn

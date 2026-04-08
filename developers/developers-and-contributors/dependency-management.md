@@ -60,7 +60,8 @@ For Pinot plugin subprojects:
   </dependencies>
 ```
 
-### Shading a dependency in a plugin subproject 
+### Shading a dependency in a plugin subproject
+
 ```
   <!-- pin versions required by plugin -->
   <dependencyManagement>
