@@ -449,7 +449,7 @@ If you are enabling commit time compaction for an existing table, it is recommen
 
 Many Upsert use-cases have a lot of Update events within the segment commit window. For instance, if we had an Upsert table for order status of Uber Eats orders, we would expect a lot of update events for the same order within a 1 hour window. For such use-cases, the committed segments end up with a lot of dead tuples, and you have to wait for the Segment Compaction tasks to prune them, which can take hours.
 
-Commit time compaction is a performance optimization feature for upsert tables that removes invalid and obsolete records during the segment commit process itself.  This not only reduces the storage bloat of the table immediately, but it can also bring down the segment commit time.
+Commit time compaction is a performance optimization feature for upsert tables that removes invalid and obsolete records during the segment commit process itself. This not only reduces the storage bloat of the table immediately, but it can also bring down the segment commit time.
 
 To enable commit time compaction, set the `enableCommitTimeCompaction` to `true` in the upsert configuration. For example:
 
@@ -519,8 +519,7 @@ select key, val from tbl1 where isOutOfOrder = false option(skipUpsert=false)
 ```
 
 {% hint style="info" %}
-Note that `dropOutOfOrderRecord` and `outOfOrderRecordColumn` are only supported when no consistencyMode is set (i.e., `consistencyMode = NONE`). This is because, when a consistencyMode is enabled, rows are added before the valid documents are updated. 
-As a result, out-of-order records cannot be dropped or marked in upsert tables, defeating the purpose of these options.
+Note that `dropOutOfOrderRecord` and `outOfOrderRecordColumn` are only supported when no consistencyMode is set (i.e., `consistencyMode = NONE`). This is because, when a consistencyMode is enabled, rows are added before the valid documents are updated. As a result, out-of-order records cannot be dropped or marked in upsert tables, defeating the purpose of these options.
 {% endhint %}
 
 ### Use custom metadata manager
@@ -596,6 +595,7 @@ There are some limitations for the upsert Pinot tables.
 * The upsert feature is supported for Real-time tables only, and not for Hybrid or Offline tables.
 * The star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 * Unlike append-only tables, out-of-order events (with comparison value in incoming record less than the latest available value) won't be consumed and indexed by Pinot partial upsert table, these late events will be skipped.
+* We cannot change the number of partitions in the source topic after the upsert/dedup table is created (start with a relatively high number of partitions as mentioned in best practices).
 
 #### Handling Inconsistencies
 When a consuming segment commits, the server replaces the mutable segment with a new immutable segment. 
@@ -854,8 +854,6 @@ An example for partial upsert is shown below, each of the event\_id kept being u
 
 To see the difference from the non-upsert table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
-![Disable the upsert during query via query option](../../../disable_upsert_during_query.png)
-
 ### FAQ
 
 **Can I change configs like primary key columns and comparison columns in existing upsert table?**
@@ -869,3 +867,4 @@ If changes are unavoidable:
 **Best option:** Create a new table and reingest all data.
 
 **Alternative:** Disable SNAPSHOT, pause consumption and restart all the servers. This will work for new incoming keys only; consistency across existing data is not guaranteed.
+
