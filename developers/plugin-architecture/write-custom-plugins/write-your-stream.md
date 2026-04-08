@@ -98,4 +98,4 @@ The properties for the thresholds are as follows:
 "realtime.segment.flush.threshold.time" : "6h"
 ```
 
-An example of this implementation can be found in the [KafkaConsumerFactory](https://github.com/apache/pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-2.0/src/main/java/org/apache/pinot/plugin/stream/kafka20/KafkaConsumerFactory.java), which is an implementation for the kafka stream.
+An example of this implementation can be found in the [KafkaConsumerFactory](https://github.com/apache/pinot/blob/master/pinot-plugins/pinot-stream-ingestion/pinot-kafka-3.0/src/main/java/org/apache/pinot/plugin/stream/kafka30/KafkaConsumerFactory.java), which is an implementation for the kafka stream.

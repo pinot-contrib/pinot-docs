@@ -1,0 +1,25 @@
+---
+description: This section contains reference documentation for the DISTINCTSUMMV function.
+---
+
+# DISTINCTSUMMV
+
+Returns the sum of the distinct row values in a group
+
+## Signature
+
+> DISTINCTSUMMV(colName)
+
+### Usage Examples [](#usage-examples)
+
+These examples are based on the [Hybrid Quick Start](../../basics/getting-started/quick-start.md#hybrid).
+
+```sql
+SELECT DISTINCTSUMMV(DivLongestGTimes) AS VALUE
+FROM airlineStats
+WHERE arraylength(DivLongestGTimes) > 1
+```
+
+| VALUE |
+| ----- |
+| 1134  |

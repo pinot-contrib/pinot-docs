@@ -31,6 +31,23 @@ When you query a logical table, Pinot:
 
 For hybrid logical tables (containing both offline and realtime physical tables), Pinot uses a configurable time boundary strategy to determine which segments to query from each table type, avoiding duplicate data.
 
+## Segment Pruning Optimization
+
+Pinot performs automatic cross-table segment pruning when querying logical tables. Instead of pruning segments independently for each physical table, segment pruning operates once across all physical tables collectively. This optimization is particularly beneficial for queries using ORDER BY with LIMIT, where the `SelectionQuerySegmentPruner` can now prune segments across the entire logical table.
+
+For example, with a logical table spanning three physical tables (US, EU, APAC), a query like:
+```sql
+SELECT * FROM orders ORDER BY createdTime DESC LIMIT 10
+```
+
+Previously, the pruner would prune segments within each physical table independently, potentially returning more segments than necessary. Now, pruning happens across all physical tables together, allowing the pruner to identify and return only the minimum set of segments needed to satisfy the query requirements.
+
+**Key benefits:**
+- Improved query performance by reducing segments processed
+- Automatic optimization with no configuration changes required
+- Particularly effective for ORDER BY + LIMIT queries across logical tables
+- Single-table behavior remains unchanged
+
 ## Logical Table Configuration
 
 A logical table configuration defines the mapping between the logical table and its physical tables.
@@ -265,6 +282,32 @@ Apply rate limiting to logical tables:
 Storage quota (`quota.storage`) is not supported for logical tables since they don't store data directly.
 {% endhint %}
 
+## Managing Logical Tables via the Controller UI
+
+The Pinot Controller UI provides browsing and in-place management for logical tables, accessible directly from the main Tables page.
+
+### Accessing Logical Tables
+
+1. Open the Controller UI (default: `http://<controller-host>:9000`).
+2. Navigate to **Tables** in the left sidebar.
+3. The Tables page displays physical tables and logical tables in separate sections.
+4. Click a logical table name to open its detail page, which shows:
+   - Current configuration (JSON)
+   - Physical table mappings
+
+### Supported Operations
+
+| Operation | Description |
+|---|---|
+| **List** | View all logical tables with search and filter |
+| **View** | Inspect the logical table's configuration and physical table assignments |
+| **Update** | Edit the logical table configuration in-place |
+| **Delete** | Remove a logical table from the cluster |
+
+{% hint style="tip" %}
+Create logical tables with `POST /logicalTables`. Get, update, and delete are available at `/logicalTables/{tableName}` using GET, PUT, and DELETE.
+{% endhint %}
+
 ## Quick Start Example
 
 Try the logical table quickstart to see the feature in action:
@@ -310,7 +353,43 @@ When creating or updating a logical table, Pinot validates:
 * Storage quota is not supported
 * Physical tables in the same logical table should ideally have consistent indexing for optimal query performance
 
+## Pluggable LogicalTableConfig Serialization
+
+By default, `LogicalTableConfig` is serialized to and deserialized from ZooKeeper using a built-in JSON format. For advanced use cases requiring a custom storage format, implement `LogicalTableConfigSerDe` and register it via `LogicalTableConfigSerDeProvider`.
+
+### When to Use This
+
+- You need a compact binary format for deployments with a very large number of logical tables
+- Your ZooKeeper schema requires a specific non-default encoding
+- You are integrating Pinot with an external metadata system with its own serialization requirements
+
+### Implementation
+
+**Step 1:** Implement the `LogicalTableConfigSerDe` interface:
+
+```java
+public class MyCustomSerDe implements LogicalTableConfigSerDe {
+    @Override
+    public byte[] serialize(LogicalTableConfig config) { /* ... */ }
+
+    @Override
+    public LogicalTableConfig deserialize(byte[] bytes) { /* ... */ }
+}
+```
+
+**Step 2:** Implement `LogicalTableConfigSerDeProvider` to return your custom SerDe.
+
+**Step 3:** Register the provider using the Java Service Provider Interface (SPI) by creating the file:
+```
+META-INF/services/org.apache.pinot.spi.config.table.logical.LogicalTableConfigSerDeProvider
+```
+containing the fully-qualified class name of your provider implementation.
+
+{% hint style="note" %}
+This is an advanced extension point for specialized deployments. Most users should rely on the default JSON-based serialization.
+{% endhint %}
+
 ## See Also
 
-* [Table Configuration](../../../configuration-reference/table.md)
+* [Table Configuration](../../../reference/configuration-reference/table.md)
 * [Schema Configuration](schema.md)

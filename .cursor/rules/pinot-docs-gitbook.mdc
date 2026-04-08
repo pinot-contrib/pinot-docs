@@ -1,0 +1,86 @@
+---
+description: GitBook format and documentation practices for Pinot docs
+globs: "**/*.md"
+alwaysApply: false
+---
+
+# Pinot documentation (GitBook)
+
+This repository (pinot-docs) holds the **Apache Pinot documentation** in **GitBook format**. Follow these practices when adding or editing pages.
+
+## GitBook format and style
+
+- **Frontmatter**: Use YAML `description` for the page summary (shown in navigation/search).
+- **Structure**: Use `#` for the main title, `##` for major sections, `###` for subsections; keep hierarchy consistent with existing docs.
+- **GitBook syntax** where appropriate:
+  - `{% hint style="info" %}` … `{% endhint %}` for tips, warnings, or notes.
+  - `{% content-ref url="path/to/page.md" %}` … `{% endcontent-ref %}` for “see also” or related pages.
+  - `{% embed url="..." %}` for videos or external embeds.
+- **Code blocks**: Use fenced blocks with language (`sql`, `json`, `bash`, `javascript`, etc.) for examples.
+- **Diagrams**: Prefer **Mermaid** when you need flowcharts, sequences, or architecture diagrams so they render in GitBook and stay in repo.
+
+Example Mermaid:
+
+```mermaid
+flowchart LR
+  Client --> Broker
+  Broker --> Server
+```
+
+## Folder structure and SUMMARY.md
+
+- **Place new pages** in the same folder structure as existing content (e.g. `basics/`, `users/`, `manage-data/`, `configuration-reference/`, `developers/`).
+- **Always add new pages to `SUMMARY.md`** in the correct section and nesting. Pages not listed in SUMMARY.md do not appear in the left menu and are hard to discover.
+
+When adding a page, add an entry like:
+
+```markdown
+* [Page Title](path/from/root/to/page.md)
+```
+
+Keep indentation consistent with sibling entries in SUMMARY.md.
+
+## Avoiding duplication and keeping coherence
+
+Whenever you **add a new page** or **modify an existing one**:
+
+1. **Check if the topic is already covered** elsewhere (search by keyword, concept, or feature name).
+2. **Link pages.** Add links from the new or edited page to related pages. When it makes sense, **also update older pages** to link to the new one (e.g. add a “See also” or inline link so readers can discover the new content).
+3. If there is overlap:
+   - **Cross-reference** the other page with `{% content-ref %}` or inline links instead of repeating long explanations.
+   - **Consolidate** when the same content appears in multiple places; keep one source of truth and link to it.
+4. **Contradictions.** If new pages or edits contradict what older pages say, **do not silently overwrite**. Discuss with the user whether the old page should be updated to match, or the new content adjusted, so the docs stay consistent and accurate.
+5. Use consistent terminology and link to related concepts (e.g. segments, brokers, multi-stage query) so the docs read as one coherent set.
+
+## Documenting configurations
+
+When you mention **configuration** (properties, flags, table/config options, env vars, etc.):
+
+- **Include examples** — Show at least one concrete example (e.g. config snippet, property name and value) so readers can copy or adapt.
+- **Default value** — Include the default value for each config (e.g. `true`, `100`, `(empty)`).
+- **Scope** — State which components the change applies to: e.g. *servers only*, *brokers only*, *controller only*, *minions only*, or *all cluster components* (or a subset like “brokers and servers”).
+- **Restart** — Say clearly whether applying the change **requires a restart** of the affected component(s) or if it takes effect without restart (e.g. hot-reload, next deployment).
+
+**Keep table rows short.** Do not put very long descriptions inside the table. Use the table for property name, short description (one line), default, scope, and restart. For complex or nuanced options, add one or more **paragraphs or sections below the table** that explain behavior, trade-offs, or examples in detail.
+
+Example pattern:
+
+```markdown
+| Property | Description | Default | Scope | Restart required |
+| -------- | ----------- | ------- | ----- | ----------------- |
+| `pinot.setting.foo` | Enables foo. | `false` | Brokers only | Yes |
+
+### pinot.setting.foo
+
+When enabled, foo does X. Use it when… (detailed explanation, examples, or caveats in paragraphs here.)
+```
+
+## Summary checklist
+
+- [ ] New or changed content follows existing GitBook style (frontmatter, headings, hints, content-refs).
+- [ ] Examples use appropriate code blocks and, when useful, Mermaid diagrams.
+- [ ] New pages are added to `SUMMARY.md` in the right place.
+- [ ] Overlap with other pages is checked; duplicate content is reduced via cross-references or consolidation.
+- [ ] Related pages are linked; older pages are updated to link to new ones when it makes sense.
+- [ ] Contradictions with existing pages are raised with the user instead of changing the old page without discussion.
+- [ ] Configuration mentions include examples, default value, scope (which components), and whether a restart is required; long descriptions go below the table, not in the table rows.

@@ -44,7 +44,7 @@ from myTable
 ```
 {% endhint %}
 
-[Table configuration](../../../configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, and retention. It is written in JSON format and is stored in Zookeeper, along with the table schema.
+[Table configuration](../../../reference/configuration-reference/table.md) is used to define the table properties, such as name, type, indexing, routing, and retention. It is written in JSON format and is stored in Zookeeper, along with the table schema.
 
 Use the following properties to make your tables faster or leaner:
 
@@ -54,9 +54,9 @@ Use the following properties to make your tables faster or leaner:
 
 ## Segments
 
-A table is comprised of small chunks of data known as segments. Learn more about how Pinot creates and manages segments [here](https://docs.pinot.apache.org/basics/components/segment).
+A table is comprised of small chunks of data known as segments. Learn more about how Pinot creates and manages segments [here](segment).
 
-For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../../../manage-data/data-import/batch-ingestion/).
+For offline tables, segments are built outside of Pinot and uploaded using a distributed executor such as Spark or Hadoop. For details, see [Batch Ingestion](../../../build-with-pinot/ingestion/batch-ingestion).
 
 For real-time tables, segments are built in a specific interval inside Pinot. You can tune the following for the real-time segments.
 
@@ -69,14 +69,14 @@ The Pinot real-time consumer ingests the data, creates the segment, and then flu
 * **Max time duration to wait**: Pinot consumers wait for the configured time duration after which segments are persisted to the disk.
 
 **Replicas**\
-A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment [using the CLI](https://docs.pinot.apache.org/operators/cli#change-num-replicas).
+A segment can have multiple replicas to provide higher availability. You can configure the number of replicas for a table segment [using the CLI](../../../operate-pinot/cli.md#change-num-replicas).
 
 **Completion Mode**\
 By default, if the in-memory segment in the [non-winner server](../cluster/server.md) is equivalent to the committed segment, then the non-winner server builds and replaces the segment. If the available segment is not equivalent to the committed segment, the server just downloads the committed segment from the controller.
 
 However, in certain scenarios, the segment build can get very memory-intensive. In these cases, you might want to enforce the non-committer servers to just download the segment from the controller instead of building it again. You can do this by setting `completionMode: "DOWNLOAD"` in the table configuration.
 
-For details, see [Completion Config](../../../operators/operating-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers).
+For details, see [Completion Config](../../../operate-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers).
 
 **Download Scheme**
 
@@ -88,21 +88,21 @@ For more details about peer segment download during real-time ingestion, refer t
 
 You can create multiple indices on a table to increase the performance of the queries. The following types of indices are supported:
 
-* [Forward Index](../../indexing/forward-index.md)
+* [Forward Index](../../../build-with-pinot/indexing/forward-index.md)
   * Dictionary-encoded forward index with bit compression
   * Raw value forward index
   * Sorted forward index with run-length encoding
-* [Inverted Index](../../indexing/inverted-index.md)
+* [Inverted Index](../../../build-with-pinot/indexing/inverted-index.md)
   * Bitmap inverted index
   * Sorted inverted index
-* [Star-tree Index](../../indexing/star-tree-index.md)
-* [Range Index](../../indexing/range-index.md)
-* [Text Index](../../indexing/text-search-support.md)
-* [Geospatial](../../indexing/geospatial-support.md)
+* [Star-tree Index](../../../build-with-pinot/indexing/star-tree-index.md)
+* [Range Index](../../../build-with-pinot/indexing/range-index.md)
+* [Text Index](../../../build-with-pinot/indexing/text-search-support.md)
+* [Geospatial](../../../build-with-pinot/indexing/geospatial-support.md)
 
-For more details on each indexing mechanism and corresponding configurations, see [Indexing](../../indexing/).
+For more details on each indexing mechanism and corresponding configurations, see [Indexing](../../../build-with-pinot/indexing).
 
-Set up [Bloomfilters](../indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
+Set up [Bloomfilters](../../../build-with-pinot/indexing/bloom-filter.md) on columns to make queries faster. You can also keep segments in off-heap instead of on-heap memory for faster queries.
 
 ### Pre-aggregation
 
@@ -142,9 +142,9 @@ Optionally, override if a table should move to a server with different tenant ba
 }
 ```
 
-In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTeantnName_OFFLINE`.
+In the above example, the consuming segments will still be assigned to `serverTenantName_REALTIME` hosts, but once they are completed, the segments will be moved to `serverTenantName_OFFLINE`.
 
-You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../../operators/operating-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
+You can specify the full name of _any_ tag in this section. For example, you could decide that completed segments for this table should be in Pinot servers tagged as `allTables_COMPLETED`). To learn more about, see the [Moving Completed Segments](../../../operate-pinot/tuning/realtime.md#moving-completed-segments-to-different-hosts) section.
 
 ## Hybrid table
 
@@ -152,7 +152,7 @@ A hybrid table is a table composed of two tables, one offline and one real-time,
 
 Once an offline segment is pushed to cover a recent time period, the brokers automatically switch to using the offline table for segments for that time period and use the real-time table only for data not available in the offline table.
 
-To learn how time boundaries work for hybrid tables, see [Broker](https://docs.pinot.apache.org/basics/components/broker).
+To learn how time boundaries work for hybrid tables, see [Broker](../cluster/broker.md).
 
 A typical use case for hybrid tables is pushing deduplicated, cleaned-up data into an offline table every day while consuming real-time data as it arrives. Data can remain in offline tables for as long as a few years, while the real-time data would be cleaned every few days.
 
@@ -222,10 +222,16 @@ Check out the table config in the [Rest API](http://localhost:9000/help#!/Table/
 ```
 docker run \
     --network pinot-demo --name=kafka \
-    -e KAFKA_ZOOKEEPER_CONNECT=pinot-zookeeper:2181/kafka \
-    -e KAFKA_BROKER_ID=0 \
-    -e KAFKA_ADVERTISED_HOST_NAME=kafka \
-    -d wurstmeister/kafka:latest
+    -e KAFKA_NODE_ID=1 \
+    -e KAFKA_PROCESS_ROLES=broker,controller \
+    -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 \
+    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092 \
+    -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+    -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
+    -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka:9093 \
+    -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+    -e CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk \
+    -d apache/kafka:4.0.0
 ```
 
 **Create a Kafka topic**
@@ -234,7 +240,7 @@ docker run \
 docker exec \
   -t kafka \
   /opt/kafka/bin/kafka-topics.sh \
-  --zookeeper pinot-zookeeper:2181/kafka \
+  --bootstrap-server kafka:9092 \
   --partitions=1 --replication-factor=1 \
   --create --topic flights-realtime
 ```

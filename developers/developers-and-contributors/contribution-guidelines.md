@@ -51,7 +51,7 @@ If the request requires a proposal, then the requestor is expected to provide a 
 
 If your change is relatively minor, you can skip this step. If you are adding new major feature, we suggest that you add a design document and solicit comments from the community before submitting any code.
 
-[Here](https://docs.pinot.apache.org/developers/design-documents) is a list of current design documents.
+[Here](../design-documents/README.md) is a list of current design documents.
 
 ## Create an issue for the change
 
@@ -250,4 +250,4 @@ $ git push origin <your issue branch>
 
 Usually for new features, functionalities, API changes, documentation update is required to keep users up to date and keep track of our development.
 
-Follow this link to [Update Document](update-document.md) accordingly
+Follow this link to [Update Document](update-document.md) accordingly.

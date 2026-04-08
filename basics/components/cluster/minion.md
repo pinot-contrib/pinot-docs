@@ -52,6 +52,18 @@ bin/pinot-admin.sh StartMinion \
 The Pinot task generator interface defines the APIs for the controller to generate tasks for minions to execute.
 
 ```java
+
+{% hint style="warning" %}
+**Duplicate Keys in Configuration File**
+
+Starting from Apache Pinot 1.3.0, duplicate keys in the minion configuration file will cause a `ConfigurationException` to be thrown during startup. Previously, duplicate keys would be silently merged into a list. If you encounter this error, ensure that each configuration property appears only once in your configuration file. The exception will include the exact file path, duplicate key name, and the line numbers where the duplicates were found.
+
+Example error:
+```
+ConfigurationException: Duplicate key found in /path/to/minion.conf at line 10 and line 15: pinot.minion.task.allow.download.from.server
+```
+{% endhint %}
+
 public interface PinotTaskGenerator {
 
   /**
@@ -192,9 +204,25 @@ public interface MinionEventObserver {
 
 ## Built-in tasks
 
+Pinot ships with the following built-in Minion tasks:
+
+| Task | Purpose | Table Types |
+|------|---------|-------------|
+| [SegmentGenerationAndPushTask](../../../operate-pinot/segment-generation-and-push-task.md) | Batch ingestion: reads raw data files and converts them into Pinot segments | OFFLINE |
+| [RealtimeToOfflineSegmentsTask](../../../operate-pinot/pinot-managed-offline-flows.md) | Converts completed real-time segments into optimized offline segments | REALTIME to OFFLINE |
+| [MergeRollupTask](../../../operate-pinot/minion-merge-rollup-task.md) | Merges small segments into larger ones and optionally rolls up data at coarser granularity | OFFLINE, REALTIME (without upsert/dedup) |
+| [PurgeTask](../../../operate-pinot/purge-task.md) | Removes or modifies records for data retention and compliance (e.g., GDPR) | OFFLINE, REALTIME |
+| [RefreshSegmentTask](../../../operate-pinot/refresh-segment-task.md) | Reprocesses segments after table config or schema changes (new indexes, columns, data types) | OFFLINE, REALTIME |
+| [UpsertCompactionTask](../../../operate-pinot/upsert-compaction-task.md) | Compacts individual upsert segments by removing invalidated records | REALTIME (upsert only) |
+| [UpsertCompactMergeTask](../../../operate-pinot/upsert-compact-merge-task.md) | Merges multiple small upsert segments into larger ones to reduce segment count | REALTIME (upsert only) |
+
 ### SegmentGenerationAndPushTask
 
-The PushTask can fetch files from an input folder e.g. from a S3 bucket and converts them into segments. The PushTask converts one file into one segment and keeps file name in segment metadata to avoid duplicate ingestion. Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.
+The SegmentGenerationAndPushTask can fetch files from an input folder (e.g. from an S3 bucket) and convert them into segments. It converts one file into one segment and keeps the file name in segment metadata to avoid duplicate ingestion.
+
+See [SegmentGenerationAndPushTask runbook](../../../operate-pinot/segment-generation-and-push-task.md) for full configuration details.
+
+Below is an example task config to put in TableConfig to enable this task. The task is scheduled every 10min to keep ingesting remaining files, with 10 parallel task at max and 1 file per task.
 
 NOTE: You may want to simply omit "tableMaxNumTasks" due to this caveat: the task generates one segment per file, and derives segment name based on the time column of the file. If two files happen to have same time range and are ingested by tasks from different schedules, there might be segment name conflict. To overcome this issue for now, you can omit “tableMaxNumTasks” and by default it’s Integer.MAX\_VALUE, meaning to schedule as many tasks as possible to ingest all input files in a single batch. Within one batch, a sequence number suffix is used to ensure no segment name conflict. Because the sequence number suffix is scoped within one batch, tasks from different batches might encounter segment name conflict issue said above.
 
@@ -233,11 +261,27 @@ When performing ingestion at scale remember that Pinot will list all of the file
 
 ### RealtimeToOfflineSegmentsTask
 
-See [Pinot managed Offline flows](../../../operators/operating-pinot/pinot-managed-offline-flows.md) for details.
+See [Pinot managed Offline flows](../../../operate-pinot/pinot-managed-offline-flows.md) for details.
 
 ### MergeRollupTask
 
-See [Minion merge rollup task](../../../operators/operating-pinot/minion-merge-rollup-task.md) for details.
+See [Minion merge rollup task](../../../operate-pinot/minion-merge-rollup-task.md) for details.
+
+### PurgeTask
+
+See [PurgeTask runbook](../../../operate-pinot/purge-task.md) for details.
+
+### RefreshSegmentTask
+
+See [RefreshSegmentTask runbook](../../../operate-pinot/refresh-segment-task.md) for details.
+
+### UpsertCompactionTask
+
+See [UpsertCompactionTask runbook](../../../operate-pinot/upsert-compaction-task.md) for details.
+
+### UpsertCompactMergeTask
+
+See [UpsertCompactMergeTask runbook](../../../operate-pinot/upsert-compact-merge-task.md) for details.
 
 ## Enable tasks
 
@@ -360,27 +404,39 @@ In the Pinot UI, there is **Minion Task Manager** tab under **Cluster Manager** 
 
 This one shows which types of Minion Task have been used. Essentially which task types have created their task queues in Helix.
 
-<figure><img src="../../../.gitbook/assets/minion-task-manager-overview.png" alt=""><figcaption></figcaption></figure>
+![](../../../.gitbook/assets/minion-task-manager-overview.png)
+
+**
 
 Clicking into a task type, one can see the tables using that task. And a few buttons to stop the task queue, cleaning up ended tasks etc.
 
-<figure><img src="../../../.gitbook/assets/minion-task-manager-task-details.png" alt=""><figcaption></figcaption></figure>
+![](../../../.gitbook/assets/minion-task-manager-task-details.png)
+
+**
 
 Then clicking into any table in this list, one can see how the task is configured for that table. And the task metadata if there is one in ZK. For example, MergeRollupTask tracks a watermark in ZK. If the task is cron scheduled, the current and next schedules are also shown in this page like below.
 
-<figure><img src="../../../.gitbook/assets/minion-rollup-task-scheduled.png" alt=""><figcaption></figcaption></figure>
+![](../../../.gitbook/assets/minion-rollup-task-scheduled.png)
 
-<figure><img src="../../../.gitbook/assets/minion-rollup-task-completed.png" alt=""><figcaption></figcaption></figure>
+**
 
-At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed.
+![](../../../.gitbook/assets/minion-rollup-task-completed.png)
 
-Clicking into a task from that list, we can see start/end time for it, and the subtasks generated for that task (as context, one minion task can have multiple subtasks to process data in parallel). In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
+**
 
-<figure><img src="../../../.gitbook/assets/minion-task-manager-subtask.png" alt=""><figcaption></figcaption></figure>
+At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed. The task list also includes a **Status Filter** control so you can focus on a single task state, and a **Sub Tasks (Total/Completed/Running/Waiting/Error/Other)** column that summarizes the subtasks for each task. The **Other** bucket combines `UNKNOWN`, `DROPPED`, `TIMED_OUT`, and `ABORTED` subtasks.
+
+Clicking into a task from that list, we can see start/end time for it, and the subtasks generated for that task (as context, one minion task can have multiple subtasks to process data in parallel). The subtask table also has its own **Status Filter** control, which is useful when a task fanout creates many subtasks across multiple minion workers. In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
+
+![](../../../.gitbook/assets/minion-task-manager-subtask.png)
+
+**
 
 Clicking into this subtask, one can see more details about it like the input task configs and error info if the task failed.
 
-<figure><img src="../../../.gitbook/assets/minion-task-manager-subtask-config.png" alt=""><figcaption></figcaption></figure>
+![](../../../.gitbook/assets/minion-task-manager-subtask-config.png)
+
+**
 
 ## Task-related metrics
 
