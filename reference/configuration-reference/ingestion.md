@@ -37,7 +37,7 @@ The ingestion configuration (`ingestionConfig`) is a section of the [table confi
 | `realtime.segment.offsetAutoReset.enable` | When `true`, Pinot can skip a lagging realtime partition forward during segment commit instead of starting the next segment at the previous segment's `nextOffset`. Pinot only resets when at least one positive threshold below is configured. | Boolean. Default is `false`. |
 | `realtime.segment.offsetAutoReset.offsetThreshold` | If positive, Pinot resets the next segment to the latest stream offset when `latestOffset - nextOffset` exceeds this many offsets at commit time. | Integer. Default is `-1` (disabled). |
 | `realtime.segment.offsetAutoReset.timeThresholdSeconds` | If positive, Pinot resets the next segment to the latest stream offset when the next offset is older than this many seconds at commit time. Pinot compares the next offset against the stream position at `now - threshold`. | Long. Default is `-1` (disabled). |
-| `stream.[streamType].stopOnDecodeError` | When set to `true`, consumption stops with an error if a decode error occurs. When set to `false` (default), decode errors are logged and the problematic row is silently dropped. | Boolean. Default is `false`. |
+| `stopOnDecodeError` | When set to `true`, consumption stops with an error if a decode error occurs. When set to `false` (default), decode errors are logged and the problematic row is silently dropped. | Boolean. Default is `false`. |
 
 {% hint style="info" %}
 The number of rows per segment is computed using the following formula: `realtime.segment.flush.threshold.rows / maxPartitionsConsumedByServer` For example, if you set `realtime.segment.flush.threshold.rows = 1000` and each server consumes 10 partitions, the rows per segment is `1000/10 = 100`.

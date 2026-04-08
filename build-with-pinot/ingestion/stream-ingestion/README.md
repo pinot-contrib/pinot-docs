@@ -277,6 +277,46 @@ Pinot checks the thresholds when it seals a consuming segment:
 
 This is useful when you prefer to drop an ingestion backlog instead of replaying a partition that has fallen far behind.
 
+### Handle decode errors during stream consumption
+
+By default, Pinot logs decode errors and silently drops the problematic row so that ingestion continues uninterrupted. However, in some scenarios you may prefer to stop ingestion immediately when a decode error occurs so you can investigate and resolve the issue.
+
+You can control this behavior using the `stopOnDecodeError` configuration parameter in your stream config:
+
+```json
+{
+  "tableName": "transcript",
+  "tableType": "REALTIME",
+  ...
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+      "streamConfigMaps": [{
+        "streamType": "kafka",
+        "stream.kafka.topic.name": "transcript-topic",
+        "stopOnDecodeError": "true",
+        ...
+      }]
+    }
+  },
+  ...
+}
+```
+
+**Configuration options:**
+
+- `"stopOnDecodeError": "true"` - Consumption will immediately stop when a decode error occurs, and the error will be logged with full stack trace. This allows you to investigate the root cause in the server logs before resuming.
+- `"stopOnDecodeError": "false"` (default) - The first decode error will be logged, and subsequent errors will be silently dropped. The row with the decode error is skipped, and ingestion continues normally.
+
+Use `"stopOnDecodeError": "true"` when:
+- Data quality is critical and you need to catch decode errors immediately
+- You're developing or testing a new decoder implementation
+- You want to investigate unexpected data format issues
+
+Use `"stopOnDecodeError": "false"` (default) when:
+- You expect occasional malformed messages in your stream
+- You want ingestion to be resilient and continue despite individual bad records
+- Data loss from a few dropped rows is acceptable
+
 ### Throttle stream consumption
 
 There are some scenarios where the message rate in the input stream can come in bursts which can lead to long GC pauses on the Pinot servers or affect the ingestion rate of other real-time tables on the same server. If this happens to you, throttle the consumption rate during stream ingestion to better manage overall performance.
