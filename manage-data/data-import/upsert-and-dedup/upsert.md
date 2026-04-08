@@ -597,6 +597,44 @@ There are some limitations for the upsert Pinot tables.
 * The star-tree index cannot be used for indexing, as the star-tree index performs pre-aggregation during the ingestion.
 * Unlike append-only tables, out-of-order events (with comparison value in incoming record less than the latest available value) won't be consumed and indexed by Pinot partial upsert table, these late events will be skipped.
 
+#### Handling Inconsistencies
+When a consuming segment commits, the server replaces the mutable segment with a new immutable segment. 
+During this transition, there is a chance that the in-memory upsert metadata (primary key → latest record location) can diverge across replicas.
+
+This divergence is generally safe for FULL Upsert tables because replicas eventually converge, but it is unsafe for:
+
+- Partial upsert tables: Merge correctness depends on the accurate “latest” record location; wrong pointers can introduce incorrect values for new entries.
+
+- Full upsert tables with dropOutOfOrderRecord=true or outOfOrderRecordColumn: Out-of-order detection relies on the current location; wrong metadata can cause incorrect acceptance or rejection.
+
+To mitigate that, we added a server config: `pinot.server.consuming.segment.consistency.mode` which has three modes:
+
+#### RESTRICTED (default)
+
+Blocks force-commit and reload for Partial Upsert and DropOutOfOrder tables.
+Consuming segment can only commit naturally.
+Guarantees consistency
+
+#### PROTECTED
+
+Allows force-commit/reload with post-replacement reconciliation using a temporary map which track the previous immutable segment location of the key.
+
+Reconciliation:
+- Keys still pointing to replaced segment → revert to prior immutable location.
+- Keys without prior location → removed.
+- Un reconcilable keys → logged, and metrics emitted for the user to take action.
+Make sure ParallelSegmentConsumptionPolicy is always ∈ {`DISALLOW_ALWAYS`, `ALLOW_DURING_BUILD_ONLY`}.
+
+#### UNSAFE
+
+Allows force-commit/reload with no reconciliation.
+Chances of inconsistencies during commit. This mode is unsafe and not recommended in production settings.
+
+#### Monitoring
+
+- `pinot.server.tableName.realtimeUpsertInconsistentRows` :	Number of primary keys that have inconsistent metadata with other replicas for Upsert tables with dropOutOfOrderRecord=true or outOfOrderRecordColumn set.
+- `pinot.server.tableName.partialUpsertKeysNotReplaced`	    Number of primary keys that have inconsistent metadata with other replicas for Partial upsert tables.
+
 ### Best practices
 
 Unlike other real-time tables, Upsert table takes up more memory resources as it needs to bookkeep the record locations in memory. As a result, it's important to plan the capacity beforehand, and monitor the resource usage. Here are some recommended practices of using Upsert table.
