@@ -159,3 +159,59 @@ Reverses the byte order of a long value.
 
 Usage: `byteswapLong(col)`\
 Example: `SELECT byteswapLong(longCol) FROM myTable`
+
+## Bitwise Functions
+
+[**bitAnd(a, b)** / **bit_and(a, b)**](bitwise.md)\
+Performs a bitwise AND operation on two values.
+
+Usage: `bitAnd(a, b)` or `bit_and(a, b)`\
+Example: `SELECT bitAnd(12, 10) FROM myTable` returns `8`
+
+[**bitOr(a, b)** / **bit_or(a, b)**](bitwise.md)\
+Performs a bitwise OR operation on two values.
+
+Usage: `bitOr(a, b)` or `bit_or(a, b)`\
+Example: `SELECT bitOr(8, 4) FROM myTable` returns `12`
+
+[**bitXor(a, b)** / **bit_xor(a, b)**](bitwise.md)\
+Performs a bitwise XOR operation on two values.
+
+Usage: `bitXor(a, b)` or `bit_xor(a, b)`\
+Example: `SELECT bitXor(12, 10) FROM myTable` returns `6`
+
+[**bitNot(a)**](bitwise.md)\
+Performs a bitwise NOT operation, inverting all bits of a value.
+
+Usage: `bitNot(a)`\
+Example: `SELECT bitNot(0) FROM myTable` returns `-1`
+
+[**bitMask(n)**](bitwise.md)\
+Creates a bitmask with a single bit set at position n.
+
+Usage: `bitMask(n)`\
+Example: `SELECT bitMask(3) FROM myTable` returns `8`
+
+[**bitShiftLeft(a, n)**](bitwise.md)\
+Performs a left bit shift operation.
+
+Usage: `bitShiftLeft(a, n)`\
+Example: `SELECT bitShiftLeft(1, 2) FROM myTable` returns `4`
+
+[**bitShiftRight(a, n)**](bitwise.md)\
+Performs an arithmetic right bit shift operation (sign-extending).
+
+Usage: `bitShiftRight(a, n)`\
+Example: `SELECT bitShiftRight(8, 2) FROM myTable` returns `2`
+
+[**bitShiftRightUnsigned(a, n)** / **bitShiftRightLogical(a, n)**](bitwise.md)\
+Performs a logical (unsigned) right bit shift operation, filling with zeros.
+
+Usage: `bitShiftRightUnsigned(a, n)` or `bitShiftRightLogical(a, n)`\
+Example: `SELECT bitShiftRightUnsigned(intCol, 1) FROM myTable`
+
+[**bitExtract(a, n)** / **extractBit(a, n)**](bitwise.md)\
+Extracts the bit at position n, returning 1 if the bit is set, 0 otherwise. Always returns INT.
+
+Usage: `bitExtract(a, n)` or `extractBit(a, n)`\
+Example: `SELECT bitExtract(12, 2) FROM myTable` returns `1`
