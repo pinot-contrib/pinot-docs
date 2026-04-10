@@ -26,6 +26,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | LAST_REALTIME_SEGMENT_INITIAL_CONSUMPTION_DURATION_SECONDS | time in seconds spent consuming records for latest segment |  |
 | LAST_REALTIME_SEGMENT_CATCHUP_DURATION_SECONDS | time in seconds spent on catching up to the latest offset in metadata. This can happen when multiple servers are consuming from same partition. |  |
 | LAST_REALTIME_SEGMENT_COMPLETION_DURATION_SECONDS | time in seconds between when we stopped consuming records and when the segment gets committed |  |
+| COMMITTING_SEGMENT_SIZE | Size in bytes of the segment being committed. Emitted for all flush threshold updater types (rows-based, segment size-based, time-based). Note: This metric is skipped when segment size is unavailable, such as during pauseless ingestion. A metric with "_WITH_TOPIC" suffix is also emitted. |  |
+| NUM_ROWS_THRESHOLD | The computed row threshold for segment flush. Emitted for all flush threshold updater types (rows-based, segment size-based, time-based). Previously, this metric was only emitted when using `SegmentSizeBasedFlushThresholdUpdater`. A metric with "_WITH_TOPIC" suffix is also emitted. |  |
 | REALTIME_OFFHEAP_MEMORY_USED | off heap memory in bytes current used by real-time segments |  |
 | REALTIME_SEGMENT_NUM_PARTITIONS | Number of partitions for a table |  |
 | LLC_SIMULTANEOUS_SEGMENT_BUILDS | Number of segments being built currently |  |
