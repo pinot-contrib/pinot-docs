@@ -390,6 +390,7 @@
   * [hypot](functions/math/hypot.md)
   * [byteswapInt](functions/math/byteswapint.md)
   * [byteswapLong](functions/math/byteswaplong.md)
+  * [Bitwise Functions](functions/math/bitwise.md)
 * [Miscellaneous Functions](functions/misc/README.md)
   * [caseWhen](functions/misc/casewhen.md)
   * [isSubnetOf](functions/misc/issubnetof.md)
