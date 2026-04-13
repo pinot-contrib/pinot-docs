@@ -9,7 +9,7 @@ Vector queries in Pinot support:
 1. **Distance Threshold Filtering** via `vectorDistanceThreshold` query option
 2. **Filtered ANN** combining `VECTOR_SIMILARITY` with metadata filters
 3. **8 explicit execution modes** visible in EXPLAIN output
-4. **Per-backend capabilities** for different vector index types (HNSW, IVF_FLAT, IVF_PQ)
+4. **Per-backend capabilities** for different vector index types (HNSW, IVF_FLAT, IVF_PQ, IVF_ON_DISK)
 
 ## Vector Distance Threshold Query Option
 
@@ -173,7 +173,40 @@ executionMode: ANN_THEN_FILTER_THEN_RERANK
 
 ---
 
-### 5. ANN_THRESHOLD_SCAN
+### 5. FILTER_THEN_ANN
+
+**When selected:** `VECTOR_SIMILARITY` combined with highly selective metadata filters on a backend that supports filter-aware search (HNSW, IVF_FLAT, IVF_ON_DISK). The adaptive planner selects this mode when filter selectivity is low (fewer than 30% of rows pass the filter).
+
+**Behavior:**
+- Evaluates the metadata filter first to build a bitmap of matching row IDs
+- Passes the bitmap to the vector index via `FilterAwareVectorIndexReader`
+- The ANN traversal considers only vectors in the bitmap, improving recall on selective filters
+- Returns up to top-K results from the filtered vector space
+
+**Example query:**
+```sql
+SELECT ProductId,
+       Brand,
+       cosineDistance(embedding, ARRAY[0.12, 0.34, 0.56, ...]) AS dist
+FROM products
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[0.12, 0.34, 0.56, ...], 10)
+  AND category = 'rare_collectibles'
+ORDER BY dist ASC
+LIMIT 10;
+```
+
+**EXPLAIN output:**
+```
+executionMode: FILTER_THEN_ANN
+```
+
+{% hint style="info" %}
+The adaptive planner in `FilterPlanNode` automatically chooses between `FILTER_THEN_ANN` and `ANN_THEN_FILTER` based on filter selectivity. You do not need to set a query option — Pinot picks the faster strategy per segment.
+{% endhint %}
+
+---
+
+### 6. ANN_THRESHOLD_SCAN
 
 **When selected:** `VECTOR_SIMILARITY` with `vectorDistanceThreshold` (no metadata filters)
 
@@ -202,7 +235,7 @@ executionMode: ANN_THRESHOLD_SCAN
 
 ---
 
-### 6. ANN_THRESHOLD_THEN_FILTER
+### 7. ANN_THRESHOLD_THEN_FILTER
 
 **When selected:** `VECTOR_SIMILARITY` with BOTH `vectorDistanceThreshold` AND metadata filters
 
@@ -233,16 +266,16 @@ executionMode: ANN_THRESHOLD_THEN_FILTER
 
 ---
 
-### 7. EXACT_SCAN
+### 8. EXACT_SCAN
 
-**When selected:** Segment lacks a vector index (e.g., realtime segments with IVF_FLAT/IVF_PQ)
+**When selected:** Segment lacks a vector index (e.g., realtime segments with IVF_FLAT, IVF_PQ, or IVF_ON_DISK)
 
 **Behavior:**
 - Falls back to exact forward-index scan
 - Scans all vectors and computes distances for the entire segment
 - Slower than ANN but provides exact results
 - Automatically applied for segments without vector indexes
-- IVF_PQ and IVF_FLAT do not support realtime/mutable segments
+- IVF_FLAT, IVF_PQ, and IVF_ON_DISK do not support realtime/mutable segments; HNSW supports both
 
 **When this occurs:**
 - Newly ingested data in realtime segments before segment rollover
@@ -254,16 +287,6 @@ executionMode: ANN_THRESHOLD_THEN_FILTER
 executionMode: EXACT_SCAN
 fallbackReason: ivf_pq_index_unavailable
 ```
-
----
-
-### 8. UNSUPPORTED
-
-**When selected:** Query structure not supported for vector execution
-
-**Behavior:**
-- Query is rejected or falls back to table scan without vector optimization
-- Indicates incompatible query pattern or missing vector index
 
 ## Filtered ANN: Combining Vector and Metadata Filters
 
@@ -364,7 +387,7 @@ LIMIT 10;
 
 **Output includes:**
 - **executionMode:** Which of the 8 modes is used (e.g., `ANN_THEN_FILTER`)
-- **backend:** Vector index type (HNSW, IVF_FLAT, IVF_PQ, or EXACT)
+- **backend:** Vector index type (HNSW, IVF_FLAT, IVF_PQ, IVF_ON_DISK, or EXACT)
 - **distanceFunction:** Configured distance metric (COSINE, EUCLIDEAN, etc.)
 - **nprobe:** Number of clusters probed (IVF_FLAT/IVF_PQ only)
 - **exactRerank:** Whether exact reranking is enabled
@@ -379,8 +402,11 @@ When working with vector queries, these query options control execution behavior
 |--------|--------|---------|
 | `vectorDistanceThreshold` | Return all results within this distance threshold | Not set (uses top-K) |
 | `vectorExactRerank` | Re-rank ANN candidates using exact distances | `true` for IVF_PQ; `false` for HNSW/IVF_FLAT |
-| `vectorNprobe` | Number of clusters to probe (IVF_FLAT/IVF_PQ) | 4 |
+| `vectorNprobe` | Number of clusters to probe (IVF_FLAT, IVF_PQ, IVF_ON_DISK) | 4 |
 | `vectorMaxCandidates` | Max ANN candidates to examine before exact reranking | topK * 10 |
+| `vectorEfSearch` | HNSW search beam width — controls how many nodes the graph traversal visits | From index config |
+| `vectorUseRelativeDistance` | HNSW competitive pruning toggle — disabling can improve recall on some data distributions | `true` |
+| `vectorUseBoundedQueue` | HNSW bounded top-K collector toggle | `true` |
 | `explainAskingServers` | Include segment-level execution plan in EXPLAIN | `false` |
 
 ### Setting Query Options
@@ -486,8 +512,9 @@ ORDER BY dist ASC;
 |------|----------|---------|----------|
 | **ANN_TOP_K** | Simple similarity search | Fast | Good (depends on index) |
 | **ANN_TOP_K_WITH_RERANK** | Approximate indexes (IVF_PQ) | Slower | Excellent |
-| **ANN_THEN_FILTER** | Category/attribute filtering | Medium | Good |
+| **ANN_THEN_FILTER** | Category/attribute filtering (non-selective filters) | Medium | Good |
 | **ANN_THEN_FILTER_THEN_RERANK** | Accurate filtered search | Slower | Excellent |
+| **FILTER_THEN_ANN** | Highly selective filters (removes >70% of rows) | Medium | Excellent |
 | **ANN_THRESHOLD_SCAN** | Confidence-based filtering | Varies | Good |
 | **ANN_THRESHOLD_THEN_FILTER** | Confidence + category filters | Slower | Good |
 | **EXACT_SCAN** | No index available | Very slow | Perfect |
@@ -497,7 +524,7 @@ ORDER BY dist ASC;
 1. **For IVF_PQ:** Enable `vectorExactRerank = true` (the default) to compensate for quantization loss
 2. **For filtered queries:** Retrieve more candidates (larger topK) and let Pinot filter; this is faster than smaller topK
 3. **For threshold queries:** Retrieve enough candidates to ensure you get all threshold matches; use a generous topK
-4. **For high-dimensional vectors:** Consider IVF_PQ for memory efficiency; HNSW for best accuracy
+4. **For high-dimensional vectors:** Consider IVF_PQ for memory efficiency, IVF_ON_DISK for unlimited scale without the 2 GB heap limit, or HNSW for best accuracy
 
 ## See Also
 

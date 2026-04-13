@@ -298,7 +298,7 @@ No configuration is required — the planner chooses the strategy per segment.
 
 | Index | Memory | Build Time | Query Speed | Recall | Quantization | Disk-Backed |
 |-------|--------|-----------|-------------|--------|--------------|------------|
-| HNSW | Medium | Moderate | Fast | Excellent | Optional | No |
+| HNSW | Medium | Moderate | Fast | Excellent | — | No |
 | IVF_FLAT | High | Fast | Medium | Good | FLAT/SQ8/SQ4 | No |
 | IVF_PQ | Low | Moderate | Medium | Fair | Product Quantization | No |
 | IVF_ON_DISK | Low | Moderate | Medium | Good | FLAT/SQ8/SQ4/PQ | Yes |
