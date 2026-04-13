@@ -42,3 +42,27 @@ This scheduler applies a linear decay for groups that have recently been schedul
 Starting in Pinot 1.3.0, the **Binary Workload Scheduler** provides a higher-level mechanism for isolating production traffic from ad-hoc queries. Rather than tuning per-table thread limits, it categorizes all queries into a primary workload (unbounded, for production traffic) and a secondary workload (constrained concurrency, queue pruning, and thread limits for ad-hoc use).
 
 For details on configuring workload-based isolation, see [Workload Query Isolation](workload-query-isolation.md).
+
+## Dynamic Thread Pool Configuration
+
+Starting in Pinot 1.3.0, the `pinot.query.scheduler.query_runner_threads` and `pinot.query.scheduler.query_worker_threads` configuration keys can be dynamically adjusted at runtime via Helix cluster config, without requiring a server restart.
+
+Previously, tuning these thread pool sizes required editing `server.conf` and restarting the server. A new `PinotClusterConfigChangeListener` now listens for changes to these two keys in Helix cluster config and resizes the underlying `ThreadPoolExecutor` pools on the fly.
+
+### Updating Thread Pool Configuration at Runtime
+
+You can update the thread pool configuration using the Pinot Controller REST API:
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  "http://localhost:8998/cluster/configs" \
+  -d '{
+    "pinot.query.scheduler.query_runner_threads": "16",
+    "pinot.query.scheduler.query_worker_threads": "32"
+  }'
+```
+
+Alternatively, you can use the Pinot admin tool to update the Helix cluster configuration.
+
+The changes take effect immediately on all servers without requiring a restart, allowing you to tune query performance in real-time based on cluster load and workload characteristics.
