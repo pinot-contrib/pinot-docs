@@ -4,7 +4,7 @@ description: Configure vector indexes (HNSW, IVF_FLAT, IVF_PQ, IVF_ON_DISK) for 
 
 # Vector Index
 
-Apache Pinot supports vector indexes for efficient approximate nearest-neighbor (ANN) search on embedding columns. This document covers index configuration, query patterns, Phase 4 features including filter-aware ANN, radius search, quantizers, and runtime tuning options.
+Apache Pinot supports vector indexes for efficient approximate nearest-neighbor (ANN) search on embedding columns. This document covers all supported index types, configuration options, quantizers, query patterns, and runtime tuning.
 
 ## Overview
 
@@ -13,7 +13,7 @@ Vector indexes accelerate similarity search by partitioning the vector space int
 - **HNSW** (Hierarchical Navigable Small World): Graph-based, excellent accuracy, moderate memory
 - **IVF_FLAT**: Inverted File with flat quantization, fast index build
 - **IVF_PQ**: Inverted File with Product Quantization, balanced speed/memory
-- **IVF_ON_DISK**: Disk-backed Inverted File, unlimited scale without 2GB limit (Phase 4)
+- **IVF_ON_DISK**: Disk-backed Inverted File, unlimited scale without the 2 GB JVM limit
 
 ## Index Configuration
 
@@ -113,9 +113,9 @@ Vector indexes are configured in the table's field-level `indexes` section using
 }
 ```
 
-### IVF_ON_DISK Configuration (Phase 4)
+### IVF_ON_DISK Configuration
 
-Disk-backed IVF using FileChannel random-access reads, enabling unlimited scale without 2GB JVM limit:
+Disk-backed IVF using FileChannel random-access reads, enabling unlimited scale without the 2 GB JVM heap limit. Supports all quantizer types and full filter-aware ANN.
 
 ```json
 {
@@ -147,24 +147,24 @@ Disk-backed IVF using FileChannel random-access reads, enabling unlimited scale 
 | **DOT_PRODUCT** | Pre-normalized, higher score = more similar | (-∞, ∞) |
 | **L2** | Alias for EUCLIDEAN | [0, ∞) |
 
-## Quantizer Types (Phase 4)
+## Quantizers
 
-Generic quantizer framework supporting multiple quantization strategies:
+Pinot supports a generic quantizer framework for trading memory consumption against search speed. Quantizers apply to IVF-family indexes (`IVF_FLAT`, `IVF_PQ`, `IVF_ON_DISK`).
 
-| Quantizer | Memory | Speed | Use Case |
-|-----------|--------|-------|----------|
-| **FLAT** | 4 bytes × dimension | Fastest | High memory budget |
-| **SQ8** | 1 byte × dimension | Fast | 8-bit quantization |
-| **SQ4** | 0.5 bytes × dimension | Very fast | 4-bit quantization |
-| **PQ** | Variable | Medium | Large scale |
+| Quantizer | Memory per dimension | Speed | Use Case |
+|-----------|---------------------|-------|----------|
+| **FLAT** | 4 bytes | Fastest | High memory budget, maximum accuracy |
+| **SQ8** | 1 byte | Fast | 8-bit scalar quantization |
+| **SQ4** | 0.5 bytes | Very fast | 4-bit scalar quantization, maximum compression |
+| **PQ** | Variable | Medium | Large-scale with product quantization |
 
-### SQ4 Example (IVF_ON_DISK)
-
-See [IVF_ON_DISK Configuration](#ivf_on_disk-configuration-phase-4) above for SQ4 integration with disk-backed indexes.
+SQ8 and SQ4 are fully integrated through the IVF creator, reader, and search paths — they are real backend capabilities, not validation-only features.
 
 ## SQL Functions
 
-### VECTOR_SIMILARITY (Basic ANN)
+### VECTOR_SIMILARITY — Top-K ANN Search
+
+Returns the `k` nearest neighbors using the configured vector index:
 
 ```sql
 SELECT ProductId,
@@ -175,9 +175,9 @@ ORDER BY dist ASC
 LIMIT 10;
 ```
 
-### VECTOR_SIMILARITY_RADIUS (Phase 4)
+### VECTOR_SIMILARITY_RADIUS — Distance-Based Search
 
-Distance-based filtering without fixed top-K:
+Returns all vectors within a distance threshold, without requiring a fixed top-K:
 
 ```sql
 SELECT ProductId,
@@ -187,11 +187,11 @@ WHERE VECTOR_SIMILARITY_RADIUS(embedding, ARRAY[0.12, 0.34, 0.56, ...], 0.3)
 ORDER BY dist ASC;
 ```
 
-Returns all vectors within the distance threshold. Automatically falls back to brute-force on segments without a vector index.
+Automatically falls back to brute-force scan on segments without a vector index. Approximate radius support is advertised only for backends where real index-assisted radius search is available.
 
-## Filter-Aware ANN (FILTER_THEN_ANN) — Phase 4
+## Filter-Aware ANN
 
-Pre-filters vectors using a bitmap before ANN lookup for improved recall on selective filters:
+When a query combines a vector predicate with metadata filters, Pinot can pre-filter vectors using a bitmap before the ANN lookup. This improves recall compared to post-ANN filtering.
 
 ```sql
 SELECT ProductId,
@@ -206,18 +206,24 @@ LIMIT 10;
 ```
 
 **How it works:**
-1. Metadata filter builds a bitmap (`category = 'electronics'`)
-2. Bitmap passed to HNSW/IVF via `FilterAwareVectorIndexReader`
-3. Index prunes vectors before ANN traversal
-4. Better recall than post-ANN filtering
+1. The metadata filter (`category = 'electronics'`) builds a bitmap of matching row IDs.
+2. The bitmap is passed to the vector index reader via `FilterAwareVectorIndexReader`.
+3. The index prunes vectors before ANN traversal using the bitmap.
+4. Only matching vectors are considered — improving recall on selective filters.
 
-**When to use:**
-- Selective filters removing 70%+ of rows
+**When to use filter-aware ANN:**
+- Selective filters that remove 70% or more of rows
 - Combine with exact reranking for best accuracy
 
-## HNSW Runtime Tuning (Phase 4)
+`IVF_ON_DISK` has full `FILTER_THEN_ANN` support with pre-filter bitmap computation, explain/debug reporting showing filter selectivity, and consistent behavior with in-memory IVF_FLAT and IVF_PQ.
 
-`vectorEfSearch` query option for runtime HNSW search beam width tuning without rebuilding:
+## HNSW Runtime Tuning
+
+The following query options control HNSW search behavior at runtime without rebuilding the index. They apply to both mutable (consuming) and immutable (offline) segments.
+
+### `vectorEfSearch` — Search Beam Width
+
+Controls how many nodes HNSW visits during graph traversal:
 
 ```sql
 SET vectorEfSearch = 500;
@@ -231,53 +237,73 @@ LIMIT 10;
 ```
 
 **Typical values:**
-- `100–150`: Low latency (real-time)
+- `100–150`: Low latency (real-time applications)
 - `200–300`: Balanced (default)
 - `400–800`: High recall (semantic search)
 
-Higher efSearch = better accuracy, slower queries.
+Higher `efSearch` improves accuracy at the cost of query latency.
 
-## Adaptive Query Planner (Phase 4)
+### `vectorUseRelativeDistance` — Competitive Pruning
 
-Automatically selects optimal execution mode via `VectorSearchStrategy` in `FilterPlanNode`:
+Enables or disables competitive pruning during HNSW graph traversal. Disabling can improve recall on some data distributions:
+
+```sql
+SET vectorEfSearch = 128;
+SET vectorUseRelativeDistance = false;
+SET vectorUseBoundedQueue = false;
+
+SELECT cosineDistance(embedding, ARRAY[0.12, 0.34, 0.56]) AS dist, doc_id
+FROM my_table
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[0.12, 0.34, 0.56], 10)
+ORDER BY dist ASC LIMIT 10;
+```
+
+## Adaptive Query Planner
+
+Pinot automatically selects the optimal execution mode based on filter selectivity via `VectorSearchStrategy` in `FilterPlanNode`:
 
 | Filter Selectivity | Mode | Strategy |
 |-------------------|------|----------|
-| None | `ANN_TOP_K` | Pure ANN |
-| Low (<30%) | `FILTER_THEN_ANN` | Filter bitmap → ANN |
-| High (>70%) | `ANN_THEN_FILTER` | ANN → filter |
-| No index | `EXACT_SCAN` | Brute-force scan |
+| None | `ANN_TOP_K` | Pure ANN — no pre-filtering |
+| Low (<30%) | `FILTER_THEN_ANN` | Build bitmap → pass to ANN |
+| High (>70%) | `ANN_THEN_FILTER` | ANN candidates → post-filter |
+| No index | `EXACT_SCAN` | Brute-force full scan |
 
-## Vector Search Metrics (Phase 4)
-
-`VectorSearchMetrics` singleton tracks:
-- `vectorAnnCandidatesRetrieved`: ANN candidates retrieved
-- `vectorExactRerankCount`: Vectors re-ranked with exact distance
-- `vectorFilteredOutCount`: Vectors filtered by pre-filter bitmap
-- `vectorSearchLatencyMs`: End-to-end search latency
+No configuration is required — the planner chooses the strategy per segment.
 
 ## Query Options
 
 | Option | Default | Description |
 |--------|---------|-------------|
 | `vectorNprobe` | `4` | Clusters to probe (IVF_FLAT, IVF_PQ, IVF_ON_DISK) |
-| `vectorExactRerank` | `true` (IVF_PQ) | Boolean override for exact rerank of ANN candidates |
-| `vectorMaxCandidates` | `topK * 10` | Positive integer cap for ANN candidates |
-| `vectorDistanceThreshold` | Not set | Finite float threshold on raw Pinot vector distance |
-| `vectorEfSearch` | From config | HNSW-only: positive integer visit budget for search |
-| `vectorUseRelativeDistance` | `true` | HNSW-only: boolean toggle for relative-distance pruning |
-| `vectorUseBoundedQueue` | `true` | HNSW-only: boolean toggle for bounded top-K collector |
+| `vectorExactRerank` | `true` (IVF_PQ) | Override for exact reranking of ANN candidates |
+| `vectorMaxCandidates` | `topK * 10` | Cap on ANN candidates considered |
+| `vectorDistanceThreshold` | Not set | Distance threshold on raw Pinot vector distance |
+| `vectorEfSearch` | From index config | HNSW only: visit budget for search beam |
+| `vectorUseRelativeDistance` | `true` | HNSW only: toggle relative-distance competitive pruning |
+| `vectorUseBoundedQueue` | `true` | HNSW only: toggle bounded top-K collector |
+
+## Vector Search Metrics
+
+`VectorSearchMetrics` tracks the following server-side counters:
+
+| Metric | Description |
+|--------|-------------|
+| `vectorAnnCandidatesRetrieved` | Number of ANN candidates retrieved from the index |
+| `vectorExactRerankCount` | Vectors re-ranked with exact distance computation |
+| `vectorFilteredOutCount` | Vectors eliminated by the pre-filter bitmap |
+| `vectorSearchLatencyMs` | End-to-end search latency |
 
 ## Index Type Comparison
 
-| Index | Memory | Build Time | Speed | Recall | Quantization | Disk-Backed |
-|-------|--------|-----------|-------|--------|--------------|------------|
+| Index | Memory | Build Time | Query Speed | Recall | Quantization | Disk-Backed |
+|-------|--------|-----------|-------------|--------|--------------|------------|
 | HNSW | Medium | Moderate | Fast | Excellent | Optional | No |
-| IVF_FLAT | High | Fast | Medium | Good | Optional | No |
+| IVF_FLAT | High | Fast | Medium | Good | FLAT/SQ8/SQ4 | No |
 | IVF_PQ | Low | Moderate | Medium | Fair | Product Quantization | No |
 | IVF_ON_DISK | Low | Moderate | Medium | Good | FLAT/SQ8/SQ4/PQ | Yes |
 
-## Example: Semantic Product Search
+## Complete Example: Semantic Product Search
 
 ### Schema
 
@@ -296,7 +322,7 @@ Automatically selects optimal execution mode via `VectorSearchStrategy` in `Filt
 }
 ```
 
-### Table Config
+### Table Configuration
 
 ```json
 {
@@ -327,6 +353,17 @@ Automatically selects optimal execution mode via `VectorSearchStrategy` in `Filt
 }
 ```
 
+### Basic Top-K Query
+
+```sql
+SELECT ProductId,
+       cosineDistance(embedding, ARRAY[-0.0013, -0.0110, ...]) AS dist
+FROM products
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[-0.0013, -0.0110, ...], 10)
+ORDER BY dist ASC
+LIMIT 10;
+```
+
 ### Filter-Aware ANN Query
 
 ```sql
@@ -350,79 +387,28 @@ WHERE VECTOR_SIMILARITY_RADIUS(embedding, ARRAY[-0.0013, -0.0110, ...], 0.25)
 ORDER BY dist ASC;
 ```
 
-### Runtime Tuning
-
-```sql
-SET vectorEfSearch = 500;
-
-SELECT ProductId,
-       cosineDistance(embedding, ARRAY[-0.0013, -0.0110, ...]) AS dist
-FROM products
-WHERE VECTOR_SIMILARITY(embedding, ARRAY[-0.0013, -0.0110, ...], 20)
-ORDER BY dist ASC
-LIMIT 10;
-```
-
-## Sample SQL Queries with Runtime Controls
-
-### Basic Top-K ANN
-
-```sql
-SELECT cosineDistance(embedding, ARRAY[0.12, 0.34, 0.56]) AS dist, doc_id
-FROM my_table
-WHERE VECTOR_SIMILARITY(embedding, ARRAY[0.12, 0.34, 0.56], 10)
-ORDER BY dist ASC LIMIT 10;
-```
-
-### HNSW Runtime Controls
-
-Tune HNSW search behavior at query-time without rebuilding:
-
-```sql
-SET vectorEfSearch = 128;
-SET vectorUseRelativeDistance = false;
-SET vectorUseBoundedQueue = false;
-SELECT cosineDistance(embedding, ARRAY[0.12, 0.34, 0.56]) AS dist, doc_id
-FROM my_table
-WHERE VECTOR_SIMILARITY(embedding, ARRAY[0.12, 0.34, 0.56], 10)
-ORDER BY dist ASC LIMIT 10;
-```
-
-### IVF Runtime Controls with Exact Rerank
-
-Control IVF search breadth and candidate selection:
+### IVF with Exact Reranking
 
 ```sql
 SET vectorNprobe = 16;
 SET vectorMaxCandidates = 500;
 SET vectorExactRerank = true;
+
 SELECT l2Distance(embedding, ARRAY[1.0, 2.0, 3.0]) AS dist, doc_id
 FROM my_table
 WHERE VECTOR_SIMILARITY(embedding, ARRAY[1.0, 2.0, 3.0], 20)
 ORDER BY dist ASC LIMIT 20;
 ```
 
-### Distance Threshold Search
-
-Return all vectors within a distance threshold without fixed top-K:
+### Distance Threshold Without Fixed Top-K
 
 ```sql
 SET vectorDistanceThreshold = 0.75;
 SET vectorMaxCandidates = 500;
+
 SELECT l2Distance(embedding, ARRAY[1.0, 2.0, 3.0]) AS dist, doc_id
 FROM my_table
 WHERE VECTOR_SIMILARITY(embedding, ARRAY[1.0, 2.0, 3.0], 200)
-ORDER BY dist ASC LIMIT 200;
-```
-
-### Radius Predicate (Phase 4)
-
-Direct radius search without top-K requirement:
-
-```sql
-SELECT l2Distance(embedding, ARRAY[1.0, 2.0, 3.0]) AS dist, doc_id
-FROM my_table
-WHERE VECTOR_SIMILARITY_RADIUS(embedding, ARRAY[1.0, 2.0, 3.0], 0.75)
 ORDER BY dist ASC LIMIT 200;
 ```
 
