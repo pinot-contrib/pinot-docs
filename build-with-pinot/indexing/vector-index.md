@@ -15,6 +15,41 @@ Vector indexes accelerate similarity search by partitioning the vector space int
 - **IVF_PQ**: Inverted File with Product Quantization, balanced speed/memory
 - **IVF_ON_DISK**: Disk-backed Inverted File, unlimited scale without 2GB limit (Phase 4)
 
+## Final Phase Completion Notes (Pinot 1.6.0+)
+
+As of PR #18168, the Pinot vector stack now includes complete final-phase implementations:
+
+### Quantizer Real-Path Integration
+
+SQ8 and SQ4 quantizers are now **fully integrated** through the entire IVF creator, reader, and search paths:
+- **SQ8**: 1 byte per dimension, 8-bit scalar quantization
+- **SQ4**: 0.5 bytes per dimension, 4-bit scalar quantization
+- Both are now real backend capabilities, not just validation-only features
+
+### HNSW Runtime Controls on Both Mutable and Immutable
+
+The following query-time controls now affect real HNSW search behavior on both **mutable and immutable** segments:
+- `vectorEfSearch`: Controls the search beam width (visit budget) at query time
+- `vectorUseRelativeDistance`: Enables/disables competitive pruning during graph traversal
+- `vectorUseBoundedQueue`: Toggles bounded top-K collector behavior
+
+These controls allow fine-tuning HNSW search without rebuilding indexes.
+
+### IVF_ON_DISK Filter-Aware ANN Parity
+
+`IVF_ON_DISK` now has full `FILTER_THEN_ANN` support with:
+- Pre-filter bitmap computation before ANN traversal
+- Explain/debug reporting showing filter selectivity
+- Consistent behavior with in-memory IVF_FLAT and IVF_PQ
+
+### Backend-Aware Approximate Radius
+
+Approximate radius capabilities are now **truthfully advertised** only where real backend support exists:
+- Backend capability flags are checked before reporting approximate-radius support
+- `VECTOR_SIMILARITY_RADIUS(...)` uses exact scan on backends without index-assisted radius support
+- Mixed immutable/mutable segments fallback gracefully with explicit explain visibility
+
+
 ## Index Configuration
 
 Vector indexes are configured in the table's field-level `indexes` section using raw encoding.
