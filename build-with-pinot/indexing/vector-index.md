@@ -55,10 +55,8 @@ Vector indexes are configured in the table's field-level `indexes` section using
           "vectorDistanceFunction": "COSINE",
           "version": 1,
           "properties": {
-            "maxCon": "32",
-            "beamWidth": "200",
-            "efConstruction": "400",
-            "efSearch": "200"
+            "maxCon": "16",
+            "beamWidth": "200"
           }
         }
       }
@@ -75,17 +73,15 @@ Vector indexes are configured in the table's field-level `indexes` section using
     {
       "name": "embedding",
       "encodingType": "RAW",
-      "indexes": {
-        "vector": {
-          "vectorIndexType": "IVF_FLAT",
-          "vectorDimension": 768,
-          "vectorDistanceFunction": "COSINE",
-          "version": 1,
-          "properties": {
-            "numLists": "256",
-            "quantizationType": "FLAT"
-          }
-        }
+      "indexType": "VECTOR",
+      "properties": {
+        "vectorIndexType": "IVF_FLAT",
+        "vectorDimension": 768,
+        "vectorDistanceFunction": "EUCLIDEAN",
+        "version": 1,
+        "nlist": "128",
+        "trainSampleSize": "20000",
+        "quantizer": "SQ8"
       }
     }
   ]
@@ -100,19 +96,17 @@ Vector indexes are configured in the table's field-level `indexes` section using
     {
       "name": "embedding",
       "encodingType": "RAW",
-      "indexes": {
-        "vector": {
-          "vectorIndexType": "IVF_PQ",
-          "vectorDimension": 768,
-          "vectorDistanceFunction": "EUCLIDEAN",
-          "version": 1,
-          "properties": {
-            "numLists": "256",
-            "quantizationType": "PQ",
-            "pqNumBits": "8",
-            "pqNumCentroids": "256"
-          }
-        }
+      "indexType": "VECTOR",
+      "properties": {
+        "vectorIndexType": "IVF_PQ",
+        "vectorDimension": 768,
+        "vectorDistanceFunction": "EUCLIDEAN",
+        "version": 1,
+        "nlist": "256",
+        "trainSampleSize": "50000",
+        "pqM": "32",
+        "pqNbits": "8",
+        "quantizer": "PQ"
       }
     }
   ]
@@ -129,17 +123,15 @@ Disk-backed IVF using FileChannel random-access reads, enabling unlimited scale 
     {
       "name": "embedding",
       "encodingType": "RAW",
-      "indexes": {
-        "vector": {
-          "vectorIndexType": "IVF_ON_DISK",
-          "vectorDimension": 768,
-          "vectorDistanceFunction": "COSINE",
-          "version": 1,
-          "properties": {
-            "numLists": "512",
-            "quantizationType": "FLAT"
-          }
-        }
+      "indexType": "VECTOR",
+      "properties": {
+        "vectorIndexType": "IVF_ON_DISK",
+        "vectorDimension": 768,
+        "vectorDistanceFunction": "EUCLIDEAN",
+        "version": 1,
+        "nlist": "256",
+        "trainSampleSize": "50000",
+        "quantizer": "SQ4"
       }
     }
   ]
@@ -166,30 +158,9 @@ Generic quantizer framework supporting multiple quantization strategies:
 | **SQ4** | 0.5 bytes × dimension | Very fast | 4-bit quantization |
 | **PQ** | Variable | Medium | Large scale |
 
-### SQ8 Example
+### SQ4 Example (IVF_ON_DISK)
 
-```json
-{
-  "fieldConfigList": [
-    {
-      "name": "embedding",
-      "encodingType": "RAW",
-      "indexes": {
-        "vector": {
-          "vectorIndexType": "IVF_FLAT",
-          "vectorDimension": 768,
-          "vectorDistanceFunction": "COSINE",
-          "version": 1,
-          "properties": {
-            "numLists": "256",
-            "quantizationType": "SQ8"
-          }
-        }
-      }
-    }
-  ]
-}
-```
+See [IVF_ON_DISK Configuration](#ivf_on_disk-configuration-phase-4) above for SQ4 integration with disk-backed indexes.
 
 ## SQL Functions
 
@@ -289,11 +260,13 @@ Automatically selects optimal execution mode via `VectorSearchStrategy` in `Filt
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `vectorNprobe` | `4` | Clusters to probe (IVF only) |
-| `vectorExactRerank` | `true` (IVF_PQ) | Re-rank with exact distance |
-| `vectorMaxCandidates` | `topK * 10` | Max ANN candidates |
-| `vectorDistanceThreshold` | Not set | Return all within distance |
-| `vectorEfSearch` | From config | HNSW search beam width (Phase 4) |
+| `vectorNprobe` | `4` | Clusters to probe (IVF_FLAT, IVF_PQ, IVF_ON_DISK) |
+| `vectorExactRerank` | `true` (IVF_PQ) | Boolean override for exact rerank of ANN candidates |
+| `vectorMaxCandidates` | `topK * 10` | Positive integer cap for ANN candidates |
+| `vectorDistanceThreshold` | Not set | Finite float threshold on raw Pinot vector distance |
+| `vectorEfSearch` | From config | HNSW-only: positive integer visit budget for search |
+| `vectorUseRelativeDistance` | `true` | HNSW-only: boolean toggle for relative-distance pruning |
+| `vectorUseBoundedQueue` | `true` | HNSW-only: boolean toggle for bounded top-K collector |
 
 ## Index Type Comparison
 
@@ -388,6 +361,69 @@ FROM products
 WHERE VECTOR_SIMILARITY(embedding, ARRAY[-0.0013, -0.0110, ...], 20)
 ORDER BY dist ASC
 LIMIT 10;
+```
+
+## Sample SQL Queries with Runtime Controls
+
+### Basic Top-K ANN
+
+```sql
+SELECT cosineDistance(embedding, ARRAY[0.12, 0.34, 0.56]) AS dist, doc_id
+FROM my_table
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[0.12, 0.34, 0.56], 10)
+ORDER BY dist ASC LIMIT 10;
+```
+
+### HNSW Runtime Controls
+
+Tune HNSW search behavior at query-time without rebuilding:
+
+```sql
+SET vectorEfSearch = 128;
+SET vectorUseRelativeDistance = false;
+SET vectorUseBoundedQueue = false;
+SELECT cosineDistance(embedding, ARRAY[0.12, 0.34, 0.56]) AS dist, doc_id
+FROM my_table
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[0.12, 0.34, 0.56], 10)
+ORDER BY dist ASC LIMIT 10;
+```
+
+### IVF Runtime Controls with Exact Rerank
+
+Control IVF search breadth and candidate selection:
+
+```sql
+SET vectorNprobe = 16;
+SET vectorMaxCandidates = 500;
+SET vectorExactRerank = true;
+SELECT l2Distance(embedding, ARRAY[1.0, 2.0, 3.0]) AS dist, doc_id
+FROM my_table
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[1.0, 2.0, 3.0], 20)
+ORDER BY dist ASC LIMIT 20;
+```
+
+### Distance Threshold Search
+
+Return all vectors within a distance threshold without fixed top-K:
+
+```sql
+SET vectorDistanceThreshold = 0.75;
+SET vectorMaxCandidates = 500;
+SELECT l2Distance(embedding, ARRAY[1.0, 2.0, 3.0]) AS dist, doc_id
+FROM my_table
+WHERE VECTOR_SIMILARITY(embedding, ARRAY[1.0, 2.0, 3.0], 200)
+ORDER BY dist ASC LIMIT 200;
+```
+
+### Radius Predicate (Phase 4)
+
+Direct radius search without top-K requirement:
+
+```sql
+SELECT l2Distance(embedding, ARRAY[1.0, 2.0, 3.0]) AS dist, doc_id
+FROM my_table
+WHERE VECTOR_SIMILARITY_RADIUS(embedding, ARRAY[1.0, 2.0, 3.0], 0.75)
+ORDER BY dist ASC LIMIT 200;
 ```
 
 ## Related Pages
