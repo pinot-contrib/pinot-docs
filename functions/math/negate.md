@@ -5,17 +5,17 @@ description: >-
 
 # negate
 
-Returns the negation of the input value.
+Returns the negation of the input value. This is a polymorphic function that preserves the input numeric type.
 
 ## Signature
 
-> negate(col)
+negate(col)
 
-| Argument | Type   | Description      |
-| -------- | ------ | ---------------- |
-| `col`    | DOUBLE | Value to negate  |
+| Argument | Type                                    | Description     |
+| -------- | --------------------------------------- | ---------------- |
+| `col`    | INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL  | Value to negate  |
 
-Returns: **DOUBLE**
+Returns the same type as the input argument.
 
 ## Usage Examples
 
@@ -35,4 +35,11 @@ FROM myTable
 
 | value |
 | ----- |
-| 10.0  |
+| 10    |
+
+```sql
+SELECT negate(100) AS int_neg, negate(1000000L) AS long_neg, negate(3.14F) AS float_neg, negate(2.718) AS double_neg
+FROM myTable
+```
+
+Returns INT, LONG, FLOAT, DOUBLE respectively (preserving input type).
