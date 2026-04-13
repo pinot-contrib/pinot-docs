@@ -26,7 +26,7 @@ WHERE VECTOR_SIMILARITY(vectorColumn, queryVector, topK)
 
 ### Prerequisites
 
-`VECTOR_SIMILARITY` uses a vector index when one is available on the target column. Pinot supports three backends: HNSW, IVF_FLAT, and IVF_PQ. If a segment does not have a vector index (e.g., realtime segments with IVF_FLAT or IVF_PQ), Pinot falls back to an exact scan over the forward index for that segment. Exact scans are much slower than ANN lookups, so configure a vector index for production workloads. See the [vector index documentation](../../build-with-pinot/indexing/vector-index.md) for setup instructions.
+`VECTOR_SIMILARITY` uses a vector index when one is available on the target column. Pinot supports four backends: HNSW, IVF_FLAT, IVF_PQ, and IVF_ON_DISK. If a segment does not have a vector index (e.g., realtime segments with IVF_FLAT, IVF_PQ, or IVF_ON_DISK), Pinot falls back to an exact scan over the forward index for that segment. Exact scans are much slower than ANN lookups, so configure a vector index for production workloads. See the [vector index documentation](../../build-with-pinot/indexing/vector-index.md) for setup instructions.
 
 **Minimal field config:**
 
@@ -77,6 +77,49 @@ LIMIT 10
 {% hint style="warning" %}
 When Pinot uses a vector index, `VECTOR_SIMILARITY` is an **approximate** nearest-neighbor predicate. `vectorExactRerank=true` re-scores the ANN candidates returned by the index, but it does not turn ANN search into a full exact scan. IVF_PQ defaults to `vectorExactRerank=true` because PQ distances are approximate by construction. To get better recall, request a larger `topK` than the final `LIMIT` and combine with an `ORDER BY` on a distance function.
 {% endhint %}
+
+## VECTOR\_SIMILARITY\_RADIUS
+
+`VECTOR_SIMILARITY_RADIUS` is a **WHERE-clause predicate** that returns all vectors within a distance threshold, without requiring a fixed top-K. It is useful when you want every result meeting a quality threshold rather than an arbitrary number of nearest neighbors.
+
+### Syntax
+
+```sql
+WHERE VECTOR_SIMILARITY_RADIUS(vectorColumn, queryVector, distanceThreshold)
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `vectorColumn` | identifier | A multi-valued FLOAT column with a [vector index](../../build-with-pinot/indexing/vector-index.md) configured. |
+| `queryVector` | `ARRAY[...]` | A float array literal representing the query embedding. |
+| `distanceThreshold` | float literal | Maximum distance for a vector to be included in results. |
+
+### Behavior
+
+On segments with a vector index, Pinot uses the ANN index to generate candidates and then filters by exact distance. On segments without a vector index, Pinot falls back to a brute-force scan, returning all vectors within the threshold exactly.
+
+### Examples
+
+**Find all products within cosine distance 0.3 of a query embedding:**
+
+```sql
+SELECT ProductId,
+       cosineDistance(embedding, ARRAY[0.12, 0.34, 0.56, ...]) AS dist
+FROM products
+WHERE VECTOR_SIMILARITY_RADIUS(embedding, ARRAY[0.12, 0.34, 0.56, ...], 0.3)
+ORDER BY dist ASC;
+```
+
+**Combine radius search with metadata filters:**
+
+```sql
+SELECT ProductId, Summary,
+       l2Distance(embedding, ARRAY[0.12, 0.34, 0.56, ...]) AS dist
+FROM products
+WHERE VECTOR_SIMILARITY_RADIUS(embedding, ARRAY[0.12, 0.34, 0.56, ...], 5.0)
+  AND category = 'electronics'
+ORDER BY dist ASC;
+```
 
 ## Distance Functions
 
@@ -308,7 +351,8 @@ This query first uses the HNSW index to retrieve the 10 approximate nearest neig
 
 | Function | Return type | Description |
 | --- | --- | --- |
-| `VECTOR_SIMILARITY(col, query, topK)` | predicate | ANN filter — requires a vector index. |
+| `VECTOR_SIMILARITY(col, query, topK)` | predicate | ANN filter — returns top-K nearest neighbors. |
+| `VECTOR_SIMILARITY_RADIUS(col, query, threshold)` | predicate | Distance-based filter — returns all vectors within the threshold. |
 | `cosineDistance(v1, v2 [, default])` | `DOUBLE` | Cosine distance (`1 - cosine_similarity`). |
 | `innerProduct(v1, v2)` | `DOUBLE` | Inner product (sum of element-wise products). |
 | `l1Distance(v1, v2)` | `DOUBLE` | Manhattan distance. |
