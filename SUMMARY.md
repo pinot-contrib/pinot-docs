@@ -385,6 +385,8 @@
   * [moduloOrZero](functions/math/moduloorzero.md)
   * [positiveModulo](functions/math/positivemodulo.md)
   * [negate](functions/math/negate.md)
+  * [greatest](functions/math/greatest.md)
+  * [least](functions/math/least.md)
   * [gcd](functions/math/gcd.md)
   * [lcm](functions/math/lcm.md)
   * [hypot](functions/math/hypot.md)
