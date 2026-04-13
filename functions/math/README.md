@@ -80,14 +80,14 @@ Returns the negation of the value.
 Usage: `negate(col)`\
 Example: `SELECT negate(score) FROM myTable`
 
-**least(col1, col2)**\
-Returns the smaller of two values.
+[**least(col1, col2)**](least.md)\
+Returns the smaller of two values. Polymorphic across INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL.
 
 Usage: `least(col1, col2)`\
 Example: `SELECT least(score1, score2) FROM myTable`
 
-**greatest(col1, col2)**\
-Returns the larger of two values.
+[**greatest(col1, col2)**](greatest.md)\
+Returns the larger of two values. Polymorphic across INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL.
 
 Usage: `greatest(col1, col2)`\
 Example: `SELECT greatest(score1, score2) FROM myTable`
