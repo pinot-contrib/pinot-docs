@@ -80,13 +80,13 @@ Returns the negation of the value.
 Usage: `negate(col)`\
 Example: `SELECT negate(score) FROM myTable`
 
-**least(col1, col2)**\
+[**least(col1, col2)**](least.md)\
 Returns the smaller of two values.
 
 Usage: `least(col1, col2)`\
 Example: `SELECT least(score1, score2) FROM myTable`
 
-**greatest(col1, col2)**\
+[**greatest(col1, col2)**](greatest.md)\
 Returns the larger of two values.
 
 Usage: `greatest(col1, col2)`\
