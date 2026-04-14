@@ -615,6 +615,7 @@
     * [Metrics Plugin](developers/plugin-architecture/write-custom-plugins/metrics-plugin.md)
     * [Minion Task Plugin](developers/plugin-architecture/write-custom-plugins/minion-task-plugin.md)
     * [Opchain Converter Plugin](developers/plugin-architecture/write-custom-plugins/opchain-converter-plugin.md)
+    * [Config Validator SPI](developers/plugin-architecture/write-custom-plugins/config-validator-spi.md)
 * [Design Documents](developers/design-documents/README.md)
   * [Segment Writer API](developers/design-documents/segment-writer-api.md)
 * [Contributing](develop-contribute/contributing.md)
