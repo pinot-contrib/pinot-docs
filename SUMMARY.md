@@ -571,6 +571,7 @@
   * [Environment Provider](reference/plugin-reference/environment-provider.md)
 * [Release notes](reference/release-notes/README.md)
   * [All Releases](reference/releases/README.md)
+    * [1.5.0](reference/releases/1.5.0.md)
     * [1.4.0](reference/releases/1.4.0.md)
     * [1.3.0](reference/releases/1.3.0.md)
     * [1.2.0](reference/releases/1.2.0.md)

@@ -10,6 +10,7 @@ This section is the reference landing page for Pinot release history. The detail
 
 | Version | Source page |
 | --- | --- |
+| 1.5.0 | [1.5.0](../releases/1.5.0.md) |
 | 1.4.0 | [1.4.0](../releases/1.4.0.md) |
 | 1.3.0 | [1.3.0](../releases/1.3.0.md) |
 | 1.2.0 | [1.2.0](../releases/1.2.0.md) |
@@ -36,5 +37,5 @@ Open the note for the release you are targeting, then run compatibility checks a
 
 - [Configuration Reference](../configuration-reference/README.md)
 - [Full Release Archive](../releases/README.md)
-- [Release 1.4.0](../releases/1.4.0.md)
+- [Release 1.5.0](../releases/1.5.0.md)
 - [Upgrade Notes](../../operate-pinot/upgrade-notes.md)
