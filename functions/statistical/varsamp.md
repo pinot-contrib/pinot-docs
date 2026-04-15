@@ -12,7 +12,7 @@ Returns the sample variance of values in a group as `Double`. Sample variance me
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select VARSAMP(hits) AS value

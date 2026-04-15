@@ -16,7 +16,7 @@ The `dataType` parameter must be one of: `INT`, `LONG`, `FLOAT`, `DOUBLE`, `STRI
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select ARRAYAGG(yearID, 'INT') AS years

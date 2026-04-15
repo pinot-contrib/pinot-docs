@@ -15,7 +15,7 @@ For accurate distinct counting on all column types, see [DISTINCTCOUNT](distinct
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select DISTINCTCOUNTBITMAP(league) AS value

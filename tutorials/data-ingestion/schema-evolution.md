@@ -10,7 +10,7 @@ Pinot only supports adding new columns to a schema. To drop a column or change t
 
 ## Prerequisites
 
-Before you get started, you must have a Pinot cluster up and running, and a `baseballStats` table (created when you set up a Pinot cluster using the Quickstart option). For more information, see how to [start running Pinot and set up a cluster using the Quickstart](../../basics/getting-started/README.md#running-pinot) option.
+Before you get started, you must have a Pinot cluster up and running, and a `baseballStats` table (created when you set up a Pinot cluster using the Quickstart option). For more information, see how to [start running Pinot and set up a cluster using the Quickstart](../../basics/getting-started/README.md) option.
 
 ## **Add a new column to your schema**
 

@@ -16,7 +16,7 @@ COVAR_POP(col1, col2) = E[col1 * col2] - E[col1]E[col2]
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 SELECT COVAR_POP(numberOfGames, hits) AS covariance 

@@ -15,7 +15,7 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).
 
 ## Usage examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```
 select distinctCountULL(teamID) AS value

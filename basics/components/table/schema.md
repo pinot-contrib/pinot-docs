@@ -40,11 +40,11 @@ For configuration details, see [Schema configuration reference](../../../referen
 
 ### Date and time fields
 
-Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations. You can refer to [DateTime field spec configs](../../../reference/configuration-reference/schema.md#datetimefieldspec) for more details on supported formats.
+Since Pinot doesn't have a dedicated `DATETIME` datatype support, you need to input time in either STRING, LONG, or INT format. However, Pinot needs to convert the date into an understandable format such as epoch timestamp to do operations. You can refer to [DateTime field spec configs](../../../reference/configuration-reference/schema.md#datetimefieldspecs) for more details on supported formats.
 
 ### Creating a schema
 
-First, Make sure your [cluster is up](../cluster/#setup-a-pinot-cluster) and running.
+First, Make sure your [cluster is up](../cluster/#set-up-a-pinot-cluster) and running.
 
 Let's create a schema and put it in a JSON file. For this example, we have created a schema for flight data.
 

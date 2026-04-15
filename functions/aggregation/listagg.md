@@ -30,7 +30,7 @@ Only a single `WITHIN GROUP` clause is supported per query.
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 **Basic aggregation**
 

@@ -12,7 +12,7 @@ Get the most frequent value in a group. When multiple modes are present it gives
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select mode(yearID) AS value

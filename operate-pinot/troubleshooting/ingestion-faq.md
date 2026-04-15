@@ -94,9 +94,9 @@ For JSON, you can use a hex encoded string to ingest BYTES.
 
 ### How do I flatten my JSON Kafka stream?
 
-See the [json\_format(field)](../../build-with-pinot/ingestion/ingestion-level-transformations.md#json-functions) function which can store a top level json field as a STRING in Pinot.
+See the [json\_format(field)](../../build-with-pinot/ingestion/ingestion-level-transformations.md#json-helpers-worth-calling-out) function which can store a top level json field as a STRING in Pinot.
 
-Then you can use these [json functions](../../functions/transformations.md#json-functions) during query time, to extract fields from the json string.
+Then you can use these [json functions](../../functions/transformations.md#json-helpers-worth-calling-out) during query time, to extract fields from the json string.
 
 {% hint style="warning" %}
 **NOTE**\

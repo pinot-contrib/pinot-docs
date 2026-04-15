@@ -18,7 +18,7 @@ If very few records are pre-aggregated, `DISTINCTCOUNT()`is faster than `DISTINC
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select DISTINCTCOUNT(league) AS value

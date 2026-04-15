@@ -76,7 +76,7 @@ By default, if the in-memory segment in the [non-winner server](../cluster/serve
 
 However, in certain scenarios, the segment build can get very memory-intensive. In these cases, you might want to enforce the non-committer servers to just download the segment from the controller instead of building it again. You can do this by setting `completionMode: "DOWNLOAD"` in the table configuration.
 
-For details, see [Completion Config](../../../operate-pinot/tuning/realtime.md#controlling-segment-build-vs-segment-download-on-realtime-servers).
+For details, see [Completion Config](../../../operate-pinot/tuning/realtime.md#controlling-segment-build-vs.-segment-download-on-real-time-servers).
 
 **Download Scheme**
 
@@ -162,8 +162,8 @@ Create a table config for your data, or see [`examples`](https://github.com/apac
 
 **Prerequisites**
 
-* [Set up the cluster](../cluster/#setup-a-pinot-cluster)
-* [Create broker and server tenants](../cluster/tenant.md#creating-a-tenant)
+* [Set up the cluster](../cluster/#set-up-a-pinot-cluster)
+* [Create broker and server tenants](../cluster/tenant.md#create-a-tenant)
 
 ## Offline table creation
 
