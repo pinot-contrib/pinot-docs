@@ -20,6 +20,28 @@ You can find current supported 2 images in this directory:
 
 This is a docker image of [Apache Pinot](https://github.com/apache/pinot).
 
+### Docker Base Image Updates
+
+As of [PR #18178](https://github.com/apache/pinot/pull/18178), the Pinot Docker images have been overhauled to improve security and eliminate CVE vulnerabilities:
+
+#### Base Image Changes
+
+- **amazoncorretto runtime**: Migrated from `amazoncorretto:*-al2023-jdk` to `debian:bookworm-slim` with Corretto JDK installed via apt. This eliminates all Python-related CVEs present in the Amazon Linux base image.
+- **ms-openjdk runtime**: Migrated from `ubuntu:24.10` (non-LTS, EOL) to `ubuntu:24.04 LTS` for long-term support and stability.
+
+#### Security Improvements
+
+- All base images now run `apt-get upgrade -y` at build time to apply OS security patches
+- Thrift compiler upgraded from 0.12.0 to 0.22.0 with SHA-512 checksum verification
+- Removed `git` from runtime images to reduce attack surface
+- Removed `fontconfig` from Corretto images (unnecessary for headless server deployment)
+- Changed download tool from `curl` to `wget` to reduce CVE surface
+- CVE hardening: amazoncorretto image reduced from 29 HIGH CVEs to 9 total (0 fixable)
+
+#### Migration Notes
+
+If your deployments rely on `git` being available in the Pinot Docker images, you will need to add it separately or use a custom image that includes it.
+
 ## How to build a docker image
 
 There is a docker build script which will build a given Git repo/branch and tag the image.
