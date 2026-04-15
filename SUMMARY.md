@@ -451,6 +451,9 @@
 * [Unique Count and Cardinality Estimation Functions](build-with-pinot/querying-and-sql/unique-counting.md)
 * [Vector / Similarity Functions](functions/vector/README.md)
 * [Window Functions](functions/window/README.md)
+  * [ROW_NUMBER](functions/window/row_number.md)
+  * [RANK](functions/window/rank.md)
+  * [DENSE_RANK](functions/window/dense_rank.md)
 
 ## Workload Playbooks
 
