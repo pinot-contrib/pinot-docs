@@ -12,7 +12,7 @@ Returns the skewness of values in a group as `Double`. Skewness measures the asy
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select SKEWNESS(hits) AS value

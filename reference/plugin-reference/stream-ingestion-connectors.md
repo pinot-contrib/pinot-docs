@@ -18,7 +18,7 @@ description: >-
 | stream.<stream_type>.idle.timeout.millis | If the stream remains idle (ie. without any data) for the specified time, the client connection is reset and a new consumer instance is created. **Default Value:** `180_000` |
 | stream.<stream_type>.decoder.class.name | Indicates the name of the decoder class that should be used to decoder the stream payload |
 | stream.<stream_type>.decoder.prop | Prefix used for any decoder specific property |
-| topic.consumption.rate.limit | Indicates the upper bound on the message rate for the entire topic. Use `-1` to ignore this config. **Default Value:** `-1` See [here](../../build-with-pinot/ingestion/stream-ingestion/README.md#throttling-stream-consumption) for more details. |
+| topic.consumption.rate.limit | Indicates the upper bound on the message rate for the entire topic. Use `-1` to ignore this config. **Default Value:** `-1` See [here](../../build-with-pinot/ingestion/stream-ingestion/README.md#throttle-stream-consumption) for more details. |
 | stream.<stream_type>.metadata.populate | When set to `true`, the supported consumer may extract the key, user headers and record metadata from the incoming payload. Currently, this is supported in Kafka connector only. |
 | realtime.segment.flush.threshold.time | Time based flush threshold for realtime segments. Used to decides when a realtime segment is ready to be committed / closed / flushed to disk. ⚠ This time should be smaller than the retention period configured for the corresponding topic |
 | realtime.segment.flush.threshold.size | The size a completed realtime segment should be. ℹThis config is used only if `realtime.segment.flush.threshold.rows` is set to 0. |

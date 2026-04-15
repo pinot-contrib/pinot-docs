@@ -12,7 +12,7 @@ Returns the sample standard deviation of values in a group as `Double`. This is 
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select STDDEVSAMP(hits) AS value

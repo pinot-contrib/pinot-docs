@@ -16,7 +16,7 @@ COVAR_SAMP(col1, col2) = COVAR_POP(col1, col2) * besselCorrection
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 SELECT COVAR_SAMP(numberOfGames, AtBatting) AS covariance 

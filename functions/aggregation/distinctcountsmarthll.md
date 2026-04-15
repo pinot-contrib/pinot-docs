@@ -19,7 +19,7 @@ description: >-
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ## **DISTINCTCOUNTSMARTHLL considerations**
 

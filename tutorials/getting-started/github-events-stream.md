@@ -45,7 +45,7 @@ docker pull ${PINOT_IMAGE}
 
 **Set up the Pinot cluster**
 
-Follow the instructions in [Advanced Pinot Setup](../../operate-pinot/advanced-pinot-setup.md#start-pinot-components-using-docker) to set up a Pinot cluster with the components:
+Follow the instructions in [Advanced Pinot Setup](../../operate-pinot/advanced-pinot-setup.md#start-pinot-components-scripts-or-docker-images) to set up a Pinot cluster with the components:
 
 * Zookeeper
 * Controller
@@ -332,7 +332,7 @@ Follow the instructions in [Build from source](../../basics/getting-started/inst
 
 **Set up the Pinot cluster**
 
-Follow the instructions in [Advanced Pinot Setup](../../operate-pinot/advanced-pinot-setup.md#start-pinot-components-via-launcher-scripts) to set up the Pinot cluster with the components:
+Follow the instructions in [Advanced Pinot Setup](../../operate-pinot/advanced-pinot-setup.md#start-pinot-components-scripts-or-docker-images) to set up the Pinot cluster with the components:
 
 * Zookeeper
 * Controller

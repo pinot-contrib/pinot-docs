@@ -12,7 +12,7 @@ Minions isolate the computational burden of out-of-band data processing from the
 
 ## Starting a minion
 
-Make sure you've [set up Zookeeper](./#setup-a-pinot-cluster). If you're using Docker, make sure to [pull the Pinot Docker image](./#setup-a-pinot-cluster). To start a minion:
+Make sure you've [set up Zookeeper](./#set-up-a-pinot-cluster). If you're using Docker, make sure to [pull the Pinot Docker image](./#set-up-a-pinot-cluster). To start a minion:
 
 ```
 Usage: StartMinion

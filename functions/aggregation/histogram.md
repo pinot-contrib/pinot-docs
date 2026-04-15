@@ -18,7 +18,7 @@ Returns the count of data points that fall within each bin as a vector. The bins
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 1. 10 equal-length bins `[0, 20), [20, 30) ... [180, 200]`
 

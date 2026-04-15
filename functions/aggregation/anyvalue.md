@@ -12,7 +12,7 @@ Returns any arbitrary non-null value from the column for each group. Useful in G
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select league, ANYVALUE(playerName) AS samplePlayer

@@ -12,7 +12,7 @@ Returns the kurtosis of values in a group as `Double`. Kurtosis measures the "ta
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select KURTOSIS(hits) AS value

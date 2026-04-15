@@ -18,7 +18,7 @@ This function relies on the expression values being partitioned for each segment
 
 ## Usage Examples
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
 
 ```sql
 select SEGMENTPARTITIONEDDISTINCTCOUNT(teamID) AS value

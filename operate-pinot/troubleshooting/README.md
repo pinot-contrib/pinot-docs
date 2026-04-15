@@ -120,13 +120,13 @@ This works well if some of your fields are nested json, but most of your fields 
 
 ### Set inverted indexes
 
-Inverted indexes are set in the table configuration's `tableIndexConfi`g -&gt; `invertedIndexColumns` list. See the documentation for `tableIndexConfig`: [docs](../../README.md#tableindexconfig-1) which includes a sample table that has set inverted indexes on some columns.
+Inverted indexes are set in the table configuration's `tableIndexConfi`g -&gt; `invertedIndexColumns` list. See the documentation for `tableIndexConfig`: [docs](../../reference/configuration-reference/table.md#table-index-config) which includes a sample table that has set inverted indexes on some columns.
 
-Applying inverted indexes to a table configuration will generate an inverted index for all new segments. In order to apply the inverted indexes to all existing segments, see [How to apply inverted index to existing setup?](README.md#how-to-apply-inverted-index-to-existing-setup).
+Applying inverted indexes to a table configuration will generate an inverted index for all new segments. In order to apply the inverted indexes to all existing segments, see [How to apply inverted index to existing setup?](README.md#apply-inverted-index-to-existing-setup).
 
 ### Apply inverted index to existing setup
 
-1. Add the columns you want to index to the `tableIndexConfig-&gt; invertedIndexColumns` list. This sample table config shows inverted indexes set: [docs](../../README.md#offline-table-config). To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
+1. Add the columns you want to index to the `tableIndexConfig-&gt; invertedIndexColumns` list. This sample table config shows inverted indexes set: [docs](../../reference/configuration-reference/table.md#offline-table). To update the table configuration use the Pinot Swagger API: [http://localhost:9000/help\#!/Table/updateTableConfig](http://localhost:9000/help#!/Table/updateTableConfig).
 2. Invoke the reload API: [http://localhost:9000/help\#!/Segment/reloadAllSegments](http://localhost:9000/help#!/Segment/reloadAllSegments).
 
 This will trigger a reload operation on each of the servers hosting the table's segments.
@@ -184,9 +184,9 @@ No. Pagination only works for SELECTION queries.
 
 ### How to change the number of replicas of a table?
 
-You can change the number of replicas by updating the table configuration's [segmentsConfig](../../README.md#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
+You can change the number of replicas by updating the table configuration's [segmentsConfig](../../reference/configuration-reference/table.md#segmentsconfig) section. Make sure you have at least as many servers as the replication.
 
-For OFFLINE table, update [replication](../../README.md#segmentsconfig-1), as follows:
+For OFFLINE table, update [replication](../../reference/configuration-reference/table.md#segmentsconfig), as follows:
 
 ```json
 { 
@@ -199,7 +199,7 @@ For OFFLINE table, update [replication](../../README.md#segmentsconfig-1), as fo
     ..
 ```
 
-For REALTIME table update [replicasPerPartition](../../README.md#segmentsconfig), as follows:
+For REALTIME table update [replicasPerPartition](../../reference/configuration-reference/table.md#segmentsconfig), as follows:
 
 ```json
 { 
@@ -251,7 +251,7 @@ If you are are adding/removing servers from an existing table setup, you have to
 
 **Replica group query routing**
 
-Once replica group segment assignment is in effect, the query routing can take advantage of it. For replica group based query routing, set the following in the table configuration's [routing](../../README.md#routing) section, and then restart brokers
+Once replica group segment assignment is in effect, the query routing can take advantage of it. For replica group based query routing, set the following in the table configuration's [routing](../../reference/configuration-reference/table.md#routing) section, and then restart brokers
 
 ```json
 {

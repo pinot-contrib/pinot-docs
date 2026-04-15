@@ -22,7 +22,7 @@ description: The tables below shows the properties available to set at the table
 | tableIndexConfig     | Defines the indexing related information for the Pinot table. For details, see [Table indexing config](table.md#table-index-config) below.                                                                                                                                                                                                                                                                      |
 | fieldConfigList      | Specifies the columns and the type of indices to be created on those columns. See [Field config list](table.md#field-config-list) for sub-properties.                                                                                                                                                                                                                                                           |
 | tenants              | Defines the server and broker tenant used for this table. For details, see [Tenant](../../basics/components/cluster/tenant.md) below.                                                                                                                                                                                                                                                                              |
-| ingestionConfig      | Defines the properties related to ingesting data. See the [ingestionConfig](ingestion.md#ingestionConfig) section for details.                                                                                                                                                                                                                                                                                  |
+| ingestionConfig      | Defines the properties related to ingesting data. See the [ingestionConfig](ingestion.md#ingestionconfig) section for details.                                                                                                                                                                                                                                                                                  |
 | upsertConfig         | Set upset configurations. For details, see [Stream ingestion with upsert](../../build-with-pinot/ingestion/upsert-and-dedup/upsert.md).                                                                                                                                                                                                                                                                               |
 | dedupConfig          | Set deduplication configurations. For details, see [Stream ingestion with Dedup](../../build-with-pinot/ingestion/upsert-and-dedup/dedup.md).                                                                                                                                                                                                                                                                         |
 | dimensionTableConfig | Set `disablePreload` to `true` to save memory if the table is a [dimension table](../../build-with-pinot/ingestion/batch-ingestion/dim-table.md).                                                                                                                                                                                                                                                                     |
@@ -100,7 +100,7 @@ The built-in `firstN` sampler sorts segment names lexicographically and keeps th
 
 ### Table index config
 
-This section is used to specify some general index configuration and multi-column indexes like [Star-tree](../../README.md#index-generation-configuration).
+This section is used to specify some general index configuration and multi-column indexes like [Star-tree](../../build-with-pinot/indexing/star-tree-index.md#index-generation-configuration).
 
 {% hint style="info" %}
 Before Pinot version 0.13, the configuration described above was also used to configure certain single-column indexes. While this approach is still supported, it is highly recommended to specify these indexes in the \[Field Config List]\(#Field Config List) section instead. The documentation page for each index type provides guidance on how to utilize this section to create that specific index type. This updated method offers more flexibility and aligns with best practices for configuring single-column indexes in Pinot.
@@ -195,7 +195,7 @@ The sections below apply to real-time tables only.
 
 ### Indexing config
 
-The `streamConfigs` section has been deprecated as of release 0.7.0. See [`streamConfigMaps`](../../build-with-pinot/ingestion/stream-ingestion#create-ingestion-configuration) instead.
+The `streamConfigs` section has been deprecated as of release 0.7.0. See [`streamConfigMaps`](../../build-with-pinot/ingestion/stream-ingestion/README.md#create-table-configuration-with-ingestion-configuration) instead.
 
 ## Tenants
 

@@ -30,9 +30,9 @@ Changing a column name or data type is considered backward incompatible change. 
 
 ### How to change number of replicas of a table?
 
-You can change the number of replicas by updating the table configuration's [segmentsConfig](../../basics/components/table/README.md#segmentsconfig-1) section. Make sure you have at least as many servers as the replication.
+You can change the number of replicas by updating the table configuration's [segmentsConfig](../../basics/components/table/README.md#segments) section. Make sure you have at least as many servers as the replication.
 
-For offline tables, update [replication](../../basics/components/table/README.md#segmentsconfig-1):
+For offline tables, update [replication](../../basics/components/table/README.md#segments):
 
 ```json
 { 
@@ -45,7 +45,7 @@ For offline tables, update [replication](../../basics/components/table/README.md
     ..
 ```
 
-For real-time tables, update [replicasPerPartition](../../basics/components/table/README.md#segmentsconfig):
+For real-time tables, update [replicasPerPartition](../../basics/components/table/README.md#segments):
 
 ```json
 { 
@@ -193,7 +193,7 @@ If you are are adding/removing servers from an existing table setup, you have to
 
 **Replica group query routing**
 
-Once replica group segment assignment is in effect, the query routing can take advantage of it. For replica group based query routing, set the following in the table config's [routing](../../basics/components/table/README.md#routing) section, and then restart brokers
+Once replica group segment assignment is in effect, the query routing can take advantage of it. For replica group based query routing, set the following in the table config's [routing](../../reference/configuration-reference/table.md#routing) section, and then restart brokers
 
 ```json
 {

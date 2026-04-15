@@ -18,7 +18,7 @@ The current implementation consumes input relations one by one. It first returns
 
 ### Blocking nature
 
-The union operator is a streaming operator that consumes the input relations one by one. The current implementation fully consumes the inputs in order. See [the order of input relations matter](union.md#the-order-of-input-relations-matter) for more details.
+The union operator is a streaming operator that consumes the input relations one by one. The current implementation fully consumes the inputs in order. See [the order of input relations matter](union.md#the-order-of-input-relations-matters) for more details.
 
 ## Hints
 

@@ -63,7 +63,7 @@ We recommend configuring column based null storing, which lets you specify null 
 
 To enable column based null handling:
 
-1. Set [enableColumnBasedNullHandling](../../reference/configuration-reference/schema.md#Schema) to `true` in the schema configuration before ingesting data.
+1. Set [enableColumnBasedNullHandling](../../reference/configuration-reference/schema.md#schema-configuration) to `true` in the schema configuration before ingesting data.
 2. Then specify which columns are not nullable using the `notNull` field spec, which defaults to false.
 
 ```json
@@ -96,7 +96,7 @@ This is the only way to enable null storing in Pinot before 1.1.0, but it is dep
 When table based null storing is enabled, all columns will be considered nullable. To enable this mode you need to:
 
 1. Enable the `nullHandlingEnabled` configuration in [tableIndexConfig.nullHandlingEnabled](../../reference/configuration-reference/table.md#table-index-config)
-2. Disable  [enableColumnBasedNullHandling](../../reference/configuration-reference/schema.md#Schema) in the schema.
+2. Disable  [enableColumnBasedNullHandling](../../reference/configuration-reference/schema.md#schema-configuration) in the schema.
 
 {% hint style="warning" %}
 Remember `nullHandlingEnabled` table configuration enables table based null handling while `enableNullHandling` is the query option that enables advanced null handling at query time. See [advanced null handling support](null-value-support.md#advanced-null-handling-support) for more information.
@@ -202,7 +202,7 @@ Given that neither `count` or `mode` function will ignore `null` values as expec
 Advanced null handling has two requirements:
 
 1. Segments must store null values (see [storing nulls at ingestion time](null-value-support.md#store-nulls-at-ingestion-time)).
-2. The query must enable null handling by setting the `enableNullHandling` [query option](query-execution-controls/query-options.md#enable-null-handling) to `true`.
+2. The query must enable null handling by setting the `enableNullHandling` [query option](query-execution-controls/query-options.md#supported-query-options) to `true`.
 
 The later can be done in one of the following ways:
 

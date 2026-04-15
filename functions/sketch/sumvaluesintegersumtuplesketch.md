@@ -18,7 +18,7 @@ The [Tuple Sketch](https://datasketches.apache.org/docs/Tuple/TupleOverview.html
    * `nominalEntries`: The nominal entries used to create the sketch. (Default 65536)
    * `accumulatorThreshold`: How many sketches should be kept in memory before merging. (Default 2)
 
-These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch).  A new Tuple Sketch metric called `playerHomeRuns` was created during ingestion by updating the ingestion config as follows:
+These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).  A new Tuple Sketch metric called `playerHomeRuns` was created during ingestion by updating the ingestion config as follows:
 
 ```json
 	"ingestionConfig": {

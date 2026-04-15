@@ -32,7 +32,7 @@ The broker merges results from both these queries before returning the result to
 
 ## Starting a broker
 
-Make sure you've [set up Zookeeper](./#setup-a-pinot-cluster). If you're using Docker, make sure to [pull the ](./#setup-a-pinot-cluster)[Pinot Docker image](./#setup-a-pinot-cluster). To start a broker:
+Make sure you've [set up Zookeeper](./#set-up-a-pinot-cluster). If you're using Docker, make sure to [pull the ](./#set-up-a-pinot-cluster)[Pinot Docker image](./#set-up-a-pinot-cluster). To start a broker:
 
 {% tabs %}
 {% tab title="Docker Image" %}

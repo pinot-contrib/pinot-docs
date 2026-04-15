@@ -29,8 +29,8 @@ Once the table is configured, we can load some data. Loading data involves gener
 
 #### **Prerequisites**
 
-1. [Set up a cluster](../../cluster/#setup-a-pinot-cluster)
-2. [Create broker and server tenants](../../cluster/tenant.md#creating-a-tenant)
+1. [Set up a cluster](../../cluster/#set-up-a-pinot-cluster)
+2. [Create broker and server tenants](../../cluster/tenant.md#create-a-tenant)
 3. [Create an offline table](../#offline-table-creation)
 
 Below are instructions to generate and push segments to Pinot via standalone scripts. For a production setup, you should use frameworks such as Hadoop or Spark. For more details on setting up data ingestion jobs, see [Import Data.](../../../../build-with-pinot/ingestion)
@@ -185,8 +185,8 @@ This ingestion job only generates segments for date `2014-01-03`
 
 **Prerequisites**
 
-1. [Set up a cluster](../../cluster/#setup-a-pinot-cluster)
-2. [Create broker and server tenants](../../cluster/tenant.md#creating-a-tenant)
+1. [Set up a cluster](../../cluster/#set-up-a-pinot-cluster)
+2. [Create broker and server tenants](../../cluster/tenant.md#create-a-tenant)
 3. [Create a real-time table and set up a real-time stream](../#streaming-table-creation)
 
 Below is an example of how to publish sample data to your stream. As soon as data is available to the real-time stream, it starts getting consumed by the real-time servers.
