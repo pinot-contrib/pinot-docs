@@ -73,16 +73,15 @@ frame_end:
 
 You can jump to the [examples](#examples-of-windows-functions) section to see more concrete use cases of window functions in Pinot.
 
-### Type-specific aggregators for precision
+### Precision handling
 
-As of Pinot 1.3.0, window functions leverage type-specific aggregators in the multi-stage query engine to preserve numerical precision:
+Window aggregate functions (`SUM`, `MIN`, `MAX`) in the multi-stage query engine respect the column's data type, so results preserve the precision of the underlying column:
 
-- **SUM aggregation** uses `SumLongWindowValueAggregator` for INT and LONG columns to avoid precision loss when summing large long values (> 2^53). Previously, all numeric columns used DOUBLE which could lose precision for large integers.
-- **SUM aggregation** uses `SumBigDecimalWindowValueAggregator` for BIG_DECIMAL columns to preserve full decimal precision.
-- **MIN/MAX aggregations** use primitive-based aggregators for INT and LONG types via fastutil queues for better performance.
-- **MIN/MAX aggregations** use `MinComparable` and `MaxComparable` aggregators as fallbacks for types like BIG_DECIMAL to maintain proper type semantics.
-
-This ensures that window aggregations maintain numerical accuracy across all supported data types instead of losing precision through DOUBLE conversion.
+| Column type | Behavior |
+|-------------|----------|
+| `INT` / `LONG` | `SUM` returns a `LONG`, avoiding the precision loss that occurs when large values (> 2^53) are cast to `DOUBLE`. `MIN` / `MAX` use primitive comparisons. |
+| `BIG_DECIMAL` | `SUM`, `MIN`, and `MAX` operate on `BIG_DECIMAL` values directly, preserving full decimal precision. |
+| `FLOAT` / `DOUBLE` | `SUM` returns a `DOUBLE` (unchanged from earlier behavior). |
 
 ### Example window function query layout
 
