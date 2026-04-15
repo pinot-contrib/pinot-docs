@@ -15,6 +15,7 @@ Pinot security is organized into three independent layers that can be adopted in
 | **Authentication** | Verifies the identity of users and services | HTTP Basic Auth (static config or ZooKeeper-managed) |
 | **Authorization / ACLs** | Controls what each principal can do | Per-table and per-operation permissions, Row-Level Security (RLS) |
 | **Transport encryption (TLS)** | Protects data in transit between clients, brokers, servers, and controllers | 1-way or 2-way (mutual) TLS |
+| **Audit logging** | Records who accessed what and when across controller and broker APIs | ndjson audit log with configurable URL filtering, identity resolution, and request/response capture |
 
 ## Authentication models
 
@@ -76,6 +77,7 @@ For a step-by-step walkthrough covering endpoint exposure, mTLS, ZooKeeper auth,
 | [Basic Auth Access Control](authentication/basic-auth-access-control.md) | Step-by-step setup of static Basic Auth for controller, broker, server, and minion |
 | [ZK Basic Auth Access Control](authentication/zkbasicauthaccesscontrol.md) | ZooKeeper-managed Basic Auth with hot deployment and bcrypt encryption |
 | [Configuring TLS/SSL](configuring-tls-ssl.md) | Listener configuration, zero-downtime TLS migration, and 2-way TLS setup |
+| [Audit Logging](audit-logging.md) | REST API audit trail with configurable identity resolution, URL filtering, and ndjson log output |
 
 ## Next step
 

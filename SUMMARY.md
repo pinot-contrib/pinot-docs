@@ -479,6 +479,7 @@
     * [Basic Auth Access Control](operate-pinot/authentication/basic-auth-access-control.md)
     * [ZkBasicAuthAccessControl](operate-pinot/authentication/zkbasicauthaccesscontrol.md)
   * [Configuring TLS/SSL](operate-pinot/configuring-tls-ssl.md)
+  * [Audit Logging](operate-pinot/audit-logging.md)
 * [Monitoring](operate-pinot/monitoring.md)
   * [Metrics and Monitoring](operate-pinot/metrics-and-monitoring.md)
   * [Continuous Java Flight Recorder (JFR)](operate-pinot/continuous-jfr.md)
