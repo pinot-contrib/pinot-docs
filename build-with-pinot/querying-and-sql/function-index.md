@@ -432,9 +432,9 @@ Window functions require the [multi-stage engine (MSE)](../../reference/configur
 
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
-| `ROW_NUMBER` | `ROW_NUMBER() OVER (...)` | LONG | Sequential row number within partition | MSE |
-| `RANK` | `RANK() OVER (...)` | LONG | Rank with gaps for ties | MSE |
-| `DENSE_RANK` | `DENSE_RANK() OVER (...)` | LONG | Rank without gaps for ties | MSE |
+| [`ROW_NUMBER`](../../functions/window/row_number.md) | `ROW_NUMBER() OVER (...)` | LONG | Sequential row number within partition | MSE |
+| [`RANK`](../../functions/window/rank.md) | `RANK() OVER (...)` | LONG | Rank with gaps for ties | MSE |
+| [`DENSE_RANK`](../../functions/window/dense_rank.md) | `DENSE_RANK() OVER (...)` | LONG | Rank without gaps for ties | MSE |
 | `LAG` | `LAG(col [, offset [, default]]) OVER (...)` | varies | Value from a preceding row | MSE |
 | `LEAD` | `LEAD(col [, offset [, default]]) OVER (...)` | varies | Value from a following row | MSE |
 | `FIRST_VALUE` | `FIRST_VALUE(col) OVER (...)` | varies | First value in the window frame | MSE |

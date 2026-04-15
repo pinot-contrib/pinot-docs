@@ -150,9 +150,9 @@ Supported window functions are listed in the following table.
 | [LAG](../../functions/aggregation/lag.md) | The `LAG` function provides access to a previous row within the same result set, without the need for a self-join. | `LAG(column_name, offset, default_value)` |  |
 | [FIRST_VALUE](../../functions/aggregation/first_value.md) | The `FIRST_VALUE` function returns the value from the first row in the window. | `FIRST_VALUE(salary)` |  |
 | [LAST_VALUE](../../functions/aggregation/last_value.md) | The `LAST_VALUE` function returns the value from the last row in the window | `LAST_VALUE(salary)` |  |
-| [ROW_NUMBER](../math/round.md) | Returns the number of the current row within its partition, counting from 1. | `ROW_NUMBER()` |  |
-| RANK | Returns the rank of the current row, with gaps - i.e., the `row_number` of the first row in its peer group. | `RANK()` |  |
-| DENSE_RANK | Returns the rank of the current row, without gaps. | `DENSE_RANK()` |  |
+| [ROW_NUMBER](row_number.md) | Returns the number of the current row within its partition, counting from 1. | `ROW_NUMBER()` |  |
+| [RANK](rank.md) | Returns the rank of the current row, with gaps - i.e., the `row_number` of the first row in its peer group. | `RANK()` |  |
+| [DENSE_RANK](dense_rank.md) | Returns the rank of the current row, without gaps. | `DENSE_RANK()` |  |
 
 Note that no window frame clause can be specified for `ROW_NUMBER`, `RANK`, and `DENSE_RANK` window functions since they're applied on the entire partition by definition. Similarly, no window frame clause can be specified for `LAG` and `LEAD` since the row `offset` is an input to those functions themselves.
 

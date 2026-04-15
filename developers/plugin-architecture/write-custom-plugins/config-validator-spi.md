@@ -212,4 +212,4 @@ Validation failures return HTTP 400 with the exception message in the response b
 ## See Also
 
 - [Plugin Architecture Overview](README.md)
-- [Pinot Configuration Reference](../../configuration/)
+- [Pinot Configuration Reference](../../../reference/configuration-reference/README.md)
