@@ -62,6 +62,56 @@ Typical response:
 
 The `status` field is a JSON string keyed by table name. Each table entry includes the submitted `reloadJobId`, the number of reload messages sent to servers, and whether Pinot successfully persisted job metadata in ZooKeeper.
 
+### Reload segments in a time range
+
+To reload only segments whose time column falls within a specified time window, use the optional `startTimestamp` and `endTimestamp` query parameters:
+
+```
+POST /segments/{tableName}/reload?startTimestamp=<ms>&endTimestamp=<ms>
+```
+
+This approach is significantly more efficient than reloading the entire table when you only need to reload recent data.
+
+Supported query parameters (in addition to the standard `type`, `forceDownload`, and `targetInstance`):
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `startTimestamp` | long | Start of the time window in milliseconds since epoch (inclusive). Segments are selected if their time range overlaps with `[startTimestamp, endTimestamp)`. |
+| `endTimestamp` | long | End of the time window in milliseconds since epoch (exclusive). |
+| `excludeOverlapping` | boolean | When `true`, only reload segments whose time range is fully contained within `[startTimestamp, endTimestamp)`. When `false` (default), also reload segments that partially overlap the window. |
+
+**Prerequisites:**
+- The table must have a time column defined in its table configuration.
+- Segments without time metadata will not match a time window and will not be reloaded.
+
+**Examples:**
+
+Reload segments in a one-month window:
+
+```bash
+curl -X POST "http://localhost:9000/segments/baseballStats/reload?startTimestamp=1740787200000&endTimestamp=1743465600000" \
+  -H "accept: application/json"
+```
+
+Reload only segments fully contained within the window (no partial overlaps):
+
+```bash
+curl -X POST "http://localhost:9000/segments/baseballStats/reload?startTimestamp=1740787200000&endTimestamp=1743465600000&excludeOverlapping=true" \
+  -H "accept: application/json"
+```
+
+Combine with other parameters (e.g., force download and target a specific instance):
+
+```bash
+curl -X POST "http://localhost:9000/segments/baseballStats/reload?type=OFFLINE&forceDownload=true&startTimestamp=1740787200000&endTimestamp=1743465600000" \
+  -H "accept: application/json"
+```
+
+Time-range filtering is supported on both the table-level endpoint (`POST /segments/{tableName}/reload`) and the segment-level endpoint (`POST /segments/{tableName}/{segmentName}/reload`).
+
+Added in Pinot 1.6.
+
+
 ### Reload one segment
 
 To reload a single segment from a table, use:
