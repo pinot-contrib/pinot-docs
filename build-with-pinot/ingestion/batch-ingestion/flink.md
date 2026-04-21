@@ -4,9 +4,14 @@ description: Batch ingestion of data into Apache Pinot using Apache Flink.
 
 # Flink
 
-Apache Pinot supports using Apache Flink as a processing framework to generate and upload segments. The Pinot distribution includes a [PinotSinkFunction](https://github.com/apache/pinot/blob/master/pinot-connectors/pinot-flink-connector/src/main/java/org/apache/pinot/connector/flink/sink/PinotSinkFunction.java) that can be integrated into Flink applications (streaming or batch) to directly write data as segments into Pinot tables.
+Apache Pinot supports using Apache Flink as a processing framework to generate and upload segments. The Pinot distribution includes a [PinotSink](https://github.com/apache/pinot/blob/master/pinot-connectors/pinot-flink-connector/src/main/java/org/apache/pinot/connector/flink/sink/PinotSink.java) that can be integrated into Flink applications (streaming or batch) to directly write data as segments into Pinot tables.
 
-The `PinotSinkFunction` supports offline tables, realtime tables, and upsert tables (full upsert only). Data is buffered in memory and flushed as segments when the configured threshold is reached, then uploaded to the Pinot cluster.
+The `PinotSink` supports offline tables, realtime tables, and upsert tables (full upsert only). Data is buffered in memory and flushed as segments when the configured threshold is reached, then uploaded to the Pinot cluster.
+
+## Requirements
+
+* **Flink 2.2.0 or later** – Uses the new Flink 2.x `Sink` API. Java 21 support is included.
+* **Java 11+** – Flink 2.x requires a minimum of Java 11.
 
 ## Maven Dependency
 
@@ -16,16 +21,16 @@ To use the Pinot Flink Connector in your Flink job, add the following dependency
 <dependency>
   <groupId>org.apache.pinot</groupId>
   <artifactId>pinot-flink-connector</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>${pinot.version}</version>
 </dependency>
 ```
 
-Replace `1.5.0-SNAPSHOT` with the Pinot version you're using. For the latest stable version, check the [Apache Pinot releases](https://pinot.apache.org/download/).
+Replace `${pinot.version}` with the Pinot version you're using. For the latest stable version, check the [Apache Pinot releases](https://pinot.apache.org/download/).
 
 **Note**: The connector transitively includes dependencies for:
 - `pinot-controller` - For controller client APIs
 - `pinot-segment-writer-file-based` - For segment generation
-- `flink-streaming-java` and `flink-java` - Flink core dependencies
+- `flink-streaming-java` - Flink 2.x core dependency
 
 ## Offline Table Ingestion
 
@@ -41,7 +46,7 @@ RowTypeInfo typeInfo = new RowTypeInfo(
     new TypeInformation[]{Types.FLOAT, Types.FLOAT, Types.STRING, Types.STRING},
     new String[]{"lon", "lat", "address", "name"});
 
-DataStream<Row> srcRows = execEnv.addSource(new FlinkKafkaConsumer<Row>(...));
+DataStream<Row> srcRows = execEnv.fromData(...);
 
 // Create a ControllerRequestClient to fetch Pinot schema and table config
 HttpClient httpClient = HttpClient.getInstance();
@@ -53,8 +58,8 @@ Schema schema = PinotConnectionUtils.getSchema(client, "starbucksStores");
 // Fetch Pinot table config
 TableConfig tableConfig = PinotConnectionUtils.getTableConfig(client, "starbucksStores", "OFFLINE");
 
-// Create Flink Pinot Sink
-srcRows.addSink(new PinotSinkFunction<>(
+// Create Flink Pinot Sink (Flink 2.x API)
+srcRows.sinkTo(new PinotSink<>(
     new FlinkRowGenericRowConverter(typeInfo),
     tableConfig,
     schema));
@@ -63,7 +68,7 @@ execEnv.execute();
 
 ### Table Configuration
 
-The `PinotSinkFunction` uses the TableConfig to determine batch ingestion settings for segment generation and upload. Here's an example table configuration:
+The `PinotSink` uses the TableConfig to determine batch ingestion settings for segment generation and upload. Here's an example table configuration:
 
 ```json
 {
@@ -113,7 +118,7 @@ For standard realtime tables without upsert, use the same approach as offline ta
 TableConfig tableConfig = PinotConnectionUtils.getTableConfig(client, "myTable", "REALTIME");
 
 // Same sink configuration
-srcRows.addSink(new PinotSinkFunction<>(
+srcRows.sinkTo(new PinotSink<>(
     new FlinkRowGenericRowConverter(typeInfo),
     tableConfig,
     schema));
@@ -143,7 +148,7 @@ RowTypeInfo typeInfo = new RowTypeInfo(
     new TypeInformation[]{Types.INT, Types.STRING, Types.STRING, Types.FLOAT, Types.LONG, Types.BOOLEAN},
     new String[]{"playerId", "name", "game", "score", "timestampInEpoch", "deleted"});
 
-DataStream<Row> srcRows = execEnv.addSource(new FlinkKafkaConsumer<Row>(...));
+DataStream<Row> srcRows = execEnv.fromData(...);
 
 // Fetch schema and table config (same as offline table example)
 // HttpClient httpClient = HttpClient.getInstance();
@@ -155,7 +160,7 @@ TableConfig tableConfig = PinotConnectionUtils.getTableConfig(client, "myUpsertT
 srcRows.partitionCustom(
     (Partitioner<Integer>) (key, partitions) -> key % partitions,
     r -> (Integer) r.getField("playerId"))  // Primary key field
-  .addSink(new PinotSinkFunction<>(
+  .sinkTo(new PinotSink<>(
       new FlinkRowGenericRowConverter(typeInfo),
       tableConfig,
       schema));
@@ -178,7 +183,7 @@ Each Flink subtask generates segments for a specific partition based on its subt
 You can customize segment generation using additional constructor parameters:
 
 ```java
-new PinotSinkFunction<>(
+new PinotSink<>(
     recordConverter,
     tableConfig,
     schema,
@@ -209,7 +214,7 @@ Control when segments are flushed and uploaded:
 long segmentFlushMaxNumRecords = 1000000; // Flush after 1M records
 int executorPoolSize = 10; // Thread pool size for async uploads
 
-srcRows.addSink(new PinotSinkFunction<>(
+srcRows.sinkTo(new PinotSink<>(
     new FlinkRowGenericRowConverter(typeInfo),
     tableConfig,
     schema,
@@ -228,7 +233,7 @@ Customize segment naming and upload time for better organization:
 String segmentNamePrefix = "flink_job_daily";
 Long segmentUploadTimeMs = 1724045185000L; // Group segments by upload run time
 
-srcRows.addSink(new PinotSinkFunction<>(
+srcRows.sinkTo(new PinotSink<>(
     new FlinkRowGenericRowConverter(typeInfo),
     tableConfig,
     schema,
@@ -239,10 +244,33 @@ srcRows.addSink(new PinotSinkFunction<>(
 ));
 ```
 
+## Migration from Flink 1.x
+
+> **Important:** The connector now requires Flink 2.2.0 or later and Java 11+. The old `PinotSinkFunction` (based on Flink 1.x `SinkFunction` API) is deprecated and does not work with Flink 2.x.
+
+### Old API (Flink 1.x – Deprecated)
+```java
+// This no longer works with Flink 2.x
+srcRows.addSink(new PinotSinkFunction<>(...));
+```
+
+### New API (Flink 2.x – Required)
+```java
+// Use this for Flink 2.2.0 and later
+srcRows.sinkTo(new PinotSink<>(...));
+```
+
+**Key Changes:**
+- Replace `.addSink()` with `.sinkTo()`
+- Replace `PinotSinkFunction` with `PinotSink`
+- Update your Flink version to 2.2.0 or later
+- Java 21 is now supported
+
 ## Additional Resources
 
 * [Design Proposal](https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=177045634) - Original design motivation
 * [PR #13107](https://github.com/apache/pinot/pull/13107) - Externally partitioned segments for upsert tables
 * [PR #13837](https://github.com/apache/pinot/pull/13837) - Flink connector enhancements for upsert backfill
+* [PR #18250](https://github.com/apache/pinot/pull/18250) - Flink 2.2.0 upgrade
 * [Table Configuration Reference](../../../reference/configuration-reference/table.md)
 * [Schema Configuration Reference](../../../reference/configuration-reference/schema.md)
