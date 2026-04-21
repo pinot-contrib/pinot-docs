@@ -138,6 +138,8 @@ For our sample data and schema, the table config will look like this:
 
 ### Example `ingestionConfig` with multiple stream configs
 
+> **⚠️ Important Bug Fix**: A few issues were identified in the previous implementation, which have been fixed via [PR #17953](https://github.com/apache/pinot/pull/17953) and [PR #17217](https://github.com/apache/pinot/pull/17217). These fixes are not present in Pinot 1.4.0. If you plan to use this feature, make sure to cherry-pick these PRs or use Pinot 1.5.0 release.
+
 Pinot allows `streamConfigMaps` to contain more than one stream config. For the example below, assume the sample data is duplicated to two Kafka topics, `transcript-topic1` and `transcript-topic2`, and the table should ingest from both topics:
 
 ```json
