@@ -89,6 +89,36 @@ Returns resource usage of a thread and the queryId of the task.
 ]
 ```
 
+### OOM Pause Mechanism (Before Kill)
+
+Before resorting to query killing when heap transitions to critical level, Pinot can pause all query execution threads to give the JVM a chance to reclaim memory through garbage collection. This pause mechanism is useful for workloads that experience occasional memory spikes.
+
+When heap usage exceeds the critical threshold:
+1. All query execution threads are paused for a configurable timeout window.
+2. `System.gc()` is called once to encourage memory reclamation.
+3. If heap recovers below critical level during the pause, threads resume and no queries are killed.
+4. If heap remains critical after the timeout, the existing kill-most-expensive-query logic proceeds.
+
+**Off by default.** This feature is disabled by default and can be dynamically toggled via cluster config without restarting.
+
+Enable with:
+
+```
+# Enable pause before kill mechanism
+accounting.oom.critical.query.pause.enabled=true
+# How long to pause (in milliseconds)
+accounting.oom.critical.query.pause.timeout.ms=1000
+```
+
+Per-role overrides are also supported:
+
+```
+pinot.broker.query.accounting.oom.critical.query.pause.enabled=true
+pinot.broker.query.accounting.oom.critical.query.pause.timeout.ms=1000
+pinot.server.query.accounting.oom.critical.query.pause.enabled=true
+pinot.server.query.accounting.oom.critical.query.pause.timeout.ms=1000
+```
+
 ### Enable Query Killing Mechanism
 
 The statistics framework also starts a watcher task. The watcher task takes decisions on killing queries.&#x20;
@@ -162,6 +192,8 @@ Here are the configurations that can be commonly applied to server/broker:
 | pinot.query.scheduler.accounting.publishing.jvm.heap.usage | false | Whether the framework periodically publishes the heap usage to Pinot metrics. |
 | pinot.query.scheduler.accounting.oom.panic.heap.usage.ratio | 0.99 | When the heap usage exceeds this ratio, the frame work will kill all the queries. This can be set to be >1 to prevent a full killing from happening. |
 | pinot.query.scheduler.accounting.oom.critical.heap.usage.ratio | 0.96 | When the heap usage exceeds this ratio, the frame work will kill the most expensive query. |
+| accounting.oom.critical.query.pause.enabled | false | Enable pausing query threads before killing when heap reaches critical level. |
+| accounting.oom.critical.query.pause.timeout.ms | 1000 | Duration (in milliseconds) to pause query threads before proceeding with kill logic. |
 | pinot.query.scheduler.accounting.oom.alarming.usage.ratio | 0.75 | When the heap usage exceeds this ratio, the framework will run more frequently to gather stats and prepare to kill queries timely. |
 | pinot.query.scheduler.accounting.sleep.ms | 30ms | The periodical task for query killing wakes up every 30ms |
 | pinot.query.scheduler.accounting.sleep.time.denominator | 3 (corresponding to 10ms sleep time at alarming level heap usage) | When the heap usage exceeds this alarming level, the sleep time will be `sleepTime/denominator` |
