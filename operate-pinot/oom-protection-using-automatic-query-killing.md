@@ -164,6 +164,33 @@ pinot.query.scheduler.accounting.oom.alarming.usage.ratio=0.75f (default)
 pinot.query.scheduler.accounting.sleep.time.denominator=3 (Run every 30/3=10ms)
 ```
 
+
+### Role-Specific Accounting Configuration
+
+As of Pinot 1.6.0, you can configure accounting settings independently for brokers and servers using role-specific config prefixes. This allows fine-tuned control over OOM protection and query budgets per component.
+
+**Configuration Prefixes:**
+
+1. **Broker-specific:** `pinot.broker.query.accounting.*`
+2. **Server-specific:** `pinot.server.query.accounting.*`
+3. **Legacy (still supported):** `pinot.query.scheduler.accounting.*`
+
+**Precedence:** Role-specific values override the legacy prefix on their respective roles.
+
+**Example:**
+
+```
+# Legacy (still supported, applies to both broker and server unless overridden)
+pinot.query.scheduler.accounting.oom.enable.killing.query=true
+
+# Override for broker only
+pinot.broker.query.accounting.oom.enable.killing.query=false
+
+# Override for server only
+pinot.server.query.accounting.oom.enable.killing.query=false
+```
+
+**Deprecation Note:** The legacy prefix `pinot.query.scheduler.accounting.*` is marked for removal in a future release after 1.6.0. While still fully functional, new deployments should prefer role-specific prefixes for better configurability.
 #### Configuration to control which queries are chosen as victims
 
 In panic mode, all queries are killed.
