@@ -18,6 +18,12 @@ There are a couple of scenarios where segments in offline tables won't be purged
 * If the segment doesn't have an end time. This would happen if the segment doesn't contain a time column.
 * If the segment's table has a `segmentIngestionType` of `REFRESH`.
 
+## Handling segments with invalid end times
+
+By default, when a segment's end time is invalid or missing, the retention manager skips it entirely, and the segment is never deleted regardless of the retention policy. To enable automatic cleanup of such segments, you can enable the creation time fallback by setting `controller.retentionManager.enableCreationTimeFallback` to `true` in the cluster configuration. When enabled, the retention manager will use the segment's creation time (`segmentZKMetadata.getCreationTime()`) as a fallback if the end time is invalid.
+
+This configuration is **dynamic** and does not require a controller restart to take effect. It can be updated through the cluster config change listener.
+
 If the retention period isn't specified, segments aren't purged from tables.
 
 The retention manager initially moves these segments into a _Deleted Segments_ area, from where they will eventually be permanently removed. The duration that deleted segments are kept is controlled by the `controller.deleted.segments.retentionInDays` configuration (default: 7 days).
