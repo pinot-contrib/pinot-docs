@@ -6,7 +6,14 @@ description: >-
 
 # Flink Connector
 
-The Pinot Flink Connector provides a `PinotSinkFunction` that plugs into any Flink streaming or batch job to generate Pinot segments in-process and upload them directly to the cluster. It supports offline tables, realtime tables, and full-upsert tables.
+The Pinot Flink Connector provides a `PinotSink` that plugs into any Flink streaming or batch job to generate Pinot segments in-process and upload them directly to the cluster. It supports offline tables, realtime tables, and full-upsert tables.
+
+## Requirements
+
+* **Flink 2.2.0 or later** – The connector requires Flink 2.x and supports Java 21.
+* **Java 11+** – Prior versions: Java 8 support ended with Flink 1.x.
+
+> **Note:** If you're using Flink 1.x, use Pinot version 1.5.0 or earlier. Pinot 1.6.0+ requires Flink 2.x.
 
 ## Use Cases
 
@@ -37,7 +44,7 @@ The Pinot Flink Connector provides a `PinotSinkFunction` that plugs into any Fli
 
 Replace `${pinot.version}` with your Pinot release version. Check [Apache Pinot releases](https://pinot.apache.org/download/) for the latest stable version.
 
-The artifact is published to the Apache Maven repository and transitively includes the Pinot controller client, segment writer, and Flink core dependencies.
+The artifact is published to the Apache Maven repository and transitively includes the Pinot controller client, segment writer, and Flink 2.x core dependencies.
 
 ## Quick Example
 
@@ -45,7 +52,7 @@ The artifact is published to the Apache Maven repository and transitively includ
 StreamExecutionEnvironment execEnv = StreamExecutionEnvironment.getExecutionEnvironment();
 execEnv.setParallelism(2);
 
-DataStream<Row> srcRows = execEnv.addSource(new FlinkKafkaConsumer<Row>(...));
+DataStream<Row> srcRows = execEnv.fromData(...);
 
 HttpClient httpClient = HttpClient.getInstance();
 ControllerRequestClient client = new ControllerRequestClient(
@@ -54,7 +61,7 @@ ControllerRequestClient client = new ControllerRequestClient(
 Schema schema = PinotConnectionUtils.getSchema(client, "myTable");
 TableConfig tableConfig = PinotConnectionUtils.getTableConfig(client, "myTable", "OFFLINE");
 
-srcRows.addSink(new PinotSinkFunction<>(
+srcRows.sinkTo(new PinotSink<>(
     new FlinkRowGenericRowConverter(typeInfo),
     tableConfig,
     schema));
@@ -64,6 +71,24 @@ execEnv.execute();
 ## Full Configuration Reference
 
 For complete configuration details, including upsert partitioning requirements, segment flush control, segment naming, and realtime table support, see the [Flink batch ingestion reference](../ingestion/batch-ingestion/flink.md).
+
+## Migration from Flink 1.x
+
+> **Deprecated:** The legacy `PinotSinkFunction` (based on Flink 1.x `SinkFunction` API) is deprecated and no longer functional with Flink 2.x. Update your code to use `PinotSink` and the `sinkTo()` API.
+
+### Old API (Flink 1.x – no longer supported)
+```java
+// This code no longer works on Flink 2.x
+srcRows.addSink(new PinotSinkFunction<>(...));
+```
+
+### New API (Flink 2.x)
+```java
+// Use this for Flink 2.2.0 and later
+srcRows.sinkTo(new PinotSink<>(...));
+```
+
+For help migrating, refer to the updated [Flink batch ingestion examples](../ingestion/batch-ingestion/flink.md).
 
 ## Additional Resources
 
