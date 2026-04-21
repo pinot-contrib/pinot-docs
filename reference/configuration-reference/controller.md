@@ -163,12 +163,13 @@ When `controller.realtime.segment.partialOfflineReplicaRepairEnabled` is enabled
 
 This task manages retention of segments for all tables. During the run, it looks at the `retentionTimeUnit` and `retentionTimeValue` inside the `segmentsConfig` of every table, and deletes segments which are older than the retention. The deleted segments are moved to a DeletedSegments folder colocated with the dataDir on segment store, and permanently deleted from that folder in a configurable number of days.
 
-| Config | Default Value |
-| --- | --- |
-| controller.retention.frequencyPeriod | 6h |
-| controller.retentionManager.initialDelayInSeconds | between 2m-5m |
-| controller.deleted.segments.retentionInDays | 7d |
-| controller.enable.hybrid.table.retention.strategy | false |
+| Config | Default Value | Description |
+| --- | --- | --- |
+| controller.retention.frequencyPeriod | 6h | Frequency at which the retention manager runs |
+| controller.retentionManager.initialDelayInSeconds | between 2m-5m | Randomized initial delay before first retention manager run |
+| controller.retentionManager.enableCreationTimeFallback | false | If true, use segment creation time as fallback when end time is invalid/missing, enabling cleanup of such segments; dynamic config, no restart needed |
+| controller.deleted.segments.retentionInDays | 7d | Duration for which to retain deleted segments |
+| controller.enable.hybrid.table.retention.strategy | false | If true, use hybrid retention strategy for hybrid tables |
 
 If `controller.enable.hybrid.table.retention.strategy` is set to true, the retention manager will use the hybrid 
 retention strategy. In this strategy, the retention manager calculates a time boundary by looking at the maximum end
