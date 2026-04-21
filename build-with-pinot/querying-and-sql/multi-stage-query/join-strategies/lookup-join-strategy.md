@@ -21,3 +21,16 @@ JOIN B -- this must be a dimension table
 ON A.col2 = B.joinKey -- B.joinKey must be the primary key of B
 ```
 
+
+## Physical Optimizer Support
+
+As of Pinot 1.6.0, lookup joins are now supported by the V2 physical optimizer. Previously, attempting to use lookup join with the physical optimizer would fail with "Right input must be leaf operator" because the optimizer would insert a BROADCAST_EXCHANGE on the dimension table, splitting it into a separate fragment incompatible with LookupJoinOperator.
+
+When using lookup joins with the V2 physical optimizer:
+* The dimension table remains as a `LeafOperator` in the same fragment as the join
+* The EXPLAIN plan will show a `LOOKUP_LOCAL_EXCHANGE` pseudo-exchange on the dimension table side
+* This pseudo-exchange does not cause data to be split into a separate fragment; it is purely for plan representation
+
+**Current limitations:**
+* Lookup joins in MSE lite mode are not yet supported
+* Auto-detection of lookup joins based on dimension table + primary key join conditions is not yet implemented
