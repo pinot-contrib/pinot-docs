@@ -228,3 +228,14 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | TASK_QUEUEING | Time spent by tasks in queue |  |
 | TASK_EXECUTION | Time spent by tasks in execution |  |
 | STARTUP_SUCCESS_DURATION_MS | Time spent starting the minion when startup completes successfully |  |
+
+#### Adaptive Server Routing Metrics (Multi-stage)
+
+When `pinot.broker.adaptive.server.selector.enable.stats.collection=true`, the following per-server adaptive routing metrics are emitted (disabled by default to avoid cardinality concerns). Metric names take the form `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>`.
+
+| Metric Name | Description | Metric Type |
+| --- | --- | --- |
+| adaptiveServerNumInFlightRequests | Number of in-flight requests to a specific server | Gauge |
+| adaptiveServerLatencyEma | Exponential moving average of latency (ms) for a specific server | Gauge |
+| adaptiveServerHybridScore | Hybrid score for a specific server (combines in-flight requests and latency) | Gauge |
+
