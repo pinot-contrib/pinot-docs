@@ -238,18 +238,18 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 
 #### Adaptive Server Routing Metrics
 
-Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive.server.selector.enable.stats.collection=true`. These stats can be exported as broker metrics by enabling `pinot.broker.adaptive.server.selector.enable.stats.metric.export=true` (disabled by default to avoid cardinality concerns). Pinot exports the SSE metrics as `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>` and the MSE in-flight gauge as `pinot.broker.adaptiveServerMseNumInFlightRequests.<tenant>.<server>`.
+Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive.server.selector.enable.stats.collection=true`. With stats collection enabled, Pinot can export those stats as broker metrics by enabling `pinot.broker.adaptive.server.selector.enable.stats.metric.export=true` (disabled by default to avoid cardinality concerns). Pinot exports the SSE metrics as `pinot.broker.adaptiveServer<MetricName>.server.<instance>` and the MSE in-flight gauge as `pinot.broker.adaptiveServerMseNumInFlightRequests.server.<instance>`.
 
 **Configuration:**
-- `pinot.broker.adaptive.server.selector.enable.stats.collection`: Enable/disable stats collection (default: `false`)
-- `pinot.broker.adaptive.server.selector.enable.stats.metric.export`: Enable/disable exporting stats as broker metrics (default: `false`)
-- `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms`: Interval in milliseconds for metric export (default: `10000`)
+- `pinot.broker.adaptive.server.selector.enable.stats.collection`: Enable or disable stats collection (default: `false`). Pinot reads this at broker startup.
+- `pinot.broker.adaptive.server.selector.enable.stats.metric.export`: Enable or disable exporting stats as broker metrics (default: `false`). With stats collection enabled, cluster config can toggle this at runtime; setting it to `false` removes the exported single-stage gauges.
+- `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms`: Interval in milliseconds for metric export (default: `10000`). With stats collection enabled, cluster config can change this at runtime; invalid or non-positive live updates are ignored.
 
-**Hybrid Score Calculation:** The hybrid score is computed as `(numInFlightRequests + inFlightRequestsEMA)^exponent * latencyMsEMA`, where the exponent defaults to 3.
+**Hybrid Score Calculation:** The hybrid score is computed as `(queueSizeFloor + numInFlightRequests + inFlightRequestsEMA)^exponent * latencyMsEMA`, where the exponent defaults to 3 and `queueSizeFloor` defaults to `0`.
 
 | Metric Name | Description | Metric Type |
 | --- | --- | --- |
 | adaptiveServerNumInFlightRequests | Number of in-flight requests to a specific server | Gauge |
 | adaptiveServerLatencyEma | Exponential moving average of latency (ms) for a specific server | Gauge |
 | adaptiveServerHybridScore | Hybrid score for a specific server (combines in-flight requests and latency) | Gauge |
-| adaptiveServerMseNumInFlightRequests | Number of in-flight multi-stage requests to a specific server | Gauge |
+| adaptiveServerMseNumInFlightRequests | Number of in-flight multi-stage requests to a specific server. Pinot currently exports only this MSE adaptive-routing gauge; MSE latency and hybrid-score gauges are not emitted yet. | Gauge |

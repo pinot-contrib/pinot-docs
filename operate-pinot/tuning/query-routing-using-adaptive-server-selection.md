@@ -69,14 +69,33 @@ Prefix all the below properties with  `pinot.broker.adaptive.server.selector.`
 
 ### Monitoring Adaptive Routing with Metrics
 
-When adaptive server selection stats collection is enabled, operators can monitor the health and behavior of adaptive routing in production using broker metrics exported to Prometheus/Grafana.
+When adaptive server selection stats collection is enabled, operators can monitor the health and behavior of adaptive routing in production using broker metrics exported to Prometheus or Grafana. Metric export is an optional layer on top of stats collection and stays disabled by default to avoid unexpected metric cardinality.
 
 #### Prerequisites
 
-To enable adaptive routing metrics export:
+1. Enable stats collection in `broker.conf`: `pinot.broker.adaptive.server.selector.enable.stats.collection=true`
+2. Optionally seed default export behavior in `broker.conf`:
+   - `pinot.broker.adaptive.server.selector.enable.stats.metric.export=true`
+   - `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms=10000`
 
-1. Enable stats collection: `pinot.broker.adaptive.server.selector.enable.stats.collection = true`
-2. Enable metrics export: `pinot.broker.adaptive.server.selector.enable.stats.metric.export = true` (disabled by default)
+#### Runtime Controls
+
+After stats collection is enabled, Pinot listens for live cluster-config updates to the metric export flag and export interval. You can set, update, or unset those keys with `pinot-admin.sh ClusterConfig` or the Controller `/cluster/configs` endpoint without restarting brokers.
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  "http://localhost:8998/cluster/configs" \
+  -d '{
+    "pinot.broker.adaptive.server.selector.enable.stats.metric.export": "true",
+    "pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms": "5000"
+  }'
+```
+
+- Setting `pinot.broker.adaptive.server.selector.enable.stats.metric.export=false` stops export immediately and removes the exported single-stage adaptive-routing gauges from the broker metrics registry.
+- Changing `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms` reschedules the periodic export task immediately.
+- Non-numeric, zero, and negative runtime interval updates are ignored.
+- If either cluster-config key is removed, Pinot falls back to the static `broker.conf` value or the built-in default.
 
 #### Available Metrics
 
@@ -87,15 +106,15 @@ Single-stage adaptive routing exports three metrics for each broker × server pa
 | `adaptiveServerNumInFlightRequests` | Gauge | Number of in-flight (pending) requests currently being processed on this server |
 | `adaptiveServerLatencyEma` | Gauge | Exponential moving average of query latency (in milliseconds) observed on this server |
 | `adaptiveServerHybridScore` | Gauge | Combined score balancing in-flight requests and latency to indicate server health; higher scores indicate less healthy servers |
-| `adaptiveServerMseNumInFlightRequests` | Gauge | Number of in-flight multi-stage requests currently being processed on this server. Pinot exports only the MSE in-flight gauge today; MSE latency and hybrid-score series are not emitted yet. |
+| `adaptiveServerMseNumInFlightRequests` | Gauge | Number of in-flight multi-stage requests currently being processed on this server. Pinot currently exports only the MSE in-flight gauge; MSE latency and hybrid-score series are not emitted yet. |
 
 #### Metric Format
 
-Metric names follow the pattern `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>` for SSE metrics and `pinot.broker.adaptiveServerMseNumInFlightRequests.<tenant>.<server>` for the MSE in-flight series.
+Metric names follow the pattern `pinot.broker.adaptiveServer<MetricName>.server.<instance>` for single-stage metrics and `pinot.broker.adaptiveServerMseNumInFlightRequests.server.<instance>` for the MSE in-flight series.
 
 Example: `pinot.broker.adaptiveServerLatencyEma.server.Server_pinotdb1_8098`
 
-This creates one metric per broker × server × tenant combination. The tenant dimension allows filtering by tenant group when configured.
+This creates one metric per broker × server combination.
 
 #### Understanding Hybrid Score
 
@@ -121,10 +140,6 @@ Metric export is **disabled by default** because each (broker × server) pair ge
 
 - Cluster: 10 brokers × 20 servers × 3 metrics = 600 time series
 - Enable only if you have the capacity to store and query these metrics
-
-#### Runtime Toggle Limitation
-
-Currently, toggling metric export on or off requires restarting the brokers. Future work (see [PR #18135](https://github.com/apache/pinot/pull/18135)) will allow dynamic reconfiguration without restart.
 
 #### Configuration Reference
 
