@@ -47,7 +47,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | UNTAR_FAILURES | Number of failures occurred while uncompressing segments |  |
 | SEGMENT_DOWNLOAD_FAILURES | Number of failures occurred while downloading segments from deep store to local |  |
 | DELETED_SEGMENT_COUNT | Number of segments deleted either because of retention policies, explicit delete request etc. |  |
-| QUERIES | Number of queries executed |  |
+| QUERIES | Number of SSE queries executed. See also MSE_QUERIES for MSE. |  |
 | QUERY_EXECUTION_EXCEPTIONS | Number of exceptions encountered during query execution |  |
 | NUM-MISSING-SEGMENTS | Number of missing segments that the broker queried for (expected to be on the server) but the server didn't have. This can be due to retention or stale routing table |  |
 | NO_TABLE_ACCESS | number of query requests for which table access was denied either due to table not being present or access control restrictions. |  |
@@ -72,6 +72,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | MULTI_STAGE_IN_MEMORY_MESSAGES | Global multi-stage server meter counting exchange blocks sent without serialization because the sender and receiver can share them in memory. |  |
 | MULTI_STAGE_RAW_MESSAGES | Global multi-stage server meter counting exchange blocks sent in serialized form between stages. |  |
 | MULTI_STAGE_RAW_BYTES | Global multi-stage server meter counting serialized bytes sent between multi-stage operators. |  |
+| MSE_QUERIES | Number of MSE queries executed. Increments once per `Worker.QueryRequest` regardless of how many stages are packed into the request. See also QUERIES for SSE. |  |
 | WINDOW_TIMES_MAX_ROWS_REACHED | Global multi-stage server meter counting how many window operators hit the configured max-rows guardrail. |  |
 | HASH_JOIN_BUILD_TABLE_CPU_TIME_MS | Global multi-stage server timer for CPU time spent building hash tables during hash joins. |  |
 | MULTI_STAGE_SERIALIZATION_CPU_TIME_MS | Global multi-stage server timer for CPU time spent serializing exchange blocks between stages. |  |
