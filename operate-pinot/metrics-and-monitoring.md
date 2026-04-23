@@ -91,7 +91,8 @@ Servers store segments and execute queries. Monitoring servers helps detect inge
 | `REALTIME_BYTES_CONSUMED` | Meter | Serialized bytes Pinot successfully consumes from a real-time stream. Use it with `REALTIME_ROWS_CONSUMED` to spot abrupt payload-size changes. | Sudden drop or spike vs. baseline |
 | `REALTIME_BYTES_DROPPED` | Meter | Serialized bytes Pinot drops during real-time ingestion because records were filtered out or failed decode, transform, or indexing. | > 0 sustained |
 | `QUERY_EXECUTION_EXCEPTIONS` | Meter | Exceptions during query execution on the server. | > 1% of queries |
-| `QUERIES` | Meter | Query rate hitting this server. | Sudden drop or spike vs. baseline |
+| `QUERIES` | Meter | SSE query rate hitting this server. | Sudden drop or spike vs. baseline |
+| `MSE_QUERIES` | Meter | MSE query rate hitting this server. | Sudden drop or spike vs. baseline |
 | `NUM_MISSING_SEGMENTS` | Meter | Segments the broker expected but the server did not have. | > 0 sustained |
 | `SEGMENT_DOWNLOAD_FAILURES` | Meter | Failures downloading segments from deep store. | > 0 |
 | `RELOAD_FAILURES` | Meter | Failures reloading segments after config changes. | > 0 |
