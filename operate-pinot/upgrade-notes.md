@@ -17,7 +17,25 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Removal of deprecated PinotTaskManager scheduleTasks wrapper methods
+
+The following `@Deprecated(forRemoval = true)` wrapper methods in `PinotTaskManager` have been removed. These methods were deprecated since v1.4.0 (Feb 2025):
+
+- `scheduleAllTasksForAllTables(String)`
+- `scheduleAllTasksForDatabase(String, String)`
+- `scheduleAllTasksForTable(String, String)`
+- `scheduleTaskForAllTables(String, String)`
+- `scheduleTaskForDatabase(String, String, String)`
+- `scheduleTaskForTable(String, String, String)`
+- `protected scheduleTasks(List<String>, boolean, String)`
+- `protected scheduleTask(String, List<String>, String)`
+
+**Action required for plugin authors and custom controllers.** If your custom code or minion plugins call any of these methods, migrate to `scheduleTasks(TaskSchedulingContext)` instead. This is a programmatic API change affecting only direct callers of `PinotTaskManager` methods; the REST API endpoints for task scheduling remain unchanged.
+
+*Source: [PR #18275](https://github.com/apache/pinot/pull/18275)*
+
 ### Removal of deprecated controller configuration constants
+
 
 The following 12 controller configuration constants that were deprecated since v0.8.0 (2020-2021) have been removed:
 
