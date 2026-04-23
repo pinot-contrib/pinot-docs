@@ -16,6 +16,16 @@ Window operators take a single input relation and apply window functions to it. 
 
 In general window operator are expensive in terms of CPU and memory usage, but they open the door to a wide range of analytical queries.
 
+
+## Polymorphic Window Function Aggregators
+
+As of apache/pinot#18169, the multi-stage query engine uses type-aware window function aggregators for improved precision:
+
+- **SUM aggregator**: For INT/LONG types, a specialized aggregator avoids precision loss when summing values beyond 2^53. BIG_DECIMAL SUM preserves full decimal precision.
+- **MIN/MAX aggregators**: Primitive-backed implementations for INT/LONG types use fastutil sliding-window queues for efficient computation.
+
+These optimizations ensure window functions maintain numeric precision across all supported data types.
+
 ### Blocking nature
 
 The window operator is a blocking operator. It needs to consume all the input data before emitting the result.
