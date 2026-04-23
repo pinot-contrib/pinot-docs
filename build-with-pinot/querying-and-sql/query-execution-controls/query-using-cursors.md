@@ -124,4 +124,4 @@ while cursor_id:
 
 ## Related Configuration
 
-See [Pinot Broker Configuration](../../reference/pinot-properties.md#broker) for a complete list of broker properties.
+See [Pinot Broker Configuration](../../../reference/configuration-reference/broker.md) for a complete list of broker properties.
