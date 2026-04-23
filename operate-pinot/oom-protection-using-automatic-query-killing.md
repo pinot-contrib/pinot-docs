@@ -226,6 +226,9 @@ Here are the configurations that can be commonly applied to server/broker:
 | pinot.query.scheduler.accounting.sleep.time.denominator | 3 (corresponding to 10ms sleep time at alarming level heap usage) | When the heap usage exceeds this alarming level, the sleep time will be `sleepTime/denominator` |
 | pinot.query.scheduler.accounting.min.memory.footprint.to.kill.ratio | 0.025 | If a query allocates memory below this ratio of total heap size (Xmx) it will not be killed. This is to prevent aggressive killing when the heap memory is not mainly allocated for queries |
 | pinot.query.scheduler.accounting.cpu.time.based.killing.threshold.ms | 30000ms | If a query's CPU usage (across all threads) is beyond this threshold, it will be killed when CPU based query killing is enabled. |
+| pinot.broker.query.accounting.* | - | Broker-specific accounting config (e.g., `pinot.broker.query.accounting.oom.enable.killing.query`). Takes precedence over legacy prefix on broker. |
+| pinot.server.query.accounting.* | - | Server-specific accounting config (e.g., `pinot.server.query.accounting.oom.enable.killing.query`). Takes precedence over legacy prefix on server. |
+| pinot.query.scheduler.accounting.* | - | **Deprecated (since 1.6.0, for removal).** Legacy prefix still supported for backward compatibility. Use role-specific prefixes instead. |
 
 ## Relevant Metrics
 
