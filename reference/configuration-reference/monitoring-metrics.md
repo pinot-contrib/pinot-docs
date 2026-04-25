@@ -232,11 +232,17 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 
 #### Adaptive Server Routing Metrics (Multi-stage)
 
-When `pinot.broker.adaptive.server.selector.enable.stats.collection=true`, the following per-server adaptive routing metrics are emitted (disabled by default to avoid cardinality concerns). Metric names take the form `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>`.
+Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive.server.selector.enable.stats.collection=true`. These stats can be exported as broker metrics by enabling `pinot.broker.adaptive.server.selector.enable.stats.metric.export=true` (disabled by default to avoid cardinality concerns). When enabled, metrics are emitted in the form `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>`.
+
+**Configuration:**
+- `pinot.broker.adaptive.server.selector.enable.stats.collection`: Enable/disable stats collection (default: `false`)
+- `pinot.broker.adaptive.server.selector.enable.stats.metric.export`: Enable/disable exporting stats as broker metrics (default: `false`)
+- `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms`: Interval in milliseconds for metric export (default: `10000`)
+
+**Hybrid Score Calculation:** The hybrid score is computed as `(numInFlightRequests + inFlightRequestsEMA)^exponent * latencyMsEMA`, where the exponent defaults to 3.
 
 | Metric Name | Description | Metric Type |
 | --- | --- | --- |
 | adaptiveServerNumInFlightRequests | Number of in-flight requests to a specific server | Gauge |
 | adaptiveServerLatencyEma | Exponential moving average of latency (ms) for a specific server | Gauge |
 | adaptiveServerHybridScore | Hybrid score for a specific server (combines in-flight requests and latency) | Gauge |
-
