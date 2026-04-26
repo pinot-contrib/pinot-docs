@@ -176,6 +176,59 @@ These are not bugs or planned improvements. They reflect design boundaries:
 - **Long-running batch aggregations** -- Queries that run for minutes or hours are outside MSE's design point. Set `timeoutMs` to enforce this boundary.
 - **High-concurrency simple queries** -- If the query does not need joins, window functions, or subqueries, SSE is the better choice. It has lower per-query overhead.
 
+## MSE dispatch gRPC keep-alive resilience
+
+MSE relies on gRPC dispatch channels from the broker to intermediate-stage workers on servers. By default, these channels do not have keep-alive configured, which means a server that becomes unreachable or kernel-dead may not be detected immediately. The broker's channel remains in the `READY` state, and the `FailureDetector` may not fire, causing continued routing to the dead server for an extended period.
+
+### Enabling MSE dispatch keep-alive
+
+To improve resilience to silently unreachable servers, configure keep-alive on MSE dispatch channels:
+
+**Broker configuration:**
+
+```properties
+pinot.query.multistage.dispatch.channel.keep.alive.time.seconds=300
+pinot.query.multistage.dispatch.channel.keep.alive.timeout.seconds=30
+pinot.query.multistage.dispatch.channel.keep.alive.without.calls=false
+```
+
+These settings are **enabled by default** with conservative values:
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `pinot.query.multistage.dispatch.channel.keep.alive.time.seconds` | 300 | Interval between keep-alive pings in seconds. Default of 300s (5 minutes) matches the Netty server-side `permitKeepAliveTime` default. |
+| `pinot.query.multistage.dispatch.channel.keep.alive.timeout.seconds` | 30 | ACK timeout for keep-alive pings in seconds. If a ping does not receive an ACK, the channel is considered dead and will reconnect. |
+| `pinot.query.multistage.dispatch.channel.keep.alive.without.calls` | false | Whether to send keep-alive pings while channels are idle. Default `false` respects the Netty server default of forbidding pings without calls. |
+
+### Tuning for faster detection
+
+For production clusters that can tolerate more aggressive keep-alive settings, tune both client and server values downward:
+
+**Broker (client) configuration:**
+
+```properties
+pinot.query.multistage.dispatch.channel.keep.alive.time.seconds=30
+pinot.query.multistage.dispatch.channel.keep.alive.timeout.seconds=10
+pinot.query.multistage.dispatch.channel.keep.alive.without.calls=true
+```
+
+**Server configuration:**
+
+Ensure corresponding server-side permits are configured to allow the client keep-alive settings:
+
+```properties
+pinot.server.grpc.permitKeepAliveTime=30
+pinot.server.grpc.permitKeepAliveWithoutCalls=true
+```
+
+### Important caveats
+
+- **Server-side permits are required:** If the broker's client keep-alive interval is more aggressive than the server's `permitKeepAliveTime`, the server will reject pings with a `GOAWAY(ENHANCE_YOUR_CALM)` error. Ensure server-side permits are configured to allow the broker's keep-alive settings.
+- **Channel failure detection:** MSE intermediate-stage worker selection now respects `FailureDetector` exclusions through `RoutingManager#getRoutableServerInstanceMap()`. Excluded servers are filtered from intermediate-stage worker routing, complementing the keep-alive detection mechanism.
+
+See [Broker Configuration](../../reference/configuration-reference/broker.md) for the full configuration reference.
+
+
 ## Version milestones
 
 MSE has matured steadily since its introduction:
