@@ -287,6 +287,12 @@ docker container ls -a
 
 You should see containers for ZooKeeper, Controller, Broker, Server, and Minion all in a healthy state. Open the Pinot Query Console at [http://localhost:9000](http://localhost:9000) to confirm the cluster is ready.
 
+## Docker image versions
+
+Pinot Docker images are built with **JDK 21** by default. For forward-looking compatibility testing, a **JDK 25** image variant is also available. Previous JDK 11 and JDK 17 image variants are no longer published starting with this release.
+
+If you are running deployments pinned to older JDK 11 or JDK 17 image tags (e.g., `apachepinot/pinot:1.4.0-java-11` or `apachepinot/pinot:1.4.0-java-17`), you must update to the JDK 21 image tag before adopting this release.
+
 ## Next step
 
 Your cluster is running. Continue to [First table and schema](../first-table-and-schema.md) to load data.
