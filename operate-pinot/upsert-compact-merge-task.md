@@ -139,6 +139,7 @@ controller.task.frequencyPeriod=1h
 | maxNumSegmentsPerTask            | Maximum number of segments to merge in a single task. Prevents overly large tasks                                                                                                 | 10                                    |
 | outputSegmentMaxSize             | Maximum size of output segments in bytes. When specified, enables size-based segment merging in addition to record-count-based merging. Accepts formats like '200MB', '1GB', etc. | None (size-based disabled by default) |
 | numSegmentsBatchPerServerRequest | Number of segments to query in one batch when fetching validDocIds from servers                                                                                                   | 500                                   |
+| retentionExpiryBufferPeriod      | **Buffer period to exclude segments nearing retention expiry**. Prevents task generation for segments that are close to being deleted by the RetentionManager, avoiding a race condition where segments may be deleted between task generation (controller) and download (minion). Format: time duration strings like `"1h"`, `"30m"`, `"2d"`. If this buffer is greater than or equal to the table retention, the filter fails open (returns all segments) with a WARN log. | None (no buffer, uses exact retention boundary) |
 
 ### Prerequisites
 
