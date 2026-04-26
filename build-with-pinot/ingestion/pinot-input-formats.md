@@ -160,6 +160,19 @@ For the support of DECIMAL and other parquet native data types, always use `Parq
 | REPEATED             | MULTIVALUE/MAP (represented as MV | if parquet original type is LIST, then it is converted to MULTIVALUE column otherwise a MAP column.                                                 |
 
 For `ParquetAvroRecordReader` , you can refer to the [Avro section above](pinot-input-formats.md#avro) for the type conversions.
+#### LIST and MAP wrapper extraction
+
+Parquet LIST and MAP wrapper structs are now properly unwrapped when ingesting via `ParquetNativeRecordReader` and `ParquetAvroRecordReader`. Previously, schema-identified LIST and MAP columns had their wrapper elements exposed in the data:
+
+- An `array<string>` field previously came back as `[{"element": "abc"}, {"element": "xyz"}]` — now it correctly comes back as `["abc", "xyz"]`.
+- A `map<string,string>` field previously came back as `{"key_value":[{"key":"k","value":"v"}]}` — now it correctly comes back as `{"k":"v"}`.
+
+Real struct fields named `element` are preserved; only schema-identified LIST and MAP wrappers are normalized. The readers support both the standard 3-level Parquet LIST encoding and legacy 2-level encodings (repeated primitive, repeated multi-field group, or repeated single-field group not named `element`).
+
+**Backward incompatibility:** If you have ingestion pipelines or transform expressions that worked around the previous broken shape (for example, selecting `data.element` instead of `data` for an array column), you will need to update those queries and transforms.
+
+**MAP order caveat:** Parquet does not guarantee that MAP entries are returned in any particular order. If you require stable ordering of key-value pairs, use `LIST<STRUCT<key, value>>` instead.
+
 
 ### ORC
 
