@@ -32,6 +32,62 @@ Partitioned Replica-Group Segment Assignment extends the Replica-Group Segment A
 
 ![](../.gitbook/assets/partitioned-segment-assignement.png)
 
+## Round-Robin Segment Assignment
+
+Round-Robin Segment Assignment strategies are designed for use cases where new segments are in high demand. The standard Balanced and Replica-Group strategies assign new segments to instances with the lowest current segment count, which can create hotspots when many new segments are added simultaneously.
+
+Round-Robin Segment Assignment instead cycles through instances in a round-robin order when assigning new segments, ensuring more even distribution of new data across the cluster. This prevents the newly added or less-loaded instances from becoming bottlenecks.
+
+### RoundRobinSegmentAssignmentStrategy
+
+This strategy extends `BalancedNumSegmentAssignmentStrategy` and uses round-robin ordering when assigning new segments. It picks the next `n_replica` instances in round-robin order rather than selecting instances with the fewest segments.
+
+Use this strategy when:
+- New segments are frequently added and have higher query demand than existing segments
+- You want to avoid load concentration on newly added instances or those with lower segment counts
+- Your table uses balanced (non-replica-group) assignment
+
+### RoundRobinReplicaGroupSegmentAssignmentStrategy
+
+This strategy extends `ReplicaGroupSegmentAssignmentStrategy` and applies round-robin ordering within each replica group. It selects the next instance in round-robin order within each replica group when assigning new segments.
+
+Use this strategy when:
+- You use replica-group segment assignment
+- New segments are frequently added with higher query demand
+- You want to distribute new segments evenly across instances within each replica group
+
+### Configuration
+
+To enable round-robin segment assignment in your table config, use the `segmentAssignmentConfigMap`:
+
+```json
+{
+  "segmentAssignmentConfigMap": {
+    "OFFLINE": {
+      "segmentAssignmentStrategy": "roundRobin"
+    }
+  }
+}
+```
+
+For replica-group variant, use:
+
+```json
+{
+  "segmentAssignmentConfigMap": {
+    "OFFLINE": {
+      "segmentAssignmentStrategy": "roundRobinReplicaGroup"
+    }
+  }
+}
+```
+
+### Important Notes
+
+- The round-robin counter is maintained in-memory on each controller instance. With multiple controller instances, segment skew is bounded by the number of controllers (typically a small number, which is acceptable).
+- The initial counter value is randomized across controllers to help reduce skew.
+- Round-robin assignment only applies to new segment assignment (the `assignSegment()` operation). Non-bootstrap rebalancing operations use the same logic as the parent strategy.
+
 ## Configure Segment Assignment
 
 Segment assignment is configured along with the instance assignment, check [Instance Assignment](instance-assignment.md) for details.
