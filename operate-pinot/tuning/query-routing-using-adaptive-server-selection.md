@@ -65,3 +65,71 @@ Prefix all the below properties with  `pinot.broker.adaptive.server.selector.`
 | `autodecay.window.ms` | If the EWMA value has not been updated for a while, the duration after which the value should be decayed | 10000 |
 | `avg.initialization.val` | Initial value for EWMA average | 1.0 |
 | `stats.manager.threadpool.size` | Number of threads reserved to process Adaptive Server Selection Stats. | 2 |
+
+### Monitoring Adaptive Routing with Metrics
+
+When adaptive server selection stats collection is enabled, operators can monitor the health and behavior of adaptive routing in production using broker metrics exported to Prometheus/Grafana.
+
+#### Prerequisites
+
+To enable adaptive routing metrics export:
+
+1. Enable stats collection: `pinot.broker.adaptive.server.selector.enable.stats.collection = true`
+2. Enable metrics export: `pinot.broker.adaptive.server.selector.enable.stats.metric.export = true` (disabled by default)
+
+#### Available Metrics
+
+Three metrics are exported for each broker × server pair:
+
+| Metric Name | Type | Description |
+| --- | --- | --- |
+| `adaptiveServerNumInFlightRequests` | Gauge | Number of in-flight (pending) requests currently being processed on this server |
+| `adaptiveServerLatencyEma` | Gauge | Exponential moving average of query latency (in milliseconds) observed on this server |
+| `adaptiveServerHybridScore` | Gauge | Combined score balancing in-flight requests and latency to indicate server health; higher scores indicate less healthy servers |
+
+#### Metric Format
+
+Metric names follow the pattern: `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>`
+
+Example: `pinot.broker.adaptiveServerLatencyEma.server.Server_pinotdb1_8098`
+
+This creates one metric per broker × server × tenant combination. The tenant dimension allows filtering by tenant group when configured.
+
+#### Understanding Hybrid Score
+
+The hybrid score is computed as:
+
+```
+(numInFlightRequests + inFlightRequestsEMA) ^ exponent * latencyMsEMA
+```
+
+Where the exponent defaults to 3 (configurable via `pinot.broker.adaptive.server.selector.hybrid.score.exponent`).
+
+Key characteristics:
+- **Score of 0**: Server has no in-flight requests and latency is minimal
+- **Rising score**: Indicates either increased in-flight requests or higher latency
+- **Sharp increases**: An unhealthy server with 5+ in-flight requests will have its latency multiplied by approximately `(5+5)^3 = 1000`
+
+This exponential weighting helps the HYBRID routing strategy quickly identify and deprioritize slow or overloaded servers.
+
+#### Cardinality Warning
+
+Metric export is **disabled by default** because each (broker × server) pair generates three metrics. In a large cluster, this could contribute significantly to total metric cardinality. For example:
+
+- Cluster: 10 brokers × 20 servers × 3 metrics = 600 time series
+- Enable only if you have the capacity to store and query these metrics
+
+#### Runtime Toggle Limitation
+
+Currently, toggling metric export on or off requires restarting the brokers. Future work (see [PR #18135](https://github.com/apache/pinot/pull/18135)) will allow dynamic reconfiguration without restart.
+
+#### Configuration Reference
+
+See [Broker Configuration Reference](../../reference/configuration-reference/broker.md) for the complete list of adaptive server selector tuning options:
+
+- `pinot.broker.adaptive.server.selector.enable.stats.collection`
+- `pinot.broker.adaptive.server.selector.enable.stats.metric.export`
+- `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms`
+- `pinot.broker.adaptive.server.selector.hybrid.score.exponent`
+- `pinot.broker.adaptive.server.selector.ewma.alpha`
+- `pinot.broker.adaptive.server.selector.autodecay.window.ms`
