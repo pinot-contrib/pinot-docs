@@ -12,7 +12,7 @@ Select the right installation method for your use case and deploy a Pinot cluste
 
 | Method | Best for | Time | Prerequisites |
 |---|---|---|---|
-| [Local](local.md) | Development, debugging | 10 min | JDK 11+ |
+| [Local](local.md) | Development, debugging | 10 min | JDK 21+ |
 | [Docker](docker.md) | Quick evaluation, CI | 5 min | Docker |
 | [Kubernetes](kubernetes.md) | Staging, production | 15 min | K8s cluster, Helm |
 | [Managed Kubernetes](managed-kubernetes/) | Production on cloud | 20 min | Cloud account, CLI tools |
