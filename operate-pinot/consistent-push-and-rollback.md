@@ -86,7 +86,7 @@ Retention manager manages the cleanup of segments as well as segment lineage dat
 
 On a high level, the cleanup logic is as follows:
 
-1. Cleanup unused segments: For entries in "COMPLETED" state, we remove segments in `segmentsFrom`. For entries in "REVERTED" or "IN\_PROGRESS" state whose timestamp is more than 24 hours old, we remove segments in `segmentsTo`.
+1. Cleanup unused segments: For entries in "COMPLETED" state, we remove segments in `segmentsFrom` after the replaced segments retention period has elapsed. For entries in "REVERTED" or "IN\_PROGRESS" state whose timestamp exceeds the lineage entry cleanup retention period, we remove segments in `segmentsTo`.
 2. Once all segments in step 1 are cleaned up, we remove the lineage entry.
 
 The cleanup is usually handled in 2 cycles.
@@ -96,9 +96,42 @@ Cleanup regarding `startReplaceSegment` API:
 1. We proactively remove the first snapshot if the client side is pushing the 3rd snapshot, so we are not exceeding the 2x disk space.
 2. If the previous push fails in the middle (IN\_PROGRESS/REVERTED state), we also clean up the `segmentsTo`.
 
+#### Configurable Retention Periods
+
+By default, both retention periods are set to 1 day. You can override them in the table config under `segmentsConfig` (the `validationConfig` section):
+
+| Property | Description | Default |
+|----------|-------------|---------|
+| `replacedSegmentsRetentionPeriod` | How long replaced (source) segments are preserved after a lineage entry reaches "COMPLETED" state, providing a rollback window. Only applies to REFRESH tables; for APPEND tables, replaced segments are always deleted immediately. | `1d` |
+| `lineageEntryCleanupRetentionPeriod` | How long stale "IN\_PROGRESS" or "REVERTED" lineage entries (and their destination segments) are kept before being cleaned up. | `1d` |
+
+Values are human-readable period strings (e.g. `1d`, `12h`, `7d`). Setting `replacedSegmentsRetentionPeriod` to `0d` eliminates the rollback window and replaced segments will be deleted on the next retention pass after the lineage is completed.
+
+Example table config snippet:
+
+```json
+{
+  "tableName": "myTable_OFFLINE",
+  "tableType": "OFFLINE",
+  "segmentsConfig": {
+    "retentionTimeUnit": "DAYS",
+    "retentionTimeValue": "365",
+    "replacedSegmentsRetentionPeriod": "2d",
+    "lineageEntryCleanupRetentionPeriod": "12h"
+  },
+  "ingestionConfig": {
+    "batchIngestionConfig": {
+      "segmentIngestionType": "REFRESH",
+      "segmentIngestionFrequency": "DAILY",
+      "consistentDataPush": true
+    }
+  }
+}
+```
+
 ### Implications of enabling Consistent Push
 
 1. Enabling consistent push can lead to up to 2x storage usage (assuming data size between snapshots are roughly equivalent) since at any time, we are potentially keeping both replacing and replaced segments.
-2. Typically, for the REFRESH use case, users would directly replace segments by uploading segments of the same name. With consistent push, however, a timestamp is injected as the segment name postfix in order to differentiate between replacing and to be replaced segments. The older segments will be cleaned up by the Retention manager after **a day from when the consistent push happened.**
+2. Typically, for the REFRESH use case, users would directly replace segments by uploading segments of the same name. With consistent push, however, a timestamp is injected as the segment name postfix in order to differentiate between replacing and to be replaced segments. The older segments will be cleaned up by the Retention manager after the configured `replacedSegmentsRetentionPeriod` (default: **1 day**) from when the consistent push happened.
 3. Currently, there is no way to disable consistent push for a table with consistent push enabled, due to the unique segment postfix issue mentioned above. Users will need to create a new table until support for disabling consistent push in-place is implemented.
 4. If the push job fails for any reason, the job will rollback all the uploaded segments (`revertReplaceSegments`) to maintain data equivalence prior to the push.
