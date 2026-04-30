@@ -431,6 +431,8 @@
   * [rtrim](functions/string/rtrim.md)
   * [length](functions/string/length.md)
   * [levenshtein_distance](functions/string/levenshtein_distance.md)
+  * [soundex](functions/string/soundex.md)
+  * [difference](functions/string/difference.md)
   * [splitPart](functions/string/splitpart.md)
   * [strpos](functions/string/strpos.md)
   * [startswith](functions/string/startswith.md)

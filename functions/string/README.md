@@ -46,6 +46,12 @@ calculate length of the string
 [**levenshtein_distance(string1, string2)**](levenshtein_distance.md)\
 Returns the Levenshtein edit distance between two strings
 
+[**SOUNDEX(string)**](soundex.md)\
+Returns the four-character Soundex code for a string. Empty strings return `0000`.
+
+[**DIFFERENCE(string1, string2)**](difference.md)\
+Compares two Soundex codes and returns a similarity score from `0` to `4`.
+
 **hammingDistance(string1, string2)**\
 Returns the Hamming distance between two strings of equal length. Returns -1 if the strings have different lengths.
 
