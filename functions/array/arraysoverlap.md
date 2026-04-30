@@ -22,7 +22,9 @@ Pinot also accepts `ARRAYSOVERLAP`.
 | `LONG[]` | `BOOLEAN` |
 | `FLOAT[]` | `BOOLEAN` |
 | `DOUBLE[]` | `BOOLEAN` |
+| `BIG_DECIMAL[]` | `BOOLEAN` |
 | `STRING[]` | `BOOLEAN` |
+| `BYTES[]` | `BOOLEAN` |
 
 Both arguments must have the same array type.
 

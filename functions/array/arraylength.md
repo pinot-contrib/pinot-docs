@@ -4,7 +4,11 @@ description: This section contains reference documentation for the ARRAYLENGTH f
 
 # ARRAYLENGTH
 
-Returns the length of a multi-value column
+Returns the length of a multi-value column or array expression. Pinot also accepts the alias `CARDINALITY`.
+
+## Supported Types
+
+`ARRAYLENGTH` supports arrays of `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `STRING`, and `BYTES`.
 
 ## Signature
 
