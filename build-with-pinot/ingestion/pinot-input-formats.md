@@ -146,8 +146,12 @@ className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReade
 For the support of DECIMAL and other parquet native data types, always use `ParquetNativeRecordReader`.
 {% endhint %}
 
+`ParquetNativeRecordReader` preserves primitive values in their native Pinot-compatible form during extraction. For example, a Parquet `BOOLEAN` stays a Pinot `BOOLEAN` instead of being stringified.
+
+| Parquet Data Type | Pinot Data Type | Comment |
+| ----------------- | --------------- | ------- |
+| BOOLEAN           | BOOLEAN         | Preserved as a native boolean value. |
 | INT96 | LONG | Parquet`INT96` type converts **nanoseconds** to Pinot `INT64` type of **milliseconds** |
-| -------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | INT64                | LONG                              |                                                                                                                                                     |
 | INT32                | INT                               |                                                                                                                                                     |
 | FLOAT                | FLOAT                             |                                                                                                                                                     |
@@ -171,7 +175,7 @@ Real struct fields named `element` are preserved; only schema-identified LIST an
 
 **Backward incompatibility:** If you have ingestion pipelines or transform expressions that worked around the previous broken shape (for example, selecting `data.element` instead of `data` for an array column), you will need to update those queries and transforms.
 
-**MAP order caveat:** Parquet does not guarantee that MAP entries are returned in any particular order. If you require stable ordering of key-value pairs, use `LIST<STRUCT<key, value>>` instead.
+**MAP ordering:** Parquet itself does not preserve source MAP entry order. Pinot canonicalizes ingested MAP and JSON output by sorting map keys when it serializes the value, so query results are deterministic but do not preserve the original insertion order. If the original pair order matters, model the field as `LIST<STRUCT<key, value>>` instead.
 
 
 ### ORC
