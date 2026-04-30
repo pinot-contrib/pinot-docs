@@ -58,6 +58,7 @@ Mark a table as a dimension table by setting the following properties in the tab
 | --- | --- | --- |
 | `isDimTable` | Yes | Set to `true` to designate the table as a dimension table. |
 | `ingestionConfig.batchIngestionConfig.segmentIngestionType` | Yes | Must be set to `REFRESH`. Dimension tables use segment replacement rather than append semantics so that the in-memory hash map is rebuilt with the latest data. |
+| `validationConfig.segmentAssignmentStrategy` | No | If set, must be `allservers`. Leaving it unset also works because Pinot automatically uses all-servers assignment for dimension tables. |
 | `quota.storage` | Recommended | Storage quota for the table. Must not exceed the cluster-level `controller.dimTable.maxSize` (default 200 MB). |
 | `dimensionTableConfig.disablePreload` | No | Set to `true` to use memory-optimized mode (store only primary key and segment reference instead of full rows). Defaults to `false` (fast lookup). |
 | `dimensionTableConfig.errorOnDuplicatePrimaryKey` | No | Set to `true` to fail segment loading if duplicate primary keys are detected across segments. Defaults to `false` (last-loaded segment wins). |
@@ -65,6 +66,10 @@ Mark a table as a dimension table by setting the following properties in the tab
 ### Schema configuration
 
 Dimension table schemas use `dimensionFieldSpecs` instead of `metricFieldSpecs`. A `primaryKeyColumns` array is **required** -- it defines the key used for lookups.
+
+{% hint style="warning" %}
+Dimension tables always use the `allservers` segment assignment strategy so every segment is replicated to every server in the tenant. Do not configure balanced, replica-group, or round-robin segment assignment for a dimension table. Pinot now rejects those values during table validation.
+{% endhint %}
 
 ### Example table configuration
 
@@ -74,6 +79,9 @@ Dimension table schemas use `dimensionFieldSpecs` instead of `metricFieldSpecs`.
     "tableName": "dimBaseballTeams_OFFLINE",
     "tableType": "OFFLINE",
     "segmentsConfig": {
+    },
+    "validationConfig": {
+      "segmentAssignmentStrategy": "allservers"
     },
     "ingestionConfig": {
       "batchIngestionConfig": {
