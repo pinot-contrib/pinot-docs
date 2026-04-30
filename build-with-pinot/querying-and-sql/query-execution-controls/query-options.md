@@ -197,7 +197,13 @@ In this example, the query will flush partial group-by results every time the nu
 | Key | Description | Default Behavior |
 | --- | --- | --- |
 | **useBrokerPruning** | When set to `true`, enables broker-side segment pruning logic in the multi-stage engine. This allows the broker to prune segments before dispatching queries to servers, reducing unnecessary computation. Only supported by the MSE query optimizer. | Broker level config (default `true`) |
-| **useIndexBasedDistinctOperator** | When `true`, routes eligible `SELECT DISTINCT jsonExtractIndex(col, path, type)` queries to `JsonIndexDistinctOperator`, which reads distinct values directly from the JSON index without scanning documents. Requires the queried JSON path to have a backing JSON index. Supports INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, and STRING result types. | `false` (disabled) |
+
+### Index-Based DISTINCT
+
+| Key | Description | Default Behavior |
+| --- | --- | --- |
+| **useIndexBasedDistinctOperator** | When `true`, enables index-based DISTINCT operators when applicable. Pinot routes eligible `SELECT DISTINCT jsonExtractIndex(col, path, type)` queries to `JsonIndexDistinctOperator`, which reads distinct values directly from the JSON index without scanning documents. This requires the queried JSON path to have a backing JSON index and supports INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, and STRING result types. Pinot also routes eligible single-column `SELECT DISTINCT col` queries on dictionary-encoded columns with an inverted index to `InvertedIndexDistinctOperator`. | `false` (disabled) |
+| **invertedIndexDistinctCostRatio** | Overrides the cost heuristic for `InvertedIndexDistinctOperator`. Pinot chooses the bitmap inverted-index path when `dictionaryCardinality * costRatio <= filteredDocCount`. Set this option to `0` to force the bitmap inverted-index path whenever the filter matches at least one row. Requires `useIndexBasedDistinctOperator=true`. | `null/empty` (use the built-in cardinality-based heuristic) |
 
 ### DISTINCT Early-Termination (Single-Stage Engine)
 
