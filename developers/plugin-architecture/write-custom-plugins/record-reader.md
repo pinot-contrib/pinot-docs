@@ -13,6 +13,8 @@ To index the file into Pinot segment, simply implement the interface and plug it
 
 [GenericRow](https://github.com/apache/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/data/readers/GenericRow.java) is the record abstraction which the index engine can read and index with. It is a map from column name (String) to column value (Object). For multi-valued column, the value should be an object array (Object\[]).
 
+When you build on `BaseRecordExtractor`, keep primitive single-value fields in their native types where possible. The default implementation preserves `Number`, `Boolean`, and `byte[]` values as-is, materializes `ByteBuffer` as `byte[]`, and only falls back to `toString()` for other single-value objects.
+
 ### Contracts for Record Reader
 
 There are several contracts for record readers that developers should follow when implementing their own record readers:
