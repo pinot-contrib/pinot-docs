@@ -124,6 +124,15 @@ This task schedules and manages Pinot minion tasks. It periodically generates ta
 | --- | --- |
 | controller.task.frequencyPeriod | 1h |
 | controller.task.manager.initialDelayInSeconds | between 2m-5m |
+| controller.task.scheduler.enabled | false |
+| controller.task.enableDistributedLocking | false |
+| controller.task.concurrentSchedulingEnabled | false |
+
+`controller.task.scheduler.enabled` enables cron-based task schedules from table configs.
+
+`controller.task.enableDistributedLocking` enables the ZooKeeper-backed lock that PinotTaskManager uses to coordinate task generation for the same table across controllers.
+
+`controller.task.concurrentSchedulingEnabled` changes the cluster default for task scheduling from the legacy controller-wide serialized path to a concurrent path. When enabled, task generation for different tables can run in parallel, while same-table coordination relies on distributed locking. Enable `controller.task.enableDistributedLocking` before enabling concurrent scheduling.
 
 ### RealtimeSegmentValidationManager
 

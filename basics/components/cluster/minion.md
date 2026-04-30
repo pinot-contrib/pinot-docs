@@ -303,6 +303,28 @@ Tasks are enabled on a per-table basis. To enable a certain task type (e.g. `myT
 
 Under each enable task type, custom properties can be configured for the task type.
 
+You can also override how Pinot schedules task generation for a table by setting `concurrentSchedulingEnabled` in the same `task` block:
+
+```javascript
+{
+  ...
+  "task": {
+    "concurrentSchedulingEnabled": true,
+    "taskTypeConfigsMap": {
+      "myTask": {
+        "myProperty1": "value1"
+      }
+    }
+  }
+}
+```
+
+Use `concurrentSchedulingEnabled` as follows:
+
+* `null` or omitted: inherit the cluster default from `controller.task.concurrentSchedulingEnabled`
+* `true`: opt this table into concurrent task scheduling
+* `false`: force the legacy serialized scheduling path for this table, even if the cluster default is concurrent
+
 There are also two task configs to be set as part of cluster configs like below. One controls task's overall timeout (1hr by default) and one for how many tasks to run on a single minion worker (1 by default).
 
 ```
@@ -322,6 +344,15 @@ There are 2 ways to enable task scheduling:
 #### Controller level schedule for all minion tasks
 
 Tasks can be scheduled periodically for all task types on all enabled tables. Enable auto task scheduling by configuring the schedule frequency in the controller config with the key `controller.task.frequencyPeriod`. This takes period strings as values, e.g. 2h, 30m, 1d.
+
+To let PinotTaskManager generate tasks for different tables in parallel, enable distributed locking first and then enable concurrent scheduling:
+
+```properties
+controller.task.enableDistributedLocking=true
+controller.task.concurrentSchedulingEnabled=true
+```
+
+If you want to keep the cluster default serialized, leave `controller.task.concurrentSchedulingEnabled=false` and opt individual tables in with `task.concurrentSchedulingEnabled=true`. Pinot uses the concurrent path only when every table targeted by a scheduling request resolves to concurrent scheduling.
 
 #### Per table and task level schedule
 
