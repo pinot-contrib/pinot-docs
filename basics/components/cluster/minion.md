@@ -431,7 +431,16 @@ See [SimpleMinionClusterIntegrationTest](https://github.com/apache/pinot/blob/ma
 
 ## Task Manager UI
 
-In the Pinot UI, there is **Minion Task Manager** tab under **Cluster Manager** page. From that minion task manager tab, one can find a lot of task related info for troubleshooting. Those info are mainly collected from the Pinot controller that schedules tasks or Helix that tracks task runtime status. There are also buttons to schedule tasks in an ad hoc way. Below are some brief introductions to some pages under the minion task manager tab.
+In the Pinot Data Explorer, select **Minion Tasks** from the left navigation to open the **Minion Task Manager** page. This page focuses on minion queue troubleshooting and task drill-downs. Controller-wide scheduler details live on the [Cluster Manager page](../exploring-pinot.md), where **Cron Scheduler Information** and **Periodic Tasks** are shown separately.
+
+The Minion Task Manager landing page shows four summary tiles:
+
+- **Task Types**
+- **Minion Instances**
+- **Running Tasks**
+- **Waiting Tasks**
+
+Below the summary tiles is the task-queue table. This table shows which task types are active in Helix and lets you drill into each queue.
 
 This one shows which types of Minion Task have been used. Essentially which task types have created their task queues in Helix.
 
@@ -439,7 +448,7 @@ This one shows which types of Minion Task have been used. Essentially which task
 
 **
 
-Clicking into a task type, one can see the tables using that task. And a few buttons to stop the task queue, cleaning up ended tasks etc.
+Clicking into a task type shows the tables using that task type, along with queue-management actions such as stopping or cleaning up the queue.
 
 ![](../../../.gitbook/assets/minion-task-manager-task-details.png)
 
@@ -457,13 +466,13 @@ Then clicking into any table in this list, one can see how the task is configure
 
 At the bottom of this page is a list of tasks generated for this table for this specific task type. Like here, one MergeRollup task has been generated and completed. The task list also includes a **Status Filter** control so you can focus on a single task state, and a **Sub Tasks (Total/Completed/Running/Waiting/Error/Other)** column that summarizes the subtasks for each task. The **Other** bucket combines `UNKNOWN`, `DROPPED`, `TIMED_OUT`, and `ABORTED` subtasks.
 
-Clicking into a task from that list, we can see start/end time for it, and the subtasks generated for that task (as context, one minion task can have multiple subtasks to process data in parallel). The subtask table also has its own **Status Filter** control, which is useful when a task fanout creates many subtasks across multiple minion workers. In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
+Clicking into a task opens task details including start and finish times, runtime configuration, and an **Operations** accordion with a **Delete Task** action for removing the task and its subtasks from the queue. The task detail page also lists the subtasks generated for that task (as context, one minion task can have multiple subtasks to process data in parallel). The subtask table has its own **Status Filter** control, which is useful when a task fanout creates many subtasks across multiple minion workers. In this example, it happened to have one sub-task here, and it shows when it starts and stops and which minion worker it's running.
 
 ![](../../../.gitbook/assets/minion-task-manager-subtask.png)
 
 **
 
-Clicking into this subtask, one can see more details about it like the input task configs and error info if the task failed.
+Clicking into this subtask shows more details such as the input task config, progress, and error information if the task failed. If the subtask has already been assigned to a minion worker, the page also includes a **Minion Log Files** panel so you can refresh the file list and download logs from that minion directly in the UI.
 
 ![](../../../.gitbook/assets/minion-task-manager-subtask-config.png)
 
