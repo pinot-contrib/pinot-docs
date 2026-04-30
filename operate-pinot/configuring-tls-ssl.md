@@ -14,6 +14,8 @@ In order to support incremental upgrades of unsecured pinot clusters towards TLS
 
 Existing configuration properties such as `controller.port` are still parsed and automatically translated to a http listener configuration to enable full backwards-compatibility. TLS-secured ingress must be configured through the new listener specifications.
 
+If you need to raise or lower request-header limits on these Grizzly listeners, Pinot also supports two companion settings per component prefix: `*.http.server.max.http.header.size` (bytes) and `*.http.server.max.request.headers` (header count). Use `pinot.controller.*` for controller listeners, `pinot.broker.*` for broker listeners, `pinot.server.*` for server admin API listeners, and `pinot.minion.*` for minion admin API listeners. Leave these unset to keep the underlying Grizzly defaults. These settings apply only to the Grizzly HTTP/HTTPS listeners described on this page, not to the Netty data plane or gRPC query transport.
+
 ### TLS upgrade
 
 If you're bootstrapping a cluster from scratch, you can directly configure TLS-secured connections and you can forgo legacy http ingress. If you're upgrading an existing (production) cluster, you'll be able to perform the upgrade without downtime if your deployment is configured for high-availability.
