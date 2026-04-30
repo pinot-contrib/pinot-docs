@@ -114,6 +114,15 @@ OpChain Converter plugins provide custom implementations for converting logical 
 
 Plugins can be developed with no restriction. There are some standards that have to be followed, though. The plugin has to implement the interfaces from [pinot-spi](https://github.com/apache/pinot/tree/master/pinot-spi/src/main/java/org/apache/pinot/spi).
 
+Custom segment or index extensions that depend on `pinot-segment-spi` are a
+separate, more upgrade-sensitive path than the stable plugin families listed
+above. Revalidate these extensions on every Pinot upgrade. For example, Pinot
+1.6.0 adds two required `IndexType` methods for custom index implementations:
+`requiresDictionary(FieldSpec, C)` and
+`shouldInvalidateOnDictionaryChange(FieldSpec, C)`. See the
+[upgrade notes](../../operate-pinot/upgrade-notes.md) before upgrading custom
+segment/index extensions.
+
 {% content-ref url="write-custom-plugins/" %}
 [write-custom-plugins](write-custom-plugins/)
 {% endcontent-ref %}
