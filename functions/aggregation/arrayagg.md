@@ -4,7 +4,7 @@ description: This section contains reference documentation for the ARRAYAGG func
 
 # ARRAYAGG
 
-Aggregates values from rows into an array. Supports collecting values of type INT, LONG, FLOAT, DOUBLE, and STRING. Use the optional `DISTINCT` keyword to collect only distinct values.
+Aggregates values from rows into an array. Supports collecting values of type `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `STRING`, and `BYTES`. Use the optional `DISTINCT` keyword to collect only distinct values.
 
 ## Signature
 
@@ -12,7 +12,7 @@ Aggregates values from rows into an array. Supports collecting values of type IN
 >
 > ARRAYAGG(colName, 'dataType', 'DISTINCT')
 
-The `dataType` parameter must be one of: `INT`, `LONG`, `FLOAT`, `DOUBLE`, `STRING`.
+The `dataType` parameter must be one of: `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `STRING`, or `BYTES`.
 
 ## Usage Examples
 
@@ -37,3 +37,5 @@ WHERE playerName = 'Barry Bonds'
 | leagues      |
 | ------------ |
 | [NL, AL]     |
+
+When the input column is multi-value, Pinot flattens each row's values into the output array before applying the optional distinct step.

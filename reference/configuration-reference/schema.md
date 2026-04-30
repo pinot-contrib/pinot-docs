@@ -118,7 +118,7 @@ Pinot supports the following schema data types:
 | `LONG` | [Long.MIN_VALUE](https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html#MIN_VALUE) | `0` |
 | `FLOAT` | [Float.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Float.html#NEGATIVE_INFINITY) | `0.0` |
 | `DOUBLE` | [Double.NEGATIVE_INFINITY](https://docs.oracle.com/javase/7/docs/api/java/lang/Double.html#NEGATIVE_INFINITY) | `0.0` |
-| `BIG_DECIMAL` | Not supported | `0.0` |
+| `BIG_DECIMAL` | `0.0` | `0.0` |
 | `BOOLEAN` | `0` (`false`) | N/A |
 | `TIMESTAMP` | `0` (`1970-01-01 00:00:00 UTC`) | N/A |
 | `STRING` | `"null"` | N/A |
@@ -179,9 +179,9 @@ Define one dimension field spec for each dimension column.
 | `name` | Name of the dimension column. |
 | `description` | Optional human-readable description of the column. |
 | `tags` | Optional list of tags for categorizing the column. |
-| `dataType` | Data type of the dimension column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `BYTES`, and `JSON`. |
+| `dataType` | Data type of the dimension column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `BYTES`, and `JSON`. |
 | `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. |
-| `singleValueField` | Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. The default null value for a multi-value column is a single-element list containing the configured or internal null value. |
+| `singleValueField` | Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. This includes `BIG_DECIMAL` and `BYTES` dimension columns. The default null value for a multi-value column is a single-element list containing the configured or internal null value. |
 
 ## MetricFieldSpecs
 

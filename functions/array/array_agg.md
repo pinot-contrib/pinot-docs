@@ -4,7 +4,7 @@ description: This section contains reference documentation for the ARRAY_AGG fun
 
 # ARRAY\_AGG
 
-Concatenates the input values into an array.
+Concatenates the input values into an array. Supported element types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `STRING`, and `BYTES`.
 
 
 
@@ -20,8 +20,8 @@ Concatenates the input values into an array.
 SELECT ARRAY_AGG(firstName, 'STRING', true) AS firstNames from transcript;
 ```
 
-
-
 | firstNames    |
 | ------------- |
 | Bob,Nick,Lucy |
+
+When the input expression is multi-value, Pinot flattens the per-row values into the output array before applying the optional distinct step.

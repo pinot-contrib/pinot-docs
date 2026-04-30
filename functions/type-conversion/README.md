@@ -24,6 +24,8 @@ Converts a value to the specified target type. This is the standard SQL cast syn
 | `BYTES` | `VARBINARY` | Byte array |
 | `BIG_DECIMAL` | `DECIMAL` | Arbitrary-precision decimal |
 
+For array-valued casts, Pinot supports `CAST(expr AS DECIMAL ARRAY)` in standard SQL. In the single-stage engine, Pinot also accepts the Pinot-specific target name `BIG_DECIMAL_ARRAY`.
+
 ```sql
 SELECT CAST(revenue AS DOUBLE) AS revenue_double,
        CAST(zipCode AS VARCHAR) AS zip_string,

@@ -19,7 +19,7 @@ ARRAY_AGG(dataColumn, 'dataType' [, isDistinct])
 #### **Arguments**:
 
 * dataColumn - The input column or expression to aggregate. Can be a scalar or an array type.
-* 'dataType' - The element type of the resulting array. Must be a string literal (e.g., 'STRING', 'INT', 'LONG', 'DOUBLE').
+* 'dataType' - The element type of the resulting array. Must be a string literal (for example, 'STRING', 'INT', 'LONG', 'DOUBLE', 'BIG_DECIMAL', or 'BYTES').
 * isDistinct _(optional) -_ Boolean flag to include only distinct elements. Defaults to false.
 
 #### **Returns**:
@@ -63,7 +63,7 @@ allTags
 * When the input column is an array, all sub-arrays are flattened before aggregation.
 * When isDistinct is true, duplicate elements are removed from the final array.
 * The order of elements in the output array is not guaranteed.
-* Supports both scalar and array input types for numeric and string data.
+* Supports both scalar and array input types for `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `STRING`, and `BYTES`.
 
 ***
 
@@ -452,6 +452,8 @@ SELECT intersectIndices(ARRAY[1, 3, 5], ARRAY[3, 5]);
 Returns true if the two input arrays have at least one element in common, and false otherwise.
 
 This function is useful for checking whether two arrays share any overlapping values — for example, to test whether a user’s assigned tags intersect with a set of filter tags.\
+
+Supported array element types: `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `STRING`, and `BYTES`.
 
 
 **Syntax**:&#x20;
