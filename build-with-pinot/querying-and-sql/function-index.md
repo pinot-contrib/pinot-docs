@@ -105,6 +105,8 @@ For full details, see [String Functions](../../functions/string/).
 | `STRCMP` | `STRCMP(str1, str2)` | INT | Compares two strings lexicographically | Both |
 | `HAMMINGDISTANCE` | `HAMMINGDISTANCE(str1, str2)` | INT | Hamming distance between two strings | Both |
 | [`LEVENSTEINDISTANCE`](../../functions/string/levenshtein_distance.md) | `LEVENSTEINDISTANCE(str1, str2)` | INT | Levenshtein edit distance | Both |
+| [`SOUNDEX`](../../functions/string/soundex.md) | `SOUNDEX(str)` | STRING | Returns the four-character Soundex code for a string | Both |
+| [`DIFFERENCE`](../../functions/string/difference.md) | `DIFFERENCE(str1, str2)` | INT | Returns a 0-4 similarity score by comparing Soundex codes | Both |
 
 ---
 
