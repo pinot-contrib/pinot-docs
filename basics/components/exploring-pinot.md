@@ -16,6 +16,13 @@ The first screen that you'll see when you open the Pinot Data Explorer is the Cl
 
 ![Pinot Cluster Manager](../../.gitbook/assets/cluster-manager.png)
 
+### Task management
+
+The Pinot Data Explorer separates cluster-wide task controls from minion queue troubleshooting:
+
+- Select **Minion Tasks** in the left navigation to open the **Minion Task Manager** page. This page summarizes task types, minion instances, running tasks, and waiting tasks, then lets you drill into task queues, tasks, and subtasks.
+- Stay on **Cluster Manager** for controller-wide scheduling details. The **Cron Scheduler Information** accordion shows the controller scheduler state and metadata, and the **Periodic Tasks** accordion lists registered periodic tasks and lets you run one immediately. The run dialog can target all tables or an individual table and table type.
+
 If you want to view the contents of a server, click on its instance name. You'll then see the following:
 
 ![Pinot Server](../../.gitbook/assets/view-server-contents.png)
