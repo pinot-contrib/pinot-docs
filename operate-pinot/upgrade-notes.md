@@ -71,6 +71,30 @@ that implements `ColumnMetadata` or `MapIndexReader`, or that calls
 `ColumnPartitionMetadata.extractPartitions(...)`, before upgrading to Pinot
 1.6.0.
 
+### IndexType SPI now requires explicit dictionary-contract methods
+
+Apache Pinot 1.6.0 also changes the `IndexType<C, IR, IC>` SPI for custom
+index implementations. [PR #18365](https://github.com/apache/pinot/pull/18365)
+adds two new abstract methods that every `IndexType` implementation must
+define:
+
+- `requiresDictionary(FieldSpec, C)` returns `true` when the index's on-disk
+  representation depends on dictionary IDs and cannot be built or read without
+  a dictionary on the column.
+- `shouldInvalidateOnDictionaryChange(FieldSpec, C)` returns `true` when the
+  existing on-disk index must be deleted and rebuilt if the column gains or
+  loses a dictionary across segment reload.
+
+Pinot uses these hooks during segment creation and reload to decide whether it
+must materialize a shared standalone dictionary for RAW forward-index columns
+and whether existing index files can be reused safely. Built-in inverted, FST,
+and IFST indexes require a dictionary; the built-in range index works with or
+without a dictionary but must be rebuilt when dictionary state changes.
+
+**Action required for custom index authors.** Recompile any external
+`IndexType` plugin against Pinot 1.6.0 and implement both methods before
+upgrading. Older binaries will fail with `AbstractMethodError` until updated.
+
 ### Removal of deprecated controller configuration constants
 
 
