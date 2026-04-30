@@ -187,17 +187,17 @@ To improve resilience to silently unreachable servers, configure keep-alive on M
 **Broker configuration:**
 
 ```properties
-pinot.query.multistage.dispatch.channel.keep.alive.time.seconds=300
-pinot.query.multistage.dispatch.channel.keep.alive.timeout.seconds=30
+pinot.query.multistage.dispatch.channel.keep.alive.time.ms=300000
+pinot.query.multistage.dispatch.channel.keep.alive.timeout.ms=30000
 pinot.query.multistage.dispatch.channel.keep.alive.without.calls=false
 ```
 
-These settings are **enabled by default** with conservative values:
+These broker-side settings are **enabled by default** with conservative values that match the QueryServer defaults:
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `pinot.query.multistage.dispatch.channel.keep.alive.time.seconds` | 300 | Interval between keep-alive pings in seconds. Default of 300s (5 minutes) matches the Netty server-side `permitKeepAliveTime` default. |
-| `pinot.query.multistage.dispatch.channel.keep.alive.timeout.seconds` | 30 | ACK timeout for keep-alive pings in seconds. If a ping does not receive an ACK, the channel is considered dead and will reconnect. |
+| `pinot.query.multistage.dispatch.channel.keep.alive.time.ms` | 300000 | Interval between keep-alive pings in milliseconds. Default of 300000 ms (5 minutes) matches the QueryServer default for `pinot.query.multistage.query.server.permit.keep.alive.time.ms`. |
+| `pinot.query.multistage.dispatch.channel.keep.alive.timeout.ms` | 30000 | ACK timeout for keep-alive pings in milliseconds. If a ping does not receive an ACK, the channel is considered dead and will reconnect. |
 | `pinot.query.multistage.dispatch.channel.keep.alive.without.calls` | false | Whether to send keep-alive pings while channels are idle. Default `false` respects the Netty server default of forbidding pings without calls. |
 
 ### Tuning for faster detection
@@ -207,8 +207,8 @@ For production clusters that can tolerate more aggressive keep-alive settings, t
 **Broker (client) configuration:**
 
 ```properties
-pinot.query.multistage.dispatch.channel.keep.alive.time.seconds=30
-pinot.query.multistage.dispatch.channel.keep.alive.timeout.seconds=10
+pinot.query.multistage.dispatch.channel.keep.alive.time.ms=30000
+pinot.query.multistage.dispatch.channel.keep.alive.timeout.ms=10000
 pinot.query.multistage.dispatch.channel.keep.alive.without.calls=true
 ```
 
@@ -217,16 +217,21 @@ pinot.query.multistage.dispatch.channel.keep.alive.without.calls=true
 Ensure corresponding server-side permits are configured to allow the client keep-alive settings:
 
 ```properties
-pinot.server.grpc.permitKeepAliveTime=30
-pinot.server.grpc.permitKeepAliveWithoutCalls=true
+pinot.query.multistage.query.server.permit.keep.alive.time.ms=30000
+pinot.query.multistage.query.server.permit.keep.alive.without.calls=true
 ```
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `pinot.query.multistage.query.server.permit.keep.alive.time.ms` | 300000 | Minimum interval in milliseconds between broker keep-alive pings that the MSE QueryServer accepts. If you reduce `pinot.query.multistage.dispatch.channel.keep.alive.time.ms`, set this to a value less than or equal to the broker interval. |
+| `pinot.query.multistage.query.server.permit.keep.alive.without.calls` | false | Whether the MSE QueryServer accepts keep-alive pings while there are no active RPCs. Set this to `true` when brokers use `pinot.query.multistage.dispatch.channel.keep.alive.without.calls=true`. |
 
 ### Important caveats
 
-- **Server-side permits are required:** If the broker's client keep-alive interval is more aggressive than the server's `permitKeepAliveTime`, the server will reject pings with a `GOAWAY(ENHANCE_YOUR_CALM)` error. Ensure server-side permits are configured to allow the broker's keep-alive settings.
+- **Server-side permits are required:** If the broker's client keep-alive interval is more aggressive than `pinot.query.multistage.query.server.permit.keep.alive.time.ms`, the QueryServer will reject pings with a `GOAWAY(ENHANCE_YOUR_CALM)` error. Ensure the QueryServer permit settings allow the broker's keep-alive configuration.
 - **Channel failure detection:** MSE intermediate-stage worker selection now respects `FailureDetector` exclusions through `RoutingManager#getRoutableServerInstanceMap()`. Excluded servers are filtered from intermediate-stage worker routing, complementing the keep-alive detection mechanism.
 
-See [Broker Configuration](../../reference/configuration-reference/broker.md) for the full configuration reference.
+See [Broker Configuration](../../reference/configuration-reference/broker.md) and [Server Configuration](../../reference/configuration-reference/server.md) for the full configuration reference.
 
 
 ## Version milestones
