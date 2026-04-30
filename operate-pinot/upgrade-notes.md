@@ -34,6 +34,43 @@ The following `@Deprecated(forRemoval = true)` wrapper methods in `PinotTaskMana
 
 *Source: [PR #18275](https://github.com/apache/pinot/pull/18275)*
 
+### Segment SPI upgrade for custom segment and index extensions
+
+Apache Pinot 1.6.0 changes several `@InterfaceAudience.Private` types in
+`pinot-segment-spi`. This is a developer-facing compatibility change for
+custom code that implements Pinot's segment-level interfaces. It does not
+change query syntax, table configuration, or normal segment readability for
+clusters that only use built-in Pinot components.
+
+The breaking changes in [PR #18280](https://github.com/apache/pinot/pull/18280)
+include:
+
+- `ColumnMetadata` now requires explicit implementations for
+  `isMinMaxValueInvalid()`, `getLengthOfShortestElement()`,
+  `getLengthOfLongestElement()`, `isAscii()`, `getNumIndexes()`,
+  `getIndexType()`, `getIndexSize()`, and `getIndexSizeFor()`.
+- `ColumnMetadata.getIndexSizeMap()` has been removed.
+- `ColumnMetadata.INDEX_NOT_FOUND` has been renamed to `UNAVAILABLE`.
+- `ColumnMetadata.getColumnMaxLength()` is deprecated for removal. Migrate to
+  `getLengthOfLongestElement()`.
+- `MapIndexReader` no longer has the reader generic parameter, and the API has
+  been simplified from `getKeyIndexes()` / `getKeyMetadata()` to
+  `getIndexes()` / `getColumnMetadata()`. The legacy helper methods
+  `getKeyReader()`, `getKeyFieldSpec()`, and `getKeyStoredType()` were also
+  removed.
+- `ColumnPartitionMetadata.extractPartitions(...)` now returns `IntSet`
+  instead of `Set<Integer>`, so downstream binaries must be recompiled.
+
+Segment backward compatibility is preserved. Pinot still reads the legacy
+`lengthOfEachEntry` metadata key when `lengthOfLongestElement` is absent, and
+new segments additionally persist `lengthOfShortestElement`,
+`lengthOfLongestElement`, and `isAscii`.
+
+**Action required for extension authors.** Rebuild and retest any custom code
+that implements `ColumnMetadata` or `MapIndexReader`, or that calls
+`ColumnPartitionMetadata.extractPartitions(...)`, before upgrading to Pinot
+1.6.0.
+
 ### Removal of deprecated controller configuration constants
 
 

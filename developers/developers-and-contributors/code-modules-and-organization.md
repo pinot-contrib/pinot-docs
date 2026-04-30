@@ -15,7 +15,7 @@ These modules define the interfaces, data types, and shared utilities that the r
 | Module | Description |
 | --- | --- |
 | `pinot-spi` | Service Provider Interface -- defines plugin contracts for file systems, stream ingestion, input formats, metrics, authentication, and more. All plugin implementations depend on this module. |
-| `pinot-segment-spi` | Segment-level SPI -- abstractions for column data sources, readers, and segment metadata used by both local and remote segment implementations. |
+| `pinot-segment-spi` | Segment-level SPI -- abstractions for column data sources, readers, and segment metadata used by both local and remote segment implementations. Many of these interfaces are `@InterfaceAudience.Private`, so custom implementations that compile against them should be revalidated on each Pinot upgrade. |
 | `pinot-common` | Shared classes used across Pinot components including table config definitions, metrics helpers, Zookeeper metadata models, request/response formats, and common utilities. |
 
 ## Segment Storage
