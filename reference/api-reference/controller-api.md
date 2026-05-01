@@ -907,7 +907,9 @@ Update the config for an existing typed table.
 | `validationTypesToSkip` | string | Comma-separated validation types to skip during table-config validation. |
 | `force` | boolean | Defaults to `false`. When `true`, Pinot still applies backward-incompatible upsert or dedup config changes that it would otherwise reject. Use only for controlled migrations. |
 
-By default, Pinot returns `400 Bad Request` for backward-incompatible changes on existing upsert or dedup tables. The protected fields include upsert comparison columns, hash function, mode, out-of-order settings, partial-upsert strategies, dedup hash function, dedup time column, and the table time column when Pinot is using it as the default comparison or dedup time column. The safest path for those changes is still to create a new table and reingest the data.
+By default, Pinot returns `400 Bad Request` for backward-incompatible changes on existing upsert or dedup tables. The protected fields include upsert comparison columns, hash function, mode, out-of-order settings, dedup hash function, dedup time column, and the table time column when Pinot is using it as the default comparison or dedup time column. The safest path for those changes is still to create a new table and reingest the data.
+
+For existing `PARTIAL` upsert tables, Pinot now allows `partialUpsertStrategies` and `defaultPartialUpsertStrategy` to change without `force=true`. The new strategy is not retroactive: existing merged values stay as stored, and the new behavior takes effect only after each consuming server restarts and reloads the table config. During a rolling restart, replicas can temporarily diverge on rows ingested during the rollout window; if that happens, reset the affected consuming segments after the rollout.
 
 **Request**
 
@@ -938,6 +940,8 @@ Update a combined `TableConfigs` payload for the raw table name. Pinot uses this
 | `forceTableSchemaUpdate` | boolean | Defaults to `false`. When `true`, Pinot forces both the schema update and the included table-config updates even when they would normally be rejected as backward incompatible. This is intended for exceptional cases and should be used with caution. |
 
 The same upsert and dedup compatibility checks described above apply to the realtime or offline configs inside the `TableConfigs` payload. Without `forceTableSchemaUpdate=true`, Pinot rejects those backward-incompatible changes with `400 Bad Request`.
+
+As with `PUT /tables/{tableName}`, Pinot allows `partialUpsertStrategies` and `defaultPartialUpsertStrategy` updates for existing `PARTIAL` upsert tables without `forceTableSchemaUpdate=true`, subject to the same restart and potential segment-reset caveats.
 
 **Request**
 
