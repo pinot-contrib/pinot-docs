@@ -196,7 +196,7 @@ In this example, the query will flush partial group-by results every time the nu
 
 | Key | Description | Default Behavior |
 | --- | --- | --- |
-| **useBrokerPruning** | When set to `true`, enables broker-side segment pruning logic in the multi-stage engine. This allows the broker to prune segments before dispatching queries to servers, reducing unnecessary computation. Only supported by the MSE query optimizer. | Broker level config (default `true`) |
+| **useBrokerPruning** | When set to `true`, enables broker-side segment pruning for multi-stage leaf-stage routing. On the physical optimizer path, Pinot uses the broker default from `pinot.broker.multistage.use.broker.pruning`. On the logical planner path, Pinot currently applies this to non-partitioned leaf stages and uses the broker default from `pinot.broker.multistage.logical.planner.use.broker.pruning`. Query-level `useBrokerPruning` overrides the applicable broker default. | Physical optimizer path: broker config (default `true`); logical planner non-partitioned leaf path: broker config (default `false`) |
 
 ### Index-Based DISTINCT
 
