@@ -191,6 +191,12 @@ Filter config also supports SQL-like expression of built-in [scalar functions](.
 
 Transform functions can be defined on columns in the ingestion config of the table config.
 
+{% hint style="info" %}
+Pinot evaluates ingestion transforms against normalized extractor values, not the raw source-format encoding. For typed input formats such as Avro, Parquet, ORC, Thrift, and Protocol Buffers, booleans stay `Boolean`, `Byte` and `Short` values widen to `Integer`, logical dates and times surface as `java.time.LocalDate`, `java.time.LocalTime`, or `java.sql.Timestamp`, multi-value fields surface as `Object[]`, and maps or nested records surface as `Map<Object, Object>`. Pinot coerces those intermediate values to the column's declared schema type after the transform step.
+
+If you have an older transform that depended on format-specific quirks such as stringified booleans or raw epoch date and time values, update the transform to handle the normalized value or cast it explicitly.
+{% endhint %}
+
 ```javascript
 { "tableConfig": {
     "tableName": ...,
