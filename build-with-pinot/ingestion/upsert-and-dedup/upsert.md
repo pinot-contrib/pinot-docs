@@ -775,8 +775,6 @@ The following fields are immutable after table creation:
 * `hashFunction`
 * `comparisonColumns`
 * `timeColumnName` (when used as the default comparison column)
-* `partialUpsertStrategies` (for PARTIAL mode)
-* `defaultPartialUpsertStrategy` (for PARTIAL mode)
 * `dropOutOfOrderRecord`
 * `outOfOrderRecordColumn`
 
@@ -789,6 +787,18 @@ Failed to update table '<tableName>': Cannot modify [<field>] as it may lead to 
 **Recommended workaround:** Create a new table with the desired configuration and reingest all data.
 
 **Alternative (use with caution):** If you must modify these fields without recreating the table, you can use the `force=true` query parameter on the table config update API. Before doing so, disable SNAPSHOT mode in upsertConfig, pause consumption, and restart all servers. Note that this approach only guarantees consistency for newly ingested keys; existing data may remain inconsistent.
+{% endhint %}
+
+{% hint style="warning" %}
+For `PARTIAL` upsert tables, Pinot now allows `partialUpsertStrategies` and `defaultPartialUpsertStrategy` to be updated on an existing table through the controller update APIs.
+
+These updates are not retroactive:
+
+* Existing merged values stay as they are already stored.
+* The new strategy only applies after each consuming server restarts and rebuilds its partial-upsert handler.
+* During a rolling restart, replicas can temporarily consume with different strategy versions and diverge on newly merged rows.
+
+If you observe row-value drift after the rollout, reset the affected consuming segments so Pinot can rebuild them from the common segment data. See [Segment Lifecycle and Repair](../../../operate-pinot/segment-lifecycle-and-repair.md).
 {% endhint %}
 
 ### Upsert table limitations
@@ -1108,9 +1118,11 @@ To see the difference from the non-upsert table, you can use a query option `ski
 
 Not recommended. Existing segments contain validDocId snapshots computed using the old configuration. Changing the configuration can lead to data inconsistencies as existing snapshots wouldn't be cleaned up, especially if a server restarts with validDocId snapshots while replica server do not.
 
-**Avoid changing:** primary key columns, comparison columns, partial upsert strategies, upsert mode, and hashFunction.
+**Avoid changing:** primary key columns, comparison columns, upsert mode, and hashFunction.
 
-Pinot now enforces this guard on the controller update APIs. By default, `PUT /tables/{tableName}` and `PUT /tableConfigs/{tableName}` reject backward-incompatible upsert or dedup config changes with `400 Bad Request`. For upsert tables, this includes comparison columns, hash function, mode, out-of-order settings, partial-upsert strategies, and the table time column when Pinot is using it as the default comparison column. For dedup tables, this includes the dedup hash function, dedup time column, and the table time column when Pinot is using it as the default dedup time column.
+Pinot now enforces this guard on the controller update APIs. By default, `PUT /tables/{tableName}` and `PUT /tableConfigs/{tableName}` reject backward-incompatible upsert or dedup config changes with `400 Bad Request`. For upsert tables, this includes comparison columns, hash function, mode, out-of-order settings, and the table time column when Pinot is using it as the default comparison column. For dedup tables, this includes the dedup hash function, dedup time column, and the table time column when Pinot is using it as the default dedup time column.
+
+`partialUpsertStrategies` and `defaultPartialUpsertStrategy` are the exception for `PARTIAL` upsert tables. Pinot accepts those updates without `force=true`, but the new strategy only affects merges that happen after each server restarts and reloads the table config. Existing merged values are not rewritten automatically, and replicas can temporarily diverge during a rolling restart. If that happens, reset the affected consuming segments after the rollout.
 
 You can still bypass the guard with `force=true` on `PUT /tables/{tableName}` or `forceTableSchemaUpdate=true` on `PUT /tableConfigs/{tableName}`, but Pinot recommends using that only for controlled recovery or migration workflows.
 
