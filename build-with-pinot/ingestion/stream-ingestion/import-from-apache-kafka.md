@@ -535,13 +535,15 @@ By default, a Pinot REALTIME table consumes from all partitions of the configure
 
 **Configuration**
 
-Add `stream.kafka.partition.ids` to the `streamConfigMaps` entry in your table config. The value is a comma-separated list of Kafka partition IDs (zero-based integers):
+Add `stream.kafka.partition.ids` to the `streamConfigMaps` entry in your table config. The value can contain individual zero-based partition IDs, inclusive ranges, or a mix of both in a comma-separated string:
 
 ```json
-"stream.kafka.partition.ids": "0,2,5"
+"stream.kafka.partition.ids": "0-3,6,8-9"
 ```
 
-When this setting is present, Pinot will consume only from the listed partitions. When it is absent or blank, Pinot consumes from all partitions of the topic (the default behavior).
+For example, `"0,2,5"` consumes three explicit partitions, `"0-3"` consumes partitions 0 through 3 inclusive, and `"0-3,6,8-9"` mixes both forms in one value.
+
+When this setting is present, Pinot will consume only from the resolved set of partitions. When it is absent or blank, Pinot consumes from all partitions of the topic (the default behavior).
 
 **Example: splitting a topic across two tables**
 
@@ -627,13 +629,14 @@ Table `events_part_1`:
 
 **Validation rules and limitations**
 
-* Partition IDs must be non-negative integers. Negative values will cause a validation error.
-* Non-integer values (e.g. `"abc"`) will cause a validation error.
-* Duplicate IDs are silently deduplicated. For example, `"0,2,0,5"` is treated as `"0,2,5"`.
+* Partition IDs must be non-negative integers. Range values are inclusive, and the start of a range must be less than or equal to the end.
+* Non-integer values (for example, `"abc"`) and malformed ranges (for example, `"5-"`) will cause a validation error.
+* Duplicate IDs are silently deduplicated after range expansion. For example, `"0,2,0,5"` is treated as `"0,2,5"`.
 * The partition IDs are sorted internally for stable ordering, regardless of the order specified in the config.
-* The configured partition IDs are validated against the actual Kafka topic metadata at table creation time. If a specified partition ID does not exist in the topic, an error is raised.
+* Pinot validates the resolved partition IDs against the Kafka topic metadata before it starts consuming. If a specified partition ID does not exist in the topic, an error is raised.
+* The resolved set can contain at most 10,000 unique partition IDs.
 * When using subset partition ingestion with multiple tables consuming from the same topic, ensure that the partition assignments do not overlap if you want each record to be consumed by exactly one table. Pinot does not enforce non-overlapping partition assignments across tables.
-* Whitespace around partition IDs and commas is trimmed (e.g., `" 0 , 2 , 5 "` is valid).
+* Whitespace around partition IDs, commas, and range bounds is trimmed (for example, `" 0 - 3 , 5 "` is valid).
 
 #### Use Protocol Buffers (Protobuf) format
 
@@ -755,7 +758,7 @@ By default, a Pinot realtime table consumes all partitions of a Kafka topic. You
 
 ### Configuration
 
-Add `stream.kafka.partition.ids` to your `streamConfigs` with a comma-separated list of partition IDs:
+Add `stream.kafka.partition.ids` to your `streamConfigs` with a comma-separated string of partition IDs, inclusive ranges, or both:
 
 ```json
 "streamConfigs": {
@@ -763,13 +766,17 @@ Add `stream.kafka.partition.ids` to your `streamConfigs` with a comma-separated 
   "stream.kafka.topic.name": "myTopic",
   "stream.kafka.broker.list": "localhost:9092",
   "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
-  "stream.kafka.partition.ids": "0,2,5"
+  "stream.kafka.partition.ids": "0-3,6,8-9"
 }
 ```
 
+For example, `"0,2,5"` selects individual partitions, `"0-3"` selects an inclusive range, and `"0-3,6,8-9"` mixes both forms in one value.
+
 ### Notes
 
-- Partition IDs are validated against actual Kafka topic metadata at startup.
+- Partition IDs must be non-negative integers. Ranges are inclusive and must have `start <= end`.
+- Pinot validates the resolved partition IDs against the Kafka topic metadata before it starts consuming.
 - Duplicate IDs in the list are automatically deduplicated.
+- The resolved set can contain at most 10,000 unique partition IDs.
 - The total partition count reported to the broker reflects the full Kafka topic size, ensuring correct query routing across tables sharing the same topic.
 - When splitting a topic between two tables, configure one with even-numbered IDs and another with odd-numbered IDs (for example, `"0,2"` and `"1,3"` for a 4-partition topic).

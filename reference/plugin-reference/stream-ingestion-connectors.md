@@ -38,7 +38,7 @@ Pinot ships two Kafka connector modules: `pinot-kafka-3.0` (Kafka client 3.9.2, 
 | stream.kafka.consumer.factory.class.name | **Allowed Values:** - `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` (Kafka 3.x, default) - `org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory` (Kafka 4.x) |
 | stream.kafka.topic.name | (Required) Name of the kafka topic to be ingested |
 | stream.kafka.broker.list | (Required) Connection string for the kafka broker |
-| stream.kafka.partition.ids | Optional comma-separated list of Kafka partition IDs to consume (e.g. `"0,2,5"`). When set, only the specified partitions are consumed by this table. When absent or blank, all topic partitions are consumed (the default behavior). Partition IDs must be non-negative integers. Duplicates are silently removed. The IDs are validated against the actual topic metadata at table creation time. See [Subset Partition Ingestion](../../build-with-pinot/ingestion/stream-ingestion/import-from-apache-kafka.md#subset-partition-ingestion) for details and examples. |
+| stream.kafka.partition.ids | Optional comma-separated string of Kafka partition IDs and/or inclusive ranges to consume (for example, `"0,2,5"`, `"0-3"`, or `"0-3,6,8-9"`). When set, only the resolved partitions are consumed by this table. When absent or blank, all topic partitions are consumed (the default behavior). Partition IDs must be non-negative integers, ranges are inclusive, duplicates are silently removed, and the resolved set is capped at 10,000 unique partition IDs. Pinot validates the resolved IDs against the topic metadata before it starts consuming. See [Subset Partition Ingestion](../../build-with-pinot/ingestion/stream-ingestion/import-from-apache-kafka.md#subset-partition-ingestion) for details and examples. |
 | stream.kafka.buffer.size | **Default Value:** `512000` |
 | stream.kafka.socket.timeout | **Default Value:** `10000` |
 | stream.kafka.fetcher.size | **Default Value:** `100000` |
@@ -81,4 +81,3 @@ Pinot ships two Kafka connector modules: `pinot-kafka-3.0` (Kafka client 3.9.2, 
 | externalId | Unique identifier used to manage trust between AWS accounts and prevent the confused deputy problem. More details [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) |
 | sessionDurationSeconds | Duration of the role session in seconds **Default:** `900` |
 | asyncSessionUpdateEnabled | Flag to determine with the session update should be enabled **Default:** `true` |
-
