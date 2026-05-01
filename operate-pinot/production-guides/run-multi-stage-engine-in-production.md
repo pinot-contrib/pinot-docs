@@ -110,7 +110,7 @@ Changing the broker-side throttle from disabled to enabled, or from enabled to d
 
 ### Broker pruning and routing
 
-The MSE query optimizer supports broker-side segment pruning (`useBrokerPruning`, enabled by default). This allows the broker to skip segments that cannot match the query predicates before dispatching work to servers.
+The physical optimizer path supports broker-side segment pruning through `useBrokerPruning`, enabled by default through `pinot.broker.multistage.use.broker.pruning`. The logical planner path can also prune non-partitioned leaf stages, but it stays off by default unless you set `useBrokerPruning=true` for the query or enable `pinot.broker.multistage.logical.planner.use.broker.pruning` on the broker.
 
 For tables with time-based or partition-based segment boundaries, broker pruning significantly reduces the number of segments scanned by leaf stages.
 
