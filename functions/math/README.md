@@ -160,6 +160,54 @@ Reverses the byte order of a long value.
 Usage: `byteswapLong(col)`\
 Example: `SELECT byteswapLong(longCol) FROM myTable`
 
+**cbrt(col)**\
+Returns the cube root of a value.
+
+Usage: `cbrt(col)`\
+Example: `SELECT cbrt(27)` returns `3.0`
+
+**exp2(col)**\
+Returns `2` raised to the given power.
+
+Usage: `exp2(col)`\
+Example: `SELECT exp2(10)` returns `1024.0`
+
+**exp10(col)**\
+Returns `10` raised to the given power.
+
+Usage: `exp10(col)`\
+Example: `SELECT exp10(3)` returns `1000.0`
+
+**log1p(col)**\
+Returns the natural logarithm of `1 + col`.
+
+Usage: `log1p(col)`\
+Example: `SELECT log1p(1)` returns approximately `0.6931471805599453`
+
+**sigmoid(col)**\
+Returns the logistic sigmoid `1 / (1 + e^(-col))`.
+
+Usage: `sigmoid(col)`\
+Example: `SELECT sigmoid(0)` returns `0.5`
+
+**pi()**\
+Returns the mathematical constant pi.
+
+Usage: `pi()`\
+Example: `SELECT pi()` returns approximately `3.141592653589793`
+
+**e()** / **euler()**\
+Returns Euler's number, the base of the natural logarithm.
+
+Usage: `e()` or `euler()`\
+Example: `SELECT e()` returns approximately `2.718281828459045`
+
+**bitCount(col)**\
+Returns the number of set bits in the binary representation of a `LONG` value.
+
+Usage: `bitCount(col)`\
+Example: `SELECT bitCount(255)` returns `8`
+
 ## Bitwise Functions
 
 [**bitAnd(a, b)** / **bit_and(a, b)**](bitwise.md)\
