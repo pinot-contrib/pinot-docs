@@ -73,14 +73,32 @@ Returns `true` if the input string contains the specified substring, `false` oth
 Usage: `contains(col, substring)`\
 Example: `SELECT contains(playerName, 'john') FROM myTable`
 
+**ascii(col)**\
+Returns the integer code of the first character. Empty strings return `0`.
+
+Usage: `ascii(col)`\
+Example: `SELECT ascii('A') FROM myTable` returns `65`
+
 [**STARTSWITH(col, prefix)**](startswith.md)\
 returns `true` if columns starts with prefix string.
+
+**startsWithCaseInsensitive(col, prefix)**\
+Returns `true` if the input string starts with `prefix`, ignoring case.
+
+Usage: `startsWithCaseInsensitive(col, prefix)`\
+Example: `SELECT startsWithCaseInsensitive('Hello World', 'hello') FROM myTable` returns `true`
 
 **endsWith(col, suffix)**\
 Returns `true` if the input string ends with the specified suffix, `false` otherwise.
 
 Usage: `endsWith(col, suffix)`\
 Example: `SELECT endsWith(playerName, 'son') FROM myTable`
+
+**endsWithCaseInsensitive(col, suffix)**\
+Returns `true` if the input string ends with `suffix`, ignoring case.
+
+Usage: `endsWithCaseInsensitive(col, suffix)`\
+Example: `SELECT endsWithCaseInsensitive('Hello World', 'WORLD') FROM myTable` returns `true`
 
 **strcmp(string1, string2)**\
 Compares two strings lexicographically. Returns `0` if equal, a value less than `0` if the first string is lexicographically less than the second, and a value greater than `0` if the first string is lexicographically greater.
@@ -131,6 +149,19 @@ Usage: `splitPart(col, delimiter, index)` or `splitPart(col, delimiter, limit, i
 Example: `SELECT splitPart('a,b,c', ',', 1) FROM myTable` returns `'b'`\
 Example: `SELECT splitPart('a,b,c', ',', -1) FROM myTable` returns `'c'`
 
+**substringIndex(col, delimiter, count)** / **substring_index(col, delimiter, count)**\
+Returns the substring before the `count`th delimiter when `count` is positive, or after the `count`th delimiter from the right when `count` is negative. Returns an empty string when `count = 0` or `delimiter` is empty.
+
+Usage: `substringIndex(col, delimiter, count)` or `substring_index(col, delimiter, count)`\
+Example: `SELECT substringIndex('a.b.c.d', '.', 2) FROM myTable` returns `'a.b'`\
+Example: `SELECT substring_index('a.b.c.d', '.', -2) FROM myTable` returns `'c.d'`
+
+**firstLine(col)**\
+Returns the first line of the input string and stops at `\n`, `\r\n`, or `\r`.
+
+Usage: `firstLine(col)`\
+Example: `SELECT firstLine('hello\\nworld') FROM myTable` returns `'hello'`
+
 **normalize(col)** / **normalize(col, form)**\
 Normalizes a Unicode string. Without a form argument, uses NFC normalization. The optional `form` parameter can be `NFC`, `NFD`, `NFKC`, or `NFKD`.
 
@@ -173,6 +204,12 @@ Converts a string to an ASCII encoded byte array.
 Usage: `toAscii(col)`\
 Example: `SELECT toAscii(stringCol) FROM myTable`
 
+**space(count)**\
+Returns a string made of `count` space characters. Non-positive counts return an empty string.
+
+Usage: `space(count)`\
+Example: `SELECT space(5) FROM myTable` returns `'     '`
+
 **toBase64(bytes)**\
 Encodes binary data (byte array) to a Base64 encoded string.
 
@@ -205,6 +242,12 @@ Returns `true` if the input string is valid JSON, `false` otherwise.
 
 Usage: `isJson(col)`\
 Example: `SELECT isJson('{"key":"value"}') FROM myTable` returns `true`
+
+**isValidASCII(col)**\
+Returns `true` if every character in the string is in the ASCII range `0-127`.
+
+Usage: `isValidASCII(col)`\
+Example: `SELECT isValidASCII('Hello World 123!@#') FROM myTable` returns `true`
 
 [**urlEncoding(string)**](url.md)\
 url-encode a string with UTF-8 format

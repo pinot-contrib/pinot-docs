@@ -93,20 +93,27 @@ For full details, see [String Functions](../../functions/string/).
 | [`STARTSWITH`](../../functions/string/startswith.md) | `STARTSWITH(str, prefix)` | BOOLEAN | Checks if string starts with prefix | Both |
 | `ENDSWITH` | `ENDSWITH(str, suffix)` | BOOLEAN | Checks if string ends with suffix | Both |
 | `CONTAINS` | `CONTAINS(str, substring)` | BOOLEAN | Checks if string contains substring | Both |
+| `ASCII` | `ASCII(str)` | INT | Returns the first character code, or 0 for empty string | Both |
 | [`REPLACE`](../../functions/string/replace.md) | `REPLACE(str, target, replacement)` | STRING | Replaces occurrences of target | Both |
 | [`REMOVE`](../../functions/string/remove.md) | `REMOVE(str, search)` | STRING | Removes all occurrences of search string | Both |
 | `SPLIT` | `SPLIT(str, delimiter [, limit])` | STRING[] | Splits string by delimiter | Both |
 | [`SPLITPART`](../../functions/string/splitpart.md) | `SPLITPART(str, delimiter, index)` or `SPLITPART(str, delimiter, limit, index)` | STRING | Returns the selected element after splitting; negative indices count from the end | Both |
+| `SUBSTRINGINDEX` / `SUBSTRING_INDEX` | `SUBSTRINGINDEX(str, delimiter, count)` | STRING | Returns text before the Nth delimiter, or after it when count is negative | Both |
+| `FIRSTLINE` | `FIRSTLINE(str)` | STRING | Returns the first line using `\n`, `\r\n`, or `\r` as delimiters | Both |
 | `REPEAT` | `REPEAT(str, times)` | STRING | Repeats string N times | Both |
 | [`REGEXP_EXTRACT`](../../functions/string/regexpextract.md) | `REGEXP_EXTRACT(str, pattern [, group])` | STRING | Extracts regex match from string | Both |
 | [`CHR`](../../functions/string/chr.md) | `CHR(codepoint)` | STRING | Returns character for Unicode code point | Both |
 | [`CODEPOINT`](../../functions/string/codepoint.md) | `CODEPOINT(str)` | INT | Returns Unicode code point of first character | Both |
 | `NORMALIZE` | `NORMALIZE(str [, form])` | STRING | Normalizes Unicode string | Both |
 | `STRCMP` | `STRCMP(str1, str2)` | INT | Compares two strings lexicographically | Both |
+| `STARTSWITHCASEINSENSITIVE` | `STARTSWITHCASEINSENSITIVE(str, prefix)` | BOOLEAN | Checks whether a string starts with a prefix, ignoring case | Both |
+| `ENDSWITHCASEINSENSITIVE` | `ENDSWITHCASEINSENSITIVE(str, suffix)` | BOOLEAN | Checks whether a string ends with a suffix, ignoring case | Both |
 | `HAMMINGDISTANCE` | `HAMMINGDISTANCE(str1, str2)` | INT | Hamming distance between two strings | Both |
 | [`LEVENSTEINDISTANCE`](../../functions/string/levenshtein_distance.md) | `LEVENSTEINDISTANCE(str1, str2)` | INT | Levenshtein edit distance | Both |
 | [`SOUNDEX`](../../functions/string/soundex.md) | `SOUNDEX(str)` | STRING | Returns the four-character Soundex code for a string | Both |
 | [`DIFFERENCE`](../../functions/string/difference.md) | `DIFFERENCE(str1, str2)` | INT | Returns a 0-4 similarity score by comparing Soundex codes | Both |
+| `SPACE` | `SPACE(count)` | STRING | Returns a string made of count spaces | Both |
+| `ISVALIDASCII` | `ISVALIDASCII(str)` | BOOLEAN | Returns true when every character is in the ASCII range | Both |
 
 ---
 
@@ -123,9 +130,13 @@ For full details, see [Math Functions](../../functions/math/).
 | `LN` / `LOG` | `LN(val)` | DOUBLE | Natural logarithm | Both |
 | `LOG2` | `LOG2(val)` | DOUBLE | Base-2 logarithm | Both |
 | `LOG10` | `LOG10(val)` | DOUBLE | Base-10 logarithm | Both |
+| `LOG1P` | `LOG1P(val)` | DOUBLE | Natural logarithm of `1 + val` | Both |
 | [`SQRT`](../../functions/math/sqrt.md) | `SQRT(val)` | DOUBLE | Square root | Both |
+| `CBRT` | `CBRT(val)` | DOUBLE | Cube root | Both |
 | `SIGN` | `SIGN(val)` | DOUBLE | Sign of a number (-1, 0, 1) | Both |
 | `POW` / `POWER` | `POW(base, exp)` | DOUBLE | Raises base to exponent | Both |
+| `EXP2` | `EXP2(val)` | DOUBLE | Returns `2` raised to the given power | Both |
+| `EXP10` | `EXP10(val)` | DOUBLE | Returns `10` raised to the given power | Both |
 | [`MOD`](../../functions/math/mod.md) | `MOD(a, b)` | DOUBLE | Modulo operation | Both |
 | `ROUNDDECIMAL` | `ROUNDDECIMAL(val [, scale])` | DOUBLE | Rounds to specified decimal places | Both |
 | `TRUNCATE` | `TRUNCATE(val [, scale])` | DOUBLE | Truncates to specified decimal places | Both |
@@ -137,6 +148,10 @@ For full details, see [Math Functions](../../functions/math/).
 | `LCM` | `LCM(a, b)` | LONG | Least common multiple | Both |
 | `HYPOT` | `HYPOT(a, b)` | DOUBLE | Hypotenuse (sqrt(a^2 + b^2)) | Both |
 | `NEGATE` | `NEGATE(val)` | DOUBLE | Negates the value | Both |
+| `SIGMOID` | `SIGMOID(val)` | DOUBLE | Logistic sigmoid `1 / (1 + e^(-val))` | Both |
+| `PI` | `PI()` | DOUBLE | Mathematical constant pi | Both |
+| `E` / `EULER` | `E()` | DOUBLE | Euler's number, base of the natural logarithm | Both |
+| `BITCOUNT` | `BITCOUNT(val)` | INT | Number of set bits in a long value | Both |
 | `RAND` | `RAND([seed])` | DOUBLE | Random number between 0 and 1 | Both |
 | `SIN` | `SIN(val)` | DOUBLE | Sine | Both |
 | `COS` | `COS(val)` | DOUBLE | Cosine | Both |
@@ -389,6 +404,14 @@ For full details, see [IP Address Functions](../../functions/ip-address/).
 | `IPPREFIX` | `IPPREFIX(addr, prefixLen)` | STRING | Returns CIDR prefix for IP address | Both |
 | `IPSUBNETMIN` | `IPSUBNETMIN(prefix)` | STRING | Returns lowest IP in subnet | Both |
 | `IPSUBNETMAX` | `IPSUBNETMAX(prefix)` | STRING | Returns highest IP in subnet | Both |
+| `ISIPV4STRING` | `ISIPV4STRING(ip)` | BOOLEAN | Checks whether the input is a plain IPv4 address string | Both |
+| `ISIPV6STRING` | `ISIPV6STRING(ip)` | BOOLEAN | Checks whether the input is a plain IPv6 address string | Both |
+| `IPV4TOLONG` | `IPV4TOLONG(ip)` | LONG | Converts an IPv4 string to an unsigned 32-bit long | Both |
+| `LONGTOIPV4` | `LONGTOIPV4(value)` | STRING | Converts an unsigned 32-bit long to IPv4 text | Both |
+| `IPV6TOBYTES` | `IPV6TOBYTES(ip)` | BYTES | Converts an IPv6 string to a 16-byte value | Both |
+| `BYTESTOIPV6` | `BYTESTOIPV6(bytes)` | STRING | Converts a 16-byte IPv6 value to canonical text | Both |
+| `IPV4TOIPV6` | `IPV4TOIPV6(ip)` | STRING | Converts an IPv4 string to its IPv4-mapped IPv6 form | Both |
+| `IPV4CIDRTORANGE` | `IPV4CIDRTORANGE(cidr)` | STRING[] | Returns the lower and upper IPv4 addresses for a CIDR range | Both |
 
 ---
 
