@@ -4,8 +4,8 @@ description: Describes the new Multistage Engine Physical Query Optimizer
 
 # Physical Optimizer
 
-{% hint style="warning" %}
-The Physical Optimizer is an optional query optimizer for the multi-stage engine, included in Pinot 1.4 and currently in Beta. This Beta label applies to the Physical Optimizer specifically, not to the core multi-stage engine, which is generally available.
+{% hint style="info" %}
+The Physical Optimizer is an optional query optimizer for the multi-stage engine, introduced in Pinot 1.4 and stable as of Pinot 1.5.0.
 {% endhint %}
 
 We have added a new query optimizer in the Multistage Engine that computes and tracks precise Data Distribution across the entire plan before running some critical optimizations like Sort Pushdown, Aggregate Split/Pushdown, etc.
