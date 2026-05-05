@@ -36,10 +36,40 @@ Multi-cluster querying extends the broker's routing capabilities to include remo
    - Queries are scattered to servers in all applicable clusters
    - Results are merged before returning to the client
 
-<!-- TODO: Add architecture diagram showing:
-     - Primary broker connected to primary ZK and remote ZKs
-     - Routing to servers in both local and remote clusters
-     - Query flow from client -> broker -> multiple cluster servers -> merged result -->
+```
+                         ┌──────────────────────────────────────────────────────┐
+                         │                   Client Application                  │
+                         └────────────────────────┬─────────────────────────────┘
+                                                  │  SQL query
+                                                  │  (enableMultiClusterRouting=true)
+                                                  ▼
+                         ┌──────────────────────────────────────────────────────┐
+                         │           Multi-Cluster Broker (federation)           │
+                         │                                                        │
+                         │  ┌──────────────────┐  ┌──────────────────────────┐  │
+                         │  │  Local ZooKeeper  │  │  Remote ZooKeeper(s)     │  │
+                         │  │  (spectator)      │  │  (spectator connections) │  │
+                         │  └────────┬──────────┘  └────────────┬─────────────┘  │
+                         │           │ routing table             │ routing tables  │
+                         │           └──────────────┬────────────┘                │
+                         │                          │ combined routes             │
+                         └──────────────────────────┼─────────────────────────────┘
+                                    ┌───────────────┴──────────────┐
+                                    │          scatter queries      │
+                              ┌─────▼──────┐                ┌──────▼──────┐
+                              │  Primary   │                │  Remote     │
+                              │  Cluster   │                │  Cluster(s) │
+                              │            │                │             │
+                              │ Server  …  │                │ Server  …   │
+                              └─────┬──────┘                └──────┬──────┘
+                                    │         gather results        │
+                                    └───────────────┬───────────────┘
+                                                    │
+                                         ┌──────────▼──────────┐
+                                         │  Broker merges and  │
+                                         │  returns response   │
+                                         └─────────────────────┘
+```
 
 ## Prerequisites
 
