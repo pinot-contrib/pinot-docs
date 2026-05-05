@@ -38,4 +38,5 @@ The following is a list of operators that are used by the multi-stage query engi
 * [Sort or Limit](sortOrLimit.md)
 * [Transform](transform.md)
 * [Union](union.md)
+* [Unnest](unnest.md)
 * [Window](window.md)
