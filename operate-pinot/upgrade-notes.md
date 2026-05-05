@@ -95,6 +95,25 @@ without a dictionary but must be rebuilt when dictionary state changes.
 `IndexType` plugin against Pinot 1.6.0 and implement both methods before
 upgrading. Older binaries will fail with `AbstractMethodError` until updated.
 
+### `extractRawTimeValues` replaces Avro `enableLogicalTypes`
+
+Apache Pinot 1.6.0 changes the ingestion config for Avro logical types and
+adds the same raw-value control to Parquet readers. `AvroRecordReaderConfig`
+and `ParquetRecordReaderConfig` now expose `extractRawTimeValues`, which
+defaults to `false`. In the default mode, Pinot continues converting temporal
+logical types during extraction. Set `extractRawTimeValues` to `true` only
+when you need raw integer values for `date`, `time-*`, or `timestamp-*`
+fields. `decimal` and `uuid` still convert in all cases.
+
+**Action required.** If your Avro ingestion config still uses
+`enableLogicalTypes`, remove it. To keep the default converted behavior, omit
+the new setting or set `extractRawTimeValues: false`. If you previously
+disabled logical-type conversion to preserve raw temporal values, move to
+`extractRawTimeValues: true` and revalidate any `decimal` or `uuid` fields,
+because those types no longer have a raw passthrough mode.
+
+*Source: [PR #18400](https://github.com/apache/pinot/pull/18400)*
+
 ### Removal of deprecated controller configuration constants
 
 

@@ -70,16 +70,16 @@ Your CSV file may have raw text fields that cannot be reliably delimited using a
 
 ### Avro
 
-To keep the defaults explicit, the example below shows `enableLogicalTypes: true`, but Pinot enables Avro logical-type conversion by default.
+Use `extractRawTimeValues` when you need raw Avro temporal logical-type values instead of Pinot's default converted values.
 
 ```
 dataFormat: 'avro'
 className: 'org.apache.pinot.plugin.inputformat.avro.AvroRecordReader'
 configs:
-    enableLogicalTypes: true
+    extractRawTimeValues: true
 ```
 
-The Avro record reader converts the data in file to a `GenericRecord`. A Java class or `.avro` file is not required. By default, Pinot applies Avro logical-type conversions during extraction. If you need the older primitive-only behavior, set `enableLogicalTypes` to `false`.
+The Avro record reader converts the data in file to a `GenericRecord`. A Java class or `.avro` file is not required. By default, `extractRawTimeValues` is `false`, so Pinot converts Avro temporal logical types during extraction. Set `extractRawTimeValues` to `true` to keep the raw Avro integer values for `date`, `time-millis`, `time-micros`, `timestamp-millis`, `timestamp-micros`, and `timestamp-nanos`. `decimal` and `uuid` always convert.
 
 We use the following conversion table to translate between Avro and Pinot data types. The conversions are done using the offical Avro methods present in `org.apache.avro.Conversions`.
 
@@ -145,6 +145,17 @@ className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetNativeRecordReade
 {% hint style="warning" %}
 For the support of DECIMAL and other parquet native data types, always use `ParquetNativeRecordReader`.
 {% endhint %}
+
+To keep Parquet temporal values in their raw integer form instead of Pinot's default converted values, set `extractRawTimeValues` on `ParquetRecordReader`.
+
+```
+dataFormat: 'parquet'
+className: 'org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader'
+configs:
+  extractRawTimeValues: true
+```
+
+When `extractRawTimeValues` is `false` (the default), Pinot converts Parquet `DATE`, `TIME_*`, and `TIMESTAMP_*` values during extraction. Set it to `true` to keep their raw integer values instead. When you use `ParquetRecordReader`, Pinot forwards this config to whichever underlying reader it selects (`ParquetAvroRecordReader` or `ParquetNativeRecordReader`). `DECIMAL` and `UUID` always convert.
 
 `ParquetNativeRecordReader` preserves primitive values in their native Pinot-compatible form during extraction. For example, a Parquet `BOOLEAN` stays a Pinot `BOOLEAN` instead of being stringified.
 
