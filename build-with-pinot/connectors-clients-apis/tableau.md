@@ -116,7 +116,48 @@ If the output from the command on the first line of the previous snippet matches
 
 #### Installing Pinot for Tableau Desktop on Windows
 
-This section is coming soon. Refer to the previous section and substitute the Windows directories using the same process.
+The process mirrors the macOS steps above. Open a **PowerShell** window and run the following commands.
+
+**1. Find the Pinot snapshot version installed by Maven**
+
+```powershell
+$PINOT_VERSION = (Get-ChildItem "$env:USERPROFILE\.m2\repository\org\apache\pinot\pinot" -Directory |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 1).Name
+Write-Host $PINOT_VERSION
+```
+
+The output should resemble `1.5.0-SNAPSHOT` (or whichever version you built).
+
+**2. Copy the JDBC binaries to the Tableau Drivers folder**
+
+```powershell
+$M2 = "$env:USERPROFILE\.m2\repository"
+$TABLEAU_DRIVERS = "C:\Program Files\Tableau\Drivers"
+
+Copy-Item "$M2\com\ning\async-http-client\1.9.21\async-http-client-1.9.21.jar" $TABLEAU_DRIVERS
+Copy-Item "$M2\org\apache\pinot\pinot-jdbc-shaded\$PINOT_VERSION\pinot-jdbc-shaded-$PINOT_VERSION.jar" $TABLEAU_DRIVERS
+```
+
+**3. Download calcite-core**
+
+Download [calcite-core-1.34.0.jar](https://repo1.maven.org/maven2/org/apache/calcite/calcite-core/1.34.0/calcite-core-1.34.0.jar) and copy it to `C:\Program Files\Tableau\Drivers`.
+
+**4. Verify the drivers**
+
+```powershell
+Get-ChildItem "C:\Program Files\Tableau\Drivers" -Filter "*.jar"
+```
+
+Expected output:
+
+```
+async-http-client-1.9.21.jar
+calcite-core-1.34.0.jar
+pinot-jdbc-shaded-1.5.0-SNAPSHOT.jar
+```
+
+If all three JARs are present, you have successfully installed the Pinot connector for Tableau Desktop on Windows. Restart Tableau Desktop and follow the steps in [Connecting to Pinot from Tableau Desktop](#connecting-to-pinot-from-tableau-desktop).
 
 ### Connecting to Pinot from Tableau Desktop
 
