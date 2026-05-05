@@ -156,6 +156,48 @@ FROM myTable
 -- Returns 0.7615941559557649
 ```
 
+## asinh
+
+```sql
+asinh(col)
+```
+
+Returns the inverse hyperbolic sine of the given value.
+
+```sql
+SELECT asinh(0)
+FROM myTable
+-- Returns 0.0
+```
+
+## acosh
+
+```sql
+acosh(col)
+```
+
+Returns the inverse hyperbolic cosine of the given value. The input must be greater than or equal to `1`.
+
+```sql
+SELECT acosh(1)
+FROM myTable
+-- Returns 0.0
+```
+
+## atanh
+
+```sql
+atanh(col)
+```
+
+Returns the inverse hyperbolic tangent of the given value. The input must be between `-1` and `1`.
+
+```sql
+SELECT atanh(0.46211715726000974)
+FROM myTable
+-- Returns approximately 0.5
+```
+
 ## degrees
 
 ```sql

@@ -88,6 +88,9 @@ For full details, see [String Functions](../../functions/string/).
 | [`LPAD`](../../functions/string/lpad.md) | `LPAD(str, size, pad)` | STRING | Left-pads string to specified size | Both |
 | [`RPAD`](../../functions/string/rpad.md) | `RPAD(str, size, pad)` | STRING | Right-pads string to specified size | Both |
 | [`LENGTH`](../../functions/string/length.md) | `LENGTH(str)` | INT | Returns the length of the string | Both |
+| `OCTETLENGTH` / `OCTET_LENGTH` | `OCTETLENGTH(str)` | INT | Returns the number of UTF-8 bytes in a string | Both |
+| `BITLENGTH` / `BIT_LENGTH` | `BITLENGTH(str)` | INT | Returns the number of UTF-8 bits in a string | Both |
+| `CHARLENGTH` / `CHAR_LENGTH` / `CHARACTERLENGTH` / `CHARACTER_LENGTH` | `CHARLENGTH(str)` | INT | Returns the number of Unicode code points in a string | Both |
 | [`STRPOS`](../../functions/string/strpos.md) | `STRPOS(str, find [, instance])` | INT | Returns position of substring | Both |
 | `STRRPOS` | `STRRPOS(str, find [, instance])` | INT | Returns last position of substring | Both |
 | [`STARTSWITH`](../../functions/string/startswith.md) | `STARTSWITH(str, prefix)` | BOOLEAN | Checks if string starts with prefix | Both |
@@ -101,6 +104,8 @@ For full details, see [String Functions](../../functions/string/).
 | `SUBSTRINGINDEX` / `SUBSTRING_INDEX` | `SUBSTRINGINDEX(str, delimiter, count)` | STRING | Returns text before the Nth delimiter, or after it when count is negative | Both |
 | `FIRSTLINE` | `FIRSTLINE(str)` | STRING | Returns the first line using `\n`, `\r\n`, or `\r` as delimiters | Both |
 | `REPEAT` | `REPEAT(str, times)` | STRING | Repeats string N times | Both |
+| `REGEXPCOUNT` / `REGEXP_COUNT` | `REGEXPCOUNT(str, pattern)` | INT | Counts non-overlapping regex matches | Both |
+| `REGEXPSUBSTR` / `REGEXP_SUBSTR` | `REGEXPSUBSTR(str, pattern)` | STRING | Returns the first regex match, or null if none | Both |
 | [`REGEXP_EXTRACT`](../../functions/string/regexpextract.md) | `REGEXP_EXTRACT(str, pattern [, group])` | STRING | Extracts regex match from string | Both |
 | [`CHR`](../../functions/string/chr.md) | `CHR(codepoint)` | STRING | Returns character for Unicode code point | Both |
 | [`CODEPOINT`](../../functions/string/codepoint.md) | `CODEPOINT(str)` | INT | Returns Unicode code point of first character | Both |
@@ -152,6 +157,8 @@ For full details, see [Math Functions](../../functions/math/).
 | `PI` | `PI()` | DOUBLE | Mathematical constant pi | Both |
 | `E` / `EULER` | `E()` | DOUBLE | Euler's number, base of the natural logarithm | Both |
 | `BITCOUNT` | `BITCOUNT(val)` | INT | Number of set bits in a long value | Both |
+| `FACTORIAL` | `FACTORIAL(val)` | LONG | Returns the factorial of an integer from 0 to 20 | Both |
+| `WIDTHBUCKET` / `WIDTH_BUCKET` | `WIDTHBUCKET(value, lo, hi, numBuckets)` | INT | Assigns a value to a histogram bucket using SQL-standard semantics | Both |
 | `RAND` | `RAND([seed])` | DOUBLE | Random number between 0 and 1 | Both |
 | `SIN` | `SIN(val)` | DOUBLE | Sine | Both |
 | `COS` | `COS(val)` | DOUBLE | Cosine | Both |
@@ -161,6 +168,9 @@ For full details, see [Math Functions](../../functions/math/).
 | `ACOS` | `ACOS(val)` | DOUBLE | Inverse cosine | Both |
 | `ATAN` | `ATAN(val)` | DOUBLE | Inverse tangent | Both |
 | `ATAN2` | `ATAN2(y, x)` | DOUBLE | Two-argument inverse tangent | Both |
+| `ASINH` | `ASINH(val)` | DOUBLE | Inverse hyperbolic sine | Both |
+| `ACOSH` | `ACOSH(val)` | DOUBLE | Inverse hyperbolic cosine | Both |
+| `ATANH` | `ATANH(val)` | DOUBLE | Inverse hyperbolic tangent | Both |
 | `DEGREES` | `DEGREES(radians)` | DOUBLE | Converts radians to degrees | Both |
 | `RADIANS` | `RADIANS(degrees)` | DOUBLE | Converts degrees to radians | Both |
 
@@ -406,11 +416,15 @@ For full details, see [IP Address Functions](../../functions/ip-address/).
 | `IPSUBNETMAX` | `IPSUBNETMAX(prefix)` | STRING | Returns highest IP in subnet | Both |
 | `ISIPV4STRING` | `ISIPV4STRING(ip)` | BOOLEAN | Checks whether the input is a plain IPv4 address string | Both |
 | `ISIPV6STRING` | `ISIPV6STRING(ip)` | BOOLEAN | Checks whether the input is a plain IPv6 address string | Both |
+| `IPFAMILY` / `IP_FAMILY` | `IPFAMILY(ip)` | INT | Returns 4 for IPv4 and 6 for IPv6 | Both |
 | `IPV4TOLONG` | `IPV4TOLONG(ip)` | LONG | Converts an IPv4 string to an unsigned 32-bit long | Both |
 | `LONGTOIPV4` | `LONGTOIPV4(value)` | STRING | Converts an unsigned 32-bit long to IPv4 text | Both |
 | `IPV6TOBYTES` | `IPV6TOBYTES(ip)` | BYTES | Converts an IPv6 string to a 16-byte value | Both |
 | `BYTESTOIPV6` | `BYTESTOIPV6(bytes)` | STRING | Converts a 16-byte IPv6 value to canonical text | Both |
 | `IPV4TOIPV6` | `IPV4TOIPV6(ip)` | STRING | Converts an IPv4 string to its IPv4-mapped IPv6 form | Both |
+| `IPMASKLEN` / `IP_MASK_LEN` | `IPMASKLEN(cidr)` | INT | Returns the prefix length from a CIDR string | Both |
+| `IPNETMASK` / `IP_NETMASK` | `IPNETMASK(cidr)` | STRING | Returns the network mask for a CIDR prefix | Both |
+| `IPHOSTMASK` / `IP_HOSTMASK` | `IPHOSTMASK(cidr)` | STRING | Returns the host mask for a CIDR prefix | Both |
 | `IPV4CIDRTORANGE` | `IPV4CIDRTORANGE(cidr)` | STRING[] | Returns the lower and upper IPv4 addresses for a CIDR range | Both |
 
 ---

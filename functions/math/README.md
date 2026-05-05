@@ -208,6 +208,18 @@ Returns the number of set bits in the binary representation of a `LONG` value.
 Usage: `bitCount(col)`\
 Example: `SELECT bitCount(255)` returns `8`
 
+**factorial(col)**\
+Returns the factorial of a non-negative integer from `0` to `20`. Values outside that range raise an error.
+
+Usage: `factorial(col)`\
+Example: `SELECT factorial(5) FROM myTable` returns `120`
+
+**widthBucket(value, lo, hi, numBuckets)** / **width_bucket(value, lo, hi, numBuckets)**\
+Returns a histogram bucket number using SQL-standard semantics: `0` when `value < lo`, `numBuckets + 1` when `value >= hi`, otherwise a bucket from `1` to `numBuckets`.
+
+Usage: `widthBucket(value, lo, hi, numBuckets)` or `width_bucket(value, lo, hi, numBuckets)`\
+Example: `SELECT widthBucket(5.0, 0.0, 10.0, 5) FROM myTable` returns `3`
+
 ## Bitwise Functions
 
 [**bitAnd(a, b)** / **bit_and(a, b)**](bitwise.md)\

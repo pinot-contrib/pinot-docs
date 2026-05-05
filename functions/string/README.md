@@ -43,6 +43,24 @@ trim spaces from right side of the string
 [**LENGTH(col)**](length.md)\
 calculate length of the string
 
+**octetLength(col)** / **octet_length(col)**\
+Returns the number of bytes in the UTF-8 representation of the input string.
+
+Usage: `octetLength(col)` or `octet_length(col)`\
+Example: `SELECT octetLength('é') FROM myTable` returns `2`
+
+**bitLength(col)** / **bit_length(col)**\
+Returns the number of bits in the UTF-8 representation of the input string.
+
+Usage: `bitLength(col)` or `bit_length(col)`\
+Example: `SELECT bitLength('é') FROM myTable` returns `16`
+
+**charLength(col)** / **char_length(col)** / **characterLength(col)** / **character_length(col)**\
+Returns the number of Unicode code points in the input string. Unlike `LENGTH`, supplementary characters such as emoji count as a single character.
+
+Usage: `charLength(col)` or `char_length(col)`\
+Example: `SELECT charLength('😀') FROM myTable` returns `1`
+
 [**levenshtein_distance(string1, string2)**](levenshtein_distance.md)\
 Returns the Levenshtein edit distance between two strings
 
@@ -215,6 +233,18 @@ Encodes binary data (byte array) to a Base64 encoded string.
 
 Usage: `toBase64(col)`\
 Example: `SELECT toBase64(byteCol) FROM myTable`
+
+**regexpCount(input, regexp)** / **regexp_count(input, regexp)**\
+Returns the number of non-overlapping matches for the regular expression.
+
+Usage: `regexpCount(input, regexp)` or `regexp_count(input, regexp)`\
+Example: `SELECT regexpCount('abc123def456', '\\d+') FROM myTable` returns `2`
+
+**regexpSubstr(input, regexp)** / **regexp_substr(input, regexp)**\
+Returns the first substring that matches the regular expression, or `null` if there is no match.
+
+Usage: `regexpSubstr(input, regexp)` or `regexp_substr(input, regexp)`\
+Example: `SELECT regexpSubstr('abc123def456', '\\d+') FROM myTable` returns `'123'`
 
 [**regexpExtract(value, regexp)**](regexpextract.md)\
 Extracts values that match the provided regular expression
