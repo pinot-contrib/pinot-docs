@@ -88,6 +88,19 @@ SELECT isIPv6String('2001:db8::1') AS valid_v6
 -- Returns true
 ```
 
+## ipFamily / ip_family
+
+```sql
+ipFamily(ipString)
+```
+
+Returns the address family for a plain IP address string: `4` for IPv4 and `6` for IPv6.
+
+```sql
+SELECT ipFamily('2001:db8::1') AS ip_version
+-- Returns 6
+```
+
 ## ipv4ToLong
 
 ```sql
@@ -152,6 +165,45 @@ Maps an IPv4 address to its IPv4-mapped IPv6 representation.
 ```sql
 SELECT ipv4ToIpv6('192.168.1.1') AS mapped_ip
 -- Returns '::ffff:c0a8:101'
+```
+
+## ipMaskLen / ip_mask_len
+
+```sql
+ipMaskLen(cidr)
+```
+
+Returns the prefix length from a CIDR string.
+
+```sql
+SELECT ipMaskLen('192.168.1.0/24') AS prefix_len
+-- Returns 24
+```
+
+## ipNetmask / ip_netmask
+
+```sql
+ipNetmask(cidr)
+```
+
+Returns the network mask for a CIDR prefix as an IP address string.
+
+```sql
+SELECT ipNetmask('192.168.1.0/24') AS netmask
+-- Returns '255.255.255.0'
+```
+
+## ipHostmask / ip_hostmask
+
+```sql
+ipHostmask(cidr)
+```
+
+Returns the host mask for a CIDR prefix as an IP address string.
+
+```sql
+SELECT ipHostmask('192.168.1.0/24') AS hostmask
+-- Returns '0.0.0.255'
 ```
 
 ## ipv4CIDRToRange
