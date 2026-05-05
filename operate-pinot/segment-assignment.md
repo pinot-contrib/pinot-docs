@@ -10,13 +10,23 @@ Segment assignment refers to the strategy of assigning each segment from a table
 
 ## Dimension Tables
 
-Dimension tables are a special case: Pinot always assigns their segments to all servers in the tenant so lookup queries can run locally on every server. If you set `validationConfig.segmentAssignmentStrategy` on a dimension table, the only supported value is `allservers`; leaving it unset also works. Balanced, replica-group, and round-robin strategies do not apply to dimension tables.
+Dimension tables are a special case: Pinot always assigns their segments to all servers in the tenant so lookup queries can run locally on every server. If you want to make that default explicit, configure `segmentAssignmentConfigMap` at the top level of the table config with an `OFFLINE` entry whose `segmentAssignmentStrategy` is `allservers`. Leaving it unset also works. Balanced, replica-group, and round-robin strategies do not apply to dimension tables.
+
+```json
+{
+  "segmentAssignmentConfigMap": {
+    "OFFLINE": {
+      "segmentAssignmentStrategy": "allservers"
+    }
+  }
+}
+```
 
 ## Balanced Segment Assignment
 
 Balanced Segment Assignment is the default assignment strategy, where each segment is assigned to the server with the least segments already assigned. With this strategy, each server will have balanced query load, and each query will be routed to all the servers. It requires minimum configuration, and works well for small use cases.
 
-![](<../../.gitbook/assets/balanced-segment-assignment (1).png>)
+![](<../.gitbook/assets/balanced-segment-assignment (1).png>)
 
 ## Replica-Group Segment Assignment
 
