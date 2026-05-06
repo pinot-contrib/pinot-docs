@@ -6,7 +6,7 @@ description: >-
 
 # jsonextractscalar
 
-Evaluates the 'jsonPath' on jsonField, returns the result as the type 'resultsType', use optional defaultValuefor null or parsing error.
+Evaluates `'jsonPath'` on `jsonField` and coerces the resolved value to the requested `'resultsType'`. Use the optional `defaultValue` when missing paths, nulls, or parsing failures should not fail the query.
 
 ## Signature
 
@@ -14,9 +14,9 @@ Evaluates the 'jsonPath' on jsonField, returns the result as the type 'resultsTy
 
 | Arguments       | Description                                                                                                                                                                                                                                       |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `jsonField`     | An **Identifier**/**Expression** contains JSON documents.                                                                                                                                                                                         |
-| `'jsonPath'`    | Follows [JsonPath Syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.                                                                                                                                            |
-| `'resultsType'` | One of the Pinot supported data types:**`INT, LONG, FLOAT, DOUBLE, BOOLEAN, TIMESTAMP, STRING,`** **`INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY`**`.` |
+| `jsonField`     | An **Identifier**/**Expression** that contains JSON documents.                                                                                                                                                                                    |
+| `'jsonPath'`    | Follows [JsonPath syntax](https://goessner.net/articles/JsonPath/) to read values from JSON documents.                                                                                                                                            |
+| `'resultsType'` | A supported Pinot result type. Common query-facing types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `BOOLEAN`, `TIMESTAMP`, and `STRING`. Append `_ARRAY` for multi-value results such as `INT_ARRAY`, `STRING_ARRAY`, or `BIG_DECIMAL_ARRAY`. |
 
 {% hint style="warning" %}
 **`'jsonPath'`**` and`` `` `**`'resultsType'`are literals.** Pinot uses single quotes to distinguish them from **identifiers**.
@@ -72,6 +72,32 @@ WHERE id = 7044874109
 | id         | name       |
 | ---------- | ---------- |
 | 7044874109 | dummyValue |
+
+## Result typing and coercion
+
+`JSONEXTRACTSCALAR` now documents the per-value coercion rules that Pinot applies after resolving the JsonPath. These are the user-facing behaviors to rely on when you pick a `resultsType`:
+
+- `BIG_DECIMAL` and `BIG_DECIMAL_ARRAY` preserve JSON numeric precision instead of round-tripping through `DOUBLE`. Use these result types when the JSON payload can contain high-precision decimal values.
+- `STRING` and `STRING_ARRAY` return JSON strings as-is. For numbers, booleans, arrays, and objects, Pinot serializes the resolved JSON value back to compact JSON text.
+- Numeric result types coerce each resolved value independently. This means arrays such as `[1, "2", true]` can be read as `INT_ARRAY`, and Pinot converts the elements to `1`, `2`, and `1`.
+- `BOOLEAN` and `BOOLEAN_ARRAY` follow Pinot's boolean coercion rules: non-zero numbers are `true`, zero is `false`, and strings such as `"true"` or `"1"` are also treated as `true`.
+- `TIMESTAMP` and `TIMESTAMP_ARRAY` accept epoch milliseconds as numbers or strings, and also accept ISO-8601 timestamp strings.
+
+For example, these queries are now safe and source-backed:
+
+```sql
+select jsonextractscalar(payload, '$.prices', 'BIG_DECIMAL_ARRAY') as prices
+from myTable
+```
+
+Use `BIG_DECIMAL_ARRAY` when values such as `12345678901234567890.123456789` must keep their exact decimal precision.
+
+```sql
+select jsonextractscalar(payload, '$.metadata', 'STRING') as metadata_json
+from myTable
+```
+
+If `$.metadata` resolves to a JSON object or array, Pinot returns compact JSON text such as `{"a":1}` or `[1,2,3]` instead of failing a runtime cast.
 
 ## Null Handling
 
