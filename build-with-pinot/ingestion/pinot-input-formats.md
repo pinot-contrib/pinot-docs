@@ -254,6 +254,17 @@ className: 'org.apache.pinot.plugin.inputformat.arrow.ArrowRecordReader'
 
 The `ArrowRecordReader` reads Arrow IPC files for batch ingestion. Note that Arrow IPC files require seekable channels, so **gzip compression is not supported**.
 
+To preserve raw Arrow temporal values instead of Pinot's default converted values, set `extractRawTimeValues` on `ArrowRecordReader`:
+
+```yaml
+dataFormat: 'arrow'
+className: 'org.apache.pinot.plugin.inputformat.arrow.ArrowRecordReader'
+configs:
+  extractRawTimeValues: true
+```
+
+When `extractRawTimeValues` is `false` (the default), Pinot converts Arrow `Date`, `Time`, and `Timestamp` values during extraction. Set it to `true` to keep raw integers instead: `Date` stays as days since epoch, while `Time` and `Timestamp` stay in the schema's declared Arrow unit.
+
 #### Stream ingestion
 
 For stream ingestion, the Arrow decoder converts Arrow columnar batches to Pinot rows:
@@ -267,5 +278,8 @@ stream.kafka.decoder.class.name=org.apache.pinot.plugin.inputformat.arrow.ArrowM
 | Property | Default | Description |
 |----------|---------|-------------|
 | `arrow.allocator.limit` | 268435456 (256 MB) | Memory limit for Arrow's off-heap allocator in bytes |
+| `extractRawTimeValues` | `false` | Keep Arrow `Date`, `Time`, and `Timestamp` values as raw integers instead of Pinot's default converted values |
 
-Arrow type conversions are handled automatically: `Text` → `String`, `LocalDateTime` → `Timestamp`, Arrow Maps → flattened `Map<String, Object>`, and Arrow Lists → `List<Object>`. Dictionary-encoded columns are also supported.
+Arrow type conversions are handled automatically: UTF-8 text becomes `String`, `Date` becomes `LocalDate`, `Time` becomes `LocalTime`, `Timestamp` becomes `Timestamp`, Arrow Maps become flattened `Map<String, Object>`, and Arrow Lists become `Object[]`. Dictionary-encoded columns are decoded against their logical type before extraction.
+
+Each Arrow Kafka message should contain a complete IPC stream. Empty batches are skipped, single-row batches ingest as one Pinot row, and multi-row batches fan out into multiple Pinot rows.

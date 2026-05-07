@@ -731,6 +731,7 @@ Optional stream config properties:
 | Property | Description |
 |---|---|
 | `stream.kafka.decoder.prop.arrow.allocator.limit` | Maximum memory (in bytes) for the Arrow allocator. Default: `268435456` (256 MB). |
+| `stream.kafka.decoder.prop.extractRawTimeValues` | Keep Arrow `Date`, `Time`, and `Timestamp` values as raw integers instead of Pinot's default converted values. Default: `false`. |
 
 Example `streamConfigs`:
 
@@ -741,13 +742,18 @@ Example `streamConfigs`:
   "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.arrow.ArrowMessageDecoder",
   "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
   "stream.kafka.broker.list": "kafka:9092",
-  "stream.kafka.decoder.prop.arrow.allocator.limit": "536870912"
+  "stream.kafka.decoder.prop.arrow.allocator.limit": "536870912",
+  "stream.kafka.decoder.prop.extractRawTimeValues": "true"
 }
 ```
 
 {% hint style="info" %}
 The Arrow decoder expects each Kafka message to contain a complete Arrow IPC stream (schema + record batch). Ensure your producer serializes Arrow data in the IPC streaming format.
 {% endhint %}
+
+When `stream.kafka.decoder.prop.extractRawTimeValues` is `false` (the default), Pinot converts Arrow `Date`, `Time`, and `Timestamp` values during extraction. Set it to `true` to keep raw integers instead: `Date` stays as days since epoch, while `Time` and `Timestamp` stay in the schema's declared Arrow unit.
+
+Each Arrow Kafka message can yield zero, one, or many Pinot rows. Empty batches are ignored, single-row batches ingest as one Pinot row, and multi-row batches fan out into multiple Pinot rows.
 
 ## Consuming a Subset of Kafka Partitions
 
