@@ -1,6 +1,7 @@
 # FST index
 
-The FST (Finite State Transducer) index accelerates regex queries on dictionary-encoded STRING columns. It reduces the on-disk index size by 4-6x compared to scanning the full dictionary.
+The FST (Finite State Transducer) index accelerates regex queries on STRING columns by building over dictionary
+values. It reduces the on-disk index size by 4-6x compared to scanning the full dictionary.
 
 ## When to use
 
@@ -10,13 +11,14 @@ Use an FST index when your queries use `LIKE` or `REGEXP_LIKE` predicates on str
 
 - STRING columns only
 - Must be single-valued
-- Must be dictionary-encoded
+- Must have dictionary values available. This can come from a dictionary-encoded forward index, or Pinot can
+  materialize a standalone dictionary while keeping the forward index RAW.
 
 ## Limitations
 
 - Only supports regex queries (`LIKE` and `REGEXP_LIKE` predicates).
 - Only supported on stored or completed segments (not consuming segments in real-time tables).
-- Only supported on dictionary-encoded columns.
+- Only supported on columns with dictionary values available.
 - Works best for prefix queries. Suffix-only or infix-only patterns may not benefit as much.
 
 {% hint style="info" %}
@@ -27,7 +29,7 @@ For more information on FST construction, see the [Lucene FST documentation](htt
 
 ## Configuration
 
-To enable the FST index on a dictionary-encoded column:
+To enable the FST index on a column:
 
 {% code title="Recommended: fieldConfigList" %}
 ```json
@@ -43,7 +45,9 @@ To enable the FST index on a dictionary-encoded column:
 ```
 {% endcode %}
 
-The FST index generates one index file (`.lucene.fst`). If an inverted index is also enabled on the column, FST can take advantage of it for faster lookups.
+The FST index generates one index file (`.lucene.fst`). If you keep the forward index RAW, Pinot materializes a
+standalone dictionary for the FST automatically. If an inverted index is also enabled on the column, FST can take
+advantage of it for faster lookups.
 
 ## Query examples
 
@@ -77,7 +81,7 @@ The case-insensitive FST index (IFST) provides the same functionality as the sta
 
 - Supports case-insensitive regex queries.
 - Only supported on stored or completed segments (not consuming segments).
-- Only supported on dictionary-encoded STRING columns.
+- Only supported on STRING columns with dictionary values available.
 - Works best for prefix queries with case-insensitive matching.
 
 ### Configuration

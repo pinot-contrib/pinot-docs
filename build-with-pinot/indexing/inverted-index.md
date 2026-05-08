@@ -42,6 +42,10 @@ The recommended way to enable a bitmap inverted index:
 ```
 {% endcode %}
 
+If the column uses a RAW forward index, you do not need to add a separate dictionary configuration just to make the
+bitmap inverted index work. Pinot keeps the forward index RAW and materializes a standalone dictionary for the
+inverted index automatically.
+
 <details>
 
 <summary>Older configuration</summary>
@@ -112,7 +116,8 @@ LIMIT 10
 
 ## Limitations
 
-- Bitmap inverted indexes require [dictionary encoding](dictionary-index.md) to be enabled on the column.
+- Bitmap inverted indexes require dictionary IDs, but Pinot can satisfy that either with a dictionary-encoded forward
+  index or with a standalone dictionary materialized for a RAW forward index.
 - Sorted inverted indexes (on dictionary-encoded columns) only work on columns whose data is physically sorted within each segment.
 - Sorted raw columns (no-dictionary) also support sort metadata without requiring an inverted index.
 - MAP columns are not supported.
