@@ -116,7 +116,10 @@ The raw value forward index stores actual values instead of IDs. This means that
 
 As shown in the diagram below, dictionary encoding can lead to numerous random memory accesses for dictionary lookups. In contrast, the raw value forward index allows for sequential value scanning, which can enhance query performance when applied appropriately.
 
-Note: Raw value forward index currently does not support inverted index (all others JSON/TEXT/Range/etc are supported). Also, since reading a value from this index requires reading the entire chunk in memory and decompressing, it is not suitable for heavy random reads.&#x20;
+Note: A RAW forward index can still be paired with secondary indexes that need dictionary IDs. When you enable a
+dictionary-backed index such as bitmap inverted index or FST/IFST on a RAW column, Pinot keeps the forward index RAW
+and materializes a standalone dictionary for the secondary index. Since reading a value from this index requires
+reading the entire chunk in memory and decompressing, it is not suitable for heavy random reads.&#x20;
 
 **Sorted raw columns:** As of Pinot 1.3.0, raw columns can now be configured as sorted columns without forcing an inverted index. Previously, configuring a column as both sorted and no-dictionary would cause Pinot to force-add an inverted index, which negated the storage benefits of raw encoding. Now, you can have a time-sorted raw column (e.g., a timestamp column) without dictionary encoding or inverted index, allowing for efficient storage while maintaining sort order metadata.
 

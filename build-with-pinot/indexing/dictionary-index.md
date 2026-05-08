@@ -20,10 +20,10 @@ In Pinot, dictionaries serve as both an index and actual encoding. Consequently,
 | ------------------------------------------- | ------------------------- | ------------------------------------------------------------------- |
 | [forward](forward-index.md)                 |                           | Implementation depends on whether the dictionary is enabled or not. |
 | [range](range-index.md)                     |                           | Implementation depends on whether the dictionary is enabled or not. |
-| [inverted](inverted-index.md)               |                           | Requires the dictionary index to be enabled.                        |
+| [inverted](inverted-index.md)               |                           | Uses dictionary IDs. Pinot can materialize a standalone dictionary for RAW columns when the index is enabled. |
 | [json](json-index.md)                       | when `optimizeDictionary` | Disables dictionary.                                                |
 | [text](text-search-support.md)              | when `optimizeDictionary` | Disables dictionary.                                                |
-| FST                                         |                           | Requires dictionary.                                                |
+| FST                                         |                           | Uses dictionary values. Pinot can materialize a standalone dictionary for RAW STRING columns when FST is enabled. |
 | [H3 (or geospatial)](geospatial-support.md) |                           | Incompatible with dictionary.                                       |
 
 ## Configuration
@@ -69,6 +69,10 @@ Alternatively, the `encodingType` property can be changed. For example:
 ```
 
 You may choose the option you prefer, but it's essential to maintain consistency, as Pinot will reject table configurations where the same column and index are defined in different locations.
+
+Even when a column keeps a RAW forward index, Pinot may still materialize a standalone dictionary when another enabled
+index needs dictionary IDs or dictionary values. This lets a RAW column back features such as bitmap inverted indexes
+or FST/IFST without changing the forward-index encoding.
 
 ### Heuristically enable dictionaries
 
