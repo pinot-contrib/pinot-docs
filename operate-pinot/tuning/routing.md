@@ -55,7 +55,7 @@ Data cannot always be partitioned by a dimension column or even when it is, not 
 
 ![](../../.gitbook/assets/partition-on-member-id.png)
 
-Apache Pinot currently supports `Modulo`, `Murmur`, `Murmur3`, `FNV`, `ByteArray`, and `HashCode` partition functions. Partitioning can be enabled by setting the following configuration in the table config. For function-specific options such as `useRawBytes`, `seed`, `variant`, and `negativePartitionHandling`, see [`segmentPartitionConfig`](../../reference/configuration-reference/table.md#segments-config) in the table configuration reference.
+Apache Pinot currently supports `Modulo`, `Murmur` (alias `Murmur2`), `Murmur3`, `FNV`, `HashCode`, `ByteArray`, and `BoundedColumnValue` partition functions. Partitioning can be enabled by setting the following configuration in the table config. For function-specific options such as `partitionIdNormalizer`, `useRawBytes`, `seed`, `variant`, and `columnValues`, see [`segmentPartitionConfig`](../../reference/configuration-reference/table.md#segment-partition-config) in the table configuration reference.
 
 ```
 // Table config
