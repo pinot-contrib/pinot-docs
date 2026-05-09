@@ -70,9 +70,9 @@ First, define the partition scheme in the table's index config:
 }
 ```
 
-**Supported partition functions:** `Modulo`, `Murmur`, `Murmur3`, `FNV`, `ByteArray`, `HashCode`
+**Supported partition functions:** `Modulo`, `Murmur` (alias `Murmur2`), `Murmur3`, `FNV`, `HashCode`, `ByteArray`, `BoundedColumnValue`
 
-For function-specific options such as `useRawBytes`, `seed`, `variant`, and `negativePartitionHandling`, see [`segmentPartitionConfig`](../../reference/configuration-reference/table.md#segments-config) in the table configuration reference.
+For function-specific options such as `partitionIdNormalizer`, `useRawBytes`, `seed`, `variant`, and `columnValues`, see [`segmentPartitionConfig`](../../reference/configuration-reference/table.md#segment-partition-config) in the table configuration reference.
 
 **Supported filter operators:** `=` (equality), `IN`
 

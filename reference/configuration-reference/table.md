@@ -114,7 +114,7 @@ Before Pinot version 0.13, the configuration described above was also used to co
 | starTreeIndexConfigs                       | The list of StarTree indexing configs for creating StarTree indexes. For details on how to configure this, see [StarTree Index](../../build-with-pinot/indexing/star-tree-index.md).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | enableDefaultStarTree                      | Boolean to indicate whether to create a default StarTree index for the segment. For details, see[ ](../../build-with-pinot/indexing/star-tree-index.md)[Star-Tree index](../../build-with-pinot/indexing/star-tree-index.md).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | enableDynamicStarTreeCreation              | Boolean to indicate whether to allow creating StarTree when server loads the segment. StarTree creation could potentially consume a lot of system resources, so this config should be enabled when the servers have the free system resources to create the StarTree.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| segmentPartitionConfig | Use `segmentPartitionConfig.columnPartitionMap` along with [`routing.segementPrunerTypes`](table.md#routing) to enable partitioning. For each column, configure the following options: - `functionName`: Specify one of the supported functions: - `Murmur` or `Murmur2`: MurmurHash 2 - `Murmur3`: MurmurHash 3 - `FNV`: Fowler-Noll-Vo hash (32-bit or 64-bit) - `Modulo`: Modulo on integer values - `HashCode`: Java `hashCode()` - `ByteArray`: Java `hashCode()` on deserialized byte array - `numPartitions`: Number of partitions you want per segment. Controls how data is divided within each segment. - `functionConfig` (optional): Configuration options for the partition function. - For `Murmur`, `Murmur2`, and `Murmur3`: - `useRawBytes` (optional, default: `false`): When set to `true`, the partition value is treated as hex-encoded and decoded back to raw bytes via `BytesUtils.toBytes()` before hashing. This is useful for BYTES columns that are hex-encoded in the data but should be hashed based on their original raw byte values. When `false`, the hex-encoded value is hashed as UTF-8 text. - For `FNV`: - `variant` (optional, default: `fnv1a_32`): Hash algorithm variant. Supported values: `fnv1_32`, `fnv1a_32`, `fnv1_64`, `fnv1a_64` - `useRawBytes` (optional, default: `false`): When set to `true`, the partition value is treated as hex-encoded and decoded back to raw bytes before hashing. - `negativePartitionHandling` (optional, default: `mask`): How to handle negative hash values. Supported values: `mask` (Pinot-style sign-bit masking: `(hash &amp; MAX_VALUE) % numPartitions`), `abs` (signed modulo reduction: `abs(hash % numPartitions)`) Example: `{` `"columnPartitionMap": {` `"column_memberID": {` `"functionName": "Murmur",` `"numPartitions": 32` `}` `}` Example with useRawBytes: `{` `"columnPartitionMap": {` `"bytesColumn": {` `"functionName": "Murmur3",` `"numPartitions": 32,` `"functionConfig": {` `"useRawBytes": "true"` `}` `}` `}` `}` Example with FNV: `{` `"columnPartitionMap": {` `"memberId": {` `"functionName": "FNV",` `"numPartitions": 16,` `"functionConfig": {` `"variant": "fnv1a_32",` `"useRawBytes": "false",` `"negativePartitionHandling": "abs"` `}` `}` `}` `}` |
+| segmentPartitionConfig | Configure per-column partition functions for broker-side partition pruning. Use `segmentPartitionConfig.columnPartitionMap` together with [`routing.segmentPrunerTypes`](table.md#routing). See [Segment partition config](#segment-partition-config). |
 | loadMode | Indicates how the segments will be loaded onto the server: `heap` - load data directly into direct memory `mmap` - load data segments to off-heap memory |
 | columnMinMaxValueGeneratorMode | Generate min max values for columns. Supported values: `NONE` - do not generate for any columns `ALL` - generate for all columns `TIME` - generate for only time column `NON_METRIC` - generate for time and dimension columns |
 | nullHandlingEnabled                        | (deprecated, use `enableColumnBasedNullHandling` in [schema](schema.md)) For more information, see the [null handling section](../../build-with-pinot/querying-and-sql/null-value-support.md).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
@@ -127,6 +127,67 @@ Before Pinot version 0.13, the configuration described above was also used to co
 | noDictionaryCardinalityRatioThreshold   | If `optimizeDictionary` is enabled, columns whose `cardinality / totalDocs` ratio is below this threshold will still have a dictionary created (because low-cardinality columns benefit from dictionary encoding). A value around `0.1` (10%) is a reasonable starting point. Default: not set (disabled).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | columnMajorSegmentBuilderEnabled       | Boolean to enable column-major segment building, which can improve segment generation performance. Default: `true`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | segmentNameGeneratorType | Type of segmentNameGenerator, default is `SimpleSegmentNameGenerator.` See more on [#segment-name-generator-spec](job-specification.md#segment-name-generator-spec) |
+
+#### Segment partition config
+
+Use `tableIndexConfig.segmentPartitionConfig.columnPartitionMap` together with `routing.segmentPrunerTypes: ["partition"]` when you want Pinot brokers to prune segments based on a partitioned column.
+
+Each entry under `columnPartitionMap` configures one column:
+
+| Property | Description |
+| --- | --- |
+| `functionName` | Partition function name. Matching is case-insensitive. Built-ins are `Modulo`, `Murmur`, `Murmur3`, `FNV`, `HashCode`, `ByteArray`, and `BoundedColumnValue`. `Murmur2` is an alias for `Murmur`. |
+| `numPartitions` | Total number of partitions for the column. |
+| `functionConfig` | Optional string map with function-specific settings. |
+
+Built-in partition functions use the following defaults:
+
+| Function | Aliases | Default `partitionIdNormalizer` | Function-specific config |
+| --- | --- | --- | --- |
+| `Modulo` | none | `POSITIVE_MODULO` | none |
+| `Murmur` | `Murmur2` | `MASK` | `useRawBytes` |
+| `Murmur3` | none | `MASK` | `seed`, `variant` (`x86_32`, `x64_32`), `useRawBytes` |
+| `FNV` | none | `MASK` | `variant` (`fnv1_32`, `fnv1a_32`, `fnv1_64`, `fnv1a_64`), `useRawBytes` |
+| `HashCode` | none | `PRE_MODULO_ABS` | none |
+| `ByteArray` | none | `PRE_MODULO_ABS` | none |
+| `BoundedColumnValue` | none | `NO_OP` | `columnValues`, `columnValuesDelimiter` |
+
+`partitionIdNormalizer` is the shared config key for every built-in function except `BoundedColumnValue`. Supported values are `POSITIVE_MODULO`, `ABS`, `MASK`, `PRE_MODULO_ABS`, and `NO_OP`. Use this when Pinot needs to match the partition-id math used by your producer or upstream partitioner. `NO_OP` is only appropriate when the function already returns values in `[0, numPartitions)`.
+
+`BoundedColumnValue` maps configured values to fixed partition ids and sends all unmatched values to partition `0`. Set `numPartitions` to the number of configured values plus one.
+
+Example:
+
+```json
+{
+  "tableIndexConfig": {
+    "segmentPartitionConfig": {
+      "columnPartitionMap": {
+        "memberId": {
+          "functionName": "FNV",
+          "numPartitions": 16,
+          "functionConfig": {
+            "variant": "fnv1a_32",
+            "partitionIdNormalizer": "ABS"
+          }
+        },
+        "subject": {
+          "functionName": "BoundedColumnValue",
+          "numPartitions": 4,
+          "functionConfig": {
+            "columnValues": "Maths|English|Chemistry",
+            "columnValuesDelimiter": "|"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+{% hint style="info" %}
+Pinot no longer uses a closed `PartitionFunctionFactory` enum. Custom partition functions are discovered at startup when they are public, concrete `PartitionFunction` implementations under `org.apache.pinot.*` with a public `(int numPartitions, Map<String, String> functionConfig)` constructor. Override `getNames()` only when you need aliases beyond the default `[getName()]`.
+{% endhint %}
 
 ### Field Config List
 
