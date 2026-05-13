@@ -9,9 +9,9 @@ description: >-
 
 
 {% hint style="danger" %}
-**Deprecated**
+**Removed**
 
-This index is deprecated, and subject to be removed after releasing **1.4.0**. Please use Lucene based [Text Index](text-search-support.md).
+The native text index was deprecated in Pinot 1.3.0 and has been **removed as of Pinot 1.5.0**. Please migrate to the Lucene-based [Text Index](text-search-support.md).
 {% endhint %}
 
 ## Native text index
@@ -85,7 +85,7 @@ The native text index is supported on STRING columns only.
 
 ## Migration
 
-Since the native text index is deprecated and will be removed after the 1.4.0 release, migrate to the standard [text index](text-search-support.md) by:
+Since the native text index has been removed in Pinot 1.5.0, migrate to the standard [text index](text-search-support.md) by:
 
 1. Replacing `"indexType": "NATIVE_TEXT"` with the equivalent text index configuration in `fieldConfigList`.
 2. Using `TEXT_MATCH` or `TEXT_CONTAINS` functions in your queries as before.
