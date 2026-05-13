@@ -126,7 +126,7 @@ Use these tools to understand and optimize MSE query behavior in production:
 
 MSE supports two execution modes:
 
-| | Standard MSE | Lite Mode (Beta, since 1.4.0) |
+| | Standard MSE | Lite Mode |
 | --- | --- | --- |
 | **Execution model** | Fully distributed stages across servers with network shuffles. | Scatter-gather leaf stages (like SSE) with non-leaf stages running single-threaded in the broker. |
 | **Join execution** | Distributed across servers. | Runs in the broker. |
@@ -134,8 +134,8 @@ MSE supports two execution modes:
 | **Target workload** | Queries that need distributed joins or large intermediate result sets. | High-QPS use-cases that need window functions, subqueries, or small joins without the risk of full table scans. |
 | **Activation** | `SET useMultistageEngine=true;` | `SET useMultistageEngine=true; SET usePhysicalOptimizer=true; SET useLiteMode=true;` |
 
-{% hint style="warning" %}
-Lite Mode is currently in Beta. It requires the Physical Optimizer (`usePhysicalOptimizer=true`), which is also Beta.
+{% hint style="info" %}
+Lite Mode and the Physical Optimizer were introduced in Pinot 1.4.0 and are stable as of Pinot 1.5.0.
 {% endhint %}
 
 **When to use Lite Mode:**
@@ -245,6 +245,7 @@ MSE has matured steadily since its introduction:
 | 1.2.0 | Explain plan improvements and additional join strategy support. |
 | 1.3.0 | Application-level query quotas added, applicable to MSE workloads. |
 | 1.4.0 | Physical Optimizer (Beta), Lite Mode (Beta), workload-based query isolation, stage-level spooling, and broker pruning for MSE. |
+| 1.5.0 | Physical Optimizer and Lite Mode stabilized, with additional Lite Mode controls and logical table support. |
 
 Refer to the [Release Notes](../../reference/release-notes/README.md) for the complete changelog for each version.
 
