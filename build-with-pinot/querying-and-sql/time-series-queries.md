@@ -4,8 +4,8 @@ Pinot has a "Time Series Engine" that can be used to support any Time Series Que
 
 Languages such as PromQL, Uber's M3QL, and many more can be implemented using the Plugin. A toy language plugin, intended only for demo/testing purposes, is included in the apache/pinot repo.
 
-{% hint style="info" %}
-**Status:** The Time Series Engine is in **Beta** as of Pinot 1.4 and is slated to be **Generally Available** in Pinot 1.5.
+{% hint style="success" %}
+**Status:** The Time Series Engine is **Generally Available** as of Pinot 1.5.0.
 {% endhint %}
 
 ## Running Time Series Queries with Quickstart
