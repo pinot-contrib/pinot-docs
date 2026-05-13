@@ -92,7 +92,7 @@ docker run --rm -ti \
     --env AWS_ACCESS_KEY_ID=<aws-access-key-id> \
     --env AWS_SECRET_ACCESS_KEY=<aws-secret-access-key> \
     --mount type=bind,source=/tmp/pinot-s3-docker,target=/tmp \
-    apachepinot/pinot:latest StartController \
+    apachepinot/pinot:1.5.0 StartController \
     -configFileName /tmp/controller.conf
 ```
 
@@ -106,7 +106,7 @@ docker run --rm -ti \
     --network=pinot-demo \
     --env AWS_ACCESS_KEY_ID=<aws-access-key-id> \
     --env AWS_SECRET_ACCESS_KEY=<aws-secret-access-key> \
-    apachepinot/pinot:latest StartBroker \
+    apachepinot/pinot:1.5.0 StartBroker \
     -zkAddress zookeeper:2181 -clusterName pinot-s3-example-docker
 ```
 
@@ -140,7 +140,7 @@ docker run --rm -ti \
     --env AWS_ACCESS_KEY_ID=<aws-access-key-id> \
     --env AWS_SECRET_ACCESS_KEY=<aws-secret-access-key> \
     --mount type=bind,source=/tmp/pinot-s3-docker,target=/tmp \
-    apachepinot/pinot:latest StartServer \
+    apachepinot/pinot:1.5.0 StartServer \
     -zkAddress zookeeper:2181 -clusterName pinot-s3-example-docker \
     -configFileName /tmp/server.conf
 ```
@@ -155,7 +155,7 @@ You can also mount your table conf and schema files to the container and run it.
 docker run --rm -ti \
     --name pinot-ingestion-job \
     --network=pinot-demo \
-    apachepinot/pinot:latest AddTable \
+    apachepinot/pinot:1.5.0 AddTable \
     -controllerHost pinot-controller \
     -controllerPort 9000 \
     -schemaFile examples/batch/airlineStats/airlineStats_schema.json \
@@ -318,7 +318,7 @@ docker run --rm -ti \
     --env AWS_ACCESS_KEY_ID=<aws-access-key-id> \
     --env AWS_SECRET_ACCESS_KEY=<aws-secret-access-key> \
     --mount type=bind,source=/tmp/pinot-s3-docker,target=/tmp \
-    apachepinot/pinot:latest LaunchDataIngestionJob \
+    apachepinot/pinot:1.5.0 LaunchDataIngestionJob \
     -jobSpecFile /tmp/ingestionJobSpec.yaml
 ```
 
