@@ -65,6 +65,7 @@ Prefix all the below properties with  `pinot.broker.adaptive.server.selector.`
 | `autodecay.window.ms` | If the EWMA value has not been updated for a while, the duration after which the value should be decayed | 10000 |
 | `avg.initialization.val` | Initial value for EWMA average | 1.0 |
 | `stats.manager.threadpool.size` | Number of threads reserved to process Adaptive Server Selection Stats. | 2 |
+| `hybrid.score.queue.size.floor` | Value added to the estimated queue size in the HYBRID score before exponentiation. Set to `1` to keep latency in the score when all servers are idle; the default `0` preserves previous behavior. | 0 |
 
 ### Monitoring Adaptive Routing with Metrics
 
@@ -100,13 +101,14 @@ This creates one metric per broker × server × tenant combination. The tenant d
 The hybrid score is computed as:
 
 ```
-(numInFlightRequests + inFlightRequestsEMA) ^ exponent * latencyMsEMA
+(queueSizeFloor + numInFlightRequests + inFlightRequestsEMA) ^ exponent * latencyMsEMA
 ```
 
 Where the exponent defaults to 3 (configurable via `pinot.broker.adaptive.server.selector.hybrid.score.exponent`).
+The queue size floor defaults to 0 (configurable via `pinot.broker.adaptive.server.selector.hybrid.score.queue.size.floor`). Setting it to `1` keeps latency in the score when all servers are idle.
 
 Key characteristics:
-- **Score of 0**: Server has no in-flight requests and latency is minimal
+- **Score of 0**: Server has no in-flight requests, the in-flight-request EMA has decayed to 0, and the queue size floor is 0
 - **Rising score**: Indicates either increased in-flight requests or higher latency
 - **Sharp increases**: An unhealthy server with 5+ in-flight requests will have its latency multiplied by approximately `(5+5)^3 = 1000`
 
@@ -131,5 +133,6 @@ See [Broker Configuration Reference](../../reference/configuration-reference/bro
 - `pinot.broker.adaptive.server.selector.enable.stats.metric.export`
 - `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms`
 - `pinot.broker.adaptive.server.selector.hybrid.score.exponent`
+- `pinot.broker.adaptive.server.selector.hybrid.score.queue.size.floor`
 - `pinot.broker.adaptive.server.selector.ewma.alpha`
 - `pinot.broker.adaptive.server.selector.autodecay.window.ms`
