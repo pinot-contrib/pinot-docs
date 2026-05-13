@@ -122,6 +122,16 @@ Use these tools to understand and optimize MSE query behavior in production:
 - **Stage stats** provide per-stage runtime metrics (rows processed, time spent, memory used) after query execution. See [Understanding Stage Stats](../../build-with-pinot/querying-and-sql/multi-stage-query/understanding-stage-stats.md).
 - **`EXPLAIN IMPLEMENTATION PLAN FOR`** returns the physical plan as executed by the servers, useful for verifying that the physical optimizer is making expected decisions.
 
+### Stage-stats defaults and upgrade compatibility
+
+From Pinot 1.5.0 onward, servers default `pinot.query.mse.stats.mode` to `ALWAYS`. That is the recommended steady-state setting when every server in the cluster is already running Pinot 1.4.0 or later, because it keeps stage stats enabled without the Helix version watcher that `SAFE` relies on.
+
+If a rolling upgrade still includes any server older than Pinot 1.4.0, set `pinot.query.mse.stats.mode=SAFE` on the upgraded servers until every server is at least Pinot 1.4.0. Pre-1.4 servers can return incorrect intersection stats or fail when newer workers send unexpected upstream stats. After the last pre-1.4 server is gone, switch back to `ALWAYS` or remove the override and use the default again.
+
+{% hint style="info" %}
+`SAFE` is intentionally conservative: it only sends stats when all brokers and servers advertise the same Pinot version. During a Pinot 1.4-to-1.5 rolling upgrade, that can temporarily suppress stage stats even though `ALWAYS` remains the recommended setting once all servers are on Pinot 1.4.0 or later.
+{% endhint %}
+
 ## Choosing between standard MSE and Lite Mode
 
 MSE supports two execution modes:
