@@ -128,6 +128,7 @@
       * [Sort or Limit](build-with-pinot/querying-and-sql/multi-stage-query/operator-types/sortOrLimit.md)
       * [Transform](build-with-pinot/querying-and-sql/multi-stage-query/operator-types/transform.md)
       * [Union](build-with-pinot/querying-and-sql/multi-stage-query/operator-types/union.md)
+      * [Unnest](build-with-pinot/querying-and-sql/multi-stage-query/operator-types/unnest.md)
       * [Window](build-with-pinot/querying-and-sql/multi-stage-query/operator-types/window.md)
     * [Stage-Level Spooling](build-with-pinot/querying-and-sql/multi-stage-query/stage-level-spooling.md)
   * [Time Series Queries](build-with-pinot/querying-and-sql/time-series-queries.md)

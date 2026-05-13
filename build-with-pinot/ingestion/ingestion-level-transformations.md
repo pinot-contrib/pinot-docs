@@ -403,7 +403,17 @@ This is not natively supported as of yet. You can **write a custom Decoder/Recor
 
 #### Extract attributes from complex objects
 
-_Feature TBD_
+The multi-stage query engine (MSE) supports flattening array columns at query time using `CROSS JOIN UNNEST(...)`. This is the recommended approach for expanding array fields without pre-flattening data at ingestion.
+
+```sql
+SET useMultistageEngine=true;
+
+SELECT t.id, elem
+FROM myTable AS t
+CROSS JOIN UNNEST(t.arrayColumn) AS u(elem)
+```
+
+For full syntax including `WITH ORDINALITY`, filtering, and aggregation after unnesting, see the [Unnest operator](../querying-and-sql/multi-stage-query/operator-types/unnest.md) page.
 
 ## Add a new column during ingestion
 
