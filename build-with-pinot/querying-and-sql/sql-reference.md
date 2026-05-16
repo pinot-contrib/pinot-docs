@@ -666,3 +666,5 @@ The following table summarizes feature support across the single-stage engine (S
 | CREATE TABLE / DROP TABLE DDL | No | No |
 | DISTINCT with * | No | No |
 | DISTINCT with GROUP BY | No | No |
+
+`CREATE TABLE / DROP TABLE DDL` stays `No` in this matrix because broker-routed SSE and MSE queries do not execute table DDL. Pinot exposes SQL table DDL through the controller endpoint `POST /sql/ddl`; see [SQL Table DDL](sql-ddl.md).

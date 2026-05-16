@@ -16,6 +16,10 @@ Use this section to decide how to query Pinot, how much SQL support you need, wh
 [sql-syntax.md](sql-syntax.md)
 {% endcontent-ref %}
 
+{% content-ref url="sql-ddl.md" %}
+[sql-ddl.md](sql-ddl.md)
+{% endcontent-ref %}
+
 {% content-ref url="../../functions/README.md" %}
 [Functions](../../functions/README.md)
 {% endcontent-ref %}
@@ -34,7 +38,7 @@ For explain plans, joins, optimizer behavior, and operator details, continue int
 
 ## What this page covered
 
-This page mapped the main query workflows in Pinot: learning the query path, understanding SQL behavior, finding functions, choosing between SSE and MSE, and tuning execution controls.
+This page mapped the main query workflows in Pinot: learning the query path, understanding SQL behavior, finding functions, choosing between SSE and MSE, using SQL table DDL through the controller, and tuning execution controls.
 
 ## Next step
 
