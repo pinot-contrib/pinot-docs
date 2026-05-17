@@ -6,7 +6,7 @@ description: Use controller-managed SQL DDL to create, inspect, list, and drop P
 
 Pinot supports a controller-managed SQL DDL surface for table metadata operations. Use it when you want a SQL alternative to the JSON-based `/schemas` and `/tables` workflows.
 
-The controller accepts these statements:
+The controller accepts one DDL statement per request:
 
 - `CREATE TABLE`
 - `DROP TABLE`
@@ -22,19 +22,20 @@ Run these statements through the controller endpoint `POST /sql/ddl`, not throug
 `POST /sql/ddl` compiles SQL into the same Pinot `Schema` and `TableConfig` model used by the existing controller APIs. That means:
 
 - DDL-created tables go through the same controller validation path as `POST /tables`.
-- `SHOW CREATE TABLE` renders a canonical SQL form of the stored schema and table config.
+- `SHOW CREATE TABLE` renders a canonical SQL form of the stored schema and table config that you can review, version, or replay.
 - `dryRun=true` lets you compile and validate without persisting any metadata.
+- Existing broker query APIs still handle `SELECT` statements. The controller endpoint handles metadata changes.
 
 ## Supported statement shapes
 
 | Statement | Notes |
 | --- | --- |
-| `CREATE TABLE [IF NOT EXISTS] [db.]table (...) TABLE_TYPE = OFFLINE|REALTIME [PROPERTIES (...)]` | Creates one table type at a time. Use `PROPERTIES` for table config settings such as replication, tenants, time column, stream configs, and nested config blobs. |
+| `CREATE TABLE [IF NOT EXISTS] [db.]table (...) [PRIMARY KEY (...)] TABLE_TYPE = OFFLINE|REALTIME [PROPERTIES (...)]` | Creates one table type at a time. Use `PROPERTIES` for table config settings such as replication, tenants, time column, indexes, stream configs, task configs, and nested config blobs. |
 | `DROP TABLE [IF EXISTS] [db.]table [TYPE OFFLINE|REALTIME]` | Omitting `TYPE` targets both table variants. |
 | `SHOW TABLES [FROM db]` | Lists tables in the selected database. |
 | `SHOW CREATE TABLE [db.]table [TYPE OFFLINE|REALTIME]` | Returns canonical DDL for the stored table metadata. |
 
-Use either a `db.table` qualifier or a `Database` header to target a database.
+Use either a `db.table` qualifier or a `Database` header to target a database. If both are present, they must refer to the same database; otherwise Pinot returns `400 Bad Request`.
 
 ## Endpoint contract
 
@@ -42,7 +43,18 @@ Send requests to the controller:
 
 ```bash
 curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
   -H "Content-Type: application/json" \
+  -d '{"sql":"SHOW TABLES"}'
+```
+
+To target a database with an HTTP header:
+
+```bash
+curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Database: analytics" \
   -d '{"sql":"SHOW TABLES"}'
 ```
 
@@ -50,6 +62,7 @@ Use `dryRun=true` when you want validation without persistence:
 
 ```bash
 curl -X POST "http://localhost:9000/sql/ddl?dryRun=true" \
+  -H "accept: application/json" \
   -H "Content-Type: application/json" \
   -d '{"sql":"CREATE TABLE events (id INT DIMENSION) TABLE_TYPE = OFFLINE"}'
 ```
@@ -60,6 +73,94 @@ High-level response behavior:
 - `200 OK` for `DROP TABLE`, `SHOW TABLES`, `SHOW CREATE TABLE`, dry runs, and idempotent `IF EXISTS` or `IF NOT EXISTS` cases
 - `400 Bad Request` for parse errors, semantic validation errors, or oversized SQL
 - `404 Not Found` when a requested table or schema does not exist
+- `409 Conflict` for duplicate `CREATE TABLE` without `IF NOT EXISTS`, logical-table references that block a drop, or a race with another writer
+
+Response bodies include only fields that apply to the executed operation.
+
+| Field | Applies to | Notes |
+| --- | --- | --- |
+| `operation` | all responses | One of `CREATE_TABLE`, `DROP_TABLE`, `SHOW_TABLES`, or `SHOW_CREATE_TABLE`. |
+| `databaseName` | create, drop, show create | The database scope used for the operation when available. |
+| `tableName` | create, drop, show create | The resolved Pinot table name, often with `_OFFLINE` or `_REALTIME`. |
+| `tableType` | create, typed drop, show create | `OFFLINE` or `REALTIME`. |
+| `schema` | create | The compiled Pinot schema JSON. Returned for dry runs and persisted creates. |
+| `tableConfig` | create | The compiled Pinot table config JSON after table config tuner processing. Returned for dry runs and persisted creates. |
+| `warnings` | create | Non-fatal compile warnings, such as ignored `DECIMAL(p,s)` precision details. |
+| `dryRun` | create, drop | Whether the request validated without persisting or deleting metadata. |
+| `ifNotExists` | create | Whether the statement used `IF NOT EXISTS`. |
+| `ifExists` | drop | Whether the statement used `IF EXISTS`. |
+| `deletedTables` | drop | Typed table names removed by the drop. |
+| `tableNames` | show tables | Tables visible in the selected database. |
+| `ddl` | show create | Canonical `CREATE TABLE` SQL for the stored metadata. |
+| `message` | most responses | Human-readable operation summary. |
+
+## Columns, types, and defaults
+
+Every column has a Pinot data type and an optional role. If you omit the role, Pinot treats the column as a single-value dimension.
+
+| Column form | Result |
+| --- | --- |
+| `name STRING` | Single-value dimension. |
+| `name STRING DIMENSION` | Single-value dimension. |
+| `tags STRING DIMENSION ARRAY` | Multi-value dimension. |
+| `score DOUBLE METRIC` | Metric column. |
+| `ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS'` | Date-time column. |
+
+Supported data type names:
+
+| SQL type name | Pinot type |
+| --- | --- |
+| `INT`, `INTEGER` | `INT` |
+| `BIGINT`, `LONG` | `LONG` |
+| `FLOAT`, `REAL` | `FLOAT` |
+| `DOUBLE` | `DOUBLE` |
+| `DECIMAL`, `NUMERIC`, `BIG_DECIMAL` | `BIG_DECIMAL` |
+| `BOOLEAN` | `BOOLEAN` |
+| `TIMESTAMP` | `TIMESTAMP` |
+| `VARCHAR`, `CHAR`, `STRING` | `STRING` |
+| `VARBINARY`, `BINARY`, `BYTES` | `BYTES` |
+| `JSON` | `JSON` |
+
+`SMALLINT` and `TINYINT` are intentionally rejected. Use `INT` until Pinot exposes narrower integer types.
+
+Use `NOT NULL` to set a non-nullable field and `DEFAULT` to set Pinot's default null value:
+
+```sql
+CREATE TABLE users (
+  id INT NOT NULL DIMENSION,
+  name STRING NOT NULL DEFAULT 'unknown' DIMENSION,
+  score DOUBLE DEFAULT 0.0 METRIC,
+  active BOOLEAN DEFAULT TRUE DIMENSION
+)
+TABLE_TYPE = OFFLINE;
+```
+
+`DEFAULT NULL` is rejected. Default literals must be compatible with the declared column type. `TIMESTAMP` defaults are emitted by `SHOW CREATE TABLE` in UTC ISO-8601 form, and `BYTES` defaults are emitted as quoted hex strings.
+
+## Properties mapping
+
+Use the `PROPERTIES (...)` clause for table config values that are not part of the column list or `TABLE_TYPE` clause. Property keys and values are string literals.
+
+```sql
+PROPERTIES (
+  'timeColumnName' = 'ts',
+  'replication' = '3',
+  'brokerTenant' = 'DefaultTenant',
+  'serverTenant' = 'DefaultTenant'
+)
+```
+
+Pinot routes properties with these rules:
+
+| Property shape | Destination | Examples |
+| --- | --- | --- |
+| Promoted scalar table config keys | Dedicated `TableConfig` fields | `replication`, `brokerTenant`, `serverTenant`, `timeColumnName`, `retentionTimeUnit`, `retentionTimeValue`, `loadMode`, `sortedColumn`, `nullHandlingEnabled`, `aggregateMetrics`, `segmentVersion`, `tags`, `invertedIndexColumns`, `noDictionaryColumns`, `bloomFilterColumns`, `rangeIndexColumns`, `jsonIndexColumns` |
+| JSON blob table config keys | Nested `TableConfig` objects | `ingestionConfig`, `upsertConfig`, `dedupConfig`, `routingConfig`, `queryConfig`, `quotaConfig`, `tierConfigs`, `tunerConfigs`, `fieldConfigs`, `instanceAssignmentConfigMap`, `tagOverrideConfig`, `starTreeIndexConfigs`, `segmentPartitionConfig`, `jsonIndexConfigs` |
+| `streamType`, `stream.*`, `realtime.*` | Realtime stream configs | `stream.kafka.topic.name`, `stream.kafka.decoder.class.name`, `stream.kafka.consumer.factory.class.name`, `realtime.segment.flush.threshold.rows` |
+| `task.<taskType>.<key>` | Minion task config | `task.RealtimeToOfflineSegmentsTask.bucketTimePeriod` |
+| Any other key | Table custom config | `owner`, `team.pipeline`, `custom.flag` |
+
+List-valued promoted properties use comma-separated strings, for example `'invertedIndexColumns' = 'userId,country'`. Stream and realtime properties are valid only on `REALTIME` tables.
 
 ## Example: create an offline table
 
@@ -67,6 +168,7 @@ High-level response behavior:
 CREATE TABLE events (
   id INT NOT NULL DIMENSION,
   city STRING DIMENSION,
+  amount DOUBLE METRIC,
   ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS'
 )
 TABLE_TYPE = OFFLINE
@@ -82,21 +184,152 @@ Submit that statement with `POST /sql/ddl`:
 
 ```bash
 curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
   -H "Content-Type: application/json" \
   -d @- <<'EOF'
-{"sql":"CREATE TABLE events (id INT NOT NULL DIMENSION, city STRING DIMENSION, ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS') TABLE_TYPE = OFFLINE PROPERTIES ('timeColumnName' = 'ts', 'replication' = '3', 'brokerTenant' = 'DefaultTenant', 'serverTenant' = 'DefaultTenant')"}
+{"sql":"CREATE TABLE events (id INT NOT NULL DIMENSION, city STRING DIMENSION, amount DOUBLE METRIC, ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS') TABLE_TYPE = OFFLINE PROPERTIES ('timeColumnName' = 'ts', 'replication' = '3', 'brokerTenant' = 'DefaultTenant', 'serverTenant' = 'DefaultTenant')"}
 EOF
+```
+
+## Example: create a realtime Kafka table
+
+```sql
+CREATE TABLE clicks (
+  user_id STRING DIMENSION,
+  url STRING DIMENSION,
+  ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS'
+)
+TABLE_TYPE = REALTIME
+PROPERTIES (
+  'timeColumnName' = 'ts',
+  'replication' = '2',
+  'streamType' = 'kafka',
+  'stream.kafka.topic.name' = 'click_events',
+  'stream.kafka.decoder.class.name' = 'org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder',
+  'stream.kafka.consumer.factory.class.name' = 'org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory',
+  'stream.kafka.broker.list' = 'kafka-broker:9092',
+  'stream.kafka.consumer.prop.auto.offset.reset' = 'smallest',
+  'realtime.segment.flush.threshold.rows' = '500000'
+);
+```
+
+## Example: create an upsert table
+
+Use `PRIMARY KEY` with a realtime table and pass the upsert configuration as a JSON property:
+
+```sql
+CREATE TABLE upsertOrders (
+  orderId INT NOT NULL DIMENSION,
+  userId STRING NOT NULL DIMENSION,
+  amount DOUBLE METRIC,
+  ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS'
+)
+PRIMARY KEY (orderId)
+TABLE_TYPE = REALTIME
+PROPERTIES (
+  'timeColumnName' = 'ts',
+  'replication' = '2',
+  'streamType' = 'kafka',
+  'stream.kafka.topic.name' = 'orders',
+  'stream.kafka.decoder.class.name' = 'org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder',
+  'stream.kafka.consumer.factory.class.name' = 'org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory',
+  'stream.kafka.broker.list' = 'kafka-broker:9092',
+  'stream.kafka.consumer.prop.auto.offset.reset' = 'smallest',
+  'upsertConfig' = '{"mode":"FULL"}'
+);
+```
+
+## Example: multi-value dimension
+
+Use `DIMENSION ARRAY` for multi-value dimensions:
+
+```sql
+CREATE TABLE products (
+  id INT DIMENSION,
+  tags STRING DIMENSION ARRAY
+)
+TABLE_TYPE = OFFLINE;
+```
+
+## Example: indexes and ingestion config
+
+Promoted list properties use comma-separated strings. Nested table configs use JSON strings.
+
+```sql
+CREATE TABLE pageviews (
+  userId STRING DIMENSION,
+  country STRING DIMENSION,
+  payload JSON DIMENSION,
+  ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS'
+)
+TABLE_TYPE = OFFLINE
+PROPERTIES (
+  'timeColumnName' = 'ts',
+  'invertedIndexColumns' = 'userId,country',
+  'jsonIndexColumns' = 'payload',
+  'ingestionConfig' = '{"batchIngestionConfig":{"segmentIngestionType":"APPEND","segmentIngestionFrequency":"DAILY"}}'
+);
+```
+
+## Example: task config
+
+Use `task.<taskType>.<key>` properties for minion task configs:
+
+```sql
+CREATE TABLE events (
+  id INT DIMENSION,
+  ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS'
+)
+TABLE_TYPE = OFFLINE
+PROPERTIES (
+  'timeColumnName' = 'ts',
+  'task.RealtimeToOfflineSegmentsTask.bucketTimePeriod' = '1d',
+  'task.RealtimeToOfflineSegmentsTask.maxNumRecordsPerSegment' = '5000000',
+  'task.SegmentRefreshTask.tableMaxNumTasks' = '5'
+);
 ```
 
 ## Example: show the stored table definition
 
 ```bash
 curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
   -H "Content-Type: application/json" \
   -d '{"sql":"SHOW CREATE TABLE events TYPE OFFLINE"}'
 ```
 
-Pinot returns canonical SQL that you can review, version, or replay later.
+Example response:
+
+```json
+{
+  "operation": "SHOW_CREATE_TABLE",
+  "tableName": "events_OFFLINE",
+  "tableType": "OFFLINE",
+  "ddl": "CREATE TABLE events (\n  id INT NOT NULL DIMENSION,\n  city STRING DIMENSION,\n  amount DOUBLE METRIC,\n  ts TIMESTAMP DATETIME FORMAT 'TIMESTAMP' GRANULARITY '1:MILLISECONDS'\n)\nTABLE_TYPE = OFFLINE\nPROPERTIES (\n  'brokerTenant' = 'DefaultTenant',\n  'replication' = '3',\n  'serverTenant' = 'DefaultTenant',\n  'timeColumnName' = 'ts'\n)",
+  "message": "Rendered canonical CREATE TABLE for events_OFFLINE."
+}
+```
+
+Canonical DDL uses deterministic ordering for properties and normalizes values where Pinot stores a canonical form. For example, a `TIMESTAMP` date-time column emits `FORMAT 'TIMESTAMP'`, boolean defaults emit `TRUE` or `FALSE`, and identifiers that need quoting are double-quoted.
+
+## Example: list and drop tables
+
+```bash
+curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "Database: analytics" \
+  -d '{"sql":"SHOW TABLES"}'
+```
+
+```bash
+curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"sql":"DROP TABLE events TYPE OFFLINE"}'
+```
+
+Use `DROP TABLE events` without `TYPE` to drop both the offline and realtime variants when they exist. Use `DROP TABLE IF EXISTS events` when a missing table should be a successful no-op.
 
 ## When to keep using JSON APIs
 

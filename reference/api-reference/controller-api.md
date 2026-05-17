@@ -1,60 +1,4 @@
 ---
-description: Pinot controller API reference.
----
-
-# Controller API Examples
-
-The controller exposes the administrative API surface for cluster, schema, table, segment, tenant, database, and SQL DDL operations. The detailed request and response examples live here instead of in the user guide so the reference tree can act as the canonical endpoint index.
-
-## Endpoint Families
-
-| Family | Representative endpoints |
-| --- | --- |
-| Cluster | `GET /cluster/configs`, `POST /cluster/configs`, `DELETE /cluster/configs/{configName}`, `GET /cluster/configs/groovy/staticAnalyzerConfig`, `POST /cluster/configs/groovy/staticAnalyzerConfig`, `GET /cluster/configs/groovy/staticAnalyzerConfig/default`, `GET /cluster/info` |
-| Health and leadership | `GET /health`, `GET /leader/tables` |
-| Query validation | `POST /validateMultiStageQuery`, `POST /query/tableNames` |
-| SQL DDL | `POST /sql/ddl` |
-| Schema | `GET /schemas`, `GET /schemas/{schemaName}`, `POST /schemas`, `PUT /schemas/{schemaName}`, `DELETE /schemas/{schemaName}` |
-| Table | `GET /tables`, `POST /tables`, `PUT /tables/{tableName}`, `DELETE /tables/{tableName}`, `POST /tableConfigs/validate` |
-| Logical tables | `GET /logicalTables`, `POST /logicalTables`, `PUT /logicalTables/{tableName}`, `DELETE /logicalTables/{tableName}` |
-| Segments | `GET /segments/{tableName}/invalidPartitionMetadata`, `POST /segments/{tableName}/reload`, `POST /segments/{tableNameWithType}/uploadFromServerToDeepstore`, `POST /segments/reingested`, `DELETE /deleteSegmentsFromSequenceNum/{tableNameWithType}`, `GET /segments/segmentReloadStatus/{jobId}`, `GET /segments/{tableNameWithType}/needReload` |
-| Tenant and instance management | `GET /tenants`, `GET /tenants/{tenantName}`, `GET /instances`, `POST /instances` |
-
-## Swagger UI
-
-The controller hosts the interactive Swagger UI at `http://<controller-host>:<port>/help`. Use it to confirm exact request shapes before issuing destructive calls.
-
-## Operational Examples
-
-```bash
-curl -X GET "http://localhost:9000/cluster/configs" -H "accept: application/json"
-```
-
-```bash
-curl -X DELETE "http://localhost:9000/tables/baseballStats?retention=0d" -H "accept: application/json"
-```
-
-```bash
-curl -X GET "http://localhost:9000/schemas/baseballStats" -H "accept: application/json"
-```
-
-## What this page covered
-
-- The controller endpoint families and their top-level responsibilities.
-- The interactive Swagger UI location.
-- A few representative request examples for the most common admin flows.
-
-## Next step
-
-If you are about to modify cluster state, use the Swagger UI or the original controller examples page to confirm parameters before running the request.
-
-## Related pages
-
-- [API Reference](README.md)
-- [Controller Admin API](controller-admin-api.md)
-- [Broker Query API](query-api.md)
-- [Broker gRPC API](broker-grpc-api.md)
----
 description: Detailed curl examples for commonly used controller endpoints.
 ---
 
@@ -116,14 +60,22 @@ For static validation, you can also send `tableConfigs` and `schemas` so the con
 
 ### POST /sql/ddl
 
-Execute controller-managed SQL DDL statements for table metadata:
+Execute one controller-managed SQL DDL statement for table metadata:
 
 - `CREATE TABLE`
 - `DROP TABLE`
 - `SHOW TABLES`
 - `SHOW CREATE TABLE`
 
-Use this endpoint when you want a SQL alternative to the JSON `/schemas` and `/tables` APIs. The controller compiles DDL into the same stored `Schema` and `TableConfig` model, so `SHOW CREATE TABLE` reflects the metadata Pinot persists.
+Use this endpoint when you want a SQL alternative to the JSON `/schemas` and `/tables` APIs. The controller compiles DDL into the same stored `Schema` and `TableConfig` model, so `SHOW CREATE TABLE` reflects the metadata Pinot persists. Send the DDL in a JSON request body:
+
+```json
+{
+  "sql": "CREATE TABLE events (id INT DIMENSION) TABLE_TYPE = OFFLINE"
+}
+```
+
+Use a `Database` header or a SQL `db.table` qualifier to target a database. If both are present, they must agree.
 
 Use `dryRun=true` to validate without persisting:
 
@@ -134,32 +86,58 @@ curl -X POST "http://localhost:9000/sql/ddl?dryRun=true" \
   -d '{"sql":"CREATE TABLE events (id INT DIMENSION) TABLE_TYPE = OFFLINE"}'
 ```
 
-Use a regular request when you want Pinot to apply the DDL:
+Use a regular request when you want Pinot to apply the DDL. This example scopes the request with the `Database` header:
 
 ```bash
 curl -X POST "http://localhost:9000/sql/ddl" \
   -H "accept: application/json" \
   -H "Content-Type: application/json" \
+  -H "Database: analytics" \
   -d '{"sql":"SHOW CREATE TABLE events TYPE OFFLINE"}'
 ```
 
-**Response**
+**SHOW CREATE response**
 
 ```json
 {
   "operation": "SHOW_CREATE_TABLE",
-  "tableName": "events_OFFLINE",
+  "databaseName": "analytics",
+  "tableName": "analytics.events_OFFLINE",
   "tableType": "OFFLINE",
-  "ddl": "CREATE TABLE events (id INT DIMENSION) TABLE_TYPE = OFFLINE"
+  "ddl": "CREATE TABLE analytics.events (id INT DIMENSION) TABLE_TYPE = OFFLINE",
+  "message": "Rendered canonical CREATE TABLE for analytics.events_OFFLINE."
 }
 ```
+
+**CREATE dry-run response**
+
+```json
+{
+  "operation": "CREATE_TABLE",
+  "tableName": "events_OFFLINE",
+  "tableType": "OFFLINE",
+  "dryRun": true,
+  "ifNotExists": false,
+  "schema": {
+    "schemaName": "events"
+  },
+  "tableConfig": {
+    "tableName": "events_OFFLINE",
+    "tableType": "OFFLINE"
+  },
+  "message": "Dry-run succeeded for CREATE TABLE events_OFFLINE."
+}
+```
+
+The real response includes the fully resolved schema and table config objects. `warnings` appears when Pinot accepts the DDL but needs to report a non-fatal compile warning.
 
 High-level response semantics:
 
 - `201 Created` for a successful `CREATE TABLE`
-- `200 OK` for `DROP TABLE`, `SHOW TABLES`, `SHOW CREATE TABLE`, and dry runs
-- `400 Bad Request` for parse or semantic validation errors
+- `200 OK` for `DROP TABLE`, `SHOW TABLES`, `SHOW CREATE TABLE`, dry runs, and idempotent `IF EXISTS` or `IF NOT EXISTS` cases
+- `400 Bad Request` for parse errors, semantic validation errors, oversized SQL, type-incompatible defaults, or conflicting database references
 - `404 Not Found` for missing tables or schemas
+- `409 Conflict` for duplicate creates without `IF NOT EXISTS`, logical-table references that block a drop, or races with another writer
 
 See [SQL Table DDL](../../build-with-pinot/querying-and-sql/sql-ddl.md) for syntax details and end-to-end examples.
 
