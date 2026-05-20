@@ -17,10 +17,17 @@ Transparent query rewrite is not part of the current materialized-view feature s
 - Create the MV by posting a schema and an offline table config. The table config must include `task.taskTypeConfigsMap.MaterializedViewTask`.
 - Use a flat `SELECT` over one source table. Pinot validates the SQL, schema mapping, bucket definition, and aggregation set when the MV table is created.
 - The source table must be append-only. Pinot rejects realtime, upsert, dedup, dimension, and `REFRESH`-push source tables.
+- The source table time column and the MV time column must both be `TIMESTAMP` `dateTimeFieldSpecs`.
 - The MV time column must be a `TIMESTAMP` `dateTimeFieldSpec`.
 - Supported MV aggregations in `definedSQL` today are `SUM`, `COUNT`, `MIN`, `MAX`, `DISTINCTCOUNTRAWHLL`, `DISTINCTCOUNTRAWHLLPLUS`, and `DISTINCTCOUNTRAWTHETASKETCH`.
 
-Pinot also validates the expression that produces the MV time column. The simplest supported shapes are a direct `TIMESTAMP` passthrough or a `DATETRUNC(...)` whose unit matches `bucketTimePeriod`. The bundled `airlineStatsMv` quickstart additionally shows a source-specific epoch-days-to-millis transform with `DaysSinceEpoch * 86400000` because the fixture source table stores its primary time column as epoch days.
+Pinot also validates the expression that produces the MV time column. The supported shapes today are a direct `TIMESTAMP` passthrough or a `DATETRUNC(...)` whose unit matches `bucketTimePeriod`.
+
+## Before you create one
+
+- Run at least one Minion.
+- Enable controller task scheduling with `controller.task.scheduler.enabled=true`.
+- Keep the base table on the validated append-only `OFFLINE` path described above.
 
 ## Define the schema and MV table
 
@@ -99,6 +106,12 @@ curl -X POST "http://localhost:9000/tables" \
   -d @salesByHourMv_offline_table_config.json
 ```
 
+Pinot generates MV segments through `MaterializedViewTask`. The controller task manager can schedule those tasks automatically, or you can trigger them manually:
+
+```text
+POST /tasks/schedule?taskType=MaterializedViewTask&tableName=<mvTable>_OFFLINE
+```
+
 ## Query the MV table directly
 
 Query the MV table name directly and re-aggregate its stored values as needed:
@@ -134,7 +147,7 @@ In the Data Explorer, use **Data Sources** to discover both physical tables and 
 
 - **Data Sources** shows cards for **Tables** and **Materialized Views**.
 - **Materialized Views** lists each MV with its base tables, watermark, VALID and STALE partition counts, last refresh time, staleness SLO, and any metadata errors.
-- Clicking an MV opens a detail page with the stored `definedSQL`, split spec, partition state, raw runtime metadata, and **Reload** and **Drop MV** actions.
+- Clicking an MV opens a detail page with the stored `definedSQL`, split spec, partition state, raw runtime metadata, and controls to refresh the page data or drop the MV.
 
 The controller also exposes dedicated MV endpoints:
 
