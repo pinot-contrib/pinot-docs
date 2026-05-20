@@ -20,6 +20,10 @@ Use this section to decide how to query Pinot, how much SQL support you need, wh
 [sql-ddl.md](sql-ddl.md)
 {% endcontent-ref %}
 
+{% content-ref url="materialized-views.md" %}
+[materialized-views.md](materialized-views.md)
+{% endcontent-ref %}
+
 {% content-ref url="../../functions/README.md" %}
 [Functions](../../functions/README.md)
 {% endcontent-ref %}
@@ -38,7 +42,7 @@ For explain plans, joins, optimizer behavior, and operator details, continue int
 
 ## What this page covered
 
-This page mapped the main query workflows in Pinot: learning the query path, understanding SQL behavior, finding functions, choosing between SSE and MSE, using SQL table DDL through the controller, and tuning execution controls.
+This page mapped the main query workflows in Pinot: learning the query path, understanding SQL behavior, finding functions, choosing between SSE and MSE, using SQL table DDL through the controller, working with materialized views, and tuning execution controls.
 
 ## Next step
 
@@ -47,5 +51,6 @@ Read [Querying Pinot](querying-pinot.md) if you want the end-to-end query flow, 
 ## Related pages
 
 - [Build with Pinot](../README.md)
+- [Materialized Views](materialized-views.md)
 - [Functions](../../functions/README.md)
 - [Reference](../../reference/README.md)
