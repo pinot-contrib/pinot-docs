@@ -96,6 +96,10 @@ Cleanup regarding `startReplaceSegment` API:
 1. We proactively remove the first snapshot if the client side is pushing the 3rd snapshot, so we are not exceeding the 2x disk space.
 2. If the previous push fails in the middle (IN\_PROGRESS/REVERTED state), we also clean up the `segmentsTo`.
 
+{% hint style="info" %}
+While a lineage entry is still live, Pinot keeps lineage-locked segments on the lineage-managed cleanup path and rejects the generic segment delete flow for them by default. If you need the legacy delete behavior during an incident, set `controller.lineage.exclusive.delete.enabled=false` on the controller. Otherwise, finish or revert the lineage entry and let the normal lineage cleanup cycle remove the segments when they become eligible.
+{% endhint %}
+
 #### Configurable Retention Periods
 
 By default, both retention periods are set to 1 day. You can override them in the table config under `segmentsConfig` (the `validationConfig` section):
