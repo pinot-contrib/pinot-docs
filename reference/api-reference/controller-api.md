@@ -1109,6 +1109,45 @@ On success, returns the validated config. On failure, returns an error message d
 }
 ```
 
+### POST /tableConfigs/tune
+
+Validates a combined `TableConfigs` payload and returns the tuned version that Pinot would store on table create or update. Send the raw `tableName`, the `schema`, and at least one of `offline` or `realtime`. Pinot validates the payload first; if validation succeeds, it applies tuner configs and then enforces minimum replica and storage quota constraints on each included table config before returning the tuned `TableConfigs`.
+
+**Parameters**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `validationTypesToSkip` | query | Optional comma-separated validation types to skip during validation. Supported values are `ALL`, `TASK`, `UPSERT`, `TENANT`, `MINION_INSTANCES`, and `ACTIVE_TASKS`. |
+
+**Request**
+
+```bash
+curl -X POST "http://localhost:9000/tableConfigs/tune?validationTypesToSkip=TENANT,MINION_INSTANCES" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tableName": "myTable",
+    "schema": { ... },
+    "offline": { ... },
+    "realtime": { ... }
+  }'
+```
+
+You can omit either `offline` or `realtime` when tuning a single typed table config, but Pinot still requires `schema` and at least one table config in the request body.
+
+**Response**
+
+On success, Pinot returns the tuned `TableConfigs` payload together with `unrecognizedProperties`, which lists any JSON paths Pinot ignored while parsing.
+
+```json
+{
+  "tableName": "myTable",
+  "schema": { ... },
+  "offline": { ... },
+  "realtime": { ... },
+  "unrecognizedProperties": {}
+}
+```
+
 ## Minion Task APIs
 
 ### GET /tasks/\<taskType>/taskcounts
