@@ -70,6 +70,14 @@ The logical tables listing is accessible from the main **Tables** page, alongsid
 
 For more information about logical tables, see the [Logical Table Support](../../reference/releases/1.4.0.md#logical-table-support-design) section in the 1.4.0 release notes.
 
+### Materialized view discovery and management
+
+The Data Explorer also includes a **Data Sources** hub for queryable assets in the cluster. Use **Data Sources** in the left navigation to switch between physical tables and materialized views.
+
+The **Materialized Views** page lists each MV together with its base tables, watermark, VALID and STALE partition counts, last refresh time, staleness SLO, and any metadata errors returned by the controller. Click a materialized view name to open its detail page, which shows the stored `definedSQL`, split spec, partition runtime state, raw metadata JSON, and controls to refresh the page data or drop the MV.
+
+Materialized views are still queried by their MV table name today; the UI is a discovery and monitoring surface, not a transparent query rewrite surface. For the creation model and query contract, see [Materialized Views](../../build-with-pinot/querying-and-sql/materialized-views.md).
+
 ## Query Console
 
 Navigate to [Query Console](http://localhost:9000/#/query) to see the querying interface. The Query Console lets you run SQL queries against your Pinot cluster and view the results interactively.

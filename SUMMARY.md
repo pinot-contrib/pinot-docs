@@ -103,6 +103,7 @@
     * [Row Expression Comparison](build-with-pinot/querying-and-sql/row-expression-comparison.md)
     * [Null Value Support](build-with-pinot/querying-and-sql/null-value-support.md)
     * [Vector Query Execution Semantics](build-with-pinot/querying-and-sql/vector-query-execution.md)
+  * [Materialized Views](build-with-pinot/querying-and-sql/materialized-views.md)
   * [Multi-Stage Query](build-with-pinot/querying-and-sql/multi-stage-query/README.md)
     * [Understanding Stages](build-with-pinot/querying-and-sql/multi-stage-query/understanding-stages.md)
     * [Multistage Lite Mode](build-with-pinot/querying-and-sql/multi-stage-query/multistage-lite-mode.md)
