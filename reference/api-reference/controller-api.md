@@ -937,7 +937,7 @@ Update the config for an existing typed table.
 | `validationTypesToSkip` | string | Comma-separated validation types to skip during table-config validation. |
 | `force` | boolean | Defaults to `false`. When `true`, Pinot still applies backward-incompatible upsert or dedup config changes that it would otherwise reject. Use only for controlled migrations. |
 
-By default, Pinot returns `400 Bad Request` for backward-incompatible changes on existing upsert or dedup tables. The protected fields include upsert comparison columns, hash function, mode, out-of-order settings, dedup hash function, dedup time column, and the table time column when Pinot is using it as the default comparison or dedup time column. The safest path for those changes is still to create a new table and reingest the data.
+By default, Pinot returns `400 Bad Request` for backward-incompatible changes on existing upsert or dedup tables. The protected fields include upsert comparison columns, hash function, mode, `deleteRecordColumn`, out-of-order settings, dedup hash function, dedup time column, and the table time column when Pinot is using it as the default comparison or dedup time column. The safest path for those changes is still to create a new table and reingest the data.
 
 For existing `PARTIAL` upsert tables, Pinot now allows `partialUpsertStrategies` and `defaultPartialUpsertStrategy` to change without `force=true`. The new strategy is not retroactive: existing merged values stay as stored, and the new behavior takes effect only after each consuming server restarts and reloads the table config. During a rolling restart, replicas can temporarily diverge on rows ingested during the rollout window; if that happens, reset the affected consuming segments after the rollout.
 

@@ -467,8 +467,8 @@ Note that the `delete` column has to be a single-value boolean column.
 }
 ```
 
-{% hint style="info" %}
-Note that when `deleteRecordColumn` is added to an existing table, it will require a server restart to actually pick up the upsert config changes.
+{% hint style="warning" %}
+For an existing upsert table, treat `deleteRecordColumn` as immutable. Pinot now rejects adding, removing, or changing it through the controller update APIs unless you force the update, because servers cache the delete-column choice when they initialize upsert state.
 {% endhint %}
 
 A deleted primary key can be revived by ingesting a record with the same primary, but with higher comparison column value(s).
@@ -775,6 +775,7 @@ The following fields are immutable after table creation:
 * `hashFunction`
 * `comparisonColumns`
 * `timeColumnName` (when used as the default comparison column)
+* `deleteRecordColumn`
 * `dropOutOfOrderRecord`
 * `outOfOrderRecordColumn`
 
@@ -1118,9 +1119,9 @@ To see the difference from the non-upsert table, you can use a query option `ski
 
 Not recommended. Existing segments contain validDocId snapshots computed using the old configuration. Changing the configuration can lead to data inconsistencies as existing snapshots wouldn't be cleaned up, especially if a server restarts with validDocId snapshots while replica server do not.
 
-**Avoid changing:** primary key columns, comparison columns, upsert mode, and hashFunction.
+**Avoid changing:** primary key columns, comparison columns, upsert mode, hashFunction, and `deleteRecordColumn`.
 
-Pinot now enforces this guard on the controller update APIs. By default, `PUT /tables/{tableName}` and `PUT /tableConfigs/{tableName}` reject backward-incompatible upsert or dedup config changes with `400 Bad Request`. For upsert tables, this includes comparison columns, hash function, mode, out-of-order settings, and the table time column when Pinot is using it as the default comparison column. For dedup tables, this includes the dedup hash function, dedup time column, and the table time column when Pinot is using it as the default dedup time column.
+Pinot now enforces this guard on the controller update APIs. By default, `PUT /tables/{tableName}` and `PUT /tableConfigs/{tableName}` reject backward-incompatible upsert or dedup config changes with `400 Bad Request`. For upsert tables, this includes comparison columns, hash function, mode, `deleteRecordColumn`, out-of-order settings, and the table time column when Pinot is using it as the default comparison column. For dedup tables, this includes the dedup hash function, dedup time column, and the table time column when Pinot is using it as the default dedup time column.
 
 `partialUpsertStrategies` and `defaultPartialUpsertStrategy` are the exception for `PARTIAL` upsert tables. Pinot accepts those updates without `force=true`, but the new strategy only affects merges that happen after each server restarts and reloads the table config. Existing merged values are not rewritten automatically, and replicas can temporarily diverge during a rolling restart. If that happens, reset the affected consuming segments after the rollout.
 
