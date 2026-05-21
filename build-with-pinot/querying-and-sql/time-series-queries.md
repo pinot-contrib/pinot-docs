@@ -50,6 +50,8 @@ The current Controller UI implementation is scoped to M3QL queries. It provides 
 
 The time series API `POST /query/timeseries` returns responses in the standard `BrokerResponse` format, allowing existing Pinot client libraries to work without modification. The response includes familiar query statistics like `numDocsScanned`, `numSegmentsQueried`, and `totalDocs`, along with the same exception handling structure as SQL queries.
 
+The request body must include `query`. If the broker receives malformed JSON or the `query` field is missing, it returns HTTP `400 Bad Request`.
+
 Time series data is returned in a `ResultTable` with the following key columns:
 - `ts` - Array of timestamps for each time bucket
 - `values` - Array of metric values corresponding to each timestamp

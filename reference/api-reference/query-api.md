@@ -6,6 +6,8 @@ description: Pinot query API reference.
 
 Pinot exposes broker endpoints for single-stage execution, multi-stage execution, and query fingerprint generation. Cursor-based pagination is available through query parameters on the SQL endpoint, and the response-store lifecycle is managed through broker endpoints on the same broker that executed the query.
 
+For the broker `POST` query endpoints on this page, malformed JSON request bodies and payloads that omit required fields now return HTTP `400 Bad Request` instead of HTTP `500`.
+
 ## Endpoints
 
 | Method | Endpoint | Purpose |
@@ -35,6 +37,8 @@ curl -H "Content-Type: application/json" -X POST \
   http://localhost:8099/query
 ```
 
+Both `POST /query/sql` and `POST /query` require a JSON request body with a top-level `sql` field. If the request body is malformed JSON or the `sql` field is missing, the broker returns HTTP `400 Bad Request`.
+
 ## Query Fingerprints
 
 Use `POST /query/sql/queryFingerprint` to generate a normalized fingerprint for a DQL query without executing it. Pinot returns a small JSON object with:
@@ -58,7 +62,7 @@ SELECT * FROM `myTable` WHERE `id` IN (?)
 
 The same endpoint also accepts multi-stage queries. For example, a query with `SET useMultistageEngine=true;` still returns a normalized fingerprint instead of executing the statement.
 
-This endpoint is DQL-only. Invalid SQL or non-DQL statements return HTTP 500 with an error payload. Unlike the broker config `pinot.broker.enable.query.fingerprinting`, this helper endpoint can generate fingerprints on demand without enabling automatic fingerprinting for normal query execution.
+This endpoint is DQL-only. Malformed JSON, a missing `sql` field, invalid SQL, or a non-DQL statement all return HTTP `400 Bad Request`. Unlike the broker config `pinot.broker.enable.query.fingerprinting`, this helper endpoint can generate fingerprints on demand without enabling automatic fingerprinting for normal query execution.
 
 ## Cursor Pagination
 
