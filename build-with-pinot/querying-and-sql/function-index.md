@@ -152,7 +152,7 @@ For full details, see [Math Functions](../../functions/math/).
 | `GCD` | `GCD(a, b)` | LONG | Greatest common divisor | Both |
 | `LCM` | `LCM(a, b)` | LONG | Least common multiple | Both |
 | `HYPOT` | `HYPOT(a, b)` | DOUBLE | Hypotenuse (sqrt(a^2 + b^2)) | Both |
-| `NEGATE` | `NEGATE(val)` | DOUBLE | Negates the value | Both |
+| `NEGATE` | `NEGATE(val)` | DOUBLE | Negates the value; equivalent to unary `-` operator | Both |
 | `SIGMOID` | `SIGMOID(val)` | DOUBLE | Logistic sigmoid `1 / (1 + e^(-val))` | Both |
 | `PI` | `PI()` | DOUBLE | Mathematical constant pi | Both |
 | `E` / `EULER` | `E()` | DOUBLE | Euler's number, base of the natural logarithm | Both |
