@@ -114,6 +114,16 @@ OpChain Converter plugins provide custom implementations for converting logical 
 
 Plugins can be developed with no restriction. There are some standards that have to be followed, though. The plugin has to implement the interfaces from [pinot-spi](https://github.com/apache/pinot/tree/master/pinot-spi/src/main/java/org/apache/pinot/spi).
 
+### Planner rule customizers
+
+The multi-stage query engine also exposes an advanced planner SPI for broker-side Calcite rule customization. Implement `org.apache.pinot.query.planner.spi.RuleSetCustomizer` from `pinot-query-planner-spi` when you need to append, remove, reorder, or replace rules in Pinot's per-phase logical planning pipeline.
+
+Discovery uses Java `ServiceLoader`. Pinot first loads `RuleSetCustomizer` implementations on the broker application classpath, then scans each loaded plugin classloader. A plugin JAR should include the standard Pinot plugin packaging plus a `META-INF/services/org.apache.pinot.query.planner.spi.RuleSetCustomizer` file listing the implementation class.
+
+Initialization is one-time. `PinotRuleSet.defaultInstance()` builds the broker process-wide rule set lazily, and each discovered customizer runs once for every planner `Phase` before Pinot freezes those rule lists for the rest of the process. Load the plugin before broker startup, and restart the broker after adding or changing a planner-rules plugin.
+
+This SPI is more upgrade-sensitive than the stable ingestion, filesystem, and metrics plugin families. Pinot keeps `Phase` append-only for binary compatibility, but new phases can be added and the built-in rule ordering can change between releases. Revalidate customizers on every Pinot upgrade, especially if they depend on a specific built-in rule name or order.
+
 Custom segment or index extensions that depend on `pinot-segment-spi` are a
 separate, more upgrade-sensitive path than the stable plugin families listed
 above. Revalidate these extensions on every Pinot upgrade. For example, Pinot
