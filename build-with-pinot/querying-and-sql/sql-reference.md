@@ -421,6 +421,39 @@ FROM line_items
 WHERE (price * quantity) > 1000
 ```
 
+### Unary Operators
+
+Unary `-` and `+` are prefix operators on numeric expressions. They can be used anywhere a scalar expression is valid: `SELECT` list, `WHERE`, `GROUP BY`, `HAVING`, `ORDER BY`, `JOIN` conditions, `CASE` branches, `CAST` inputs, `IN` lists, subqueries, and inside aggregates and window functions.
+
+| Operator | Description | Example |
+|---|---|---|
+| `-` (unary) | Negation (numeric) | `-price`, `ORDER BY -score` |
+| `+` (unary) | Identity (numeric) | `+price` |
+
+```sql
+SELECT order_id, -discount AS adjustment
+FROM line_items
+```
+
+```sql
+SELECT order_id
+FROM line_items
+WHERE -profit > 100
+```
+
+```sql
+SELECT order_id, score
+FROM line_items
+ORDER BY -score
+```
+
+Notes:
+
+- Supported on `INT`, `LONG`, `FLOAT`, `DOUBLE`, and `BIG_DECIMAL`. The result preserves the input type.
+- `NULL` input returns `NULL`.
+- `-col` is equivalent to [`negate(col)`](../../functions/math/negate.md).
+- Negation uses `Math.negateExact` semantics, so `-INT_MIN` and `-LONG_MIN` overflow at runtime.
+
 ---
 
 ## Type Casting

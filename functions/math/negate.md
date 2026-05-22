@@ -7,6 +7,8 @@ description: >-
 
 Returns the negation of the input value. This is a polymorphic function that preserves the input numeric type.
 
+`negate(col)` is equivalent to the unary minus operator `-col`. See [Arithmetic Operators](../../build-with-pinot/querying-and-sql/sql-reference.md#arithmetic-operators) for operator syntax.
+
 ## Signature
 
 negate(col)
