@@ -14,7 +14,7 @@ Transparent query rewrite is not part of the current materialized-view feature s
 
 - Time-windowed materialized views only.
 - The MV table itself must be `OFFLINE`.
-- Create the MV by posting a schema and an offline table config. The table config must include `task.taskTypeConfigsMap.MaterializedViewTask`.
+- Create the MV by posting a schema and an offline table config. The table config must set top-level `isMaterializedView: true` and include `task.taskTypeConfigsMap.MaterializedViewTask` with a non-empty `definedSQL`.
 - Use a flat `SELECT` over one source table. Pinot validates the SQL, schema mapping, bucket definition, and aggregation set when the MV table is created.
 - The source table must be append-only. Pinot rejects realtime, upsert, dedup, dimension, and `REFRESH`-push source tables.
 - The source table time column and the MV time column must both be `TIMESTAMP` `dateTimeFieldSpecs`.
@@ -31,7 +31,9 @@ Pinot also validates the expression that produces the MV time column. The suppor
 
 ## Define the schema and MV table
 
-Create the schema first, then create the MV table as an offline table with a `MaterializedViewTask` block.
+Create the schema first, then create the MV table as an offline table with top-level `isMaterializedView: true` plus a `MaterializedViewTask` block.
+
+Pinot uses `isMaterializedView` as the canonical MV identity bit. `MaterializedViewTask` still carries execution settings such as `definedSQL` and `bucketTimePeriod`, and Pinot rejects configs where only one side is present. If you manage tables through SQL DDL, the same flag round-trips as `PROPERTIES ('isMaterializedView' = 'true', ...)`.
 
 The task config needs at least these keys:
 
@@ -78,6 +80,7 @@ Example table config:
 {
   "tableName": "salesByHourMv",
   "tableType": "OFFLINE",
+  "isMaterializedView": true,
   "segmentsConfig": {
     "timeColumnName": "bucket_start_ts",
     "segmentPushType": "APPEND",
