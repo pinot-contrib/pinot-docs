@@ -204,6 +204,7 @@
   * [Upgrading Pinot with confidence](operators/operating-pinot/upgrading-pinot-cluster.md)
   * [Managing Logs](operators/operating-pinot/managing-logs.md)
   * [OOM Protection Using Automatic Query Killing](operators/operating-pinot/oom-protection-using-automatic-query-killing.md)
+  * [Query Workload Isolation](operators/operating-pinot/query-workload-isolation.md)
   * [Pause ingestion based on resource utilization](operators/operating-pinot/pause-ingestion-based-on-resource-utilization.md)
 * [Command-Line Interface (CLI)](operators/cli.md)
 * [Configuration Recommendation Engine](operators/configuration-recommendation-engine.md)
