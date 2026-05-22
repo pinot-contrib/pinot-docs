@@ -61,8 +61,9 @@ Pinot ships two Kafka connector modules: `pinot-kafka-3.0` (Kafka client 3.9.2, 
 | stream.kinesis.consumer.factory.class.name | **Allowed Value:** org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory |
 | stream.kinesis.topic.name | (Required) Name of the Kinesis data stream to consume |
 | region | (Required) The AWS region where the configured Kinesis data stream resides |
-| maxRecordsToFetch | Maximum records to fetch during a single GetRecord request **Default:** `20` |
-| shardIteratorType | Similar to Kafka's offset reset property - indicates the point in the AWS Kinesis data stream from where the consumption should begin **Allowed Values:** `TRIM_HORIZON` , `LATEST` |
+| maxRecordsToFetch | Maximum records to fetch during a single `GetRecords` request **Default:** `10000` |
+| requests_per_second_limit | Maximum Kinesis read requests per second Pinot will attempt per shard. Accepts fractional values such as `0.25` so several consumers can share one shard budget. Pinot applies this limit to both `GetRecords` and `GetShardIterator` reads and backs off/retries on throttling until the fetch timeout. **Default:** `1.0` |
+| shardIteratorType | AWS shard iterator type Pinot uses when it opens a shard iterator. Pinot passes this value through to the Kinesis client. **Default:** `LATEST` |
 
 ### Key-based Authentication Properties
 
