@@ -67,6 +67,14 @@ POST /v2/segments?tableName=myTable&tableType=OFFLINE&enableParallelPushProtecti
 | `COPY_SEGMENT_TO_DEEP_STORE` | No | Metadata push | If `true`, controller copies the segment from the source URI into Pinot deep store and rewrites the stored download URI |
 | `CRYPTER` | No | All uploads | Crypter class name if the uploaded payload is encrypted |
 
+### Offline upsert upload validation
+
+For offline upsert tables, Pinot applies an extra upload-time validation when it can resolve a partition column from the table config. Pinot checks `instanceAssignmentConfigMap.OFFLINE` first, then legacy `replicaGroupStrategyConfig.partitionColumn`, and finally a single-column `segmentPartitionConfig`.
+
+When one of those configs identifies the partition column, every uploaded segment must expose exactly one partition id for that column in segment metadata. This applies to both single-segment upload endpoints and `POST /segments/batchUpload`.
+
+For example, if Pinot resolves `playerId` as the partition column, the segment metadata must include one value such as `column.playerId.partitionValues=2`. Uploads are rejected with `400 BAD_REQUEST` when the partition metadata is missing for that column or lists multiple partition ids such as `2,3`.
+
 ## Push modes
 
 ### Tar push
