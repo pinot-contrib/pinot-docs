@@ -4,16 +4,18 @@ description: Create offline Pinot materialized views for recurring time-windowed
 
 # Materialized Views
 
-Materialized views in Pinot are offline tables that store pre-aggregated results for a recurring query shape. Pinot validates the materialized view definition when you create the table, refreshes it with the `MaterializedViewTask` minion workflow, and exposes discovery and runtime state in the controller UI and REST API.
+Materialized views in Pinot are offline tables that store pre-aggregated results for a recurring query shape. Pinot validates the materialized view definition when you create the table, refreshes it with the `MaterializedViewTask` minion workflow, and exposes discovery and runtime state in the controller UI and REST API. Pinot can also transparently rewrite eligible single-stage base-table queries to a materialized view when the broker rewrite feature is enabled.
 
-{% hint style="warning" %}
-Transparent query rewrite is not part of the current materialized-view feature surface. Query the MV table directly today instead of expecting Pinot to rewrite base-table queries automatically.
+{% hint style="info" %}
+Transparent materialized-view rewrite is available for eligible Single-Stage Engine (SSE) queries. Keep querying the MV table directly when you want explicit control over the table name or when broker rewrite is disabled.
 {% endhint %}
 
 ## Current scope
 
 - Time-windowed materialized views only.
 - The MV table itself must be `OFFLINE`.
+- Transparent rewrite applies to eligible SSE queries only.
+- Broker-side rewrite is off by default until you set `pinot.broker.query.enable.materialized.view.rewrite=true` on brokers.
 - Create the MV by posting a schema and an offline table config. The table config must set top-level `isMaterializedView: true` and include `task.taskTypeConfigsMap.MaterializedViewTask` with a non-empty `definedSQL`.
 - Use a flat `SELECT` over one source table. Pinot validates the SQL, schema mapping, bucket definition, and aggregation set when the MV table is created.
 - The source table must be append-only. Pinot rejects realtime, upsert, dedup, dimension, and `REFRESH`-push source tables.
@@ -39,6 +41,7 @@ The task config needs at least these keys:
 
 - `definedSQL`: the aggregation query Pinot runs for each time window.
 - `bucketTimePeriod`: the window size, such as `1h` or `1d`.
+- `stalenessThresholdMs`: optional freshness SLO for broker rewrite. `0` is the default and means Pinot can use any MV with a non-zero watermark.
 
 The `SELECT` output must line up with the MV schema exactly. Bare column references keep their source names. Any expression or aggregation needs an `AS` alias that matches the destination schema column.
 
@@ -90,7 +93,8 @@ Example table config:
     "taskTypeConfigsMap": {
       "MaterializedViewTask": {
         "definedSQL": "SELECT DATETRUNC('HOUR', event_ts) AS bucket_start_ts, region, SUM(revenue) AS sum_revenue, COUNT(*) AS row_count FROM sales GROUP BY DATETRUNC('HOUR', event_ts), region",
-        "bucketTimePeriod": "1h"
+        "bucketTimePeriod": "1h",
+        "stalenessThresholdMs": "900000"
       }
     }
   }
@@ -115,9 +119,39 @@ Pinot generates MV segments through `MaterializedViewTask`. The controller task 
 POST /tasks/schedule?taskType=MaterializedViewTask&tableName=<mvTable>_OFFLINE
 ```
 
+## Enable transparent rewrite for SSE queries
+
+To let brokers rewrite eligible base-table queries to a materialized view, set this broker config:
+
+```properties
+pinot.broker.query.enable.materialized.view.rewrite=true
+```
+
+With that switch enabled, Pinot still falls back to the base table unless the MV has usable coverage. In practice, the MV must have a non-zero watermark, and if you set `stalenessThresholdMs`, the MV must still be within that freshness bound.
+
+Pinot currently rewrites eligible SSE query shapes that are subsumed by the MV, including exact matches, projection-subset scan queries, and supported aggregation rollups. When a rewrite happens, the broker response includes `materializedViewQueried` with the MV table name that served the query.
+
+For example, once the MV is built and the broker switch is on, this base-table query can be served by the MV without changing the SQL:
+
+```sql
+SELECT region, SUM(revenue) AS total_revenue, COUNT(*) AS total_rows
+FROM sales
+GROUP BY region
+ORDER BY total_revenue DESC
+LIMIT 20;
+```
+
+The response includes the MV table name when rewrite succeeds:
+
+```json
+{
+  "materializedViewQueried": "salesByHourMv_OFFLINE"
+}
+```
+
 ## Query the MV table directly
 
-Query the MV table name directly and re-aggregate its stored values as needed:
+You can still query the MV table name directly and re-aggregate its stored values as needed:
 
 ```sql
 SELECT region, SUM(sum_revenue) AS total_revenue, SUM(row_count) AS total_rows
@@ -142,7 +176,7 @@ Pinot ships a full local example that loads the base table, creates the MV table
 bin/pinot-admin.sh QuickStart -type MATERIALIZED_VIEW
 ```
 
-The quickstart creates `airlineStatsMv`, triggers `MaterializedViewTask`, and queries the MV table directly to validate `SUM`, `COUNT`, `MIN`, `MAX`, `DISTINCTCOUNTHLL`, and `DISTINCTCOUNTHLLPLUS` style rollups.
+The quickstart creates `airlineStatsMv`, triggers `MaterializedViewTask`, and gives you a local setup for validating direct MV queries. After you enable the broker rewrite switch, it is also a convenient way to test transparent rewrite behavior.
 
 ## Inspect and manage materialized views
 
@@ -160,7 +194,7 @@ The controller also exposes dedicated MV endpoints:
 
 ## What this page covered
 
-This page covered the current materialized-view feature surface in Pinot: how to define the schema and offline table, which source tables and aggregations are supported, why callers query the MV table directly today, and where to inspect the MV in the UI and controller API.
+This page covered the current materialized-view feature surface in Pinot: how to define the schema and offline table, which source tables and aggregations are supported, how broker-side SSE rewrite works, how to query the MV table directly, and where to inspect the MV in the UI and controller API.
 
 ## Next step
 
