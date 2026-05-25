@@ -34,6 +34,23 @@ Use the decision guide when you know the query shape but not the best index yet.
 * [Star-tree index](star-tree-index.md) for repeatable aggregation and group-by workloads.
 * [Vector index](vector-index.md) for similarity search on embeddings.
 
+### Index availability
+
+| Index Type          | Availability       |
+|:--------------------|:-------------------|
+| Bloom filter        | tbd                |
+| Forward index       | Realtime & Offline |
+| FST index           | Offline            |
+| Inverted index      | Realtime & Offline | 
+| Timestamp index     | tbd                |
+| Range index         | tbd                |
+| Text search support | Realtime & Offline |
+| JSON index          | Realtime & Offline |
+| Geospatial support  | Realtime & Offline |
+| Star-tree index     | Offline            |
+| Vector index        | Realtime & Offline |
+
+
 ## How Pinot applies indexes
 
 Most index choices are defined in the table config, usually under `fieldConfigList` or `tableIndexConfig`, depending on the index and the configuration style you are using. The canonical table-level reference is [Table](../../reference/configuration-reference/table.md).
