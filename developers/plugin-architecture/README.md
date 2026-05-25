@@ -120,6 +120,16 @@ The multi-stage query engine also exposes an advanced planner SPI for broker-sid
 
 Discovery uses Java `ServiceLoader`. Pinot first loads `RuleSetCustomizer` implementations on the broker application classpath, then scans each loaded plugin classloader. A plugin JAR should include the standard Pinot plugin packaging plus a `META-INF/services/org.apache.pinot.query.planner.spi.RuleSetCustomizer` file listing the implementation class.
 
+At rule match time, planner rules can read per-query planner options through the Calcite planner context. Pinot exposes `PlannerContext` from both planner variants, so rule code can unwrap it directly and inspect `getOptions()`:
+
+```java
+PlannerContext plannerContext =
+    call.getPlanner().getContext().unwrap(PlannerContext.class);
+String workerRuntime = plannerContext.getOptions().get("workerRuntime");
+```
+
+Use this path for query-scoped planner behavior. Rules that need broker-wide planner defaults can still unwrap `QueryEnvironment.Config` from the same Calcite context.
+
 Initialization is one-time. `PinotRuleSet.defaultInstance()` builds the broker process-wide rule set lazily, and each discovered customizer runs once for every planner `Phase` before Pinot freezes those rule lists for the rest of the process. Load the plugin before broker startup, and restart the broker after adding or changing a planner-rules plugin.
 
 This SPI is more upgrade-sensitive than the stable ingestion, filesystem, and metrics plugin families. Pinot keeps `Phase` append-only for binary compatibility, but new phases can be added and the built-in rule ordering can change between releases. Revalidate customizers on every Pinot upgrade, especially if they depend on a specific built-in rule name or order.
