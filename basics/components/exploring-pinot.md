@@ -76,7 +76,7 @@ The Data Explorer also includes a **Data Sources** hub for queryable assets in t
 
 The **Materialized Views** page lists each MV together with its base tables, watermark, VALID and STALE partition counts, last refresh time, staleness SLO, and any metadata errors returned by the controller. Click a materialized view name to open its detail page, which shows the stored `definedSQL`, split spec, partition runtime state, raw metadata JSON, and controls to refresh the page data or drop the MV.
 
-Materialized views are still queried by their MV table name today; the UI is a discovery and monitoring surface, not a transparent query rewrite surface. For the creation model and query contract, see [Materialized Views](../../build-with-pinot/querying-and-sql/materialized-views.md).
+The UI remains a discovery and monitoring surface. Query execution still happens through the broker: you can query the MV table directly, or let brokers transparently rewrite eligible SSE base-table queries when `pinot.broker.query.enable.materialized.view.rewrite=true`. For the creation model and query contract, see [Materialized Views](../../build-with-pinot/querying-and-sql/materialized-views.md).
 
 ## Query Console
 
