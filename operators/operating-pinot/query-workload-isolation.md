@@ -9,12 +9,8 @@ description: >-
 Query Workload Isolation lets a Pinot operator group queries into named **workloads** (for example `analytics`, `dashboards`, `adhoc`) and assign each workload a CPU and memory budget. Brokers and servers track the resources every workload consumes during a configurable enforcement window, and reject new queries from a workload once that workload has exhausted its budget. This prevents one expensive or runaway workload from starving the others.
 
 * Design doc: [https://tinyurl.com/2p9vuzbd](https://tinyurl.com/2p9vuzbd)
-* Initial support: PR [#15109](https://github.com/apache/pinot/pull/15109) (configs) and PR [#15798](https://github.com/apache/pinot/pull/15798) (host enforcement)
-* Cost-split + interface refinements: PR [#16340](https://github.com/apache/pinot/pull/16340), PR [#16672](https://github.com/apache/pinot/pull/16672)
 
-{% hint style="info" %}
 The feature is **OFF by default**. Both _cost collection_ and _cost enforcement_ are independent toggles &mdash; you can enable collection first, observe per-workload usage in metrics, and then enable enforcement once you have sized the budgets.
-{% endhint %}
 
 ## How it differs from related features
 
@@ -116,7 +112,7 @@ The workload-isolation toggles live in the `accounting` namespace:
 | ----------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `accounting.workload.enable.cost.collection` | `false`         | When `true`, each broker and server tracks CPU and memory consumed per workload. Must be on for any of the rest to do useful work.                          |
 | `accounting.workload.enable.cost.enforcement` | `false`        | When `true`, new queries are rejected once their workload has exhausted its budget for the current window. Leave `false` while sizing budgets.              |
-| `accounting.workload.enforcement.window.ms` | `60000` (1 min)  | Length of the budget window. Budgets reset at the end of every window.                                                                                       |
+| `accounting.workload.enforcement.window.ms` | `10000` (10 sec)  | Length of the budget window. Budgets reset at the end of every window.                                                                                       |
 | `accounting.workload.sleep.time.ms`       | `100`              | Sleep between background budget-enforcement passes.                                                                                                          |
 | `accounting.workload.enable.cost.emission` | `false`            | When `true`, per-workload cost is also emitted as metrics for monitoring.                                                                                    |
 | `accounting.secondary.workload.name`      | `defaultSecondary` | Name reserved for the implicit lower-priority workload used by the legacy `BinaryWorkloadScheduler` / `SET isSecondaryWorkload=true` option.                  |
@@ -265,11 +261,9 @@ Because overage is allowed within a window, total CPU consumption for a workload
 
 ## Operational notes & FAQ
 
-* **Why did a query "leak through" past the budget?** Budgets are checked at admission; a query that started just before the budget ran out continues to run. Within the same window subsequent queries are rejected; at the next window-reset the workload starts fresh.
 * **How should I pick `cpuCostNs` and `memoryCostBytes`?** Turn on `accounting.workload.enable.cost.collection` (and `enable.cost.emission`) but leave enforcement off. Observe the `WORKLOAD_QUERIES` and per-workload cost values for a representative period. Pick budgets that cover your typical peak usage with some headroom, then enable enforcement.
 * **What happens during a table rebalance or tenant change?** `QueryWorkloadManager` listens for ZK changes on instance partitions, broker resources, and tenants, and re-runs the cost split automatically. If you ever suspect a stuck or stale budget on a host, hit the controller's `/queryWorkloadConfigs/refresh` endpoint.
 * **Can the same query land in two workloads?** No — a query carries a single `workloadName`. Multi-stage queries spanning multiple tables also charge to the one workload named by the submitter.
-* **What about high-availability of the controller?** Workload configs live in ZK; if the controller restarts, the configs survive. In-flight per-host budgets are reset on broker / server restart (they're an in-memory cache).
 
 ## See also
 
