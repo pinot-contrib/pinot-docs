@@ -36,20 +36,20 @@ Use the decision guide when you know the query shape but not the best index yet.
 
 ### Index availability
 
-| Index Type          | Availability       |
+| Index Type          | Segment Type       |
 |:--------------------|:-------------------|
-| Bloom filter        | tbd                |
+| Bloom filter        | Offline            |
 | Forward index       | Realtime & Offline |
 | FST index           | Offline            |
 | Inverted index      | Realtime & Offline | 
-| Timestamp index     | tbd                |
-| Range index         | tbd                |
+| Timestamp index     | Offline            | 
+| Sorted index        | Offline            | 
+| Range index         | Offline            |
 | Text search support | Realtime & Offline |
 | JSON index          | Realtime & Offline |
 | Geospatial support  | Realtime & Offline |
 | Star-tree index     | Offline            |
 | Vector index        | Realtime & Offline |
-
 
 ## How Pinot applies indexes
 
