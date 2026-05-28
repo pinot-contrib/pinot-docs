@@ -55,6 +55,7 @@ Indexes available in Realtime Segments are updated during insertion of the consu
 
 Indexes available only in Offline segments are calculated during segment load. That means, that for offline tables indexes
 become available when segment was loaded. For realtime tables, those indexes are available only for completed (not consuming) segments.
+
 ## How Pinot applies indexes
 
 Most index choices are defined in the table config, usually under `fieldConfigList` or `tableIndexConfig`, depending on the index and the configuration style you are using. The canonical table-level reference is [Table](../../reference/configuration-reference/table.md).
