@@ -43,7 +43,7 @@ Use the decision guide when you know the query shape but not the best index yet.
 | FST index           | Offline            |
 | Inverted index      | Realtime & Offline | 
 | Timestamp index     | Offline            | 
-| Sorted index        | Offline            | 
+| Sorted index        | Realtime & Offline | 
 | Range index         | Offline            |
 | Text search support | Realtime & Offline |
 | JSON index          | Realtime & Offline |
