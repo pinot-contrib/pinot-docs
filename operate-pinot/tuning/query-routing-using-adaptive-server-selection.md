@@ -80,17 +80,18 @@ To enable adaptive routing metrics export:
 
 #### Available Metrics
 
-Three metrics are exported for each broker × server pair:
+Single-stage adaptive routing exports three metrics for each broker × server pair, and multi-stage adaptive routing now exports its own in-flight gauge:
 
 | Metric Name | Type | Description |
 | --- | --- | --- |
 | `adaptiveServerNumInFlightRequests` | Gauge | Number of in-flight (pending) requests currently being processed on this server |
 | `adaptiveServerLatencyEma` | Gauge | Exponential moving average of query latency (in milliseconds) observed on this server |
 | `adaptiveServerHybridScore` | Gauge | Combined score balancing in-flight requests and latency to indicate server health; higher scores indicate less healthy servers |
+| `adaptiveServerMseNumInFlightRequests` | Gauge | Number of in-flight multi-stage requests currently being processed on this server. Pinot exports only the MSE in-flight gauge today; MSE latency and hybrid-score series are not emitted yet. |
 
 #### Metric Format
 
-Metric names follow the pattern: `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>`
+Metric names follow the pattern `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>` for SSE metrics and `pinot.broker.adaptiveServerMseNumInFlightRequests.<tenant>.<server>` for the MSE in-flight series.
 
 Example: `pinot.broker.adaptiveServerLatencyEma.server.Server_pinotdb1_8098`
 
