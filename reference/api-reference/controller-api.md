@@ -141,6 +141,120 @@ High-level response semantics:
 
 See [SQL Table DDL](../../build-with-pinot/querying-and-sql/sql-ddl.md) for syntax details and end-to-end examples.
 
+## Query Workload Propagation
+
+Use these controller endpoints to define a named query workload, inspect the per-instance budget view, and recompute propagated budgets after broker or server topology changes. For the operational model behind these APIs, see [Workload-Based Query Resource Isolation](../../operate-pinot/tuning/workload-query-isolation.md).
+
+### POST /queryWorkloadConfigs
+
+Create or update a workload definition. The controller stores the config in ZooKeeper and pushes instance-specific budgets to the relevant brokers and servers.
+
+```bash
+curl -X POST "http://localhost:9000/queryWorkloadConfigs" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "queryWorkloadName": "analytics-workload",
+    "nodeConfigs": [
+      {
+        "nodeType": "brokerNode",
+        "enforcementProfile": {
+          "cpuCostNs": 1500,
+          "memoryCostBytes": 12000
+        },
+        "propagationScheme": {
+          "propagationType": "table",
+          "propagationEntities": [
+            {
+              "entity": "myTable",
+              "cpuCostNs": 1500,
+              "memoryCostBytes": 12000
+            }
+          ]
+        }
+      },
+      {
+        "nodeType": "serverNode",
+        "enforcementProfile": {
+          "cpuCostNs": 5000,
+          "memoryCostBytes": 40000
+        },
+        "propagationScheme": {
+          "propagationType": "tenant",
+          "propagationEntities": [
+            {
+              "entity": "analyticsTenant",
+              "cpuCostNs": 5000,
+              "memoryCostBytes": 40000
+            }
+          ]
+        }
+      }
+    ]
+  }'
+```
+
+**Response**
+
+```text
+Query Workload config updated successfully for workload: analytics-workload
+```
+
+### GET /queryWorkloadConfigs/instance/{instanceName}
+
+Return the computed per-instance budgets that a specific broker or server should load. Pinot uses this endpoint during broker and server startup to fetch workload budgets asynchronously after restart.
+
+```bash
+curl -X GET "http://localhost:9000/queryWorkloadConfigs/instance/Server_localhost_8098" \
+  -H "accept: application/json"
+```
+
+**Response**
+
+```json
+{
+  "analytics-workload": {
+    "cpuCostNs": 2500,
+    "memoryCostBytes": 20000
+  }
+}
+```
+
+Pinot returns `404 Not Found` when no workload budgets currently map to the requested instance.
+
+### POST /queryWorkloadConfigs/refresh
+
+Recompute and re-push budgets for existing workload configs after a table, tenant, or workload mapping changes.
+
+Refresh by table:
+
+```bash
+curl -X POST "http://localhost:9000/queryWorkloadConfigs/refresh?resourceType=table&resourceNames=myTable_REALTIME&nodeType=serverNode" \
+  -H "accept: application/json"
+```
+
+Refresh by workload:
+
+```bash
+curl -X POST "http://localhost:9000/queryWorkloadConfigs/refresh?resourceType=workload&resourceNames=analytics-workload" \
+  -H "accept: application/json"
+```
+
+Refresh by tenant:
+
+```bash
+curl -X POST "http://localhost:9000/queryWorkloadConfigs/refresh?resourceType=tenant&resourceNames=analyticsTenant" \
+  -H "accept: application/json"
+```
+
+`resourceType` accepts `workload`, `table`, or `tenant`. The optional `nodeType` filter accepts `brokerNode` or `serverNode`.
+
+**Response**
+
+```text
+Workload propagation completed. Successful: [myTable_REALTIME], Failed: []
+```
+
 ## Cluster
 
 ### GET /cluster/configs
