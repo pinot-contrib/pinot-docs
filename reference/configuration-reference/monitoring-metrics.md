@@ -230,9 +230,9 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | TASK_EXECUTION | Time spent by tasks in execution |  |
 | STARTUP_SUCCESS_DURATION_MS | Time spent starting the minion when startup completes successfully |  |
 
-#### Adaptive Server Routing Metrics (Multi-stage)
+#### Adaptive Server Routing Metrics
 
-Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive.server.selector.enable.stats.collection=true`. These stats can be exported as broker metrics by enabling `pinot.broker.adaptive.server.selector.enable.stats.metric.export=true` (disabled by default to avoid cardinality concerns). When enabled, metrics are emitted in the form `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>`.
+Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive.server.selector.enable.stats.collection=true`. These stats can be exported as broker metrics by enabling `pinot.broker.adaptive.server.selector.enable.stats.metric.export=true` (disabled by default to avoid cardinality concerns). Pinot exports the SSE metrics as `pinot.broker.adaptiveServer<MetricName>.<tenant>.<server>` and the MSE in-flight gauge as `pinot.broker.adaptiveServerMseNumInFlightRequests.<tenant>.<server>`.
 
 **Configuration:**
 - `pinot.broker.adaptive.server.selector.enable.stats.collection`: Enable/disable stats collection (default: `false`)
@@ -246,3 +246,4 @@ Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive
 | adaptiveServerNumInFlightRequests | Number of in-flight requests to a specific server | Gauge |
 | adaptiveServerLatencyEma | Exponential moving average of latency (ms) for a specific server | Gauge |
 | adaptiveServerHybridScore | Hybrid score for a specific server (combines in-flight requests and latency) | Gauge |
+| adaptiveServerMseNumInFlightRequests | Number of in-flight multi-stage requests to a specific server | Gauge |
