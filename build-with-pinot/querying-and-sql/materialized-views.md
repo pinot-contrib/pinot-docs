@@ -1,10 +1,10 @@
 ---
-description: Create offline Pinot materialized views for recurring time-windowed aggregations.
+description: Create and manage offline Pinot materialized views for recurring time-windowed aggregations.
 ---
 
 # Materialized Views
 
-Materialized views in Pinot are offline tables that store pre-aggregated results for a recurring query shape. Pinot validates the materialized view definition when you create the table, refreshes it with the `MaterializedViewTask` minion workflow, and exposes discovery and runtime state in the controller UI and REST API. Pinot can also transparently rewrite eligible single-stage base-table queries to a materialized view when the broker rewrite feature is enabled.
+Materialized views in Pinot are offline tables that store pre-aggregated results for a recurring query shape. Use controller-managed SQL DDL through `POST /sql/ddl` to create, inspect, list, and drop them. Pinot validates the materialized view definition when you create it, refreshes it with the `MaterializedViewTask` minion workflow, and exposes discovery and runtime state in the controller UI and REST API. Pinot can also transparently rewrite eligible single-stage base-table queries to a materialized view when the broker rewrite feature is enabled.
 
 {% hint style="info" %}
 Transparent materialized-view rewrite is available for eligible Single-Stage Engine (SSE) queries. Keep querying the MV table directly when you want explicit control over the table name or when broker rewrite is disabled.
@@ -14,9 +14,10 @@ Transparent materialized-view rewrite is available for eligible Single-Stage Eng
 
 - Time-windowed materialized views only.
 - The MV table itself must be `OFFLINE`.
+- Create and manage MVs through controller SQL DDL: `CREATE MATERIALIZED VIEW`, `SHOW MATERIALIZED VIEWS`, `SHOW CREATE MATERIALIZED VIEW`, and `DROP MATERIALIZED VIEW`.
 - Transparent rewrite applies to eligible SSE queries only.
 - Broker-side rewrite is off by default until you set `pinot.broker.query.enable.materialized.view.rewrite=true` on brokers.
-- Create the MV by posting a schema and an offline table config. The table config must set top-level `isMaterializedView: true` and include `task.taskTypeConfigsMap.MaterializedViewTask` with a non-empty `definedSQL`.
+- `CREATE MATERIALIZED VIEW` accepts either a full column list or no column list at all. If you omit the column list, Pinot infers the MV schema from the `AS SELECT` projection.
 - Use a flat `SELECT` over one source table. Pinot validates the SQL, schema mapping, bucket definition, and aggregation set when the MV table is created.
 - The source table must be append-only. Pinot rejects realtime, upsert, dedup, dimension, and `REFRESH`-push source tables.
 - The source table time column and the MV time column must both be `TIMESTAMP` `dateTimeFieldSpecs`.
@@ -30,87 +31,58 @@ Pinot also validates the expression that produces the MV time column. The suppor
 - Run at least one Minion.
 - Enable controller task scheduling with `controller.task.scheduler.enabled=true`.
 - Keep the base table on the validated append-only `OFFLINE` path described above.
+- Decide whether Pinot should infer the MV schema from the `SELECT` list or whether you need to provide a full explicit column list to override inferred types or roles.
 
-## Define the schema and MV table
+## Create an MV with SQL DDL
 
-Create the schema first, then create the MV table as an offline table with top-level `isMaterializedView: true` plus a `MaterializedViewTask` block.
+Run MV DDL through the controller endpoint `POST /sql/ddl`, not through the broker query API.
 
-Pinot uses `isMaterializedView` as the canonical MV identity bit. `MaterializedViewTask` still carries execution settings such as `definedSQL` and `bucketTimePeriod`, and Pinot rejects configs where only one side is present. If you manage tables through SQL DDL, the same flag round-trips as `PROPERTIES ('isMaterializedView' = 'true', ...)`.
+The controller accepts these MV statements:
 
-The task config needs at least these keys:
+- `CREATE MATERIALIZED VIEW [IF NOT EXISTS] [db.]name [(...)] [REFRESH [INTERVAL] EVERY ...] PROPERTIES (...) AS <select>`
+- `SHOW MATERIALIZED VIEWS [FROM db]`
+- `SHOW CREATE MATERIALIZED VIEW [db.]name`
+- `DROP MATERIALIZED VIEW [IF EXISTS] [db.]name`
 
-- `definedSQL`: the aggregation query Pinot runs for each time window.
-- `bucketTimePeriod`: the window size, such as `1h` or `1d`.
-- `stalenessThresholdMs`: optional freshness SLO for broker rewrite. `0` is the default and means Pinot can use any MV with a non-zero watermark.
+If you omit the column list, Pinot infers the MV schema from the `SELECT` projection. If you provide a column list, declare every projected column and alias every computed expression or aggregation so it matches the destination column name.
 
-The `SELECT` output must line up with the MV schema exactly. Bare column references keep their source names. Any expression or aggregation needs an `AS` alias that matches the destination schema column.
+The DDL needs at least these properties:
 
-Example schema:
+- `timeColumnName`: the MV column Pinot uses to track watermark progress.
+- `bucketTimePeriod`: the materialization window size, such as `1h` or `1d`.
+- `stalenessThresholdMs`: optional freshness SLO for broker rewrite. `0` disables the SLO check.
 
-```json
-{
-  "schemaName": "salesByHourMv",
-  "dimensionFieldSpecs": [
-    {
-      "name": "region",
-      "dataType": "STRING"
-    }
-  ],
-  "metricFieldSpecs": [
-    {
-      "name": "sum_revenue",
-      "dataType": "DOUBLE"
-    },
-    {
-      "name": "row_count",
-      "dataType": "LONG"
-    }
-  ],
-  "dateTimeFieldSpecs": [
-    {
-      "name": "bucket_start_ts",
-      "dataType": "TIMESTAMP",
-      "format": "1:MILLISECONDS:TIMESTAMP",
-      "granularity": "1:MILLISECONDS"
-    }
-  ]
-}
+`REFRESH EVERY` is optional. When you provide it, Pinot stores a per-MV schedule using minute, hour, or day units. When you omit it, the MV runs on the cluster-wide `MaterializedViewTask` schedule.
+
+Example DDL:
+
+```sql
+CREATE MATERIALIZED VIEW salesByHourMv
+REFRESH EVERY 1 HOUR
+PROPERTIES (
+  'timeColumnName' = 'bucket_start_ts',
+  'bucketTimePeriod' = '1h',
+  'stalenessThresholdMs' = '900000',
+  'replication' = '1'
+)
+AS
+SELECT DATETRUNC('HOUR', event_ts) AS bucket_start_ts,
+       region,
+       SUM(revenue) AS sum_revenue,
+       COUNT(*) AS row_count
+FROM sales
+GROUP BY DATETRUNC('HOUR', event_ts), region;
 ```
 
-Example table config:
-
-```json
-{
-  "tableName": "salesByHourMv",
-  "tableType": "OFFLINE",
-  "isMaterializedView": true,
-  "segmentsConfig": {
-    "timeColumnName": "bucket_start_ts",
-    "segmentPushType": "APPEND",
-    "replication": "1"
-  },
-  "task": {
-    "taskTypeConfigsMap": {
-      "MaterializedViewTask": {
-        "definedSQL": "SELECT DATETRUNC('HOUR', event_ts) AS bucket_start_ts, region, SUM(revenue) AS sum_revenue, COUNT(*) AS row_count FROM sales GROUP BY DATETRUNC('HOUR', event_ts), region",
-        "bucketTimePeriod": "1h",
-        "stalenessThresholdMs": "900000"
-      }
-    }
-  }
-}
-```
-
-Post the schema and table config through the controller:
+Submit the statement through the controller:
 
 ```bash
-curl -X POST "http://localhost:9000/schemas" \
+curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
   -H "Content-Type: application/json" \
-  -d @salesByHourMv_schema.json
-
-curl -X POST "http://localhost:9000/tables" \
-  -H "Content-Type: application/json" \
-  -d @salesByHourMv_offline_table_config.json
+  -d @- <<'EOF'
+{"sql":"CREATE MATERIALIZED VIEW salesByHourMv REFRESH EVERY 1 HOUR PROPERTIES ('timeColumnName' = 'bucket_start_ts', 'bucketTimePeriod' = '1h', 'stalenessThresholdMs' = '900000', 'replication' = '1') AS SELECT DATETRUNC('HOUR', event_ts) AS bucket_start_ts, region, SUM(revenue) AS sum_revenue, COUNT(*) AS row_count FROM sales GROUP BY DATETRUNC('HOUR', event_ts), region"}
+EOF
 ```
 
 Pinot generates MV segments through `MaterializedViewTask`. The controller task manager can schedule those tasks automatically, or you can trigger them manually:
@@ -118,6 +90,10 @@ Pinot generates MV segments through `MaterializedViewTask`. The controller task 
 ```text
 POST /tasks/schedule?taskType=MaterializedViewTask&tableName=<mvTable>_OFFLINE
 ```
+
+## When to keep using JSON APIs
+
+The existing `POST /schemas`, `POST /tables`, and `PUT /tables/{tableName}` APIs still work for materialized views. Keep using them when your automation already depends on raw Pinot metadata payloads, or when you need a hand-written `MaterializedViewTask` cron that cannot be expressed as `REFRESH EVERY <N> MINUTES|HOURS|DAYS` or `'<N>m|h|d'`.
 
 ## Enable transparent rewrite for SSE queries
 
@@ -186,6 +162,16 @@ In the Data Explorer, use **Data Sources** to discover both physical tables and 
 - **Materialized Views** lists each MV with its base tables, watermark, VALID and STALE partition counts, last refresh time, staleness SLO, and any metadata errors.
 - Clicking an MV opens a detail page with the stored `definedSQL`, split spec, partition state, raw runtime metadata, and controls to refresh the page data or drop the MV.
 
+The same controller DDL surface also lets you inspect and remove MVs from SQL:
+
+```sql
+SHOW MATERIALIZED VIEWS;
+SHOW CREATE MATERIALIZED VIEW salesByHourMv;
+DROP MATERIALIZED VIEW IF EXISTS salesByHourMv;
+```
+
+`SHOW MATERIALIZED VIEWS` returns raw MV names without the `_OFFLINE` suffix. `SHOW CREATE MATERIALIZED VIEW` emits canonical DDL for the stored MV definition, including an explicit column list even when the original `CREATE MATERIALIZED VIEW` used inferred columns.
+
 The controller also exposes dedicated MV endpoints:
 
 - `GET /materializedViews`
@@ -194,7 +180,7 @@ The controller also exposes dedicated MV endpoints:
 
 ## What this page covered
 
-This page covered the current materialized-view feature surface in Pinot: how to define the schema and offline table, which source tables and aggregations are supported, how broker-side SSE rewrite works, how to query the MV table directly, and where to inspect the MV in the UI and controller API.
+This page covered the current materialized-view feature surface in Pinot: how to create and manage an MV through controller SQL DDL, which source tables and aggregations are supported, how broker-side SSE rewrite works, how to query the MV table directly, and where to inspect the MV in the UI and controller API.
 
 ## Next step
 

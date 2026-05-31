@@ -44,15 +44,15 @@ Some SQL features depend on the engine:
 
 If you are working on a query and do not know whether a feature is supported, check the engine-specific guidance before you assume the syntax is invalid.
 
-## Table DDL runs on the controller
+## DDL runs on the controller
 
-Pinot also supports SQL table DDL, but it is exposed through the controller rather than the broker query path. Use `POST /sql/ddl` for `CREATE TABLE`, `DROP TABLE`, `SHOW TABLES`, and `SHOW CREATE TABLE`.
+Pinot also supports controller-managed SQL DDL, but it is exposed through the controller rather than the broker query path. Use `POST /sql/ddl` for table statements such as `CREATE TABLE`, `DROP TABLE`, `SHOW TABLES`, and `SHOW CREATE TABLE`, and for materialized-view statements such as `CREATE MATERIALIZED VIEW`, `SHOW MATERIALIZED VIEWS`, `SHOW CREATE MATERIALIZED VIEW`, and `DROP MATERIALIZED VIEW`.
 
-This distinction matters because the SSE and MSE engines still execute query statements, not controller metadata changes. If you want the syntax and examples for controller-managed DDL, use [SQL Table DDL](sql-ddl.md).
+This distinction matters because the SSE and MSE engines still execute query statements, not controller metadata changes. If you want the syntax and examples for controller-managed DDL, use [SQL DDL](sql-ddl.md) and [Materialized Views](materialized-views.md).
 
 ## Where the details live
 
-This page intentionally stays light. For the full statement-by-statement reference, use the detailed [SQL syntax and operators reference](sql-reference.md). For controller-managed table DDL, use [SQL Table DDL](sql-ddl.md). For query controls and diagnostics, use the pages under `query-execution-controls/`.
+This page intentionally stays light. For the full statement-by-statement reference, use the detailed [SQL syntax and operators reference](sql-reference.md). For controller-managed DDL, use [SQL DDL](sql-ddl.md). For MV-specific workflow guidance, use [Materialized Views](materialized-views.md). For query controls and diagnostics, use the pages under `query-execution-controls/`.
 
 ## What this page covered
 
@@ -65,6 +65,7 @@ Read [Querying Pinot](querying-pinot.md) for the broader query workflow, or jump
 ## Related pages
 
 - [Querying Pinot](querying-pinot.md)
-- [SQL Table DDL](sql-ddl.md)
+- [SQL DDL](sql-ddl.md)
+- [Materialized Views](materialized-views.md)
 - [Query options](query-execution-controls/query-options.md)
 - [Explain plan](query-execution-controls/explain-plan.md)

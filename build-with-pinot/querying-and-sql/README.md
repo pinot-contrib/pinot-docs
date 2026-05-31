@@ -42,7 +42,7 @@ For explain plans, joins, optimizer behavior, and operator details, continue int
 
 ## What this page covered
 
-This page mapped the main query workflows in Pinot: learning the query path, understanding SQL behavior, finding functions, choosing between SSE and MSE, using SQL table DDL through the controller, working with materialized views, and tuning execution controls.
+This page mapped the main query workflows in Pinot: learning the query path, understanding SQL behavior, finding functions, choosing between SSE and MSE, using controller-managed SQL DDL for tables and materialized views, and tuning execution controls.
 
 ## Next step
 
