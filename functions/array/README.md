@@ -509,6 +509,17 @@ SELECT arraySliceInt(ARRAY[10, 20, 30, 40], 1, 3);
 -- Result: [20, 30]
 ```
 
+### arraySliceLong
+
+**Description**: Extracts a LONG subarray (start inclusive, end exclusive).\
+**Syntax**: `arraySliceLong(long_array, start, end)`\
+**Example**:
+
+```sql
+SELECT arraySliceLong(ARRAY[10000000000, 20000000000, 30000000000, 40000000000], 1, 3);
+-- Result: [20000000000, 30000000000]
+```
+
 ### arraySliceString
 
 **Description**: Extracts a string subarray.\
@@ -904,6 +915,7 @@ SELECT arrayToString(ARRAY['foo', NULL, 'bar'], '|', 'NA');
 | [arrayToString](arraytostring.md) | [arrayRemoveInt](arrayremoveint.md) |
 | [arrayRemoveString](arrayremovestring.md) | [arrayReverseInt](arrayreverseint.md) |
 | [arrayReverseString](arrayreversestring.md) | [arraySliceInt](arraysliceint.md) |
-| [arraySliceString](arrayslicestring.md) | [arraySortInt](arraysortint.md) |
-| [arraySortString](arraysortstring.md) | [arrayUnionInt](arrayunionint.md) |
-| [arrayUnionString](arrayunionstring.md) | [isEqualSet](isequalset.md) |
+| [arraySliceLong](arrayslicelong.md) | [arraySliceString](arrayslicestring.md) |
+| [arraySortInt](arraysortint.md) | [arraySortString](arraysortstring.md) |
+| [arrayUnionInt](arrayunionint.md) | [arrayUnionString](arrayunionstring.md) |
+| [isEqualSet](isequalset.md) |  |
