@@ -1536,6 +1536,7 @@ curl -X GET "http://localhost:9000/tables/myTable/pauseStatus" -H "accept: appli
 | `reasonCode` | string | Pause reason code, such as `ADMINISTRATIVE` for operator-driven pauses or `STORAGE_QUOTA_EXCEEDED` for automatic storage-quota pauses. |
 | `comment` | string | Stored administrative or automatic pause comment. If no explicit comment was stored, Pinot returns a default paused or unpaused message. |
 | `timestamp` | string | Stored pause-state timestamp from the controller metadata. |
+| `indexOfInactiveTopics` | array of integers | Zero-based topic indexes that remain paused after topic-level pause operations. Pinot omits this field when no individual topics are paused. |
 
 **Example response**
 
@@ -1548,7 +1549,8 @@ curl -X GET "http://localhost:9000/tables/myTable/pauseStatus" -H "accept: appli
   ],
   "reasonCode": "ADMINISTRATIVE",
   "comment": "maintenance",
-  "timestamp": "<stored pause-state timestamp>"
+  "timestamp": "<stored pause-state timestamp>",
+  "indexOfInactiveTopics": [0, 1]
 }
 ```
 

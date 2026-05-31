@@ -490,7 +490,7 @@ When a `Pause` request is issued, the controller instructs the real-time servers
 $ curl -X GET {controllerHost}/tables/{tableName}/pauseStatus
 ```
 
-The pause status response includes the current `pauseFlag`, the set of `consumingSegments`, the stored `reasonCode`, any persisted `comment`, and the controller-side `timestamp` for the current pause state. When no explicit comment was stored, Pinot returns a default paused or unpaused message.
+The pause status response includes the current `pauseFlag`, the set of `consumingSegments`, the stored `reasonCode`, any persisted `comment`, and the controller-side `timestamp` for the current pause state. When topic-level pause APIs have paused only some stream topics, Pinot also returns `indexOfInactiveTopics` with the zero-based topic indexes that remain inactive. When no explicit comment was stored, Pinot returns a default paused or unpaused message.
 
 It's worth noting that consuming segments on real-time servers are stored in volatile memory, and their resources are allocated when the consuming segments are first created. These resources cannot be altered if consumption parameters are changed midway through consumption. It may take hours before these changes take effect. Furthermore, if the parameters are changed in an incompatible way (for example, changing the underlying stream with a completely new set of offsets, or changing the stream endpoint from which to consume messages), it will result in the table getting into an error state.
 
