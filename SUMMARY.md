@@ -278,6 +278,7 @@
   * [arrayReverseInt](functions/array/arrayreverseint.md)
   * [arrayReverseString](functions/array/arrayreversestring.md)
   * [arraySliceInt](functions/array/arraysliceint.md)
+  * [arraySliceLong](functions/array/arrayslicelong.md)
   * [arraySliceString](functions/array/arrayslicestring.md)
   * [arraySortInt](functions/array/arraysortint.md)
   * [arraySortString](functions/array/arraysortstring.md)
