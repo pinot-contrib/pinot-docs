@@ -61,6 +61,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | NETTY_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the server's Netty query service |  |
 | GRPC_TOTAL_MAX_DIRECT_MEMORY | Maximum direct memory available to the shaded Netty runtime used by the server gRPC query service and MSE mailbox traffic |  |
 | GRPC_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the shaded Netty runtime used by the server gRPC query service and MSE mailbox traffic |  |
+| MAILBOX_CLIENT_USED_DIRECT_MEMORY | Current direct memory pinned by the server's outbound MSE mailbox gRPC clients |  |
+| MAILBOX_CLIENT_USED_HEAP_MEMORY | Current heap memory pinned by the server's outbound MSE mailbox gRPC clients |  |
 | STARTUP_SUCCESS_DURATION_MS | Time spent starting the server when startup finishes in a healthy state |  |
 | STARTUP_FAILURE_DURATION_MS | Time spent starting the server when startup finishes in an unhealthy state |  |
 | EXECUTION_THREAD_CPU_TIME_NS | time spent by all threads processing query and results (doesn't includes time spent in system activities) |  |
@@ -152,6 +154,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | STARTUP_SUCCESS_DURATION_MS | Time spent starting the broker when startup completes successfully |  |
 | GRPC_TOTAL_MAX_DIRECT_MEMORY | Maximum direct memory available to the shaded Netty runtime used by broker gRPC services and MSE mailbox traffic |  |
 | GRPC_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the shaded Netty runtime used by broker gRPC services and MSE mailbox traffic |  |
+| MAILBOX_CLIENT_USED_DIRECT_MEMORY | Current direct memory pinned by the broker's outbound MSE mailbox gRPC clients |  |
+| MAILBOX_CLIENT_USED_HEAP_MEMORY | Current heap memory pinned by the broker's outbound MSE mailbox gRPC clients |  |
 
 #### Tracking time spent in various phases of Query execution in milliseconds
 
