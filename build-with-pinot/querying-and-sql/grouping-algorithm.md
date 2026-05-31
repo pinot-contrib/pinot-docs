@@ -112,7 +112,8 @@ Compared to the SSE, the MSE uses a similar algorithm, but there are notable dif
 
 * MSE doesn't implicitly limit number of query results (to 10)
 * MSE doesn't limit number of groups when aggregating cross-segment data
-* MSE doesn't trim results by default in any stage
+* MSE now trims no-aggregate `DISTINCT` and no-aggregate `GROUP BY` queries with `LIMIT` by default when Pinot can safely push `LIMIT + OFFSET` to the leaf/final aggregate. This default-on path still honors pagination and can be disabled per query with `/*+ aggOptions(is_enable_group_trim='false') */`.
+* Aggregation queries that compute aggregate functions still keep group trim disabled by default unless you opt in with `is_enable_group_trim`.
 * MSE doesn't aggregate results in the broker, pushing final aggregation processing to server(s)
 
 The default MSE algorithm is shown on the following diagram:
@@ -124,10 +125,10 @@ The default MSE algorithm is shown on the following diagram:
 Apart from limiting number of groups on segment level, similar limit is applied at _intermediate_ stage.  Since the multi-stage engine (MSE) allows for subqueries, in an execution plan, there could be arbitrary number of stages doing _intermediate_ aggregation between leaf (bottom-most) and top-most stages, and each stage can be implemented with many instances of `AggregateOperator` (shown as `PinotLogicalAggregate` in  [EXPLAIN's](query-execution-controls/explain-plan-multi-stage.md) output).  \
 The operator limits number of distinct groups to 100,000 by default, which can be overridden with `numGroupsLimit` option or `num_groups_limit` aggregate hint. The limit applies to a single operator instance, meaning that next stage could receive a total of `num_instances * num_groups_limit`.
 
-It is possible to enable group limiting and trimming at other stages with:
+For aggregation queries with aggregate functions, it is possible to enable group limiting and trimming at other stages with:
 
-* `is_enable_group_trim` hint - it enables trimming at all SSE/MSE levels  and group limiting at cross-segment level.  `minSegmentGroupTrimSize` value needs to be set separately. \
-  Default value: false&#x20;
+* `is_enable_group_trim` hint - it enables trimming at all SSE/MSE levels and group limiting at cross-segment level. `minSegmentGroupTrimSize` value needs to be set separately. Pinot already enables the safe no-aggregate `DISTINCT` and no-aggregate `GROUP BY` trim path by default, so this hint mainly matters when aggregate functions are present or when you need to opt out with `false`. \
+  Default value: false for aggregate queries; safe no-aggregate `DISTINCT` / `GROUP BY` leaf trim is already on by default&#x20;
 * `mse_min_group_trim_size` hint - triggers sorting and trimming of group by results at intermediate stage. Requires `is_enable_group_trim` hint.\
   Default value: 5000
 
@@ -225,7 +226,7 @@ The actual processing depends on the query, which may not contain an SSE leaf st
 | `pinot.server.query.executor.min.server.group.trim.size` | 5,000 | `SET minServerGroupTrimSize = value;` | The minimum number of groups to keep when trimming groups at the server level. |
 | `pinot.server.query.executor.groupby.trim.threshold` | 1,000,000 | `SET groupTrimThreshold = value;` | The number of groups to trigger the server level trim. |
 | `pinot.broker.min.group.trim.size` | 5000 | `SET minBrokerGroupTrimSize = value;` | The minimum number of groups to keep when trimming groups at the broker. Applies only to SSQ(*). |
-| `pinot.broker.mse.enable.group.trim` | false (disabled) | `/*+ aggOptions(is_enable_group_trim='value') */` | Enable group trim for the query (if possible). Applies only to MSQ(**). |
+| `pinot.broker.mse.enable.group.trim` | false (disabled for aggregate queries) | `/*+ aggOptions(is_enable_group_trim='value') */` | Enable group trim for MSQ aggregate queries when Pinot would not otherwise trim by default. Pinot already enables the safe no-aggregate `DISTINCT` / `GROUP BY` trim path by default; set the hint to `false` to opt out of that path for a query. |
 | `pinot.server.query.executor.mse.min.group.trim.size` | 5000 | `/*+ aggOptions(mse_min_group_trim_size='value') */` or `SET mseMinGroupTrimSize = value;` | The number of groups to keep when trimming groups at intermediate stage. Applies only to MSQ(**). |
 
 (\*) SSQ - Single-Stage Query
