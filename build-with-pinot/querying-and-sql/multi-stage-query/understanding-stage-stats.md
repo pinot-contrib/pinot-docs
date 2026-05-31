@@ -8,6 +8,8 @@ description: >-
 
 Multi-stage stats (MSE) are more complex but also more expressive than single-stage stats. While in single-stage stats Apache Pinot returns a single set of statistics for the query, in multi-stage stats Apache Pinot returns a set of statistics for each operator of the query execution. These stats are collected by default and included in the response of any MSE query.
 
+Starting in Pinot 1.6.0, the `stageStats` tree also includes leaf-stage pipeline-breaker subtrees by default. If an existing consumer needs the pre-1.6 shape, set `pinot.query.mse.skip.pipeline.breaker.stats=true` on the cluster to suppress those nodes again.
+
 Each operator has its own set of statistics, which are collected during the execution of the query. See the [Operator Types](../../../build-with-pinot/querying-and-sql/multi-stage-query/operator-types) section to learn more about the different operator types and their statistics.
 
 ### Multi-stage stats visualizer [](#multi-stage-stats-visualizer)

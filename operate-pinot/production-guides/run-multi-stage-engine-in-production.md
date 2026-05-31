@@ -132,6 +132,8 @@ If a rolling upgrade still includes any server older than Pinot 1.4.0, set `pino
 `SAFE` is intentionally conservative: it only sends stats when all brokers and servers advertise the same Pinot version. During a Pinot 1.4-to-1.5 rolling upgrade, that can temporarily suppress stage stats even though `ALWAYS` remains the recommended setting once all servers are on Pinot 1.4.0 or later.
 {% endhint %}
 
+Starting in Pinot 1.6.0, stage stats also include pipeline-breaker child operators by default. That richer tree is usually preferable for debugging joins and semi-joins, but if an existing downstream parser expects the 1.5-era shape you can temporarily restore it with `pinot.query.mse.skip.pipeline.breaker.stats=true`.
+
 ## Choosing between standard MSE and Lite Mode
 
 MSE supports two execution modes:
