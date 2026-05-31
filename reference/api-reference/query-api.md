@@ -4,9 +4,9 @@ description: Pinot query API reference.
 
 # Broker Query API
 
-Pinot exposes broker endpoints for single-stage execution, multi-stage execution, and query fingerprint generation. Cursor-based pagination is available through query parameters on the SQL endpoint, and the response-store lifecycle is managed through broker endpoints on the same broker that executed the query.
+Pinot exposes broker endpoints for single-stage execution, multi-stage execution, parse-only SQL syntax validation, and query fingerprint generation. Cursor-based pagination is available through query parameters on the SQL endpoint, and the response-store lifecycle is managed through broker endpoints on the same broker that executed the query.
 
-For the broker `POST` query endpoints on this page, malformed JSON request bodies and payloads that omit required fields now return HTTP `400 Bad Request` instead of HTTP `500`.
+For `POST /query/sql` and `POST /query`, malformed JSON request bodies and payloads that omit required fields return HTTP `400 Bad Request`. The helper endpoints on this page have endpoint-specific status handling, which is documented with each endpoint.
 
 ## Endpoints
 
@@ -14,6 +14,7 @@ For the broker `POST` query endpoints on this page, malformed JSON request bodie
 | --- | --- | --- |
 | `POST` | `/query/sql` | Submit SQL to the broker query endpoint |
 | `POST` | `/query` | Submit SQL through the multi-stage endpoint |
+| `POST` | `/query/sql/validateSyntax` | Parse SQL and report whether Pinot accepts the syntax |
 | `POST` | `/query/sql/queryFingerprint` | Generate a normalized fingerprint and stable hash for a DQL query |
 | `POST` | `/query/sql?getCursor=true` | Submit a query and return a cursor-backed first page |
 | `GET` | `/responseStore/{requestId}/results` | Fetch additional cursor pages |
@@ -38,6 +39,51 @@ curl -H "Content-Type: application/json" -X POST \
 ```
 
 Both `POST /query/sql` and `POST /query` require a JSON request body with a top-level `sql` field. If the request body is malformed JSON or the `sql` field is missing, the broker returns HTTP `400 Bad Request`.
+
+## SQL Syntax Validation
+
+Use `POST /query/sql/validateSyntax` when you only need Pinot's Calcite-based parser to accept or reject the SQL text. The broker parses the statement but does not execute it, fetch table metadata, or run semantic validation.
+
+This endpoint accepts both single-stage and multi-stage SQL, including statements that parse as `DQL`, `DML`, `DDL`, or `DCL`.
+
+```bash
+curl -H "Content-Type: application/json" -X POST \
+  -d '{"sql":"SELECT * FROM myTable WHERE id > 10"}' \
+  http://localhost:8099/query/sql/validateSyntax
+```
+
+Valid syntax returns HTTP `200 OK` with `valid=true` and the parsed SQL type:
+
+```json
+{
+  "valid": true,
+  "sqlType": "DQL"
+}
+```
+
+Invalid syntax also returns HTTP `200 OK`, but with `valid=false` and parser error text:
+
+```json
+{
+  "valid": false,
+  "errorMessage": "Encountered \"FROM\" at line 1, column 8."
+}
+```
+
+If the JSON payload omits the `sql` field, Pinot returns HTTP `400 Bad Request`:
+
+```json
+{
+  "error": "Payload is missing the query string field 'sql'"
+}
+```
+
+Malformed JSON and other unexpected server failures return HTTP `500 Internal Server Error`.
+
+Compared with the related helper endpoints:
+
+- Unlike `POST /query/sql/queryFingerprint`, this endpoint does not generate a fingerprint or query hash, and it is not limited to DQL.
+- Unlike controller [`POST /validateMultiStageQuery`](controller-api.md), this endpoint is broker-local and parse-only. It does not compile the query against table metadata, validate semantics, or restrict validation to multi-stage queries.
 
 ## Query Fingerprints
 
@@ -94,6 +140,7 @@ curl -X GET http://localhost:8099/responseStore/236490978000000006 | jq
 ## What this page covered
 
 - The broker query endpoints and their intended use.
+- Parse-only syntax validation versus fingerprint generation and controller-side validation.
 - Cursor-based pagination and response-store lifecycle basics.
 - The main operational constraint: follow-up requests must hit the same broker.
 
