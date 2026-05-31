@@ -1,15 +1,17 @@
 # Default Disabled Rules
 
-At this point, Pinot uses Calcite's 
-[HepPlanner](https://calcite.apache.org/javadocAggregate/org/apache/calcite/plan/hep/HepPlanner.html) 
-for multi-stage query optimization, without cardinality estimation and or cost-based search. This means any 
-transformation rule that is enabled will be fired once its condition matches. 
+At this point, Pinot uses Calcite's
+[HepPlanner](https://calcite.apache.org/javadocAggregate/org/apache/calcite/plan/hep/HepPlanner.html)
+for multi-stage query optimization without cardinality estimation or cost-based search. This means any
+transformation rule that is enabled will fire once its condition matches.
 
-There are certain rules that 
-are helpful and only helpful under certain circumstances (with certain selectivity and cardinality conditions). 
+There are certain rules that
+are helpful only under certain selectivity and cardinality conditions.
 We disable them by default and list Pinot's built-in default set here for users to enable on demand.
 
 Brokers can replace this built-in set with the `pinot.broker.mse.planner.disabled.rules` config. When they do, the `usePlannerRules` query option applies to the broker-configured set instead of the built-in list below.
+
+If you replace the built-in set at the broker level, include any rules that should stay opt-in in that configured list. For example, leaving `SortProjectTranspose` out of `pinot.broker.mse.planner.disabled.rules` removes it from the disabled-by-default set, so queries would no longer need `usePlannerRules` to enable it.
 
 ## Default Disabled Rules
 
@@ -85,5 +87,30 @@ SELECT *
 FROM t1 LEFT JOIN t2
 ON t1.a = t2.a
 ORDER BY t1.a
+LIMIT 100
+```
+
+### SORT_PROJECT_TRANSPOSE
+
+#### About
+Calcite's [SORT_PROJECT_TRANSPOSE](https://calcite.apache.org/javadocAggregate/org/apache/calcite/rel/rules/CoreRules.html#SORT_PROJECT_TRANSPOSE).
+This rule pushes a `Sort` below a `Project`, which lets Pinot apply `ORDER BY ... LIMIT` before it evaluates the projection expressions.
+
+Pinot keeps this rule disabled by default. Enabling it in the main logical phase can prevent the semi-join rewrite used by partition-hinted `IN (SELECT)` queries, so Pinot exposes it as an opt-in rule through `usePlannerRules`.
+
+#### Use case
+Consider enabling this rule when a query has projection work above a sort-limit and you want Pinot to trim the rows before evaluating the projected expressions.
+`SET usePlannerRules='SortProjectTranspose';`
+
+#### Example
+Example query:
+```sql
+SET usePlannerRules='SortProjectTranspose';
+SELECT city_name
+FROM (
+    SELECT LOWER(city) AS city_name, eventTime
+    FROM dimStore
+)
+ORDER BY eventTime DESC
 LIMIT 100
 ```
