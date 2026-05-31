@@ -71,6 +71,21 @@ These configs apply to host-side workload accounting and enforcement on each bro
 | `accounting.workload.enforcement.window.ms` | `60000` (1 minute) | Duration of the enforcement window in milliseconds. Budgets are reset at the end of each window. |
 | `accounting.workload.sleep.time.ms` | `1` | Sleep interval in milliseconds for the accounting thread. |
 
+### Controller Propagation Configs
+
+The controller computes per-instance workload budgets and pushes them to broker and server admin APIs. These `controller.*` settings let you tune that control-plane work:
+
+| Config | Default | Description |
+| --- | --- | --- |
+| `controller.enable.instance.change.propagation` | `false` | Automatically recompute and re-propagate server-side workload budgets when `InstancePartitions` change, such as after server rebalances or serving-instance membership changes. |
+| `controller.enable.table.change.propagation` | `false` | Automatically recompute and re-propagate broker-side workload budgets when the `brokerResource` table-to-broker mapping changes. |
+| `controller.workload.propagation.requestsPerSecond` | `1000.0` | Rate limit for outbound workload propagation requests from the controller to brokers and servers. |
+| `controller.workload.executor.threads` | `5` | Threads used to compute workload-to-instance budget assignments on the controller. |
+| `controller.workload.executor.queueSize` | `10000` | Queue size for controller workload propagation tasks. |
+| `controller.workload.http.executor.threads` | `5` | Threads used by the controller's async HTTP workload client for callback processing. |
+| `controller.workload.http.executor.queueSize` | `10000` | Queue size for controller HTTP workload callback handling. |
+| `controller.workload.propagation.timeoutSeconds` | `120` | Timeout for controller-side workload propagation and cost computation tasks. |
+
 ### Secondary Workload Configs
 
 For a simpler setup that only distinguishes between primary and secondary queries:
@@ -91,54 +106,64 @@ When using the `binary_workload` scheduler, these additional configs control sec
 | `binarywlm.secondaryQueueQueryTimeout` | `40` (seconds) | Time in seconds before a queued secondary query expires and is removed from the queue. |
 | `binarywlm.queueWakeupMs` | `1` | Interval in milliseconds at which the scheduler checks for schedulable secondary queries. |
 
-### Defining Workloads via REST API
+### Controller APIs
 
-Named workload configs (with CPU/memory budgets) can be managed through the controller REST API:
+Named workload configs (with CPU and memory budgets) are managed through the controller REST API:
 
 ```
-GET    /queryWorkloadConfigs                  # List all workload configs
-GET    /queryWorkloadConfigs/{configName}      # Get a specific workload config
-POST   /queryWorkloadConfigs                  # Create a new workload config
-PUT    /queryWorkloadConfigs/{configName}      # Update a workload config
-DELETE /queryWorkloadConfigs/{configName}      # Delete a workload config
+GET    /queryWorkloadConfigs                           # List all workload configs
+GET    /queryWorkloadConfigs/{queryWorkloadName}      # Get a specific workload config
+GET    /queryWorkloadConfigs/instance/{instanceName}  # Show the computed budgets for one broker/server instance
+POST   /queryWorkloadConfigs                           # Create or update a workload config
+DELETE /queryWorkloadConfigs/{queryWorkloadName}      # Delete a workload config
+POST   /queryWorkloadConfigs/refresh?...              # Recompute and re-push budgets after topology changes
 ```
 
 A workload config defines resource budgets and propagation rules. Example:
 
 ```json
 {
-  "id": "analytics-workload",
-  "simpleFields": {
-    "queryWorkloadName": "analytics-workload"
-  },
+  "queryWorkloadName": "analytics-workload",
   "nodeConfigs": [
-    {
-      "nodeType": "serverNode",
-      "enforcementProfile": {
-        "cpuCostNs": 500,
-        "memCostBytes": 1000
-      },
-      "propagationScheme": {
-        "type": "TABLE",
-        "values": ["myTable_REALTIME", "myTable_OFFLINE"]
-      }
-    },
     {
       "nodeType": "brokerNode",
       "enforcementProfile": {
         "cpuCostNs": 1500,
-        "memCostBytes": 12000
+        "memoryCostBytes": 12000
       },
       "propagationScheme": {
-        "type": "TENANT",
-        "values": ["analyticsTenant"]
+        "propagationType": "table",
+        "propagationEntities": [
+          {
+            "entity": "myTable",
+            "cpuCostNs": 1500,
+            "memoryCostBytes": 12000
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "serverNode",
+      "enforcementProfile": {
+        "cpuCostNs": 5000,
+        "memoryCostBytes": 40000
+      },
+      "propagationScheme": {
+        "propagationType": "tenant",
+        "propagationEntities": [
+          {
+            "entity": "analyticsTenant",
+            "cpuCostNs": 5000,
+            "memoryCostBytes": 40000
+          }
+        ]
       }
     }
   ]
 }
 ```
 
-Workload configs are stored in ZooKeeper under `/CONFIGS/QUERYWORKLOAD` and propagated automatically to brokers and servers via a `QueryWorkloadRefreshMessage`.
+Workload configs are stored in ZooKeeper under `/CONFIGS/QUERYWORKLOAD`. The controller is the source of truth for the cluster-wide definition, and it computes the per-instance budgets each broker or server should enforce.
 
 **Propagation schemes** control which instances receive a workload config:
 
@@ -146,6 +171,32 @@ Workload configs are stored in ZooKeeper under `/CONFIGS/QUERYWORKLOAD` and prop
 * **TENANT**: Config is pushed to all instances belonging to the specified tenants.
 
 **Cost splitting**: The controller evenly divides a workload's total resource budget across all eligible instances. For example, if a workload has a CPU budget of 1000 ns and there are 4 servers, each server receives a budget of 250 ns.
+
+### Propagation Lifecycle
+
+1. The controller stores the workload definition in ZooKeeper and computes per-instance budgets for the current broker and server topology.
+2. The controller pushes those computed budgets to broker and server admin APIs over HTTP(S) by calling each instance's `/queryWorkloadConfigs` endpoint.
+3. Brokers and servers also fetch their assigned budgets asynchronously during startup from `GET /queryWorkloadConfigs/instance/{instanceName}`, so a restart does not need to wait for a later manual refresh.
+4. For local debugging, each broker and server admin API exposes `GET /queryWorkloadConfigs` and `GET /queryWorkloadConfigs?workloadNames=...` so you can inspect the budgets currently loaded on that instance.
+
+### Refreshing Budgets After Topology Changes
+
+Per-instance budgets depend on which brokers or servers currently serve a workload's tables or tenants. When that serving topology changes, the budget split can change too.
+
+Use the controller refresh API to recompute and re-push budgets without recreating the workload config:
+
+```bash
+curl -X POST "http://localhost:9000/queryWorkloadConfigs/refresh?resourceType=table&resourceNames=myTable_REALTIME&nodeType=serverNode"
+```
+
+You can also refresh by `workload` or `tenant` instead of `table`. The optional `nodeType` filter accepts `brokerNode` or `serverNode`.
+
+If you want Pinot to do this automatically after serving-instance changes, enable:
+
+* `controller.enable.instance.change.propagation=true` to refresh server-side budgets when `InstancePartitions` change.
+* `controller.enable.table.change.propagation=true` to refresh broker-side budgets when the `brokerResource` mapping changes.
+
+See [Controller API Examples](../../reference/api-reference/controller-api.md#query-workload-propagation) for end-to-end `curl` examples.
 
 ## Query Options
 
