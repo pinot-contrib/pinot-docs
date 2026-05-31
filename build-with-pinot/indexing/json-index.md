@@ -789,36 +789,43 @@ The following table summarizes query patterns and whether they are supported by 
 | `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING')` | Yes |
 | `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'INT')` | Yes (all single-value types) |
 | `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default')` | Yes (with default value) |
-| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default', '$.filter')` | Yes (with filter JSON path) |
+| `SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING', 'default', '"$.otherPath" = ''value''')` | Yes (with 5-arg JSON filter pushdown) |
 | With `WHERE` clause filters | Yes |
-| With `WHERE JSON_MATCH` (same-path) | Yes (optimized) |
+| With `WHERE JSON_MATCH(...)` | Yes |
 | With `ORDER BY` | Yes |
-| Multi-value types (`STRING_ARRAY`, etc.) | No (falls back to default execution) |
+| Multi-value types (`STRING_ARRAY`, etc.) | Yes (array elements are flattened into scalar DISTINCT rows) |
 | Multiple columns in `SELECT DISTINCT` | No (falls back to default execution) |
 
 When a query pattern is not supported, the query still executes correctly using the default execution path.
 
-### Same-path JSON_MATCH optimization
+### 5-arg filter pushdown and missing-path behavior
 
-When a `WHERE` clause contains a single same-path `JSON_MATCH` predicate applied to the same path as the `DISTINCT` extraction, the index-based distinct operator applies an advanced optimization:
-
-Instead of the previous two-pass approach (scanning the dictionary twice and materializing bitmaps), the optimizer now performs a **single dictionary scan with direct predicate evaluation**. This eliminates:
-- Redundant dictionary scans
-- Posting list reads
-- Bitmap materialization operations
-
-#### Example
-
-For this query:
+The 5-arg form of `jsonExtractIndex` pushes a JSON filter expression into the JSON index lookup itself:
 
 ```sql
-SELECT DISTINCT jsonExtractIndex(person, '$.country', 'STRING')
+SET useIndexBasedDistinctOperator = true;
+
+SELECT DISTINCT jsonExtractIndex(
+  person,
+  '$.country',
+  'STRING',
+  'missing',
+  '"$.status" = ''active'''
+)
 FROM mytable
-WHERE JSON_MATCH(person, '"$.country"=''us''')
-ORDER BY jsonExtractIndex(person, '$.country', 'STRING')
+ORDER BY jsonExtractIndex(person, '$.country', 'STRING', 'missing', '"$.status" = ''active''')
+LIMIT 1000;
 ```
 
-The optimizer detects that the `WHERE` clause predicates match the extraction path (`$.country`), and evaluates the predicate directly on the dictionary value strings without intermediate bitmap operations. This provides significant performance improvements, especially for high-cardinality JSON columns with selective predicates.
+This filter expression uses the same syntax as `JSON_MATCH`, but it runs inside the JSON index lookup before Pinot materializes DISTINCT values. It can filter on the extracted path or on a different indexed JSON path. Regular `WHERE` filters, including `WHERE JSON_MATCH(...)`, still work and are applied after Pinot converts index hits back to row-level doc IDs.
+
+Missing-path handling for index-based DISTINCT matches scan-based `jsonExtractIndex(...)`:
+
+- With a 4-arg default, Pinot adds the default value when matching docs do not contain the extracted path.
+- Without a default and with `enableNullHandling=true`, Pinot adds `NULL`.
+- Without a default and without null handling, Pinot throws `Illegal Json Path`.
+
+If you want the DISTINCT result to contain only values returned by the JSON index lookup, set `jsonIndexDistinctSkipMissingPath=true` together with `useIndexBasedDistinctOperator=true`. That suppresses the default-value, `NULL`, and `Illegal Json Path` behaviors for missing docs.
 
 ### Prerequisites
 
@@ -828,22 +835,15 @@ The JSON path used in `jsonExtractIndex` must be included in the index. If you u
 
 ### How to verify it is being used
 
-When the index-based distinct operator is active, the query response metadata shows `numEntriesScannedPostFilter = 0` for single-server queries, because the operator reads entirely from the index without scanning any documents.
+Use `EXPLAIN PLAN FOR` and look for `DISTINCT_JSON_INDEX(...)` in the plan.
 
-You can check this in the query response:
+In query stats, `numDocsScanned` reflects the number of docs that survived the row-level filter (or total docs when unfiltered), while `numEntriesScannedPostFilter` reflects how many JSON-index values the operator examined. A non-zero `numEntriesScannedPostFilter` does not mean the query fell back.
 
-```json
-{
-  "numEntriesScannedPostFilter": 0,
-  ...
-}
-```
-
-If `numEntriesScannedPostFilter` is greater than zero, the query fell back to the default execution path. Verify that:
+If Pinot falls back to the default execution path, verify that:
 
 - The query option `useIndexBasedDistinctOperator` is set to `true`.
 - The column has a JSON index configured.
-- The query uses a supported pattern (single column, single-value type).
+- The query uses a supported pattern (single `SELECT DISTINCT` expression over `jsonExtractIndex`).
 
 ### Performance benefits
 
@@ -853,7 +853,7 @@ The index-based distinct operator avoids scanning and evaluating every document.
 
 - The feature is disabled by default and must be enabled via the `useIndexBasedDistinctOperator` query option.
 - Only single-column `SELECT DISTINCT` queries are supported. Queries with multiple columns in the `DISTINCT` clause fall back to the default execution path.
-- Multi-value types (`STRING_ARRAY`, `INT_ARRAY`, etc.) are not supported and fall back to the default execution path.
+- `_ARRAY` result types are supported, but Pinot flattens array elements into scalar DISTINCT rows.
 - The query must use `jsonExtractIndex` (not `JSON_EXTRACT_SCALAR`) to benefit from this optimization.
 
 ## Performance Tips
@@ -867,19 +867,25 @@ SET useIndexBasedDistinctOperator = true;
 SELECT DISTINCT jsonExtractIndex(col, '$.path', 'STRING') FROM myTable;
 ```
 
-This reduces `numEntriesScannedPostFilter` to zero for qualifying queries, providing significant speedups on large tables.
+This keeps the work on the JSON index path instead of the projection/transform path, and `numEntriesScannedPostFilter` tracks only the distinct index values Pinot examined.
 
-### Same-Path DISTINCT with JSON_MATCH Filters
+### Push DISTINCT filtering into the JSON index
 
-For optimal performance when using `SELECT DISTINCT` with a `JSON_MATCH` filter on the same path, the index-based distinct operator automatically applies an optimized execution plan:
+When you already know the JSON predicate you want to apply, use the 5-arg `jsonExtractIndex(..., defaultValue, jsonFilterExpression)` form so Pinot can apply that filter inside the JSON index lookup:
 
 ```sql
 SET useIndexBasedDistinctOperator = true;
-SELECT DISTINCT jsonExtractIndex(person, '$.country', 'STRING') FROM mytable
-WHERE JSON_MATCH(person, '"$.country" IN (''us'', ''ca'')');
+SELECT DISTINCT jsonExtractIndex(
+  person,
+  '$.country',
+  'STRING',
+  'missing',
+  '"$.country" IN (''us'', ''ca'')'
+)
+FROM mytable;
 ```
 
-This query benefits from single-pass dictionary evaluation with zero bitmap materialization. For high-cardinality columns with selective predicates, this optimization can provide 10x+ performance improvements compared to document-by-document evaluation.
+If you do not want docs outside that pushed-down filter to contribute the default value, `NULL`, or `Illegal Json Path`, add `SET jsonIndexDistinctSkipMissingPath = true;` before the query.
 
 ## Limitations
 
