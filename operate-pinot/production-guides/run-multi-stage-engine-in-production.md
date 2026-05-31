@@ -108,6 +108,19 @@ The broker and server controls protect different parts of the system:
 Changing the broker-side throttle from disabled to enabled, or from enabled to disabled, requires a broker restart to take effect. Updating the limit value while the throttle remains enabled is applied dynamically.
 {% endhint %}
 
+### Mailbox backpressure and gRPC memory bounds
+
+The MSE mailbox layer now exposes sender-side backpressure controls for clusters that hit gRPC direct-memory pressure during wide shuffles or slow-consumer scenarios:
+
+| Control | Default | Description |
+| --- | --- | --- |
+| `pinot.query.runner.grpc.sender.backpressure.enabled` | `false` | When `true`, mailbox senders wait for gRPC client writability before pushing the next chunk. Enable this first if you see `OutOfDirectMemoryError` from `GrpcSendingMailbox`. |
+| `pinot.query.runner.grpc.flow.control.window.bytes` | `67108864` (64 MiB) | Receiver-side HTTP/2 flow-control window per inbound stream. Larger values improve throughput but raise worst-case receiver direct-memory exposure for stalled streams. |
+| `pinot.query.runner.grpc.write.buffer.high.water.mark.bytes` | `67108864` (64 MiB) | Sender-side per-channel Netty write-buffer high watermark. This is the primary cap on outbound mailbox direct memory per peer. |
+| `pinot.query.runner.grpc.write.buffer.low.water.mark.bytes` | `33554432` (32 MiB) | Sender-side low watermark used to reopen the channel after backpressure engages. Keep it below the high watermark to avoid constant writable/unwritable flapping. |
+
+Monitor the corresponding `MAILBOX_CLIENT_USED_DIRECT_MEMORY` and `MAILBOX_CLIENT_USED_HEAP_MEMORY` gauges on brokers and servers to see how much outbound mailbox memory is currently pinned by gRPC clients.
+
 ### Broker pruning and routing
 
 The physical optimizer path supports broker-side segment pruning through `useBrokerPruning`, enabled by default through `pinot.broker.multistage.use.broker.pruning`. The logical planner path can also prune non-partitioned leaf stages, but it stays off by default unless you set `useBrokerPruning=true` for the query or enable `pinot.broker.multistage.logical.planner.use.broker.pruning` on the broker.
