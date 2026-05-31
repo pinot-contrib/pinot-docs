@@ -1,10 +1,10 @@
 ---
-description: Use controller-managed SQL DDL to create, inspect, list, and drop Pinot tables.
+description: Use controller-managed SQL DDL to create, inspect, list, and drop Pinot tables and materialized views.
 ---
 
-# SQL Table DDL
+# SQL DDL
 
-Pinot supports a controller-managed SQL DDL surface for table metadata operations. Use it when you want a SQL alternative to the JSON-based `/schemas` and `/tables` workflows.
+Pinot supports a controller-managed SQL DDL surface for table and materialized-view metadata operations. Use it when you want a SQL alternative to the JSON-based `/schemas` and `/tables` workflows.
 
 The controller accepts one DDL statement per request:
 
@@ -12,9 +12,13 @@ The controller accepts one DDL statement per request:
 - `DROP TABLE`
 - `SHOW TABLES`
 - `SHOW CREATE TABLE`
+- `CREATE MATERIALIZED VIEW`
+- `SHOW MATERIALIZED VIEWS`
+- `SHOW CREATE MATERIALIZED VIEW`
+- `DROP MATERIALIZED VIEW`
 
 {% hint style="info" %}
-Run these statements through the controller endpoint `POST /sql/ddl`, not through the broker query API. SSE and MSE still execute query statements; the controller owns table DDL.
+Run these statements through the controller endpoint `POST /sql/ddl`, not through the broker query API. SSE and MSE still execute query statements; the controller owns table and materialized-view DDL.
 {% endhint %}
 
 ## How it works
@@ -22,7 +26,9 @@ Run these statements through the controller endpoint `POST /sql/ddl`, not throug
 `POST /sql/ddl` compiles SQL into the same Pinot `Schema` and `TableConfig` model used by the existing controller APIs. That means:
 
 - DDL-created tables go through the same controller validation path as `POST /tables`.
+- DDL-created materialized views persist as regular `OFFLINE` tables plus the same MV task config the JSON APIs use.
 - `SHOW CREATE TABLE` renders a canonical SQL form of the stored schema and table config that you can review, version, or replay.
+- `SHOW CREATE MATERIALIZED VIEW` renders canonical MV DDL for the stored definition, including the `AS <query>` clause and MV-specific properties.
 - `dryRun=true` lets you compile and validate without persisting any metadata.
 - Existing broker query APIs still handle `SELECT` statements. The controller endpoint handles metadata changes.
 
@@ -34,6 +40,10 @@ Run these statements through the controller endpoint `POST /sql/ddl`, not throug
 | `DROP TABLE [IF EXISTS] [db.]table [TYPE OFFLINE|REALTIME]` | Omitting `TYPE` targets both table variants. |
 | `SHOW TABLES [FROM db]` | Lists tables in the selected database. |
 | `SHOW CREATE TABLE [db.]table [TYPE OFFLINE|REALTIME]` | Returns canonical DDL for the stored table metadata. |
+| `CREATE MATERIALIZED VIEW [IF NOT EXISTS] [db.]name [(...)] [REFRESH [INTERVAL] EVERY ...] PROPERTIES (...) AS <select>` | Creates an `OFFLINE` MV. Omit the column list to infer the MV schema from the `SELECT` projection, or provide a full column list to override inferred types or roles. |
+| `SHOW MATERIALIZED VIEWS [FROM db]` | Lists materialized views in the selected database using raw names without the `_OFFLINE` suffix. |
+| `SHOW CREATE MATERIALIZED VIEW [db.]name` | Returns canonical MV DDL for the stored metadata. |
+| `DROP MATERIALIZED VIEW [IF EXISTS] [db.]name` | Drops an MV. There is no `TYPE` clause because MVs are always backed by `OFFLINE` tables. |
 
 Use either a `db.table` qualifier or a `Database` header to target a database. If both are present, they must refer to the same database; otherwise Pinot returns `400 Bad Request`.
 
@@ -70,7 +80,8 @@ curl -X POST "http://localhost:9000/sql/ddl?dryRun=true" \
 High-level response behavior:
 
 - `201 Created` for a successful `CREATE TABLE`
-- `200 OK` for `DROP TABLE`, `SHOW TABLES`, `SHOW CREATE TABLE`, dry runs, and idempotent `IF EXISTS` or `IF NOT EXISTS` cases
+- `201 Created` for a successful `CREATE MATERIALIZED VIEW`
+- `200 OK` for `DROP TABLE`, `SHOW TABLES`, `SHOW CREATE TABLE`, `SHOW MATERIALIZED VIEWS`, `SHOW CREATE MATERIALIZED VIEW`, dry runs, and idempotent `IF EXISTS` or `IF NOT EXISTS` cases
 - `400 Bad Request` for parse errors, semantic validation errors, or oversized SQL
 - `404 Not Found` when a requested table or schema does not exist
 - `409 Conflict` for duplicate `CREATE TABLE` without `IF NOT EXISTS`, logical-table references that block a drop, or a race with another writer
@@ -79,19 +90,19 @@ Response bodies include only fields that apply to the executed operation.
 
 | Field | Applies to | Notes |
 | --- | --- | --- |
-| `operation` | all responses | One of `CREATE_TABLE`, `DROP_TABLE`, `SHOW_TABLES`, or `SHOW_CREATE_TABLE`. |
+| `operation` | all responses | One of `SHOW_TABLES`, `SHOW_MATERIALIZED_VIEWS`, `CREATE_TABLE`, `SHOW_CREATE_TABLE`, `DROP_TABLE`, `CREATE_MATERIALIZED_VIEW`, `SHOW_CREATE_MATERIALIZED_VIEW`, or `DROP_MATERIALIZED_VIEW`. |
 | `databaseName` | create, drop, show create | The database scope used for the operation when available. |
-| `tableName` | create, drop, show create | The resolved Pinot table name, often with `_OFFLINE` or `_REALTIME`. |
-| `tableType` | create, typed drop, show create | `OFFLINE` or `REALTIME`. |
-| `schema` | create | The compiled Pinot schema JSON. Returned for dry runs and persisted creates. |
-| `tableConfig` | create | The compiled Pinot table config JSON after table config tuner processing. Returned for dry runs and persisted creates. |
+| `tableName` | create, drop, show create | The resolved Pinot table name, often with `_OFFLINE` or `_REALTIME`. MV operations still target `OFFLINE` storage under the hood. |
+| `tableType` | table create, typed table drop, table show create | `OFFLINE` or `REALTIME`. MV-specific statements do not take a `TYPE` clause. |
+| `schema` | create | The compiled Pinot schema JSON. Returned for dry runs and persisted creates, including MV creates. |
+| `tableConfig` | create | The compiled Pinot table config JSON after table config tuner processing. Returned for dry runs and persisted creates, including MV creates. |
 | `warnings` | create | Non-fatal compile warnings, such as ignored `DECIMAL(p,s)` precision details. |
 | `dryRun` | create, drop | Whether the request validated without persisting or deleting metadata. |
 | `ifNotExists` | create | Whether the statement used `IF NOT EXISTS`. |
 | `ifExists` | drop | Whether the statement used `IF EXISTS`. |
 | `deletedTables` | drop | Typed table names removed by the drop. |
-| `tableNames` | show tables | Tables visible in the selected database. |
-| `ddl` | show create | Canonical `CREATE TABLE` SQL for the stored metadata. |
+| `tableNames` | catalog listings | Tables or materialized views visible in the selected database, depending on the statement. |
+| `ddl` | show create | Canonical `CREATE TABLE` or `CREATE MATERIALIZED VIEW` SQL for the stored metadata. |
 | `message` | most responses | Human-readable operation summary. |
 
 ## Columns, types, and defaults
@@ -289,6 +300,53 @@ PROPERTIES (
 );
 ```
 
+## Example: create and inspect a materialized view
+
+Use `CREATE MATERIALIZED VIEW` when you want the controller to persist an MV as an `OFFLINE` table plus `MaterializedViewTask` metadata. The column list is optional: omit it to infer the schema from the `SELECT` projection, or provide a full column list if you need to override inferred types or roles.
+
+```sql
+CREATE MATERIALIZED VIEW salesByHourMv
+REFRESH EVERY 1 HOUR
+PROPERTIES (
+  'timeColumnName' = 'bucket_start_ts',
+  'bucketTimePeriod' = '1h',
+  'stalenessThresholdMs' = '900000',
+  'replication' = '1'
+)
+AS
+SELECT DATETRUNC('HOUR', event_ts) AS bucket_start_ts,
+       region,
+       SUM(revenue) AS sum_revenue,
+       COUNT(*) AS row_count
+FROM sales
+GROUP BY DATETRUNC('HOUR', event_ts), region;
+```
+
+Use the same endpoint to list, inspect, and drop MVs:
+
+```bash
+curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"sql":"SHOW MATERIALIZED VIEWS"}'
+```
+
+```bash
+curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"sql":"SHOW CREATE MATERIALIZED VIEW salesByHourMv"}'
+```
+
+```bash
+curl -X POST "http://localhost:9000/sql/ddl" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"sql":"DROP MATERIALIZED VIEW IF EXISTS salesByHourMv"}'
+```
+
+`SHOW CREATE MATERIALIZED VIEW` emits canonical DDL for the stored MV definition, including an explicit column list even if the original create statement relied on inferred columns.
+
 ## Example: show the stored table definition
 
 ```bash
@@ -333,7 +391,7 @@ Use `DROP TABLE events` without `TYPE` to drop both the offline and realtime var
 
 ## When to keep using JSON APIs
 
-If you already manage table metadata through `POST /schemas`, `POST /tables`, or `PUT /tables/{tableName}`, those APIs still work. SQL DDL is an additional interface, not a replacement for the existing controller metadata APIs.
+If you already manage table metadata through `POST /schemas`, `POST /tables`, or `PUT /tables/{tableName}`, those APIs still work. SQL DDL is an additional interface, not a replacement for the existing controller metadata APIs. For materialized views, keep using raw JSON metadata if you need a `MaterializedViewTask` schedule that is not expressible as `REFRESH EVERY <N> MINUTES|HOURS|DAYS` or `'<N>m|h|d'`.
 
 ## Related pages
 

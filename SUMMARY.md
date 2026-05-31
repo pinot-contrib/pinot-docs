@@ -92,7 +92,7 @@
 * [Querying & SQL](build-with-pinot/querying-and-sql/README.md)
   * [Querying Pinot](build-with-pinot/querying-and-sql/querying-pinot.md)
   * [SQL syntax](build-with-pinot/querying-and-sql/sql-syntax.md)
-    * [SQL Table DDL](build-with-pinot/querying-and-sql/sql-ddl.md)
+    * [SQL DDL](build-with-pinot/querying-and-sql/sql-ddl.md)
     * [SQL Reference](build-with-pinot/querying-and-sql/sql-reference.md)
     * [Query Syntax Overview](build-with-pinot/querying-and-sql/query-syntax-overview.md)
     * [Filtering with IdSet](build-with-pinot/querying-and-sql/filtering-with-idset.md)
