@@ -51,9 +51,18 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 | `numEntriesScannedPostFilter` | Post-filter entries scanned |
 | `numGroupsLimitReached` | Whether group-by trimming hit the limit |
 | `numGroupsWarningLimitReached` | Whether group-by execution crossed the configured warning threshold for number of groups |
+| `serverStats` | Single-stage per-server timing and response-size breakdown |
 | `stageStats` | Per-stage stats for multi-stage queries |
 | `exceptions` | Query-processing exceptions, if any |
 | `rlsFiltersApplied` | Whether row-level security predicates were injected |
+
+For single-stage queries, `serverStats` is a semicolon-delimited string with a header row followed by one entry per server. The header names the metrics in order:
+
+```text
+Server=SubmitDelayMs,ResponseDelayMs,ResponseSize,DeserializationTimeMs,RequestSentDelayMs;pinot-server-0_O=0,1,7571,0,0
+```
+
+This makes `serverStats` useful when you need a lightweight broker response field for pinpointing which single-stage server responded slowly or returned an unexpectedly large payload.
 
 ## Example
 
