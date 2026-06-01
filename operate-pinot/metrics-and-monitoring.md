@@ -164,6 +164,8 @@ The controller manages cluster metadata, segment assignments, and periodic maint
 | `HEALTHCHECK_BAD_CALLS` | Meter | Failed health check requests. | > 0 sustained |
 | `TABLE_STORAGE_QUOTA_UTILIZATION` | Gauge | Percentage of table storage quota in use. | > 85% |
 | `MISSING_CONSUMING_SEGMENT_TOTAL_COUNT` | Gauge | Partitions with missing consuming segments. | > 0 |
+| `MAX_SUBTASK_WAIT_TIME_MS` | Gauge | Maximum current wait time, in milliseconds, across `WAITING` minion subtasks for a table and task type. The controller rewrites the gauge every emit cycle and resets it to `0` when the queue drains. | Above your table-specific queue SLA |
+| `MAX_SUBTASK_RUNNING_TIME_MS` | Gauge | Maximum current runtime, in milliseconds, across `RUNNING` minion subtasks for a table and task type. The controller rewrites the gauge every emit cycle and resets it to `0` when no subtasks are running. | Above your table-specific runtime SLA |
 
 ### Controller Diagnosis Patterns
 
@@ -199,6 +201,8 @@ The controller manages cluster metadata, segment assignments, and periodic maint
 ## Minion Metrics
 
 Minions run background tasks such as segment compaction, purge, and merge. These metrics help track task health.
+
+For table-specific queue alerts, prefer the controller gauges `MAX_SUBTASK_WAIT_TIME_MS` and `MAX_SUBTASK_RUNNING_TIME_MS` listed above. They are emitted per table and task type and self-resolve to `0` after the queue clears.
 
 | Metric | Type | Description | Alert Threshold |
 |--------|------|-------------|-----------------|
