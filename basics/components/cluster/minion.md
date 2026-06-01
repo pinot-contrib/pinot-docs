@@ -480,7 +480,7 @@ Clicking into this subtask shows more details such as the input task config, pro
 
 ## Task-related metrics
 
-There is a controller job that runs every 5 minutes by default and emits metrics about Minion tasks scheduled in Pinot. The following metrics are emitted for each task type:
+There is a controller job that runs every 5 minutes by default, controlled by `controller.minion.task.metrics.emitter.frequencyPeriod`, and emits metrics about Minion tasks scheduled in Pinot. The following metrics are emitted for each task type:
 
 * _**NumMinionTasksInProgress**_: Number of running tasks
 * _**NumMinionSubtasksRunning**_: Number of running sub-tasks
@@ -488,6 +488,8 @@ There is a controller job that runs every 5 minutes by default and emits metrics
 * _**NumMinionSubtasksError**_: Number of error sub-tasks (completed with an error/exception)
 * _**PercentMinionSubtasksInQueue**_: Percent of sub-tasks in waiting or running states
 * _**PercentMinionSubtasksInError**_: Percent of sub-tasks in error
+* _**MaxSubtaskWaitTimeMs**_: Per-table, per-task-type controller gauge for the longest current wait time across subtasks in `WAITING`. Pinot emits `0` when no subtasks are waiting, so alerts can self-resolve after the queue drains.
+* _**MaxSubtaskRunningTimeMs**_: Per-table, per-task-type controller gauge for the longest current runtime across subtasks in `RUNNING`. Pinot emits `0` when no subtasks are running.
 
 The controller also emits metrics about how tasks are cron scheduled:
 

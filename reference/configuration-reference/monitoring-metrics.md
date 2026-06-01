@@ -196,6 +196,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | CONTROLLER_PERIODIC_TASK_ERROR | Number of Periodic tasks that failed due to error |  |
 | NUMBER_TIMES_SCHEDULE_TASKS_CALLED | Minion tasks schedule request sent to controller |  |
 | NUMBER_TASKS_SUBMITTED | Number of minion tasks submitted to the controller. |  |
+| MAX_SUBTASK_WAIT_TIME_MS | Per-table, per-task-type gauge for the maximum current wait time in milliseconds across subtasks in `WAITING`. The controller emits `0` when no subtasks are waiting. | Gauge |
+| MAX_SUBTASK_RUNNING_TIME_MS | Per-table, per-task-type gauge for the maximum current runtime in milliseconds across subtasks in `RUNNING`. The controller emits `0` when no subtasks are running. | Gauge |
 | NUMBER_SEGMENT_UPLOAD_TIMEOUT_EXCEEDED | Number of segments uploads failed due to timeout. Segments are re-uploaded in this case by controller itself. |  |
 | CRON_SCHEDULER_JOB_TRIGGERED | Number of minion tasks triggered that use cron |  |
 | NUMBER_ADHOC_TASKS_SUBMITTED | Number of minion ad hoc tasks submitted |  |

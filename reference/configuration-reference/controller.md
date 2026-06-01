@@ -234,11 +234,11 @@ Currently, table rebalance triggered by user runs at best effort. It could fail 
 
 ### TaskMetricsEmitter
 
-This task periodically emits metrics about minion tasks, including task counts by state (RUNNING, WAITING, ERROR, COMPLETED) and task latencies. These metrics are useful for monitoring the health and throughput of the minion task system.
+This task periodically emits controller metrics about minion tasks, including task counts by state. It also publishes the per-table, per-task-type gauges `MAX_SUBTASK_WAIT_TIME_MS` and `MAX_SUBTASK_RUNNING_TIME_MS`. Pinot rewrites both gauges every emit cycle and sets them to `0` when no matching subtasks are in `WAITING` or `RUNNING`, so alerts based on these gauges self-resolve after the queue drains.
 
 | Config | Default Value |
 | --- | --- |
-| controller.task.metrics.emitter.frequencyPeriod | 5m |
+| controller.minion.task.metrics.emitter.frequencyPeriod | 5m |
 
 ### ResourceUtilizationChecker
 
