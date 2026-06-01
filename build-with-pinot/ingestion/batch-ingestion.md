@@ -14,7 +14,7 @@ Spark-based ingestion.
 
 Hadoop-style distributed ingestion.
 
-Backfill jobs for historical ranges.
+Backfill jobs for historical ranges. Pinot ships `LaunchBackfillIngestionJob` for the case where the backfilled input may have fewer files than the original ingestion — see [Backfill Data](batch-ingestion/backfill-data.md).
 
 Dimension tables and other specialized offline loads.
 

@@ -573,6 +573,23 @@ hadoop jar  \
         -jobSpecFile ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/hadoopIngestionJobSpec.yaml
 ```
 
+## Executing a backfill ingestion job
+
+When the backfill input directory for a given date may contain fewer files than the original ingestion, `LaunchDataIngestionJob` cannot fully replace the existing segments — see the [Edge case example](../../build-with-pinot/ingestion/batch-ingestion/backfill-data.md#edge-case-example) in the backfill docs. For that case, use `LaunchBackfillIngestionJob`, which reuses the same `ingestionJobSpec.yaml` and replaces the existing segments in a date range via Pinot's segment-lineage machinery.
+
+```
+bin/pinot-admin.sh LaunchBackfillIngestionJob \
+    -jobSpecFile examples/batch/airlineStats/ingestionJobSpec.yaml \
+    -startDate 2014-01-01 \
+    -endDate 2014-01-02
+```
+
+The `-startDate` (inclusive) and `-endDate` (exclusive) arguments use `yyyy-MM-dd` format and are parsed as UTC day boundaries.
+
+{% hint style="info" %}
+For the full step-by-step workflow, supported options (including `-partitionColumn` / `-partitionColumnValue` for partition-scoped backfills), and OFFLINE-only constraints, see [Backfill Data](../../build-with-pinot/ingestion/batch-ingestion/backfill-data.md#complete-backfill-with-launchbackfillingestionjob).
+{% endhint %}
+
 ## Tuning
 
 You can set Environment Variable: `JAVA_OPTS` to modify:
