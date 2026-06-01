@@ -4,7 +4,7 @@ description: Schema configuration reference.
 
 # Schema Configuration
 
-This page is the flat reference for Pinot schema JSON. It brings the top-level schema object, field-spec tables, null-handling rules, date-time formats, MAP support, and advanced column options into one place.
+This page is the flat reference for Pinot schema JSON. It brings the top-level schema object, field-spec tables, null-handling rules, date-time formats, `MAP` and `OPEN_STRUCT` support, and advanced column options into one place.
 
 ## Key Areas
 
@@ -13,7 +13,7 @@ This page is the flat reference for Pinot schema JSON. It brings the top-level s
 | Schema object | Top-level schema fields and a complete example | [Schema object](#schema-object) |
 | Field specs | Dimension, metric, and date-time column definitions | [Field specs](#field-specs) |
 | Null handling | `enableColumnBasedNullHandling` and default null values | [Null handling](#null-handling) |
-| Complex fields | `MAP` columns and `childFieldSpecs` | [ComplexFieldSpecs](#complexfieldspecs) |
+| Complex fields | `MAP` and `OPEN_STRUCT` columns plus `childFieldSpecs` | [ComplexFieldSpecs](#complexfieldspecs) |
 | Date-time formats | New and legacy format syntaxes | [New DateTime Formats](#new-datetime-formats) |
 
 ## Schema Object
@@ -29,7 +29,7 @@ Use a schema to define the column names, data types, null-handling behavior, and
 | `dimensionFieldSpecs` | - | `[]` | Dimension-column definitions. See [DimensionFieldSpecs](#dimensionfieldspecs). |
 | `metricFieldSpecs` | - | `[]` | Metric-column definitions. See [MetricFieldSpecs](#metricfieldspecs). |
 | `dateTimeFieldSpecs` | - | `[]` | Time-column definitions. A schema can define multiple time columns. See [DateTimeFieldSpecs](#datetimefieldspecs). |
-| `complexFieldSpecs` | - | `[]` | Complex-column definitions. Pinot currently supports `MAP` through this section. See [ComplexFieldSpecs](#complexfieldspecs). |
+| `complexFieldSpecs` | - | `[]` | Complex-column definitions. Pinot currently supports `MAP` and `OPEN_STRUCT` through this section. See [ComplexFieldSpecs](#complexfieldspecs). |
 
 ## Example Schema
 
@@ -259,21 +259,50 @@ Examples:
 
 ## ComplexFieldSpecs
 
-Use complex field specs for complex data types. Pinot currently supports `MAP`.
+Use complex field specs for complex data types. Pinot currently supports `MAP` and `OPEN_STRUCT`.
 
 | Property | Description |
 | --- | --- |
 | `name` | Name of the complex column. |
 | `description` | Optional human-readable description of the column. |
 | `tags` | Optional list of tags for categorizing the column. |
-| `dataType` | Complex data type. Currently supports `MAP`. |
+| `dataType` | Complex data type. Currently supports `MAP` and `OPEN_STRUCT`. |
 | `fieldType` | Must be `COMPLEX`. |
 | `notNull` | Whether the column can contain null values. |
-| `childFieldSpecs` | Definition of the map `key` and `value` sub-fields. |
+| `childFieldSpecs` | For `MAP`, define the `key` and `value` sub-fields. For `OPEN_STRUCT`, this object is optional and can declare known child fields by name. |
 
 ## childFieldSpecs
 
-The `childFieldSpecs` object describes the structure of the `key` and `value` entries inside a `MAP`.
+The `childFieldSpecs` object describes the structure of the `key` and `value` entries inside a `MAP`. For `OPEN_STRUCT`, `childFieldSpecs` is optional: omit it, set it to `{}`, or use it to declare known child fields and their types.
+
+### OPEN_STRUCT childFieldSpecs
+
+`OPEN_STRUCT` accepts schema JSON such as the following:
+
+```json
+{
+  "name": "attributes",
+  "dataType": "OPEN_STRUCT",
+  "fieldType": "COMPLEX"
+}
+```
+
+You can also provide `childFieldSpecs` for keys whose types you want to declare up front:
+
+```json
+{
+  "name": "attributes",
+  "dataType": "OPEN_STRUCT",
+  "fieldType": "COMPLEX",
+  "childFieldSpecs": {
+    "count": {
+      "name": "count",
+      "dataType": "INT",
+      "fieldType": "DIMENSION"
+    }
+  }
+}
+```
 
 ### key childFieldSpec
 
