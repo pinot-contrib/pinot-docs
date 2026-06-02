@@ -22,8 +22,8 @@ A range index is a variant of an [inverted index](inverted-index.md). Instead of
 
 Range index is supported on:
 
-- Dictionary-encoded columns of any data type (INT, LONG, FLOAT, DOUBLE, STRING, BIG_DECIMAL, BYTES, BOOLEAN, TIMESTAMP).
-- Raw-encoded columns of numeric types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL).
+- Dictionary-enabled columns of any data type except MAP (INT, LONG, FLOAT, DOUBLE, STRING, BIG_DECIMAL, BYTES, BOOLEAN, TIMESTAMP). The dictionary can be paired with either a dictionary-encoded forward index or a RAW forward index with a standalone dictionary.
+- Raw-encoded columns without a dictionary for numeric types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL).
 
 {% hint style="info" %}
 A range index can also be used on a dictionary-encoded time column using `STRING` type, because Pinot only supports datetime formats that are in lexicographical order.
@@ -66,6 +66,29 @@ You can also specify the range index version (default is `2`):
 }
 ```
 {% endcode %}
+
+If the column keeps a RAW forward index but also needs a dictionary for the range index, configure the standalone dictionary explicitly and use range index version `2`:
+
+{% code title="RAW forward index with dictionary-backed range index" %}
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "eventDate",
+      "encodingType": "RAW",
+      "indexes": {
+        "dictionary": {},
+        "range": {
+          "version": 2
+        }
+      }
+    }
+  ]
+}
+```
+{% endcode %}
+
+Range index version `1` is rejected for the combination of RAW forward index plus dictionary, because version `1` can fall back to scans that compare raw forward values with dictionary-ID evaluators. Version `2` uses the BitSliced range index and is the required form for RAW + dictionary.
 
 <details>
 
@@ -115,3 +138,4 @@ ORDER BY avgHits DESC
 
 - The range index does not support MAP columns.
 - When the forward index is disabled for a column, the column must be single-valued and use range index version 2 for range queries to work.
+- Numeric RAW columns can use a range index without a dictionary. Non-numeric RAW columns need a dictionary, and RAW + dictionary range indexes must use version 2.

@@ -19,11 +19,11 @@ In Pinot, dictionaries serve as both an index and actual encoding. Consequently,
 | Index                                       | Conditional               | Description                                                         |
 | ------------------------------------------- | ------------------------- | ------------------------------------------------------------------- |
 | [forward](forward-index.md)                 |                           | Implementation depends on whether the dictionary is enabled or not. |
-| [range](range-index.md)                     |                           | Implementation depends on whether the dictionary is enabled or not. |
-| [inverted](inverted-index.md)               |                           | Uses dictionary IDs. Pinot can materialize a standalone dictionary for RAW columns when the index is enabled. |
+| [range](range-index.md)                     |                           | Uses dictionary IDs when a dictionary is enabled, or raw values for numeric RAW columns without a dictionary. RAW + dictionary range indexes must use range index version 2. |
+| [inverted](inverted-index.md)               |                           | Uses dictionary IDs. Pinot can materialize a standalone dictionary for RAW columns when the dictionary is not disabled by legacy config. |
 | [json](json-index.md)                       | when `optimizeDictionary` | Disables dictionary.                                                |
 | [text](text-search-support.md)              | when `optimizeDictionary` | Disables dictionary.                                                |
-| FST                                         |                           | Uses dictionary values. Pinot can materialize a standalone dictionary for RAW STRING columns when FST is enabled. |
+| FST and IFST                                |                           | Use dictionary values. Pinot can materialize a standalone dictionary for RAW STRING columns when the dictionary is not disabled by legacy config. |
 | [H3 (or geospatial)](geospatial-support.md) |                           | Incompatible with dictionary.                                       |
 
 ## Configuration
@@ -70,9 +70,43 @@ Alternatively, the `encodingType` property can be changed. For example:
 
 You may choose the option you prefer, but it's essential to maintain consistency, as Pinot will reject table configurations where the same column and index are defined in different locations.
 
-Even when a column keeps a RAW forward index, Pinot may still materialize a standalone dictionary when another enabled
-index needs dictionary IDs or dictionary values. This lets a RAW column back features such as bitmap inverted indexes
-or FST/IFST without changing the forward-index encoding.
+Even when a column keeps a RAW forward index, Pinot may still materialize a standalone dictionary when another enabled index needs dictionary IDs or dictionary values. This lets a RAW column back features such as bitmap inverted indexes or FST/IFST without changing the forward-index encoding.
+
+For table config updates, prefer an explicit dictionary entry in `fieldConfigList`:
+
+{% code title="RAW forward index with standalone dictionary" %}
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "myColumn",
+      "encodingType": "RAW",
+      "indexes": {
+        "dictionary": {},
+        "inverted": {}
+      }
+    }
+  ]
+}
+```
+{% endcode %}
+
+A field-level `encodingType: RAW` configuration can also leave the dictionary enabled when an index configured on that same `FieldConfig` requires a dictionary. Legacy no-dictionary settings are different: `tableIndexConfig.noDictionaryColumns` and `tableIndexConfig.noDictionaryConfig` still disable the dictionary before secondary-index validation runs.
+
+The following legacy shape is rejected when a dictionary-backed secondary index is enabled on the same column:
+
+{% code title="Rejected legacy no-dictionary shape" %}
+```json
+{
+  "tableIndexConfig": {
+    "noDictionaryColumns": ["myColumn"],
+    "invertedIndexColumns": ["myColumn"]
+  }
+}
+```
+{% endcode %}
+
+To migrate that table, remove the column from the legacy no-dictionary config, keep `encodingType: RAW`, and add `indexes.dictionary` plus the secondary index in `fieldConfigList`.
 
 ### Heuristically enable dictionaries
 

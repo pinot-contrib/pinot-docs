@@ -16,12 +16,12 @@ The `DICTIONARY` encoding can be even more efficient if the segment is sorted by
 
 When working out whether a column should use dictionary encoded or raw value encoding, the following comparison table may help:
 
-| Dictionary                                                                  | Raw Value                                                                             |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Provides compression when low to medium cardinality.                        | Eliminates padding overhead                                                           |
-| Allows for indexing (esp inv index).                                        | No inv index (only JSON/Text/FST index)                                               |
-| Adds one level of dereferencing, so can increase disk seeks                 | Eliminates additional dereferencing, so good when all docs of interest are contiguous |
-| For Strings, adds padding to make all values equal length in the dictionary | Chunk de-compression overhead with docs selected don't have spatial locality          |
+| Dictionary                                                                  | Raw Value                                                                                                           |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Provides compression when low to medium cardinality.                        | Eliminates padding overhead                                                                                         |
+| Serves dictionary-backed indexes directly, such as inverted and FST/IFST.   | Can keep the forward index RAW while a standalone dictionary serves dictionary-backed secondary indexes.             |
+| Adds one level of dereferencing, so can increase disk seeks                 | Eliminates additional dereferencing, so good when all docs of interest are contiguous                               |
+| For Strings, adds padding to make all values equal length in the dictionary | Chunk de-compression overhead with docs selected don't have spatial locality                                        |
 
 ### Dictionary-encoded forward index with bit compression (default)
 
@@ -116,18 +116,15 @@ The raw value forward index stores actual values instead of IDs. This means that
 
 As shown in the diagram below, dictionary encoding can lead to numerous random memory accesses for dictionary lookups. In contrast, the raw value forward index allows for sequential value scanning, which can enhance query performance when applied appropriately.
 
-Note: A RAW forward index can still be paired with secondary indexes that need dictionary IDs. When you enable a
-dictionary-backed index such as bitmap inverted index or FST/IFST on a RAW column, Pinot keeps the forward index RAW
-and materializes a standalone dictionary for the secondary index. Since reading a value from this index requires
-reading the entire chunk in memory and decompressing, it is not suitable for heavy random reads.&#x20;
+Note: A RAW forward index can still be paired with secondary indexes that need dictionary IDs or dictionary values. When you enable a dictionary-backed index such as bitmap inverted index or FST/IFST on a RAW column, Pinot keeps the forward index RAW and materializes a standalone dictionary for the secondary index. For existing table config updates, remove the column from legacy `tableIndexConfig.noDictionaryColumns` or `tableIndexConfig.noDictionaryConfig` and declare the dictionary under `fieldConfigList.indexes.dictionary`; otherwise validation still treats the dictionary as disabled. Since reading a value from the RAW forward index requires reading the entire chunk in memory and decompressing, it is not suitable for heavy random reads.&#x20;
 
 **Sorted raw columns:** As of Pinot 1.3.0, raw columns can now be configured as sorted columns without forcing an inverted index. Previously, configuring a column as both sorted and no-dictionary would cause Pinot to force-add an inverted index, which negated the storage benefits of raw encoding. Now, you can have a time-sorted raw column (e.g., a timestamp column) without dictionary encoding or inverted index, allowing for efficient storage while maintaining sort order metadata.
 
 ![](../../.gitbook/assets/no-dictionary.png)
 
-The raw format is applied when the dictionary is disabled for a column and the encoding is explicitly set to `RAW`. For more details, refer to the [dictionary documentation](dictionary-index.md) and the [field config list](../../reference/configuration-reference/table.md#field-config-list).
+The RAW forward-index encoding is selected by setting `encodingType` to `RAW`. If the dictionary is disabled, the column is a traditional no-dictionary RAW column. If a dictionary is enabled explicitly, or retained because a secondary index needs it, Pinot stores RAW forward values alongside a standalone dictionary. For more details, refer to the [dictionary documentation](dictionary-index.md) and the [field config list](../../reference/configuration-reference/table.md#field-config-list).
 
-**Note:** Both configurations must be enabled together for the raw format to take effect. Setting only the `encodingType` to `RAW` in the field config is not sufficient.
+**Note:** Do not combine legacy no-dictionary config with dictionary-backed secondary indexes on the same RAW column. `noDictionaryColumns` and `noDictionaryConfig` still disable the dictionary and cause validation to reject indexes that require dictionary IDs or dictionary values.
 
 When using the raw format, you can configure the following parameters:
 
@@ -199,6 +196,31 @@ The recommended way to configure the forward index using raw format is by includ
           "compressionCodec": "PASS_THROUGH", // or "SNAPPY", "ZSTANDARD", "LZ4" or "GZIP"
           "deriveNumDocsPerChunk": false,
           "rawIndexWriterVersion": 4
+        }
+      }
+    },
+    ...
+  ],
+...
+}
+```
+{% endcode %}
+
+To keep the forward index RAW while also enabling a dictionary-backed secondary index, declare both the dictionary and the secondary index in `fieldConfigList`:
+
+{% code title="RAW forward index with standalone dictionary" %}
+```javascript
+{
+  "tableName": "somePinotTable",
+  "fieldConfigList": [
+    {
+      "name": "playerID",
+      "encodingType": "RAW",
+      "indexes": {
+        "dictionary": {},
+        "inverted": {},
+        "forward": {
+          "compressionCodec": "LZ4"
         }
       }
     },

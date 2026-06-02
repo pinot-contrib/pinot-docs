@@ -42,9 +42,28 @@ The recommended way to enable a bitmap inverted index:
 ```
 {% endcode %}
 
-If the column uses a RAW forward index, you do not need to add a separate dictionary configuration just to make the
-bitmap inverted index work. Pinot keeps the forward index RAW and materializes a standalone dictionary for the
-inverted index automatically.
+Bitmap inverted indexes require dictionary IDs. If you want the column's forward index to stay RAW, configure the RAW forward index and the standalone dictionary together in `fieldConfigList`:
+
+{% code title="RAW forward index with bitmap inverted index" %}
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "playerName",
+      "encodingType": "RAW",
+      "indexes": {
+        "dictionary": {},
+        "inverted": {}
+      }
+    }
+  ]
+}
+```
+{% endcode %}
+
+Pinot keeps the forward index RAW and uses the standalone dictionary for the inverted index. A field-level RAW config can also resolve with dictionary enabled when the field-level index requires it and no legacy no-dictionary setting overrides it, but the explicit `dictionary` block is the safe migration form for existing table configs.
+
+Do not keep the column in legacy `tableIndexConfig.noDictionaryColumns` or `tableIndexConfig.noDictionaryConfig` while enabling an inverted index. Those settings still disable the dictionary, so Pinot rejects the table config instead of building a shared dictionary.
 
 <details>
 
@@ -117,7 +136,8 @@ LIMIT 10
 ## Limitations
 
 - Bitmap inverted indexes require dictionary IDs, but Pinot can satisfy that either with a dictionary-encoded forward
-  index or with a standalone dictionary materialized for a RAW forward index.
+  index or with a standalone dictionary materialized for a RAW forward index. Legacy no-dictionary config must not
+  disable the dictionary for that column.
 - Sorted inverted indexes (on dictionary-encoded columns) only work on columns whose data is physically sorted within each segment.
 - Sorted raw columns (no-dictionary) also support sort metadata without requiring an inverted index.
 - MAP columns are not supported.

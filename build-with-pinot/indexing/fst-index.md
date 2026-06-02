@@ -11,8 +11,8 @@ Use an FST index when your queries use `LIKE` or `REGEXP_LIKE` predicates on str
 
 - STRING columns only
 - Must be single-valued
-- Must have dictionary values available. This can come from a dictionary-encoded forward index, or Pinot can
-  materialize a standalone dictionary while keeping the forward index RAW.
+- Must have dictionary values available. This can come from a dictionary-encoded forward index, or from a standalone
+  dictionary paired with a RAW forward index.
 
 ## Limitations
 
@@ -45,9 +45,26 @@ To enable the FST index on a column:
 ```
 {% endcode %}
 
-The FST index generates one index file (`.lucene.fst`). If you keep the forward index RAW, Pinot materializes a
-standalone dictionary for the FST automatically. If an inverted index is also enabled on the column, FST can take
-advantage of it for faster lookups.
+The FST index generates one index file (`.lucene.fst`). If you keep the forward index RAW, declare a dictionary for the column so Pinot can build the FST from dictionary values:
+
+{% code title="RAW forward index with FST" %}
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "text_col_1",
+      "encodingType": "RAW",
+      "indexTypes": ["FST"],
+      "indexes": {
+        "dictionary": {}
+      }
+    }
+  ]
+}
+```
+{% endcode %}
+
+Do not keep the column in legacy `tableIndexConfig.noDictionaryColumns` or `tableIndexConfig.noDictionaryConfig` when enabling FST or IFST. Those settings disable the dictionary and Pinot rejects the table config. If an inverted index is also enabled on the column, FST can take advantage of it for faster lookups.
 
 ## Query examples
 
