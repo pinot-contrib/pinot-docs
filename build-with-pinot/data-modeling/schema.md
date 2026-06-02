@@ -23,6 +23,8 @@ Use column names that are stable and business-facing. Prefer simple types that m
 
 For time columns, keep one primary time field in mind for retention and hybrid-table boundary behavior. For null handling, decide early whether the table needs column-based or table-based semantics.
 
+For new schemas, model time columns with `dateTimeFieldSpecs` only. Pinot's REST schema submission paths now reject the deprecated `TimeFieldSpec` (`fieldType=TIME`) and require `DateTimeFieldSpec` instead. Legacy schemas that are already stored in the cluster can still load internally for backward compatibility.
+
 ## Example schema
 
 ```json

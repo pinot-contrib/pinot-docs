@@ -17,6 +17,29 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### REST schema APIs now reject deprecated `TimeFieldSpec`
+
+Apache Pinot now formally deprecates `TimeFieldSpec` and rejects schema payloads
+that use `fieldType=TIME` on the controller REST validation paths:
+
+- `POST /schemas`
+- `PUT /schemas/{schemaName}`
+- `/schemas/validate`
+
+Use `DateTimeFieldSpec` through `dateTimeFieldSpecs` for all new or updated
+schemas submitted through the controller. Pinot still allows older schemas that
+already exist in cluster metadata to load internally for backward compatibility,
+so the change affects submission and validation, not startup of existing legacy
+tables.
+
+**Action required.** Audit any schema-generation tooling, CI validation, or
+operator runbooks that still emit `TimeFieldSpec`, and migrate them to
+`DateTimeFieldSpec` before upgrading. If you maintain a record reader or other
+schema-aware plugin, treat `DateTimeFieldSpec` as the default contract and keep
+legacy `TimeFieldSpec` handling only where backward compatibility requires it.
+
+*Source: [PR #18502](https://github.com/apache/pinot/pull/18502)*
+
 ### Removal of deprecated PinotTaskManager scheduleTasks wrapper methods
 
 The following `@Deprecated(forRemoval = true)` wrapper methods in `PinotTaskManager` have been removed. These methods were deprecated since v1.4.0 (Feb 2025):
