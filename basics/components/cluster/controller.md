@@ -23,7 +23,7 @@ For redundancy, there can be multiple instances of Pinot controllers. Pinot expe
 
 ## Running the periodic task manually
 
-The controller runs several periodic tasks in the background, to perform activities such as management and validation. Each periodic task has [its own configuration](../../../reference/configuration-reference/controller.md#periodic-task-configuration) to define either a fixed `frequencyPeriod` or, for supported tasks, a Quartz `cronExpression`. If both are set for a task, Pinot uses the cron schedule. Each task can also be triggered manually if needed. The task runs on the lead controller for each table.
+The controller runs several periodic tasks in the background, to perform activities such as management and validation. Each periodic task has [its own configuration](../../../reference/configuration-reference/controller.md#periodic-task-configuration) to define either a fixed `frequencyPeriod` or, for supported tasks, a Quartz `cronExpression`. If both are set for a task, Pinot uses the cron schedule. See the configuration reference for cron syntax and copyable examples. Each task can also be triggered manually if needed. The task runs on the lead controller for each table.
 
 For period task configuration details, see [Controller configuration reference](../../../reference/configuration-reference/controller.md#periodic-task-configuration).
 
