@@ -24,6 +24,8 @@ Transparent materialized-view rewrite is available for eligible Single-Stage Eng
 - The MV time column must be a `TIMESTAMP` `dateTimeFieldSpec`.
 - Supported MV aggregations in `definedSQL` today are `SUM`, `COUNT`, `MIN`, `MAX`, `DISTINCTCOUNTRAWHLL`, `DISTINCTCOUNTRAWHLLPLUS`, and `DISTINCTCOUNTRAWTHETASKETCH`.
 
+These limits describe the built-in OSS materialized-view path. Pinot registers a default `MaterializedViewDdlHandler` that still validates a single-source SSE definition and still routes the table under `MaterializedViewTask`. Downstream distributions can replace that handler at controller startup to target a different engine or task type, but that is an extension point rather than a change to the default OSS behavior.
+
 Pinot also validates the expression that produces the MV time column. The supported shapes today are a direct `TIMESTAMP` passthrough or a `DATETRUNC(...)` whose unit matches `bucketTimePeriod`.
 
 ## Before you create one
@@ -45,6 +47,8 @@ The controller accepts these MV statements:
 - `DROP MATERIALIZED VIEW [IF EXISTS] [db.]name`
 
 If you omit the column list, Pinot infers the MV schema from the `SELECT` projection. If you provide a column list, declare every projected column and alias every computed expression or aggregation so it matches the destination column name.
+
+Schema inference is part of the built-in single-source handler. A custom handler can require an explicit column list instead.
 
 The DDL needs at least these properties:
 
@@ -94,6 +98,8 @@ POST /tasks/schedule?taskType=MaterializedViewTask&tableName=<mvTable>_OFFLINE
 ## When to keep using JSON APIs
 
 The existing `POST /schemas`, `POST /tables`, and `PUT /tables/{tableName}` APIs still work for materialized views. Keep using them when your automation already depends on raw Pinot metadata payloads, or when you need a hand-written `MaterializedViewTask` cron that cannot be expressed as `REFRESH EVERY <N> MINUTES|HOURS|DAYS` or `'<N>m|h|d'`.
+
+If you are building a downstream extension that needs a different MV task type or query-engine contract, see [Plugins](../../developers/plugin-architecture/README.md). Custom `MaterializedViewDdlHandler` implementations own that alternate task wiring and any engine-specific validation.
 
 ## Enable transparent rewrite for SSE queries
 
