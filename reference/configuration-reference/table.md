@@ -201,6 +201,25 @@ Specify the columns and the type of indices to be created on those columns.
 | timestampConfig | An object that defines the granularities used in [timestamp](../../build-with-pinot/indexing/timestamp-index.md) indexes                                        |
 | properties      | JSON of key-value pairs containing additional properties associated with the index.                                                                |
 
+When `encodingType` is `RAW`, the forward index stores raw values. The column can still have a dictionary if another field-level index requires dictionary IDs or dictionary values. For config updates, make that dictionary explicit in `indexes.dictionary` and keep the column out of legacy `tableIndexConfig.noDictionaryColumns` and `tableIndexConfig.noDictionaryConfig`; those legacy settings still disable the dictionary and can cause validation to reject dictionary-backed secondary indexes such as inverted, FST, or IFST.
+
+Example RAW forward index with a standalone dictionary:
+
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "myColumn",
+      "encodingType": "RAW",
+      "indexes": {
+        "dictionary": {},
+        "inverted": {}
+      }
+    }
+  ]
+}
+```
+
 #### Deprecated configuration options
 
 There are several deprecated configuration options in Pinot that are still supported but recommended for migration to newer ways of configuration. Here's a summary of these options:

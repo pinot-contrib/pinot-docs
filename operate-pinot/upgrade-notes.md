@@ -88,8 +88,20 @@ define:
 Pinot uses these hooks during segment creation and reload to decide whether it
 must materialize a shared standalone dictionary for RAW forward-index columns
 and whether existing index files can be reused safely. Built-in inverted, FST,
-and IFST indexes require a dictionary; the built-in range index works with or
-without a dictionary but must be rebuilt when dictionary state changes.
+and IFST indexes require a dictionary. The built-in range index can still work
+without a dictionary for numeric RAW columns, but any RAW forward index with a
+dictionary-backed range index must use range index version 2; range index
+version 1 is rejected for RAW + dictionary.
+
+[PR #17269](https://github.com/apache/pinot/pull/17269) adds the related column
+shape where a RAW forward index can share a standalone dictionary with
+dictionary-backed secondary indexes. Existing configs that combine legacy
+`tableIndexConfig.noDictionaryColumns` or `tableIndexConfig.noDictionaryConfig`
+with dictionary-backed secondary indexes still need a config migration before
+validation succeeds. Move the column to `fieldConfigList`, keep
+`encodingType: RAW`, remove the legacy no-dictionary entry, and declare
+`indexes.dictionary` with the secondary index, for example `indexes.inverted`,
+`indexTypes: ["FST"]`, or `indexTypes: ["IFST"]`.
 
 **Action required for custom index authors.** Recompile any external
 `IndexType` plugin against Pinot 1.6.0 and implement both methods before
