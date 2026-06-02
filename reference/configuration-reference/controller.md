@@ -83,6 +83,33 @@ The following controller periodic tasks can be tuned independently.
 
 When a task documents both `frequencyPeriod` and `cronExpression`, Pinot uses the Quartz `cronExpression` if it is set and falls back to the fixed-delay `frequencyPeriod` otherwise. Invalid cron expressions fail controller startup during periodic-task scheduler initialization. Tasks without a `cronExpression` entry remain fixed-delay only.
 
+### Cron expression examples
+
+Controller periodic-task cron schedules use Quartz syntax, with seconds as the first field: `second minute hour day-of-month month day-of-week [year]`. Use `?` in either the day-of-month or day-of-week field when that field does not constrain the schedule. Pinot evaluates the schedule in the controller JVM's time zone, so keep controller time zones consistent when using wall-clock schedules.
+
+| Schedule | Quartz cron expression |
+| --- | --- |
+| Every 5 minutes | `0 0/5 * * * ?` |
+| Every hour | `0 0 * * * ?` |
+| Every day at 02:30 | `0 30 2 * * ?` |
+| Every Sunday at 03:00 | `0 0 3 ? * SUN` |
+| Weekdays at 01:15 | `0 15 1 ? * MON-FRI` |
+
+Add the cron expression to `controller.conf` under the task-specific key:
+
+```properties
+# Run retention cleanup daily during an off-peak window.
+controller.retention.cronExpression=0 30 2 * * ?
+
+# Run segment relocation weekly on Sunday at 03:00.
+controller.segment.relocator.cronExpression=0 0 3 ? * SUN
+
+# Run realtime segment validation every 15 minutes.
+controller.realtime.segment.validation.cronExpression=0 0/15 * * * ?
+```
+
+Do not include quote characters in a Java properties `controller.conf` value. If the same config is rendered through YAML or another format where spaces are significant, quote the whole cron string in that outer format only. To return a task to fixed-delay scheduling, remove or clear its `*.cronExpression` value and set the corresponding `*.frequencyPeriod`.
+
 ### BrokerResourceValidationManager
 
 This task rebuilds the BrokerResource if the instance set has changed.
@@ -104,24 +131,34 @@ This task removes expired cursor response-store entries from brokers. Cursor exp
 
 ### StaleInstancesCleanupTask
 
-This task periodically cleans up stale Pinot broker/server/minion instances.
+This task periodically cleans up stale Pinot broker/server/minion instances. It is disabled by default.
 
 | Config | Default Value |
 | --- | --- |
-| controller.stale.instances.cleanup.task.frequencyPeriod | 1h |
+| controller.stale.instances.cleanup.task.frequencyPeriod | -1s |
 | controller.stale.instances.cleanup.task.cronExpression | unset |
 | controller.stale.instances.cleanup.task.initialDelaySeconds | between 2m-5m |
 | controller.stale.instances.cleanup.task.minOfflineTimeBeforeDeletionPeriod | 1h |
 
 ### OfflineSegmentIntervalChecker
 
-This task manages the segment ValidationMetrics (missingSegmentCount, offlineSegmentDelayHours, lastPushTimeDelayHours, TotalDocumentCount, NonConsumingPartitionCount, SegmentCount), to ensure that all offline segments are contiguous (no missing segments) and that the offline push delay isn't too high.
+This legacy interval controls how often `OfflineSegmentValidationManager` runs expensive segment-level validation, including missing-segment and offline-push-delay metrics. It does not have its own cron expression; use `controller.offline.segment.validation.cronExpression` to cron-schedule the offline validation task.
 
 | Config | Default Value |
 | --- | --- |
 | controller.offline.segment.interval.checker.frequencyPeriod | 24h |
 | controller.statuschecker.waitForPushTimePeriod | 10m |
 | controller.offlineSegmentIntervalChecker.initialDelayInSeconds | between 2m-5m |
+
+### OfflineSegmentValidationManager
+
+This task validates offline tables and updates offline segment validation metrics. Segment-level validation is throttled by `controller.segment.level.validation.intervalPeriod`; if `controller.offline.segment.interval.checker.frequencyPeriod` is also configured, Pinot uses the lower of the two intervals for segment-level validation.
+
+| Config | Default Value |
+| --- | --- |
+| controller.offline.segment.validation.frequencyPeriod | 1h |
+| controller.offline.segment.validation.cronExpression | unset |
+| controller.segment.level.validation.intervalPeriod | 24h |
 
 ### PinotTaskManager
 
@@ -175,6 +212,27 @@ This task does not fix consumption stalled due to
 When `controller.realtime.segment.partialOfflineReplicaRepairEnabled` is enabled, the controller's periodic validation task automatically resets OFFLINE replicas back to CONSUMING for IN_PROGRESS segments that have a mix of CONSUMING and OFFLINE replicas. This handles cases where a replica's startup fails (for example, due to Kafka consumer initialization errors) while other replicas continue normally. Enable only after verifying that OFFLINE replicas are caused by transient failures rather than persistent errors.
 
 `controller.segment.disaster.recovery.mode` sets the cluster-wide default disaster-recovery policy used by the controller's realtime segment validation task for pauseless ingestion. Supported values are `DEFAULT` and `ALWAYS`, matching the table-level `disasterRecoveryMode` setting in `streamIngestionConfig`. You can set this in `controller.conf`, or update the same key through cluster configs so the controller picks up the new mode without restart.
+
+### RealtimeOffsetAutoResetManager
+
+This task runs offset-auto-reset backfill work for real-time tables when realtime segment offset auto reset is enabled in the table ingestion config.
+
+| Config | Default Value |
+| --- | --- |
+| controller.realtime.offsetAutoReset.backfill.enabled | false |
+| controller.realtime.offsetAutoReset.backfill.frequencyPeriod | 1h |
+| controller.realtime.offsetAutoReset.backfill.cronExpression | unset |
+| controller.realtime.offsetAutoReset.backfill.initialDelayInSeconds | between 2m-5m |
+
+### RealtimeConsumerMonitor
+
+This task fetches consuming-segment information for real-time tables and emits per-partition records-lag and availability-lag controller gauges. It is disabled by default.
+
+| Config | Default Value |
+| --- | --- |
+| controller.realtimeConsumerMonitor.frequencyPeriod | -1s |
+| controller.realtimeConsumerMonitor.cronExpression | unset |
+| controller.realtimeConsumerMonitor.initialDelayInSeconds | between 2m-5m |
 
 ### RetentionManager
 
@@ -240,6 +298,16 @@ Currently, table rebalance triggered by user runs at best effort. It could fail 
 | controller.rebalance.checker.frequencyPeriod | 5m |
 | controller.rebalance.checker.cronExpression | unset |
 | controller.rebalanceChecker.initialDelayInSeconds | between 2m-5m |
+
+### TenantRebalanceChecker
+
+This task checks tenant rebalance jobs that may be stuck after a controller crash or restart and resumes unfinished table-rebalance work.
+
+| Config | Default Value |
+| --- | --- |
+| controller.tenant.rebalance.checker.frequencyPeriod | 5m |
+| controller.tenant.rebalance.checker.cronExpression | unset |
+| controller.tenant.rebalance.checker.initialDelayInSeconds | between 2m-5m |
 
 ### TaskMetricsEmitter
 
