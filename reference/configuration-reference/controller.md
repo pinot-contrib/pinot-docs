@@ -79,7 +79,9 @@ If you temporarily disable either startup check to keep the controller running w
 
 ## Periodic task configuration
 
-The following period tasks are
+The following controller periodic tasks can be tuned independently.
+
+When a task documents both `frequencyPeriod` and `cronExpression`, Pinot uses the Quartz `cronExpression` if it is set and falls back to the fixed-delay `frequencyPeriod` otherwise. Invalid cron expressions fail controller startup during periodic-task scheduler initialization. Tasks without a `cronExpression` entry remain fixed-delay only.
 
 ### BrokerResourceValidationManager
 
@@ -88,6 +90,7 @@ This task rebuilds the BrokerResource if the instance set has changed.
 | Config | Default Value |
 | --- | --- |
 | controller.broker.resource.validation.frequencyPeriod | 1h |
+| controller.broker.resource.validation.cronExpression | unset |
 | controller.broker.resource.validation.initialDelayInSeconds | between 2m-5m |
 
 ### ResponseStoreCleaner
@@ -106,6 +109,7 @@ This task periodically cleans up stale Pinot broker/server/minion instances.
 | Config | Default Value |
 | --- | --- |
 | controller.stale.instances.cleanup.task.frequencyPeriod | 1h |
+| controller.stale.instances.cleanup.task.cronExpression | unset |
 | controller.stale.instances.cleanup.task.initialDelaySeconds | between 2m-5m |
 | controller.stale.instances.cleanup.task.minOfflineTimeBeforeDeletionPeriod | 1h |
 
@@ -157,6 +161,7 @@ This task does not fix consumption stalled due to
 | Config | Default Value |
 | --- | --- |
 | controller.realtime.segment.validation.frequencyPeriod | 1h |
+| controller.realtime.segment.validation.cronExpression | unset |
 | controller.realtime.segment.validation.initialDelayInSeconds | between 2m-5m |
 | controller.realtime.segment.deepStoreUploadRetryEnabled | false |
 | controller.realtime.segment.deepStoreUploadRetry.timeoutMs | -1 |
@@ -178,6 +183,7 @@ This task manages retention of segments for all tables. During the run, it looks
 | Config | Default Value | Description |
 | --- | --- | --- |
 | controller.retention.frequencyPeriod | 6h | Frequency at which the retention manager runs |
+| controller.retention.cronExpression | unset | Quartz cron schedule for the retention manager. When set, Pinot ignores `controller.retention.frequencyPeriod`. |
 | controller.retentionManager.initialDelayInSeconds | between 2m-5m | Randomized initial delay before first retention manager run |
 | controller.retentionManager.enableCreationTimeFallback | false | If true, use segment creation time as fallback when end time is invalid/missing, enabling cleanup of such segments; dynamic config, no restart needed |
 | controller.deleted.segments.retentionInDays | 7d | Duration for which to retain deleted segments |
@@ -207,6 +213,7 @@ At most one replica is allowed to be unavailable during rebalance unless you ove
 | Config | Default Value | Description |
 | --- | --- | --- |
 | controller.segment.relocator.frequencyPeriod | 1h | How often the segment relocator scans tables and triggers relocation work. |
+| controller.segment.relocator.cronExpression | unset | Quartz cron schedule for the segment relocator. When set, Pinot ignores `controller.segment.relocator.frequencyPeriod`. |
 | controller.segmentRelocator.initialDelayInSeconds | between 2m-5m | Randomized startup delay before the first segment relocator run. |
 | controller.segment.relocator.bestEfforts | true | Whether the periodic rebalance should continue in best-effort mode if the no-downtime contract cannot be fully achieved. |
 | controller.segment.relocator.minAvailableReplicas | -1 | Minimum replicas to keep available during no-downtime rebalance. Negative values mean the maximum number of replicas that may be unavailable. |
@@ -221,6 +228,7 @@ This task manages segment status metrics such as realtimeTableCount, offlineTabl
 | Config | Default Value |
 | --- | --- |
 | controller.statuschecker.frequencyPeriod | 5m |
+| controller.statuschecker.cronExpression | unset |
 | controller.statusChecker.initialDelayInSeconds | between 2m-5m |
 
 ### RebalanceChecker
@@ -230,6 +238,7 @@ Currently, table rebalance triggered by user runs at best effort. It could fail 
 | Config | Default Value |
 | --- | --- |
 | controller.rebalance.checker.frequencyPeriod | 5m |
+| controller.rebalance.checker.cronExpression | unset |
 | controller.rebalanceChecker.initialDelayInSeconds | between 2m-5m |
 
 ### TaskMetricsEmitter
@@ -239,6 +248,7 @@ This task periodically emits controller metrics about minion tasks, including ta
 | Config | Default Value |
 | --- | --- |
 | controller.minion.task.metrics.emitter.frequencyPeriod | 5m |
+| controller.minion.task.metrics.emitter.cronExpression | unset |
 
 ### ResourceUtilizationChecker
 
