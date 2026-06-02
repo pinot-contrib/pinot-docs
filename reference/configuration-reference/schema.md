@@ -28,7 +28,7 @@ Use a schema to define the column names, data types, null-handling behavior, and
 | `enableColumnBasedNullHandling` | 1.1.0 | `false` | When `true`, enables column-based null handling. When `false`, Pinot uses table-based null handling. See [Null value support](../../build-with-pinot/querying-and-sql/null-value-support.md). |
 | `dimensionFieldSpecs` | - | `[]` | Dimension-column definitions. See [DimensionFieldSpecs](#dimensionfieldspecs). |
 | `metricFieldSpecs` | - | `[]` | Metric-column definitions. See [MetricFieldSpecs](#metricfieldspecs). |
-| `dateTimeFieldSpecs` | - | `[]` | Time-column definitions. A schema can define multiple time columns. See [DateTimeFieldSpecs](#datetimefieldspecs). |
+| `dateTimeFieldSpecs` | - | `[]` | Time-column definitions. A schema can define multiple time columns. New schema submissions must use `dateTimeFieldSpecs`; controller REST validation rejects the deprecated `TimeFieldSpec` (`fieldType=TIME`). See [DateTimeFieldSpecs](#datetimefieldspecs). |
 | `complexFieldSpecs` | - | `[]` | Complex-column definitions. Pinot currently supports `MAP` and `OPEN_STRUCT` through this section. See [ComplexFieldSpecs](#complexfieldspecs). |
 
 ## Example Schema
@@ -198,6 +198,8 @@ Define one metric field spec for each metric column.
 ## DateTimeFieldSpecs
 
 Use date-time field specs to define time columns.
+
+Pinot accepts legacy `TimeFieldSpec` objects when loading older schemas that are already stored in the cluster, but controller REST schema submission paths (`POST /schemas`, `PUT /schemas/{schemaName}`, and `/schemas/validate`) now reject new payloads that use `fieldType=TIME`. Use `DateTimeFieldSpec` for all new schema work.
 
 | Property | Description |
 | --- | --- |

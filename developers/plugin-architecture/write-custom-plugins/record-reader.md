@@ -28,7 +28,7 @@ There are several contracts for record readers that developers should follow whe
   * All the columns in the schema should be preserved (if column does not exist in the original record, put default value instead)
   * Columns not in the schema should not be included
   * Values for the column should follow the field spec from the schema (data type, single-valued/multi-valued)
-* For the time column (refer to [TimeFieldSpec](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/data/TimeFieldSpec.java)), record reader should be able to read both incoming and outgoing time (we allow _incoming time - time value from the original data_ to _outgoing time - time value stored in Pinot_ conversion during index creation).
+* For the time column (usually defined with [DateTimeFieldSpec](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/data/DateTimeFieldSpec.java); legacy schemas may still deserialize `TimeFieldSpec`), record reader should be able to read both incoming and outgoing time (we allow _incoming time - time value from the original data_ to _outgoing time - time value stored in Pinot_ conversion during index creation).
   * If incoming and outgoing time column name are the same, use incoming time field spec
   * If incoming and outgoing time column name are different, put both of them as time field spec
   * We keep both incoming and outgoing time column to handle cases where the input file contains time values that are already converted
