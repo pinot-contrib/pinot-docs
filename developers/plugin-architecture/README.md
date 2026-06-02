@@ -134,6 +134,22 @@ Initialization is one-time. `PinotRuleSet.defaultInstance()` builds the broker p
 
 This SPI is more upgrade-sensitive than the stable ingestion, filesystem, and metrics plugin families. Pinot keeps `Phase` append-only for binary compatibility, but new phases can be added and the built-in rule ordering can change between releases. Revalidate customizers on every Pinot upgrade, especially if they depend on a specific built-in rule name or order.
 
+### Materialized view DDL handlers
+
+Controller-managed `CREATE MATERIALIZED VIEW ... AS <query>` also has an advanced extension point. Implement `org.apache.pinot.sql.ddl.compile.MaterializedViewDdlHandler` from `pinot-sql-ddl` when a downstream distribution needs a different materialized-view engine contract than the built-in single-source `MaterializedViewTask` path.
+
+The handler owns three decisions:
+
+- `validateDefinedQuery(...)` decides whether the `AS <query>` shape is valid for the target engine.
+- `supportsSchemaInference(...)` decides whether Pinot may infer MV columns from the `SELECT` projection when the DDL omits an explicit column list.
+- `applyTaskConfig(...)` routes the MV properties onto the `TableConfigBuilder` and returns the task type stamped onto the table.
+
+Register the handler once at controller startup through `DdlCompiler.setMaterializedViewDdlHandler(...)`. If no handler is registered, Pinot keeps the default behavior: JOINs are rejected, schema inference is allowed for the single-source path, and the MV runs under `MaterializedViewTask`.
+
+If a custom handler stamps a task type other than the built-in `MaterializedViewTask`, it also owns that task type's runtime contract. In practice that means the custom task generator/executor, its validation rules, and any definition-metadata persistence or consistency tracking required by that alternate MV implementation.
+
+For the default OSS materialized-view surface, see [Materialized Views](../../build-with-pinot/querying-and-sql/materialized-views.md).
+
 Custom segment or index extensions that depend on `pinot-segment-spi` are a
 separate, more upgrade-sensitive path than the stable plugin families listed
 above. Revalidate these extensions on every Pinot upgrade. For example, Pinot
