@@ -150,6 +150,17 @@ If a custom handler stamps a task type other than the built-in `MaterializedView
 
 For the default OSS materialized-view surface, see [Materialized Views](../../build-with-pinot/querying-and-sql/materialized-views.md).
 
+### WorkerManager leaf-stage segment hooks
+
+Advanced multi-stage routing customizations can also subclass `org.apache.pinot.query.routing.WorkerManager`. Pinot already lets a subclass influence worker placement through `getCandidateServers(...)` and `getCandidateServersForReplicatedLeaf(...)`. Pinot 1.6.0 adds two later hooks that run after the leaf-stage segment assignment is built:
+
+- `filterLeafStageSegments(...)` for the normal leaf-stage assignment path
+- `filterReplicatedLeafStageSegments(...)` for replicated or broadcast leaf-stage assignments
+
+These hooks receive the `DispatchablePlanContext` and `DispatchablePlanMetadata`, so a subclass can inspect or rewrite `getWorkerIdToSegmentsMap()` or `getReplicatedSegments()` and then write the adjusted assignment back with the existing setters. Query-scoped routing choices can still read request options from `DispatchablePlanContext.getPlannerContext().getOptions()`.
+
+Treat this as an upgrade-sensitive code-level extension, not as a stable standalone plugin family. Revalidate custom `WorkerManager` subclasses on every Pinot upgrade, especially if they depend on a specific leaf-stage planning path or `DispatchablePlanMetadata` shape.
+
 Custom segment or index extensions that depend on `pinot-segment-spi` are a
 separate, more upgrade-sensitive path than the stable plugin families listed
 above. Revalidate these extensions on every Pinot upgrade. For example, Pinot
