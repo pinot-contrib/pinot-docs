@@ -56,6 +56,10 @@ Indexes available in Realtime Segments are updated during insertion of the consu
 Indexes available only in Offline segments are calculated during segment load. That means, that for offline tables indexes
 become available when segment was loaded. For realtime tables, those indexes are available only for completed (not consuming) segments.
 
+If a realtime table needs a different index layout while segments are still mutable and consuming, define
+`tierOverwrites.consuming` in `tableIndexConfig` or `fieldConfigList`. Pinot applies that override only to the mutable
+consuming-segment view; completed segments and immutable segment reloads continue to use the base table config.
+
 ## How Pinot applies indexes
 
 Most index choices are defined in the table config, usually under `fieldConfigList` or `tableIndexConfig`, depending on the index and the configuration style you are using. The canonical table-level reference is [Table](../../reference/configuration-reference/table.md).

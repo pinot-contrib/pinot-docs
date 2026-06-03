@@ -210,6 +210,12 @@ Once replica group segment assignment is in effect, the query routing can take a
 
 When using [tiered storage](../separating-data-storage-by-age/README.md), user may want to have different encoding and indexing types for a column in different tiers to balance query latency and cost saving more flexibly. For example, segments in the hot tier can use dict-encoding, bloom filter and all kinds of relevant index types for very fast query execution. But for segments in the cold tier, where cost saving matters more than low query latency, one may want to use raw values and bloom filters only.
 
+REALTIME tables also reserve a special synthetic tier name, `consuming`, for mutable consuming segments. When
+`tierConfigs` does not define a real storage tier named `consuming`, Pinot treats
+`tableIndexConfig.tierOverwrites.consuming` and `fieldConfigList[].tierOverwrites.consuming` as consuming-only
+overrides: Pinot validates the effective view normally, uses it only while the segment is still mutable, and switches
+back to the base table config after the segment is committed.
+
 The following two examples show how to overwrite encoding type and index configs for tiers. Similar changes are also demonstrated in the [MultiDirQuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/java/org/apache/pinot/tools/MultiDirQuickstart.java).
 
 1. Overwriting single-column index configs using `fieldConfigList`. All top level fields in [FieldConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/FieldConfig.java#L88) can be overwritten, and fields not overwritten are kept intact.

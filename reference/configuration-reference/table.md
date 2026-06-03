@@ -115,6 +115,7 @@ Before Pinot version 0.13, the configuration described above was also used to co
 | enableDefaultStarTree                      | Boolean to indicate whether to create a default StarTree index for the segment. For details, see[ ](../../build-with-pinot/indexing/star-tree-index.md)[Star-Tree index](../../build-with-pinot/indexing/star-tree-index.md).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | enableDynamicStarTreeCreation              | Boolean to indicate whether to allow creating StarTree when server loads the segment. StarTree creation could potentially consume a lot of system resources, so this config should be enabled when the servers have the free system resources to create the StarTree.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | segmentPartitionConfig | Configure per-column partition functions for broker-side partition pruning. Use `segmentPartitionConfig.columnPartitionMap` together with [`routing.segmentPrunerTypes`](table.md#routing). See [Segment partition config](#segment-partition-config). |
+| tierOverwrites | Optional JSON object keyed by tier name. Pinot merges the matching object onto `tableIndexConfig` when loading that tier. For realtime tables, `tierOverwrites.consuming` is special: it only changes the mutable consuming-segment view, while completed segments still use the base table config. If `tierConfigs` declares a real storage tier named `consuming`, Pinot treats that as ordinary tiered storage instead of the mutable consuming-segment override. |
 | loadMode | Indicates how the segments will be loaded onto the server: `heap` - load data directly into direct memory `mmap` - load data segments to off-heap memory |
 | columnMinMaxValueGeneratorMode | Generate min max values for columns. Supported values: `NONE` - do not generate for any columns `ALL` - generate for all columns `TIME` - generate for only time column `NON_METRIC` - generate for time and dimension columns |
 | nullHandlingEnabled                        | (deprecated, use `enableColumnBasedNullHandling` in [schema](schema.md)) For more information, see the [null handling section](../../build-with-pinot/querying-and-sql/null-value-support.md).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
@@ -198,6 +199,7 @@ Specify the columns and the type of indices to be created on those columns.
 | name            | Name of the column                                                                                                                                 |
 | encodingType    | Should be one of `RAW` or `DICTIONARY`                                                                                                             |
 | indexes         | An object whose keys identify indexes. Values are interpreted as the configuration for each index. See each index section to learn more about them |
+| tierOverwrites  | Optional JSON object keyed by tier name. Pinot merges the matching object onto the field config for that tier. For realtime tables, `tierOverwrites.consuming` can change encoding or field-level indexes only while the segment is mutable and consuming. |
 | timestampConfig | An object that defines the granularities used in [timestamp](../../build-with-pinot/indexing/timestamp-index.md) indexes                                        |
 | properties      | JSON of key-value pairs containing additional properties associated with the index.                                                                |
 
@@ -219,6 +221,44 @@ Example RAW forward index with a standalone dictionary:
   ]
 }
 ```
+
+For realtime tables, you can also give mutable consuming segments a different index layout without changing the
+persisted segment format. Pinot applies the `consuming` override first, validates the effective config through the
+normal table-config path, and then uses that effective view only while the segment is still consuming:
+
+```json
+{
+  "tableIndexConfig": {
+    "noDictionaryColumns": ["profiledString"],
+    "tierOverwrites": {
+      "consuming": {
+        "noDictionaryColumns": []
+      }
+    }
+  },
+  "fieldConfigList": [
+    {
+      "name": "profiledString",
+      "encodingType": "RAW",
+      "tierOverwrites": {
+        "consuming": {
+          "encodingType": "DICTIONARY",
+          "indexes": {
+            "inverted": {
+              "disabled": false
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
+Use this pattern when you want mutable consuming segments to expose extra indexes, such as a dictionary-backed
+inverted index, while completed realtime segments keep the base layout. Keep row-shape settings in the base config, and
+do not define a real `tierConfigs` entry named `consuming` unless you intend normal storage-tier behavior instead of
+the mutable consuming-segment override.
 
 #### Deprecated configuration options
 
