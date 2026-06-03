@@ -49,12 +49,21 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 | `numDocsScanned` | Number of documents selected after filtering |
 | `numEntriesScannedInFilter` | Filter-phase entries scanned |
 | `numEntriesScannedPostFilter` | Post-filter entries scanned |
+| `partialResult` | Whether Pinot returned a partial result instead of a fully complete answer |
+| `earlyTerminationReasons` | Multi-stage V2 response field listing early-termination reasons such as `DISTINCT_MAX_ROWS` |
+| `maxRowsInDistinctReached` | Single-stage DISTINCT flag indicating the `maxRowsInDistinct` budget was exceeded |
+| `maxRowsWithoutChangeInDistinctReached` | Single-stage DISTINCT flag indicating the `maxRowsWithoutChangeInDistinct` budget was exceeded |
+| `maxExecutionTimeInDistinctReached` | Single-stage DISTINCT flag indicating the `maxExecutionTimeMsInDistinct` budget was exceeded |
 | `numGroupsLimitReached` | Whether group-by trimming hit the limit |
 | `numGroupsWarningLimitReached` | Whether group-by execution crossed the configured warning threshold for number of groups |
 | `serverStats` | Single-stage per-server timing and response-size breakdown |
 | `stageStats` | Per-stage stats for multi-stage queries |
 | `exceptions` | Query-processing exceptions, if any |
 | `rlsFiltersApplied` | Whether row-level security predicates were injected |
+
+For DISTINCT early termination, the response shape depends on the engine. Single-stage responses use the legacy
+boolean fields such as `maxRowsInDistinctReached`, while multi-stage V2 responses surface the same condition through
+`partialResult=true` plus `earlyTerminationReasons`.
 
 For single-stage queries, `serverStats` is a semicolon-delimited string with a header row followed by one entry per server. The header names the metrics in order:
 
