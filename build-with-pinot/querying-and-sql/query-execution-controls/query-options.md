@@ -206,13 +206,18 @@ In this example, the query will flush partial group-by results every time the nu
 | **jsonIndexDistinctSkipMissingPath** | Only applies to `JsonIndexDistinctOperator`. When `true`, Pinot skips missing-path handling for index-based `SELECT DISTINCT jsonExtractIndex(...)`: it does not add the 4-arg default, does not add `NULL` when null handling is enabled, and does not throw `Illegal Json Path` when some matching docs do not contain the extracted path. The result contains only values returned by the JSON index lookup. Requires `useIndexBasedDistinctOperator=true`. | `false` (use the 4-arg default when present; otherwise add `NULL` with null handling enabled, or throw `Illegal Json Path`) |
 | **invertedIndexDistinctCostRatio** | Overrides the cost heuristic for `InvertedIndexDistinctOperator`. Pinot chooses the bitmap inverted-index path when `dictionaryCardinality * costRatio <= filteredDocCount`. Set this option to `0` to force the bitmap inverted-index path whenever the filter matches at least one row. Requires `useIndexBasedDistinctOperator=true`. | `null/empty` (use the built-in cardinality-based heuristic) |
 
-### DISTINCT Early-Termination (Single-Stage Engine)
+### DISTINCT Early-Termination (Single-Stage Execution)
 
 | Key | Description | Default Behavior |
 | --- | --- | --- |
-| **maxRowsInDistinct** | Maximum number of rows to scan across all segments in a DISTINCT query before early termination. When this limit is reached, the query stops scanning additional segments and returns partial results. Only applies to single-stage engine (SSE/v1) DISTINCT queries. See `maxRowsInDistinctReached` in the response to determine if this limit was triggered. | `null/empty` (no limit) |
-| **maxRowsWithoutChangeInDistinct** | Maximum number of rows to scan in a DISTINCT query without producing any new distinct values before early termination. This option is useful to optimize queries when the distinct value set converges quickly. When this limit is reached, the query stops scanning and returns partial results. Only applies to single-stage engine (SSE/v1) DISTINCT queries. See `maxRowsWithoutChangeInDistinctReached` in the response to determine if this limit was triggered. | `null/empty` (no limit) |
-| **maxExecutionTimeMsInDistinct** | Wall-clock time budget in milliseconds for the combine operator in a DISTINCT query. When this time limit is exceeded, the query returns partial results. Only applies to single-stage engine (SSE/v1) DISTINCT queries. See `maxExecutionTimeInDistinctReached` in the response to determine if this limit was triggered. | `null/empty` (no limit) |
+| **maxRowsInDistinct** | Maximum number of rows to scan across all segments in a DISTINCT query before early termination. When this limit is reached, the single-stage DISTINCT path stops scanning additional segments and returns partial results. See the response-shape notes below for how SSE and MSE surface this limit. | `null/empty` (no limit) |
+| **maxRowsWithoutChangeInDistinct** | Maximum number of rows to scan in a DISTINCT query without producing any new distinct values before early termination. This option is useful when the distinct value set converges quickly. When this limit is reached, the single-stage DISTINCT path stops scanning and returns partial results. See the response-shape notes below for how SSE and MSE surface this limit. | `null/empty` (no limit) |
+| **maxExecutionTimeMsInDistinct** | Wall-clock time budget in milliseconds for the combine operator in a DISTINCT query. When this time limit is exceeded, the single-stage DISTINCT path returns partial results. See the response-shape notes below for how SSE and MSE surface this limit. | `null/empty` (no limit) |
+
+These budgets are still enforced by the single-stage DISTINCT execution path. When a multi-stage query uses a
+single-stage leaf path for DISTINCT processing, Pinot now propagates the leaf-stage reason into the V2 response as
+`partialResult=true` plus `earlyTerminationReasons`. Native multi-stage DISTINCT operators do not yet enforce these
+bounds on their own.
 
 #### Example DISTINCT Queries with Early Termination
 
@@ -234,14 +239,19 @@ SELECT DISTINCT product_id FROM orders
 OPTION (maxRowsInDistinct=50000, maxRowsWithoutChangeInDistinct=5000)
 ```
 
-When any of these early-termination budgets is exceeded, the response will include the following flags to indicate which limit was reached:
+When any of these early-termination budgets is exceeded, Pinot surfaces the reason differently depending on the query
+engine:
 
-- `partialResult` (boolean): Set to `true` when the result is partial due to early termination
-- `maxRowsInDistinctReached` (boolean): Set to `true` if `maxRowsInDistinct` limit was exceeded
-- `maxRowsWithoutChangeInDistinctReached` (boolean): Set to `true` if `maxRowsWithoutChangeInDistinct` limit was exceeded
-- `maxExecutionTimeInDistinctReached` (boolean): Set to `true` if `maxExecutionTimeMsInDistinct` limit was exceeded
+- Single-stage response fields:
+- `partialResult` (boolean): Set to `true` when the result is partial due to early termination.
+- `maxRowsInDistinctReached` (boolean): Set to `true` if `maxRowsInDistinct` limit was exceeded.
+- `maxRowsWithoutChangeInDistinctReached` (boolean): Set to `true` if `maxRowsWithoutChangeInDistinct` limit was exceeded.
+- `maxExecutionTimeInDistinctReached` (boolean): Set to `true` if `maxExecutionTimeMsInDistinct` limit was exceeded.
+- Multi-stage response fields when the leaf stage early-terminates DISTINCT processing:
+- `partialResult` (boolean): Set to `true`.
+- `earlyTerminationReasons` (string array): Contains one or more reason names such as `DISTINCT_MAX_ROWS`, `DISTINCT_MAX_ROWS_WITHOUT_CHANGE`, or `DISTINCT_MAX_EXECUTION_TIME`.
 
-#### Example Response with Early Termination
+#### Example SSE Response with Early Termination
 
 ```json
 {
@@ -267,5 +277,25 @@ When any of these early-termination budgets is exceeded, the response will inclu
   "maxRowsWithoutChangeInDistinctReached": false,
   "maxExecutionTimeInDistinctReached": false,
   "timeUsedms": 245
+}
+```
+
+#### Example MSE Response with Propagated DISTINCT Early Termination
+
+```json
+{
+  "resultTable": {
+    "dataSchema": {
+      "columnNames": ["country"],
+      "columnDataTypes": ["STRING"]
+    },
+    "rows": [
+      ["USA"],
+      ["Canada"],
+      ["Mexico"]
+    ]
+  },
+  "partialResult": true,
+  "earlyTerminationReasons": ["DISTINCT_MAX_ROWS"]
 }
 ```
