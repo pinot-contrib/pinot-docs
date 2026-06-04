@@ -236,6 +236,10 @@ batchConfigMapStr={
 This API creates a segment using file at the given URI and pushes it to Pinot. Properties to access the FS need to be provided in the batchConfigMap. All steps happen on the controller.\
 Example usage:
 
+{% hint style="warning" %}
+`/ingestFromURI` only allows remote files by default. Controller-local `file:///...` URIs and `LocalPinotFS`-backed reads are rejected unless you explicitly set `controller.ingestFromURI.allowLocalFileSystem=true` in `controller.conf` and restart the controller.
+{% endhint %}
+
 ```
 curl -X POST "http://localhost:9000/ingestFromURI?tableNameWithType=foo_OFFLINE
 &batchConfigMapStr={
@@ -246,6 +250,12 @@ curl -X POST "http://localhost:9000/ingestFromURI?tableNameWithType=foo_OFFLINE
   "input.fs.prop.secretKey":"bar"
 }
 &sourceURIStr=s3://test.bucket/path/to/json/data/data.json"
+```
+
+If you intentionally ingest from a file local to the controller host in a trusted environment, enable the controller config above and use a `file:///...` URI such as:
+
+```bash
+curl -X POST "http://localhost:9000/ingestFromURI?tableNameWithType=foo_OFFLINE&batchConfigMapStr={\"inputFormat\":\"json\"}&sourceURIStr=file:///var/tmp/pinot/input.json"
 ```
 
 ### Ingestion jobs
