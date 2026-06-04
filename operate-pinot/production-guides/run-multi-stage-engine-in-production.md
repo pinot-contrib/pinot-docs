@@ -108,6 +108,18 @@ The broker and server controls protect different parts of the system:
 Changing the broker-side throttle from disabled to enabled, or from enabled to disabled, requires a broker restart to take effect. Updating the limit value while the throttle remains enabled is applied dynamically.
 {% endhint %}
 
+### Metrics emission mode
+
+Use the cluster config `pinot.metrics.mse.mode` to control where Pinot publishes multi-stage engine metrics:
+
+| Value | What Pinot emits |
+| --- | --- |
+| `SERVER` | Existing `pinot.server.mse*` / `pinot.server.multiStage*` metrics only. This is the default for backward compatibility. |
+| `MSE` | New `pinot.mse.*` metrics only. Use this after dashboards and alerts have fully moved to the new namespace. |
+| `DUAL` | Both the legacy `pinot.server.*` series and the new `pinot.mse.*` series. Use this during migration windows. |
+
+Pinot reads this setting when brokers and servers start. Changing the mode requires a restart of those roles. In `MSE` or `DUAL` mode, the new `pinot.mse.*` metrics can surface from whichever JVM ran the multi-stage work, including broker JVMs for broker-owned stages.
+
 ### Mailbox backpressure and gRPC memory bounds
 
 The MSE mailbox layer now exposes sender-side backpressure controls for clusters that hit gRPC direct-memory pressure during wide shuffles or slow-consumer scenarios:
