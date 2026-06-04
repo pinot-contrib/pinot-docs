@@ -102,14 +102,14 @@ While a lineage entry is still live, Pinot keeps lineage-locked segments on the 
 
 #### Configurable Retention Periods
 
-By default, both retention periods are set to 1 day. You can override them in the table config under `segmentsConfig` (the `validationConfig` section):
+By default, `lineageEntryCleanupRetentionPeriod` is 1 day for all tables. `replacedSegmentsRetentionPeriod` defaults to 1 day for `REFRESH` tables and 4 hours for other replacement flows such as `APPEND` tables. You can override both values in the table config under `segmentsConfig` (the `validationConfig` section):
 
 | Property | Description | Default |
 |----------|-------------|---------|
-| `replacedSegmentsRetentionPeriod` | How long replaced (source) segments are preserved after a lineage entry reaches "COMPLETED" state, providing a rollback window. Only applies to REFRESH tables; for APPEND tables, replaced segments are always deleted immediately. | `1d` |
+| `replacedSegmentsRetentionPeriod` | How long replaced (source) segments are preserved after a lineage entry reaches "COMPLETED" state before Pinot deletes them. Pinot honors this setting for every replacement flow that writes a completed lineage entry. The default is `1d` for `REFRESH` tables and `4h` for other table types. Set it to `0s` if you explicitly want the next retention pass to delete replaced segments immediately. | `1d` for `REFRESH`, `4h` otherwise |
 | `lineageEntryCleanupRetentionPeriod` | How long stale "IN\_PROGRESS" or "REVERTED" lineage entries (and their destination segments) are kept before being cleaned up. | `1d` |
 
-Values are human-readable period strings (e.g. `1d`, `12h`, `7d`). Setting `replacedSegmentsRetentionPeriod` to `0d` eliminates the rollback window and replaced segments will be deleted on the next retention pass after the lineage is completed.
+Values are human-readable period strings (e.g. `1d`, `12h`, `7d`). Setting `replacedSegmentsRetentionPeriod` to `0s` eliminates the grace window and replaced segments will be deleted on the next retention pass after the lineage is completed.
 
 Example table config snippet:
 
@@ -136,6 +136,6 @@ Example table config snippet:
 ### Implications of enabling Consistent Push
 
 1. Enabling consistent push can lead to up to 2x storage usage (assuming data size between snapshots are roughly equivalent) since at any time, we are potentially keeping both replacing and replaced segments.
-2. Typically, for the REFRESH use case, users would directly replace segments by uploading segments of the same name. With consistent push, however, a timestamp is injected as the segment name postfix in order to differentiate between replacing and to be replaced segments. The older segments will be cleaned up by the Retention manager after the configured `replacedSegmentsRetentionPeriod` (default: **1 day**) from when the consistent push happened.
+2. Typically, for the REFRESH use case, users would directly replace segments by uploading segments of the same name. With consistent push, however, a timestamp is injected as the segment name postfix in order to differentiate between replacing and to be replaced segments. The older segments will be cleaned up by the Retention manager after the configured `replacedSegmentsRetentionPeriod` from when the consistent push happened. If you do not set that property, the default is **1 day** for `REFRESH` tables and **4 hours** for other replacement flows.
 3. Currently, there is no way to disable consistent push for a table with consistent push enabled, due to the unique segment postfix issue mentioned above. Users will need to create a new table until support for disabling consistent push in-place is implemented.
 4. If the push job fails for any reason, the job will rollback all the uploaded segments (`revertReplaceSegments`) to maintain data equivalence prior to the push.
