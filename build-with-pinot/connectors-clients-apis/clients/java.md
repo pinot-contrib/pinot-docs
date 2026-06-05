@@ -288,6 +288,8 @@ properties.setProperty("pinot.java_client.tls.truststore.password", "changeit");
 Connection connection = ConnectionFactory.fromController(properties, "controller.example.com:9000");
 ```
 
+When you customize `JsonAsyncHttpPinotClientTransportFactory` directly, the `scheme` property only overrides the factory when you set `scheme` in `Properties`. If `scheme` is absent, `withConnectionProperties(...)` keeps any scheme you already set on the factory and falls back to `http` only when neither the factory nor the properties specify one.
+
 ## Request Tracing
 
 The Java client (`JsonAsyncHttpPinotClientTransport`) automatically attaches an `X-Correlation-Id` header — a unique UUID per request — to every HTTP query. This ID:
