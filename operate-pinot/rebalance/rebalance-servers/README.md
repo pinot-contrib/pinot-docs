@@ -74,6 +74,29 @@ When upsizing/downsizing a cluster, you will need to make sure that the host nam
 pinot.set.instance.id.to.hostname=true
 ```
 
+#### Temporarily stop new query routing to a server
+
+Before you retag, replace, or troubleshoot a server, you can stop brokers from routing new queries to that server without disabling the Helix participant.
+
+Use the following API on a server instance:
+
+`PUT /instances/{instanceName}/state?state=QUERIES_DISABLE`
+
+To restore normal routing, call:
+
+`PUT /instances/{instanceName}/state?state=QUERIES_ENABLE`
+
+For example:
+
+```bash
+curl -X PUT "http://localhost:9000/instances/Server_10.1.10.51_7000/state?state=QUERIES_DISABLE" \
+  -H "accept: application/json"
+```
+
+{% hint style="info" %}
+This API only applies to server instances. It sets the server's `queriesDisabled` flag so brokers stop routing new queries to that server, but it does not disable the Helix participant lifecycle. The server remains online and can continue serving queries that were already routed to it.
+{% endhint %}
+
 ### Replication changes
 
 In order to change the replication factor of a table, update the table config as follows:
