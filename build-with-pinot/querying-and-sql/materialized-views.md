@@ -113,6 +113,19 @@ With that switch enabled, Pinot still falls back to the base table unless the MV
 
 Pinot currently rewrites eligible SSE query shapes that are subsumed by the MV, including exact matches, projection-subset scan queries, and supported aggregation rollups. When a rewrite happens, the broker response includes `materializedViewQueried` with the MV table name that served the query.
 
+If you need one eligible query to stay on the base table while leaving broker-side rewrite enabled for everything else, set `enableMaterializedViewRewrite=false` on that query:
+
+```sql
+SET enableMaterializedViewRewrite = false;
+SELECT region, SUM(revenue) AS total_revenue, COUNT(*) AS total_rows
+FROM sales
+GROUP BY region
+ORDER BY total_revenue DESC
+LIMIT 20;
+```
+
+This option defaults to `true`, so queries only opt out when they set it to `false`. It disables MV rewrite for that query only and forces the normal base-table path. Pinot also uses the same option internally for the `MaterializedViewTask` materialization query so the minion always reads from the base table instead of rewriting back onto an MV.
+
 For example, once the MV is built and the broker switch is on, this base-table query can be served by the MV without changing the SQL:
 
 ```sql
