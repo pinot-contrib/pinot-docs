@@ -24,6 +24,11 @@ Converts a value to the specified target type. This is the standard SQL cast syn
 | `BYTES` | `VARBINARY` | Byte array |
 | `BIG_DECIMAL` | `DECIMAL` | Arbitrary-precision decimal |
 
+Pinot also accepts the SQL-standard unsigned integer targets `TINYINT UNSIGNED`, `SMALLINT UNSIGNED`, and
+`INTEGER UNSIGNED`. Because Pinot does not store unsigned integers, these casts return the narrowest signed type that
+preserves the full range: `TINYINT UNSIGNED` and `SMALLINT UNSIGNED` behave like `INT`, while `INTEGER UNSIGNED`
+behaves like `LONG`. `BIGINT UNSIGNED` is not supported; use `BIGINT` or `DECIMAL` instead.
+
 For array-valued casts, Pinot supports `CAST(expr AS DECIMAL ARRAY)` in standard SQL. In the single-stage engine, Pinot also accepts the Pinot-specific target name `BIG_DECIMAL_ARRAY`.
 
 ```sql

@@ -478,6 +478,10 @@ SELECT CAST(revenue AS BIGINT) FROM orders
 | `BYTES` | Byte array |
 | `JSON` | JSON value |
 
+Pinot also accepts `TINYINT UNSIGNED`, `SMALLINT UNSIGNED`, and `INTEGER UNSIGNED` as cast targets. These return the
+smallest signed Pinot type that preserves the full range: `TINYINT UNSIGNED` and `SMALLINT UNSIGNED` behave like
+`INTEGER`, while `INTEGER UNSIGNED` behaves like `BIGINT` / `LONG`. `BIGINT UNSIGNED` is not supported.
+
 ```sql
 SELECT CAST(event_time AS TIMESTAMP), CAST(user_id AS VARCHAR)
 FROM events
