@@ -130,6 +130,31 @@ validation succeeds. Move the column to `fieldConfigList`, keep
 `IndexType` plugin against Pinot 1.6.0 and implement both methods before
 upgrading. Older binaries will fail with `AbstractMethodError` until updated.
 
+### `JsonIndexReader` now returns a read-only bitmap contract
+
+Apache Pinot also changes the `JsonIndexReader` SPI for custom JSON index
+readers and any code that calls the reader directly. [PR
+#18694](https://github.com/apache/pinot/pull/18694) changes all
+`getMatchingDocIds(...)` overloads to return `ImmutableRoaringBitmap` instead
+of `MutableRoaringBitmap`.
+
+This is a developer-facing compatibility change. Pinot's built-in `JSON_MATCH`
+behavior is unchanged, but direct SPI callers must now treat the returned
+bitmap as read-only. A reader may return a borrowed bitmap backed by the
+index's underlying storage, so the bitmap is only valid while the segment or
+index stays open and must not be mutated in place.
+
+The built-in OSS readers still return a fresh mutable bitmap through a
+covariant override, so custom readers can keep that behavior if they want. The
+important contract change is on the caller side:
+
+- Use `ImmutableRoaringBitmap` in code that stores the return value from
+  `getMatchingDocIds(...)`.
+- Call `toMutableRoaringBitmap()` first if your code needs to mutate the
+  bitmap.
+- Revalidate any custom JSON index reader, filter operator, or other
+  `pinot-segment-spi` integration that depends on this API before upgrading.
+
 ### `extractRawTimeValues` replaces Avro `enableLogicalTypes`
 
 Apache Pinot 1.6.0 changes the ingestion config for Avro logical types and

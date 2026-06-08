@@ -170,6 +170,16 @@ above. Revalidate these extensions on every Pinot upgrade. For example, Pinot
 [upgrade notes](../../operate-pinot/upgrade-notes.md) before upgrading custom
 segment/index extensions.
 
+The current `latest` branch also tightens the `JsonIndexReader` contract for
+custom JSON index readers and any code that calls the SPI directly:
+`getMatchingDocIds(...)` now returns `ImmutableRoaringBitmap`, and Pinot treats
+that result as read-only. A custom reader may return a bitmap that is borrowed
+from the index's underlying storage, so callers must not mutate it and should
+copy it with `toMutableRoaringBitmap()` before making in-place changes.
+Existing readers can still return `MutableRoaringBitmap` through the covariant
+override, but custom JSON index extensions should still be revalidated on every
+upgrade.
+
 {% content-ref url="write-custom-plugins/" %}
 [write-custom-plugins](write-custom-plugins/)
 {% endcontent-ref %}
