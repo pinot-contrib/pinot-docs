@@ -547,7 +547,7 @@ Pinot runs a periodic task called `RealtimeSegmentValidationManager` that monito
 
 If you want to recognize the new partitions sooner, then [manually trigger](../../../basics/components/cluster/controller.md#running-the-periodic-task-manually) the periodic task so as to recognize such data immediately.
 
-For Kafka low-level consumers, the same task can also repair a partition when Pinot is missing the `CONSUMING` segment for a Kafka partition that still exists upstream. Operators can either wait for the next `RealtimeSegmentValidationManager` run or trigger it manually. When Pinot recreates the missing consuming segment, it resumes from the stored Pinot offset if Kafka still retains that offset; otherwise, it starts from Kafka's earliest retained offset for that partition, so recovery is limited by Kafka retention.
+For Kafka low-level consumers, the same task can also repair a partition when Pinot is missing the `CONSUMING` segment for a Kafka partition that still exists upstream. Operators can either wait for the next `RealtimeSegmentValidationManager` run or trigger it manually. When Pinot recreates the missing consuming segment, it uses the repair offset selected by validation. If Pinot still has LLC metadata for that partition, it can resume from the stored end offset; otherwise, it typically starts from Kafka's earliest retained offset for that partition, so recovery is limited by Kafka retention.
 
 ## Infer ingestion status of real-time tables
 
