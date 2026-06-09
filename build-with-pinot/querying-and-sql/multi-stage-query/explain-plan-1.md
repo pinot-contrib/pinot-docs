@@ -83,7 +83,9 @@ Independently of how it is activated, once this mode is enabled, `EXPLAIN PLAN F
 
 #### Verbose and brief mode
 
-As explained in `Different plans for different segments`, by default Pinot tries to minimize the number of [different query](#user-content-fn-3)[^3] shown when explaining a query. In multi-stage, the brief mode includes all different plans, but each equivalent plan is aggregated. For example, if the same plan is executed on 100 segments, the brief mode will show it only once and stats like the number of docs will be summed.
+As explained in `Different plans for different segments`, by default Pinot tries to minimize the number of [different query](#user-content-fn-3)[^3] shown when explaining a query. In multi-stage, the brief mode groups distinct segment plans into `Alternative(segments=[n])` branches, where `n` is the number of segments using that plan. Equivalent plans are aggregated into the same branch, so if the same plan is executed on 100 segments, the brief mode will show it only once and additive stats such as the number of docs will be summed.
+
+If some segments use a different plan, brief mode keeps one `Alternative` branch per distinct plan instead of falling back to one child per segment. When every segment shares the same plan, Pinot removes the redundant single `Alternative` wrapper after merging, so the common case still renders as a single child under the combine node.
 
 In the verbose mode, one plan is shown per segment, including the segment name and all the segment specific information. This may be useful to know which segments are not using indexes, or which segments are using a different data distribution.
 
