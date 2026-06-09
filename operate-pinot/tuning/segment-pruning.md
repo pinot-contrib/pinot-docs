@@ -84,7 +84,7 @@ WHERE memberId = 12345
 ```
 
 {% hint style="tip" %}
-For maximum partition pruning effectiveness, ensure each segment contains data from only one partition. When using Kafka, configure the Kafka topic partitioning to match the Pinot partition configuration.
+For maximum partition pruning effectiveness, ensure each segment contains data from only one partition. When using Kafka, configure the Kafka topic partitioning to match the Pinot partition configuration. If a realtime table consumes only a subset of Kafka partitions, keep `segmentPartitionConfig.numPartitions` set to the full Kafka topic partition count, not the subset size.
 {% endhint %}
 
 ### Combining Pruners
@@ -150,7 +150,7 @@ On the logical planner path, broker pruning is currently available for non-parti
 
 When the physical optimizer is enabled, time and partition pruning are automatically applied to the Leaf Stage of multi-stage queries.
 
-For partitioned realtime tables, Pinot normally relies on the segment-partition metadata computed for each segment. If that metadata is invalid, you can set `inferRealtimeSegmentPartition=true` to have Pinot infer the partition from LLC or uploaded-realtime segment names instead. Pinot still uses the table's `segmentPartitionConfig` for the partition column, function, and partition count. If inference fails for the routed realtime segments, Pinot falls back to unpartitioned distribution for the query.
+For partitioned realtime tables, Pinot normally relies on the segment-partition metadata computed for each segment. If that metadata is invalid, you can set `inferRealtimeSegmentPartition=true` to have Pinot infer the partition from LLC or uploaded-realtime segment names instead. Pinot still uses the table's `segmentPartitionConfig` for the partition column, function, and partition count. For Kafka subset-partition ingestion, that partition count must still be the full Kafka topic partition count because Pinot derives realtime segment partition metadata from the full topic partitioning, not from the consumed subset size. If inference fails for the routed realtime segments, Pinot falls back to unpartitioned distribution for the query.
 
 ## Monitoring Pruning Effectiveness
 
@@ -175,7 +175,7 @@ A large gap between `numSegmentsQueried` and `numSegmentsProcessed` indicates th
 
 1. **Always enable time pruning** for tables with a time column — it has minimal overhead and significant benefit
 2. **Partition tables** on frequently filtered columns (e.g., tenant ID, user ID) for equality-based queries
-3. **Match Kafka partitioning** with Pinot partitioning for real-time tables to ensure segments contain single partitions
+3. **Match Kafka partitioning** with Pinot partitioning for real-time tables to ensure segments contain single partitions. For Kafka subset-partition ingestion, use the full topic partition count in `segmentPartitionConfig`, not the subset size.
 4. **Use bloom filters** on high-cardinality columns used in equality lookups (e.g., UUIDs, session IDs)
 5. **Ingest data in time order** when possible, to maximize time pruning selectivity
 6. **Monitor pruning metrics** to identify tables where pruning could be improved

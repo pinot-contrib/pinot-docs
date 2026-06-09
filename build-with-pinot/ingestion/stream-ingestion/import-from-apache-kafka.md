@@ -545,6 +545,8 @@ For example, `"0,2,5"` consumes three explicit partitions, `"0-3"` consumes part
 
 When this setting is present, Pinot will consume only from the resolved set of partitions. When it is absent or blank, Pinot consumes from all partitions of the topic (the default behavior).
 
+If the table also uses `segmentPartitionConfig` for partition pruning, keep `numPartitions` aligned with the full Kafka topic partition count, not the size of the consumed subset. Pinot derives realtime segment partition metadata from the full topic partition count even when `stream.kafka.partition.ids` restricts ingestion to a subset.
+
 **Example: splitting a topic across two tables**
 
 Suppose you have a Kafka topic called `events` with two partitions (0 and 1). You can create two Pinot tables, each consuming from one partition:
@@ -635,6 +637,7 @@ Table `events_part_1`:
 * The partition IDs are sorted internally for stable ordering, regardless of the order specified in the config.
 * Pinot validates the resolved partition IDs against the Kafka topic metadata before it starts consuming. If a specified partition ID does not exist in the topic, an error is raised.
 * The resolved set can contain at most 10,000 unique partition IDs.
+* If you configure `segmentPartitionConfig` on a subset-ingestion realtime table, set `numPartitions` to the full Kafka topic partition count. For example, if a table consumes `"0,3"` from an 8-partition topic, use `8`, not `2`.
 * When using subset partition ingestion with multiple tables consuming from the same topic, ensure that the partition assignments do not overlap if you want each record to be consumed by exactly one table. Pinot does not enforce non-overlapping partition assignments across tables.
 * Whitespace around partition IDs, commas, and range bounds is trimmed (for example, `" 0 - 3 , 5 "` is valid).
 
@@ -778,6 +781,8 @@ Add `stream.kafka.partition.ids` to your `streamConfigs` with a comma-separated 
 
 For example, `"0,2,5"` selects individual partitions, `"0-3"` selects an inclusive range, and `"0-3,6,8-9"` mixes both forms in one value.
 
+If the table also uses `segmentPartitionConfig`, keep `numPartitions` set to the full Kafka topic partition count rather than the size of the consumed subset. Pinot computes realtime segment partition metadata from the full topic partition count even when ingestion is limited to specific Kafka partitions.
+
 ### Notes
 
 - Partition IDs must be non-negative integers. Ranges are inclusive and must have `start <= end`.
@@ -785,4 +790,5 @@ For example, `"0,2,5"` selects individual partitions, `"0-3"` selects an inclusi
 - Duplicate IDs in the list are automatically deduplicated.
 - The resolved set can contain at most 10,000 unique partition IDs.
 - The total partition count reported to the broker reflects the full Kafka topic size, ensuring correct query routing across tables sharing the same topic.
+- If you configure `segmentPartitionConfig`, set `numPartitions` to the full Kafka topic partition count. For example, if a table consumes `"1,4"` from a 6-partition topic, use `6`, not `2`.
 - When splitting a topic between two tables, configure one with even-numbered IDs and another with odd-numbered IDs (for example, `"0,2"` and `"1,3"` for a 4-partition topic).
