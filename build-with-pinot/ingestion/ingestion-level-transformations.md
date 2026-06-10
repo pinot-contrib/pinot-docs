@@ -393,6 +393,35 @@ We can apply one transformation to extract the `userId` and then another one to 
 }
 ```
 
+Pinot validates these chains by dependency, not by list order. A transform can consume a column produced by another transform even if the consumer appears earlier in `transformConfigs`, as long as the dependency graph is valid.
+
+{% hint style="info" %}
+Intermediate transform outputs do not need schema columns when they are only consumed by later transforms. Final outputs that Pinot stores or aggregates still need schema columns.
+
+For example, the following pattern is valid even when `message_obj` is not in the schema:
+
+```json
+"ingestionConfig": {
+  "transformConfigs": [
+    {
+      "columnName": "message_obj",
+      "transformFunction": "JSONEXTRACTOBJECT(message)"
+    },
+    {
+      "columnName": "level",
+      "transformFunction": "JSONPATHSTRING(message_obj, '$.level', null)"
+    },
+    {
+      "columnName": "msg_time",
+      "transformFunction": "JSONPATHSTRING(message_obj, '$.time', null)"
+    }
+  ]
+}
+```
+
+In this example, `message_obj` is an intermediate column, so Pinot materializes it during transformation and drops it before indexing. The leaf columns such as `level` and `msg_time` are the stored outputs, so those columns still belong in the schema.
+{% endhint %}
+
 ### Flattening
 
 There are 2 kinds of flattening:
