@@ -231,6 +231,7 @@ For full details, see [JSON Functions](../../functions/json/).
 | Function | Signature | Return Type | Description | Engine |
 |---|---|---|---|---|
 | [`JSONPATH`](../../functions/json/jsonpath.md) | `JSONPATH(obj, path)` | OBJECT | Evaluates JSONPath expression | Both |
+| [`JSONEXTRACTOBJECT`](../../functions/json/jsonextractobject.md) | `JSONEXTRACTOBJECT(obj)` | OBJECT | Parses JSON once into a reusable object or array value | Both |
 | [`JSONPATHSTRING`](../../functions/json/jsonpathstring.md) | `JSONPATHSTRING(obj, path [, default])` | STRING | Extracts string via JSONPath | Both |
 | [`JSONPATHLONG`](../../functions/json/jsonpathlong.md) | `JSONPATHLONG(obj, path [, default])` | LONG | Extracts long via JSONPath | Both |
 | [`JSONPATHDOUBLE`](../../functions/json/jsonpathdouble.md) | `JSONPATHDOUBLE(obj, path [, default])` | DOUBLE | Extracts double via JSONPath | Both |

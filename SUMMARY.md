@@ -356,6 +356,7 @@
   * [jsonextractscalar](functions/json/jsonextractscalar.md)
   * [jsonextractkey](functions/json/jsonextractkey.md)
   * [jsonextractindex](functions/json/jsonextractindex.md)
+  * [JSONEXTRACTOBJECT](functions/json/jsonextractobject.md)
   * [TOJSONMAPSTR](functions/json/tojsonmapstr.md)
   * [JSONFORMAT](functions/json/jsonformat.md)
   * [JSONPATH](functions/json/jsonpath.md)
