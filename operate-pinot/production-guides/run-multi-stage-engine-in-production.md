@@ -157,6 +157,10 @@ If a rolling upgrade still includes any server older than Pinot 1.4.0, set `pino
 `SAFE` is intentionally conservative: it only sends stats when all brokers and servers advertise the same Pinot version. During a Pinot 1.4-to-1.5 rolling upgrade, that can temporarily suppress stage stats even though `ALWAYS` remains the recommended setting once all servers are on Pinot 1.4.0 or later.
 {% endhint %}
 
+If you want more reliable stage stats on query error paths, brokers can also switch MSE dispatch to the streaming stats transport. Set `pinot.broker.mse.stream.stats=true` to make that the cluster default, or `SET streamStats=true` for a single query. In this mode the query response includes `streamStatsCoverage`, which reports how many workers responded, how many stage-stat merges failed, and how many workers were still missing per stage.
+
+Keep `pinot.broker.mse.stream.stats` disabled during rolling upgrades until every server supports the streaming `SubmitWithStream` RPC. Pinot does not fall back automatically on mixed-version clusters. If you enable the feature, `pinot.broker.mse.stream.stats.drain.ms` (default `50`) controls how long the broker waits for late-arriving stage stats after results are otherwise ready.
+
 Starting in Pinot 1.6.0, stage stats also include pipeline-breaker child operators by default. That richer tree is usually preferable for debugging joins and semi-joins, but if an existing downstream parser expects the 1.5-era shape you can temporarily restore it with `pinot.query.mse.skip.pipeline.breaker.stats=true`.
 
 ## Choosing between standard MSE and Lite Mode

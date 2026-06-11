@@ -61,6 +61,18 @@ The graph being drawn is usually a tree-like structure, but it can be a directed
 
 The Pinot UI stats visualizer is a convenient way to see the multi-stage stats, but sometimes you may want to see the raw JSON format. For example, you may want to analyze the stats programmatically or use a different visualization tool. To do so, you can read the `stageStats` field in the JSON response of the query.
 
+When a query uses the streaming stats transport (`SET streamStats=true` or broker default `pinot.broker.mse.stream.stats=true`), the response also includes a `streamStatsCoverage` array. It is indexed by stage ID and reports how many workers responded cleanly, how many reported stats that the broker could not merge, and how many workers were still missing for that stage.
+
+```json
+{
+  "streamStatsCoverage": [
+    null,
+    {"responded": 4, "mergeFailed": 0, "missing": 0},
+    {"responded": 3, "mergeFailed": 0, "missing": 1}
+  ]
+}
+```
+
 For example, the same query used in the previous section returns: Returns the following `stageStats`:
 
 ```json
