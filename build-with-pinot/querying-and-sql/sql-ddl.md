@@ -37,6 +37,7 @@ Run these statements through the controller endpoint `POST /sql/ddl`, not throug
 | Statement | Notes |
 | --- | --- |
 | `CREATE TABLE [IF NOT EXISTS] [db.]table (...) [PRIMARY KEY (...)] TABLE_TYPE = OFFLINE|REALTIME [PROPERTIES (...)]` | Creates one table type at a time. Use `PROPERTIES` for table config settings such as replication, tenants, time column, indexes, stream configs, task configs, and nested config blobs. |
+| `CREATE TABLE [IF NOT EXISTS] [db.]table WITH (key = value, ...)` | Extension-only form for options-defined tables. A Pinot distribution can install a handler that derives the schema and table config entirely from the `WITH` options. Apache Pinot OSS does not install such a handler, so the default behavior is to reject this form and tell you to use the column-list `TABLE_TYPE = ...` form instead. |
 | `DROP TABLE [IF EXISTS] [db.]table [TYPE OFFLINE|REALTIME]` | Omitting `TYPE` targets both table variants. |
 | `SHOW TABLES [FROM db]` | Lists tables in the selected database. |
 | `SHOW CREATE TABLE [db.]table [TYPE OFFLINE|REALTIME]` | Returns canonical DDL for the stored table metadata. |
@@ -172,6 +173,31 @@ Pinot routes properties with these rules:
 | Any other key | Table custom config | `owner`, `team.pipeline`, `custom.flag` |
 
 List-valued promoted properties use comma-separated strings, for example `'invertedIndexColumns' = 'userId,country'`. Stream and realtime properties are valid only on `REALTIME` tables.
+
+## Extension form: options-defined `CREATE TABLE`
+
+Some Pinot distributions expose an extension form where the controller derives the schema and table config from a `WITH` option map instead of a column list:
+
+```sql
+CREATE TABLE trips_analytics WITH (
+  type = 'iceberg',
+  catalog_type = 'rest',
+  catalog_uri = 'https://unity-catalog.company.com/api/2.1/unity-catalog/iceberg',
+  schema_name = 'transportation',
+  table_name = 'nyc_taxi_trips',
+  storage.region = 'us-west-2',
+  refresh_interval = '5m',
+  enable_schema_evolution = true
+);
+```
+
+For this form:
+
+- Keys can be quoted string literals or unquoted identifiers, including dotted names such as `storage.region`.
+- Values can be quoted strings, booleans, or unsigned numeric literals.
+- Pinot normalizes the parsed options to ordered string key/value pairs before handing them to the installed table handler.
+
+Apache Pinot OSS does not ship a built-in options-defined table handler, so the default controller behavior is to reject this form with guidance to use the column-list `CREATE TABLE ... TABLE_TYPE = OFFLINE | REALTIME` syntax instead.
 
 ## Example: create an offline table
 
