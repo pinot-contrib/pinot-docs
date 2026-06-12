@@ -95,6 +95,12 @@ Pinot generates MV segments through `MaterializedViewTask`. The controller task 
 POST /tasks/schedule?taskType=MaterializedViewTask&tableName=<mvTable>_OFFLINE
 ```
 
+## Understand recovery and tuning
+
+When a retention delete or an empty refresh clears a covered MV bucket, Pinot keeps tracking that bucket as an empty covered partition instead of dropping it outright. If source data is later backfilled into the same time window, the controller consistency manager re-marks that bucket `STALE` and the next overwrite cycle rebuilds it.
+
+By default, the consistency manager runs this empty-bucket recovery sweep every `300000` ms (5 minutes). You can change that interval live, without restarting controllers, through the cluster config key `pinot.materialized.view.consistency.empty.sweep.interval.ms`. Set it with `pinot-admin.sh ClusterConfig` or the controller `/cluster/configs` endpoint. Non-positive values fall back to the 5-minute default.
+
 ## When to keep using JSON APIs
 
 The existing `POST /schemas`, `POST /tables`, and `PUT /tables/{tableName}` APIs still work for materialized views. Keep using them when your automation already depends on raw Pinot metadata payloads, or when you need a hand-written `MaterializedViewTask` cron that cannot be expressed as `REFRESH EVERY <N> MINUTES|HOURS|DAYS` or `'<N>m|h|d'`.
@@ -110,6 +116,10 @@ pinot.broker.query.enable.materialized.view.rewrite=true
 ```
 
 With that switch enabled, Pinot still falls back to the base table unless the MV has usable coverage. In practice, the MV must have a non-zero watermark, and if you set `stalenessThresholdMs`, the MV must still be within that freshness bound.
+
+{% hint style="warning" %}
+Today Pinot splits MV rewrites by watermark only. If a bucket below the watermark is already marked `STALE` or is still tracked as an empty covered bucket waiting for re-materialization, Pinot can still route that time range to the MV until the next overwrite cycle completes. The exposure window is bounded by the consistency-manager debounce plus one scheduling cycle, and delete/backfill races can add up to one empty-bucket recovery sweep interval.
+{% endhint %}
 
 Pinot currently rewrites eligible SSE query shapes that are subsumed by the MV, including exact matches, projection-subset scan queries, and supported aggregation rollups. When a rewrite happens, the broker response includes `materializedViewQueried` with the MV table name that served the query.
 
