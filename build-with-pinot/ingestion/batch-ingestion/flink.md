@@ -48,23 +48,37 @@ RowTypeInfo typeInfo = new RowTypeInfo(
 
 DataStream<Row> srcRows = execEnv.fromData(...);
 
-// Create a ControllerRequestClient to fetch Pinot schema and table config
-HttpClient httpClient = HttpClient.getInstance();
-ControllerRequestClient client = new ControllerRequestClient(
-    ControllerRequestURLBuilder.baseUrl(DEFAULT_CONTROLLER_URL), httpClient);
+// Create a PinotAdminClient to fetch Pinot schema and table config
+String controllerUrl = "http://localhost:9000";
+URI controllerUri = URI.create(controllerUrl);
+String controllerAddress = controllerUri.getAuthority();
+String controllerPath = controllerUri.getPath();
+if (controllerPath != null && !controllerPath.isEmpty() && !"/".equals(controllerPath)) {
+  controllerAddress += controllerPath.endsWith("/") ? controllerPath.substring(0, controllerPath.length() - 1)
+      : controllerPath;
+}
+Properties properties = new Properties();
+properties.setProperty(PinotAdminTransport.ADMIN_TRANSPORT_SCHEME, controllerUri.getScheme());
 
-// Fetch Pinot schema
-Schema schema = PinotConnectionUtils.getSchema(client, "starbucksStores");
-// Fetch Pinot table config
-TableConfig tableConfig = PinotConnectionUtils.getTableConfig(client, "starbucksStores", "OFFLINE");
+try (PinotAdminClient client = new PinotAdminClient(controllerAddress, properties)) {
+  // Fetch Pinot schema
+  Schema schema = client.getSchemaClient().getSchemaObject("starbucksStores");
+  // Fetch Pinot table config
+  TableConfig tableConfig =
+      client.getTableClient().getTableConfigObjectForType("starbucksStores", TableType.OFFLINE);
 
-// Create Flink Pinot Sink (Flink 2.x API)
-srcRows.sinkTo(new PinotSink<>(
-    new FlinkRowGenericRowConverter(typeInfo),
-    tableConfig,
-    schema));
+  // Create Flink Pinot Sink (Flink 2.x API)
+  srcRows.sinkTo(new PinotSink<>(
+      new FlinkRowGenericRowConverter(typeInfo),
+      tableConfig,
+      schema,
+      controllerUrl));
+}
 execEnv.execute();
 ```
+
+Passing `controllerUrl` to `PinotSink` lets the sink inject the `push.controllerUri` and default `outputDirURI`
+values it needs for segment upload.
 
 ### Table Configuration
 
@@ -112,16 +126,19 @@ For a complete executable example, refer to [FlinkQuickStart.java](https://githu
 For standard realtime tables without upsert, use the same approach as offline tables, but specify `REALTIME` as the table type:
 
 ```java
-// Same setup as offline table example above...
+// Reuse the PinotAdminClient setup from the offline example above...
 
 // Fetch table config for realtime table
-TableConfig tableConfig = PinotConnectionUtils.getTableConfig(client, "myTable", "REALTIME");
+Schema schema = client.getSchemaClient().getSchemaObject("myTable");
+TableConfig tableConfig =
+    client.getTableClient().getTableConfigObjectForType("myTable", TableType.REALTIME);
 
 // Same sink configuration
 srcRows.sinkTo(new PinotSink<>(
     new FlinkRowGenericRowConverter(typeInfo),
     tableConfig,
-    schema));
+    schema,
+    controllerUrl));
 execEnv.execute();
 ```
 
@@ -150,20 +167,32 @@ RowTypeInfo typeInfo = new RowTypeInfo(
 
 DataStream<Row> srcRows = execEnv.fromData(...);
 
-// Fetch schema and table config (same as offline table example)
-// HttpClient httpClient = HttpClient.getInstance();
-// ControllerRequestClient client = ...
-Schema schema = PinotConnectionUtils.getSchema(client, "myUpsertTable");
-TableConfig tableConfig = PinotConnectionUtils.getTableConfig(client, "myUpsertTable", "REALTIME");
+String controllerUrl = "http://localhost:9000";
+URI controllerUri = URI.create(controllerUrl);
+String controllerAddress = controllerUri.getAuthority();
+String controllerPath = controllerUri.getPath();
+if (controllerPath != null && !controllerPath.isEmpty() && !"/".equals(controllerPath)) {
+  controllerAddress += controllerPath.endsWith("/") ? controllerPath.substring(0, controllerPath.length() - 1)
+      : controllerPath;
+}
+Properties properties = new Properties();
+properties.setProperty(PinotAdminTransport.ADMIN_TRANSPORT_SCHEME, controllerUri.getScheme());
 
-// IMPORTANT: Partition data by primary key using the SAME logic as the stream
-srcRows.partitionCustom(
-    (Partitioner<Integer>) (key, partitions) -> key % partitions,
-    r -> (Integer) r.getField("playerId"))  // Primary key field
-  .sinkTo(new PinotSink<>(
-      new FlinkRowGenericRowConverter(typeInfo),
-      tableConfig,
-      schema));
+try (PinotAdminClient client = new PinotAdminClient(controllerAddress, properties)) {
+  Schema schema = client.getSchemaClient().getSchemaObject("myUpsertTable");
+  TableConfig tableConfig =
+      client.getTableClient().getTableConfigObjectForType("myUpsertTable", TableType.REALTIME);
+
+  // IMPORTANT: Partition data by primary key using the SAME logic as the stream
+  srcRows.partitionCustom(
+      (Partitioner<Integer>) (key, partitions) -> key % partitions,
+      r -> (Integer) r.getField("playerId"))  // Primary key field
+    .sinkTo(new PinotSink<>(
+        new FlinkRowGenericRowConverter(typeInfo),
+        tableConfig,
+        schema,
+        controllerUrl));
+}
 execEnv.execute();
 ```
 
