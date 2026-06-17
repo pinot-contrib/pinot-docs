@@ -191,6 +191,48 @@ pinot.server.query.accounting.oom.enable.killing.query=false
 ```
 
 **Deprecation Note:** The legacy prefix `pinot.query.scheduler.accounting.*` is marked for removal in a future release after 1.6.0. While still fully functional, new deployments should prefer role-specific prefixes for better configurability.
+
+### Scan-Based Query Killing on Servers
+
+Pinot servers can also stop a query when cumulative scan work crosses configured thresholds. This path is separate from heap-based and CPU-based killing: server operators report scan deltas as the query runs, and Pinot checks the cumulative totals at block boundaries.
+
+Scan-based killing evaluates these counters:
+
+* `numEntriesScannedInFilter`: entries examined while evaluating filters
+* `numDocsScanned`: documents scanned by the query
+* `numEntriesScannedPostFilter`: entries examined after filtering, such as projected values processed by aggregation, group-by, or selection operators
+
+Use the following server config to enable it:
+
+```properties
+# Server only. Set at least one threshold for the feature to take effect.
+pinot.query.scheduler.accounting.scan.based.killing.mode=logOnly
+pinot.query.scheduler.accounting.scan.based.killing.max.entries.scanned.in.filter=500000000
+pinot.query.scheduler.accounting.scan.based.killing.max.docs.scanned=50000000
+pinot.query.scheduler.accounting.scan.based.killing.max.entries.scanned.post.filter=100000000
+```
+
+Valid modes are `disabled`, `logOnly`, and `enforce`.
+
+* `disabled`: turns scan-based killing off
+* `logOnly`: records the dry-run log line and metric, but does not terminate the query
+* `enforce`: terminates the query when a threshold is exceeded
+
+Leaving an individual threshold unset disables that specific check. If all three thresholds are unset, enabling the mode has no effect until you configure at least one threshold.
+
+You can also override the cluster-level thresholds and mode per table with the table's `query` config:
+
+```json
+"query": {
+  "maxEntriesScannedInFilter": 250000000,
+  "maxDocsScanned": 25000000,
+  "maxEntriesScannedPostFilter": 50000000,
+  "scanKillingMode": "enforce"
+}
+```
+
+`scanKillingMode` is validated when the table config is submitted. If a table does not set `scanKillingMode`, Pinot falls back to the cluster-level mode. Scan-based killing config updates are also hot-reloaded on servers, so you can tune thresholds without restarting them.
+
 #### Configuration to control which queries are chosen as victims
 
 In panic mode, all queries are killed.
@@ -226,6 +268,10 @@ Here are the configurations that can be commonly applied to server/broker:
 | pinot.query.scheduler.accounting.sleep.time.denominator | 3 (corresponding to 10ms sleep time at alarming level heap usage) | When the heap usage exceeds this alarming level, the sleep time will be `sleepTime/denominator` |
 | pinot.query.scheduler.accounting.min.memory.footprint.to.kill.ratio | 0.025 | If a query allocates memory below this ratio of total heap size (Xmx) it will not be killed. This is to prevent aggressive killing when the heap memory is not mainly allocated for queries |
 | pinot.query.scheduler.accounting.cpu.time.based.killing.threshold.ms | 30000ms | If a query's CPU usage (across all threads) is beyond this threshold, it will be killed when CPU based query killing is enabled. |
+| pinot.query.scheduler.accounting.scan.based.killing.mode | disabled | Server-side scan-based killing mode. Valid values are `disabled`, `logOnly`, and `enforce`. |
+| pinot.query.scheduler.accounting.scan.based.killing.max.entries.scanned.in.filter | disabled | Server-side threshold for `numEntriesScannedInFilter`. When this threshold is exceeded, Pinot logs or kills the query based on the configured mode. |
+| pinot.query.scheduler.accounting.scan.based.killing.max.docs.scanned | disabled | Server-side threshold for `numDocsScanned`. When this threshold is exceeded, Pinot logs or kills the query based on the configured mode. |
+| pinot.query.scheduler.accounting.scan.based.killing.max.entries.scanned.post.filter | disabled | Server-side threshold for `numEntriesScannedPostFilter`. When this threshold is exceeded, Pinot logs or kills the query based on the configured mode. |
 | pinot.broker.query.accounting.* | - | Broker-specific accounting config (e.g., `pinot.broker.query.accounting.oom.enable.killing.query`). Takes precedence over legacy prefix on broker. |
 | pinot.server.query.accounting.* | - | Server-specific accounting config (e.g., `pinot.server.query.accounting.oom.enable.killing.query`). Takes precedence over legacy prefix on server. |
 | pinot.query.scheduler.accounting.* | - | **Deprecated (since 1.6.0, for removal).** Legacy prefix still supported for backward compatibility. Use role-specific prefixes instead. |
@@ -236,6 +282,9 @@ These are the relevant metrics to monitor when using Pinot's OOM protection
 
 ```
 QUERIES_KILLED
+QUERIES_KILLED_SCAN
+QUERIES_KILLED_SCAN_DRY_RUN
+QUERIES_KILLED_SCAN_ERROR
 JVM_HEAP_USED_BYTES
 HEAP_CRITICAL_LEVEL_EXCEEDED
 HEAP_PANIC_LEVEL_EXCEEDED
