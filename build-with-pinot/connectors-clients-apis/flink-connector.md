@@ -44,7 +44,8 @@ The Pinot Flink Connector provides a `PinotSink` that plugs into any Flink strea
 
 Replace `${pinot.version}` with your Pinot release version. Check [Apache Pinot releases](https://pinot.apache.org/download/) for the latest stable version.
 
-The artifact is published to the Apache Maven repository and transitively includes the Pinot controller client, segment writer, and Flink 2.x core dependencies.
+The artifact is published to the Apache Maven repository and transitively includes the Pinot admin client,
+segment writer, and Flink 2.x core dependencies.
 
 ## Quick Example
 
@@ -54,17 +55,28 @@ execEnv.setParallelism(2);
 
 DataStream<Row> srcRows = execEnv.fromData(...);
 
-HttpClient httpClient = HttpClient.getInstance();
-ControllerRequestClient client = new ControllerRequestClient(
-    ControllerRequestURLBuilder.baseUrl("http://localhost:9000"), httpClient);
+String controllerUrl = "http://localhost:9000";
+URI controllerUri = URI.create(controllerUrl);
+String controllerAddress = controllerUri.getAuthority();
+String controllerPath = controllerUri.getPath();
+if (controllerPath != null && !controllerPath.isEmpty() && !"/".equals(controllerPath)) {
+  controllerAddress += controllerPath.endsWith("/") ? controllerPath.substring(0, controllerPath.length() - 1)
+      : controllerPath;
+}
+Properties properties = new Properties();
+properties.setProperty(PinotAdminTransport.ADMIN_TRANSPORT_SCHEME, controllerUri.getScheme());
 
-Schema schema = PinotConnectionUtils.getSchema(client, "myTable");
-TableConfig tableConfig = PinotConnectionUtils.getTableConfig(client, "myTable", "OFFLINE");
+try (PinotAdminClient adminClient = new PinotAdminClient(controllerAddress, properties)) {
+  Schema schema = adminClient.getSchemaClient().getSchemaObject("myTable");
+  TableConfig tableConfig =
+      adminClient.getTableClient().getTableConfigObjectForType("myTable", TableType.OFFLINE);
 
-srcRows.sinkTo(new PinotSink<>(
-    new FlinkRowGenericRowConverter(typeInfo),
-    tableConfig,
-    schema));
+  srcRows.sinkTo(new PinotSink<>(
+      new FlinkRowGenericRowConverter(typeInfo),
+      tableConfig,
+      schema,
+      controllerUrl));
+}
 execEnv.execute();
 ```
 
