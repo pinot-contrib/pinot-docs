@@ -265,6 +265,27 @@ configs:
 
 When `extractRawTimeValues` is `false` (the default), Pinot converts Arrow `Date`, `Time`, and `Timestamp` values during extraction. Set it to `true` to keep raw integers instead: `Date` stays as days since epoch, while `Time` and `Timestamp` stay in the schema's declared Arrow unit.
 
+#### Direct segment generation
+
+Standard batch ingestion job specs continue to use `ArrowRecordReader`. If you build segments directly in application code, Pinot also exposes an optional Arrow column-major path through `SegmentIndexCreationDriverImpl.init(config, columnReaderFactory)`.
+
+Use `ArrowFileColumnReaderFactory` for Arrow IPC files on disk:
+
+```java
+SegmentIndexCreationDriverImpl driver = new SegmentIndexCreationDriverImpl();
+try (ArrowFileColumnReaderFactory factory = new ArrowFileColumnReaderFactory(arrowFile)) {
+  driver.init(config, factory);
+  driver.build();
+}
+```
+
+The file-backed factory reads one Arrow record batch at a time during segment build. For direct integrations, it also exposes these config keys:
+
+* **`arrowAllocatorLimit`**: Maximum Arrow off-heap allocator size in bytes for the file-backed column-major path. The default is `268435456` (256 MB).
+* **`extractRawTimeValues`**: Keeps Arrow `Date`, `Time`, and `Timestamp` values as raw integers instead of Pinot's default converted values. The default is `false`.
+
+If you already manage an `ArrowReader` and allocator in process, use `ArrowColumnReaderFactory` instead. That path supports the same `extractRawTimeValues` behavior, but allocator sizing remains caller-managed.
+
 #### Stream ingestion
 
 For stream ingestion, the Arrow decoder converts Arrow columnar batches to Pinot rows:
