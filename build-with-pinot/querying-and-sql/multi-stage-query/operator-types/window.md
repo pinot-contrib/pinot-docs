@@ -42,6 +42,46 @@ SELECT
     col1, SUM(intCol) OVER() as sum FROM table
 ```
 
+### is\_partitioned\_by\_window\_keys
+
+Type: Boolean
+
+Default: planner chosen
+
+Use this hint on window queries with a `PARTITION BY` clause to control whether Pinot treats the input as already partitioned by the window keys. It applies to both `PARTITION BY` windows and `PARTITION BY ... ORDER BY ...` windows.
+
+* `true`: Force a pre-partitioned exchange under the window and avoid a shuffle.
+* `false`: Disable auto-detected pre-partitioning and force a regular shuffle.
+
+If the input table is explicitly partitioned by the same key, prefer declaring that at the table scan with `tableOptions(partition_function='hashcode', partition_key='user_id', partition_size='4')`. Pinot can then infer the pre-partitioned plan without forcing it.
+
+Use `is_partitioned_by_window_keys='true'` when you know the input is already partitioned by the window's `PARTITION BY` keys but Pinot cannot infer it, such as with implicit partitioning or when comparing plans during query tuning. Use `is_partitioned_by_window_keys='false'` when you want to disable inferred pre-partitioning for debugging or benchmarking.
+
+{% hint style="warning" %}
+Caution: Only set `is_partitioned_by_window_keys='true'` when the data is actually partitioned by the window keys. If matching rows are split across workers, Pinot will evaluate separate partial windows and return incorrect results.
+{% endhint %}
+
+Example:
+
+```sql
+SELECT
+/*+ windowOptions(is_partitioned_by_window_keys='true') */
+    user_id,
+    event_time,
+    ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY event_time DESC)
+FROM events
+```
+
+Disable the pre-partitioned plan and fall back to a shuffle:
+
+```sql
+SELECT
+/*+ windowOptions(is_partitioned_by_window_keys='false') */
+    user_id,
+    SUM(metric) OVER (PARTITION BY user_id)
+FROM events /*+ tableOptions(partition_function='hashcode', partition_key='user_id', partition_size='4') */
+```
+
 ### max\_rows\_in\_window
 
 Type: Integer
