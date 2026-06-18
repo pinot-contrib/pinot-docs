@@ -105,6 +105,32 @@ You can set the following configs in your Pinot Broker.
 | pinot.broker.multistage.use.lite.mode | false | Default value of the query option `useLiteMode`. |
 | pinot.broker.multistage.run.in.broker | true | Whether to run the non-leaf stages in the broker by default. This controls the default value of the query option `runInBroker`. |
 
+### Runtime warnings for implicit leaf-stage limits
+
+Lite Mode can enforce a leaf-stage hard limit even when your SQL text does not include a `LIMIT`. This happens when Pinot injects an implicit leaf-stage limit during planning, such as by adding a leaf-stage `PhysicalSort(fetch=...)` or by applying the same hard limit to a leaf-stage aggregate.
+
+When that implicit limit is active, the multi-stage broker response includes the following fields:
+
+| Field | Meaning |
+| --- | --- |
+| `mseLiteLeafStageLimitReached` | `true` when at least one leaf-stage worker hit the implicit limit at execution time. When this is `true`, the result is incomplete and Pinot also sets `partialResult=true`. |
+| `mseLiteLeafStageEffectiveLimit` | The effective per-worker limit used for the implicit leaf-stage cap. This field is present only when Pinot injected the implicit limit. |
+| `mseLiteFanOutAdjustedLimitApplied` | `true` when the effective limit came from `liteModeLeafStageFanOutAdjustedLimit` after Pinot divided it across leaf-stage workers. `false` means Pinot used the normal `liteModeLeafStageLimit` value. This field is present only when Pinot injected the implicit limit. |
+
+If Pinot injected the implicit limit but no worker actually hit it, `mseLiteLeafStageLimitReached` remains `false` and Lite Mode does not mark the response as partial for this reason.
+
+Example response when the implicit limit is binding:
+
+```json
+{
+  "numRowsResultSet": 8,
+  "partialResult": true,
+  "mseLiteLeafStageLimitReached": true,
+  "mseLiteLeafStageEffectiveLimit": 2,
+  "mseLiteFanOutAdjustedLimitApplied": false
+}
+```
+
 ### FAQ
 
 #### Q1: What is the Lite Mode intended for?

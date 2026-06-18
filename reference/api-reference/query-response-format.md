@@ -49,7 +49,10 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 | `numDocsScanned` | Number of documents selected after filtering |
 | `numEntriesScannedInFilter` | Filter-phase entries scanned |
 | `numEntriesScannedPostFilter` | Post-filter entries scanned |
-| `partialResult` | Whether Pinot returned a partial result instead of a fully complete answer |
+| `partialResult` | Whether Pinot returned a partial result instead of a fully complete answer. For MSE Lite queries, this also becomes `true` when `mseLiteLeafStageLimitReached=true`. |
+| `mseLiteLeafStageLimitReached` | Multi-stage Lite Mode flag that indicates Pinot hit a broker-injected implicit leaf-stage limit on at least one worker. When this is `true`, the response is truncated and `partialResult` is also `true`. |
+| `mseLiteLeafStageEffectiveLimit` | For MSE Lite queries where Pinot injected an implicit leaf-stage limit, the effective per-worker limit that Pinot enforced. |
+| `mseLiteFanOutAdjustedLimitApplied` | For MSE Lite queries where Pinot injected an implicit leaf-stage limit, whether the effective limit came from `liteModeLeafStageFanOutAdjustedLimit` instead of the base `liteModeLeafStageLimit`. |
 | `earlyTerminationReasons` | Multi-stage V2 response field listing early-termination reasons such as `DISTINCT_MAX_ROWS` |
 | `maxRowsInDistinctReached` | Single-stage DISTINCT flag indicating the `maxRowsInDistinct` budget was exceeded |
 | `maxRowsWithoutChangeInDistinctReached` | Single-stage DISTINCT flag indicating the `maxRowsWithoutChangeInDistinct` budget was exceeded |
@@ -64,6 +67,11 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 For DISTINCT early termination, the response shape depends on the engine. Single-stage responses use the legacy
 boolean fields such as `maxRowsInDistinctReached`, while multi-stage V2 responses surface the same condition through
 `partialResult=true` plus `earlyTerminationReasons`.
+
+The Lite Mode warning fields are specific to multi-stage V2 responses. `mseLiteLeafStageLimitReached` is always present
+as a boolean, while `mseLiteLeafStageEffectiveLimit` and `mseLiteFanOutAdjustedLimitApplied` appear only when Pinot
+actually injected the implicit leaf-stage limit for that query. A response can therefore show an effective limit with
+`mseLiteLeafStageLimitReached=false`, which means the guardrail was active but did not truncate that execution.
 
 For single-stage queries, `serverStats` is a semicolon-delimited string with a header row followed by one entry per server. The header names the metrics in order:
 
