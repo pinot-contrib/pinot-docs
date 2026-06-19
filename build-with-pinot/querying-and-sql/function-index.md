@@ -103,6 +103,7 @@ For full details, see [String Functions](../../functions/string/).
 | [`SPLITPART`](../../functions/string/splitpart.md) | `SPLITPART(str, delimiter, index)` or `SPLITPART(str, delimiter, limit, index)` | STRING | Returns the selected element after splitting; negative indices count from the end | Both |
 | `SUBSTRINGINDEX` / `SUBSTRING_INDEX` | `SUBSTRINGINDEX(str, delimiter, count)` | STRING | Returns text before the Nth delimiter, or after it when count is negative | Both |
 | `FIRSTLINE` | `FIRSTLINE(str)` | STRING | Returns the first line using `\n`, `\r\n`, or `\r` as delimiters | Both |
+| `OVERLAY` | `OVERLAY(str, replacement, start [, length])` | STRING | SQL-standard overlay semantics with 1-based start positions; omitted `length` defaults to the replacement length | Both |
 | `REPEAT` | `REPEAT(str, times)` | STRING | Repeats string N times | Both |
 | `REGEXPCOUNT` / `REGEXP_COUNT` | `REGEXPCOUNT(str, pattern)` | INT | Counts non-overlapping regex matches | Both |
 | `REGEXPSUBSTR` / `REGEXP_SUBSTR` | `REGEXPSUBSTR(str, pattern)` | STRING | Returns the first regex match, or null if none | Both |

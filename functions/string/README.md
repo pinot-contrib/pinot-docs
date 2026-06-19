@@ -145,6 +145,16 @@ Returns the rightmost `length` characters from the input string.
 Usage: `rightSubStr(col, length)` or `right(col, length)`\
 Example: `SELECT rightSubStr('hello', 3) FROM myTable` returns `'llo'`
 
+**overlay(str, replacement, start)** / **overlay(str, replacement, start, length)**\
+Implements SQL-standard `OVERLAY` semantics using Pinot function-call syntax. Replaces characters in `str` starting at the 1-based `start` position with `replacement`. When `length` is omitted, Pinot replaces `length(replacement)` characters.
+
+`start` is clamped to the valid range `[1, length(str) + 1]`, so values before the string begin at the first character and values beyond the end append `replacement`. `length = 0` performs insertion without deleting characters, and large `length` values delete only through the end of the string.
+
+Usage: `overlay(str, replacement, start)` or `overlay(str, replacement, start, length)`\
+Example: `SELECT overlay('hello world', 'there', 7) FROM myTable` returns `'hello there'`\
+Example: `SELECT overlay('abcdef', 'XY', 3, 0) FROM myTable` returns `'abXYcdef'`\
+Example: `SELECT overlay('abc', 'XY', 10) FROM myTable` returns `'abcXY'`
+
 **repeat(col, times)** / **repeat(col, separator, times)**\
 Concatenates the input string to itself the specified number of times. When a `separator` is provided, it is placed between each repetition.
 
