@@ -1036,6 +1036,16 @@ Putting these together, you can find the table configurations of the quick start
 Pinot server maintains a primary key to record location map across all the segments served in an upsert-enabled table. As a result, when updating the config for an existing upsert table (e.g. change the columns in the primary key, change the comparison column), servers need to be restarted in order to apply the changes and rebuild the map.
 {% endhint %}
 
+### Realtime ingestion OOM protection
+
+Pinot can apply server-side realtime ingestion backpressure when JVM heap usage is high. The default server mode
+`pinot.server.instance.ingestion.oom.protection.mode=DISABLE` leaves the feature off; set it to
+`UPSERT_DEDUP_ONLY` to protect realtime upsert and dedup tables by default, or use
+`ingestionConfig.streamIngestionConfig.oomProtection` to opt an individual table in or out.
+
+For the full configuration keys, defaults, runtime behavior, and metric, see
+[OOM Protection Using Automatic Query Killing](../../../operate-pinot/oom-protection-using-automatic-query-killing.md#realtime-ingestion-oom-protection-on-servers).
+
 ### Parallel consumption during commit, download, and replacement
 
 For partial upsert tables, Pinot can pause the next consuming segment while the previous segment is still being finalized so that replicas do not advance with different merged-row state during commit handling.

@@ -243,6 +243,83 @@ In critical mode, queries below a certain threshold (expressed as a ratio of tot
 pinot.query.scheduler.accounting.min.memory.footprint.to.kill.ratio=0.025 (default)
 ```
 
+### Realtime Ingestion OOM Protection on Servers
+
+Pinot servers can also apply heap-based backpressure to realtime ingestion. This path is separate from automatic query
+killing: it uses the same JVM heap signal, but instead of selecting a query victim, the server waits before the next
+realtime fetch while heap usage stays above the configured threshold.
+
+**Off by default.** With the default mode `DISABLE`, Pinot does not hold realtime ingestion unless a table explicitly
+opts in.
+
+Set the server-level policy in the server instance config:
+
+```properties
+pinot.server.instance.ingestion.oom.protection.mode=UPSERT_DEDUP_ONLY
+pinot.server.instance.ingestion.oom.protection.heapUsageThrottleThreshold=0.95
+pinot.server.instance.ingestion.oom.protection.heapUsageRecoveryThreshold=0.90
+pinot.server.instance.ingestion.oom.protection.checkIntervalMs=1000
+pinot.server.instance.ingestion.oom.protection.gcIntervalMs=30000
+```
+
+The same full `pinot.server.instance.*` keys can also be set through Pinot cluster config. Cluster config values
+override the server instance config while they are present, and servers reload them at runtime without a restart.
+
+#### Server Modes
+
+| Mode | Effect |
+| --- | --- |
+| `ENABLE` | Protect all realtime tables unless a table sets `oomProtection=DISABLE`. |
+| `UPSERT_DEDUP_ONLY` | Protect only upsert and dedup realtime tables unless a table opts in or out. |
+| `DISABLE` | Leave the server policy off unless a table sets `oomProtection=ENABLE`. |
+
+#### Server Configuration
+
+| Property | Default | Description |
+| --- | --- | --- |
+| `pinot.server.instance.ingestion.oom.protection.mode` | `DISABLE` | Server-wide policy. Valid values are `ENABLE`, `UPSERT_DEDUP_ONLY`, and `DISABLE`. |
+| `pinot.server.instance.ingestion.oom.protection.heapUsageThrottleThreshold` | `0.95` | Heap usage ratio that starts realtime ingestion backpressure. |
+| `pinot.server.instance.ingestion.oom.protection.heapUsageRecoveryThreshold` | `0.90` | Heap usage ratio at or below which ingestion resumes. This value must be lower than `heapUsageThrottleThreshold`. |
+| `pinot.server.instance.ingestion.oom.protection.checkIntervalMs` | `1000` | Wait interval, in milliseconds, between throttle checks while a consuming thread is paused. |
+| `pinot.server.instance.ingestion.oom.protection.gcIntervalMs` | `30000` | Minimum interval, in milliseconds, between explicit JVM GC requests while throttled. Set to `0` or a negative value to disable the explicit GC request. |
+
+#### Table Override
+
+Each realtime table can override the server policy under `ingestionConfig.streamIngestionConfig`:
+
+```json
+{
+  "ingestionConfig": {
+    "streamIngestionConfig": {
+      "oomProtection": "ENABLE"
+    }
+  }
+}
+```
+
+`oomProtection` supports the following values:
+
+* `DEFAULT` (default): Follow the server mode.
+* `ENABLE`: Protect this realtime table even when the server mode is `DISABLE` or would otherwise skip it.
+* `DISABLE`: Skip protection for this realtime table even when the server mode would protect it.
+
+Thresholds remain server-level only and are shared by all enrolled consuming threads on the server.
+
+#### Runtime Behavior
+
+When protection is active for a realtime segment, the server waits before the next stream fetch instead of advancing
+ingestion into higher heap pressure. Pinot rechecks the shared throttle state every `checkIntervalMs` and resumes
+ingestion after heap usage drops to the recovery threshold.
+
+* The protection applies only while a segment is in `INITIAL_CONSUMING`; catch-up paths do not wait on this guard.
+* The throttle is server-local. It does not pause the table through controller APIs, and stream offsets do not advance while Pinot is waiting to fetch the next batch.
+* Pinot uses hysteresis: throttling starts when heap usage is at or above `heapUsageThrottleThreshold` and releases when heap usage drops to `heapUsageRecoveryThreshold` or lower.
+* While throttled, Pinot can request `System.gc()` at most once every `gcIntervalMs`.
+* Pinot rechecks stop and segment-end conditions between waits, so force commits and normal segment rollover still proceed.
+
+Monitor the global server gauge `REALTIME_INGESTION_OOM_PROTECTION_ACTIVE`, which is `1` while the realtime ingestion
+throttle is active and `0` otherwise.
+
 ## Configuration
 
 Here are the configurations that can be commonly applied to server/broker:
@@ -286,6 +363,7 @@ QUERIES_KILLED_SCAN
 QUERIES_KILLED_SCAN_DRY_RUN
 QUERIES_KILLED_SCAN_ERROR
 JVM_HEAP_USED_BYTES
+REALTIME_INGESTION_OOM_PROTECTION_ACTIVE
 HEAP_CRITICAL_LEVEL_EXCEEDED
 HEAP_PANIC_LEVEL_EXCEEDED
 ```
