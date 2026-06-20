@@ -54,6 +54,9 @@ FROM table_reference
 [ OPTION ( key = value [, key = value ]* ) ]
 ```
 
+In the single-stage engine (SSE), the `GROUP BY` clause also accepts grouping constructs such as
+`ROLLUP(...)`, `CUBE(...)`, and `GROUPING SETS (...)`. See [GROUP BY](#group-by) for syntax and limits.
+
 ### Column Expressions
 
 A `select_expression` can be any of the following:
@@ -300,6 +303,67 @@ GROUP BY city
 - Every non-aggregated column in the `SELECT` list must appear in the `GROUP BY` clause.
 - Aggregation functions and non-aggregation columns cannot be mixed in the `SELECT` list without a `GROUP BY`.
 - Aggregate expressions are not allowed inside the `GROUP BY` clause.
+
+### GROUPING SETS, ROLLUP, and CUBE (SSE Only)
+
+Pinot's single-stage engine also supports grouped subtotal queries:
+
+```sql
+SELECT country, city, SUM(revenue) AS total_revenue
+FROM sales
+GROUP BY ROLLUP(country, city)
+```
+
+Use the following forms:
+
+- `GROUP BY ROLLUP(a, b, c)` expands to `GROUPING SETS ((a, b, c), (a, b), (a), ())`
+- `GROUP BY CUBE(a, b, c)` expands to every combination of those grouping columns
+- `GROUP BY GROUPING SETS ((a, b), (a), ())` uses exactly the grouping sets you list
+- `GROUP BY a, ROLLUP(b, c)` is valid; Pinot cross-multiplies plain keys with grouping constructs
+
+`()` represents the grand-total grouping set. Pinot de-duplicates repeated grouping sets, so
+`GROUPING SETS ((a), (a), ())` returns only one `(a)` subtotal.
+
+{% hint style="warning" %}
+`GROUPING SETS`, `ROLLUP`, and `CUBE` currently run only on the single-stage engine. Do not set
+`useMultistageEngine=true` for these queries.
+{% endhint %}
+
+```sql
+SELECT country, city, SUM(revenue) AS total_revenue
+FROM sales
+GROUP BY GROUPING SETS ((country, city), (country), ())
+```
+
+Important limits and caveats:
+
+- Pinot requires at least one aggregation function somewhere in the query (`SELECT`, `HAVING`, or `ORDER BY`)
+- A query can reference at most `31` distinct grouping columns and expand to at most `4096` grouping sets
+- `DISTINCT` is not supported together with `GROUPING SETS`, `ROLLUP`, or `CUBE`
+- Rolled-up columns are returned as real `NULL` values even when null handling is disabled
+- Existing non-grouping-set queries remain wire-compatible during a rolling upgrade, but do not issue grouping-set queries until all servers are upgraded
+
+### GROUPING() and GROUPING_ID() (SSE Only)
+
+Use `GROUPING()` and `GROUPING_ID()` to tell subtotal rows apart from genuine data `NULL`s:
+
+```sql
+SELECT
+  country,
+  city,
+  SUM(revenue) AS total_revenue,
+  GROUPING(country) AS country_rolled_up,
+  GROUPING(city) AS city_rolled_up,
+  GROUPING_ID(country, city) AS grouping_id
+FROM sales
+GROUP BY ROLLUP(country, city)
+ORDER BY GROUPING_ID(country, city)
+```
+
+- `GROUPING(col)` returns `1` when `col` is rolled up in the current row and `0` otherwise
+- `GROUPING_ID(c1, c2, ...)` returns the grouping bitmask, with the first argument as the most significant bit
+- Each argument must also appear in the `GROUP BY` columns for the query
+- Pinot supports these functions in `SELECT`, `HAVING`, and `ORDER BY`
 
 ---
 
@@ -683,6 +747,8 @@ The following table summarizes feature support across the single-stage engine (S
 | Feature | SSE | MSE |
 |---|---|---|
 | SELECT, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT | Yes | Yes |
+| GROUPING SETS / ROLLUP / CUBE | Yes | No |
+| GROUPING() / GROUPING_ID() | Yes | No |
 | DISTINCT | Yes | Yes |
 | Aggregation functions | Yes | Yes |
 | CASE WHEN | Yes | Yes |
