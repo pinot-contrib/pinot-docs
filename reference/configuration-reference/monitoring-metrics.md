@@ -63,8 +63,12 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | GRPC_TOTAL_USED_DIRECT_MEMORY | Current direct memory allocated by the shaded Netty runtime used by the server gRPC query service and MSE mailbox traffic |  |
 | MAILBOX_CLIENT_USED_DIRECT_MEMORY | Current direct memory pinned by the server's outbound MSE mailbox gRPC clients |  |
 | MAILBOX_CLIENT_USED_HEAP_MEMORY | Current heap memory pinned by the server's outbound MSE mailbox gRPC clients |  |
-| STARTUP_SUCCESS_DURATION_MS | Time spent starting the server when startup finishes in a healthy state |  |
-| STARTUP_FAILURE_DURATION_MS | Time spent starting the server when startup finishes in an unhealthy state |  |
+| STARTUP_STATUS_CHECK_IN_PROGRESS | Global gauge that is `1` while the startup service-status checks are running and `0` after they finish. | Gauge |
+| STARTUP_CURRENT_STATE_MATCH_TIME_MS | Global gauge for the time in milliseconds from startup checker registration until the ideal-state/current-state match check first reports `GOOD`. | Gauge |
+| STARTUP_EXTERNAL_VIEW_MATCH_TIME_MS | Global gauge for the time in milliseconds from startup checker registration until the ideal-state/external-view match check first reports `GOOD`. | Gauge |
+| STARTUP_REALTIME_CONSUMPTION_CATCHUP_TIME_MS | Global gauge for the time in milliseconds from startup checker registration until the realtime consumption catchup check first reports `GOOD`. Pinot emits this gauge only for the offset-based and freshness-based realtime catchup checkers; the static wait path does not set it. | Gauge |
+| STARTUP_SUCCESS_DURATION_MS | Timer for the total time spent starting the server when startup finishes in a healthy state. | Timer |
+| STARTUP_FAILURE_DURATION_MS | Timer for the total time spent starting the server when startup finishes in an unhealthy state. | Timer |
 | EXECUTION_THREAD_CPU_TIME_NS | time spent by all threads processing query and results (doesn't includes time spent in system activities) |  |
 | SYSTEM_ACTIVITIES_CPU_TIME_NS | time spent in nanoseconds processing query on the servers (only counts system acitivities such as GC, OS paging etc.) |  |
 | RESPONSE_SER_CPU_TIME_NS | time spent in nanoseconds serializing query response on servers |  |
