@@ -31,6 +31,17 @@ Pinot will wait up to 10 minutes for all server startup operations to complete. 
 
 Waiting for Ideal State to match External State is not configurable. If `enableServiceStatusCheck=true`, this will always be one of the checks.
 
+## Monitoring Startup Checker Timing
+
+Pinot exposes server-level startup gauges so you can see which checks are still blocking readiness and how long each one took to first report healthy:
+
+* `STARTUP_STATUS_CHECK_IN_PROGRESS` is `1` while startup service-status polling is running and `0` after it finishes.
+* `STARTUP_CURRENT_STATE_MATCH_TIME_MS` records how long it took the ideal-state/current-state check to first report `GOOD`.
+* `STARTUP_EXTERNAL_VIEW_MATCH_TIME_MS` records how long it took the ideal-state/external-view check to first report `GOOD`.
+* `STARTUP_REALTIME_CONSUMPTION_CATCHUP_TIME_MS` records how long it took the realtime catchup check to first report `GOOD` when you use the offset-based or freshness-based checker.
+
+Pinot does not emit `STARTUP_REALTIME_CONSUMPTION_CATCHUP_TIME_MS` for the static wait mode because that path becomes healthy strictly from wall-clock time elapsed, not from observed catchup progress.
+
 ## Static Consumption Wait
 
 The most basic startup check is the static one. It is configured by the following:
