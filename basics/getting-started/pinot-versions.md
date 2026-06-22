@@ -9,7 +9,7 @@ description: Current Apache Pinot release version and how to pin versions in exa
 Know which Pinot version to use and how to pin versions in examples.
 
 {% hint style="warning" %}
-All code samples in the **Start Here** guide use `PINOT_VERSION=1.5.0`. If you are using a different version, set the variable accordingly before running any commands.
+All code samples in the **Start Here** guide use `PINOT_VERSION=1.5.1`. If you are using a different version, set the variable accordingly before running any commands.
 {% endhint %}
 
 This page is the single source of truth for version information across the Start Here guide and the wider documentation. When following tutorials or code samples, make sure the version you use matches your installed release.
@@ -18,16 +18,16 @@ This page is the single source of truth for version information across the Start
 
 | Artifact | Version |
 | --- | --- |
-| Apache Pinot binary | **1.5.0** |
-| Docker image | `apachepinot/pinot:1.5.0` |
-| Maven / Gradle clients | `1.5.0` |
+| Apache Pinot binary | **1.5.1** |
+| Docker image | `apachepinot/pinot:1.5.1` |
+| Maven / Gradle clients | `1.5.1` |
 
 ## Using PINOT\_VERSION in examples
 
 Most code samples in these docs set a `PINOT_VERSION` environment variable near the top of each snippet. Always verify that the value matches your installed version:
 
 ```bash
-export PINOT_VERSION=1.5.0
+export PINOT_VERSION=1.5.1
 
 # Then use ${PINOT_VERSION} in commands:
 docker pull apachepinot/pinot:${PINOT_VERSION}

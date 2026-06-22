@@ -22,7 +22,7 @@ Start a multi-component Pinot cluster using Docker, suitable for local evaluatio
 ### 1. Set the image versions
 
 ```bash
-export PINOT_VERSION=1.5.0
+export PINOT_VERSION=1.5.1
 export PINOT_IMAGE=apachepinot/pinot:${PINOT_VERSION}
 export ZK_IMAGE=zookeeper:3.9.5
 export KAFKA_IMAGE=apache/kafka:4.0.0
@@ -68,7 +68,7 @@ services:
       start_period: 10s
 
   pinot-controller:
-    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.0}
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.1}
     command: "StartController -zkAddress pinot-zookeeper:2181"
     container_name: "pinot-controller"
     restart: unless-stopped
@@ -89,7 +89,7 @@ services:
       start_period: 10s
 
   pinot-broker:
-    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.0}
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.1}
     command: "StartBroker -zkAddress pinot-zookeeper:2181"
     container_name: "pinot-broker"
     restart: unless-stopped
@@ -110,7 +110,7 @@ services:
       start_period: 10s
 
   pinot-server:
-    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.0}
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.1}
     command: "StartServer -zkAddress pinot-zookeeper:2181"
     container_name: "pinot-server"
     restart: unless-stopped
@@ -131,7 +131,7 @@ services:
       start_period: 10s
 
   pinot-minion:
-    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.0}
+    image: ${PINOT_IMAGE:-apachepinot/pinot:1.5.1}
     command: "StartMinion -zkAddress pinot-zookeeper:2181"
     restart: unless-stopped
     container_name: "pinot-minion"

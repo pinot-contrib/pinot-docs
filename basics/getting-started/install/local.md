@@ -24,7 +24,7 @@ Start a multi-component Pinot cluster directly on your machine without container
 {% tabs %}
 {% tab title="Download release" %}
 ```bash
-export PINOT_VERSION=1.5.0
+export PINOT_VERSION=1.5.1
 
 wget https://downloads.apache.org/pinot/apache-pinot-${PINOT_VERSION}/apache-pinot-${PINOT_VERSION}-bin.tar.gz
 ```

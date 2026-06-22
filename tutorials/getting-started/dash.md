@@ -46,7 +46,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
   pinot-controller:
-    image: apachepinot/pinot:1.5.0
+    image: apachepinot/pinot:1.5.1
     command: "StartController -zkAddress zookeeper-wiki:2181 -dataDir /data"
     container_name: "pinot-controller-wiki"
     volumes:
@@ -58,7 +58,7 @@ services:
     depends_on:
       - zookeeper
   pinot-broker:
-    image: apachepinot/pinot:1.5.0
+    image: apachepinot/pinot:1.5.1
     command: "StartBroker -zkAddress zookeeper-wiki:2181"
     restart: unless-stopped
     container_name: "pinot-broker-wiki"
@@ -69,7 +69,7 @@ services:
     depends_on:
       - pinot-controller
   pinot-server:
-    image: apachepinot/pinot:1.5.0
+    image: apachepinot/pinot:1.5.1
     command: "StartServer -zkAddress zookeeper-wiki:2181"
     restart: unless-stopped
     container_name: "pinot-server-wiki"
