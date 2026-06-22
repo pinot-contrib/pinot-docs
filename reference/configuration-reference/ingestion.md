@@ -14,9 +14,55 @@ The ingestion configuration (`ingestionConfig`) is a section of the [table confi
 | --- | --- |
 | `streamIngestionConfig` | See the [streamIngestionConfig](ingestion.md#streamingestionconfig) section for details. |
 | `batchIngestionConfig` | See the [batchIngestionConfig](ingestion.md#batchingestionconfig) section for details. |
+| `sourceFieldConfigs` | See the [sourceFieldConfigs](ingestion.md#sourcefieldconfigs) section for details. |
 | `continueOnError` | Set to `true` to skip any row indexing error and move on to the next row. Otherwise, an error evaluating a transform or filter function may block ingestion (real-time or offline), and result in data loss or corruption. Consider your use case to determine if it's preferable to set this option to `false`, and fail the ingestion if an error occurs to maintain data integrity. |
 | `rowTimeValueCheck` | Set to `true` to validate the time column values ingested during segment upload. Validates each row of data in a segment matches the specified time format, and falls within a valid time range (1971-2071). If the value doesn't meet both criteria, Pinot replaces the value with null. This option ensures that the time values are strictly increasing and that there are no duplicates or gaps in the data. |
 | `segmentTimeValueCheck` | Set to `true` to validate the time range of the segment falls between 1971 and 2071. This option ensures data segments stored in the system are correct and consistent. |
+
+## `sourceFieldConfigs`
+
+Use `sourceFieldConfigs` to fix the data type of a source field before later ingestion steps consume it. This is useful when the input record carries a value in a type that a downstream enricher or transform does not expect, such as a timestamp arriving as a `String` when a transform expects a `LONG`.
+
+Pinot applies these conversions with a `DataTypeTransformer` in one of two phases:
+
+- `preComplexTypeTransform: true` runs before the complex-type transformer and before pre-complex-type enrichers. Use this when complex-type flattening or pre-complex-type enrichment needs the corrected type.
+- `preComplexTypeTransform: false` runs after the complex-type transformer and before post-complex-type enrichers and expression transforms. This is the default.
+
+Each entry in `sourceFieldConfigs` has the following shape:
+
+| Config key | Description | Required |
+| --- | --- | --- |
+| `name` | Source field name to convert. The field does not need to be a schema column. | Yes |
+| `dataType` | Target Pinot data type name, such as `INT`, `LONG`, `STRING`, or `LONG_ARRAY`. | Yes |
+| `preComplexTypeTransform` | Selects whether the conversion runs before or after complex-type transformation. Defaults to `false`. | No |
+
+Pinot validates `sourceFieldConfigs` per phase. The same source field can appear once with `preComplexTypeTransform: true` and once with `preComplexTypeTransform: false`, but it cannot appear twice in the same phase.
+
+### Example
+
+```json
+"ingestionConfig": {
+  "sourceFieldConfigs": [
+    {
+      "name": "ts",
+      "dataType": "LONG"
+    },
+    {
+      "name": "rawId",
+      "dataType": "LONG",
+      "preComplexTypeTransform": true
+    }
+  ],
+  "transformConfigs": [
+    {
+      "columnName": "eventDay",
+      "transformFunction": "toEpochDays(ts)"
+    }
+  ]
+}
+```
+
+In this example, Pinot converts `ts` to `LONG` before `toEpochDays(ts)` runs. It converts `rawId` to `LONG` even earlier, before complex-type transformation and before any pre-complex-type enricher consumes the field.
 
 ## `streamConfigMaps`
 
