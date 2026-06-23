@@ -38,6 +38,8 @@ Once the minion receives a task to execute, it does the following steps:
 6. Sort records if sorting is enabled in the table config
 7. Uploads new segments to the Pinot controller.
 
+For upsert-enabled tables, the task fetches valid document IDs from the servers to exclude stale versions of updated records, ensuring only the latest version of each record is included in the offline segments.
+
 Managed offline flows moves records from the real-time table to the offline table one `time window` at a time. For example, if the real-time table has records with timestamp starting 10-24-2020T13:56:00, then the Pinot managed offline flows will move records for the time window \[10-24-2020, 10-25-2020) in the first run, followed by \[10-25-2020, 10-26-2020) in the next run, followed by \[10-26-2020, 10-27-2020) in the next run, and so on. This **window length** of one day is just the default, and it can be configured to any length of your choice.
 
 The task only moves completed (`ONLINE`) segments of the real-time table. If the window's data falls into the `CONSUMING` segment, the task skips that run will be skipped.
@@ -70,9 +72,20 @@ The task only moves completed (`ONLINE`) segments of the real-time table. If the
   }
 ```
 
-3. Create the corresponding offline table.
-4. Enable the `PinotTaskManager` periodic task using one of the two methods described in [Auto-schedule](../basics/components/cluster/minion.md#auto-schedule).
-5. Restart the controller.
+3. For upsert tables, ensure snapshot recovery is enabled in the upsert config:
+
+```json
+"upsertConfig": {
+    "mode": "FULL",
+    "snapshot": "ENABLE"
+}
+```
+
+The task fetches valid document IDs from servers to filter out stale records. This requires `snapshot` to not be set to `DISABLE`. See [upsert snapshot](../build-with-pinot/ingestion/upsert-and-dedup/upsert.md#snapshot-and-recovery) for details.
+
+4. Create the corresponding offline table.
+5. Enable the `PinotTaskManager` periodic task using one of the two methods described in [Auto-schedule](../basics/components/cluster/minion.md#auto-schedule).
+6. Restart the controller.
 
 ## `taskTypeConfigsMap.RealtimeToOfflineSegmentsTask` configuration
 
@@ -89,6 +102,7 @@ The task only moves completed (`ONLINE`) segments of the real-time table. If the
 | aggregationFunctionParameters.{metricName}.samplingProbability | Configure the sampling probability for a `Theta` sketch metric, providing more control over sampling when merging different time buckets. This can reduce storage when historical data does not require high precision.                                                                                                                                    | `1.0` (no sampling) |
 | aggregationFunctionParameters.{metricName}.lgK | Configure the `lgK` value for a `CPC` DataSketch metric, providing more control over how sketches are merged in different time buckets. This can reduce storage when historical data does not require high precision.                                                                                                                                                 | `12` |
 | maxNumRecordsPerSegment      | Determines the maximum number of records allowed in a  generated segment. Useful if the time window has many records, but you don't want them all in the same segment.                                                                                                                                                                                                                | 5,000,000 |
+| numSegmentsBatchPerServerRequest | For upsert tables only. Number of segments to include in each batch when fetching valid document IDs from servers. Tune this if you have a large number of segments per time window.                                                                                                                                                                                              | 500       |
 ```
 
 For `firstWithTime` and `lastWithTime`, the configured column must be a metric column, and the table time column must have a DateTime spec in the schema. Ordering is exact within a single rollup pass because Pinot uses the original pre-rounding time, but ordering becomes approximate across multi-pass merges or re-merges because earlier passes keep only the rounded bucket time. If multiple rows in a rollup group have the same timestamp, either value can be chosen. Upgrade all minions before enabling these aggregation types, or older minions will fail the task.
