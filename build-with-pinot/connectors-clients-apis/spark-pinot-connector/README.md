@@ -49,8 +49,8 @@ data.show(100)
 
 ### Security Configuration
 
-{% hint style="warning" %}
-This feature is supported after 1.4.0 release, please use current master or wait for 1.5.0
+{% hint style="info" %}
+Available since Pinot 1.5.0.
 {% endhint %}
 
 You can secure both HTTP and gRPC using a unified switch or explicit flags.
@@ -118,8 +118,8 @@ val data = spark.read
 
 ### Authentication Support
 
-{% hint style="warning" %}
-This feature is supported after 1.4.0 release, please use current master or wait for 1.5.0
+{% hint style="info" %}
+Available since Pinot 1.5.0.
 {% endhint %}
 
 The connector supports custom authentication headers for secure access to Pinot clusters:
@@ -154,8 +154,8 @@ val data = spark.read
 
 #### Authentication Configuration Options
 
-{% hint style="warning" %}
-This feature is supported after 1.4.0 release, please use current master or wait for 1.5.0
+{% hint style="info" %}
+Available since Pinot 1.5.0.
 {% endhint %}
 
 | Option       | Description                       | Required | Default                                        |
@@ -167,8 +167,8 @@ This feature is supported after 1.4.0 release, please use current master or wait
 
 ### Pinot Proxy Support
 
-{% hint style="warning" %}
-This feature is supported after 1.4.0 release, please use current master or wait for 1.5.0
+{% hint style="info" %}
+Available since Pinot 1.5.0.
 {% endhint %}
 
 The connector supports Pinot Proxy for secure cluster access where the proxy is the only exposed endpoint. When proxy is enabled, all HTTP requests to controllers/brokers and gRPC requests to servers are routed through the proxy.
@@ -216,8 +216,8 @@ val data = spark.read
 
 ### gRPC Configuration
 
-{% hint style="warning" %}
-This feature is supported after 1.4.0 release, please use current master or wait for 1.5.0
+{% hint style="info" %}
+Available since Pinot 1.5.0.
 {% endhint %}
 
 The connector supports comprehensive gRPC configuration for secure and optimized communication with Pinot servers.
@@ -459,8 +459,8 @@ This example demonstrates how to use the Pinot Spark 3 Connector to read data fr
 
 ### Security Best Practices
 
-{% hint style="warning" %}
-This feature is supported after 1.4.0 release, please use current master or wait for 1.5.0
+{% hint style="info" %}
+Available since Pinot 1.5.0.
 {% endhint %}
 
 #### Production HTTPS Configuration
