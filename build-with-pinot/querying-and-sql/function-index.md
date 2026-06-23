@@ -418,6 +418,7 @@ For full details, see [IP Address Functions](../../functions/ip-address/).
 | `IPSUBNETMAX` | `IPSUBNETMAX(prefix)` | STRING | Returns highest IP in subnet | Both |
 | `ISIPV4STRING` | `ISIPV4STRING(ip)` | BOOLEAN | Checks whether the input is a plain IPv4 address string | Both |
 | `ISIPV6STRING` | `ISIPV6STRING(ip)` | BOOLEAN | Checks whether the input is a plain IPv6 address string | Both |
+| `ISPRIVATEIP` / `IS_PRIVATE_IP` | `ISPRIVATEIP(ip)` | BOOLEAN | Checks whether a plain IP address is in Pinot's RFC 1918, loopback, link-local, or IPv6 ULA ranges | Both |
 | `IPFAMILY` / `IP_FAMILY` | `IPFAMILY(ip)` | INT | Returns 4 for IPv4 and 6 for IPv6 | Both |
 | `IPV4TOLONG` | `IPV4TOLONG(ip)` | LONG | Converts an IPv4 string to an unsigned 32-bit long | Both |
 | `LONGTOIPV4` | `LONGTOIPV4(value)` | STRING | Converts an unsigned 32-bit long to IPv4 text | Both |

@@ -88,6 +88,29 @@ SELECT isIPv6String('2001:db8::1') AS valid_v6
 -- Returns true
 ```
 
+## isPrivateIp / is_private_ip
+
+```sql
+isPrivateIp(ipString)
+```
+
+Returns `true` when the input is a plain IPv4 or IPv6 address without a CIDR prefix and it falls into one of these ranges:
+
+- RFC 1918 IPv4: `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`
+- IPv4 loopback: `127.0.0.0/8`
+- IPv4 link-local: `169.254.0.0/16`
+- IPv6 loopback: `::1`
+- IPv6 link-local: `fe80::/10`
+- IPv6 ULA: `fc00::/7`
+
+```sql
+SELECT isPrivateIp(clientIp) AS is_private
+FROM accessLog
+WHERE isPrivateIp(clientIp)
+LIMIT 5
+-- Returns true for addresses such as '10.0.0.1', '127.0.0.1', 'fe80::1', and 'fd00::1'
+```
+
 ## ipFamily / ip_family
 
 ```sql
