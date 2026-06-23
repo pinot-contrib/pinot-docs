@@ -243,3 +243,38 @@ FROM myTable
 LIMIT 1
 -- Returns ['192.168.1.0', '192.168.1.255']
 ```
+
+## isPrivateIp / is\_private\_ip
+
+```sql
+isPrivateIp(ipAddress)
+```
+
+Returns `true` if the IP address belongs to any private or reserved range. Both IPv4 and IPv6 are supported. CIDR notation is not accepted — pass a plain IP address string.
+
+Ranges checked:
+
+| Range | Description |
+| --- | --- |
+| `10.0.0.0/8` | RFC 1918 private |
+| `172.16.0.0/12` | RFC 1918 private |
+| `192.168.0.0/16` | RFC 1918 private |
+| `127.0.0.0/8` | IPv4 loopback |
+| `169.254.0.0/16` | IPv4 link-local |
+| `::1` | IPv6 loopback |
+| `fe80::/10` | IPv6 link-local |
+| `fc00::/7` | IPv6 ULA (covers `fd00::/8`) |
+
+```sql
+-- Filter out internal traffic
+SELECT * FROM access_logs WHERE isPrivateIp(client_ip) = false
+
+-- Classify traffic origin
+SELECT client_ip,
+       isPrivateIp(client_ip) AS is_internal,
+       ipFamily(client_ip)    AS ip_version
+FROM network_events
+
+-- snake_case alias also works
+SELECT is_private_ip(src_ip) FROM firewall_logs
+```
