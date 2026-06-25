@@ -84,6 +84,12 @@ The unnest operator is a streaming operator. It reads rows from its single upstr
 
 For a single unnested array, rows where the column evaluates to `NULL` or to an empty array produce zero output rows. This matches the SQL `CROSS JOIN` semantic (no match = no output row). For multiple arrays in the same `UNNEST` call, Pinot aligns elements by position and pads shorter arrays with `NULL` values.
 
+### Output column pruning
+
+By default, Pinot keeps passthrough columns in the intermediate `UNNEST` output schema, including the source array column. You can opt into pruning unused passthrough columns with `SET unnestColumnPruning=true`, or set `pinot.broker.multistage.unnest.column.pruning=true` to make that the broker default.
+
+This optimization only applies on the logical planner path. Pinot ignores it when `usePhysicalOptimizer=true`, and you should keep it disabled until all servers in the cluster support the smaller `UNNEST` output schema.
+
 ## Hints
 
 None
