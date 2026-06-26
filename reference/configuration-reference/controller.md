@@ -285,6 +285,8 @@ At most one replica is allowed to be unavailable during rebalance unless you ove
 
 This task manages segment status metrics such as realtimeTableCount, offlineTableCount, disableTableCount, numberOfReplicas, percentOfReplicas, percentOfSegments, idealStateZnodeSize, idealStateZnodeByteSize, segmentCount, segmentsInErrorState, tableCompressedSize.
 
+It also emits the per-table `TABLE_TENANT_INFO` gauge for tenant attribution. Pinot registers one gauge per `(tenantType, tenant)` pair and sets each value to `1`: server tenant, broker tenant, and each tier server tenant derived from the table's tier configs. With the bundled controller JMX exporter config, Prometheus exposes these gauges with `table`, `tableType`, `tenantType`, and `tenant` labels so you can join tenant ownership onto other table-scoped metrics.
+
 | Config | Default Value |
 | --- | --- |
 | controller.statuschecker.frequencyPeriod | 5m |

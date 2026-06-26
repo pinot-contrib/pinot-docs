@@ -209,6 +209,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | LLC_ZOOKEEPER_FETCH_FAILURES | Number of Zookeeper metadata fetch requests failed |  |
 | LLC_ZOOKEEPER_UPDATE_FAILURES | Number of Zookeeper metadata update requests failed |  |
 | LLC_STREAM_DATA_LOSS | Indicates data loss for table either due to offsets available to consume from topic larger than the last stored offset in pinot or segment lost in CONSUMING state |  |
+| TABLE_TENANT_INFO | Per-table controller info gauge for tenant attribution. Pinot emits one gauge with value `1` for each `(tenantType, tenant)` pair attached to a table: the server tenant, the broker tenant, and each tier server tenant. With the bundled controller JMX exporter config, Prometheus exposes `table`, `tableType`, `tenantType`, and `tenant` labels so you can join tenant ownership onto other table-scoped metrics. | Gauge |
 | TABLE_WITHOUT_TABLE_CONFIG_COUNT | Number of tables missing a `TableConfig` when startup enforcement is configured not to exit. |  |
 | TABLE_WITHOUT_SCHEMA_COUNT | Number of tables that have a `TableConfig` but no `Schema` when startup enforcement is configured not to exit. |  |
 | HELIX_ZOOKEEPER_RECONNECTS | Number of times broker instance re-connected to zookeeper. |  |
