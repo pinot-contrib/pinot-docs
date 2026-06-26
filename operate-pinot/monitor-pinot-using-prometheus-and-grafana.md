@@ -102,6 +102,8 @@ Then we can query metrics Prometheus scrapped:
 
 ![](../.gitbook/assets/prometheus-query-metrics.png)
 
+The bundled controller exporter config also labels the per-table minion-subtask gauges with `database`, `table`, `tableType`, and `taskType`. That lets you build task-specific panels and alerts for gauges such as `MAX_SUBTASK_WAIT_TIME_MS` and `MAX_SUBTASK_RUNNING_TIME_MS` without hand-maintaining a table-to-task mapping outside Prometheus.
+
 ## Deploy Grafana
 
 Similar to Pinot Helm, we will have Grafana Helm and it's config yaml file:

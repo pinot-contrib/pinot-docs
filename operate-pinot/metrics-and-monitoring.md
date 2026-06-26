@@ -204,6 +204,8 @@ Minions run background tasks such as segment compaction, purge, and merge. These
 
 For table-specific queue alerts, prefer the controller gauges `MAX_SUBTASK_WAIT_TIME_MS` and `MAX_SUBTASK_RUNNING_TIME_MS` listed above. They are emitted per table and task type and self-resolve to `0` after the queue clears.
 
+When you scrape controller metrics through the bundled Prometheus JMX exporter config, the per-table minion-subtask gauges also expose `database`, `table`, `tableType`, and `taskType` labels. Use those labels to alert on a specific task type for one table instead of aggregating every minion queue together.
+
 | Metric | Type | Description | Alert Threshold |
 |--------|------|-------------|-----------------|
 | `NUMBER_OF_TASKS` | Gauge | Tasks currently running | Baseline-dependent |
