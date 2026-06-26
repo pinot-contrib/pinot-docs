@@ -137,6 +137,8 @@ All schema data types are comparable, and ordering must be consistent with equal
 
 Pinot groups columns into dimension, metric, date-time, and complex field specs. The field spec controls column behavior during ingestion, storage, and query execution.
 
+All field-spec families also accept optional metadata keys `fieldId` and `aliases`. Pinot preserves these values in schema JSON and omits them when unset, but it does not currently use them to validate backward-compatible schema updates or to rewrite ingestion and query paths automatically.
+
 ## Null Handling
 
 At schema level, null handling is controlled by `enableColumnBasedNullHandling` and by per-column `defaultNullValue` settings.
@@ -179,6 +181,8 @@ Define one dimension field spec for each dimension column.
 | `name` | Name of the dimension column. |
 | `description` | Optional human-readable description of the column. |
 | `tags` | Optional list of tags for categorizing the column. |
+| `fieldId` | Optional stable, name-independent identifier for the column. |
+| `aliases` | Optional list of alternate or historical names for the column. |
 | `dataType` | Data type of the dimension column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `BYTES`, and `JSON`. |
 | `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. |
 | `singleValueField` | Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. This includes `BIG_DECIMAL` and `BYTES` dimension columns. The default null value for a multi-value column is a single-element list containing the configured or internal null value. |
@@ -192,6 +196,8 @@ Define one metric field spec for each metric column.
 | `name` | Name of the metric column. |
 | `description` | Optional human-readable description of the column. |
 | `tags` | Optional list of tags for categorizing the column. |
+| `fieldId` | Optional stable, name-independent identifier for the column. |
+| `aliases` | Optional list of alternate or historical names for the column. |
 | `dataType` | Data type of the metric column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, and `BYTES` for serialized sketches such as HLL or TDigest. |
 | `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. |
 
@@ -206,6 +212,8 @@ Pinot accepts legacy `TimeFieldSpec` objects when loading older schemas that are
 | `name` | Name of the date-time column. |
 | `description` | Optional human-readable description of the column. |
 | `tags` | Optional list of tags for categorizing the column. |
+| `fieldId` | Optional stable, name-independent identifier for the column. |
+| `aliases` | Optional list of alternate or historical names for the column. |
 | `dataType` | Data type of the date-time column. Supported types are `STRING`, `INT`, `LONG`, and `TIMESTAMP`. Internally `TIMESTAMP` is stored as `LONG` milliseconds since epoch. If you use `TIMESTAMP`, source data must be either `LONG` epoch values or JDBC timestamp strings such as `2021-01-01 01:01:01.123`. |
 | `format` | Format in which the time value is stored. See [New DateTime Formats](#new-datetime-formats). |
 | `granularity` | Bucket size and unit in `bucketSize:bucketUnit` form, for example `15:MINUTES`. This is descriptive metadata only; Pinot does not automatically round values to the declared granularity. |
@@ -268,6 +276,8 @@ Use complex field specs for complex data types. Pinot currently supports `MAP` a
 | `name` | Name of the complex column. |
 | `description` | Optional human-readable description of the column. |
 | `tags` | Optional list of tags for categorizing the column. |
+| `fieldId` | Optional stable, name-independent identifier for the column. |
+| `aliases` | Optional list of alternate or historical names for the column. |
 | `dataType` | Complex data type. Currently supports `MAP` and `OPEN_STRUCT`. |
 | `fieldType` | Must be `COMPLEX`. |
 | `notNull` | Whether the column can contain null values. |
@@ -344,6 +354,8 @@ These advanced properties are available across field specs:
 
 | Property | Description |
 | --- | --- |
+| `fieldId` | Optional stable, name-independent identifier for a field spec. Pinot preserves it in schema JSON but does not currently use it for compatibility validation or automatic rename handling. |
+| `aliases` | Optional list of alternate or historical names for a field spec. Pinot omits empty alias lists from stored JSON and preserves non-empty values as metadata only. |
 | `maxLength` | Maximum length for `STRING`, `JSON`, and `BYTES` columns. |
 | `maxLengthExceedStrategy` | Behavior when incoming values exceed `maxLength`. Supported values are `TRIM_LENGTH`, `SUBSTITUTE_DEFAULT_VALUE`, `NO_ACTION`, and `ERROR`. Defaults to `TRIM_LENGTH` for `STRING` and `NO_ACTION` for `JSON` and `BYTES`. |
 | `allowTrailingZeros` | Whether `BIG_DECIMAL` should preserve trailing zeros. Defaults to `false`, which strips them. |
