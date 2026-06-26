@@ -347,6 +347,8 @@ Pinot allows users to define environment variables in the format of `${ENV_NAME}
 
 Pinot instance will override it during runtime.
 
+When you create or update a table, the controller now validates these placeholders against its own runtime environment before persisting the table config. If a placeholder without a default value cannot be resolved there, Pinot rejects the write instead of saving a config that would later fail on read paths such as realtime segment commit.
+
 {% hint style="warning" %}
 Brackets are required when defining the environment variable.`"$ENV_NAME"`is not supported.
 {% endhint %}
