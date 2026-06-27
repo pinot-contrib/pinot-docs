@@ -2,7 +2,7 @@
 description: Use a timestamp index to speed up your time query with different granularities
 ---
 
-# Timestamp index
+# Timestamp Index
 
 {% hint style="info" %}
 This feature is supported from Pinot 0.11+.
@@ -22,7 +22,7 @@ This was the inspiration for the Pinot timestamp index, which is used to improve
 
 ## Supported data type
 
-A `TIMESTAMP` index can only be created on the `TIMESTAMP` data type.
+A `TIMESTAMP` index can only be created on the `TIMESTAMP` columns, or `LONG` columns storing millisecond epoch values.
 
 ## Timestamp Index
 
@@ -99,7 +99,7 @@ Sample config:
 
 ## Limitations
 
-- Only supported on columns with the `TIMESTAMP` data type.
-- Pre-generates one additional column per granularity, which increases storage. Choose only the granularities you actually query.
-- The auto-rewrite only applies to `dateTrunc` function calls in predicates and group-by clauses. Other time functions are not rewritten.
-- Requires Pinot 0.11 or later.
+* Only supported on columns with the `TIMESTAMP` data type, or `LONG` data type storing millisecond epoch values.
+* Pre-generates one additional column per granularity, which increases storage. Choose only the granularities you actually query.
+* The auto-rewrite only applies to `dateTrunc` function calls in predicates and group-by clauses. Other time functions are not rewritten.
+* Requires Pinot 0.11 or later.
