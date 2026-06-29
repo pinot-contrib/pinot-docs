@@ -581,6 +581,12 @@ The snapshots are taken on every segment commit to ensure that they are consiste
 We recommend that you enable this feature so as to speed up server boot times during restarts.
 
 {% hint style="info" %}
+For upsert tables that use `metadataTTL` or `deletedKeysTTL`, [segment reload](../../../operate-pinot/segment-reload.md) rebuilds upsert metadata from the persisted `validDocIds` snapshot instead of rescanning every row in the immutable segment. This prevents reload from resurrecting keys that TTL expiry or delete handling had already removed from the upsert metadata.
+
+If reload would have to download a different copy of the segment, Pinot fails the reload when the segment CRC changes because the local docId-based snapshot might no longer match the downloaded rows. This applies to `forceDownload=true` reloads and to normal reloads that trigger a CRC-based re-download.
+{% endhint %}
+
+{% hint style="info" %}
 The lifecycle for validDocIds snapshots are shows as follows,
 
 1. If snapshot is enabled, snapshots for existing segments are taken or refreshed when the next consuming segment gets started.
