@@ -36,10 +36,11 @@ To compact segments on upserts, complete the following steps:
 * `invalidRecordsThresholdPercent` (Optional) Limits the older records allowed in the completed segment as a percentage of the total number of records in the segment. In the example above, the completed segment may be selected for compaction when 30% of the records in the segment are old.
 * `invalidRecordsThresholdCount` (Optional) Limits the older records allowed in the completed segment by record count. In the example above, if the segment contains more than 100K records, it may be selected for compaction.
 * `tableMaxNumTasks` (Optional) Limits the number of tasks allowed to be scheduled.
-* `validDocIdsType` (Optional) Specifies the source of validDocIds to fetch when running the data compaction. The valid types are `SNAPSHOT`, `IN_MEMORY`, `IN_MEMORY_WITH_DELETE`
-  * `SNAPSHOT`: Default validDocIds type. This indicates that the validDocIds bitmap is loaded from the snapshot from the Pinot segment. `upsertConfig.snapshot` must not be `DISABLE` for this type.
-  * `IN_MEMORY`: This indicates that the validDocIds bitmap is loaded from the real-time server's in-memory.&#x20;
-  * `IN_MEMORY_WITH_DELETE`: This indicates that the validDocIds bitmap is read from the real-time server's in-memory. The valid document ids here does take account into the deleted records. UpsertConfig's `deleteRecordColumn` must be provided for this type.
+* `validDocIdsType` (Optional) Specifies the source of validDocIds to fetch when running data compaction. Valid values are `SNAPSHOT`, `SNAPSHOT_WITH_DELETE`, `IN_MEMORY`, and `IN_MEMORY_WITH_DELETE`. `SNAPSHOT` remains the default even when `upsertConfig.deleteRecordColumn` is configured, and Pinot honors the configured value as-is.
+  * `SNAPSHOT`: Default validDocIds type. Loads the `validDocIds` snapshot from the Pinot segment. `upsertConfig.snapshot` must not be `DISABLE` for this type.
+  * `SNAPSHOT_WITH_DELETE`: Loads the delete-aware `queryableDocIds` snapshot from the Pinot segment. `upsertConfig.snapshot` must not be `DISABLE`, and `upsertConfig.deleteRecordColumn` must be set.
+  * `IN_MEMORY`: Loads the `validDocIds` bitmap from the real-time server's memory.&#x20;
+  * `IN_MEMORY_WITH_DELETE`: Loads the delete-aware `queryableDocIds` bitmap from the real-time server's memory. `upsertConfig.deleteRecordColumn` must be set for this type.
 
 {% hint style="warning" %}
 When using the two in-memory types, if the server gets restarted, the upsert view gets back consistent once server re-ingests the data it has ingested before starting. The in-memory bitmaps are updated when server ingests data into consuming segment, even before the consuming segment gets committed. So if server gets restarted whlie still consuming data, the upsert view gets back consistent once it catches up the previously ingested data. Instead, the bitmap snapshots are only taken after committing the segment, thus can be more consistent on server restarts, but is eventually consistent as well if server gets restarted while ingesting data.
