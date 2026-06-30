@@ -52,7 +52,7 @@ For full details, see [Aggregation Functions](../../functions/aggregation/README
 | [`EXPRMAX`](../../functions/aggregation/exprmax.md) | `EXPRMAX(measureCol, exprCol1, ...)` | varies | Columns at the row with maximum measure | Both |
 | [`FREQUENTSTRINGSSKETCH`](../../functions/sketch/frequentstringssketch.md) | `FREQUENTSTRINGSSKETCH(col, maxMapSize)` | STRING | Frequent items sketch for strings | Both |
 | [`FREQUENTLONGSSKETCH`](../../functions/sketch/frequentlongssketch.md) | `FREQUENTLONGSSKETCH(col, maxMapSize)` | STRING | Frequent items sketch for longs | Both |
-| [`FUNNELCOUNT`](../../functions/funnel/funnelcount.md) | `FUNNELCOUNT(stepCol, corCol, settings, step1, step2, ...)` | LONG[] | Funnel step counts | Both |
+| [`FUNNELCOUNT`](../../functions/funnel/funnelcount.md) | `FUNNEL_COUNT(STEPS(step1, step2, ...), CORRELATE_BY(col1 [, col2, ...]) [, SETTINGS(setting1, setting2, ...)])` | LONG[] | Funnel step counts for one or more correlation columns | Both |
 | [`FUNNELMAXSTEP`](../../functions/funnel/funnelmaxstep.md) | `FUNNELMAXSTEP(stepCol, corCol, settings, step1, step2, ...)` | INT | Maximum funnel step reached | Both |
 | [`FUNNELCOMPLETECOUNT`](../../functions/funnel/funnelcompletecount.md) | `FUNNELCOMPLETECOUNT(stepCol, corCol, settings, step1, step2, ...)` | INT | Count of completed funnels | Both |
 | [`FUNNELSTEPDURATIONSTATS`](../../functions/aggregation/funnelstepdurationstats.md) | `FUNNELSTEPDURATIONSTATS(timestampExpression, windowSize, numberSteps, step1, ..., 'durationFunctions=...')` | DOUBLE[] | Step-to-step duration statistics for completed funnel runs | Both |
