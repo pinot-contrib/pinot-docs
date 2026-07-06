@@ -26,9 +26,7 @@ To compact segments on upserts, complete the following steps:
       "invalidRecordsThresholdPercent": "30",
       "invalidRecordsThresholdCount": "100000",
       "tableMaxNumTasks": "100",
-      "validDocIdsType": "SNAPSHOT",
-      "validDocIdsConsensusMode": "EQUAL",
-      "validDocIdsValidationMode": "STRICT"
+      "validDocIdsType": "SNAPSHOT"
     }
   }
 }
@@ -43,8 +41,6 @@ To compact segments on upserts, complete the following steps:
   * `SNAPSHOT_WITH_DELETE`: Loads the delete-aware `queryableDocIds` snapshot from the Pinot segment. `upsertConfig.snapshot` must not be `DISABLE`, and `upsertConfig.deleteRecordColumn` must be set.
   * `IN_MEMORY`: Loads the `validDocIds` bitmap from the real-time server's memory.&#x20;
   * `IN_MEMORY_WITH_DELETE`: Loads the delete-aware `queryableDocIds` bitmap from the real-time server's memory. `upsertConfig.deleteRecordColumn` must be set for this type.
-* `validDocIdsConsensusMode` (Optional) Controls how Pinot chooses validDocIds when replicas disagree. `EQUAL` is the default and requires all expected healthy replicas to report matching CRC or data CRC plus the same valid-doc count. `UNSAFE` uses the first healthy replica whose CRC or data CRC matches. `MOST_VALID_DOCS` keeps the strict replica health and CRC checks, then picks the replica with the highest valid-doc count.
-* `validDocIdsValidationMode` (Optional) Controls generator-side validation before Pinot schedules the task. `STRICT` is the default and skips a segment when replica health, CRC or data CRC, or validDocIds consensus checks fail. `EXECUTOR_ONLY` skips those pre-scheduling checks and lets the minion executor enforce the configured `validDocIdsConsensusMode` when the task runs.
 
 {% hint style="warning" %}
 When using the two in-memory types, if the server gets restarted, the upsert view gets back consistent once server re-ingests the data it has ingested before starting. The in-memory bitmaps are updated when server ingests data into consuming segment, even before the consuming segment gets committed. So if server gets restarted whlie still consuming data, the upsert view gets back consistent once it catches up the previously ingested data. Instead, the bitmap snapshots are only taken after committing the segment, thus can be more consistent on server restarts, but is eventually consistent as well if server gets restarted while ingesting data.
