@@ -89,6 +89,8 @@ This approach leverages ZooKeeper metadata and snapshot-enabled commit cycles to
 
 **validDocIds snapshot requirement**: The task requires validDocIds to be available from the servers hosting the segments. This depends on `upsertConfig.snapshot` not being set to `DISABLE`.
 
+**Replica validation**: In the default `validDocIdsValidationMode=STRICT`, the controller only schedules a segment when every expected replica is healthy, its CRC or data CRC matches ZooKeeper, and the replicas satisfy the configured `validDocIdsConsensusMode`. `EXECUTOR_ONLY` skips those pre-scheduling checks and leaves enforcement to the executor.
+
 ### Configuration
 
 1. Start a Pinot Minion.
@@ -106,7 +108,9 @@ This approach leverages ZooKeeper metadata and snapshot-enabled commit cycles to
             "maxNumRecordsPerTask": "50000000",
             "maxNumSegmentsPerTask": "10",
             "outputSegmentMaxSize": "200MB",
-            "numSegmentsBatchPerServerRequest": "500"
+            "numSegmentsBatchPerServerRequest": "500",
+            "validDocIdsConsensusMode": "EQUAL",
+            "validDocIdsValidationMode": "STRICT"
         }
     }
 }
@@ -139,6 +143,8 @@ controller.task.frequencyPeriod=1h
 | maxNumSegmentsPerTask            | Maximum number of segments to merge in a single task. Prevents overly large tasks                                                                                                 | 10                                    |
 | outputSegmentMaxSize             | Maximum size of output segments in bytes. When specified, enables size-based segment merging in addition to record-count-based merging. Accepts formats like '200MB', '1GB', etc. | None (size-based disabled by default) |
 | numSegmentsBatchPerServerRequest | Number of segments to query in one batch when fetching validDocIds from servers                                                                                                   | 500                                   |
+| validDocIdsConsensusMode         | Controls how Pinot chooses validDocIds when replicas disagree. `UNSAFE` uses the first healthy replica whose CRC or data CRC matches, `EQUAL` requires all expected healthy replicas to match on CRC or data CRC and valid-doc count, and `MOST_VALID_DOCS` keeps the strict health and CRC checks then picks the replica with the highest valid-doc count. | `EQUAL` |
+| validDocIdsValidationMode        | Controls generator-side validation before task scheduling. `STRICT` skips segments when replica health, CRC or data CRC, or validDocIds consensus checks fail. `EXECUTOR_ONLY` skips those pre-scheduling checks and lets the executor enforce the configured `validDocIdsConsensusMode` when the task runs. | `STRICT` |
 | retentionExpiryBufferPeriod      | **Buffer period to exclude segments nearing retention expiry**. Prevents task generation for segments that are close to being deleted by the RetentionManager, avoiding a race condition where segments may be deleted between task generation (controller) and download (minion). Format: time duration strings like `"1h"`, `"30m"`, `"2d"`. If this buffer is greater than or equal to the table retention, the filter fails open (returns all segments) with a WARN log. | None (no buffer, uses exact retention boundary) |
 
 ### Prerequisites
@@ -202,6 +208,7 @@ Monitor task execution through the following methods:
 * Verify `snapshot` is not set to `DISABLE` in upsert config
 * Check that segments meet the selection criteria (small enough and old enough based on `bufferTimePeriod`)
 * Ensure completed segments exist for the table with validDocIds available
+* With `validDocIdsValidationMode=STRICT`, verify all expected replicas are healthy and report matching CRC or data CRC before the controller schedules the segment
 * Verify table configuration passes validation (upsert enabled, correct table type)
 
 **Segments not being cleaned up**:
