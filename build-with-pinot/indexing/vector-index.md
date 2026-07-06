@@ -56,7 +56,8 @@ Vector indexes are configured in the table's field-level `indexes` section using
           "version": 1,
           "properties": {
             "maxCon": "16",
-            "beamWidth": "200"
+            "beamWidth": "200",
+            "storeInSegmentFile": "true"
           }
         }
       }
@@ -115,7 +116,7 @@ Vector indexes are configured in the table's field-level `indexes` section using
 
 ### IVF_ON_DISK Configuration
 
-Disk-backed IVF using FileChannel random-access reads, enabling unlimited scale without the 2 GB JVM heap limit. Supports all quantizer types and full filter-aware ANN.
+Disk-backed IVF for large indexes. Supports all quantizer types and full filter-aware ANN.
 
 ```json
 {
@@ -137,6 +138,16 @@ Disk-backed IVF using FileChannel random-access reads, enabling unlimited scale 
   ]
 }
 ```
+
+## Store Vector Indexes in `columns.psf`
+
+Set `storeInSegmentFile` in the vector index `properties` map to store vector index payloads in the segment's combined index file (`columns.psf`) on V3 segments instead of leaving backend-specific files beside it. The default is `false`. Pinot supports this for `HNSW`, `IVF_FLAT`, `IVF_PQ`, and `IVF_ON_DISK`.
+
+- When the flag changes from `false` to `true`, Pinot absorbs the existing vector index into `columns.psf` on the next segment load.
+- When the flag changes from `true` to `false`, Pinot extracts the vector index back to the legacy on-disk layout on the next segment load.
+- The query surface does not change. This flag only changes how Pinot stores the segment index bytes.
+
+For HNSW-style configs, add the property under `indexes.vector.properties`. For IVF-style configs, add it to the vector index `properties` map.
 
 ## Distance Functions
 
