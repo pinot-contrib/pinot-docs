@@ -47,7 +47,8 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | UNTAR_FAILURES | Number of failures occurred while uncompressing segments |  |
 | SEGMENT_DOWNLOAD_FAILURES | Number of failures occurred while downloading segments from deep store to local |  |
 | DELETED_SEGMENT_COUNT | Number of segments deleted either because of retention policies, explicit delete request etc. |  |
-| QUERIES | Number of SSE queries executed. See also MSE_QUERIES for MSE. |  |
+| QUERIES | Number of SSE queries executed across the server instance. Pinot keeps this global server meter and also exports the same underlying `queries` meter at table scope via `QUERIES_ON_TABLE`. See also `MSE_QUERIES` for MSE. |  |
+| QUERIES_ON_TABLE | Table-scoped companion to `QUERIES` for SSE query traffic. This uses the same underlying `queries` meter name and adds table scope instead of introducing a separate query metric family. |  |
 | QUERY_EXECUTION_EXCEPTIONS | Number of exceptions encountered during query execution |  |
 | NUM-MISSING-SEGMENTS | Number of missing segments that the broker queried for (expected to be on the server) but the server didn't have. This can be due to retention or stale routing table |  |
 | NO_TABLE_ACCESS | number of query requests for which table access was denied either due to table not being present or access control restrictions. |  |
