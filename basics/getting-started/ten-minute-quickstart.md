@@ -18,7 +18,7 @@ By the end of this guide you will have a fully functional Apache Pinot cluster r
 **1. Set the Pinot version**
 
 ```bash
-export PINOT_VERSION=1.5.0
+export PINOT_VERSION=1.5.1
 ```
 
 See the [Version reference](pinot-versions.md) page for the current stable release.
