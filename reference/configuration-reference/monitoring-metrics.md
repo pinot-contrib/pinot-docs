@@ -46,6 +46,10 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | REFRESH_FAILURES | Number of failures occurred while refreshing segments |  |
 | UNTAR_FAILURES | Number of failures occurred while uncompressing segments |  |
 | SEGMENT_DOWNLOAD_FAILURES | Number of failures occurred while downloading segments from deep store to local |  |
+| PREDOWNLOAD_DEEPSTORE_DOWNLOAD_COUNT | Number of immutable segments that `PredownloadScheduler` successfully downloaded from deep store during server replacement predownload. | Meter |
+| PREDOWNLOAD_PEER_SEGMENT_DOWNLOAD_COUNT | Number of immutable segments that `PredownloadScheduler` successfully downloaded from peer servers after deep-store fallback. | Meter |
+| PREDOWNLOAD_PEER_SEGMENT_DOWNLOAD_FAILURE_COUNT | Number of peer-download fallback attempts that failed during server replacement predownload. | Meter |
+| PEER_DOWNLOAD_SPEED_MBPS | Approximate peer-download throughput, in MB/s, for the most recent successful predownload peer fallback. | Gauge |
 | DELETED_SEGMENT_COUNT | Number of segments deleted either because of retention policies, explicit delete request etc. |  |
 | QUERIES | Number of SSE queries executed. See also MSE_QUERIES for MSE. |  |
 | QUERY_EXECUTION_EXCEPTIONS | Number of exceptions encountered during query execution |  |
