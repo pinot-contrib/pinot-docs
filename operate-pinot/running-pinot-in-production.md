@@ -100,6 +100,10 @@ On cloud platforms, node replacement is common. Pinot supports predownloading se
 4. Start the new node in normal mode.
 
 The new node must be assigned the same `instanceId` as the original. Predownload parallelism is controlled by `pinot.server.predownload.parallelism` (defaults to `numProcessors × 3`).
+
+If deep-store segment downloads are occasionally unavailable during node replacement, you can let `PredownloadScheduler` retry from peer servers by setting `pinot.server.peer.download.enabled=true` and configuring `pinot.server.instance.peer.download.scheme` to `http` or `https`. Pinot still attempts deep store first and only falls back to peers after a deep-store failure.
+
+Peer fallback only helps when another online replica can serve the segment, so keep replication above `1` for tables that rely on this path.
 ### Rolling restarts
 
 When restarting all servers (for example, for a JVM configuration change), restart them one at a time and wait for external-view convergence between each restart. This ensures that at least `replication - 1` replicas remain available for every segment throughout the process. Use the `/health/readiness` endpoint to gate each restart.
