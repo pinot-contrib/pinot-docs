@@ -145,6 +145,7 @@ Set `storeInSegmentFile` in the vector index `properties` map to store vector in
 
 - When the flag changes from `false` to `true`, Pinot absorbs the existing vector index into `columns.psf` on the next segment load.
 - When the flag changes from `true` to `false`, Pinot extracts the vector index back to the legacy on-disk layout on the next segment load.
+- When `storeInSegmentFile` is `true`, Pinot can load the vector index directly from `columns.psf` even when the segment directory is non-local or remote-backed, such as tiered storage on S3, so no local legacy sidecar files are required.
 - The query surface does not change. This flag only changes how Pinot stores the segment index bytes.
 
 For HNSW-style configs, add the property under `indexes.vector.properties`. For IVF-style configs, add it to the vector index `properties` map.
