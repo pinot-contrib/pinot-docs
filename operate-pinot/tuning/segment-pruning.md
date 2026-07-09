@@ -146,7 +146,7 @@ SELECT count(*) FROM events WHERE ts > 1700000000000
 
 On the [physical optimizer](../../build-with-pinot/querying-and-sql/multi-stage-query/physical-optimizer.md) path, broker pruning is enabled by default through `pinot.broker.multistage.use.broker.pruning`.
 
-On the logical planner path, broker pruning is currently available for non-partitioned leaf stages. It is off by default unless you set `useBrokerPruning=true` for the query or enable `pinot.broker.multistage.logical.planner.use.broker.pruning` on the broker. Unsupported leaf-stage shapes and logical tables fall back to unpruned routing.
+On the logical planner path, broker pruning is available for eligible leaf stages, including non-partitioned leaves, partitioned leaves, and logical tables. It is off by default unless you set `useBrokerPruning=true` for the query or enable `pinot.broker.multistage.logical.planner.use.broker.pruning` on the broker. Unsupported or pre-partitioned leaf shapes, such as colocated joins, fall back to unpruned routing.
 
 When the physical optimizer is enabled, time and partition pruning are automatically applied to the Leaf Stage of multi-stage queries.
 
@@ -159,7 +159,7 @@ Use the following metrics to assess pruning effectiveness:
 | Metric | Description |
 |---|---|
 | `SEGMENT_PRUNING` | Time spent pruning segments (part of server query latency) |
-| `numSegmentsPrunedByBroker` | Number of segments pruned by the broker before dispatch. For MSE, this is populated on the physical optimizer path and on the logical planner non-partitioned leaf path when broker pruning is enabled. |
+| `numSegmentsPrunedByBroker` | Number of segments pruned by the broker before dispatch. For MSE, this is populated on the physical optimizer path and on eligible logical-planner leaf stages when broker pruning is enabled. |
 | `NUM_SEGMENTS_PRUNED_BY_VALUE` | Number of segments pruned by value-based pruning |
 | `numSegmentsQueried` | Segments sent to servers by the broker |
 | `numSegmentsProcessed` | Segments actually scanned by servers |
