@@ -66,7 +66,6 @@ To enable pauseless consumption on a REALTIME table, set `pauselessConsumptionEn
         {
           "stream.kafka.topic.name": "myTopic",
           "stream.kafka.broker.list": "kafka:9092",
-          "stream.kafka.consumer.type": "lowlevel",
           "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
           "realtime.segment.flush.threshold.rows": "500000"
         }

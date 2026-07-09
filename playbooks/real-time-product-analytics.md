@@ -104,8 +104,7 @@ Keep the schema narrow. Every dimension column you add increases segment size an
       "streamType": "kafka",
       "stream.kafka.topic.name": "product-events",
       "stream.kafka.broker.list": "kafka:9092",
-      "stream.kafka.consumer.type": "lowlevel",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "realtime.segment.flush.threshold.rows": "500000",
       "realtime.segment.flush.threshold.time": "6h"

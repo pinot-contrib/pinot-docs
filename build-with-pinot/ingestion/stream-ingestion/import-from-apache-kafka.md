@@ -269,7 +269,7 @@ The legacy `kafka-0.9` and `kafka-2.x` connector modules have been removed. If y
 {% endhint %}
 
 {% hint style="info" %}
-Pinot does _**not support**_ using high-level Kafka consumers (HLC). Pinot uses low-level consumers to ensure accurate results, supports operational complexity and scalability, and minimizes storage overhead.
+Pinot does _**not support**_ using high-level Kafka consumers (HLC). Pinot uses low-level (partition-level) consumers to ensure accurate results, reduce operational complexity, scale horizontally, and minimize storage overhead.
 {% endhint %}
 
 #### Migrating from the kafka-2.x connector

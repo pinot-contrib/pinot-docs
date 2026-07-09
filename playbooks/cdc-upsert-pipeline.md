@@ -94,8 +94,7 @@ Use the source table's primary key as Pinot's primary key. Include a comparison 
       "streamType": "kafka",
       "stream.kafka.topic.name": "dbserver1.public.orders",
       "stream.kafka.broker.list": "kafka:9092",
-      "stream.kafka.consumer.type": "lowlevel",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "realtime.segment.flush.threshold.rows": "100000",
       "realtime.segment.flush.threshold.time": "4h"

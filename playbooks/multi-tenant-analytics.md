@@ -90,8 +90,7 @@ For customers with strict compliance requirements, create a separate table per t
       "streamType": "kafka",
       "stream.kafka.topic.name": "saas-events",
       "stream.kafka.broker.list": "kafka:9092",
-      "stream.kafka.consumer.type": "lowlevel",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "realtime.segment.flush.threshold.rows": "500000",
       "realtime.segment.flush.threshold.time": "6h"

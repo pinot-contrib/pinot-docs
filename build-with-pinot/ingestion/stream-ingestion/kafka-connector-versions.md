@@ -38,7 +38,6 @@ The Kafka 4.0 connector uses the same configuration properties as the Kafka 3.0 
     "streamType": "kafka",
     "stream.kafka.topic.name": "your-topic",
     "stream.kafka.broker.list": "kafka:9092",
-    "stream.kafka.consumer.type": "lowlevel",
     "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka40.KafkaConsumerFactory",
     "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
     "realtime.segment.flush.threshold.rows": "0",
@@ -85,7 +84,6 @@ mvn clean install -Pscala-2.12 -DskipTests
     "streamType": "kafka",
     "stream.kafka.topic.name": "your-topic",
     "stream.kafka.broker.list": "kafka:9092",
-    "stream.kafka.consumer.type": "lowlevel",
     "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
     "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder"
   }
