@@ -46,7 +46,6 @@ Decodes Avro-serialized Kafka messages with schema managed by Confluent Schema R
     "streamType": "kafka",
     "stream.kafka.topic.name": "my-avro-topic",
     "stream.kafka.broker.list": "kafka:9092",
-    "stream.kafka.consumer.type": "lowlevel",
     "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
     "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder",
     "stream.kafka.decoder.prop.schema.registry.rest.url": "http://schema-registry:8081"
@@ -64,7 +63,6 @@ Decodes JSON messages serialized with Confluent's JSON Schema serializer. Messag
     "streamType": "kafka",
     "stream.kafka.topic.name": "my-json-topic",
     "stream.kafka.broker.list": "kafka:9092",
-    "stream.kafka.consumer.type": "lowlevel",
     "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
     "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder",
     "stream.kafka.decoder.prop.schema.registry.rest.url": "http://schema-registry:8081"
@@ -86,7 +84,6 @@ Decodes Protocol Buffer messages serialized with Confluent's Protobuf serializer
     "streamType": "kafka",
     "stream.kafka.topic.name": "my-protobuf-topic",
     "stream.kafka.broker.list": "kafka:9092",
-    "stream.kafka.consumer.type": "lowlevel",
     "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
     "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder",
     "stream.kafka.decoder.prop.schema.registry.rest.url": "http://schema-registry:8081"

@@ -111,8 +111,7 @@ The `subject` and `body` columns will carry the text index. They must be declare
       "streamType": "kafka",
       "stream.kafka.topic.name": "support-tickets",
       "stream.kafka.broker.list": "kafka:9092",
-      "stream.kafka.consumer.type": "lowlevel",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "realtime.segment.flush.threshold.rows": "250000",
       "realtime.segment.flush.threshold.time": "4h"

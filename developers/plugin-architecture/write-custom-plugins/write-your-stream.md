@@ -6,25 +6,9 @@ description: This page describes how to write your own stream ingestion plugin f
 
 You can write custom stream ingestion plugins to add support for your own streaming platforms such as Pravega, Kinesis etc.
 
-Stream Ingestion Plugins can be of two types -
+Pinot consumes each stream partition independently, tracking offsets per partition. A stream you want to integrate must therefore expose per-partition offsets and support consuming from a given offset.
 
-* High Level - Consume data without control over the partitions
-* Low Level - Consume data from each partition with offset management
-
-## Requirements to support Stream Level (High Level) consumers
-
-The stream should provide the following guarantees:
-
-* Exactly once delivery (unless restarting from a checkpoint) for each consumer of the stream.
-* (Optionally) support mechanism to split events (in some arbitrary fashion) so that each event in the stream is delivered exactly to one host out of set of hosts.
-* Provide ways to save a checkpoint for the data consumed so far. If the stream is partitioned, then this checkpoint is a vector of checkpoints for events consumed from individual partitions.
-* The checkpoints should be recorded only when Pinot makes a call to do so.
-* The consumer should be able to start consumption from one of:
-  * latest available data
-  * earliest available data
-  * last saved checkpoint
-
-## Requirements to support Partition Level (Low Level) consumers
+## Requirements to support a stream
 
 While consuming rows at a partition level, the stream should support the following properties:
 
@@ -45,12 +29,9 @@ In addition, we have an operational requirement that the number of partitions sh
 In order to add a new type of stream (say, Foo) implement the following classes:
 
 1. FooConsumerFactory extends [StreamConsumerFactory](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamConsumerFactory.java)
-2. FooPartitionLevelConsumer implements [PartitionLevelConsumer](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/PartitionLevelConsumer.java)
-3. FooStreamLevelConsumer implements [StreamLevelConsumer](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamLevelConsumer.java)
-4. FooMetadataProvider implements [StreamMetadataProvider](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMetadataProvider.java)
-5. FooMessageDecoder implements [StreamMessageDecoder](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMessageDecoder.java)
-
-Depending on stream level or partition level, your implementation needs to include StreamLevelConsumer or PartitionLevelConsumer.
+2. FooPartitionGroupConsumer implements [PartitionGroupConsumer](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/PartitionGroupConsumer.java)
+3. FooMetadataProvider implements [StreamMetadataProvider](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMetadataProvider.java)
+4. FooMessageDecoder implements [StreamMessageDecoder](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/stream/StreamMessageDecoder.java)
 
 The properties for the stream implementation are to be set in the table configuration, inside `streamConfigs` section.
 
@@ -59,7 +40,6 @@ Use the `streamType` property to define the stream type. For example, for the im
 The rest of the configuration properties for your stream should be set with the prefix `"stream.foo"`. Be sure to use the same suffix for: (see examples below):
 
 * topic
-* consumer type
 * stream consumer factory
 * offset
 * decoder class name

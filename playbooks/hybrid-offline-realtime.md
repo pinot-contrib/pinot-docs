@@ -95,8 +95,7 @@ The `enrichedSegment` column is filled by the batch job but may be null in real-
       "streamType": "kafka",
       "stream.kafka.topic.name": "web-analytics-events",
       "stream.kafka.broker.list": "kafka:9092",
-      "stream.kafka.consumer.type": "lowlevel",
-      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+      "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
       "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
       "realtime.segment.flush.threshold.rows": "500000",
       "realtime.segment.flush.threshold.time": "6h"
