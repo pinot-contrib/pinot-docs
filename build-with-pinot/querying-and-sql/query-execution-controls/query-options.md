@@ -199,7 +199,7 @@ In this example, the query will flush partial group-by results every time the nu
 
 | Key | Description | Default Behavior |
 | --- | --- | --- |
-| **useBrokerPruning** | When set to `true`, enables broker-side segment pruning for multi-stage leaf-stage routing. On the physical optimizer path, Pinot uses the broker default from `pinot.broker.multistage.use.broker.pruning`. On the logical planner path, Pinot uses the broker default from `pinot.broker.multistage.logical.planner.use.broker.pruning` for eligible leaf stages, including partitioned leaves and logical tables. Unsupported or pre-partitioned leaf shapes, such as colocated joins, fall back to unpruned routing. Query-level `useBrokerPruning` overrides the applicable broker default. | Physical optimizer path: broker config (default `true`); logical planner eligible leaf stages: broker config (default `false`) |
+| **useBrokerPruning** | When set to `true`, enables broker-side segment pruning for multi-stage leaf-stage routing. On the physical optimizer path, Pinot uses the broker default from `pinot.broker.multistage.use.broker.pruning`. On the logical planner path, Pinot uses the broker default from `pinot.broker.multistage.logical.planner.use.broker.pruning` for eligible non-partitioned leaves, partitioned leaves, and logical tables. Unsupported or pre-partitioned leaf shapes, such as colocated joins, fall back to unpruned routing. If Pinot cannot route the filter-bearing pruning request, it retries the query with unpruned routing instead of failing it. Query-level `useBrokerPruning` overrides the applicable broker default. | Physical optimizer path: broker config (default `true`); logical planner eligible leaf stages: broker config (default `true`) |
 
 ### Index-Based DISTINCT
 
