@@ -135,7 +135,7 @@ Monitor the corresponding `MAILBOX_CLIENT_USED_DIRECT_MEMORY` and `MAILBOX_CLIEN
 
 ### Broker pruning and routing
 
-The physical optimizer path supports broker-side segment pruning through `useBrokerPruning`, enabled by default through `pinot.broker.multistage.use.broker.pruning`. The logical planner path can also prune eligible leaf stages, including partitioned leaves and logical tables, but it stays off by default unless you set `useBrokerPruning=true` for the query or enable `pinot.broker.multistage.logical.planner.use.broker.pruning` on the broker. Unsupported or pre-partitioned leaf shapes, such as colocated joins, still fall back to unpruned routing.
+The physical optimizer path supports broker-side segment pruning through `useBrokerPruning`, enabled by default through `pinot.broker.multistage.use.broker.pruning`. The logical planner path also enables broker pruning by default through `pinot.broker.multistage.logical.planner.use.broker.pruning` for eligible non-partitioned leaves, partitioned leaves, and logical tables. Query-level `useBrokerPruning` still overrides the applicable broker default. Unsupported or pre-partitioned leaf shapes, such as colocated joins, fall back to unpruned routing, and routing failures retry unpruned instead of failing the query.
 
 For tables with time-based or partition-based segment boundaries, broker pruning significantly reduces the number of segments scanned by leaf stages.
 

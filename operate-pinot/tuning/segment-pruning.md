@@ -146,7 +146,7 @@ SELECT count(*) FROM events WHERE ts > 1700000000000
 
 On the [physical optimizer](../../build-with-pinot/querying-and-sql/multi-stage-query/physical-optimizer.md) path, broker pruning is enabled by default through `pinot.broker.multistage.use.broker.pruning`.
 
-On the logical planner path, broker pruning is available for eligible leaf stages, including non-partitioned leaves, partitioned leaves, and logical tables. It is off by default unless you set `useBrokerPruning=true` for the query or enable `pinot.broker.multistage.logical.planner.use.broker.pruning` on the broker. Unsupported or pre-partitioned leaf shapes, such as colocated joins, fall back to unpruned routing.
+On the logical planner path, broker pruning is enabled by default through `pinot.broker.multistage.logical.planner.use.broker.pruning` for eligible non-partitioned leaves, partitioned leaves, and logical tables. Query-level `useBrokerPruning` still overrides that broker default. Unsupported or pre-partitioned leaf shapes, such as colocated joins, fall back to unpruned routing. If Pinot cannot route the filter-bearing pruning request, it also falls back to unpruned routing instead of failing the query.
 
 When the physical optimizer is enabled, time and partition pruning are automatically applied to the Leaf Stage of multi-stage queries.
 
