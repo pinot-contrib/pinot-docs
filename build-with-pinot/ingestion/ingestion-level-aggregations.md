@@ -35,8 +35,14 @@ The following are required for ingestion aggregation to work:
 * Ingestion aggregation config is effective only for real-time tables. (There is no ingestion time aggregation support for offline tables. We need use [Merge/Rollup Task](../../operate-pinot/minion-merge-rollup-task.md) or pre-process aggregations in the offline data flow using batch processing engines like Spark/MapReduce).
 * [Stream ingestion](stream-ingestion/) type must be lowLevel.
 * All metrics must have aggregation configs.
-* All metrics must be noDictionaryColumns.
+* All metric columns must be single-value and configured as `noDictionaryColumns`.
+* All dimension and time columns used as aggregation keys must be single-value. They can still be configured as dictionary or no-dictionary columns in the table config.
+* Metrics aggregation cannot be enabled together with upsert or dedup, and it is not supported when the schema contains `COMPLEX` columns.
 * `aggregatedFieldName` must be in the Pinot schema and `originalFieldName` must not exist in Pinot schema
+
+{% hint style="info" %}
+When metrics aggregation is enabled, Pinot groups rows in the consuming segment by the dictionary ids of the dimension and time key columns. If one of those key columns is configured as no-dictionary in the table config, Pinot still creates a transient dictionary for that column in the consuming segment so ingestion aggregation can run. The committed segment is rebuilt from the table config, so committed segments still honor the configured no-dictionary setting.
+{% endhint %}
 
 ## Example Scenario
 
@@ -184,6 +190,10 @@ Ingestion Aggregation only works for real-time ingestion. For offline data, the 
 
 If a metric isn't aggregated then it will result in more than one row per unique set of dimensions.
 
+### Can aggregation key columns be no-dictionary?
+
+Yes. Single-value dimension and time columns can be configured as no-dictionary columns and still participate in ingestion aggregation. Pinot creates transient dictionaries for those key columns only in the consuming segment so it can build the aggregation key. Metric columns are different: they must remain single-value no-dictionary columns because the aggregated values are updated in place.
+
 ### Why no data show up when I enabled AggregationConfigs?
 
 1. Check if ingestion is normal without AggregationConfigs, this is to isolate the problem
@@ -212,4 +222,3 @@ java.lang.ClassCastException: class java.lang.String cannot be cast to class jav
 	at java.base/java.lang.Thread.run(Thread.java:1583) [?:?]
 
 ```
-
