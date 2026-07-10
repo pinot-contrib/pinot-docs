@@ -71,7 +71,7 @@ In this example, Pinot converts `ts` to `LONG` before `toEpochDays(ts)` runs. It
 | `streamType` | The streaming platform to ingest data from | `kafka` |
 | `stream.[streamType].topic.name` | Topic or data source to ingest data from | String |
 | `stream.[streamType].broker.list` | List of brokers |  |
-| `stream.[streamType].decoder.class.name` | Name of class to parse the data. The class should implement the `org.apache.pinot.spi.stream.StreamMessageDecoder` interface. | String. Available options: - `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder` - `org.apache.pinot.plugin.inputformat.avro.KafkaAvroMessageDecoder` - `org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder` - `org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder` - `org.apache.pinot.plugin.inputformat.csv.CSVMessageDecoder` - `org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder` - `org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder` |
+| `stream.[streamType].decoder.class.name` | Name of class to parse the data. The class should implement the `org.apache.pinot.spi.stream.StreamMessageDecoder` interface. | String. Available options: - `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder` - `org.apache.pinot.plugin.inputformat.avro.KafkaAvroMessageDecoder` - `org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder` - `org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder` - `org.apache.pinot.plugin.inputformat.csv.CSVMessageDecoder` - `org.apache.pinot.plugin.inputformat.bson.BSONMessageDecoder` - `org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder` - `org.apache.pinot.plugin.inputformat.protobuf.KafkaConfluentSchemaRegistryProtoBufMessageDecoder` |
 | `stream.[streamType].consumer.factory.class.name` | Name of factory class to provide the appropriate implementation of consumer, as well as the metadata | String. Available options: - `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` - `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` - `org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory` - `org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory` |
 | `stream.[streamType].consumer.prop.auto.offset.reset` | Determines the offset from which to start the ingestion | `smallest` , `largest` Period (`10d`, `4h30m`, etc) Timestamp (in format `yyyy-MM-dd'T'HH:mm:ss.SSSZ` eg. `2022-08-09T12:31:38.222Z`) |
 | `stream.[streamType].decoder.prop.format` | Specifies the data format to ingest via a stream. The value of this property should match the format of the data in the stream. | - `JSON` |
@@ -103,6 +103,10 @@ Take the above example, if you set `realtime.segment.flush.threshold.segment.row
 
 {% hint style="info" %}
 When offset auto reset is enabled, Pinot checks the configured lag thresholds during segment commit. If either threshold is exceeded, the new consuming segment starts from the latest stream offset instead of the previous segment's `nextOffset`. If both thresholds are unset or non-positive, Pinot keeps the original `nextOffset`.
+{% endhint %}
+
+{% hint style="info" %}
+For BSON streams, set `stream.[streamType].decoder.class.name` to `org.apache.pinot.plugin.inputformat.bson.BSONMessageDecoder`. Each stream message must contain a single BSON document; BSON does not use `stream.[streamType].decoder.prop.format`.
 {% endhint %}
 
 ## `streamIngestionConfig`

@@ -113,6 +113,29 @@ dataFormat: 'json'
 className: 'org.apache.pinot.plugin.inputformat.json.JSONRecordReader'
 ```
 
+### BSON
+
+```
+dataFormat: 'bson'
+className: 'org.apache.pinot.plugin.inputformat.bson.BSONRecordReader'
+```
+
+Use the BSON record reader for `mongodump`-style files that store BSON documents back to back with the standard BSON length prefix. Pinot also detects and reads gzip-compressed BSON files automatically.
+
+For batch ingestion, `dataFormat: bson` resolves to `BSONRecordReader` without any extra `configClassName`. For stream ingestion, configure your stream decoder as `org.apache.pinot.plugin.inputformat.bson.BSONMessageDecoder`; each stream message must contain exactly one BSON document.
+
+`BSONRecordExtractor` converts decoded BSON values into Pinot-compatible Java values before schema coercion:
+
+| BSON type | Pinot-side Java value | Notes |
+| --- | --- | --- |
+| `ObjectId` | `String` | 24-character hex string |
+| `DateTime` | `java.sql.Timestamp` | Millisecond precision |
+| `BsonTimestamp` | `java.sql.Timestamp` | Second precision; the intra-second ordinal is dropped |
+| `Decimal128` | `BigDecimal` | `NaN` and `Infinity` become `null`; negative zero becomes `BigDecimal.ZERO` |
+| `Binary` | `byte[]` | Includes UUID binary subtypes |
+| Embedded document | `Map<String, Object>` | Converted recursively |
+| Array | `Object[]` | Converted recursively |
+
 ### Thrift
 
 ```

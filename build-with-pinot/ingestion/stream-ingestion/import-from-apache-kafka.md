@@ -725,6 +725,24 @@ Example `streamConfigs`:
 }
 ```
 
+#### Use BSON format
+
+Pinot supports decoding BSON messages from Kafka using `BSONMessageDecoder`. Use this when each Kafka message contains a single binary-encoded BSON document, such as records produced by a MongoDB change-data-capture pipeline.
+
+Example `streamConfigs`:
+
+```json
+"streamConfigs": {
+  "streamType": "kafka",
+  "stream.kafka.topic.name": "mongo-events",
+  "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.inputformat.bson.BSONMessageDecoder",
+  "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
+  "stream.kafka.broker.list": "kafka:9092"
+}
+```
+
+`BSONMessageDecoder` uses the same extractor as batch BSON ingestion, so `ObjectId` values decode to hex strings, `Date` and `BsonTimestamp` values decode to `java.sql.Timestamp`, `Decimal128` values decode to `BigDecimal` with `NaN` and `Infinity` surfaced as `null`, binary values decode to `byte[]`, embedded documents decode to `Map<String, Object>`, and arrays decode to `Object[]`.
+
 #### Use Apache Arrow format
 
 Pinot supports decoding Apache Arrow IPC streaming format messages from Kafka using `ArrowMessageDecoder`. This is useful when upstream systems produce data serialized in Arrow format.
