@@ -228,7 +228,9 @@ This task runs offset-auto-reset backfill work for real-time tables when realtim
 
 ### RealtimeConsumerMonitor
 
-This task fetches consuming-segment information for real-time tables and emits per-partition records-lag and availability-lag controller gauges. It is disabled by default.
+This task fetches consuming-segment information for real-time tables and emits the per-partition controller gauges `MAX_RECORDS_LAG` and `MAX_RECORD_AVAILABILITY_LAG_MS`. It is disabled by default.
+
+If a stream connector reports a lag dimension as `NOT_CALCULATED`, Pinot skips that value for the corresponding controller gauge instead of publishing a bogus numeric lag. This commonly applies when an upstream latest offset is unavailable or when the last consumed record does not have a valid upstream ingestion timestamp.
 
 | Config | Default Value |
 | --- | --- |

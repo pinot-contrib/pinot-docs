@@ -603,6 +603,8 @@ A sample response from a Kafka-based real-time table is shown below. The ingesti
 | recordsLagMap             | (Whenever applicable) Defines how far behind the current record's offset / pointer is from upstream latest record. This is calculated as the difference between the `latestUpstreamOffset` and `currentOffset` for the partition when the lag computation request is made. |
 | recordsAvailabilityLagMap | (Whenever applicable) Defines how soon after record ingestion was the record consumed by Pinot. This is calculated as the difference between the time the record was consumed and the time at which the record was ingested upstream.                                      |
 
+When Pinot cannot compute a lag value, it returns the string sentinel `NOT_CALCULATED` instead of a numeric placeholder. This happens, for example, when the stream connector cannot provide the latest upstream offset for a partition or when the last consumed record does not have a valid upstream ingestion timestamp. Pinot uses the same sentinel in both the `/consumingSegmentsInfo` and `/debug` responses.
+
 ## Monitor real-time ingestion
 
 Real-time ingestion includes 3 stages of message processing: Decode, Transform, and Index.
