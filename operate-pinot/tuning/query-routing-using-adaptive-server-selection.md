@@ -59,13 +59,31 @@ The following configs are already set to default values that work well for most 
 Prefix all the below properties with  `pinot.broker.adaptive.server.selector.`
 {% endhint %}
 
-| Property | Description | Default Value |
-| --- | --- | --- |
-| `ewma.alpha` | Alpha value for Exponential Moving Average. A higher value would provide more weightage to incoming values and lower weightage to older values | 0.666 |
-| `autodecay.window.ms` | If the EWMA value has not been updated for a while, the duration after which the value should be decayed | 10000 |
-| `avg.initialization.val` | Initial value for EWMA average | 1.0 |
-| `stats.manager.threadpool.size` | Number of threads reserved to process Adaptive Server Selection Stats. | 2 |
-| `hybrid.score.queue.size.floor` | Value added to the estimated queue size in the HYBRID score before exponentiation. Set to `1` to keep latency in the score when all servers are idle; the default `0` preserves previous behavior. | 0 |
+| Property | Description | Default Value | Runtime Adjustable |
+| --- | --- | --- | --- |
+| `ewma.alpha` | Alpha value for Exponential Moving Average. A higher value would provide more weightage to incoming values and lower weightage to older values | 0.666 | Yes |
+| `autodecay.window.ms` | If the EWMA value has not been updated for a while, the duration after which the value should be decayed | 10000 | Yes |
+| `hybrid.score.exponent` | Exponent used in the hybrid scoring formula `(F+A+B)^N * C` to balance latency and in-flight request count | 3 | Yes |
+| `avg.initialization.val` | Initial value for EWMA average | 1.0 | No |
+| `stats.manager.threadpool.size` | Number of threads reserved to process Adaptive Server Selection Stats. | 2 | No |
+| `hybrid.score.queue.size.floor` | Value added to the estimated queue size in the HYBRID score before exponentiation. Set to `1` to keep latency in the score when all servers are idle; the default `0` preserves previous behavior. | 0 | No |
+
+#### Runtime Tuning
+
+The `ewma.alpha`, `autodecay.window.ms`, and `hybrid.score.exponent` parameters can be adjusted at runtime via the Controller `/cluster/configs` endpoint without restarting brokers. When updated, the new values propagate to all existing server routing stats entries immediately.
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  "http://localhost:8998/cluster/configs" \
+  -d '{
+    "pinot.broker.adaptive.server.selector.ewma.alpha": "0.8",
+    "pinot.broker.adaptive.server.selector.hybrid.score.exponent": "4",
+    "pinot.broker.adaptive.server.selector.autodecay.window.ms": "20000"
+  }'
+```
+
+This makes it easier to tune adaptive routing in production without redeployment.
 
 ### Monitoring Adaptive Routing with Metrics
 
@@ -148,7 +166,7 @@ See [Broker Configuration Reference](../../reference/configuration-reference/bro
 - `pinot.broker.adaptive.server.selector.enable.stats.collection`
 - `pinot.broker.adaptive.server.selector.enable.stats.metric.export`
 - `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms`
-- `pinot.broker.adaptive.server.selector.hybrid.score.exponent`
+- `pinot.broker.adaptive.server.selector.hybrid.score.exponent` (runtime-adjustable)
 - `pinot.broker.adaptive.server.selector.hybrid.score.queue.size.floor`
-- `pinot.broker.adaptive.server.selector.ewma.alpha`
-- `pinot.broker.adaptive.server.selector.autodecay.window.ms`
+- `pinot.broker.adaptive.server.selector.ewma.alpha` (runtime-adjustable)
+- `pinot.broker.adaptive.server.selector.autodecay.window.ms` (runtime-adjustable)
