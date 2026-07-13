@@ -99,18 +99,20 @@ curl -X POST \
 
 #### Available Metrics
 
-Single-stage adaptive routing exports three metrics for each broker × server pair, and multi-stage adaptive routing now exports its own in-flight gauge:
+Adaptive routing exports three metrics for each broker × server pair, for each of MSE and SSE.
 
-| Metric Name | Type | Description |
-| --- | --- | --- |
-| `adaptiveServerNumInFlightRequests` | Gauge | Number of in-flight (pending) requests currently being processed on this server |
-| `adaptiveServerLatencyEma` | Gauge | Exponential moving average of query latency (in milliseconds) observed on this server |
-| `adaptiveServerHybridScore` | Gauge | Combined score balancing in-flight requests and latency to indicate server health; higher scores indicate less healthy servers |
-| `adaptiveServerMseNumInFlightRequests` | Gauge | Number of in-flight multi-stage requests currently being processed on this server. Pinot currently exports only the MSE in-flight gauge; MSE latency and hybrid-score series are not emitted yet. |
+| Metric Name | Type | Description                                                                                                                        |
+| --- | --- |------------------------------------------------------------------------------------------------------------------------------------|
+| `adaptiveServerNumInFlightRequests` | Gauge | Number of in-flight (pending) SSE requests currently being processed on this server                                                |
+| `adaptiveServerLatencyEma` | Gauge | Exponential moving average of SSE query latency (in milliseconds) observed on this server                                          |
+| `adaptiveServerHybridScore` | Gauge | Combined score balancing SSE in-flight requests and latency to indicate server health; higher scores indicate less healthy servers |
+| `adaptiveServerMseNumInFlightRequests` | Gauge | Number of in-flight (pending) MSE requests currently being processed on this server                                                |
+| `adaptiveServerMseLatencyEma` | Gauge | Exponential moving average of MSE query latency (in milliseconds) observed on this server                                          |
+| `adaptiveServerMseHybridScore` | Gauge | Combined score balancing MSE in-flight requests and latency to indicate server health; higher scores indicate less healthy servers |
 
 #### Metric Format
 
-Metric names follow the pattern `pinot.broker.adaptiveServer<MetricName>.server.<instance>` for single-stage metrics and `pinot.broker.adaptiveServerMseNumInFlightRequests.server.<instance>` for the MSE in-flight series.
+Metric names follow the pattern `pinot.broker.adaptiveServer<MetricName>.server.<instance>` for single-stage metrics and `pinot.broker.adaptiveServerMse<MetricName>.server.<instance>` for multi-stage metrics.
 
 Example: `pinot.broker.adaptiveServerLatencyEma.server.Server_pinotdb1_8098`
 

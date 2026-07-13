@@ -249,7 +249,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 
 #### Adaptive Server Routing Metrics
 
-Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive.server.selector.enable.stats.collection=true`. With stats collection enabled, Pinot can export those stats as broker metrics by enabling `pinot.broker.adaptive.server.selector.enable.stats.metric.export=true` (disabled by default to avoid cardinality concerns). Pinot exports the SSE metrics as `pinot.broker.adaptiveServer<MetricName>.server.<instance>` and the MSE in-flight gauge as `pinot.broker.adaptiveServerMseNumInFlightRequests.server.<instance>`.
+Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive.server.selector.enable.stats.collection=true`. With stats collection enabled, Pinot can export those stats as broker metrics by enabling `pinot.broker.adaptive.server.selector.enable.stats.metric.export=true` (disabled by default to avoid cardinality concerns). Pinot exports the SSE metrics as `pinot.broker.adaptiveServer<MetricName>.server.<instance>` and the MSE metrics as `pinot.broker.adaptiveServerMse<MetricName>.server.<instance>`.
 
 **Configuration:**
 - `pinot.broker.adaptive.server.selector.enable.stats.collection`: Enable or disable stats collection (default: `false`). Pinot reads this at broker startup.
@@ -263,4 +263,6 @@ Broker tracks per-server adaptive routing statistics when `pinot.broker.adaptive
 | adaptiveServerNumInFlightRequests | Number of in-flight requests to a specific server | Gauge |
 | adaptiveServerLatencyEma | Exponential moving average of latency (ms) for a specific server | Gauge |
 | adaptiveServerHybridScore | Hybrid score for a specific server (combines in-flight requests and latency) | Gauge |
-| adaptiveServerMseNumInFlightRequests | Number of in-flight multi-stage requests to a specific server. Pinot currently exports only this MSE adaptive-routing gauge; MSE latency and hybrid-score gauges are not emitted yet. | Gauge |
+| adaptiveServerMseNumInFlightRequests | Number of in-flight multi-stage requests to a specific server | Gauge |
+| adaptiveServerMseLatencyEma | Exponential moving average of latency (ms) for multi-stage requests to a specific server | Gauge |
+| adaptiveServerMseHybridScore | Hybrid score for multi-stage requests to a specific server (combines in-flight requests and latency) | Gauge |
