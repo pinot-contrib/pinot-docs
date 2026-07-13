@@ -559,6 +559,10 @@ Using implicit partitioned replica-group assignment from low-level consumer won'
 To prevent this, we recommend using explicit [partitioned replica-group instance assignment](../../../operate-pinot/instance-assignment.md#partitioned-replica-group-instance-assignment) to ensure the instance assignment is persisted. Note that `numInstancesPerPartition` should always be `1` in `replicaGroupPartitionConfig`.
 {% endhint %}
 
+{% hint style="warning" %}
+Do not enable [Adaptive Server Selection](../../../operate-pinot/tuning/query-routing-using-adaptive-server-selection.md) on upsert tables. The adaptive selector does not respect `strictReplicaGroup` boundaries and may route a query to servers across multiple replica groups, breaking the upsert consistency guarantee that all segments of the same partition are served from the same server. See [#12507](https://github.com/apache/pinot/issues/12507) for details.
+{% endhint %}
+
 ### Enable validDocIds snapshots for upsert metadata recovery
 
 Upsert snapshot support is also added in `release-0.12.0`. To enable the snapshot, set `snapshot` to `ENABLE`. For example:
