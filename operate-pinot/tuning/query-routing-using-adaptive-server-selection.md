@@ -166,7 +166,7 @@ See [Broker Configuration Reference](../../reference/configuration-reference/bro
 - `pinot.broker.adaptive.server.selector.enable.stats.collection`
 - `pinot.broker.adaptive.server.selector.enable.stats.metric.export`
 - `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms`
-- `pinot.broker.adaptive.server.selector.hybrid.score.exponent` (runtime-adjustable)
+- `pinot.broker.adaptive.server.selector.hybrid.score.exponent`
 - `pinot.broker.adaptive.server.selector.hybrid.score.queue.size.floor`
-- `pinot.broker.adaptive.server.selector.ewma.alpha` (runtime-adjustable)
-- `pinot.broker.adaptive.server.selector.autodecay.window.ms` (runtime-adjustable)
+- `pinot.broker.adaptive.server.selector.ewma.alpha`
+- `pinot.broker.adaptive.server.selector.autodecay.window.ms`
