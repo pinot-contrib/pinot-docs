@@ -40,6 +40,10 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | REALTIME_ROWS_CONSUMED | total number of records consumed from input |  |
 | REALTIME_BYTES_CONSUMED | total serialized bytes consumed from real-time input |  |
 | REALTIME_BYTES_DROPPED | total serialized bytes dropped during real-time ingestion because Pinot rejected or failed to process the records |  |
+| CONSUMPTION_QUOTA_UTILIZATION | Per-table, per-partition gauge (`consumptionQuotaUtilization`) showing the percentage of the configured partition consumption cap currently being used. This remains the partition-scoped series only. | Gauge |
+| CONSUMPTION_RATE_LIMIT | Per-table, per-partition gauge (`consumptionRateLimit`) exposing the effective configured partition cap in units per second. Pinot emits the direct `partition.consumption.rate.limit` value or the effective `topic.consumption.rate.limit / partitionCount` cap for that partition. | Gauge |
+| SERVER_CONSUMPTION_QUOTA_UTILIZATION | Global gauge (`serverConsumptionQuotaUtilization`) showing the percentage of the configured server-level consumption cap currently being used. This replaces the old server-wide use of `consumptionQuotaUtilization{table="realtimeRowsConsumed"}`. | Gauge |
+| SERVER_CONSUMPTION_RATE_LIMIT | Global gauge (`serverConsumptionRateLimit`) exposing the configured server-level consumption cap in units per second. Units follow the active throttling mode: rows/sec for `pinot.server.consumption.rate.limit`, bytes/sec for `pinot.server.consumption.rate.limit.bytes`. Pinot sets this gauge to `-1` when server-level throttling is disabled. | Gauge |
 | INVALID_REALTIME_ROWS_DROPPED | number of records that were filtered based on FilterConfig specified in table config |  |
 | REALTIME_CONSUMPTION_EXCEPTIONS | number of rows that were not consumed because of some exception. It doesn't track exceptions during transformation and indexing. |  |
 | RELOAD_FAILURES | Number of failures occurred while reloading segments |  |

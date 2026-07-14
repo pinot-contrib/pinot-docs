@@ -333,7 +333,7 @@ Both mechanisms can be enabled simultaneously.
 
 #### Message-rate–based throttling (table level)
 
-Stream consumption throttling can be tuned using the stream config `topic.consumption.rate.limit` which indicates the upper bound on the message rate for the entire topic.
+Stream consumption throttling can be tuned using the stream config `partition.consumption.rate.limit` for a direct per-partition cap or `topic.consumption.rate.limit` for a topic-wide cap that Pinot divides by the topic partition count.
 
 Here is the sample configuration on how to configure the consumption throttling:
 
@@ -356,7 +356,7 @@ Here is the sample configuration on how to configure the consumption throttling:
 
 Some things to keep in mind while tuning this config are:
 
-* Since this configuration applied to the entire topic, internally, this rate is divided by the number of partitions in the topic and applied to each partition's consumer. This doesn't take replication factor into account.\
+* When you use `topic.consumption.rate.limit`, Pinot divides the topic-wide rate by the number of partitions in the topic and applies the result to each partition consumer. This doesn't take replication factor into account.\
   \
   **Example**\
   topic.consumption.rate.limit - 1000\
@@ -365,7 +365,7 @@ Some things to keep in mind while tuning this config are:
   \
   Pinot will impose a fixed limit of 1000 / 4 = 250 records per second on each partition. \\
 * In case of multi-tenant deployment (where you have more than 1 table in the same server instance), you need to make sure that the rate limit on one table doesn't step on/starve the rate limiting of another table. So, when there is more than 1 table on the same server (which is most likely to happen), you may need to re-tune the throttling threshold for all the streaming tables.\\
-*   The `pinot.server.consumption.rate.limit` setting must be configured in the server's instance configuration, not in the table configuration. This setting establishes a maximum consumption rate that applies collectively to all table partitions hosted on a single server. When both this server-level setting and the `topic.consumption.rate.limit` setting are specified, the server configuration has lower priority.[1](../../../build-with-pinot/ingestion/stream-ingestion)
+* The `pinot.server.consumption.rate.limit` setting must be configured in the server's instance configuration, not in the table configuration. This server-wide rows/sec cap is enforced in addition to any table-level `partition.consumption.rate.limit` or `topic.consumption.rate.limit` cap.
 
     \
     \\
@@ -378,7 +378,7 @@ A consumption rate limiter is set up for topic <topic_name> in table <tableName>
 ```
 {% endcode %}
 
-In addition, you can monitor the consumption rate utilization with the metric `COSUMPTION_QUOTA_UTILIZATION`.
+In addition, you can monitor `CONSUMPTION_RATE_LIMIT` (`consumptionRateLimit`) for the effective per-partition configured cap and `CONSUMPTION_QUOTA_UTILIZATION` (`consumptionQuotaUtilization`) for the per-partition utilization.
 
 Note that any configuration change for `topic.consumption.rate.limit` in the stream config will **NOT** take effect immediately. The new configuration will be picked up from the next consuming segment. In order to enforce the new configuration, you need to trigger forceCommit APIs. Refer to [Pause Stream Ingestion](../../../build-with-pinot/ingestion/stream-ingestion#pause-stream-ingestion) for more details.
 
@@ -454,13 +454,12 @@ This allows precise control when both message count and payload size matter.
 
 Once enabled, Pinot logs messages indicating that a server-level byte consumption limiter has been applied.
 
-You can also monitor throttling behavior using the metric:
+You can also monitor throttling behavior using these metrics:
 
-```
-CONSUMPTION_QUOTA_UTILIZATION
-```
+* `SERVER_CONSUMPTION_RATE_LIMIT` (`serverConsumptionRateLimit`) reports the configured server-wide cap. Pinot sets it to `-1` when server-level rate limiting is disabled.
+* `SERVER_CONSUMPTION_QUOTA_UTILIZATION` (`serverConsumptionQuotaUtilization`) reports the server-wide utilization percentage.
 
-This metric reflects how close the server is to its configured consumption quota.
+If you previously read the server-wide value from `consumptionQuotaUtilization{table="realtimeRowsConsumed"}`, switch dashboards and alerts to `serverConsumptionQuotaUtilization`.
 
 
 ## Custom ingestion support
