@@ -701,6 +701,77 @@ curl -X GET "http://localhost:9000/debug/tables/baseballStats?type=OFFLINE&verbo
 ]
 ```
 
+### GET /tables/\<tableName>/size
+
+Get controller-aggregated table size details for the requested table. Pinot accepts either a raw table name such as
+`myTable` or a typed table name such as `myTable_OFFLINE`.
+
+When `tableIndexConfig.compressionStatsEnabled=true`, this response also includes a `compressionStats` summary for each
+covered offline or realtime sub-table. Per-column details are opt-in because the response can grow quickly.
+
+**Query parameters**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `verbose` | boolean | Defaults to `true`. When `false`, Pinot still returns the table and sub-table totals but leaves the `segments` maps empty. |
+| `includeReplacedSegments` | boolean | Defaults to `true`. Include replaced segments in the size rollup. |
+| `includeColumnCompressionStats` | boolean | Defaults to `false`. Add `columnCompressionStats` to each covered sub-table and selected segment-replica entry. |
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/tables/compressionStats/size?verbose=true&includeColumnCompressionStats=true" \
+  -H "accept: application/json"
+```
+
+**Response behavior**
+
+* `offlineSegments.compressionStats` and `realtimeSegments.compressionStats` stay available even when
+  `includeColumnCompressionStats=false`.
+* `columnCompressionStats` is returned only when `includeColumnCompressionStats=true`.
+* In verbose responses, Pinot attaches segment-level compression fields to one selected replica per logical segment
+  under `segments.<segment>.serverInfo.<server>`. Other replicas continue to report disk size only.
+
+For field definitions and coverage caveats, see [Compression Stats](../../build-with-pinot/indexing/compression-stats.md).
+
+### GET /tables/\<tableName>/metadata
+
+Get aggregate segment metadata for an offline table, including optional compression summaries.
+
+**Query parameters**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `type` | string | Use `OFFLINE`. `REALTIME` is not supported for this endpoint. |
+| `columns` | string[] | Optional repeated query parameter to limit the response to specific columns. |
+| `includeColumnCompressionStats` | boolean | Defaults to `false`. Add per-column compression entries to the response. |
+
+`compressionStatsEnabled` in the table config controls whether servers collect compression stats at all.
+`includeColumnCompressionStats` only controls whether Pinot includes the per-column list in the controller response.
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/tables/compressionStats/metadata?type=OFFLINE&includeColumnCompressionStats=true" \
+  -H "accept: application/json"
+```
+
+To scope the metadata response to one column:
+
+```bash
+curl -X GET "http://localhost:9000/tables/compressionStats/metadata?type=OFFLINE&columns=message&includeColumnCompressionStats=true" \
+  -H "accept: application/json"
+```
+
+**Response behavior**
+
+* The response includes a top-level `compressionStats` summary when Pinot can read any covered segment stats.
+* `columnCompressionStats` is returned only when `includeColumnCompressionStats=true`.
+* `partialCoverage=true` means Pinot could not contribute stats for at least one logical segment, such as older
+  segments built before the flag was enabled or segments whose current replicas cannot supply stats.
+
+For field definitions and coverage caveats, see [Compression Stats](../../build-with-pinot/indexing/compression-stats.md).
+
 ## Application Quotas
 
 Application-level query quotas allow you to limit the queries per second (QPS) issued by different applications connecting to Pinot, regardless of which tables or databases they query. Applications are identified by the `applicationName` query option. For more details on how application quotas interact with table and database quotas, see [Query Quotas](../../build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md).
