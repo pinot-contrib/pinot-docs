@@ -113,6 +113,12 @@ dataFormat: 'json'
 className: 'org.apache.pinot.plugin.inputformat.json.JSONRecordReader'
 ```
 
+For batch ingestion, `dataFormat: 'json'` uses `JSONRecordReader` and reads newline-delimited UTF-8 text JSON files only.
+
+For stream ingestion, use `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder`. When `stream.<type>.decoder.prop.jsonFormat` is unset, the decoder keeps the same UTF-8 text JSON behavior. You can also pin the stream payload format to `TEXT`, `POSTGRES_JSONB`, `SQLITE_JSONB`, `SMILE`, or `CBOR`, or set `AUTO` to opt into per-message detection for mixed streams.
+
+`AUTO` is opt-in and only detects CBOR when the payload includes the self-describe tag. If you already know the wire format, pin it explicitly instead of using `AUTO`. For a Kafka example and the config key details, see [Ingest streaming data from Apache Kafka](stream-ingestion/import-from-apache-kafka.md) and [Ingestion Configuration](../../reference/configuration-reference/ingestion.md).
+
 ### BSON
 
 ```

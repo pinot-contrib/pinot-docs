@@ -231,6 +231,22 @@ Create a file called `/tmp/pinot/table-config-stream.json` and add the following
 }
 ```
 
+### JSON stream payload formats
+
+`org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder` still defaults to UTF-8 text JSON when `stream.kafka.decoder.prop.jsonFormat` is unset, so existing Kafka table configs keep their historical behavior.
+
+To decode a binary JSON stream, add `stream.kafka.decoder.prop.jsonFormat` to the `streamConfigs` block and pin the payload encoding:
+
+```json
+"stream.kafka.decoder.prop.jsonFormat": "SQLITE_JSONB"
+```
+
+Supported values are `TEXT`, `POSTGRES_JSONB`, `SQLITE_JSONB`, `SMILE`, `CBOR`, and `AUTO`.
+
+Use `AUTO` only when a topic can legitimately contain more than one of those encodings. `AUTO` is opt-in, and its CBOR detection only works when each message includes the CBOR self-describe tag. If the producer always emits one known format, pin that format explicitly instead.
+
+This setting applies only to stream decoding. Batch ingestion with `JSONRecordReader` still reads text JSON files.
+
 ## Create schema and table
 
 Create the table and schema by running the appropriate command below:

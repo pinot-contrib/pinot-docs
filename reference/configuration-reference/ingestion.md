@@ -75,6 +75,7 @@ In this example, Pinot converts `ts` to `LONG` before `toEpochDays(ts)` runs. It
 | `stream.[streamType].consumer.factory.class.name` | Name of factory class to provide the appropriate implementation of consumer, as well as the metadata | String. Available options: - `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` - `org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory` - `org.apache.pinot.plugin.stream.kinesis.KinesisConsumerFactory` - `org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory` |
 | `stream.[streamType].consumer.prop.auto.offset.reset` | Determines the offset from which to start the ingestion | `smallest` , `largest` Period (`10d`, `4h30m`, etc) Timestamp (in format `yyyy-MM-dd'T'HH:mm:ss.SSSZ` eg. `2022-08-09T12:31:38.222Z`) |
 | `stream.[streamType].decoder.prop.format` | Specifies the data format to ingest via a stream. The value of this property should match the format of the data in the stream. | - `JSON` |
+| `stream.[streamType].decoder.prop.jsonFormat` | Applies only to `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder`. Selects the JSON stream payload encoding. When unset, the decoder preserves its historical UTF-8 text JSON behavior. `AUTO` is opt-in, and CBOR is auto-detected only when the payload carries the CBOR self-describe tag. | `TEXT`, `POSTGRES_JSONB`, `SQLITE_JSONB`, `SMILE`, `CBOR`, `AUTO` |
 | `realtime.segment.flush.threshold.time` | Maximum elapsed time after which a consuming segment persist. Note that this time should be smaller than the Kafka retention period configured for the corresponding topic. | String, such `1d` or `4h30m`. Default is `6h` (six hours). |
 | `realtime.segment.flush.threshold.rows` | The maximum number of rows to consume before persisting the consuming segment. If this value is set to 0, the configuration looks to `realtime.segment.flush.threshold.segment.size` below. See note below this table for more information. | Default is 5,000,000 |
 | `realtime.segment.flush.threshold.segment.rows` | The maximum number of rows to consume before persisting the consuming segment. Added since `release-1.2.0`. See note below this table for more information. | Int |
@@ -107,6 +108,10 @@ When offset auto reset is enabled, Pinot checks the configured lag thresholds du
 
 {% hint style="info" %}
 For BSON streams, set `stream.[streamType].decoder.class.name` to `org.apache.pinot.plugin.inputformat.bson.BSONMessageDecoder`. Each stream message must contain a single BSON document; BSON does not use `stream.[streamType].decoder.prop.format`.
+{% endhint %}
+
+{% hint style="info" %}
+`stream.[streamType].decoder.prop.jsonFormat` is a stream-only setting. Batch ingestion with `org.apache.pinot.plugin.inputformat.json.JSONRecordReader` still reads text JSON files.
 {% endhint %}
 
 ## `streamIngestionConfig`
