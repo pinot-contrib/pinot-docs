@@ -150,6 +150,7 @@
   * [Bloom Filter](build-with-pinot/indexing/bloom-filter.md)
   * [Dictionary Index](build-with-pinot/indexing/dictionary-index.md)
   * [Forward Index](build-with-pinot/indexing/forward-index.md)
+  * [Compression Stats](build-with-pinot/indexing/compression-stats.md)
   * [FST Index](build-with-pinot/indexing/fst-index.md)
   * [Geospatial](build-with-pinot/indexing/geospatial-support.md)
   * [Inverted Index](build-with-pinot/indexing/inverted-index.md)

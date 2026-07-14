@@ -34,6 +34,15 @@ Use the decision guide when you know the query shape but not the best index yet.
 * [Star-tree index](star-tree-index.md) for repeatable aggregation and group-by workloads.
 * [Vector index](vector-index.md) for similarity search on embeddings.
 
+## Inspect compression efficiency
+
+Use compression stats when you need to compare Pinot's tracked uncompressed value bytes with the bytes Pinot stores in
+forward indexes and dictionaries for a table.
+
+{% content-ref url="compression-stats.md" %}
+[compression-stats.md](compression-stats.md)
+{% endcontent-ref %}
+
 ### Index availability
 
 | Index Type          | Segment Type       |
