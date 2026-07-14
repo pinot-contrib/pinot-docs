@@ -67,7 +67,7 @@ Pinot ships two Kafka connector modules: `pinot-kafka-3.0` (Kafka client 3.9.2, 
 
 | Decoder Class | Description |
 | --- | --- |
-| `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder` | Decodes plain JSON messages without a schema registry. |
+| `org.apache.pinot.plugin.inputformat.json.JSONMessageDecoder` | Decodes stream JSON messages without a schema registry. Defaults to UTF-8 text JSON and also supports `stream.<type>.decoder.prop.jsonFormat` values `TEXT`, `POSTGRES_JSONB`, `SQLITE_JSONB`, `SMILE`, `CBOR`, and opt-in `AUTO`. |
 | `org.apache.pinot.plugin.inputformat.avro.SimpleAvroMessageDecoder` | Decodes Avro messages using a schema provided via `stream.kafka.decoder.prop.schema`. |
 | `org.apache.pinot.plugin.inputformat.avro.confluent.KafkaConfluentSchemaRegistryAvroMessageDecoder` | Decodes Avro messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`. |
 | `org.apache.pinot.plugin.inputformat.json.confluent.KafkaConfluentSchemaRegistryJsonMessageDecoder` | Decodes JSON messages whose schemas are registered in Confluent Schema Registry. Requires `stream.kafka.decoder.prop.schema.registry.rest.url`. Added in Pinot 1.4. |
