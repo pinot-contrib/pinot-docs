@@ -46,6 +46,7 @@ Data characteristics is defined in "schema" field. The content of this field is 
   * Metric columns cannot be defined as multi-value.
   * Columns of type BYTES cannot be defined as multi-value.
 * **averageLength**: For data type of BYTES or STRING only, this is the average length of the column value.
+* **UUID fields**: Schema columns with `dataType` set to `UUID` are supported when the engine generates sample data. Generated Avro sample data uses canonical UUID strings, and UUID columns are represented as Avro `string` with logical type `uuid`.
 
 ### 2. Table Characteristics
 
