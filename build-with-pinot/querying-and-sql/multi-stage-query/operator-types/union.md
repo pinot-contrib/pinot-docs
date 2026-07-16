@@ -22,7 +22,23 @@ The union operator is a streaming operator that consumes the input relations one
 
 ## Hints
 
-None
+### is_colocated_by_set_op_keys
+
+Type: Boolean
+
+Default: planner chosen
+
+Apply this option with `setOpOptions(is_colocated_by_set_op_keys='...')` to control whether Pinot shuffles rows before the union stage:
+
+* `'true'` forces a pre-partitioned direct exchange.
+* `'false'` forces a shuffled hash exchange.
+* Unset leaves the V1 planner's auto-detection in place.
+
+`UNION ALL` is always safe with `'true'` because it only concatenates rows. Plain `UNION` is only safe with `'true'` when all inputs are partitioned compatibly on one or more projected columns so equal full output rows land on the same worker.
+
+Use the outer-wrap form described in [Hints](../hints.md#setopoptions) for plain `UNION`. Pinot rewrites distinct `UNION` to an aggregate over `UNION ALL`, so the inline hint on the first branch does not apply there.
+
+The V2 physical optimizer ignores this hint and determines set-op colocation on its own.
 
 ## Stats
 
