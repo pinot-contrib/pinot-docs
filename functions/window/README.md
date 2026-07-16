@@ -37,15 +37,28 @@ window:
       [ PARTITION BY expression [, expression ]* ]
       [ ORDER BY orderItem [, orderItem ]* ]
       [
-          RANGE BETWEEN frame_start AND frame_end
-        |   
-          ROWS BETWEEN frame_start AND frame_end
-        |
-          RANGE frame_start
-        |
-          ROWS frame_start    
+          frame_clause
+          [ exclude_clause ]
       ]
       ')'
+
+frame_clause:
+      RANGE BETWEEN frame_start AND frame_end
+    |
+      ROWS BETWEEN frame_start AND frame_end
+    |
+      RANGE frame_start
+    |
+      ROWS frame_start
+
+exclude_clause:
+      EXCLUDE NO OTHERS
+    |
+      EXCLUDE CURRENT ROW
+    |
+      EXCLUDE GROUP
+    |
+      EXCLUDE TIES
       
 frame_start:
       UNBOUNDED PRECEDING
@@ -125,6 +138,23 @@ The following window frame clauses are currently supported:
   * `offset FOLLOWING` where `offset` is an integer literal
   * `UNBOUNDED FOLLOWING` (`frame_end` only)
 
+#### Exclude clause
+
+Use the optional `EXCLUDE` clause to remove rows from the current window frame before Pinot evaluates the window function:
+
+* `EXCLUDE NO OTHERS` is the default behavior.
+* `EXCLUDE CURRENT ROW` removes only the current row.
+* `EXCLUDE GROUP` removes the current row and all of its peers.
+* `EXCLUDE TIES` removes the current row's peers but keeps the current row.
+
+Pinot supports `EXCLUDE` on the supported `ROWS` frames and the supported `RANGE` frames listed above. `GROUP` and `TIES` use the window's `ORDER BY` keys to define peers. If the window does not specify `ORDER BY`, the whole partition is treated as one peer group.
+
+Pinot supports `EXCLUDE` for `SUM`, `COUNT`, `AVG`, `MIN`, `MAX`, `BOOL_AND`, `BOOL_OR`, `FIRST_VALUE`, and `LAST_VALUE`.
+
+{% hint style="warning" %}
+If queries rely on `EXCLUDE CURRENT ROW`, `EXCLUDE GROUP`, or `EXCLUDE TIES`, upgrade servers before brokers during a rolling upgrade. Older servers treat non-default exclusions as the default `EXCLUDE NO OTHERS`.
+{% endhint %}
+
 In `RANGE` mode, a `frame_start` of `CURRENT ROW` means the frame starts with the current row's first _peer_ row (a row that the window's `ORDER BY` clause sorts as equivalent to the current row), while a `frame_end` of `CURRENT ROW` means the frame ends with the current row's last peer row. In `ROWS` mode, `CURRENT ROW` simply means the current row.
 
 If no `ORDER BY` clause is specified, the window frame will always be `RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING` and cannot be modified. When an `ORDER BY` clause is present, the default frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` if no explicit window frame is defined in the query.&#x20;
@@ -164,7 +194,7 @@ Supported window functions are listed in the following table.
 | [RANK](rank.md) | Returns the rank of the current row, with gaps - i.e., the `row_number` of the first row in its peer group. | `RANK()` |  |
 | [DENSE_RANK](dense_rank.md) | Returns the rank of the current row, without gaps. | `DENSE_RANK()` |  |
 
-Note that no window frame clause can be specified for `ROW_NUMBER`, `RANK`, and `DENSE_RANK` window functions since they're applied on the entire partition by definition. Similarly, no window frame clause can be specified for `LAG` and `LEAD` since the row `offset` is an input to those functions themselves.
+Note that no window frame clause can be specified for `ROW_NUMBER`, `RANK`, and `DENSE_RANK` window functions since they're applied on the entire partition by definition. Similarly, no window frame clause can be specified for `LAG` and `LEAD` since the row `offset` is an input to those functions themselves. Because `EXCLUDE` modifies a window frame, it is not allowed with these functions either.
 
 ## Window aggregate query examples
 
