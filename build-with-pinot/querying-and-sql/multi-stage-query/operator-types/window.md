@@ -16,6 +16,12 @@ Window operators take a single input relation and apply window functions to it. 
 
 In general window operator are expensive in terms of CPU and memory usage, but they open the door to a wide range of analytical queries.
 
+The operator also supports SQL `EXCLUDE` frame modifiers for `SUM`, `COUNT`, `AVG`, `MIN`, `MAX`, `BOOL_AND`, `BOOL_OR`, `FIRST_VALUE`, and `LAST_VALUE`. Pinot supports `EXCLUDE NO OTHERS` (default), `EXCLUDE CURRENT ROW`, `EXCLUDE GROUP`, and `EXCLUDE TIES` on supported `ROWS` frames and supported `RANGE` frames. Ranking functions and `LAG` / `LEAD` do not accept explicit frame clauses, so they also do not accept `EXCLUDE`.
+
+{% hint style="warning" %}
+If users expect non-default `EXCLUDE` behavior during a rolling upgrade, upgrade servers before brokers. Older servers fall back to the default `EXCLUDE NO OTHERS`.
+{% endhint %}
+
 
 ## Polymorphic Window Function Aggregators
 
