@@ -100,6 +100,8 @@ Congratulations! You've successfully enabled authentication on Apache Pinot. Rea
 
 Apache Pinot's Basic Auth follows the established standards for HTTP Basic Auth. Credentials are provided via an HTTP Authorization header. The pinot-controller web ui dynamically adapts to your auth configuration and will display a login prompt when basic auth is enabled. Restricted users are still shown all available ui functions, but their operations will fail with an error message if ACLs prohibit access.
 
+The controller Swagger UI also exposes that same `Authorization` header through the standard `Authorize` dialog. Enter `Basic <token>` there once per session instead of editing each request by hand. If your deployment uses bearer tokens on the same header, the same dialog also accepts `Bearer <token>`. This only changes how Swagger documents and collects the header; Pinot's runtime authentication behavior is unchanged.
+
 If you're using pinot's CLI clients you can provide your credentials either via dedicated username and password arguments, or as pre-serialized token for the HTTP Authorization header. Note, that while most of Apache Pinot's CLI commands support auth, not all of them have been back-fitted yet. If you encounter any such case, you can access the REST API directly, e.g. via curl.
 
 {% tabs %}

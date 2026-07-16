@@ -6,6 +6,8 @@ description: Pinot controller admin UI reference.
 
 The controller admin UI at `http://<controller-host>:<port>/help` is the quickest way to inspect and exercise Pinot's administrative endpoints. Use it for schema, table, and segment operations when you want the interactive Swagger surface instead of raw curl examples.
 
+If controller authentication is enabled, use the Swagger UI `Authorize` control to set the `Authorization` header once for the session instead of editing each request manually. Enter `Basic <token>` for Basic auth or `Bearer <token>` when your deployment uses bearer tokens on the same header.
+
 ## What It Covers
 
 | Area | Typical task |
