@@ -68,3 +68,28 @@ This function can be used in the [table config](../../reference/configuration-re
    }
 }
 ```
+
+## Fast and first-match variants
+
+Use the opt-in variants below when the path is a **simple linear path**: `$` followed only by `.name`, `['literal.key']`, or `[0]` segments. For more complex JsonPath features such as wildcards, deep scan (`..`), filters, unions, slices, negative indexes, or a bare `$`, Pinot falls back to the existing `JSONPATHDOUBLE` behavior.
+
+Like `JSONPATHDOUBLE`, both variants are intended for [ingestion transformation functions](../../build-with-pinot/ingestion/ingestion-level-transformations.md).
+
+### JSONPATHDOUBLEFAST
+
+> JSONPATHDOUBLEFAST(jsonField, 'jsonPath', \[defaultValue])
+
+`JSONPATHDOUBLEFAST` resolves supported paths in a single forward pass over the JSON text instead of building the full Jayway DOM first. It keeps the same result as `JSONPATHDOUBLE`, including the same `defaultValue` handling, and falls back to the existing implementation when the path is not a simple linear path or the input is not a JSON object or array.
+
+Use `JSONPATHDOUBLEFAST` when you want lower ingestion CPU cost without changing semantics.
+
+### JSONPATHDOUBLEFIRSTMATCH
+
+> JSONPATHDOUBLEFIRSTMATCH(jsonField, 'jsonPath', \[defaultValue])
+
+`JSONPATHDOUBLEFIRSTMATCH` uses the same streaming fast path but stops as soon as the addressed field is found. This is usually the fastest option when the field appears early in the JSON document, but it changes behavior for undefined or corrupt input:
+
+- Duplicate keys resolve to the **first** occurrence instead of the last one.
+- A document malformed strictly after the addressed field can still return the extracted value.
+
+Use `JSONPATHDOUBLEFIRSTMATCH` only when the upstream JSON is well-formed and duplicate-free.
