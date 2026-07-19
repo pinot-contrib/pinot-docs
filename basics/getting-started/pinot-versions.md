@@ -43,12 +43,12 @@ Start Here pages never use the `latest` Docker tag. Always pin to a specific ver
 
 | Requirement | Detail |
 | --- | --- |
-| **Build/Runtime baseline** | **JDK 21+** (required for Pinot services) |
+| **Build/Runtime baseline** | **JDK 25+** (required for Pinot services) |
 | **Client libraries** | JDK 11+ (SPI and Java/JDBC client artifacts remain compatible with Java 11) |
 | Pinot 1.0+ minimum | JDK 11 or higher required |
 | JDK 8 support | Pinot **0.12.1** is the last version that supports JDK 8 |
 
-**Starting with this release:** Pinot services require **JDK 21 or later** for building and runtime. The SPI and Java/JDBC client modules (`pinot-spi`, `pinot-java-client`, `pinot-jdbc-client`) are compiled to Java 11 bytecode for backward compatibility with external JVM consumers.
+**Starting with this release:** Pinot services require **JDK 25 or later** for building and runtime. The SPI and Java/JDBC client modules (`pinot-spi`, `pinot-java-client`, `pinot-jdbc-client`) are compiled to Java 11 bytecode for backward compatibility with external JVM consumers.
 
 ## Release links
 

@@ -49,4 +49,4 @@ Before extending Pinot, make sure you have:
 
 * A local Pinot development environment set up (see [Dev Environment Setup](../code-setup.md))
 * Familiarity with Pinot's [architecture and components](../../../basics/concepts/)
-* Java 21+ and Maven for building
+* Java 25+ and Maven for building

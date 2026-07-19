@@ -289,9 +289,9 @@ You should see containers for ZooKeeper, Controller, Broker, Server, and Minion 
 
 ## Docker image versions
 
-Pinot Docker images are built with **JDK 21** by default. For forward-looking compatibility testing, a **JDK 25** image variant is also available. Previous JDK 11 and JDK 17 image variants are no longer published starting with this release.
+Pinot Docker images now target **JDK 25** runtimes. The `latest` tag promotes the `25-ms-openjdk` runtime, and `latest-25` plus versioned `-25` tags remain available for explicit pinning.
 
-If you are running deployments pinned to older JDK 11 or JDK 17 image tags (e.g., `apachepinot/pinot:1.4.0-java-11` or `apachepinot/pinot:1.4.0-java-17`), you must update to the JDK 21 image tag before adopting this release.
+Pinot no longer publishes `*-21-*` service image tags. If you are pinned to `apachepinot/pinot:latest-21-amazoncorretto`, `apachepinot/pinot:latest-21-ms-openjdk`, or similar versioned `*-21-*` tags, move to a `*-25-*` tag before upgrading.
 
 ## Next step
 
