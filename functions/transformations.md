@@ -25,6 +25,8 @@ The most important split is whether the function returns a typed value that can 
 Pinot supports both generic and typed JSON access. The typed variants are the safer choice for query output because they keep the result schema explicit.
 
 - Use `JSONPATHSTRING`, `JSONPATHLONG`, and `JSONPATHDOUBLE` when the result type must be fixed.
+- Use `JSONPATHSTRINGFAST`, `JSONPATHLONGFAST`, and `JSONPATHDOUBLEFAST` in ingestion transforms when the path is a simple linear path and you want the same result as `JSONPATH*` with lower ingestion CPU. For unsupported JsonPath shapes, Pinot falls back to the existing `JSONPATH*` implementation.
+- Use `JSONPATH*FIRSTMATCH` only in ingestion transforms on well-formed, duplicate-free JSON. These early-exit variants can be faster when the field appears early, but duplicate keys resolve to the first occurrence and malformed content after the addressed field is not rejected.
 - Use `JSONEXTRACTOBJECT` in ingestion transforms when several downstream `JSONPATH*` expressions read from the same JSON source column.
 - Use `JSONPATH` and `JSONPATHARRAY` when you are shaping ingestion data and the downstream schema can handle the inferred type.
 - Use `JSONFORMAT` and `TOJSONMAPSTR` when you need to serialize an object or map back to JSON text.
