@@ -11,7 +11,7 @@ This section covers everything you need to deploy an Apache Pinot cluster, from 
 
 ## Prerequisites
 
-- Java 21 or later installed (or Docker if using container-based deployment).
+- Java 25 or later installed (or Docker if using container-based deployment).
 - A running Apache ZooKeeper ensemble (three nodes recommended for production).
 - Access to a deep store (local filesystem for development; S3, GCS, HDFS, or ADLS for production).
 - The Pinot binary distribution downloaded from [pinot.apache.org/download](https://pinot.apache.org/download) or the official Docker image.

@@ -21,7 +21,7 @@ This section helps you get the Apache Pinot source code onto your machine, under
 ## Prerequisites
 
 * Git installed and configured with SSH keys for GitHub.
-* JDK 21 (JDK 17 is also supported with additional VM options).
+* JDK 25.
 * Apache Maven 3.6 or later.
 * Docker (required only for building container images).
 
