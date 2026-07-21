@@ -1625,6 +1625,129 @@ curl -X GET "http://localhost:9000/tables/myTable/pauseStatus" -H "accept: appli
 }
 ```
 
+### POST /tables/\<tableName>/forceCommit
+
+Force the current **CONSUMING** segments of a realtime table to commit immediately and start new consuming segments. Use this after compatible schema or table-config changes so the next consuming segments pick up the new settings, or before a rebalance when you want consuming segments sealed first.
+
+{% hint style="warning" %}
+**HTTP 200 means the request was accepted**, not that every segment has finished committing. Force commit is asynchronous. Use [GET /tables/forceCommitStatus/\{jobId\}](#get-tablesforcecommitstatusjobid) to track progress.
+{% endhint %}
+
+| Query parameter | Type | Meaning |
+| --- | --- | --- |
+| `partitions` | string | Optional comma-separated partition group IDs. Only consuming segments for those partitions are force-committed. |
+| `segments` | string | Optional comma-separated consuming segment names. Only those segments are force-committed (non-consuming names are ignored with a warning in controller logs). |
+| `batchSize` | integer | Maximum number of consuming segments to commit per batch. Default: all target segments in one batch (`Integer.MAX_VALUE`). Must be > `0`. |
+| `batchStatusCheckIntervalSec` | integer | How often, in seconds, the controller checks whether the current batch has finished before starting the next batch. Default: `5`. Must be > `0`. |
+| `batchStatusCheckTimeoutSec` | integer | How long, in seconds, the controller waits for a batch to finish before failing the in-progress batch wait. Default: `180`. Must be > `0`. |
+
+**Mutual exclusion:** do **not** pass `partitions` and `segments` together. Pinot returns `400 Bad Request` with `Cannot specify both partitions and segments to commit`.
+
+When neither filter is set, Pinot force-commits **all** consuming segments for the table. With `batchSize` smaller than the number of targets, the controller commits segments in sequential batches (spread across servers) and waits for each batch using the interval/timeout above. That batch wait runs **asynchronously after** the HTTP accept (on a background executor); the POST still returns immediately with a `forceCommitJobId` — use forceCommitStatus to observe completion.
+
+**Request**
+
+```bash
+curl -X POST "http://localhost:9000/tables/myTable/forceCommit" -H "accept: application/json"
+```
+
+Partition filter:
+
+```bash
+curl -X POST "http://localhost:9000/tables/myTable/forceCommit?partitions=0,1,2" \
+  -H "accept: application/json"
+```
+
+Segment filter with batching:
+
+```bash
+curl -X POST "http://localhost:9000/tables/myTable/forceCommit?segments=myTable__0__12__20250610T2140Z,myTable__1__12__20250610T2140Z&batchSize=50&batchStatusCheckIntervalSec=5&batchStatusCheckTimeoutSec=180" \
+  -H "accept: application/json"
+```
+
+**Success response fields**
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `forceCommitStatus` | string | `SUCCESS` when the controller successfully initiated force commit (messages sent / batches scheduled). Does **not** mean all segments are already ONLINE. |
+| `jobMetaZKWriteStatus` | string | `SUCCESS` if Pinot wrote force-commit job metadata to ZooKeeper; `FAILED` if commit was initiated but the ZK job record could not be stored (you will not get a trackable `forceCommitJobId`). |
+| `forceCommitJobId` | string | UUID used with the status API. Present only when `jobMetaZKWriteStatus` is `SUCCESS`. |
+
+**Example response**
+
+```json
+{
+  "forceCommitJobId": "6757284f-b75b-45ce-91d8-a277bdbc06ae",
+  "forceCommitStatus": "SUCCESS",
+  "jobMetaZKWriteStatus": "SUCCESS"
+}
+```
+
+**Failure modes**
+
+| Situation | Typical HTTP status | Notes |
+| --- | --- | --- |
+| Table missing or no IdealState | `404` | `Table {name}_REALTIME not found!` |
+| Table disabled | `400` | Table exists but is disabled. |
+| Both `partitions` and `segments` set | `400` | Conflicting filters. |
+| Non-positive `batchSize` / interval / timeout | `400` | `Invalid batch config`. |
+| Partial-upsert tables, or upsert tables with out-of-order drop/column settings, when cluster consistency mode disallows force commit | `500` | Controller rejects force commit to avoid inconsistent upsert metadata unless `pinot.server.consuming.segment.consistency.mode` allows it (for example `PROTECTED`). |
+| No force-commit message could be sent | `500` | Internal error from the realtime segment manager. |
+| ZK job metadata write fails | `200` with `jobMetaZKWriteStatus=FAILED` | Commit may still be in flight; progress tracking via job id is unavailable. |
+
+Force commit is a one-shot request (not auto-retried). It is idempotent enough that you can re-issue it if needed. It triggers the same commit path as a normal end-of-segment commit, just earlier than the rows/time thresholds.
+
+For operational context (pause/resume interaction, schema evolution), see [Pause stream ingestion](../../build-with-pinot/ingestion/stream-ingestion/README.md#pause-stream-ingestion) and [Schema evolution](../../build-with-pinot/data-modeling/schema-evolution.md).
+
+### GET /tables/forceCommitStatus/\{jobId\}
+
+Return progress for a force-commit job previously accepted by `POST /tables/{tableName}/forceCommit`.
+
+**Request**
+
+```bash
+curl -X GET "http://localhost:9000/tables/forceCommitStatus/6757284f-b75b-45ce-91d8-a277bdbc06ae" \
+  -H "accept: application/json"
+```
+
+**Response fields**
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `jobId` | string | Force-commit job UUID. |
+| `tableName` | string | Realtime table name with type (for example `myTable_REALTIME`). |
+| `jobType` | string | `FORCE_COMMIT`. |
+| `submissionTimeMs` | string | Epoch millis when the controller accepted the job. |
+| `segmentsForceCommitted` | string (JSON array) | Snapshot of consuming segment names for which commit was **initiated** at submission time. |
+| `segmentsYetToBeCommitted` | array of strings | Subset of the tracked segments that are **still** pending commit when you poll. Empty means all tracked segments have left the pending set. |
+| `numberOfSegmentsYetToBeCommitted` | integer | Count of `segmentsYetToBeCommitted`. Use this as the primary progress signal (`0` ≈ complete for the segments this job tracks). |
+
+**How pending is computed:** the controller compares the job's segment list with the current IdealState / segment metadata. Segments that have not yet finished committing remain in `segmentsYetToBeCommitted`. Successful polls may persist an updated pending list back to ZK.
+
+{% hint style="info" %}
+Job metadata is **not** deleted when the commit finishes. Entries can look stale if you inspect them long after completion. Pinot retains a bounded number of force-commit job records in ZK (default **100**, controlled by `controller.force.commit.maxJobsInZK`); older entries are evicted when the limit would be exceeded.
+{% endhint %}
+
+**Example response (in progress)**
+
+```json
+{
+  "jobId": "6757284f-b75b-45ce-91d8-a277bdbc06ae",
+  "segmentsForceCommitted": "[\"myTable__0__12__20250610T2140Z\",\"myTable__1__12__20250610T2140Z\"]",
+  "submissionTimeMs": "1674111682977",
+  "numberOfSegmentsYetToBeCommitted": 1,
+  "jobType": "FORCE_COMMIT",
+  "segmentsYetToBeCommitted": ["myTable__1__12__20250610T2140Z"],
+  "tableName": "myTable_REALTIME"
+}
+```
+
+**Failure modes**
+
+| Situation | Typical HTTP status | Notes |
+| --- | --- | --- |
+| Unknown `jobId` | `404` | `Failed to find controller job id: ...` (never written, already evicted, or ZK write failed at submit time). |
+
 ### GET /tables/\<tableName>/badLLCSegmentsPerPartition
 
 Return the bad LLC segments for a realtime table, grouped by partition ID. Pinot sorts the segment names within each partition by increasing sequence number, which makes this endpoint useful before calling repair workflows such as `deleteSegmentsFromSequenceNum`.

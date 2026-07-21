@@ -501,6 +501,13 @@ There is another feature called `Force Commit` which utilizes the primitives of 
 $ curl -X POST {controllerHost}/tables/{tableName}/forceCommit
 ```
 
+Optional filters and batching (do not combine `partitions` and `segments`):
+
+```bash
+$ curl -X POST "{controllerHost}/tables/{tableName}/forceCommit?partitions=0,1&batchSize=50&batchStatusCheckIntervalSec=5&batchStatusCheckTimeoutSec=180"
+$ curl -X POST "{controllerHost}/tables/{tableName}/forceCommit?segments=table__0__12__20250610T2140Z,table__1__12__20250610T2140Z"
+```
+
 Real-time tables can also be paused automatically by Pinot itself. In particular, when a table exceeds `quota.storage`, the controller marks it paused with reason code `STORAGE_QUOTA_EXCEEDED` and stops creating new consuming segments during periodic validation. Once the table is back within quota, Pinot clears that pause state and allows segment creation to resume. If you want to resume sooner after fixing the quota issue, you can still call `resumeConsumption` manually.
 
 (v 0.12.0+) Once submitted, the forceCommit API returns a jobId that can be used to get the current progress of the forceCommit operation. A sample response and status API call:
@@ -526,9 +533,13 @@ $ curl -X GET {controllerHost}/tables/forceCommitStatus/6757284f-b75b-45ce-91d8-
 ```
 
 {% hint style="info" %}
-The forceCommit request just triggers a regular commit before the consuming segments reaching the end criteria, so it follows the same mechanism as regular commit. It is one-time shot request, and not retried automatically upon failure. But it is idempotent so one may keep issuing it till success if needed.
+The forceCommit request just triggers a regular commit before the consuming segments reach the end criteria, so it follows the same mechanism as regular commit. It is a one-shot request and is not retried automatically upon failure. It is idempotent enough that you may keep issuing it until success if needed.
 
-This API is async, as it doesn't wait for the segment commit to complete. But a status entry is put in ZK to track when the request is issued and the consuming segments included. The consuming segments tracked in the status entry are compared with the latest IdealState to indicate the progress of forceCommit. However, this status is not updated or deleted upon commit success or failure, so that it could become stale. Currently, the most recent 100 status entries are kept in ZK, and the oldest ones only get deleted when the total number is about to exceed 100.
+**HTTP 200 is async acceptance**, not proof that commits finished. `forceCommitStatus=SUCCESS` means the controller initiated the operation; wait until `numberOfSegmentsYetToBeCommitted` is `0` on the status API. `jobMetaZKWriteStatus=FAILED` means commit may still run but Pinot could not persist a trackable job id.
+
+A ZK status entry records submission time and the consuming segments included. Pending progress is derived by comparing that list to the latest IdealState / metadata. The status entry is not deleted on success or failure and can become stale; Pinot keeps a bounded number of force-commit jobs in ZK (default 100 via `controller.force.commit.maxJobsInZK`).
+
+Full parameter tables, mutual exclusion of `partitions` vs `segments`, and failure modes: [Force commit API](../../../reference/api-reference/controller-api.md#post-tablestablenameforcecommit).
 {% endhint %}
 
 For incompatible parameter changes, an option is added to the resume request to handle the case of a completely new set of offsets. Operators can now follow a three-step process: First, issue a pause request. Second, change the consumption parameters. Finally, issue the resume request with the appropriate option. These steps will preserve the old data and allow the new data to be consumed immediately. All through the operation, queries will continue to be served.
