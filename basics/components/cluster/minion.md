@@ -216,6 +216,10 @@ Pinot ships with the following built-in Minion tasks:
 | [UpsertCompactionTask](../../../operate-pinot/upsert-compaction-task.md) | Compacts individual upsert segments by removing invalidated records | REALTIME (upsert only) |
 | [UpsertCompactMergeTask](../../../operate-pinot/upsert-compact-merge-task.md) | Merges multiple small upsert segments into larger ones to reduce segment count | REALTIME (upsert only) |
 
+{% hint style="info" %}
+`PurgeTask`, `RefreshSegmentTask`, and `UpsertCompactionTask` all rebuild a single segment and upload the replacement segment. If that upload fails, Pinot marks the task attempt as failed instead of reporting success, so the Minion task framework can retry it.
+{% endhint %}
+
 ### SegmentGenerationAndPushTask
 
 The SegmentGenerationAndPushTask can fetch files from an input folder (e.g. from an S3 bucket) and convert them into segments. It converts one file into one segment and keeps the file name in segment metadata to avoid duplicate ingestion.
