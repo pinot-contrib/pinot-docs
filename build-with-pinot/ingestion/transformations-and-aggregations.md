@@ -10,7 +10,7 @@ Ingestion transformations clean up source records before they become Pinot rows.
 
 Use transformations to rename, reshape, extract, filter, or derive fields while ingesting. Keep the logic close to the table so the pipeline stays understandable.
 
-The detailed examples still live in [Ingestion Transformations](ingestion-level-transformations.md).
+The detailed examples still live in [Ingestion Transformations](ingestion-level-transformations.md), including [geospatial transform functions](ingestion-level-transformations.md#geospatial-functions) such as `ST_Point` and `geoToH3`.
 
 ## Aggregations
 

@@ -137,6 +137,75 @@ Letters that are not part of Simple Date Time legend ([https://docs.oracle.com/j
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | json\_format | Converts a JSON/AVRO complex object to a string. This json map can then be queried using [jsonExtractScalar](../../functions/transformations.md) function. `"json_format(jsonMapField)"` |
 
+#### Geospatial functions
+
+Geospatial scalar functions are available as ingestion transforms. Use them to materialize points, parse WKT/WKB/GeoJSON, convert geometry/geography, or compute H3 grid ids at ingest time. Geometry and geography values are stored as `BYTES` in the schema.
+
+| Function name | Returns | Description |
+| ------------- | ------- | ----------- |
+| [ST_Point](../../functions/geospatial/stpoint.md) / `stPoint` | `BYTES` (Point) | Builds a point from `x`/`y` coordinates; optional third arg marks geography. |
+| [ST_Polygon](../../functions/geospatial/stpolygon.md) | `BYTES` (Polygon) | Parses polygon WKT into a planar polygon geometry. |
+| [ST_GeomFromText](../../functions/geospatial/stgeomfromtext.md) / `stGeomFromText` | `BYTES` (Geometry) | Parses a WKT string into a geometry. |
+| [ST_GeogFromText](../../functions/geospatial/stgeogfromtext.md) / `stGeogFromText` | `BYTES` (Geography) | Parses a WKT string into a geography. |
+| [ST_GeomFromWKB](../../functions/geospatial/stgeomfromwkb.md) / `stGeomFromWKB` | `BYTES` (Geometry) | Parses WKB bytes into a geometry. |
+| [ST_GeogFromWKB](../../functions/geospatial/stgeogfromwkb.md) / `stGeogFromWKB` | `BYTES` (Geography) | Parses WKB bytes into a geography. |
+| [ST_GeomFromGeoJSON](../../functions/geospatial/st_geomfromgeojson.md) / `stGeomFromGeoJson` | `BYTES` (Geometry) | Parses a GeoJSON string into a geometry. |
+| [ST_GeogFromGeoJSON](../../functions/geospatial/st_geogfromgeojson.md) / `stGeogFromGeoJson` | `BYTES` (Geography) | Parses a GeoJSON string into a geography. |
+| [ST_AsText](../../functions/geospatial/stastext.md) / `stAsText` | `STRING` | Serializes geometry/geography to WKT. |
+| [ST_AsBinary](../../functions/geospatial/stasbinary.md) / `stAsBinary` | `BYTES` | Serializes geometry/geography to WKB. |
+| [ST_AsGeoJSON](../../functions/geospatial/st_asgeojson.md) / `stAsGeoJson` | `STRING` | Serializes geometry/geography to GeoJSON. |
+| [ST_GeometryType](../../functions/geospatial/stgeometrytype.md) / `stGeometryType` | `STRING` | Returns the geometry type name (for example, `Point`, `Polygon`). |
+| `ST_Area` / `stArea` | `DOUBLE` | Computes planar area for geometry or spherical area in square meters for geography. |
+| [ST_Distance](../../functions/geospatial/stdistance.md) / `stDistance` | `DOUBLE` | Distance between two geometries (cartesian) or geographies (meters). |
+| [ST_Contains](../../functions/geospatial/stcontains.md) / `stContains` | `INT` (0/1) | Whether the first geometry/geography contains the second. |
+| `ST_Equals` / `stEquals` | `INT` (0/1) | Whether two geometries are equal. |
+| `ST_Within` / `stWithin` | `INT` (0/1) | Whether the first geometry is completely inside the second. |
+| [toSphericalGeography](../../functions/geospatial/tosphericalgeography.md) | `BYTES` (Geography) | Converts a geometry object to spherical geography. |
+| [toGeometry](../../functions/geospatial/togeometry.md) | `BYTES` (Geometry) | Converts a spherical geography object to geometry. |
+| `geoToH3` | `LONG` | H3 cell id from `(longitude, latitude, resolution)` or from a point `BYTES` plus resolution. |
+| [gridDistance](../../functions/geospatial/griddistance.md) | `LONG` | H3 grid distance between two H3 indexes. |
+| [gridDisk](../../functions/geospatial/griddisk.md) | `LONG[]` | H3 indexes within `k` grid steps of an origin index. |
+
+{% hint style="info" %}
+Function names are case-insensitive in transforms. The full geospatial function reference (including query-time usage and aggregates such as [ST_Union](../../functions/geospatial/stunion.md)) is in [Geospatial functions](../../functions/geospatial/README.md).
+{% endhint %}
+
+**Example: materialize a point and an H3 grid id from longitude/latitude columns**
+
+```javascript
+"ingestionConfig": {
+  "transformConfigs": [
+    {
+      "columnName": "location",
+      "transformFunction": "ST_Point(lon, lat, 1)"
+    },
+    {
+      "columnName": "h3Index",
+      "transformFunction": "geoToH3(lon, lat, 7)"
+    }
+  ]
+}
+```
+
+Add `location` as a `BYTES` dimension and `h3Index` as a `LONG` dimension in the schema. The third argument to `ST_Point` marks the value as geography (`1`/`true`) rather than planar geometry.
+
+**Example: parse WKT and derive H3 from an existing point column**
+
+```javascript
+"ingestionConfig": {
+  "transformConfigs": [
+    {
+      "columnName": "geom",
+      "transformFunction": "ST_GeomFromText(wkt)"
+    },
+    {
+      "columnName": "h3FromPoint",
+      "transformFunction": "geoToH3(location, 9)"
+    }
+  ]
+}
+```
+
 ## Types of transformation
 
 ### Filtering
