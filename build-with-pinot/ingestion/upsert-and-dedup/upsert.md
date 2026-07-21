@@ -831,7 +831,7 @@ This divergence is generally safe for FULL Upsert tables because replicas eventu
 
 - Full upsert tables with dropOutOfOrderRecord=true or outOfOrderRecordColumn: Out-of-order detection relies on the current location; wrong metadata can cause incorrect acceptance or rejection.
 
-To mitigate that, we added a server config: `pinot.server.consuming.segment.consistency.mode` which has three modes:
+To mitigate that, we added a **Helix cluster config** (not a per-process `pinot-server.conf` key): `pinot.server.consuming.segment.consistency.mode`, with three modes:
 
 #### RESTRICTED (default)
 
@@ -1080,15 +1080,15 @@ If the table-level flag is left at its default `false`, the server-level fallbac
 
 ### Consuming Segment Consistency Mode
 
-For partial upsert tables or tables with `dropOutOfOrder=true`, configure how the server handles segment reloads and force commits via `pinot.server.consuming.segment.consistency.mode` in `pinot-server.conf`:
+For partial upsert tables or tables with `dropOutOfOrderRecord=true` or `outOfOrderRecordColumn` configured, configure how controllers and servers handle segment reloads and force commits via the **Helix cluster config** key `pinot.server.consuming.segment.consistency.mode` (set with the controller cluster-config API / UI, for example `POST /cluster/configs`). Putting this key only in `pinot-server.conf` does **not** take effect — both controller and server load it from cluster config through `ConsumingSegmentConsistencyModeListener`.
 
 | Mode | Description |
 |---|---|
-| `RESTRICTED` | *(Default for partial upsert tables with RF > 1)* Disables segment reloads and force commits to prevent data inconsistency. |
+| `RESTRICTED` | *(Default)* Skips consuming-segment reload and rejects explicit force commit for partial-upsert tables and upsert tables with `dropOutOfOrderRecord` or `outOfOrderRecordColumn` configured. |
 | `PROTECTED` | Enables reloads/force commits with upsert metadata reversion during segment replacements. Requires `ParallelSegmentConsumptionPolicy` set to `DISALLOW_ALWAYS` or `ALLOW_DURING_BUILD_ONLY`. |
 | `UNSAFE` | Allows reloads without metadata reversion. Use only if inconsistency is acceptable or handled externally. |
 
-> **Note:** This is a server-level property distinct from the table-level `upsertConfig.consistencyMode` setting.
+> **Note:** This cluster config is distinct from the table-level `upsertConfig.consistencyMode` setting (SYNC / SNAPSHOT / NONE), which controls query-vs-upsert concurrency on a single server.
 
 ## Migrating from deprecated config fields
 
@@ -1134,6 +1134,10 @@ An example for partial upsert is shown below, each of the event\_id kept being u
 To see the difference from the non-upsert table, you can use a query option `skipUpsert` to skip the upsert effect in the query result.
 
 ### FAQ
+
+**Can I add a schema column to an existing upsert table without recreating it?**
+
+Yes for **additive** columns. Update the schema, then reload and/or [forceCommit](../../../reference/api-reference/controller-api.md#post-tablestablenameforcecommit) so new consuming segments pick up the column. Partial-upsert tables and upsert tables with out-of-order handling configured restrict force commit unless the Helix **cluster config** `pinot.server.consuming.segment.consistency.mode` allows it (see [Consuming Segment Consistency Mode](#consuming-segment-consistency-mode) — not `pinot-server.conf`). Changing upsert **configuration** is different: allowed partial-upsert strategy changes require a controlled restart and are not retroactive, while immutable settings such as primary/comparison columns and mode require a new table and reingestion. See the [schema evolution decision table](../../data-modeling/schema-evolution.md#decision-table-add-a-column-on-an-existing-table).
 
 **Can I change configs like primary key columns and comparison columns in existing upsert table?**
 

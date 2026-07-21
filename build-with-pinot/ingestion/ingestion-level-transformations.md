@@ -11,7 +11,7 @@ For simple transformations, this can result in inconsistencies in the batch/stre
 To make things easier, Pinot supports transformations that can be applied via the [table config](../../reference/configuration-reference/table.md).
 
 {% hint style="warning" %}
-If a **new column is added to your table or schema configuration during ingestion**, incorrect data may appear in the consuming segment(s). To ensure accurate values are reloaded, see how to [add a new column during ingestion](ingestion-level-transformations.md#add-a-new-column-during-ingestion).
+If you **add or change a transformed column** while realtime consumers are running, the current consuming segment can keep using the old transform plan until it commits. Use the [add a new column during ingestion](ingestion-level-transformations.md#add-a-new-column-during-ingestion) steps (or the [schema evolution decision table](../data-modeling/schema-evolution.md#decision-table-add-a-column-on-an-existing-table)) — pause is recommended for transform changes, but plain default-only columns often only need reload / forceCommit.
 {% endhint %}
 
 ## Transformation functions
@@ -517,13 +517,44 @@ For full syntax including `WITH ORDINALITY`, filtering, and aggregation after un
 
 ## Add a new column during ingestion
 
-If a new column is added to table or schema configuration during ingestion, incorrect data may appear in the consuming segment(s).
+This section applies when the new or changed column is populated through **ingestion transforms** (or you change transform logic) on a **realtime** table. The active consuming segment builds its transform pipeline when the mutable segment starts. Mid-segment schema/config updates do not rewrite rows already indexed in that consumer, so values in the current consuming segment can be wrong or missing until you start a new consumer.
 
-To ensure accurate values are reloaded, do the following:
+You do **not** always need a full pause for every schema add. Use the [schema evolution decision table](../data-modeling/schema-evolution.md#decision-table-add-a-column-on-an-existing-table):
 
-1. Pause consumption (and wait for pause status success):\
-   $ curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
+| Change | Typical action |
+| --- | --- |
+| Plain column / `defaultNullValue` only | Update schema, then reload (consuming reload requests a force commit when allowed) or use [forceCommit](../../reference/api-reference/controller-api.md#post-tablestablenameforcecommit) and poll it |
+| New or changed **transform** | Prefer pause → apply schema + table config → reload completed segments → resume; or apply schema/config → forceCommit and poll → reload the segments committed under the old plan |
+| Partial-upsert strategy for the new column | Update schema and strategy config together, then use a controlled server restart; immutable core upsert settings require a new table and reingestion. See [schema evolution](../data-modeling/schema-evolution.md). |
+
+### Transform-safe procedure (pause boundary)
+
+To ensure accurate transformed values with a clean consumer boundary:
+
+1. Pause consumption (and wait for pause status success):
+
+   ```bash
+   curl -X POST {controllerHost}/tables/{tableName}/pauseConsumption
+   curl -X GET  {controllerHost}/tables/{tableName}/pauseStatus
+   ```
+
 2. Apply new table or schema configurations.
+
 3. [Reload segments](../../operate-pinot/segment-reload.md) using the [Pinot Controller API](../../operate-pinot/segment-reload.md#use-the-pinot-controller-api-to-reload-segments) or [Pinot Admin Console](../../operate-pinot/segment-reload.md#use-the-pinot-admin-console-to-reload-segments).
-4. Resume consumption:\
-   $ curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
+
+4. Resume consumption:
+
+   ```bash
+   curl -X POST {controllerHost}/tables/{tableName}/resumeConsumption
+   ```
+
+### Alternative: force commit without a long pause
+
+After applying the new schema and table config, if you can tolerate committing current consumers immediately:
+
+```bash
+curl -X POST {controllerHost}/tables/{tableName}/forceCommit
+curl -X GET  {controllerHost}/tables/forceCommitStatus/{jobId}
+```
+
+Wait until `numberOfSegmentsYetToBeCommitted` is `0`, then reload the segments committed under the old transform plan so Pinot recomputes the new column. Details: [Force commit API](../../reference/api-reference/controller-api.md#post-tablestablenameforcecommit).
