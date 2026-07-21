@@ -195,6 +195,8 @@ Transform functions can be defined on columns in the ingestion config of the tab
 Pinot evaluates ingestion transforms against normalized extractor values, not the raw source-format encoding. For typed input formats such as Avro, Parquet, ORC, Thrift, and Protocol Buffers, booleans stay `Boolean`, `Byte` and `Short` values widen to `Integer`, logical dates and times surface as `java.time.LocalDate`, `java.time.LocalTime`, or `java.sql.Timestamp`, multi-value fields surface as `Object[]`, and maps or nested records surface as `Map<Object, Object>`. Pinot coerces those intermediate values to the column's declared schema type after the transform step.
 
 If you have an older transform that depended on format-specific quirks such as stringified booleans or raw epoch date and time values, update the transform to handle the normalized value or cast it explicitly.
+
+For `JSONPATHSTRING`, `JSONPATHSTRINGFAST`, and `JSONPATHSTRINGFIRSTMATCH`, this means typed leaves on those already-materialized trees now render `UUID`, `LocalDate`, and `LocalTime` values as unquoted canonical or ISO-8601 strings instead of JSON-quoted strings. The change is specific to ingestion-time typed objects and does not change behavior for normal JSON-string input.
 {% endhint %}
 
 ```javascript
