@@ -6,9 +6,13 @@ description: Batch ingestion of data into Apache Pinot using Apache Hadoop.
 
 ## Segment Creation and Push
 
-Pinot supports [Apache Hadoop](https://hadoop.apache.org) as a processor to create and push segment files to the database. Pinot distribution is bundled with the Spark code to process your files and convert and upload them to Pinot.
+Pinot supports [Apache Hadoop](https://hadoop.apache.org) as a processor to create and push segment files to the database. Pinot distribution is bundled with the Hadoop batch-ingestion plugin to process your files and convert and upload them to Pinot.
 
 You can follow the [local install guide](../../../basics/getting-started/install/local.md#1-download-or-build-apache-pinot) to build Pinot from source. The resulting JAR file can be found in `pinot/target/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`
+
+{% hint style="info" %}
+`pinot-all-*-jar-with-dependencies.jar` does **not** include the Hadoop batch-ingestion plugin. That plugin is packaged under `plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-hadoop/` in the binary distribution. You must put it on the Hadoop classpath and include `plugins-external` in `plugins.dir`.
+{% endhint %}
 
 Next, you need to change the execution config in the job spec to the following -
 
@@ -47,16 +51,26 @@ Finally execute the hadoop job using the command -
 ```
 export PINOT_VERSION=1.4.0 #set to the Pinot version you have installed
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/build/
-export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
 
-hadoop jar  \\
-        ${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar \\
-        org.apache.pinot.tools.admin.PinotAdministrator \\
-        LaunchDataIngestionJob \\
+HADOOP_BATCH_PLUGIN=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-hadoop/pinot-batch-ingestion-hadoop-${PINOT_VERSION}-shaded.jar
+PINOT_ALL_JAR=${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
+
+# plugins.dir accepts a semicolon-separated list. Include plugins (record readers, FS) and plugins-external (Hadoop batch runners).
+export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins;${PINOT_DISTRIBUTION_DIR}/plugins-external -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
+export HADOOP_CLASSPATH="${HADOOP_BATCH_PLUGIN}:${PINOT_ALL_JAR}:${HADOOP_CLASSPATH}"
+
+hadoop jar \
+        ${PINOT_ALL_JAR} \
+        org.apache.pinot.tools.admin.PinotAdministrator \
+        LaunchDataIngestionJob \
         -jobSpecFile ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/hadoopIngestionJobSpec.yaml
 ```
 
 Ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
+
+{% hint style="warning" %}
+**ClassNotFoundException for Hadoop runners** usually means `plugins-external` is missing from `plugins.dir` or the shaded `pinot-batch-ingestion-hadoop-*-shaded.jar` is not on `HADOOP_CLASSPATH`. `pinot-all` alone is not enough.
+{% endhint %}
 
 ## Data Preprocessing before Segment Creation
 
