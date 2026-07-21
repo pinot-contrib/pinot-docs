@@ -291,6 +291,8 @@ Use complex field specs for complex data types. Pinot currently supports `MAP` a
 
 The `childFieldSpecs` object describes the structure of the `key` and `value` entries inside a `MAP`. For `OPEN_STRUCT`, `childFieldSpecs` is optional: omit it, set it to `{}`, or use it to declare known child fields and their types.
 
+For `OPEN_STRUCT`, declared child fields are the stable contract for keys whose types you want Pinot to preserve exactly. Pinot can still ingest undeclared keys and infers a stored type from the observed values when possible.
+
 ### OPEN_STRUCT childFieldSpecs
 
 `OPEN_STRUCT` accepts schema JSON such as the following:
@@ -319,6 +321,8 @@ You can also provide `childFieldSpecs` for keys whose types you want to declare 
   }
 }
 ```
+
+When any schema field uses `OPEN_STRUCT`, `$` is reserved in every schema column name. Pinot uses `$` in the generated materialized child-column names such as `<column>$<key>` and the shared sparse column `<column>$__sparse__`.
 
 ### key childFieldSpec
 

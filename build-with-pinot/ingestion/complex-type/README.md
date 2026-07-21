@@ -8,12 +8,13 @@ Commonly, ingested data has a complex structure. For example, Avro schemas have 
 
 Apache Pinot's data model supports primitive data types (including int, long, float, double, BigDecimal, string, bytes), and limited multi-value types, such as an array of primitive types. Simple data types allow Pinot to build fast indexing structures for good query performance, but does require some handling of the complex structures.
 
-There are two options for complex type handling:
+There are three options for complex type handling:
 
 * Convert the complex-type data into a JSON string and then build a JSON index.
+* Use `OPEN_STRUCT` when an object column should stay in one field, but frequently queried keys need columnar storage and secondary indexes.
 * Use the built-in complex-type handling rules in the ingestion configuration.
 
-On this page, we'll show how to handle these complex-type structures with each of these two approaches. We will process some example data, consisting of the field `group` from the [Meetup events Quickstart example](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp).
+On this page, we'll show how to handle these complex-type structures with each of these three approaches. We will process some example data, consisting of the field `group` from the [Meetup events Quickstart example](https://github.com/apache/pinot/tree/master/pinot-tools/src/main/resources/examples/stream/meetupRsvp).
 
 This object has two child fields and the child `group` is a nested array with elements of object type.
 
@@ -79,7 +80,94 @@ For the full specification, see [json\_meetupRsvp\_schema.json](https://github.c
 
 With this, you can start to query the nested fields under `group`. For more details about the supported JSON function, see [guide](../../../build-with-pinot/indexing/json-index.md)).
 
-## Ingestion configurations
+## OPEN_STRUCT storage and per-key indexes
+
+Use `OPEN_STRUCT` when your source field is an object or map whose key set evolves over time, but you still want Pinot to store the most important keys as standard columns.
+
+Pinot stores an `OPEN_STRUCT` column in two tiers:
+
+* Dense keys become materialized child columns named `<column>$<key>`.
+* Remaining keys are packed into one sparse JSON column named `<column>$__sparse__`.
+
+Pinot decides which keys are dense in this order:
+
+* Keys listed in `denseKeys` are always materialized.
+* Other keys are materialized when their fill rate is at least `denseKeyMinFillRate` (default `0.5`).
+* If more keys qualify than `maxDenseKeys` allows, Pinot keeps the highest-fill-rate keys as dense and writes the rest to the sparse JSON column.
+
+Dense keys reuse Pinot's standard column infrastructure, so each materialized key gets a forward index and can also use vetted per-key settings for dictionary, inverted, range, and bloom-filter behavior through `valueFieldConfigs`. If you do not configure a dense key explicitly, Pinot defaults to dictionary encoding plus an inverted index for that key.
+
+### Define the schema
+
+Declare the object column as `OPEN_STRUCT`. `childFieldSpecs` is optional, but it is useful when some keys should always keep a specific type:
+
+```json
+{
+  "complexFieldSpecs": [
+    {
+      "name": "attributes",
+      "dataType": "OPEN_STRUCT",
+      "fieldType": "COMPLEX",
+      "childFieldSpecs": {
+        "customerId": {
+          "name": "customerId",
+          "dataType": "STRING",
+          "fieldType": "DIMENSION"
+        },
+        "country": {
+          "name": "country",
+          "dataType": "STRING",
+          "fieldType": "DIMENSION"
+        }
+      }
+    }
+  ]
+}
+```
+
+### Configure dense keys and per-key indexes
+
+Add an `open_struct` entry to the field's `indexes` object in `fieldConfigList`:
+
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "attributes",
+      "indexes": {
+        "open_struct": {
+          "denseKeys": ["customerId", "country"],
+          "denseKeyMinFillRate": 0.5,
+          "maxDenseKeys": 32,
+          "valueFieldConfigs": [
+            {
+              "name": "customerId",
+              "indexes": {
+                "inverted": {}
+              }
+            },
+            {
+              "name": "country",
+              "indexes": {
+                "bloom": {}
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+Notes:
+
+* `OPEN_STRUCT` is a field-level index for single-value `OPEN_STRUCT` columns.
+* Pinot can still ingest keys that are not listed in `childFieldSpecs`; it infers a stored type from observed values when possible.
+* When any schema field uses `OPEN_STRUCT`, `$` becomes a reserved character in schema column names because Pinot uses it in generated child-column names.
+* Use the [schema reference](../../../reference/configuration-reference/schema.md) for the exact schema JSON and the [table reference](../../../reference/configuration-reference/table.md) for the full `open_struct` config surface.
+
+## Flatten and unnest with ingestion configurations
 
 Though JSON indexing is a handy way to process the complex types, there are some limitations:
 

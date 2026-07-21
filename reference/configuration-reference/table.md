@@ -226,6 +226,60 @@ Example RAW forward index with a standalone dictionary:
 }
 ```
 
+#### OPEN_STRUCT index
+
+Use the `open_struct` field-level index on a single-value `OPEN_STRUCT` column when you want Pinot to keep a semi-structured object in one column but materialize frequently used keys as standard Pinot columns.
+
+Pinot stores `OPEN_STRUCT` data in two tiers:
+
+* Dense keys become materialized child columns named `<column>$<key>`.
+* Remaining keys are written into one sparse JSON column named `<column>$__sparse__`.
+
+The `open_struct` config object supports the following properties:
+
+| Property | Description |
+| --- | --- |
+| `denseKeys` | Optional explicit set of keys that Pinot always materializes as dense child columns, regardless of fill rate. |
+| `denseKeyMinFillRate` | Minimum fraction of documents that must contain a key before Pinot materializes it automatically. Default: `0.5`. |
+| `maxDenseKeys` | Maximum number of dense keys to materialize. `-1` means unlimited, `0` disables dense keys entirely, and positive values keep only the highest-fill-rate qualifying keys as dense. |
+| `defaultValueFieldConfig` | Optional fallback `FieldConfig` applied to dense keys that do not appear in `valueFieldConfigs`. |
+| `valueFieldConfigs` | Optional list of per-key `FieldConfig` entries. Each entry's `name` must match an `OPEN_STRUCT` key name. |
+
+Per-key `FieldConfig.indexes` inside `defaultValueFieldConfig` or `valueFieldConfigs` may use only the vetted subset: `dictionary`, `forward`, `inverted`, `range`, and `bloom`. Forward indexes are always written for materialized child columns. When neither `defaultValueFieldConfig` nor `valueFieldConfigs` configures a dense key, Pinot uses dictionary encoding plus an inverted index for that key by default.
+
+Example:
+
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "attributes",
+      "indexes": {
+        "open_struct": {
+          "denseKeys": ["customerId", "country"],
+          "denseKeyMinFillRate": 0.5,
+          "maxDenseKeys": 32,
+          "valueFieldConfigs": [
+            {
+              "name": "customerId",
+              "indexes": {
+                "inverted": {}
+              }
+            },
+            {
+              "name": "country",
+              "indexes": {
+                "bloom": {}
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
 For realtime tables, you can also give mutable consuming segments a different index layout without changing the
 persisted segment format. Pinot applies the `consuming` override first, validates the effective config through the
 normal table-config path, and then uses that effective view only while the segment is still consuming:

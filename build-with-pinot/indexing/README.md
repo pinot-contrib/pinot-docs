@@ -30,6 +30,7 @@ Use the decision guide when you know the query shape but not the best index yet.
 * [Range index](range-index.md) for bounded numeric or time filters.
 * [Text search support](text-search-support.md) for tokenized search and text predicates.
 * [JSON index](json-index.md) for nested JSON predicates.
+* `OPEN_STRUCT` field-level indexing for semi-structured object columns that need per-key columnar storage and per-key secondary indexes. See [Complex Type (Array, Map) Handling](../ingestion/complex-type/README.md) and [Table](../../reference/configuration-reference/table.md).
 * [Geospatial support](geospatial-support.md) for distance and spatial filtering.
 * [Star-tree index](star-tree-index.md) for repeatable aggregation and group-by workloads.
 * [Vector index](vector-index.md) for similarity search on embeddings.
@@ -56,6 +57,7 @@ forward indexes and dictionaries for a table.
 | Range index         | Offline            |
 | Text search support | Realtime & Offline |
 | JSON index          | Realtime & Offline |
+| OPEN_STRUCT index   | Realtime & Offline |
 | Geospatial support  | Realtime & Offline |
 | Star-tree index     | Offline            |
 | Vector index        | Realtime & Offline |
