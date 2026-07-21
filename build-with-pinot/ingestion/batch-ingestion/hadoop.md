@@ -38,6 +38,8 @@ executionFrameworkSpec:
     stagingDir: your/local/dir/staging
 ```
 
+Hadoop job specs can filter input paths with `includeFileNamePattern` and `excludeFileNamePattern`. Both properties accept Java NIO `glob:` and `regex:` patterns; see [File name patterns](../../../reference/configuration-reference/job-specification.md#file-name-patterns) for working examples and path-normalization details.
+
 You can check out the sample job spec here.
 
 Finally execute the hadoop job using the command -

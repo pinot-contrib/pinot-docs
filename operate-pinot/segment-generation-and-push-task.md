@@ -12,7 +12,7 @@ The task reads files from a configured input directory (local filesystem, S3, GC
 - **Multiple input formats**: Supports Avro, Parquet, CSV, JSON, ORC, Thrift, and other formats via the RecordReader plugin architecture
 - **Duplicate prevention**: Tracks ingested files in segment metadata to skip already-processed files in APPEND mode
 - **Configurable push modes**: Push segments via TAR upload, URI reference, or metadata-only push
-- **File pattern filtering**: Include or exclude files using glob patterns
+- **File pattern filtering**: Include or exclude files using Java NIO glob or regex patterns
 - **Automatic retry**: Built-in retry logic for segment push operations (5 attempts by default)
 - **Parallel task execution**: Configure the maximum number of concurrent tasks per table
 
@@ -60,8 +60,8 @@ These properties are specified inside each entry of `batchConfigMaps`:
 |----------|-------------|----------|
 | `inputDirURI` | URI of the directory containing input data files | Yes |
 | `inputFormat` | Input file format (e.g., `avro`, `parquet`, `csv`, `json`, `orc`) | Yes |
-| `includeFileNamePattern` | Glob pattern for files to include (e.g., `glob:**/*.avro`) | No |
-| `excludeFileNamePattern` | Glob pattern for files to exclude (e.g., `glob:**/*.tmp`) | No |
+| `includeFileNamePattern` | Java NIO glob or regex pattern for files to include (e.g., `glob:**/*.avro`) | No |
+| `excludeFileNamePattern` | Java NIO glob or regex pattern for files to exclude (e.g., `regex:.*[.]tmp`) | No |
 | `input.fs.className` | Fully qualified class name of the input filesystem | No (inferred from URI) |
 | `input.fs.prop.<key>` | Properties to initialize the input filesystem | No |
 | `outputDirURI` | URI for writing output segments before push | No (uses local temp dir) |
@@ -79,6 +79,8 @@ These properties are specified inside each entry of `batchConfigMaps`:
 | `push.controllerUri` | Controller URI for push requests | No (defaults to controller VIP) |
 | `push.segmentUriPrefix` | URI prefix for segment download (used with `URI` push mode) | No |
 | `push.segmentUriSuffix` | URI suffix for segment download (used with `URI` push mode) | No |
+
+Both file name pattern properties accept the `glob:` and `regex:` prefixes and match the whole normalized path. See [File name patterns](../reference/configuration-reference/job-specification.md#file-name-patterns) for Java regex syntax, job-spec template escaping, and URI normalization details.
 
 ### Task Config Properties
 

@@ -43,6 +43,8 @@ executionFrameworkSpec:
     stagingDir: your/local/dir/staging
 ```
 
+Spark job specs can filter input paths with `includeFileNamePattern` and `excludeFileNamePattern`. Both properties accept Java NIO `glob:` and `regex:` patterns; see [File name patterns](../../../reference/configuration-reference/job-specification.md#file-name-patterns) for working examples and path-normalization details.
+
 To run Spark ingestion, you need the following jars in your classpath
 
 * `pinot-batch-ingestion-spark` plugin jar - available in `plugins-external` directory in the package
