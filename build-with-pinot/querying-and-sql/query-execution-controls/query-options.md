@@ -13,6 +13,7 @@ Query options are per-query switches that let you choose the execution engine, c
 - `clientQueryId` gives the query a stable identifier for tracking and cancellation.
 - `explainPlanVerbose` asks Pinot for richer plan output.
 - `maxExecutionThreads` limits concurrency for expensive queries.
+- Group-by memory/accuracy knobs such as `numGroupsLimit`, `minSegmentGroupTrimSize`, `minServerGroupTrimSize`, and `accurateGroupByWithoutOrderBy` (see [Grouping algorithm](../grouping-algorithm.md)).
 
 ```sql
 SET useMultistageEngine = true;
@@ -23,6 +24,14 @@ FROM stores
 GROUP BY city
 LIMIT 10;
 ```
+
+## Option names
+
+Documented keys use **canonical camelCase** (for example `timeoutMs`, `useMultistageEngine`, `minSegmentGroupTrimSize`). Pinot resolves recognized option names **case-insensitively** to those canonical forms when parsing `SET` / `OPTION` clauses, so `SET timeoutms = 5000` is treated like `timeoutMs`.
+
+Prefer the canonical names from the table below. An unrecognized option can remain in the options map without producing a parse error, and consumers that do not know the key may ignore it. Do not treat an accepted query as proof that an option name is valid.
+
+For default `LIMIT` behavior, group-by tail trim, and `ORDER BY` vs unordered group-by, see [Querying Pinot](../querying-pinot.md#group-by-quirks-default-limit-trimming-order-by).
 
 ## When to reach for options
 
@@ -115,7 +124,7 @@ description: This document contains all the available query options
 | **sampler** | Selects a named table sampler from the table config. Use this to run a query against a sampled subset of segments, for example `SET sampler='small'`. See [Table](../../../reference/configuration-reference/table.md#table-samplers) for the table-level configuration. | `null/empty` (normal routing, no table sampler) |
 | **clientQueryId** | Set to define a [custom correlation ID](query-correlation-id.md) for a query and to [cancel queries](query-cancellation.md). | `null/empty` |
 | **applicationName** | Assign the query to a named application for application-level query quotas. Use this with the [Query Quotas](query-quotas.md) APIs when you want Pinot to rate-limit queries from a specific caller or workload. If no per-application quota is configured for the name, Pinot can fall back to the global application quota default when one exists. | `null/empty` (no application name) |
-| **accurateGroupByWithoutOrderBy** | Improves correctness of group-by queries with LIMIT but without ORDER BY by applying better trimming on servers. See PR #15844. Set `accurateGroupByWithoutOrderBy=true` to enable | `false` (disabled) |
+| **accurateGroupByWithoutOrderBy** | For SSE `GROUP BY ... LIMIT` without `ORDER BY` or `HAVING`, retain a deterministic subset by keeping the lexicographically smallest group keys during server and broker reduction. This does not rank by an aggregate and does not override `numGroupsLimit`; use `ORDER BY` for top-N results. | `false` (processing order can affect which group keys survive) |
 | **traceRuleProductions** | Trace planner rule productions. Specify `SET traceRuleProductions=true` to collect and return planner rules that successfully produced new relations and the relation subtree before and after the production in time order along with rule attempt timing. Useful for debugging query planning. | `false` |
 | **excludeVirtualColumns** | When you want to ignore virtual columns (those starting with $) in a query — such as a NATURAL JOIN where they shouldn't be participating in join condition matching. This option helps remove all virtual columns from the schema during query planning and execution making NATURAL JOIN successful. This is currently implemented in MSE. | `false` (virtual columns are included by default for all queries during join-match) |
 | **useSpools** | Enable stage-level spooling for multi-stage queries. When enabled, Pinot can reuse equivalent stages within a query plan instead of executing them repeatedly. See [stage-level-spooling.md](../multi-stage-query/stage-level-spooling.md) for the feature behavior and limitations. | Broker level config (default `false`) |

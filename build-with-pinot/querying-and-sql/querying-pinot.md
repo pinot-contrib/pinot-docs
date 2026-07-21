@@ -29,6 +29,7 @@ If you are debugging a slow or surprising query, the most useful follow-up pages
 
 - [SQL syntax](sql-syntax.md)
 - [Query options](query-execution-controls/query-options.md)
+- [Grouping algorithm](grouping-algorithm.md)
 - [Query quotas](query-execution-controls/query-quotas.md)
 - [Query cancellation](query-execution-controls/query-cancellation.md)
 - [Cursor pagination](query-execution-controls/query-using-cursors.md)
@@ -36,6 +37,99 @@ If you are debugging a slow or surprising query, the most useful follow-up pages
 - [Explain plan](query-execution-controls/explain-plan.md)
 - [Multi-stage explain plan](query-execution-controls/explain-plan-multi-stage.md)
 - [SSE vs MSE](sse-vs-mse.md)
+
+## Group-by quirks (default LIMIT, trimming, ORDER BY)
+
+These behaviors catch many users by surprise. Details and tuning knobs live in [Grouping algorithm](grouping-algorithm.md) and [Query options](query-execution-controls/query-options.md).
+
+### Default LIMIT is 10
+
+On the **single-stage engine (SSE)**, if a query omits `LIMIT`, the broker applies a default of **10** rows (`pinot.broker.default.query.limit`). This applies to selection queries and `GROUP BY` queries, so an SSE group-by without an explicit `LIMIT` returns at most 10 groups.
+
+```sql
+-- SSE: returns at most 10 groups even if many cities exist
+SELECT city, COUNT(*) AS cnt
+FROM stores
+GROUP BY city;
+```
+
+The **multi-stage engine (MSE)** does not apply this broker default. Still set an explicit `LIMIT` whenever you care about result size or want intentional truncation.
+
+### Tail trimming on GROUP BY
+
+For SSE group-by with `ORDER BY`, Pinot may **trim tail groups** while aggregating so servers stay within memory limits. Where trimming is enabled, the candidate size is based on `max(minTrimSize, 5 * LIMIT)`; segment trimming is disabled by default, while server and broker reduction have their own defaults. Pinot ranks candidates using the query's `ORDER BY`. See [Grouping algorithm](grouping-algorithm.md) for the stage-specific settings.
+
+Implications:
+
+- Results can be approximate when cardinality is high relative to `LIMIT` and trim thresholds.
+- `numGroupsLimitReached=true` means a group operator reached its hard group cap; increasing a trim size cannot recover groups already dropped at that cap.
+- Raise the relevant trim sizes when you need a larger candidate set, or raise `LIMIT` when you also need more rows returned. Both choices increase memory use.
+
+### GROUP BY with ORDER BY vs without ORDER BY
+
+| Pattern | Execution behavior |
+| --- | --- |
+| `GROUP BY ... ORDER BY ... LIMIT N` | Each trim stage ranks candidate groups by the `ORDER BY` expressions and drops lower-ranked candidates. This is the intended top-N shape, although distributed trimming can still make results approximate when candidate sets are too small. |
+| `GROUP BY ... LIMIT N` (**no** `ORDER BY`) | There is no ranking. By default, SSE result tables stop admitting unseen group keys after reaching their result size, so processing order can affect which N keys survive. |
+
+```sql
+-- Ordered top-N cities by count (trim keeps high counts when ORDER BY matches the ranking)
+SELECT city, COUNT(*) AS cnt
+FROM stores
+GROUP BY city
+ORDER BY cnt DESC
+LIMIT 20;
+
+-- Unordered: at most 20 groups, but not a defined "top" set
+SELECT city, COUNT(*) AS cnt
+FROM stores
+GROUP BY city
+LIMIT 20;
+```
+
+Do **not** assume a stable or ranked group set without `ORDER BY`. For a deterministic subset, set `accurateGroupByWithoutOrderBy=true`; SSE then keeps the lexicographically smallest group keys during server and broker reduction. This does not rank by an aggregate and cannot recover keys dropped by `numGroupsLimit`. See [Query options](query-execution-controls/query-options.md).
+
+### HAVING and post-aggregation
+
+On SSE, `HAVING` filters the merged group candidates **after** aggregation and any earlier group trimming. If `HAVING` prefers groups that trimming already dropped (for example `HAVING SUM(x) < 100` with `ORDER BY SUM(x) DESC`), matching groups may be missing—increase trim sizes or adjust ordering.
+
+```sql
+SELECT city, COUNT(*) AS cnt, SUM(revenue) AS total
+FROM stores
+GROUP BY city
+HAVING COUNT(*) > 100
+ORDER BY total DESC
+LIMIT 50;
+```
+
+**Post-aggregation** expressions combine aggregated values (and group keys) in `SELECT`, `HAVING`, or `ORDER BY` after the aggregates are computed:
+
+```sql
+SELECT
+  city,
+  SUM(revenue) AS total,
+  COUNT(*) AS cnt,
+  SUM(revenue) / COUNT(*) AS avg_revenue
+FROM stores
+GROUP BY city
+HAVING SUM(revenue) / COUNT(*) > 10
+ORDER BY avg_revenue DESC
+LIMIT 50;
+```
+
+### Query options (names and syntax)
+
+Use `SET` statements or `OPTION (...)` to pass per-query options. Recognized keys resolve **case-insensitively** to the canonical camelCase names listed in [Query options](query-execution-controls/query-options.md) (for example `timeoutMs`, `numGroupsLimit`, `minSegmentGroupTrimSize`, `useMultistageEngine`). Prefer canonical spelling: unknown names can be accepted but ignored.
+
+```sql
+SET timeoutMs = 5000;
+SET minSegmentGroupTrimSize = 5000;
+SELECT city, COUNT(*) AS cnt
+FROM stores
+GROUP BY city
+ORDER BY cnt DESC
+LIMIT 100;
+```
 
 ## When to use which engine
 
@@ -58,6 +152,8 @@ Read [SQL syntax](sql-syntax.md) for the query language itself, then move to [Qu
 
 - [Querying & SQL controls](query-execution-controls/README.md)
 - [SQL syntax](sql-syntax.md)
+- [Query options](query-execution-controls/query-options.md)
+- [Grouping algorithm](grouping-algorithm.md)
 - [Explain plan](query-execution-controls/explain-plan.md)
 - [Multi-stage explain plan](query-execution-controls/explain-plan-multi-stage.md)
 - [SSE vs MSE](sse-vs-mse.md)
@@ -114,6 +210,10 @@ GROUP BY bar, baz
 LIMIT 50
 ```
 
+{% hint style="info" %}
+On the single-stage engine, omitting `LIMIT` defaults to **10 groups**. Without `ORDER BY`, which group keys survive a small result size can depend on processing order. See [Group-by quirks](#group-by-quirks-default-limit-trimming-order-by).
+{% endhint %}
+
 ### Ordering on Aggregation
 
 ```sql
@@ -121,6 +221,27 @@ SELECT MIN(foo), MAX(foo), SUM(foo), AVG(foo), bar, baz
 FROM myTable
 GROUP BY bar, baz 
 ORDER BY bar, MAX(foo) DESC 
+LIMIT 50
+```
+
+### Filtering groups with HAVING
+
+```sql
+SELECT bar, SUM(foo) AS total
+FROM myTable
+GROUP BY bar
+HAVING SUM(foo) > 1000
+ORDER BY total DESC
+LIMIT 50
+```
+
+### Post-aggregation expressions
+
+```sql
+SELECT bar, SUM(foo) AS total, COUNT(*) AS cnt, SUM(foo) / COUNT(*) AS avg_foo
+FROM myTable
+GROUP BY bar
+ORDER BY avg_foo DESC
 LIMIT 50
 ```
 
