@@ -112,7 +112,24 @@ When `tenantId` is the sorted column, all rows for a single tenant are physicall
 
 ### Assigning servers to tenants
 
-Tag servers when adding them to the cluster:
+Create tenants from untagged instances with `POST /tenants` (server payloads must include `numberOfInstances` as well as offline/realtime counts), or set tags on instances directly:
+
+```bash
+# Create a server tenant from untagged instances (numberOfInstances is required)
+curl -i -X POST -H 'Content-Type: application/json' -d '{
+  "tenantRole": "SERVER",
+  "tenantName": "PremiumTenant",
+  "numberOfInstances": 2,
+  "offlineInstances": 2,
+  "realtimeInstances": 2
+}' http://localhost:9000/tenants
+
+# Or retag a specific instance (servers may hold multiple tags)
+curl -i -X PUT \
+  "http://localhost:9000/instances/Server_host1_8098/updateTags?tags=PremiumTenant_OFFLINE,PremiumTenant_REALTIME"
+```
+
+You can also pass tags when adding an instance:
 
 ```
 PUT /instances/Server_host1_8098
@@ -133,7 +150,7 @@ Then assign high-value customers' tables to the `PremiumTenant`:
 }
 ```
 
-Other customers share a `SharedTenant` pool. See [Tenant](../basics/components/cluster/tenant.md) for setup details.
+Other customers share a `SharedTenant` pool. See [Tenant](../basics/components/cluster/tenant.md) for the full `POST /tenants` payload, CLI flags, and co-location rules.
 
 ### Workload-based query isolation
 
