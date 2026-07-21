@@ -74,6 +74,10 @@ This function can be used in the [table config](../../reference/configuration-re
 }
 ```
 
+{% hint style="info" %}
+When `JSONPATHSTRING` reads from an already-materialized object tree during ingestion, it preserves the extractor's runtime types instead of reparsing JSON text. For typed leaves such as `UUID`, `LocalDate`, and `LocalTime`, `JSONPATHSTRING`, `JSONPATHSTRINGFAST`, and `JSONPATHSTRINGFIRSTMATCH` now return the canonical or ISO-8601 string without JSON quotes. This compatibility change does not affect normal JSON-string input, where the parser still produces ordinary JSON scalar types.
+{% endhint %}
+
 ## Fast and first-match variants
 
 Use the opt-in variants below when the path is a **simple linear path**: `$` followed only by `.name`, `['literal.key']`, or `[0]` segments. For more complex JsonPath features such as wildcards, deep scan (`..`), filters, unions, slices, negative indexes, or a bare `$`, Pinot falls back to the existing `JSONPATHSTRING` behavior.
@@ -84,7 +88,7 @@ Like `JSONPATHSTRING`, both variants are intended for [ingestion transformation 
 
 > JSONPATHSTRINGFAST(jsonField, 'jsonPath', \[defaultValue])
 
-`JSONPATHSTRINGFAST` resolves supported paths in a single forward pass over the JSON text instead of building the full Jayway DOM first. It keeps the same result as `JSONPATHSTRING`, including the same `defaultValue` handling, and falls back to the existing implementation when the path is not a simple linear path or the input is not a JSON object or array.
+`JSONPATHSTRINGFAST` resolves supported paths in a single forward pass over the JSON text instead of building the full Jayway DOM first. It keeps the same result as `JSONPATHSTRING`, including the same `defaultValue` handling and the same unquoted rendering for `UUID`, `LocalDate`, and `LocalTime` leaves on already-materialized object trees, and falls back to the existing implementation when the path is not a simple linear path or the input is not a JSON object or array.
 
 Use `JSONPATHSTRINGFAST` when you want lower ingestion CPU cost without changing semantics.
 
