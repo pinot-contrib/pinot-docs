@@ -19,33 +19,24 @@ If you replace the built-in set at the broker level, include any rules that shou
 
 #### About
 
-Enable Pinot's [JOIN_TO_ENRICHED_JOIN](https://github.com/apache/pinot/blob/master/pinot-query-planner/src/main/java/org/apache/pinot/calcite/rel/rules/PinotEnrichedJoinRule.java) that creates a [EnrichedHashJoinOpeartor](https://github.com/apache/pinot/blob/master/pinot-query-runtime/src/main/java/org/apache/pinot/query/runtime/operator/EnrichedHashJoinOperator.java) that fuses arbitrary combinations of filters, projections, and an optional limit into a HashJoin. This always avoids materializing intermediate results for join executions, which saves memory and speeds up join execution.
+`JOIN_TO_ENRICHED_JOIN` is deprecated. Pinot removed the experimental enriched join optimization, and current brokers no longer register this planner rule. Queries that still request `JoinToEnrichedJoin` continue to plan successfully, but Pinot silently ignores the rule name and produces a normal join plan instead.
 
 #### Use Case
 
-Any case a hash join is followed a by projections and/or filters and/or limit. This is especially useful when there are projections that could not be pushed does the join (e.g. sum of two columns from each side), and filters that are based on such projections. This is also going to be useful when there's a LIMIT immediately after join. Sometimes, the filters and projections are pushed down the join by other optimizer rules, then this would have no effect. 
+Do not enable this rule for new workloads. Keep older `usePlannerRules='JoinToEnrichedJoin'` references only until you clean them up; Pinot ignores them instead of failing.
 
 #### Example
 
-For a simple **Projection-after-join** query over TPC-H, like:
+For example:
 ```sql
 SET usePlannerRules='JoinToEnrichedJoin';
-SELECT l_tax FROM lineitem
-JOIN orders ON l_orderkey = o_orderkey;
+EXPLAIN PLAN FOR
+SELECT a.col1 + b.col1
+FROM a
+JOIN b ON a.col1 = b.col1;
 ```
-This optimization reduces join allocation by **>30%** and speeds up query by **>15%**.
 
-Other example queries on which this might work includes:
-**Limit after join**
-```sql
-SELECT * FROM lineitem JOIN orders ON l_orderkey = o_orderkey LIMIT 10;
-```
-**Filter over complex expressions after join**
-```sql
-SELECT * FROM (
-    SELECT <complex_expression> AS result FROM lineitem JOIN orders ON l_orderkey = o_orderkey
-) WHERE <complex_expression_over_result>;
-```
+The explain plan should contain a regular join such as `LogicalJoin` and should not contain `EnrichedJoin`.
 
 
 
