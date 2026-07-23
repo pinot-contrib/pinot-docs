@@ -88,14 +88,38 @@ In this example, Pinot converts `ts` to `LONG` before `toEpochDays(ts)` runs. It
 | `realtime.segment.offsetAutoReset.timeThresholdSeconds` | If positive, Pinot resets the next segment to the latest stream offset when the next offset is older than this many seconds at commit time. Pinot compares the next offset against the stream position at `now - threshold`. | Long. Default is `-1` (disabled). |
 | `stopOnDecodeError` | When set to `true`, consumption stops with an error if a decode error occurs. When set to `false` (default), decode errors are logged and the problematic row is silently dropped. | Boolean. Default is `false`. |
 
-{% hint style="info" %}
-The number of rows per segment is computed using the following formula: `realtime.segment.flush.threshold.rows / maxPartitionsConsumedByServer` For example, if you set `realtime.segment.flush.threshold.rows = 1000` and each server consumes 10 partitions, the rows per segment is `1000/10 = 100`.
+### Flush threshold precedence
+
+A consuming segment commits when the **first** of these runtime conditions is met:
+
+1. Its **rows** threshold (the per-segment value written into segment ZK metadata).
+2. Its **time** threshold (`realtime.segment.flush.threshold.time`), once at least one stream message has been fetched.
+
+Desired completed size is **not** checked independently on the server. When size-based mode is active, the controller translates `realtime.segment.flush.threshold.segment.size` into the next segment's **rows** threshold using observed completed-segment sizes. See [Realtime segment flush threshold precedence](../../operate-pinot/tuning/realtime.md#realtime-segment-flush-threshold-precedence) for the full operator guide.
+
+How the controller chooses the rows threshold:
+
+| Condition | Updater | Per-segment rows |
+| --- | --- | --- |
+| `realtime.segment.flush.threshold.rows` > `0` | Default | `rows / maxPartitionsConsumedByServer`. Desired size is ignored. |
+| `realtime.segment.flush.threshold.segment.rows` > `0` (and table-level rows not positive) | Fixed | Exactly `segment.rows` (not divided by partition count). Desired size is ignored. |
+| `realtime.segment.flush.threshold.rows` = `0` (legacy: size-based when rows is explicitly zero) or desired size is set while rows is not positive | Size-based | Autotuned toward `realtime.segment.flush.threshold.segment.size` (default **200M** in size-based mode). Starts from `realtime.segment.flush.autotune.initialRows` (default **100,000**) and ramps over completions. |
+| None set | Default | Table-level **5,000,000** rows, divided by partitions on the server. |
+
+{% hint style="warning" %}
+**Desired size requires non-positive table-level rows.** If `realtime.segment.flush.threshold.rows` is a **positive** value, Pinot never applies size-based autotune, regardless of `realtime.segment.flush.threshold.segment.size`. Size-based mode applies when rows is explicitly `0`, or when rows is unset and a desired segment size is set (see the table above). The usual recipe is still `rows=0` plus a time safety net and `segment.size`.
 {% endhint %}
 
 {% hint style="info" %}
-Since `release-1.2.0`, we introduced `realtime.segment.flush.threshold.segment.rows`, which is directly used as the number of rows per segment.
+Example for table-level rows: if you set `realtime.segment.flush.threshold.rows = 1000` and each server consumes 10 partitions, the rows per segment is `1000/10 = 100`.
+{% endhint %}
 
-Take the above example, if you set `realtime.segment.flush.threshold.segment.rows = 1000` and each server consumes 10 partitions, the rows per segment is `1000`.
+{% hint style="info" %}
+Since `release-1.2.0`, `realtime.segment.flush.threshold.segment.rows` is used directly as the number of rows per segment (not divided by partition count). With `segment.rows = 1000` and 10 partitions on a server, each segment still uses `1000`.
+{% endhint %}
+
+{% hint style="info" %}
+**Recommended starting point:** `rows=0`, a safety `time` (for example `24h`, less than stream retention), and `segment.size` around `200M`. Adjust with [RealtimeProvisioningHelper](../../operate-pinot/tuning/realtime.md) after you have a sample segment.
 {% endhint %}
 
 {% hint style="info" %}

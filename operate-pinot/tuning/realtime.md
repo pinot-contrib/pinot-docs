@@ -24,7 +24,51 @@ If you don't want to use memory-mapping, set `pinot.server.instance.realtime.all
 
 The number of rows in a consuming segment needs to be balanced. Having too many rows can result in memory pressure. On the other hand, having too few rows results in having too many small segments. Having too many segments can be detrimental to query performance, and also increase pressure on the Helix.
 
-The recommended way to do this is to use the `realtime.segment.flush.threshold.segment.size` setting as described in [StreamConfigs Section](../../reference/configuration-reference/table.md#real-time-table-config). You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
+The recommended way to do this is to use the `realtime.segment.flush.threshold.segment.size` setting as described in [StreamConfigs Section](../../reference/configuration-reference/table.md#real-time-table-config) and the [flush threshold precedence](#realtime-segment-flush-threshold-precedence) section below. You can run the administrative tool `pinot-admin.sh RealtimeProvisioningHelper` that will help you to come up with an optimal setting for the segment size.
+
+### Realtime segment flush threshold precedence
+
+A consuming segment flushes (commits) when the **first** applicable end criterion is met. Under the hood Pinot only enforces two runtime checks on the server:
+
+1. **Rows threshold** — checked as rows are indexed. When the segment reaches its per-segment row limit, it flushes.
+2. **Time threshold** — checked periodically. When the segment has been consuming longer than `realtime.segment.flush.threshold.time` **and** at least one stream message has been fetched, it flushes. If no events have arrived yet, Pinot extends the time window rather than committing an empty segment.
+
+`realtime.segment.flush.threshold.segment.size` (desired completed-segment size) is **not** a third independent check on the server. The controller converts desired size into a **rows** threshold for the next consuming segment, using observed sizes from previous completions. That converted rows value then participates in the rows check above.
+
+#### How the controller chooses the rows threshold
+
+| Config | When it applies | Effect |
+| --- | --- | --- |
+| `realtime.segment.flush.threshold.rows` > `0` | Highest precedence | Fixed table-level rows budget. Each consuming segment on a server gets roughly `rows / maxPartitionsConsumedByServer`. **Desired size is ignored.** |
+| `realtime.segment.flush.threshold.segment.rows` > `0` (and table-level rows not > 0) | Next | Fixed per-segment rows threshold (not divided by partition count). Desired size is ignored. |
+| `realtime.segment.flush.threshold.rows` = `0` (or desired size is set while rows is unset/`0`) | Size-based autotune | Controller learns rows↔size from completed segments and sets the next segment's rows threshold to aim for `realtime.segment.flush.threshold.segment.size` (default **200M** when size-based mode is active and size is unset). |
+| None of the above | Fallback | Default table-level rows of **5,000,000**, divided across partitions on the server. |
+
+**Key exception:** desired size is effective only when the table-level rows threshold is `0` (or otherwise not positive). If you set rows to a positive value **and** a desired size, Pinot uses the rows path and does not autotune toward the size.
+
+#### Size-based autotune behavior
+
+When size-based mode is on:
+
+* The **first** segment starts from `realtime.segment.flush.autotune.initialRows` (default **100,000**), not from the final desired size.
+* After each successful completion, the controller updates a weighted rows-to-size ratio and ramps the next segment's rows threshold toward the desired size (with min/max guards so it does not jump wildly).
+* It can take several segment completions before completed sizes stabilize near the target.
+* Force-committed segments are skipped when updating the size ratio so an early operator-driven commit does not poison the estimate.
+* Time threshold still wins if it is hit first; when a segment hits time before rows, the controller may only slightly bump the next rows target.
+
+Always set a **time** threshold as a safety net, even when using size-based autotune. The time value must be smaller than the stream retention for the topic.
+
+#### Practical recommendation
+
+For most realtime tables:
+
+```json
+"realtime.segment.flush.threshold.rows": "0",
+"realtime.segment.flush.threshold.time": "24h",
+"realtime.segment.flush.threshold.segment.size": "200M"
+```
+
+Tune the time and size with `RealtimeProvisioningHelper` and production memory observations. See also the [ingestion stream config reference](../../reference/configuration-reference/ingestion.md#streamconfigmaps).
 
 ### Moving completed segments to different hosts
 

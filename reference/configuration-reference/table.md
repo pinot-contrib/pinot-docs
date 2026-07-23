@@ -530,6 +530,10 @@ The examples below use some legacy configuration patterns for familiarity. In ne
 
 Here's an example table config for a real-time table. **All the fields from the offline table config are valid for the real-time table**. Additionally, real-time tables use **some extra fields**.
 
+{% hint style="info" %}
+Flush keys such as `realtime.segment.flush.threshold.rows`, `realtime.segment.flush.threshold.time`, and `realtime.segment.flush.threshold.segment.size` live under `ingestionConfig.streamIngestionConfig.streamConfigMaps`. The first threshold that is met flushes the consuming segment; desired size is used when table-level rows is **not positive** (explicit `0` or unset) and size-based autotune is selected. Full precedence and tuning guidance: [Realtime segment flush threshold precedence](../../operate-pinot/tuning/realtime.md#realtime-segment-flush-threshold-precedence) and [Ingestion stream configs](ingestion.md#streamconfigmaps).
+{% endhint %}
+
 {% code title="pinot-table-realtime.json" %}
 ```json
 "REALTIME": {
