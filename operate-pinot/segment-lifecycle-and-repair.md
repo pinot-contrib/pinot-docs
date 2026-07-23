@@ -140,20 +140,23 @@ For real-time tables, consider running a [force commit](#force-commit-consuming-
 
 ## Force commit consuming segments
 
-**What it does.** Forces all (or selected) consuming segments on a real-time table to seal and commit as completed segments, then restarts consumption from the stream at the current offset. The operation is asynchronous and returns a job ID.
+**What it does.** Forces all (or selected) consuming segments on a real-time table to seal and commit as completed segments, then restarts consumption from the stream at the current offset. The operation is asynchronous: HTTP 200 means the controller accepted the request and (usually) wrote a job id, not that every segment has finished committing.
 
 **When to use it.** Use force commit in two main scenarios:
 
-1. **After a schema or table-config change on a real-time table.** Consuming segments were built with the old config. Force-committing them and allowing fresh consuming segments to start ensures new data is ingested under the updated schema.
+1. **After a schema or table-config change on a real-time table.** Consuming segments were built with the old config. Force-committing them and allowing fresh consuming segments to start ensures new data is ingested under the updated schema. See [Schema evolution](../build-with-pinot/data-modeling/schema-evolution.md).
 2. **Before a rebalance of a real-time table.** Rebalance works on completed segments. Force commit converts consuming segments so they are included in the rebalance plan.
 
 **API.**
 
 ```
 POST /tables/{tableName}/forceCommit
+GET  /tables/forceCommitStatus/{jobId}
 ```
 
-Optional query parameters: `partitions`, `segments`, `batchSize`.
+Optional query parameters on `forceCommit`: `partitions`, `segments` (mutually exclusive), `batchSize`, `batchStatusCheckIntervalSec`, `batchStatusCheckTimeoutSec`.
+
+Poll until `numberOfSegmentsYetToBeCommitted` is `0`. Full request/response fields and failure modes: [Force commit API](../reference/api-reference/controller-api.md#post-tablestablenameforcecommit).
 
 ## Purge records from segments
 
