@@ -43,78 +43,132 @@ In the above example:
 
 ## Create a tenant
 
+`POST /tenants` creates a tenant by tagging **currently untagged** broker or server instances. The JSON body maps to the `Tenant` config:
+
+| Field | Broker | Server | Notes |
+| --- | --- | --- | --- |
+| `tenantRole` | required (`BROKER`) | required (`SERVER`) | Role selects which instance pool is tagged. |
+| `tenantName` | required | required | Logical tenant name (Helix tags use `_BROKER`, `_OFFLINE`, `_REALTIME` suffixes). |
+| `numberOfInstances` | required | required | Total untagged instances to allocate for this tenant. Defaults to `0` if omitted, which causes server create to fail with errors such as `Cannot request more offline instances ... than total instances: 0`. |
+| `offlineInstances` | n/a | required for server tenants | How many of the allocated servers receive the `{tenant}_OFFLINE` tag. |
+| `realtimeInstances` | n/a | required for server tenants | How many of the allocated servers receive the `{tenant}_REALTIME` tag. |
+
+For **server** tenants, Pinot validates:
+
+* `numberOfInstances >= offlineInstances`
+* `numberOfInstances >= realtimeInstances`
+
+Those checks are **per tag type**, not against `offlineInstances + realtimeInstances`. When `offlineInstances + realtimeInstances > numberOfInstances` but each count still fits in `numberOfInstances`, Pinot co-locates tags: the same physical server can receive both `{tenant}_OFFLINE` and `{tenant}_REALTIME`. Creation still needs at least `numberOfInstances` **untagged** online servers (or brokers for broker tenants). Already-tagged instances are not reassigned by `POST /tenants`.
+
 ### Broker tenant
 
-Here's a sample broker tenant config. This will create a broker tenant `sampleBrokerTenant` by tagging three untagged broker nodes as `sampleBrokerTenant_BROKER`.
+Here's a sample broker tenant config. This creates broker tenant `sampleBrokerTenant` by tagging three untagged broker nodes as `sampleBrokerTenant_BROKER`.
 
 {% code title="sample-broker-tenant.json" %}
 ```javascript
 {
-     "tenantRole" : "BROKER",
-     "tenantName" : "sampleBrokerTenant",
-     "numberOfInstances" : 3
+  "tenantRole": "BROKER",
+  "tenantName": "sampleBrokerTenant",
+  "numberOfInstances": 3
 }
 ```
 {% endcode %}
 
-To create this tenant use the following command. The creation will fail if number of untagged broker nodes is less than `numberOfInstances`.
+Creation fails if the number of untagged broker nodes is less than `numberOfInstances`.
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-Follow instructions in [Getting Pinot](../../getting-started/install/local.md#1-download-or-build-apache-pinot) to get Pinot locally, and then
+Follow instructions in [Getting Pinot](../../getting-started/install/local.md#1-download-or-build-apache-pinot) to get Pinot locally, and then:
 
 ```bash
 bin/pinot-admin.sh AddTenant \
-    -name sampleBrokerTenant 
-    -role BROKER 
-    -instanceCount 3 -exec
+    -name sampleBrokerTenant \
+    -role BROKER \
+    -instanceCount 3 \
+    -exec
 ```
 {% endtab %}
 
 {% tab title="curl" %}
-```
-curl -i -X POST -H 'Content-Type: application/json' -d @sample-broker-tenant.json localhost:9000/tenants
+```bash
+curl -i -X POST -H 'Content-Type: application/json' \
+  -d @sample-broker-tenant.json \
+  http://localhost:9000/tenants
 ```
 {% endtab %}
 {% endtabs %}
 
-Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded.
+Check out the tenants list in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure the tenant was created.
 
 ### Server tenant
 
-Here's a sample server tenant config. This will create a server tenant `sampleServerTenant` by tagging 1 untagged server node as `sampleServerTenant_OFFLINE` and 1 untagged server node as `sampleServerTenant_REALTIME`.
+Here's a sample server tenant config. With `numberOfInstances: 2`, this tags one untagged server as `sampleServerTenant_OFFLINE` and another as `sampleServerTenant_REALTIME`.
 
 {% code title="sample-server-tenant.json" %}
 ```javascript
 {
-     "tenantRole" : "SERVER",
-     "tenantName" : "sampleServerTenant",
-     "offlineInstances" : 1,
-     "realtimeInstances" : 1
+  "tenantRole": "SERVER",
+  "tenantName": "sampleServerTenant",
+  "numberOfInstances": 2,
+  "offlineInstances": 1,
+  "realtimeInstances": 1
 }
 ```
 {% endcode %}
 
-To create this tenant use the following command. The creation will fail if number of untagged server nodes is less than `offlineInstances` + `realtimeInstances`.
+**Co-located offline and realtime on one server** (one untagged server receives both tags):
+
+{% code title="sample-server-tenant-colocated.json" %}
+```javascript
+{
+  "tenantRole": "SERVER",
+  "tenantName": "sampleServerTenant",
+  "numberOfInstances": 1,
+  "offlineInstances": 1,
+  "realtimeInstances": 1
+}
+```
+{% endcode %}
+
+Creation fails if there are fewer than `numberOfInstances` untagged server nodes, or if `offlineInstances` or `realtimeInstances` is greater than `numberOfInstances`.
 
 {% tabs %}
 {% tab title="pinot-admin.sh" %}
-Follow instructions in [Getting Pinot](../../getting-started/install/local.md#1-download-or-build-apache-pinot) to get Pinot locally, and then
+Follow instructions in [Getting Pinot](../../getting-started/install/local.md#1-download-or-build-apache-pinot) to get Pinot locally, and then:
 
 ```bash
 bin/pinot-admin.sh AddTenant \
     -name sampleServerTenant \
     -role SERVER \
+    -instanceCount 2 \
     -offlineInstanceCount 1 \
-    -realtimeInstanceCount 1 -exec
+    -realTimeInstanceCount 1 \
+    -exec
 ```
+
+`-instanceCount` is required for every `AddTenant` call. For `SERVER` role, `-offlineInstanceCount` and `-realTimeInstanceCount` are also required (note the capital `T` in `-realTimeInstanceCount`).
 {% endtab %}
 
 {% tab title="curl" %}
-```
-curl -i -X POST -H 'Content-Type: application/json' -d @sample-server-tenant.json localhost:9000/tenants
+```bash
+curl -i -X POST -H 'Content-Type: application/json' \
+  -d @sample-server-tenant.json \
+  http://localhost:9000/tenants
 ```
 {% endtab %}
 {% endtabs %}
 
-Check out the table config in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure it was successfully uploaded.
+Check out the tenants list in the [Rest API](http://localhost:9000/help#!/Tenant/getAllTenants) to make sure the tenant was created.
+
+### Tagging instances without untagged capacity
+
+`POST /tenants` only consumes the untagged broker/server pools. If servers are already tagged (for example with `DefaultTenant_OFFLINE`) and you want to move or add tenant tags on those instances, update the instance tags directly instead of expecting `POST /tenants` to re-tag them:
+
+```bash
+curl -i -X PUT \
+  "http://localhost:9000/instances/Server_host1_8098/updateTags?tags=sampleServerTenant_OFFLINE,sampleServerTenant_REALTIME"
+```
+
+You can also set tags when adding or updating an instance via the Instances APIs. A server may hold more than one tag (for example both `_OFFLINE` and `_REALTIME`, or tags for more than one tenant) when your isolation model allows it.
+
+To grow or shrink an existing tenant after creation, use `PUT /tenants` with the same `Tenant` payload shape (including `numberOfInstances` for both roles, and offline/realtime counts for servers).
