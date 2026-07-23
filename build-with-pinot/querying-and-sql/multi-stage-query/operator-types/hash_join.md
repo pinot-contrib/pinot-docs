@@ -157,6 +157,10 @@ Default: `false`
 
 Marks a table as replicated across all workers. This is commonly paired with `left_distribution_type='local'` and `right_distribution_type='local'` when the right-hand side is a replicated dimension table.
 
+When `inferPartitionHint=true`, Pinot does not rewrite scans already hinted with `tableOptions(is_replicated='true')`. The replicated hint stays as-is, and Pinot does not inject partition metadata on that scan.
+
+If you combine `inferPartitionHint` with a partial `tableOptions` hint on a non-replicated scan, explicit `partition_key` and `partition_function` values override the inferred ones. Pinot then validates the resulting hint against the table partition metadata, so mismatches fail planning.
+
 Example:
 
 ```sql

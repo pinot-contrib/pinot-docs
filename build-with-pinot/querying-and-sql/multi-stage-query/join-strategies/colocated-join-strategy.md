@@ -37,7 +37,7 @@ As a side effect, this strategy may not use as many servers as other techniques.
 
 Colocated join optimization is disabled by default in Pinot 1.3.0.
 
-It can be enabled cluster wise by setting the following configuration in the broker:
+It can be enabled cluster-wide by setting the following configuration in the broker:
 
 ```
 pinot.broker.multistage.infer.partition.hint=true
@@ -49,6 +49,8 @@ It can also be enabled/disabled on a per-query basis by setting the following qu
 SET inferPartitionHint=true;
 SELECT ...
 ```
+
+When `inferPartitionHint=true`, Pinot fills in missing partition metadata for eligible table scans. If you also add a partial `tableOptions` hint, any explicit `partition_key` or `partition_function` value overrides the inferred value, and Pinot validates the combined hint against the table configuration. A mismatch fails planning instead of being ignored. Scans already hinted with `tableOptions(is_replicated='true')` are excluded from this inference and keep that explicit replicated hint unchanged.
 
 <details>
 
@@ -63,9 +65,11 @@ JOIN B /*+ tableOptions(partition_function='hashcode', partition_key='partitionK
 ON A.partitionKeyA = B.partitionKeyB
 ```
 
-In this case, the `partition_function`, `partition_key`, and `partition_size` are required to be the same for both tables and they must be the same as the ones defined in the table configuration.
+When you provide the full `tableOptions` hint yourself, the `partition_function`, `partition_key`, and `partition_size` must match across both tables and must also match the table configuration.
 
-This is a very advance and error prone way to configure joins that can also be used to change stage parallelism.
+If `inferPartitionHint` is already enabled, you can use a partial `tableOptions` hint to pin only the value you want to override or validate. For example, `tableOptions(partition_key='partitionKeyA')` keeps the inferred partition function and size, but Pinot still validates the explicit key against the table metadata and fails planning if they do not match.
+
+This is a very advanced and error-prone way to configure joins that can also be used to change stage parallelism.
 
 Note that this can also be used to enable colocated joins on tables that have a different number of physical partitions. Consider a case where table A has 16 partitions and table B has 4 partitions and the assignment is such that partitions 0, 4, 8, 12 of table A are assigned to the same server hosting partition 0 of table B (similarly, partitions 1, 5, 9, 13 of table A should be colocated with partition 1 of table B and so on). In this case, co-located joins can be leveraged by explicitly setting the `partition_size` on the larger side to match the smaller side - i.e., in this case both sides would use `/*+ tableOptions(partition_size='4') */`.
 
