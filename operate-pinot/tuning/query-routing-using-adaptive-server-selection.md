@@ -39,6 +39,10 @@ The above strategies works in tandem with the following available Routing mechan
 
 So, a table can be configured to use Balanced or Replica group segment assignment + routing and can still leverage the adaptive server selection feature.
 
+{% hint style="warning" %}
+Adaptive Server Selection does not correctly respect `strictReplicaGroup` routing boundaries. When enabled, the selector may route a single query to servers spanning multiple replica groups, violating the guarantee that all segments of a partition are served from the same replica group. This breaks correctness for upsert tables, which depend on `strictReplicaGroup` to ensure data consistency. Do not enable Adaptive Server Selection on tables that use `strictReplicaGroup` routing. See [#12507](https://github.com/apache/pinot/issues/12507) for details.
+{% endhint %}
+
 ### Configs
 
 The configuration for enabling/disabling this feature and the knobs for performance tuning are present at the Broker instance level. The feature is currently turned off by default.&#x20;
