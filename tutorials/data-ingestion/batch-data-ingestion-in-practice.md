@@ -80,17 +80,14 @@ jobType: SegmentCreationAndTarPush
 # inputDirURI: Root directory of input data, expected to have scheme configured in PinotFS.
 inputDirURI: 'examples/batch/airlineStats/rawdata'
 
-# includeFileNamePattern: include file name pattern, supported glob pattern.
+# includeFileNamePattern / excludeFileNamePattern: Java NIO PathMatcher patterns (glob: or regex:).
+# See https://docs.pinot.apache.org/configuration-reference/job-specification#file-name-patterns
 # Sample usage:
-#   'glob:*.avro' will include all avro files just under the inputDirURI, not sub directories;
-#   'glob:**\/*.avro' will include all the avro files under inputDirURI recursively.
+#   'glob:**/*.avro' or 'regex:.*[.]avro' matches Avro paths under inputDirURI (full path).
 includeFileNamePattern: 'glob:**/*.avro'
 
-# excludeFileNamePattern: exclude file name pattern, supported glob pattern.
-# Sample usage:
-#   'glob:*.avro' will exclude all avro files just under the inputDirURI, not sub directories;
-#   'glob:**\/*.avro' will exclude all the avro files under inputDirURI recursively.
-# _excludeFileNamePattern: ''
+# excludeFileNamePattern: 'glob:**/*.tmp' or 'regex:.*[.]tmp'
+# excludeFileNamePattern: ''
 
 # outputDirURI: Root directory of output segments, expected to have scheme configured in PinotFS.
 outputDirURI: 'examples/batch/airlineStats/segments'
@@ -244,20 +241,17 @@ After job finished, segments are stored in `examples/batch/airlineStats/segments
 
 ## Executing the job using Spark
 
-Below example is running in a spark local mode. You can download spark distribution and start it by running:
+{% hint style="warning" %}
+**`pinot-all` is not enough for Spark.** Spark (and Hadoop) batch runners ship under `plugins-external/` and are not packaged inside `pinot-all-*-jar-with-dependencies.jar`. If you only put `pinot-all` on the classpath you will get `ClassNotFoundException` for classes such as `SparkSegmentGenerationJobRunner`. Always add the shaded jar from `plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/` and include `plugins-external` in `plugins.dir`.
+{% endhint %}
 
-```
-wget https://downloads.apache.org/spark/spark-3.2.0/spark-3.2.0-bin-hadoop2.7.tgz
-tar xvf spark-3.2.0-bin-hadoop2.7.tgz
-cd spark-3.2.0-bin-hadoop2.7
-./bin/spark-shell --master 'local[2]'
-```
+The example below runs Spark in **local mode** against the sample `airlineStats` data on the **local filesystem** (no S3/HDFS credentials). Download a Spark 3.x distribution and set `SPARK_HOME`, or use a pre-installed Spark.
 
-Build the latest Pinot distribution following the [local install guide](../../basics/getting-started/install/local.md#1-download-or-build-apache-pinot).
+Build or download a Pinot binary distribution following the [local install guide](../../basics/getting-started/install/local.md#1-download-or-build-apache-pinot).
 
-Below command shows how to use spark-submit command to submit a spark job using `pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`.
+### Local-FS Spark job spec
 
-Sample Spark ingestion job spec yaml, (also located at `examples/batch/airlineStats/sparkIngestionJobSpec.yaml`):
+Use `LocalPinotFS` for local paths. Spark 3 runner classes live in the `spark3` package. You can start from `examples/batch/airlineStats/sparkIngestionJobSpec.yaml` and align class names / FS as below:
 
 ```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
@@ -266,14 +260,11 @@ executionFrameworkSpec:
   # name: execution framework name
   name: 'spark'
 
-  # segmentGenerationJobRunnerClassName: class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentGenerationJobRunner interface.
-  segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentGenerationJobRunner'
-
-  # segmentTarPushJobRunnerClassName: class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentTarPushJobRunner interface.
-  segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentTarPushJobRunner'
-
-  # segmentUriPushJobRunnerClassName: class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentUriPushJobRunner interface.
-  segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentUriPushJobRunner'
+  # Spark 3 package: org.apache.pinot.plugin.ingestion.batch.spark3.*
+  segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark3.SparkSegmentGenerationJobRunner'
+  segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark3.SparkSegmentTarPushJobRunner'
+  segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark3.SparkSegmentUriPushJobRunner'
+  segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark3.SparkSegmentMetadataPushJobRunner'
 
   # extraConfigs: extra configs for execution framework.
   extraConfigs:
@@ -288,22 +279,16 @@ executionFrameworkSpec:
 #   'SegmentUriPush'
 #   'SegmentCreationAndTarPush'
 #   'SegmentCreationAndUriPush'
+#   'SegmentCreationAndMetadataPush'
 jobType: SegmentCreationAndTarPush
 
 # inputDirURI: Root directory of input data, expected to have scheme configured in PinotFS.
 inputDirURI: 'examples/batch/airlineStats/rawdata'
 
-# includeFileNamePattern: include file name pattern, supported glob pattern.
-# Sample usage:
-#   'glob:*.avro' will include all avro files just under the inputDirURI, not sub directories;
-#   'glob:**\/*.avro' will include all the avro files under inputDirURI recursively.
+# includeFileNamePattern / excludeFileNamePattern: Java NIO PathMatcher (glob: or regex:).
+# See configuration-reference/job-specification.md#file-name-patterns
 includeFileNamePattern: 'glob:**/*.avro'
-
-# excludeFileNamePattern: exclude file name pattern, supported glob pattern.
-# Sample usage:
-#   'glob:*.avro' will exclude all avro files just under the inputDirURI, not sub directories;
-#   'glob:**\/*.avro' will exclude all the avro files under inputDirURI recursively.
-# excludeFileNamePattern: ''
+# excludeFileNamePattern: 'glob:**/*.tmp'
 
 # outputDirURI: Root directory of output segments, expected to have scheme configured in PinotFS.
 outputDirURI: 'examples/batch/airlineStats/segments'
@@ -314,50 +299,21 @@ overwriteOutput: true
 # pinotFSSpecs: defines all related Pinot file systems.
 pinotFSSpecs:
 
-  - # scheme: used to identify a PinotFS.
-    # E.g. local, hdfs, dbfs, etc
+  - # Local filesystem — no cloud or HDFS credentials required for this recipe.
     scheme: file
-
-    # className: Class name used to create the PinotFS instance.
-    # E.g.
-    #   org.apache.pinot.spi.filesystem.LocalPinotFS is used for local filesystem
-    #   org.apache.pinot.plugin.filesystem.AzurePinotFS is used for Azure Data Lake
-    #   org.apache.pinot.plugin.filesystem.HadoopPinotFS is used for HDFS
-    className: org.apache.pinot.plugin.filesystem.HadoopPinotFS
+    className: org.apache.pinot.spi.filesystem.LocalPinotFS
 
 # recordReaderSpec: defines all record reader
 recordReaderSpec:
 
-  # dataFormat: Record data format, e.g. 'avro', 'parquet', 'orc', 'csv', 'json', 'thrift' etc.
   dataFormat: 'avro'
-
-  # className: Corresponding RecordReader class name.
-  # E.g.
-  #   org.apache.pinot.plugin.inputformat.avro.AvroRecordReader
-  #   org.apache.pinot.plugin.inputformat.csv.CSVRecordReader
-  #   org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader
-  #   org.apache.pinot.plugin.inputformat.json.JSONRecordReader
-  #   org.apache.pinot.plugin.inputformat.orc.ORCRecordReader
-  #   org.apache.pinot.plugin.inputformat.thrift.ThriftRecordReader
   className: 'org.apache.pinot.plugin.inputformat.avro.AvroRecordReader'
 
 # tableSpec: defines table name and where to fetch corresponding table config and table schema.
 tableSpec:
 
-  # tableName: Table name
   tableName: 'airlineStats'
-
-  # schemaURI: defines where to read the table schema, supports PinotFS or HTTP.
-  # E.g.
-  #   hdfs://path/to/table_schema.json
-  #   http://localhost:9000/tables/myTable/schema
   schemaURI: 'http://localhost:9000/tables/airlineStats/schema'
-
-  # tableConfigURI: defines where to reade the table config.
-  # Supports using PinotFS or HTTP.
-  # E.g.
-  #   hdfs://path/to/table_config.json
-  #   http://localhost:9000/tables/myTable
   # Note that the API to read Pinot table config directly from pinot controller contains a JSON wrapper.
   # The real table config is the object under the field 'OFFLINE'.
   tableConfigURI: 'http://localhost:9000/tables/airlineStats'
@@ -365,213 +321,136 @@ tableSpec:
 # segmentNameGeneratorSpec: defines how to init a SegmentNameGenerator.
 segmentNameGeneratorSpec:
 
-  # type: Current supported type is 'simple' and 'normalizedDate'.
   type: normalizedDate
-
-  # configs: Configs to init SegmentNameGenerator.
   configs:
     segment.name.prefix: 'airlineStats_batch'
     exclude.sequence.id: true
 
 # pinotClusterSpecs: defines the Pinot Cluster Access Point.
 pinotClusterSpecs:
-  - # controllerURI: used to fetch table/schema information and data push.
-    # E.g. http://localhost:9000
-    controllerURI: 'http://localhost:9000'
+  - controllerURI: 'http://localhost:9000'
 
 # pushJobSpec: defines segment push job related configuration.
 pushJobSpec:
 
-  # pushParallelism: push job parallelism, default is 1.
   pushParallelism: 2
-
-  # pushAttempts: number of attempts for push job, default is 1, which means no retry.
   pushAttempts: 2
-
-  # pushRetryIntervalMillis: retry wait Ms, default to 1 second.
   pushRetryIntervalMillis: 1000
 ```
 
-Ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
+### Local-mode spark-submit
+
+Ensure `PINOT_DISTRIBUTION_DIR` points at an unpacked binary distribution (contains `lib/`, `plugins/`, `plugins-external/`, and `examples/`).
 
 {% hint style="info" %}
-Ensure you set
+Required pieces:
 
-*   `spark.driver.extraJavaOptions =>`
-
-    `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins`
-
-Or put all the required plugins jars to CLASSPATH, then set `-Dplugins.dir=${CLASSPATH}`
-
-*   `spark.driver.extraClassPath =>`
-
-    `pinot-all-${PINOT_VERSION}-jar-with-depdencies.jar`
+* `plugins.dir` — semicolon-separated list including **both** `plugins` (record readers such as Avro) and `plugins-external` (Spark batch runners)
+* `spark.driver.extraClassPath` / `spark.executor.extraClassPath` — `pinot-batch-ingestion-spark-3-*-shaded.jar` **and** `pinot-all-*-jar-with-dependencies.jar`
 {% endhint %}
 
 ```
 export PINOT_VERSION=1.5.1 #set to the Pinot version you have installed
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/build/
 cd ${PINOT_DISTRIBUTION_DIR}
+
+SPARK_BATCH_PLUGIN=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar
+PINOT_ALL_JAR=${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
+
 ${SPARK_HOME}/bin/spark-submit \
   --class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand \
   --master "local[2]" \
   --deploy-mode client \
-  --conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml" \
-  --conf "spark.driver.extraClassPath=${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" \
-  local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar \
+  --conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins;${PINOT_DISTRIBUTION_DIR}/plugins-external -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml" \
+  --conf "spark.driver.extraClassPath=${SPARK_BATCH_PLUGIN}:${PINOT_ALL_JAR}" \
+  --conf "spark.executor.extraClassPath=${SPARK_BATCH_PLUGIN}:${PINOT_ALL_JAR}" \
+  local://${PINOT_ALL_JAR} \
   -jobSpecFile ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/sparkIngestionJobSpec.yaml
 ```
 
+{% hint style="warning" %}
+**Troubleshooting `ClassNotFoundException`:** confirm the shaded jar under `plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/` exists for your `${PINOT_VERSION}`, is on both driver and executor classpaths, and that `plugins.dir` lists `plugins-external`. See also the [Spark batch ingestion](../../build-with-pinot/ingestion/batch-ingestion/spark.md) page FAQ.
+{% endhint %}
+
 ## Executing the job using Hadoop
 
-Below command shows how to use Hadoop jar command to run a Hadoop job using `pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar`.
+{% hint style="warning" %}
+**`pinot-all` is not enough for MapReduce.** The Hadoop batch plugin lives under `plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-hadoop/` and must be on `HADOOP_CLASSPATH`. Include `plugins-external` in `plugins.dir`.
+{% endhint %}
 
-Sample Hadoop ingestion job spec yaml(also located at `examples/batch/airlineStats/hadoopIngestionJobSpec.yaml`):
+Sample Hadoop ingestion job spec (also at `examples/batch/airlineStats/hadoopIngestionJobSpec.yaml`). For a **local filesystem** dry run, prefer `LocalPinotFS` as below (the checked-in sample may use `HadoopPinotFS` for HDFS-oriented pipelines):
 
 ```
 # executionFrameworkSpec: Defines ingestion jobs to be running.
 executionFrameworkSpec:
 
-  # name: execution framework name
   name: 'hadoop'
 
-  # segmentGenerationJobRunnerClassName: class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentGenerationJobRunner interface.
   segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.hadoop.HadoopSegmentGenerationJobRunner'
-
-  # segmentTarPushJobRunnerClassName: class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentTarPushJobRunner interface.
   segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.hadoop.HadoopSegmentTarPushJobRunner'
-
-  # segmentUriPushJobRunnerClassName: class name implements org.apache.pinot.spi.batch.ingestion.runner.SegmentUriPushJobRunner interface.
   segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.hadoop.HadoopSegmentUriPushJobRunner'
+  segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.hadoop.HadoopSegmentMetadataPushJobRunner'
 
-  # extraConfigs: extra configs for execution framework.
   extraConfigs:
-
-    # stagingDir is used in distributed filesystem to host all the segments then move this directory entirely to output directory.
     stagingDir: examples/batch/airlineStats/staging
 
-# jobType: Pinot ingestion job type.
-# Supported job types are:
-#   'SegmentCreation'
-#   'SegmentTarPush'
-#   'SegmentUriPush'
-#   'SegmentCreationAndTarPush'
-#   'SegmentCreationAndUriPush'
 jobType: SegmentCreationAndTarPush
 
-# inputDirURI: Root directory of input data, expected to have scheme configured in PinotFS.
 inputDirURI: 'examples/batch/airlineStats/rawdata'
-
-# includeFileNamePattern: include file name pattern, supported glob pattern.
-# Sample usage:
-#   'glob:*.avro' will include all avro files just under the inputDirURI, not sub directories;
-#   'glob:**\/*.avro' will include all the avro files under inputDirURI recursively.
 includeFileNamePattern: 'glob:**/*.avro'
-
-# excludeFileNamePattern: exclude file name pattern, supported glob pattern.
-# Sample usage:
-#   'glob:*.avro' will exclude all avro files just under the inputDirURI, not sub directories;
-#   'glob:**\/*.avro' will exclude all the avro files under inputDirURI recursively.
-# _excludeFileNamePattern: ''
-
-# outputDirURI: Root directory of output segments, expected to have scheme configured in PinotFS.
+# excludeFileNamePattern: 'glob:**/*.tmp'
 outputDirURI: 'examples/batch/airlineStats/segments'
-
-# overwriteOutput: Overwrite output segments if existed.
 overwriteOutput: true
 
-# pinotFSSpecs: defines all related Pinot file systems.
 pinotFSSpecs:
+  - scheme: file
+    className: org.apache.pinot.spi.filesystem.LocalPinotFS
 
-  - # scheme: used to identify a PinotFS.
-    # E.g. local, hdfs, dbfs, etc
-    scheme: file
-
-    # className: Class name used to create the PinotFS instance.
-    # E.g.
-    #   org.apache.pinot.spi.filesystem.LocalPinotFS is used for local filesystem
-    #   org.apache.pinot.plugin.filesystem.AzurePinotFS is used for Azure Data Lake
-    #   org.apache.pinot.plugin.filesystem.HadoopPinotFS is used for HDFS
-    className: org.apache.pinot.plugin.filesystem.HadoopPinotFS
-
-# recordReaderSpec: defines all record reader
 recordReaderSpec:
-
-  # dataFormat: Record data format, e.g. 'avro', 'parquet', 'orc', 'csv', 'json', 'thrift' etc.
   dataFormat: 'avro'
-
-  # className: Corresponding RecordReader class name.
-  # E.g.
-  #   org.apache.pinot.plugin.inputformat.avro.AvroRecordReader
-  #   org.apache.pinot.plugin.inputformat.csv.CSVRecordReader
-  #   org.apache.pinot.plugin.inputformat.parquet.ParquetRecordReader
-  #   org.apache.pinot.plugin.inputformat.json.JSONRecordReader
-  #   org.apache.pinot.plugin.inputformat.orc.ORCRecordReader
-  #   org.apache.pinot.plugin.inputformat.thrift.ThriftRecordReader
   className: 'org.apache.pinot.plugin.inputformat.avro.AvroRecordReader'
 
-# tableSpec: defines table name and where to fetch corresponding table config and table schema.
 tableSpec:
-
-  # tableName: Table name
   tableName: 'airlineStats'
-
-  # schemaURI: defines where to read the table schema, supports PinotFS or HTTP.
-  # E.g.
-  #   hdfs://path/to/table_schema.json
-  #   http://localhost:9000/tables/myTable/schema
   schemaURI: 'http://localhost:9000/tables/airlineStats/schema'
-
-  # tableConfigURI: defines where to reade the table config.
-  # Supports using PinotFS or HTTP.
-  # E.g.
-  #   hdfs://path/to/table_config.json
-  #   http://localhost:9000/tables/myTable
-  # Note that the API to read Pinot table config directly from pinot controller contains a JSON wrapper.
-  # The real table config is the object under the field 'OFFLINE'.
   tableConfigURI: 'http://localhost:9000/tables/airlineStats'
 
-# segmentNameGeneratorSpec: defines how to init a SegmentNameGenerator.
 segmentNameGeneratorSpec:
-
-  # type: Current supported type is 'simple' and 'normalizedDate'.
   type: normalizedDate
-
-  # configs: Configs to init SegmentNameGenerator.
   configs:
     segment.name.prefix: 'airlineStats_batch'
     exclude.sequence.id: true
 
-# pinotClusterSpecs: defines the Pinot Cluster Access Point.
 pinotClusterSpecs:
-  - # controllerURI: used to fetch table/schema information and data push.
-    # E.g. http://localhost:9000
-    controllerURI: 'http://localhost:9000'
+  - controllerURI: 'http://localhost:9000'
 
-# pushJobSpec: defines segment push job related configuration.
 pushJobSpec:
-
-  # pushParallelism: push job parallelism, default is 1.
   pushParallelism: 2
-
-  # pushAttempts: number of attempts for push job, default is 1, which means no retry.
   pushAttempts: 2
-
-  # pushRetryIntervalMillis: retry wait Ms, default to 1 second.
   pushRetryIntervalMillis: 1000
 ```
 
-Ensure parameter `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
+Ensure `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
 
 ```
 export PINOT_VERSION=1.5.1 #set to the Pinot version you have installed
 export PINOT_DISTRIBUTION_DIR=${PINOT_ROOT_DIR}/build/
-export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
-hadoop jar  \
-        ${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar \
+
+HADOOP_BATCH_PLUGIN=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-hadoop/pinot-batch-ingestion-hadoop-${PINOT_VERSION}-shaded.jar
+PINOT_ALL_JAR=${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
+
+export HADOOP_CLIENT_OPTS="-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins;${PINOT_DISTRIBUTION_DIR}/plugins-external -Dlog4j2.configurationFile=${PINOT_DISTRIBUTION_DIR}/conf/pinot-ingestion-job-log4j2.xml"
+export HADOOP_CLASSPATH="${HADOOP_BATCH_PLUGIN}:${PINOT_ALL_JAR}:${HADOOP_CLASSPATH}"
+
+hadoop jar \
+        ${PINOT_ALL_JAR} \
         org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand \
         -jobSpecFile ${PINOT_DISTRIBUTION_DIR}/examples/batch/airlineStats/hadoopIngestionJobSpec.yaml
 ```
+
+{% hint style="warning" %}
+**Troubleshooting `ClassNotFoundException`:** add `plugins-external` to `plugins.dir` and put `pinot-batch-ingestion-hadoop-*-shaded.jar` on `HADOOP_CLASSPATH`. See [Hadoop batch ingestion](../../build-with-pinot/ingestion/batch-ingestion/hadoop.md).
+{% endhint %}
 
 ## Executing a backfill ingestion job
 
@@ -595,12 +474,12 @@ For the full step-by-step workflow, supported options (including `-partitionColu
 You can set Environment Variable: `JAVA_OPTS` to modify:
 
 * Log4j2 file location with `-Dlog4j2.configurationFile`
-* Plugin directory location with `-Dplugins.dir=/opt/pinot/plugins`
+* Plugin directory location with `-Dplugins.dir=/opt/pinot/plugins` (standalone). For Spark/Hadoop batch jobs, use a semicolon-separated list that also includes `plugins-external`: `-Dplugins.dir=/opt/pinot/plugins;/opt/pinot/plugins-external`
 * JVM props, like `-Xmx8g -Xms4G`
 
 Note that you need to config above three all together in `JAVA_OPTS`. If you only config `JAVA_OPTS="-Xmx4g"` then `plugins.dir` is empty usually will cause job failure.
 
-E.g.
+E.g. standalone Docker job:
 
 ```
 docker run --rm -ti -e JAVA_OPTS="-Xms8G -Dlog4j2.configurationFile=/opt/pinot/conf/pinot-admin-log4j2.xml  -Dplugins.dir=/opt/pinot/plugins" --name pinot-data-ingestion-job apachepinot/pinot:latest LaunchDataIngestionJob -jobSpecFile /path/to/ingestion_job_spec.yaml

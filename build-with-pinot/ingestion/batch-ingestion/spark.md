@@ -25,16 +25,16 @@ executionFrameworkSpec:
   name: 'spark'
 
   # segmentGenerationJobRunnerClassName: class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface.
-  segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentGenerationJobRunner'
+  segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark3.SparkSegmentGenerationJobRunner'
 
   # segmentTarPushJobRunnerClassName: class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface.
-  segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentTarPushJobRunner'
+  segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark3.SparkSegmentTarPushJobRunner'
 
   # segmentUriPushJobRunnerClassName: class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface.
-  segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentUriPushJobRunner'
+  segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark3.SparkSegmentUriPushJobRunner'
 
   #segmentMetadataPushJobRunnerClassName: class name implements org.apache.pinot.spi.ingestion.batch.runner.IngestionJobRunner interface
-  segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark.SparkSegmentMetadataPushJobRunner'
+  segmentMetadataPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.spark3.SparkSegmentMetadataPushJobRunner'
 
   # extraConfigs: extra configs for execution framework.
   extraConfigs:
@@ -45,38 +45,46 @@ executionFrameworkSpec:
 
 Spark job specs can filter input paths with `includeFileNamePattern` and `excludeFileNamePattern`. Both properties accept Java NIO `glob:` and `regex:` patterns; see [File name patterns](../../../reference/configuration-reference/job-specification.md#file-name-patterns) for working examples and path-normalization details.
 
-To run Spark ingestion, you need the following jars in your classpath
+## Required jars and plugins.dir
 
-* `pinot-batch-ingestion-spark` plugin jar - available in `plugins-external` directory in the package
-* `pinot-all` jar - available in `lib` directory in the package
+`pinot-all-*-jar-with-dependencies.jar` does **not** bundle Spark or Hadoop batch-ingestion plugins. Those live under `plugins-external/` in the binary distribution (see `pinot-assembly.xml`). You must put them on the Spark classpath **and** point `plugins.dir` at directories that contain them.
 
-These jars can be specified using `spark.driver.extraClassPath` or any other option.
+To run Spark ingestion you need:
+
+* `pinot-all` jar — under `lib/` in the package
+* `pinot-batch-ingestion-spark-3` shaded plugin jar — under `plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/`
+* Any other plugins your job uses (record readers, file systems) — under `plugins/` (for example `pinot-avro`, `pinot-parquet`, `pinot-s3`)
+
+`plugins.dir` accepts a **semicolon-separated** list of directories. Include both `plugins` and `plugins-external` so record readers and the Spark batch runners load correctly:
+
+```
+-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins;${PINOT_DISTRIBUTION_DIR}/plugins-external
+```
+
+Put the Spark batch plugin and `pinot-all` on the driver (and executor) classpath with `spark.driver.extraClassPath` / `spark.executor.extraClassPath`:
 
 ```
 spark.driver.extraClassPath =>
-pinot-batch-ingestion-spark-${PINOT_VERSION}-shaded.jar:pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
+${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
 ```
 
-For loading any other plugins that you want to use, use:
-
-```
-spark.driver.extraJavaOptions =>
--Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins
-```
-
-The complete spark-submit command should look like this:
+The complete local-mode `spark-submit` command:
 
 ```
 export PINOT_VERSION=1.4.0 #set to the Pinot version you have installed
 export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin
 
-spark-submit //
---class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand //
---master local --deploy-mode client //
---conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins" //
---conf "spark.driver.extraClassPath=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" //
--conf "spark.executor.extraClassPath=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar:${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" //
-local://${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar -jobSpecFile /path/to/spark_job_spec.yaml
+SPARK_BATCH_PLUGIN=${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar
+PINOT_ALL_JAR=${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar
+
+spark-submit \
+  --class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand \
+  --master local --deploy-mode client \
+  --conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins;${PINOT_DISTRIBUTION_DIR}/plugins-external" \
+  --conf "spark.driver.extraClassPath=${SPARK_BATCH_PLUGIN}:${PINOT_ALL_JAR}" \
+  --conf "spark.executor.extraClassPath=${SPARK_BATCH_PLUGIN}:${PINOT_ALL_JAR}" \
+  local://${PINOT_ALL_JAR} \
+  -jobSpecFile /path/to/spark_job_spec.yaml
 ```
 
 Ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set properly.
@@ -87,28 +95,31 @@ Ensure environment variables `PINOT_ROOT_DIR` and `PINOT_VERSION` are set proper
 The `spark-core` dependency is not included in Pinot jars since the 0.10.0 release. If you run into runtime issues, make sure your Spark environment provides the dependency, or [build from source](../../../basics/getting-started/) with the matching Spark profile.
 {% endhint %}
 
-### Running in Cluster Mode on YARN
+### Running on YARN
 
-If you want to run the spark job in cluster mode on YARN/EMR cluster, the following needs to be done -
+The example below uses YARN with `client` deploy mode so the Spark driver can read the unpacked Pinot distribution referenced by `plugins.dir`. Before running it:
 
 * Build Pinot from source with option `-DuseProvidedHadoop`
-* Copy Pinot binaries to S3, HDFS or any other distributed storage that is accessible from all nodes.
-* Copy Ingestion spec YAML file to S3, HDFS or any other distributed storage. Mention this path as part of `--files` argument in the command
-* Add `--jars` options that contain the s3/hdfs paths to all the required plugin and pinot-all jar
-* Point `classPath` to spark working directory. Generally, just specifying the jar names without any paths works. Same should be done for main jar as well as the spec YAML file
+* Keep the unpacked Pinot distribution available on the submit host.
+* Copy the ingestion spec YAML to S3, HDFS, or another location accessible through `--files`.
+* Add the Spark batch plugin and `pinot-all` through `--jars` so Spark distributes them to executors.
+* Point the driver and executor classpaths at the distributed jar names.
+
+For YARN `cluster` deploy mode, the driver runs remotely. You must separately distribute and unpack the `plugins` and `plugins-external` directories, then set `plugins.dir` to paths that exist in the remote driver container.
 
 **Example**
 
 ```
-spark-submit //
---class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand //
---master yarn --deploy-mode cluster //
---conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins" //
---conf "spark.driver.extraClassPath=pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar:pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" //
---conf "spark.executor.extraClassPath=pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar:pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" //
---jars "${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar,${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar"
---files s3://path/to/spark_job_spec.yaml
-local://pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar -jobSpecFile spark_job_spec.yaml
+spark-submit \
+  --class org.apache.pinot.tools.admin.command.LaunchDataIngestionJobCommand \
+  --master yarn --deploy-mode client \
+  --conf "spark.driver.extraJavaOptions=-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins;${PINOT_DISTRIBUTION_DIR}/plugins-external" \
+  --conf "spark.driver.extraClassPath=pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar:pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" \
+  --conf "spark.executor.extraClassPath=pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar:pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" \
+  --jars "${PINOT_DISTRIBUTION_DIR}/plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/pinot-batch-ingestion-spark-3-${PINOT_VERSION}-shaded.jar,${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar" \
+  --files s3://path/to/spark_job_spec.yaml \
+  ${PINOT_DISTRIBUTION_DIR}/lib/pinot-all-${PINOT_VERSION}-jar-with-dependencies.jar \
+  -jobSpecFile spark_job_spec.yaml
 ```
 
 
@@ -120,11 +131,11 @@ Since 0.8.0 release, Pinot binaries are compiled with JDK 11. If you are using S
 
 Q - **I am not able to find `pinot-batch-ingestion-spark` jar.**
 
-Since Pinot 0.10.0, the spark plugin is located in the `pinot-external` directory of the binary distribution (in older versions it was in `plugin`).
+Since Pinot 0.10.0, the Spark batch plugin is located under `plugins-external/pinot-batch-ingestion/` in the binary distribution (in older versions it lived under `plugins/`). Current Spark 3 builds ship `pinot-batch-ingestion-spark-3-*-shaded.jar`.
 
 Q - **Spark is not able to find the jars** **leading to** **`java.nio.file.NoSuchFileException`**
 
-This means the classpath for spark job has not been configured properly. If you are running spark in a distributed environment such as Yarn or k8s, make sure both `spark.driver.classpath` and `spark.executor.classpath` are set. Also, the jars in `driver.classpath` should be added to `--jars` argument in `spark-submit` so that spark can distribute those jars to all the nodes in your cluster. You also need to take provide appropriate scheme with the file path when running the jar. In this doc, we have used `local:\\` but it can be different depending on your cluster setup.
+This means the classpath for spark job has not been configured properly. If you are running spark in a distributed environment such as Yarn or k8s, make sure both `spark.driver.extraClassPath` and `spark.executor.extraClassPath` are set. Also, the jars in `driver.extraClassPath` should be added to `--jars` argument in `spark-submit` so that spark can distribute those jars to all the nodes in your cluster. You also need to take provide appropriate scheme with the file path when running the jar. In this doc, we have used `local://` but it can be different depending on your cluster setup.
 
 Q - **Spark job failing while pushing the segments.**
 
@@ -138,8 +149,13 @@ If already set to `APPEND`, this is likely due to a missing `timeColumnName` in 
 
 Q - **I am getting `java.lang.RuntimeException: java.io.IOException: Failed to create directory: pinot-plugins-dir-0/plugins/*`**
 
-Removing `-Dplugins.dir=${PINOT_DISTRIBUTION_DIR}/plugins` from `spark.driver.extraJavaOptions` should fix this. As long as plugins are mentioned in classpath and `jars` argument it should not be an issue.
+Removing `-Dplugins.dir=...` from `spark.driver.extraJavaOptions` can fix this when the plugin jars are already on the Spark classpath via `extraClassPath` and `--jars`. Prefer pointing `plugins.dir` at real local paths that exist on the driver (`plugins` and `plugins-external` under the distribution).
 
-Q - Getting `Class not found:` exception
+Q - Getting `Class not found:` exception (for example `SparkSegmentGenerationJobRunner`)
 
-Check if `extraClassPath` arguments contain all the plugin jars for both driver and executors. Also, all the plugin jars are mentioned in the `--jars` argument. If both of these are correct, check if the `extraClassPath` contains local filesystem classpaths and not s3 or hdfs or any other distributed file system classpaths.
+The Spark/Hadoop batch runners are **not** inside `pinot-all`. Confirm that:
+
+1. `extraClassPath` for both driver and executors includes the shaded jar under `plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/`
+2. That same jar is listed in `--jars` for cluster mode
+3. `plugins.dir` includes `${PINOT_DISTRIBUTION_DIR}/plugins-external` (semicolon-separated with `plugins` if you also need record readers / file-system plugins from `plugins/`)
+4. The job spec uses the Spark 3 package: `org.apache.pinot.plugin.ingestion.batch.spark3.*`

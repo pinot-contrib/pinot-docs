@@ -441,6 +441,10 @@ If you are using the docker, you can set the following under `JAVA_OPTS` variabl
 
 You can set `-D mapreduce.map.memory.mb=8192` to set the mapper memory size when submitting the Hadoop job.
 
+The Hadoop batch plugin is under `plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-hadoop/`. Point `plugins.dir` at both `plugins` and `plugins-external` (semicolon-separated) and put the shaded Hadoop plugin jar on `HADOOP_CLASSPATH`. See [Hadoop](hadoop.md).
+
 #### Spark
 
 You can add config `spark.executor.memory` to tune the memory usage for segment creation when submitting the Spark job.
+
+The Spark 3 batch plugin is under `plugins-external/pinot-batch-ingestion/pinot-batch-ingestion-spark-3/`. `pinot-all` does not include it. Point `plugins.dir` at both `plugins` and `plugins-external`, and put the shaded Spark plugin jar on the Spark classpath. See [Spark](spark.md).
