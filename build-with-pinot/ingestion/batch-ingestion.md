@@ -22,6 +22,17 @@ Dimension tables and other specialized offline loads.
 
 Decide on the file format, the deep-storage target, and the segment push workflow before you optimize the job itself. Most batch ingestion problems come from mismatched assumptions at those boundaries.
 
+## Select input files
+
+Use `includeFileNamePattern` and `excludeFileNamePattern` in the ingestion job spec to filter input paths. Both accept Java NIO `PathMatcher` patterns with either the `glob:` or `regex:` prefix:
+
+```yaml
+includeFileNamePattern: 'glob:**/*.avro'
+excludeFileNamePattern: 'regex:.*[.]tmp'
+```
+
+The pattern must match the whole normalized path, not only the file name. See [File name patterns](../../reference/configuration-reference/job-specification.md#file-name-patterns) for Java regex syntax, job-spec template escaping, and URI normalization details.
+
 ## Learn more
 
 The original step-by-step batch docs live in [Import Data](README.md) and [Data Ingestion Overview](README.md).
