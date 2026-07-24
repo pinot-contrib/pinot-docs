@@ -60,9 +60,13 @@ Default value of `minBrokerGroupTrimSize` is set to 5000. This can be adjusted b
 
 ## GROUP BY behavior
 
-Pinot sets a default `LIMIT` of 10 if one isn't defined and this applies to `GROUP BY` queries as well. Therefore, if no limit is specified, Pinot will return 10 groups.
+Pinot sets a default `LIMIT` of 10 if one isn't defined and this applies to SSE `GROUP BY` queries as well. Therefore, if no limit is specified on SSE, Pinot will return 10 groups. MSE does not apply that same implicit 10-row result limit; still set `LIMIT` explicitly when you care about result size. See also [Querying Pinot](querying-pinot.md#group-by-quirks-default-limit-trimming-order-by).
 
 Pinot will trim tail groups based on the `ORDER BY` clause to reduce the memory footprint and improve the query performance. It keeps at least `5 * LIMIT` groups so that the results give good enough approximation in most cases. The configurable min trim size can be used to increase the groups kept to improve the accuracy but has a larger extra memory footprint.
+
+**Without `ORDER BY`**, SSE group-by does not define a ranking. By default, result tables stop admitting unseen group keys after they reach the requested result size, so processing order can affect which keys survive. Do not treat `GROUP BY ... LIMIT N` as a top-N query.
+
+Set `accurateGroupByWithoutOrderBy=true` when you need a deterministic subset: Pinot retains the lexicographically smallest group keys during server and broker reduction. This does not rank groups by an aggregate, and it cannot recover keys dropped by `numGroupsLimit`; use `ORDER BY` for top-N results. See [Query options](query-execution-controls/query-options.md).
 
 ## HAVING behavior
 

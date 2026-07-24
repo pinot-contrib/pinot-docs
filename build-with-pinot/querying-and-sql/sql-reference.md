@@ -378,6 +378,19 @@ GROUP BY city
 HAVING COUNT(*) > 100
 ```
 
+On SSE, `HAVING` runs on the merged group candidates after any earlier group trim. If trimming already dropped groups that would match `HAVING`, those groups do not reappear. See [Grouping algorithm](grouping-algorithm.md#having-behavior) and [Querying Pinot](querying-pinot.md#group-by-quirks-default-limit-trimming-order-by).
+
+You can use **post-aggregation** expressions (arithmetic or functions over aggregates and group keys) in `SELECT`, `HAVING`, and `ORDER BY`:
+
+```sql
+SELECT city, SUM(amount) AS total, COUNT(*) AS cnt, SUM(amount) / COUNT(*) AS avg_amount
+FROM orders
+GROUP BY city
+HAVING SUM(amount) / COUNT(*) > 25
+ORDER BY avg_amount DESC
+LIMIT 50
+```
+
 ---
 
 ## ORDER BY
@@ -390,6 +403,8 @@ FROM orders
 GROUP BY city
 ORDER BY total DESC
 ```
+
+Without `ORDER BY`, Pinot does not guarantee row or group order. For SSE `GROUP BY` without `ORDER BY`, result tables can also stop admitting unseen group keys after reaching a small `LIMIT`, so processing order can affect which keys survive. See [Querying Pinot](querying-pinot.md#group-by-quirks-default-limit-trimming-order-by).
 
 ### Ordering Direction
 
@@ -419,7 +434,7 @@ Restricts the number of rows returned:
 SELECT * FROM orders LIMIT 50
 ```
 
-If no `LIMIT` is specified, Pinot defaults to returning 10 rows for selection queries.
+On the **single-stage engine**, if no `LIMIT` is specified, the broker defaults to returning 10 rows (`pinot.broker.default.query.limit`); this also caps SSE `GROUP BY` results at 10 groups. The multi-stage engine does not apply this broker default. Prefer an explicit `LIMIT` on every production query. See [Grouping algorithm](grouping-algorithm.md#group-by-behavior) and [Querying Pinot](querying-pinot.md#group-by-quirks-default-limit-trimming-order-by).
 
 ### OFFSET
 
