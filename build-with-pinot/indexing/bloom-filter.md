@@ -36,7 +36,7 @@ In Pinot, this cardinality corresponds to the number of unique values expected w
 
 ## Supported column types
 
-Bloom filters are supported on all data types except BOOLEAN and MAP: INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES, JSON, TIMESTAMP.
+Bloom filters are supported on all data types except BOOLEAN and MAP: INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES, UUID, JSON, TIMESTAMP.
 
 ## Query examples
 

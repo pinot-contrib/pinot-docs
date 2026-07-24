@@ -99,7 +99,7 @@ We use the following conversion table to translate between Avro and Pinot data t
 | RECORD            | JSON            |                          |
 | UNION             | JSON            |                          |
 | DECIMAL           | BYTES           |                          |
-| UUID              | STRING          |                          |
+| UUID              | UUID            | Supports `string` with `logicalType: "uuid"` and 16-byte `fixed` UUID values. |
 | DATE              | STRING          | `yyyy-MM-dd` format      |
 | TIME\_MILLIS      | STRING          | `HH:mm:ss.SSS` format    |
 | TIME\_MICROS      | STRING          | `HH:mm:ss.SSSSSS` format |

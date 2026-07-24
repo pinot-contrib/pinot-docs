@@ -124,8 +124,25 @@ Pinot supports the following schema data types:
 | `STRING` | `"null"` | N/A |
 | `JSON` | `"null"` | N/A |
 | `BYTES` | byte array of length `0` | byte array of length `0` |
+| `UUID` | nil UUID (`00000000-0000-0000-0000-000000000000`) | N/A |
 
 The `TIMESTAMP` type supports milliseconds epoch precision. Nanoseconds are not supported.
+
+### UUID columns
+
+Use the `UUID` logical type for RFC 4122 identifiers. Pinot stores each UUID as a fixed-width 16-byte value. Use canonical lowercase UUID strings at ingestion and in external interfaces.
+
+```json
+{
+  "name": "eventId",
+  "dataType": "UUID",
+  "fieldType": "DIMENSION"
+}
+```
+
+For ingestion, use canonical UUID strings. Pinot also accepts `java.util.UUID` values and 16-byte values from record readers. Avro UUID logical types are mapped to `UUID`; see [Avro](../../build-with-pinot/ingestion/pinot-input-formats.md#avro).
+
+For an upsert or dedup table with a UUID primary key, producers must send canonical lowercase RFC 4122 strings. This keeps equivalent UUID values on the same Kafka partition so Pinot can apply deduplication correctly.
 
 All schema data types are comparable, and ordering must be consistent with equality. Pinot normalizes a few edge cases to preserve that property:
 
@@ -160,6 +177,7 @@ At schema level, null handling is controlled by `enableColumnBasedNullHandling` 
 | `STRING` | `"null"` |
 | `BYTES` | byte array of length `0` |
 | `JSON` | `"null"` |
+| `UUID` | nil UUID (`00000000-0000-0000-0000-000000000000`) |
 
 ### Metric Default Null Values
 
@@ -184,9 +202,9 @@ Define one dimension field spec for each dimension column.
 | `fieldId` | Optional stable, name-independent identifier for the column. |
 | `aliases` | Optional list of alternate or historical names for the column. |
 | `metadata` | Optional free-form string map for column metadata. Pinot preserves non-empty values in schema JSON, omits empty maps, and does not assign built-in semantics or use them for backward-compatibility checks. |
-| `dataType` | Data type of the dimension column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `BYTES`, and `JSON`. |
-| `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. |
-| `singleValueField` | Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. This includes `BIG_DECIMAL` and `BYTES` dimension columns. The default null value for a multi-value column is a single-element list containing the configured or internal null value. |
+| `dataType` | Data type of the dimension column. Supported types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `BYTES`, `UUID`, and `JSON`. |
+| `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. For `UUID`, the default is the nil UUID. |
+| `singleValueField` | Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. This includes `BIG_DECIMAL`, `BYTES`, and `UUID` dimension columns. The default null value for a multi-value column is a single-element list containing the configured or internal null value. |
 
 ## MetricFieldSpecs
 
