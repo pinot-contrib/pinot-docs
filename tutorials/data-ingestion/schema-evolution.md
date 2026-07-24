@@ -56,10 +56,10 @@ $ curl -F schemaName=@baseballStats.schema localhost:9000/schemas
 
 ## Reload table segments
 
-After you add the new column to your schema, reload the consuming segments.
+After you add the new column to your schema, reload the table segments so completed segments expose the new field and realtime consumers pick up the schema on a fresh consuming segment.
 
-1. (Real-time tables only): Open [Server config](../../reference/configuration-reference/server.md), and set `pinot.server.instance.reload.consumingSegment` to `true`.
-2. To ensure the `baseballStats` column shows up, run the following command to reload the table segments--**be sure to replace** **the accurate** `reloadJobId` **for your schema:**
+1. (Real-time tables) Keep `pinot.server.instance.reload.consumingSegment` at its default `true` (see [Server config](../../reference/configuration-reference/server.md)) so reload requests a force commit for consuming segments when consistency mode allows it. Servers then seal the current mutable segment asynchronously and start a new consumer with the latest schema/table config. You can also call `POST /tables/{tableName}/forceCommit` explicitly and poll it; see the [force commit API](../../reference/api-reference/controller-api.md#post-tablestablenameforcecommit).
+2. To ensure the new `baseballStats` column shows up on completed segments, reload the table — **replace** the sample `reloadJobId` below with yours when polling status:
 
 **Command**&#x20;
 
@@ -106,9 +106,10 @@ $ curl -X GET localhost:9000/segments/segmentReloadStatus/c3989a04-9fd1-46af-85e
 ```
 
 {% hint style="info" %}
-* For real-time consuming segments, the reload is performed as force commit, which commits the current consuming segment and loads it as an immutable segment. A new consuming segment is created after the current one is committed, and picks up the changes in the table config and schema.
-* Upsert and dedup config change cannot be applied via reload because they will change the table level (cross segments) metadata management. To apply these changes, server needs to be restarted.
-* In some cases, for example, if the transform function evaluation fails or references a column that isn't part of the segment being reloaded, the reload operation may not succesfully apply the transform. In these cases, the reload status API will still report sucess, but querying the new columns may not work. Review server reload logs to identify these cases.
+* For real-time **consuming** segments, reload is performed as a **force commit** when `pinot.server.instance.reload.consumingSegment` is true: the current consuming segment is committed as immutable, and a new consuming segment starts with the updated table config and schema.
+* Not every column add requires `pauseConsumption`. Plain default-only columns usually need schema update + reload/forceCommit. **Ingestion transform** changes are safer with a pause boundary or an immediate forceCommit so no consumer keeps the old transform plan. See the [schema evolution decision table](../../build-with-pinot/data-modeling/schema-evolution.md#decision-table-add-a-column-on-an-existing-table).
+* Upsert and dedup keep table-level (cross-segment) metadata inside the server table data manager. Allowed partial-upsert strategy changes require a controlled server restart and are not retroactive. Core identity and ordering settings are immutable; create a new table and reingest instead of relying on reload or restart. Adding a null-default column on a full-upsert table still follows the reload/forceCommit path above; partial-upsert tables and upsert tables with out-of-order handling configured restrict force commit unless consuming-segment consistency mode allows it.
+* In some cases, for example if the transform function evaluation fails or references a column that isn't part of the segment being reloaded, the reload operation may not successfully apply the transform. The reload status API can still report success while querying the new column fails — check server reload logs.
 {% endhint %}
 
 ## **Query and backfill data**
@@ -136,6 +137,4 @@ Result: {"resultTable":{"dataSchema":{"columnNames":["playerID","yearsOfExperien
 {% hint style="warning" %}
 Backfilling data does not work for real-time tables. You can convert a real-time table to a hybrid table by adding an offline table that uses the same counterpart, and then backfilling the offline table to fill in values for the newly added column. For more information, see [hybrid tables](../../basics/components/table/README.md#hybrid-table).
 {% endhint %}
-
-
 

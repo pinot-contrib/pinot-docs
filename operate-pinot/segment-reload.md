@@ -7,8 +7,9 @@ description: Reload a table segment in Apache Pinot.
 When Pinot writes data to segments in a table, it saves those segments to a deep store location specified in your [table configuration](../reference/configuration-reference/table.md), such as a storage drive or Amazon S3 bucket.
 
 {% hint style="info" %}
-If a **new column is added to your table or schema configuration during ingestion**, incorrect data may appear in the consuming segment(s). To ensure accurate values are reloaded, see how to [add a new column during ingestion](../build-with-pinot/ingestion/ingestion-level-transformations.md#add-a-new-column-during-ingestion).&#x20;
+Schema and transform changes on **realtime** tables need a plan for consuming segments. When `pinot.server.instance.reload.consumingSegment` is `true` (default), reload of a consuming segment **requests a force commit** (sets a flag on the consumer); the segment seals asynchronously in the consumption loop and a replacement consumer then starts on the latest schema. Reload job success is **not** the same as “new consumers are ONLINE” — for a hard barrier, use [forceCommit](../reference/api-reference/controller-api.md#post-tablestablenameforcecommit) and poll `forceCommitStatus`, or wait until consuming segment generations advance. Transform-heavy changes may still want a pause boundary. See the [schema evolution decision table](../build-with-pinot/data-modeling/schema-evolution.md#decision-table-add-a-column-on-an-existing-table) and [add a new column during ingestion](../build-with-pinot/ingestion/ingestion-level-transformations.md#add-a-new-column-during-ingestion).
 {% endhint %}
+
 
 ## Use the Pinot Controller API to reload segments
 
@@ -40,6 +41,11 @@ Supported query parameters:
 | `forceDownload` | Re-download immutable segments from deep store before reloading. Defaults to `false`. |
 | `targetInstance` | Send reload messages only to the specified server instance. |
 | `instanceToSegmentsMap` | JSON map of server instance to segment list. When present, Pinot reloads only the listed segments on the listed servers. |
+
+{% hint style="info" %}
+**Consuming segments:** there is no separate `includingConsuming` query flag on this API. Whether consuming segments are included is controlled by the server config `pinot.server.instance.reload.consumingSegment` (default `true`). When enabled and allowed by [consuming-segment consistency mode](../build-with-pinot/ingestion/upsert-and-dedup/upsert.md#consuming-segment-consistency-mode), each consuming segment reload requests a force commit on that consumer; sealing and starting the replacement consumer are asynchronous and are **not** tracked by the reload job id. To commit consumers without reloading every completed segment, and to poll completion, call [POST /tables/\{tableName\}/forceCommit](../reference/api-reference/controller-api.md#post-tablestablenameforcecommit) and [GET /tables/forceCommitStatus/\{jobId\}](../reference/api-reference/controller-api.md#get-tablesforcecommitstatusjobid) instead.
+{% endhint %}
+
 
 Example:
 
