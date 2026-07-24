@@ -8,7 +8,7 @@ Enable dictionary encoding (the default) when a column has low to medium cardina
 
 ## Supported column types
 
-Dictionary encoding is supported on all data types: INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES, BOOLEAN, TIMESTAMP, JSON.
+Dictionary encoding is supported on all data types: INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES, UUID, BOOLEAN, TIMESTAMP, JSON.
 
 For variable-length types (STRING, BYTES, BIG_DECIMAL), consider enabling `useVarLengthDictionary` when values vary widely in length.
 
