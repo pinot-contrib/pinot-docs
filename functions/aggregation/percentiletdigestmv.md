@@ -6,7 +6,7 @@ description: >-
 
 # percentiletdigestmv
 
-Returns the Nth percentile of the group using [T-digest algorithm](https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf). An optional compression\_factor can be specified to control the accuracy with a tradeoff in memory usage (i.e. higher compression\_factor gives better accuracy but takes more memory). The default compression\_factor is 100.
+Returns the Nth percentile of the group using [T-digest algorithm](https://raw.githubusercontent.com/tdunning/t-digest/master/docs/t-digest-paper/histo.pdf). An optional compression\_factor can be specified to control the accuracy with a tradeoff in memory usage (i.e. higher compression\_factor gives better accuracy but takes more memory). The default compression\_factor is 100. Pinot uses an effective minimum compression factor of 10, so values below 10 behave as 10.
 
 ## Signature
 
