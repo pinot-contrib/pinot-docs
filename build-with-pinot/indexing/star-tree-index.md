@@ -154,9 +154,9 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * PERCENTILE\_EST
 * PERCENTILE\_RAW\_EST
 * PERCENTILE\_TDIGEST
-  * The compression factor for the `TDigest` histogram can be optionally configured in `functionParameters` using the key `compressionFactor`. For example: `{"compressionFactor": 200}`.  If not configured, the default value of `100` will be used.
+  * The compression factor for the `TDigest` histogram can be optionally configured in `functionParameters` using the key `compressionFactor`. For example: `{"compressionFactor": 200}`.  If not configured, the default value of `100` will be used. Values below `10` use an effective compression factor of `10`.
 * PERCENTILE\_RAW\_TDIGEST
-  * The compression factor for the `TDigest` histogram can be optionally configured in `functionParameters` using the key `compressionFactor`. For example: `{"compressionFactor": 200}`. If not configured, the default value of `100` will be used.
+  * The compression factor for the `TDigest` histogram can be optionally configured in `functionParameters` using the key `compressionFactor`. For example: `{"compressionFactor": 200}`. If not configured, the default value of `100` will be used. Values below `10` use an effective compression factor of `10`.
 * DISTINCT\_COUNT\_BITMAP
   * NOTE: The intermediate result _RoaringBitmap_ is not bounded-sized, use carefully on high cardinality columns.
 * DISTINCT\_COUNT\_HLL
