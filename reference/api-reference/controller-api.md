@@ -1254,7 +1254,9 @@ The endpoint checks:
 - Schema and table config consistency
 - Tenant assignment validity (do instances with the required tags exist?)
 - Minion instance availability (if task configs reference minion)
-- Active task conflicts
+
+The read-only `validate` and `tune` preflight endpoints do not validate active tasks. You can use them for an
+existing table that has tasks running; active-task validation remains part of the mutating table-management paths.
 
 **Request**
 
@@ -1280,7 +1282,8 @@ curl -X POST "http://localhost:9000/tableConfigs/validate" \
 | -------------------------- | ----- | --------------------------------------------------------------------------- |
 | `validationTypesToSkip`    | query | Comma-separated list of validation types to skip (e.g., `TENANT,MINION_INSTANCES`) |
 
-The supported validation types that can be skipped are: `TENANT`, `MINION_INSTANCES`, `ACTIVE_TASKS`.
+The supported validation types that can be skipped are: `ALL`, `TASK`, `UPSERT`, `TENANT`, and `MINION_INSTANCES`.
+`ACTIVE_TASKS` remains accepted for backward compatibility, but it has no effect on these preflight endpoints.
 
 **Response**
 
@@ -1302,7 +1305,9 @@ Validates a combined `TableConfigs` payload and returns the tuned version that P
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `validationTypesToSkip` | query | Optional comma-separated validation types to skip during validation. Supported values are `ALL`, `TASK`, `UPSERT`, `TENANT`, `MINION_INSTANCES`, and `ACTIVE_TASKS`. |
+| `validationTypesToSkip` | query | Optional comma-separated validation types to skip during validation. Supported values are `ALL`, `TASK`, `UPSERT`, `TENANT`, and `MINION_INSTANCES`. |
+
+`ACTIVE_TASKS` remains accepted for backward compatibility, but it has no effect on this read-only preflight endpoint.
 
 **Request**
 
