@@ -48,6 +48,35 @@ When null storing is enabled, Pinot creates a new index called the _null index_ 
 Although null storing can be enabled after data has been ingested, data ingested before this mode is enabled will not store the null index and therefore it will be treated as not null.
 {% endhint %}
 
+### Backfill null indexes for existing segments
+
+For segments ingested before null storing was enabled, you can reconstruct a null vector during a segment reload. This is a per-column, opt-in operation because Pinot cannot distinguish a historical null from an actual value equal to the column's `defaultNullValue`.
+
+Enable null storing for the column using either [column based null storing](null-value-support.md#column-based-null-storing) or [table based null storing](null-value-support.md#table-based-null-storing). Then add the column to the table configuration's `fieldConfigList`:
+
+```json
+{
+  "fieldConfigList": [
+    {
+      "name": "status",
+      "indexes": {
+        "null": {
+          "backfill": true
+        }
+      }
+    }
+  ]
+}
+```
+
+Next, [reload the affected segments](../../operate-pinot/segment-lifecycle-and-repair.md#reload-a-segment). On the first reload, Pinot scans the column's forward index and marks a row as null when its stored value matches the default null value. For a multi-value column, the stored value must be a single-element array containing the default null value. Pinot does not rescan a column after it has completed the backfill.
+
+{% hint style="warning" %}
+This operation is lossy. Enable it only when the default null value is a sentinel that cannot occur as a real value in the column. Do not enable it for columns whose default is commonly valid data, such as a metric default of `0` or a boolean default of `false`.
+{% endhint %}
+
+Backfill is supported only for the supported scalar stored types; table configuration validation rejects unsupported types, including `BOOLEAN` and complex types such as `MAP`. For a time column, set an explicit in-range `defaultNullValue` before enabling backfill. Do not enable `indexes.null.backfill` until every server runs a Pinot version that supports it; older servers cannot read this index configuration.
+
 Null support is configured per table. You can configure one table to store nulls, and configure another table to not store nulls. There are two ways to define null storing support in Pinot:
 
 1. [Column based null storing](null-value-support.md#column-based-null-storing), where each column in a table is configured as nullable or not nullable. We recommend enabling null storing support by column. This is the only way to support null handling in the [multi-stage query engine](../../build-with-pinot/querying-and-sql/sse-vs-mse.md).
