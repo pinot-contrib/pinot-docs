@@ -4,7 +4,7 @@ description: Understand the differences between the single-stage engine (SSE) an
 
 # Query Engines (SSE vs MSE)
 
-Pinot ships two supported query engines. The **single-stage engine (SSE)** uses a scatter-gather model and is the default for simple analytic queries. The **multi-stage engine (MSE)** supports distributed joins, window functions, subqueries, set operations, and many advanced SQL operations. `GROUPING SETS`, `ROLLUP`, `CUBE`, `GROUPING()`, and `GROUPING_ID()` are a current exception: they run on SSE only.
+Pinot ships two supported query engines. The **single-stage engine (SSE)** uses a scatter-gather model and is the default for simple analytic queries. The **multi-stage engine (MSE)** supports distributed joins, window functions, subqueries, set operations, and many advanced SQL operations, including `GROUPING SETS`, `ROLLUP`, `CUBE`, `GROUPING()`, and `GROUPING_ID()`.
 
 SSE is the default because it has lower overhead for the most common Pinot workloads; that default does not imply that MSE is experimental. MSE is Pinot's supported engine for queries that require relational operators beyond simple scatter-gather execution.
 
@@ -17,7 +17,7 @@ SSE is the default because it has lower overhead for the most common Pinot workl
 | If your query needs… | Use | Why |
 | --- | --- | --- |
 | Basic filtering, projection, aggregation | SSE | Lowest overhead; simple scatter-gather model |
-| `GROUP BY GROUPING SETS`, `ROLLUP`, `CUBE`, `GROUPING()`, or `GROUPING_ID()` | SSE | These grouping features are currently implemented only in SSE |
+| `GROUP BY GROUPING SETS`, `ROLLUP`, `CUBE`, `GROUPING()`, or `GROUPING_ID()` | SSE or MSE | Supported by both engines; use MSE when the query also needs multi-stage features |
 | JOINs | MSE | JOIN support requires the multi-stage engine |
 | Window functions | MSE | Window functions require multi-stage execution |
 | Colocated or partitioned joins | MSE | These are multi-stage patterns |
@@ -34,20 +34,20 @@ The single-stage engine uses a scatter-gather execution model. The broker receiv
 **Choose SSE when:**
 
 - The query is a plain scatter-gather read over one or more tables
-- You need `GROUP BY GROUPING SETS`, `ROLLUP`, `CUBE`, `GROUPING()`, or `GROUPING_ID()`
 - You only need functions available in both engines
 - You want the lowest conceptual and operational overhead
 
 SSE is the default fit for the most common Pinot workloads: filter, project, group, and aggregate.
 
-### Grouping sets on SSE
+### Grouping sets
 
-`GROUPING SETS`, `ROLLUP`, `CUBE`, `GROUPING()`, and `GROUPING_ID()` currently execute only on SSE. Leave
-`useMultistageEngine` unset or set it to `false` for those queries.
+`GROUPING SETS`, `ROLLUP`, `CUBE`, `GROUPING()`, and `GROUPING_ID()` execute on both engines. To run them
+on MSE, set `useMultistageEngine=true`. See [GROUP BY](sql-reference.md#group-by) for syntax, limits, and
+MSE-specific restrictions.
 
-During a rolling upgrade, existing queries that do not use grouping sets remain wire-compatible. The new
-grouping-set feature itself should be used only after all servers are upgraded; otherwise Pinot rejects the
-query with an actionable "upgrade all servers" error instead of returning a partial or incorrect result.
+During a rolling upgrade, existing queries that do not use grouping sets remain wire-compatible. Use grouping-set
+queries only after all servers are upgraded. Older servers do not understand the grouping-set request metadata and
+can return an error or incorrect result.
 
 ## Multi-stage engine (MSE)
 
@@ -59,7 +59,7 @@ The multi-stage engine decouples the data exchange layer from the query engine l
 
 **Choose MSE when:**
 
-- You need `JOIN`, window functions, or subqueries
+- You need `JOIN`, window functions, subqueries, or grouping sets with other multi-stage features
 - You need distributed query execution with intermediate stages
 - You are running complex ANSI SQL
 
