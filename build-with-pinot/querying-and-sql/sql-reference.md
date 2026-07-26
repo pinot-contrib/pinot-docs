@@ -54,7 +54,7 @@ FROM table_reference
 [ OPTION ( key = value [, key = value ]* ) ]
 ```
 
-In the single-stage engine (SSE), the `GROUP BY` clause also accepts grouping constructs such as
+Both query engines accept grouping constructs in the `GROUP BY` clause, such as
 `ROLLUP(...)`, `CUBE(...)`, and `GROUPING SETS (...)`. See [GROUP BY](#group-by) for syntax and limits.
 
 ### Column Expressions
@@ -304,9 +304,10 @@ GROUP BY city
 - Aggregation functions and non-aggregation columns cannot be mixed in the `SELECT` list without a `GROUP BY`.
 - Aggregate expressions are not allowed inside the `GROUP BY` clause.
 
-### GROUPING SETS, ROLLUP, and CUBE (SSE Only)
+### GROUPING SETS, ROLLUP, and CUBE
 
-Pinot's single-stage engine also supports grouped subtotal queries:
+Both Pinot query engines support grouped subtotal queries. To run a grouping-set query on the multi-stage engine,
+enable it with `SET useMultistageEngine=true`.
 
 ```sql
 SELECT country, city, SUM(revenue) AS total_revenue
@@ -324,11 +325,6 @@ Use the following forms:
 `()` represents the grand-total grouping set. Pinot de-duplicates repeated grouping sets, so
 `GROUPING SETS ((a), (a), ())` returns only one `(a)` subtotal.
 
-{% hint style="warning" %}
-`GROUPING SETS`, `ROLLUP`, and `CUBE` currently run only on the single-stage engine. Do not set
-`useMultistageEngine=true` for these queries.
-{% endhint %}
-
 ```sql
 SELECT country, city, SUM(revenue) AS total_revenue
 FROM sales
@@ -338,12 +334,14 @@ GROUP BY GROUPING SETS ((country, city), (country), ())
 Important limits and caveats:
 
 - Pinot requires at least one aggregation function somewhere in the query (`SELECT`, `HAVING`, or `ORDER BY`)
-- A query can reference at most `31` distinct grouping columns and expand to at most `4096` grouping sets
-- `DISTINCT` is not supported together with `GROUPING SETS`, `ROLLUP`, or `CUBE`
+- A query can expand to at most `4096` grouping sets. In particular, a `CUBE` can contain at most `12` grouping levels.
+- The number of grouping columns is unlimited, but each `GROUPING()` or `GROUPING_ID()` call accepts at most `31` arguments.
+- MSE grouping-set queries do not support ordered aggregate expressions with `WITHIN GROUP` or aggregate hints.
+- With `usePhysicalOptimizer=true`, MSE grouping-set queries do not support joins.
 - Rolled-up columns are returned as real `NULL` values even when null handling is disabled
 - Existing non-grouping-set queries remain wire-compatible during a rolling upgrade, but do not issue grouping-set queries until all servers are upgraded
 
-### GROUPING() and GROUPING_ID() (SSE Only)
+### GROUPING() and GROUPING_ID()
 
 Use `GROUPING()` and `GROUPING_ID()` to tell subtotal rows apart from genuine data `NULL`s:
 
@@ -762,8 +760,8 @@ The following table summarizes feature support across the single-stage engine (S
 | Feature | SSE | MSE |
 |---|---|---|
 | SELECT, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT | Yes | Yes |
-| GROUPING SETS / ROLLUP / CUBE | Yes | No |
-| GROUPING() / GROUPING_ID() | Yes | No |
+| GROUPING SETS / ROLLUP / CUBE | Yes | Yes |
+| GROUPING() / GROUPING_ID() | Yes | Yes |
 | DISTINCT | Yes | Yes |
 | Aggregation functions | Yes | Yes |
 | CASE WHEN | Yes | Yes |
