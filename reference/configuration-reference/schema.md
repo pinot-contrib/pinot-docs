@@ -144,6 +144,12 @@ For ingestion, use canonical UUID strings. Pinot also accepts `java.util.UUID` v
 
 For an upsert or dedup table with a UUID primary key, producers must send canonical lowercase RFC 4122 strings. This keeps equivalent UUID values on the same Kafka partition so Pinot can apply deduplication correctly.
 
+Query results render `UUID` values, including multi-value UUID columns, as canonical lowercase RFC 4122 strings. This applies to JSON and Arrow responses from `SELECT`, `GROUP BY`, `DISTINCT`, and join queries.
+
+{% hint style="warning" %}
+Treat UUID query results as an atomic-upgrade feature. An older broker or server cannot decode the UUID result-type token emitted by a newer node. Upgrade all brokers and servers before querying UUID columns, and do not roll back while UUID query results are in flight.
+{% endhint %}
+
 All schema data types are comparable, and ordering must be consistent with equality. Pinot normalizes a few edge cases to preserve that property:
 
 - For `FLOAT` and `DOUBLE`, negative zero (`-0.0`) becomes `0.0`.
