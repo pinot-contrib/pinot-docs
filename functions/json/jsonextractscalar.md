@@ -22,6 +22,38 @@ Evaluates `'jsonPath'` on `jsonField` and coerces the resolved value to the requ
 **`'jsonPath'`**` and`` `` `**`'resultsType'`are literals.** Pinot uses single quotes to distinguish them from **identifiers**.
 {% endhint %}
 
+## Fast variants
+
+Use `JSONEXTRACTSCALARFAST` or `JSONEXTRACTSCALARFIRSTMATCH` when extraction is a hot path in a query or an [ingestion transformation](../../build-with-pinot/ingestion/ingestion-level-transformations.md). Both variants use the same arguments, result types, defaults, and coercion rules as `JSONEXTRACTSCALAR`.
+
+The streaming optimization applies to a simple linear path: `$` followed only by `.key`, `['key']`, or `[index]` segments. Wildcards, recursive descent, filters, unions, slices, negative indexes, and other unsupported paths automatically use the existing Jayway implementation.
+
+### JSONEXTRACTSCALARFAST
+
+> JSONEXTRACTSCALARFAST(jsonField, 'jsonPath', 'resultsType', \[defaultValue])
+
+`JSONEXTRACTSCALARFAST` scans the complete JSON root without materializing the Jayway object tree. Use it when you want lower allocation and the normal `JSONEXTRACTSCALAR` semantics for ordinary input, including last-key-wins behavior for duplicate keys. It falls back to the existing implementation when a path or input is not supported by the streaming extractor.
+
+Unlike Jayway, the streaming extractor can avoid a materialization failure in an unaddressed subtree, such as an over-limit string or pathological `BIG_DECIMAL` exponent. It does not change the value returned for the addressed path.
+
+### JSONEXTRACTSCALARFIRSTMATCH
+
+> JSONEXTRACTSCALARFIRSTMATCH(jsonField, 'jsonPath', 'resultsType', \[defaultValue])
+
+`JSONEXTRACTSCALARFIRSTMATCH` stops after finding the addressed value, which is especially useful when that field appears early in a large document. Use it only with well-formed, duplicate-free JSON: duplicate keys resolve to the first non-null value, and malformed content after the addressed value is not validated.
+
+For example:
+
+```sql
+SELECT
+  jsonExtractScalarFast(payload, '$.user.id', 'LONG', -1) AS user_id,
+  jsonExtractScalarFirstMatch(payload, '$.service.name', 'STRING', 'unknown') AS service_name
+FROM events
+LIMIT 10;
+```
+
+The first argument must be a single-value `STRING` or `BYTES` column or transform expression. Multi-stage planning accepts the same result types, but currently lowers `BIG_DECIMAL_ARRAY` to `DOUBLE_ARRAY`; use the single-stage engine when decimal-array precision matters.
+
 ## Usage Examples
 
 The examples in this section are based on the [Batch JSON Quick Start](../../basics/getting-started/quick-start.md#batch-json). In particular we'll be querying the row `WHERE id = 7044874109`:
