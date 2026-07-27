@@ -36,6 +36,15 @@ java.lang.RuntimeException: java.net.BindException: Address already in use
 If you disable the Airplay receiver server and try again, you shouldn't see this error message anymore.
 {% endhint %}
 
+{% hint style="info" %}
+**Use canonical quickstart types for new examples.** Use `BATCH` (or `OFFLINE`) for batch examples and `REALTIME` (or `STREAM`) for streaming examples. Each canonical quickstart initializes the samples that were previously started by separate feature-specific quickstarts and runs their sample queries.
+
+The following legacy types remain available as deprecated aliases, but emit a warning and are not listed in the command help:
+
+* Use `BATCH` instead of `MULTI_STAGE`, `JOIN`, `TIMESTAMP`, `BATCH_JSON_INDEX`, or `BATCH_COMPLEX_TYPE`.
+* Use `REALTIME` instead of `UPSERT`, `PARTIAL_UPSERT`, `UPSERT_JSON_INDEX`, `REALTIME_JSON_INDEX`, or `REALTIME_COMPLEX_TYPE`.
+{% endhint %}
+
 ## Command Options
 
 All QuickStart commands support the following optional parameters in addition to `-type`:
@@ -121,19 +130,19 @@ This example demonstrates how to import and query JSON documents in Pinot. The c
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type batch_json_index
+    -type batch
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type batch_json_index
+./bin/pinot-admin.sh QuickStart -type batch
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type batch_json_index
+pinot-admin QuickStart -type batch
 ```
 {% endtab %}
 {% endtabs %}
@@ -153,19 +162,19 @@ This example demonstrates how to do batch processing in Pinot where the the data
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type batch_complex_type
+    -type batch
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type batch_complex_type
+./bin/pinot-admin.sh QuickStart -type batch
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type batch_complex_type
+pinot-admin QuickStart -type batch
 ```
 {% endtab %}
 {% endtabs %}
@@ -219,19 +228,19 @@ This example demonstrates how to do stream processing with JSON documents in Pin
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type stream_json_index
+    -type realtime
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type stream_json_index
+./bin/pinot-admin.sh QuickStart -type realtime
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type stream_json_index
+pinot-admin QuickStart -type realtime
 ```
 {% endtab %}
 {% endtabs %}
@@ -285,19 +294,19 @@ This example demonstrates how to do stream processing in Pinot where the stream 
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type stream_complex_type
+    -type realtime
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type stream_complex_type
+./bin/pinot-admin.sh QuickStart -type realtime
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type stream_complex_type
+pinot-admin QuickStart -type realtime
 ```
 {% endtab %}
 {% endtabs %}
@@ -318,19 +327,19 @@ This example demonstrates how to do [stream processing with upsert](../../build-
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type upsert
+    -type realtime
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type upsert
+./bin/pinot-admin.sh QuickStart -type realtime
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type upsert
+pinot-admin QuickStart -type realtime
 ```
 {% endtab %}
 {% endtabs %}
@@ -351,19 +360,19 @@ This example demonstrates how to do [stream processing with upsert](../../build-
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type upsert_json_index
+    -type realtime
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type upsert_json_index
+./bin/pinot-admin.sh QuickStart -type realtime
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type upsert_json_index
+pinot-admin QuickStart -type realtime
 ```
 {% endtab %}
 {% endtabs %}
@@ -419,19 +428,19 @@ This example demonstrates how to do joins in Pinot using the [Lookup UDF](../../
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type join
+    -type batch
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type join
+./bin/pinot-admin.sh QuickStart -type batch
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type join
+pinot-admin QuickStart -type batch
 ```
 {% endtab %}
 {% endtabs %}
@@ -515,19 +524,19 @@ This example demonstrates the [multi-stage query engine](../../build-with-pinot/
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type MULTI_STAGE
+    -type batch
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type MULTI_STAGE
+./bin/pinot-admin.sh QuickStart -type batch
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type MULTI_STAGE
+pinot-admin QuickStart -type batch
 ```
 {% endtab %}
 {% endtabs %}
@@ -547,19 +556,19 @@ This example demonstrates how to do [stream processing with partial upsert](../.
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type PARTIAL_UPSERT
+    -type realtime
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type PARTIAL_UPSERT
+./bin/pinot-admin.sh QuickStart -type realtime
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type PARTIAL_UPSERT
+pinot-admin QuickStart -type realtime
 ```
 {% endtab %}
 {% endtabs %}
@@ -802,19 +811,19 @@ This example demonstrates [timestamp index](../../build-with-pinot/indexing/time
 docker run \
     -p 9000:9000 \
     apachepinot/pinot:latest QuickStart \
-    -type TIMESTAMP
+    -type batch
 ```
 {% endtab %}
 
 {% tab title="Launcher scripts" %}
 ```
-./bin/pinot-admin.sh QuickStart -type TIMESTAMP
+./bin/pinot-admin.sh QuickStart -type batch
 ```
 {% endtab %}
 
 {% tab title="Brew" %}
 ```
-pinot-admin QuickStart -type TIMESTAMP
+pinot-admin QuickStart -type batch
 ```
 {% endtab %}
 {% endtabs %}
