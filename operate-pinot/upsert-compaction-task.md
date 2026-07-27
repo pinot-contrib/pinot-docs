@@ -4,6 +4,10 @@ The Upsert Compaction Task allows you reclaim disk space occupied by older versi
 
 This task is only supported for REALTIME tables with upsert enabled.
 
+{% hint style="warning" %}
+Do not configure `UpsertCompactionTask` when `upsertConfig.metadataTTL` is greater than zero. Pinot rejects this combination when it schedules the task because the compaction and metadata-TTL cleanup paths use incompatible definitions of valid records. Disable the task or unset `metadataTTL`; changing `metadataTTL` requires a server restart to take effect.
+{% endhint %}
+
 ### Task overview
 
 The Upsert Compaction Task selects completed segments for compaction based on the provided task configuration and generates a replacement segment for each segment that meets the selection criteria.

@@ -10,6 +10,10 @@ The Upsert Compact Merge Task, also known as the small segment merger, allows yo
 
 This task is only supported for REALTIME tables with upsert enabled.
 
+{% hint style="warning" %}
+Do not configure `UpsertCompactMergeTask` when `upsertConfig.metadataTTL` is greater than zero. Pinot rejects this combination when it schedules the task because the compaction and metadata-TTL cleanup paths use incompatible definitions of valid records. Disable the task or unset `metadataTTL`; changing `metadataTTL` requires a server restart to take effect.
+{% endhint %}
+
 > **ℹ️ New in Pinot 1.3.0**: This task was introduced in version 1.3.0 to address segment proliferation in upsert tables. It works alongside the existing UpsertCompactionTask but focuses on merging multiple small segments rather than compacting individual segments.
 
 > **⚠️ Important Bug Fix**: An issue was identified ([#15846](https://github.com/apache/pinot/issues/15846)) in the initial implementation, which has been fixed via [PR #16034](https://github.com/apache/pinot/pull/16034) and [PR #16086](https://github.com/apache/pinot/pull/16086). These fixes are not present in Pinot 1.3.0. If you plan to use this task, make sure to cherry-pick these PRs or wait for Pinot 1.4.0 release.
