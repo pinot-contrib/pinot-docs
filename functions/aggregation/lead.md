@@ -9,14 +9,28 @@ Returns the value from a following row in the same result set, based on a specif
 ### Signature
 
 ```sql
-LEAD(any expression [, bigint offset [, any default]])
+LEAD(any expression [, bigint offset [, any default]]) [IGNORE NULLS | RESPECT NULLS] OVER (...)
 ```
 
 ### Arguments
 
 * expression: The column or calculation from which the value is to be returned.
-* offset: The number of rows before the current row from which to retrieve the value. The default is 1 if not specified.
+* offset: The number of rows after the current row from which to retrieve the value. The default is 1 if not specified.
 * default: The value to return if the offset goes beyond the scope of the window. If not specified, NULL is returned.
+
+### Null handling
+
+Use `IGNORE NULLS` after the `LEAD` call to skip null expression values when Pinot counts the offset. Use `RESPECT NULLS` to count null values; it is the default behavior.
+
+When `IGNORE NULLS` cannot find a following non-null value at the requested offset, Pinot returns the optional `default` value, or `NULL` when no default is specified.
+
+```sql
+SELECT
+    sales_date,
+    sales_amount,
+    LEAD(sales_amount) IGNORE NULLS OVER (ORDER BY sales_date) AS next_non_null_sales
+FROM daily_sales;
+```
 
 ### Example
 
