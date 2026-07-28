@@ -186,8 +186,8 @@ Supported window functions are listed in the following table.
 | [**MIN**](../../functions/aggregation/min.md) | Returns the minimum value of a numeric column as `Double` | `MIN(playerScore)` | `null` |
 | [**MAX**](../../functions/aggregation/max.md) | Returns the maximum value of a numeric column as `Double` | `MAX(playerScore)` | `null` |
 | [**SUM**](../../functions/aggregation/sum.md) | Returns the sum of the values for a numeric column as `Double` | `SUM(playerScore)` | `null` |
-| [LEAD](../../functions/aggregation/lead.md) | The `LEAD` function provides access to a subsequent row within the same result set, without the need for a self-join. | `LEAD(column_name, offset, default_value)` |  |
-| [LAG](../../functions/aggregation/lag.md) | The `LAG` function provides access to a previous row within the same result set, without the need for a self-join. | `LAG(column_name, offset, default_value)` |  |
+| [LEAD](../../functions/aggregation/lead.md) | The `LEAD` function provides access to a subsequent row within the same result set, without the need for a self-join. | `LEAD(column_name [, offset [, default_value]]) [IGNORE NULLS \| RESPECT NULLS]` |  |
+| [LAG](../../functions/aggregation/lag.md) | The `LAG` function provides access to a previous row within the same result set, without the need for a self-join. | `LAG(column_name [, offset [, default_value]]) [IGNORE NULLS \| RESPECT NULLS]` |  |
 | [FIRST_VALUE](../../functions/aggregation/first_value.md) | The `FIRST_VALUE` function returns the value from the first row in the window. | `FIRST_VALUE(salary)` |  |
 | [LAST_VALUE](../../functions/aggregation/last_value.md) | The `LAST_VALUE` function returns the value from the last row in the window | `LAST_VALUE(salary)` |  |
 | [ROW_NUMBER](row_number.md) | Returns the number of the current row within its partition, counting from 1. | `ROW_NUMBER()` |  |
