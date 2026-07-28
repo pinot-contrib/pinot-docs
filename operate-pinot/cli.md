@@ -178,6 +178,19 @@ When converting to `PARQUET` format, the following features are supported:
 * GZIP compression is applied by default for reduced file size
 * Example usage: `pinot-admin.sh ConvertPinotSegment -dataDir /path/to/segments -outputDir /path/to/output -outputFormat PARQUET`
 
+##### Logical Type Mapping for Avro and Parquet
+
+When converting to `AVRO` or `PARQUET`, Pinot preserves the following logical data types in the output schema:
+
+| Pinot data type | Output schema type |
+| --- | --- |
+| `BOOLEAN` | Avro `boolean` |
+| `TIMESTAMP` | Avro `long` with `logicalType: timestamp-millis` |
+| `BIG_DECIMAL` | Avro `bytes` with `logicalType: big-decimal` |
+| `UUID` | Avro `string` with `logicalType: uuid` |
+
+This is an output-format change for downstream consumers: `BOOLEAN` previously exported as an Avro `int`, and `TIMESTAMP` as a bare `long`. `BIG_DECIMAL` is now supported for Avro and Parquet output. Configure readers to honor these Avro logical types when consuming converted files.
+
 ### Delete Cluster
 
 Delete the cluster namespace from zookeeper.
