@@ -73,7 +73,19 @@ The full request and response examples for these endpoints are in the [controlle
 
 ### Built-in Pinot functions
 
-All the functions defined in [this directory](https://github.com/apache/pinot/tree/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar) annotated with `@ScalarFunction` (for example, [toEpochSeconds](https://github.com/apache/pinot/blob/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar/DateTimeFunctions.java#L78)) are supported ingestion transformation functions.
+Pinot supports registered scalar functions for ingestion transformations. Functions are annotated with `@ScalarFunction`; for example, [toEpochSeconds](https://github.com/apache/pinot/blob/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar/DateTimeFunctions.java#L78).
+
+#### Immutable function requirement
+
+New or changed persisted ingestion transforms can use only scalar functions whose result depends solely on their explicit arguments (`IMMUTABLE` functions). Pinot applies this rule to:
+
+- `ingestionConfig.transformConfigs` in table configs
+- schema-level `transformFunction` definitions
+- `upsertConfig.postPartialUpsertTransformConfigs` for partial-upsert tables
+
+The check includes nested scalar function calls. For example, `now()`, `ago()`, `agoMV()`, and unseeded `rand()` are not valid in a new or changed persisted transform because they can produce different values for the same input. `rand(seed)` is valid because its result is derived from its explicit seed.
+
+Pinot keeps exact existing transform definitions running for compatibility. If you add or modify a persisted transform, replace any non-immutable function with an input-derived alternative before submitting the schema or table config. This validation does not change the functions' query-time behavior. Groovy expressions continue through Pinot's existing Groovy validation rather than scalar-function volatility metadata.
 
 Below are some commonly used built-in Pinot functions for ingestion transformations.
 
