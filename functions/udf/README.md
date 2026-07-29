@@ -111,6 +111,24 @@ static String mySubStr(String input, Integer beginIndex) {
 }
 ```
 
+#### Declare function volatility for ingestion
+
+If a scalar UDF can be used in a persisted ingestion transform, declare its volatility accurately. Pinot accepts only `IMMUTABLE` scalar functions in new or changed ingestion transforms. `IMMUTABLE` functions depend only on their explicit arguments; `STABLE` functions can change between queries; and `VOLATILE` functions can change for each invocation or have side effects. `STABLE` and `VOLATILE` functions remain available in queries but are not valid in new or changed persisted ingestion transforms.
+
+`@ScalarFunction` defaults to `IMMUTABLE` for compatibility. Leave that default only when it is correct for the function. For a UDF that reads time, randomness, mutable state, or an external system, set the appropriate category explicitly:
+
+```java
+import org.apache.pinot.spi.annotations.FunctionVolatility;
+import org.apache.pinot.spi.annotations.ScalarFunction;
+
+@ScalarFunction(volatility = FunctionVolatility.VOLATILE)
+static long currentTime() {
+  return System.currentTimeMillis();
+}
+```
+
+Function volatility is separate from `isDeterministic`, which controls Pinot's compile-time query evaluation behavior. A UDF with `isDeterministic = false` is also treated as `VOLATILE` for persisted ingestion-transform validation.
+
 * Place the compiled JAR in the `/plugins` directory in pinot. You will need to restart all Pinot instances if they are already running.
 * Now, you can use the function in a query as follows:
 
