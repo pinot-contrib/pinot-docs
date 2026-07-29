@@ -856,8 +856,8 @@ Chances of inconsistencies during commit. This mode is unsafe and not recommende
 
 #### Monitoring
 
-- `pinot.server.tableName.realtimeUpsertInconsistentRows` :	Number of primary keys that have inconsistent metadata with other replicas for Upsert tables with dropOutOfOrderRecord=true or outOfOrderRecordColumn set.
-- `pinot.server.tableName.partialUpsertKeysNotReplaced`	    Number of primary keys that have inconsistent metadata with other replicas for Partial upsert tables.
+- `pinot.server.tableName.realtimeUpsertInconsistentRows`: Number of primary keys left unreplaced after a segment replacement detects inconsistent metadata across replicas for a full-upsert table. This includes tables that use `dropOutOfOrderRecord=true` or `outOfOrderRecordColumn`.
+- `pinot.server.tableName.partialUpsertKeysNotReplaced`: Number of primary keys left unreplaced after a segment replacement detects inconsistent metadata across replicas for a partial-upsert table.
 
 ### Best practices
 
