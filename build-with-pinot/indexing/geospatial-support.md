@@ -161,6 +161,12 @@ WHERE ST_DISTANCE(location_st_point, ST_Point(-122, 37, 1)) < 5000
 limit 1000
 ```
 
+### Reloading older segments
+
+When you add a transformed geometry column and H3 index to a table that already has segments, older segments might not contain the source columns needed to derive the geometry. Those rows receive the default empty `BYTES` value during reload.
+
+Set [`ingestionConfig.continueOnError`](../../reference/configuration-reference/ingestion.md#ingestionconfig) to `true` before reloading in this situation. Pinot then skips empty, invalid, and non-point geometry values while it builds the H3 index for both new segments and reloaded segments. The affected rows remain outside the H3 index. When `continueOnError` is `false`, invalid geometry prevents the H3 index from being built.
+
 ### How geoindex works
 
 The Pinot geoindex accelerates query evaluation while maintaining accuracy. Currently, geoindex supports the `ST_Distance` function in the `WHERE` clause.
