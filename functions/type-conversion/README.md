@@ -49,6 +49,37 @@ LIMIT 5
 
 When casting a `STRING` to `INT` or `LONG`, Pinot will first attempt direct integer parsing. If that fails, it will parse the string as a `DOUBLE` and truncate. For `LONG`, Pinot also attempts timestamp parsing before falling back to double conversion.
 
+## UUID functions
+
+Pinot provides UUID-aware functions in both the single-stage and multi-stage query engines. The UUID semantic functions accept a `STRING`, a 16-byte `BYTES` value, or a logical `UUID` column. String inputs can use canonical dashed RFC 4122 text or 32 hexadecimal digits without dashes.
+
+Use `UUID_TO_STRING` when you need a stable external representation: it always returns lowercase UUID text with dashes. Generic `BYTES` values are unchanged and still render as hexadecimal; Pinot decodes bytes as UUIDs only inside UUID-aware functions.
+
+| Function | Input | Result | Behavior |
+| --- | --- | --- | --- |
+| `IS_UUID(value)` | `STRING`, `BYTES`, `UUID` | `BOOLEAN` | Returns `false` for an invalid non-null value. A valid byte value is exactly 16 bytes. |
+| `TO_UUID(value)` | `STRING`, `BYTES`, `UUID` | `UUID` | Converts a UUID representation into Pinot's logical UUID type. |
+| `BYTES_TO_UUID(bytes)` | `BYTES` only | `UUID` | Strictly converts a 16-byte UUID value. |
+| `UUID_TO_STRING(value)` | `STRING`, `BYTES`, `UUID` | `STRING` | Returns canonical lowercase dashed UUID text. |
+| `UUID_TO_BYTES(value)` | `STRING`, `BYTES`, `UUID` | `BYTES` | Returns the canonical 16-byte UUID representation. |
+| `UUID_VERSION(value)` | `STRING`, `BYTES`, `UUID` | `INT` | Returns the 4-bit UUID version field. |
+| `UUID_TIMESTAMP(value)` | `STRING`, `BYTES`, `UUID` | `LONG` | Returns Unix epoch milliseconds from a time-based version 1, 6, or 7 UUID; other versions cause an error. |
+| `UUID_V4()` | No arguments | `UUID` | Generates a fresh random RFC 4122 version 4 UUID. |
+| `UUID_V7()` | No arguments | `UUID` | Generates a fresh RFC 9562 version 7 UUID with the current Unix time in milliseconds in its leading 48 bits. |
+
+The generators are non-deterministic: each invocation produces a new UUID. Version 7 values are k-sortable by timestamp, but UUIDs generated within the same millisecond are not guaranteed to be strictly ordered.
+
+```sql
+SELECT
+  UUID_TO_STRING('550E8400-E29B-41D4-A716-446655440000') AS canonical_uuid,
+  UUID_TO_STRING(UUID_TO_BYTES('550e8400-e29b-41d4-a716-446655440000')) AS from_bytes,
+  UUID_VERSION('550e8400-e29b-41d4-a716-446655440000') AS uuid_version;
+```
+
+Both `canonical_uuid` and `from_bytes` are `550e8400-e29b-41d4-a716-446655440000`, and `uuid_version` is `4`.
+
+For UUID column configuration, ingestion, and query-result rendering, see [UUID columns](../../reference/configuration-reference/schema.md#uuid-columns).
+
 ## bigDecimalToBytes
 
 ```sql
