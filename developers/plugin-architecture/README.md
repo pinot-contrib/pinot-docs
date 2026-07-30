@@ -161,6 +161,14 @@ These hooks receive the `DispatchablePlanContext` and `DispatchablePlanMetadata`
 
 Treat this as an upgrade-sensitive code-level extension, not as a stable standalone plugin family. Revalidate custom `WorkerManager` subclasses on every Pinot upgrade, especially if they depend on a specific leaf-stage planning path or `DispatchablePlanMetadata` shape.
 
+### Segment serving lifecycle callback
+
+Custom segment and storage implementations can run post-registration work by overriding `IndexSegment.onSegmentAdded()` or `SegmentDirectory.onSegmentAdded()`. Pinot invokes the `IndexSegment` callback after the segment is registered and swapped into the server's serving set, so queries can already reach the segment. The built-in immutable segment implementations forward this callback to their `SegmentDirectory`.
+
+Both methods default to no-ops. Pinot calls the callback at most once for each segment instance, only after successful registration. Treat it as best-effort: an exception is logged and does not roll back registration or fail the Helix ONLINE state transition.
+
+The callback runs inline on the segment registration thread, which is a Helix state-transition thread. Return promptly; bound any remote I/O with a timeout or perform it asynchronously. An asynchronous task must not assume that the segment or directory remains alive after the callback returns.
+
 Custom segment or index extensions that depend on `pinot-segment-spi` are a
 separate, more upgrade-sensitive path than the stable plugin families listed
 above. Revalidate these extensions on every Pinot upgrade. For example, Pinot
