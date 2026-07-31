@@ -167,6 +167,8 @@ When you add a transformed geometry column and H3 index to a table that already 
 
 Set [`ingestionConfig.continueOnError`](../../reference/configuration-reference/ingestion.md#ingestionconfig) to `true` before reloading in this situation. Pinot then skips empty, invalid, and non-point geometry values while it builds the H3 index for both new segments and reloaded segments. The affected rows remain outside the H3 index. When `continueOnError` is `false`, invalid geometry prevents the H3 index from being built.
 
+If your segments store nulls and a query enables [advanced null handling](../querying-and-sql/null-value-support.md#advanced-null-handling-support), Pinot excludes null geometry rows from H3 index results. This also applies to unbounded and lower-bound-only `ST_Distance` range predicates, so missing geometries do not become matches merely because they have no H3 posting.
+
 ### How geoindex works
 
 The Pinot geoindex accelerates query evaluation while maintaining accuracy. Currently, geoindex supports the `ST_Distance` function in the `WHERE` clause.
