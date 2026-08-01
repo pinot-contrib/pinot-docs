@@ -69,6 +69,20 @@ This function can be used in the [table config](../../reference/configuration-re
 }
 ```
 
+## Value conversion
+
+`JSONPATHLONG` converts a matched value to a long as follows:
+
+| Matched value | Result |
+| --- | --- |
+| Number | The value's long representation |
+| Boolean | `true` becomes `1`; `false` becomes `0` |
+| `TIMESTAMP` in materialized input | Epoch milliseconds |
+| `DATE` in materialized input | Days since the Unix epoch |
+| `TIME` in materialized input | Milliseconds since midnight |
+
+The `TIMESTAMP`, `DATE`, and `TIME` conversions apply when an extractor has already materialized the input as a record object instead of JSON text. Missing or null values, non-numeric values, and conversion errors return `defaultValue` when it is supplied.
+
 ## Fast and first-match variants
 
 Use the opt-in variants below when the path is a **simple linear path**: `$` followed only by `.name`, `['literal.key']`, or `[0]` segments. For more complex JsonPath features such as wildcards, deep scan (`..`), filters, unions, slices, negative indexes, or a bare `$`, Pinot falls back to the existing `JSONPATHLONG` behavior.
