@@ -17,6 +17,33 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### SegmentAdminClient segment selection now honors all filters
+
+`SegmentAdminClient.selectSegments` now uses
+`GET /segments/{tableName}` instead of the deprecated
+`GET /segments/{tableName}/select` endpoint. The deprecated endpoint remains
+available so controllers can continue serving clients from an earlier release
+during a rolling upgrade.
+
+Two previously ignored inputs now affect results:
+
+- Passing `excludeReplacedSegments=false` includes replaced segments. The old
+  endpoint always excluded them, so callers that pass `false` can receive a
+  larger result set after upgrading.
+- The `database` header is now honored when selecting segments.
+
+**Action required for Java client users.** Review code that calls
+`selectSegments` with `excludeReplacedSegments=false`, and ensure it can handle
+replaced segments in the returned list. Verify database-scoped clients pass the
+intended database header.
+
+This change also removes deprecated Java APIs for custom controller and index
+extensions, including two `PinotHelixResourceManager` methods and the
+four-argument `OnHeapGuavaBloomFilterCreator` constructor. Recompile any
+out-of-tree code that calls those APIs.
+
+*Source: [PR #19140](https://github.com/apache/pinot/pull/19140)*
+
 ### Pre-1.0 deprecated Java and plugin APIs removed
 
 Pinot has removed a group of public APIs deprecated between 2016 and 2022. This
