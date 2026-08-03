@@ -17,6 +17,27 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Singular live-brokers endpoint removed
+
+The controller endpoint `GET /tables/{tableName}/livebrokers` has been
+removed. Use `GET /tables/livebrokers` instead.
+
+The replacement is not a path-only migration: the removed endpoint returned a
+`List<String>` for one table, while the plural endpoint returns a
+`Map<String, List<InstanceInfo>>` for the tables it resolves. External clients
+that continue to call the singular endpoint receive `404` after upgrading.
+
+**Action required.** Update controller API clients, scripts, and monitoring
+integrations to call the plural endpoint. Select the requested table from the
+response map and update deserialization logic to consume `InstanceInfo`
+objects rather than broker-name strings.
+
+The same change removes two deprecated `RequestUtils` methods used only by
+out-of-tree Java callers. Recompile and migrate custom code that calls
+`getFunctionExpression(String)` or `getOptionsFromJson(JsonNode, String)`.
+
+*Source: [PR #19142](https://github.com/apache/pinot/pull/19142)*
+
 ### Legacy valid-doc-ID REST endpoints removed
 
 Pinot servers no longer expose these deprecated endpoints:
