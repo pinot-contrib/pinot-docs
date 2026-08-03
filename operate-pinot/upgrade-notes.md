@@ -17,6 +17,31 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Real-time segments receive a post-commit replica grace period
+
+`SegmentStatusChecker` now applies the existing
+`controller.statuschecker.waitForPushTimePeriod` grace window from the segment
+metadata znode's latest modification time. This covers the moment a real-time
+or pauseless `COMMITTING` segment starts loading its immutable replicas.
+
+Previously, committed real-time segments had no push timestamp, so the checker
+could count them immediately while replicas were still loading. A single
+transiently under-replicated segment could lower the table-wide
+`percentOfReplicas` gauge and trigger a false
+`SegmentReplicasCriticallyLowForHATable` alert.
+
+The grace period only suppresses expected post-commit loading. When the window
+expires, a segment that is still under-replicated is checked and alerted as
+before, so stuck commits and genuine replica loss remain visible.
+
+**Action required.** No configuration migration is needed. Operators with
+alerting on `percentOfReplicas` or
+`SegmentReplicasCriticallyLowForHATable` should expect fewer transient alerts
+for high-ingest real-time and pauseless tables. Keep the existing grace-window
+setting long enough to cover normal immutable-segment build and load time.
+
+*Source: [PR #19094](https://github.com/apache/pinot/pull/19094)*
+
 ### Custom dedup metadata manager contract changed
 
 Custom classes configured through `dedupConfig.metadataManagerClass` must now
