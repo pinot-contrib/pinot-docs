@@ -17,6 +17,30 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Legacy valid-doc-ID REST endpoints removed
+
+Pinot servers no longer expose these deprecated endpoints:
+
+| Removed endpoint | Replacement |
+| --- | --- |
+| `GET /segments/{table}/{segment}/validDocIds` | `GET /segments/{table}/{segment}/validDocIdsBitmap` |
+| `GET /tables/{table}/validDocIdMetadata` | `POST /tables/{table}/validDocIdsMetadata` |
+
+External operator scripts and third-party upsert or compaction tooling that
+still call the removed paths receive `404` after upgrading. The replacement
+table-level endpoint also changes the HTTP method from `GET` to `POST`.
+
+**Action required.** Search automation and integrations for the two legacy
+paths, migrate them to the replacements above, and verify request bodies and
+response handling before upgrading servers.
+
+This release also removes deprecated Java APIs including `SegmentName`,
+`TableConfigBuilder.setLLC`, replication-number accessors on
+`SegmentsValidationAndRetentionConfig`, and several controller/minion helpers.
+Recompile out-of-tree code that depends on those APIs.
+
+*Source: [PR #19141](https://github.com/apache/pinot/pull/19141)*
+
 ### SegmentAdminClient segment selection now honors all filters
 
 `SegmentAdminClient.selectSegments` now uses
