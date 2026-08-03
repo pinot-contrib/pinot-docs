@@ -17,6 +17,34 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Pre-1.0 deprecated Java and plugin APIs removed
+
+Pinot has removed a group of public APIs deprecated between 2016 and 2022. This
+is primarily a compatibility change for custom plugins and out-of-tree Java
+code; it does not change configuration keys, wire formats, or data stored in
+ZooKeeper.
+
+The removed APIs include legacy `Schema`, `GenericRow`, `FieldConfig`,
+`ConnectionFactory`, `FileUploadDownloadClient`, component-starter, segment
+pruner, and minion task-factory entry points. In particular, stale plugin jars
+that call `GenericRow.putField`, `Schema.addField(String, FieldSpec)`, or the
+five-argument `FieldConfig` constructor can fail at runtime with
+`NoSuchMethodError`.
+
+**Action required for plugin and client authors.** Rebuild custom record
+readers, record extractors, record transformers, minion tasks, and other
+out-of-tree Pinot integrations against the new Pinot artifacts before
+upgrading servers or minions. Migrate to the non-deprecated replacements,
+including `GenericRow.putValue` / `putValues`, `Schema.addField(FieldSpec)`, the
+`FieldConfig` list constructor or builder, URL-string `ConnectionFactory`
+methods, and the two-argument `PinotTaskExecutorFactory.init` method.
+
+The Pinot controller now calls the plural `GET /tables/{table}/size` server
+endpoint. The deprecated singular endpoint remains available for rolling
+upgrade compatibility.
+
+*Source: [PR #19139](https://github.com/apache/pinot/pull/19139)*
+
 ### REST schema APIs now reject deprecated `TimeFieldSpec`
 
 Apache Pinot now formally deprecates `TimeFieldSpec` and rejects schema payloads
