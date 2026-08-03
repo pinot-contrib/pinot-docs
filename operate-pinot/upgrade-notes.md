@@ -17,6 +17,34 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Custom dedup metadata manager contract changed
+
+Custom classes configured through `dedupConfig.metadataManagerClass` must now
+implement
+`checkRecordPresentOrUpdate(DedupRecordInfo, IndexSegment)` directly. Pinot has
+removed the deprecated overload that accepted `PrimaryKey`; the surviving
+`DedupRecordInfo` method is abstract instead of a default bridge.
+
+An older custom metadata-manager jar that only implements the removed overload
+can fail with `AbstractMethodError` during ingestion.
+
+**Action required for dedup extension authors.** Implement the
+`DedupRecordInfo` overload, rebuild the extension against the new Pinot
+artifacts, and test ingestion before upgrading servers.
+
+This release also removes deprecated methods from `FunctionRegistry`,
+`SegmentGeneratorConfig`, `RealtimeSegmentConfig.Builder`, `Schema`,
+`QueryContext.Builder`, `ControllerRequestURLBuilder`,
+`SegmentAssignmentUtils`, and `BrokerSelectorUtils`, plus the unused
+`ScalarFunction.isPlaceholder` attribute. Old binaries that call removed
+methods can fail with `NoSuchMethodError`; recompile out-of-tree Pinot SPI,
+segment SPI, and Java client integrations.
+
+No configuration keys, wire formats, or ZooKeeper-serialized fields change as
+part of these removals.
+
+*Source: [PR #19143](https://github.com/apache/pinot/pull/19143)*
+
 ### Singular live-brokers endpoint removed
 
 The controller endpoint `GET /tables/{tableName}/livebrokers` has been
