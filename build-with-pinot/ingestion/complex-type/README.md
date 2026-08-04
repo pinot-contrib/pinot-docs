@@ -160,6 +160,25 @@ Add an `open_struct` entry to the field's `indexes` object in `fieldConfigList`:
 }
 ```
 
+### Query OPEN_STRUCT keys
+
+Access a key with the item operator. The same syntax works in projections, filters, and aggregations:
+
+```sql
+SELECT
+  attributes['customerId'],
+  MIN(attributes['customerId']),
+  MAX(attributes['customerId']),
+  DISTINCTCOUNT(attributes['customerId'])
+FROM events
+WHERE attributes['country'] IN ('US', 'CA')
+GROUP BY attributes['customerId']
+```
+
+For a materialized key, Pinot reads the generated child column and can use its dictionary, inverted, range, or other configured index. Per-key index filtering supports equality and inequality, `IN`, `NOT IN`, ranges, `IS NULL`, and `IS NOT NULL`. `EXPLAIN PLAN` reports `delegateTo:per_key_index` when the filter uses this path.
+
+An absent materialized key returns `NULL`. For now, a key stored only in the shared sparse column also reads as `NULL` through the query item operator; query-layer access to sparse values is not yet supported. Predicates that cannot use a per-key index fall back to expression evaluation.
+
 Notes:
 
 * `OPEN_STRUCT` is a field-level index for single-value `OPEN_STRUCT` columns.
