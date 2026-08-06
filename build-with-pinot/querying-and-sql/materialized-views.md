@@ -121,7 +121,7 @@ With that switch enabled, Pinot still falls back to the base table unless the MV
 Today Pinot splits MV rewrites by watermark only. If a bucket below the watermark is already marked `STALE` or is still tracked as an empty covered bucket waiting for re-materialization, Pinot can still route that time range to the MV until the next overwrite cycle completes. The exposure window is bounded by the consistency-manager debounce plus one scheduling cycle, and delete/backfill races can add up to one empty-bucket recovery sweep interval.
 {% endhint %}
 
-Pinot currently rewrites eligible SSE query shapes that are subsumed by the MV, including exact matches, projection-subset scan queries, and supported aggregation rollups. When a rewrite happens, the broker response includes `materializedViewQueried` with the MV table name that served the query.
+Pinot currently rewrites eligible SSE query shapes that are subsumed by the MV, including exact matches, projection-subset scan queries, and supported aggregation rollups. Scalar expressions used as grouping keys, such as `DATETRUNC`, `UPPER`, `LOWER`, and `SUBSTR`, can match the corresponding projected expression in the MV. Aggregate expressions still require a supported aggregation rollup rule. When a rewrite happens, the broker response includes `materializedViewQueried` with the MV table name that served the query.
 
 If you need one eligible query to stay on the base table while leaving broker-side rewrite enabled for everything else, set `enableMaterializedViewRewrite=false` on that query:
 
@@ -153,6 +153,17 @@ The response includes the MV table name when rewrite succeeds:
   "materializedViewQueried": "salesByHourMv_OFFLINE"
 }
 ```
+
+Scalar grouping expressions can also participate in the rewrite. For example, an MV defined with `DATETRUNC('DAY', event_ts)` as a projected grouping key can serve this base-table query:
+
+```sql
+SELECT DATETRUNC('DAY', event_ts) AS event_day,
+       SUM(revenue) AS total_revenue
+FROM sales
+GROUP BY DATETRUNC('DAY', event_ts);
+```
+
+The scalar expression must match a projected MV expression. Wrapping an aggregate in another function, such as `ROUND(SUM(revenue))`, is an aggregate expression and rewrites only when Pinot has a compatible aggregation equivalence rule.
 
 ## Query the MV table directly
 
