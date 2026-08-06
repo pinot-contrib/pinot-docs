@@ -139,6 +139,7 @@ Add an `open_struct` entry to the field's `indexes` object in `fieldConfigList`:
           "denseKeys": ["customerId", "country"],
           "denseKeyMinFillRate": 0.5,
           "maxDenseKeys": 32,
+          "sparseJsonIndex": true,
           "valueFieldConfigs": [
             {
               "name": "customerId",
@@ -177,7 +178,9 @@ GROUP BY attributes['customerId']
 
 For a materialized key, Pinot reads the generated child column and can use its dictionary, inverted, range, or other configured index. Per-key index filtering supports equality and inequality, `IN`, `NOT IN`, ranges, `IS NULL`, and `IS NOT NULL`. `EXPLAIN PLAN` reports `delegateTo:per_key_index` when the filter uses this path.
 
-An absent materialized key returns `NULL`. For now, a key stored only in the shared sparse column also reads as `NULL` through the query item operator; query-layer access to sparse values is not yet supported. Predicates that cannot use a per-key index fall back to expression evaluation.
+Keys stored in the shared sparse column are also available through the item operator. Pinot exposes each sparse key as a virtual typed data source, so projections, filters, grouping, and aggregations use the same SQL syntax as dense keys. Sparse keys use scan-based execution by default. Set `sparseJsonIndex` to `true` to build a JSON index over the sparse column; Pinot can use it for compatible string-key equality and `IN` predicates, while other predicates continue to scan the virtual data source.
+
+A key that is absent from a document returns its type's default value and is marked null when null handling is enabled. A key that is absent from the segment returns `NULL`; `IS NULL` matches all documents and other predicates match none.
 
 Notes:
 
