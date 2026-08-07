@@ -53,7 +53,7 @@ When casting a `STRING` to `INT` or `LONG`, Pinot will first attempt direct inte
 
 Pinot provides UUID-aware functions in both the single-stage and multi-stage query engines. The UUID semantic functions accept a `STRING`, a 16-byte `BYTES` value, or a logical `UUID` column. String inputs can use canonical dashed RFC 4122 text or 32 hexadecimal digits without dashes.
 
-Use `UUID_TO_STRING` when you need a stable external representation: it always returns lowercase UUID text with dashes. Generic `BYTES` values are unchanged and still render as hexadecimal; Pinot decodes bytes as UUIDs only inside UUID-aware functions.
+Use `UUID_TO_STRING` when you need a stable external representation: it always returns lowercase UUID text with dashes. `CAST(uuid_expression AS STRING)` uses the same canonical dashed representation for single-value and multi-value logical `UUID` expressions. Generic `BYTES` values are unchanged and still render as hexadecimal; Pinot decodes bytes as UUIDs only inside UUID-aware functions.
 
 | Function | Input | Result | Behavior |
 | --- | --- | --- | --- |
@@ -72,11 +72,12 @@ The generators are non-deterministic: each invocation produces a new UUID. Versi
 ```sql
 SELECT
   UUID_TO_STRING('550E8400-E29B-41D4-A716-446655440000') AS canonical_uuid,
+  CAST(TO_UUID('550E8400-E29B-41D4-A716-446655440000') AS STRING) AS cast_uuid,
   UUID_TO_STRING(UUID_TO_BYTES('550e8400-e29b-41d4-a716-446655440000')) AS from_bytes,
   UUID_VERSION('550e8400-e29b-41d4-a716-446655440000') AS uuid_version;
 ```
 
-Both `canonical_uuid` and `from_bytes` are `550e8400-e29b-41d4-a716-446655440000`, and `uuid_version` is `4`.
+`canonical_uuid`, `cast_uuid`, and `from_bytes` are `550e8400-e29b-41d4-a716-446655440000`, and `uuid_version` is `4`.
 
 For UUID column configuration, ingestion, and query-result rendering, see [UUID columns](../../reference/configuration-reference/schema.md#uuid-columns).
 
