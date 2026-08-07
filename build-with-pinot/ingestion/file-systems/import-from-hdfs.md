@@ -22,10 +22,19 @@ HDFS implementation provides the following options:
 * `hadoop.write.checksum`: Create checksum while pushing an object. Default is `false`
 * `hadoop.kerberos.principle`
 * `hadoop.kerberos.keytab`
+* `hadoop.allow.insecure`: Set to `true` to access an HDFS cluster without Kerberos by installing the configured remote user as the JVM-wide Hadoop login user. Default is `false`.
+* `hadoop.user.name`: Hadoop username to use when `hadoop.allow.insecure` is `true`.
 
 Each of these properties should be prefixed by `pinot.[node].storage.factory.class.hdfs.` where `node` is either `controller` or `server` depending on the config
 
 The `kerberos` configs should be used only if your Hadoop installation is secured with Kerberos. Refer to the [Hadoop in secure mode documentation](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SecureMode.html) for information on how to secure Hadoop using Kerberos.
+
+For an HDFS cluster without Kerberos, configure both insecure-access properties on the storage factory. This mode changes the global Hadoop login user for the Pinot JVM, so use it only when that process should act as one HDFS identity.
+
+```properties
+pinot.controller.storage.factory.hdfs.hadoop.allow.insecure=true
+pinot.controller.storage.factory.hdfs.hadoop.user.name=pinot
+```
 
 You must provide proper Hadoop dependencies jars from your Hadoop installation to your Pinot startup scripts.
 
