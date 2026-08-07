@@ -374,6 +374,8 @@ The algorithm to traverse the tree can be described as follows:
 
 ### Supported Predicates
 
+Star-tree predicate filtering works for dimensions backed by either a dictionary-encoded forward index or a RAW forward index with an explicit shared dictionary. This applies to both the single-stage and multi-stage query engines. A RAW forward index without a dictionary cannot be used as a star-tree dimension.
+
 * **EQ** (`=`)
 * **NOT EQ** (`!=`)
 * **IN**
