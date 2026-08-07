@@ -553,6 +553,7 @@ SELECT CAST(revenue AS BIGINT) FROM orders
 | `TIMESTAMP` | Timestamp value |
 | `VARCHAR` / `STRING` | Variable-length string |
 | `BYTES` | Byte array |
+| `UUID` | Logical UUID stored as 16 bytes |
 | `JSON` | JSON value |
 
 Pinot also accepts `TINYINT UNSIGNED`, `SMALLINT UNSIGNED`, and `INTEGER UNSIGNED` as cast targets. These return the
@@ -561,6 +562,13 @@ smallest signed Pinot type that preserves the full range: `TINYINT UNSIGNED` and
 
 ```sql
 SELECT CAST(event_time AS TIMESTAMP), CAST(user_id AS VARCHAR)
+FROM events
+```
+
+Cast canonical UUID strings or 16-byte values to the logical `UUID` type. UUID results render as canonical lowercase dashed strings, and casting a UUID expression to `STRING` uses the same representation. Invalid UUID strings and byte arrays that are not 16 bytes are rejected. These conversions support single-value and multi-value expressions.
+
+```sql
+SELECT CAST('550e8400-e29b-41d4-a716-446655440000' AS UUID)
 FROM events
 ```
 
