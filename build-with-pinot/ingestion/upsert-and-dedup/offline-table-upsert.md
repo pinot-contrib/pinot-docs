@@ -18,6 +18,8 @@ For duplicate keys, Pinot keeps the row with the greatest comparison value.
 
 If you do not set `comparisonColumns`, Pinot uses the table time column.
 
+An offline upsert table must define either `upsertConfig.comparisonColumns` or `segmentsConfig.timeColumnName`. Pinot rejects the table configuration when neither is set; segment creation time is not used as an implicit comparison value.
+
 Offline upsert replaces full rows.
 
 It does not merge partial rows.
