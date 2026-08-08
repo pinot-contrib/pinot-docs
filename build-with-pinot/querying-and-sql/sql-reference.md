@@ -585,6 +585,19 @@ FROM events
 
 A bare canonical dashed string is not implicitly converted to UUID inside `CASE` or `IN`.
 
+Filter predicates against a UUID column accept canonical dashed, dashless, and mixed-case UUID strings. This applies to `=`, `!=`, `IN`, `NOT IN`, and range predicates on both dictionary-encoded and raw UUID columns:
+
+```sql
+SELECT *
+FROM events
+WHERE user_id IN (
+  '550e8400-e29b-41d4-a716-446655440000',
+  '6BA7B8109DAD11D180B400C04FD430C8'
+)
+```
+
+Malformed UUID predicate literals are rejected.
+
 ---
 
 ## Set Operations (MSE Only)
