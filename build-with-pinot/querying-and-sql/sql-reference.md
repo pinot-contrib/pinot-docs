@@ -572,6 +572,19 @@ SELECT CAST('550e8400-e29b-41d4-a716-446655440000' AS UUID)
 FROM events
 ```
 
+UUID expressions support `CASE`, `IN`, and binary comparisons. In these expressions, a bare UUID literal must be the fixed-width 32-character hexadecimal encoding of the stored 16 bytes. Cast canonical dashed text explicitly to `UUID`:
+
+```sql
+SELECT CASE
+  WHEN user_id IN (CAST('550e8400-e29b-41d4-a716-446655440000' AS UUID))
+  THEN user_id
+  ELSE CAST('00000000-0000-0000-0000-000000000000' AS UUID)
+END
+FROM events
+```
+
+A bare canonical dashed string is not implicitly converted to UUID inside `CASE` or `IN`.
+
 ---
 
 ## Set Operations (MSE Only)
