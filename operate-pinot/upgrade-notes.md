@@ -27,6 +27,18 @@ The additional null bitmap is backward-compatible when read by a new broker, but
 
 *Source: [PR #19201](https://github.com/apache/pinot/pull/19201)*
 
+### Multi-value aggregations now honor null semantics
+
+The following multi-value aggregation families now skip null rows when null handling is enabled: `DISTINCT_COUNT_MV`, `DISTINCT_SUM_MV`, `DISTINCT_AVG_MV`, `PERCENTILE_MV`, `PERCENTILE_EST_MV`, `PERCENTILE_KLL_MV`, and `PERCENTILE_TDIGEST_MV`, including their raw variants. Previously, these functions ignored the enabled null-handling mode and folded in the column's default value.
+
+Results can therefore change for null or empty inputs. For example, `DISTINCT_SUM_MV` over all-null input now returns `NULL` instead of `0`, while `PERCENTILE_MV` can return `NULL` instead of `-Infinity`.
+
+In the single-stage engine, this behavior change applies to queries with `enableNullHandling=true`; queries with the option disabled retain the previous behavior. The multi-stage engine always constructs aggregation functions with null handling enabled, so its corrected results apply regardless of the query option.
+
+**Action required.** Review dashboards, alerts, and client code that depend on sentinel values such as `0`, `NaN`, or `-Infinity` from these multi-value functions. Update them to accept SQL `NULL` for all-null or empty inputs.
+
+*Source: [PR #19158](https://github.com/apache/pinot/pull/19158)*
+
 ### Real-time segments receive a post-commit replica grace period
 
 `SegmentStatusChecker` now applies the existing
