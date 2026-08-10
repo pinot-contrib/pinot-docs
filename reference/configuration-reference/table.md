@@ -137,6 +137,12 @@ Before Pinot version 0.13, the configuration described above was also used to co
 
 Use `tableIndexConfig.segmentPartitionConfig.columnPartitionMap` together with `routing.segmentPrunerTypes: ["partition"]` when you want Pinot brokers to prune segments based on a partitioned column.
 
+{% hint style="warning" %}
+For an upsert- or dedup-enabled table, Pinot rejects table configuration updates that add, remove, or modify `segmentPartitionConfig`. Changing the partition configuration can send records with the same primary key to different partitions or servers, which can produce duplicates or incorrect query results. Plan the partition function and partition count before creating the table.
+
+The table update API can bypass this backward-compatibility check with `force=true`, but doing so does not preserve the upsert or dedup routing invariant. Use a new table and migrate the data when the partition configuration must change.
+{% endhint %}
+
 Each entry under `columnPartitionMap` configures one column:
 
 | Property | Description |
