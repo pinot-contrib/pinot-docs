@@ -379,6 +379,24 @@ Pinot exposes several built-in virtual columns that you can query for debugging 
 | `$hostName` | Dimension | `STRING` | Name of the server hosting the data. |
 | `$segmentName` | Dimension | `STRING` | Name of the segment containing the record. |
 | `$docId` | Dimension | `INT` | Document ID of the record within the segment. |
+| `$partitionId` | Dimension | `INT` | Partition ID of the segment containing the record. |
+| `$creationTime` | Dimension | `TIMESTAMP` | Segment creation time. |
+| `$startTime` | Dimension | `TIMESTAMP` | Start of the segment time range, normalized from the time column's unit. |
+| `$endTime` | Dimension | `TIMESTAMP` | End of the segment time range, normalized from the time column's unit. |
+| `$totalDocs` | Dimension | `INT` | Number of documents physically stored in the segment. |
+| `$crc` | Dimension | `LONG` | Segment CRC. |
+
+Virtual columns are excluded from `SELECT *` and materialize only when you name them explicitly. For example, the following query can help identify document-count or CRC differences between segments:
+
+```sql
+SELECT $segmentName, $crc, $totalDocs, $creationTime
+FROM myTable
+GROUP BY 1, 2, 3, 4
+```
+
+Segment metadata that is not available is returned as SQL `NULL` when null handling is enabled. For example, a consuming segment has no `$startTime`, `$endTime`, or `$crc` until it is committed, and a table without a time column has no segment time range.
+
+`$totalDocs` is the number of documents stored in the segment, not necessarily the number visible to a query. It includes replaced documents in upsert tables, and the broker time boundary can hide stored rows in hybrid tables.
 
 ## Advanced Fields
 
