@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Keep brokers at least as new as servers during rolling upgrades
+
+Servers can now preserve null aggregate and group-by results in the single-stage engine's DataTable response even when query null handling is disabled. This fixes failures or corrupted neighboring values for queries whose aggregate result is null, such as `MAX(stringColumn)` over an empty result set.
+
+The additional null bitmap is backward-compatible when read by a new broker, but an older broker ignores it and can interpret the type-specific placeholder as a real value. This affects only the mixed-version window in which a server runs the new code while its broker is still on an older version.
+
+**Action required.** Follow the standard component order: upgrade brokers before servers, and roll back servers before brokers. Keep the broker version greater than or equal to the server version throughout the rollout and rollback.
+
+*Source: [PR #19201](https://github.com/apache/pinot/pull/19201)*
+
 ### Real-time segments receive a post-commit replica grace period
 
 `SegmentStatusChecker` now applies the existing
