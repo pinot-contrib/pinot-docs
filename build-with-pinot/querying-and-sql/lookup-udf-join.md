@@ -12,6 +12,14 @@ Lookup UDF Join is **only supported with the single-stage query engine (v1)**. L
 
 Lookup UDF is used to get dimension data via primary key from a dimension table allowing a decoration join functionality. Lookup UDF can only be used with [a dimension table](../../build-with-pinot/ingestion/batch-ingestion/dim-table.md) in Pinot.
 
+## Access control
+
+A query that uses `LOOKUP()` must be authorized for both the table in the `FROM` clause and every dimension table named by the function. Pinot returns HTTP `403` when the requester does not have table access to a referenced dimension table.
+
+`LOOKUP()` resolves rows directly by primary key and cannot apply a row-level security (RLS) filter to the dimension table. When broker row- and column-level authorization is enabled with `pinot.broker.enable.row.column.level.auth`, Pinot rejects a lookup query if the requester has an RLS filter configured for its dimension table. Use a regular multi-stage lookup join when the dimension table requires row-level filtering.
+
+Custom broker access-control implementations must implement table authorization for a set of tables through `authorize(RequesterIdentity, Set<String>)`, because a single query can reference the fact table and one or more lookup dimension tables.
+
 ## Syntax
 
 The UDF function syntax is listed as below:
