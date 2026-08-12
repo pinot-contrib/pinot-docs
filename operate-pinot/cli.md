@@ -491,7 +491,7 @@ All the options should be prefixed with `-` (hyphen)
 | controllerHost | hostname or ip of the controller          |
 | controllerPort | port of the controller                    |
 | segmentDir     | local directory containing segment files  |
-| tableName      | name of the table to push the segments in |
+| tableName      | name of the table to push the segments into; this value overrides the `segment.table.name` stored in segment metadata. If omitted, Pinot falls back to the metadata value. |
 
 ### Validate Config
 
