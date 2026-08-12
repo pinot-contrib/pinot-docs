@@ -18,6 +18,8 @@ The [Tuple Sketch](https://datasketches.apache.org/docs/Tuple/TupleOverview.html
    * `nominalEntries`: The nominal entries used to create the sketch. (Default 65536)
    * `accumulatorThreshold`: How many sketches should be kept in memory before merging. (Default 2)
 
+With advanced null handling enabled, rows whose sketch column is null are skipped. The function returns `NULL` when no sketches contribute. Without advanced null handling, Pinot uses the column's default null value; an empty input also returns `NULL` because there are no retained entries to average.
+
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).  A new Tuple Sketch metric called `playerHomeRuns` was created during ingestion by updating the ingestion config as follows:
 
 ```json

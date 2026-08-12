@@ -51,6 +51,8 @@ The [Tuple Sketch](https://datasketches.apache.org/docs/Tuple/TupleOverview.html
 | [AVGVALUEINTEGERSUMTUPLESKETCH](avgvalueintegersumtuplesketch.md) | Average of summary values |
 | [SUMVALUESINTEGERSUMTUPLESKETCH](sumvaluesintegersumtuplesketch.md) | Sum of summary values |
 
+With advanced null handling enabled, integer tuple-sketch aggregations skip rows whose sketch column is null. If no sketches contribute, `DISTINCTCOUNTTUPLESKETCH` and `SUMVALUESINTEGERSUMTUPLESKETCH` return `NULL`, `DISTINCTCOUNTRAWINTEGERSUMTUPLESKETCH` returns `NULL`, and `AVGVALUEINTEGERSUMTUPLESKETCH` returns `NULL`. Without advanced null handling, Pinot aggregates the column's default null value and preserves the legacy empty-sketch identities.
+
 ## Frequency Sketches
 
 | Function | Description |
