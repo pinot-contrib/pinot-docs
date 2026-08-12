@@ -59,3 +59,5 @@ With advanced null handling enabled, integer tuple-sketch aggregations skip rows
 | -------- | ----------- |
 | [FREQUENTLONGSSKETCH](frequentlongssketch.md) | Frequent items sketch for long values |
 | [FREQUENTSTRINGSSKETCH](frequentstringssketch.md) | Frequent items sketch for string values |
+
+With advanced null handling enabled, frequency-sketch functions skip null rows and return `NULL` when no values contribute. Without advanced null handling, the column's default null value contributes to the frequency estimate.

@@ -15,6 +15,8 @@ description: >-
 * `column` (required): Name of the column to aggregate on. Needs to be a type which can be cast into 'STRING'.
 * `maxMapSize`: This value specifies the maximum physical length of the internal hash map. The maxMapSize must be a power of 2 and the default value is 256.
 
+With advanced null handling enabled, Pinot skips null rows instead of counting the column's default null value as an item. If no rows contribute, the function returns `NULL`. Without advanced null handling, Pinot includes the column's default null value. Pinot limits aggregation to the rows in each processing block, so values left in a reused internal buffer are not counted again.
+
 ## Usage Example
 
 ```sql
