@@ -14,6 +14,8 @@ COVAR_POP(col1, col2) = E[col1 * col2] - E[col1]E[col2]
 
 `COVAR_POP(col1, col2) -> double`
 
+When advanced null handling is enabled, a row contributes only when both columns are non-null. The function returns `NULL` when no rows contribute. Without advanced null handling, Pinot uses each column's configured default null value.
+
 ## Usage Examples
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).

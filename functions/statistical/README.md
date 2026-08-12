@@ -117,7 +117,7 @@ FROM apiMetrics
 
 ## Notes
 
-- All statistical functions return `Double.NaN` or `Double.NEGATIVE_INFINITY` when no records are selected.
+- With advanced null handling enabled, covariance functions skip a row when either input is null. They return `NULL` when no rows contribute; `COVAR_SAMP` also returns `NULL` when fewer than two rows contribute. Without advanced null handling, Pinot uses column default null values.
 - These functions operate on numeric columns only (`INT`, `LONG`, `FLOAT`, `DOUBLE`).
 - For variance and standard deviation, use the `_POP` variant when you have the entire population and the `_SAMP` variant when working with a sample.
 - All statistical functions are supported in both the Single-Stage Engine (SSE) and Multi-Stage Engine (MSE).
