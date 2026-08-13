@@ -75,17 +75,15 @@ The full request and response examples for these endpoints are in the [controlle
 
 Pinot supports registered scalar functions for ingestion transformations. Functions are annotated with `@ScalarFunction`; for example, [toEpochSeconds](https://github.com/apache/pinot/blob/02cb2d4970c71a2ea5b4c140a860fbf220e11bd3/pinot-common/src/main/java/org/apache/pinot/common/function/scalar/DateTimeFunctions.java#L78).
 
-#### Immutable function requirement
+#### Function volatility requirements
 
-New or changed persisted ingestion transforms can use only scalar functions whose result depends solely on their explicit arguments (`IMMUTABLE` functions). Pinot applies this rule to:
+For `REALTIME` tables, new or changed `ingestionConfig.transformConfigs` can use only scalar functions whose result depends solely on their explicit arguments (`IMMUTABLE` functions). `OFFLINE` table-level transforms can use registered scalar functions from any volatility category. This allows batch ingestion to generate values such as an ingestion timestamp with `now()` when the input file does not contain one.
 
-- `ingestionConfig.transformConfigs` in table configs
-- schema-level `transformFunction` definitions
-- `upsertConfig.postPartialUpsertTransformConfigs` for partial-upsert tables
+Schema-level `transformFunction` definitions and `upsertConfig.postPartialUpsertTransformConfigs` retain their existing volatility checks regardless of table type.
 
-The check includes nested scalar function calls. For example, `now()`, `ago()`, `agoMV()`, and unseeded `rand()` are not valid in a new or changed persisted transform because they can produce different values for the same input. `rand(seed)` is valid because its result is derived from its explicit seed.
+Where immutable functions are required, the check includes nested scalar function calls. For example, `now()`, `ago()`, `agoMV()`, and unseeded `rand()` are rejected because they can produce different values for the same input. `rand(seed)` is valid because its result is derived from its explicit seed.
 
-Pinot keeps exact existing transform definitions running for compatibility. If you add or modify a persisted transform, replace any non-immutable function with an input-derived alternative before submitting the schema or table config. This validation does not change the functions' query-time behavior. Groovy expressions continue through Pinot's existing Groovy validation rather than scalar-function volatility metadata.
+Pinot keeps exact existing transform definitions running for compatibility. For a transform surface that requires immutability, replace any non-immutable function with an input-derived alternative before submitting the schema or table config. This validation does not change the functions' query-time behavior. Groovy expressions continue through Pinot's existing Groovy validation rather than scalar-function volatility metadata.
 
 Below are some commonly used built-in Pinot functions for ingestion transformations.
 

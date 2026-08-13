@@ -66,6 +66,31 @@ Set `upsertConfig.mode` to `FULL`.
 {% endstep %}
 
 {% step %}
+### Generate a missing comparison column (optional)
+
+For an `OFFLINE` table, `ingestionConfig.transformConfigs` can use registered scalar functions from any volatility category. If a batch file has no row-version or timestamp column, declare the comparison column in the schema and populate it during ingestion. For example:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "comparisonColumns": ["ingestionTime"]
+  },
+  "ingestionConfig": {
+    "transformConfigs": [
+      {
+        "columnName": "ingestionTime",
+        "transformFunction": "now()"
+      }
+    ]
+  }
+}
+```
+
+Declare `ingestionTime` as a `LONG` date-time field with millisecond epoch format in the schema. Real-time table-level transforms still require immutable functions.
+{% endstep %}
+
+{% step %}
 ### Ingest or replace segments
 
 Generate and upload offline segments as usual.
