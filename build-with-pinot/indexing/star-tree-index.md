@@ -222,6 +222,10 @@ Multiple index generation configurations can be provided to generate multiple st
 Star-tree dimensions still need dictionary values. If a dimension uses a RAW forward index for query-time reads, declare `encodingType: RAW` and `indexes.dictionary` in `fieldConfigList` so Pinot materializes a shared dictionary for the star-tree builder. Do not keep that column in legacy `tableIndexConfig.noDictionaryColumns` or `tableIndexConfig.noDictionaryConfig`, because those settings still disable the dictionary.
 {% endhint %}
 
+{% hint style="info" %}
+You can include a [timestamp-index](timestamp-index.md) derived column in `dimensionsSplitOrder`, using the name `$<column>$<GRANULARITY>` (for example, `$OrderDate$DAY`). The matching granularity must be declared in that column's `fieldConfigList[].timestampConfig.granularities`; an undeclared derived column is rejected during table-config validation. Pinot materializes these dictionary-encoded, single-value `TIMESTAMP` columns when it generates the segment, so they do not need to appear in the schema.
+{% endhint %}
+
 #### AggregationConfigs
 
 {% hint style="info" %}
