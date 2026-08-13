@@ -28,6 +28,14 @@ Use `JSONEXTRACTSCALARFAST` or `JSONEXTRACTSCALARFIRSTMATCH` when extraction is 
 
 The streaming optimization applies to a simple linear path: `$` followed only by `.key`, `['key']`, or `[index]` segments. Wildcards, recursive descent, filters, unions, slices, negative indexes, and other unsupported paths automatically use the existing Jayway implementation.
 
+### JSONEXTRACTSCALARFORY (experimental)
+
+> JSONEXTRACTSCALARFORY(jsonField, 'jsonPath', 'resultsType', \[defaultValue])
+
+`JSONEXTRACTSCALARFORY` is an experimental variant for evaluating Apache Fory JSON parsing on simple scalar paths. It validates the complete document, preserves last-key-wins behavior for duplicate keys, and falls back to the existing Jackson/Jayway implementation for unsupported paths or values, `BYTES` input, deeply nested or malformed JSON, and runtime failures.
+
+The standard Pinot binary distribution does not include Fory. Unless `org.apache.fory:fory-json:1.6.0` and its `fory-core` dependency are on the application classpath, the function remains available but always uses the compatibility fallback. This experimental function may change or be removed.
+
 ### JSONEXTRACTSCALARFAST
 
 > JSONEXTRACTSCALARFAST(jsonField, 'jsonPath', 'resultsType', \[defaultValue])

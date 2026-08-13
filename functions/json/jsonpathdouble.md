@@ -85,6 +85,12 @@ The `TIMESTAMP`, `DATE`, and `TIME` conversions apply when an extractor has alre
 
 ## Fast and first-match variants
 
+### JSONPATHDOUBLEFORY (experimental)
+
+> JSONPATHDOUBLEFORY(jsonField, 'jsonPath', \[defaultValue])
+
+`JSONPATHDOUBLEFORY` evaluates eligible simple scalar paths with Apache Fory and falls back to `JSONPATHDOUBLE` for unsupported inputs or when Fory is unavailable. The standard Pinot distribution does not ship Fory; the accelerated path requires `org.apache.fory:fory-json:1.6.0` and `fory-core` on the ingestion application's classpath. This experimental function may change or be removed.
+
 Use the opt-in variants below when the path is a **simple linear path**: `$` followed only by `.name`, `['literal.key']`, or `[0]` segments. For more complex JsonPath features such as wildcards, deep scan (`..`), filters, unions, slices, negative indexes, or a bare `$`, Pinot falls back to the existing `JSONPATHDOUBLE` behavior.
 
 Like `JSONPATHDOUBLE`, both variants are intended for [ingestion transformation functions](../../build-with-pinot/ingestion/ingestion-level-transformations.md).
