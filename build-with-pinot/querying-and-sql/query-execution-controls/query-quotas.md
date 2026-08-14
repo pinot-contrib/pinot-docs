@@ -104,6 +104,8 @@ The table level query quota is configured in table config itself.
 }
 ```
 
+`maxQueriesPerSecond` must be a positive, finite number. Pinot rejects zero, negative values, `NaN`, and positive or negative infinity. To leave the table query quota unlimited, omit `maxQueriesPerSecond` from the quota configuration.
+
 ### How it is imposed
 
 There are few factors that affect the way the query quota is imposed on the incoming queries on the table.
