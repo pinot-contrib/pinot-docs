@@ -178,6 +178,36 @@ controller.admin.access.control.principals.user.excludeTables=otherExcludedTable
 If `*.principals.<user>.tables`is not configured, all tables are accessible to \<user>.
 {% endhint %}
 
+#### Server admin API authentication and authorization
+
+The server admin listener can enforce its configured `AccessControlFactory` across administrative routes. Health and readiness GET endpoints (`/health`, `/health/liveness`, and `/health/readiness`) remain public. Segment and valid-document bitmap downloads continue to use table-level authorization. All other built-in and custom admin routes, including `/api/`, `/help/`, and `/swaggerui-dist/`, require administrative authorization.
+
+Static Basic Auth requires an explicit `admin` permission. A principal that only has table `read` access cannot call administrative routes.
+
+```properties
+pinot.server.admin.access.control.factory.class=org.apache.pinot.server.access.BasicAuthAccessFactory
+pinot.server.admin.access.control.principals=serverAdmin,segmentReader
+pinot.server.admin.access.control.principals.serverAdmin.password=<admin-password>
+pinot.server.admin.access.control.principals.serverAdmin.permissions=admin
+pinot.server.admin.access.control.principals.segmentReader.password=<reader-password>
+pinot.server.admin.access.control.principals.segmentReader.permissions=read
+pinot.server.admin.access.control.principals.segmentReader.tables=<allowed-tables>
+```
+
+For ZooKeeper-managed Basic Auth, the authenticated user must have role `ADMIN` and component `SERVER`. When no server access-control factory is configured, `AllowAllAccessFactory` preserves the default unauthenticated behavior.
+
+Controllers and brokers call privileged server operations, so configure their outbound service credentials before enabling server enforcement:
+
+```properties
+# controller.conf
+controller.server.admin.auth.token=<base64-admin-token>
+
+# broker.conf
+pinot.broker.server.admin.auth.token=<base64-admin-token>
+```
+
+The default static provider sends these values as `Authorization: Basic <token>`. For a rolling migration, first add dedicated server admin principals, then deploy and configure controller and broker credentials, and only then enable the server access-control factory. Custom server `AccessControl` implementations must override `authorizeAdminAccess`; its compatibility default denies administrative access. Minion does not consume this server admin credential, so affected minion-to-server paths require a trusted network or an identity-injecting proxy or service mesh.
+
 #### Minion and ingestion jobs
 
 Similar to any API calls, offline jobs executed via command line or minion require credentials as well if ACLs are enabled on pinot-controller. These credentials can be provided either as part of the job spec itself or using CLI arguments and as values (via **-values**) or properties (via **-propertyFile**) if Groovy templates are defined in the jobSpec.
