@@ -600,7 +600,7 @@ The lifecycle for validDocIds snapshots are shows as follows,
 
 ### Enable preload for faster server restarts
 
-Upsert preload feature can make it faster to restore the upsert states when server restarts. To enable the preload feature, set `preload` to `ENABLE`. Snapshot must also be enabled. For example:
+Upsert preload can make it faster to restore upsert state when servers restart. It applies to `REALTIME` tables and, in builds that include [PR #19271](https://github.com/apache/pinot/pull/19271), to `OFFLINE` tables. To enable the preload feature, set `preload` to `ENABLE`. Snapshot must also be enabled. For example:
 
 ```json
 {
