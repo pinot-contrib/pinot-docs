@@ -135,6 +135,30 @@ Reload alone is not enough for these changes.
 
 If you use a hybrid table, avoid overlapping offline and realtime time ranges.
 
+### Preload upsert metadata during server restart
+
+Builds that include [PR #19271](https://github.com/apache/pinot/pull/19271) support upsert preload for `OFFLINE` table data managers. Before loading or replacing an offline segment, Pinot restores the partition's upsert metadata from persisted `validDocIds` snapshots. This can reduce recovery time when a server restarts.
+
+Enable snapshots and preload in the table configuration:
+
+```json
+{
+  "upsertConfig": {
+    "mode": "FULL",
+    "snapshot": "ENABLE",
+    "preload": "ENABLE"
+  }
+}
+```
+
+Also configure a positive preload thread count on the server:
+
+```properties
+pinot.server.instance.max.segment.preload.threads=4
+```
+
+The preload path is a no-op when upsert is not configured or preload is disabled. Each offline segment must have partition metadata so Pinot can restore the correct partition manager. For the shared snapshot lifecycle and restart caveats, see [Enable preload for faster server restarts](upsert.md#enable-preload-for-faster-server-restarts).
+
 ## Related topics
 
 * [Batch Ingestion](../batch-ingestion)
