@@ -113,6 +113,9 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | Metric Name | Description | Metric Type |
 | --- | --- | --- |
 | UNHEALTHY_SERVERS | Number of unhealthy servers detected |  |
+| PERCENT_OF_REPLICAS | Minimum percentage of assigned replicas that this broker can route to for any measured segment in the table. Single-replica segments and new segments within the broker grace period are excluded. | Gauge |
+| SEGMENTS_AT_MIN_PERCENT_OF_REPLICAS | Number of measured segments at the percentage reported by `PERCENT_OF_REPLICAS`. This gives the blast radius behind the minimum percentage. | Gauge |
+| UNAVAILABLE_SEGMENTS | Number of table segments that this broker cannot route to any server. This includes single-replica segments, but excludes new segments within the broker grace period. | Gauge |
 | QUERY_QUOTA_CAPACITY_UTILIZATION_RATE | percentage of configured rate limit being used on each broker |  |
 | ESTIMATED_MSE_SERVER_THREADS | Estimated number of server query threads currently consumed by all running multi-stage queries on this broker. This gauge is emitted even when MSE query throttling is not configured, so it can be used as a standalone view of broker-side MSE workload. |  |
 | MAX_BURST_QPS |  |  |

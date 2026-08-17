@@ -38,8 +38,13 @@ The broker receives queries, compiles them, routes them to servers, and merges r
 | `HEAP_CRITICAL_LEVEL_EXCEEDED` | Meter | Times heap usage exceeded the critical threshold. | > 0 |
 | `JVM_HEAP_USED_BYTES` | Gauge | Current JVM heap usage on the broker. | > 85% of max heap |
 | `QUERY_QUOTA_CAPACITY_UTILIZATION_RATE` | Gauge | Percentage of configured rate limit in use. | > 80% |
+| `PERCENT_OF_REPLICAS` | Gauge | Lowest percentage of assigned replicas that the broker can route to for any measured segment in the table. | < 100% sustained beyond the new-segment grace period |
+| `SEGMENTS_AT_MIN_PERCENT_OF_REPLICAS` | Gauge | Number of measured segments at the percentage reported by `PERCENT_OF_REPLICAS`. | Use with `PERCENT_OF_REPLICAS` to assess the blast radius |
+| `UNAVAILABLE_SEGMENTS` | Gauge | Number of table segments for which the broker has no serving route. | > 0 sustained beyond the new-segment grace period |
 
 For broker transport memory pressure, also monitor `GRPC_TOTAL_USED_DIRECT_MEMORY` and compare it with `GRPC_TOTAL_MAX_DIRECT_MEMORY`. These gauges cover the shaded Netty runtime used by the broker gRPC listener and MSE mailbox traffic.
+
+The replica-health gauges are table-level snapshots emitted independently by each assigned broker. When aggregating across brokers, use the minimum `PERCENT_OF_REPLICAS` and the maximum segment counts to preserve the worst observed state. `PERCENT_OF_REPLICAS` and `SEGMENTS_AT_MIN_PERCENT_OF_REPLICAS` exclude segments assigned only one replica; `UNAVAILABLE_SEGMENTS` includes them. All three exclude new segments during the grace period configured by [`pinot.broker.new.segment.expiration.seconds`](../reference/configuration-reference/broker.md#pinotbrokernewsegmentexpirationseconds).
 
 ### Broker Query Latency Breakdown
 
@@ -74,6 +79,12 @@ These timers help identify which phase of query execution is slow:
 **If `QUERY_QUOTA_EXCEEDED` is increasing:**
 - Increase broker query rate limit or add more broker instances
 - Identify high-QPS tables via per-table `QUERIES` metric and optimize or throttle them
+
+**If `PERCENT_OF_REPLICAS` is below 100 or `UNAVAILABLE_SEGMENTS` is above 0:**
+- Compare brokers to determine whether the routing degradation is broker-local or table-wide
+- Use `SEGMENTS_AT_MIN_PERCENT_OF_REPLICAS` to estimate how many segments share the worst replication level
+- Check server health, Helix ExternalView, and recent segment rebalances or pushes
+- Avoid alerting on newly pushed segments until `pinot.broker.new.segment.expiration.seconds` has elapsed
 
 ---
 
