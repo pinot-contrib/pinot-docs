@@ -146,6 +146,20 @@ For an upsert or dedup table with a UUID primary key, producers must send canoni
 
 Query results render `UUID` values, including multi-value UUID columns, as canonical lowercase RFC 4122 strings. This applies to JSON and Arrow responses from `SELECT`, `GROUP BY`, `DISTINCT`, and join queries.
 
+UUID columns can be used as `GROUP BY` keys and in `HAVING` predicates. For multi-value UUID group keys, keep the dictionary enabled. The single-stage query engine also supports UUID inputs for `DISTINCTCOUNT`, `DISTINCTCOUNTHLL`, `DISTINCTCOUNTHLLPLUS`, `DISTINCTCOUNTBITMAP`, `DISTINCTCOUNTTHETASKETCH`, and `DISTINCTCOUNTCPCSKETCH` on single-value and multi-value columns. `DISTINCTCOUNTULL` supports single-value UUID columns only.
+
+Distinct-count sketches hash the stored 16-byte UUID value. Therefore, an approximate count or raw sketch over a UUID column is not expected to match the result of applying the same function to `CAST(uuidColumn AS STRING)`.
+
+```sql
+SELECT eventId, COUNT(*)
+FROM events
+GROUP BY eventId
+HAVING eventId = '550e8400-e29b-41d4-a716-446655440000';
+
+SELECT DISTINCTCOUNTHLL(eventId)
+FROM events;
+```
+
 {% hint style="warning" %}
 Treat UUID query results as an atomic-upgrade feature. An older broker or server cannot decode the UUID result-type token emitted by a newer node. Upgrade all brokers and servers before querying UUID columns, and do not roll back while UUID query results are in flight.
 {% endhint %}
