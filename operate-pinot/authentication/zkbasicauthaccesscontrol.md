@@ -47,6 +47,8 @@ controller.admin.access.control.factory.class=org.apache.pinot.controller.api.ac
 
 After a controller restart, any access to controller APIs requires authentication information. Whether from internal components, external users, or the Web UI.
 
+The controller applies each user's CRUD permissions to cluster-level endpoints as well as table-specific endpoints. An explicit permission list is restrictive; an empty permission list retains legacy wildcard access. Invalid credentials return HTTP `401`, while an authenticated user without the required permission receives HTTP `403`. Before upgrading controllers, follow the [segment-uploader rolling upgrade requirement](basic-auth-access-control.md#controller-authentication-and-authorization).
+
 **5. Enable ACL enforcement on the Broker**
 
 ```
