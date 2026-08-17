@@ -155,6 +155,16 @@ This configuration will automatically allow other pinot components to access pin
 If `*.principals.<user>.tables`is not configured, all tables are accessible to \<user>.
 {% endhint %}
 
+Controller Basic Auth enforces `CREATE`, `READ`, `UPDATE`, and `DELETE` permissions for both table-specific and cluster-level endpoints. A principal with an explicit permission list is denied operations outside that list. Omitting the permission list, or configuring an empty list, preserves the legacy wildcard behavior.
+
+Invalid credentials return HTTP `401`. Valid credentials without the required permission or table access return HTTP `403`. Table allow lists apply only when the endpoint targets a table; cluster-level endpoints use the CRUD permission declared by the endpoint.
+
+{% hint style="warning" %}
+Before rolling out cluster-permission enforcement to controllers, grant the server identity used by `pinot.server.segment.uploader.auth.token` cluster-level `CREATE` permission. Segment completion callbacks mutate controller state. If you use an action-aware custom policy, also grant that identity `COMMIT_SEGMENT`. Update the identity before upgrading controllers to prevent real-time segment commits from failing authorization.
+{% endhint %}
+
+Log-download endpoints require `READ`. The deprecated `/auth/verify` endpoint remains an exception: invalid credentials produce its legacy boolean `false` response instead of an HTTP `401`.
+
 #### Broker authentication and authorization
 
 Pinot-Broker, similar to pinot-controller above, has supported access control for a while now and we added a default implementation for HTTP Basic Auth. Since pinot-broker does not provide a web UI by itself, authentication is only relevant for SQL queries hitting the broker's REST API.
