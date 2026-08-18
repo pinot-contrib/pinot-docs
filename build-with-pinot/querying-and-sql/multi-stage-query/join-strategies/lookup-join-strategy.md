@@ -9,7 +9,9 @@ Lookup joins provide a similar performance to [Lookup UDF](../../lookup-udf-join
 This technique was introduced in Pinot 1.3.0 and it is disabled by default. It can be enabled for specific queries by specifying the `joinOptions` hint in the SELECT clause. There are also some prerequisites/limitations in the current implementation:
 
 * Right table must be configured as a dimension table.
-* Primary key of the right table must be used as the join key. If the primary key is a compound key of multiple columns, all the columns must be used as the join key.
+* Every primary-key column of the right table must receive exactly one lookup value. The value can come from an equi-join key or an equality to a literal in the `ON` or `WHERE` condition.
+* The order of predicates does not need to match the order of `primaryKeyColumns`; Pinot builds the lookup key in schema order.
+* A join key on a non-primary-key dimension column, duplicate keys for one primary-key column, or a missing primary-key component causes the query to fail instead of silently returning empty or incorrect results. Remove the lookup hint to use a regular join for those conditions.
 
 For example:
 
@@ -20,6 +22,19 @@ FROM A
 JOIN B -- this must be a dimension table
 ON A.col2 = B.joinKey -- B.joinKey must be the primary key of B
 ```
+
+For a compound key such as `primaryKeyColumns: ["currency", "rate_start_date"]`, a literal can supply one key component:
+
+```sql
+SELECT /*+ joinOptions(join_strategy='lookup') */
+    f.amount, r.rate
+FROM fact_sales f
+JOIN dim_rates r
+  ON r.rate_start_date = f.rate_start_date
+ AND r.currency = 'gbp'
+```
+
+The predicate order can be reversed without changing the lookup. A literal on a `BYTES` primary-key column is not supported. `SEMI` and `ANTI` lookup joins do not support non-equi conditions because their output does not include right-table columns needed to evaluate those filters.
 
 
 ## Physical Optimizer Support
