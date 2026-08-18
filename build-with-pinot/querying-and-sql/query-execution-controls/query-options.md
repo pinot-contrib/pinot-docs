@@ -29,7 +29,15 @@ LIMIT 10;
 
 Documented keys use **canonical camelCase** (for example `timeoutMs`, `useMultistageEngine`, `minSegmentGroupTrimSize`). Pinot resolves recognized option names **case-insensitively** to those canonical forms when parsing `SET` / `OPTION` clauses, so `SET timeoutms = 5000` is treated like `timeoutMs`.
 
-Prefer the canonical names from the table below. An unrecognized option can remain in the options map without producing a parse error, and consumers that do not know the key may ignore it. Do not treat an accepted query as proof that an option name is valid.
+Prefer the canonical names from the table below. For data queries, Pinot rejects unknown option names supplied through SQL
+`SET` statements or the legacy `OPTION(...)` clause instead of silently ignoring them. A close typo can produce a
+suggestion for the recognized option, such as `timeoutMs`. SQL queries also cannot set the internal
+`rlsFilters*` options; the broker adds row-level-security options after parsing when required.
+
+This validation is specific to the SQL DQL path. Free-form options remain backward compatible in the REST/JSON
+`queryOptions` field, and DML `SET` properties such as `INSERT INTO FILE` task settings remain free-form. If an
+integration relies on a custom option name, send it through the request's `queryOptions` field instead of placing it in
+the SQL text.
 
 For default `LIMIT` behavior, group-by tail trim, and `ORDER BY` vs unordered group-by, see [Querying Pinot](../querying-pinot.md#group-by-quirks-default-limit-trimming-order-by).
 
