@@ -300,6 +300,42 @@ No other stream config changes are required. The Kafka 3.x connector is compatib
 
 ### Kafka configurations in Pinot
 
+#### Resolve Kafka client secrets with ConfigProvider
+
+The Kafka 3.x and 4.x connectors support Kafka
+[`ConfigProvider`](https://kafka.apache.org/documentation/#configprovider) references in realtime table configs. Use a
+provider when Kafka client properties, such as SSL passwords, should be loaded when Pinot constructs the Kafka consumer
+or shared AdminClient instead of being stored directly in the table config.
+
+Declare the provider alias and its parameters in the same `streamConfigs` or `streamConfigMaps` object as the Kafka
+property that references it. This example reads a keystore password from a mounted properties file:
+
+```json
+{
+  "streamConfigs": {
+    "streamType": "kafka",
+    "stream.kafka.topic.name": "events",
+    "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka30.KafkaConsumerFactory",
+    "stream.kafka.broker.list": "kafka:9092",
+    "security.protocol": "SSL",
+    "config.providers": "file",
+    "config.providers.file.class": "org.apache.kafka.common.config.provider.FileConfigProvider",
+    "config.providers.file.param.allowed.paths": "/vault/secrets",
+    "ssl.keystore.password": "${file:/vault/secrets/kafka.properties:keystore.password}"
+  }
+}
+```
+
+The alias in the reference (`file` above) must be listed in `config.providers`; otherwise Pinot processes the value as
+its own environment-variable or system-property expression. Provider aliases and `config.providers.<alias>.*`
+parameters are scoped to their containing stream config map, which is important for multi-stream table configs.
+
+Use Kafka client property names without the `stream.kafka.consumer.prop.` prefix, such as `ssl.keystore.password`.
+That prefix is not a general-purpose namespace for arbitrary Kafka client properties.
+
+Kafka resolves the reference when a client is constructed. Recreating a consumer reads the provider source again, but
+changing the file does not hot-reload an already running Kafka client.
+
 #### Use Kafka partition (low) level consumer with SSL
 
 Here is an example config which uses SSL based authentication to talk with kafka and schema-registry. Notice there are two sets of SSL options, ones starting with `ssl.` are for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.` are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
