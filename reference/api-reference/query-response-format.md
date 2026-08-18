@@ -63,6 +63,7 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 | `stageStats` | Per-stage stats for multi-stage queries |
 | `exceptions` | Query-processing exceptions, if any |
 | `rlsFiltersApplied` | Whether row-level security predicates were injected |
+| `responseMetadata` | Optional multi-stage V2 object containing extension-defined, non-fatal query metadata. Values retain their JSON types, and the field is omitted when empty. |
 
 For DISTINCT early termination, the response shape depends on the engine. Single-stage responses use the legacy
 boolean fields such as `maxRowsInDistinctReached`, while multi-stage V2 responses surface the same condition through
@@ -72,6 +73,30 @@ The Lite Mode warning fields are specific to multi-stage V2 responses. `mseLiteL
 as a boolean, while `mseLiteLeafStageEffectiveLimit` and `mseLiteFanOutAdjustedLimitApplied` appear only when Pinot
 actually injected the implicit leaf-stage limit for that query. A response can therefore show an effective limit with
 `mseLiteLeafStageLimitReached=false`, which means the guardrail was active but did not truncate that execution.
+
+### Extension response metadata
+
+Multi-stage V2 responses can include a `responseMetadata` object for informational notes from broker-side extensions,
+such as whether a fallback was applied. Core Pinot does not define stable keys or meanings for this object, so clients
+should treat every entry as extension-specific and tolerate unknown keys. Values retain their JSON type and can be
+scalars, objects, or arrays rather than strings only.
+
+```json
+{
+  "resultTable": { "...": "..." },
+  "numDocsScanned": 12345,
+  "timeUsedMs": 42,
+  "responseMetadata": {
+    "fallbackApplied": true,
+    "note": "served from cache",
+    "detail": { "stage": 2, "strategy": "broadcast" }
+  }
+}
+```
+
+Currently, only broker-side multi-stage query handling can contribute metadata to the response. Metadata registered on
+workers or servers is not propagated to the broker response. Pinot omits `responseMetadata` entirely when no entries
+were added.
 
 For single-stage queries, `serverStats` is a semicolon-delimited string with a header row followed by one entry per server. The header names the metrics in order:
 
