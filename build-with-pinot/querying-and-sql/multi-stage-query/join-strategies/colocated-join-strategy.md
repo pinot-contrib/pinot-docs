@@ -33,6 +33,29 @@ In this case, Pinot will try to execute the query in the following way:
 
 As a side effect, this strategy may not use as many servers as other techniques. For example, the same query using [query time partition](query-time-partition-join-strategy.md) may use 3 servers, while in this case Pinot can only use server 3 and server 2. Server 1 cannot be used because it does not have all the segments for partition 2 of table B.
 
+### Empty partitions and partition metadata
+
+A colocated join can run when one participating table has no segments for a partition that another participating table
+uses. Pinot keeps one ordered set of partition classes for the stages connected by direct exchanges. For a class used
+by the group, a table with no data gets an empty worker colocated with a worker that does have data, so worker IDs and
+partition alignment remain consistent across the join.
+
+Pinot removes a partition class only when no table in the colocated group has data for it. For example, a table can
+declare eight partitions but populate only three; if the join group uses only those three classes, the leaf stage runs
+three workers instead of eight. This reduces fan-out without shifting later partitions onto mismatched worker IDs.
+
+Pinot validates the metadata used to make this assignment:
+
+- A hybrid table whose segment partition metadata disagrees with its table config fails planning. Rebuild or replace
+  older segments after changing the partition config; Pinot no longer silently excludes mismatched segments.
+- A table distributed across multiple Pinot clusters does not expose partial partition metadata for this optimization,
+  because one cluster cannot determine whether another cluster serves a seemingly empty partition.
+- A partition that contains segments but has no online replica still fails planning because no server can read the full
+  partition.
+
+This empty-partition handling is specific to stages in a colocated direct-exchange group. A partitioned scan outside a
+colocated join retains its existing empty-partition behavior.
+
 ### **How to enable colocated joins**
 
 Colocated join optimization is disabled by default in Pinot 1.3.0.
