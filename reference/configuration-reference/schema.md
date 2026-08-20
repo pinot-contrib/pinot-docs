@@ -148,7 +148,7 @@ Query results render `UUID` values, including multi-value UUID columns, as canon
 
 Both the single-stage and multi-stage query engines support UUID literals and predicates. The multi-stage planner carries UUID literals through the existing 16-byte binary request encoding, while group-by, join, and dynamic-filter execution uses the UUID column's stored `BYTES` representation.
 
-UUID columns can be used as `GROUP BY` keys and in `HAVING` predicates. For multi-value UUID group keys, keep the dictionary enabled. The single-stage query engine also supports UUID inputs for `DISTINCTCOUNT`, `DISTINCTCOUNTHLL`, `DISTINCTCOUNTHLLPLUS`, `DISTINCTCOUNTBITMAP`, `DISTINCTCOUNTTHETASKETCH`, and `DISTINCTCOUNTCPCSKETCH` on single-value and multi-value columns. `DISTINCTCOUNTULL` supports single-value UUID columns only.
+UUID columns can be used as `GROUP BY` keys and in `HAVING` predicates. For multi-value UUID group keys, keep the dictionary enabled. The single-stage query engine also supports UUID inputs for `DISTINCTCOUNT`, `DISTINCTCOUNTHLL`, `DISTINCTCOUNTHLLPLUS`, `DISTINCTCOUNTBITMAP`, `DISTINCTCOUNTTHETASKETCH`, `DISTINCTCOUNTCPCSKETCH`, and `DISTINCTCOUNTULL` on single-value and multi-value columns.
 
 Distinct-count sketches hash the stored 16-byte UUID value. Therefore, an approximate count or raw sketch over a UUID column is not expected to match the result of applying the same function to `CAST(uuidColumn AS STRING)`.
 
