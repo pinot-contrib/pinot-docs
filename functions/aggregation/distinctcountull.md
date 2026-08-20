@@ -13,6 +13,8 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).
 * `ullSketchColumn` (required): Name of the column to aggregate on.
 * `ullSketchPrecision` (optional): p which is the precision parameter, which controls both the size and accuracy of the sketch. If not supplied, the Helix default is used.
 
+The input column can be single-value or multi-value. For a multi-value column, Pinot adds every value in each row to the sketch.
+
 ## Usage examples
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).

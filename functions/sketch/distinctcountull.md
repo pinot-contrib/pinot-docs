@@ -17,6 +17,8 @@ For exact distinct counting, see [DISTINCTCOUNT](../../functions/aggregation/dis
 * `column` (required): Name of the column to aggregate on.
 * `p` (optional): The precision parameter that controls the number of registers used by the sketch. Higher values give more accurate results but use more memory. Default is `12`.
 
+The input column can be single-value or multi-value. For a multi-value column, Pinot adds every value in each row to the sketch.
+
 ## Usage Examples
 
 ```sql

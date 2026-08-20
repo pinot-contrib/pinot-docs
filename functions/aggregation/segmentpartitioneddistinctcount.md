@@ -16,6 +16,8 @@ This function relies on the expression values being partitioned for each segment
 
 > SEGMENTPARTITIONEDDISTINCTCOUNT(colName)
 
+The input column can be single-value or multi-value. For a multi-value column, Pinot counts each distinct value contained in the rows. The partitioning requirement still applies to every value: the same value must not occur in different segments.
+
 ## Usage Examples
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
