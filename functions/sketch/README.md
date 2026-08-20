@@ -10,6 +10,8 @@ Pinot supports several sketch-based algorithms for approximate distinct counting
 
 For exact distinct counting, see [DISTINCTCOUNT](../aggregation/distinctcount.md).
 
+With [advanced null handling](../../build-with-pinot/querying-and-sql/null-value-support.md#advanced-null-handling-support) enabled, sketch-backed distinct-count functions skip null rows in regular aggregation and group-by queries, including single-value, multi-value, dictionary-encoded, and serialized-sketch inputs. Without advanced null handling, the column's configured default null value contributes to the sketch. Count-returning variants return `0` when no non-null rows contribute; raw variants preserve their function-specific empty-sketch result.
+
 ## CPC Sketch
 
 The [Compressed Probability Counting (CPC) Sketch](https://datasketches.apache.org/docs/CPC/CPC.html) enables extremely space-efficient cardinality estimation — about 40% less space than an HLL sketch of comparable accuracy.
