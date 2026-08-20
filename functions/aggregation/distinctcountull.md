@@ -15,6 +15,8 @@ For exact distinct counting, see [DISTINCTCOUNT](distinctcount.md).
 
 The input column can be single-value or multi-value. For a multi-value column, Pinot adds every value in each row to the sketch.
 
+With [advanced null handling](../../build-with-pinot/querying-and-sql/null-value-support.md#advanced-null-handling-support) enabled, Pinot skips null rows. Without advanced null handling, the column's configured default null value contributes to the sketch. The function returns `0` when no non-null rows contribute.
+
 ## Usage examples
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).

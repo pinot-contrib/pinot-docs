@@ -18,6 +18,8 @@ This function relies on the expression values being partitioned for each segment
 
 The input column can be single-value or multi-value. For a multi-value column, Pinot counts each distinct value contained in the rows. The partitioning requirement still applies to every value: the same value must not occur in different segments.
 
+With [advanced null handling](../../build-with-pinot/querying-and-sql/null-value-support.md#advanced-null-handling-support) enabled, Pinot skips null rows. Without advanced null handling, the column's configured default null value contributes to the count. The function returns `0` when no non-null rows contribute.
+
 ## Usage Examples
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).

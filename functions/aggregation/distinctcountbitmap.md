@@ -13,6 +13,8 @@ For accurate distinct counting on all column types, see [DISTINCTCOUNT](distinct
 
 > DISTINCTCOUNTBITMAP(colName)
 
+With [advanced null handling](../../build-with-pinot/querying-and-sql/null-value-support.md#advanced-null-handling-support) enabled, Pinot skips null rows. Without advanced null handling, the column's configured default null value contributes to the bitmap. The function returns `0` when no non-null rows contribute.
+
 ## Usage Examples
 
 These examples are based on the [Batch Quick Start](../../basics/getting-started/quick-start.md#batch-processing).
