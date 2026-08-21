@@ -4,7 +4,7 @@ description: This section contains reference documentation for the ARRAYAGG func
 
 # ARRAYAGG
 
-Aggregates values from rows into an array. Supports collecting values of type `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `STRING`, and `BYTES`. Use the optional `DISTINCT` keyword to collect only distinct values.
+Aggregates values from rows into an array. Supports collecting values of type `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `JSON`, `BYTES`, and `UUID`. Use the optional `DISTINCT` keyword to collect only distinct values.
 
 ## Signature
 
@@ -12,7 +12,7 @@ Aggregates values from rows into an array. Supports collecting values of type `I
 >
 > ARRAYAGG(colName, 'dataType', 'DISTINCT')
 
-The `dataType` parameter must be one of: `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `STRING`, or `BYTES`.
+The `dataType` parameter must be one of: `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `JSON`, `BYTES`, or `UUID`. `JSON` values are collected as strings, and `UUID` values are returned in canonical UUID string form.
 
 ## Usage Examples
 
