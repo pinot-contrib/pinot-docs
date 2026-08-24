@@ -248,6 +248,8 @@ When the `enableNullHandling` option is set to `true`, the Pinot query engine us
 
 Sketch-backed distinct-count functions also skip null rows when advanced null handling is enabled. This applies to `DISTINCTCOUNTBITMAP`, `DISTINCTCOUNTHLL`, `DISTINCTCOUNTHLLPLUS`, `DISTINCTCOUNTULL`, `DISTINCTCOUNTTHETASKETCH`, `DISTINCTCOUNTCPCSKETCH`, `FASTHLL`, `SEGMENTPARTITIONEDDISTINCTCOUNT`, and their raw, smart, single-value, and multi-value variants. With advanced null handling disabled, a null row continues to contribute the column's configured default null value. Count-returning variants return `0` when no non-null rows contribute; raw sketch variants retain their function-specific empty-sketch result.
 
+`SKEWNESS`, `KURTOSIS`, `STUNION`, `HISTOGRAM`, `IDSET`, `SUMARRAYLONG`, and `SUMARRAYDOUBLE` also skip null rows when advanced null handling is enabled. With advanced null handling disabled, these functions retain their legacy behavior and aggregate the column's configured default null value. `HISTOGRAM` and `STUNION` accept multi-value inputs, and `IDSET` accepts multi-value `BYTES` inputs.
+
 In this mode, some indexes may not be usable, and queries may be significantly more expensive. Performance degradation impacts all the columns in the table, including columns in the query that do not contain null values. This degradation happens even when table uses column based null storing.
 
 Star-tree is one exception to the all-or-nothing rule: Pinot can still use a star-tree index for a segment when `enableNullHandling=true` if the aggregated columns, filtered columns, and group-by columns used by the query do not contain null values in that segment. Predicates such as `IS NULL` and `IS NOT NULL` still cannot use the star-tree index.
