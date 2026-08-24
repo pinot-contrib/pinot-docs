@@ -37,6 +37,13 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | LUCENE_INDEXING_DELAY_DOCS | Per partition metric for realtime Lucene text indexes that reports the maximum number of indexed documents that are still waiting to become visible through the current Lucene searcher, aggregated across the text-indexed columns currently hosted for that partition on the server. Pinot resets the gauge to `0` when the partition has no pending Lucene-refresh backlog. |  |
 | REALTIME_CONSUMER_DIR_USAGE | Total bytes currently used by the server's real-time consumer directories across all tables on the instance |  |
 | ROWS_WITH_ERRORS | number of rows that either didn't get transformed or didn't get indexed. |  |
+| OPEN_STRUCT_TYPE_COERCION_FAILURES | Per-table, per-column, per-key count of values dropped because they could not be coerced to the key's declared or established type. | Meter |
+| OPEN_STRUCT_TYPE_INFERENCE_FAILURES | Per-table, per-column, per-key count of values stored as serialized strings because their Java type could not be mapped to a Pinot data type. | Meter |
+| OPEN_STRUCT_LAST_SEGMENT_DENSE_KEY_COUNT | Dense keys in the most recently sealed segment for an `OPEN_STRUCT` column. This is a last-segment value, not a table-wide total. | Gauge |
+| OPEN_STRUCT_LAST_SEGMENT_SPARSE_KEY_COUNT | Sparse keys in the most recently sealed segment for an `OPEN_STRUCT` column. This is a last-segment value, not a table-wide total. | Gauge |
+| OPEN_STRUCT_LAST_SEGMENT_KEY_COUNT | Total unique dense and sparse keys in the most recently sealed segment for an `OPEN_STRUCT` column. | Gauge |
+| OPEN_STRUCT_LAST_SEGMENT_DOC_COUNT | Documents in the most recently sealed segment for an `OPEN_STRUCT` column. Use this as the denominator for per-key fill rates. | Gauge |
+| OPEN_STRUCT_LAST_SEGMENT_KEY_DOC_COUNT | Documents containing a specific key in the most recently sealed segment. Divide by `OPEN_STRUCT_LAST_SEGMENT_DOC_COUNT` for the key's fill rate. By default Pinot emits this only for configured `denseKeys`; set `perKeyMetricsEnabled=true` to emit it for every discovered key, with the associated cardinality cost. | Gauge |
 | REALTIME_ROWS_CONSUMED | total number of records consumed from input |  |
 | REALTIME_BYTES_CONSUMED | total serialized bytes consumed from real-time input |  |
 | REALTIME_BYTES_DROPPED | total serialized bytes dropped during real-time ingestion because Pinot rejected or failed to process the records |  |
