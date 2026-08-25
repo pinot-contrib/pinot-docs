@@ -17,6 +17,18 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### EXPR_MIN, EXPR_MAX, and time-series aggregation now honor null handling
+
+With query option `enableNullHandling=true`, `EXPR_MIN` and `EXPR_MAX` now skip a row when any measuring column is `NULL`. A null projection column remains valid payload and does not disqualify the row. Previously, a null measuring value was read as the column's default value and could incorrectly win the minimum or maximum comparison.
+
+The same functions also correct a pre-existing single-stage bug for queries that match more than one processing block in a segment. Measuring and projection values are now read from the current block, and a later winning row replaces stale projection values instead of appending to them. Corrected results apply regardless of the null-handling option.
+
+`TIMESERIESAGGREGATE` now skips rows whose value or timestamp is null when null handling is enabled. This function is used by time-series plan nodes rather than SQL, and receives the time-series query options through the query context.
+
+**Action required.** Review consumers that rely on `EXPR_MIN`, `EXPR_MAX`, or time-series aggregation over nullable inputs. Corrected queries can select a different row or return no aggregate where the old behavior incorporated column defaults. Also review `EXPR_MIN` and `EXPR_MAX` queries matching more than 10,000 documents per segment, because their result rows can change even when null handling is disabled.
+
+*Source: [PR #19357](https://github.com/apache/pinot/pull/19357)*
+
 ### Keep brokers at least as new as servers during rolling upgrades
 
 Servers can now preserve null aggregate and group-by results in the single-stage engine's DataTable response even when query null handling is disabled. This fixes failures or corrupted neighboring values for queries whose aggregate result is null, such as `MAX(stringColumn)` over an empty result set.
