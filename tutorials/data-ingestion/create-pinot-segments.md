@@ -133,11 +133,21 @@ Sample Schema:
 
 #### Pushing offline segments to Pinot
 
-You can use curl to push a segment to pinot:
+You can use curl to push a segment to Pinot. For the v1 `/segments` endpoint, supply the destination table explicitly:
 
 ```
-curl -X POST -F segment=@<segment-tar-file-path> http://controllerHost:controllerPort/segments
+curl -X POST -F segment=@<segment-tar-file-path> \
+  "http://controllerHost:controllerPort/segments?tableName=<tableName>"
 ```
+
+The v1 endpoint strictly binds the destination table across the `tableName` request parameter, the optional
+`Pinot-TableName` header, and the `segment.table.name` embedded in the segment metadata. If more than one is supplied,
+all values must identify the same table; missing, blank, invalid, or conflicting values return HTTP 400. Authorization
+is evaluated for that exact destination table before Pinot fetches or stores segment data.
+
+Use `/v2/segments` when intentionally uploading an existing segment artifact to a different destination table, such as
+promoting or reusing a segment whose embedded source-table metadata differs from the destination. The v2 endpoint keeps
+destination override behavior while still binding authorization and database headers to the final destination.
 
 Alternatively you can use the pinot-admin.sh utility to upload one or more segments:
 
