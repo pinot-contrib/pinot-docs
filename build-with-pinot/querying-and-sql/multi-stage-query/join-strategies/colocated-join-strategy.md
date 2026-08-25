@@ -56,6 +56,26 @@ Pinot validates the metadata used to make this assignment:
 This empty-partition handling is specific to stages in a colocated direct-exchange group. A partitioned scan outside a
 colocated join retains its existing empty-partition behavior.
 
+### Broker pruning for filtered colocated joins
+
+On the default logical-planner path, broker segment pruning can also reduce a colocated join to the partition classes
+that can contain rows after filtering. When every table in the colocated group prunes a partition class, Pinot removes
+that class from the group while preserving the one-to-one worker alignment for the remaining classes. This can reduce
+the number of workers, servers, and segments used by a filtered colocated join.
+
+This optimization requires broker pruning to be enabled and each applicable table to configure the partition segment
+pruner with `segmentPrunerTypes: ["partition"]`. Filters on the partition key must reach every side of the group, either
+because they are written on both sides or because Calcite propagates the filter through the join equality. A time filter
+only prunes segments and does not by itself remove partition classes.
+
+Pinot keeps a partition class when any member of the group can still produce rows. It also keeps all populated classes
+when pruning proves that every class is empty, because a zero-worker colocated group cannot be wired. The probe leaf of
+a colocated semi-join is not eligible. If a non-colocated stage above the join should retain the reduced server set, set
+`useLeafServerForIntermediateStage=true`.
+
+Use the `useBrokerPruning` query option or
+`pinot.broker.multistage.logical.planner.use.broker.pruning` broker setting to control this behavior.
+
 ### **How to enable colocated joins**
 
 Colocated join optimization is disabled by default in Pinot 1.3.0.
