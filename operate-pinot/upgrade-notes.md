@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Segment uploads now bind authorization to the final destination table
+
+The v1 `POST /segments` endpoint now requires a consistent destination table across the `tableName` request parameter, optional `Pinot-TableName` header, and embedded `segment.table.name` metadata. Missing, blank, invalid, or conflicting values return HTTP 400. Pinot authorizes the canonical destination before fetching a segment source or mutating deep storage or ZooKeeper.
+
+Intentional promotion or reuse of an existing segment artifact whose embedded source-table metadata differs from its destination must use `POST /v2/segments`. The v2 endpoint preserves destination override behavior while binding authorization and database headers to the final destination. Pinot's Purge and Refresh minion tasks now use v2 because they can reuse existing artifacts; conversion tasks that regenerate destination-bound metadata remain on v1.
+
+**Action required.** Audit custom segment-upload clients. For v1 uploads, send an explicit destination and ensure every supplied table identifier matches. Move workflows that intentionally override embedded table metadata to `/v2/segments`, and grant the caller permission on the destination table rather than relying on cluster-level create access or a source-table identity.
+
+*Source: [PR #19231](https://github.com/apache/pinot/pull/19231)*
+
 ### EXPR_MIN, EXPR_MAX, and time-series aggregation now honor null handling
 
 With query option `enableNullHandling=true`, `EXPR_MIN` and `EXPR_MAX` now skip a row when any measuring column is `NULL`. A null projection column remains valid payload and does not disqualify the row. Previously, a null measuring value was read as the column's default value and could incorrectly win the minimum or maximum comparison.
