@@ -246,6 +246,7 @@ The `open_struct` config object supports the following properties:
 | Property | Description |
 | --- | --- |
 | `denseKeys` | Optional explicit set of keys that Pinot always materializes as dense child columns, regardless of fill rate. |
+| `ignoredKeys` | Optional set of keys to discard during ingestion. Pinot does not materialize these keys or write them to the sparse column, so they are not queryable. An ignored key cannot also appear in `denseKeys`, `valueFieldConfigs`, or the schema's `childFieldSpecs`. Changes affect only newly ingested data; existing sealed segments are unchanged. |
 | `denseKeyMinFillRate` | Minimum fraction of documents that must contain a key before Pinot materializes it automatically. Default: `0.5`. |
 | `maxDenseKeys` | Maximum number of dense keys to materialize. `-1` means unlimited, `0` disables dense keys entirely, and positive values keep only the highest-fill-rate qualifying keys as dense. |
 | `sparseJsonIndex` | Whether to build a JSON index over the shared sparse column. Default: `false`. When enabled, compatible string-key equality and `IN` filters can use the JSON index; other sparse-key operations use the virtual scan path. |
@@ -265,6 +266,7 @@ Example:
       "indexes": {
         "open_struct": {
           "denseKeys": ["customerId", "country"],
+          "ignoredKeys": ["debug", "internalTrace"],
           "denseKeyMinFillRate": 0.5,
           "maxDenseKeys": 32,
           "sparseJsonIndex": true,

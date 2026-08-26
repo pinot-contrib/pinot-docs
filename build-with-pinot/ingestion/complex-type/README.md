@@ -137,6 +137,7 @@ Add an `open_struct` entry to the field's `indexes` object in `fieldConfigList`:
       "indexes": {
         "open_struct": {
           "denseKeys": ["customerId", "country"],
+          "ignoredKeys": ["debug", "internalTrace"],
           "denseKeyMinFillRate": 0.5,
           "maxDenseKeys": 32,
           "sparseJsonIndex": true,
@@ -160,6 +161,8 @@ Add an `open_struct` entry to the field's `indexes` object in `fieldConfigList`:
   ]
 }
 ```
+
+Use `ignoredKeys` for object keys that Pinot should discard during ingestion. An ignored key is not materialized as a dense child column, is not written to the sparse column, and cannot be queried. Ignored keys must not also appear in `denseKeys`, `valueFieldConfigs`, or the schema's `childFieldSpecs`.
 
 ### Query OPEN_STRUCT keys
 
@@ -186,6 +189,7 @@ Notes:
 
 * `OPEN_STRUCT` is a field-level index for single-value `OPEN_STRUCT` columns.
 * Pinot can still ingest keys that are not listed in `childFieldSpecs`; it infers a stored type from observed values when possible.
+* Changes to `ignoredKeys` affect only newly ingested data. Existing sealed segments retain values ingested under the earlier configuration.
 * When any schema field uses `OPEN_STRUCT`, `$` becomes a reserved character in schema column names because Pinot uses it in generated child-column names.
 * Use the [schema reference](../../../reference/configuration-reference/schema.md) for the exact schema JSON and the [table reference](../../../reference/configuration-reference/table.md) for the full `open_struct` config surface.
 

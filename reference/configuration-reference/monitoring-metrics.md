@@ -39,6 +39,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | ROWS_WITH_ERRORS | number of rows that either didn't get transformed or didn't get indexed. |  |
 | OPEN_STRUCT_TYPE_COERCION_FAILURES | Per-table, per-column, per-key count of values dropped because they could not be coerced to the key's declared or established type. | Meter |
 | OPEN_STRUCT_TYPE_INFERENCE_FAILURES | Per-table, per-column, per-key count of values stored as serialized strings because their Java type could not be mapped to a Pinot data type. | Meter |
+| OPEN_STRUCT_IGNORED_KEY_DROPS | Per-table, per-column count of non-null `OPEN_STRUCT` entries discarded because their keys are listed in `ignoredKeys`. Pinot batches updates when an offline segment creator closes or a realtime segment seals. | Meter |
 | OPEN_STRUCT_LAST_SEGMENT_DENSE_KEY_COUNT | Dense keys in the most recently sealed segment for an `OPEN_STRUCT` column. This is a last-segment value, not a table-wide total. | Gauge |
 | OPEN_STRUCT_LAST_SEGMENT_SPARSE_KEY_COUNT | Sparse keys in the most recently sealed segment for an `OPEN_STRUCT` column. This is a last-segment value, not a table-wide total. | Gauge |
 | OPEN_STRUCT_LAST_SEGMENT_KEY_COUNT | Total unique dense and sparse keys in the most recently sealed segment for an `OPEN_STRUCT` column. | Gauge |
