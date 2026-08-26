@@ -36,6 +36,11 @@ Type: Long
 
 The summation of time spent by all threads executing the operator. This means that the wall time spent in the operation may be smaller that this value if the parallelism is larger than 1.
 
+For streaming stage stats, Pinot accounts the mailbox send operator's current end-of-stream block before serializing
+its stats. The reported value therefore includes the input work performed by that call, including when the stage emits
+no data block. Derived self time (`executionTimeMs` minus child time) should not be negative. The snapshot still excludes
+the small amount of work required to serialize the stats and hand the end-of-stream block to the exchange.
+
 ### emittedRows
 
 Type: Long

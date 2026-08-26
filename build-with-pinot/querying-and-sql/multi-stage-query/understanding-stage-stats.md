@@ -63,6 +63,11 @@ The Pinot UI stats visualizer is a convenient way to see the multi-stage stats, 
 
 When a query uses the streaming stats transport (`SET streamStats=true` or broker default `pinot.broker.mse.stream.stats=true`), the response also includes a `streamStatsCoverage` array. It is indexed by stage ID and reports how many workers responded cleanly, how many reported stats that the broker could not merge, and how many workers were still missing for that stage.
 
+In streaming mode, mailbox send operators account their in-progress end-of-stream call before attaching stats to that
+block. This prevents derived `selfExecutionTimeMs`, `selfClockTimeMs`, `selfAllocatedMB`, and `selfGcTimeMs` values from
+becoming negative merely because a parent's final call had not yet been registered. The mailbox send snapshot does not
+include the subsequent time used to serialize the stats and deliver the end-of-stream block.
+
 ```json
 {
   "streamStatsCoverage": [
