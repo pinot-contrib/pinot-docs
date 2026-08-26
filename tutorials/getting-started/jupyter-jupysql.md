@@ -62,6 +62,7 @@ it to `%sql` (more reliable than embedding a non-standard URL in the magic):
 ```python
 from sqlalchemy import create_engine
 
+%matplotlib inline
 %load_ext sql
 
 %config SqlMagic.autopandas = True
