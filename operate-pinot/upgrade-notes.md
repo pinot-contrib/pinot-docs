@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Streaming mailbox send stats no longer under-report the final block
+
+In multi-stage queries using streaming stats transport, a `MAILBOX_SEND` operator now accounts its in-progress end-of-stream call before serializing the stage-stats snapshot. Previously, its parent snapshot could omit the final call while already including completed child work. This produced missing or understated `executionTimeMs`, `memoryUsedBytes`, and `gcTimeMs`, especially for stages that emitted no data block, and could make derived self metrics negative.
+
+Operator execution totals and the broker-reported non-streaming stats path are unchanged. The serialized mailbox snapshot still excludes the small amount of work performed after collection to serialize the stats and hand the end-of-stream block to the exchange.
+
+**Action required.** Dashboards and alerts should stop treating negative `selfExecutionTimeMs`, `selfClockTimeMs`, `selfAllocatedMB`, or `selfGcTimeMs` as expected artifacts of streaming stats. Values collected before the upgrade can retain the old under-reporting.
+
+*Source: [PR #19365](https://github.com/apache/pinot/pull/19365)*
+
 ### BYTES array literals require upgraded servers
 
 Both query engines now support `BYTES_ARRAY` literals built from SQL binary values, for example `ARRAY[X'00', X'0102', X'FF']`. They can be projected directly, nested in expressions, or compared with ingested multi-value `BYTES` columns. Query responses encode values as hexadecimal strings and report `BYTES_ARRAY` in result metadata.
