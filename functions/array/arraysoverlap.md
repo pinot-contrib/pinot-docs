@@ -51,3 +51,13 @@ WHERE ARRAYS_OVERLAP(longArrayCol, ARRAY[CAST(2 AS BIGINT), CAST(10 AS BIGINT)])
 ```
 
 Returns all rows where `longArrayCol` shares at least one value with the filter array.
+
+For a multi-value `BYTES` column, use SQL binary literals inside the array:
+
+```sql
+SELECT id, byte_values
+FROM events
+WHERE ARRAYS_OVERLAP(byte_values, ARRAY[X'0102', X'CAFE'])
+```
+
+The stored column uses `"dataType": "BYTES"` and `"singleValueField": false` in the Pinot schema. Query response values are hexadecimal strings.

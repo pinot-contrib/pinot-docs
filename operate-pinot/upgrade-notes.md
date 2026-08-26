@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### BYTES array literals require upgraded servers
+
+Both query engines now support `BYTES_ARRAY` literals built from SQL binary values, for example `ARRAY[X'00', X'0102', X'FF']`. They can be projected directly, nested in expressions, or compared with ingested multi-value `BYTES` columns. Query responses encode values as hexadecimal strings and report `BYTES_ARRAY` in result metadata.
+
+The single-stage Thrift `Literal` union adds append-only field 17, `list<binary> bytesArrayValue`. New readers remain compatible with existing literal fields, but old servers do not implement BYTES-array execution. A new broker sending this literal to an old server therefore does not provide usable mixed-version behavior.
+
+**Action required.** Upgrade servers before enabling queries that use BYTES array literals. During a rolling upgrade, do not send these queries to old servers. Review clients that inspect result metadata so they accept `BYTES_ARRAY` and hexadecimal response values.
+
+*Source: [PR #19247](https://github.com/apache/pinot/pull/19247)*
+
 ### Segment uploads now bind authorization to the final destination table
 
 The v1 `POST /segments` endpoint now requires a consistent destination table across the `tableName` request parameter, optional `Pinot-TableName` header, and embedded `segment.table.name` metadata. Missing, blank, invalid, or conflicting values return HTTP 400. Pinot authorizes the canonical destination before fetching a segment source or mutating deep storage or ZooKeeper.
