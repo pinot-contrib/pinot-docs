@@ -13,7 +13,7 @@ The [Tuple Sketch](https://datasketches.apache.org/docs/Tuple/TupleOverview.html
 > distinctCountRawIntegerSumTupleSketch(**\<tupleSketchColumn>, \<tupleSketchParams>**) -> HexEncoded
 
 * `tupleSketchColumn` (required): Name of the column to aggregate on.  This must be an existing tuple sketch serialized as bytes.
-* `tupleSketchParams` (required): Semicolon-separated parameter string for constructing the intermediate tuple-sketches.
+* `tupleSketchParams` (optional): Semicolon-separated parameter string for constructing the intermediate tuple sketches, such as `nominalEntries=4096;accumulatorThreshold=10`. The one- and two-argument forms are supported by both query engines.
   * The supported parameters are:
    * `nominalEntries`: The nominal entries used to create the sketch. (Default 65536)
    * `accumulatorThreshold`: How many sketches should be kept in memory before merging. (Default 2)
