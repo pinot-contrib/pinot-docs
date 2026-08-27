@@ -486,6 +486,18 @@ For example,
 
 Note that the default value of this config `read_uncommitted` to read all messages. Also, this config supports low-level consumer only.
 
+#### Recover from expired Kafka offsets
+
+Kafka can delete records before a lagging Pinot consumer reads them. When the requested offset has expired, Pinot now defaults the Kafka client's raw `auto.offset.reset` property to `earliest`. Consumption resumes from the oldest record Kafka still retains, and Pinot's existing stream-data-loss detection reports the unavoidable gap for records Kafka already deleted.
+
+To override this behavior, add the raw Kafka property to `streamConfigs`:
+
+```json
+"auto.offset.reset": "latest"
+```
+
+This raw property accepts Kafka values such as `earliest` and `latest`. Do not confuse it with `stream.kafka.consumer.prop.auto.offset.reset`: the prefixed Pinot property accepts `smallest`, `largest`, time periods, or timestamps and chooses the starting position only when a partition has no stored Pinot offset. It does not control Kafka-client recovery from an expired stored offset.
+
 #### Use Kafka partition (low) level consumer with SASL\_SSL
 
 Here is an example config which uses SASL\_SSL based authentication to talk with kafka and schema-registry. Notice there are two sets of SSL options, some for kafka consumer and ones with `stream.kafka.decoder.prop.schema.registry.` are for `SchemaRegistryClient` used by `KafkaConfluentSchemaRegistryAvroMessageDecoder`.
