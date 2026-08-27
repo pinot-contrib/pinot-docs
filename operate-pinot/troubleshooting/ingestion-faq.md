@@ -134,7 +134,9 @@ This typically happens if:
 1. The consumer is lagging a lot.
 2. The consumer was down (server down, cluster down), and the stream moved on, resulting in offset not found when consumer comes back up.
 
-In case of Kafka, to recover, set property `"auto.offset.reset":"earliest"` in the `streamConfigs` section and reset the `CONSUMING` segment. See [Real-time table configs](../../reference/configuration-reference/table.md#indexing-config) for more details about the configuration.
+For Kafka, the client now defaults `auto.offset.reset` to `earliest`. After you reset the `CONSUMING` segment, Pinot resumes from the oldest record Kafka still retains and reports the records already removed by Kafka as stream data loss. You can still set the raw property `"auto.offset.reset":"earliest"` explicitly in `streamConfigs`; set it to `latest` only when you intentionally want to skip to the log end. See [Import from Apache Kafka](../../build-with-pinot/ingestion/stream-ingestion/import-from-apache-kafka.md#recover-from-expired-kafka-offsets).
+
+`stream.kafka.consumer.prop.auto.offset.reset` is a different Pinot setting: it controls the initial position for a partition with no stored offset and accepts values such as `smallest` and `largest`. It is not passed to the Kafka client and does not control expired-offset recovery.
 
 You can also also use the "Resume Consumption" endpoint with "resumeFrom" parameter set to "smallest" (or "largest" if you want). See [Pause Stream Ingestion](../../build-with-pinot/ingestion/stream-ingestion#pause-stream-ingestion) for more details.
 
