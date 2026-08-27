@@ -11,6 +11,21 @@ Vector queries in Pinot support:
 3. **8 explicit execution modes** visible in EXPLAIN output
 4. **Per-backend capabilities** for different vector index types (HNSW, IVF_FLAT, IVF_PQ, IVF_ON_DISK)
 
+## Queryable-document scope for upsert and deleted rows
+
+Pinot applies a segment's queryable-document snapshot before vector candidate generation. This matters for full-upsert tables, delete tombstones, and queries that use `skipUpsertDelete`: stale physical row versions and deleted rows cannot consume per-segment top-K candidate slots and then disappear during a later filter step. `VECTOR_SIMILARITY` therefore returns candidates from the same current-row view used by the rest of the query plan.
+
+The execution path depends on the segment's vector reader:
+
+* A filter-aware reader receives the queryable-document scope and performs filtered ANN search.
+* A reader that cannot restrict candidate generation is bypassed in favor of an exact scan over the queryable documents.
+* An empty queryable-document scope returns no candidates without executing a vector search.
+* If neither filtered search nor an exact scan from the forward index is available, the query fails instead of returning candidates from outside the queryable-document scope.
+
+The exact-scan fallback favors correctness over latency. Its cost is proportional to the number of queryable documents multiplied by the vector dimension. Consuming segments of upsert tables can use this path when their mutable vector reader is not filter-aware; immutable segments with a filter-aware index continue to use filtered ANN.
+
+With server plans enabled, `EXPLAIN` reports `requiredDocIdFilterApplied: true` and `requiredDocIdFilterCardinality` when a queryable-document scope constrains vector search. An exact-scan fallback also reports its reason through `fallbackReason`.
+
 ## Vector Distance Threshold Query Option
 
 The `vectorDistanceThreshold` query option enables distance-based filtering in vector similarity queries. This allows you to retrieve all vectors within a specified distance threshold instead of a fixed top-K result set.
@@ -393,6 +408,8 @@ LIMIT 10;
 - **exactRerank:** Whether exact reranking is enabled
 - **candidateCount:** Number of candidates examined
 - **fallbackReason:** If applicable (e.g., `ivf_pq_index_unavailable`)
+- **requiredDocIdFilterApplied:** Whether a queryable-document scope constrained candidate generation
+- **requiredDocIdFilterCardinality:** Number of document IDs in that required scope
 
 ## Query Option Reference for Vector Queries
 
