@@ -148,6 +148,8 @@ The logical plan is a high-level representation of the query execution plan. Thi
 
 In Pinot 1.3.0, the logical plan is enabled by default and can be obtained by using `EXPLAIN PLAN FOR` syntax. Optionally, the segment plan can be enabled by default, in which case the logical plan can be obtained by using `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` syntax.
 
+Although `EXPLAIN PLAN FOR` renders the logical plan by default, Pinot also validates that the query can be converted into an executable plan. It therefore returns planning errors that query execution would encounter, including errors that depend on current routing state. Use `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` when you specifically need the logical plan without implementation planning, including for a query that cannot currently be executed.
+
 {% hint style="info" %}
 The recommended way to ask for logical plan is to use `EXPLAIN PLAN WITHOUT IMPLEMENTATION FOR` given this syntax is available in all versions of Pinot, independently of the configuration.
 {% endhint %}
