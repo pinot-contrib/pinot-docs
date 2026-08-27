@@ -32,9 +32,11 @@ Apply this option with `setOpOptions(is_colocated_by_set_op_keys='...')` to cont
 
 * `'true'` forces a pre-partitioned direct exchange.
 * `'false'` forces a shuffled hash exchange.
-* Unset leaves the V1 planner's auto-detection in place.
+* Unset uses a local exchange for `UNION ALL` and leaves other decisions to the V1 planner's auto-detection.
 
 `UNION ALL` is always safe with `'true'` because it only concatenates rows. Plain `UNION` is only safe with `'true'` when all inputs are partitioned compatibly on one or more projected columns so equal full output rows land on the same worker.
+
+For `UNION ALL`, only `'false'` changes the default behavior. It restores a full-row hash shuffle, which can be useful if carrying input skew into the union stage is undesirable. Pinot automatically falls back to a hash exchange for local inputs whose worker counts do not align.
 
 Use the outer-wrap form described in [Hints](../hints.md#setopoptions) for plain `UNION`. Pinot rewrites distinct `UNION` to an aggregate over `UNION ALL`, so the inline hint on the first branch does not apply there.
 

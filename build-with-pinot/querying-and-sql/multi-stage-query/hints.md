@@ -19,10 +19,12 @@ Type: Boolean
 
 Default: planner chosen
 
-When the option is unset, the V1 planner auto-detects whether each set-op input is already partitioned compatibly and can use a direct exchange. You can override that decision explicitly:
+When the option is unset, the V1 planner uses a local exchange for `UNION ALL` inputs and auto-detects whether other set-op inputs are already partitioned compatibly. You can override that decision explicitly:
 
 * `'true'` forces a pre-partitioned direct exchange on every input.
 * `'false'` forces a shuffled hash exchange on every input.
+
+For `UNION ALL`, only `'false'` changes the default behavior. Use it as a per-query fallback when retaining the input worker layout causes undesirable skew. If input worker counts do not align, Pinot automatically promotes the affected local exchange to a hash exchange.
 
 This hint is only honored by the V1 planner. The V2 physical optimizer ignores it and determines set-op colocation on its own.
 
