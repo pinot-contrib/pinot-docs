@@ -40,6 +40,12 @@ Type: Long
 
 The number of groups emitted by the operator.
 
+### activeWorkers
+
+Type: Int
+
+The number of stage workers that had at least one segment assigned. Compare this value with the stage `parallelism` reported by the mailbox send operator to identify idle leaf workers. A worker can be active even when its segments produce no rows.
+
 ### table
 
 Type: String

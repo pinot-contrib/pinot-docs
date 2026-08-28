@@ -12,6 +12,10 @@ Starting in Pinot 1.6.0, the `stageStats` tree also includes leaf-stage pipeline
 
 Each operator has its own set of statistics, which are collected during the execution of the query. See the [Operator Types](../../../build-with-pinot/querying-and-sql/multi-stage-query/operator-types) section to learn more about the different operator types and their statistics.
 
+Use `activeWorkers` to detect uneven work distribution. `LEAF`, `MAILBOX_RECEIVE`, and `MAILBOX_SEND` count activity differently: a leaf worker is active when it has at least one segment, a receive worker when it receives at least one row, and a send worker when it sends at least one row. Compare each value with the stage's `parallelism`, and compare values down the operator tree to see where a stage narrows.
+
+For `MAILBOX_SEND`, `maxEmittedRows` and `minNonzeroEmittedRows` show the row-count spread across workers that emitted data. A large difference indicates skew. Workers that emitted no rows are excluded from `minNonzeroEmittedRows`; use `activeWorkers` to identify idle workers.
+
 ### Multi-stage stats visualizer [](#multi-stage-stats-visualizer)
 
 The recommended way to analyze the multi-stage stats is to use the visualizer included in the Pinot UI. It can be accessed by running a query in the Pinot controller UI and clicking on the `Visual` button.

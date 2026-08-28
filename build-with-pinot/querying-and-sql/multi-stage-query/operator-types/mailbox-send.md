@@ -47,6 +47,24 @@ Type: Long
 
 The number of groups emitted by the operator. This operator should always emit as many rows as its upstream operator.
 
+### activeWorkers
+
+Type: Int
+
+The number of stage workers that sent at least one row. Compare this value with `parallelism` to detect workers that emitted no data.
+
+### maxEmittedRows
+
+Type: Long
+
+The largest number of rows emitted by any single worker. Compare it with `minNonzeroEmittedRows` to measure row-distribution skew.
+
+### minNonzeroEmittedRows
+
+Type: Long
+
+The smallest number of rows emitted by a worker that sent at least one row. Workers that sent no rows are excluded; use `activeWorkers` to detect them.
+
 ### stage
 
 Type: number
