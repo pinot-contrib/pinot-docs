@@ -38,6 +38,12 @@ Type: Long
 
 The number of groups emitted by the operator. This operator should always emit as many rows as its upstream operator.
 
+### activeWorkers
+
+Type: Int
+
+The number of stage workers that received at least one row. Compare this value with the stage `parallelism` and with adjacent send or leaf operators to identify where data became concentrated.
+
 ### fanIn
 
 Type: Long
