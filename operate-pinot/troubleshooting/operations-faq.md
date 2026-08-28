@@ -218,6 +218,19 @@ back to the base table config after the segment is committed.
 
 The following two examples show how to overwrite encoding type and index configs for tiers. Similar changes are also demonstrated in the [MultiDirQuickStart example](https://github.com/apache/pinot/blob/master/pinot-tools/src/main/java/org/apache/pinot/tools/MultiDirQuickstart.java).
 
+Top-level `tableIndexConfig` properties such as `skipSegmentPreprocess` can also be overridden. For example, the following skips preprocessing by default but enables it for segments loaded in `coldTier`:
+
+```json
+"tableIndexConfig": {
+  "skipSegmentPreprocess": true,
+  "tierOverwrites": {
+    "coldTier": {
+      "skipSegmentPreprocess": false
+    }
+  }
+}
+```
+
 1. Overwriting single-column index configs using `fieldConfigList`. All top level fields in [FieldConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/FieldConfig.java#L88) can be overwritten, and fields not overwritten are kept intact.
 
 ```json
