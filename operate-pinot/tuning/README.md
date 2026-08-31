@@ -17,6 +17,7 @@ Control how brokers select servers and how many servers participate in each quer
 | Page | What it covers |
 |---|---|
 | [Optimizing Scatter and Gather](routing.md) | Partition pruning, time pruning, replica-group routing, single-replica routing, preferred pool routing, broker tag enforcement |
+| [Configuring Table Partitioning](configuring-table-partitioning.md) | How-to for `segmentPartitionConfig` on offline, realtime, and hybrid tables |
 | [Adaptive Server Selection](query-routing-using-adaptive-server-selection.md) | Route queries to the fastest available server using latency and in-flight request stats |
 | [Segment Pruning](segment-pruning.md) | Broker-side and server-side pruning strategies (time, partition, bloom filter, column value) to skip irrelevant segments |
 
