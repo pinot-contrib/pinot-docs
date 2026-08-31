@@ -1,5 +1,7 @@
 # Server
 
+For the shared MSE mailbox keep-alive properties (`pinot.query.runner.channel.keep.alive.*` and `pinot.query.runner.mailbox.server.permit.keep.alive.*`), see [Mailbox channel keep-alive](../../build-with-pinot/querying-and-sql/multi-stage-query/README.md#mailbox-channel-keep-alive).
+
 Server configuration can be provided as part of the server startup parameters.
 
 ```
