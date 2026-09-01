@@ -39,8 +39,10 @@ The above strategies works in tandem with the following available Routing mechan
 
 So, a table can be configured to use Balanced or Replica group segment assignment + routing and can still leverage the adaptive server selection feature.
 
-{% hint style="warning" %}
-Adaptive Server Selection does not correctly respect `strictReplicaGroup` routing boundaries. When enabled, the selector may route a single query to servers spanning multiple replica groups, violating the guarantee that all segments of a partition are served from the same replica group. This breaks correctness for upsert tables, which depend on `strictReplicaGroup` to ensure data consistency. Do not enable Adaptive Server Selection on tables that use `strictReplicaGroup` routing. See [#12507](https://github.com/apache/pinot/issues/12507) for details.
+{% hint style="info" %}
+Adaptive routing supports tables that use `StrictReplicaGroupInstanceSelector`. Pinot takes one server-ranking snapshot per query and uses the same ordered candidate set for every old segment in a partition. This keeps all old segments for that partition on the same replica while allowing different partitions to choose independently, preserving the consistency guarantee required by upsert and dedup tables.
+
+During an upgrade from a version affected by [#12507](https://github.com/apache/pinot/issues/12507), keep adaptive routing disabled for strict replica-group tables until every broker has the fix. You can set `pinot.broker.adaptive.server.selector.strict.replica.group.enabled=false` as a temporary broker-level safeguard without disabling adaptive routing for other selector types.
 {% endhint %}
 
 ### Configs
@@ -70,6 +72,7 @@ Prefix all the below properties with  `pinot.broker.adaptive.server.selector.`
 | `avg.initialization.val` | Initial value for EWMA average | 1.0 |
 | `stats.manager.threadpool.size` | Number of threads reserved to process Adaptive Server Selection Stats. | 2 |
 | `hybrid.score.queue.size.floor` | Value added to the estimated queue size in the HYBRID score before exponentiation. Set to `1` to keep latency in the score when all servers are idle; the default `0` preserves previous behavior. | 0 |
+| `strict.replica.group.enabled` | Enable replica-group-level adaptive routing for `StrictReplicaGroupInstanceSelector`. Set to `false` to make strict replica-group tables use their non-adaptive routing behavior while adaptive routing remains available to other tables. | true |
 
 ### Monitoring Adaptive Routing with Metrics
 
@@ -154,5 +157,6 @@ See [Broker Configuration Reference](../../reference/configuration-reference/bro
 - `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms`
 - `pinot.broker.adaptive.server.selector.hybrid.score.exponent`
 - `pinot.broker.adaptive.server.selector.hybrid.score.queue.size.floor`
+- `pinot.broker.adaptive.server.selector.strict.replica.group.enabled`
 - `pinot.broker.adaptive.server.selector.ewma.alpha`
 - `pinot.broker.adaptive.server.selector.autodecay.window.ms`
