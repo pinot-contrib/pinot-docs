@@ -178,7 +178,7 @@ description: This document contains all the available query options
 
 | Key | Description | Default Behavior |
 | --- | --- | --- |
-| **streamingGroupByFlushThreshold** | For GROUP BY queries in the multi-stage engine, flushes partial group-by results when the accumulated number of groups reaches this threshold. This bounds server memory usage for high-cardinality GROUP BY queries by periodically emitting intermediate results instead of buffering all groups in memory. When set to a positive value, enables the `StreamingGroupByCombineOperator` which flushes partial results; when unset or 0, uses the standard `GroupByCombineOperator` (backward compatible). This is a middle ground between completely skipping leaf-stage group by (`is_skip_leaf_stage_group_by=true`) and full leaf-stage group by (the default). Note: result trimming is disabled in streaming mode to prevent incorrect partial aggregates. Recommended for queries with GROUP BY cardinality exceeding typical memory limits. The broker-level `pinot.broker.mse.streaming.group.by.flush.threshold` setting supplies the default for queries that do not set this option; an explicit query-level value always wins, including `0` to disable streaming mode for one query. | Broker level config when `pinot.broker.mse.streaming.group.by.flush.threshold` is set to a positive value; otherwise `0` (disabled) |
+| **streamingGroupByFlushThreshold** | For GROUP BY queries in the multi-stage engine, flushes partial group-by results when the accumulated number of groups reaches this threshold. This bounds server memory usage for high-cardinality GROUP BY queries by periodically emitting intermediate results instead of buffering all groups in memory. When set to a positive value, Pinot uses the streaming operator only when a later aggregation stage can merge the partial results. If the leaf must return final results—for example, with `is_partitioned_by_group_by_keys` or `is_leaf_return_final_result`—Pinot falls back to the standard `GroupByCombineOperator`, so the threshold does not bound leaf aggregation memory for that query. When unset or 0, Pinot also uses the standard operator. This is a middle ground between completely skipping leaf-stage group by (`is_skip_leaf_stage_group_by=true`) and full leaf-stage group by (the default). Note: result trimming is disabled in streaming mode to prevent incorrect partial aggregates. Recommended for queries with GROUP BY cardinality exceeding typical memory limits. The broker-level `pinot.broker.mse.streaming.group.by.flush.threshold` setting supplies the default for queries that do not set this option; an explicit query-level value always wins, including `0` to disable streaming mode for one query. | Broker level config when `pinot.broker.mse.streaming.group.by.flush.threshold` is set to a positive value; otherwise `0` (disabled) |
 
 #### Example: Streaming Group-By with Flush Threshold
 
@@ -198,6 +198,8 @@ LIMIT 100000;
 ```
 
 In this example, the query will flush partial group-by results every time the number of accumulated groups reaches 5000, preventing unbounded memory growth. This is especially useful for queries where the GROUP BY cardinality is unknown or very high.
+
+During a rolling upgrade, do not combine a positive flush threshold with `is_partitioned_by_group_by_keys` or `is_leaf_return_final_result` until all servers include the final-result fallback. Set `streamingGroupByFlushThreshold = 0` for those queries while older servers remain in the cluster.
 
 ### Join and Window Overflow
 
