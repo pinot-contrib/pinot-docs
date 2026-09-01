@@ -228,6 +228,15 @@ Define one dimension field spec for each dimension column.
 | `defaultNullValue` | Value Pinot should write when the source record is null. If omitted, Pinot uses the internal default for the type. For `UUID`, the default is the nil UUID. |
 | `singleValueField` | Whether the column is single-valued. If `false`, Pinot stores a multi-value list, preserves order, and allows duplicates. This includes `BIG_DECIMAL`, `BYTES`, and `UUID` dimension columns. The default null value for a multi-value column is a single-element list containing the configured or internal null value. |
 
+### Multi-value row limits during real-time ingestion
+
+Consuming segments store fixed-width multi-value columns with a bounded number of values per row:
+
+- A regular fixed-width multi-value column accepts at most 1,000 values in one row.
+- A column with a vector index uses the configured vector dimension as its per-row limit. This allows dimensions greater than 1,000, such as 1,536, but rejects values beyond the configured dimension.
+
+Pinot validates this limit before updating the consuming segment's dictionaries, forward indexes, partition metadata, or dedup state. For partial-upsert tables, Pinot validates again after an `APPEND` or `UNION` merge because the merged row can exceed the limit even when each input row does not. An oversized row fails ingestion instead of partially changing the mutable segment and failing later when Pinot seals it.
+
 ## MetricFieldSpecs
 
 Define one metric field spec for each metric column.
