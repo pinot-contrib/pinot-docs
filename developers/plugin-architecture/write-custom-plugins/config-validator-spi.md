@@ -44,8 +44,12 @@ TableConfigValidatorRegistry.register(new MyTableConfigValidator());
 Validators are invoked before table configuration is persisted during:
 - Table creation
 - Table update
+- Preflight validation through `POST /tableConfigs/validate`
+- Preflight validation through `POST /tables/validate`
 
 Multiple validators can be registered and are invoked in registration order. The first validator that throws `ConfigValidationException` will reject the operation and short-circuit remaining validators.
+
+Both preflight endpoints run registered validators without persisting the table config. Use either endpoint to catch custom validation failures before submitting the corresponding create or update request.
 
 ## InstanceConfigValidator
 
