@@ -1254,6 +1254,7 @@ The endpoint checks:
 - Schema and table config consistency
 - Tenant assignment validity (do instances with the required tags exist?)
 - Minion instance availability (if task configs reference minion)
+- Registered `TableConfigValidator` SPI implementations
 
 The read-only `validate` and `tune` preflight endpoints do not validate active tasks. You can use them for an
 existing table that has tasks running; active-task validation remains part of the mutating table-management paths.
@@ -1283,6 +1284,18 @@ curl -X POST "http://localhost:9000/tableConfigs/validate" \
 | `validationTypesToSkip`    | query | Comma-separated list of validation types to skip (e.g., `TENANT,MINION_INSTANCES`) |
 
 The supported validation types that can be skipped are: `ALL`, `TASK`, `UPSERT`, `TENANT`, and `MINION_INSTANCES`.
+
+### POST /tables/validate
+
+Validates one table config in the same shape returned by `GET /tables/{tableName}`. This endpoint runs the built-in table, schema, and task checks and every registered `TableConfigValidator` SPI implementation, matching the validation performed when Pinot applies the config.
+
+```bash
+curl -X POST "http://localhost:9000/tables/validate" \
+  -H "Content-Type: application/json" \
+  -d @table-config.json
+```
+
+The table and its schema must already exist. Pinot returns the validated config under its `OFFLINE` or `REALTIME` key and includes any unrecognized input properties in `unrecognizedProperties`. A custom validator rejection returns `400 Bad Request`, allowing clients to catch it before an update request.
 `ACTIVE_TASKS` remains accepted for backward compatibility, but it has no effect on these preflight endpoints.
 
 **Response**
