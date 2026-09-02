@@ -20,6 +20,7 @@ You can configured separate tenants for the table by setting this config in your
     "name": "ssdGroup",
     "segmentSelectorType": "time",
     "segmentAge": "7d",
+    "segmentAgeField": "endTime",
     "storageType": "pinot_server",
     "serverTag": "ssd_OFFLINE"
   }, {
@@ -39,8 +40,11 @@ In this example, the table uses servers tagged with `base_OFFLINE`. We have crea
 | name                | Name of the server group. Every group in the list must have a unique name                                                                                                              |
 | segmentSelectorType | The strategy used for selecting segments. The only supported strategy as of now is `time`, which will pick segments based on segment age.                                              |
 | segmentAge          | This property is required when `segmentSelectorType` is `time`. Set a period string, eg. 15d, 24h, 60m. Segments which are older than the age will be moved to the the specific tenant |
+| segmentAgeField     | Optional timestamp used to calculate age for the `time` selector: `endTime` (the default and the segment's newest data), `startTime` (oldest data), or `creationTime` (when the segment was built). Values are case-insensitive; `end_time`, `start_time`, and `creation_time` are also accepted. |
 | storageType         | The type of storage. The only supported type is `pinot_server`                                                                                                                         |
 | serverTag           | This property is required when `storageType` is `pinot_server`. Set the tag of the Pinot servers you want to use for this selection criteria.                                          |
+
+Use `creationTime` when loading historical batch data but you want lifecycle transitions to begin when Pinot builds the segment. With the default `endTime`, a newly built segment whose data timestamps are old can qualify for an age-based tier immediately. Segments created before creation-time metadata was recorded are treated as already aged. Use `startTime` when the transition should be based on the oldest data in each segment.
 
 ### Selecting All Segments with a Wildcard
 
