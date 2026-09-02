@@ -201,6 +201,25 @@ In this example, the query will flush partial group-by results every time the nu
 
 During a rolling upgrade, do not combine a positive flush threshold with `is_partitioned_by_group_by_keys` or `is_leaf_return_final_result` until all servers include the final-result fallback. Set `streamingGroupByFlushThreshold = 0` for those queries while older servers remain in the cluster.
 
+### Multi-Stage Engine DISTINCT Streaming
+
+| Key | Description | Default Behavior |
+| --- | --- | --- |
+| **streamingDistinctFlushThreshold** | For eligible `DISTINCT` queries in the multi-stage engine, flushes the leaf's accumulated distinct values when their count reaches this positive threshold. A downstream stage performs the final de-duplication. The streaming operator is used only when the query has no `ORDER BY`, the leaf `LIMIT` is greater than the threshold, and the leaf does not return final results through `is_partitioned_by_group_by_keys` or `is_leaf_return_final_result`. Otherwise, the option is a silent no-op. The broker setting `pinot.broker.mse.streaming.distinct.flush.threshold` supplies a default when the query does not set this option. | Broker default when positive; otherwise disabled |
+
+Use this option when a large `DISTINCT` limit would make the leaf accumulate too many values:
+
+```sql
+SET useMultistageEngine = true;
+SET streamingDistinctFlushThreshold = 5000;
+
+SELECT DISTINCT user_id
+FROM events
+LIMIT 1000000;
+```
+
+The threshold bounds only the combined server-level table. Each segment can still materialize its own distinct table, and peak leaf memory also includes one such table per in-flight worker. Streaming also gives up the cross-segment early exit and can scan more segments in exchange for a lower accumulation ceiling. Do not use this option with the gRPC streaming query path, because that path has no downstream stage to remove duplicates across flushes.
+
 ### Join and Window Overflow
 
 | Key | Description | Default Behavior |
