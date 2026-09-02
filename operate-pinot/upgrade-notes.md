@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Group-by queries now preserve null groups across encodings
+
+With [advanced null handling](../build-with-pinot/querying-and-sql/null-value-support.md#advanced-null-handling-support) enabled, single-stage `GROUP BY` queries now produce a distinct SQL `NULL` group for nullable dictionary-encoded columns and for null rows on multi-value group-key paths. This applies to single- and multi-column grouping across dictionary and raw encodings. Because Pinot ingests an empty multi-value array as null, an empty array also contributes to the `NULL` group.
+
+Previously, some paths grouped null rows under the column's configured default null value. Dictionary-encoded group-by columns were also forced onto a slower raw-value path. In addition, after a query reached its group limit, rows belonging to existing groups could be attributed to the first group or dropped. The corrected path preserves those existing groups. Queries without advanced null handling retain their previous behavior.
+
+**Action required.** Review dashboards and clients that group nullable columns with `enableNullHandling=true`. Results can now contain a `NULL` key instead of the configured default value, and counts can change when a query reaches its group limit.
+
+*Source: [PR #19390](https://github.com/apache/pinot/pull/19390)*
+
 ### Streaming mailbox send stats no longer under-report the final block
 
 In multi-stage queries using streaming stats transport, a `MAILBOX_SEND` operator now accounts its in-progress end-of-stream call before serializing the stage-stats snapshot. Previously, its parent snapshot could omit the final call while already including completed child work. This produced missing or understated `executionTimeMs`, `memoryUsedBytes`, and `gcTimeMs`, especially for stages that emitted no data block, and could make derived self metrics negative.
