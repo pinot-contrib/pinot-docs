@@ -231,6 +231,8 @@ Top-level `tableIndexConfig` properties such as `skipSegmentPreprocess` can also
 }
 ```
 
+The effective value applies consistently to warm loads and reloads as well as freshly downloaded segments, CRC-mismatch replacements, and consuming-segment replacements. Pinot also skips work when the segment already satisfies the effective index configuration. This lets a table prioritize fast availability after download, while a tier override can re-enable preprocessing when the segment later moves to a tier that requires additional indexes.
+
 1. Overwriting single-column index configs using `fieldConfigList`. All top level fields in [FieldConfig class](https://github.com/apache/pinot/blob/master/pinot-spi/src/main/java/org/apache/pinot/spi/config/table/FieldConfig.java#L88) can be overwritten, and fields not overwritten are kept intact.
 
 ```json
