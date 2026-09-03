@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Optimized group-by holder sizing no longer corrupts sparse keys
+
+Single-stage queries with `optimizeMaxInitialResultHolderCapacity=true` now use the full dictionary-cardinality product when selecting their group-key holder. Equality and `IN` predicates on single-value grouping columns still reduce the dense result-holder capacity, but sparse dictionary IDs can no longer index past that reduced capacity or force overflowing raw keys into an undersized numeric holder.
+
+Predicates on multi-value grouping columns no longer reduce the estimated group count because every value in a matching row contributes a group. Previously, affected queries could throw `ArrayIndexOutOfBoundsException` or silently merge distinct groups through integer or long key collisions. The option remains disabled by default, and behavior with it disabled is unchanged.
+
+**Action required.** If you enabled this option, re-run representative dictionary-encoded group-by queries, especially queries with selective `IN`/equality filters, high-cardinality combinations, duplicate grouping expressions, or multi-value grouping columns. Corrected results can differ from results produced before the upgrade.
+
+*Source: [PR #19379](https://github.com/apache/pinot/pull/19379)*
+
 ### Group-by queries now preserve null groups across encodings
 
 With [advanced null handling](../build-with-pinot/querying-and-sql/null-value-support.md#advanced-null-handling-support) enabled, single-stage `GROUP BY` queries now produce a distinct SQL `NULL` group for nullable dictionary-encoded columns and for null rows on multi-value group-key paths. This applies to single- and multi-column grouping across dictionary and raw encodings. Because Pinot ingests an empty multi-value array as null, an empty array also contributes to the `NULL` group.
