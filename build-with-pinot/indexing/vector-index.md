@@ -203,7 +203,7 @@ Automatically falls back to brute-force scan on segments without a vector index.
 
 ## Filter-Aware ANN
 
-When a query combines a vector predicate with metadata filters, Pinot can pre-filter vectors using a bitmap before the ANN lookup. This improves recall compared to post-ANN filtering.
+When a query combines a vector predicate with metadata filters, Pinot can constrain vector candidate generation to the matching row IDs. This improves recall and correctness compared to selecting ANN candidates first and filtering them afterward. HNSW supports this behavior for immutable (offline) and mutable (consuming) segments.
 
 ```sql
 SELECT ProductId,
@@ -219,13 +219,17 @@ LIMIT 10;
 
 **How it works:**
 1. The metadata filter (`category = 'electronics'`) builds a bitmap of matching row IDs.
-2. The bitmap is passed to the vector index reader via `FilterAwareVectorIndexReader`.
-3. The index prunes vectors before ANN traversal using the bitmap.
-4. Only matching vectors are considered — improving recall on selective filters.
+2. Pinot passes that required scope into vector candidate generation instead of applying it as a post-filter.
+3. For a sparse required scope, Pinot uses an exact scan over only the matching forward-index rows when the forward index is available.
+4. For a denser scope, or when the forward index is disabled, Pinot passes the bitmap to filtered ANN.
+5. Only matching vectors can consume top-K candidate slots.
 
-**When to use filter-aware ANN:**
-- Selective filters that remove 70% or more of rows
-- Combine with exact reranking for best accuracy
+For FULL-upsert tables, the valid-doc-ID bitmap is also part of the required scope. Mutable HNSW therefore excludes obsolete row versions while selecting candidates from consuming segments. The mutable index uses a near-real-time searcher, so newly indexed consuming rows remain visible to filtered searches.
+
+**When to use filter-aware vector search:**
+- Combine vector predicates with metadata filters normally; the planner selects exact search or filtered ANN per segment.
+- Keep the vector column's forward index when sparse-filter performance matters, because it enables the exact scan over matching rows.
+- Combine ANN with exact reranking when you need better ranking accuracy.
 
 `IVF_ON_DISK` has full `FILTER_THEN_ANN` support with pre-filter bitmap computation, explain/debug reporting showing filter selectivity, and consistent behavior with in-memory IVF_FLAT and IVF_PQ.
 
@@ -272,16 +276,17 @@ ORDER BY dist ASC LIMIT 10;
 
 ## Adaptive Query Planner
 
-Pinot automatically selects the optimal execution mode based on filter selectivity via `VectorSearchStrategy` in `FilterPlanNode`:
+Pinot selects the execution mode per segment based on the required scope and available indexes:
 
-| Filter Selectivity | Mode | Strategy |
-|-------------------|------|----------|
-| None | `ANN_TOP_K` | Pure ANN — no pre-filtering |
-| Low (<30%) | `FILTER_THEN_ANN` | Build bitmap → pass to ANN |
-| High (>70%) | `ANN_THEN_FILTER` | ANN candidates → post-filter |
-| No index | `EXACT_SCAN` | Brute-force full scan |
+| Required scope | Available data | Strategy |
+|----------------|----------------|----------|
+| None | Vector index | Pure ANN without a required-scope filter |
+| Sparse | Forward index | Exact scan over matching row IDs |
+| Dense | Filter-aware vector index | Filtered ANN using the required-scope bitmap |
+| Sparse, but forward index disabled | Filter-aware vector index | Filtered ANN so the query remains executable |
+| Any | No usable vector index | Exact scan using the forward index |
 
-No configuration is required — the planner chooses the strategy per segment.
+No strategy configuration is required. A required scope is never applied only after ANN candidate selection, so filtered-out or obsolete upsert rows cannot consume top-K slots.
 
 ## Query Options
 
