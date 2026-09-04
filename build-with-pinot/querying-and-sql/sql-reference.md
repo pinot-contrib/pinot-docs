@@ -90,7 +90,7 @@ FROM events
 GROUP BY attributes['country']
 ```
 
-If a key is missing, Pinot returns the value type's default null value. For example, a missing STRING map value returns `"null"` and a missing INT map value returns `Integer.MIN_VALUE`.
+If a key is missing, Pinot uses the value field's configured `defaultNullValue`, or the type-specific default when none is configured. For example, a missing STRING map value uses `"null"` and a missing INT map value uses `Integer.MIN_VALUE` by default. This behavior is consistent even when the key is absent from an entire segment. With null handling enabled, the lookup is also marked null, so it returns SQL `NULL`, `IS NULL` matches, and value predicates do not match it. With null handling disabled, projections and predicates see the configured or type-specific default value.
 
 For schema syntax, see [Schema Configuration](../../reference/configuration-reference/schema.md#complexfieldspecs).
 

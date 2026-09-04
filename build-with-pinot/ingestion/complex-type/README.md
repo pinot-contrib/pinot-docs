@@ -183,7 +183,7 @@ For a materialized key, Pinot reads the generated child column and can use its d
 
 Keys stored in the shared sparse column are also available through the item operator. Pinot exposes each sparse key as a virtual typed data source, so projections, filters, grouping, and aggregations use the same SQL syntax as dense keys. Sparse keys use scan-based execution by default. Set `sparseJsonIndex` to `true` to build a JSON index over the sparse column; Pinot can use it for compatible string-key equality and `IN` predicates, while other predicates continue to scan the virtual data source.
 
-A key that is absent from a document returns its type's default value and is marked null when null handling is enabled. A key that is absent from the segment returns `NULL`; `IS NULL` matches all documents and other predicates match none.
+A key that is absent from a document returns its type's default null value and is marked null when null handling is enabled. The same rule applies when a key is absent from an entire segment: Pinot uses the key's declared type and `defaultNullValue` from `childFieldSpecs`, or a single-value `STRING` field with the standard default when the key is undeclared. With null handling enabled, the lookup returns `NULL`, `IS NULL` matches every document, and value predicates do not match nulls. With null handling disabled, projections and predicates see the configured or type-specific default value instead. For example, if an absent declared `STRING` key has `"defaultNullValue": "N/A"`, `attributes['key'] = 'N/A'` matches every document in that segment.
 
 Notes:
 
