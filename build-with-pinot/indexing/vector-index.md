@@ -57,7 +57,9 @@ Vector indexes are configured in the table's field-level `indexes` section using
           "properties": {
             "maxCon": "16",
             "beamWidth": "200",
-            "storeInSegmentFile": "true"
+            "storeInSegmentFile": "true",
+            "refreshMinIntervalMs": "1",
+            "refreshWaitTimeoutMs": "5000"
           }
         }
       }
@@ -225,6 +227,17 @@ LIMIT 10;
 5. Only matching vectors can consume top-K candidate slots.
 
 For FULL-upsert tables, the valid-doc-ID bitmap is also part of the required scope. Mutable HNSW therefore excludes obsolete row versions while selecting candidates from consuming segments. The mutable index uses a near-real-time searcher, so newly indexed consuming rows remain visible to filtered searches.
+
+### Tune mutable HNSW refreshes
+
+Filtered searches over consuming segments wait for a background reopen to make every required row visible. Concurrent queries that need the same writer generation share one reopen instead of rebuilding the HNSW graph on each query thread. These HNSW-only `properties` control that handoff:
+
+| Property | Default | Behavior |
+| --- | --- | --- |
+| `refreshMinIntervalMs` | `1` | Minimum time between near-real-time reopens. Set `0` to disable spacing. A larger value reduces writer flushes and graph rebuilds, but can add the same amount of latency to a filtered query waiting for newly ingested rows. |
+| `refreshWaitTimeoutMs` | `5000` | Maximum time a filtered query waits for the required writer generation. The value must be greater than `0`. |
+
+If a reopen fails or exceeds `refreshWaitTimeoutMs`, Pinot fails the query instead of searching a stale generation that could omit rows named by the filter. Each consuming segment and vector column owns one daemon reopen thread, so include that thread count when sizing tables with many consuming segments or vector columns.
 
 **When to use filter-aware vector search:**
 - Combine vector predicates with metadata filters normally; the planner selects exact search or filtered ANN per segment.
