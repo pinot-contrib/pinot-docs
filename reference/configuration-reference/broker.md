@@ -36,6 +36,8 @@ ConfigurationException: Duplicate key found in /path/to/broker.conf at line 10 a
 | pinot.broker.min.init.indexed.table.capacity                    | 128                                                                   | Minimum initial capacity of the broker-side `IndexedTable` Pinot uses while reducing group-by results. Increasing this value can reduce rehashing for large group-by result sets, but increases memory usage for smaller queries. This value can be overridden per query with `SET minInitialIndexedTableCapacity = value`. |
 | pinot.broker.extraPassiveTimeoutMs                              | 100                                                                   | For multi-stage queries, extra time in milliseconds Pinot adds beyond `timeoutMs` for passive waits between stages, such as waiting for mailbox data from upstream workers. The per-query `extraPassiveTimeoutMs` query option overrides this broker default.                                      |
 | pinot.broker.startup.minResourcePercent                         | 100                                                                   | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources (tables) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve                                                          |
+| pinot.broker.startup.preconnect.enabled                         | true                                                                  | For the Netty single-stage transport, open broker-to-server channels after Helix convergence and before the broker reports ready. This includes the TLS handshake when broker-to-server TLS is enabled. Disable to restore lazy connection on the first query. |
+| pinot.broker.startup.preconnect.timeoutMs                       | 30000                                                                 | Maximum startup pre-connect budget in milliseconds. After the budget expires, the broker reports ready and any remaining channels connect lazily when first used. |
 | pinot.broker.enable.query.limit.override                        | false                                                                 | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back.                                                                                                                                                                                      |
 | pinot.broker.query.ignore.missing.segments                      | false                                                                 | When `true`, the broker defaults the `ignoreMissingSegments` query option so queries can tolerate `SERVER_SEGMENT_MISSING` errors caused by short routing lag after segment deletion or movement. In the single-stage engine this auto-default only applies when the broker routes the query to a single server; in the multi-stage engine it applies unless the query already sets `ignoreMissingSegments`. |
 | pinot.broker.use.mse.to.fill.empty.response.schema             | false                                                                 | When `true`, the broker defaults the `useMSEToFillEmptyResponseSchema` query option for single-stage queries that return zero rows. Pinot then uses the multi-stage engine compiler to try to fill a more accurate empty result schema. Query-level `useMSEToFillEmptyResponseSchema` overrides this setting. Enable it only if your workload does not rely on very large `IN` clauses, because the extra compile step can be expensive for those queries. |
@@ -121,6 +123,29 @@ ConfigurationException: Duplicate key found in /path/to/broker.conf at line 10 a
 | pinot.query.multistage.dispatch.channel.keep.alive.time.ms              | 300000                                                                | For MSE, the gRPC keep-alive interval in milliseconds for broker dispatch channels to intermediate-stage workers. If you tune this below the 300000 ms default, also set `pinot.query.multistage.query.server.permit.keep.alive.time.ms` to a value less than or equal to this client interval. Set to -1 to disable keep-alive on MSE dispatch channels. |
 | pinot.query.multistage.dispatch.channel.keep.alive.timeout.ms           | 30000                                                                 | For MSE, the gRPC keep-alive ACK timeout in milliseconds for broker dispatch channels. If a keep-alive ping does not receive an ACK within this interval, the channel is considered dead and will reconnect. Only applies when keep-alive is enabled. |
 | pinot.query.multistage.dispatch.channel.keep.alive.without.calls        | false                                                                 | For MSE, whether broker dispatch channels send keep-alive pings even while idle (no active calls). Set this to `true` only when `pinot.query.multistage.query.server.permit.keep.alive.without.calls=true`. Otherwise QueryServer will close idle channels with `GOAWAY(ENHANCE_YOUR_CALM)`. |
+
+## Broker startup pre-connect
+
+Broker startup pre-connect removes the TCP connection and, when configured, TLS handshake from the first single-stage query sent to each server. After Helix convergence, the broker opens one Netty channel for every `(server, table type)` pair in its routing tables. The broker remains in `STARTING` state until pre-connect finishes or reaches `pinot.broker.startup.preconnect.timeoutMs`.
+
+Pre-connect is enabled by default and is best effort. A slow or unavailable server does not prevent startup beyond the configured budget; any channel that is not ready falls back to the existing lazy-connect path. Because OFFLINE and REALTIME routes use separate channels, a server that hosts both types can receive two connections.
+
+This feature applies only when the broker uses the Netty single-stage transport. It does not warm channels for the broker-to-server gRPC handler, the multi-stage engine, or the time-series path.
+
+To restore the previous behavior in which the first query establishes each channel:
+
+```properties
+pinot.broker.startup.preconnect.enabled=false
+```
+
+For deployments with many routed servers or slower TLS handshakes, increase the budget while keeping it below the maximum startup delay your orchestration system allows:
+
+```properties
+pinot.broker.startup.preconnect.enabled=true
+pinot.broker.startup.preconnect.timeoutMs=60000
+```
+
+Monitor `STARTUP_PRECONNECT_DURATION_MS` to measure the startup warmup duration and `NETTY_CONNECTION_CONNECT_LATENCY_MS` for the distribution of individual channel connection times. Pre-connect does not change the existing `NETTY_CONNECTION_CONNECT_TIME_MS` gauge.
 
 ## Failure detector
 
