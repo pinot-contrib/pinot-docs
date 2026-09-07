@@ -50,6 +50,34 @@ However, we don't typically expect users to invoke these APIs directly.
 
 Instead, consistent push is built into batch ingestion jobs (**currently only supported for the standalone execution framework**).
 
+### Configure segment replacement timeouts
+
+Segment replacement can take several minutes on large tables because `endReplaceSegments` waits synchronously for the new segments to become `ONLINE` in the ExternalView. If replacement requests time out before the controller converges, align the controller-side convergence window with the Minion client timeouts.
+
+Configure the controller-side wait in `controller.conf`:
+
+| Property | Description | Default |
+| --- | --- | --- |
+| `controller.segment.replace.externalViewMaxWaitMs` | Maximum wait for IdealState-to-ExternalView convergence during each `endReplaceSegments` attempt. | `600000` (10 minutes) |
+| `controller.segment.replace.externalViewCheckIntervalMs` | Interval between ExternalView checks. | `1000` (1 second) |
+| `controller.segment.replace.maxRetryAttempts` | Maximum number of `endReplaceSegments` attempts. Attempts use exponential backoff. | `5` |
+
+The controller can spend up to approximately `externalViewMaxWaitMs * maxRetryAttempts` waiting for convergence, plus retry backoff and request-processing time. Set the Minion's `pinot.minion.endReplaceSegments.timeoutMs` high enough to cover that controller-side duration. The Minion defaults for both `pinot.minion.startReplaceSegments.timeoutMs` and `pinot.minion.endReplaceSegments.timeoutMs` are `600000` (10 minutes).
+
+Minion tasks that use the segment replacement protocol can also set `segmentUploadRequestTimeoutMs` in their table-level `taskTypeConfigsMap.<taskType>` configuration. This controls the socket timeout for each segment upload request and defaults to `600000` (10 minutes). For example:
+
+```json
+"task": {
+  "taskTypeConfigsMap": {
+    "MergeRollupTask": {
+      "segmentUploadRequestTimeoutMs": "1200000"
+    }
+  }
+}
+```
+
+These settings do not change how the replacement protocol works; they only bound how long the controller and Minion wait. Increase them when healthy convergence or uploads routinely exceed the defaults. Investigate unavailable servers, stalled segment transitions, or network failures instead of masking persistent failures with very large values.
+
 ### How to set up Ingestion Job with Consistent Push
 
 **Step 0:** Adjust the table [storage quota](../reference/configuration-reference/table.md#quota) to 2x that of the original amount. See [#implications-of-enabling-consistent-push](consistent-push-and-rollback.md#implications-of-enabling-consistent-push "mention") for more details.
