@@ -141,6 +141,8 @@ The watcher task can be in 3 modes depending on the level of heap usage:
 * Critical
 * Panic
 
+For single-stage `SELECT DISTINCT` queries, Pinot samples resource usage while merging distinct values across segments. This allows the watcher to identify and terminate an unbounded or memory-intensive distinct merge before it finishes building the result. A query stopped during this merge returns `SERVER_RESOURCE_LIMIT_EXCEEDED`; a timeout can report the specific distinct-table merge scope while retaining the `EXECUTION_TIMEOUT` error code.
+
 The thresholds for these levels is defined by the following configs:
 
 ```
