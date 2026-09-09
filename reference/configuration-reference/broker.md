@@ -38,6 +38,10 @@ ConfigurationException: Duplicate key found in /path/to/broker.conf at line 10 a
 | pinot.broker.startup.minResourcePercent                         | 100                                                                   | Configuration to consider the broker ServiceStatus as being STARTED if the percent of resources (tables) that are ONLINE for this this broker has crossed the threshold percentage of the total number of tables that it is expected to serve                                                          |
 | pinot.broker.startup.preconnect.enabled                         | true                                                                  | For the Netty single-stage transport, open broker-to-server channels after Helix convergence and before the broker reports ready. This includes the TLS handshake when broker-to-server TLS is enabled. Disable to restore lazy connection on the first query. |
 | pinot.broker.startup.preconnect.timeoutMs                       | 30000                                                                 | Maximum startup pre-connect budget in milliseconds. After the budget expires, the broker reports ready and any remaining channels connect lazily when first used. |
+| pinot.broker.startup.warmup.enabled                            | false                                                                 | Run bounded single-stage probe queries after Helix convergence to warm the broker query serve path before HTTP readiness reports ready. |
+| pinot.broker.startup.warmup.budgetMs                           | 30000                                                                 | Hard limit in milliseconds for the complete startup warmup. Readiness opens when the budget expires even if warmup did not reach its depth target. |
+| pinot.broker.startup.warmup.minIterations                     | 1000                                                                  | Number of successful probes required to complete warmup before the budget expires. |
+| pinot.broker.startup.warmup.concurrency                       | 1                                                                     | Number of startup warmup probes to run concurrently per round. |
 | pinot.broker.enable.query.limit.override                        | false                                                                 | Configuration to enable Query LIMIT Override to protect Pinot Broker and Server from fetch too many records back.                                                                                                                                                                                      |
 | pinot.broker.query.ignore.missing.segments                      | false                                                                 | When `true`, the broker defaults the `ignoreMissingSegments` query option so queries can tolerate `SERVER_SEGMENT_MISSING` errors caused by short routing lag after segment deletion or movement. In the single-stage engine this auto-default only applies when the broker routes the query to a single server; in the multi-stage engine it applies unless the query already sets `ignoreMissingSegments`. |
 | pinot.broker.use.mse.to.fill.empty.response.schema             | false                                                                 | When `true`, the broker defaults the `useMSEToFillEmptyResponseSchema` query option for single-stage queries that return zero rows. Pinot then uses the multi-stage engine compiler to try to fill a more accurate empty result schema. Query-level `useMSEToFillEmptyResponseSchema` overrides this setting. Enable it only if your workload does not rely on very large `IN` clauses, because the extra compile step can be expensive for those queries. |
@@ -146,6 +150,29 @@ pinot.broker.startup.preconnect.timeoutMs=60000
 ```
 
 Monitor `STARTUP_PRECONNECT_DURATION_MS` to measure the startup warmup duration and `NETTY_CONNECTION_CONNECT_LATENCY_MS` for the distribution of individual channel connection times. Pre-connect does not change the existing `NETTY_CONNECTION_CONNECT_TIME_MS` gauge.
+
+## Broker query serve-path warmup
+
+Broker query serve-path warmup reduces latency during the first traffic burst after a restart by exercising the single-stage compile, route, scatter-gather, deserialize, reduce, and response serialization paths before HTTP readiness is granted. It is disabled by default and complements startup pre-connect: pre-connect warms network channels, while query warmup exercises the code and caches used to serve queries.
+
+When enabled, the broker remains in `STARTING` after Helix convergence while it first performs local compile and response-serialization work and then issues fixed `SELECT * FROM "<table>" LIMIT 1` probes. Pinot chooses a deterministic set of routable tables that covers every server visible to that broker. Synthetic probes bypass access control, query quota, customer query logs, and normal query metrics.
+
+Warmup completes when `pinot.broker.startup.warmup.minIterations` probes succeed or when `pinot.broker.startup.warmup.budgetMs` expires. Errors, interruption, or budget exhaustion release the readiness gate, so warmup cannot indefinitely block a rolling restart. Choose a budget below the maximum startup delay allowed by your orchestrator.
+
+```properties
+pinot.broker.startup.warmup.enabled=true
+pinot.broker.startup.warmup.budgetMs=30000
+pinot.broker.startup.warmup.minIterations=1000
+pinot.broker.startup.warmup.concurrency=1
+```
+
+This warmup applies only to the Netty single-stage query path. It does not warm the multi-stage gRPC engine, the broker-to-server gRPC request handler, or the time-series path. The gate affects HTTP readiness but does not remove the broker from Helix discovery while it warms.
+
+Monitor these broker metrics:
+
+- `STARTUP_WARMUP_COMPLETE`: `0` while warmup is active and `1` when readiness can proceed; always `1` when warmup is disabled.
+- `STARTUP_WARMUP_DURATION_MS`: total time from Helix convergence until the warmup gate is released.
+- `STARTUP_WARMUP_UNCOVERED_SERVERS`: number of routed servers not covered by the selected probe tables; normally `0`.
 
 ## Failure detector
 
