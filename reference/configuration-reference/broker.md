@@ -134,6 +134,8 @@ Broker startup pre-connect removes the TCP connection and, when configured, TLS 
 
 Pre-connect is enabled by default and is best effort. A slow or unavailable server does not prevent startup beyond the configured budget; any channel that is not ready falls back to the existing lazy-connect path. Because OFFLINE and REALTIME routes use separate channels, a server that hosts both types can receive two connections.
 
+The configured timeout is the only early release bound. Pre-connect returns as soon as every attempted channel has either connected or failed; otherwise it waits until the deadline. A fast failure does not stop the broker from waiting for other healthy channels, and large target sets can continue connecting in waves until the budget expires. This avoids treating a quiet interval between connection completions as evidence that the remaining channels are unavailable.
+
 This feature applies only when the broker uses the Netty single-stage transport. It does not warm channels for the broker-to-server gRPC handler, the multi-stage engine, or the time-series path.
 
 To restore the previous behavior in which the first query establishes each channel:
