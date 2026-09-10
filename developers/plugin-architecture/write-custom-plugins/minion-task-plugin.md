@@ -88,6 +88,27 @@ public class MyTaskExecutor implements PinotTaskExecutor {
 The executor factory class must be annotated with `@TaskExecutorFactory(enabled = true)` for auto-registration. The class must be in a package matching `org.apache.pinot.*.plugin.minion.tasks.*`.
 {% endhint %}
 
+### Safely replace a segment with metadata push
+
+If a custom task extends `BaseSingleSegmentConversionExecutor`, rebuilds a segment under the same segment name, and uses `push.mode=METADATA`, opt in to controller-side copying:
+
+```java
+@Override
+protected boolean isCopyToDeepStoreForMetadataPush() {
+  return true;
+}
+```
+
+Also provide `output.segment.dir.uri` in each task configuration. The Minion uses this location to stage the converted segment, and the Controller must be able to access both the staging location and the table's deep store.
+
+This opt-in path preserves the existing segment download URL. The Minion stages the replacement with a task-specific name, sends the original segment CRC and refresh-only guard to the Controller, and asks the Controller to copy the staged data into the segment's existing deep-store location. After the request completes or fails, the Minion deletes the staged file. A retry of the same task can overwrite its own leftover staging file.
+
+If conversion produces the same CRC as the original segment, Pinot does not stage or copy segment data. It only refreshes the segment metadata against the existing download URL.
+
+{% hint style="warning" %}
+Override this method only for same-name replacement tasks. It defaults to `false`, so existing tasks—including `PurgeTask`, `RefreshSegmentTask`, and `UpsertCompactionTask`—keep their current metadata-push behavior unless their executor explicitly opts in.
+{% endhint %}
+
 ## Step 2: Implement the Task Generator
 
 The generator runs on the Controller and decides when and how to create tasks.
