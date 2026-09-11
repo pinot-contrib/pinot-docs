@@ -44,7 +44,7 @@ The broker receives queries, compiles them, routes them to servers, and merges r
 
 For broker transport memory pressure, also monitor `GRPC_TOTAL_USED_DIRECT_MEMORY` and compare it with `GRPC_TOTAL_MAX_DIRECT_MEMORY`. These gauges cover the shaded Netty runtime used by the broker gRPC listener and MSE mailbox traffic.
 
-The replica-health gauges are table-level snapshots emitted independently by each assigned broker. When aggregating across brokers, use the minimum `PERCENT_OF_REPLICAS` and the maximum segment counts to preserve the worst observed state. `PERCENT_OF_REPLICAS` and `SEGMENTS_AT_MIN_PERCENT_OF_REPLICAS` exclude segments assigned only one replica; `UNAVAILABLE_SEGMENTS` includes them. All three exclude new segments during the grace period configured by [`pinot.broker.new.segment.expiration.seconds`](../reference/configuration-reference/broker.md#pinotbrokernewsegmentexpirationseconds).
+The replica-health gauges are table-level snapshots emitted independently by each assigned broker. When aggregating across brokers, use the minimum `PERCENT_OF_REPLICAS` and the maximum segment counts to preserve the worst observed state. `PERCENT_OF_REPLICAS` and `SEGMENTS_AT_MIN_PERCENT_OF_REPLICAS` exclude segments assigned only one replica; `UNAVAILABLE_SEGMENTS` includes them. All three exclude new segments during the grace period configured by [`pinot.broker.new.segment.expiration.seconds`](../reference/configuration-reference/broker.md).
 
 ### Broker Query Latency Breakdown
 
@@ -174,7 +174,7 @@ The controller manages cluster metadata, segment assignments, and periodic maint
 | `HELIX_ZOOKEEPER_RECONNECTS` | Meter | ZooKeeper reconnections. Frequent reconnects indicate ZooKeeper instability. | > 1 per hour |
 | `HEALTHCHECK_BAD_CALLS` | Meter | Failed health check requests. | > 0 sustained |
 | `TABLE_STORAGE_QUOTA_UTILIZATION` | Gauge | Percentage of table storage quota in use. | > 85% |
-| `MISSING_CONSUMING_SEGMENT_TOTAL_COUNT` | Gauge | Partitions with missing consuming segments. | > 0 |
+| `MISSING_CONSUMING_SEGMENT_TOTAL_COUNT` | Gauge | Partitions with missing consuming segments. When whole-table real-time ingestion is paused, Pinot resets this gauge and the related maximum-duration gauges to `0` because the absence of consuming segments is intentional. | > 0 while ingestion is not paused |
 | `MAX_SUBTASK_WAIT_TIME_MS` | Gauge | Maximum current wait time, in milliseconds, across `WAITING` minion subtasks for a table and task type. The controller rewrites the gauge every emit cycle and resets it to `0` when the queue drains. | Above your table-specific queue SLA |
 | `MAX_SUBTASK_RUNNING_TIME_MS` | Gauge | Maximum current runtime, in milliseconds, across `RUNNING` minion subtasks for a table and task type. The controller rewrites the gauge every emit cycle and resets it to `0` when no subtasks are running. | Above your table-specific runtime SLA |
 
@@ -206,6 +206,7 @@ The controller manages cluster metadata, segment assignments, and periodic maint
 - Some partitions do not have a consuming segment; new data is not being ingested for those partitions
 - Check `MISSING_CONSUMING_SEGMENT_MAX_DURATION_MINUTES` for how long this has persisted
 - Review controller logs for segment assignment errors
+- Check the table's [pause status](../build-with-pinot/ingestion/stream-ingestion/README.md#pause-stream-ingestion). For a whole-table pause, Pinot resets all `MISSING_CONSUMING_SEGMENT_*` gauges to `0`; alert on these gauges only while ingestion is expected to run.
 
 ---
 
