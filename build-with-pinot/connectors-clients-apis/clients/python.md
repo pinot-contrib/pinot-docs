@@ -14,6 +14,11 @@ Source Code Repo: [https://github.com/python-pinot-dbapi/pinot-dbapi](https://gi
 pip install pinotdb
 ```
 
+To query Pinot from a Jupyter notebook with SQL magics and plots, see
+[Query Pinot from Jupyter with JupySQL](../../../tutorials/getting-started/jupyter-jupysql.md).
+A runnable notebook is in the Pinot repo under
+[contrib/jupyter-jupysql](https://github.com/apache/pinot/tree/master/contrib/jupyter-jupysql).
+
 Note:
 
 * **pinotdb** version >= **0.3.2** uses the Pinot SQL API (added in Pinot >= 0.3.0) and drops support for PQL API. So this client requires Pinot server version >= **0.3.0** in order to access Pinot.

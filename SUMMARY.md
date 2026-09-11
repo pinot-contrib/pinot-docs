@@ -645,6 +645,7 @@
   * [Connect to Streamlit](tutorials/getting-started/streamlit.md)
   * [Connect to Dash](tutorials/getting-started/dash.md)
   * [Visualize Data with Redash](tutorials/getting-started/redash.md)
+  * [Query Pinot from Jupyter with JupySQL](tutorials/getting-started/jupyter-jupysql.md)
   * [GitHub Events Stream](tutorials/getting-started/github-events-stream.md)
 * [Data Ingestion](tutorials/data-ingestion/README.md)
   * [Batch Data Ingestion in Practice](tutorials/data-ingestion/batch-data-ingestion-in-practice.md)
