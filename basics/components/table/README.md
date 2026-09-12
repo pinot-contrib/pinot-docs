@@ -51,6 +51,7 @@ Use the following properties to make your tables faster or leaner:
 * Segment
 * Indexing
 * Tenants
+* Partitioning — see [Configuring Table Partitioning](../../../operate-pinot/tuning/configuring-table-partitioning.md) for offline, realtime, and hybrid tables.
 
 ## Segments
 

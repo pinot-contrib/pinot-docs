@@ -500,6 +500,7 @@
   * [Tuning Default MMAP Advice](operate-pinot/tuning/tuning-default-mmap-advice.md)
   * [Real-Time](operate-pinot/tuning/realtime.md)
   * [Routing](operate-pinot/tuning/routing.md)
+  * [Configuring Table Partitioning](operate-pinot/tuning/configuring-table-partitioning.md)
   * [Query Routing Using Adaptive Server Selection](operate-pinot/tuning/query-routing-using-adaptive-server-selection.md)
   * [Query Scheduling](operate-pinot/tuning/query-scheduling.md)
   * [Workload-Based Query Resource Isolation](operate-pinot/tuning/workload-query-isolation.md)

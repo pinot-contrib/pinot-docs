@@ -46,7 +46,7 @@ Time pruning is more selective when data is strictly time-ordered. With out-of-o
 
 ### Partition Pruning
 
-Partition pruning skips segments that do not contain records matching the query's partition column filter. This is effective for queries that filter on a partitioned column.
+Partition pruning skips segments that do not contain records matching the query's partition column filter. This is effective for queries that filter on a partitioned column. To configure partitioning for offline, realtime, and hybrid tables, see [Configuring Table Partitioning](configuring-table-partitioning.md).
 
 **Configuration:**
 
