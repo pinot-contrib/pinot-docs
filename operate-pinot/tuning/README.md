@@ -37,6 +37,7 @@ Tune how Pinot maps segment data into memory and controls disk I/O.
 | Page | What it covers |
 |---|---|
 | [Tuning Default MMAP Advice](tuning-default-mmap-advice.md) | Configure `posix_madvise` hints (RANDOM, SEQUENTIAL, WILL_NEED) for memory-mapped segment files |
+| [Page Cache Warmup](page-cache-warmup.md) | Replay selected queries to warm server page cache after restart or offline segment refresh |
 | [Performance Optimization Configurations](../performance-optimization-configurations.md) | Predicate reordering, streaming segment download, Netty native TLS and transport |
 | [Segment Operations Throttling](../segment-operations-throttling.md) | Limit parallelism of segment download, index rebuild, and StarTree preprocessing to protect server resources |
 

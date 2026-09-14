@@ -498,6 +498,7 @@
   * [Managing Logs](operate-pinot/managing-logs.md)
 * [Performance Tuning](operate-pinot/tuning/README.md)
   * [Tuning Default MMAP Advice](operate-pinot/tuning/tuning-default-mmap-advice.md)
+  * [Page Cache Warmup](operate-pinot/tuning/page-cache-warmup.md)
   * [Real-Time](operate-pinot/tuning/realtime.md)
   * [Routing](operate-pinot/tuning/routing.md)
   * [Query Routing Using Adaptive Server Selection](operate-pinot/tuning/query-routing-using-adaptive-server-selection.md)
