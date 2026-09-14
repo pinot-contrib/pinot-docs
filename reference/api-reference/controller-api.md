@@ -139,6 +139,8 @@ High-level response semantics:
 - `404 Not Found` for missing tables or schemas
 - `409 Conflict` for duplicate creates without `IF NOT EXISTS`, logical-table references that block a drop, or races with another writer
 
+For `CREATE TABLE` (including `dryRun=true`), a registered table-config validator that rejects the config with `ConfigValidationException` returns `400 Bad Request` with the validator's message, prefixed by `Table config validation failed:`. A rejected create does not persist the table config or schema. Unexpected validator failures still return `500 Internal Server Error`. See [Config Validator SPI](../../developers/plugin-architecture/write-custom-plugins/config-validator-spi.md) for implementing a validator.
+
 See [SQL Table DDL](../../build-with-pinot/querying-and-sql/sql-ddl.md) for syntax details and end-to-end examples.
 
 ## Query Workload Propagation
