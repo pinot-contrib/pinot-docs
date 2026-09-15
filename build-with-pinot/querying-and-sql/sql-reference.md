@@ -672,6 +672,20 @@ FROM orders
 
 For the full list of supported window functions and detailed syntax, see [Window Functions](../../functions/window).
 
+### QUALIFY (MSE Only)
+
+`QUALIFY` filters rows after a window function is evaluated. Use the multi-stage engine for queries such as one row per city:
+
+```sql
+SET useMultistageEngine = true;
+
+SELECT city, category
+FROM myTable
+QUALIFY ROW_NUMBER() OVER (PARTITION BY city ORDER BY orderDate DESC) = 1
+```
+
+The single-stage engine rejects a query containing `QUALIFY` at compile time instead of ignoring the clause and returning unfiltered rows. If the predicate does not use a window function, rewrite it as `WHERE` for a column filter or `HAVING` for an aggregate filter on a `GROUP BY` query. Saved queries, dashboards, or alerts that previously used `QUALIFY` on SSE will now fail rather than return incorrect results. During a rolling broker upgrade, old and new brokers may respond differently until the rollout completes; check existing SSE query logs for `QUALIFY` before upgrading.
+
 ---
 
 ## OPTION Clause
@@ -812,6 +826,7 @@ The following table summarizes feature support across the single-stage engine (S
 | Subqueries | No | Yes |
 | Set operations (UNION, INTERSECT, EXCEPT) | No | Yes |
 | Window functions (OVER, PARTITION BY) | No | Yes |
+| QUALIFY | No (compile-time error) | Yes |
 | Correlated subqueries | No | No |
 | INSERT INTO (from file) | No | Yes |
 | Controller DDL (tables and materialized views) | No | No |
