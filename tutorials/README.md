@@ -22,6 +22,10 @@ Sample applications and real-world data examples to help you explore Pinot.
 [redash.md](getting-started/redash.md)
 {% endcontent-ref %}
 
+{% content-ref url="getting-started/jupyter-jupysql.md" %}
+[jupyter-jupysql.md](getting-started/jupyter-jupysql.md)
+{% endcontent-ref %}
+
 {% content-ref url="getting-started/github-events-stream.md" %}
 [github-events-stream.md](getting-started/github-events-stream.md)
 {% endcontent-ref %}
