@@ -136,7 +136,7 @@ LIMIT 10
 ```
 
 ```python
-%sqlplot bar --table top_teams_sql --column teamID
+%sqlplot bar --table top_teams_sql --column teamID total_runs
 ```
 
 ## Use Pinot results in EDA or modeling
