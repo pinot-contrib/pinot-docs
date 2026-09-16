@@ -35,6 +35,9 @@ These settings control broker-side query protection, query-console exposure, and
 | Property | Default | Description |
 | --- | --- | --- |
 | pinot.broker.enable.query.limit.override | false | Protects the cluster from queries with very large `LIMIT` values. When enabled, Pinot brokers override query limits that exceed the broker config `pinot.broker.query.response.limit` (default `2147483647`). For example, if `pinot.broker.query.response.limit=1000`, then `SELECT * FROM myTable LIMIT 25000` is rewritten to use `LIMIT 1000`. |
+| pinot.broker.use.approximate.function | false | When `true`, brokers rewrite eligible exact distinct-count and percentile aggregates to SMART variants for both single-stage and multi-stage queries. Cluster config takes precedence over broker config and updates running brokers without a restart. See [Approximate aggregate guardrail](#approximate-aggregate-guardrail). |
+| pinot.broker.approximate.function.distinct.count.params | empty (function defaults) | Optional parameters passed to rewritten distinct-count SMART functions, for example `threshold=10000;log2m=12;dictThreshold=10000`. |
+| pinot.broker.approximate.function.percentile.params | empty (function defaults) | Optional parameters passed to rewritten percentile SMART functions, for example `threshold=1000;compression=100`. |
 | queryConsoleOnlyView | false | Shows only the query console in the controller web UI. Use this when you do not want to expose cluster or ZooKeeper UI pages to end users. |
 | hideQueryConsoleTab | false | Hides the query console tab from the controller web UI. |
 | pinot.multistage.engine.tls.enabled | false | Enables TLS on brokers and servers for the multi-stage query engine. When enabled, Pinot uses TLS for gRPC connections between brokers and servers for plan dispatch and final results, and between servers for data shuffle and exchange. |
@@ -43,6 +46,24 @@ These settings control broker-side query protection, query-console exposure, and
 | pinot.beta.multistage.engine.max.server.query.threads | -1 | Cluster-wide fallback for multi-stage query concurrency controls. Brokers use this value when `pinot.broker.mse.max.server.query.threads` is not set to a positive number. Servers also use it as the base value for deriving a hard limit when `pinot.server.query.executor.mse.max.execution.threads` is not set to a positive number. |
 | pinot.beta.multistage.engine.max.server.query.threads.hardlimit.factor | 4 | Multiplier used by servers to derive a hard limit for multi-stage executor tasks when no server-local limit is configured. The derived hard limit is `pinot.beta.multistage.engine.max.server.query.threads * pinot.beta.multistage.engine.max.server.query.threads.hardlimit.factor`. If either value is non-positive, server hard limiting is disabled. |
 | pinot.metrics.mse.mode | SERVER | Controls where multi-stage engine metrics are emitted. `SERVER` preserves the existing `pinot.server.mse*` / `pinot.server.multiStage*` series, `MSE` emits only `pinot.mse.*`, and `DUAL` emits both during dashboard migration. Brokers and servers read this at startup, so changing it requires a restart. |
+
+### Approximate aggregate guardrail
+
+Enable `pinot.broker.use.approximate.function` to bound per-group memory used by exact `DISTINCTCOUNT` and `PERCENTILE` queries. The broker rewrites `DISTINCTCOUNT`, `DISTINCTCOUNTMV`, `COUNT(DISTINCT x)`, `PERCENTILE`, and `PERCENTILEMV` to their SMART variants. These functions remain exact until an accumulator exceeds its conversion threshold, then use an approximate sketch. The result column type is preserved, but results above the threshold can differ from exact aggregates. This setting is off by default.
+
+For example, set these three keys through the [cluster config API](#update-cluster-configs):
+
+```text
+pinot.broker.use.approximate.function=true
+pinot.broker.approximate.function.distinct.count.params=threshold=10000;log2m=12;dictThreshold=10000
+pinot.broker.approximate.function.percentile.params=threshold=1000;compression=100
+```
+
+Cluster values override the same keys in `broker.conf` and take effect on running brokers without a restart. A missing cluster value falls back to `broker.conf`. For an individual query, `SET useApproximateFunction = false` opts out (or `true` opts in); the query option outranks both cluster and broker settings. A table's `QueryConfig.useApproximateFunction` sits between the query option and cluster setting, but applies only to the single-stage engine. See [Query options](../../build-with-pinot/querying-and-sql/query-execution-controls/query-options.md).
+
+Choose thresholds alongside the group-count limit: `numGroupsLimit` limits the number of groups, **not** the values held by each group's accumulator. A very low threshold can increase memory use by allocating a sketch for many small groups. Parameter strings are checked by the broker when configured; check broker logs for rejected values.
+
+When a query is actually rewritten, its broker response sets `approximateFunctionApplied=true`; the broker also increments the `APPROXIMATE_FUNCTION_OVERRIDES` meter. In the single-stage engine, the name of an unaliased output column can change to the rewritten function name. Use an explicit `AS` alias if clients rely on that name. The multi-stage engine preserves the planned output name.
 
 ## Resource Accounting
 
