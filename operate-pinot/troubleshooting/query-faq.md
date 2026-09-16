@@ -18,7 +18,11 @@ This is a list of questions frequently asked in our troubleshooting channel on S
 {'errorCode': 410, 'message': 'BrokerResourceMissingError'}
 ```
 
-This implies that the Pinot Broker assigned to the table specified in the query was not found. A common root cause for this is a typo in the table name in the query. Another uncommon reason could be if there wasn't actually a broker with required broker tenant tag for the table.
+Error code 410 (`BROKER_RESOURCE_MISSING`) means the broker handling the query has no routing entry for the table. Check the table name and whether the table is assigned to that broker's tenant. This can also occur temporarily while broker routing changes, such as during a table move between broker tenants or broker scale-down.
+
+Both the single-stage and multi-stage query engines report code 410 for this condition. In older Pinot versions, the multi-stage engine could report the generic `INTERNAL` code 450 instead. A query whose segments are all filtered out is different: it returns an empty result, not this routing error.
+
+If a client handles this condition, inspect the Pinot error code rather than relying on HTTP status alone. By default, query errors can be returned with HTTP 200 and the code in `X-Pinot-Error-Code`; with HTTP-status-for-errors enabled, this error maps to HTTP 503. See the [query response format](../../reference/api-reference/query-response-format.md) for the response's `exceptions` field.
 
 ### What are all the fields in the Pinot query's JSON response?
 
