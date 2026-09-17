@@ -45,6 +45,8 @@ To enable this optimization, `segmentPartitionConfig` must contain the `time` pr
 
 #### Data ingested partitioned by some column.
 
+For a step-by-step recipe covering offline, realtime, and hybrid tables, see [Configuring Table Partitioning](configuring-table-partitioning.md).
+
 Apart from the ascending time, Apache Pinot can also take advantage of other distribution data patterns: Partition by segments. In order to use this feature, the table needs to be configured to use a partition function. Pinot will apply this function to each row in a segment and will store the set of partitions seen in the segment. Later, when a query is executed, Pinot will analyze the query in order to look for partition constraints. For example, when executing a query like `select col1 from Table1 where col2 = 3`, Pinot will calculate the partition associated with `col2 = 3` and will prune segments that do not contain rows on that partition.
 
 {% hint style="info" %}

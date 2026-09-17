@@ -49,7 +49,7 @@ The following example partitions the segment based on two columns, `memberID` an
       }
 ```
 
-For multi-column partitioning to work, you must also set `routing.segementPrunerTypes` as follows:
+For multi-column partitioning to work, you must also set `routing.segmentPrunerTypes` as follows:
 
 ```json
 "routing": {
