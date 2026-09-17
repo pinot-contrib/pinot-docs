@@ -719,6 +719,7 @@ Required stream config properties:
 |---|---|
 | `stream.kafka.decoder.prop.descriptorFile` | Path or URI to the `.desc` descriptor file. Supports local file paths, HDFS, and other Pinot-supported file systems. |
 | `stream.kafka.decoder.prop.protoClassName` | (Optional) Fully qualified Protobuf message name within the descriptor. If omitted, the first message type in the descriptor is used. |
+| `stream.kafka.decoder.prop.descriptorFileFallbackEnabled` | (Optional) `true` or `false`. Overrides the cluster-wide `pinot.server.protobuf.descriptor.fallback.enabled` setting for this table. The default is `true`. |
 
 Example `streamConfigs`:
 
@@ -733,6 +734,10 @@ Example `streamConfigs`:
   "stream.kafka.decoder.prop.protoClassName": "mypackage.MyMessage"
 }
 ```
+
+For a remote descriptor URI, Pinot fetches the descriptor afresh whenever this decoder is created, so an in-place descriptor update is picked up at the next consuming-segment transition. If that fetch fails, Pinot can reuse the last descriptor content that fetched and resolved successfully for the same URI on that server JVM. This fallback is enabled by default and logs a warning when used. It does not help a new server process that has never loaded the descriptor, and it does not apply to local descriptor files.
+
+Pinot does **not** fall back when the remote fetch succeeds but the descriptor is empty, corrupt, or lacks the configured message type; decoder initialization fails so a bad schema deployment remains visible. If you prefer to fail ingestion on any remote fetch failure, set `stream.kafka.decoder.prop.descriptorFileFallbackEnabled` to `false` in the table's `streamConfigs`, or disable the [cluster setting](../../../reference/configuration-reference/cluster.md#cluster-configs). The table setting takes precedence. This fallback applies only to `ProtoBufMessageDecoder`, not the compiled-JAR or batch Protobuf readers.
 
 **ProtoBufCodeGenMessageDecoder (compiled JAR based)**
 
