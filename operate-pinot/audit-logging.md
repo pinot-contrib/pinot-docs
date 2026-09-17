@@ -1,7 +1,7 @@
 # Audit Logging
 
 {% hint style="info" %}
-Audit logging is available starting in Apache Pinot 1.3.0. It is disabled by default and can be enabled at runtime without restarting Pinot components.
+Audit logging is available starting in Apache Pinot 1.5.0. It is disabled by default and can be enabled at runtime without restarting Pinot components.
 {% endhint %}
 
 Audit logging records all REST API requests (and optionally responses) made to the controller and broker. Each event is written as a single-line JSON object to a dedicated log file (`pinot-audit.log`), capturing who performed what action, when, and from where. This provides an immutable trail for compliance, security investigations, and operational troubleshooting.
