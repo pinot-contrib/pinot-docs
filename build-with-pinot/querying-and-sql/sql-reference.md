@@ -378,6 +378,10 @@ HAVING COUNT(*) > 100
 
 On SSE, `HAVING` runs on the merged group candidates after any earlier group trim. If trimming already dropped groups that would match `HAVING`, those groups do not reappear. See [Grouping algorithm](grouping-algorithm.md#having-behavior) and [Querying Pinot](querying-pinot.md#group-by-quirks-default-limit-trimming-order-by).
 
+SSE also evaluates `HAVING` for an aggregation without `GROUP BY`: the entire input forms one group, and a false predicate returns **zero rows**, not the aggregate row. For example, `SELECT COUNT(*) FROM orders HAVING COUNT(*) > 100` returns no row when the count is 100 or less. Expressions in `HAVING` (and the `SELECT` list when there is no `GROUP BY`) must be aggregates, literals, or grouped columns; an ungrouped column is rejected during validation instead of silently ignoring the predicate.
+
+In SSE, `GROUP BY` without an aggregate and with a `HAVING` clause is rejected rather than being rewritten to `DISTINCT` and dropping the filter. For a single-valued grouped column you may be able to move its predicate to `WHERE`; for multi-valued columns this can change which values are emitted, so use the multi-stage engine when you need group-level filtering. `SELECT DISTINCT ... HAVING ...` is also invalid. During a rolling upgrade, brokers on older versions may still silently ignore these predicates or return an internal error; review saved queries, dashboards, and alerts using `HAVING` before rollout. See [apache/pinot#19554](https://github.com/apache/pinot/pull/19554).
+
 You can use **post-aggregation** expressions (arithmetic or functions over aggregates and group keys) in `SELECT`, `HAVING`, and `ORDER BY`:
 
 ```sql
