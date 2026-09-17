@@ -102,7 +102,7 @@ curl -X POST \
 - Setting `pinot.broker.adaptive.server.selector.enable.stats.metric.export=false` stops export immediately and removes the exported single-stage adaptive-routing gauges from the broker metrics registry.
 - Changing `pinot.broker.adaptive.server.selector.stats.metric.export.interval.ms` reschedules the periodic export task immediately.
 - Non-numeric, zero, and negative runtime interval updates are ignored.
-- If either cluster-config key is removed, Pinot falls back to the static `broker.conf` value or the built-in default.
+- Removing the cluster-config export flag restores the built-in `false` default and removes the exported single-stage gauges. Removing the interval key restores the built-in 10000 ms interval. Neither removal falls back to a value seeded in `broker.conf`; that file still supplies the initial values at broker startup.
 
 #### Available Metrics
 
