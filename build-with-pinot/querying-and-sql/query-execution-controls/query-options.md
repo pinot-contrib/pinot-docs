@@ -29,8 +29,9 @@ LIMIT 10;
 
 Documented keys use **canonical camelCase** (for example `timeoutMs`, `useMultistageEngine`, `minSegmentGroupTrimSize`). Pinot resolves recognized option names **case-insensitively** to those canonical forms when parsing `SET` / `OPTION` clauses, so `SET timeoutms = 5000` is treated like `timeoutMs`.
 
-Prefer the canonical names from the table below. For data queries, Pinot rejects unknown option names supplied through SQL
-`SET` statements or the legacy `OPTION(...)` clause instead of silently ignoring them. A close typo can produce a
+Prefer the canonical names from the table below. For data queries, the cluster-level `pinot.broker.query.option.validationMode`
+controls unknown keys supplied through SQL `SET` statements or the legacy `OPTION(...)` clause. Its default `NONE`
+preserves them for compatibility; `WARN` logs unknown keys, and `REJECT` fails the query. A close typo can produce a
 suggestion for the recognized option, such as `timeoutMs`. SQL queries also cannot set the internal
 `rlsFilters*` options; the broker adds row-level-security options after parsing when required.
 
@@ -40,6 +41,12 @@ integration relies on a custom option name, send it through the request's `query
 the SQL text.
 
 For default `LIMIT` behavior, group-by tail trim, and `ORDER BY` vs unordered group-by, see [Querying Pinot](../querying-pinot.md#group-by-quirks-default-limit-trimming-order-by).
+
+## SQL option policies
+
+Operators can change `pinot.broker.query.option.validationMode` and `pinot.broker.query.option.legacySyntaxMode` through the [cluster config API](../../../reference/configuration-reference/cluster.md#update-cluster-configs). Both apply to running brokers without a restart. The former accepts `NONE` (default), `WARN`, or `REJECT` for unknown SQL option names on data queries. The latter accepts `ALLOW` (default), `IGNORE`, or `REJECT` for the legacy `OPTION(key=value)` suffix on all statement types, including DML. `REJECT` directs callers to use SQL `SET` instead. During a rolling upgrade, wait until every broker supports `legacySyntaxMode` before setting `IGNORE` or `REJECT`; older brokers continue applying the suffix.
+
+For a request gateway that must prevent SQL text from overriding trusted request options, pass `sqlOptionsMode` in the request's `queryOptions` (REST) or gRPC metadata. `ALLOW` (default) merges SQL `SET` and legacy `OPTION(...)` values over request options, `IGNORE` drops SQL-embedded options, and `REJECT` returns `QUERY_VALIDATION` with the offending keys. For example, a REST request can include `"queryOptions": "sqlOptionsMode=IGNORE;timeoutMs=5000"` alongside its `sql` string. The mode is **not** honored when supplied inside the SQL itself. An invalid mode fails with `QUERY_VALIDATION`, even if the SQL contains no options.
 
 ## When to reach for options
 
@@ -89,6 +96,7 @@ description: This document contains all the available query options
 | **enableNullHandling** | Enables advanced null handling. See [Null value support](../null-value-support.md) for more information.(since 0.11.0) | `false` (disabled) |
 | **explainPlanVerbose** | Return verbose result for `EXPLAIN` query (since 0.11.0) | `false` (not verbose) |
 | **useMultistageEngine** | Use multi-stage engine to execute the query (since 0.11.0) | `false` (use single-stage engine) |
+| **sqlOptionsMode** | Request-level policy for options embedded in SQL `SET` or legacy `OPTION(...)`: `ALLOW`, `IGNORE`, or `REJECT`. Supply in REST `queryOptions` or gRPC metadata, not in SQL. See [SQL option policies](#sql-option-policies). | `ALLOW` (SQL options override request options) |
 | **useApproximateFunction** | Set `true` to rewrite eligible exact distinct-count and percentile aggregates to SMART variants, or `false` to keep them exact for this query. This overrides the table setting (single-stage only), cluster config, and broker config in both query engines. The broker response sets `approximateFunctionApplied=true` only when a rewrite occurs. See [Approximate aggregate guardrail](../../../reference/configuration-reference/cluster.md#approximate-aggregate-guardrail). | Table, cluster, or broker setting; `false` if unset everywhere |
 | **useMSEToFillEmptyResponseSchema** | For single-stage queries that return zero rows, try the multi-stage engine compiler to populate a more accurate empty result schema instead of relying only on table metadata or the default single-stage fallback. This overrides the broker-level `pinot.broker.use.mse.to.fill.empty.response.schema` setting for the query. If the query does not compile in the multi-stage engine, Pinot falls back to the normal empty-response schema behavior. | `false` |
 | **enableMaterializedViewRewrite** | For eligible single-stage queries, control whether broker-side materialized-view rewrite is allowed for this query. The option defaults to enabled when absent; set `SET enableMaterializedViewRewrite=false` to bypass MV rewrite for one query and force the base-table path. This only matters when brokers have `pinot.broker.query.enable.materialized.view.rewrite=true`. Pinot also uses this option internally for `MaterializedViewTask` materialization queries so they always read from the base table instead of rewriting back onto an MV. | `true` |
