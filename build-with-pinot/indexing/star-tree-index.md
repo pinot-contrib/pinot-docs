@@ -418,3 +418,9 @@ For e.g if query contains `round(colA,600) as roundedValue from tableA group by 
 - `OR` predicates across multiple dimensions are not supported (they cause double counting with pre-aggregated results).
 - `NOT` on top of `AND`/`OR` is not supported for the same double-counting reason.
 - All star-tree dimension columns must have dictionary values. Use either a normal dictionary-encoded forward index or a RAW forward index plus an explicit shared dictionary in `fieldConfigList.indexes.dictionary`.
+
+### Changing a star-tree dimension to RAW encoding
+
+If an existing segment has a star-tree dimension and a later table-config change moves that column to `noDictionaryColumns`, the stored star-tree may no longer be readable after the column is converted to RAW. On the next segment reload, Pinot removes an incompatible star-tree during segment pre-processing, even when `enableDynamicStarTreeCreation=false`; ordinary queries can still use the segment, but lose that star-tree acceleration. When dynamic star-tree creation is enabled, Pinot can rebuild indexes allowed by the current configuration. If pre-processing is skipped, the loader warns and skips the unreadable star-tree instead of failing the entire segment load. This also repairs segments where a prior reload persisted the encoding change but left an incompatible star-tree behind. See [apache/pinot#19349](https://github.com/apache/pinot/pull/19349).
+
+For continued star-tree use, keep dictionary values for every dimension: either retain dictionary encoding or configure a RAW forward index with an explicit shared dictionary as described above. Do not rely on a plain RAW forward index for a star-tree dimension.
