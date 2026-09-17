@@ -128,6 +128,18 @@ ConfigurationException: Duplicate key found in /path/to/broker.conf at line 10 a
 | pinot.query.multistage.dispatch.channel.keep.alive.timeout.ms           | 30000                                                                 | For MSE, the gRPC keep-alive ACK timeout in milliseconds for broker dispatch channels. If a keep-alive ping does not receive an ACK within this interval, the channel is considered dead and will reconnect. Only applies when keep-alive is enabled. |
 | pinot.query.multistage.dispatch.channel.keep.alive.without.calls        | false                                                                 | For MSE, whether broker dispatch channels send keep-alive pings even while idle (no active calls). Set this to `true` only when `pinot.query.multistage.query.server.permit.keep.alive.without.calls=true`. Otherwise QueryServer will close idle channels with `GOAWAY(ENHANCE_YOUR_CALM)`. |
 
+## Routing query-received logs
+
+The `org.apache.pinot.broker.querylog.QueryLogger` logger emits both the pre-processing `SQL query for request ...` record and the query-completion record with statistics. Only the pre-processing record carries the SLF4J marker `QUERY_RECEIVED`, so you can filter or route it independently without matching message text.
+
+For example, add this Log4j2 filter to an appender that ships logs to exclude query-received records from that destination while leaving completion records unaffected by this filter:
+
+```xml
+<MarkerFilter marker="QUERY_RECEIVED" onMatch="DENY" onMismatch="NEUTRAL"/>
+```
+
+Keep another unfiltered destination if you need the received records for local forensics: queries that never complete may have no completion record. Adding the marker does not disable logging or change the message text. `pinot.broker.query.log.logBeforeProcessing` remains `true` by default; setting it to `false` disables received records altogether rather than selecting a destination.
+
 ## Broker startup pre-connect
 
 Broker startup pre-connect removes the TCP connection and, when configured, TLS handshake from the first single-stage query sent to each server. After Helix convergence, the broker opens one Netty channel for every `(server, table type)` pair in its routing tables. The broker remains in `STARTING` state until pre-connect finishes or reaches `pinot.broker.startup.preconnect.timeoutMs`.
