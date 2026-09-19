@@ -146,6 +146,8 @@ All types of aggregation function that have a bounded-sized intermediate result 
 * MAX
 * SUM
 * SUMMV
+* ARRAYAGG
+  * Configure, for example, `{"columnName": "m", "aggregationFunction": "ARRAYAGG"}` in `aggregationConfigs`, then query `ARRAY_AGG(m, 'LONG', true)`. Only distinct aggregation over a single-value source column can use the star-tree. The source may use dictionary or raw encoding, including `BYTES`; the query's element type must match the column's stored type. Non-distinct `ARRAY_AGG` and multi-value source columns cannot use the star-tree. Distinct results have no guaranteed order. See the [ARRAY_AGG function reference](../../functions/array/array_agg.md).
 * SUM\_PRECISION
   * The maximum precision can be optionally configured in `functionParameters` using the key `precision`. For example: `{"precision": 20}`.
 * AVG
