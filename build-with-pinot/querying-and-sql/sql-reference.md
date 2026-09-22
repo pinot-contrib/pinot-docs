@@ -773,7 +773,7 @@ For more details, see [Null value support](../../build-with-pinot/querying-and-s
 - **Double quotes** (`"`) delimit identifiers (column names, table names). Use double quotes for reserved keywords or special characters: `SELECT "timestamp", "date" FROM myTable`.
 - **Single quotes** (`'`) delimit string literals: `WHERE city = 'NYC'`. Escape an embedded single quote by doubling it: `'it''s'`.
 - **Decimal literals** should be enclosed in single quotes to preserve precision.
-- **Binary literals** use hexadecimal SQL syntax such as `X'0102'`. Construct a `BYTES_ARRAY` with `ARRAY[X'00', X'0102', X'FF']`. Pinot supports these literals in projections, nested expressions, and predicates in both query engines; response values are hexadecimal strings and result metadata reports `BYTES_ARRAY`.
+- **Binary literals** use hexadecimal SQL syntax such as `X'0102'`. Pinot also accepts PostgreSQL hex `bytea` literals as either `'\x0102'::bytea` or `CAST('\x0102' AS BYTEA)`. Hex digits are case-insensitive, whitespace between byte pairs is allowed, and `'\x'` represents an empty value. Construct a `BYTES_ARRAY` with `ARRAY[X'00', X'0102', X'FF']`. Pinot supports these literals in projections, nested expressions, and predicates in both query engines; response values are hexadecimal strings and result metadata reports `BYTES_ARRAY`. PostgreSQL escape-format values and casts from columns are not supported; use `hexToBytes(columnName)` for a column containing plain hexadecimal text.
 
 ---
 
