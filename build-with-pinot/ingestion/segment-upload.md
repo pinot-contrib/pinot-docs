@@ -39,6 +39,10 @@ The controller exposes three upload endpoints:
 
 `/v2/segments` is the endpoint to document and use by default. The legacy `/segments` endpoint is still present for backward compatibility. Its JSON-based URI push path keeps the original `DOWNLOAD_URI` instead of moving the segment into a Pinot-chosen final location, so new integrations should use `/v2/segments`.
 
+### Controller disk space for multipart uploads
+
+The controller buffers multipart request bodies on its local temporary volume. Multipart spill files now live in the `multipartTemp` subdirectory of the controller's local temp directory, rather than in `java.io.tmpdir`. Set that directory with `controller.local.temp.dir`; when unset, Pinot derives it from a local `controller.data.dir`. Size the local temp volume for concurrent segment uploads, especially if it is a different mount from the JVM temp directory. The controller clears stale files in `multipartTemp` when it starts. This affects tar and metadata push requests with `multipart/form-data`; upload endpoints and request formats are unchanged. See [Pinot PR #19627](https://github.com/apache/pinot/pull/19627).
+
 ## Common request options
 
 ### Query parameters
