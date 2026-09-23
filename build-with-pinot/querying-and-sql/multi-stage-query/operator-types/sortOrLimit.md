@@ -10,6 +10,8 @@ The sort or limit operator is used to sort the input data, limit the number of r
 
 ### Blocking nature
 
+In the multi-stage engine, a sort without collation (`LIMIT` or `OFFSET` alone) streams rows as they arrive. A bounded `ORDER BY` buffers up to `fetch + offset` rows (or the response limit when there is no SQL limit) before emitting sorted results. An unbounded `ORDER BY` buffers and sorts the full input. Sorting now happens in the sort operator after the mailbox receive operator, rather than in a sorted mailbox receive operator. See [Pinot PR #19412](https://github.com/apache/pinot/pull/19412).
+
 ## Hints
 
 None
@@ -31,6 +33,8 @@ The number of groups emitted by the operator.
 ## Explain attributes
 
 The sort or limit operator is represented in the explain plan as a `LogicalSort` explain node.
+
+Runtime operator plans identify the implementation as `SORT_LIMIT` (no collation), `SORT_TOP_N` (bounded sort), or `SORT_FULL` (unbounded sort). The logical explain node remains `LogicalSort`.
 
 ### sort\#
 
