@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Comma-separated cluster list settings now apply every entry
+
+When supplied through cluster config, `pinot.broker.allowedTablesForEmittingMetrics`, `pinot.server.allowedTablesForEmittingMetrics`, `pinot.server.transforms`, and `controller.access.protocols` now split comma-separated values into individual entries. Empty entries are ignored. Previously, a value with multiple entries could prevent table-level metrics, fail server startup for transforms, or cause the controller to use `controller.port` instead of the configured VIP protocol port. File-based settings were not affected.
+
+The `usePlannerRules` and `skipPlannerRules` query options now trim spaces around comma-separated rule names and ignore empty entries. Queries with spaces after commas may therefore use additional rules and produce a different plan.
+
+**Action required.** Review multi-entry values for these cluster settings before upgrading. Expect listed tables to begin emitting metrics and verify the controller VIP URL and port. Recheck query plans if planner-rule options contain spaces after commas.
+
+*Source: [PR #19644](https://github.com/apache/pinot/pull/19644)*
+
 ### Optimized group-by holder sizing no longer corrupts sparse keys
 
 Single-stage queries with `optimizeMaxInitialResultHolderCapacity=true` now use the full dictionary-cardinality product when selecting their group-key holder. Equality and `IN` predicates on single-value grouping columns still reduce the dense result-holder capacity, but sparse dictionary IDs can no longer index past that reduced capacity or force overflowing raw keys into an undersized numeric holder.
