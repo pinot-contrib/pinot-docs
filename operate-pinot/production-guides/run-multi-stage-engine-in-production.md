@@ -139,6 +139,20 @@ The physical optimizer path supports broker-side segment pruning through `useBro
 
 For tables with time-based or partition-based segment boundaries, broker pruning significantly reduces the number of segments scanned by leaf stages.
 
+### MSE segment-list encoding during rolling upgrades
+
+The broker config `pinot.broker.mse.enable.proto.segment.list` selects protobuf encoding for MSE leaf-stage segment lists. It defaults to `false`, so brokers use the legacy JSON encoding during a rolling upgrade. Leave it disabled until **every server a broker can dispatch to**, including servers in remote clusters used for multi-cluster routing, supports protobuf segment lists. A leaf stage sent with protobuf encoding to an older server fails its query.
+
+After upgrading all relevant servers, enable it through cluster config without restarting brokers:
+
+```sh
+curl -X POST "http://<controller>:9000/cluster/configs" \
+  -H "Content-Type: application/json" \
+  -d '{"pinot.broker.mse.enable.proto.segment.list": "true"}'
+```
+
+The change takes effect on the next query. To roll back, set the same key to `"false"`; clearing the cluster key also disables protobuf encoding. Cluster config takes precedence over the static broker setting. There is no per-query override.
+
 ### Explain plan and stage stats for debugging
 
 Use these tools to understand and optimize MSE query behavior in production:
