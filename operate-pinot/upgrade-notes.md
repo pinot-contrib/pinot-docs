@@ -17,6 +17,14 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Cluster-configured MSE disabled rules now apply individually
+
+When `pinot.broker.mse.planner.disabled.rules` is set through cluster config with multiple comma-separated rule names, brokers now disable each listed rule. Previously, the entire value was read as one rule name, so none of the listed rules matched; the value still replaced Pinot's built-in disabled-rule set, allowing those rules to run. Broker config-file values already split correctly. Unset and empty values retain their existing behavior.
+
+**Action required.** If you set multiple disabled rules through cluster config, compare representative multi-stage query plans before and after upgrading. The listed rules will now be disabled, which can change plans. See [Default Disabled Rules](../build-with-pinot/querying-and-sql/default-disabled-rules.md) for how this setting replaces the built-in set.
+
+*Source: [PR #19642](https://github.com/apache/pinot/pull/19642)*
+
 ### Comma-separated cluster list settings now apply every entry
 
 When supplied through cluster config, `pinot.broker.allowedTablesForEmittingMetrics`, `pinot.server.allowedTablesForEmittingMetrics`, `pinot.server.transforms`, and `controller.access.protocols` now split comma-separated values into individual entries. Empty entries are ignored. Previously, a value with multiple entries could prevent table-level metrics, fail server startup for transforms, or cause the controller to use `controller.port` instead of the configured VIP protocol port. File-based settings were not affected.
