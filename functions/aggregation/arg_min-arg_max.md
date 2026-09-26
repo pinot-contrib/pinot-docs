@@ -43,7 +43,7 @@ GROUP BY user_region
 
 Note:
 
-1. In cases where multiple rows share the same extreme values in the measuring columns, all such rows will be returned by the function.
+1. In cases where multiple rows share the same extreme values in the measuring columns, all such rows will be returned by the function, including ties from different servers. A null projection in a serialized result is returned as `NULL`, not an empty array. See [PR #19645](https://github.com/apache/pinot/pull/19645).
 2. If the goal is to project multiple different columns that correspond to the same set of measuring columns, you can achieve this by invoking the function multiple times, each time specifying a different projection column.
 3. With query option `enableNullHandling=true`, a row is excluded when any measuring column is `NULL`, because its composite comparison key is undefined. A `NULL` projection value does not exclude a row; it is returned if that row wins the comparison.
 4. This impl does not work with AS clause (e.g. `SELECT exprmin(longCol, doubleCol) AS exprmin` won't work)
