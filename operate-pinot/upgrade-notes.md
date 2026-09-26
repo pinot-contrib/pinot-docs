@@ -17,6 +17,14 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Index plugin registry supports at most 64 index types
+
+Pinot now limits the combined index types registered by built-in and custom `IndexPlugin` implementations to 64. A server with more than 64 registered types fails startup before joining the cluster, rather than failing during segment loads. The segment format is unchanged.
+
+**Action required for custom index plugin authors.** Count all distinct index types registered by your plugin set before upgrading; keep the total at or below 64. Deployments using only Pinot's built-in index types are below the limit.
+
+*Source: [PR #19475](https://github.com/apache/pinot/pull/19475)*
+
 ### Schema overrides through POST refresh server schema caches
 
 When `POST /schemas` overrides an existing schema (the default `override=true` behavior), Pinot now sends a schema refresh message to servers hosting tables that use it, as `PUT /schemas/{schemaName}` already does. This lets subsequent segment loads use the updated schema without an explicit segment reload. The refresh notification is best effort; if a server has not received it, verify its schema cache before relying on newly loaded segments to use the changed fields.
