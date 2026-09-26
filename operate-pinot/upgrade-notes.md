@@ -17,6 +17,12 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Schema overrides through POST refresh server schema caches
+
+When `POST /schemas` overrides an existing schema (the default `override=true` behavior), Pinot now sends a schema refresh message to servers hosting tables that use it, as `PUT /schemas/{schemaName}` already does. This lets subsequent segment loads use the updated schema without an explicit segment reload. The refresh notification is best effort; if a server has not received it, verify its schema cache before relying on newly loaded segments to use the changed fields.
+
+*Source: [PR #19677](https://github.com/apache/pinot/pull/19677)*
+
 ### Cluster-configured MSE disabled rules now apply individually
 
 When `pinot.broker.mse.planner.disabled.rules` is set through cluster config with multiple comma-separated rule names, brokers now disable each listed rule. Previously, the entire value was read as one rule name, so none of the listed rules matched; the value still replaced Pinot's built-in disabled-rule set, allowing those rules to run. Broker config-file values already split correctly. Unset and empty values retain their existing behavior.
