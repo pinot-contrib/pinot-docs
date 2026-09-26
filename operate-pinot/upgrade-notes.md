@@ -17,6 +17,14 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Table metadata requests no longer alter serving segment schemas
+
+Before this fix, `GET /tables/{table}/metadata?columns=*` could remove columns from a serving segment's in-memory schema when that server held segments with different column sets, as after schema evolution. Queries such as `SELECT *` could then omit the affected columns until the segment was reloaded. The controller's corresponding endpoint could trigger the same behavior because it forwarded `columns=*` to the server. The metadata request now computes the common column set without changing segment schemas.
+
+**Action required.** If a cluster running an older version served `columns=*` metadata requests and newly added columns appear missing from queries, reload affected segments after upgrading to restore their in-memory schemas.
+
+*Source: [PR #19665](https://github.com/apache/pinot/pull/19665)*
+
 ### Index plugin registry supports at most 64 index types
 
 Pinot now limits the combined index types registered by built-in and custom `IndexPlugin` implementations to 64. A server with more than 64 registered types fails startup before joining the cluster, rather than failing during segment loads. The segment format is unchanged.
