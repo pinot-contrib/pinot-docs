@@ -137,6 +137,7 @@ All the options should be prefixed with `-` (hyphen)
 | Option                   | Description                                                                                                                         |
 | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
 | dataDir                  | Directory containing input files                                                                                                    |
+| searchRecursively        | Search subdirectories under `dataDir` for input files. Defaults to `true`; pass `-searchRecursively false` to use only files directly in `dataDir`. |
 | format                   | Input data formats. See [Input formats](../build-with-pinot/ingestion/pinot-input-formats.md) for all the supported formats            |
 | outDir                   | Local output directory to publish the segments                                                                                      |
 | overwrite                | Set to `true` to overwrite segments of already present in the directory                                                             |
