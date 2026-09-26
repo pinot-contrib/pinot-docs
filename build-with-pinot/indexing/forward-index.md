@@ -132,6 +132,7 @@ When using the raw format, you can configure the following parameters:
 | --------------------- | ------- | --------------------------------------------------------------------------------------- |
 | chunkCompressionType  | null    | The compression that will be used. Replaced by `compressionCodec` since release `1.2.0` |
 | compressionCodec      | null    | The compression that will be used. Introduced in release `1.2.0`                        |
+| codecSpec             | null    | A codec pipeline for a single-value, fixed-width RAW column. Any non-null value selects the V7 forward-index format; it cannot be combined with `compressionCodec`. |
 | deriveNumDocsPerChunk | false   | Modifies the behavior when storing variable length values (like string or bytes)        |
 | rawIndexWriterVersion | 4       | The raw forward-index writer version used when you do not override it explicitly.                                                              |
 | targetDocsPerChunk    | 1000    | The target number of docs per chunk                                                     |
@@ -159,9 +160,13 @@ There are additional special-purpose compression codecs available for specific u
 
 `deriveNumDocsPerChunk` is only used when the datatype may have a variable length, such as with `string`, `big decimal`, `bytes`, etc. By default, Pinot uses a fixed number of elements that was chosen empirically. If changed to true, Pinot will use a heuristic value that depends on the column data.
 
-`rawIndexWriterVersion` changes the algorithm used to create the index. This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions. Pinot now defaults new raw forward indexes to version 4. The latest available version right now is 6 when you want to opt in explicitly.
+`rawIndexWriterVersion` changes the algorithm used to create a legacy raw index. This changes the actual data layout, but modern versions of Pinot can read indexes written in older versions. Pinot now defaults new raw forward indexes to version 4. The latest version selectable through this setting is 6; `codecSpec` selects V7 separately.
 
 **V6 Forward Index Format (Delta-Encoded Chunk Headers):** As of Pinot 1.3.0, version 6 provides improved compression for the forward index chunk headers. The V6 format delta-encodes chunk headers, storing individual entry sizes (deltas of cumulative offsets) instead of full offsets. These delta values are small, repetitive integers that compress dramatically better than the original offsets. V6 is a thin layer on top of V4/V5 — only the chunk header encoding differs; the data section and on-disk file layout remain identical. When `PASS_THROUGH` compression is used, V6 falls back to V4-style offsets since delta encoding provides no benefit without compression. The reader converts the delta-encoded sizes back to cumulative offsets in a single forward pass in-place, then reuses V4's standard random-access read logic unchanged, ensuring compatibility and performance.
+
+**V7 codec-pipeline format:** Set `fieldConfigList[].indexes.forward.codecSpec` on a single-value, fixed-width RAW column to write a self-describing V7 forward index. For example, use `"codecSpec": "DELTA,ZSTD(3)"` for an integer column with `"encodingType": "RAW"`. A non-null `codecSpec`, including a compression-only pipeline, selects V7. Leave it unset to use the legacy `compressionCodec` path. With V7, `targetDocsPerChunk` applies, but `rawIndexWriterVersion`, `deriveNumDocsPerChunk`, and `targetMaxChunkSize` do not. Pinot validates incompatible column shapes and options when the table config is submitted.
+
+Upgrade every component that builds or reads segments before enabling `codecSpec`. Before rolling back to binaries that cannot read V7, remove `codecSpec` and regenerate or re-push affected segments in a legacy format. A reload only rewrites the server-local copy; an unchanged V7 copy in deep storage can be downloaded again. See [PR #19307](https://github.com/apache/pinot/pull/19307).
 
 `targetDocsPerChunk` changes the target number of docs to store in a chunk. For `rawIndexWriterVersion` versions 2 and 3, this will store exactly `targetDocsPerChunk` per chunk. For `rawIndexWriterVersion` version 4, this config is used in conjunction with `targetMaxChunkSize` and chunk size is determined with the formula `min(lengthOfLongestDocumentInSegment * targetDocsPerChunk, targetMaxChunkSize)`. A negative value will disable dynamic chunk sizing and use the static `targetMaxChunkSize`.
 
