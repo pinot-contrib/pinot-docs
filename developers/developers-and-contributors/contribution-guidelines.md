@@ -139,6 +139,10 @@ Identify a list of tests for the changes you have made. Depending on the scope o
 
 ### Testing Guidelines
 
+*   **Use TestNG for test code**
+
+    Write test classes, annotations, and assertions with TestNG. Checkstyle rejects JUnit test API imports (`org.junit`) in test sources; the JUnit Platform suite API remains available for grouping TestNG suites. JUnit dependencies retained by the build support test infrastructure, not JUnit tests. See [PR #19675](https://github.com/apache/pinot/pull/19675).
+
 *   **Mocking**
 
     Use [Mockito](https://site.mockito.org/) to mock classes to control specific behaviors - e.g., simulate various error conditions.
