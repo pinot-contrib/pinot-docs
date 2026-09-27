@@ -17,6 +17,12 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Docker broker query logging resumes
+
+The Docker broker's Log4j2 configuration now connects `QueryLogger` to its `querylog` appender. A case mismatch previously suppressed query records in the Docker image. After upgrading, expect these records to resume in the broker query log; check downstream log ingestion and alert volume if they depend on query records.
+
+*Source: [PR #19626](https://github.com/apache/pinot/pull/19626)*
+
 ### Table metadata requests no longer alter serving segment schemas
 
 Before this fix, `GET /tables/{table}/metadata?columns=*` could remove columns from a serving segment's in-memory schema when that server held segments with different column sets, as after schema evolution. Queries such as `SELECT *` could then omit the affected columns until the segment was reloaded. The controller's corresponding endpoint could trigger the same behavior because it forwarded `columns=*` to the server. The metadata request now computes the common column set without changing segment schemas.
