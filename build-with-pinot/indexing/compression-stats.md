@@ -46,7 +46,9 @@ The table-level summary reports:
 
 Per-column entries break out the column name, observed index types, aggregate sizes, ratio, and
 `encodingBreakdown`. Raw forward indexes report the chunk compression type; dictionary-encoded columns report combined
-forward-index and dictionary bytes.
+forward-index and dictionary bytes. V7 raw forward indexes selected by `codecSpec` also report uncompressed value
+size and contribute to the ratio, including after a forward-index rewrite. Their codec pipeline is not one legacy
+chunk compression type, so `chunkCompressionType` is omitted for those entries.
 
 ## Coverage caveats
 
