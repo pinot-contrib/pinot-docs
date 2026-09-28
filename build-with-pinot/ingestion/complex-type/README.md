@@ -164,6 +164,8 @@ Add an `open_struct` entry to the field's `indexes` object in `fieldConfigList`:
 
 Use `ignoredKeys` for object keys that Pinot should discard during ingestion. An ignored key is not materialized as a dense child column, is not written to the sparse column, and cannot be queried. Ignored keys must not also appear in `denseKeys`, `valueFieldConfigs`, or the schema's `childFieldSpecs`.
 
+To query fields inside nested objects, set `maxNestedKeyDepth` in `open_struct`. The default `1` keeps each nested object as one value; `2` also exposes paths such as `device.os` from `{"device":{"os":"ios"}}`. Query that path as `attributes['device.os']`. The container key `attributes['device']` still returns the whole object as JSON text. Nested container keys are not automatically selected as dense keys unless listed in `denseKeys`; the depth limit changes which paths are addressable, not whether the original object is retained.
+
 ### Query OPEN_STRUCT keys
 
 Access a key with the item operator. The same syntax works in projections, filters, and aggregations:
@@ -182,6 +184,8 @@ GROUP BY attributes['customerId']
 For a materialized key, Pinot reads the generated child column and can use its dictionary, inverted, range, or other configured index. Per-key index filtering supports equality and inequality, `IN`, `NOT IN`, ranges, `IS NULL`, and `IS NOT NULL`. `EXPLAIN PLAN` reports `delegateTo:per_key_index` when the filter uses this path.
 
 Keys stored in the shared sparse column are also available through the item operator. Pinot exposes each sparse key as a virtual typed data source, so projections, filters, grouping, and aggregations use the same SQL syntax as dense keys. Sparse keys use scan-based execution by default. Set `sparseJsonIndex` to `true` to build a JSON index over the sparse column; Pinot can use it for compatible string-key equality and `IN` predicates, while other predicates continue to scan the virtual data source.
+
+Keys with array values can be stored and queried as multi-value keys. A declared child field controls its type and single- or multi-value shape; for an undeclared key, Pinot infers the shape and element type from ingested values. You can also select the whole `OPEN_STRUCT` column (including through `SELECT *`); Pinot reconstructs it as a JSON document from dense and sparse keys.
 
 A key that is absent from a document returns its type's default null value and is marked null when null handling is enabled. The same rule applies when a key is absent from an entire segment: Pinot uses the key's declared type and `defaultNullValue` from `childFieldSpecs`, or a single-value `STRING` field with the standard default when the key is undeclared. With null handling enabled, the lookup returns `NULL`, `IS NULL` matches every document, and value predicates do not match nulls. With null handling disabled, projections and predicates see the configured or type-specific default value instead. For example, if an absent declared `STRING` key has `"defaultNullValue": "N/A"`, `attributes['key'] = 'N/A'` matches every document in that segment.
 
