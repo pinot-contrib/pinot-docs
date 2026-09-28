@@ -17,6 +17,12 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Multi-stage query failures retain their error code during mailbox cancellation
+
+When a multi-stage query's sending mailbox is cancelled because of a worker error, Pinot now passes the worker's query error code and message to the receiver instead of reporting a generic query-cancellation error (503). For example, a server CPU-limit failure can now report `SERVER_RESOURCE_LIMIT_EXCEEDED` (245). Ordinary cancellations still report 503. If alerts or clients classify query failures by error code, expect the more specific codes after upgrading.
+
+*Source: [PR #19682](https://github.com/apache/pinot/pull/19682)*
+
 ### Docker broker query logging resumes
 
 The Docker broker's Log4j2 configuration now connects `QueryLogger` to its `querylog` appender. A case mismatch previously suppressed query records in the Docker image. After upgrading, expect these records to resume in the broker query log; check downstream log ingestion and alert volume if they depend on query records.
