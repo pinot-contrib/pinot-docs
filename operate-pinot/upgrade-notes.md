@@ -17,6 +17,12 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Query-quota rejections use their own error code and metric
+
+Broker query-quota rejections now decode as `TOO_MANY_REQUESTS` (429) instead of `WORKLOAD_BUDGET_EXCEEDED`, which now has error code 430. Quota rejections therefore count under `QUERY_ERROR_TOO_MANY_REQUESTS` (`queryErrorTooManyRequests`) rather than `QUERY_ERROR_WORKLOAD_BUDGET_EXCEEDED` (`queryErrorWorkloadBudgetExceeded`). Update dashboards and alerts that relied on the old metric. Both codes map to HTTP 429 when HTTP-status-for-errors is enabled.
+
+*Source: [PR #19676](https://github.com/apache/pinot/pull/19676)*
+
 ### Multi-stage query failures retain their error code during mailbox cancellation
 
 When a multi-stage query's sending mailbox is cancelled because of a worker error, Pinot now passes the worker's query error code and message to the receiver instead of reporting a generic query-cancellation error (503). For example, a server CPU-limit failure can now report `SERVER_RESOURCE_LIMIT_EXCEEDED` (245). Ordinary cancellations still report 503. If alerts or clients classify query failures by error code, expect the more specific codes after upgrading.
