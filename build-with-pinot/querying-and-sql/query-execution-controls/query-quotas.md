@@ -58,6 +58,8 @@ curl -X POST 'http://localhost:9000/cluster/configs' \
 
 Use `SET applicationName = 'myApp';` in the query when you want the quota to apply to a specific workload.
 
+SQL queries from the controller Query Console use `pinot-controller-console` as their application name by default. An explicit `SET applicationName` in the query overrides that name. If you configure an application quota for `pinot-controller-console` or a global default application quota, check that the console's interactive traffic has enough capacity; otherwise, console queries may be rate-limited.
+
 ## What to expect when multiple quotas exist
 
 Pinot enforces the most specific applicable guardrail:
