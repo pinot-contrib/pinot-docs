@@ -97,6 +97,8 @@ Pinot decides which keys are dense in this order:
 
 Dense keys reuse Pinot's standard column infrastructure, so each materialized key gets a forward index and can also use vetted per-key settings for dictionary, inverted, range, and bloom-filter behavior through `valueFieldConfigs`. If you do not configure a dense key explicitly, Pinot defaults to dictionary encoding plus an inverted index for that key.
 
+After changing a materialized key's index settings, reload the affected segments to apply them, as you would for an ordinary column. Reloading does not change which keys are dense: that choice is made when each segment is built.
+
 ### Define the schema
 
 Declare the object column as `OPEN_STRUCT`. `childFieldSpecs` is optional, but it is useful when some keys should always keep a specific type:
@@ -186,6 +188,8 @@ For a materialized key, Pinot reads the generated child column and can use its d
 Keys stored in the shared sparse column are also available through the item operator. Pinot exposes each sparse key as a virtual typed data source, so projections, filters, grouping, and aggregations use the same SQL syntax as dense keys. Sparse keys use scan-based execution by default. Set `sparseJsonIndex` to `true` to build a JSON index over the sparse column; Pinot can use it for compatible string-key equality and `IN` predicates, while other predicates continue to scan the virtual data source.
 
 Keys with array values can be stored and queried as multi-value keys. A declared child field controls its type and single- or multi-value shape; for an undeclared key, Pinot infers the shape and element type from ingested values. You can also select the whole `OPEN_STRUCT` column (including through `SELECT *`); Pinot reconstructs it as a JSON document from dense and sparse keys.
+
+New segments record the inferred type of undeclared sparse keys, so a key keeps its type whether it is dense or sparse in that segment. Older segments without this type metadata continue to expose undeclared sparse keys as `STRING`; rebuild those segments if you need their inferred types preserved.
 
 A key that is absent from a document returns its type's default null value and is marked null when null handling is enabled. The same rule applies when a key is absent from an entire segment: Pinot uses the key's declared type and `defaultNullValue` from `childFieldSpecs`, or a single-value `STRING` field with the standard default when the key is undeclared. With null handling enabled, the lookup returns `NULL`, `IS NULL` matches every document, and value predicates do not match nulls. With null handling disabled, projections and predicates see the configured or type-specific default value instead. For example, if an absent declared `STRING` key has `"defaultNullValue": "N/A"`, `attributes['key'] = 'N/A'` matches every document in that segment.
 
