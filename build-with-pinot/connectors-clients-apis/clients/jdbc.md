@@ -48,6 +48,12 @@ try (Connection conn = DriverManager.getConnection(dbUrl);
 
 The driver auto-registers itself, so manual `DriverManager.registerDriver(...)` calls are not required.
 
+### Reading collection and extended scalar values
+
+On both HTTP and gRPC connections, `ResultSet.getObject(...)` returns a Java `Map` for Pinot `MAP` columns and a typed Java `List` for Pinot array columns. For example, `STRING_ARRAY` returns `List<String>`, `INT_ARRAY` returns `List<Integer>`, and `UUID_ARRAY` returns `List<UUID>`. Array columns are reported in JDBC metadata as `Types.JAVA_OBJECT` with class name `java.util.List`; `MAP` uses `Types.JAVA_OBJECT` and `java.util.Map`.
+
+For scalar columns, `UUID` returns `java.util.UUID`, `JSON` returns `String`, `BIG_DECIMAL` returns `BigDecimal`, and `TIMESTAMP` returns `java.sql.Timestamp`. Null collections, empty collections, and null array elements are preserved. Malformed values are reported as `SQLDataException`.
+
 ## Connection URL and routing
 
 The current driver recognizes two JDBC schemes:
