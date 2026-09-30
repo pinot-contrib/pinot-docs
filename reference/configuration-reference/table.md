@@ -257,7 +257,7 @@ The `open_struct` config object supports the following properties:
 
 Per-key `FieldConfig.indexes` inside `defaultValueFieldConfig` or `valueFieldConfigs` may use only the vetted subset: `dictionary`, `forward`, `inverted`, `range`, and `bloom`. Forward indexes are always written for materialized child columns. When neither `defaultValueFieldConfig` nor `valueFieldConfigs` configures a dense key, Pinot uses dictionary encoding plus an inverted index for that key by default.
 
-Per-key forward-index settings select dictionary or raw encoding, but do not tune the forward-index format or compression. Raw materialized keys use LZ4; `codecSpec` in a per-key `forward` config is rejected, including in `defaultValueFieldConfig`.
+Set per-key `encodingType` to choose dictionary or raw encoding; enabling an inverted index also makes the key dictionary-encoded. Materialized keys always get a forward index, with LZ4 compression for raw keys. Per-key `indexes.forward` and `indexes.dictionary` may only restate that resulting encoding and keep the forward index enabled; they cannot tune its format or compression. Pinot rejects `codecSpec`, `compressionCodec`, `indexTypes`, `timestampConfig`, non-empty `properties` or `tierOverwrites`, and forward or dictionary options that conflict with the materialized key. These rules apply to both `valueFieldConfigs` and `defaultValueFieldConfig`, including multi-value and nested keys. Remove such settings before updating an existing table config; already-loaded tables continue to ingest.
 
 Example:
 
