@@ -21,6 +21,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | DOCUMENT_COUNT | total number of records in table |  |
 | SEGMENT_COUNT | total number of segments in table |  |
 | UPSERT_PRIMARY_KEYS_COUNT | total unique primary keys in table |  |
+| UPSERT_METADATA_REVERT_FAILURES | Table-level meter counting protected upsert metadata revert failure events, not distinct segments. Alert on increases and inspect the `UPSERT_METADATA_REVERT_FAILED` server log for the affected table, partition, and segment; Pinot does not repair the metadata automatically. | Meter |
 | LAST_REALTIME_SEGMENT_CREATION_DURATION_SECONDS | time in seconds it took for latest real-time segment to get created |  |
 | LAST_REALTIME_SEGMENT_CREATION_WAIT_TIME_SECONDS | time in seconds it took for segment creation to start (generally due to waiting for a lock to get acquired) |  |
 | LAST_REALTIME_SEGMENT_INITIAL_CONSUMPTION_DURATION_SECONDS | time in seconds spent consuming records for latest segment |  |
