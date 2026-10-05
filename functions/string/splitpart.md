@@ -9,6 +9,7 @@ Splits the input string by a delimiter and returns one element from the result.
 Pinot supports both `splitPart(str, delimiter, index)` and `splitPart(str, delimiter, limit, index)`.
 The snake-case alias `split_part(...)` is also accepted.
 The index is 0-based. Negative indices count from the end of the split result.
+Empty fields from leading, consecutive, or trailing delimiters are discarded. If a split limit is reached, the final field contains the unsplit remainder, including any trailing delimiters.
 
 ## Signature
 
@@ -67,3 +68,4 @@ org
 - The 4-argument form applies the split limit first and then looks up the requested index.
 - Multi-character delimiters are supported.
 - Empty input strings return `"null"` when the delimiter is non-empty.
+- For example, `splitPart('a,b,', ',', -1)` returns `b`, while `splitPart('a,b,', ',', 2, -1)` returns `b,`.
