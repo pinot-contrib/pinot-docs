@@ -245,6 +245,8 @@ tableSpec:
 | segment.partitionId | For `uploadedRealtime`, the external partition id to encode in the generated segment name. This value is required. |
 | segment.uploadTimeMs | For `uploadedRealtime`, the upload timestamp to encode in the generated segment name. If omitted, Pinot uses the segment creation time. |
 
+For `inputFile`, `segment.name.template` must reference at least one existing capture group in `file.path.pattern` using `${filePathPattern:\N}` (where `N` is the group number). A literal name, a bare `\1`, or a reference to a nonexistent group is rejected.
+
 #### Example
 
 ```
