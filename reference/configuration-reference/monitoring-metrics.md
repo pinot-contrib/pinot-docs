@@ -25,6 +25,7 @@ Pinot provides metrics out of the box so that you can monitor every aspect of pe
 | REALTIME_UPSERT_INCONSISTENT_ROWS | Table-level count of unreplaced primary keys for upsert tables configured to drop or track out-of-order records (excluding partial upsert). | Meter |
 | FULL_UPSERT_KEYS_NOT_REPLACED | Table-level count of unreplaced primary keys for other full-upsert tables. | Meter |
 | UPSERT_METADATA_REVERT_FAILURES | Table-level meter counting protected upsert metadata revert failure events, not distinct segments. Alert on increases and inspect the `UPSERT_METADATA_REVERT_FAILED` server log for the affected table, partition, and segment; Pinot does not repair the metadata automatically. | Meter |
+| UPSERT_REVERT_WITH_CONSUMPTION_DURING_DOWNLOAD | Table-level meter incremented when the next segment can consume while a download replaces a segment and reverts its upsert metadata. This can leave the next segment's snapshot missing restored rows. Investigate the server error log and use `parallelSegmentConsumptionPolicy=DISALLOW_ALWAYS` for the affected table. | Meter |
 | LAST_REALTIME_SEGMENT_CREATION_DURATION_SECONDS | time in seconds it took for latest real-time segment to get created |  |
 | LAST_REALTIME_SEGMENT_CREATION_WAIT_TIME_SECONDS | time in seconds it took for segment creation to start (generally due to waiting for a lock to get acquired) |  |
 | LAST_REALTIME_SEGMENT_INITIAL_CONSUMPTION_DURATION_SECONDS | time in seconds spent consuming records for latest segment |  |
