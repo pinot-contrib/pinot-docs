@@ -847,7 +847,7 @@ Reconciliation:
 - Keys still pointing to replaced segment → revert to prior immutable location.
 - Keys without prior location → removed.
 - Un reconcilable keys → logged, and metrics emitted for the user to take action.
-Make sure ParallelSegmentConsumptionPolicy is always ∈ {`DISALLOW_ALWAYS`, `ALLOW_DURING_BUILD_ONLY`}.
+For these tables, use `DISALLOW_ALWAYS` for `parallelSegmentConsumptionPolicy` when a segment download may revert metadata. `ALLOW_DURING_BUILD_ONLY` is accepted only with pauseless consumption; without pauseless consumption, a failed local build can fall back to a download after the next segment starts consuming.
 
 #### UNSAFE
 
@@ -1085,7 +1085,7 @@ For partial upsert tables or tables with `dropOutOfOrderRecord=true` or `outOfOr
 | Mode | Description |
 |---|---|
 | `RESTRICTED` | *(Default)* Skips consuming-segment reload and rejects explicit force commit for partial-upsert tables and upsert tables with `dropOutOfOrderRecord` or `outOfOrderRecordColumn` configured. |
-| `PROTECTED` | Enables reloads/force commits with upsert metadata reversion during segment replacements. Requires `ParallelSegmentConsumptionPolicy` set to `DISALLOW_ALWAYS` or `ALLOW_DURING_BUILD_ONLY`. |
+| `PROTECTED` | Enables reloads/force commits with upsert metadata reversion during segment replacements. For partial-upsert tables and upsert tables with `dropOutOfOrderRecord` or `outOfOrderRecordColumn`, table-config validation rejects `ALLOW_ALWAYS`, `ALLOW_DURING_DOWNLOAD_ONLY`, and `ALLOW_DURING_BUILD_ONLY` without pauseless consumption. Use `DISALLOW_ALWAYS`; `ALLOW_DURING_BUILD_ONLY` is accepted with pauseless consumption. With no explicit policy, the deprecated `allowPartialUpsertConsumptionDuringCommit=true` flag is also rejected. |
 | `UNSAFE` | Allows reloads without metadata reversion. Use only if inconsistency is acceptable or handled externally. |
 
 > **Note:** This cluster config is distinct from the table-level `upsertConfig.consistencyMode` setting (SYNC / SNAPSHOT / NONE), which controls query-vs-upsert concurrency on a single server.
