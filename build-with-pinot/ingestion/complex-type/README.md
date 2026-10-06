@@ -97,6 +97,8 @@ Pinot decides which keys are dense in this order:
 
 Dense keys reuse Pinot's standard column infrastructure, so each materialized key gets a forward index and can also use vetted per-key settings for dictionary, inverted, range, and bloom-filter behavior through `valueFieldConfigs`. If you do not configure a dense key explicitly, Pinot defaults to dictionary encoding plus an inverted index for that key.
 
+For a materialized key configured with `"encodingType": "RAW"`, add `"dictionary": {}` under its `indexes` to enable a dictionary without also enabling an inverted index. This supports a range index on that key while keeping the per-key config consistent with ordinary columns.
+
 After changing a materialized key's index settings, reload the affected segments to apply them, as you would for an ordinary column. Reloading does not change which keys are dense: that choice is made when each segment is built.
 
 ### Define the schema
@@ -186,6 +188,8 @@ GROUP BY attributes['customerId']
 For a materialized key, Pinot reads the generated child column and can use its dictionary, inverted, range, or other configured index. Per-key index filtering supports equality and inequality, `IN`, `NOT IN`, ranges, `IS NULL`, and `IS NOT NULL`. `EXPLAIN PLAN` reports `delegateTo:per_key_index` when the filter uses this path.
 
 Keys stored in the shared sparse column are also available through the item operator. Pinot exposes each sparse key as a virtual typed data source, so projections, filters, grouping, and aggregations use the same SQL syntax as dense keys. Sparse keys use scan-based execution by default. Set `sparseJsonIndex` to `true` to build a JSON index over the sparse column; Pinot can use it for compatible string-key equality and `IN` predicates, while other predicates continue to scan the virtual data source.
+
+You can instead configure the sparse blob with `sparseFieldConfig` inside `open_struct`. For example, `"sparseFieldConfig": {"name": "attributes$__sparse__", "indexes": {"json": {}}}` builds the same JSON index as `"sparseJsonIndex": true`. The blob remains raw-encoded even if its field config requests a dictionary. See the [table reference](../../../reference/configuration-reference/table.md#open_struct-index) for the complete config surface.
 
 Keys with array values can be stored and queried as multi-value keys. A declared child field controls its type and single- or multi-value shape; for an undeclared key, Pinot infers the shape and element type from ingested values. You can also select the whole `OPEN_STRUCT` column (including through `SELECT *`); Pinot reconstructs it as a JSON document from dense and sparse keys.
 
