@@ -25,6 +25,8 @@ Range index is supported on:
 - Dictionary-enabled columns of any data type except MAP (INT, LONG, FLOAT, DOUBLE, STRING, BIG_DECIMAL, BYTES, BOOLEAN, TIMESTAMP). The dictionary can be paired with either a dictionary-encoded forward index or a RAW forward index with a standalone dictionary.
 - Raw-encoded columns without a dictionary for numeric types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL).
 
+For [ingestion-aggregated](../ingestion/ingestion-level-aggregations.md) no-dictionary metric columns, a version `2` range index is supported on committed segments. When an older segment lacks min/max metadata for a raw `INT` or `LONG` column, adding the index requires an extra scan of its forward index to recover that range.
+
 {% hint style="info" %}
 A range index can also be used on a dictionary-encoded time column using `STRING` type, because Pinot only supports datetime formats that are in lexicographical order.
 {% endhint %}
