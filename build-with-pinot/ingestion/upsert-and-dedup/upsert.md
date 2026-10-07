@@ -584,6 +584,8 @@ The snapshots are taken on every segment commit to ensure that they are consiste
 \
 We recommend that you enable this feature so as to speed up server boot times during restarts.
 
+To compare persisted `validDocIds` snapshots across replicas, request `POST /tables/{tableNameWithType}/validDocIdsMetadata?validDocIdsType=SNAPSHOT` from each server. Each returned immutable segment can include a `snapshotPass` object with `consistent`, `segmentsCrc`, `numSegments`, and `finishedAtMs`. Compare snapshot files only when both replicas report `consistent: true` and the same `segmentsCrc` for the partition. Otherwise, segment changes or an incomplete snapshot pass can produce a false mismatch. The field is absent when no snapshot pass has completed, and is also available with `SNAPSHOT_WITH_DELETE`.
+
 {% hint style="info" %}
 For upsert tables that use `metadataTTL` or `deletedKeysTTL`, [segment reload](../../../operate-pinot/segment-reload.md) rebuilds upsert metadata from the persisted `validDocIds` snapshot instead of rescanning every row in the immutable segment. This prevents reload from resurrecting keys that TTL expiry or delete handling had already removed from the upsert metadata.
 
