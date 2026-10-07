@@ -49,6 +49,8 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 | `numDocsScanned` | Number of documents selected after filtering |
 | `numEntriesScannedInFilter` | Filter-phase entries scanned |
 | `numEntriesScannedPostFilter` | Post-filter entries scanned |
+| `numRemoteAccesses` | Number of remote storage accesses recorded while serving the query. Zero when no remote-backed segment directory records accesses. |
+| `remoteAccessBytes` | Bytes read from remote storage for those accesses. Zero when no remote-backed segment directory records reads. |
 | `partialResult` | Whether Pinot returned a partial result instead of a fully complete answer. For MSE Lite queries, this also becomes `true` when `mseLiteLeafStageLimitReached=true`. |
 | `mseLiteLeafStageLimitReached` | Multi-stage Lite Mode flag that indicates Pinot hit a broker-injected implicit leaf-stage limit on at least one worker. When this is `true`, the response is truncated and `partialResult` is also `true`. |
 | `mseLiteLeafStageEffectiveLimit` | For MSE Lite queries where Pinot injected an implicit leaf-stage limit, the effective per-worker limit that Pinot enforced. |
@@ -68,6 +70,9 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 For DISTINCT early termination, the response shape depends on the engine. Single-stage responses use the legacy
 boolean fields such as `maxRowsInDistinctReached`, while multi-stage V2 responses surface the same condition through
 `partialResult=true` plus `earlyTerminationReasons`.
+
+The remote-access fields are also copied into cursor responses. For multi-stage queries, leaf `stageStats` include
+the same remote-access counts and byte totals, which are merged into the broker response.
 
 The Lite Mode warning fields are specific to multi-stage V2 responses. `mseLiteLeafStageLimitReached` is always present
 as a boolean, while `mseLiteLeafStageEffectiveLimit` and `mseLiteFanOutAdjustedLimitApplied` appear only when Pinot
