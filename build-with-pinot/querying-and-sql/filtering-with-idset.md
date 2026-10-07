@@ -12,6 +12,8 @@ description: Learn how to write fast queries for looking up IDs in a list of val
 
 A common use case is filtering on an id field with a list of values. This can be done with the IN clause, but using IN doesn't perform well with large lists of IDs. For large lists of IDs, we recommend using an IdSet.
 
+Large base64 IdSet literals (including sets with millions of IDs) can be used in both query engines. For HTTP queries, a literal is still subject to the broker's approximately 20-million-character JSON string limit. In the multi-stage engine, a query carrying a large literal can also exceed the 64 MiB default gRPC message limits; increase the [server inbound plan limit](../../reference/configuration-reference/server.md) or [broker inbound dispatch limit](../../reference/configuration-reference/broker.md) only if the corresponding message exceeds its default.
+
 ## Functions
 
 ### ID\_SET
