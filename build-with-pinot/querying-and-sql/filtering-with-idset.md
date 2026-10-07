@@ -7,7 +7,7 @@ description: Learn how to write fast queries for looking up IDs in a list of val
 
 
 {% hint style="info" %}
-Filtering with IdSet is **only supported with the single-stage query engine (v1)**.
+`IDSET` and `IN_ID_SET` work in both the single-stage and multi-stage query engines. In the multi-stage engine, `IN_ID_SET` can be used in leaf filters, post-join filters, join conditions, and `HAVING`. The string-subquery forms `IN_SUBQUERY` and `IN_PARTITIONED_SUBQUERY` remain single-stage features; multi-stage single-query subquery forms are not yet supported.
 {% endhint %}
 
 A common use case is filtering on an id field with a list of values. This can be done with the IN clause, but using IN doesn't perform well with large lists of IDs. For large lists of IDs, we recommend using an IdSet.
@@ -36,6 +36,8 @@ Note that when a Bloom Filter is used, the filter results are approximate - you 
 > IN\_ID\_SET(columnName, base64EncodedIdSet)
 
 This function returns 1 if a column contains a value specified in the IdSet and 0 if it does not.
+
+The lookup value must have the same stored type as the values used to build the IdSet. With null handling enabled, a NULL lookup value yields NULL for a non-empty set, but FALSE for an empty or NULL set. Thus `IN_ID_SET(nullableCol, <empty set>) = 0` also keeps NULL rows.
 
 ### IN\_SUBQUERY
 
