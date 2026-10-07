@@ -91,7 +91,7 @@ For other table and stream configurations, you can headover to [Table configurat
 
 ### Supported Pulsar versions
 
-Pinot currently relies on Pulsar client version 4.0.x. Make sure the Pulsar broker is compatible with this client version.
+Pinot currently relies on Pulsar client version 5.0.0. Make sure the Pulsar broker is compatible with this client version.
 
 #### Extract record headers as Pinot table columns
 
