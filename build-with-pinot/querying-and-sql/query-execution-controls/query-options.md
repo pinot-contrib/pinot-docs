@@ -48,6 +48,21 @@ Operators can change `pinot.broker.query.option.validationMode` and `pinot.broke
 
 For a request gateway that must prevent SQL text from overriding trusted request options, pass `sqlOptionsMode` in the request's `queryOptions` (REST) or gRPC metadata. `ALLOW` (default) merges SQL `SET` and legacy `OPTION(...)` values over request options, `IGNORE` drops SQL-embedded options, and `REJECT` returns `QUERY_VALIDATION` with the offending keys. For example, a REST request can include `"queryOptions": "sqlOptionsMode=IGNORE;timeoutMs=5000"` alongside its `sql` string. The mode is **not** honored when supplied inside the SQL itself. An invalid mode fails with `QUERY_VALIDATION`, even if the SQL contains no options.
 
+## AND restriction pushdown
+
+`andRestrictionPushdownMode` controls pushing an AND filter's candidate document IDs into composite filter children, including OR and NOT filters, to restrict their work. The per-query option overrides the server setting `pinot.server.query.executor.and.restriction.pushdown.mode`.
+
+- `NEVER` (default): disables restriction pushdown.
+- `AUTO`: enables it for aggregation and group-by queries with a positive `LIMIT`, excluding DISTINCT queries. Selection queries are excluded, including those with `ORDER BY`, because some segment plans can stop early.
+- `ALWAYS`: enables it regardless of query shape.
+
+```sql
+SET andRestrictionPushdownMode = 'AUTO';
+SELECT COUNT(*) FROM events WHERE tenantId = 42 AND (status = 'error' OR message LIKE '%timeout%');
+```
+
+Pushdown materializes filter results instead of streaming them, so `ALWAYS` can add work to queries that would otherwise stop after satisfying their limit. Evaluate it on your workload; it does not guarantee a speedup.
+
 ## When to reach for options
 
 Use query options when you want to change behavior without changing table configuration.
