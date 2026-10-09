@@ -586,6 +586,18 @@ We recommend that you enable this feature so as to speed up server boot times du
 
 To compare persisted `validDocIds` snapshots across replicas, request `POST /tables/{tableNameWithType}/validDocIdsMetadata?validDocIdsType=SNAPSHOT` from each server. Each returned immutable segment can include a `snapshotPass` object with `consistent`, `segmentsCrc`, `numSegments`, and `finishedAtMs`. Compare snapshot files only when both replicas report `consistent: true` and the same `segmentsCrc` for the partition. Otherwise, segment changes or an incomplete snapshot pass can produce a false mismatch. The field is absent when no snapshot pass has completed, and is also available with `SNAPSHOT_WITH_DELETE`.
 
+For `SNAPSHOT` and `SNAPSHOT_WITH_DELETE`, each segment can also include `diagnostics` from its saved bitmap, without an additional request flag:
+
+| Field | Meaning |
+| --- | --- |
+| `docIdsCrc`, `docIdsType` | Fingerprint of saved document-ID membership and the bitmap type (`VALID_DOC_IDS` or `QUERYABLE_DOC_IDS`). Compare the same segment contents and bitmap type, using segment CRCs as context. |
+| `snapshotCapturedAtMs`, `snapshotAgeMs` | Capture time and age of the saved bitmap, in milliseconds. Age is omitted when capture time is ahead of the server clock. Repeated requests do not refresh capture time. |
+| `snapshotConsumingSegmentName`, `snapshotConsumedUpToOffset` | Consumer startup that triggered the snapshot and its exclusive, per-replica consumed-up-to offset. The offset is the consuming segment's start offset, or the previous segment's stop offset when it was still unsealed. These fields are omitted without startup context. |
+
+Different fingerprints can reveal different saved IDs even when valid-document counts match; matching fingerprints are not proof of equality. The startup offset is not a partition consistency watermark, and matching trigger context does not prove equivalent partition state. Use the bitmap download API for document-ID inspection and ingestion diagnostics for current progress.
+
+Diagnostics are absent for `IN_MEMORY` and `IN_MEMORY_WITH_DELETE`, legacy snapshots, and snapshots with unreadable or unsupported diagnostic metadata. Unchanged or skipped snapshots retain their original metadata. Bitmap downloads and peer copies remain bitmap-only, so peer copies omit diagnostics until a local snapshot is written.
+
 {% hint style="info" %}
 For upsert tables that use `metadataTTL` or `deletedKeysTTL`, [segment reload](../../../operate-pinot/segment-reload.md) rebuilds upsert metadata from the persisted `validDocIds` snapshot instead of rescanning every row in the immutable segment. This prevents reload from resurrecting keys that TTL expiry or delete handling had already removed from the upsert metadata.
 
