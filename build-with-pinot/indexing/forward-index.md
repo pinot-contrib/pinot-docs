@@ -145,7 +145,21 @@ The `compressionCodec` parameter has the following valid values for raw-encoded 
 * `ZSTANDARD` — high compression ratio, slower than Snappy
 * `LZ4` — fast compression, good balance of speed and ratio
 * `GZIP` — high compression ratio (introduced in release `1.2.0`)
-* `null` (the JSON null value, not `"null"`), which is the default. In this case, `PASS_THROUGH` will be used for metrics and `LZ4` for other columns.
+* `null` (the JSON null value, not `"null"`), which is the default. In this case, `PASS_THROUGH` will be used for metrics and the configured default codec (`LZ4` unless overridden) for other columns.
+
+#### Default raw forward-index codec
+
+Set `pinot.forward.index.default.compression.codec` in cluster configuration to choose the fallback codec for non-metric RAW columns without an explicit column codec. For example:
+
+```properties
+pinot.forward.index.default.compression.codec=ZSTANDARD
+```
+
+Accepted values are `PASS_THROUGH`, `SNAPPY`, `ZSTANDARD`, and `LZ4`; spelling is case-insensitive and surrounding whitespace is ignored. `GZIP`, the CLP family, `MV_ENTRY_DICT`, `DELTA`, and `DELTADELTA` are not accepted as defaults. Unknown or rejected values log a warning and keep the current default instead of failing startup. Explicit per-column compression settings take precedence, and metric columns still default to `PASS_THROUGH`.
+
+The setting is applied at service startup, not dynamically. Restart affected services after changing it. During a rolling restart, old and new segments can use different codecs; readers use the codec stored in each segment. Standalone, Spark/Hadoop batch ingestion, and `pinot-admin CreateSegment` do not inherit this cluster setting and retain the compiled-in default unless configured explicitly.
+
+Changing the default alone does not rewrite existing forward indexes on reload. An index rebuilt for another reason can use the reloading service's current default. In a single-JVM multi-role deployment, this default is process-global and the last role to start determines it for the process.
 
 For dictionary-encoded multi-value forward indexes, there is one additional compression type:
 
