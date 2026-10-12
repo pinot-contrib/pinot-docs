@@ -847,13 +847,13 @@ This divergence is generally safe for FULL Upsert tables because replicas eventu
 
 To mitigate that, we added a **Helix cluster config** (not a per-process `pinot-server.conf` key): `pinot.server.consuming.segment.consistency.mode`, with three modes:
 
-#### RESTRICTED (default)
+#### RESTRICTED
 
 Blocks force-commit and reload for Partial Upsert and DropOutOfOrder tables.
 Consuming segment can only commit naturally.
 Guarantees consistency
 
-#### PROTECTED
+#### PROTECTED (default)
 
 Allows force-commit/reload with post-replacement reconciliation using a temporary map which track the previous immutable segment location of the key.
 
@@ -1098,9 +1098,11 @@ For partial upsert tables or tables with `dropOutOfOrderRecord=true` or `outOfOr
 
 | Mode | Description |
 |---|---|
-| `RESTRICTED` | *(Default)* Skips consuming-segment reload and rejects explicit force commit for partial-upsert tables and upsert tables with `dropOutOfOrderRecord` or `outOfOrderRecordColumn` configured. |
-| `PROTECTED` | Enables reloads/force commits with upsert metadata reversion during segment replacements. For partial-upsert tables and upsert tables with `dropOutOfOrderRecord` or `outOfOrderRecordColumn`, table-config validation rejects `ALLOW_ALWAYS`, `ALLOW_DURING_DOWNLOAD_ONLY`, and `ALLOW_DURING_BUILD_ONLY` without pauseless consumption. Use `DISALLOW_ALWAYS`; `ALLOW_DURING_BUILD_ONLY` is accepted with pauseless consumption. With no explicit policy, the deprecated `allowPartialUpsertConsumptionDuringCommit=true` flag is also rejected. |
+| `RESTRICTED` | Skips consuming-segment reload and rejects explicit force commit for partial-upsert tables and upsert tables with `dropOutOfOrderRecord` or `outOfOrderRecordColumn` configured. |
+| `PROTECTED` | *(Default)* Enables reloads/force commits with upsert metadata reversion during segment replacements. For partial-upsert tables and upsert tables with `dropOutOfOrderRecord` or `outOfOrderRecordColumn`, table-config validation rejects `ALLOW_ALWAYS`, `ALLOW_DURING_DOWNLOAD_ONLY`, and `ALLOW_DURING_BUILD_ONLY` without pauseless consumption. Use `DISALLOW_ALWAYS`; `ALLOW_DURING_BUILD_ONLY` is accepted with pauseless consumption. With no explicit policy, the deprecated `allowPartialUpsertConsumptionDuringCommit=true` flag is also rejected. |
 | `UNSAFE` | Allows reloads without metadata reversion. Use only if inconsistency is acceptable or handled externally. |
+
+The default changed from `RESTRICTED` to `PROTECTED`; an explicitly configured cluster value remains unchanged. Before upgrading an affected table, check its parallel-consumption policy against the `PROTECTED` requirements above. Configure `RESTRICTED` explicitly if you need to retain the previous reload/force-commit restrictions.
 
 > **Note:** This cluster config is distinct from the table-level `upsertConfig.consistencyMode` setting (SYNC / SNAPSHOT / NONE), which controls query-vs-upsert concurrency on a single server.
 
