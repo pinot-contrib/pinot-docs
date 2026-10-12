@@ -210,7 +210,7 @@ Configure automatic scheduling using cron expressions:
 ## Important Considerations
 
 - **One file per segment**: Each input file produces exactly one segment. Plan your input file sizes accordingly.
-- **Segment name collisions**: In APPEND mode, a UUID is appended to segment names to prevent collisions across scheduling runs. Alternatively, omit `tableMaxNumTasks` to ingest all files in a single batch, which uses a sequence number suffix.
+- **Segment name collisions**: In APPEND mode, per-file task generation defaults to appending a UUID to prevent collisions across scheduling runs. An explicit `segmentNameGenerator.configs.append.uuid.to.segment.name` takes precedence over the top-level `append.uuid.to.segment.name` setting; either can disable the default. Set it to `false` only if your name generator guarantees unique names across runs: repeated names can overwrite segments and cause files to be scheduled repeatedly. Alternatively, omit `tableMaxNumTasks` to ingest all files in a single batch, which uses a sequence number suffix.
 - **Input directory listing overhead**: The task lists all files in `inputDirURI` on every scheduling run. For cloud buckets with many files, keep `inputDirURI` pointing to the smallest possible set of files.
 - **File tracking**: In APPEND mode, the input file URI is stored in the segment's ZK metadata custom map. This prevents re-ingestion of the same file. In non-APPEND modes, this deduplication does not apply.
 - **Push mode selection**: Use `TAR` for simple setups, `URI` when the controller can access the deep store directly, and `METADATA` for the most efficient large-scale ingestion (segment data stays on deep store).
