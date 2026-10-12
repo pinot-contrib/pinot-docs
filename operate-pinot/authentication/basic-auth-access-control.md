@@ -157,13 +157,17 @@ If `*.principals.<user>.tables`is not configured, all tables are accessible to \
 
 Controller Basic Auth enforces `CREATE`, `READ`, `UPDATE`, and `DELETE` permissions for both table-specific and cluster-level endpoints. A principal with an explicit permission list is denied operations outside that list. Omitting the permission list, or configuring an empty list, preserves the legacy wildcard behavior.
 
-Invalid credentials return HTTP `401`. Valid credentials without the required permission or table access return HTTP `403`. Table allow lists apply only when the endpoint targets a table; cluster-level endpoints use the CRUD permission declared by the endpoint.
+Invalid credentials return HTTP `401`. Valid credentials without the required permission or table access return HTTP `403`. For controller cluster-level endpoints, both static Basic Auth and ZooKeeper-managed Basic Auth require unrestricted table scope (no table allow list or exclude list) in addition to the endpoint's CRUD permission. An `ADMIN` role does not bypass a configured table restriction.
+
+Table-scoped principals cannot use cluster-wide endpoints, including table/schema listings and the controller multi-stage `/sql` path. Web UI credential verification remains authentication-only, but cluster-wide UI views are denied. Supplying an arbitrary `tableName` query parameter does not make a cluster endpoint table-scoped: only table targets explicitly declared by the endpoint count. Scoped callers must supply optional upload table parameters; omitting them retains cluster-wide scope.
 
 {% hint style="warning" %}
-Before rolling out cluster-permission enforcement to controllers, grant the server identity used by `pinot.server.segment.uploader.auth.token` cluster-level `CREATE` permission. Segment completion callbacks mutate controller state. If you use an action-aware custom policy, also grant that identity `COMMIT_SEGMENT`. Update the identity before upgrading controllers to prevent real-time segment commits from failing authorization.
+Before upgrading controllers, provision an unrestricted service principal with the required CRUD permissions for real-time segment-completion and minion callbacks that carry no table name. In particular, the server identity used by `pinot.server.segment.uploader.auth.token` needs unrestricted table scope and cluster-level `CREATE` permission. If you use an action-aware custom policy, also grant that identity `COMMIT_SEGMENT`. Configure these credentials before rolling controllers to prevent ingestion stalls; keep separate table-scoped credentials for table work.
 {% endhint %}
 
 Log-download endpoints require `READ`. The deprecated `/auth/verify` endpoint remains an exception: invalid credentials produce its legacy boolean `false` response instead of an HTTP `401`.
+
+Custom controller access-control implementations should audit their null-table and cluster-wide policies. A custom `BasicAuthPrincipal` subclass that restricts tables by overriding `hasTable` must also override `hasUnrestrictedTableAccess` consistently. This controller policy does not change broker admin authorization.
 
 #### Broker authentication and authorization
 
