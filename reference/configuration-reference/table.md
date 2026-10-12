@@ -102,6 +102,23 @@ The built-in `firstN` sampler sorts segment names lexicographically and keeps th
 | replication        | Number of replicas for the tables. A replication value of 1 means segments won't be replicated across servers.                                                                                                                                                                                                                                                                                                          |
 | retentionTimeUnit | Unit for the retention, such as `HOURS` or `DAYS`. This, in combination with retentionTimeValue decides the duration for which to retain the segments. For example, `365 DAYS` means that segments containing data older than 365 days will be deleted periodically by the `RetentionManager` Controller periodic task. By default, there is no set retention. |
 | retentionTimeValue | A numeric value for the retention. This, in combination with `retentionTimeUnit`, determines the duration for which to retain the segments                                                                                                                                                                                                                                                                              |
+| retentionSize | Optional positive compressed-segment archive size limit, for example `"100G"`. Supported for OFFLINE APPEND tables and completed REALTIME segments; see [Size-based retention](#size-based-retention). |
+
+#### Size-based retention
+
+Set `segmentsConfig.retentionSize`, for example `"100G"`, to periodically evict the oldest eligible segments. It can be used alone or alongside time retention. OFFLINE APPEND and REALTIME limits apply independently to each typed table; OFFLINE REFRESH tables are not supported.
+
+The limit counts compressed archive bytes recorded in segment metadata for active, live completed data, once regardless of replica count. Replacement copies are filtered through segment lineage to avoid double counting. It is not a limit on decompressed server disk, memory, or total physical deep-store usage, and does not replace upload-admission storage quotas.
+
+The retention manager runs time retention and lineage cleanup before size eviction. It orders whole segments by the first nonnegative timestamp among end time, creation time, and push time, then by segment name. It protects the newest OFFLINE segment, the highest-sequence DONE LLC segment per REALTIME partition group, and segments without an ordering timestamp. Consuming/committing REALTIME segments are not counted or evicted.
+
+Every retained lineage entry protects both its source and destination names. Eviction stops at the first active lineage-owned segment in the ordering; it does not skip that barrier to delete newer data. Missing live metadata or unknown completed-segment sizes skip the pass safely. A changed lineage snapshot aborts the deletion batch for retry in a later cycle.
+
+This is a periodic, best-effort cap: protected data can leave the table above it, and whole-segment eviction can leave it below. The table-level controller gauge `sizeRetentionBlocked` reports blocked enforcement. Physical removal follows the existing deleted-segment retention lifecycle. Lineage barriers can persist through replacement retention and subsequent cleanup cycles; cleanup eligibility does not guarantee when the cap will be met.
+
+{% hint style="warning" %}
+REALTIME size retention does not consult the OFFLINE routing time boundary. For hybrid tables, size the REALTIME cap to comfortably retain all data newer than that boundary; otherwise it can delete data before RealtimeToOffline migration. Existing hybrid time-retention boundary rules are unchanged.
+{% endhint %}
 
 ### Table index config
 
