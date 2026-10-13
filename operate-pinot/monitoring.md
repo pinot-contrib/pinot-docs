@@ -37,6 +37,21 @@ A concise summary of the most important metrics per component:
 
 For the complete list of metrics, alert thresholds, and diagnosis patterns, see the [Monitoring guide](monitoring.md).
 
+## Broker routing rebuild metrics
+
+Use these broker metrics to distinguish frequent assignment changes from slow or failing routing rebuilds. Table-level metrics use the table name with its type (`_OFFLINE` or `_REALTIME`).
+
+| Metric name | Type and scope | Meaning |
+| --- | --- | --- |
+| `routingTableUpdateTime` | Timer, per table and global | Successful assignment-change rebuild duration, including reads of the ideal state and external view and rebuilding routing components |
+| `routingTableUpdateSuccess` | Meter, per table | Successful routing updates triggered by an ideal-state or external-view version change |
+| `routingTableUpdateFailure` | Meter, per table | Exceptions during assignment-change updates; not included in the success meter or timer |
+| `routingTableSegments` | Gauge, per table | Online segments in the ideal state retained by the segment pre-selector, not total stored segments or replica count |
+
+The success/failure meters and timer cover assignment-change rebuilds, not full routing builds such as those caused by table configuration changes. Missing ideal state or external view skips an update without counting an exception failure. After an exception, the routing entry retains its old versions so the next change can retry. The segment gauge is set on a successful full build and refreshed after assignment-change processing; it is removed when the table's routing is removed.
+
+The existing JMX exporter rules in `broker.yml` and `pinot.yml` export these metrics; Prometheus names and labels follow those exporter rules. See [apache/pinot#19784](https://github.com/apache/pinot/pull/19784).
+
 ## JVM diagnostics with Continuous JFR
 
 For low-overhead, always-on JVM profiling, Pinot supports **Continuous Java Flight Recorder (JFR)**. JFR captures CPU, memory, GC, thread, and lock events into `.jfr` files. Pinot provides cluster-level runtime control through `ContinuousJfrStarter` -- operators can toggle recording on/off or adjust settings without restarting processes.
