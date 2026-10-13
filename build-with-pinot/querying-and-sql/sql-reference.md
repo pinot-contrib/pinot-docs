@@ -341,6 +341,27 @@ Important limits and caveats:
 - Rolled-up columns are returned as real `NULL` values even when null handling is disabled
 - Existing non-grouping-set queries remain wire-compatible during a rolling upgrade, but do not issue grouping-set queries until all servers are upgraded
 
+#### Opt-in base aggregation on SSE
+
+For single-stage `GROUPING SETS`, `ROLLUP`, and `CUBE` queries, enable base aggregation to aggregate the union of grouping columns once per segment, then derive the requested subtotals from merged base groups:
+
+```sql
+SET groupingSetsBaseAggregation=true;
+SELECT country, city, COUNT(*) AS orders
+FROM sales
+GROUP BY ROLLUP(country, city)
+ORDER BY orders DESC
+LIMIT 50;
+```
+
+This optimization is disabled by default. It can help when many rows collapse into few base groups with cheap-to-merge aggregates; expensive sketch merges can regress. Unsupported plans fall back to per-row expansion, including mutable segments, raw, multi-valued or transformed grouping columns, filtered aggregates, and unsupported combine paths.
+
+The planner must prove that both base groups and the sum of all requested grouping-set groups fit `numGroupsLimit`. `groupingSetsBaseAggregationMaxGroups` is an additional per-segment base-group bound, defaulting to `numGroupsLimit`; increasing it cannot bypass that hard limit. For example, two values each in `a` and `b` produce at most four base groups but seven `ROLLUP(a, b)` groups, so `numGroupsLimit=6` prevents admission. Unprovable bounds fall back to expansion; unexpected BASE overflow fails the query.
+
+Optionally set `groupingSetsMinServerTrimSize` to a positive value to keep at least `max(5 * LIMIT, groupingSetsMinServerTrimSize)` groups within each set after server-side merging. It is disabled when unset or non-positive and ignored without `ORDER BY`. This trimming can approximate global top-K; dropped groups set the response's `groupsTrimmed` flag. The broker still applies final `ORDER BY` and `LIMIT` across all sets. An opted-in `EXPLAIN` admission marker indicates eligibility; the `GROUPING_SETS_BASE_AGGREGATION` server meter records actual BASE derivation.
+
+See [apache/pinot#19264](https://github.com/apache/pinot/pull/19264).
+
 ### GROUPING() and GROUPING_ID()
 
 Use `GROUPING()` and `GROUPING_ID()` to tell subtotal rows apart from genuine data `NULL`s:
