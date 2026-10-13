@@ -37,8 +37,6 @@ A concise summary of the most important metrics per component:
 
 For the complete list of metrics, alert thresholds, and diagnosis patterns, see the [Monitoring guide](monitoring.md).
 
-## JVM diagnostics with Continuous JFR
-
 ## Broker routing rebuild metrics
 
 Use these broker metrics to distinguish frequent assignment changes from slow or failing routing rebuilds. Table-level metrics use the table name with its type (`_OFFLINE` or `_REALTIME`).
