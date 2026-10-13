@@ -17,6 +17,18 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Native t-digest implementation replaces the tdunning dependency
+
+Pinot removes `com.tdunning:t-digest` while retaining legacy verbose/compact digest BYTES and object serialization type 10. Byte compatibility does **not** guarantee identical percentile results or downgrade safety. Before upgrading, compare representative percentile queries, especially duplicate-value plateaus, fractional weights, infinities, and SmartTDigest multi-valued inputs with null handling. SmartTDigest MV now includes each non-null row once. Empty SmartTDigest returns NULL with null handling and -Infinity otherwise; ordinary TDigest still returns NaN without null handling.
+
+**Custom plugins must migrate and recompile.** Replace tdunning types with `org.apache.pinot.segment.local.customobject.tdigest.TDigest`. Replace `CustomSerDeUtils.TDIGEST_SER_DE` with `fromBytes(bytes)`/`serialize()` for stored digests. Use `TDigestAccumulator.forLegacyAggregation(compression)` for general or star-tree aggregation and `forReduction(compression)` for SQL reducers. Native factories normalize finite compression below 10 to 10; standard SQL still rejects negative compression literals, and NaN/infinite compression is invalid.
+
+**Review historical digests before merging, rebuilding, or downgrading.** Numerically corrupt distributions can remain readable with NaN statistics, but merging them with nonempty input fails queries, rollup, or star-tree builds. `IS NULL` and JDBC null mapping cannot detect this corruption. Errors beginning `Cannot merge or mutate a historically corrupted TDigest` require rebuilding from original measurements or reingesting known-good data; retrying the same bytes does not repair them. Old servers can also produce corrupt intermediates during rolling upgrades when centroid arithmetic overflows, so finish upgrading the producing servers. Historical weighted boundaries that cannot be repaired while preserving mass and first moment likewise fail mutation or nonempty merges. Retained corrupt, unrepairable, or fractional payloads may exceed old readers' capacity; rebuild affected digests before downgrading or exposing them to old readers.
+
+See the [t-digest migration guide](https://github.com/apache/pinot/blob/master/compatibility-verifier/README.md#t-digest-migration) for API replacements, interpolation differences, fractional-boundary limits, and diagnostics.
+
+*Source: [PR #19795](https://github.com/apache/pinot/pull/19795)*
+
 ### Query-quota rejections use their own error code and metric
 
 Broker query-quota rejections now decode as `TOO_MANY_REQUESTS` (429) instead of `WORKLOAD_BUDGET_EXCEEDED`, which now has error code 430. Quota rejections therefore count under `QUERY_ERROR_TOO_MANY_REQUESTS` (`queryErrorTooManyRequests`) rather than `QUERY_ERROR_WORKLOAD_BUDGET_EXCEEDED` (`queryErrorWorkloadBudgetExceeded`). Update dashboards and alerts that relied on the old metric. Both codes map to HTTP 429 when HTTP-status-for-errors is enabled.
