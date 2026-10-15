@@ -854,6 +854,18 @@ The following table summarizes feature support across the single-stage engine (S
 | QUALIFY | No (compile-time error) | Yes |
 | Correlated subqueries | No | No |
 | INSERT INTO (from file) | No | Yes |
+
+### DELETE statements (custom executor required)
+
+Pinot parses `DELETE FROM orders WHERE orderId = 42` as DML, but the default executor returns **not supported**: SQL parsing alone does not enable row deletion. A deployment must override `BaseBrokerStarter.createSqlQueryExecutor()` and/or `BaseControllerStarter.createSqlQueryExecutor()` with a `SqlQueryExecutor` implementing `executeDelete(DeleteStatement, headers)` for each endpoint it enables. Use the resolved table, predicate, and options, and forward caller headers to the deletion API for authorization. Options such as `dryRun` have executor-defined semantics, not a built-in deletion guarantee.
+
+Submit DELETE using POST to broker `/query/sql` or controller `/sql`. GET query endpoints, broker cursors, direct broker query handlers, and EXPLAIN do not support DELETE. A WHERE clause is required; aliases, logical tables, cross-table/script functions (including `groovy`), and predicates that cannot safely round-trip are rejected. Specify a database using the `database` header or a qualified `database.table`; a `SET database` option alone is rejected for an unqualified table.
+
+Broker BasicAuth principals need explicit `delete` permission in addition to query access (for example, `permissions=read,delete`). Custom access control must implement `AccessControl.authorizeDeleteRows`; older implementations deny deletion by default. The broker checks `Query` and `DeleteRows` actions and refuses DELETE when a row-level filter applies, including with type-suffixed table names. The controller checks `READ`, `DELETE`, `Query`, and `DeleteRows`, but has no broker row-level filtering: deployments relying on it must leave controller deletion disabled or enforce equivalent filtering in their executor.
+
+Use `SET key = value;` for DELETE options. `sqlOptionsMode=IGNORE` and legacy `OPTION(...)` ignore mode must not silently discard DELETE options; affected statements are rejected. Existing INSERT behavior is unchanged. Controller legacy SQL syntax mode now applies to its DML and other JVM-wide parsing paths, so validate applications using legacy syntax before upgrading.
+
+*Source: [PR #19664](https://github.com/apache/pinot/pull/19664)*
 | Controller DDL (tables and materialized views) | No | No |
 | DISTINCT with * | No | No |
 | DISTINCT with GROUP BY | No | No |
