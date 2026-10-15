@@ -854,6 +854,11 @@ The following table summarizes feature support across the single-stage engine (S
 | QUALIFY | No (compile-time error) | Yes |
 | Correlated subqueries | No | No |
 | INSERT INTO (from file) | No | Yes |
+| Controller DDL (tables and materialized views) | No | No |
+| DISTINCT with * | No | No |
+| DISTINCT with GROUP BY | No | No |
+
+`Controller DDL (tables and materialized views)` stays `No` in this matrix because broker-routed SSE and MSE queries do not execute controller metadata DDL. Pinot exposes SQL DDL through the controller endpoint `POST /sql/ddl`; see [SQL DDL](sql-ddl.md) and [Materialized Views](materialized-views.md).
 
 ### DELETE statements (custom executor required)
 
@@ -866,8 +871,3 @@ Broker BasicAuth principals need explicit `delete` permission in addition to que
 Use `SET key = value;` for DELETE options. `sqlOptionsMode=IGNORE` and legacy `OPTION(...)` ignore mode must not silently discard DELETE options; affected statements are rejected. Existing INSERT behavior is unchanged. Controller legacy SQL syntax mode now applies to its DML and other JVM-wide parsing paths, so validate applications using legacy syntax before upgrading.
 
 *Source: [PR #19664](https://github.com/apache/pinot/pull/19664)*
-| Controller DDL (tables and materialized views) | No | No |
-| DISTINCT with * | No | No |
-| DISTINCT with GROUP BY | No | No |
-
-`Controller DDL (tables and materialized views)` stays `No` in this matrix because broker-routed SSE and MSE queries do not execute controller metadata DDL. Pinot exposes SQL DDL through the controller endpoint `POST /sql/ddl`; see [SQL DDL](sql-ddl.md) and [Materialized Views](materialized-views.md).
