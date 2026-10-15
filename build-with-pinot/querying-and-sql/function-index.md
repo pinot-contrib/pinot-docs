@@ -252,6 +252,8 @@ For full details, see [JSON Functions](../../functions/json/).
 
 ## Array Functions
 
+For numeric sequences, see [`generateArray(start, end[, increment])`](sql-reference.md#generating-numeric-arrays), supported in both engines with a 100,000-element limit.
+
 For full details, see [Array Functions](../../functions/array).
 
 | Function | Signature | Return Type | Description | Engine |
