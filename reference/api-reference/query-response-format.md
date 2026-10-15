@@ -49,8 +49,10 @@ When a query is submitted with `getCursor=true`, Pinot adds cursor metadata arou
 | `numDocsScanned` | Number of documents selected after filtering |
 | `numEntriesScannedInFilter` | Filter-phase entries scanned |
 | `numEntriesScannedPostFilter` | Post-filter entries scanned |
-| `numRemoteAccesses` | Number of remote storage accesses recorded while serving the query. Zero when no remote-backed segment directory records accesses. |
-| `remoteAccessBytes` | Bytes read from remote storage for those accesses. Zero when no remote-backed segment directory records reads. |
+| `numRemoteAccesses` | Total remote storage accesses recorded per query execution, including direct reads and reported bloom-filter pruning fetches. Omitted from JSON when zero. |
+| `remoteAccessBytes` | Total bytes read for those remote accesses, including direct reads. Omitted from JSON when zero. |
+| `numDirectRemoteAccesses` | Remote reads that bypass the buffers fetched for the query. Also included in `numRemoteAccesses`; do not add the counts together. Omitted from JSON when zero. |
+| `directRemoteAccessBytes` | Bytes from direct remote reads, also included in `remoteAccessBytes`. Omitted from JSON when zero. |
 | `partialResult` | Whether Pinot returned a partial result instead of a fully complete answer. For MSE Lite queries, this also becomes `true` when `mseLiteLeafStageLimitReached=true`. |
 | `mseLiteLeafStageLimitReached` | Multi-stage Lite Mode flag that indicates Pinot hit a broker-injected implicit leaf-stage limit on at least one worker. When this is `true`, the response is truncated and `partialResult` is also `true`. |
 | `mseLiteLeafStageEffectiveLimit` | For MSE Lite queries where Pinot injected an implicit leaf-stage limit, the effective per-worker limit that Pinot enforced. |
@@ -134,6 +136,10 @@ curl -H "Content-Type: application/json" -X POST \
 - The fields that differ between a plain result and a multi-stage query response.
 
 ## Next step
+
+For remote-backed data, a nonzero `numDirectRemoteAccesses` indicates reads not covered by the query's fetched buffers; inspect fetch coverage when diagnosing remote-read latency. Clients should tolerate absent zero-valued remote-stat fields. During upgrades, follow the [component upgrade order](../../operate-pinot/upgrading-pinot-cluster.md): controller, broker, then server. Older receivers cannot safely interpret the new server metadata keys, and older multi-stage receivers may drop newer upstream stats with a warning.
+
+*Source: [PR #19859](https://github.com/apache/pinot/pull/19859)*
 
 If the field names look right but the data is not, inspect the query plan and response-store flow next.
 
