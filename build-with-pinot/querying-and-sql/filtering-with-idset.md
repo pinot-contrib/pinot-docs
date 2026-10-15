@@ -63,6 +63,10 @@ The result must contain one STRING column and at most one row, holding a seriali
 
 EXPLAIN does not execute these subqueries. It substitutes empty sets and reports the skipped SQL strings as a JSON array in `ID_SET_SUBQUERIES_NOT_RUN`; that plan is not evidence of actual subquery results. Compilation-only paths cannot discover tables embedded inside the SQL string. The `singleStageQueriesInvalidMultiStage` meter no longer counts single-stage IN_SUBQUERY queries as MSE-incompatible.
 
+Pre-execution avoids sending the serialized set back through the client as SQL text, but does not remove plan-size limits. Each occurrence embeds a copy, even if the subquery ran once. All stage plans for one server share a gRPC message; the default `pinot.query.multistage.query.server.max.inbound.message.size.bytes` is 64 MB. Large or repeated sets can exceed it and fail dispatch with `RESOURCE_EXHAUSTED`.
+
+For monitoring, window row-limit overflow in `BREAK` mode now marks `partialResult=true` and is logged as a partial result. The default `THROW` mode is unchanged.
+
 *Source: [PR #19804](https://github.com/apache/pinot/pull/19804)*
 
 ### IN\_\_PARTITIONED\_\_SUBQUERY
