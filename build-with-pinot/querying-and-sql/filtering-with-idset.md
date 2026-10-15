@@ -7,7 +7,7 @@ description: Learn how to write fast queries for looking up IDs in a list of val
 
 
 {% hint style="info" %}
-`IDSET` and `IN_ID_SET` work in both the single-stage and multi-stage query engines. In the multi-stage engine, `IN_ID_SET` can be used in leaf filters, post-join filters, join conditions, and `HAVING`. The string-subquery forms `IN_SUBQUERY` and `IN_PARTITIONED_SUBQUERY` remain single-stage features; multi-stage single-query subquery forms are not yet supported.
+`IDSET`, `IN_ID_SET`, and the string-subquery form `IN_SUBQUERY` work in both the single-stage and multi-stage query engines. In the multi-stage engine, `IN_ID_SET` can be used in leaf filters, post-join filters, join conditions, and `HAVING`. `IN_PARTITIONED_SUBQUERY` remains single-stage only.
 {% endhint %}
 
 A common use case is filtering on an id field with a list of values. This can be done with the IN clause, but using IN doesn't perform well with large lists of IDs. For large lists of IDs, we recommend using an IdSet.
@@ -46,6 +46,28 @@ The lookup value must have the same stored type as the values used to build the 
 > IN\_SUBQUERY(columnName, subQuery)
 
 This function generates an IdSet from a subquery and then filters ids based on that IdSet on a Pinot broker.
+
+#### Multi-stage subquery execution
+
+```sql
+SET useMultistageEngine = true;
+SELECT COUNT(*) FROM orders
+WHERE IN_SUBQUERY(customerId, 'SELECT IDSET(customerId) FROM customers WHERE active = 1') = 1;
+```
+
+The broker executes IdSet subqueries before compiling the outer query, replacing their results with `IN_ID_SET` literals so eligible filters can run at the leaf stage. `IN_SUBQUERY(expr, 'sql')` works in SELECT, WHERE, HAVING, JOIN ON, nested queries, CTEs, and set operations. `IN_ID_SET(expr, (SELECT ...))` is also pre-executed when its subquery validates independently, is uncorrelated, and references no enclosing WITH item; other scalar subqueries remain in the outer plan.
+
+Each distinct subquery runs once per outer request, with its own MSE request ID and the time remaining before the outer deadline. It inherits query options except `dropResults`; SET options inside an IN_SUBQUERY string override inherited values, subject to `sqlOptionsMode`. Each subquery independently undergoes table authorization, quota, and throttling checks, is visible as a running query, and can be cancelled through the outer client query ID. Subqueries execute before the outer query's table-access and quota checks.
+
+The result must contain one STRING column and at most one row, holding a serialized IdSet. No row or NULL means the empty set: `= 1` is false and `= 0` is true, including for NULL lookup values. Subquery errors or partial results fail the outer query rather than silently using an incomplete set. Matching stored types and Bloom-filter false-positive caveats still apply.
+
+EXPLAIN does not execute these subqueries. It substitutes empty sets and reports the skipped SQL strings as a JSON array in `ID_SET_SUBQUERIES_NOT_RUN`; that plan is not evidence of actual subquery results. Compilation-only paths cannot discover tables embedded inside the SQL string. The `singleStageQueriesInvalidMultiStage` meter no longer counts single-stage IN_SUBQUERY queries as MSE-incompatible.
+
+Pre-execution avoids sending the serialized set back through the client as SQL text, but does not remove plan-size limits. Each occurrence embeds a copy, even if the subquery ran once. All stage plans for one server share a gRPC message; the default `pinot.query.multistage.query.server.max.inbound.message.size.bytes` is 64 MB. Large or repeated sets can exceed it and fail dispatch with `RESOURCE_EXHAUSTED`.
+
+For monitoring, window row-limit overflow in `BREAK` mode now marks `partialResult=true` and is logged as a partial result. The default `THROW` mode is unchanged.
+
+*Source: [PR #19804](https://github.com/apache/pinot/pull/19804)*
 
 ### IN\_\_PARTITIONED\_\_SUBQUERY
 
