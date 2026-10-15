@@ -2,6 +2,18 @@
 
 This section covers how to observe and troubleshoot an Apache Pinot cluster -- metrics collection, alerting, JVM diagnostics, and dashboard setup.
 
+## Filtering broker new-segment routing logs
+
+The two INFO messages from `org.apache.pinot.broker.routing.instanceselector.BaseInstanceSelector` describing new segments discovered through ZooKeeper metadata or existing states carry the Log4j2 marker `ROUTING_NEW_SEGMENTS`. To suppress just these messages, add the following filter to that broker logger in your Log4j2 configuration:
+
+```xml
+<MarkerFilter marker="ROUTING_NEW_SEGMENTS" onMatch="DENY" onMismatch="NEUTRAL"/>
+```
+
+Pinot's shipped logging configuration is unchanged: these messages remain at INFO unless you configure filtering. This marker does not change routing behavior or replica-health metrics.
+
+*Source: [PR #19785](https://github.com/apache/pinot/pull/19785)*
+
 ## Why monitoring matters
 
 Pinot clusters serve real-time analytics workloads where latency spikes, ingestion delays, and segment failures directly affect end users. Proactive monitoring lets you catch problems before they become incidents.
