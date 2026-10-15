@@ -829,6 +829,24 @@ Aggregation functions inside the `ELSE` clause are not supported.
 
 ## Engine Compatibility Matrix
 
+### Generating numeric arrays
+
+`generateArray(start, end[, increment])` is supported in both the single-stage and multi-stage engines. It returns a numeric sequence starting at `start`, including `end` only when reached by the increment. The default increment is `1`, or `-1` for a descending range. Equal endpoints produce one element. The result uses the widest argument type: INT, LONG, FLOAT, or DOUBLE; a null argument returns null.
+
+```sql
+SET useMultistageEngine = true;
+SELECT generateArray(0, 6, 2), generateArray(3, 1), generateArray(0, 1, 0.5)
+FROM myTable
+LIMIT 1;
+-- [0, 2, 4, 6], [3, 2, 1], [0.0, 0.5, 1.0]
+```
+
+The increment must be nonzero and point toward the end. Non-finite floating-point arguments and sequences longer than 100,000 elements are rejected before allocation. The typed functions `generateIntArray`, `generateLongArray`, `generateFloatArray`, and `generateDoubleArray` share these validation rules; queries that previously requested unbounded or invalid sequences must be adjusted. Floating-point rounding can affect endpoints.
+
+Arguments can be row expressions, generating one array per row. `generateArray` is evaluated on servers rather than expanded into a large literal array in the broker plan. The typed generators remain eligible for constant folding.
+
+*Source: [PR #19552](https://github.com/apache/pinot/pull/19552)*
+
 The following table summarizes feature support across the single-stage engine (SSE) and multi-stage engine (MSE):
 
 | Feature | SSE | MSE |
