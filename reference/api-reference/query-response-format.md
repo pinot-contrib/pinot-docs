@@ -137,6 +137,14 @@ curl -H "Content-Type: application/json" -X POST \
 
 ## Next step
 
+### Multi-stage heap allocation
+
+MSE responses expose top-level `totalMemAllocatedBytes`, the sum of allocation reported by stage roots, leaf single-stage execution threads (`threadMemAllocatedBytes`), and separately executing pipeline breakers. Use it to compare query allocation volume, not peak or retained heap: it includes short-lived objects. Do not sum every operator's `allocatedMemoryBytes` in `stageStats`, because parent values already include children in the same op chain.
+
+Enable both `pinot.server.instance.enableThreadAllocatedBytesMeasurement` and `pinot.broker.instance.enableThreadAllocatedBytesMeasurement` to collect allocation measurements. Without measurement enabled the total is zero; zero is not proof that the query used no memory. This field provides the MSE total instead of relying on the SSE-oriented top-level memory fields.
+
+*Source: [PR #19816](https://github.com/apache/pinot/pull/19816)*
+
 For remote-backed data, a nonzero `numDirectRemoteAccesses` indicates reads not covered by the query's fetched buffers; inspect fetch coverage when diagnosing remote-read latency. Clients should tolerate absent zero-valued remote-stat fields. During upgrades, follow the [component upgrade order](../../operate-pinot/upgrading-pinot-cluster.md): controller, broker, then server. Older receivers cannot safely interpret the new server metadata keys, and older multi-stage receivers may drop newer upstream stats with a warning.
 
 *Source: [PR #19859](https://github.com/apache/pinot/pull/19859)*
