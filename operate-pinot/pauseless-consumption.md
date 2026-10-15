@@ -105,6 +105,24 @@ Non-committing replicas wait for the committing segment to become downloadable f
 
 Older table configs may still use `segmentDownloadTimeoutMinutes`. Pinot continues to read that key as a fallback, but new configs should use `realtime.segment.pauseless.download.timeoutSeconds`.
 
+### Re-ingestion consumption timeout
+
+When the controller repairs a segment stuck COMMITTING without a download URL, the server's `POST /reingestSegment/{segmentName}` re-consumes its offset range. Set `pinot.server.reingestion.consumption.timeoutMs` to control the consumption wait deadline (milliseconds; default `1800000`, or 30 minutes). This is separate from the replica download timeout above. A retry starts again at the segment's start offset, so large segments may require a longer consumption deadline.
+
+The exact, case-sensitive cluster-config key takes precedence over server config and applies without restart; server config takes precedence over the default. For example, raise the limit to two hours:
+
+```bash
+curl -X POST 'http://<controller>/cluster/configs' \
+  -H 'Content-Type: application/json' \
+  -d '{"pinot.server.reingestion.consumption.timeoutMs":"7200000"}'
+```
+
+Use a positive integer. Invalid or non-positive values are ignored with a warning and fall back to the next level. Only the exact key updates dynamically, not a `pinot.all.` prefix or differently cased spelling. Cluster settings present at server startup are copied into server config: removing or invalidating the cluster key later can fall back to that startup value rather than the default. Set a new valid value to change it reliably.
+
+Each job captures the timeout when consumption starts; running jobs retain their original deadline, and queue time does not count against it. Duplicate queued or running requests for the same segment on one server return HTTP 409. Re-ingestions share the per-server concurrency cap; additional jobs queue and appear in `GET /reingestSegment/jobs`. Stopping the server admin API interrupts running jobs and drops queued jobs.
+
+*Source: [PR #19737](https://github.com/apache/pinot/pull/19737)*
+
 ## Disaster recovery
 
 Pauseless consumption introduces new failure scenarios because segments can be marked `ONLINE` in the ideal state before they have been built and uploaded. If the committing server crashes during the build or upload phase, and no other replica has the segment, the segment enters an `ERROR` state with no data on disk.
