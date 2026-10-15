@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Netty 4.2 and ZooKeeper TLS bootstrap compatibility
+
+Pinot upgrades Netty to 4.2.19.Final. Before upgrading deployments with ZooKeeper TLS, verify the process-wide TLS bootstrap properties supplied to Pinot services, tools, and Java clients. Supply these settings before client creation or initialization of client-owning classes; they cannot be loaded from the cluster being connected to.
+
+When `zookeeper.ssl.hostnameVerification=false` is explicitly configured and no custom SSL-context supplier is set, Pinot installs a ZooKeeper JDK SSL-context supplier and selects the JDK provider. It converts recognized OpenSSL cipher aliases to JSSE cipher names. Enabled hostname verification and existing custom suppliers keep their existing construction paths and provider ownership. The Pinot supplier uses process-wide ZooKeeper trust/key stores, protocol, revocation, and FIPS settings; arbitrary per-client TLS overrides are outside this hook. Validate secure connections and configured cipher suites in your environment. Do not disable hostname verification as an upgrade workaround.
+
+Pinot's Arrow allocator integration is also updated for Netty 4.2 while preserving shared direct-memory limits. Custom integrations using Netty or Arrow internals should rebuild and validate against the upgraded dependencies rather than assuming binary compatibility.
+
+*Source: [PR #19828](https://github.com/apache/pinot/pull/19828)*
+
 ### Native t-digest implementation replaces the tdunning dependency
 
 Pinot removes `com.tdunning:t-digest` while retaining legacy verbose/compact digest BYTES and object serialization type 10. Byte compatibility does **not** guarantee identical percentile results or downgrade safety. Before upgrading, compare representative percentile queries, especially duplicate-value plateaus, fractional weights, infinities, and SmartTDigest multi-valued inputs with null handling. SmartTDigest MV now includes each non-null row once. Empty SmartTDigest returns NULL with null handling and -Infinity otherwise; ordinary TDigest still returns NaN without null handling.
