@@ -1,5 +1,15 @@
 # Broker
 
+## Compact assignment reader
+
+`pinot.broker.routing.compact.assignment.reader.enabled` defaults to `false`. Set it to `true` in broker configuration and restart the broker to enable the compact reader on local and remote-cluster spectator Helix managers. It reduces parsing and retained-map overhead for gzip-compressed table ideal states and external views; routing decisions and ZooKeeper write serialization are unchanged.
+
+Plain, uncompressed records still use the standard Helix reader. A compact parse failure logs a warning and falls back to that reader; this is not a guarantee that malformed records can be read. The `brokerResource` record is excluded, and participant clients retain the standard serializer.
+
+Before enabling, check custom `ClusterChangeHandler` implementations using the spectator manager: table assignment map fields from compact records are immutable. Mutating them, including a read-modify-write through that manager, throws `UnsupportedOperationException`. Leave the setting disabled if handlers require mutable maps, or adapt them to copy before mutation. To revert to the standard read path, set the flag to `false` and restart.
+
+*Source: [PR #19786](https://github.com/apache/pinot/pull/19786)*
+
 For the shared MSE mailbox keep-alive properties (`pinot.query.runner.channel.keep.alive.*` and `pinot.query.runner.mailbox.server.permit.keep.alive.*`), see [Mailbox channel keep-alive](../../build-with-pinot/querying-and-sql/multi-stage-query/README.md#mailbox-channel-keep-alive).
 
 You can set broker properties in a configuration file. The file can be provided during startup time as follows -
