@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Upsert metadataTTL restart and missed snapshots
+
+For upsert tables with `metadataTTL`, Pinot now caps the persisted TTL watermark when an older segment misses its valid-document snapshot, so a restart re-resolves its primary keys rather than trusting a stale snapshot and exposing superseded rows. The in-memory expiry watermark is unchanged. No configuration, wire, or on-disk format changes are required; tables without `metadataTTL` are unaffected.
+
+**Check the first restart during upgrade.** Watermarks written by an older server are trusted as-is, so the upgrading restart can still expose duplicate rows once if the last snapshot pass missed a segment. Reloading the affected segments resolves their keys; subsequent persisted watermarks use the corrected capping behavior. The fix does not depend on graceful shutdown.
+
+If segments repeatedly miss snapshots, the persisted watermark can lag. After restart, more segments take the normal key-resolution path, temporarily loading more primary keys until expiry runs. Watch for `Capped TTL watermark to persist from: ... to: ...` warnings when diagnosing restart memory or snapshot contention.
+
+*Source: [PR #19832](https://github.com/apache/pinot/pull/19832)*
+
 ### Server compilation failures return errors promptly
 
 When a server successfully deserializes a request but cannot compile its query, it now returns `QUERY_EXECUTION` with the underlying error instead of leaving the broker to time out with a servers-not-responded error. These failures count in `QUERY_EXECUTION_EXCEPTIONS`, not `REQUEST_DESERIALIZATION_EXCEPTIONS`; update alerts that relied on the old classification. The latter meter now counts only Thrift deserialization failures.
