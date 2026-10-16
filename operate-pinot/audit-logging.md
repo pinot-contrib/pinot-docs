@@ -260,6 +260,7 @@ pinot.audit.controller.request.payload.size.max.bytes=16384
 
 {% hint style="warning" %}
 Enabling request body capture may log sensitive data such as query text, table configurations, or schema definitions. Ensure your audit log storage meets your organization's data handling requirements.
+{% endhint %}
 
 ### Credential redaction and capture limits
 
@@ -272,7 +273,6 @@ A complete body must be exactly one JSON object or array to be captured structur
 **Redaction is not a guarantee that captured data is credential-free.** Values are inspected for URL userinfo, not arbitrary embedded credentials: JDBC `password=` parameters, presigned-URL signatures, and JSON serialized inside strings can remain under innocuous keys. Keep capture scoped and protect audit-log access and retention accordingly.
 
 *Source: [PR #19555](https://github.com/apache/pinot/pull/19555)*
-{% endhint %}
 
 ## Header capture
 
@@ -286,7 +286,7 @@ pinot.audit.controller.capture.request.headers=Content-Type,X-Request-ID,Authori
 Only headers in the allow-list appear in the audit event. Headers not in the list are omitted.
 
 {% hint style="warning" %}
-Be cautious when capturing the `Authorization` header, as it may contain credentials or tokens.
+An allow-listed `Authorization` header is masked rather than captured verbatim. Other innocuously named headers may still contain sensitive values; scope the allow-list and protect access to the logs.
 {% endhint %}
 
 ## Log file configuration
