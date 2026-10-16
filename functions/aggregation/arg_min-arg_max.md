@@ -19,6 +19,8 @@ pinot.broker.result.rewriter.class.names: "org.apache.pinot.core.query.utils.rew
 
 ## Signature
 
+Neither required rewriter is enabled by default. In the single-stage engine, calls must be top-level SELECT expressions without aliases. Nested calls and calls in WHERE, GROUP BY, HAVING, or ORDER BY are unsupported. The broker now rejects missing rewriters or unsupported call placement with `QUERY_VALIDATION` before dispatch, naming the missing rewriter/configuration key when applicable, rather than waiting for a server timeout. See [PR #19883](https://github.com/apache/pinot/pull/19883).
+
 > EXPR\_MIN (projectionCol, measuringCol1, measuringCol2, measuringCol3)
 >
 > EXPR\_MAX (projectionCol, measuringCol1, measuringCol2, measuringCol3)

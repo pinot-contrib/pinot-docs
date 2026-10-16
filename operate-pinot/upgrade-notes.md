@@ -17,6 +17,14 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Server compilation failures return errors promptly
+
+When a server successfully deserializes a request but cannot compile its query, it now returns `QUERY_EXECUTION` with the underlying error instead of leaving the broker to time out with a servers-not-responded error. These failures count in `QUERY_EXECUTION_EXCEPTIONS`, not `REQUEST_DESERIALIZATION_EXCEPTIONS`; update alerts that relied on the old classification. The latter meter now counts only Thrift deserialization failures.
+
+The single-stage broker also rejects unexecutable EXPR_MIN/EXPR_MAX calls with `QUERY_VALIDATION` before dispatch. Check the [required rewriters and placement restrictions](../functions/aggregation/arg_min-arg_max.md); enabling the rewriters does not make aliases, nested calls, or use outside the SELECT list supported.
+
+*Source: [PR #19883](https://github.com/apache/pinot/pull/19883)*
+
 ### Netty 4.2 and ZooKeeper TLS bootstrap compatibility
 
 Pinot upgrades Netty to 4.2.19.Final. Before upgrading deployments with ZooKeeper TLS, verify the process-wide TLS bootstrap properties supplied to Pinot services, tools, and Java clients. Supply these settings before client creation or initialization of client-owning classes; they cannot be loaded from the cluster being connected to.
