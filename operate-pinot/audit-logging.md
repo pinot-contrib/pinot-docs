@@ -260,6 +260,18 @@ pinot.audit.controller.request.payload.size.max.bytes=16384
 
 {% hint style="warning" %}
 Enabling request body capture may log sensitive data such as query text, table configurations, or schema definitions. Ensure your audit log storage meets your organization's data handling requirements.
+
+### Credential redaction and capture limits
+
+Captured body data, query parameters, and headers pass through unconditional credential redaction; there is no switch to disable it. Query parameters are captured even when `capture.request.payload.enabled` is false. Allow-listing a sensitive header such as `Authorization` records its presence with a masked value, not its credential.
+
+Sensitive keys have their entire value masked, including arrays or nested objects. Rules include cloud access keys, inline private/service-account keys, JAAS/auth/user-info values, cookies and key/trust-store settings, with exemptions for structural/auth-mode names. Name/value objects such as `{"name":"password","value":"..."}` are also handled. URL userinfo (`scheme://user:password@host`) is stripped from values; matching deliberately favors over-redaction.
+
+A complete body must be exactly one JSON object or array to be captured structurally. Non-JSON bodies, bare scalars, or concatenated JSON are recorded only as `[redacted: unparseable payload, N bytes]`. If capture exceeds `request.payload.size.max.bytes`, the redacted prefix is kept, the value crossing the byte boundary is dropped, and the record ends with `...[truncated]`. A body exactly at the cap is not marked truncated. Redaction does not modify the request body passed to the resource method.
+
+**Redaction is not a guarantee that captured data is credential-free.** Values are inspected for URL userinfo, not arbitrary embedded credentials: JDBC `password=` parameters, presigned-URL signatures, and JSON serialized inside strings can remain under innocuous keys. Keep capture scoped and protect audit-log access and retention accordingly.
+
+*Source: [PR #19555](https://github.com/apache/pinot/pull/19555)*
 {% endhint %}
 
 ## Header capture
