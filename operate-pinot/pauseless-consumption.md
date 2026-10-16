@@ -123,7 +123,7 @@ Each job captures the timeout when consumption starts; running jobs retain their
 
 When a worker starts a queued job, it rechecks table availability and fetches current segment metadata and index-loading configuration. It skips re-ingestion if the table is unavailable or shut down, the segment metadata is missing, the segment is no longer `COMMITTING`, or a download URL is already present (for example, after repair on another replica). These skips emit a `Skipping re-ingestion` warning, do not increment the segment re-ingestion failure meter, and remove the job from the active-job list. An HTTP 200 submission response or a job disappearing from that list is not proof that this server rebuilt the segment; verify the segment's current metadata and availability before retrying.
 
-*Source: [PR #19737](https://github.com/apache/pinot/pull/19737)*
+*Sources: [PR #19737](https://github.com/apache/pinot/pull/19737), [PR #19893](https://github.com/apache/pinot/pull/19893)*
 
 ## Disaster recovery
 
