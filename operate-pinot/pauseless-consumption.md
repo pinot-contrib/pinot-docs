@@ -121,6 +121,8 @@ Use a positive integer. Invalid or non-positive values are ignored with a warnin
 
 Each job captures the timeout when consumption starts; running jobs retain their original deadline, and queue time does not count against it. Duplicate queued or running requests for the same segment on one server return HTTP 409. Re-ingestions share the per-server concurrency cap; additional jobs queue and appear in `GET /reingestSegment/jobs`. Stopping the server admin API interrupts running jobs and drops queued jobs.
 
+When a worker starts a queued job, it rechecks table availability and fetches current segment metadata and index-loading configuration. It skips re-ingestion if the table is unavailable or shut down, the segment metadata is missing, the segment is no longer `COMMITTING`, or a download URL is already present (for example, after repair on another replica). These skips emit a `Skipping re-ingestion` warning, do not increment the segment re-ingestion failure meter, and remove the job from the active-job list. An HTTP 200 submission response or a job disappearing from that list is not proof that this server rebuilt the segment; verify the segment's current metadata and availability before retrying.
+
 *Source: [PR #19737](https://github.com/apache/pinot/pull/19737)*
 
 ## Disaster recovery
