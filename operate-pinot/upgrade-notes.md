@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Lucene index recovery on rollback
+
+Normal segment preprocessing now automatically rebuilds unreadable newer-format Lucene indexes from retained original forward-index values using the running version's writer and table configuration. This covers single-column text, multi-column text, and directory or packed HNSW indexes; compatible indexes are reused. No recovery flag is required, but existing preprocessing opt-outs still apply.
+
+Install a Pinot release containing this recovery support on the intended rollback target **before** upgrading Lucene. Retain the original forward indexes: reconstructing multi-value values from dictionary/inverted indexes can lose ordering and duplicates. If the required original values are unavailable, recovery fails before replacing the incompatible index; restore a compatible segment or refresh it from retained source data.
+
+Allow extra CPU, I/O, and segment-loading time for rebuilds after downgrade. Interrupted builds restart from retained values on a later load; successfully recovered indexes are reused on subsequent loads. Corruption and ordinary I/O errors fail loading rather than triggering format recovery. This is not a general guarantee that every segment format or custom Lucene codec can be downgraded.
+
+*Source: [PR #19900](https://github.com/apache/pinot/pull/19900)*
+
 ### Upsert metadataTTL restart and missed snapshots
 
 For upsert tables with `metadataTTL`, Pinot now caps the persisted TTL watermark when an older segment misses its valid-document snapshot, so a restart re-resolves its primary keys rather than trusting a stale snapshot and exposing superseded rows. The in-memory expiry watermark is unchanged. No configuration, wire, or on-disk format changes are required; tables without `metadataTTL` are unaffected.
