@@ -17,6 +17,16 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Multi-stage scale-zero DECIMAL result types
+
+The multi-stage engine now maps `DECIMAL(p, 0)` to `INT` for precision up to 9, `LONG` for precision 10–18, and `BIG_DECIMAL` for precision 19 and above. Previously precision 10 mapped to `INT` and precision 11–38 to `LONG`, which could overflow. Check client result-schema expectations for affected literals and expressions. Arrays still use `INT_ARRAY`, `LONG_ARRAY`, or `DOUBLE_ARRAY` at these boundaries; large decimal arrays are not made exact by this change.
+
+This does **not** remove existing CAST limits. Casting a non-integer operand (including a scaled DECIMAL) to `DECIMAL(p, 0)` for precision 19–38 still converts through `LONG` to discard the fraction: out-of-range DOUBLE values saturate, BIG_DECIMAL values wrap, and STRING values fail to parse. Targets above precision 38 retain the previous fraction-preserving behavior. Test boundary values explicitly rather than treating these casts as arbitrary-precision conversions.
+
+Numeric `IN`/`NOT IN` comparisons now compare numeric values across number classes and BigDecimal scales. `ARRAY_AGG(value, 'dataType'[, isDistinct])` planning also aligns scalar operands with the requested accumulator type. Revalidate queries that depended on the old overflow or mismatched-type behavior.
+
+*Source: [PR #19790](https://github.com/apache/pinot/pull/19790)*
+
 ### Lucene index recovery on rollback
 
 Normal segment preprocessing now automatically rebuilds unreadable newer-format Lucene indexes from retained original forward-index values using the running version's writer and table configuration. This covers single-column text, multi-column text, and directory or packed HNSW indexes; compatible indexes are reused. No recovery flag is required, but existing preprocessing opt-outs still apply.
