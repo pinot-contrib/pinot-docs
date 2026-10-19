@@ -17,6 +17,29 @@ recommended component upgrade order, see
 
 ## Upcoming Release
 
+### Deprecated table properties marked for future removal
+
+Table-config getters now record the release in which each property was deprecated and are marked `forRemoval = true`. This annotation change does not remove the JSON properties or change runtime behavior, and does not specify a removal release. Audit saved configs and generators against these replacements; do not interpret the historical deprecation version as a new removal deadline.
+
+| Deprecated property | Deprecated since | Migration |
+| --- | --- | --- |
+| `fieldConfigList[].indexType` | 0.9.0 | Use `fieldConfigList[].indexTypes`. |
+| `tableIndexConfig.jsonIndexColumns` | 0.12.0 | Use `tableIndexConfig.jsonIndexConfigs`. |
+| `tableIndexConfig.streamConfigs` | 0.7.1 | Use `ingestionConfig.streamIngestionConfig.streamConfigMaps`. |
+| `tableIndexConfig.createInvertedIndexDuringSegmentGeneration` | 1.6.0 | Remove; ignored. |
+| `routing.routingTableBuilderName` | 0.3.0 | Use `routing.segmentPrunerTypes` and `routing.instanceSelectorType`. |
+| `segmentsConfig.segmentPushFrequency` | 0.8.0 | Use `ingestionConfig.batchIngestionConfig.segmentIngestionFrequency`. |
+| `segmentsConfig.segmentPushType` | 0.8.0 | Use `ingestionConfig.batchIngestionConfig.segmentIngestionType`. |
+| `segmentsConfig.replicasPerPartition` | 1.1.0 | Use `segmentsConfig.replication`. |
+| `segmentsConfig.replicaGroupStrategyConfig`, `segmentsConfig.minimizeDataMovement` | 1.3.0 | Migrate to `instanceAssignmentConfigMap` rather than copying the old fields verbatim. |
+| `instanceAssignmentConfigMap.<type>.replicaGroupPartitionConfig.minimizeDataMovement` | 1.1.0 | Remove this deprecated field. |
+| `upsertConfig.enableSnapshot` | 1.4.0 | Use `upsertConfig.snapshot`. |
+| `upsertConfig.enablePreload` | 1.4.0 | Use `upsertConfig.preload`. |
+| `dedupConfig.enablePreload` | 1.4.0 | Use `dedupConfig.preload`. |
+| `upsertConfig.allowPartialUpsertConsumptionDuringCommit`, `dedupConfig.allowDedupConsumptionDuringCommit` | 1.4.0 | Use `ingestionConfig.streamIngestionConfig.parallelSegmentConsumptionPolicy`. |
+
+*Source: [PR #18411](https://github.com/apache/pinot/pull/18411)*
+
 ### Lucene index recovery on rollback
 
 Normal segment preprocessing now automatically rebuilds unreadable newer-format Lucene indexes from retained original forward-index values using the running version's writer and table configuration. This covers single-column text, multi-column text, and directory or packed HNSW indexes; compatible indexes are reused. No recovery flag is required, but existing preprocessing opt-outs still apply.
