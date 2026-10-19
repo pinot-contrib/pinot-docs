@@ -21,6 +21,7 @@ For `POST /query/sql` and `POST /query`, malformed JSON request bodies and paylo
 | `GET` | `/responseStore/{requestId}` | Fetch cursor metadata |
 | `GET` | `/responseStore` | List active cursor stores |
 | `DELETE` | `/responseStore/{requestId}` | Delete a cursor response store |
+| `DELETE` | `/responseStore?expiredBefore={epochMs}` | Delete all expired cursor response stores on the broker |
 
 ## Query Submission
 
@@ -134,8 +135,8 @@ curl -X GET http://localhost:8099/responseStore/236490978000000006 | jq
 ## Operational Notes
 
 - Cursors are broker-affine; follow-up requests must go back to the same broker.
-- Cursor results expire according to `pinot.broker.cursor.response.store.expiration` and are eventually cleaned up by the controller.
-- `GET /responseStore` and `DELETE /responseStore/{requestId}` are operator-oriented response-store endpoints, not the normal client pagination flow.
+- Cursor results expire according to `pinot.broker.cursor.response.store.expiration`. Each broker deletes its own expired results. See [Broker cursor cleanup configuration](../../build-with-pinot/querying-and-sql/query-execution-controls/query-using-cursors.md#broker-cursor-cleanup-configuration).
+- `GET /responseStore`, `DELETE /responseStore`, and `DELETE /responseStore/{requestId}` are operator-oriented response-store endpoints, not the normal client pagination flow.
 
 ## What this page covered
 

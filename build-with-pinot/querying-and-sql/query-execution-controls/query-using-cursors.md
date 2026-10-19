@@ -1,127 +1,157 @@
+---
+description: Cursor pagination for large Pinot result sets.
+---
+
 # Querying Pinot Using Cursors
 
-Cursors enable clients to fetch large result sets from Pinot in chunks, similar to database cursors. This reduces memory consumption for both the client and server.
+Cursor pagination lets Pinot return a query result in pages. The broker keeps the full result in its response store. The client then fetches one page at a time.
 
-## Architecture Overview
+## When to use it
 
-Cursor responses are now managed at the **broker level**, with each broker running its own local cleanup scheduled executor. The controller no longer manages cursor response cleanup.
+Use cursor pagination when:
 
-## Configuration
+- the result set is large
+- the client shows the result one page at a time
+- the client cannot keep the full result in memory
 
-### Broker Cursor Cleanup Configuration
+## Submit a cursor-backed query
 
-Add these properties to your broker configuration:
+Send the query to `POST /query/sql` with `getCursor=true`. For the multi-stage engine, use `POST /query`.
 
-- `pinot.broker.response_store.cleanup_interval_ms`: Interval in milliseconds for the broker to clean up expired cursor responses (default: 3600000, i.e., 1 hour)
-- `pinot.broker.response_store.max_age_ms`: Maximum age in milliseconds before a cursor response is considered expired
-
-### Example Broker Configuration
-
-```properties
-pinot.broker.response_store.cleanup_interval_ms=3600000
-pinot.broker.response_store.max_age_ms=604800000
+```sh
+curl --request POST 'http://localhost:8099/query/sql?getCursor=true&numRows=1000' \
+  --header 'Content-Type: application/json' \
+  --data '{"sql":"SELECT * FROM nation LIMIT 100000"}'
 ```
 
-## REST API
+`numRows` sets the page size. If `numRows` is omitted or set to `0`, Pinot uses the broker config `pinot.broker.cursor.fetch.rows` (default `10000`).
 
-### Fetch Cursor Response
+Cursors support only DQL (`SELECT`) statements. The `GET` query endpoints do not support cursors. If the query fails, Pinot returns the normal error response and does not store a result.
 
-Fetch the next chunk of results using a cursor ID.
+The first response contains the first page in `resultTable`, together with cursor metadata:
 
-**Endpoint:** `GET /responseStore/{requestId}`
+| Field | Meaning |
+| --- | --- |
+| `requestId` | Cursor identifier used in later fetches |
+| `numRowsResultSet` | Total rows available across the full result set |
+| `offset` | Zero-based offset of the current page |
+| `numRows` | Number of rows returned in the current page |
+| `brokerHost` / `brokerPort` | Broker that owns the cursor state |
+| `submissionTimeMs` | When Pinot created the response-store entry |
+| `expirationTimeMs` | When the cursor expires |
 
-**Query Parameters:**
-- `requestId` (required): The cursor/response ID
+## Fetch the next page
 
-**Example:**
-```bash
-curl -X GET "http://localhost:8099/responseStore/my-cursor-id"
+```sh
+curl -X GET 'http://localhost:8099/responseStore/236490978000000006/results?offset=1000&numRows=1000'
 ```
 
-### Delete a Specific Cursor Response
+- `offset` is required and zero-based. It must be less than `numRowsResultSet`.
+- `numRows` is optional. If you omit it, Pinot uses `pinot.broker.cursor.fetch.rows`.
+- Send each fetch to the broker that created the cursor (`brokerHost` and `brokerPort`).
 
-Delete a specific cursor response by ID.
-
-**Endpoint:** `DELETE /responseStore/{requestId}`
-
-**Example:**
-```bash
-curl -X DELETE "http://localhost:8099/responseStore/my-cursor-id"
-```
-
-### Batch Delete Expired Cursor Responses (NEW)
-
-Delete all cursor responses that have expired by a cutoff time. This is useful for operators who want to manually trigger cleanup instead of waiting for the scheduled cleanup.
-
-**Endpoint:** `DELETE /responseStore/`
-
-**Query Parameters:**
-- `expiredBefore` (optional): Epoch millisecond cutoff time. Responses with `expirationTimeMs` at or before this value will be deleted. If omitted, defaults to the current time.
-
-**Example:**
-```bash
-# Delete all responses expired before current time
-curl -X DELETE "http://localhost:8099/responseStore/"
-
-# Delete all responses expired before a specific timestamp (e.g., one hour ago)
-curl -X DELETE "http://localhost:8099/responseStore/?expiredBefore=1682083200000"
-```
-
-**Response:**
-```json
-{
-  "message": "Deleted 42 expired response(s)."
-}
-```
-
-## Backward-Incompatible Change
-
-> **WARNING:** As of Apache Pinot version with PR #18203, cursor response cleanup has been moved from the controller to each broker. The controller no longer runs the `ResponseStoreCleaner` periodic task.
->
-> **Operational Impact during Rolling Upgrades:**
-> - Controllers upgraded first will no longer clean up cursor responses
-> - Brokers must be upgraded to the new version to enable their own cleanup
-> - Temporary accumulation of expired cursor responses may occur if brokers are not upgraded promptly
-> - **Recommendation:** Ensure all brokers are upgraded to the new version shortly after upgrading controllers
-> - If manual cleanup is needed during the transition, use the new batch delete API: `DELETE /responseStore/`
-
-## Usage Example: Fetching Large Result Sets with Cursors
+### Example: read all pages
 
 ```python
 import requests
-import json
 
-BASE_URL = "http://localhost:8099"
+BROKER = "http://localhost:8099"  # Must be the broker that runs the query.
+PAGE_SIZE = 1000
 
-# Execute query and get initial results
-response = requests.get(f"{BASE_URL}/query", params={
-    "sql": "SELECT * FROM my_table LIMIT 1000000"
-})
+first = requests.post(
+    f"{BROKER}/query/sql",
+    params={"getCursor": "true", "numRows": PAGE_SIZE},
+    json={"sql": "SELECT * FROM my_table LIMIT 1000000"},
+).json()
 
-data = response.json()
-cursor_id = data.get("responseId")
-results = data.get("resultTable", {}).get("rows", [])
+request_id = first["requestId"]
+total = first["numRowsResultSet"]
+rows = first["resultTable"]["rows"]
+# Process rows.
 
-print(f"Cursor ID: {cursor_id}")
-print(f"Initial rows: {len(results)}")
+offset = first["offset"] + first["numRows"]
+while offset < total:
+    page = requests.get(
+        f"{BROKER}/responseStore/{request_id}/results",
+        params={"offset": offset, "numRows": PAGE_SIZE},
+    ).json()
+    rows = page["resultTable"]["rows"]
+    # Process rows.
+    offset += page["numRows"]
 
-# Fetch next chunks using cursor
-while cursor_id:
-    response = requests.get(f"{BASE_URL}/responseStore/{cursor_id}")
-    if response.status_code != 200:
-        break
-    
-    data = response.json()
-    results = data.get("rows", [])
-    cursor_id = data.get("nextCursorId")
-    
-    print(f"Fetched {len(results)} more rows")
-    # Process results...
-
-# Clean up: delete cursor when done (optional, cleaned up automatically)
-# requests.delete(f"{BASE_URL}/responseStore/{cursor_id}")
+# Optional: delete the stored result now. Otherwise the broker deletes it after it expires.
+requests.delete(f"{BROKER}/responseStore/{request_id}")
 ```
 
-## Related Configuration
+## Inspect or delete cursor state
 
-See [Pinot Broker Configuration](../../../reference/configuration-reference/broker.md) for a complete list of broker properties.
+These endpoints are for operators. A normal client pagination flow does not need them.
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/responseStore/{requestId}` | Get cursor metadata without the rows |
+| `GET` | `/responseStore` | List metadata for all entries in the broker response store |
+| `DELETE` | `/responseStore/{requestId}` | Delete one stored result |
+| `DELETE` | `/responseStore?expiredBefore={epochMs}` | Delete all expired results |
+
+The batch delete deletes each entry whose `expirationTimeMs` is at or before `expiredBefore`. If you omit `expiredBefore`, Pinot uses the current time.
+
+```sh
+# Delete all results that are expired now.
+curl -X DELETE 'http://localhost:8099/responseStore'
+
+# Delete all results that expired at or before a given epoch-millisecond time.
+curl -X DELETE 'http://localhost:8099/responseStore?expiredBefore=1776816000000'
+```
+
+The response is plain text:
+
+```
+Deleted 42 expired response(s).
+```
+
+## Broker cursor cleanup configuration
+
+Each stored result expires at `submissionTimeMs` plus `pinot.broker.cursor.response.store.expiration`. Each broker runs a background task that deletes the expired results from its response store.
+
+Set these properties in the broker config:
+
+| Config | Default | Description |
+| --- | --- | --- |
+| `pinot.broker.cursor.response.store.expiration` | `1h` | Time after submission when a stored result expires. |
+| `pinot.broker.cursor.response.store.cleaner.frequencyPeriod` | `1h` | Interval between two cleanup runs. Must be more than `0`. |
+| `pinot.broker.cursor.response.store.cleaner.initialDelay` | not set | Delay before the first cleanup run. If not set, the first run starts after one `frequencyPeriod` plus a random delay of up to 25% of `frequencyPeriod`. The random delay stops brokers that share storage from running cleanup at the same time. |
+
+All three values are period strings, for example `30m`, `1h`, or `1d`. The broker reads them only at startup. Restart the broker to apply a change.
+
+```properties
+pinot.broker.cursor.response.store.expiration=1h
+pinot.broker.cursor.response.store.cleaner.frequencyPeriod=15m
+pinot.broker.cursor.response.store.cleaner.initialDelay=5m
+```
+
+For the response store type and file locations, see the [broker configuration reference](../../../reference/configuration-reference/broker.md).
+
+## Upgrade note: cleanup moved from controller to broker
+
+Starting in Pinot 1.6.0 ([apache/pinot#18203](https://github.com/apache/pinot/pull/18203)), each broker deletes its own expired cursor results. The controller no longer runs the `ResponseStoreCleaner` periodic task.
+
+- The controller configs `controller.cluster.response.store.cleaner.frequencyPeriod` and `controller.cluster.response.store.cleaner.initialDelay` have no effect. Move custom values to the `pinot.broker.cursor.response.store.cleaner.*` broker configs above.
+- During a rolling upgrade, upgraded controllers and old brokers do not delete expired results. These results stay in the response store until you upgrade the brokers. Upgrade the brokers soon after the controllers.
+- Old brokers do not have the batch `DELETE /responseStore` endpoint. To delete results on an old broker, use `DELETE /responseStore/{requestId}`.
+
+## What this page covered
+
+This page covered how to submit a cursor-backed query, fetch more pages, inspect or delete cursor state, and configure broker-side cleanup.
+
+## Next step
+
+If you need to trace a query or cancel it later, read [Correlation IDs](query-correlation-id.md) and [Query cancellation](query-cancellation.md).
+
+## Related pages
+
+- [Query options](query-options.md)
+- [Query cancellation](query-cancellation.md)
+- [Querying Pinot](../querying-pinot.md)
+- [Query API](../../../reference/api-reference/query-api.md)
+- [Pinot broker configuration](../../../reference/configuration-reference/broker.md)
