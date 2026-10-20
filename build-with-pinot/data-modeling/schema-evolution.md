@@ -98,6 +98,25 @@ Operational APIs: [Segment reload](../../operate-pinot/segment-reload.md), [Forc
 - When pause, reload, and forceCommit are required for realtime consumers.
 - Upsert-specific limits (config changes vs schema adds).
 
+## Derived columns during segment reload
+
+Segment preprocessing supports chained derived columns, including a transform that reads a plain default column added in the same reload. Add the fields to the schema and their expressions to `ingestionConfig.transformConfigs`, then reload completed segments. Dependencies are evaluated before their dependents even when listed in the opposite order:
+
+```json
+"transformConfigs": [
+  {"columnName": "event_day", "transformFunction": "dateTrunc('DAY', event_hour, 'MILLISECONDS')"},
+  {"columnName": "event_hour", "transformFunction": "dateTrunc('HOUR', event_ts, 'MILLISECONDS')"}
+]
+```
+
+For columns derived in the same run, downstream transforms use intermediate expression results before conversion to the intermediate column's stored type. Cycles are not supported: every cycle member, and a derived column that reads a cycle member, falls back to its own default value with a warning. Break cycles in the transform configuration; `errorOnColumnBuildFailure` does not turn this cycle fallback into a load failure.
+
+A source with its forward index disabled can be read by temporarily rebuilding that index from its dictionary and inverted index. The temporary source index is removed afterward. Reconstruction of multi-value data can lose original ordering and duplicates; retain forward indexes or refresh/backfill from source when transforms require that fidelity. If reconstruction is unavailable, the derived column defaults with a warning, or loading fails when `errorOnColumnBuildFailure` is enabled. This setting does not make every missing-argument fallback fail.
+
+A derived target may also have its forward index disabled: preprocessing builds it temporarily so dependent indexes can be created, then the forward-index handler removes it during cleanup. This does not repair rows already held by an active realtime consumer; follow the realtime schema-change procedure above to establish a new ingestion boundary.
+
+*Source: [PR #19581](https://github.com/apache/pinot/pull/19581)*
+
 ## Next step
 
 Read the ingestion pages to see how schema design affects batch and stream pipelines.
