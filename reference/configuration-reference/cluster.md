@@ -66,7 +66,9 @@ Cluster values override the same keys in `broker.conf` and take effect on runnin
 
 Choose thresholds alongside the group-count limit: `numGroupsLimit` limits the number of groups, **not** the values held by each group's accumulator. A very low threshold can increase memory use by allocating a sketch for many small groups. Parameter strings are checked by the broker when configured; check broker logs for rejected values.
 
-When a query is actually rewritten, its broker response sets `approximateFunctionApplied=true`; the broker also increments the `APPROXIMATE_FUNCTION_OVERRIDES` meter. In the single-stage engine, the name of an unaliased output column can change to the rewritten function name. Use an explicit `AS` alias if clients rely on that name. The multi-stage engine preserves the planned output name.
+The broker response field `approximatedResult` replaces `approximateFunctionApplied`: it is `true` when a function capable of an exact answer actually returns an approximate result, such as a SMART aggregate that crosses its conversion threshold and switches to a sketch. A rewrite alone does not set it. This also covers explicitly requested SMART functions in both query engines. Always-approximate functions such as `DISTINCT_COUNT_HLL` do not set it, so `false` is not a guarantee that every result is exact. The corresponding broker meter is `BROKER_RESPONSES_WITH_APPROXIMATED_RESULT`, replacing `APPROXIMATE_FUNCTION_OVERRIDES`. Update clients and monitoring that read the old names. See [PR #19972](https://github.com/apache/pinot/pull/19972).
+
+In the single-stage engine, the name of an unaliased output column can change to the rewritten function name. Use an explicit `AS` alias if clients rely on that name. The multi-stage engine preserves the planned output name.
 
 ## Resource Accounting
 
