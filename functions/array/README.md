@@ -1,5 +1,22 @@
 # Array Functions
 
+## Null-ignoring combination functions
+
+Use these scalar variants when a null argument should be ignored instead of making the whole result null:
+
+| Function family | Supported type suffixes |
+| --- | --- |
+| `arrayUnion<Type>IgnoreNulls` | `Int`, `String` |
+| `arrayConcat<Type>IgnoreNulls` | `Int`, `Long`, `Float`, `Double`, `String` |
+| `arrayPushBack<Type>IgnoreNulls` | `Int`, `Long`, `Float`, `Double`, `String` |
+| `arrayPushFront<Type>IgnoreNulls` | `Int`, `Long`, `Float`, `Double`, `String` |
+
+For example, `arrayConcatIntIgnoreNulls(a, NULL)` returns `a`; `arrayUnionIntIgnoreNulls(a, NULL)` returns the distinct values of `a`. Push variants ignore a null element, and pushing a non-null element onto a null array returns a one-element array. The result is null only when both arguments are null. Concat preserves duplicates; union removes them.
+
+Snake-case SQL names are also accepted, such as `array_concat_int_ignore_nulls`. These variants support ingestion transforms and the multi-stage engine. In the single-stage engine, enable null handling and use a build that includes [nullable scalar parameter support](../../build-with-pinot/querying-and-sql/null-value-support.md); older builds can still propagate null instead of invoking the function with null arguments. Existing non-`IgnoreNulls` variants are unchanged.
+
+*Source: [PR #19981](https://github.com/apache/pinot/pull/19981)*
+
 ***
 
 ## Array Aggregation
