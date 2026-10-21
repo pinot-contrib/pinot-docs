@@ -1,5 +1,13 @@
 # Null value support
 
+## Scalar functions that accept null arguments
+
+With query-time null handling enabled, the single-stage engine passes null arguments to scalar functions declared with `@ScalarFunction(nullableParameters = true)` and uses the function's returned value to determine whether the result is null. This includes nested scalar calls. A null input therefore does not necessarily produce a null result: for example, `jsonPathString(col, '$.a', 'dflt')` returns `'dflt'` for a null `col`, and sketch builders such as `toHLL(col)` can return an empty sketch.
+
+This support aligns the single-stage engine with the multi-stage engine and ingestion transforms. Builds before [PR #19983](https://github.com/apache/pinot/pull/19983) can instead propagate an input null in the single-stage engine even when the scalar function accepts it. Functions without `nullableParameters = true`, and behavior with null handling disabled, are unchanged. This does not enable null storage or query-time null handling automatically; configure both as described below.
+
+`prefixesWithPrefix` and `suffixesWithSuffix` also return null for a null input string rather than throwing a null-pointer exception; a null prefix or suffix still uses the unadorned variants.
+
 {% hint style="warning" %}
 For historical reasons, null support is disabled in Apache Pinot by default. This is expected to be changed in future versions.
 {% endhint %}
