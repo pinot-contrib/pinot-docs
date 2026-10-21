@@ -39,6 +39,7 @@ Supported query parameters:
 | --- | --- |
 | `type` | Optional table type filter when the path uses a raw table name. Supported values are `OFFLINE` and `REALTIME`. |
 | `forceDownload` | Re-download immutable segments from deep store before reloading. Defaults to `false`. |
+| `onlyIfNeeded` | Skip segments whose loaded copy does not need reload. Defaults to `false`; ignored when `forceDownload=true`. See below. |
 | `targetInstance` | Send reload messages only to the specified server instance. |
 | `instanceToSegmentsMap` | JSON map of server instance to segment list. When present, Pinot reloads only the listed segments on the listed servers. |
 
@@ -67,6 +68,21 @@ Typical response:
 ```
 
 The `status` field is a JSON string keyed by table name. Each table entry includes the submitted `reloadJobId`, the number of reload messages sent to servers, and whether Pinot successfully persisted job metadata in ZooKeeper.
+
+### Skip segments that do not need reload
+
+Set `onlyIfNeeded=true` on either reload endpoint to check each server's loaded copy before reloading it:
+
+```bash
+curl -X POST "http://localhost:9000/segments/baseballStats_OFFLINE/reload?onlyIfNeeded=true" \
+  -H "accept: application/json"
+```
+
+The check considers a changed segment CRC, tier migration, and required index/schema preprocessing. Up-to-date segments are skipped and counted as successful in reload job status; success does not imply every segment was physically reloaded. Consuming segments are considered not to need reload and are skipped, so this option does not request their force commit.
+
+If the check fails, Pinot attempts the normal reload instead of silently skipping the segment. The check depends on the segment implementation's reload detection: leave `onlyIfNeeded=false` (the default) when you need an unconditional reload. `forceDownload=true` overrides this optimization.
+
+*Source: [PR #19861](https://github.com/apache/pinot/pull/19861)*
 
 ### Reload segments in a time range
 
@@ -131,6 +147,7 @@ Supported query parameters:
 | Parameter | Description |
 | --- | --- |
 | `forceDownload` | Re-download the segment from deep store before reloading. Defaults to `false`. |
+| `onlyIfNeeded` | Skip the segment if its loaded copy does not need reload. Defaults to `false`; ignored when `forceDownload=true`. |
 | `targetInstance` | Reload the segment only on the specified server instance. |
 
 Example:
