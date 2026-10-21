@@ -6,7 +6,7 @@ With query-time null handling enabled, the single-stage engine passes null argum
 
 This support aligns the single-stage engine with the multi-stage engine and ingestion transforms. Builds before [PR #19983](https://github.com/apache/pinot/pull/19983) can instead propagate an input null in the single-stage engine even when the scalar function accepts it. Functions without `nullableParameters = true`, and behavior with null handling disabled, are unchanged. This does not enable null storage or query-time null handling automatically; configure both as described below.
 
-`prefixesWithPrefix` and `suffixesWithSuffix` also return null for null arguments rather than throwing a null-pointer exception.
+`prefixesWithPrefix` and `suffixesWithSuffix` also return null for a null input string rather than throwing a null-pointer exception; a null prefix or suffix still uses the unadorned variants.
 
 {% hint style="warning" %}
 For historical reasons, null support is disabled in Apache Pinot by default. This is expected to be changed in future versions.
