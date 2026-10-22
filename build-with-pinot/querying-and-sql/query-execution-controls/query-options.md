@@ -92,14 +92,6 @@ If you need to track or stop a query, read [Query cancellation](query-cancellati
 
 ## Related pages
 
-### Late materialization for sorted ORDER BY
-
-`SET lateMaterializeSortedOrderBy = true` opts into deferring non-ORDER-BY output expressions until after candidate rows have been selected on the single-stage sorted ORDER BY path. The default is `false`. This can reduce projection work for wide selections with a small `LIMIT`; it does not avoid reading the ordering expressions.
-
-The optimization requires a sorted prefix of the ORDER BY expressions and additional output expressions to defer. It is not selected when the scan can already stop at `LIMIT + OFFSET` using the complete sorted ordering (including descending iteration when `allowReverseOrder` permits it). It can apply to partially sorted ordering or descending scans that cannot iterate in query order. It is not a general optimization for every ORDER BY query. Compare representative queries before enabling it; leave it `false` to retain eager projection.
-
-*Source: [PR #19879](https://github.com/apache/pinot/pull/19879)*
-
 - [Querying Pinot](../querying-pinot.md)
 - [SQL syntax](../sql-syntax.md)
 - [Query quotas](query-quotas.md)
