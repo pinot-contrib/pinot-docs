@@ -94,11 +94,11 @@ If you need to track or stop a query, read [Query cancellation](query-cancellati
 
 ### Late materialization for sorted ORDER BY
 
-`SET lateMaterializeSortedOrderBy = true` opts into deferring non-ORDER-BY output expressions until after candidate rows have been selected on the single-stage sorted ORDER BY path. The default is `false`. This can reduce projection work for wide selections with a small `LIMIT`; it does not avoid reading the ordering expressions.
+The single-stage sorted ORDER BY path automatically defers non-ORDER-BY output expressions until candidate rows have been selected. This can reduce projection work for wide selections with a small `LIMIT`; it does not avoid reading the ordering expressions. There is no `lateMaterializeSortedOrderBy` query option in builds containing [PR #20003](https://github.com/apache/pinot/pull/20003): it removes the earlier opt-in flag added by #19879. Remove that obsolete setting from query templates; it is not an opt-out switch.
 
-The optimization requires a sorted prefix of the ORDER BY expressions and additional output expressions to defer. It is not selected when the scan can already stop at `LIMIT + OFFSET` using the complete sorted ordering (including descending iteration when `allowReverseOrder` permits it). It can apply to partially sorted ordering or descending scans that cannot iterate in query order. It is not a general optimization for every ORDER BY query. Compare representative queries before enabling it; leave it `false` to retain eager projection.
+The sorted path requires a sorted prefix of the ORDER BY expressions; only additional output expressions can be deferred. Pinot projects the ordering expressions during scanning and fetches the remaining expressions for selected document IDs. `allowReverseOrder` remains a separate control for descending iteration. This optimization can change `numEntriesScannedPostFilter`, so compare scan statistics with that change in mind rather than treating them as an unchanged work estimate.
 
-*Source: [PR #19879](https://github.com/apache/pinot/pull/19879)*
+*Sources: [PR #19879](https://github.com/apache/pinot/pull/19879), [PR #20003](https://github.com/apache/pinot/pull/20003)*
 
 - [Querying Pinot](../querying-pinot.md)
 - [SQL syntax](../sql-syntax.md)
