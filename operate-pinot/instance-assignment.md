@@ -141,7 +141,7 @@ Similar to the Replica-Group Segment Assignment, in order to use the [Partitione
 {% endcode %}
 
 {% hint style="info" %}
-In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `partitionColumn` is required in `replicaGroupPartitionConfig`.
+For [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), configure the column in `segmentAssignmentConfigMap` or let Pinot infer the single column of `segmentPartitionConfig`. The `partitionColumn` in the example above is legacy and deprecated; see [migration guidance](segment-assignment.md#partition-column-configuration).
 {% endhint %}
 
 ## Instance Assignment for Low Level Consumer (LLC) Real-time Table
@@ -210,7 +210,7 @@ To use the Pool-Based Instance Assignment, each server should be assigned to a p
 {% endcode %}
 
 {% hint style="info" %}
-In order to use [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), `partitionColumn` is required in `replicaGroupPartitionConfig`.
+For [Partitioned Replica-Group Segment Assignment](segment-assignment.md#partitioned-replica-group-segment-assignment), configure the column in `segmentAssignmentConfigMap` or let Pinot infer the single column of `segmentPartitionConfig`. The `partitionColumn` in the example above is legacy and deprecated; see [migration guidance](segment-assignment.md#partition-column-configuration).
 {% endhint %}
 
 {% hint style="info" %}

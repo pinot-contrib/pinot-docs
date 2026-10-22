@@ -73,7 +73,7 @@ POST /v2/segments?tableName=myTable&tableType=OFFLINE&enableParallelPushProtecti
 
 ### Offline upsert upload validation
 
-For offline upsert tables, Pinot applies an extra upload-time validation when it can resolve a partition column from the table config. Pinot checks `instanceAssignmentConfigMap.OFFLINE` first, then legacy `replicaGroupStrategyConfig.partitionColumn`, and finally a single-column `segmentPartitionConfig`.
+For offline upsert tables, Pinot applies an extra upload-time validation when it can resolve a partition column from the table config. Pinot checks `segmentAssignmentConfigMap` first, then the deprecated instance-assignment partition column, then legacy `replicaGroupStrategyConfig.partitionColumn`, and finally a single-column `segmentPartitionConfig`. See [partition-column configuration](../../operate-pinot/segment-assignment.md#partition-column-configuration) for migration and validation requirements.
 
 When one of those configs identifies the partition column, every uploaded segment must expose exactly one partition id for that column in segment metadata. This applies to both single-segment upload endpoints and `POST /segments/batchUpload`.
 
