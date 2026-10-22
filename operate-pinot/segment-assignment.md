@@ -8,6 +8,24 @@ description: >-
 
 Segment assignment refers to the strategy of assigning each segment from a table to the servers hosting the table. Picking the best segment assignment strategy can help reduce the overhead of the query routing, thus providing better performance.
 
+## Partition-column configuration
+
+Configure the OFFLINE segment-assignment partition column in the table-level `segmentAssignmentConfigMap`, or use a tier name as the entry key for tier assignment:
+
+```json
+"segmentAssignmentConfigMap": {
+  "OFFLINE": {"partitionColumn": "memberId"}
+}
+```
+
+`segmentAssignmentStrategy` is optional in an entry; when omitted, Pinot derives it from the instance partitions. The column defaults to the sole column in `segmentPartitionConfig` when no explicit column is configured. This also works with preconfigured instance partitions for colocated tables.
+
+The legacy `instanceAssignmentConfigMap.<type>.replicaGroupPartitionConfig.partitionColumn` and `segmentsConfig.replicaGroupStrategyConfig.partitionColumn` remain accepted but are deprecated. Resolution prefers segment-assignment entries, then the legacy instance-assignment field, then legacy replica-group strategy config, before the single-column fallback. All explicitly configured partition columns, including tier and legacy entries, must agree because the column is resolved table-wide. Migrate the column to `segmentAssignmentConfigMap`; do not change the column's value in only one location.
+
+The column must occur in `segmentPartitionConfig`, and an explicit partition column requires a partition-based assignment strategy (`replicagroup`, `roundrobinreplicagroup`, or a derived partition-based strategy). For non-dimension OFFLINE tables with multiple instance partitions, each OFFLINE/tier assignment must use a partition-based strategy and resolve a column: without an explicit column, `segmentPartitionConfig` must contain exactly one column. Existing tables with an invalid or ambiguous layout can fail validation on their next update; repair the configuration first. The controller also checks computed or preconfigured OFFLINE instance partitions. Realtime segments derive their partition from the segment name and are not subject to this OFFLINE layout check.
+
+*Source: [PR #19958](https://github.com/apache/pinot/pull/19958)*
+
 ## Dimension Tables
 
 Dimension tables are a special case: Pinot always assigns their segments to all servers in the tenant so lookup queries can run locally on every server. If you want to make that default explicit, configure `segmentAssignmentConfigMap` at the top level of the table config with an `OFFLINE` entry whose `segmentAssignmentStrategy` is `allservers`. Leaving it unset also works. Balanced, replica-group, and round-robin strategies do not apply to dimension tables.
