@@ -8,6 +8,16 @@ Pinot exposes several segment-level operations that serve different purposes. Th
 
 ## Decision guide
 
+### Automatic ERROR-replica repair on pauseless tables
+
+Realtime validation distinguishes reloading an existing segment from consuming its stream data again. On pauseless dedup and partial-upsert tables, ERROR replicas of completed segments can be reset to reload from a local copy, deep store, or an ONLINE peer without enabling stream re-consumption. Automatic resets target only assigned replicas still in ERROR; healthy replicas are left untouched. Pending transitions or replicas that leave ERROR are skipped.
+
+If an IN_PROGRESS segment (or a COMMITTING segment still assigned CONSUMING) has a non-ERROR replica, validation waits for commit before resetting the ERROR replicas. When all replicas are ERROR, resetting an IN_PROGRESS segment would re-consume it; re-ingesting an all-ERROR COMMITTING segment also re-consumes data. These repairs remain policy-gated for dedup and partial upsert. The existing `disasterRecoveryMode=ALWAYS` setting or validation-task override `repairErrorSegmentsForPartialUpsertOrDedup=true` permits them, but re-consumption can produce incorrect data for these table types. Assess that risk before opting in.
+
+A reset is not a recovery guarantee: a COMMITTING or peer-download segment may have no deep-store copy. Without an ONLINE/CONSUMING peer, recovery may depend on a surviving local copy. Inspect validation logs and the `PAUSELESS_SEGMENTS_IN_UNRECOVERABLE_ERROR_COUNT` controller gauge for blocked or failed repairs.
+
+*Source: [PR #19909](https://github.com/apache/pinot/pull/19909)*
+
 Use the table below to match your situation to the right operation. The sections that follow explain each operation in more detail.
 
 | Situation | Operation | Scope |
