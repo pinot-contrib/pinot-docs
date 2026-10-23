@@ -193,7 +193,7 @@ When `extractRawTimeValues` is `false` (the default), Pinot converts Parquet `DA
 | BOOLEAN           | BOOLEAN         | Preserved as a native boolean value. |
 | INT96 | LONG | Parquet`INT96` type converts **nanoseconds** to Pinot `INT64` type of **milliseconds** |
 | INT64                | LONG                              |                                                                                                                                                     |
-| INT32                | INT                               |                                                                                                                                                     |
+| INT32                | INT or LONG                       | Unsigned 32-bit annotations (`INTEGER(32, false)` or legacy `UINT_32`) are widened to LONG. |
 | FLOAT                | FLOAT                             |                                                                                                                                                     |
 | DOUBLE               | DOUBLE                            |                                                                                                                                                     |
 | BINARY               | BYTES                             |                                                                                                                                                     |
@@ -204,6 +204,9 @@ When `extractRawTimeValues` is `false` (the default), Pinot converts Parquet `DA
 | REPEATED             | MULTIVALUE/MAP (represented as MV | if parquet original type is LIST, then it is converted to MULTIVALUE column otherwise a MAP column.                                                 |
 
 For `ParquetAvroRecordReader` , you can refer to the [Avro section above](pinot-input-formats.md#avro) for the type conversions.
+
+Use a Pinot `LONG` field for unsigned 32-bit values, which can exceed the signed `INT` maximum of 2,147,483,647. `ParquetNativeRecordReader` widens these values at every nesting level. `ParquetAvroRecordReader` widens only top-level, non-repeated fields; unsigned values inside structs, lists or maps remain signed integers with that reader. Use the native reader for nested unsigned 32-bit values.
+
 #### LIST and MAP wrapper extraction
 
 Parquet LIST and MAP wrapper structs are now properly unwrapped when ingesting via `ParquetNativeRecordReader` and `ParquetAvroRecordReader`. Previously, schema-identified LIST and MAP columns had their wrapper elements exposed in the data:
