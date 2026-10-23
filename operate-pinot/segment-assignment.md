@@ -8,6 +8,18 @@ description: >-
 
 Segment assignment refers to the strategy of assigning each segment from a table to the servers hosting the table. Picking the best segment assignment strategy can help reduce the overhead of the query routing, thus providing better performance.
 
+## Assignment requirements for strict replica-group routing
+
+Tables using `strictReplicaGroup` routing, and upsert or dedup tables regardless of their instance selector, must use an assignment layout that preserves partition consistency. Dimension tables are exempt. Existing tables are not grandfathered: incompatible configurations can fail validation on their next update.
+
+- **OFFLINE:** use replica-group-based OFFLINE instance assignment with exactly one instance per partition in each replica-group. Configure `numInstancesPerPartition=1`, or `numInstancesPerReplicaGroup=1` when the former is omitted. If neither is set, the controller checks the computed layout. An explicit OFFLINE segment strategy must be `replicagroup` or `roundrobinreplicagroup`; legacy `replicaGroupStrategyConfig` applies only with `replicagroup`. Resolve the partition column as described below.
+- **REALTIME:** a partitioned CONSUMING layout must have one instance per partition. Do not relocate COMPLETED segments through `instanceAssignmentConfigMap.COMPLETED`, `instancePartitionsMap.COMPLETED`, or a different `realtimeCompleted` tenant tag. Upsert and dedup tables continue to reject all tenant tag overrides.
+- **Preconfigured layouts:** the controller also checks fetched/computed OFFLINE instance partitions, and CONSUMING instance partitions when they have multiple partitions, for one instance per partition per replica-group.
+
+Check these layouts before updating an existing table. Skipping `UPSERT` validation does not bypass these requirements; skipping `ALL` bypasses the table-config check but not the controller's computed/fetched layout check in this implementation.
+
+*Source: [PR #20006](https://github.com/apache/pinot/pull/20006)*
+
 ## Partition-column configuration
 
 Configure the OFFLINE segment-assignment partition column in the table-level `segmentAssignmentConfigMap`, or use a tier name as the entry key for tier assignment:
