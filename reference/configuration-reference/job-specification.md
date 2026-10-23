@@ -18,6 +18,18 @@ pinot-admin.sh LaunchDataIngestionJob \
 -propertyFile /path/to/job.properties
 ```
 
+## Segment archive compression
+
+Standalone, Spark and Hadoop batch segment generation accept the top-level `segmentTarCompressionCodec` property. The default is `gzip` (`.tar.gz`); set `zstd` to produce Zstandard archives (`.tar.zst`):
+
+```yaml
+segmentTarCompressionCodec: zstd
+```
+
+Enable Zstandard only after all consumers of these archives, including controllers and servers, support the codec. Keep `gzip` during mixed-version upgrades if any consumer cannot read Zstandard. Metadata sidecars remain `.metadata.tar.gz`, regardless of the segment codec.
+
+Generation accepts only `gzip` and `zstd`. Batch push and backfill archive discovery also recognize existing `.tar.lz4` files; this does not enable `lz4` as a generation setting. Discovery excludes metadata sidecars. Update any `pushFileNamePattern` restricted to `*.tar.gz` when switching to Zstandard; a pattern selecting no archives results in no push or consistent-replacement action.
+
 ## Template your job spec file
 
 Users are allowed to define some variables in the job spec file to make it a template then passing the variables at runtime.
