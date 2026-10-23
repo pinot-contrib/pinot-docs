@@ -1,5 +1,11 @@
 # Array Functions
 
+## Filtering multi-value columns
+
+For multi-value `INT` and `STRING` columns, Pinot automatically rewrites positive `arrayContainsInt(column, literal)` and `arrayContainsString(column, literal)` filter predicates into equivalent equality filters. This allows existing dictionary/inverted indexes and segment pruning to be used without changing the query. The column type must match the function, and the literal must be non-null and convertible to its parameter type.
+
+Negations (`NOT`, `= false`, `!= true`) are not rewritten: multi-value inequality does not mean that no element matches. This optimization runs before broker expression overrides, so an override keyed on the original `arrayContains` predicate no longer matches when the predicate is rewritten.
+
 ## Null-ignoring combination functions
 
 Use these scalar variants when a null argument should be ignored instead of making the whole result null:
