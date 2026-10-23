@@ -21,6 +21,20 @@ GROUP BY city
 LIMIT 10;
 ```
 
+## Export a query response with PostQuery
+
+Use the `PostQuery` admin command to query a broker and optionally save its response:
+
+```bash
+bin/pinot-admin.sh PostQuery -brokerHost localhost -brokerPort 8099 \
+  -query 'SELECT * FROM stores LIMIT 10' \
+  -outputFormat CSV -outputFile results.csv
+```
+
+`-outputFormat` accepts uppercase `JSON` (the default, raw broker response) or `CSV`. CSV includes column headers and `resultTable` rows; SQL nulls become empty fields, and arrays or objects are serialized as JSON within CSV cells. CSV does not include broker response metadata.
+
+`-outputFile` writes UTF-8 output, overwriting an existing file. Without it, the response is only logged. When CSV is requested, a response without a usable result table falls back to the raw response in the logs. CSV file output is refused if formatting falls back, the broker reports exceptions, or `partialResult` is true; an existing output file is left unchanged and the command reports failure. Use `-outputFormat JSON` to save the full response and its diagnostics.
+
 ## What matters most
 
 Pinot SQL uses the Apache Calcite parser with the `MYSQL_ANSI` dialect. In practice, that means you should pay attention to identifier quoting, literal quoting, and engine-specific capabilities.
