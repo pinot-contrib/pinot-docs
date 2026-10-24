@@ -204,6 +204,14 @@ Monitor these broker metrics:
 
 ## Failure detector
 
+### Detect unanswered single-stage queries with pings
+
+With the `CONNECTION` failure detector, set `pinot.broker.failure.detector.enable.ping.on.timeout=true` to check servers that leave a single-stage query unanswered while keeping their connection open. The default is `false`. A query timeout alone does not exclude a server: an unanswered ping identifies it as unhealthy, while a server that answers remains eligible for routing. Checks run asynchronously.
+
+`pinot.broker.failure.detector.ping.timeout.ms` defaults to `5000` and must be positive when pings are enabled. The same timeout applies to recovery probes: unhealthy servers are retried with pings instead of TCP connection attempts, so a frozen JVM is not declared healthy merely because its kernel accepts connections. Set the timeout above the longest expected stop-the-world GC pause to avoid temporarily excluding a paused server.
+
+Enable this only after every server runs a build that handles ping requests directly. Older servers process pings like queued queries; a busy older server can miss the ping timeout and be incorrectly excluded during a mixed-version rollout. The default `NO_OP` detector does not exclude servers.
+
 By default (`NO_OP`) the broker does not track unhealthy servers. Set `pinot.broker.failure.detector.type=CONNECTION` to have the broker mark a server unhealthy when a query hits a connection failure, exclude it from routing, and retry it later.
 
 Retries use exponential backoff (`retry.initial.delay.ms`, `retry.delay.factor`). After `max.retries` the broker marks the server healthy again so listeners do not lose track of it.
