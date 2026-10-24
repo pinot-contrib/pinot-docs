@@ -4,6 +4,12 @@ description: Operator decision guide for choosing the right segment operation â€
 
 # Segment Lifecycle and Repair
 
+## Monitor failed repair initiation
+
+The per-table controller meter `LLC_ERROR_SEGMENT_REPAIR_FAILURES` counts ERROR-segment repairs that the periodic repair pass could not initiate: a reset that could not be sent, or a re-ingestion trigger that failed. It increments once per affected segment per pass, for all tables; the same segment is counted again if initiation fails on a later pass.
+
+This meter excludes repairs skipped by policy and repairs that fail asynchronously after successful submission. A zero count therefore does not prove that every ERROR segment is repaired. Inspect current segment state and controller/server logs alongside this meter.
+
 Pinot exposes several segment-level operations that serve different purposes. This page helps operators decide which operation to use for a given scenario, and links to the detailed reference pages for each one.
 
 ## Decision guide
