@@ -22,6 +22,22 @@ Evaluates `'jsonPath'` on `jsonField` and coerces the resolved value to the requ
 **`'jsonPath'`**` and`` `` `**`'resultsType'`are literals.** Pinot uses single quotes to distinguish them from **identifiers**.
 {% endhint %}
 
+## Multi-stage and scalar evaluation
+
+`JSON_EXTRACT_SCALAR` (also spelled `jsonExtractScalar`) is available as a scalar function in the multi-stage engine and ingestion transforms, in addition to the single-stage transform. Input can be JSON text, UTF-8 `BYTES`, or an already-parsed container. Keep the JSONPath and result type as literals.
+
+```sql
+SET useMultistageEngine = true;
+SELECT JSON_EXTRACT_SCALAR(payload, '$.amount', 'BIG_DECIMAL', NULL)
+FROM myTable;
+```
+
+The standard function supports scalar `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BIG_DECIMAL`, `BOOLEAN`, `TIMESTAMP`, `STRING`, `JSON` and `BYTES` results. Array variants are supported for these types except `JSON` and `BYTES`.
+
+Without a default, an unresolved single-value path fails the query. With a default, missing paths, malformed documents and path-evaluation failures return the coerced default; an explicit SQL `NULL` default returns SQL NULL. SQL NULL input propagates independently of that default. Invalid JSONPath syntax is rejected rather than replaced with a default.
+
+An unresolved array path normally returns an empty array, but returns SQL NULL when the explicit default is SQL `NULL`. A resolved value that is not an array still yields an empty array. Null elements inside a resolved array require a supplied default; otherwise extraction fails.
+
 ## Fast variants
 
 Use `JSONEXTRACTSCALARFAST` or `JSONEXTRACTSCALARFIRSTMATCH` when extraction is a hot path in a query or an [ingestion transformation](../../build-with-pinot/ingestion/ingestion-level-transformations.md). Both variants use the same arguments, result types, defaults, and coercion rules as `JSONEXTRACTSCALAR`.
