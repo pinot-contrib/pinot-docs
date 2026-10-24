@@ -10,6 +10,14 @@ Segment assignment refers to the strategy of assigning each segment from a table
 
 ## Assignment requirements for strict replica-group routing
 
+### Persistent partition placement
+
+For partition-pinned strict replica-group tables, Pinot tracks each partition's assigned instances in the table's IdealState list fields, alongside segment assignments. The partition ID is the stream partition for REALTIME tables and the value partition for OFFLINE tables. New segments reuse that partition's recorded instances even if the instance-partition configuration has since changed; a missing entry is initialized from the instance partitions.
+
+Use table rebalance to move existing pinned partitions after changing instance placement. Rebalance updates partition entries together with segment assignments, keeping segments created during the rebalance colocated with their partition. It removes entries for partitions with no segments. Instances referenced by a partition entry are still considered in use even when they currently host no segments, which can prevent stale-instance cleanup or tenant deletion.
+
+The controller meter `CONTROLLER_REALTIME_TABLE_SEGMENT_ASSIGNMENT_MISMATCH` is removed; update monitoring that depends on it.
+
 Tables using `strictReplicaGroup` routing, and upsert or dedup tables regardless of their instance selector, must use an assignment layout that preserves partition consistency. Dimension tables are exempt. Existing tables are not grandfathered: incompatible configurations can fail validation on their next update.
 
 - **OFFLINE:** use replica-group-based OFFLINE instance assignment with exactly one instance per partition in each replica-group. Configure `numInstancesPerPartition=1`, or `numInstancesPerReplicaGroup=1` when the former is omitted. If neither is set, the controller checks the computed layout. An explicit OFFLINE segment strategy must be `replicagroup` or `roundrobinreplicagroup`; legacy `replicaGroupStrategyConfig` applies only with `replicagroup`. Resolve the partition column as described below.
