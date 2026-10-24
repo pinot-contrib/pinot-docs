@@ -1124,6 +1124,8 @@ Update the config for an existing typed table.
 | `validationTypesToSkip` | string | Comma-separated validation types to skip during table-config validation. |
 | `force` | boolean | Defaults to `false`. When `true`, Pinot still applies backward-incompatible upsert or dedup config changes that it would otherwise reject. Use only for controlled migrations. |
 
+`validationTypesToSkip` accepts `ALL`, `TASK`, `UPSERT`, `DEDUP`, `INSTANCE_ASSIGNMENT`, `TENANT` and `MINION_INSTANCES`. Names are case-insensitive and whitespace around comma-separated names is ignored; an omitted or blank parameter skips nothing. Unknown names, including `ACTIVE_TASKS`, return `400 Bad Request`. These parsing rules also apply to table-config validation and tuning endpoints. `TENANT` and `MINION_INSTANCES` can be skipped for validation/tuning only: table creation and update always validate them, even with `ALL`. Skipping `UPSERT` alone does not skip `DEDUP` validation.
+
 By default, Pinot returns `400 Bad Request` for backward-incompatible changes on existing upsert or dedup tables. The protected fields include upsert comparison columns, hash function, mode, `deleteRecordColumn`, out-of-order settings, dedup hash function, dedup time column, and the table time column when Pinot is using it as the default comparison or dedup time column. The safest path for those changes is still to create a new table and reingest the data.
 
 For existing `PARTIAL` upsert tables, Pinot now allows `partialUpsertStrategies` and `defaultPartialUpsertStrategy` to change without `force=true`. The new strategy is not retroactive: existing merged values stay as stored, and the new behavior takes effect only after each consuming server restarts and reloads the table config. During a rolling restart, replicas can temporarily diverge on rows ingested during the rollout window; if that happens, reset the affected consuming segments after the rollout.
@@ -1298,7 +1300,7 @@ curl -X POST "http://localhost:9000/tables/validate" \
 ```
 
 The table and its schema must already exist. Pinot returns the validated config under its `OFFLINE` or `REALTIME` key and includes any unrecognized input properties in `unrecognizedProperties`. A custom validator rejection returns `400 Bad Request`, allowing clients to catch it before an update request.
-`ACTIVE_TASKS` remains accepted for backward compatibility, but it has no effect on these preflight endpoints.
+Unknown validation type names, including `ACTIVE_TASKS`, return `400 Bad Request`.
 
 **Response**
 
@@ -1320,9 +1322,9 @@ Validates a combined `TableConfigs` payload and returns the tuned version that P
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `validationTypesToSkip` | query | Optional comma-separated validation types to skip during validation. Supported values are `ALL`, `TASK`, `UPSERT`, `TENANT`, and `MINION_INSTANCES`. |
+| `validationTypesToSkip` | query | Optional comma-separated validation types to skip during validation: `ALL`, `TASK`, `UPSERT`, `DEDUP`, `INSTANCE_ASSIGNMENT`, `TENANT`, `MINION_INSTANCES`. |
 
-`ACTIVE_TASKS` remains accepted for backward compatibility, but it has no effect on this read-only preflight endpoint.
+Unknown validation type names, including `ACTIVE_TASKS`, return `400 Bad Request`.
 
 **Request**
 
