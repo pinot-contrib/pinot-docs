@@ -144,7 +144,9 @@ SELECT distinctcounthll(col, 8) FROM myTable
 
 ### Multi-value column behavior
 
-Support for multi-value columns in the MSE is limited to projections. Predicates, GROUP BY, and ORDER BY clauses that reference multi-value columns must use the `arrayToMv` function. For example, to run:
+In the MSE, a multi-value (MV) column has the SQL type `ARRAY`. You can project an MV column without changes. To filter or group by the elements of an MV column, wrap the column in the `arrayToMv` function. `arrayToMv` and `ARRAY_TO_MV` are two names for the same function.
+
+These queries work in the SSE, but the MSE rejects them:
 
 {% code overflow="wrap" %}
 ```sql
@@ -162,7 +164,7 @@ ORDER BY RandomAirports DESC
 ```
 {% endcode %}
 
-Rewrite the query using `arrayToMv`:
+Rewrite the queries with `arrayToMv`:
 
 {% code overflow="wrap" %}
 ```sql
@@ -174,11 +176,108 @@ GROUP BY arrayToMv(RandomAirports)
 SELECT * FROM airlineStats WHERE arrayToMv(RandomAirports) IN ('SFO', 'JFK')
 
 -- example 3: ORDER BY
-SELECT count(*), arrayToMV(RandomAirports) FROM airlineStats
-GROUP BY arrayToMV(RandomAirports)
-ORDER BY arrayToMV(RandomAirports) DESC
+SELECT count(*), arrayToMv(RandomAirports) FROM airlineStats
+GROUP BY arrayToMv(RandomAirports)
+ORDER BY arrayToMv(RandomAirports) DESC
 ```
 {% endcode %}
+
+#### GROUP BY arrayToMv
+
+`GROUP BY arrayToMv(col)` groups each row by every element of the MV column. The MSE calls this plan the MV aggregate. It gives the same groups as `GROUP BY col` in the SSE.
+
+The MV aggregate is off by default. See [Turn the MV aggregate on or off](#turn-the-mv-aggregate-on-or-off).
+
+The MV aggregate works in every stage of the query plan. For example, it works directly on a table scan, above a join, in a subquery, and with group trimming:
+
+{% code overflow="wrap" %}
+```sql
+SELECT arrayToMv(s.RandomAirports) AS airport, count(*)
+FROM airlineStats AS s
+JOIN carriers AS c ON s.Carrier = c.code
+WHERE c.country = 'US'
+GROUP BY arrayToMv(s.RandomAirports)
+```
+{% endcode %}
+
+The MV aggregate uses these rules:
+
+* A row goes into the group of each of its elements.
+* If an element occurs two times in one row, the row counts two times in the group of that element.
+* An empty array goes into no group. A stored MV value is never empty, but a function such as `filterMv` can return an empty array.
+* When null handling is on (`enableNullHandling=true`), a null MV value goes into one null group.
+* Above a join, a null MV value from an outer join goes into the null group, also when null handling is off. An outer join gives a null value to a row that has no match.
+* Two or more MV keys give, for each row, the cartesian product of their elements.
+
+As a result, the sum of `count(*)` over all groups can be larger than the number of rows.
+
+You can repeat the group key `arrayToMv(col)` in the SELECT list and in ORDER BY. There, it refers to the group key.
+
+The argument of `arrayToMv` can also be an array expression, for example `arrayToMv(valueIn(RandomAirports, 'SFO', 'JFK'))`.
+
+`CROSS JOIN UNNEST` gives the same groups, with one difference: `UNNEST` drops a null MV value. The MV aggregate puts it in the null group.
+
+#### Supported uses of arrayToMv
+
+`arrayToMv` is supported in two places only:
+
+1. As a complete GROUP BY key: `GROUP BY arrayToMv(expr)`. Here, `expr` is an MV column or an array expression.
+2. In a WHERE predicate that runs in the leaf stage, which means directly on a table scan.
+
+These uses are not supported:
+
+* `arrayToMv` inside another expression in a group key, for example `GROUP BY lower(arrayToMv(col))`. Directly on a table scan, the SSE evaluates the expression on the MV column. There, `CAST` applies to each element. Most other functions fail when the query runs. In all other stages, the query fails at planning time.
+* `arrayToMv` in the SELECT list, if it is not a repeat of a GROUP BY key.
+* `arrayToMv` in an aggregate argument, for example `sum(arrayToMv(col))`. This works only when the aggregate runs directly on a table scan. If the query also groups by the same `arrayToMv(col)`, Pinot does not use the MV aggregate. This is also true when the MV column is in the `FILTER (WHERE ...)` clause of an aggregate. The query then works only directly on a table scan.
+* `arrayToMv` in a filter above a join or an aggregate, in a JOIN condition, or in a window function.
+* `GROUP BY arrayToMv(col)` together with `GROUPING SETS`, `ROLLUP`, `CUBE`, or a `WITHIN GROUP` aggregate.
+* A plain `GROUP BY col` on an MV column. The query fails with the message `Use ARRAY_TO_MV() to group by multi-value column`. This is also true when the query groups by both `arrayToMv(col)` and `col`.
+
+Most of these queries fail at planning time with a `QUERY_PLANNING` error. The error message ends with this text:
+
+{% code overflow="wrap" %}
+```text
+ARRAY_TO_MV is supported only: (1) as a complete GROUP BY key, GROUP BY ARRAY_TO_MV(expr), where expr is a multi-value column or an array expression; (2) in WHERE predicates that run in the leaf stage (directly on a table scan). It is not supported nested inside another expression (for example CASE WHEN ARRAY_TO_MV(col) IS NOT NULL ...), in the SELECT list, in aggregate arguments, in filters above a join or an aggregate, in JOIN conditions, or in window functions.
+```
+{% endcode %}
+
+There are two exceptions:
+
+* With `GROUPING SETS`, `ROLLUP`, `CUBE`, or `WITHIN GROUP`, the query fails at planning time with a `QUERY_PLANNING` error. The message is `GROUP BY ARRAY_TO_MV() is not supported with GROUPING SETS / ROLLUP / CUBE in the multi-stage query engine`, or the `WITHIN GROUP` variant of it. This occurs only when the MV aggregate is on.
+* A nested group key directly on a table scan fails in the SSE when the query runs. The error message comes from the SSE.
+
+The physical optimizer (`usePhysicalOptimizer=true`) does not use the MV aggregate. With the physical optimizer, `GROUP BY arrayToMv(col)` works only directly on a table scan.
+
+#### Turn the MV aggregate on or off
+
+The MV aggregate is off by default. When it is off, the MSE plans `GROUP BY arrayToMv(col)` as in earlier releases. The query then works only when the aggregate runs directly on a table scan.
+
+Three settings control the MV aggregate. Each one overrides the settings that follow it:
+
+1. The query option `useMvAggregate` sets it for one query, for example `SET useMvAggregate=true;`.
+2. The cluster config `pinot.broker.multistage.use.mv.aggregate` sets it for all brokers of the cluster. A change applies to the next query, without a broker restart. When you delete the key, the broker config applies again.
+3. The broker config `pinot.broker.multistage.use.mv.aggregate` sets it for one broker. The default value is `false`. A change needs a broker restart.
+
+For example, this request turns the MV aggregate on for the whole cluster:
+
+```bash
+curl -X POST '{controllerHost}/cluster/configs' \
+  -H 'Content-Type: application/json' \
+  -d '{"pinot.broker.multistage.use.mv.aggregate": "true"}'
+```
+
+To go back to the broker config, delete the key with `DELETE /cluster/configs/pinot.broker.multistage.use.mv.aggregate`.
+
+{% hint style="warning" %}
+**Rolling upgrades.** Servers from earlier releases cannot run the MV aggregate. If a broker sends the MV aggregate to an old server, `GROUP BY arrayToMv(col)` fails with `Unsupported PlanNode type`, even when the query worked before the upgrade.
+
+So turn the MV aggregate on only after all servers run a release with the MV aggregate:
+
+1. Upgrade the controllers, the brokers, and the servers. With the default value, every query keeps its earlier plan.
+2. Set `pinot.broker.multistage.use.mv.aggregate=true` in the cluster config.
+
+Old servers do not know the operator type id 17 of the MV aggregate. If you turn the MV aggregate on while new and old servers run together, a query can lose its stage stats. The query results stay correct.
+{% endhint %}
 
 ## Current limitations
 

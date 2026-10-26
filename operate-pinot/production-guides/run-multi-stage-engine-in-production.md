@@ -215,7 +215,7 @@ Some behaviors are current limitations of the MSE implementation. Others reflect
 
 These are areas where MSE behavior differs from SSE or from standard SQL expectations. They may be addressed in future releases:
 
-- **Multi-value column support is limited.** Predicates and GROUP BY on multi-value columns require wrapping with `arrayToMv()`. See [Troubleshoot MSE](../troubleshooting/troubleshoot-multi-stage-query-engine.md).
+- **Multi-value columns need `arrayToMv()`.** Predicates and GROUP BY on multi-value columns must wrap the column in `arrayToMv()`. With the MV aggregate on, `GROUP BY arrayToMv(col)` works in every stage. The MV aggregate is off by default. Predicates with `arrayToMv()` work only directly on a table scan. See [Troubleshoot MSE](../troubleshooting/troubleshoot-multi-stage-query-engine.md#multi-value-column-behavior).
 - **Schema prefixes are not supported.** Queries like `SELECT * FROM schema.table` are not valid.
 - **Table and column names are case-sensitive** in MSE (unlike SSE).
 - **Type casting is stricter.** Implicit type conversions that work in SSE may require explicit `CAST` in MSE.
