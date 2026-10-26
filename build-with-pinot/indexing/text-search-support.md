@@ -4,6 +4,14 @@ description: This page talks about support for text search in Pinot.
 
 # Text search support
 
+## Immutable Lucene index compatibility
+
+New immutable Lucene TEXT indexes prebuild Lucene-to-Pinot document-ID mappings from numeric doc values during creation. Verified identity mappings are omitted and persisted as `Skip`; reordered mappings are packaged with the index. This avoids rebuilding those mappings at load time. Existing legacy indexes retain the stored-field fallback.
+
+New indexes built with this behavior require Pinot **1.4.0 or later readers**. Upgrade all readers before distributing newly built or rebuilt TEXT indexes; do not assume these new indexes can be loaded by older Pinot versions during a rolling upgrade or downgrade.
+
+`docIdTranslatorMode=Default` still retains mappings for load-time and reused-mutable cases, but freshly built immutable indexes drop verified identity mappings. `TryOptimize` also drops verified identity mappings when reusing mutable indexes. `Skip` uses Lucene document IDs without constructing or verifying a mapping; it is not a general compatibility workaround.
+
 {% hint style="info" %}
 This text index method is recommended over the experimental [native text index](native-text-index.md).
 
