@@ -110,3 +110,39 @@
 - Advanced checkpoint to `last_processed_merged_at=2026-10-27T02:18:50Z` (#19991 merged-at).
 - Recorded #19991 ledger entry (`decision=docs_created`, docs#1149). Lease released.
 - Slack summary sent (new docs PR created this run).
+
+---
+
+## Run 2026-10-27T04:05:27Z (run-20261027T040116Z-919)
+
+### Coverage
+- Checkpoint at run start: `last_processed_merged_at=2026-10-27T02:18:50Z`.
+- Inventory of merged apache/pinot PRs strictly after checkpoint (search API, full
+  pagination; GitHub API authoritative because this runner's git mirror lags):
+  **1 PR** — #19990, merged 2026-10-27T03:46:21Z. Coverage complete.
+
+### Decisions
+- **#19990 "Return the input's logical type from ANY_VALUE" → docs_created.**
+  New user-facing query behavior. Verified from merged code (b58776bc):
+  - New 2-arg form `ANYVALUE(colName,'dataType')`; supported dataTypes INT, LONG,
+    FLOAT, DOUBLE, BIG_DECIMAL, BOOLEAN, TIMESTAMP, STRING, BYTES, UUID; others fail.
+  - Query option `inferAnyValueType`; default from broker config
+    `pinot.broker.query.infer.any.value.type` (false), live via cluster config;
+    rewrites 1-arg ANY_VALUE to return expr's logical type in both engines.
+  - Rolling-upgrade: older servers reject the 2-arg form.
+- Minimal edit to `functions/aggregation/anyvalue.md`. No tests/benchmarks touched.
+
+### Created / merged links
+- Docs PR: https://github.com/pinot-contrib/pinot-docs/pull/1150
+  (squash-merged 2026-10-27T04:04:15Z, commit cbb4d2a3, branch deleted).
+- Upstream comment: https://github.com/apache/pinot/pull/19990#issuecomment-6433456568
+
+### Validation / blockers
+- `git diff --check`: clean.
+- `scripts/validate-docs.py --summary-only`: RESULT PASS (10 pre-existing broken-anchor
+  warnings, none in anyvalue.md). PR checks all SUCCESS. No blockers.
+
+### Durable state
+- Advanced checkpoint to `2026-10-27T03:46:21Z` (#19990 merged-at).
+- Recorded #19990 ledger entry (`decision=docs_created`, docs#1150). Lease released.
+- Slack summary sent (new docs PR created this run).
