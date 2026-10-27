@@ -1,6 +1,0 @@
-{
-  "holder": "intentlab-ai[bot] IntentLab routine rt (remote runner)",
-  "run_id": "run-20261027T040116Z-919",
-  "acquired_at": "2026-10-27T04:01:16Z",
-  "note": "Serialize pinot-docs automation runs. Create-only CAS lease."
-}
