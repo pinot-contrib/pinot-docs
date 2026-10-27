@@ -3,11 +3,11 @@
 Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ## Checkpoint (current)
-- `last_processed_merged_at` = `2026-10-27T00:45:19Z` (advanced past #20015, not-relevant)
-- `last_successful_run` = `2026-10-27T01:02Z`
-- Most recent completed pair: apache/pinot#19862 -> pinot-docs#1148
-  (merged 2026-10-27T00:12:51Z), upstream comment
-  https://github.com/apache/pinot/pull/19862#issuecomment-6430420263
+- `last_processed_merged_at` = `2026-10-27T02:18:50Z` (advanced past #19991, docs created)
+- `last_successful_run` = `2026-10-27T03:05Z`
+- Most recent completed pair: apache/pinot#19991 -> pinot-docs#1149
+  (merged 2026-10-27T03:04:22Z), upstream comment
+  https://github.com/apache/pinot/pull/19991#issuecomment-6432711240
 
 ## Durable state mechanism
 - The GitHub App installation token available to this runner is scoped to `apache/pinot`
@@ -51,3 +51,33 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No triage work. No docs PR created, none merged. No Slack (no new docs PRs).
 - Durable state: checkpoint unchanged (`2026-10-27T00:45:19Z`); bumped `last_successful_run`
   to 2026-10-27T02:02:31Z. Lease released.
+
+### 2026-10-27T03:05Z (scheduled triage run — docs PR created)
+- Preflight OK: gh auth as xiangfu0; durable `automation-state` read (checkpoint
+  `2026-10-27T00:45:19Z`); lease acquired (`automation-lock.json`, create-only CAS,
+  run `run-20261027T030120Z-1037`). `apache/pinot`=WRITE, `pinot-contrib/pinot-docs`=ADMIN.
+  (`gh-tentrix-wrap` stderr "no token minted" warning benign; ambient installation token
+  has full read+write.)
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint (search API, full
+  pagination + `gh pr list` cross-check): **1 PR** = #19991
+  "Support MODE on STRING, BOOLEAN and TIMESTAMP inputs" (merged 2026-10-27T02:18:50Z,
+  merge commit 7835c7dc). Only commit after checkpoint; coverage complete.
+- Classified **docs-relevant** (new user-facing query-function behavior). Verified from
+  merged code (`ModeAggregationFunction`, `AggregationFunctionType`): new signature
+  `MODE(colName, [reducerType], [dataType])`; `dataType` in {STRING, BOOLEAN, TIMESTAMP}
+  is also the result type and must match the input's stored type; only MIN/MAX reducers
+  for typed values (AVG rejected); numeric-only + DOUBLE when `dataType` omitted; STRING
+  works without the 3rd arg (incl. JSON as string); typed BOOLEAN/TIMESTAMP opt-in via
+  3-arg form; older servers reject the 3-arg form during rolling upgrade.
+- Duplicate check: no existing docs PR or upstream docs comment for #19991.
+- Edited `functions/aggregation/mode.md` (minimal: signature + arg descriptions + hint).
+  Validation: `git diff --check` clean; `scripts/validate-docs.py` RESULT PASS (10
+  pre-existing broken-anchor warnings, none in mode.md).
+- Created docs PR #1149 against `latest`; checks all SUCCESS (Validate changed docs,
+  Full docs audit, GitBook x2); squash-merged 2026-10-27T03:04:22Z (commit b10e0dd2),
+  branch deleted. Commented upstream:
+  https://github.com/apache/pinot/pull/19991#issuecomment-6432711240
+- Advanced checkpoint to `2026-10-27T02:18:50Z`. Slack summary sent (new docs PR). Lease released.
+- Note: this runner's session git hook forces remote branches to carry a `cs_<sid>/`
+  prefix; pushed working branch as `cs_2bUlbKmV-a/docs/pr-19991-mode-typed-inputs`
+  (deleted on merge). Durable-state commits go via the contents API (no prefix needed).
