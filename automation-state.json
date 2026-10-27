@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-27T03:46:21Z",
-  "last_successful_run": "2026-10-27T07:02:36Z",
+  "last_successful_run": "2026-10-27T09:01:56Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -48,6 +48,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: apache/master HEAD (#19990, 2026-10-27T03:46:21Z) equals checkpoint; no new merged PRs after checkpoint",
-  "last_run_id": "run-20261027T070139Z-1281"
+  "last_run_result": "no-op: apache/master HEAD (#19990, 2026-10-27T03:46:21Z) equals checkpoint; search API and pulls API both report 0 merged PRs after checkpoint",
+  "last_run_id": "run-20261027T090113Z-908"
 }
