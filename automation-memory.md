@@ -81,3 +81,39 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - Note: this runner's session git hook forces remote branches to carry a `cs_<sid>/`
   prefix; pushed working branch as `cs_2bUlbKmV-a/docs/pr-19991-mode-typed-inputs`
   (deleted on merge). Durable-state commits go via the contents API (no prefix needed).
+
+### 2026-10-27T04:05:04Z (scheduled triage run — docs PR created)
+- Preflight OK: gh auth as xiangfu0; durable `automation-state` read (checkpoint
+  `2026-10-27T02:18:50Z`); lease acquired (`automation-lock.json`, create-only CAS,
+  run `run-20261027T040116Z-919`). `apache/pinot`=WRITE, `pinot-contrib/pinot-docs`=ADMIN.
+  (`gh-tentrix-wrap` stderr "no token minted" warning benign; ambient installation
+  token has full read+write. Needed `gh auth setup-git` before `git push`.)
+- Note: this runner's git mirror of apache/pinot lags (origin/master HEAD 2026-10-09),
+  so GitHub API PR state is authoritative; file contents read via contents API at the
+  PR merge commit rather than local git.
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint
+  (`merged:>2026-10-27T02:18:50Z`, search API full pagination): **1 PR** = #19990
+  "Return the input's logical type from ANY_VALUE" (merged 2026-10-27T03:46:21Z,
+  merge commit b58776bc). Coverage complete.
+- Classified **docs-relevant** (new user-facing query-function form + new broker
+  config/query option). Verified from merged code:
+  - New 2-arg form `ANYVALUE(colName,'dataType')`; result type fixed at construction.
+    Supported dataTypes (AnyValueAggregationFunction.getResultType): INT, LONG, FLOAT,
+    DOUBLE, BIG_DECIMAL, BOOLEAN, TIMESTAMP, STRING, BYTES, UUID; others fail the query.
+  - Query option `inferAnyValueType` (QueryOptionsUtils.isInferAnyValueType);
+    default from broker config `pinot.broker.query.infer.any.value.type`
+    (CommonConstants, DEFAULT=false), settable live via Helix cluster config
+    (InferAnyValueTypeProvider, cluster config wins). Rewrites 1-arg ANY_VALUE to
+    return expr's logical type in both engines (JSON->STRING).
+  - Compat: 2-arg form rejected by older servers; enable only after full upgrade.
+- Duplicate check: no existing docs PR or upstream docs comment for #19990.
+- Edited `functions/aggregation/anyvalue.md` (minimal: typed signature + supported
+  types + inferAnyValueType section + upgrade hint). Validation: `git diff --check`
+  clean; `scripts/validate-docs.py` RESULT PASS (10 pre-existing broken-anchor
+  warnings, none in anyvalue.md).
+- Created docs PR #1150 against `latest`; checks all pass (Validate changed docs,
+  Full docs audit, GitBook x2); squash-merged 2026-10-27T04:04:15Z (commit cbb4d2a3),
+  branch deleted. Commented upstream:
+  https://github.com/apache/pinot/pull/19990#issuecomment-6433456568
+- Advanced checkpoint to `2026-10-27T03:46:21Z`. Slack summary sent (new docs PR).
+  Lease released.
