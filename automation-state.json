@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-27T03:46:21Z",
-  "last_successful_run": "2026-10-27T16:02:52Z",
+  "last_successful_run": "2026-10-27T17:01:45Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -48,6 +48,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: apache/master HEAD b58776bca (#19990, merged 2026-10-27T03:46:21Z) == checkpoint. Three sources agree on 0 merged PRs strictly after checkpoint 2026-10-27T03:46:21Z: search/issues merged:>checkpoint=0; pulls API (closed, sort=updated desc) most-recent merged=#19990 at exactly the checkpoint; commits-since master returns only the boundary commit b58776bca. Reconciled master-side recent PRs #19990/#19991/#20015/#19862 all present in ledger. No docs PRs created; checkpoint unchanged; no Slack notification (no-op). Durable write path = git-data API (CAS); git push to bare branch blocked by session-git-hooks, API path used instead.",
-  "last_run_id": "run-20261027T160150Z-1939"
+  "last_run_result": "no-op: 0 PRs merged strictly after checkpoint 2026-10-27T03:46:21Z. Three sources agree: search/issues merged:>checkpoint=0; pulls API (closed, sort=updated desc) most-recent merged=#19990 at exactly the checkpoint boundary; commits-since master returns only the boundary commit b58776bca (#19990). Reconciled recent PRs #19990/#19991/#20015/#19862 all present in ledger. Checkpoint unchanged; no docs PR; no Slack (no-op).",
+  "last_run_id": "run-20261027T170115Z-840"
 }
