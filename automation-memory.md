@@ -3,11 +3,12 @@
 Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ## Checkpoint (current)
-- `last_processed_merged_at` = `2026-10-27T02:18:50Z` (advanced past #19991, docs created)
-- `last_successful_run` = `2026-10-27T03:05Z`
-- Most recent completed pair: apache/pinot#19991 -> pinot-docs#1149
-  (merged 2026-10-27T03:04:22Z), upstream comment
-  https://github.com/apache/pinot/pull/19991#issuecomment-6432711240
+- `last_processed_merged_at` = `2026-10-27T03:46:21Z` (advanced past #19990, docs PR #1150 merged)
+- `last_successful_run` = `2026-10-27T12:01:57Z`
+- Most recent completed pair: apache/pinot#19990 -> pinot-docs#1150
+  (merged 2026-10-27T04:04:15Z), upstream comment
+  https://github.com/apache/pinot/pull/19990#issuecomment-6433456568
+
 
 ## Durable state mechanism
 - The GitHub App installation token available to this runner is scoped to `apache/pinot`
@@ -227,3 +228,19 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   (no-op run stays quiet).
 - Durable state (CAS): checkpoint unchanged (`2026-10-27T03:46:21Z`);
   `last_successful_run` -> `2026-10-27T11:01:14Z`. Lease released.
+
+### 2026-10-27T12:01Z (scheduled triage run)
+- Preflight OK: gh auth as xiangfu0; durable `automation-state` read (checkpoint
+  `2026-10-27T03:46:21Z`); lease acquired (`automation-lock.json`, create-only CAS,
+  run `run-20261027T120113Z-869`). `apache/pinot`=WRITE, `pinot-contrib/pinot-docs`=ADMIN.
+  (`gh-tentrix-wrap` stderr "no token minted" warning benign; ambient installation token
+  has full read+write.)
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint
+  (`merged:>2026-10-27T03:46:21Z`), search/issues (paginated) + pulls API cross-check: **0 PRs**.
+  Authoritative master HEAD `b58776bca` == #19990 at the checkpoint boundary (already
+  processed, docs #1150 merged). Reconciled against master commit history; coverage complete.
+  Local `/workspace/pinot` mirror stale at #19809 — ignored in favor of authoritative GitHub master.
+- No docs-relevant work. No docs PR created, no upstream comment, no Slack notification
+  (no-op run stays quiet).
+- Durable state (CAS): checkpoint unchanged (`2026-10-27T03:46:21Z`);
+  `last_successful_run` -> `2026-10-27T12:01:57Z`. Lease released.
