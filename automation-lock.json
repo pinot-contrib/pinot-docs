@@ -1,5 +1,0 @@
-{
-  "run_id": "run-20261027T180202Z-18174",
-  "acquired_at": "2026-10-27T18:02:02Z",
-  "note": "Serialize hourly pinot-docs automation runs. Create-only CAS lock."
-}
