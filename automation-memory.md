@@ -3,8 +3,8 @@
 Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ## Checkpoint (current)
-- `last_processed_merged_at` = `2026-10-26T23:24:33Z`
-- `last_successful_run` = `2026-10-27T00:12:57Z`
+- `last_processed_merged_at` = `2026-10-27T00:45:19Z` (advanced past #20015, not-relevant)
+- `last_successful_run` = `2026-10-27T01:02Z`
 - Most recent completed pair: apache/pinot#19862 -> pinot-docs#1148
   (merged 2026-10-27T00:12:51Z), upstream comment
   https://github.com/apache/pinot/pull/19862#issuecomment-6430420263
@@ -29,3 +29,13 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   PRs on master are at/before the checkpoint. No triage work this run.
 - Bootstrapped durable state on this branch from the migrated checkpoint.
 - No docs PRs created. No Slack notification (no-op triage run).
+### 2026-10-27T01:02Z (scheduled triage run)
+- Preflight OK: gh auth as xiangfu0; durable `automation-state` read; write verified by
+  lease commit. `apache/pinot`=WRITE, `pinot-contrib/pinot-docs`=ADMIN.
+- Note: `gh-tentrix-wrap` prints "no token minted / not in manifest" to stderr for both
+  repos, then falls back to the ambient installation token, which has full read+write
+  (clone, API reads, contents-API commits all succeed). Warning is benign for this runner.
+- Inventory: 1 merged PR after checkpoint = #20015 (test-harness readiness fix in
+  `BaseClusterIntegrationTest`). Classified **not_relevant**; no docs PR.
+- Reconciled with master: HEAD `9c8b2901` == #20015; coverage complete.
+- Advanced checkpoint to `2026-10-27T00:45:19Z`. No Slack (no new docs PRs).
