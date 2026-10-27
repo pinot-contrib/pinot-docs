@@ -8,7 +8,18 @@ Get the most frequent value in a group. When multiple modes are present it gives
 
 ## Signature
 
-> MODE(colName, \[reducerType])
+> MODE(colName, \[reducerType], \[dataType])
+
+* `reducerType` (optional): how to break ties when multiple modes are present. One of `MIN` (default), `MAX`, or `AVG`.
+* `dataType` (optional): one of `STRING`, `BOOLEAN`, or `TIMESTAMP`. It is also the result type, and the input expression must have a matching stored type. Only the `MIN` and `MAX` reducers are supported for these types (`AVG` is rejected). When `dataType` is omitted, the input expression must be numeric and the result is a `DOUBLE`.
+
+`MODE` also works directly on `STRING` columns (including JSON columns read as strings) without the `dataType` argument: `MODE(stringCol)` returns a `STRING`, and `MIN`/`MAX` break ties lexicographically (default `MIN`).
+
+Typed `BOOLEAN` and `TIMESTAMP` results are opt-in through the explicit three-argument form, for example `MODE(boolCol, 'MIN', 'BOOLEAN')` or `MODE(tsCol, 'MAX', 'TIMESTAMP')`. Existing one- and two-argument calls over numeric columns keep their `DOUBLE` results and `AVG` support.
+
+{% hint style="info" %}
+The explicit three-argument form requires servers that support typed `MODE`. During a rolling upgrade, older servers reject `MODE(col, reducer, dataType)`, while existing one- and two-argument calls continue to work.
+{% endhint %}
 
 ## Usage Examples
 
