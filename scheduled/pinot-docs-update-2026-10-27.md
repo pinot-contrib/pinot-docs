@@ -68,3 +68,45 @@
 
 ### Validation / blockers
 - No docs changes to validate (no docs PR). No blockers. No Slack notification (no new docs PRs).
+
+## Run: 2026-10-27T03:05Z (scheduled/triage — docs PR created)
+- Trigger: routine execution (IntentLab cloud runner).
+- Checkpoint read from durable `automation-state`: `last_processed_merged_at=2026-10-27T00:45:19Z`.
+- Lease acquired on `automation-state` (`automation-lock.json`, create-only CAS) to serialize runs.
+
+### Coverage
+- Inventoried merged `apache/pinot` PRs strictly after the checkpoint via search API
+  (`is:pr is:merged merged:>2026-10-27T00:45:19Z`) with full pagination, cross-checked
+  against `gh pr list --state merged`: **1 PR** (#19991).
+- Reconciled against the merge commit (`7835c7dc`), the only commit after the checkpoint.
+  Coverage complete.
+
+### Decisions
+- **#19991** "Support MODE on STRING, BOOLEAN and TIMESTAMP inputs" — **docs-relevant**.
+  Verified from merged code (`ModeAggregationFunction`, `AggregationFunctionType`):
+  - New signature `MODE(colName, [reducerType], [dataType])` (at most 3 args).
+  - `dataType` in {STRING, BOOLEAN, TIMESTAMP} is also the result type; the input
+    expression's stored type must match. Only MIN/MAX reducers are supported for typed
+    values (AVG rejected). Without `dataType`, input must be numeric → DOUBLE result.
+  - STRING works without the 3rd arg (including JSON columns read as strings); typed
+    BOOLEAN/TIMESTAMP results are opt-in via the explicit 3-arg form.
+  - Rolling-upgrade: older servers reject the 3-arg form; 1-/2-arg calls unchanged.
+- Minimal edit to `functions/aggregation/mode.md` (signature + argument descriptions +
+  rolling-upgrade hint). No tests/benchmarks touched.
+
+### Created / merged links
+- Docs PR: https://github.com/pinot-contrib/pinot-docs/pull/1149
+  (squash-merged 2026-10-27T03:04:22Z, commit b10e0dd2, branch deleted).
+- Upstream comment: https://github.com/apache/pinot/pull/19991#issuecomment-6432711240
+
+### Validation / blockers
+- `git diff --check`: clean.
+- `uv run --with pyyaml python scripts/validate-docs.py --summary-only`: RESULT PASS
+  (10 pre-existing broken-anchor warnings, none in `mode.md`; distinguished from new failures).
+- PR checks: Validate changed docs = SUCCESS, Full docs audit = SUCCESS, GitBook x2 = SUCCESS;
+  `mergeStateStatus=CLEAN`, `mergeable=MERGEABLE`. No blockers.
+
+### Durable state
+- Advanced checkpoint to `last_processed_merged_at=2026-10-27T02:18:50Z` (#19991 merged-at).
+- Recorded #19991 ledger entry (`decision=docs_created`, docs#1149). Lease released.
+- Slack summary sent (new docs PR created this run).
