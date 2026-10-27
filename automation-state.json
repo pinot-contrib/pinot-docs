@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-27T03:46:21Z",
-  "last_successful_run": "2026-10-27T21:02:04Z",
+  "last_successful_run": "2026-10-27T22:01:14Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -48,6 +48,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: 0 PRs merged strictly after checkpoint 2026-10-27T03:46:21Z. Three sources agree: search/issues merged:>checkpoint=0; pulls API (closed, sort=updated desc) most-recent merged=#19990 at exactly the checkpoint boundary (already processed, docs PR #1150); master commits since checkpoint returns only boundary b58776bca (#19990). Recent PRs #19990/#19991/#20015/#19862 all in ledger. Checkpoint unchanged; no docs PR; no Slack (no-op).",
-  "last_run_id": "run-20261027T210122Z-1010"
+  "last_run_result": "no-op: 0 PRs merged strictly after checkpoint 2026-10-27T03:46:21Z. Authoritative apache/pinot commits-since(master) returns only boundary b58776bca (#19990) at exactly the checkpoint (already processed, docs PR #1150). search/issues merged:>checkpoint=0; pulls API sort=updated desc most-recent merged=#19990 @ boundary. Recent #19990/#19991/#20015/#19862 all in ledger. Checkpoint unchanged; no docs PR; no upstream comment; no Slack (no-op).",
+  "last_run_id": "run-20261027T220114Z-982"
 }
