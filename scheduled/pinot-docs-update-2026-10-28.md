@@ -4,8 +4,9 @@ Automated maintenance of Apache Pinot documentation from newly merged `apache/pi
 
 ## Summary
 
-No docs-relevant work today so far. All merged upstream PRs through the durable checkpoint
-have been triaged; nothing has merged into `apache/pinot` master since the previous run.
+1 docs-relevant PR processed today: apache/pinot#20063 → pinot-contrib/pinot-docs#1151 (merged).
+Earlier runs today were no-ops. All merged upstream PRs through the durable checkpoint
+(`last_processed_merged_at = 2026-10-28T01:05:37Z`) have been triaged.
 
 ## Runs
 
@@ -43,3 +44,27 @@ have been triaged; nothing has merged into `apache/pinot` master since the previ
 - **Validation:** not run (no docs changes produced).
 - **Blockers:** none. Preflight: `gh` authenticated as `xiangfu0`; apache/pinot = push, pinot-contrib/pinot-docs = admin; durable state read/write via git-data API OK; lease acquired/released.
 - **Slack:** not sent (no-op runs stay quiet; Slack fires only when new docs PRs are created).
+
+### 2026-10-28T02:01Z — `run-20261028T020136Z-1151` — 1 docs PR created & merged
+
+- **Checkpoint:** advanced `2026-10-27T03:46:21Z` → `2026-10-28T01:05:37Z`.
+- **Coverage:** 1 merged `apache/pinot` PR strictly after the prior checkpoint. Confirmed by three
+  authoritative sources:
+  - search/issues `is:pr is:merged merged:>2026-10-27T03:46:21Z` → **1** = #20063.
+  - pulls (state=closed, sort=updated desc) → most-recent merged = #20063 @ `2026-10-28T01:05:37Z`.
+  - `git log b58776bca..upstream/master` → single commit `3381db7` (#20063), now master HEAD.
+- **Decisions:**
+  - **#20063** "Support is_leaf_return_final_result hint for aggregation without GROUP BY" →
+    **docs-relevant**. Verified from merged code: `ServerPlanRequestVisitor.visitAggregate` maps
+    the `is_leaf_return_final_result` aggOption to `serverReturnFinalResult` when there is no
+    group-by key (and keeps `serverReturnFinalResultKeyUnpartitioned` for group-by). The hint
+    previously took effect only for group-by queries; existing docs showed only a GROUP BY example.
+- **Created / merged docs PRs:** [pinot-contrib/pinot-docs#1151](https://github.com/pinot-contrib/pinot-docs/pull/1151)
+  — *docs: note is_leaf_return_final_result applies without GROUP BY* — merged (squash) 2026-10-28T02:03:45Z.
+  Edited `build-with-pinot/querying-and-sql/multi-stage-query/operator-types/aggregate.md`.
+- **Upstream comments:** [apache/pinot#20063#issuecomment-6458674517](https://github.com/apache/pinot/pull/20063#issuecomment-6458674517).
+- **Validation:** `validate-docs.py --summary-only` → **PASS** (10 broken anchors are pre-existing,
+  unchanged by this edit); `git diff --check` clean. CI checks "Validate changed docs" + "Full docs
+  audit" both success.
+- **Blockers:** none.
+- **Slack:** sent (new docs PR created) — compact summary with upstream/docs links and merge status.
