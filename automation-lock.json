@@ -1,0 +1,6 @@
+{
+  "holder_run_id": "run-20261028T190122Z-1016",
+  "acquired_at_utc": "2026-10-28T19:01:22Z",
+  "expires_at_utc": "2026-10-28T19:31:22Z",
+  "note": "Lease lock to serialize pinot-docs automation runs."
+}
