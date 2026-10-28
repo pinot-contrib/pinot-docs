@@ -85,3 +85,33 @@ Earlier runs today were no-ops. All merged upstream PRs through the durable chec
 - **Validation:** not run (no docs changes produced).
 - **Blockers:** none. Preflight: `gh` authenticated as `xiangfu0` (GH_TOKEN); apache/pinot = push (WRITE), pinot-contrib/pinot-docs = admin (ADMIN); durable `automation-state` read/write via git-data/contents API OK; lease acquired (CAS create of `automation-lease.json`, no prior holder) and released at end.
 - **Slack:** not sent (no-op runs stay quiet; Slack fires only when new docs PRs are created).
+
+### 2026-10-28T04:01Z — `run-20261028T040116Z-976` — 1 docs PR created & merged
+
+- **Checkpoint:** `last_processed_merged_at` advanced `2026-10-28T01:05:37Z` → **`2026-10-28T03:33:34Z`**.
+- **Coverage:** 1 merged `apache/pinot` PR strictly after the prior checkpoint — **#20060** "Preserve wide
+  Parquet INT96 timestamps" (merged `2026-10-28T03:33:34Z`). Confirmed by three authoritative sources:
+  - search/issues `is:pr is:merged merged:>2026-10-28T01:05:37Z` → **1** (#20060).
+  - pulls (state=closed) sorted by `merged_at` → next merged after #20063 is #20060; all below it already in ledger.
+  - `git log 3381db7..upstream/master` → **1** commit `eeebb52` (#20060); upstream/master HEAD = `eeebb52`.
+- **Decisions:**
+  - **#20060 → docs-relevant (docs_created).** Verified from merged code, not PR prose:
+    `ParquetUtils.convertInt96ToTimestamp` / `convertInt96ToEpochNanos` and the `ParquetNativeRecordExtractor`
+    INT96 branch. In converted mode (default) INT96 now decodes to a Pinot `TIMESTAMP`, preserving instants
+    outside the signed epoch-nanosecond range (~1677–2262) instead of silently wrapping (e.g. year 1600 → 2184).
+    In raw mode (`extractRawTimeValues: true`) INT96 stays a `LONG` of epoch nanoseconds and out-of-range values
+    are rejected. The existing Parquet type-conversion table row described the old lossy nanos→millis signed
+    conversion and was corrected. No new user-facing config was introduced (the `ParquetRecordReaderConfig`
+    `+1/-0` is a Javadoc line on the existing `extractRawTimeValues` option).
+- **Created / merged docs PRs:** [pinot-contrib/pinot-docs#1152](https://github.com/pinot-contrib/pinot-docs/pull/1152)
+  — one-line fix to the Parquet INT96 row in `build-with-pinot/ingestion/pinot-input-formats.md`. Squash-merged
+  `2026-10-28T04:04:30Z` (commit `129e08b`).
+- **Upstream comments:** [apache/pinot#20060#issuecomment-6460368002](https://github.com/apache/pinot/pull/20060#issuecomment-6460368002).
+- **Validation:** `git diff --check` clean; `uv run --with pyyaml python scripts/validate-docs.py --summary-only` →
+  **PASS** (637 files, 3553 links). The 10 broken anchors are **pre-existing** (confirmed by re-running against the
+  stashed working tree) and unrelated to this one-line table edit. PR checks "Validate changed docs" + "Full docs
+  audit (informational)" + GitBook all passed.
+- **Blockers:** none. Preflight: `gh` authenticated as `xiangfu0` (GH_TOKEN); apache/pinot = push, pinot-contrib/pinot-docs
+  = push; durable `automation-state` read/write via git-data/contents API OK; lease acquired (CAS create of
+  `automation-lease.json`, no prior holder) and released at end.
+- **Slack:** sent (new docs PR created) — compact summary with upstream/docs links and merge status.

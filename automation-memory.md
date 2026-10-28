@@ -514,3 +514,31 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No docs-relevant work. No docs PRs, no upstream comments, no Slack (no-op stays quiet).
 - Durable state (CAS, branch sha ee9b2603163cae66be06a38cccb03064ee06c773): checkpoint UNCHANGED; last_successful_run ->
   2026-10-28T03:03:19Z; last_run_id -> run-20261028T030210Z-1315.
+
+## Run 2026-10-28T04:01Z (`run-20261028T040116Z-976`) — 1 docs PR created
+
+- Preflight OK (read-only): gh auth as xiangfu0 (GH_TOKEN); apache/pinot push=true, pinot-contrib/pinot-docs
+  push=true. `gh-tentrix-wrap` warns it can't mint for apache/pinot or pinot-docs (not in session manifest),
+  but GH_TOKEN (ghu_ user token) serves gh API + token-embedded git URLs; `gh auth setup-git` needed before push.
+- Durable `automation-state` read: checkpoint `2026-10-28T01:05:37Z`, prior last_run_id `run-20261028T030210Z-1315`.
+  Lease acquired via CAS create of `automation-lease.json` (404 -> created; no concurrent run).
+- Inventory: **1** merged apache/pinot PR strictly after checkpoint — #20060 "Preserve wide Parquet INT96
+  timestamps" (merged 2026-10-28T03:33:34Z). Three sources agree: (A) search is:merged merged:>checkpoint = 1
+  (#20060); (B) pulls?state=closed sorted by merged_at, next after #20063; (C) git log 3381db7..upstream/master
+  = eeebb52 only (upstream/master HEAD = eeebb52). Coverage complete, no gaps.
+- Classification: **docs-relevant**. Verified from merged code (ParquetUtils.convertInt96ToTimestamp /
+  convertInt96ToEpochNanos, ParquetNativeRecordExtractor INT96 branch, extractor Javadoc). Converted mode now
+  decodes INT96 -> Pinot TIMESTAMP (preserves instants outside ~1677-2262 signed epoch-nanos, previously silently
+  wrapped e.g. year 1600 -> 2184); raw mode (extractRawTimeValues=true) -> LONG epoch nanos, rejects out-of-range.
+  Existing docs row in build-with-pinot/ingestion/pinot-input-formats.md (line 194) described the OLD lossy
+  nanos->millis signed conversion ("INT96 | LONG | ...nanoseconds to Pinot INT64 of milliseconds") and was
+  inaccurate. No new user config was added (the +1/-0 in ParquetRecordReaderConfig is a Javadoc line on the
+  existing extractRawTimeValues option, not documented in pinot-docs).
+- Duplicate check: no prior docs PR mentions #20060/INT96; no docs link in upstream comments; no stale branch.
+- Docs PR #1152: one-line table-row fix. `git diff --check` clean; validate-docs.py PASS (10 broken anchors are
+  PRE-EXISTING, confirmed via stash). Branch auto-prefixed `cs_...` by session-git-hooks. Checks "Validate changed
+  docs" + "Full docs audit (informational)" + GitBook all pass -> squash-merged 2026-10-28T04:04:30Z (commit 129e08b).
+  Upstream comment: apache/pinot#20060#issuecomment-6460368002.
+- Slack: sent (new docs PR created) — compact summary with upstream/docs links + merge status.
+- Durable state (CAS): checkpoint advanced `2026-10-28T01:05:37Z` -> `2026-10-28T03:33:34Z`;
+  last_successful_run -> `2026-10-28T04:04:30Z`; last_run_id -> `run-20261028T040116Z-976`. Lease released at end.
