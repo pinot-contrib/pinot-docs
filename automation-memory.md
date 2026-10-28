@@ -690,3 +690,20 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No triage work. No docs PR created, none merged. No Slack (no new docs PRs).
 - Durable state: checkpoint unchanged (`2026-10-28T03:33:34Z`); bumped
   `last_successful_run` to 2026-10-28T16:03:14Z. Lease released.
+
+### 2026-10-28T17:03:43Z (scheduled triage run — no-op)
+- Preflight OK: gh auth as xiangfu0; durable `automation-state` read (checkpoint
+  `2026-10-28T03:33:34Z`); lease acquired (`automation-lock.json`, create-only CAS,
+  run `run-20261028T170117Z-924`). `apache/pinot`=WRITE, `pinot-contrib/pinot-docs`=ADMIN.
+  (`gh-tentrix-wrap` "no token minted" warning benign; ambient installation token has
+  full read+write; GitHub API authoritative since pre-cloned `/workspace/pinot` tracks
+  fork `xiangfu0/pinot` and lags — used `apache` remote + API for inventory.)
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint = **0**. Cross-checks:
+  (1) `gh pr list` newest-40 by mergedAt: newest #20060 at boundary (processed, docs #1152);
+  (2) `git log apache/master` since CP+1s = 0; (3) apache/master HEAD `eeebb52` = #20060,
+  committer-date = checkpoint boundary exactly; (4) API search `merged:>=2026-10-28` = 2 PRs
+  (#20063→#1151, #20060→#1152, both processed); (5) API `merged:2026-10-27..2026-10-29` = 5 PRs,
+  0 strictly after CP. Merge commits #20060/#20063 confirmed on apache/master.
+- No triage work. No docs PR created, none merged. No Slack (no new docs PRs).
+- Durable state (CAS): checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); `last_successful_run` →
+  `2026-10-28T17:03:43Z`; `last_run_id` → `run-20261028T170117Z-924`. Lease released at end of run.

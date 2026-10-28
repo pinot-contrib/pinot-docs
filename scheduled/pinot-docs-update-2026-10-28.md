@@ -330,3 +330,24 @@ Earlier runs today were no-ops. All merged upstream PRs through the durable chec
 - **Blockers:** none.
 - **Slack:** not sent (no-op run — no new docs PRs).
 - **Durable state:** checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); `last_successful_run` → `2026-10-28T16:03:14Z`; `last_run_id` → `run-20261028T160233Z-1239`.
+
+---
+
+## Run 2026-10-28T17:03:43Z
+
+- **Run id:** `run-20261028T170117Z-924`
+- **Preflight (read-only):** `gh` authenticated as `xiangfu0`; apache/pinot permission = `WRITE`; pinot-contrib/pinot-docs = `ADMIN` (default branch `latest`). Durable `automation-state` branch read OK (checkpoint `2026-10-28T03:33:34Z`; prior run `run-20261028T160233Z-1239`). Write capability confirmed by CAS-creating `automation-lock.json` (absent before create → lease acquired); released at end. No test PRs, no test Slack. (`gh-tentrix-wrap` "no token minted" stderr is benign; ambient installation token carries full read+write.)
+- **Coverage:** merged apache/pinot PRs strictly after checkpoint `2026-10-28T03:33:34Z` → **0**. Sources agree:
+  - `gh pr list` newest-40 sorted by mergedAt desc: newest merged = #20060 (at checkpoint boundary, processed → docs #1152); next = #20063 (processed → docs #1151); all older entries at/before checkpoint and in ledger.
+  - `git log apache/master` since CP+1s → **0** commits; apache/master HEAD `eeebb52` = #20060 (committer date `2026-10-28T03:33:34Z`, exactly the checkpoint boundary).
+  - API search `is:pr is:merged merged:>=2026-10-28` → **2** (#20063, #20060 — both already in ledger).
+  - API search `merged:2026-10-27..2026-10-29` → **5** PRs, **0** strictly after CP.
+  - Reconcile: merge commits for #20060 (`eeebb52`) and #20063 (`3381db7`) present on apache/master. No gaps.
+  - Note: pre-cloned `/workspace/pinot` tracks fork `xiangfu0/pinot` (lags); authoritative inventory used the `apache/pinot` remote + GitHub API.
+- **Decisions:** none (no new PRs to triage).
+- **Created / merged docs PRs:** none.
+- **Upstream comments:** none.
+- **Validation:** n/a (no docs change this run).
+- **Blockers:** none.
+- **Slack:** not sent (no-op run — no new docs PRs).
+- **Durable state:** checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); `last_successful_run` → `2026-10-28T17:03:43Z`; `last_run_id` → `run-20261028T170117Z-924`.
