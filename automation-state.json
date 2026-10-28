@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-28T03:33:34Z",
-  "last_successful_run": "2026-10-28T05:05:05Z",
+  "last_successful_run": "2026-10-28T06:01:41Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -69,5 +69,5 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "No-op triage run. Checkpoint 2026-10-28T03:33:34Z unchanged. Three independent sources agreed on ZERO new merged apache/pinot PRs strictly after checkpoint: search is:merged merged:>checkpoint = 0; search merged:>=checkpoint = 1 (#20060, already processed/docs PR #1152 merged); git log upstream/master first-parent HEAD = eeebb52 = #20060 (merged exactly at checkpoint boundary 2026-10-28T03:33:34Z), nothing newer on master. No docs-relevant work. No docs PR created. No Slack (no new docs PRs).",
-  "last_run_id": "run-20261028T050152Z-1384"
+  "last_run_id": "run-20261028T060104Z-795"
 }
