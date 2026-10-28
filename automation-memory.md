@@ -443,3 +443,26 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet).
 - Durable state (CAS, sha matched -> no concurrent writer): checkpoint unchanged
   (`2026-10-27T03:46:21Z`); `last_successful_run` -> `2026-10-28T00:02:52Z`. Lease released at end of run.
+
+## Run 2026-10-28T01:03Z (`run-20261028T010132Z-1262`) — no-op
+
+- Preflight OK (read-only): gh auth as xiangfu0 (GH_TOKEN; rate_limit=15000 confirms
+  authenticated); `apache/pinot` permissions push/triage=true (WRITE), `pinot-contrib/pinot-docs`
+  admin=true (ADMIN). Durable `automation-state` read: checkpoint `2026-10-27T03:46:21Z`,
+  prior last_successful_run `2026-10-28T00:02:27Z`, prior last_run_id `run-20261028T000121Z-12719`
+  (released its lock cleanly -> no concurrent run). Lease acquired via git-data-API CAS commit
+  of `automation-lease.json` (parent sha matched 85d809f -> e7ed37e; no concurrent writer).
+- This run fetched the REAL `apache/pinot` master via `git remote add upstream` + fetch
+  (not the stale `xiangfu0/pinot` fork). upstream/master HEAD = `b58776bca` (#19990) @
+  2026-10-27T03:46:21Z = checkpoint boundary, already processed -> docs PR #1150.
+- Inventory: **0** merged `apache/pinot` PRs strictly after checkpoint. Three authoritative
+  sources agree: (A) search/issues `is:pr is:merged merged:>2026-10-27T03:46:21Z` = 0;
+  (B) pulls?state=closed&sort=updated&direction=desc most-recent merged = #19990 @ exactly the
+  boundary, next #19991/#20015/#19862/#19897 all pre-boundary and in ledger; (C) git log
+  `b58776bca..upstream/master` = 0 new commits. Coverage complete.
+- git-credential-tentrix does NOT mint for pinot-docs (not in session repo manifest), so direct
+  `git push` fails; all durable writes go through the git-data API via `gh api` (GH_TOKEN),
+  which succeeds despite the benign "no token minted ... unauthenticated" wrapper notice.
+- No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet).
+- Durable state (CAS, sha matched -> no concurrent writer): checkpoint unchanged
+  (`2026-10-27T03:46:21Z`); `last_successful_run` -> `2026-10-28T01:03Z`. Lease released at end of run.
