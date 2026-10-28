@@ -1,6 +1,0 @@
-{
-  "run_id": "run-20261028T070109Z-842",
-  "acquired_at": "2026-10-28T07:01:09Z",
-  "host": "intentlab-remote-runner",
-  "note": "Create-only CAS lease to serialize pinot-docs automation runs."
-}
