@@ -1,0 +1,7 @@
+{
+  "run_id": "run-20261028T110134Z-1082",
+  "acquired_at": "2026-10-28T11:02:46Z",
+  "expires_at": "2026-10-28T11:32:46Z",
+  "holder": "intentlab-remote-runner",
+  "note": "Lease lock for pinot-docs automation run. Safe to break after expires_at."
+}
