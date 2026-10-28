@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-28T03:33:34Z",
-  "last_successful_run": "2026-10-28T14:02:41Z",
+  "last_successful_run": "2026-10-28T15:02:06Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -68,6 +68,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run. Checkpoint 2026-10-28T03:33:34Z unchanged. Five independent sources agreed on ZERO merged apache/pinot PRs strictly after checkpoint: (1) search merged:>cp = 0; (2) search merged:>=cp = 1 (#20060, already processed, docs PR #1152 merged); (3) commits?since=cp+1s = 0; (4) pulls sorted-by-updated: newest #20060 (at cp, processed), next #20063 (processed, docs PR #1151); (5) local git log upstream/master since cp+1s empty, upstream/master HEAD eeebb5201 = #20060 committer-date 2026-10-28T03:33:34Z = checkpoint boundary. Coverage complete, no gaps. No docs PR. No upstream comment. No Slack. Preflight OK: gh authed as xiangfu0; apache/pinot collaborator permission=write (push:true, triage:true); pinot-contrib/pinot-docs read+write verified by successful lease write. Durable read+write via git + contents REST API. Lease acquired/released via contents create-only CAS (automation-lock.json). Local /workspace/pinot tracks fork xiangfu0/pinot; inventory used apache/pinot upstream remote + API.",
-  "last_run_id": "run-20261028T140145Z-1239"
+  "last_run_result": "No-op triage run. Checkpoint 2026-10-28T03:33:34Z unchanged. Five independent sources agreed on ZERO merged apache/pinot PRs strictly after checkpoint: (1) search merged:>cp = 0; (2) search merged:>=cp = 1 (#20060, already processed, docs PR #1152 merged); (3) commits since cp+1s = 0; (4) pulls sorted-by-updated: newest #20060 at cp (processed), rest older & in ledger; (5) local upstream/master HEAD eeebb52 = #20060 committer-date = checkpoint boundary, no later commits. Coverage complete, no gaps. No docs PR, no upstream comment, no Slack. Preflight OK: gh authed xiangfu0; apache/pinot & pinot-contrib/pinot-docs push=true; durable read+write via contents REST API; lease acquired/released via create-only CAS (automation-lock.json).",
+  "last_run_id": "run-20261028T150113Z-899"
 }
