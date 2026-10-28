@@ -1,0 +1,7 @@
+{
+  "run_id": "run-20261028T170117Z-924",
+  "acquired_at": "2026-10-28T17:01:45Z",
+  "expires_at": "2026-10-28T17:56:45Z",
+  "host": "intentlab-remote-runner",
+  "note": "Non-sensitive run lease. No secrets."
+}
