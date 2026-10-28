@@ -466,3 +466,33 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet).
 - Durable state (CAS, sha matched -> no concurrent writer): checkpoint unchanged
   (`2026-10-27T03:46:21Z`); `last_successful_run` -> `2026-10-28T01:03Z`. Lease released at end of run.
+
+## Run 2026-10-28T02:01Z (`run-20261028T020136Z-1151`) — 1 docs PR created & merged
+
+- Preflight OK (read-only): gh auth as xiangfu0 (GH_TOKEN); `apache/pinot` push/triage=true
+  (WRITE), `pinot-contrib/pinot-docs` admin=true (ADMIN). Durable `automation-state` read:
+  checkpoint `2026-10-27T03:46:21Z`, prior last_run_id `run-20261028T010132Z-1262` (released
+  cleanly). No stale lock. Lease acquired via CAS create of `automation-lock.json` (did not
+  exist -> created sha ee6b61c; no concurrent run).
+- Inventory: **1** merged `apache/pinot` PR strictly after checkpoint. Three sources agree:
+  (A) search is:merged merged:>checkpoint = #20063; (B) pulls?state=closed&sort=updated
+  most-recent merged = #20063 @ 2026-10-28T01:05:37Z; (C) git log `b58776bca..upstream/master`
+  = single commit 3381db7 (#20063), now upstream/master HEAD. Coverage complete.
+- #20063 "Support is_leaf_return_final_result hint for aggregation without GROUP BY": DOCS-RELEVANT.
+  Verified from merged code (not prose): `ServerPlanRequestVisitor.visitAggregate` now maps the
+  `is_leaf_return_final_result` aggOption to `serverReturnFinalResult` when `groupByList.isEmpty()`
+  and keeps `serverReturnFinalResultKeyUnpartitioned` for group-by; `PinotHintOptions` Javadoc
+  updated to "aggregation and group-by queries". Previously the hint only took effect with GROUP BY.
+  Existing docs (aggregate.md) only showed a GROUP BY example.
+- Docs edit: `multi-stage-query/operator-types/aggregate.md` — note applicability with/without
+  GROUP BY (+ empty-input behavior e.g. 0 for COUNT), add no-GROUP-BY example, clarify hybrid
+  table OFFLINE/REALTIME partition caveat. `git diff --check` clean. validate-docs.py = PASS
+  (10 broken anchors are PRE-EXISTING, unchanged by this edit).
+- No duplicate: no prior docs PR referencing 20063; no docs-link comment on upstream #20063.
+- Docs PR #1151 created (branch auto-prefixed `cs_...` by session-git-hooks; `gh auth setup-git`
+  needed before `git push` since git-credential-tentrix doesn't mint for pinot-docs). Checks
+  "Validate changed docs" + "Full docs audit" both success -> squash-merged 2026-10-28T02:03:45Z
+  (commit fa4f31e). Upstream comment: #20063#issuecomment-6458674517.
+- Slack: sent (new docs PR created) — compact summary with upstream/docs links + merge status.
+- Durable state (CAS, sha matched): checkpoint advanced `2026-10-27T03:46:21Z` ->
+  `2026-10-28T01:05:37Z`; `last_successful_run` -> `2026-10-28T02:04Z`. Lease released at end.
