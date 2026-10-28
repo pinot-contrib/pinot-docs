@@ -4,10 +4,11 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ## Checkpoint (current)
 - `last_processed_merged_at` = `2026-10-28T03:33:34Z` (advanced past #20060, docs PR #1152 merged)
-- `last_successful_run` = `2026-10-27T12:01:57Z`
-- Most recent completed pair: apache/pinot#19990 -> pinot-docs#1150
-  (merged 2026-10-27T04:04:15Z), upstream comment
-  https://github.com/apache/pinot/pull/19990#issuecomment-6433456568
+- `last_successful_run` = `2026-10-28T12:02:33Z`
+- `last_run_id` = `run-20261028T120128Z-1041`
+- Most recent completed pair: apache/pinot#20060 -> pinot-docs#1152
+  (merged 2026-10-28T04:04:30Z), upstream comment
+  https://github.com/apache/pinot/pull/20060#issuecomment-6460368002
 
 
 ## Durable state mechanism
@@ -616,3 +617,19 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No triage work. No docs PR created, none merged. No Slack (no new docs PRs).
 - Durable state (CAS): checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); last_successful_run ->
   `2026-10-28T09:02:33Z`; last_run_id -> `run-20261028T090124Z-974`. Lease released at end of run.
+
+### 2026-10-28T12:02:33Z (scheduled triage run — no-op)
+- Preflight OK: gh auth as xiangfu0 (GH_TOKEN); durable `automation-state` read (checkpoint
+  `2026-10-28T03:33:34Z`, prior last_successful_run `2026-10-28T11:04:00Z`, prior last_run_id
+  `run-20261028T110134Z-1082`); lease acquired (`automation-lock.json`, create-only CAS,
+  run `run-20261028T120128Z-1041`; 404 before create — no prior holder). `apache/pinot`=WRITE,
+  `pinot-contrib/pinot-docs`=ADMIN. (`gh-tentrix-wrap` stderr "no token minted" warning benign;
+  ambient installation token has full read+write.)
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint = **0**. Four sources agree:
+  search `merged:>cp`=0; `merged:>=cp`=1 (#20060, already processed/docs PR #1152 merged);
+  API master HEAD `eeebb5201` = #20060 (committer date `2026-10-28T03:33:34Z`, exactly the
+  checkpoint boundary); `commits?since=cp+1s`=0. pr list: next-newest #20063 already processed (#1151).
+- Reconciled with master: HEAD `eeebb5201` == #20060; coverage complete, no gaps.
+- No triage work. No docs PR created, none merged. No Slack (no new docs PRs).
+- Durable state (CAS): checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); last_successful_run ->
+  `2026-10-28T12:02:33Z`; last_run_id -> `run-20261028T120128Z-1041`. Lease released at end of run.
