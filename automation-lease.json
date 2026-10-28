@@ -1,0 +1,6 @@
+{
+  "holder": "run-20261028T030210Z-1315",
+  "acquired_at": "2026-10-28T03:02:10Z",
+  "expires_at": "2026-10-28T03:57:10Z",
+  "note": "Lease for pinot-docs automation run; prevents overlap. CAS via contents API."
+}
