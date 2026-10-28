@@ -1,0 +1,7 @@
+{
+  "locked": true,
+  "run_id": "run-20261028T020136Z-1151",
+  "acquired_at": "2026-10-28T02:01:36Z",
+  "expires_at": "2026-10-28T02:31:36Z",
+  "note": "Lease to serialize pinot-docs automation runs. CAS-created."
+}
