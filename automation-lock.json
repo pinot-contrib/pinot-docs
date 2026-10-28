@@ -1,0 +1,7 @@
+{
+  "run_id": "run-20261028T050152Z-1384",
+  "acquired_at": "2026-10-28T05:01:52Z",
+  "pid": 1384,
+  "host": "intentlab-remote",
+  "purpose": "hourly pinot-docs triage lease"
+}
