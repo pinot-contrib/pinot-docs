@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-28T03:33:34Z",
-  "last_successful_run": "2026-10-28T08:02:00Z",
+  "last_successful_run": "2026-10-28T09:02:05Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -68,6 +68,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run. Checkpoint 2026-10-28T03:33:34Z unchanged. Three independent sources agreed on ZERO new merged apache/pinot PRs strictly after checkpoint: (1) search is:merged merged:>checkpoint = 0 (merged:>=checkpoint = 1, only #20060 already processed/docs PR #1152 merged); (2) apache/pinot master HEAD via API = eeebb520 = #20060 (committer date 2026-10-28T03:33:34Z, exactly the checkpoint boundary); (3) commits?since=checkpoint+1s = count 0, nothing newer on master. Note: the pre-cloned /workspace/pinot checkout tracks fork xiangfu0/pinot and is shallow/stale (HEAD 910f9d5, 2026-10-09); authoritative inventory used the apache/pinot GitHub API instead. Coverage complete, no gaps. No docs PR created. No Slack.",
-  "last_run_id": "run-20261028T080116Z-875"
+  "last_run_result": "No-op triage run. Checkpoint 2026-10-28T03:33:34Z unchanged. Three independent sources agreed on ZERO new merged apache/pinot PRs strictly after checkpoint: (1) search is:merged merged:>checkpoint = 0 (merged:>=checkpoint = 1, only #20060 already processed/docs PR #1152 merged); (2) apache/pinot master HEAD via API = eeebb5201 = #20060 (committer date 2026-10-28T03:33:34Z, exactly the checkpoint boundary); (3) commits?since=checkpoint+1s = 0. pr list cross-check: most recent merged #20060 at checkpoint, next #20063 already processed. Coverage complete, no gaps. No docs PR created. No Slack. (Local /workspace/pinot checkout tracks fork xiangfu0/pinot and is stale; authoritative inventory used apache/pinot API.)",
+  "last_run_id": "run-20261028T090124Z-974"
 }
