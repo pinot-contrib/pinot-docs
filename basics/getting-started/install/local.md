@@ -10,11 +10,11 @@ Start a multi-component Pinot cluster directly on your machine without container
 
 ## Prerequisites
 
-* JDK 25 or later (required for building and running Pinot services)
+* JDK 25 or later (required for building and running Pinot 1.6.0+ services; follow the release-specific guidance for older versions)
 * Apache Maven 3.6+ (only if building from source)
 
 {% hint style="info" %}
-**Note:** The SPI and Java/JDBC client modules (`pinot-spi`, `pinot-java-client`, `pinot-jdbc-client`) remain compatible with Java 11 for external JVM consumers.
+**Note:** Java/JDBC clients and the explicitly pinned SPI/common artifacts remain compatible with Java 11 for external JVM consumers.
 {% endhint %}
 
 ## Steps
@@ -24,7 +24,7 @@ Start a multi-component Pinot cluster directly on your machine without container
 {% tabs %}
 {% tab title="Download release" %}
 ```bash
-export PINOT_VERSION=1.5.1
+export PINOT_VERSION=1.6.0
 
 wget https://downloads.apache.org/pinot/apache-pinot-${PINOT_VERSION}/apache-pinot-${PINOT_VERSION}-bin.tar.gz
 ```
