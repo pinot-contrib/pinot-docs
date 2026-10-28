@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-28T19:44:16Z",
-  "last_successful_run": "2026-10-28T20:03:02Z",
+  "last_successful_run": "2026-10-28T21:01:55Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -74,6 +74,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Triage run (2026-10-28T20:03:02Z). One new merged PR strictly after prior checkpoint 2026-10-28T03:33:34Z: #20002 (merged 2026-10-28T19:44:16Z), classified not_relevant (internal NPE bug fix, no documented user-facing change). Three independent sources agreed on exactly one new PR: (1) search merged:>CP = 1 (#20002); (2) git log apache/master since CP+1s = 1 commit (3a83ea5 = #20002); (3) search merged:>=CP = 2 (#20060 boundary/processed, #20002 new). Reconciled: apache/master HEAD 3a83ea5 = #20002. Checkpoint advanced to 2026-10-28T19:44:16Z. No docs PR, no upstream comment, no Slack.",
-  "last_run_id": "run-20261028T200152Z-1203"
+  "last_run_result": "No-op triage run (2026-10-28T21:01:55Z). Zero merged apache/pinot PRs strictly after checkpoint 2026-10-28T19:44:16Z. Three cross-checks agree: (1) search merged:>CP = 0; (2) search merged:>=CP = 1 (only #20002 at boundary, already processed not_relevant); (3) git log apache/master since CP+1s = 0 commits. Reconciled: apache/master HEAD 3a83ea5 = #20002 (boundary). All 8 most-recent merged PRs are at/before CP and in the processed ledger. Checkpoint UNCHANGED. No docs PR, no upstream comment, no Slack.",
+  "last_run_id": "run-20261028T210108Z-16227"
 }
