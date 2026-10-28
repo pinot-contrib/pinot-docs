@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-28T19:44:16Z",
-  "last_successful_run": "2026-10-28T21:01:55Z",
+  "last_processed_merged_at": "2026-10-28T21:49:28Z",
+  "last_successful_run": "2026-10-28T22:02:13Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -71,9 +71,15 @@
       "reason": "Internal NPE bug fix in the mutable-segment seal path. MutableSegmentImpl.getSortedDocIdIterationOrderWithSortedColumn previously assumed a sorted column with a dictionary also had an inverted index, which is false when the sorted column is a no-dictionary ingestion-aggregation key (dictionary forced for dictIds, no inverted index) -> NPE at seal, blocking REALTIME segment commit. Fix adds getSortedDocIdsWithDictIdForwardIndex (counting sort by dictId rank) and selects the inverted-index path only when it exists. No new config/API/function/default/documented behavior; restores a previously-crashing combination of two already-documented features (no-dict sorted columns #17965 + no-dict aggregation keys #18955). Only one main source file + one test file. Not docs-relevant.",
       "merged_at": "2026-10-28T19:44:16Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20002"
+    },
+    "20009": {
+      "decision": "not_relevant",
+      "reason": "Internal reliability fix for a flaky-test race. PinotHelixTaskResourceManager.deleteTask (force path, used by DELETE /tables/{name}, DROP TABLE, and DELETE /tasks/task/{name}) could 500 when Helix failed to remove the ZooKeeper job context (/PROPERTYSTORE/TaskRebalancer/<job>, NotEmpty) because the task pipeline was still writing it. Change retries deleteJob on HelixException up to 3 attempts with 1s/2s backoff for both forced and non-forced deletes, rethrowing the last HelixException if all attempts fail; non-HelixException precondition failures still fail immediately. Retry counts and backoff are hardcoded (no new config/API/function/default). No documented user-facing behavior changes: the same delete endpoints behave identically, just tolerating a transient Helix write race. One main source file + one test file. Not docs-relevant.",
+      "merged_at": "2026-10-28T21:49:28Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20009"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-28T21:01:55Z). Zero merged apache/pinot PRs strictly after checkpoint 2026-10-28T19:44:16Z. Three cross-checks agree: (1) search merged:>CP = 0; (2) search merged:>=CP = 1 (only #20002 at boundary, already processed not_relevant); (3) git log apache/master since CP+1s = 0 commits. Reconciled: apache/master HEAD 3a83ea5 = #20002 (boundary). All 8 most-recent merged PRs are at/before CP and in the processed ledger. Checkpoint UNCHANGED. No docs PR, no upstream comment, no Slack.",
-  "last_run_id": "run-20261028T210108Z-16227"
+  "last_run_result": "Triage run (2026-10-28T22:02:13Z). One new merged apache/pinot PR strictly after prior checkpoint 2026-10-28T19:44:16Z: #20009 (merged 2026-10-28T21:49:28Z). Three cross-checks agree: (1) search merged:>prevCP = 1 (#20009); (2) search merged:>=prevCP = 2 (#20002 at boundary already processed, + #20009); (3) git log apache/master since prevCP+1s = 1 commit (ee7f50ac = #20009), now apache/master HEAD. #20009 classified not_relevant (internal Helix task-deletion retry fix; no documented user-facing/config/API change; 1 source + 1 test file). No docs PR, no upstream comment, no Slack. Checkpoint advanced to 2026-10-28T21:49:28Z.",
+  "last_run_id": "run-20261028T220213Z-1561"
 }

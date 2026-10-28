@@ -766,3 +766,32 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No triage work. No docs PR created, none merged. No upstream comment. No Slack (no new docs PRs).
 - Durable state (CAS): checkpoint UNCHANGED (`2026-10-28T19:44:16Z`); last_successful_run ->
   `2026-10-28T21:02:10Z`; last_run_id -> `run-20261028T210108Z-16227`. Lease released at end of run.
+
+### 2026-10-28T22:02:13Z (scheduled triage run — 1 new PR, not_relevant)
+- Preflight OK: gh auth as xiangfu0 (ambient GH_TOKEN; ghu_ user-to-server/App token). `apache/pinot`=WRITE
+  (push+triage; can comment), `pinot-contrib/pinot-docs`=ADMIN (push; can create/merge PRs). The
+  `gh-tentrix-wrap` "no token minted" warning is benign: the repository manifest only lists fork
+  `xiangfu0/pinot`, so the wrapper falls back to unauthenticated for apache/pinot & pinot-docs, but the
+  raw `gh auth token` authenticates both directly via curl/git (verified: repo permissions blocks + git
+  ls-remote). Configured a git credential helper with the raw token for authenticated git ops. Durable
+  `automation-state` read (checkpoint `2026-10-28T19:44:16Z`, prior last_run_id `run-20261028T210108Z-16227`).
+  Lease acquired (`automation-lock.json` via Contents API PUT create-only CAS, HTTP 201, run
+  `run-20261028T220213Z-1561`; no prior holder). `/workspace/pinot` tracks fork; added `upstream`=apache/pinot,
+  fetched apache/master; both trees clean, docs on `latest` @ 129e08b.
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint = **1** (#20009). Three cross-checks agree:
+  (1) search `merged:>CP` = 1 (#20009 @ 2026-10-28T21:49:28Z); (2) search `merged:>=CP` = 2 (#20002 at
+  boundary already processed not_relevant, + #20009); (3) `git log apache/master` since CP+1s = 1 commit
+  (ee7f50ac = #20009), now apache/master HEAD. Reconciled; no gap. #20009 merged_at (21:49Z) is after the
+  prior last_successful_run (21:01Z), so genuinely new.
+- Triage #20009 "Retry task deletion when Helix fails to remove the job context" (labels: bug, flaky-test,
+  minion; 2 files, +88/-2): **not_relevant**. Verified from merged code/files, not prose. Confined to
+  `PinotHelixTaskResourceManager.java` (+34/-2, internal retry of deleteJob on HelixException, 3 attempts,
+  1s/2s backoff, hardcoded) and its test (+54). Fixes a flaky-test ZooKeeper race where force-deleting a
+  table's/task's minion job could 500 because Helix couldn't remove the job context while the pipeline was
+  still writing it. No new config/API/function/default; the DELETE /tables/{name}, DROP TABLE, and
+  DELETE /tasks/task/{name} endpoints behave identically, just tolerating a transient write race. Dup check
+  clean: no pinot-docs PR references #20009; only upstream comment is codecov.
+- No docs PR created, none merged. No upstream comment (not docs-relevant). No Slack (no new docs PRs).
+- Durable state (CAS): checkpoint ADVANCED `2026-10-28T19:44:16Z` -> `2026-10-28T21:49:28Z` (#20009 fully
+  triaged); last_successful_run -> `2026-10-28T22:02:13Z`; last_run_id -> `run-20261028T220213Z-1561`;
+  #20009 recorded not_relevant. Lease released at end of run.

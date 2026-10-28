@@ -420,3 +420,34 @@ Reconciled with `apache/master`: HEAD `3a83ea5` = #20002. Coverage complete, no 
 - Upstream comments: **none** (not docs-relevant).
 - Slack: **not sent** (no new docs PRs).
 - Durable state: checkpoint advanced to `2026-10-28T19:44:16Z`; #20002 recorded `not_relevant`. Lease released.
+
+---
+
+## Run 2026-10-28T22:02:13Z (UTC) — triage (1 PR, not_relevant)
+
+**Run ID:** `run-20261028T220213Z-1561`  
+**Prior checkpoint:** `2026-10-28T19:44:16Z` → **new checkpoint:** `2026-10-28T21:49:28Z`
+
+### Coverage
+Merged `apache/pinot` PRs strictly after the prior checkpoint: **1** (#20009). Verified by three
+independent sources:
+1. Search `is:pr is:merged merged:>2026-10-28T19:44:16Z` = 1 (#20009 @ `2026-10-28T21:49:28Z`).
+2. Search `is:pr is:merged merged:>=2026-10-28T19:44:16Z` = 2 (#20002 at boundary — already processed
+   not_relevant; + #20009).
+3. `git log apache/master` since checkpoint+1s = 1 commit (`ee7f50ac` = #20009), now apache/master HEAD.
+
+Reconciled with `apache/master`: HEAD `ee7f50ac` = #20009. Coverage complete, no gaps.
+
+### Decisions
+| Upstream PR | Decision | Rationale |
+|---|---|---|
+| [#20009](https://github.com/apache/pinot/pull/20009) — Retry task deletion when Helix fails to remove the job context | **not_relevant** | Internal reliability fix for a flaky-test race (labels: bug, flaky-test, minion). Force-deleting a table's/task's non-running minion tasks (`DELETE /tables/{name}`, `DROP TABLE`, `DELETE /tasks/task/{name}` → `PinotHelixTaskResourceManager.deleteTask`) could return 500 when Helix couldn't remove the ZooKeeper job context (`/PROPERTYSTORE/TaskRebalancer/<job>`, `NotEmpty`) because the task pipeline was still writing it. Change retries `deleteJob` on `HelixException` (3 attempts, 1s/2s backoff, hardcoded) for forced and non-forced deletes, rethrowing the last exception if all fail; non-`HelixException` precondition failures still fail immediately. No new config/API/function/default; the delete endpoints behave identically, just tolerating a transient write race. Confined to one main source file (`PinotHelixTaskResourceManager.java`, +34/-2) + one test file. Dup check clean (no docs PR references #20009; only upstream comment is codecov). |
+
+### Outcome
+- Docs PRs created: **none**.
+- Docs PRs merged: **none**.
+- Upstream comments: **none** (not docs-relevant).
+- Validation: **n/a** (no docs change this run).
+- Blockers: **none**.
+- Slack: **not sent** (no new docs PRs).
+- Durable state: checkpoint advanced to `2026-10-28T21:49:28Z`; #20009 recorded `not_relevant`. Lease released.
