@@ -73,11 +73,13 @@ Default: false
 
 This is particularly useful for distinct count function family. If set to true, the engine will consider that the data is already partitioned by the aggregated column, and the _coordinator_ stage will be able to compute the final result, and the result merge will be applied to final results.
 
+The hint applies to aggregations both with and without `GROUP BY`. For a query without `GROUP BY`, the leaf stage returns final results and the final stage merges them (when all segments are pruned and no row reaches the final stage, it still returns the final result of the empty input, such as `0` for `COUNT`).
+
 {% hint style="warning" %}
-Caution: This hint should only be used if the data is already partitioned by the aggregated column. There is no check to verify that the data is indeed partitioned by the aggregated column and using this hint when the data is not partitioned by the aggregated column will lead to incorrect results.
+Caution: This hint should only be used if the aggregated values are partitioned across the leaf stage workers. There is no check to verify that the data is indeed partitioned by the aggregated column, and using this hint when the data is not partitioned will lead to incorrect results. For a hybrid table, a leaf stage worker finalizes the OFFLINE and REALTIME parts separately, so the aggregated values must be partitioned between them as well.
 {% endhint %}
 
-Example:
+Example with `GROUP BY`:
 
 ```sql
 SELECT
@@ -85,6 +87,15 @@ SELECT
     col1, COUNT(DISTINCT col2)
 FROM a
 GROUP BY col1
+```
+
+Example without `GROUP BY`:
+
+```sql
+SELECT
+/*+ aggOptions(is_leaf_return_final_result='true') */
+    COUNT(DISTINCT col2)
+FROM a
 ```
 
 ### is\_skip\_leaf\_stage\_group\_by
