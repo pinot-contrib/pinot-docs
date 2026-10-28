@@ -579,3 +579,25 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No triage work. No docs PR created, none merged. No Slack (no new docs PRs).
 - Durable state (CAS): checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); last_successful_run ->
   `2026-10-28T06:01:41Z`; last_run_id -> `run-20261028T060104Z-795`. Lease released at end of run.
+
+### 2026-10-28T07:02:00Z (scheduled triage run — no-op)
+- Preflight OK: `gh` authenticated as xiangfu0 (GH_TOKEN). apache/pinot = pull+push+triage,
+  pinot-contrib/pinot-docs = admin. Durable `automation-state` read (checkpoint
+  `2026-10-28T03:33:34Z`, prior last_successful_run `2026-10-28T06:01:41Z`, prior
+  last_run_id `run-20261028T060104Z-795`). Lease acquired (`automation-lock.json`, create-only
+  CAS, run `run-20261028T070109Z-842`; 404 before create — no prior holder). Pinot `upstream/master`
+  fetched (apache/pinot remote added; `origin` is the xiangfu0 fork); tree clean. (`gh-tentrix-wrap`
+  "no token minted / not in manifest" stderr warning benign; ambient token has full read+write.)
+- Tooling note: this runner's `gh search prs` does NOT support `--json mergedAt`/`closedAt`
+  (only createdAt/updatedAt/closedAt-absent). Use the server-side `--merged-at ">cp"` qualifier for
+  the count; a suppressed stderr can silently hide the "Unknown JSON field" error, so keep stderr
+  visible when scripting. git log remains the authoritative cross-check.
+- Inventory: merged apache/pinot PRs strictly after checkpoint `2026-10-28T03:33:34Z` = **0**.
+  Three sources agree: search `--merged-at ">cp"`=0; search `--merged-at ">=cp"`=1 (#20060,
+  already processed/docs PR #1152 merged); `git log` upstream/master first-parent HEAD =
+  `eeebb52` = #20060 (committer date `2026-10-28T03:33:34Z`, exactly the checkpoint boundary),
+  `--since cp+1s` = empty, nothing newer on master.
+- Reconciled with master: HEAD `eeebb52` == #20060; coverage complete, no gaps.
+- No triage work. No docs PR created, none merged. No Slack (no new docs PRs).
+- Durable state (CAS): checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); last_successful_run ->
+  `2026-10-28T07:02:00Z`; last_run_id -> `run-20261028T070109Z-842`. Lease released at end of run.
