@@ -136,3 +136,21 @@ Earlier runs today were no-ops. All merged upstream PRs through the durable chec
 - **Blockers:** none.
 - **Slack:** not sent (no-op run — no new docs PRs).
 - **Durable state:** checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); `last_successful_run` → `2026-10-28T05:05:38Z`; `last_run_id` → `run-20261028T050152Z-1384`.
+
+## Run 2026-10-28T06:01:04Z (scheduled triage — no-op)
+
+- **Run id:** `run-20261028T060104Z-795`
+- **Preflight:** `gh` authenticated as `xiangfu0` (GH_TOKEN); apache/pinot = pull+push+triage, pinot-contrib/pinot-docs = admin.
+  Durable `automation-state` read (checkpoint `2026-10-28T03:33:34Z`); lease acquired (CAS create of
+  `automation-lock.json`, no prior holder) and released at end.
+- **Coverage:** merged apache/pinot PRs strictly after checkpoint `2026-10-28T03:33:34Z` → **0**. Three authoritative sources agree:
+  - search/issues `is:pr is:merged merged:>2026-10-28T03:33:34Z` → **0**.
+  - search/issues `is:pr is:merged merged:>=2026-10-28T03:33:34Z` → **1** (#20060, already in ledger — docs PR #1152 merged).
+  - `git log` upstream/master first-parent → HEAD `eeebb52` = #20060 (committer date `2026-10-28T03:33:34Z`, exactly the checkpoint boundary); `--since` checkpoint shows only that boundary commit, nothing newer on master.
+- **Decisions:** none (no new PRs to triage).
+- **Created / merged docs PRs:** none.
+- **Upstream comments:** none.
+- **Validation:** n/a (no docs change this run).
+- **Blockers:** none.
+- **Slack:** not sent (no-op run — no new docs PRs).
+- **Durable state:** checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); `last_successful_run` → `2026-10-28T06:01:41Z`; `last_run_id` → `run-20261028T060104Z-795`.
