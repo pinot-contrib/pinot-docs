@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-28T03:33:34Z",
-  "last_successful_run": "2026-10-28T19:02:16Z",
+  "last_processed_merged_at": "2026-10-28T19:44:16Z",
+  "last_successful_run": "2026-10-28T20:03:02Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -65,9 +65,15 @@
       "merged_at": "2026-10-28T03:33:34Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20060",
       "summary": "Preserve wide Parquet INT96 timestamps. Converted mode now decodes INT96 to Pinot TIMESTAMP (preserving instants outside the signed epoch-nanosecond range ~1677-2262, previously silently wrapped); raw mode (extractRawTimeValues=true) keeps LONG epoch nanos and rejects out-of-range values. Also preserves legacy UINT64 signed-bit values and advances both readers after extraction failures. Documented the corrected INT96 type-conversion row in build-with-pinot/ingestion/pinot-input-formats.md."
+    },
+    "20002": {
+      "decision": "not_relevant",
+      "reason": "Internal NPE bug fix in the mutable-segment seal path. MutableSegmentImpl.getSortedDocIdIterationOrderWithSortedColumn previously assumed a sorted column with a dictionary also had an inverted index, which is false when the sorted column is a no-dictionary ingestion-aggregation key (dictionary forced for dictIds, no inverted index) -> NPE at seal, blocking REALTIME segment commit. Fix adds getSortedDocIdsWithDictIdForwardIndex (counting sort by dictId rank) and selects the inverted-index path only when it exists. No new config/API/function/default/documented behavior; restores a previously-crashing combination of two already-documented features (no-dict sorted columns #17965 + no-dict aggregation keys #18955). Only one main source file + one test file. Not docs-relevant.",
+      "merged_at": "2026-10-28T19:44:16Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20002"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-28T19:02:16Z). Checkpoint 2026-10-28T03:33:34Z unchanged. Five independent sources agreed on ZERO merged apache/pinot PRs strictly after the checkpoint: (1) search merged:>CP = 0; (2) search merged:>=CP = 1 (#20060 at boundary, processed, docs #1152); (3) pulls sorted by mergedAt: newest #20060 at boundary then #20063, both processed; (4) git log apache/master since CP+1s = 0 commits, HEAD eeebb52 = #20060 at boundary; (5) wide search merged:2026-10-28..2026-10-30 = 2 PRs (#20060,#20063), both processed. Coverage complete, no gaps. No docs PR, no upstream comment, no Slack sent.",
-  "last_run_id": "run-20261028T190122Z-1016"
+  "last_run_result": "Triage run (2026-10-28T20:03:02Z). One new merged PR strictly after prior checkpoint 2026-10-28T03:33:34Z: #20002 (merged 2026-10-28T19:44:16Z), classified not_relevant (internal NPE bug fix, no documented user-facing change). Three independent sources agreed on exactly one new PR: (1) search merged:>CP = 1 (#20002); (2) git log apache/master since CP+1s = 1 commit (3a83ea5 = #20002); (3) search merged:>=CP = 2 (#20060 boundary/processed, #20002 new). Reconciled: apache/master HEAD 3a83ea5 = #20002. Checkpoint advanced to 2026-10-28T19:44:16Z. No docs PR, no upstream comment, no Slack.",
+  "last_run_id": "run-20261028T200152Z-1203"
 }

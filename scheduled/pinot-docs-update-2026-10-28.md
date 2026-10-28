@@ -392,3 +392,31 @@ Earlier runs today were no-ops. All merged upstream PRs through the durable chec
 - **Blockers:** none.
 - **Slack:** not sent (no-op run — no new docs PRs).
 - **Durable state:** checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); `last_successful_run` → `2026-10-28T19:02:34Z`; `last_run_id` → `run-20261028T190122Z-1016`.
+
+---
+
+## Run 2026-10-28T20:03:36Z (UTC) — triage (1 PR, not_relevant)
+
+**Run ID:** `run-20261028T200152Z-1203`  
+**Prior checkpoint:** `2026-10-28T03:33:34Z` → **new checkpoint:** `2026-10-28T19:44:16Z`
+
+### Coverage
+Merged `apache/pinot` PRs strictly after the prior checkpoint: **1** (#20002). Verified by three
+independent sources:
+1. Search `is:pr is:merged merged:>2026-10-28T03:33:34Z` = 1 (#20002).
+2. `git log apache/master` since checkpoint+1s = 1 commit (`3a83ea5` = #20002, merged 2026-10-28T19:44:16Z).
+3. Search `merged:>=2026-10-28T03:33:34Z` = 2 (#20060 at boundary — already processed, docs #1152; #20002 new).
+
+Reconciled with `apache/master`: HEAD `3a83ea5` = #20002. Coverage complete, no gaps.
+
+### Decisions
+| Upstream PR | Decision | Rationale |
+|---|---|---|
+| [#20002](https://github.com/apache/pinot/pull/20002) — Fix NPE when sorting a no-dictionary sorted column that is an aggregation key | **not_relevant** | Internal NPE bug fix in `MutableSegmentImpl` seal path. The no-dict sorted aggregation-key column has a forced dictionary but no inverted index; the sort code assumed the inverted index existed → NPE blocking REALTIME commit. Fix adds a dictId-forward-index counting sort and guards the inverted-index path. No new config/API/function/default/documented behavior — restores a previously-crashing combination of two already-documented features (no-dict sorted columns #17965 + no-dict aggregation keys #18955). One source + one test file. |
+
+### Outcome
+- Docs PRs created: **none**.
+- Docs PRs merged: **none**.
+- Upstream comments: **none** (not docs-relevant).
+- Slack: **not sent** (no new docs PRs).
+- Durable state: checkpoint advanced to `2026-10-28T19:44:16Z`; #20002 recorded `not_relevant`. Lease released.

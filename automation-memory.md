@@ -724,3 +724,29 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No triage work. No docs PR created, none merged. No upstream comment. No Slack (no new docs PRs).
 - Durable state (CAS): checkpoint UNCHANGED (`2026-10-28T03:33:34Z`); last_successful_run ->
   `2026-10-28T19:02:44Z`; last_run_id -> `run-20261028T190122Z-1016`. Lease released at end of run.
+
+### 2026-10-28T20:03:36Z (scheduled triage run — 1 PR triaged, not_relevant)
+- Preflight OK: gh auth as xiangfu0 (GH_TOKEN; rate limit 15000 confirms auth). Durable
+  `automation-state` read (prior checkpoint `2026-10-28T03:33:34Z`, prior last_run_id
+  `run-20261028T190122Z-1016`). Lease acquired (`automation-lock.json`, create-only CAS,
+  run `run-20261028T200152Z-1203`, sha `730daf9`; no prior holder — 404). `apache/pinot`=WRITE,
+  `pinot-contrib/pinot-docs`=ADMIN. (`gh-tentrix-wrap` "no token minted" warning benign;
+  ambient installation token has full read+write. Pre-cloned `/workspace/pinot` tracks fork
+  `xiangfu0/pinot` and lags; added `apache` remote + fetched `apache/master`; tree clean.)
+- Inventory: merged `apache/pinot` PRs strictly after prior checkpoint = **1** (#20002).
+  Three cross-checks agree: (1) search `merged:>CP`=1 (#20002); (2) `git log apache/master`
+  since CP+1s = 1 commit (`3a83ea5` = #20002, merged 2026-10-28T19:44:16Z); (3) search
+  `merged:>=CP`=2 (#20060 boundary/processed/docs #1152, #20002 new). Reconciled: apache/master
+  HEAD `3a83ea5` = #20002.
+- Decision: **#20002 not_relevant** — internal NPE bug fix in `MutableSegmentImpl` seal path.
+  A no-dictionary sorted column that is also a no-dict ingestion-aggregation key has a (forced)
+  dictionary but no inverted index; `getSortedDocIdIterationOrderWithSortedColumn` assumed the
+  inverted index existed -> NPE blocking REALTIME commit. Fix adds dictId-forward-index counting
+  sort and guards the inverted-index path. No new config/API/function/default/documented behavior;
+  restores a previously-crashing combination of two already-documented features (#17965 no-dict
+  sorted columns + #18955 no-dict aggregation keys). One main source file + one test file. Not
+  docs-relevant. No prior docs PR/comment references #20002 (dup check clean).
+- No docs PR created, none merged. No upstream comment. No Slack (no new docs PRs).
+- Durable state (CAS): checkpoint ADVANCED `2026-10-28T03:33:34Z` -> `2026-10-28T19:44:16Z`
+  (#20002 fully triaged); last_successful_run -> `2026-10-28T20:03:36Z`; last_run_id -> `run-20261028T200152Z-1203`;
+  #20002 recorded not_relevant. Lease released at end of run.
