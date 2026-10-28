@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-28T03:33:34Z",
-  "last_successful_run": "2026-10-28T17:03:19Z",
+  "last_successful_run": "2026-10-28T18:02:25Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -68,6 +68,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-28T17:03:19Z). Checkpoint 2026-10-28T03:33:34Z unchanged. Independent sources agreed on ZERO merged apache/pinot PRs strictly after the checkpoint: (1) gh pr list newest-40 by mergedAt: newest #20060 at boundary (processed, docs #1152), none later; (2) git log apache/master since CP+1s = 0 commits; (3) apache/master HEAD eeebb52 = #20060, committer-date = checkpoint boundary; (4) API search merged:>=2026-10-28 = 2 PRs (#20063->#1151, #20060->#1152), both processed; (5) API search merged:2026-10-27..2026-10-29 = 5 PRs, 0 strictly after CP. Merge commits for #20060 and #20063 confirmed on apache/master. Coverage complete, no gaps. No docs PR created, no Slack sent.",
-  "last_run_id": "run-20261028T170117Z-924"
+  "last_run_result": "No-op triage run (2026-10-28T18:02:25Z). Checkpoint 2026-10-28T03:33:34Z unchanged. Four independent sources agreed on ZERO merged apache/pinot PRs strictly after the checkpoint: (1) gh pr list newest-40 by mergedAt: newest #20060 at boundary (processed, docs #1152), none later; (2) API search merged:>=2026-10-28 = 2 PRs (#20060, #20063), both already processed; (3) git log apache/master since CP+1s = 0 commits; apache/master HEAD eeebb52 = #20060 at committer-date = checkpoint boundary; (4) API search merged:2026-10-27..2026-10-29 with strictly-after filter = 0. Coverage complete, no gaps. No docs PR created, no upstream comment, no Slack sent.",
+  "last_run_id": "run-20261028T180139Z-1001"
 }
