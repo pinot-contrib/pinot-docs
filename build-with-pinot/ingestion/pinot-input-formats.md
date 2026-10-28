@@ -191,7 +191,7 @@ When `extractRawTimeValues` is `false` (the default), Pinot converts Parquet `DA
 | Parquet Data Type | Pinot Data Type | Comment |
 | ----------------- | --------------- | ------- |
 | BOOLEAN           | BOOLEAN         | Preserved as a native boolean value. |
-| INT96 | LONG | Parquet`INT96` type converts **nanoseconds** to Pinot `INT64` type of **milliseconds** |
+| INT96 | TIMESTAMP | Parquet `INT96` decodes to a Pinot `TIMESTAMP`, preserving instants outside the signed epoch-nanosecond range (roughly years 1677–2262). When `extractRawTimeValues` is `true`, it stays a raw `LONG` of epoch nanoseconds and values outside that range are rejected. |
 | INT64                | LONG                              |                                                                                                                                                     |
 | INT32                | INT or LONG                       | Unsigned 32-bit annotations (`INTEGER(32, false)` or legacy `UINT_32`) are widened to LONG. |
 | FLOAT                | FLOAT                             |                                                                                                                                                     |
