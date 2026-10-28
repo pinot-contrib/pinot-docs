@@ -1,7 +1,0 @@
-{
-  "run_id": "run-20261028T160233Z-1239",
-  "acquired_at": "2026-10-28T16:02:33Z",
-  "expires_at": "2026-10-28T16:52:33Z",
-  "holder": "intentlab-ai[bot] (xiangfu0 token) routine rt_r0leJefO3D",
-  "note": "Create-only CAS lease to serialize hourly runs. Released on completion."
-}
