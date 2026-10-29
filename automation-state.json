@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T10:09:33Z",
-  "last_successful_run": "2026-10-29T11:02:29Z",
+  "last_successful_run": "2026-10-29T12:02:19Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -126,6 +126,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Triage run run-20261029T110117Z-865 (2026-10-29T11:02:29Z). Inventory of apache/pinot merged PRs strictly after prior checkpoint 2026-10-29T03:27:01Z (#19905) yielded exactly ONE new PR: #19943 (merged 2026-10-29T10:09:33Z). Reconciled three ways: (1) search merged:>=2026-10-29T03:27:01Z = {#19943,#19905}, #19905 == prior checkpoint; (2) pulls API state=closed base=master sort=updated desc -> exactly #19943 with merged_at>checkpoint; (3) apache master HEAD = 3f6fef49 (#19943) and GET commits sha=master since=checkpoint returned only #19943. Classified #19943 NOT docs-relevant (internal server-response/transport memory optimization, performance label, wire format unchanged, no config/API/query-option/default/doc change; verified from merged diff). No docs PRs created, no upstream comments, no Slack (no-op policy). Checkpoint advanced 2026-10-29T03:27:01Z -> 2026-10-29T10:09:33Z. Lease held via create-only CAS lock and released at end.",
-  "last_run_id": "run-20261029T110117Z-865"
+  "last_run_result": "Triage run run-20261029T120139Z-22168 (2026-10-29T12:02:19Z). Inventory of apache/pinot merged PRs strictly after prior checkpoint 2026-10-29T10:09:33Z (#19943) yielded ZERO new merged PRs. Three-way reconciliation, all consistent: (1) GET commits?sha=master&since=2026-10-29T10:09:34Z returned 0 commits and apache master HEAD = 3f6fef49 (#19943, the checkpoint PR); (2) search is:pr is:merged merged:>=2026-10-29T10:09:33Z returned only #19943 (== checkpoint, already processed); (3) pulls state=closed base=master sort=updated desc -> most-recent merged is #19943 @2026-10-29T10:09:33Z, all other merged PRs have merged_at < checkpoint and are already in the ledger or pre-checkpoint. No new work. No docs PRs, no upstream comments, no Slack (no-op policy). Checkpoint unchanged at 2026-10-29T10:09:33Z. Lease held via create-only CAS lock and released at end.",
+  "last_run_id": "run-20261029T120139Z-22168"
 }
