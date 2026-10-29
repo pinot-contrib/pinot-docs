@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-29T20:14:13Z",
-  "last_successful_run": "2026-10-29T21:03:09Z",
+  "last_processed_merged_at": "2026-10-29T21:38:16Z",
+  "last_successful_run": "2026-10-29T22:01:20Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -147,9 +147,15 @@
       "reason": "Dependabot dependency version bump. Verified from merged diff: single file root pom.xml (+1/-1) bumping google.errorprone.version (com.google.errorprone:error_prone_annotations) 2.50.0->2.51.0 by dependabot[bot]. error-prone is a compile-time static-analysis/annotation library used during the build only; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
       "merged_at": "2026-10-29T20:14:13Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20048"
+    },
+    "20074": {
+      "decision": "not_relevant",
+      "reason": "Internal multi-stage-engine / Java-SPI correctness fix (follow-up to #20063). Verified from merged commit e58b6fc2 (53 files, +491/-721): makes an AggregationFunction's final result the stored value of getFinalResultColumnType() (e.g. int[] for INT_ARRAY) so array functions (ARRAYAGG, SUMARRAYLONG/DOUBLE, HISTOGRAM, funnel functions) and raw sketch functions (DISTINCTCOUNTRAWHLL etc.) no longer throw ClassCastException / serialization errors when an MSE leaf returns final results. Removes the 'FinalResult extends Comparable' bound; extractFinalResult/mergeFinalResult erasure changes from Comparable to Object (internal Java interface for aggregation implementers, requires recompile of custom AggregationFunctions - not documented user behavior). Adds StoredValueComparator in pinot-spi; removes ArrayListUtils helpers and TypeUtils conversions. Compatibility section states the wire format and MSE plans do NOT change. No new SQL function, config key, query option, or default. The only user-observable change: FUNNELEVENTSFUNCTIONEVAL final results merged from several servers now carry ONE header (counts summed) instead of concatenated headers - this brings runtime output into conformance with the EXISTING docs page functions/aggregation/funneleventsfunctioneval.md, which already documents the single-header STRING[] format; the funnel README has no merge/header details. No docs page becomes stale and no new behavior needs documenting. Not docs-relevant.",
+      "merged_at": "2026-10-29T21:38:16Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20074"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run run-20261029T210158Z-8134 (2026-10-29T21:03:09Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T18:37:12Z (#20064) reconciled three independent ways, all consistent: (A) search is:pr is:merged merged:>=2026-10-29 filtered by precise merged_at -> only #20048 (20:14:13Z) strictly newer (others at/earlier, already in ledger); (B) commits?sha=master since=2026-10-29T18:37:13Z -> exactly 1 commit 577dc1fd9 (#20048); (C) pulls closed base=master sort=updated desc -> exactly 1 PR with merged_at>checkpoint (#20048). #20048 = Dependabot bump error_prone_annotations 2.50.0->2.51.0 (root pom.xml +1/-1), not_relevant. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to 2026-10-29T20:14:13Z.",
-  "last_run_id": "run-20261029T210158Z-8134"
+  "last_run_result": "No-op run run-20261029T220120Z-1066 (2026-10-29T22:01:20Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T20:14:13Z (#20048) reconciled three independent ways, all consistent: (A) search is:pr is:merged merged:>=2026-10-29 filtered by precise merged_at -> only #20074 (21:38:16Z) strictly newer; (B) commits?sha=master since=2026-10-29T20:14:14Z -> exactly 1 commit e58b6fc2 (#20074); (C) pulls closed base=master sort=updated desc -> exactly 1 PR with merged_at>checkpoint (#20074). #20074 = 'Fix MSE leaf final results for array and raw sketch aggregations' (Jackie-Jiang, follow-up to #20063), classified not_relevant: internal MSE/Java-SPI correctness fix; wire format & MSE plans unchanged; no new SQL function/config/query-option/default; only user-visible change (FUNNELEVENTSFUNCTIONEVAL single-header multi-server merge) conforms to the existing funneleventsfunctioneval.md docs, so no docs page is stale. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to 2026-10-29T21:38:16Z.",
+  "last_run_id": "run-20261029T220120Z-1066"
 }
