@@ -186,7 +186,7 @@ ORDER BY arrayToMv(RandomAirports) DESC
 
 `GROUP BY arrayToMv(col)` groups each row by every element of the MV column. The MSE calls this plan the MV aggregate. It gives the same groups as `GROUP BY col` in the SSE.
 
-The MV aggregate is off by default. See [Turn the MV aggregate on or off](#turn-the-mv-aggregate-on-or-off).
+By default, the MSE uses the MV aggregate only for queries that fail without it. See [Turn the MV aggregate on or off](#turn-the-mv-aggregate-on-or-off).
 
 The MV aggregate works in every stage of the query plan. For example, it works directly on a table scan, above a join, in a subquery, and with group trimming:
 
@@ -211,7 +211,7 @@ The MV aggregate uses these rules:
 
 As a result, the sum of `count(*)` over all groups can be larger than the number of rows.
 
-You can repeat the group key `arrayToMv(col)` in the SELECT list and in ORDER BY. There, it refers to the group key.
+You can repeat the group key `arrayToMv(col)` in the SELECT list, in ORDER BY, and in HAVING. There, it refers to the group key. For example, `HAVING arrayToMv(col) = 'SFO'` keeps only the group of `SFO`. A filter on the group key in an outer query does the same.
 
 The argument of `arrayToMv` can also be an array expression, for example `arrayToMv(valueIn(RandomAirports, 'SFO', 'JFK'))`.
 
@@ -243,40 +243,43 @@ ARRAY_TO_MV is supported only: (1) as a complete GROUP BY key, GROUP BY ARRAY_TO
 
 There are two exceptions:
 
-* With `GROUPING SETS`, `ROLLUP`, `CUBE`, or `WITHIN GROUP`, the query fails at planning time with a `QUERY_PLANNING` error. The message is `GROUP BY ARRAY_TO_MV() is not supported with GROUPING SETS / ROLLUP / CUBE in the multi-stage query engine`, or the `WITHIN GROUP` variant of it. This occurs only when the MV aggregate is on.
+* With `GROUPING SETS`, `ROLLUP`, `CUBE`, or `WITHIN GROUP`, the query fails at planning time with a `QUERY_PLANNING` error. The message is `GROUP BY ARRAY_TO_MV() is not supported with GROUPING SETS / ROLLUP / CUBE in the multi-stage query engine`, or the `WITHIN GROUP` variant of it. This occurs only when the MSE uses the MV aggregate.
 * A nested group key directly on a table scan fails in the SSE when the query runs. The error message comes from the SSE.
 
 The physical optimizer (`usePhysicalOptimizer=true`) does not use the MV aggregate. With the physical optimizer, `GROUP BY arrayToMv(col)` works only directly on a table scan.
 
 #### Turn the MV aggregate on or off
 
-The MV aggregate is off by default. When it is off, the MSE plans `GROUP BY arrayToMv(col)` as in earlier releases. The query then works only when the aggregate runs directly on a table scan.
+The setting `useMvAggregate` has three values:
+
+| Value | Behavior |
+| ----- | -------- |
+| `auto` (default) | The MSE plans the query without the MV aggregate first. If that plan fails because of `arrayToMv`, the MSE plans the query again with the MV aggregate. A query that worked in earlier releases keeps its earlier plan. |
+| `true` | The MSE always uses the MV aggregate for `GROUP BY arrayToMv(col)`, also directly on a table scan. |
+| `false` | The MSE never uses the MV aggregate, as in earlier releases. `GROUP BY arrayToMv(col)` then works only when the aggregate runs directly on a table scan. |
 
 Three settings control the MV aggregate. Each one overrides the settings that follow it:
 
-1. The query option `useMvAggregate` sets it for one query, for example `SET useMvAggregate=true;`.
+1. The query option `useMvAggregate` sets it for one query, for example `SET useMvAggregate='false';`.
 2. The cluster config `pinot.broker.multistage.use.mv.aggregate` sets it for all brokers of the cluster. A change applies to the next query, without a broker restart. When you delete the key, the broker config applies again.
-3. The broker config `pinot.broker.multistage.use.mv.aggregate` sets it for one broker. The default value is `false`. A change needs a broker restart.
+3. The broker config `pinot.broker.multistage.use.mv.aggregate` sets it for one broker. The default value is `auto`. A change needs a broker restart.
 
-For example, this request turns the MV aggregate on for the whole cluster:
+For example, this request turns the MV aggregate off for the whole cluster:
 
 ```bash
 curl -X POST '{controllerHost}/cluster/configs' \
   -H 'Content-Type: application/json' \
-  -d '{"pinot.broker.multistage.use.mv.aggregate": "true"}'
+  -d '{"pinot.broker.multistage.use.mv.aggregate": "false"}'
 ```
 
 To go back to the broker config, delete the key with `DELETE /cluster/configs/pinot.broker.multistage.use.mv.aggregate`.
 
-{% hint style="warning" %}
-**Rolling upgrades.** Servers from earlier releases cannot run the MV aggregate. If a broker sends the MV aggregate to an old server, `GROUP BY arrayToMv(col)` fails with `Unsupported PlanNode type`, even when the query worked before the upgrade.
+`EXPLAIN PLAN FOR` shows the plan that the query runs, also with `auto`.
 
-So turn the MV aggregate on only after all servers run a release with the MV aggregate:
+{% hint style="info" %}
+**Rolling upgrades.** Servers from earlier releases cannot run the MV aggregate. With `auto`, a broker sends the MV aggregate only for a query that fails without it. So during a rolling upgrade, every query that worked before the upgrade keeps its plan and its results. A query that uses the MV aggregate fails on an old server with `Unsupported PlanNode type`.
 
-1. Upgrade the controllers, the brokers, and the servers. With the default value, every query keeps its earlier plan.
-2. Set `pinot.broker.multistage.use.mv.aggregate=true` in the cluster config.
-
-Old servers do not know the operator type id 17 of the MV aggregate. If you turn the MV aggregate on while new and old servers run together, a query can lose its stage stats. The query results stay correct.
+Do not set `true` until all servers run a release with the MV aggregate. With `true`, a query that worked before the upgrade fails on an old server.
 {% endhint %}
 
 ## Current limitations
