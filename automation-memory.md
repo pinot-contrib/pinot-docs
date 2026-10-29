@@ -1172,3 +1172,29 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - Lease: create-only CAS `automation-lock.json` (lock commit `42202ce4`), re-verified holder
   before state write, deleted at end. State written via Contents API PUT with CAS `sha`.
 - Checkpoint **advanced** `2026-10-29T18:37:12Z` → `2026-10-29T20:14:13Z`.
+
+### 2026-10-29T22:01:20Z (run-20261029T220120Z-1066) — no-op (1 PR triaged, not_relevant)
+- Checkpoint at start: `2026-10-29T20:14:13Z` (#20048). Inventory of merged apache/pinot PRs
+  strictly after it = **1** (#20074, merged 2026-10-29T21:38:16Z). Reconciled 3 ways, all
+  consistent: (A) search `is:pr is:merged merged:>=2026-10-29` filtered by precise merged_at →
+  only #20074 strictly newer; (B) `commits?sha=master since=2026-10-29T20:14:14Z` → exactly 1
+  commit `e58b6fc2` (#20074); (C) `pulls closed base=master sort=updated desc` → exactly 1 PR
+  with merged_at > checkpoint (#20074). No gaps.
+- **#20074** "Fix MSE leaf final results for array and raw sketch aggregations" (Jackie-Jiang,
+  follow-up to #20063, 53 files +491/-721) → **not_relevant**. Internal MSE / Java-SPI correctness
+  fix: makes an AggregationFunction's final result the stored value of `getFinalResultColumnType()`
+  (e.g. `int[]` for INT_ARRAY) so ARRAYAGG / SUMARRAYLONG/DOUBLE / HISTOGRAM / funnel / raw-sketch
+  functions no longer throw ClassCastException / serialization errors when an MSE leaf returns final
+  results. Removes `FinalResult extends Comparable`; `extractFinalResult`/`mergeFinalResult` erasure
+  Comparable→Object (internal Java interface, needs recompile of custom functions — not documented
+  user behavior). Adds `StoredValueComparator` in pinot-spi; removes ArrayListUtils/TypeUtils
+  conversions. **Wire format & MSE plans unchanged** (per Compatibility). No new SQL function, config
+  key, query option, or default. Only user-visible change: `FUNNELEVENTSFUNCTIONEVAL` multi-server
+  merged final results now carry ONE header (counts summed) instead of concatenated headers — this
+  **conforms to the existing** `functions/aggregation/funneleventsfunctioneval.md` page, which already
+  documents the single-header `STRING[]` format; funnel README has no merge/header details. No docs
+  page stale, nothing to document.
+- No docs PR, no upstream comment, no Slack (no-op policy).
+- Lease: create-only CAS `automation-lock.json` (lock commit `0d4745fd`), re-verified holder before
+  state write, deleted at end. State written via Contents API PUT with CAS `sha`.
+- Checkpoint **advanced** `2026-10-29T20:14:13Z` → `2026-10-29T21:38:16Z`.
