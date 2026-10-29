@@ -1005,3 +1005,25 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No docs-relevant work. No docs PRs, no upstream comments, no Slack (no-op policy).
 - Durable state (CAS): checkpoint **unchanged** `2026-10-29T03:27:01Z`; `last_successful_run` → `2026-10-29T10:02:18Z`;
   `last_run_id` → `run-20261029T100114Z-937`. Lease released at end of run.
+
+## Run 2026-10-29T11:02:29Z (run-20261029T110117Z-865)
+- Preflight: gh auth `xiangfu0`; `apache/pinot`=WRITE, `pinot-contrib/pinot-docs`=ADMIN. Durable
+  `automation-state` read OK (prior checkpoint `2026-10-29T03:27:01Z`, prior last_run_id `run-20261029T100114Z-937`).
+  Lease acquired via create-only CAS PUT of `automation-lock.json` (no prior holder; lock sha `472fe0a2`).
+  Benign `gh-tentrix-wrap` "no token minted / not in manifest" stderr warnings persist; all reads and authenticated
+  PUTs succeed (verified by re-reading committed files). `/workspace/pinot` tracks fork `xiangfu0/pinot`; used
+  apache/pinot GitHub API as source of truth. Working tree clean; no docs clone needed (no docs work).
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint `2026-10-29T03:27:01Z` = **1** (#19943). Reconciled
+  three ways: (1) search `merged:>=2026-10-29T03:27:01Z` = {#19943, #19905}, #19905 == prior checkpoint; (2) pulls API
+  state=closed base=master sort=updated desc -> exactly #19943 with merged_at>checkpoint; (3) apache master HEAD =
+  `3f6fef49` (#19943, committer date 2026-10-29T10:09:32Z), `GET commits sha=master since=checkpoint` returned only
+  #19943. No gaps.
+- Decision: **#19943 not docs-relevant.** "Send v1 DataTable responses to Netty and gRPC as pages instead of one
+  byte[]" (performance label, step 2 of 3 after #19906). Internal server-response/transport memory optimization that
+  avoids a contiguous `byte[]` (G1 humongous) copy on the single-stage response path. Verified from merged diff: wire
+  format explicitly unchanged; 17 files all internal datatable/scheduler/transport main source + tests; no new config
+  key, query option, default, function, public constant, or doc/.md file. Nothing to document.
+- No docs-relevant work. No docs PRs created, no upstream comments, no Slack (no-op policy; webhook only on new docs PRs).
+- Durable state (CAS): checkpoint **advanced** `2026-10-29T03:27:01Z` -> `2026-10-29T10:09:33Z` (#19943 fully
+  processed as not_relevant); `last_successful_run` -> `2026-10-29T11:02:29Z`; `last_run_id` -> `run-20261029T110117Z-865`. Lease released at
+  end of run.
