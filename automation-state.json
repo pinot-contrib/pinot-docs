@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T03:27:01Z",
-  "last_successful_run": "2026-10-29T07:01:38Z",
+  "last_successful_run": "2026-10-29T08:02:06Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -120,6 +120,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-29T07:01:38Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T03:27:01Z (#19905) yielded ZERO new PRs. Reconciled four ways: (1) search is:merged merged:>2026-10-29T03:27:01Z = 0; (2) upstream/master first-parent HEAD == 0de3f5e3 (#19905) == the checkpoint PR, nothing after; (3) all merged PRs on/after 2026-10-29 = {#19905,#19988,#20078,#20079}, all already in ledger with merged-at <= checkpoint; (4) no git first-parent commits after checkpoint commit 0de3f5e3. Checkpoint UNCHANGED. No docs PRs, no upstream comments, no Slack (no-op). Lease acquired (automation-lock.json create-only CAS, lock sha 53b128e6) and released at end.",
-  "last_run_id": "run-20261029T070138Z-1082"
+  "last_run_result": "No-op triage run (2026-10-29T08:02:06Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T03:27:01Z (#19905) yielded ZERO new PRs. Reconciled three ways: (1) search repo:apache/pinot is:pr is:merged merged:>checkpoint = 0; (2) apache/pinot master HEAD commit = 0de3f5e3 (#19905, committer date 2026-10-29T03:27:00Z) = the checkpoint PR, nothing after; (3) pulls API state=closed base=master sort=updated desc -> most recent merged_at is #19905 @ 2026-10-29T03:27:01Z == checkpoint; all PRs on/after 2026-10-29 {#19905,#19988,#20078,#20079} already in ledger with merged_at <= checkpoint. Checkpoint UNCHANGED. No docs PRs, no upstream comments, no Slack (no-op). Lease held via create-only CAS lock and released at end.",
+  "last_run_id": "run-20261029T080121Z-887"
 }
