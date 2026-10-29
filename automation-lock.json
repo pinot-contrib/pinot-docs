@@ -1,7 +1,0 @@
-{
-  "holder": "run-20261029T090137Z-1169",
-  "acquired_at": "2026-10-29T09:01:37Z",
-  "expires_at": "2026-10-29T09:51:37Z",
-  "host": "intentlab-remote-runner",
-  "note": "create-only CAS lease; released at end of run"
-}
