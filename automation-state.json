@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-28T23:58:25Z",
-  "last_successful_run": "2026-10-29T00:02:38Z",
+  "last_processed_merged_at": "2026-10-29T00:59:45Z",
+  "last_successful_run": "2026-10-29T01:02:48Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -89,9 +89,21 @@
       "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
+    },
+    "20078": {
+      "decision": "not_relevant",
+      "reason": "ASF project-metadata change only: updates doap_Pinot.rdf (the Apache DOAP release descriptor) to Apache Pinot 1.6.0 (version name, revision, release date 2026-10-28). Single RDF file; not user-facing documentation, config, API, or behavior. Not docs-relevant.",
+      "merged_at": "2026-10-29T00:02:56Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20078"
+    },
+    "20079": {
+      "decision": "not_relevant",
+      "reason": "Internal Java source API cleanup. Removes 14 @Deprecated public static final constant aliases from InstancePlanMakerImplV2 (MAX_EXECUTION_THREADS_KEY/DEFAULT_MAX_EXECUTION_THREADS, MAX_INITIAL_RESULT_HOLDER_CAPACITY_KEY/default, MIN_INITIAL_INDEXED_TABLE_CAPACITY_KEY/default, NUM_GROUPS_LIMIT_KEY/default, MIN_SEGMENT_GROUP_TRIM_SIZE_KEY/default, MIN_SERVER_GROUP_TRIM_SIZE_KEY/default, GROUPBY_TRIM_THRESHOLD_KEY/default), deprecated for removal after 1.4. Verified from merged diff: each removed field merely aliased the corresponding CommonConstants.Server.* constant, which remains the source of truth; the actual config-key STRINGS and default VALUES live in CommonConstants.Server and are unchanged. Downstream Java callers should use CommonConstants.Server.* instead. No config key, default, query option, function, or documented runtime behavior change. One main source file, no test change. Not docs-relevant.",
+      "merged_at": "2026-10-29T00:59:45Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20079"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Triage run (2026-10-29T00:02:38Z). Two new merged apache/pinot PRs strictly after prior checkpoint 2026-10-28T21:49:28Z, both classified not_relevant: #20069 (scoped buffer reads for compressed forward indexes, internal SPI memory API) and #20035 (fix compiled aggregation inputs after timestamp-index rewrites, internal planner correctness fix, SQL unchanged). Coverage cross-checked three ways: (1) gh search merged:>CP = {#20035,#20069}; (2) search merged:>=CP = {#20009(boundary, already processed),#20035,#20069}; (3) git first-parent log on apache/master after checkpoint commit ee7f50ac = exactly those two merge commits. No gaps. No docs PR created, no upstream comment, no Slack notification (no-op for docs). Checkpoint advanced to 2026-10-28T23:58:25Z (max merged-at of the two fully-processed PRs).",
-  "last_run_id": "run-20261029T000117Z-923"
+  "last_run_result": "Triage run (2026-10-29T01:02:48Z). Two new merged apache/pinot PRs strictly after prior checkpoint 2026-10-28T23:58:25Z, both classified not_relevant: #20078 (DOAP metadata bump to 1.6.0, single doap_Pinot.rdf ASF descriptor, not user docs) and #20079 (remove 14 expired @Deprecated InstancePlanMakerImplV2 constant aliases delegating to CommonConstants.Server.*; config keys/defaults/behavior unchanged, verified from merged diff). Coverage cross-checked three ways: (1) search merged:>CP = {#20078,#20079}; (2) search merged:>=CP = {#20035 (boundary, already processed), #20078, #20079}; (3) git first-parent log on upstream/master after checkpoint commit fcd05cca(#20035) = exactly e94cf06c(#20078), c0319056(#20079). No gaps. No docs PR, no upstream comment, no Slack (no-op for docs). Checkpoint advanced to 2026-10-29T00:59:45Z (max merged-at of the two fully-processed PRs).",
+  "last_run_id": "run-20261029T010113Z-18526"
 }
