@@ -9,7 +9,7 @@ description: Current Apache Pinot release version and how to pin versions in exa
 Know which Pinot version to use and how to pin versions in examples.
 
 {% hint style="warning" %}
-All code samples in the **Start Here** guide use `PINOT_VERSION=1.5.1`. If you are using a different version, set the variable accordingly before running any commands.
+All code samples in the **Start Here** guide use `PINOT_VERSION=1.6.0`. If you are using a different version, set the variable accordingly before running any commands.
 {% endhint %}
 
 This page is the single source of truth for version information across the Start Here guide and the wider documentation. When following tutorials or code samples, make sure the version you use matches your installed release.
@@ -18,16 +18,16 @@ This page is the single source of truth for version information across the Start
 
 | Artifact | Version |
 | --- | --- |
-| Apache Pinot binary | **1.5.1** |
-| Docker image | `apachepinot/pinot:1.5.1` |
-| Maven / Gradle clients | `1.5.1` |
+| Apache Pinot binary | **1.6.0** |
+| Docker image | `apachepinot/pinot:1.6.0` |
+| Maven / Gradle clients | `1.6.0` |
 
 ## Using PINOT\_VERSION in examples
 
 Most code samples in these docs set a `PINOT_VERSION` environment variable near the top of each snippet. Always verify that the value matches your installed version:
 
 ```bash
-export PINOT_VERSION=1.5.1
+export PINOT_VERSION=1.6.0
 
 # Then use ${PINOT_VERSION} in commands:
 docker pull apachepinot/pinot:${PINOT_VERSION}
@@ -43,12 +43,12 @@ Start Here pages never use the `latest` Docker tag. Always pin to a specific ver
 
 | Requirement | Detail |
 | --- | --- |
-| **Build/Runtime baseline** | **JDK 25+** (required for Pinot services) |
-| **Client libraries** | JDK 11+ (SPI and Java/JDBC client artifacts remain compatible with Java 11) |
-| Pinot 1.0+ minimum | JDK 11 or higher required |
+| **Pinot 1.6.0+ services** | **JDK 25+** for build and runtime |
+| **Client libraries** | JDK 11+ (Java/JDBC clients and explicitly pinned SPI/common artifacts remain compatible with Java 11) |
+| Pinot 1.0–1.5.x minimum | JDK 11 or higher required; follow the build/runtime guidance for that release |
 | JDK 8 support | Pinot **0.12.1** is the last version that supports JDK 8 |
 
-**Starting with this release:** Pinot services require **JDK 25 or later** for building and runtime. The SPI and Java/JDBC client modules (`pinot-spi`, `pinot-java-client`, `pinot-jdbc-client`) are compiled to Java 11 bytecode for backward compatibility with external JVM consumers.
+**Starting with Pinot 1.6.0:** services require **JDK 25 or later** for building and runtime. Java/JDBC clients and the explicitly pinned SPI/common artifacts continue to target Java 11 bytecode for backward compatibility with external JVM consumers. See the [1.6.0 upgrade notes](../../reference/releases/1.6.0.md#upgrade-notes-and-removals) before upgrading.
 
 ## Release links
 
