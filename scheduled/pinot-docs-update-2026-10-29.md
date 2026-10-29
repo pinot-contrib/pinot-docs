@@ -341,3 +341,39 @@
 
 ### Checkpoint
 - **Unchanged**: `2026-10-29T10:09:33Z`. `last_successful_run` → `2026-10-29T17:04:39Z`; `last_run_id` → `run-20261029T170139Z-5550`.
+
+---
+
+## Run 2026-10-29T18:02:30Z (run-20261029T180100Z-765)
+
+### Coverage
+- Inventoried merged `apache/pinot` PRs strictly after durable checkpoint `2026-10-29T10:09:33Z` (#19943).
+- Result: **2 new merged PRs** (`#20086`, `#20087`). Reconciled three independent ways, all consistent:
+  1. `search/issues q="repo:apache/pinot is:pr is:merged merged:>=2026-10-29"` → candidates filtered by precise `merged_at > checkpoint`.
+  2. pulls API (`state=closed base=master sort=updated desc`) → exactly #20086 (`2026-10-29T17:48:40Z`) and #20087 (`2026-10-29T17:48:15Z`) with `merged_at` strictly > checkpoint.
+  3. `GET commits?sha=master&since=2026-10-29T10:09:34Z` → exactly 2 commits: `c6c5aee5` (#20086), `ad97f19f` (#20087). apache/pinot `master` HEAD advanced to `c6c5aee5` (#20086).
+- No gaps between checkpoint and current HEAD.
+
+### Decisions
+- **#20086** — Bump `org.jacoco:jacoco-maven-plugin` 0.8.15→0.8.16. Dependabot. Verified from merged diff: files = `pinot-bom/pom.xml` + root `pom.xml` (+1/-1 each). Build/test code-coverage tooling only; no config, default, query option, function, public API, or documented user-facing behavior. **not_relevant.**
+- **#20087** — Bump `dnsjava:dnsjava` 3.6.5→3.7.0. Dependabot. Verified from merged diff: file = root `pom.xml` (+1/-1). Transitive DNS library bump; no user-facing surface change. **not_relevant.**
+
+### Created / merged docs PRs
+- None (both upstream PRs not docs-relevant).
+
+### Upstream comments
+- None.
+
+### Validation
+- Not applicable (no docs changes produced).
+
+### Blockers / required user action
+- None. Preflight passed: gh auth `xiangfu0`; `apache/pinot`=WRITE (push=true → can comment upstream), `pinot-contrib/pinot-docs`=ADMIN; durable state read/write OK.
+- Lease: no prior holder; acquired/released `automation-lease.json` on `automation-state` via create-only + delete (Contents API). State written via Contents API PUT with CAS `sha`.
+- Benign `gh-tentrix-wrap` "no token minted / not in manifest" stderr warnings appear on each gh api call; the fallback `GH_TOKEN` is authenticated and all reads/writes succeed.
+
+### Notifications
+- No Slack (no-op policy — triaged PRs were all not-relevant, no new docs PRs).
+
+### Checkpoint
+- **Advanced**: `2026-10-29T10:09:33Z` → `2026-10-29T17:48:40Z` (#20086). `last_successful_run` → `2026-10-29T18:02:30Z`; `last_run_id` → `run-20261029T180100Z-765`.
