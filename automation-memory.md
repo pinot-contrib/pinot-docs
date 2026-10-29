@@ -871,3 +871,34 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   `2026-10-28T23:58:25Z` → `2026-10-29T00:59:45Z` (both PRs triaged; new checkpoint = max merged-at = #20079
   @ 00:59:45Z); last_successful_run → `2026-10-29T01:03:46Z`; last_run_id → `run-20261029T010113Z-18526`; #20078 & #20079 recorded not_relevant.
   Lease released at end of run.
+
+### 2026-10-29T02:05:00Z (scheduled triage run — 1 new PR, docs_created)
+- Preflight OK: gh auth as `xiangfu0` (ambient GH_TOKEN App token). `apache/pinot`=WRITE,
+  `pinot-contrib/pinot-docs`=ADMIN. Benign `gh-tentrix-wrap` "no token minted" stderr warnings persist; all
+  API/git/PR reads, pushes, merges, and CAS PUTs succeed via the ambient token. Durable `automation-state` read
+  (checkpoint `2026-10-29T00:59:45Z`, prior last_run_id `run-20261029T010113Z-18526`). Lease acquired
+  (`automation-lock.json` create-only CAS PUT; run `run-20261029T020113Z-945`; no prior holder). `/workspace/pinot`
+  tracks fork; `apache`=apache/pinot fetched (HEAD `6e0a0a1b`); trees clean. Docs repo cloned fresh to
+  `/workspace/pinot-docs`, rebased on origin/latest; `gh auth setup-git` required before push (clone used
+  unauthenticated HTTPS remote).
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint = **1** (#19988). Three cross-checks agree:
+  (1) `merged:>CP` = {#19988}; (2) `merged:>=CP` = {#20079 (exact boundary, already processed), #19988};
+  (3) `git log --first-parent apache/master` after checkpoint commit `c0319056`(#20079) = exactly `6e0a0a1b`(#19988).
+  Reconciled; no gap.
+- Triage #19988 "Support ARRAY_AGG without a data type": **docs_created**. New user-facing SQL surface in both engines —
+  `ARRAY_AGG(expr)`, `ARRAY_AGG(expr, isDistinct)`, `ARRAY_AGG(DISTINCT expr)` without the explicit data-type arg.
+  Verified from merged code: CalciteSqlParser maps the DISTINCT quantifier to a trailing bool operand;
+  AggregateFunctionRewriteOptimizer (single-stage) and PinotAggregateTypeArgumentRewriteRule (multi-stage) infer the
+  type from the column (element type for MV; JSON→STRING); unsupported inferred/supplied types fail in the broker.
+  Explicit-type form preserved.
+- Dup check: no prior pinot-docs PR for #19988, no prior upstream docs comment.
+- Docs: updated `functions/aggregation/arrayagg.md` and `functions/array/array_agg.md` (signatures + examples for
+  the inferred-type and DISTINCT-keyword forms). `git diff --check` clean; `validate-docs.py --summary-only` = PASS
+  (10 pre-existing broken anchors, none in the edited files; no new failures). Docs PR
+  [#1156](https://github.com/pinot-contrib/pinot-docs/pull/1156) — all checks pass, squash-merged
+  2026-10-29T02:04:23Z (commit `65ecae06`). Upstream comment
+  https://github.com/apache/pinot/pull/19988#issuecomment-6485861071.
+- Durable state (CAS, state sha `f426ced6` → commit `407f4301`): checkpoint ADVANCED
+  `2026-10-29T00:59:45Z` → `2026-10-29T01:36:32Z` (#19988 merged-at); last_successful_run → `2026-10-29T02:05:00Z`;
+  last_run_id → `run-20261029T020113Z-945`; #19988 recorded docs_created. Slack summary sent (1 new docs PR).
+  Lease released at end of run.
