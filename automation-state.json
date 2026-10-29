@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T18:37:12Z",
-  "last_successful_run": "2026-10-29T19:02:52Z",
+  "last_successful_run": "2026-10-29T20:01:57Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -144,6 +144,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Triage run run-20261029T190129Z-17076 (2026-10-29T19:02:52Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T17:48:40Z (#20086) reconciled three independent ways, all consistent: (A) search/issues repo:apache/pinot is:pr is:merged merged:>=2026-10-29 -> 8 PRs, of which only #20064 has merged_at strictly > checkpoint (others #19905/#19943/#19988/#20078/#20079/#20086/#20087 are at/before checkpoint and already in ledger); (B) pulls state=closed base=master sort=updated desc -> #20064 (merged 2026-10-29T18:37:12Z) is the only PR with merged_at > checkpoint; (C) commits?sha=master since=2026-10-29T17:48:41Z -> exactly 1 commit, 7341df07c (#20064). Exactly one new merged PR: #20064 'Preserve live instance fields during controller updates'. Classified not_relevant: internal controller concurrency fix replacing read+setProperty with atomic Helix updateProperty so request-owned instance fields are applied to the latest record without clobbering a restarting participant's newer pinotVersion/capabilities; queriesDisabled preservation unchanged. No config/API/default/function/documented-behavior change. 1 main + 1 test file. No docs PR created, no upstream comment, no Slack (no-op policy for not-relevant-only run). Checkpoint advanced to processed merged_at 2026-10-29T18:37:12Z (#20064).",
-  "last_run_id": "run-20261029T190129Z-17076"
+  "last_run_result": "No-op run run-20261029T200110Z-876 (2026-10-29T20:01:57Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T18:37:12Z (#20064) reconciled three independent ways, all consistent: (A) search repo:apache/pinot is:pr is:merged merged:>=2026-10-29 -> 8 PRs, latest merged_at is #20064 at exactly the checkpoint (others #19905/#19943/#19988/#20078/#20079/#20086/#20087 all strictly before and already in ledger); (B) commits?sha=master since=2026-10-29T18:37:13Z -> 0 commits; (C) pulls state=closed base=master sort=updated desc -> 0 PRs with merged_at strictly > checkpoint. Zero new merged PRs after checkpoint. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint unchanged.",
+  "last_run_id": "run-20261029T200110Z-876"
 }
