@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-29T00:59:45Z",
-  "last_successful_run": "2026-10-29T01:02:48Z",
+  "last_processed_merged_at": "2026-10-29T01:36:32Z",
+  "last_successful_run": "2026-10-29T02:05:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20060,
-    "upstream_url": "https://github.com/apache/pinot/pull/20060",
-    "docs_pr": 1152,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1152",
-    "docs_merged_at": "2026-10-28T04:04:30Z",
-    "upstream_comment": "https://github.com/apache/pinot/pull/20060#issuecomment-6460368002"
+    "upstream_pr": 19988,
+    "upstream_url": "https://github.com/apache/pinot/pull/19988",
+    "docs_pr": 1156,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1156",
+    "docs_merged_at": "2026-10-29T02:04:23Z",
+    "upstream_comment": "https://github.com/apache/pinot/pull/19988#issuecomment-6485861071"
   },
   "processed_prs": {
     "19862": {
@@ -101,9 +101,19 @@
       "reason": "Internal Java source API cleanup. Removes 14 @Deprecated public static final constant aliases from InstancePlanMakerImplV2 (MAX_EXECUTION_THREADS_KEY/DEFAULT_MAX_EXECUTION_THREADS, MAX_INITIAL_RESULT_HOLDER_CAPACITY_KEY/default, MIN_INITIAL_INDEXED_TABLE_CAPACITY_KEY/default, NUM_GROUPS_LIMIT_KEY/default, MIN_SEGMENT_GROUP_TRIM_SIZE_KEY/default, MIN_SERVER_GROUP_TRIM_SIZE_KEY/default, GROUPBY_TRIM_THRESHOLD_KEY/default), deprecated for removal after 1.4. Verified from merged diff: each removed field merely aliased the corresponding CommonConstants.Server.* constant, which remains the source of truth; the actual config-key STRINGS and default VALUES live in CommonConstants.Server and are unchanged. Downstream Java callers should use CommonConstants.Server.* instead. No config key, default, query option, function, or documented runtime behavior change. One main source file, no test change. Not docs-relevant.",
       "merged_at": "2026-10-29T00:59:45Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20079"
+    },
+    "19988": {
+      "decision": "docs_created",
+      "docs_pr": 1156,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1156",
+      "docs_merged_at": "2026-10-29T02:04:23Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19988#issuecomment-6485861071",
+      "merged_at": "2026-10-29T01:36:32Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19988",
+      "summary": "Support ARRAY_AGG/ARRAYAGG without an explicit data type in both engines. Added ARRAY_AGG(expr), ARRAY_AGG(expr, isDistinct), and ARRAY_AGG(DISTINCT expr) forms; data type inferred from the column (element type for MV; JSON->STRING), unsupported inferred/supplied types fail in the broker. Explicit-type form preserved. Documented new signatures and examples in functions/aggregation/arrayagg.md and functions/array/array_agg.md."
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Triage run (2026-10-29T01:02:48Z). Two new merged apache/pinot PRs strictly after prior checkpoint 2026-10-28T23:58:25Z, both classified not_relevant: #20078 (DOAP metadata bump to 1.6.0, single doap_Pinot.rdf ASF descriptor, not user docs) and #20079 (remove 14 expired @Deprecated InstancePlanMakerImplV2 constant aliases delegating to CommonConstants.Server.*; config keys/defaults/behavior unchanged, verified from merged diff). Coverage cross-checked three ways: (1) search merged:>CP = {#20078,#20079}; (2) search merged:>=CP = {#20035 (boundary, already processed), #20078, #20079}; (3) git first-parent log on upstream/master after checkpoint commit fcd05cca(#20035) = exactly e94cf06c(#20078), c0319056(#20079). No gaps. No docs PR, no upstream comment, no Slack (no-op for docs). Checkpoint advanced to 2026-10-29T00:59:45Z (max merged-at of the two fully-processed PRs).",
-  "last_run_id": "run-20261029T010113Z-18526"
+  "last_run_result": "Triage run (2026-10-29T02:05:00Z). One new merged apache/pinot PR strictly after prior checkpoint 2026-10-29T00:59:45Z: #19988 (Support ARRAY_AGG without a data type), classified docs_created. Coverage cross-checked: (1) search merged:>CP = {#19988}; (2) search merged:>=CP = {#20079 (boundary, already processed), #19988}; (3) apache/master first-parent log after checkpoint commit c0319056(#20079) = exactly 6e0a0a1b(#19988). No gaps. Verified behavior from merged code (CalciteSqlParser DISTINCT handling, AggregateFunctionRewriteOptimizer and PinotAggregateTypeArgumentRewriteRule type inference). Docs PR #1156 merged 2026-10-29T02:04:23Z (validation PASS, no new broken anchors), upstream comment issuecomment-6485861071. Checkpoint advanced to 2026-10-29T01:36:32Z.",
+  "last_run_id": "run-20261029T020113Z-945"
 }
