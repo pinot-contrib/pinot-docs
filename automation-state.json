@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-29T18:37:12Z",
-  "last_successful_run": "2026-10-29T20:01:57Z",
+  "last_processed_merged_at": "2026-10-29T20:14:13Z",
+  "last_successful_run": "2026-10-29T21:03:09Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -141,9 +141,15 @@
       "reason": "Internal controller correctness/concurrency bug fix (labels: bug, testing, java). Fixes #20062: PinotHelixResourceManager.updateInstance read the current Helix InstanceConfig then wrote the whole snapshot via setProperty, so a participant that restarted between the read and write (publishing a newer pinotVersion and capabilities map) had those live fields clobbered with stale values. Verified from the merged diff: the full-record setProperty is replaced by an atomic Helix _helixDataAccessor.updateProperty(instanceConfig key, updater, instanceConfig) that re-applies only request-owned fields (via InstanceUtils.updateHelixInstanceConfig) to the latest record, preserving fields the request does not own; throws RuntimeException if the update returns false. The existing asymmetric queriesDisabled=true preservation behavior is kept identically (same warning log pointing operators to PUT /instances/{name}/state?state=QUERIES_ENABLE). No new config key, query option, function, public API signature, default, or documented user-facing behavior change; the PUT /instances/{name} endpoint behaves identically from a user's perspective, just without the race. 1 main source file (PinotHelixResourceManager.java +24/-18) + 1 test file (PinotHelixResourceManagerConfigValidationTest.java +107/-0). Not docs-relevant.",
       "merged_at": "2026-10-29T18:37:12Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20064"
+    },
+    "20048": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: single file root pom.xml (+1/-1) bumping google.errorprone.version (com.google.errorprone:error_prone_annotations) 2.50.0->2.51.0 by dependabot[bot]. error-prone is a compile-time static-analysis/annotation library used during the build only; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "merged_at": "2026-10-29T20:14:13Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20048"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run run-20261029T200110Z-876 (2026-10-29T20:01:57Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T18:37:12Z (#20064) reconciled three independent ways, all consistent: (A) search repo:apache/pinot is:pr is:merged merged:>=2026-10-29 -> 8 PRs, latest merged_at is #20064 at exactly the checkpoint (others #19905/#19943/#19988/#20078/#20079/#20086/#20087 all strictly before and already in ledger); (B) commits?sha=master since=2026-10-29T18:37:13Z -> 0 commits; (C) pulls state=closed base=master sort=updated desc -> 0 PRs with merged_at strictly > checkpoint. Zero new merged PRs after checkpoint. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint unchanged.",
-  "last_run_id": "run-20261029T200110Z-876"
+  "last_run_result": "No-op run run-20261029T210158Z-8134 (2026-10-29T21:03:09Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T18:37:12Z (#20064) reconciled three independent ways, all consistent: (A) search is:pr is:merged merged:>=2026-10-29 filtered by precise merged_at -> only #20048 (20:14:13Z) strictly newer (others at/earlier, already in ledger); (B) commits?sha=master since=2026-10-29T18:37:13Z -> exactly 1 commit 577dc1fd9 (#20048); (C) pulls closed base=master sort=updated desc -> exactly 1 PR with merged_at>checkpoint (#20048). #20048 = Dependabot bump error_prone_annotations 2.50.0->2.51.0 (root pom.xml +1/-1), not_relevant. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to 2026-10-29T20:14:13Z.",
+  "last_run_id": "run-20261029T210158Z-8134"
 }
