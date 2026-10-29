@@ -841,3 +841,33 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - Durable state (CAS, state sha `a5007938`): checkpoint ADVANCED `2026-10-28T21:49:28Z` -> `2026-10-28T23:58:25Z`
   (both PRs fully triaged; new checkpoint = max merged-at = #20035 @ 23:58:25Z); last_successful_run -> `2026-10-29T00:03:06Z`;
   last_run_id -> `run-20261029T000117Z-923`; #20069 & #20035 recorded not_relevant. Lease released at end of run.
+
+### 2026-10-29T01:03:46Z (scheduled triage run — 2 new PRs, both not_relevant)
+- Preflight OK: gh auth as `xiangfu0` (ambient GH_TOKEN App token). `apache/pinot`=WRITE,
+  `pinot-contrib/pinot-docs`=ADMIN (both verified via `gh repo view --json viewerPermission`). Benign
+  `gh-tentrix-wrap` "no token minted" stderr warnings persist (session manifest lists only fork
+  `xiangfu0/pinot`); all API/git/PR reads and CAS PUTs succeed via the ambient token. Durable
+  `automation-state` read (checkpoint `2026-10-28T23:58:25Z`, prior last_run_id `run-20261029T000117Z-923`).
+  Lease acquired (`automation-lock.json` create-only CAS PUT; run `run-20261029T010113Z-18526`; no prior holder — previous
+  lease was cleanly released). `/workspace/pinot` tracks fork; `upstream`=apache/pinot fetched (HEAD `c0319056`); tree clean.
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint = **2** (#20078, #20079). Three cross-checks agree:
+  (1) `merged:>CP` = {#20078,#20079}; (2) `merged:>=CP` = {#20035 (exact boundary, already processed
+  not_relevant), #20078, #20079}; (3) `git log --first-parent upstream/master` after checkpoint commit
+  `fcd05cca`(#20035) = exactly `e94cf06c`(#20078), `c0319056`(#20079). Reconciled; no gap.
+- Triage #20078 "Update DOAP metadata for Apache Pinot 1.6.0" (1 file: `doap_Pinot.rdf`): **not_relevant**.
+  ASF project-metadata descriptor bump (version/revision/release-date to 1.6.0). Not user-facing docs/config/API.
+- Triage #20079 "Remove expired InstancePlanMakerImplV2 constant aliases" (1 file: InstancePlanMakerImplV2.java,
+  34 deletions): **not_relevant**. Removes 14 `@Deprecated public static final` constant aliases
+  (MAX_EXECUTION_THREADS_KEY/default, MAX_INITIAL_RESULT_HOLDER_CAPACITY_KEY/default,
+  MIN_INITIAL_INDEXED_TABLE_CAPACITY_KEY/default, NUM_GROUPS_LIMIT_KEY/default,
+  MIN_SEGMENT_GROUP_TRIM_SIZE_KEY/default, MIN_SERVER_GROUP_TRIM_SIZE_KEY/default,
+  GROUPBY_TRIM_THRESHOLD_KEY/default) deprecated for removal after 1.4. Verified from merged diff: each aliased
+  the corresponding `CommonConstants.Server.*` constant, which remains the source of truth for key strings and
+  default values — unchanged. Java-source cleanup only; downstream callers use `CommonConstants.Server.*`. No
+  config/default/option/function/documented-behavior change.
+- Dup check: neither PR referenced by any pinot-docs PR. No docs PR created/merged, no upstream comment (neither
+  docs-relevant), no Slack (no new docs PRs this run).
+- Durable state (CAS, state sha `e0fc9901` → commit `5d9da01f`): checkpoint ADVANCED
+  `2026-10-28T23:58:25Z` → `2026-10-29T00:59:45Z` (both PRs triaged; new checkpoint = max merged-at = #20079
+  @ 00:59:45Z); last_successful_run → `2026-10-29T01:03:46Z`; last_run_id → `run-20261029T010113Z-18526`; #20078 & #20079 recorded not_relevant.
+  Lease released at end of run.
