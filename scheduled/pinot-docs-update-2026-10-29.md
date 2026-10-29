@@ -469,3 +469,33 @@
 
 ### Checkpoint
 - **Advanced**: `2026-10-29T18:37:12Z` → `2026-10-29T20:14:13Z`. `last_successful_run` → 2026-10-29T21:03:41Z; `last_run_id` → `run-20261029T210158Z-8134`.
+
+---
+
+## Run run-20261029T220120Z-1066 — 2026-10-29T22:01:20Z (no-op)
+
+### Coverage
+- Checkpoint at start: `2026-10-29T20:14:13Z` (#20048).
+- Merged apache/pinot PRs strictly after checkpoint: **1** (#20074).
+- Reconciled 3 independent ways — (A) search/issues `is:pr is:merged merged:>=2026-10-29` by precise merged_at → only #20074 newer; (B) `commits?sha=master since=2026-10-29T20:14:14Z` → 1 commit `e58b6fc2` (#20074); (C) `pulls closed base=master sort=updated desc` → 1 PR with merged_at > checkpoint (#20074) — all consistent, no gaps.
+
+### Decisions
+- **#20074** "Fix MSE leaf final results for array and raw sketch aggregations" (Jackie-Jiang, follow-up to #20063, merged 2026-10-29T21:38:16Z, 53 files +491/-721) → **not_relevant**. Internal multi-stage-engine / Java-SPI correctness fix. Makes an `AggregationFunction`'s final result the stored value of `getFinalResultColumnType()` (e.g. `int[]` for INT_ARRAY) so array functions (ARRAYAGG, SUMARRAYLONG/DOUBLE, HISTOGRAM, funnel functions) and raw sketch functions (DISTINCTCOUNTRAWHLL etc.) no longer throw ClassCastException / serialization errors when an MSE leaf returns final results. Removes `FinalResult extends Comparable`; `extractFinalResult`/`mergeFinalResult` erasure changes Comparable→Object (internal Java interface for aggregation implementers — requires recompile of custom functions, not documented user behavior). Adds `StoredValueComparator` in pinot-spi; removes `ArrayListUtils`/`TypeUtils` conversions. **Wire format and MSE plans do not change** (per Compatibility). No new SQL function, config key, query option, or default. The only user-observable change — `FUNNELEVENTSFUNCTIONEVAL` final results merged from several servers now carry ONE header (counts summed) instead of concatenated headers — **conforms to the existing** `functions/aggregation/funneleventsfunctioneval.md` page, which already documents the single-header `STRING[]` format; the funnel README has no merge/header details. No docs page becomes stale; nothing new to document.
+
+### Created / Merged
+- None (no docs-relevant PRs).
+
+### Upstream comments
+- None.
+
+### Validation
+- N/A — no docs changes produced.
+
+### Blockers / required user action
+- None.
+
+### Notifications
+- No Slack (no-op policy — one not-relevant internal correctness fix).
+
+### Checkpoint
+- **Advanced**: `2026-10-29T20:14:13Z` → `2026-10-29T21:38:16Z`. `last_successful_run` → 2026-10-29T22:01:20Z; `last_run_id` → `run-20261029T220120Z-1066`.
