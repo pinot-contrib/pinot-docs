@@ -377,3 +377,38 @@
 
 ### Checkpoint
 - **Advanced**: `2026-10-29T10:09:33Z` → `2026-10-29T17:48:40Z` (#20086). `last_successful_run` → `2026-10-29T18:02:30Z`; `last_run_id` → `run-20261029T180100Z-765`.
+
+---
+
+## Run 2026-10-29T19:03:15Z (run-20261029T190129Z-17076) — no-op (one PR triaged, not docs-relevant)
+
+### Coverage
+- Durable checkpoint at start: `last_processed_merged_at = 2026-10-29T17:48:40Z` (#20086).
+- Inventory of apache/pinot merged PRs strictly after the checkpoint = **1** (#20064, merged `2026-10-29T18:37:12Z`). Reconciled three independent ways, all consistent:
+  1. `search/issues q="repo:apache/pinot is:pr is:merged merged:>=2026-10-29"` → 8 PRs; only #20064 has precise `merged_at` strictly > checkpoint (others #19905/#19943/#19988/#20078/#20079/#20086/#20087 are at/before checkpoint and already in the ledger).
+  2. pulls API (`state=closed base=master sort=updated desc`) → exactly #20064 (`2026-10-29T18:37:12Z`) with `merged_at` strictly > checkpoint.
+  3. `GET commits?sha=master&since=2026-10-29T17:48:41Z` → exactly 1 commit: `7341df07c` (#20064).
+- No gaps between checkpoint and current HEAD.
+
+### Decisions
+- **#20064 — not docs-relevant.** "Preserve live instance fields during controller updates" (labels: `bug`, `testing`, `java`; fixes #20062). Internal controller concurrency/correctness fix: `PinotHelixResourceManager.updateInstance` read the current Helix `InstanceConfig` then wrote the whole snapshot via `setProperty`, so a participant restarting between the read and write (publishing newer `pinotVersion`/`capabilities`) had those live fields clobbered with stale values. Verified from the merged diff: the full-record `setProperty` is replaced by an atomic Helix `_helixDataAccessor.updateProperty(...)` that re-applies only request-owned fields to the latest record and preserves fields the request does not own (throws if the update fails). Existing asymmetric `queriesDisabled=true` preservation and its operator warning are kept identically. **No** new config key, query option, function, public API signature, default, or documented user-facing behavior; the `PUT /instances/{name}` endpoint behaves identically to the user, just without the race. 1 main source file (`PinotHelixResourceManager.java` +24/-18) + 1 test file (+107/-0). Nothing to document.
+
+### Created / merged docs PRs
+- None (the single triaged PR is not docs-relevant).
+
+### Upstream comments
+- None.
+
+### Validation
+- Not applicable (no docs changes produced).
+
+### Blockers / required user action
+- None. Preflight passed: gh auth `xiangfu0`; `apache/pinot`=WRITE (push=true → can comment upstream), `pinot-contrib/pinot-docs`=ADMIN; durable state read/write OK.
+- Lease: no prior holder; acquired `automation-lock.json` on `automation-state` via create-only CAS (PUT without sha, lock commit `3a75f209`), re-verified holder before the state write, and deleted at end of run.
+- Benign `gh-tentrix-wrap` "no token minted / not in manifest" stderr warnings appear on each gh api call; the fallback `GH_TOKEN` is authenticated (rate limit 15000) and all reads/writes succeed.
+
+### Notifications
+- No Slack (no-op policy — the single triaged PR is not-relevant; no new docs PRs).
+
+### Checkpoint
+- **Advanced**: `2026-10-29T17:48:40Z` → `2026-10-29T18:37:12Z` (#20064 fully processed as not_relevant). `last_successful_run` → `2026-10-29T19:03:15Z`; `last_run_id` → `run-20261029T190129Z-17076`.
