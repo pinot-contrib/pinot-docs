@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T03:27:01Z",
-  "last_successful_run": "2026-10-29T09:02:35Z",
+  "last_successful_run": "2026-10-29T10:02:18Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -120,6 +120,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-29T09:02:35Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T03:27:01Z (#19905) yielded ZERO new PRs. Reconciled three ways: (1) search repo:apache/pinot is:pr is:merged merged:>=2026-10-29 = 4 items {#20078,#20079,#19988,#19905}, all already in ledger with merged_at<=checkpoint; (2) pulls API state=closed base=master sort=updated desc -> 0 PRs with merged_at>checkpoint, most recent merged #19905 @ 2026-10-29T03:27:01Z == checkpoint; (3) apache/pinot master HEAD commit = 0de3f5e3 (#19905, committer date 2026-10-29T03:27:00Z) = the checkpoint PR, nothing after. Coverage verified: every commit on master through #19905 is in the ledger; #19897 (merged 2026-10-26T21:28:31Z) predates the original migrated checkpoint and is intentionally not backfilled. Checkpoint UNCHANGED. No docs PRs, no upstream comments, no Slack (no-op). Lease held via create-only CAS lock and released at end.",
-  "last_run_id": "run-20261029T090137Z-1169"
+  "last_run_result": "No-op triage run (2026-10-29T10:02:18Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T03:27:01Z (#19905) yielded ZERO new PRs. Reconciled three independent ways: (1) search repo:apache/pinot is:pr is:merged merged:>=2026-10-29 = 4 items {#20079,#20078,#19988,#19905}, all with merged_at<=checkpoint and all already in ledger; (2) closed PRs base=master sort=updated desc across 4 pages (200 PRs) -> 0 with merged_at strictly > checkpoint; (3) apache/pinot master HEAD = 0de3f5e3 (#19905, committer date 2026-10-29T03:27:00Z) = checkpoint PR, and GET commits sha=master since=checkpoint returned nothing after it. Checkpoint UNCHANGED. No docs PRs, no upstream comments, no Slack (no-op). Lease held via create-only CAS lock and released at end.",
+  "last_run_id": "run-20261029T100114Z-937"
 }
