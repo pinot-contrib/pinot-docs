@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-28T21:49:28Z",
-  "last_successful_run": "2026-10-28T23:01:55Z",
+  "last_processed_merged_at": "2026-10-28T23:58:25Z",
+  "last_successful_run": "2026-10-29T00:02:38Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -77,9 +77,21 @@
       "reason": "Internal reliability fix for a flaky-test race. PinotHelixTaskResourceManager.deleteTask (force path, used by DELETE /tables/{name}, DROP TABLE, and DELETE /tasks/task/{name}) could 500 when Helix failed to remove the ZooKeeper job context (/PROPERTYSTORE/TaskRebalancer/<job>, NotEmpty) because the task pipeline was still writing it. Change retries deleteJob on HelixException up to 3 attempts with 1s/2s backoff for both forced and non-forced deletes, rethrowing the last HelixException if all attempts fail; non-HelixException precondition failures still fail immediately. Retry counts and backoff are hardcoded (no new config/API/function/default). No documented user-facing behavior changes: the same delete endpoints behave identically, just tolerating a transient Helix write race. One main source file + one test file. Not docs-relevant.",
       "merged_at": "2026-10-28T21:49:28Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20009"
+    },
+    "20069": {
+      "decision": "not_relevant",
+      "reason": "Internal memory-access refactor for compressed forward-index readers. Adds PinotDataBuffer.readWithByteBuffer(offset,size,IOFunction) in pinot-segment-spi for synchronous scoped buffer consumption; BaseChunkForwardIndexReader and VarByteChunkForwardIndexReaderV4 (shared by V5/V6) use it so replaceable read-ahead windows are not lent out beyond a single read via toDirectByteBuffer() views. Default delegates to the existing view API; callbacks return independently owned decompressed output; callers retaining input views still use toDirectByteBuffer(). No new config/query-option/function/default, and no documented user-facing behavior change (identical read results, just safe buffer scoping). Low-level internal/plugin API only. 2 main source files + 1 SPI file; no docs impact.",
+      "merged_at": "2026-10-28T23:54:13Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20069"
+    },
+    "20035": {
+      "decision": "not_relevant",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "merged_at": "2026-10-28T23:58:25Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20035"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-28T23:01:55Z). Zero new merged apache/pinot PRs strictly after checkpoint 2026-10-28T21:49:28Z. Three cross-checks agree: (1) search merged:>CP = 0; (2) search merged:>=CP = 1 (#20009 at exact boundary, already processed not_relevant); (3) git log apache/master since CP+1s = 0 commits (HEAD still ee7f50ac = #20009). No docs PR, no upstream comment, no Slack. Checkpoint unchanged (no new work).",
-  "last_run_id": "run-20261028T230106Z-800"
+  "last_run_result": "Triage run (2026-10-29T00:02:38Z). Two new merged apache/pinot PRs strictly after prior checkpoint 2026-10-28T21:49:28Z, both classified not_relevant: #20069 (scoped buffer reads for compressed forward indexes, internal SPI memory API) and #20035 (fix compiled aggregation inputs after timestamp-index rewrites, internal planner correctness fix, SQL unchanged). Coverage cross-checked three ways: (1) gh search merged:>CP = {#20035,#20069}; (2) search merged:>=CP = {#20009(boundary, already processed),#20035,#20069}; (3) git first-parent log on apache/master after checkpoint commit ee7f50ac = exactly those two merge commits. No gaps. No docs PR created, no upstream comment, no Slack notification (no-op for docs). Checkpoint advanced to 2026-10-28T23:58:25Z (max merged-at of the two fully-processed PRs).",
+  "last_run_id": "run-20261029T000117Z-923"
 }

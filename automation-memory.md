@@ -810,3 +810,34 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No docs PR created/merged. No upstream comment. No Slack (no-op run stays quiet).
 - Durable state (CAS, state sha `b1b34a2f` -> commit `822306ca`): checkpoint UNCHANGED `2026-10-28T21:49:28Z`;
   last_successful_run -> `2026-10-28T23:02:17Z`; last_run_id -> `run-20261028T230106Z-800`. Lease released at end of run.
+
+### 2026-10-29T00:03:06Z (scheduled triage run — 2 new PRs, both not_relevant)
+- Preflight OK: gh auth as xiangfu0 (ambient GH_TOKEN ghu_ App token). `apache/pinot`=WRITE,
+  `pinot-contrib/pinot-docs`=ADMIN (both verified via `gh repo view --json viewerPermission`). Benign
+  `gh-tentrix-wrap` "no token minted" stderr warnings (session manifest lists only fork `xiangfu0/pinot`);
+  all API/git/PR reads and the lock PUT (HTTP 201) succeed via the ambient token directly — no credential-helper
+  workaround needed this run. Durable `automation-state` read (checkpoint `2026-10-28T21:49:28Z`, prior
+  last_run_id `run-20261028T230106Z-800`). Lease acquired (`automation-lock.json` create-only CAS PUT, HTTP 201,
+  run `run-20261029T000117Z-923`; no prior holder). `/workspace/pinot` tracks fork; `upstream`=apache/pinot fetched; tree clean.
+- Inventory: merged `apache/pinot` PRs strictly after checkpoint = **2** (#20069, #20035). Three cross-checks agree:
+  (1) search `merged:>CP` = {#20035,#20069}; (2) search `merged:>=CP` = {#20009 (exact boundary, already
+  processed not_relevant), #20035, #20069}; (3) `git log --first-parent apache/master` after checkpoint commit
+  `ee7f50ac` = exactly 2 merge commits (fcd05cc=#20035, 52d9c80=#20069). Reconciled; no gap.
+- Triage #20069 "Add scoped buffer reads for compressed forward indexes" (3 files: BaseChunkForwardIndexReader,
+  VarByteChunkForwardIndexReaderV4, PinotDataBuffer): **not_relevant**. Internal memory-access refactor. Adds
+  `PinotDataBuffer.readWithByteBuffer(offset,size,IOFunction)` for synchronous scoped buffer consumption so
+  replaceable read-ahead windows aren't lent beyond a single read; default delegates to existing view API;
+  callers retaining views still use `toDirectByteBuffer()`. No config/option/function/default; identical read
+  results. Low-level internal/plugin SPI only. No docs impact.
+- Triage #20035 "Fix compiled aggregation inputs after timestamp index rewrites" (5 files: InstancePlanMakerImplV2,
+  QueryContext, QueryContextConverterUtils + 2 tests): **not_relevant**. Internal planner correctness fix so
+  timestamp-index override hints rewrite `DISTINCTCOUNT(DATETRUNC('DAY',...))` to use the derived DAY index
+  (previously projected raw timestamp despite the index existing). Rewrites once at instance-plan entry; removes
+  per-segment rewrites. PR body: DAY index must already be configured/built, **SQL is unchanged**. Verified: no
+  new CONFIG/QueryOptionKey/default strings in pinot-core main diff. Makes an already-documented timestamp index
+  actually apply — no new user-facing surface. Not docs-relevant.
+- Dup check: neither PR referenced by any pinot-docs PR; no prior processing. No docs PR created/merged, no
+  upstream comment (neither docs-relevant), no Slack (no new docs PRs this run).
+- Durable state (CAS, state sha `a5007938`): checkpoint ADVANCED `2026-10-28T21:49:28Z` -> `2026-10-28T23:58:25Z`
+  (both PRs fully triaged; new checkpoint = max merged-at = #20035 @ 23:58:25Z); last_successful_run -> `2026-10-29T00:03:06Z`;
+  last_run_id -> `run-20261029T000117Z-923`; #20069 & #20035 recorded not_relevant. Lease released at end of run.
