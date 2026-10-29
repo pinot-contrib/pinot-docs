@@ -10,7 +10,11 @@ Concatenates the input values into an array. Supported element types are `INT`, 
 
 ## Signature
 
-> ARRAY\_AGG(dataColumn, 'dataType', \[isDistinct])
+> ARRAY\_AGG(dataColumn\[, 'dataType']\[, isDistinct])
+>
+> ARRAY\_AGG(DISTINCT dataColumn)
+
+The `dataType` argument is optional. When it is omitted, Pinot infers it from the type of `dataColumn` (the element type for a multi-value column). Distinct values can be collected either with the `DISTINCT` keyword inside the call or with the trailing `isDistinct` boolean argument.
 
 
 
@@ -18,6 +22,12 @@ Concatenates the input values into an array. Supported element types are `INT`, 
 
 ```sql
 SELECT ARRAY_AGG(firstName, 'STRING', true) AS firstNames from transcript;
+```
+
+The `dataType` argument can be omitted, and `DISTINCT` can be written as a keyword:
+
+```sql
+SELECT ARRAY_AGG(DISTINCT firstName) AS firstNames from transcript;
 ```
 
 | firstNames    |
