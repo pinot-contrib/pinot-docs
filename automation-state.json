@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-29T10:09:33Z",
-  "last_successful_run": "2026-10-29T17:04:39Z",
+  "last_processed_merged_at": "2026-10-29T17:48:40Z",
+  "last_successful_run": "2026-10-29T18:02:15Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -123,9 +123,21 @@
       "reason": "Internal server-response/transport memory optimization (performance label). Sends single-stage (v1) DataTable responses to Netty and gRPC as paged buffers instead of copying them into one contiguous byte[] (avoids a G1 humongous allocation on large responses). Step 2 of 3 (follows #19906). Verified from merged diff: wire format is explicitly unchanged; 17 files = internal datatable/scheduler/transport main source (DataTable, DataTableImplV4, StreamingResponseUtils, QueryScheduler + scheduler subclasses, InstanceRequestHandler, PageCacheWarmupServerQueryExecutor) plus tests. No new config key, query option, default, function, public constant, or documented user-facing behavior; no doc/.md files touched. Not docs-relevant.",
       "merged_at": "2026-10-29T10:09:33Z",
       "upstream_url": "https://github.com/apache/pinot/pull/19943"
+    },
+    "20087": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: single file root pom.xml (+1/-1) bumping dnsjava:dnsjava 3.6.5->3.7.0. Transitive DNS library; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "merged_at": "2026-10-29T17:48:15Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20087"
+    },
+    "20086": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: two files pinot-bom/pom.xml and root pom.xml (+1/-1 each) bumping org.jacoco:jacoco-maven-plugin 0.8.15->0.8.16. Build/test code-coverage tooling only; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "merged_at": "2026-10-29T17:48:40Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20086"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Triage run run-20261029T170139Z-5550 (2026-10-29T17:04:39Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T10:09:33Z (#19943) yielded ZERO new merged PRs. Reconciled four independent ways, all consistent: (A) search/issues is:merged merged:>=checkpoint -> only #19943 (== checkpoint, already in ledger as not_relevant); (B) pulls state=closed base=master sort=updated desc (10) -> 0 with merged_at strictly > checkpoint, most-recent merged == #19943; (C) apache master HEAD = 3f6fef49 (#19943, the checkpoint PR); (D) commits?sha=master&since=2026-10-29T10:09:34Z -> 0 commits. Master has not advanced since checkpoint. No new work: no docs PRs, no upstream comments, no Slack (no-op policy). Checkpoint unchanged. Lease on bare automation-state acquired+released via REST ref-update CAS (local pre-push hook requires session prefix; objects staged via prefixed branch then bare ref PATCHed with force=false).",
-  "last_run_id": "run-20261029T170139Z-5550"
+  "last_run_result": "Triage run run-20261029T180100Z-765 (2026-10-29T18:02:15Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T10:09:33Z (#19943) yielded 2 new merged PRs: #20086 (jacoco-maven-plugin 0.8.15->0.8.16) and #20087 (dnsjava 3.6.5->3.7.0). Reconciled three independent ways, all consistent: (A) search/issues is:merged merged:>=2026-10-29 -> same set after filtering by precise merged_at > checkpoint; (B) pulls state=closed base=master sort=updated desc -> #20086 (17:48:40Z) and #20087 (17:48:15Z) are the only two with merged_at strictly > checkpoint; (C) commits?sha=master since=checkpoint+1s -> exactly 2 commits, c6c5aee5 (#20086) and ad97f19f (#20087). Both are Dependabot version bumps verified from merged diffs: #20086 touches only pinot-bom/pom.xml + root pom.xml (+1/-1 each, jacoco build/test plugin); #20087 touches only root pom.xml (+1/-1, dnsjava transitive lib). No config key, default, query option, function, public API, or documented user-facing behavior change. Both classified not_relevant. No docs PRs created, no upstream comments, no Slack (no-op policy for not-relevant-only run). Checkpoint advanced to max processed merged_at = 2026-10-29T17:48:40Z (#20086).",
+  "last_run_id": "run-20261029T180100Z-765"
 }
