@@ -85,3 +85,49 @@ Three independent cross-checks agree — complete coverage, no gaps:
 
 ### Blockers
 None.
+
+---
+
+## Run 2026-10-29T02:05:00Z (run id `run-20261029T020113Z-945`)
+
+### Summary
+Triage run. **1** new merged `apache/pinot` PR strictly after the prior checkpoint
+`2026-10-29T00:59:45Z` was inventoried and classified **docs-relevant**. One minimal docs PR created and
+squash-merged; upstream PR commented; Slack summary sent.
+
+### Preflight
+- GitHub auth: `xiangfu0` (ambient App token). `apache/pinot` = WRITE, `pinot-contrib/pinot-docs` = ADMIN.
+- Durable `automation-state` branch read OK (checkpoint `2026-10-29T00:59:45Z`, prior run id `run-20261029T010113Z-18526`).
+- Lease acquired via create-only CAS PUT of `automation-lock.json`; no concurrent holder.
+- Working trees clean; `apache` = apache/pinot fetched (HEAD `6e0a0a1b`); docs repo cloned and rebased on `origin/latest`.
+
+### Coverage (checkpoint `2026-10-29T00:59:45Z`)
+Three independent cross-checks agree — complete coverage, no gaps:
+1. `search merged:>CP` → {#19988}
+2. `search merged:>=CP` → {#20079 (exact boundary, already processed), #19988}
+3. `git log --first-parent apache/master` after checkpoint commit `c0319056` (#20079) → exactly `6e0a0a1b` (#19988)
+
+### Decisions
+| PR | Title | Merged (UTC) | Decision | Rationale |
+|---|---|---|---|---|
+| [#19988](https://github.com/apache/pinot/pull/19988) | Support ARRAY_AGG without a data type | 2026-10-29T01:36:32Z | docs_created | New user-facing SQL surface in both engines: `ARRAY_AGG(expr)`, `ARRAY_AGG(expr, isDistinct)`, and `ARRAY_AGG(DISTINCT expr)` without the explicit data-type argument. Verified from merged code — CalciteSqlParser maps the `DISTINCT` quantifier to a trailing boolean operand; `AggregateFunctionRewriteOptimizer` (single-stage) and `PinotAggregateTypeArgumentRewriteRule` (multi-stage) infer the type from the column (element type for MV; JSON→STRING); unsupported inferred/supplied types fail in the broker. Explicit-type form preserved. |
+
+### Outcome
+- Docs PRs created: **1** — [pinot-docs#1156](https://github.com/pinot-contrib/pinot-docs/pull/1156)
+- Docs PRs merged: **1** — squash-merged 2026-10-29T02:04:23Z (commit `65ecae06`)
+- Upstream comments: **1** — https://github.com/apache/pinot/pull/19988#issuecomment-6485861071
+- Slack: sent (1 new docs PR)
+- Validation: `git diff --check` clean; `validate-docs.py --summary-only` = PASS (10 pre-existing broken anchors, none in edited files; no new failures). PR checks (Validate changed docs, Full docs audit, GitBook) all passed before merge.
+
+### Files changed
+- `functions/aggregation/arrayagg.md` — signatures + examples for inferred-type and inline-`DISTINCT` forms.
+- `functions/array/array_agg.md` — signatures + example for inferred-type and `DISTINCT`-keyword forms.
+
+### Durable state
+- Checkpoint ADVANCED `2026-10-29T00:59:45Z` → `2026-10-29T01:36:32Z` (#19988 merged-at).
+- `last_successful_run` → `2026-10-29T02:05:00Z`; `last_run_id` → `run-20261029T020113Z-945`.
+- #19988 recorded as docs_created (docs#1156, comment issuecomment-6485861071) in the processed-PR ledger (CAS commit `407f4301`).
+- Lease released at end of run.
+
+### Blockers
+None.
