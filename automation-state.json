@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-29T03:27:01Z",
-  "last_successful_run": "2026-10-29T10:02:18Z",
+  "last_processed_merged_at": "2026-10-29T10:09:33Z",
+  "last_successful_run": "2026-10-29T11:02:29Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -117,9 +117,15 @@
       "reason": "Test-coverage-only change. Verified from the merged diff: exactly one file changed, pinot-core/src/test/java/.../AnyValueAggregationFunctionTest.java (+31/-8); no production source, config, API, function, query option, or default. Extends the existing testGroupByReadsValuesOncePerBlock regression to all seven stored types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES), asserting one value-array read per block and the first value retained per group. The underlying once-per-block ANY_VALUE production fix was already shipped and documented via #19990 (docs PR #1150); this PR only adds test coverage for it. Not docs-relevant.",
       "merged_at": "2026-10-29T03:27:01Z",
       "upstream_url": "https://github.com/apache/pinot/pull/19905"
+    },
+    "19943": {
+      "decision": "not_relevant",
+      "reason": "Internal server-response/transport memory optimization (performance label). Sends single-stage (v1) DataTable responses to Netty and gRPC as paged buffers instead of copying them into one contiguous byte[] (avoids a G1 humongous allocation on large responses). Step 2 of 3 (follows #19906). Verified from merged diff: wire format is explicitly unchanged; 17 files = internal datatable/scheduler/transport main source (DataTable, DataTableImplV4, StreamingResponseUtils, QueryScheduler + scheduler subclasses, InstanceRequestHandler, PageCacheWarmupServerQueryExecutor) plus tests. No new config key, query option, default, function, public constant, or documented user-facing behavior; no doc/.md files touched. Not docs-relevant.",
+      "merged_at": "2026-10-29T10:09:33Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19943"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-29T10:02:18Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T03:27:01Z (#19905) yielded ZERO new PRs. Reconciled three independent ways: (1) search repo:apache/pinot is:pr is:merged merged:>=2026-10-29 = 4 items {#20079,#20078,#19988,#19905}, all with merged_at<=checkpoint and all already in ledger; (2) closed PRs base=master sort=updated desc across 4 pages (200 PRs) -> 0 with merged_at strictly > checkpoint; (3) apache/pinot master HEAD = 0de3f5e3 (#19905, committer date 2026-10-29T03:27:00Z) = checkpoint PR, and GET commits sha=master since=checkpoint returned nothing after it. Checkpoint UNCHANGED. No docs PRs, no upstream comments, no Slack (no-op). Lease held via create-only CAS lock and released at end.",
-  "last_run_id": "run-20261029T100114Z-937"
+  "last_run_result": "Triage run run-20261029T110117Z-865 (2026-10-29T11:02:29Z). Inventory of apache/pinot merged PRs strictly after prior checkpoint 2026-10-29T03:27:01Z (#19905) yielded exactly ONE new PR: #19943 (merged 2026-10-29T10:09:33Z). Reconciled three ways: (1) search merged:>=2026-10-29T03:27:01Z = {#19943,#19905}, #19905 == prior checkpoint; (2) pulls API state=closed base=master sort=updated desc -> exactly #19943 with merged_at>checkpoint; (3) apache master HEAD = 3f6fef49 (#19943) and GET commits sha=master since=checkpoint returned only #19943. Classified #19943 NOT docs-relevant (internal server-response/transport memory optimization, performance label, wire format unchanged, no config/API/query-option/default/doc change; verified from merged diff). No docs PRs created, no upstream comments, no Slack (no-op policy). Checkpoint advanced 2026-10-29T03:27:01Z -> 2026-10-29T10:09:33Z. Lease held via create-only CAS lock and released at end.",
+  "last_run_id": "run-20261029T110117Z-865"
 }
