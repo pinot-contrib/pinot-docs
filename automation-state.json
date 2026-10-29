@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T01:36:32Z",
-  "last_successful_run": "2026-10-29T02:05:00Z",
+  "last_successful_run": "2026-10-29T03:02:43Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -114,6 +114,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Triage run (2026-10-29T02:05:00Z). One new merged apache/pinot PR strictly after prior checkpoint 2026-10-29T00:59:45Z: #19988 (Support ARRAY_AGG without a data type), classified docs_created. Coverage cross-checked: (1) search merged:>CP = {#19988}; (2) search merged:>=CP = {#20079 (boundary, already processed), #19988}; (3) apache/master first-parent log after checkpoint commit c0319056(#20079) = exactly 6e0a0a1b(#19988). No gaps. Verified behavior from merged code (CalciteSqlParser DISTINCT handling, AggregateFunctionRewriteOptimizer and PinotAggregateTypeArgumentRewriteRule type inference). Docs PR #1156 merged 2026-10-29T02:04:23Z (validation PASS, no new broken anchors), upstream comment issuecomment-6485861071. Checkpoint advanced to 2026-10-29T01:36:32Z.",
-  "last_run_id": "run-20261029T020113Z-945"
+  "last_run_result": "No-op triage run (2026-10-29T03:02:43Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T01:36:32Z yielded ZERO new PRs. Coverage reconciled three ways: (1) search is:merged merged:>=2026-10-29 = {#20079,#20078,#19988} all already in ledger; (2) apache/master first-parent log since checkpoint = exactly 6e0a0a1b (#19988), which IS the checkpoint PR (merged_at 2026-10-29T01:36:32Z); (3) master HEAD == 6e0a0a1b (#19988), no commits after it. #19988 already processed as docs_created -> docs PR #1156. No new docs-relevant work. Checkpoint unchanged. No docs PRs created, no upstream comments, no Slack (no-op).",
+  "last_run_id": "run-20261029T030140Z-1116"
 }
