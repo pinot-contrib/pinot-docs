@@ -235,3 +235,40 @@
 
 ### Checkpoint
 - **Unchanged**: `2026-10-29T10:09:33Z`. `last_successful_run` → `2026-10-29T14:02:33Z`.
+
+---
+
+## Run 2026-10-29T15:02:30Z (run-20261029T150145Z-21726)
+
+**Result: NO-OP.** No new docs-relevant upstream PRs since the last run.
+
+### Coverage
+- Checkpoint (durable `automation-state.json`): `last_processed_merged_at = 2026-10-29T10:09:33Z` (apache/pinot #19943).
+- Merged apache/pinot PRs strictly after the checkpoint: **0**.
+- Reconciled four independent ways, all consistent:
+  1. `search repo:apache/pinot is:pr is:merged merged:>=2026-10-29T10:09:33Z` → only #19943 (== checkpoint, already in ledger).
+  2. apache/pinot `master` HEAD (GitHub API) = `3f6fef49` = #19943 (committer date 2026-10-29T10:09:32Z) — the checkpoint PR; nothing merged after it.
+  3. pulls API (`state=closed base=master sort=updated desc`) → 0 PRs with `merged_at` strictly > checkpoint.
+  4. `GET commits?sha=master&since=2026-10-29T10:09:34Z` → 0 commits.
+
+### Decisions
+- None (no new PRs to triage).
+
+### Created / merged docs PRs
+- None.
+
+### Upstream comments
+- None.
+
+### Validation
+- Not applicable (no docs changes produced).
+
+### Blockers / required user action
+- None. Preflight passed: gh auth `xiangfu0`; `apache/pinot`=WRITE (push=true), `pinot-contrib/pinot-docs`=ADMIN; durable state read/write OK; lease acquired (create-only CAS `.lock`) and released at end.
+- Benign `gh-tentrix-wrap` "no token minted / not in manifest" stderr warnings appear on each gh api call (apache/pinot and pinot-docs are outside the session's repo manifest); the fallback `GH_TOKEN` is authenticated (rate limit 15000) and all reads/PUTs succeed.
+
+### Notifications
+- No Slack (no-op policy).
+
+### Checkpoint
+- **Unchanged**: `2026-10-29T10:09:33Z`. `last_successful_run` → `2026-10-29T15:02:30Z`.
