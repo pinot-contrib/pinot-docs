@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T03:27:01Z",
-  "last_successful_run": "2026-10-29T05:02:35Z",
+  "last_successful_run": "2026-10-29T06:02:01Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -120,6 +120,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-29T05:02:35Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T03:27:01Z (#19905) yielded ZERO new PRs. Reconciled three ways: (1) search is:merged merged:>2026-10-29T03:27:01Z = 0; (2) apache/master first-parent log after checkpoint commit 0de3f5e3 (#19905) = 0 new commits; (3) master HEAD == 0de3f5e3 (#19905), nothing merged after it. Checkpoint UNCHANGED. No docs PRs, no upstream comments, no Slack (no-op). Write access to pinot-contrib/pinot-docs verified via lease round-trip.",
-  "last_run_id": "run-20261029T050136Z-1012"
+  "last_run_result": "No-op triage run (2026-10-29T06:02:01Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T03:27:01Z (#19905) yielded ZERO new PRs. Reconciled three ways: (1) search is:merged merged:>2026-10-29T03:27:01Z = 0; (2) apache/master first-parent HEAD == 0de3f5e3f (#19905), nothing merged after the checkpoint commit; (3) latest merged_at across recent closed PRs == 2026-10-29T03:27:01Z (#19905). Checkpoint UNCHANGED. No docs PRs, no upstream comments, no Slack (no-op). Write access to pinot-contrib/pinot-docs verified via lease round-trip.",
+  "last_run_id": "run-20261029T060134Z-1050"
 }
