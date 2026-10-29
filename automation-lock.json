@@ -1,0 +1,7 @@
+{
+  "holder": "run-20261029T190129Z-17076",
+  "acquired_at": "2026-10-29T19:01:29Z",
+  "expires_at": "2026-10-29T19:56:29Z",
+  "runner": "IntentLab remote (opus-4-8)",
+  "note": "Lease lock to serialize pinot-docs automation runs. CAS-created."
+}
