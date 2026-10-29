@@ -1,0 +1,7 @@
+{
+  "run_id": "run-20261029T220120Z-1066",
+  "acquired_at": "2026-10-29T22:01:27Z",
+  "expires_at": "2026-10-29T22:31:28Z",
+  "host": "intentlab-remote-runner",
+  "note": "Lease lock to serialize pinot-docs automation runs. Create-only CAS."
+}
