@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-29T01:36:32Z",
-  "last_successful_run": "2026-10-29T03:02:43Z",
+  "last_processed_merged_at": "2026-10-29T03:27:01Z",
+  "last_successful_run": "2026-10-29T04:02:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -111,9 +111,15 @@
       "merged_at": "2026-10-29T01:36:32Z",
       "upstream_url": "https://github.com/apache/pinot/pull/19988",
       "summary": "Support ARRAY_AGG/ARRAYAGG without an explicit data type in both engines. Added ARRAY_AGG(expr), ARRAY_AGG(expr, isDistinct), and ARRAY_AGG(DISTINCT expr) forms; data type inferred from the column (element type for MV; JSON->STRING), unsupported inferred/supplied types fail in the broker. Explicit-type form preserved. Documented new signatures and examples in functions/aggregation/arrayagg.md and functions/array/array_agg.md."
+    },
+    "19905": {
+      "decision": "not_relevant",
+      "reason": "Test-coverage-only change. Verified from the merged diff: exactly one file changed, pinot-core/src/test/java/.../AnyValueAggregationFunctionTest.java (+31/-8); no production source, config, API, function, query option, or default. Extends the existing testGroupByReadsValuesOncePerBlock regression to all seven stored types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES), asserting one value-array read per block and the first value retained per group. The underlying once-per-block ANY_VALUE production fix was already shipped and documented via #19990 (docs PR #1150); this PR only adds test coverage for it. Not docs-relevant.",
+      "merged_at": "2026-10-29T03:27:01Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19905"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op triage run (2026-10-29T03:02:43Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T01:36:32Z yielded ZERO new PRs. Coverage reconciled three ways: (1) search is:merged merged:>=2026-10-29 = {#20079,#20078,#19988} all already in ledger; (2) apache/master first-parent log since checkpoint = exactly 6e0a0a1b (#19988), which IS the checkpoint PR (merged_at 2026-10-29T01:36:32Z); (3) master HEAD == 6e0a0a1b (#19988), no commits after it. #19988 already processed as docs_created -> docs PR #1156. No new docs-relevant work. Checkpoint unchanged. No docs PRs created, no upstream comments, no Slack (no-op).",
-  "last_run_id": "run-20261029T030140Z-1116"
+  "last_run_result": "No-op triage run (2026-10-29T04:02:00Z). Inventory of apache/pinot merged PRs strictly after checkpoint 2026-10-29T01:36:32Z yielded exactly ONE new PR: #19905, classified not_relevant (test-coverage only; single test file AnyValueAggregationFunctionTest.java, underlying fix already documented via #19990/docs#1150). Coverage reconciled three ways: (1) search is:merged merged:>=2026-10-29T01:36:32Z = {#19988 (checkpoint, processed), #19905}; (2) apache/master first-parent log after checkpoint commit 6e0a0a1b (#19988) = exactly 0de3f5e3 (#19905); (3) master HEAD == 0de3f5e3 (#19905), no commits after it. Checkpoint ADVANCED to 2026-10-29T03:27:01Z (#19905 merged-at). No docs PRs created, no upstream comments, no Slack (no-op).",
+  "last_run_id": "run-20261029T040108Z-802"
 }
