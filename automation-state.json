@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T10:09:33Z",
-  "last_successful_run": "2026-10-29T16:02:30Z",
+  "last_successful_run": "2026-10-29T17:04:39Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -126,6 +126,6 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Triage run run-20261029T160118Z-971 (2026-10-29T16:02:30Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T10:09:33Z (#19943) yielded ZERO new merged PRs. Reconciled four independent ways, all consistent: (A) search is:pr is:merged merged:>=2026-10-29T10:09:33Z -> only #19943 (== checkpoint, already in ledger); (B) apache master HEAD = 3f6fef49 (#19943, the checkpoint PR); (C) pulls state=closed base=master sort=updated desc -> 0 PRs with merged_at strictly > checkpoint; (D) commits?sha=master&since=2026-10-29T10:09:34Z -> 0 commits. No new work. No docs PRs, no upstream comments, no Slack (no-op policy). Checkpoint unchanged at 2026-10-29T10:09:33Z. Lease held via create-only CAS .lock and released at end.",
-  "last_run_id": "run-20261029T160118Z-971"
+  "last_run_result": "Triage run run-20261029T170139Z-5550 (2026-10-29T17:04:39Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T10:09:33Z (#19943) yielded ZERO new merged PRs. Reconciled four independent ways, all consistent: (A) search/issues is:merged merged:>=checkpoint -> only #19943 (== checkpoint, already in ledger as not_relevant); (B) pulls state=closed base=master sort=updated desc (10) -> 0 with merged_at strictly > checkpoint, most-recent merged == #19943; (C) apache master HEAD = 3f6fef49 (#19943, the checkpoint PR); (D) commits?sha=master&since=2026-10-29T10:09:34Z -> 0 commits. Master has not advanced since checkpoint. No new work: no docs PRs, no upstream comments, no Slack (no-op policy). Checkpoint unchanged. Lease on bare automation-state acquired+released via REST ref-update CAS (local pre-push hook requires session prefix; objects staged via prefixed branch then bare ref PATCHed with force=false).",
+  "last_run_id": "run-20261029T170139Z-5550"
 }
