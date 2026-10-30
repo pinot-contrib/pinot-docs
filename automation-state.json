@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-30T19:59:40Z",
-  "last_successful_run": "2026-10-30T22:02:01Z",
+  "last_processed_merged_at": "2026-10-30T22:13:55Z",
+  "last_successful_run": "2026-10-30T23:05:43Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -250,14 +250,29 @@
       "upstream_comment": null,
       "processed_by_run": "run-20261030T200056Z-840",
       "processed_at": "2026-10-30T20:01:58Z"
+    },
+    "20097": {
+      "upstream_pr": 20097,
+      "upstream_url": "https://github.com/apache/pinot/pull/20097",
+      "title": "Avoid repeated force commits during rebalance",
+      "author": "Jackie-Jiang",
+      "decision": "not_relevant",
+      "reason": "Internal controller rebalance correctness/performance fix (labels: bug, ingestion, performance, real-time, segment-rebalance; fixes #20095). Verified from merged commit 3117dbb262 (3 files, +383/-30): only 1 main source file TableRebalancer.java (+12/-3); the rest is 1 new unit test (TableRebalancerForceCommitTest, +352) and 1 integration-test adjustment (BaseClusterIntegrationTestSet, +19/-27). The fix tracks already force-committed partition group IDs in an IntOpenHashSet for the whole rebalance so each partition's consuming segments are force-committed at most once; successors created by an earlier force commit are no longer re-committed on IdealState version-race retries or later movement steps (removes the old 'shouldForceCommit = false' one-shot-per-outer-iteration flag in favor of per-partition dedup). No new config key, default, query option, SQL function, public API signature, table-config field, or wire/serialization format. The existing rebalance 'forceCommit' option (documented in operate-pinot/rebalance/rebalance-servers/README.md: 'Whether to force commit consuming segments for a REALTIME table before they are rebalanced', default false) keeps the same meaning and default; the summary fields (isForceCommittingConsumingSegments, totalSegmentsForceCommitted) are unchanged. The PR notes an internal trade-off (fewer forced rollovers vs. potentially more stream replay in later steps), but that is a refinement of a double-commit bug, not a documented contract, so no docs page becomes stale and nothing new needs documenting. Not docs-relevant.",
+      "upstream_merged_at": "2026-10-30T22:13:55Z",
+      "merged_at": "2026-10-30T22:13:55Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261030T230102Z-899",
+      "processed_at": "2026-10-30T23:05:43Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run. Inventory via GitHub search API + authoritative pulls API (apache/pinot) found ZERO PRs merged strictly after checkpoint 2026-10-30T19:59:40Z. Reconciled against apache/pinot master tip 1b552624f = #20104 (committed 2026-10-30T19:59:39Z), already processed (not_relevant). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack.",
-  "last_run_id": "run-20261030T220109Z-946",
+  "last_run_result": "No-op (no docs changes). Inventory via authoritative apache/pinot pulls API + GitHub search API agreed: exactly ONE PR merged strictly after prior checkpoint 2026-10-30T19:59:40Z -> #20097 (merged 2026-10-30T22:13:55Z). Reconciled against apache/master commit log: the only new commit is 3117dbb (#20097), which is the master tip, so coverage is complete. Classified #20097 not_relevant (internal rebalance force-commit dedup fix; no config/default/API/doc-surface change). Checkpoint advanced to 2026-10-30T22:13:55Z. No docs PRs created, no upstream comments, no Slack.",
+  "last_run_id": "run-20261030T230102Z-899",
   "lock": {
     "holder": "run-20261030T230102Z-899",
     "acquired_at": "2026-10-30T23:01:02Z",
-    "status": "held"
+    "released_at": "2026-10-30T23:05:43Z",
+    "status": "released"
   }
 }
