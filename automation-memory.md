@@ -3,12 +3,13 @@
 Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ## Checkpoint (current)
-- `last_processed_merged_at` = `2026-10-29T18:37:12Z` (advanced past #20064, triaged not_relevant)
-- `last_successful_run` = `2026-10-29T19:03:31Z`
-- `last_run_id` = `run-20261029T190129Z-17076`
+- `last_processed_merged_at` = `2026-10-30T12:42:15Z` (advanced past #20102 and #20103, both dependabot pom bumps triaged not_relevant)
+- `last_successful_run` = `2026-10-30T13:02:33Z`
+- `last_run_id` = `run-20261030T130126Z-953`
 - Most recent completed docs pair (unchanged): apache/pinot#19988 -> pinot-docs#1156
   (merged 2026-10-29T02:04:23Z), upstream comment
   https://github.com/apache/pinot/pull/19988#issuecomment-6485861071
+
 
 
 ## Durable state mechanism
@@ -332,7 +333,6 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   (search/issues merged:>checkpoint=0; pulls API sort=updated desc most-recent merged=#19990
   @ exactly checkpoint; commits-since master returns only boundary `b58776bca`=#19990).
   Recent PRs #19990/#19991/#20015/#19862 all in ledger. Coverage complete.
-- Note: ambient wrapper prints "no GitHub token minted ... continuing unauthenticated" for
   apache/pinot and pinot-contrib/pinot-docs, but API permission payloads and the successful
   lease write confirm the token is in fact authenticated for read+write on both.
 - Durable writes via git-data/contents API with CAS (bare-branch `git push` blocked by
@@ -1392,3 +1392,11 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ### Checkpoint
 - **Unchanged**: `2026-10-30T08:32:34Z`. `last_successful_run` → `2026-10-30T10:01:09Z`; `last_run_id` → `run-20261030T100109Z-1048`.
+
+### 2026-10-30T13:02:33Z (run-20261030T130126Z-953)
+- Inventory: 2 merged PRs after checkpoint 2026-10-30T08:32:34Z (#20101) = #20103 (awssdk:bom
+  2.57.3->2.57.4) and #20102 (RoaringBitmap 1.6.25->1.6.27). Both dependabot[bot], single root
+  pom.xml +1/-1, labels dependencies/java. Verified from merged diffs → both not_relevant.
+- No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to
+  2026-10-30T12:42:15Z (#20102). Durable state via CAS on automation-state branch; lock
+  acquired/released cleanly.
