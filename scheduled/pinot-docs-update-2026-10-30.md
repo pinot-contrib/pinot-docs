@@ -1,5 +1,43 @@
 # Pinot Docs Update — 2026-10-30 (UTC)
 
+## Run 2026-10-30T15:05:00Z (run run-20261030T150118Z-16649) — DOCS CREATED (#19838 → docs PR #1157)
+
+### Coverage
+- Durable checkpoint at start (`automation-state.json`): `last_processed_merged_at = 2026-10-30T12:42:15Z` (apache/pinot #20102).
+- Merged apache/pinot `master` PRs strictly after checkpoint: **1** — #19838 (merged `2026-10-30T15:01:04Z`). Reconciled two independent ways, consistent:
+  1. `GET commits?sha=master&since=2026-10-30T12:42:16Z` → exactly 1 new commit: `e12b8435c` (#19838); master tip now `e12b8435c` @ `2026-10-30T15:01:03Z`.
+  2. `GET pulls state=closed base=master sort=updated desc` → only #19838 (`15:01:04Z`) is newer than the checkpoint; #20102/#20103 already in the ledger.
+- Re-checked at persist time: still no PR merged after #19838. No gaps.
+
+### Decisions
+- **#19838 — "Add per-table SHADOW enforcement mode for storage and query quotas"** (Tarun-kishore; labels release-notes, configuration, ingestion, query, feature) → **docs_created.** User-facing table quota config. Verified from the merged code (not PR prose):
+  - New enum `QuotaEnforcementMode { DISABLED, SHADOW, ENFORCED }` and two optional `QuotaConfig` JSON fields: `storageQuotaEnforcementMode`, `queryQuotaEnforcementMode`. `null` == `ENFORCED` (default); fields omitted from the serialized form when null (back-compat preserved).
+  - `SHADOW`: breach detected + metric + warning log, but action not taken — query not rejected (broker `QUERY_QUOTA_EXCEEDED`), offline push not blocked / realtime consumption not paused (new controller meter `STORAGE_QUOTA_EXCEEDED`).
+  - `DISABLED`: not metered / not enforced. Storage effective mode is forced to `DISABLED` when the controller-wide storage quota check (`_isEnabled`) is off.
+  - Hybrid table referenced without a type suffix: strictest configured mode among existing OFFLINE/REALTIME tables wins (`QuotaEnforcementMode.isStricterThan`).
+  - Version: master is `1.7.0-SNAPSHOT` (bump #19919) → documented as "Added in 1.7.0".
+- Duplicate check: no prior docs PR for #19838 and no upstream docs-link comment before this run.
+
+### Docs PR / upstream comment / validation
+- Docs PR: **pinot-contrib/pinot-docs#1157** — "docs: document per-table quota enforcement modes (apache/pinot#19838)". Squash-merged into `latest` @ `2026-10-30T15:04:37Z` (merge commit `02309fee`), verified `merged=true`.
+  - `reference/configuration-reference/table.md` — two new rows in the **Quota** config table.
+  - `build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md` — new *Enforcement mode* subsection (table of modes + hybrid/storage note) under Table quotas.
+- Upstream comment: https://github.com/apache/pinot/pull/19838#issuecomment-6525983348
+- Validation: `git diff --check` clean; `uv run --with pyyaml python scripts/validate-docs.py` → **RESULT: PASS** (638 files, 3559 links; 10 pre-existing broken-anchor warnings, all in unrelated files, none involving the two edited pages or the `#quota` anchor they link to).
+
+### Blockers / required user action
+- None. Preflight passed (read-only): gh auth `xiangfu0`; `apache/pinot`=WRITE (comment upstream), `pinot-contrib/pinot-docs`=ADMIN; durable read/write OK (CAS on `automation-state.json`). Lock acquired via CAS at run start, holder re-verified before finalize, released in this run's atomic state write.
+- Note: docs repo cloned fresh at `/workspace/pinot-docs` (`gh auth setup-git` for push); branch auto-renamed to `cs_gyFBpoNcgY/docs/quota-enforcement-mode-19838` by the session push hook (benign). Local `/workspace/pinot` origin is the fork `xiangfu0/pinot` (stale); inventory driven directly by the apache/pinot API.
+
+### Notifications
+- **Slack summary sent** (new docs PR created): #19838 → docs #1157 (merged), upstream comment posted.
+
+### Checkpoint
+- **Advanced**: `2026-10-30T12:42:15Z` → `2026-10-30T15:01:04Z` (#19838, fully processed). `last_successful_run` → this run; `last_run_id` → `run-20261030T150118Z-16649`.
+
+---
+
+
 ## Run 2026-10-30T14:02:53Z (run run-20261030T140115Z-932) — NO-OP
 
 ### Coverage
