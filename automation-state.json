@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-30T08:32:34Z",
-  "last_successful_run": "2026-10-30T10:02:26Z",
+  "last_successful_run": "2026-10-30T11:02:42Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -197,12 +197,12 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run run-20261030T100109Z-1048 (2026-10-30T10:02:26Z). Inventory of apache/pinot master merged PRs strictly after checkpoint 2026-10-30T08:32:34Z (#20101). Reconciled three ways, all consistent: (A) gh search prs merged:>=2026-10-30 -> most-recent merged #20101 and #20057 (both already in ledger); (B) commits?sha=master&since=2026-10-30T08:32:35Z -> 0 new commits; (C) pulls state=closed base=master sort=updated -> top merged-at is #20101 @2026-10-30T08:32:34Z, and all 12 most-recent merged PRs (#20101,#20057,#20074,#20096,#20048,#20064,#20086,#20087,#19943,#20002,#19905,#20078) already present in processed_prs ledger. apache/pinot master tip = 481d4768b7 (#20101) committed 2026-10-30T08:32:33Z = checkpoint. No new docs-relevant PRs. No docs PR, no upstream comment, no Slack (no new docs PRs). Checkpoint unchanged. Access: gh auth xiangfu0; apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN; durable automation-state read+written via CAS. Note: pre-cloned /workspace/pinot origin points to fork xiangfu0/pinot (stale at 910f9d5); reconciliation done against apache/pinot via gh api, not the local fork remote.",
+  "last_run_result": "No-op run run-20261030T110102Z-847 (2026-10-30T11:02:42Z). Inventory of apache/pinot master merged PRs strictly after checkpoint 2026-10-30T08:32:34Z (#20101). Reconciled three ways, all consistent and empty: (A) commits?sha=master&since=2026-10-30T08:32:35Z -> 0 new commits; (B) pulls state=closed base=master sort=updated desc -> top merged-at #20101 @2026-10-30T08:32:34Z (=checkpoint), all 14 most-recent merged PRs already in ledger; (C) gh search prs --merged-at >=2026-10-30 -> only #20101 and #20057, both in ledger. apache/pinot master tip = 481d4768b7 (#20101) committed 2026-10-30T08:32:33Z = checkpoint. No new docs-relevant PRs. No docs PR, no upstream comment, no Slack. Checkpoint unchanged. Access: gh auth xiangfu0; apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN; durable state read+written via CAS. Note: local /workspace/pinot origin points to fork xiangfu0/pinot (stale at 910f9d5); reconciliation done via gh api against apache/pinot.",
   "last_run_id": "run-20261030T110102Z-847",
   "lock": {
     "holder": "run-20261030T110102Z-847",
     "acquired_at": "2026-10-30T11:01:24Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-30T11:02:42Z",
+    "status": "released"
   }
 }
