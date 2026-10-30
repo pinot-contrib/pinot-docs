@@ -1453,3 +1453,22 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No duplicate: zero upstream automation comments, zero docs PRs referencing #20104.
 - Nothing docs-relevant. No docs PR, no upstream comment, no Slack. Checkpoint advanced to 2026-10-30T19:59:40Z.
 - Durable state CAS-updated on automation-state branch; lease acquired/released cleanly.
+
+### 2026-10-30T23:05:43Z (run-20261030T230102Z-899) — 1 PR TRIAGED, NOT RELEVANT
+- Inventory: exactly 1 merged PR strictly after checkpoint 2026-10-30T19:59:40Z. Authoritative apache/pinot
+  pulls API (state=closed, base=master, full pagination, filter merged_at > checkpoint) and GitHub search API
+  (is:merged merged:>2026-10-30T19:59:40Z) both returned only #20097. Reconciled against apache/master commit
+  log since the checkpoint: the only new commit is 3117dbb (#20097), which is the master tip → coverage complete.
+- #20097 "Avoid repeated force commits during rebalance" (author Jackie-Jiang, labels bug/ingestion/performance/
+  real-time/segment-rebalance; fixes #20095) → **not_relevant**. Merged commit 3117dbb262, 3 files +383/-30:
+  only 1 main src TableRebalancer.java (+12/-3), plus 1 new unit test (+352) and 1 integration-test tweak (+19/-27).
+  Tracks already force-committed partition group IDs in an IntOpenHashSet so each partition's consuming segments
+  are force-committed at most once per rebalance (no re-commit of force-commit successors on IdealState version-race
+  retries or later movement steps; replaces the old one-shot shouldForceCommit flag with per-partition dedup).
+  No new config key, default, query option, SQL function, public API, table-config field, or wire/serialization
+  change. Existing rebalance 'forceCommit' option (rebalance-servers/README.md, default false) keeps same meaning;
+  summary fields isForceCommittingConsumingSegments / totalSegmentsForceCommitted unchanged. Internal trade-off
+  note (fewer forced rollovers vs more replay) is a bug-fix refinement, not a documented contract → no doc stale.
+- Duplicate check: zero upstream automation comments on #20097; zero docs PRs referencing it.
+- Nothing docs-relevant. No docs PR, no upstream comment, no Slack. Checkpoint advanced to 2026-10-30T22:13:55Z.
+- Durable state CAS-updated on automation-state branch; lease acquired/released cleanly.
