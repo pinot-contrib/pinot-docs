@@ -1400,3 +1400,20 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to
   2026-10-30T12:42:15Z (#20102). Durable state via CAS on automation-state branch; lock
   acquired/released cleanly.
+
+### 2026-10-30T15:05:00Z (run-20261030T150118Z-16649) — DOCS CREATED
+- Inventory: 1 merged PR after checkpoint 2026-10-30T12:42:15Z (#20102) = **#19838** "Add per-table
+  SHADOW enforcement mode for storage and query quotas" (Tarun-kishore; merged 2026-10-30T15:01:04Z;
+  labels release-notes/configuration/ingestion/query/feature). Reconciled commits-since + pulls API,
+  consistent; master tip e12b8435c.
+- **docs_relevant.** Verified from merged code: new enum QuotaEnforcementMode {DISABLED,SHADOW,ENFORCED}
+  + two optional QuotaConfig fields storageQuotaEnforcementMode / queryQuotaEnforcementMode (null==ENFORCED
+  default, omitted-when-null for back-compat). SHADOW = meter+log breach but don't act (query not rejected;
+  offline push not blocked / realtime not paused; new controller meter STORAGE_QUOTA_EXCEEDED). DISABLED =
+  not metered/enforced. Storage mode forced DISABLED if controller-wide storage check off. Hybrid w/o type
+  suffix → strictest configured mode wins. Added in 1.7.0 (master=1.7.0-SNAPSHOT).
+- Docs PR #1157 (2 files: reference/configuration-reference/table.md#quota two rows;
+  build-with-pinot/.../query-quotas.md new "Enforcement mode" subsection). Checks passed (Validate changed
+  docs + Full docs audit + GitBook). Squash-merged @2026-10-30T15:04:37Z (02309fee), verified merged.
+  Upstream comment issuecomment-6525983348. validate-docs.py PASS (10 pre-existing broken anchors unrelated).
+- Slack summary sent (new docs PR). Checkpoint advanced to 2026-10-30T15:01:04Z.
