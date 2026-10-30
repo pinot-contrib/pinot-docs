@@ -108,6 +108,29 @@ The table level query quota is configured in table config itself.
 
 `maxQueriesPerSecond` must be a positive, finite number. Pinot rejects zero, negative values, `NaN`, and positive or negative infinity. To leave the table query quota unlimited, omit `maxQueriesPerSecond` from the quota configuration.
 
+#### Enforcement mode
+
+Starting in 1.7.0, you can choose how a quota breach is handled per table with `queryQuotaEnforcementMode` (and, for the storage quota, `storageQuotaEnforcementMode`) inside the `quota` config:
+
+```json
+{
+  "tableName": "pinotTable",
+  "tableType": "OFFLINE",
+  "quota": {
+    "maxQueriesPerSecond": 300,
+    "queryQuotaEnforcementMode": "SHADOW"
+  }
+}
+```
+
+| Mode | Behavior on a breach |
+| ---- | -------------------- |
+| `ENFORCED` | Default (also used when the property is omitted). The over-quota query is rejected with a `429`. |
+| `SHADOW` | The breach is still detected: the `QUERY_QUOTA_EXCEEDED` broker metric and a warning log are recorded, but the query is allowed to run. Use this to measure the impact of a quota before turning it on. |
+| `DISABLED` | The quota is neither metered nor enforced. |
+
+For a hybrid table referenced without a type suffix, the strictest mode configured among the existing OFFLINE and REALTIME tables applies. The `storageQuotaEnforcementMode` field behaves the same way for the `storage` quota (in `SHADOW` mode, offline pushes are not rejected and real-time consumption is not paused, but the `STORAGE_QUOTA_EXCEEDED` controller metric is recorded); see the [table quota reference](../../../reference/configuration-reference/table.md#quota) for details.
+
 ### How it is imposed
 
 There are few factors that affect the way the query quota is imposed on the incoming queries on the table.
