@@ -1,5 +1,35 @@
 # Pinot Docs Update — 2026-10-30 (UTC)
 
+## Run 2026-10-30T13:02:33Z (run run-20261030T130126Z-953) — NO DOCS (2 dependency bumps triaged, not docs-relevant)
+
+### Coverage
+- Durable checkpoint at start (`automation-state.json`): `last_processed_merged_at = 2026-10-30T08:32:34Z` (apache/pinot #20101).
+- Merged apache/pinot `master` PRs strictly after checkpoint: **2** — #20103 and #20102. Reconciled two independent ways, consistent:
+  1. `GET commits?sha=master&since=2026-10-30T08:32:35Z` → exactly 2 new commits: `f526b645ce` (#20103), `863356920f` (#20102); master tip `863356920f` @ `2026-10-30T12:42:14Z`.
+  2. `GET pulls state=closed base=master sort=updated desc` → only #20102 (merged `2026-10-30T12:42:15Z`) and #20103 (merged `2026-10-30T12:41:44Z`) newer than checkpoint; all older merged PRs already in the processed ledger.
+- No gaps between checkpoint and current upstream HEAD.
+
+### Decisions
+- **#20103 — "Bump software.amazon.awssdk:bom from 2.57.3 to 2.57.4"** → **not_relevant.** Verified from merged diff (merge commit `f526b645ce`): `dependabot[bot]`, single file root `pom.xml` (+1/-1), labels `dependencies`/`java`. AWS SDK BOM patch bump; no config key, default, query option, function, public API, or documented user-facing behavior change.
+- **#20102 — "Bump org.roaringbitmap:RoaringBitmap from 1.6.25 to 1.6.27"** → **not_relevant.** Verified from merged diff (merge commit `863356920f`): `dependabot[bot]`, single file root `pom.xml` (+1/-1), labels `dependencies`/`java`. RoaringBitmap patch bump (internal bitmap library); no config key, default, query option, function, public API, or documented user-facing behavior change.
+- Consistent with prior Dependabot pom-bump decisions (#20087, #20086, #20048).
+
+### Docs PRs / upstream comments / validation
+- None created. No validation run needed (no docs changes). Not applicable.
+
+### Blockers / required user action
+- None. Preflight passed (read-only): gh auth `xiangfu0`; `apache/pinot`=push+triage (can comment upstream), `pinot-contrib/pinot-docs`=ADMIN; durable read/write OK (CAS on `automation-state.json`). Lock acquired via CAS at run start (holder re-verified before finalize), released in this run's atomic state write.
+- Note: local `/workspace/pinot` `origin` points to the fork `xiangfu0/pinot` (stale); inventory is driven directly by the apache/pinot API. Benign `gh-tentrix-wrap` stderr warnings on each `gh api` call; fallback `GH_TOKEN` is authenticated and all reads/writes succeed.
+
+### Notifications
+- No Slack (no-op policy — no new docs PRs created).
+
+### Checkpoint
+- **Advanced**: `2026-10-30T08:32:34Z` → `2026-10-30T12:42:15Z` (#20102, newest fully-processed PR). `last_successful_run` → `2026-10-30T13:02:33Z`; `last_run_id` → `run-20261030T130126Z-953`.
+
+---
+
+
 
 ## Run 2026-10-30T12:02:56Z (run run-20261030T120108Z-848) — NO-OP
 
