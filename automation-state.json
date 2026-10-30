@@ -172,9 +172,9 @@
   "last_run_result": "No-op run run-20261030T040104Z-815 (2026-10-30T04:01:30Z). Inventory of apache/pinot master merged PRs strictly after durable checkpoint 2026-10-29T22:11:48Z (#20096) reconciled three independent ways, all consistent and empty: (A) search 'repo:apache/pinot is:pr is:merged base:master merged:>=2026-10-29' -> 11 PRs (#20096,#20087,#20086,#20079,#20078,#20074,#20064,#20048,#19988,#19943,#19905); newest #20096 @22:11:48Z equals checkpoint, every one already in processed ledger. (B) commits?sha=master&since=2026-10-29T22:11:49Z -> 0. (C) pulls state=closed base=master sort=updated desc per_page=50 -> 0 merged strictly after checkpoint. No new docs-relevant PRs; no docs PR, no upstream comment, no Slack (no-op policy). Checkpoint unchanged. Pinot checkout verified clean and in sync with origin/master (910f9d5).",
   "last_run_id": "run-20261030T040104Z-815",
   "lock": {
-    "holder": "run-20261030T040104Z-815",
-    "acquired_at": "2026-10-30T04:01:04Z",
-    "released_at": "2026-10-30T04:01:30Z",
-    "status": "released"
+    "holder": "run-20261030T050126Z-946",
+    "acquired_at": "2026-10-30T05:01:34Z",
+    "released_at": null,
+    "status": "active"
   }
 }
