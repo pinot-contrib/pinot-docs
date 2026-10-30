@@ -2,7 +2,7 @@
  "schema_version": 1,
  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
  "last_processed_merged_at": "2026-10-30T15:01:04Z",
- "last_successful_run": "2026-10-30T16:01:07Z",
+ "last_successful_run": "2026-10-30T17:02:30Z",
  "bootstrapped_from_migrated_checkpoint": true,
  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
  "most_recent_completed_pair": {
@@ -239,12 +239,12 @@
   }
  },
  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "No-op run. Inventoried apache/pinot merged PRs after checkpoint 2026-10-30T15:01:04Z with full pagination (search API) and reconciled against the 10 most recent apache/pinot master merge commits (API-authoritative; local checkout origin is the xiangfu0 fork and is stale, not used for inventory). Master tip is #19838 (merged 2026-10-30T15:01:03/04Z) = the existing checkpoint, already docs_created (docs PR #1157 merged). All preceding merged PRs (#20102,#20103,#20101,#20057,#20096,#20074,#20048,#20064,#20086,...) already in ledger. Zero new docs-relevant work. Checkpoint unchanged. No docs PR, no upstream comment, no Slack (no-op).",
- "last_run_id": "run-20261030T160107Z-920",
+ "last_run_result": "No-op run (2026-10-30T17:02:30Z). Inventoried apache/pinot merged PRs strictly after checkpoint 2026-10-30T15:01:04Z via GitHub search API (full pagination) and reconciled against the 20 most recent apache/pinot master commits (API-authoritative; local checkout is stale xiangfu0 fork, not used). Zero merged PRs strictly after checkpoint. Master tip #19838 (merged 2026-10-30T15:01:04Z) == checkpoint, already docs_created (docs PR #1157 merged, upstream comment posted). All preceding merges (#20102,#20103,#20101,#20057,#20096,#20074,...) already in ledger. Checkpoint unchanged. No docs PR, no upstream comment, no Slack.",
+ "last_run_id": "run-20261030T170119Z-1005",
  "lock": {
   "holder": "run-20261030T170119Z-1005",
   "acquired_at": "2026-10-30T17:01:29Z",
-  "released_at": null,
-  "status": "held"
+  "released_at": "2026-10-30T17:02:30Z",
+  "status": "released"
  }
 }
