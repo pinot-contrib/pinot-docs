@@ -576,3 +576,44 @@
 ### Checkpoint
 - **Advanced**: `2026-10-30T15:01:04Z` → `2026-10-30T19:59:40Z` (#20104 merged-at). `last_successful_run` →
   `2026-10-30T20:02:30Z`; `last_run_id` → `run-20261030T200056Z-840`. Lock acquired/released cleanly in the same CAS commit.
+
+---
+
+## Run 2026-10-30T23:05:43Z (run-20261030T230102Z-899)
+
+### Coverage
+- Prior checkpoint: `last_processed_merged_at = 2026-10-30T19:59:40Z`.
+- Authoritative apache/pinot pulls API (state=closed, base=master, full pagination) filtered to
+  `merged_at > checkpoint`: **1** PR → #20097. GitHub search API (`is:merged merged:>2026-10-30T19:59:40Z`)
+  agreed (total_count 1, #20097). Reconciled against the apache/master commit log since the checkpoint:
+  the only new commit is `3117dbb` (#20097), which is the current master tip → full coverage, no squash-merge missed.
+
+### Decisions
+- **#20097** "Avoid repeated force commits during rebalance" (Jackie-Jiang; labels bug/ingestion/performance/
+  real-time/segment-rebalance; fixes #20095) → **not_relevant**.
+  - Merged commit `3117dbb262`, 3 files +383/-30: 1 main source `TableRebalancer.java` (+12/-3), 1 new unit test
+    `TableRebalancerForceCommitTest.java` (+352), 1 integration-test adjustment `BaseClusterIntegrationTestSet.java` (+19/-27).
+  - Internal rebalance correctness fix: tracks already force-committed partition group IDs in an `IntOpenHashSet`
+    for the whole rebalance so each partition's consuming segments are force-committed at most once; force-commit
+    successors are no longer re-committed on IdealState version-race retries or later movement steps (replaces the
+    old one-shot `shouldForceCommit` flag with per-partition dedup).
+  - No new config key, default, query option, SQL function, public API, table-config field, or wire/serialization
+    change. The existing rebalance `forceCommit` option (operate-pinot/rebalance/rebalance-servers/README.md,
+    default false — "Whether to force commit consuming segments for a REALTIME table before they are rebalanced")
+    keeps the same meaning and default; summary fields `isForceCommittingConsumingSegments` /
+    `totalSegmentsForceCommitted` are unchanged. The internal trade-off note (fewer forced rollovers vs more stream
+    replay in later steps) is a refinement of a double-commit bug, not a documented contract. No doc page becomes stale.
+  - Duplicate check: zero upstream automation comments on #20097; zero docs PRs referencing it.
+
+### Docs PRs / upstream comments / validation
+- None created. No validation run needed.
+
+### Blockers / required user action
+- None.
+
+### Notifications
+- No Slack (non-docs-relevant triage; no new docs PR).
+
+### Checkpoint
+- **Advanced**: `2026-10-30T19:59:40Z` → `2026-10-30T22:13:55Z` (#20097 merged-at). `last_successful_run` →
+  `2026-10-30T23:05:43Z`; `last_run_id` → `run-20261030T230102Z-899`. Lock acquired at run start and released in the final CAS update.
