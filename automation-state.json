@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-29T21:38:16Z",
-  "last_successful_run": "2026-10-29T22:01:20Z",
+  "last_processed_merged_at": "2026-10-29T22:11:48Z",
+  "last_successful_run": "2026-10-30T00:04:41Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -153,15 +153,27 @@
       "reason": "Internal multi-stage-engine / Java-SPI correctness fix (follow-up to #20063). Verified from merged commit e58b6fc2 (53 files, +491/-721): makes an AggregationFunction's final result the stored value of getFinalResultColumnType() (e.g. int[] for INT_ARRAY) so array functions (ARRAYAGG, SUMARRAYLONG/DOUBLE, HISTOGRAM, funnel functions) and raw sketch functions (DISTINCTCOUNTRAWHLL etc.) no longer throw ClassCastException / serialization errors when an MSE leaf returns final results. Removes the 'FinalResult extends Comparable' bound; extractFinalResult/mergeFinalResult erasure changes from Comparable to Object (internal Java interface for aggregation implementers, requires recompile of custom AggregationFunctions - not documented user behavior). Adds StoredValueComparator in pinot-spi; removes ArrayListUtils helpers and TypeUtils conversions. Compatibility section states the wire format and MSE plans do NOT change. No new SQL function, config key, query option, or default. The only user-observable change: FUNNELEVENTSFUNCTIONEVAL final results merged from several servers now carry ONE header (counts summed) instead of concatenated headers - this brings runtime output into conformance with the EXISTING docs page functions/aggregation/funneleventsfunctioneval.md, which already documents the single-header STRING[] format; the funnel README has no merge/header details. No docs page becomes stale and no new behavior needs documenting. Not docs-relevant.",
       "merged_at": "2026-10-29T21:38:16Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20074"
+    },
+    "20096": {
+      "upstream_pr": 20096,
+      "upstream_url": "https://github.com/apache/pinot/pull/20096",
+      "title": "Fix the shared test query server answering every query with an error",
+      "author": "yashmayya",
+      "upstream_merged_at": "2026-10-29T22:11:48Z",
+      "decision": "not_relevant",
+      "reason": "Test-only fix (src/test/java across 3 files; author states \"The change is in test code only\"). Repairs a broken shared test fixture (QueryServerTestUtils.newQueryServer) after #19943 switched InstanceRequestHandler to QueryScheduler.submitResponse(). No production code, no new/changed SQL function, config, query option, default, or wire/serialization format. No documented user behavior changes; fixes #20094.",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261030T000127Z-18501",
+      "processed_at": "2026-10-30T00:04:41Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run run-20261029T220120Z-1066 (2026-10-29T22:01:20Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T20:14:13Z (#20048) reconciled three independent ways, all consistent: (A) search is:pr is:merged merged:>=2026-10-29 filtered by precise merged_at -> only #20074 (21:38:16Z) strictly newer; (B) commits?sha=master since=2026-10-29T20:14:14Z -> exactly 1 commit e58b6fc2 (#20074); (C) pulls closed base=master sort=updated desc -> exactly 1 PR with merged_at>checkpoint (#20074). #20074 = 'Fix MSE leaf final results for array and raw sketch aggregations' (Jackie-Jiang, follow-up to #20063), classified not_relevant: internal MSE/Java-SPI correctness fix; wire format & MSE plans unchanged; no new SQL function/config/query-option/default; only user-visible change (FUNNELEVENTSFUNCTIONEVAL single-header multi-server merge) conforms to the existing funneleventsfunctioneval.md docs, so no docs page is stale. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to 2026-10-29T21:38:16Z.",
-  "last_run_id": "run-20261029T220120Z-1066",
+  "last_run_result": "No-op run run-20261030T000127Z-18501 (2026-10-30T00:04:41Z). Inventory of apache/pinot master merged PRs strictly after durable checkpoint 2026-10-29T21:38:16Z (#20074) reconciled three independent ways, all consistent: (A) search is:pr is:merged base:master merged:>=2026-10-29 filtered by precise merged_at -> only #20096 (22:11:48Z) strictly newer; (B) commits?sha=master&since=2026-10-29T21:38:17Z -> exactly 1 commit (#20096); (C) pulls state=closed base=master sort=updated desc -> exactly 1 PR with merged_at>checkpoint (#20096). #20096 = 'Fix the shared test query server answering every query with an error' (yashmayya, fixes #20094), classified not_relevant: change is in test code only (3 files under src/test/java, incl. shared fixture QueryServerTestUtils); repairs test wiring broken by #19943's switch to QueryScheduler.submitResponse(); no production code, no new/changed SQL function, config, query option, default, or wire/serialization format; no documented user behavior affected. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to 2026-10-29T22:11:48Z.",
+  "last_run_id": "run-20261030T000127Z-18501",
   "lock": {
     "holder": "run-20261030T000127Z-18501",
-    "acquired_at": "2026-10-30T00:03:24Z",
-    "expires_at": "2026-10-30T00:43:24Z",
-    "status": "held"
+    "released_at": "2026-10-30T00:04:41Z",
+    "status": "released"
   }
 }
