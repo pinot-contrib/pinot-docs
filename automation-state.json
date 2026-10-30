@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-30T12:42:15Z",
-  "last_successful_run": "2026-10-30T13:02:33Z",
+  "last_successful_run": "2026-10-30T14:02:16Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -223,12 +223,12 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No docs-relevant changes. Inventory of apache/pinot master merged PRs strictly after prior checkpoint 2026-10-30T08:32:34Z (#20101). Reconciled two ways, consistent: (A) commits?sha=master&since=2026-10-30T08:32:35Z -> 2 new commits 863356920f (#20102) and f526b645ce (#20103), master tip 863356920f @2026-10-30T12:42:14Z; (B) pulls state=closed base=master sort=updated desc -> only #20102 (@12:42:15Z) and #20103 (@12:41:44Z) newer than checkpoint. Both verified from merged diffs: dependabot[bot], single root pom.xml +1/-1 each, labels dependencies/java (#20102 RoaringBitmap 1.6.25->1.6.27, #20103 awssdk:bom 2.57.3->2.57.4). Both not docs-relevant; recorded in ledger. Checkpoint advanced to 2026-10-30T12:42:15Z (#20102). No docs PR, no upstream comment, no Slack. Access: gh auth xiangfu0; apache/pinot=push+triage(comment-capable), pinot-contrib/pinot-docs=admin; durable state read+written via CAS. Note: local /workspace/pinot origin points to fork xiangfu0/pinot (stale); reconciliation done via gh api against apache/pinot.",
+  "last_run_result": "No new merged PRs. Inventory of apache/pinot master merged PRs strictly after checkpoint 2026-10-30T12:42:15Z (#20102). Reconciled two ways, consistent: (A) commits?sha=master&since=2026-10-30T12:42:16Z -> 0 new commits; master tip still 863356920f (#20102) @2026-10-30T12:42:14Z. (B) pulls state=closed base=master sort=updated desc -> newest merged is #20102 @12:42:15Z (== checkpoint, already processed not_relevant) and #20103 @12:41:44Z (already processed). No PR merged after the checkpoint. No docs-relevant work; checkpoint unchanged at 2026-10-30T12:42:15Z. No docs PR, no upstream comment, no Slack (no-op). Access verified read-only: gh auth xiangfu0; apache/pinot=push+triage(comment-capable), pinot-contrib/pinot-docs=admin; durable state read+written via CAS. Note: local /workspace/pinot origin points to fork xiangfu0/pinot (stale); reconciliation done via gh api against apache/pinot.",
   "last_run_id": "run-20261030T140115Z-932",
   "lock": {
     "holder": "run-20261030T140115Z-932",
     "acquired_at": "2026-10-30T14:01:27Z",
-    "released_at": null,
-    "status": "active"
+    "released_at": "2026-10-30T14:02:16Z",
+    "status": "released"
   }
 }
