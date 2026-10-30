@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T22:11:48Z",
-  "last_successful_run": "2026-10-30T05:02:26Z",
+  "last_successful_run": "2026-10-30T06:02:43Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -169,12 +169,12 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run run-20261030T050126Z-946 (2026-10-30T05:02:26Z). Inventory of apache/pinot master merged PRs strictly after durable checkpoint 2026-10-29T22:11:48Z (#20096) reconciled three independent ways, all consistent and empty: (A) search 'repo:apache/pinot is:pr is:merged base:master merged:>=2026-10-29' -> 11 PRs (#20096,#20087,#20086,#20079,#20078,#20074,#20064,#20048,#19988,#19943,#19905); newest #20096 @22:11:48Z equals checkpoint, every one already in processed ledger. (B) commits?sha=master&since=2026-10-29T22:11:49Z -> 0 new commits. (C) pulls state=closed base=master sort=updated desc -> most recent merged is #20096 @22:11:48Z, nothing merged after it. No new docs-relevant PRs; no docs PR, no upstream comment, no Slack (no-op policy). Checkpoint unchanged. Pinot checkout verified clean and in sync with origin/master (910f9d5).",
-  "last_run_id": "run-20261030T050126Z-946",
+  "last_run_result": "No-op run run-20261030T060130Z-992 (2026-10-30T06:02:43Z). Inventory of apache/pinot master merged PRs strictly after durable checkpoint 2026-10-29T22:11:48Z (#20096) reconciled three independent ways, all consistent and empty: (A) search repo:apache/pinot is:pr is:merged base:master merged:>=2026-10-29 -> 11 PRs (#20096,#20087,#20086,#20079,#20078,#20074,#20064,#20048,#19988,#19943,#19905); newest #20096 @22:11:48Z equals checkpoint, all already in processed ledger; merged:>=2026-10-30 -> 0. (B) commits?sha=master&since=2026-10-29T22:11:49Z -> 0 new commits. (C) pulls state=closed base=master sort=updated desc -> most recent merged is #20096 @22:11:48Z, nothing merged after it. No new docs-relevant PRs; no docs PR, no upstream comment, no Slack (no-op policy). Checkpoint unchanged. Note: local fork checkout xiangfu0/pinot (HEAD 910f9d5) trails apache/pinot master (c91d0e8); inventory driven directly by apache/pinot API, so no rebase needed for a no-op run.",
+  "last_run_id": "run-20261030T060130Z-992",
   "lock": {
     "holder": "run-20261030T060130Z-992",
     "acquired_at": "2026-10-30T06:01:48Z",
-    "released_at": null,
-    "status": "acquired"
+    "released_at": "2026-10-30T06:02:43Z",
+    "status": "released"
   }
 }
