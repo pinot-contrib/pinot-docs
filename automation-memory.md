@@ -1343,3 +1343,26 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ### Checkpoint
 - **Unchanged**: `2026-10-29T22:11:48Z`. `last_successful_run` → `2026-10-30T08:02:11Z`; `last_run_id` → `run-20261030T080113Z-872`.
+
+---
+
+## Run 2026-10-30T09:01:16Z (run-20261030T090116Z-874) — NO DOCS (revert pair)
+
+### Coverage
+- Durable checkpoint at start: `last_processed_merged_at = 2026-10-29T22:11:48Z` (#20096).
+- Merged apache/pinot `master` PRs strictly after checkpoint: **2** (#20057, #20101). Reconciled three ways (search, commits-since, pulls-sorted), all consistent.
+
+### Decisions / docs PRs / upstream comments / validation
+- **#20057** (hybrid retention table config `enableHybridTableRetentionStrategy`) → **not_relevant**: fully reverted by #20101 18 min later in the same run window; upstream master tip is the revert commit `481d4768b` and the config field is absent on master. Would have been docs-relevant if shipped; net no-op, nothing to document.
+- **#20101** (the revert) → **not_relevant**: clean inverse of #20057.
+- No docs PR, no upstream comment, no validation (no docs changes). No duplicates (unrelated pre-existing merged docs PR #417 from 2025-03 is about hybrid retention generally).
+- **Lesson**: when a feature PR and its clean revert both land after the checkpoint in the same window, classify both not_relevant (verify the revert is the current master tip) rather than documenting the reverted surface.
+
+### Blockers / required user action
+- None. Preflight passed (gh auth xiangfu0; apache/pinot=WRITE, pinot-docs=ADMIN; durable read/write via CAS). Lock acquired/released cleanly.
+
+### Notifications
+- No Slack (no-op policy — no new docs PRs).
+
+### Checkpoint
+- **Advanced**: `2026-10-29T22:11:48Z` → `2026-10-30T08:32:34Z` (#20101). `last_successful_run` → `2026-10-30T09:01:16Z`; `last_run_id` → `run-20261030T090116Z-874`.

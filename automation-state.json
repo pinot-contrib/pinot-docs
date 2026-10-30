@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-29T22:11:48Z",
-  "last_successful_run": "2026-10-30T08:02:11Z",
+  "last_processed_merged_at": "2026-10-30T08:32:34Z",
+  "last_successful_run": "2026-10-30T09:03:24Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -166,14 +166,43 @@
       "upstream_comment": null,
       "processed_by_run": "run-20261030T000127Z-18501",
       "processed_at": "2026-10-30T00:04:41Z"
+    },
+    "20057": {
+      "upstream_pr": 20057,
+      "upstream_url": "https://github.com/apache/pinot/pull/20057",
+      "title": "Add per-table hybrid retention strategy with cluster-level fallback",
+      "decision": "not_relevant",
+      "reason": "Feature fully reverted upstream before this run and never shipped on master. #20057 added a user-facing table config field SegmentsValidationAndRetentionConfig._enableHybridTableRetentionStrategy (getter/setter getEnableHybridTableRetentionStrategy/setEnableHybridTableRetentionStrategy) plus RetentionManager wiring, and would have been docs-relevant. However #20101 (merged 2026-10-30T08:32:34Z, 18m later, same run window) is an exact clean revert of all 4 files (SPI config, RetentionManager, 2 test files; reversed line counts +28/-28, RetentionManager 2/-13 vs 13/-2, +44/-44, +11/-11). Verified upstream master tip is the revert commit 481d4768b (#20101) and SegmentsValidationAndRetentionConfig on master has NO _enableHybridTableRetentionStrategy field. Documenting a config that does not exist on master would be incorrect. Net no-op; nothing to document. Unrelated pre-existing merged docs PR #417 (2025-03-17) is about hybrid retention generally, not this reverted field.",
+      "upstream_merged_at": "2026-10-30T08:14:45Z",
+      "merged_at": "2026-10-30T08:14:45Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "reverted_by": 20101,
+      "processed_by_run": "run-20261030T090116Z-874",
+      "processed_at": "2026-10-30T09:03:24Z"
+    },
+    "20101": {
+      "upstream_pr": 20101,
+      "upstream_url": "https://github.com/apache/pinot/pull/20101",
+      "title": "Revert \"Add per-table hybrid retention strategy with cluster-level fallback\"",
+      "decision": "not_relevant",
+      "reason": "Clean revert of #20057 (exact inverse of the same 4 files). Removes the never-documented _enableHybridTableRetentionStrategy table config field and RetentionManager wiring that #20057 had added earlier in the same run window. No net user-facing surface change on master; nothing to document.",
+      "upstream_merged_at": "2026-10-30T08:32:34Z",
+      "merged_at": "2026-10-30T08:32:34Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "reverts": 20057,
+      "processed_by_run": "run-20261030T090116Z-874",
+      "processed_at": "2026-10-30T09:03:24Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run run-20261030T080113Z-872 (2026-10-30T08:02:11Z). Inventory of apache/pinot master merged PRs strictly after durable checkpoint 2026-10-29T22:11:48Z (#20096) reconciled three ways, all consistent and empty: (A) search repo:apache/pinot is:pr is:merged base:master merged:>=2026-10-29 -> 11 PRs, newest #20096 @2026-10-29T22:11:48Z == checkpoint, all already in processed ledger; merged:>=2026-10-30 -> 0. (B) commits?sha=master&since=2026-10-29T22:11:49Z -> 0 new commits. (C) pulls state=closed base=master sort=updated desc per_page=30 -> most recent merged #20096 @2026-10-29T22:11:48Z, nothing merged after it. No new docs-relevant PRs; no docs PR, no upstream comment, no Slack (no-op policy). Checkpoint unchanged. Access preflight: gh auth as xiangfu0; apache/pinot=WRITE (push/triage), pinot-contrib/pinot-docs=ADMIN; durable automation-state branch readable/writable via CAS.",
-  "last_run_id": "run-20261030T080113Z-872",
+  "last_run_result": "No-docs run run-20261030T090116Z-874 (2026-10-30T09:03:24Z). Inventory of apache/pinot master merged PRs strictly after prior checkpoint 2026-10-29T22:11:48Z (#20096), reconciled three ways (all consistent): (A) search is:merged base:master merged:>=2026-10-29 -> 13 PRs, 2 newer than checkpoint: #20057 @2026-10-30T08:14:45Z and #20101 @2026-10-30T08:32:34Z; (B) commits?sha=master since=2026-10-29T22:11:49Z -> exactly those 2 commits (20cac7096 #20057, 481d4768b #20101); (C) pulls state=closed base=master sort=updated desc -> same two as most recent merged. #20057 added user-facing table config enableHybridTableRetentionStrategy (would be docs-relevant) but was fully reverted by #20101 18m later; upstream master tip IS the revert commit and the config field is absent on master. Decision: both not_relevant (net no-op revert pair, nothing shipped to document). No duplicates (unrelated pre-existing merged docs PR #417 from 2025-03). No docs PR, no upstream comment, no Slack (no new docs PRs created). Checkpoint advanced to 2026-10-30T08:32:34Z. Access: gh auth xiangfu0; apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN; durable automation-state branch read+written via CAS.",
+  "last_run_id": "run-20261030T090116Z-874",
   "lock": {
     "holder": "run-20261030T090116Z-874",
     "acquired_at": "2026-10-30T09:01:16Z",
-    "status": "active"
+    "released_at": "2026-10-30T09:03:24Z",
+    "status": "released"
   }
 }

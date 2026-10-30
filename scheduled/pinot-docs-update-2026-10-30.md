@@ -228,3 +228,38 @@
 
 ### Checkpoint
 - **Unchanged**: `2026-10-29T22:11:48Z`. `last_successful_run` → `2026-10-30T08:02:11Z`; `last_run_id` → `run-20261030T080113Z-872`.
+
+---
+
+## Run 2026-10-30T09:01:16Z (run-20261030T090116Z-874)
+
+**Result: NO DOCS (2 new PRs triaged; net no-op revert pair — nothing docs-relevant shipped).**
+
+### Coverage
+- Durable checkpoint at start (`automation-state.json`): `last_processed_merged_at = 2026-10-29T22:11:48Z` (apache/pinot #20096).
+- Merged apache/pinot PRs on `master` strictly after the checkpoint: **2** — #20057 and #20101.
+- Reconciled three independent ways, all consistent:
+  1. `GET search/issues q="repo:apache/pinot is:pr is:merged base:master merged:>=2026-10-29"` → 13 candidates; 2 newer than checkpoint: #20057 @ `2026-10-30T08:14:45Z`, #20101 @ `2026-10-30T08:32:34Z`.
+  2. `GET commits?sha=master&since=2026-10-29T22:11:49Z` → exactly 2 commits: `20cac7096` (#20057), `481d4768b` (#20101).
+  3. `GET pulls state=closed base=master sort=updated desc` → same two as the most recent merged PRs.
+- No gaps between checkpoint and current upstream HEAD (tip = `481d4768b` #20101).
+
+### Decisions
+- **#20057 — "Add per-table hybrid retention strategy with cluster-level fallback"** → **not_relevant (reverted before this run).**
+  - Added a user-facing table config field `SegmentsValidationAndRetentionConfig._enableHybridTableRetentionStrategy` (getter/setter) + `RetentionManager` wiring. *Would* have been docs-relevant.
+  - Fully reverted by #20101 (18 min later, same run window) — exact inverse of all 4 files (SPI config, RetentionManager, 2 test files).
+  - Verified upstream `master` tip is the revert commit `481d4768b`; the config field is **absent** on master. Documenting a config that does not exist would be incorrect. **Net no-op; nothing shipped to document.**
+- **#20101 — "Revert ..."** → **not_relevant.** Clean revert; removes the never-documented field. No net user-facing surface change.
+- Duplicate check: no existing docs PR or upstream docs-link comment for either. Unrelated pre-existing merged docs PR #417 (2025-03-17) covers hybrid retention generally, not this reverted field.
+
+### Docs PRs / upstream comments / validation
+- None created. No validation run needed (no docs changes). Not applicable.
+
+### Blockers / required user action
+- None. Preflight passed (gh auth xiangfu0; apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN; durable read/write OK, CAS on automation-state.json). Lock acquired/released cleanly.
+
+### Notifications
+- No Slack (no-op policy — no new docs PRs created).
+
+### Checkpoint
+- **Advanced**: `2026-10-29T22:11:48Z` → `2026-10-30T08:32:34Z` (#20101, newest fully-processed PR). `last_successful_run` → `2026-10-30T09:01:16Z`; `last_run_id` → `run-20261030T090116Z-874`.
