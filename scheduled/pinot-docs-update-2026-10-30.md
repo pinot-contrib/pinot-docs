@@ -538,3 +538,41 @@
 
 ### Checkpoint
 - **Unchanged**: `2026-10-30T15:01:04Z`. `last_successful_run` → `2026-10-30T19:01:09Z`; `last_run_id` → `run-20261030T190109Z-815`. Lock acquired/released cleanly in the same CAS commit.
+
+---
+
+## Run run-20261030T200056Z-840 — 2026-10-30T20:02:30Z
+
+### Coverage
+- Checkpoint at run start: `last_processed_merged_at=2026-10-30T15:01:04Z` (read from automation-state branch).
+- Inventory: GitHub search `repo:apache/pinot is:pr is:merged merged:>=2026-10-30T15:01:04Z` (full pagination) →
+  #19838 (boundary, already `docs_created`, docs PR #1157) and **#20104** (new).
+- Reconciled against 40 most recent apache/pinot master commits via API: exactly one commit strictly after the
+  checkpoint — #20104 (commit `1b552624f`, merged `2026-10-30T19:59:40Z`). Complete coverage, no gap.
+
+### Decisions
+- **#20104** — "Add a broker hook to prepare each MSE stage before dispatch" (author: yashmayya; labels:
+  extension-point, feature) → **not_relevant**.
+  - Adds an empty `protected` method `MultiStageBrokerRequestHandler#prepareStageForDispatch(DispatchablePlanFragment, Map<String,String>)`;
+    default does nothing. Broker invokes it per stage before dispatch (query path after planning/auth/quota &
+    before throttling; and per leaf stage with segments on the `explainAskingServers` path).
+  - Verified from merged diff (merge commit `1b552624f`, 2 files, +86/-0): main source `MultiStageBrokerRequestHandler.java` (+15),
+    test `MultiStageBrokerRequestHandlerTest.java` (+71). Additive, default no-op.
+  - Extension point for Java subclasses/plugins (e.g. a custom `OpChainConverter` worker runtime) to add entries
+    to the already-existing `DispatchablePlanFragment#getCustomProperties()`. No new SQL function, config key,
+    query option, default, table-config field, or wire/serialization change. pinot-docs does not document the
+    internal broker-request-handler subclass API. Not docs-relevant.
+  - Duplicate check: zero upstream automation comments on #20104; zero docs PRs referencing it.
+
+### Docs PRs / upstream comments / validation
+- None created. No validation run needed.
+
+### Blockers / required user action
+- None.
+
+### Notifications
+- No Slack (non-docs-relevant triage; no new docs PR).
+
+### Checkpoint
+- **Advanced**: `2026-10-30T15:01:04Z` → `2026-10-30T19:59:40Z` (#20104 merged-at). `last_successful_run` →
+  `2026-10-30T20:02:30Z`; `last_run_id` → `run-20261030T200056Z-840`. Lock acquired/released cleanly in the same CAS commit.

@@ -1437,3 +1437,19 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   against apache/pinot, not the local fork.
 - Nothing docs-relevant. Checkpoint unchanged. No docs PR, no upstream comment, no Slack (no-op policy).
 - Durable state CAS-updated on automation-state branch; lease acquired (commit 26cca7936) and released cleanly.
+
+### 2026-10-30T20:02:30Z (run-20261030T200056Z-840) — 1 PR TRIAGED, NOT RELEVANT
+- Inventory: 1 merged PR strictly after checkpoint 2026-10-30T15:01:04Z. Search API
+  (merged:>=2026-10-30T15:01:04Z, full pagination) returned #19838 (boundary, already docs_created PR #1157)
+  and #20104. Reconciled against the 40 most recent apache/pinot master commits via API: only #20104
+  (commit 1b552624f, merged 2026-10-30T19:59:40Z) is strictly after the old checkpoint.
+- #20104 "Add a broker hook to prepare each MSE stage before dispatch" (author yashmayya, labels
+  extension-point/feature) → **not_relevant**. Empty protected hook
+  MultiStageBrokerRequestHandler#prepareStageForDispatch(stage, queryOptions); default no-op; called per stage
+  before dispatch (query + explainAskingServers leaf paths). Verified merged diff (2 files, +86/-0): 1 main
+  src (+15) + 1 test (+71). For Java subclasses/plugins to add to the already-existing
+  DispatchablePlanFragment#getCustomProperties(); no new SQL function, config key, query option, default,
+  table-config field, or wire/serialization change. pinot-docs doesn't cover the internal broker subclass API.
+- No duplicate: zero upstream automation comments, zero docs PRs referencing #20104.
+- Nothing docs-relevant. No docs PR, no upstream comment, no Slack. Checkpoint advanced to 2026-10-30T19:59:40Z.
+- Durable state CAS-updated on automation-state branch; lease acquired/released cleanly.

@@ -1,250 +1,264 @@
 {
- "schema_version": 1,
- "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
- "last_processed_merged_at": "2026-10-30T15:01:04Z",
- "last_successful_run": "2026-10-30T19:01:09Z",
- "bootstrapped_from_migrated_checkpoint": true,
- "bootstrap_run_utc": "2026-10-27T00:20:00Z",
- "most_recent_completed_pair": {
-  "upstream_pr": 19838,
-  "upstream_url": "https://github.com/apache/pinot/pull/19838",
-  "docs_pr": 1157,
-  "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1157",
-  "docs_merged_at": "2026-10-30T15:04:37Z",
-  "upstream_comment": "https://github.com/apache/pinot/pull/19838#issuecomment-6525983348"
- },
- "processed_prs": {
-  "19862": {
-   "decision": "docs_created",
-   "docs_pr": 1148,
-   "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1148",
-   "merged_at": "2026-10-26T23:24:33Z"
+  "schema_version": 1,
+  "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
+  "last_processed_merged_at": "2026-10-30T19:59:40Z",
+  "last_successful_run": "2026-10-30T20:01:58Z",
+  "bootstrapped_from_migrated_checkpoint": true,
+  "bootstrap_run_utc": "2026-10-27T00:20:00Z",
+  "most_recent_completed_pair": {
+    "upstream_pr": 19838,
+    "upstream_url": "https://github.com/apache/pinot/pull/19838",
+    "docs_pr": 1157,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1157",
+    "docs_merged_at": "2026-10-30T15:04:37Z",
+    "upstream_comment": "https://github.com/apache/pinot/pull/19838#issuecomment-6525983348"
   },
-  "20015": {
-   "decision": "not_relevant",
-   "reason": "Internal integration-test harness change only: modifies BaseClusterIntegrationTest.waitForAllDocsLoaded to require N consecutive successful doc-count queries (N = _serverStarters.size()) to fix a flaky WindowFunnelTest. Single test-source file in pinot-integration-test-base; no user-facing behavior, config, API, or documented default changes.",
-   "merged_at": "2026-10-27T00:45:19Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20015"
+  "processed_prs": {
+    "19862": {
+      "decision": "docs_created",
+      "docs_pr": 1148,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1148",
+      "merged_at": "2026-10-26T23:24:33Z"
+    },
+    "20015": {
+      "decision": "not_relevant",
+      "reason": "Internal integration-test harness change only: modifies BaseClusterIntegrationTest.waitForAllDocsLoaded to require N consecutive successful doc-count queries (N = _serverStarters.size()) to fix a flaky WindowFunnelTest. Single test-source file in pinot-integration-test-base; no user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-10-27T00:45:19Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20015"
+    },
+    "19991": {
+      "decision": "docs_created",
+      "docs_pr": 1149,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1149",
+      "docs_merged_at": "2026-10-27T03:04:22Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19991#issuecomment-6432711240",
+      "merged_at": "2026-10-27T02:18:50Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19991",
+      "summary": "Support MODE on STRING, BOOLEAN and TIMESTAMP inputs. Documented new optional dataType arg (MODE(colName,[reducerType],[dataType])) in functions/aggregation/mode.md."
+    },
+    "19990": {
+      "decision": "docs_created",
+      "docs_pr": 1150,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1150",
+      "docs_merged_at": "2026-10-27T04:04:15Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19990#issuecomment-6433456568",
+      "merged_at": "2026-10-27T03:46:21Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19990",
+      "summary": "Return the input's logical type from ANY_VALUE. Added typed ANYVALUE(colName,'dataType') form and inferAnyValueType query option (broker config pinot.broker.query.infer.any.value.type, default false, live via cluster config). Documented in functions/aggregation/anyvalue.md."
+    },
+    "20063": {
+      "decision": "docs_created",
+      "docs_pr": 1151,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1151",
+      "docs_merged_at": "2026-10-28T02:03:45Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20063#issuecomment-6458674517",
+      "merged_at": "2026-10-28T01:05:37Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20063",
+      "summary": "Make is_leaf_return_final_result aggregate hint work for aggregations without GROUP BY (previously group-by only). Leaf maps hint to serverReturnFinalResult when no group-by key, serverReturnFinalResultKeyUnpartitioned otherwise. Documented applicability, no-GROUP-BY example, and hybrid-table OFFLINE/REALTIME partition caveat in multi-stage-query/operator-types/aggregate.md."
+    },
+    "20060": {
+      "decision": "docs_created",
+      "docs_pr": 1152,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1152",
+      "docs_merged_at": "2026-10-28T04:04:30Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20060#issuecomment-6460368002",
+      "merged_at": "2026-10-28T03:33:34Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20060",
+      "summary": "Preserve wide Parquet INT96 timestamps. Converted mode now decodes INT96 to Pinot TIMESTAMP (preserving instants outside the signed epoch-nanosecond range ~1677-2262, previously silently wrapped); raw mode (extractRawTimeValues=true) keeps LONG epoch nanos and rejects out-of-range values. Also preserves legacy UINT64 signed-bit values and advances both readers after extraction failures. Documented the corrected INT96 type-conversion row in build-with-pinot/ingestion/pinot-input-formats.md."
+    },
+    "20002": {
+      "decision": "not_relevant",
+      "reason": "Internal NPE bug fix in the mutable-segment seal path. MutableSegmentImpl.getSortedDocIdIterationOrderWithSortedColumn previously assumed a sorted column with a dictionary also had an inverted index, which is false when the sorted column is a no-dictionary ingestion-aggregation key (dictionary forced for dictIds, no inverted index) -> NPE at seal, blocking REALTIME segment commit. Fix adds getSortedDocIdsWithDictIdForwardIndex (counting sort by dictId rank) and selects the inverted-index path only when it exists. No new config/API/function/default/documented behavior; restores a previously-crashing combination of two already-documented features (no-dict sorted columns #17965 + no-dict aggregation keys #18955). Only one main source file + one test file. Not docs-relevant.",
+      "merged_at": "2026-10-28T19:44:16Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20002"
+    },
+    "20009": {
+      "decision": "not_relevant",
+      "reason": "Internal reliability fix for a flaky-test race. PinotHelixTaskResourceManager.deleteTask (force path, used by DELETE /tables/{name}, DROP TABLE, and DELETE /tasks/task/{name}) could 500 when Helix failed to remove the ZooKeeper job context (/PROPERTYSTORE/TaskRebalancer/<job>, NotEmpty) because the task pipeline was still writing it. Change retries deleteJob on HelixException up to 3 attempts with 1s/2s backoff for both forced and non-forced deletes, rethrowing the last HelixException if all attempts fail; non-HelixException precondition failures still fail immediately. Retry counts and backoff are hardcoded (no new config/API/function/default). No documented user-facing behavior changes: the same delete endpoints behave identically, just tolerating a transient Helix write race. One main source file + one test file. Not docs-relevant.",
+      "merged_at": "2026-10-28T21:49:28Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20009"
+    },
+    "20069": {
+      "decision": "not_relevant",
+      "reason": "Internal memory-access refactor for compressed forward-index readers. Adds PinotDataBuffer.readWithByteBuffer(offset,size,IOFunction) in pinot-segment-spi for synchronous scoped buffer consumption; BaseChunkForwardIndexReader and VarByteChunkForwardIndexReaderV4 (shared by V5/V6) use it so replaceable read-ahead windows are not lent out beyond a single read via toDirectByteBuffer() views. Default delegates to the existing view API; callbacks return independently owned decompressed output; callers retaining input views still use toDirectByteBuffer(). No new config/query-option/function/default, and no documented user-facing behavior change (identical read results, just safe buffer scoping). Low-level internal/plugin API only. 2 main source files + 1 SPI file; no docs impact.",
+      "merged_at": "2026-10-28T23:54:13Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20069"
+    },
+    "20035": {
+      "decision": "not_relevant",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "merged_at": "2026-10-28T23:58:25Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20035"
+    },
+    "20078": {
+      "decision": "not_relevant",
+      "reason": "ASF project-metadata change only: updates doap_Pinot.rdf (the Apache DOAP release descriptor) to Apache Pinot 1.6.0 (version name, revision, release date 2026-10-28). Single RDF file; not user-facing documentation, config, API, or behavior. Not docs-relevant.",
+      "merged_at": "2026-10-29T00:02:56Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20078"
+    },
+    "20079": {
+      "decision": "not_relevant",
+      "reason": "Internal Java source API cleanup. Removes 14 @Deprecated public static final constant aliases from InstancePlanMakerImplV2 (MAX_EXECUTION_THREADS_KEY/DEFAULT_MAX_EXECUTION_THREADS, MAX_INITIAL_RESULT_HOLDER_CAPACITY_KEY/default, MIN_INITIAL_INDEXED_TABLE_CAPACITY_KEY/default, NUM_GROUPS_LIMIT_KEY/default, MIN_SEGMENT_GROUP_TRIM_SIZE_KEY/default, MIN_SERVER_GROUP_TRIM_SIZE_KEY/default, GROUPBY_TRIM_THRESHOLD_KEY/default), deprecated for removal after 1.4. Verified from merged diff: each removed field merely aliased the corresponding CommonConstants.Server.* constant, which remains the source of truth; the actual config-key STRINGS and default VALUES live in CommonConstants.Server and are unchanged. Downstream Java callers should use CommonConstants.Server.* instead. No config key, default, query option, function, or documented runtime behavior change. One main source file, no test change. Not docs-relevant.",
+      "merged_at": "2026-10-29T00:59:45Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20079"
+    },
+    "19988": {
+      "decision": "docs_created",
+      "docs_pr": 1156,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1156",
+      "docs_merged_at": "2026-10-29T02:04:23Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19988#issuecomment-6485861071",
+      "merged_at": "2026-10-29T01:36:32Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19988",
+      "summary": "Support ARRAY_AGG/ARRAYAGG without an explicit data type in both engines. Added ARRAY_AGG(expr), ARRAY_AGG(expr, isDistinct), and ARRAY_AGG(DISTINCT expr) forms; data type inferred from the column (element type for MV; JSON->STRING), unsupported inferred/supplied types fail in the broker. Explicit-type form preserved. Documented new signatures and examples in functions/aggregation/arrayagg.md and functions/array/array_agg.md."
+    },
+    "19905": {
+      "decision": "not_relevant",
+      "reason": "Test-coverage-only change. Verified from the merged diff: exactly one file changed, pinot-core/src/test/java/.../AnyValueAggregationFunctionTest.java (+31/-8); no production source, config, API, function, query option, or default. Extends the existing testGroupByReadsValuesOncePerBlock regression to all seven stored types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES), asserting one value-array read per block and the first value retained per group. The underlying once-per-block ANY_VALUE production fix was already shipped and documented via #19990 (docs PR #1150); this PR only adds test coverage for it. Not docs-relevant.",
+      "merged_at": "2026-10-29T03:27:01Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19905"
+    },
+    "19943": {
+      "decision": "not_relevant",
+      "reason": "Internal server-response/transport memory optimization (performance label). Sends single-stage (v1) DataTable responses to Netty and gRPC as paged buffers instead of copying them into one contiguous byte[] (avoids a G1 humongous allocation on large responses). Step 2 of 3 (follows #19906). Verified from merged diff: wire format is explicitly unchanged; 17 files = internal datatable/scheduler/transport main source (DataTable, DataTableImplV4, StreamingResponseUtils, QueryScheduler + scheduler subclasses, InstanceRequestHandler, PageCacheWarmupServerQueryExecutor) plus tests. No new config key, query option, default, function, public constant, or documented user-facing behavior; no doc/.md files touched. Not docs-relevant.",
+      "merged_at": "2026-10-29T10:09:33Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19943"
+    },
+    "20087": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: single file root pom.xml (+1/-1) bumping dnsjava:dnsjava 3.6.5->3.7.0. Transitive DNS library; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "merged_at": "2026-10-29T17:48:15Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20087"
+    },
+    "20086": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: two files pinot-bom/pom.xml and root pom.xml (+1/-1 each) bumping org.jacoco:jacoco-maven-plugin 0.8.15->0.8.16. Build/test code-coverage tooling only; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "merged_at": "2026-10-29T17:48:40Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20086"
+    },
+    "20064": {
+      "decision": "not_relevant",
+      "reason": "Internal controller correctness/concurrency bug fix (labels: bug, testing, java). Fixes #20062: PinotHelixResourceManager.updateInstance read the current Helix InstanceConfig then wrote the whole snapshot via setProperty, so a participant that restarted between the read and write (publishing a newer pinotVersion and capabilities map) had those live fields clobbered with stale values. Verified from the merged diff: the full-record setProperty is replaced by an atomic Helix _helixDataAccessor.updateProperty(instanceConfig key, updater, instanceConfig) that re-applies only request-owned fields (via InstanceUtils.updateHelixInstanceConfig) to the latest record, preserving fields the request does not own; throws RuntimeException if the update returns false. The existing asymmetric queriesDisabled=true preservation behavior is kept identically (same warning log pointing operators to PUT /instances/{name}/state?state=QUERIES_ENABLE). No new config key, query option, function, public API signature, default, or documented user-facing behavior change; the PUT /instances/{name} endpoint behaves identically from a user's perspective, just without the race. 1 main source file (PinotHelixResourceManager.java +24/-18) + 1 test file (PinotHelixResourceManagerConfigValidationTest.java +107/-0). Not docs-relevant.",
+      "merged_at": "2026-10-29T18:37:12Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20064"
+    },
+    "20048": {
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff: single file root pom.xml (+1/-1) bumping google.errorprone.version (com.google.errorprone:error_prone_annotations) 2.50.0->2.51.0 by dependabot[bot]. error-prone is a compile-time static-analysis/annotation library used during the build only; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "merged_at": "2026-10-29T20:14:13Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20048"
+    },
+    "20074": {
+      "decision": "not_relevant",
+      "reason": "Internal multi-stage-engine / Java-SPI correctness fix (follow-up to #20063). Verified from merged commit e58b6fc2 (53 files, +491/-721): makes an AggregationFunction's final result the stored value of getFinalResultColumnType() (e.g. int[] for INT_ARRAY) so array functions (ARRAYAGG, SUMARRAYLONG/DOUBLE, HISTOGRAM, funnel functions) and raw sketch functions (DISTINCTCOUNTRAWHLL etc.) no longer throw ClassCastException / serialization errors when an MSE leaf returns final results. Removes the 'FinalResult extends Comparable' bound; extractFinalResult/mergeFinalResult erasure changes from Comparable to Object (internal Java interface for aggregation implementers, requires recompile of custom AggregationFunctions - not documented user behavior). Adds StoredValueComparator in pinot-spi; removes ArrayListUtils helpers and TypeUtils conversions. Compatibility section states the wire format and MSE plans do NOT change. No new SQL function, config key, query option, or default. The only user-observable change: FUNNELEVENTSFUNCTIONEVAL final results merged from several servers now carry ONE header (counts summed) instead of concatenated headers - this brings runtime output into conformance with the EXISTING docs page functions/aggregation/funneleventsfunctioneval.md, which already documents the single-header STRING[] format; the funnel README has no merge/header details. No docs page becomes stale and no new behavior needs documenting. Not docs-relevant.",
+      "merged_at": "2026-10-29T21:38:16Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20074"
+    },
+    "20096": {
+      "upstream_pr": 20096,
+      "upstream_url": "https://github.com/apache/pinot/pull/20096",
+      "title": "Fix the shared test query server answering every query with an error",
+      "author": "yashmayya",
+      "upstream_merged_at": "2026-10-29T22:11:48Z",
+      "decision": "not_relevant",
+      "reason": "Test-only fix (src/test/java across 3 files; author states \"The change is in test code only\"). Repairs a broken shared test fixture (QueryServerTestUtils.newQueryServer) after #19943 switched InstanceRequestHandler to QueryScheduler.submitResponse(). No production code, no new/changed SQL function, config, query option, default, or wire/serialization format. No documented user behavior changes; fixes #20094.",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261030T000127Z-18501",
+      "processed_at": "2026-10-30T00:04:41Z"
+    },
+    "20057": {
+      "upstream_pr": 20057,
+      "upstream_url": "https://github.com/apache/pinot/pull/20057",
+      "title": "Add per-table hybrid retention strategy with cluster-level fallback",
+      "decision": "not_relevant",
+      "reason": "Feature fully reverted upstream before this run and never shipped on master. #20057 added a user-facing table config field SegmentsValidationAndRetentionConfig._enableHybridTableRetentionStrategy (getter/setter getEnableHybridTableRetentionStrategy/setEnableHybridTableRetentionStrategy) plus RetentionManager wiring, and would have been docs-relevant. However #20101 (merged 2026-10-30T08:32:34Z, 18m later, same run window) is an exact clean revert of all 4 files (SPI config, RetentionManager, 2 test files; reversed line counts +28/-28, RetentionManager 2/-13 vs 13/-2, +44/-44, +11/-11). Verified upstream master tip is the revert commit 481d4768b (#20101) and SegmentsValidationAndRetentionConfig on master has NO _enableHybridTableRetentionStrategy field. Documenting a config that does not exist on master would be incorrect. Net no-op; nothing to document. Unrelated pre-existing merged docs PR #417 (2025-03-17) is about hybrid retention generally, not this reverted field.",
+      "upstream_merged_at": "2026-10-30T08:14:45Z",
+      "merged_at": "2026-10-30T08:14:45Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "reverted_by": 20101,
+      "processed_by_run": "run-20261030T090116Z-874",
+      "processed_at": "2026-10-30T09:03:24Z"
+    },
+    "20101": {
+      "upstream_pr": 20101,
+      "upstream_url": "https://github.com/apache/pinot/pull/20101",
+      "title": "Revert \"Add per-table hybrid retention strategy with cluster-level fallback\"",
+      "decision": "not_relevant",
+      "reason": "Clean revert of #20057 (exact inverse of the same 4 files). Removes the never-documented _enableHybridTableRetentionStrategy table config field and RetentionManager wiring that #20057 had added earlier in the same run window. No net user-facing surface change on master; nothing to document.",
+      "upstream_merged_at": "2026-10-30T08:32:34Z",
+      "merged_at": "2026-10-30T08:32:34Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "reverts": 20057,
+      "processed_by_run": "run-20261030T090116Z-874",
+      "processed_at": "2026-10-30T09:03:24Z"
+    },
+    "20103": {
+      "upstream_pr": 20103,
+      "upstream_url": "https://github.com/apache/pinot/pull/20103",
+      "title": "Bump software.amazon.awssdk:bom from 2.57.3 to 2.57.4",
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff (merge commit f526b645ce): single file root pom.xml (+1/-1) bumping software.amazon.awssdk:bom 2.57.3->2.57.4 by dependabot[bot], labels dependencies/java. AWS SDK BOM governs transitive AWS client library versions used by S3/Kinesis plugins; a patch-level bump with no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "upstream_merged_at": "2026-10-30T12:41:44Z",
+      "merged_at": "2026-10-30T12:41:44Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261030T130126Z-953",
+      "processed_at": "2026-10-30T13:02:33Z"
+    },
+    "20102": {
+      "upstream_pr": 20102,
+      "upstream_url": "https://github.com/apache/pinot/pull/20102",
+      "title": "Bump org.roaringbitmap:RoaringBitmap from 1.6.25 to 1.6.27",
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff (merge commit 863356920f): single file root pom.xml (+1/-1) bumping org.roaringbitmap:RoaringBitmap 1.6.25->1.6.27 by dependabot[bot], labels dependencies/java. RoaringBitmap is an internal compressed-bitmap library used by indexes/filters; a patch-level bump with no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "upstream_merged_at": "2026-10-30T12:42:15Z",
+      "merged_at": "2026-10-30T12:42:15Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261030T130126Z-953",
+      "processed_at": "2026-10-30T13:02:33Z"
+    },
+    "19838": {
+      "upstream_pr": 19838,
+      "upstream_url": "https://github.com/apache/pinot/pull/19838",
+      "title": "Add per-table SHADOW enforcement mode for storage and query quotas",
+      "author": "Tarun-kishore",
+      "decision": "docs_created",
+      "docs_pr": 1157,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1157",
+      "docs_merged_at": "2026-10-30T15:04:37Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19838#issuecomment-6525983348",
+      "upstream_merged_at": "2026-10-30T15:01:04Z",
+      "merged_at": "2026-10-30T15:01:04Z",
+      "summary": "Add per-table quota enforcement modes. New optional QuotaConfig fields storageQuotaEnforcementMode and queryQuotaEnforcementMode (enum QuotaEnforcementMode: DISABLED|SHADOW|ENFORCED; null==ENFORCED, omitted from serialized form). SHADOW detects a breach, records the metric (QUERY_QUOTA_EXCEEDED broker meter / new STORAGE_QUOTA_EXCEEDED controller meter) + warning log, but does not reject the query / block offline push / pause realtime consumption. DISABLED skips the check. Storage effective mode is DISABLED if the controller-wide storage check is off. Hybrid table referenced w/o type suffix: strictest configured mode among existing OFFLINE/REALTIME wins. Added in 1.7.0 (master==1.7.0-SNAPSHOT). Documented 2 rows in reference/configuration-reference/table.md#quota and a new Enforcement mode subsection in build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md.",
+      "processed_by_run": "run-20261030T150118Z-16649",
+      "processed_at": "2026-10-30T15:05:33Z"
+    },
+    "20104": {
+      "upstream_pr": 20104,
+      "upstream_url": "https://github.com/apache/pinot/pull/20104",
+      "title": "Add a broker hook to prepare each MSE stage before dispatch",
+      "author": "yashmayya",
+      "decision": "not_relevant",
+      "reason": "Internal Java extension-point hook (labels: extension-point, feature). Adds an empty protected method MultiStageBrokerRequestHandler#prepareStageForDispatch(DispatchablePlanFragment stage, Map<String,String> queryOptions) whose default does nothing; the broker calls it per stage before dispatch (query path: after planning/auth/quota, before throttling/dispatch) and per leaf stage with segments on the explainAskingServers path before QueryDispatcher#explain. Verified from merged diff (merge commit 1b552624f, 2 files, +86/-0): 1 main source file MultiStageBrokerRequestHandler.java (+15) + 1 test file (+71). Subclasses/plugins (e.g. a custom OpChainConverter worker runtime) may override it to add entries to the already-existing DispatchablePlanFragment#getCustomProperties(), which workers receive in stage metadata; they must not replace existing entries (table name, time boundary). No new SQL function, config key, query option, default, table-config field, or wire/serialization format change (additive, default no-op). Consumers are Java subclasses that recompile against the broker; pinot-docs does not document the internal broker-request-handler subclass API. Not docs-relevant.",
+      "merged_at": "2026-10-30T19:59:40Z",
+      "upstream_merged_at": "2026-10-30T19:59:40Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261030T200056Z-840",
+      "processed_at": "2026-10-30T20:01:58Z"
+    }
   },
-  "19991": {
-   "decision": "docs_created",
-   "docs_pr": 1149,
-   "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1149",
-   "docs_merged_at": "2026-10-27T03:04:22Z",
-   "upstream_comment": "https://github.com/apache/pinot/pull/19991#issuecomment-6432711240",
-   "merged_at": "2026-10-27T02:18:50Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/19991",
-   "summary": "Support MODE on STRING, BOOLEAN and TIMESTAMP inputs. Documented new optional dataType arg (MODE(colName,[reducerType],[dataType])) in functions/aggregation/mode.md."
-  },
-  "19990": {
-   "decision": "docs_created",
-   "docs_pr": 1150,
-   "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1150",
-   "docs_merged_at": "2026-10-27T04:04:15Z",
-   "upstream_comment": "https://github.com/apache/pinot/pull/19990#issuecomment-6433456568",
-   "merged_at": "2026-10-27T03:46:21Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/19990",
-   "summary": "Return the input's logical type from ANY_VALUE. Added typed ANYVALUE(colName,'dataType') form and inferAnyValueType query option (broker config pinot.broker.query.infer.any.value.type, default false, live via cluster config). Documented in functions/aggregation/anyvalue.md."
-  },
-  "20063": {
-   "decision": "docs_created",
-   "docs_pr": 1151,
-   "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1151",
-   "docs_merged_at": "2026-10-28T02:03:45Z",
-   "upstream_comment": "https://github.com/apache/pinot/pull/20063#issuecomment-6458674517",
-   "merged_at": "2026-10-28T01:05:37Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20063",
-   "summary": "Make is_leaf_return_final_result aggregate hint work for aggregations without GROUP BY (previously group-by only). Leaf maps hint to serverReturnFinalResult when no group-by key, serverReturnFinalResultKeyUnpartitioned otherwise. Documented applicability, no-GROUP-BY example, and hybrid-table OFFLINE/REALTIME partition caveat in multi-stage-query/operator-types/aggregate.md."
-  },
-  "20060": {
-   "decision": "docs_created",
-   "docs_pr": 1152,
-   "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1152",
-   "docs_merged_at": "2026-10-28T04:04:30Z",
-   "upstream_comment": "https://github.com/apache/pinot/pull/20060#issuecomment-6460368002",
-   "merged_at": "2026-10-28T03:33:34Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20060",
-   "summary": "Preserve wide Parquet INT96 timestamps. Converted mode now decodes INT96 to Pinot TIMESTAMP (preserving instants outside the signed epoch-nanosecond range ~1677-2262, previously silently wrapped); raw mode (extractRawTimeValues=true) keeps LONG epoch nanos and rejects out-of-range values. Also preserves legacy UINT64 signed-bit values and advances both readers after extraction failures. Documented the corrected INT96 type-conversion row in build-with-pinot/ingestion/pinot-input-formats.md."
-  },
-  "20002": {
-   "decision": "not_relevant",
-   "reason": "Internal NPE bug fix in the mutable-segment seal path. MutableSegmentImpl.getSortedDocIdIterationOrderWithSortedColumn previously assumed a sorted column with a dictionary also had an inverted index, which is false when the sorted column is a no-dictionary ingestion-aggregation key (dictionary forced for dictIds, no inverted index) -> NPE at seal, blocking REALTIME segment commit. Fix adds getSortedDocIdsWithDictIdForwardIndex (counting sort by dictId rank) and selects the inverted-index path only when it exists. No new config/API/function/default/documented behavior; restores a previously-crashing combination of two already-documented features (no-dict sorted columns #17965 + no-dict aggregation keys #18955). Only one main source file + one test file. Not docs-relevant.",
-   "merged_at": "2026-10-28T19:44:16Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20002"
-  },
-  "20009": {
-   "decision": "not_relevant",
-   "reason": "Internal reliability fix for a flaky-test race. PinotHelixTaskResourceManager.deleteTask (force path, used by DELETE /tables/{name}, DROP TABLE, and DELETE /tasks/task/{name}) could 500 when Helix failed to remove the ZooKeeper job context (/PROPERTYSTORE/TaskRebalancer/<job>, NotEmpty) because the task pipeline was still writing it. Change retries deleteJob on HelixException up to 3 attempts with 1s/2s backoff for both forced and non-forced deletes, rethrowing the last HelixException if all attempts fail; non-HelixException precondition failures still fail immediately. Retry counts and backoff are hardcoded (no new config/API/function/default). No documented user-facing behavior changes: the same delete endpoints behave identically, just tolerating a transient Helix write race. One main source file + one test file. Not docs-relevant.",
-   "merged_at": "2026-10-28T21:49:28Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20009"
-  },
-  "20069": {
-   "decision": "not_relevant",
-   "reason": "Internal memory-access refactor for compressed forward-index readers. Adds PinotDataBuffer.readWithByteBuffer(offset,size,IOFunction) in pinot-segment-spi for synchronous scoped buffer consumption; BaseChunkForwardIndexReader and VarByteChunkForwardIndexReaderV4 (shared by V5/V6) use it so replaceable read-ahead windows are not lent out beyond a single read via toDirectByteBuffer() views. Default delegates to the existing view API; callbacks return independently owned decompressed output; callers retaining input views still use toDirectByteBuffer(). No new config/query-option/function/default, and no documented user-facing behavior change (identical read results, just safe buffer scoping). Low-level internal/plugin API only. 2 main source files + 1 SPI file; no docs impact.",
-   "merged_at": "2026-10-28T23:54:13Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20069"
-  },
-  "20035": {
-   "decision": "not_relevant",
-   "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
-   "merged_at": "2026-10-28T23:58:25Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20035"
-  },
-  "20078": {
-   "decision": "not_relevant",
-   "reason": "ASF project-metadata change only: updates doap_Pinot.rdf (the Apache DOAP release descriptor) to Apache Pinot 1.6.0 (version name, revision, release date 2026-10-28). Single RDF file; not user-facing documentation, config, API, or behavior. Not docs-relevant.",
-   "merged_at": "2026-10-29T00:02:56Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20078"
-  },
-  "20079": {
-   "decision": "not_relevant",
-   "reason": "Internal Java source API cleanup. Removes 14 @Deprecated public static final constant aliases from InstancePlanMakerImplV2 (MAX_EXECUTION_THREADS_KEY/DEFAULT_MAX_EXECUTION_THREADS, MAX_INITIAL_RESULT_HOLDER_CAPACITY_KEY/default, MIN_INITIAL_INDEXED_TABLE_CAPACITY_KEY/default, NUM_GROUPS_LIMIT_KEY/default, MIN_SEGMENT_GROUP_TRIM_SIZE_KEY/default, MIN_SERVER_GROUP_TRIM_SIZE_KEY/default, GROUPBY_TRIM_THRESHOLD_KEY/default), deprecated for removal after 1.4. Verified from merged diff: each removed field merely aliased the corresponding CommonConstants.Server.* constant, which remains the source of truth; the actual config-key STRINGS and default VALUES live in CommonConstants.Server and are unchanged. Downstream Java callers should use CommonConstants.Server.* instead. No config key, default, query option, function, or documented runtime behavior change. One main source file, no test change. Not docs-relevant.",
-   "merged_at": "2026-10-29T00:59:45Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20079"
-  },
-  "19988": {
-   "decision": "docs_created",
-   "docs_pr": 1156,
-   "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1156",
-   "docs_merged_at": "2026-10-29T02:04:23Z",
-   "upstream_comment": "https://github.com/apache/pinot/pull/19988#issuecomment-6485861071",
-   "merged_at": "2026-10-29T01:36:32Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/19988",
-   "summary": "Support ARRAY_AGG/ARRAYAGG without an explicit data type in both engines. Added ARRAY_AGG(expr), ARRAY_AGG(expr, isDistinct), and ARRAY_AGG(DISTINCT expr) forms; data type inferred from the column (element type for MV; JSON->STRING), unsupported inferred/supplied types fail in the broker. Explicit-type form preserved. Documented new signatures and examples in functions/aggregation/arrayagg.md and functions/array/array_agg.md."
-  },
-  "19905": {
-   "decision": "not_relevant",
-   "reason": "Test-coverage-only change. Verified from the merged diff: exactly one file changed, pinot-core/src/test/java/.../AnyValueAggregationFunctionTest.java (+31/-8); no production source, config, API, function, query option, or default. Extends the existing testGroupByReadsValuesOncePerBlock regression to all seven stored types (INT, LONG, FLOAT, DOUBLE, BIG_DECIMAL, STRING, BYTES), asserting one value-array read per block and the first value retained per group. The underlying once-per-block ANY_VALUE production fix was already shipped and documented via #19990 (docs PR #1150); this PR only adds test coverage for it. Not docs-relevant.",
-   "merged_at": "2026-10-29T03:27:01Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/19905"
-  },
-  "19943": {
-   "decision": "not_relevant",
-   "reason": "Internal server-response/transport memory optimization (performance label). Sends single-stage (v1) DataTable responses to Netty and gRPC as paged buffers instead of copying them into one contiguous byte[] (avoids a G1 humongous allocation on large responses). Step 2 of 3 (follows #19906). Verified from merged diff: wire format is explicitly unchanged; 17 files = internal datatable/scheduler/transport main source (DataTable, DataTableImplV4, StreamingResponseUtils, QueryScheduler + scheduler subclasses, InstanceRequestHandler, PageCacheWarmupServerQueryExecutor) plus tests. No new config key, query option, default, function, public constant, or documented user-facing behavior; no doc/.md files touched. Not docs-relevant.",
-   "merged_at": "2026-10-29T10:09:33Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/19943"
-  },
-  "20087": {
-   "decision": "not_relevant",
-   "reason": "Dependabot dependency version bump. Verified from merged diff: single file root pom.xml (+1/-1) bumping dnsjava:dnsjava 3.6.5->3.7.0. Transitive DNS library; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
-   "merged_at": "2026-10-29T17:48:15Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20087"
-  },
-  "20086": {
-   "decision": "not_relevant",
-   "reason": "Dependabot dependency version bump. Verified from merged diff: two files pinot-bom/pom.xml and root pom.xml (+1/-1 each) bumping org.jacoco:jacoco-maven-plugin 0.8.15->0.8.16. Build/test code-coverage tooling only; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
-   "merged_at": "2026-10-29T17:48:40Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20086"
-  },
-  "20064": {
-   "decision": "not_relevant",
-   "reason": "Internal controller correctness/concurrency bug fix (labels: bug, testing, java). Fixes #20062: PinotHelixResourceManager.updateInstance read the current Helix InstanceConfig then wrote the whole snapshot via setProperty, so a participant that restarted between the read and write (publishing a newer pinotVersion and capabilities map) had those live fields clobbered with stale values. Verified from the merged diff: the full-record setProperty is replaced by an atomic Helix _helixDataAccessor.updateProperty(instanceConfig key, updater, instanceConfig) that re-applies only request-owned fields (via InstanceUtils.updateHelixInstanceConfig) to the latest record, preserving fields the request does not own; throws RuntimeException if the update returns false. The existing asymmetric queriesDisabled=true preservation behavior is kept identically (same warning log pointing operators to PUT /instances/{name}/state?state=QUERIES_ENABLE). No new config key, query option, function, public API signature, default, or documented user-facing behavior change; the PUT /instances/{name} endpoint behaves identically from a user's perspective, just without the race. 1 main source file (PinotHelixResourceManager.java +24/-18) + 1 test file (PinotHelixResourceManagerConfigValidationTest.java +107/-0). Not docs-relevant.",
-   "merged_at": "2026-10-29T18:37:12Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20064"
-  },
-  "20048": {
-   "decision": "not_relevant",
-   "reason": "Dependabot dependency version bump. Verified from merged diff: single file root pom.xml (+1/-1) bumping google.errorprone.version (com.google.errorprone:error_prone_annotations) 2.50.0->2.51.0 by dependabot[bot]. error-prone is a compile-time static-analysis/annotation library used during the build only; no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
-   "merged_at": "2026-10-29T20:14:13Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20048"
-  },
-  "20074": {
-   "decision": "not_relevant",
-   "reason": "Internal multi-stage-engine / Java-SPI correctness fix (follow-up to #20063). Verified from merged commit e58b6fc2 (53 files, +491/-721): makes an AggregationFunction's final result the stored value of getFinalResultColumnType() (e.g. int[] for INT_ARRAY) so array functions (ARRAYAGG, SUMARRAYLONG/DOUBLE, HISTOGRAM, funnel functions) and raw sketch functions (DISTINCTCOUNTRAWHLL etc.) no longer throw ClassCastException / serialization errors when an MSE leaf returns final results. Removes the 'FinalResult extends Comparable' bound; extractFinalResult/mergeFinalResult erasure changes from Comparable to Object (internal Java interface for aggregation implementers, requires recompile of custom AggregationFunctions - not documented user behavior). Adds StoredValueComparator in pinot-spi; removes ArrayListUtils helpers and TypeUtils conversions. Compatibility section states the wire format and MSE plans do NOT change. No new SQL function, config key, query option, or default. The only user-observable change: FUNNELEVENTSFUNCTIONEVAL final results merged from several servers now carry ONE header (counts summed) instead of concatenated headers - this brings runtime output into conformance with the EXISTING docs page functions/aggregation/funneleventsfunctioneval.md, which already documents the single-header STRING[] format; the funnel README has no merge/header details. No docs page becomes stale and no new behavior needs documenting. Not docs-relevant.",
-   "merged_at": "2026-10-29T21:38:16Z",
-   "upstream_url": "https://github.com/apache/pinot/pull/20074"
-  },
-  "20096": {
-   "upstream_pr": 20096,
-   "upstream_url": "https://github.com/apache/pinot/pull/20096",
-   "title": "Fix the shared test query server answering every query with an error",
-   "author": "yashmayya",
-   "upstream_merged_at": "2026-10-29T22:11:48Z",
-   "decision": "not_relevant",
-   "reason": "Test-only fix (src/test/java across 3 files; author states \"The change is in test code only\"). Repairs a broken shared test fixture (QueryServerTestUtils.newQueryServer) after #19943 switched InstanceRequestHandler to QueryScheduler.submitResponse(). No production code, no new/changed SQL function, config, query option, default, or wire/serialization format. No documented user behavior changes; fixes #20094.",
-   "docs_url": null,
-   "upstream_comment": null,
-   "processed_by_run": "run-20261030T000127Z-18501",
-   "processed_at": "2026-10-30T00:04:41Z"
-  },
-  "20057": {
-   "upstream_pr": 20057,
-   "upstream_url": "https://github.com/apache/pinot/pull/20057",
-   "title": "Add per-table hybrid retention strategy with cluster-level fallback",
-   "decision": "not_relevant",
-   "reason": "Feature fully reverted upstream before this run and never shipped on master. #20057 added a user-facing table config field SegmentsValidationAndRetentionConfig._enableHybridTableRetentionStrategy (getter/setter getEnableHybridTableRetentionStrategy/setEnableHybridTableRetentionStrategy) plus RetentionManager wiring, and would have been docs-relevant. However #20101 (merged 2026-10-30T08:32:34Z, 18m later, same run window) is an exact clean revert of all 4 files (SPI config, RetentionManager, 2 test files; reversed line counts +28/-28, RetentionManager 2/-13 vs 13/-2, +44/-44, +11/-11). Verified upstream master tip is the revert commit 481d4768b (#20101) and SegmentsValidationAndRetentionConfig on master has NO _enableHybridTableRetentionStrategy field. Documenting a config that does not exist on master would be incorrect. Net no-op; nothing to document. Unrelated pre-existing merged docs PR #417 (2025-03-17) is about hybrid retention generally, not this reverted field.",
-   "upstream_merged_at": "2026-10-30T08:14:45Z",
-   "merged_at": "2026-10-30T08:14:45Z",
-   "docs_url": null,
-   "upstream_comment": null,
-   "reverted_by": 20101,
-   "processed_by_run": "run-20261030T090116Z-874",
-   "processed_at": "2026-10-30T09:03:24Z"
-  },
-  "20101": {
-   "upstream_pr": 20101,
-   "upstream_url": "https://github.com/apache/pinot/pull/20101",
-   "title": "Revert \"Add per-table hybrid retention strategy with cluster-level fallback\"",
-   "decision": "not_relevant",
-   "reason": "Clean revert of #20057 (exact inverse of the same 4 files). Removes the never-documented _enableHybridTableRetentionStrategy table config field and RetentionManager wiring that #20057 had added earlier in the same run window. No net user-facing surface change on master; nothing to document.",
-   "upstream_merged_at": "2026-10-30T08:32:34Z",
-   "merged_at": "2026-10-30T08:32:34Z",
-   "docs_url": null,
-   "upstream_comment": null,
-   "reverts": 20057,
-   "processed_by_run": "run-20261030T090116Z-874",
-   "processed_at": "2026-10-30T09:03:24Z"
-  },
-  "20103": {
-   "upstream_pr": 20103,
-   "upstream_url": "https://github.com/apache/pinot/pull/20103",
-   "title": "Bump software.amazon.awssdk:bom from 2.57.3 to 2.57.4",
-   "decision": "not_relevant",
-   "reason": "Dependabot dependency version bump. Verified from merged diff (merge commit f526b645ce): single file root pom.xml (+1/-1) bumping software.amazon.awssdk:bom 2.57.3->2.57.4 by dependabot[bot], labels dependencies/java. AWS SDK BOM governs transitive AWS client library versions used by S3/Kinesis plugins; a patch-level bump with no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
-   "upstream_merged_at": "2026-10-30T12:41:44Z",
-   "merged_at": "2026-10-30T12:41:44Z",
-   "docs_url": null,
-   "upstream_comment": null,
-   "processed_by_run": "run-20261030T130126Z-953",
-   "processed_at": "2026-10-30T13:02:33Z"
-  },
-  "20102": {
-   "upstream_pr": 20102,
-   "upstream_url": "https://github.com/apache/pinot/pull/20102",
-   "title": "Bump org.roaringbitmap:RoaringBitmap from 1.6.25 to 1.6.27",
-   "decision": "not_relevant",
-   "reason": "Dependabot dependency version bump. Verified from merged diff (merge commit 863356920f): single file root pom.xml (+1/-1) bumping org.roaringbitmap:RoaringBitmap 1.6.25->1.6.27 by dependabot[bot], labels dependencies/java. RoaringBitmap is an internal compressed-bitmap library used by indexes/filters; a patch-level bump with no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
-   "upstream_merged_at": "2026-10-30T12:42:15Z",
-   "merged_at": "2026-10-30T12:42:15Z",
-   "docs_url": null,
-   "upstream_comment": null,
-   "processed_by_run": "run-20261030T130126Z-953",
-   "processed_at": "2026-10-30T13:02:33Z"
-  },
-  "19838": {
-   "upstream_pr": 19838,
-   "upstream_url": "https://github.com/apache/pinot/pull/19838",
-   "title": "Add per-table SHADOW enforcement mode for storage and query quotas",
-   "author": "Tarun-kishore",
-   "decision": "docs_created",
-   "docs_pr": 1157,
-   "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1157",
-   "docs_merged_at": "2026-10-30T15:04:37Z",
-   "upstream_comment": "https://github.com/apache/pinot/pull/19838#issuecomment-6525983348",
-   "upstream_merged_at": "2026-10-30T15:01:04Z",
-   "merged_at": "2026-10-30T15:01:04Z",
-   "summary": "Add per-table quota enforcement modes. New optional QuotaConfig fields storageQuotaEnforcementMode and queryQuotaEnforcementMode (enum QuotaEnforcementMode: DISABLED|SHADOW|ENFORCED; null==ENFORCED, omitted from serialized form). SHADOW detects a breach, records the metric (QUERY_QUOTA_EXCEEDED broker meter / new STORAGE_QUOTA_EXCEEDED controller meter) + warning log, but does not reject the query / block offline push / pause realtime consumption. DISABLED skips the check. Storage effective mode is DISABLED if the controller-wide storage check is off. Hybrid table referenced w/o type suffix: strictest configured mode among existing OFFLINE/REALTIME wins. Added in 1.7.0 (master==1.7.0-SNAPSHOT). Documented 2 rows in reference/configuration-reference/table.md#quota and a new Enforcement mode subsection in build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md.",
-   "processed_by_run": "run-20261030T150118Z-16649",
-   "processed_at": "2026-10-30T15:05:33Z"
+  "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
+  "last_run_result": "Triaged 1 new merged PR strictly after checkpoint 2026-10-30T15:01:04Z. Inventory via GitHub search (merged:>=2026-10-30T15:01:04Z) reconciled against apache/pinot master commits: only #20104 (merged 2026-10-30T19:59:40Z) is strictly after the old checkpoint; #19838 at checkpoint already docs_created (PR #1157). #20104 classified not_relevant (internal Java extension-point hook, empty protected prepareStageForDispatch; no user-facing config/API/function/default/wire change). No docs PR, no upstream comment, no Slack. Checkpoint advanced to 2026-10-30T19:59:40Z. Run run-20261030T200056Z-840.",
+  "last_run_id": "run-20261030T200056Z-840",
+  "lock": {
+    "holder": "run-20261030T200056Z-840",
+    "acquired_at": "2026-10-30T20:01:58Z",
+    "released_at": "2026-10-30T20:01:58Z",
+    "status": "released"
   }
- },
- "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
- "last_run_result": "No-op run (2026-10-30T19:01:09Z). Inventoried apache/pinot merged PRs strictly after checkpoint 2026-10-30T15:01:04Z via GitHub search/issues API (total_count=0) AND reconciled against the 30 most recent apache/pinot master commits (API-authoritative; local checkout is stale xiangfu0 fork, not used). Zero merged PRs strictly after checkpoint. Master tip #19838 (commit date 2026-10-30T15:01:03Z) == checkpoint PR, already docs_created (docs PR #1157 merged, upstream comment posted). All preceding merges (#20102,#20103,#20101,#20057,#20096,#20074,#20048,#20064,#20086,#20087,#19943,...) already in ledger. Checkpoint unchanged. No docs PR, no upstream comment, no Slack.",
- "last_run_id": "run-20261030T190109Z-815",
- "lock": {
-  "holder": "run-20261030T190109Z-815",
-  "acquired_at": "2026-10-30T19:01:09Z",
-  "released_at": "2026-10-30T19:01:09Z",
-  "status": "released"
- }
 }
