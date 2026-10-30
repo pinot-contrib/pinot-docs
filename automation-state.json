@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -256,9 +256,8 @@
   "last_run_result": "Triaged 1 new merged PR strictly after checkpoint 2026-10-30T15:01:04Z. Inventory via GitHub search (merged:>=2026-10-30T15:01:04Z) reconciled against apache/pinot master commits: only #20104 (merged 2026-10-30T19:59:40Z) is strictly after the old checkpoint; #19838 at checkpoint already docs_created (PR #1157). #20104 classified not_relevant (internal Java extension-point hook, empty protected prepareStageForDispatch; no user-facing config/API/function/default/wire change). No docs PR, no upstream comment, no Slack. Checkpoint advanced to 2026-10-30T19:59:40Z. Run run-20261030T200056Z-840.",
   "last_run_id": "run-20261030T200056Z-840",
   "lock": {
-    "holder": "run-20261030T200056Z-840",
-    "acquired_at": "2026-10-30T20:01:58Z",
-    "released_at": "2026-10-30T20:01:58Z",
-    "status": "released"
+    "holder": "run-20261030T210135Z-1259",
+    "acquired_at": "2026-10-30T21:01:35Z",
+    "status": "active"
   }
 }
