@@ -256,9 +256,8 @@
   "last_run_result": "No-op run. Inventory via GitHub search API + authoritative pulls API (apache/pinot) found ZERO PRs merged strictly after checkpoint 2026-10-30T19:59:40Z. Reconciled against apache/pinot master tip 1b552624f = #20104 (committed 2026-10-30T19:59:39Z), already processed (not_relevant). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack.",
   "last_run_id": "run-20261030T220109Z-946",
   "lock": {
-    "holder": "run-20261030T220109Z-946",
-    "acquired_at": "2026-10-30T22:01:22Z",
-    "released_at": "2026-10-30T22:02:01Z",
-    "status": "released"
+    "holder": "run-20261030T230102Z-899",
+    "acquired_at": "2026-10-30T23:01:02Z",
+    "status": "held"
   }
 }
