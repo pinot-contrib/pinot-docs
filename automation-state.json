@@ -200,9 +200,9 @@
   "last_run_result": "No-docs run run-20261030T090116Z-874 (2026-10-30T09:03:24Z). Inventory of apache/pinot master merged PRs strictly after prior checkpoint 2026-10-29T22:11:48Z (#20096), reconciled three ways (all consistent): (A) search is:merged base:master merged:>=2026-10-29 -> 13 PRs, 2 newer than checkpoint: #20057 @2026-10-30T08:14:45Z and #20101 @2026-10-30T08:32:34Z; (B) commits?sha=master since=2026-10-29T22:11:49Z -> exactly those 2 commits (20cac7096 #20057, 481d4768b #20101); (C) pulls state=closed base=master sort=updated desc -> same two as most recent merged. #20057 added user-facing table config enableHybridTableRetentionStrategy (would be docs-relevant) but was fully reverted by #20101 18m later; upstream master tip IS the revert commit and the config field is absent on master. Decision: both not_relevant (net no-op revert pair, nothing shipped to document). No duplicates (unrelated pre-existing merged docs PR #417 from 2025-03). No docs PR, no upstream comment, no Slack (no new docs PRs created). Checkpoint advanced to 2026-10-30T08:32:34Z. Access: gh auth xiangfu0; apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN; durable automation-state branch read+written via CAS.",
   "last_run_id": "run-20261030T090116Z-874",
   "lock": {
-    "holder": "run-20261030T090116Z-874",
-    "acquired_at": "2026-10-30T09:01:16Z",
-    "released_at": "2026-10-30T09:03:24Z",
-    "status": "released"
+    "holder": "run-20261030T100109Z-1048",
+    "acquired_at": "2026-10-30T10:01:09Z",
+    "released_at": null,
+    "status": "held"
   }
 }
