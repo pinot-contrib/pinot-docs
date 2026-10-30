@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-30T15:01:04Z",
-  "last_successful_run": "2026-10-30T15:05:33Z",
+  "last_successful_run": "2026-10-30T16:01:07Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -239,12 +239,12 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "1 new merged PR after checkpoint 2026-10-30T12:42:15Z: #19838 (merged 2026-10-30T15:01:04Z), docs-relevant (user-facing table quota config + release-notes/configuration/feature labels). Created docs PR #1157, checks passed (Validate changed docs + Full docs audit + GitBook), squash-merged @2026-10-30T15:04:37Z, verified merged, commented upstream (issuecomment-6525983348). Checkpoint advanced to 2026-10-30T15:01:04Z. Re-checked at persist time: no newer merged PR. Validation: git diff --check clean; validate-docs.py PASS (10 pre-existing broken-anchor warnings unrelated to edited files). Slack summary sent (new docs PR).",
-  "last_run_id": "run-20261030T150118Z-16649",
+  "last_run_result": "No-op run. Inventoried apache/pinot merged PRs after checkpoint 2026-10-30T15:01:04Z with full pagination (search API) and reconciled against the 10 most recent apache/pinot master merge commits (API-authoritative; local checkout origin is the xiangfu0 fork and is stale, not used for inventory). Master tip is #19838 (merged 2026-10-30T15:01:03/04Z) = the existing checkpoint, already docs_created (docs PR #1157 merged). All preceding merged PRs (#20102,#20103,#20101,#20057,#20096,#20074,#20048,#20064,#20086,...) already in ledger. Zero new docs-relevant work. Checkpoint unchanged. No docs PR, no upstream comment, no Slack (no-op).",
+  "last_run_id": "run-20261030T160107Z-920",
   "lock": {
-    "holder": "run-20261030T150118Z-16649",
-    "acquired_at": "2026-10-30T15:01:18Z",
-    "released_at": "2026-10-30T15:05:33Z",
+    "holder": "run-20261030T160107Z-920",
+    "acquired_at": "2026-10-30T16:01:07Z",
+    "released_at": "2026-10-30T16:01:07Z",
     "status": "released"
   }
 }
