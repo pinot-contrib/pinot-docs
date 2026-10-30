@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-29T22:11:48Z",
-  "last_successful_run": "2026-10-30T00:04:41Z",
+  "last_successful_run": "2026-10-30T01:03:00Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -169,11 +169,11 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run run-20261030T000127Z-18501 (2026-10-30T00:04:41Z). Inventory of apache/pinot master merged PRs strictly after durable checkpoint 2026-10-29T21:38:16Z (#20074) reconciled three independent ways, all consistent: (A) search is:pr is:merged base:master merged:>=2026-10-29 filtered by precise merged_at -> only #20096 (22:11:48Z) strictly newer; (B) commits?sha=master&since=2026-10-29T21:38:17Z -> exactly 1 commit (#20096); (C) pulls state=closed base=master sort=updated desc -> exactly 1 PR with merged_at>checkpoint (#20096). #20096 = 'Fix the shared test query server answering every query with an error' (yashmayya, fixes #20094), classified not_relevant: change is in test code only (3 files under src/test/java, incl. shared fixture QueryServerTestUtils); repairs test wiring broken by #19943's switch to QueryScheduler.submitResponse(); no production code, no new/changed SQL function, config, query option, default, or wire/serialization format; no documented user behavior affected. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to 2026-10-29T22:11:48Z.",
-  "last_run_id": "run-20261030T000127Z-18501",
+  "last_run_result": "No-op run run-20261030T010058Z-789 (2026-10-30T01:03:00Z). Inventory of apache/pinot master merged PRs strictly after durable checkpoint 2026-10-29T22:11:48Z (#20096) reconciled three independent ways, all consistent and empty: (A) search is:pr is:merged base:master merged:>=2026-10-29 returned 11 PRs, all with merged_at <= checkpoint (newest #20096 @22:11:48Z = checkpoint, already processed); merged:>=2026-10-30 returned 0. (B) commits?sha=master&since=2026-10-29T22:11:49Z -> 0 commits. (C) pulls state=closed base=master sort=updated desc per_page=50 -> 0 PRs with merged_at strictly > checkpoint (newest merged #20096 @ checkpoint). No new docs-relevant PRs; no docs PR, no upstream comment, no Slack (no-op policy). Checkpoint unchanged at 2026-10-29T22:11:48Z. Pinot checkout verified in sync with origin/master (910f9d5).",
+  "last_run_id": "run-20261030T010058Z-789",
   "lock": {
     "holder": "run-20261030T010058Z-789",
-    "acquired_at": "2026-10-30T01:01:49Z",
-    "status": "held"
+    "released_at": "2026-10-30T01:03:00Z",
+    "status": "released"
   }
 }

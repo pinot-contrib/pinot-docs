@@ -1,5 +1,42 @@
 # Pinot Docs Update — 2026-10-30 (UTC)
 
+## Run 2026-10-30T01:03:00Z (run-20261030T010058Z-789)
+
+**Result: NO-OP (no new PRs to triage).** No apache/pinot `master` PR merged strictly after the durable checkpoint.
+
+### Coverage
+- Durable checkpoint at start (`automation-state.json`): `last_processed_merged_at = 2026-10-29T22:11:48Z` (apache/pinot #20096).
+- Merged apache/pinot PRs on `master` strictly after the checkpoint: **0**.
+- Reconciled three independent ways, all consistent and empty:
+  1. `search repo:apache/pinot is:pr is:merged base:master merged:>=2026-10-29` → 11 candidates, all with precise `merged_at <= checkpoint` (newest #20096 @ `22:11:48Z` = checkpoint, already processed). `merged:>=2026-10-30` → 0.
+  2. `GET commits?sha=master&since=2026-10-29T22:11:49Z` → 0 commits.
+  3. pulls API (`state=closed base=master sort=updated desc per_page=50`) → 0 PRs with `merged_at` strictly > checkpoint.
+- No gaps between the checkpoint and current HEAD.
+
+### Decisions
+- None (no new PRs).
+
+### Created / merged docs PRs
+- None.
+
+### Upstream comments
+- None.
+
+### Validation
+- Not applicable (no docs changes produced).
+
+### Blockers / required user action
+- None. Preflight passed: gh auth `xiangfu0`; `apache/pinot`=WRITE (can comment upstream), `pinot-contrib/pinot-docs`=ADMIN; durable state read/write OK. Pinot checkout verified in sync with `origin/master` (910f9d5).
+- Durable writes use the GitHub Git Data / Contents API (server-side, compare-and-swap) because the local push wrapper redirects bare-branch pushes to a `cs_<sid>/` session prefix. Lock acquired (CAS on blob `sha`) and released inside `automation-state.json`.
+
+### Notifications
+- No Slack (no-op policy: webhook fires only when a run creates new docs PRs).
+
+### Checkpoint
+- **Unchanged**: `2026-10-29T22:11:48Z` (no new work). `last_successful_run` → `2026-10-30T01:03:00Z`; `last_run_id` → `run-20261030T010058Z-789`.
+
+---
+
 ## Run 2026-10-30T00:05:24Z (run-20261030T000127Z-18501)
 
 **Result: NO-OP (one PR triaged, not docs-relevant).** One new upstream PR since the last run; classified not docs-relevant (test-only fix).
