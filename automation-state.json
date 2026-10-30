@@ -157,5 +157,11 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "No-op run run-20261029T220120Z-1066 (2026-10-29T22:01:20Z). Inventory of apache/pinot merged PRs strictly after durable checkpoint 2026-10-29T20:14:13Z (#20048) reconciled three independent ways, all consistent: (A) search is:pr is:merged merged:>=2026-10-29 filtered by precise merged_at -> only #20074 (21:38:16Z) strictly newer; (B) commits?sha=master since=2026-10-29T20:14:14Z -> exactly 1 commit e58b6fc2 (#20074); (C) pulls closed base=master sort=updated desc -> exactly 1 PR with merged_at>checkpoint (#20074). #20074 = 'Fix MSE leaf final results for array and raw sketch aggregations' (Jackie-Jiang, follow-up to #20063), classified not_relevant: internal MSE/Java-SPI correctness fix; wire format & MSE plans unchanged; no new SQL function/config/query-option/default; only user-visible change (FUNNELEVENTSFUNCTIONEVAL single-header multi-server merge) conforms to the existing funneleventsfunctioneval.md docs, so no docs page is stale. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to 2026-10-29T21:38:16Z.",
-  "last_run_id": "run-20261029T220120Z-1066"
+  "last_run_id": "run-20261029T220120Z-1066",
+  "lock": {
+    "holder": "run-20261030T000127Z-18501",
+    "acquired_at": "2026-10-30T00:03:24Z",
+    "expires_at": "2026-10-30T00:43:24Z",
+    "status": "held"
+  }
 }
