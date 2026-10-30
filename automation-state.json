@@ -254,11 +254,11 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "No-op run. Inventory via GitHub API (search + pulls, apache/pinot authoritative) found ZERO PRs merged strictly after checkpoint 2026-10-30T19:59:40Z. Latest upstream merge is #20104 at the checkpoint exactly, already processed (not_relevant). Checkpoint unchanged. No docs PRs, no upstream comments, no Slack. Run run-20261030T210135Z-1259.",
-  "last_run_id": "run-20261030T210135Z-1259",
+  "last_run_id": "run-20261030T220109Z-946",
   "lock": {
-    "holder": "run-20261030T210135Z-1259",
-    "acquired_at": "2026-10-30T21:01:35Z",
-    "released_at": "2026-10-30T21:02:57Z",
-    "status": "released"
+    "holder": "run-20261030T220109Z-946",
+    "acquired_at": "2026-10-30T22:01:22Z",
+    "released_at": null,
+    "status": "held"
   }
 }
