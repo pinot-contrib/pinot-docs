@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-30T12:42:15Z",
-  "last_successful_run": "2026-10-30T14:02:16Z",
+  "last_processed_merged_at": "2026-10-30T15:01:04Z",
+  "last_successful_run": "2026-10-30T15:05:33Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 19988,
-    "upstream_url": "https://github.com/apache/pinot/pull/19988",
-    "docs_pr": 1156,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1156",
-    "docs_merged_at": "2026-10-29T02:04:23Z",
-    "upstream_comment": "https://github.com/apache/pinot/pull/19988#issuecomment-6485861071"
+    "upstream_pr": 19838,
+    "upstream_url": "https://github.com/apache/pinot/pull/19838",
+    "docs_pr": 1157,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1157",
+    "docs_merged_at": "2026-10-30T15:04:37Z",
+    "upstream_comment": "https://github.com/apache/pinot/pull/19838#issuecomment-6525983348"
   },
   "processed_prs": {
     "19862": {
@@ -220,15 +220,31 @@
       "upstream_comment": null,
       "processed_by_run": "run-20261030T130126Z-953",
       "processed_at": "2026-10-30T13:02:33Z"
+    },
+    "19838": {
+      "upstream_pr": 19838,
+      "upstream_url": "https://github.com/apache/pinot/pull/19838",
+      "title": "Add per-table SHADOW enforcement mode for storage and query quotas",
+      "author": "Tarun-kishore",
+      "decision": "docs_created",
+      "docs_pr": 1157,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1157",
+      "docs_merged_at": "2026-10-30T15:04:37Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19838#issuecomment-6525983348",
+      "upstream_merged_at": "2026-10-30T15:01:04Z",
+      "merged_at": "2026-10-30T15:01:04Z",
+      "summary": "Add per-table quota enforcement modes. New optional QuotaConfig fields storageQuotaEnforcementMode and queryQuotaEnforcementMode (enum QuotaEnforcementMode: DISABLED|SHADOW|ENFORCED; null==ENFORCED, omitted from serialized form). SHADOW detects a breach, records the metric (QUERY_QUOTA_EXCEEDED broker meter / new STORAGE_QUOTA_EXCEEDED controller meter) + warning log, but does not reject the query / block offline push / pause realtime consumption. DISABLED skips the check. Storage effective mode is DISABLED if the controller-wide storage check is off. Hybrid table referenced w/o type suffix: strictest configured mode among existing OFFLINE/REALTIME wins. Added in 1.7.0 (master==1.7.0-SNAPSHOT). Documented 2 rows in reference/configuration-reference/table.md#quota and a new Enforcement mode subsection in build-with-pinot/querying-and-sql/query-execution-controls/query-quotas.md.",
+      "processed_by_run": "run-20261030T150118Z-16649",
+      "processed_at": "2026-10-30T15:05:33Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No new merged PRs. Inventory of apache/pinot master merged PRs strictly after checkpoint 2026-10-30T12:42:15Z (#20102). Reconciled two ways, consistent: (A) commits?sha=master&since=2026-10-30T12:42:16Z -> 0 new commits; master tip still 863356920f (#20102) @2026-10-30T12:42:14Z. (B) pulls state=closed base=master sort=updated desc -> newest merged is #20102 @12:42:15Z (== checkpoint, already processed not_relevant) and #20103 @12:41:44Z (already processed). No PR merged after the checkpoint. No docs-relevant work; checkpoint unchanged at 2026-10-30T12:42:15Z. No docs PR, no upstream comment, no Slack (no-op). Access verified read-only: gh auth xiangfu0; apache/pinot=push+triage(comment-capable), pinot-contrib/pinot-docs=admin; durable state read+written via CAS. Note: local /workspace/pinot origin points to fork xiangfu0/pinot (stale); reconciliation done via gh api against apache/pinot.",
+  "last_run_result": "1 new merged PR after checkpoint 2026-10-30T12:42:15Z: #19838 (merged 2026-10-30T15:01:04Z), docs-relevant (user-facing table quota config + release-notes/configuration/feature labels). Created docs PR #1157, checks passed (Validate changed docs + Full docs audit + GitBook), squash-merged @2026-10-30T15:04:37Z, verified merged, commented upstream (issuecomment-6525983348). Checkpoint advanced to 2026-10-30T15:01:04Z. Re-checked at persist time: no newer merged PR. Validation: git diff --check clean; validate-docs.py PASS (10 pre-existing broken-anchor warnings unrelated to edited files). Slack summary sent (new docs PR).",
   "last_run_id": "run-20261030T150118Z-16649",
   "lock": {
     "holder": "run-20261030T150118Z-16649",
     "acquired_at": "2026-10-30T15:01:18Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-30T15:05:33Z",
+    "status": "released"
   }
 }
