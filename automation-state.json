@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -172,8 +172,8 @@
   "last_run_result": "No-op run run-20261030T000127Z-18501 (2026-10-30T00:04:41Z). Inventory of apache/pinot master merged PRs strictly after durable checkpoint 2026-10-29T21:38:16Z (#20074) reconciled three independent ways, all consistent: (A) search is:pr is:merged base:master merged:>=2026-10-29 filtered by precise merged_at -> only #20096 (22:11:48Z) strictly newer; (B) commits?sha=master&since=2026-10-29T21:38:17Z -> exactly 1 commit (#20096); (C) pulls state=closed base=master sort=updated desc -> exactly 1 PR with merged_at>checkpoint (#20096). #20096 = 'Fix the shared test query server answering every query with an error' (yashmayya, fixes #20094), classified not_relevant: change is in test code only (3 files under src/test/java, incl. shared fixture QueryServerTestUtils); repairs test wiring broken by #19943's switch to QueryScheduler.submitResponse(); no production code, no new/changed SQL function, config, query option, default, or wire/serialization format; no documented user behavior affected. No docs PR, no upstream comment, no Slack (no-op policy). Checkpoint advanced to 2026-10-29T22:11:48Z.",
   "last_run_id": "run-20261030T000127Z-18501",
   "lock": {
-    "holder": "run-20261030T000127Z-18501",
-    "released_at": "2026-10-30T00:04:41Z",
-    "status": "released"
+    "holder": "run-20261030T010058Z-789",
+    "acquired_at": "2026-10-30T01:01:49Z",
+    "status": "held"
   }
 }
