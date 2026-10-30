@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-30T08:32:34Z",
-  "last_successful_run": "2026-10-30T12:02:30Z",
+  "last_processed_merged_at": "2026-10-30T12:42:15Z",
+  "last_successful_run": "2026-10-30T13:02:33Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -194,15 +194,41 @@
       "reverts": 20057,
       "processed_by_run": "run-20261030T090116Z-874",
       "processed_at": "2026-10-30T09:03:24Z"
+    },
+    "20103": {
+      "upstream_pr": 20103,
+      "upstream_url": "https://github.com/apache/pinot/pull/20103",
+      "title": "Bump software.amazon.awssdk:bom from 2.57.3 to 2.57.4",
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff (merge commit f526b645ce): single file root pom.xml (+1/-1) bumping software.amazon.awssdk:bom 2.57.3->2.57.4 by dependabot[bot], labels dependencies/java. AWS SDK BOM governs transitive AWS client library versions used by S3/Kinesis plugins; a patch-level bump with no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "upstream_merged_at": "2026-10-30T12:41:44Z",
+      "merged_at": "2026-10-30T12:41:44Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261030T130126Z-953",
+      "processed_at": "2026-10-30T13:02:33Z"
+    },
+    "20102": {
+      "upstream_pr": 20102,
+      "upstream_url": "https://github.com/apache/pinot/pull/20102",
+      "title": "Bump org.roaringbitmap:RoaringBitmap from 1.6.25 to 1.6.27",
+      "decision": "not_relevant",
+      "reason": "Dependabot dependency version bump. Verified from merged diff (merge commit 863356920f): single file root pom.xml (+1/-1) bumping org.roaringbitmap:RoaringBitmap 1.6.25->1.6.27 by dependabot[bot], labels dependencies/java. RoaringBitmap is an internal compressed-bitmap library used by indexes/filters; a patch-level bump with no config key, default, query option, function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "upstream_merged_at": "2026-10-30T12:42:15Z",
+      "merged_at": "2026-10-30T12:42:15Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261030T130126Z-953",
+      "processed_at": "2026-10-30T13:02:33Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op run run-20261030T120108Z-848 (2026-10-30T12:02:30Z). Inventory of apache/pinot master merged PRs strictly after checkpoint 2026-10-30T08:32:34Z (#20101). Reconciled three ways, all consistent and empty: (A) commits?sha=master&since=2026-10-30T08:32:35Z -> 0 new commits, master tip 481d4768b7 (#20101) committed 2026-10-30T08:32:33Z = checkpoint; (B) pulls state=closed base=master sort=updated desc -> top merged-at #20101 @2026-10-30T08:32:34Z (=checkpoint), all more-recent merged PRs already in ledger; (C) gh search prs --merged >=2026-10-30 -> only stale PRs (#17380,#17892,#18155,#17576) all merged Jan-Apr 2026, far pre-checkpoint, not candidates. No new docs-relevant PRs. No docs PR, no upstream comment, no Slack. Checkpoint unchanged. Access: gh auth xiangfu0; apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN; durable state read+written via CAS. Note: local /workspace/pinot origin points to fork xiangfu0/pinot (stale at 910f9d5); reconciliation done via gh api against apache/pinot.",
-  "last_run_id": "run-20261030T120108Z-848",
+  "last_run_result": "No docs-relevant changes. Inventory of apache/pinot master merged PRs strictly after prior checkpoint 2026-10-30T08:32:34Z (#20101). Reconciled two ways, consistent: (A) commits?sha=master&since=2026-10-30T08:32:35Z -> 2 new commits 863356920f (#20102) and f526b645ce (#20103), master tip 863356920f @2026-10-30T12:42:14Z; (B) pulls state=closed base=master sort=updated desc -> only #20102 (@12:42:15Z) and #20103 (@12:41:44Z) newer than checkpoint. Both verified from merged diffs: dependabot[bot], single root pom.xml +1/-1 each, labels dependencies/java (#20102 RoaringBitmap 1.6.25->1.6.27, #20103 awssdk:bom 2.57.3->2.57.4). Both not docs-relevant; recorded in ledger. Checkpoint advanced to 2026-10-30T12:42:15Z (#20102). No docs PR, no upstream comment, no Slack. Access: gh auth xiangfu0; apache/pinot=push+triage(comment-capable), pinot-contrib/pinot-docs=admin; durable state read+written via CAS. Note: local /workspace/pinot origin points to fork xiangfu0/pinot (stale); reconciliation done via gh api against apache/pinot.",
+  "last_run_id": "run-20261030T130126Z-953",
   "lock": {
     "holder": "run-20261030T130126Z-953",
     "acquired_at": "2026-10-30T13:01:42Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-30T13:02:33Z",
+    "status": "released"
   }
 }
