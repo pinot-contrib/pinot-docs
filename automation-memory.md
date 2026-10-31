@@ -1638,3 +1638,17 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   with full read+write.
 - No docs-relevant work: no docs PR created/merged/commented; no Slack (no-op stays quiet). Checkpoint unchanged
   (2026-10-31T11:11:36Z); last_successful_run -> 2026-10-31T18:02:30Z.
+
+## Run run-20261031T190104Z-829 (2026-10-31T19:02:03Z UTC, no-op)
+- Prior checkpoint 2026-10-31T11:11:36Z (unchanged). Three agreeing inventory methods strictly after checkpoint:
+  (A) search/issues `is:pr is:merged merged:>2026-10-31T11:11:36Z` = **0**; (B) `git log e9be2ee..upstream/master`
+  (fresh fetch of real apache/pinot) = **0 commits**, HEAD still `e9be2ee`=#20110; (C) pulls API (state=closed,
+  sort=updated desc) most-recent merged = #20110 @ exactly the checkpoint boundary, every PR below it already in the
+  35-entry ledger, no gaps. **0** PRs merged strictly after checkpoint.
+- Preflight: gh auth OK as xiangfu0 (GH_TOKEN); apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN. Durable read of
+  automation-state.json OK; lock acquired via Contents API CAS (blob SHA dd04eca precondition; new blob d171319), then
+  released in a second atomic state write. Prior run released cleanly → no concurrent run.
+- Local `/workspace/pinot` origin = fork xiangfu0/pinot (stale); added `upstream`=apache/pinot for authoritative
+  reconciliation. Benign `gh-tentrix-wrap` warnings; GH_TOKEN authenticates with full read+write.
+- No docs-relevant work: no docs PR created/merged/commented; no Slack (no-op stays quiet). Checkpoint unchanged;
+  last_successful_run -> 2026-10-31T19:02:03Z.
