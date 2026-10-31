@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -304,7 +304,7 @@
     },
     "20077": {
       "decision": "not_relevant",
-      "reason": "Internal broker instance-selector memory/performance optimization. Reindexes per-segment routing state by CandidateGroup (shared candidate list) instead of per segment; adds CandidateGroup/GroupRouting/SegmentGroups/SegmentGroupsBuilder/SelectionCollector and ImmutableSortedArrayMap.forEach; removes NewSegmentState/InstanceMapping. All 30 files under pinot-broker routing/instanceselector + 1 pinot-common map helper. Breaking changes are to INTERNAL Java APIs for custom instance selectors (InstanceSelector.select/SelectionResult, BaseInstanceSelector, SegmentStates, PriorityPoolInstanceSelector) — not documented plugin SPI or table config. 'Behavior changes' are internal routing mechanics (per-server segment ordering, atomic state publish, per-group log dedup, overflow-safe fixed-replica table-name hash). SINGLE_POOL_SEGMENTS is a BrokerMeter gated by pre-existing CONFIG_OF_BROKER_ENABLE_SINGLE_POOL_SEGMENTS_METRIC (default false, unchanged); PR only broadens which table types emit it when already enabled — not a documented user-facing config. Verified: no new config key, query option, function, default, or table-config field (QueryOptionKey refs in diff are existing options in test files). Docs grep confirms no page documents SINGLE_POOL_SEGMENTS/InstanceMapping/NewSegmentState/internal InstanceSelector API; RoutingConfig.instanceSelectorType values and selector semantics preserved. Not docs-relevant.",
+      "reason": "Internal broker instance-selector memory/performance optimization. Reindexes per-segment routing state by CandidateGroup (shared candidate list) instead of per segment; adds CandidateGroup/GroupRouting/SegmentGroups/SegmentGroupsBuilder/SelectionCollector and ImmutableSortedArrayMap.forEach; removes NewSegmentState/InstanceMapping. All 30 files under pinot-broker routing/instanceselector + 1 pinot-common map helper. Breaking changes are to INTERNAL Java APIs for custom instance selectors (InstanceSelector.select/SelectionResult, BaseInstanceSelector, SegmentStates, PriorityPoolInstanceSelector) \u2014 not documented plugin SPI or table config. 'Behavior changes' are internal routing mechanics (per-server segment ordering, atomic state publish, per-group log dedup, overflow-safe fixed-replica table-name hash). SINGLE_POOL_SEGMENTS is a BrokerMeter gated by pre-existing CONFIG_OF_BROKER_ENABLE_SINGLE_POOL_SEGMENTS_METRIC (default false, unchanged); PR only broadens which table types emit it when already enabled \u2014 not a documented user-facing config. Verified: no new config key, query option, function, default, or table-config field (QueryOptionKey refs in diff are existing options in test files). Docs grep confirms no page documents SINGLE_POOL_SEGMENTS/InstanceMapping/NewSegmentState/internal InstanceSelector API; RoutingConfig.instanceSelectorType values and selector semantics preserved. Not docs-relevant.",
       "merged_at": "2026-10-31T02:33:56Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20077"
     },
@@ -332,11 +332,10 @@
       "durable_state": "ok"
     }
   },
-  "last_run_id": "run-20261031T030116Z-947",
+  "last_run_id": "run-20261031T050121Z-999",
   "lock": {
-    "holder": "run-20261031T040114Z-873",
-    "acquired_at": "2026-10-31T04:01:21Z",
-    "released_at": "2026-10-31T04:07:28Z",
-    "status": "released"
+    "holder": "run-20261031T050121Z-999",
+    "acquired_at": "2026-10-31T05:01:21Z",
+    "status": "active"
   }
 }
