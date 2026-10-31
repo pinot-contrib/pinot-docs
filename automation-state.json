@@ -86,7 +86,7 @@
     },
     "20035": {
       "decision": "not_relevant",
-      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) \u2014 it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
+      "reason": "Internal correctness fix in the query planner for timestamp-index override rewrites. Timestamp-index hints replace DATETRUNC(...) after aggregations already captured their input expressions, so DISTINCTCOUNT(DATETRUNC('DAY',...)) projected the raw timestamp even when the derived DAY index existed. Fix rewrites once at instance-plan entry (InstancePlanMakerImplV2) before fetch planning, using derived columns common to every selected segment, and removes per-segment rewrites/marker key; partially-indexed segment sets keep the original expression. PR body states explicitly: the DAY index must already be configured and built, and SQL is unchanged. No new config/query-option/function/default and no documented user-facing surface change (verified: no new CONFIG/QueryOptionKey/default strings in pinot-core main diff) — it makes an already-documented timestamp index actually apply to aggregation inputs. 3 main source files (InstancePlanMakerImplV2, QueryContext, QueryContextConverterUtils) + 2 test files. Not docs-relevant.",
       "merged_at": "2026-10-28T23:58:25Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20035"
     },
@@ -317,11 +317,11 @@
       "durable_state": "ok"
     }
   },
-  "last_run_id": "run-20261031T020141Z-1410",
+  "last_run_id": "run-20261031T030116Z-947",
   "lock": {
-    "holder": "run-20261031T020141Z-1410",
-    "acquired_at": "2026-10-31T02:01:41Z",
-    "released_at": "2026-10-31T02:03:17Z",
-    "status": "released"
+    "holder": "run-20261031T030116Z-947",
+    "acquired_at": "2026-10-31T03:01:25Z",
+    "released_at": null,
+    "status": "held"
   }
 }
