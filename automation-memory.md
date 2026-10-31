@@ -1472,3 +1472,34 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - Duplicate check: zero upstream automation comments on #20097; zero docs PRs referencing it.
 - Nothing docs-relevant. No docs PR, no upstream comment, no Slack. Checkpoint advanced to 2026-10-30T22:13:55Z.
 - Durable state CAS-updated on automation-state branch; lease acquired/released cleanly.
+
+### 2026-10-31T00:07:30Z (run-20261031T000101Z-811) — 2 PRs TRIAGED, 1 DOCS PR MERGED
+- Inventory: exactly 2 merged PRs strictly after checkpoint 2026-10-30T22:13:55Z. Three independent methods
+  agreed — GitHub search API (is:merged merged:>=2026-10-30, then exact merged_at filter), authoritative
+  apache/pinot pulls API (state=closed base=master full pagination), and apache/master commit log since the
+  checkpoint — all returned exactly #20098 (2026-10-30T23:15:53Z) and #20084 (2026-10-30T23:24:38Z). #20097
+  merged AT the checkpoint boundary (already processed last run), correctly excluded. master tip eca9ea7a ==
+  #20084 → coverage complete.
+- #20084 "Reuse the shared hybrid cluster for tenant rebalance tests" (xiangfu0, labels performance/testing) →
+  **not_relevant**. Merged commit eca9ea7a, 4 files all under pinot-integration-tests/ (pom.xml + 3 test files);
+  author: "No production code changes". Runs 4 TenantRebalance dry-run tests inside SharedHybridSuite instead of a
+  separate cluster (~85s/17.4% faster); test bodies unchanged. No production/config/API/doc surface.
+- #20098 "Merge final results of array, raw sketch and other aggregation functions" (Jackie-Jiang, labels
+  bug/release-notes/query/backward-incompat/multi-stage/functions; follow-up to #20074) → **docs_created**.
+  Merge commit 96fe714, 38 files +699/-72. Most of it is internal mergeFinalResult correctness for the
+  serverReturnFinalResult / serverReturnFinalResultKeyUnpartitioned / is_leaf_return_final_result paths (no
+  SQL-surface change). Two user-visible changes documented (ship in 1.7.0), both verified against merged code:
+    1) LISTAGG now returns null instead of "" when it aggregates no values (always the case for an all-null group
+       in the MSE), distinguishing an empty group from a single empty-string value → functions/aggregation/listagg.md.
+       Verified: extractFinalResult now `CollectionUtils.isNotEmpty(strings) ? join : null`.
+    2) DistinctCountRawULLAggregationFunction.getType() fixed DISTINCTCOUNTULL → DISTINCTCOUNTRAWULL, so an
+       unaliased DISTINCTCOUNTRAWULL(col) now yields result column distinctcountrawull(col) (was distinctcountull(col),
+       colliding with the non-raw fn). Clients looking up by name must use the new name or alias →
+       functions/sketch/distinctcountrawull.md. Verified in diff.
+  Docs PR #1158 → merged 2026-10-31T00:06:48Z (squash). validate-docs.py PASS; 10 broken-anchor WARNINGs confirmed
+  pre-existing (identical count on origin/latest baseline via worktree diff), none introduced. git diff --check clean.
+  Upstream comment: apache/pinot#20098#issuecomment-6536227665.
+- Duplicate check before creating: zero prior automation comments on #20098; no docs PR referencing 20098/listagg
+  (existing docs #620 is WITHIN GROUP, unrelated).
+- Checkpoint advanced to 2026-10-30T23:24:38Z. Slack summary sent (1 new docs PR). Durable state CAS-updated on
+  automation-state branch; lease acquired/released cleanly.
