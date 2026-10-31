@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-10-31T19:02:03Z",
+  "last_successful_run": "2026-10-31T20:03:14Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -332,20 +332,20 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_id": "run-20261031T190104Z-829",
-    "finished_at": "2026-10-31T19:02:03Z",
+    "run_id": "run-20261031T200110Z-1011",
+    "finished_at": "2026-10-31T20:03:14Z",
     "outcome": "no-op",
     "checkpoint_at_run": "2026-10-31T11:11:36Z",
     "new_prs_found": 0,
     "new_prs": [],
     "docs_prs_created": 0,
-    "coverage": "Preflight OK (auth xiangfu0; apache/pinot=write, pinot-docs=admin; durable read+CAS write verified). Fetched apache/pinot via upstream remote; master HEAD e9be2ee=#20110 at checkpoint boundary 2026-10-31T11:11:36Z. Inventoried merged PRs strictly after checkpoint three agreeing ways: (A) GitHub search is:pr is:merged merged:>2026-10-31T11:11:36Z = 0 results; (B) git log upstream/master after checkpoint = 0 commits beyond #20110; (C) pulls API state=closed sort=updated desc = most-recent merged #20110 @ exactly checkpoint, all others at/before checkpoint and already in the 35-PR ledger (no gaps). 0 new PRs; no docs-relevant work. No Slack sent (no-op)."
+    "coverage": "Preflight OK (auth xiangfu0; apache/pinot=write, pinot-docs=admin; durable read verified; CAS write via Contents API verified). Fetched apache/pinot upstream/master HEAD e9be2ee (#20110) at checkpoint boundary 2026-10-31T11:11:36Z. Inventoried merges strictly after checkpoint three agreeing ways: (A) search is:pr is:merged merged:>2026-10-31T11:11:36Z = 0; (B) git log upstream/master since checkpoint = only #20110 at the boundary, nothing beyond; (C) pulls API closed sort=updated desc = most-recent merge #20110 @ exactly checkpoint, all others at/before and already in the 35-PR ledger (no gaps; #20110 present as not_relevant). 0 new PRs; no docs-relevant work. No Slack (no-op)."
   },
   "last_run_id": "run-20261031T200110Z-1011",
   "lock": {
     "holder": "run-20261031T200110Z-1011",
     "acquired_at": "2026-10-31T20:02:18Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T20:03:14Z",
+    "status": "released"
   }
 }
