@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-10-31T13:04:21Z",
+  "last_successful_run": "2026-10-31T14:04:38Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -332,23 +332,20 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_id": "run-20261031T130136Z-ilab",
-    "finished_at": "2026-10-31T13:04:21Z",
+    "run_id": "run-20261031T140122Z-ilab",
+    "finished_at": "2026-10-31T14:04:38Z",
     "outcome": "no-op",
     "checkpoint_at_run": "2026-10-31T11:11:36Z",
     "new_prs_found": 0,
     "new_prs": [],
     "docs_prs_created": 0,
-    "coverage": "Inventoried apache/pinot merged PRs three agreeing ways: (1) pulls API state=closed base=master sort=updated desc --paginate, full scan back to 2019 (6154 merged rows, oldest seen 2019-08-26), 0 merged strictly after checkpoint; (2) commits API sha=master since=checkpoint -> only #20110 at the boundary (already processed); (3) local upstream/master first-parent log --since=checkpoint -> only #20110. upstream/master tip is #20110 (e9be2ee). 12 most recent master PRs all present in 35-entry ledger; no gaps.",
-    "decisions": {},
-    "runner": "IntentLab remote (cloud sandbox)",
-    "notes": "Preflight read-only: gh auth OK (xiangfu0); apache/pinot WRITE, pinot-docs ADMIN. Durable read+write via GitHub Contents API with CAS (SHA precondition) + lease lock acquire/release. No PRs merged after checkpoint; no docs PR created/merged/commented; no Slack (no-op). Checkpoint unchanged at 2026-10-31T11:11:36Z."
+    "coverage": "Inventoried apache/pinot merged PRs three agreeing ways: (1) search/issues is:merged merged:>=2026-10-31T11:00:00Z -> only #20110 (boundary, processed); (2) apache/master git log --since -> tip #20110 (e9be2ee) at 11:11:36Z == checkpoint; (3) pulls API state=closed sort=updated 2 pages -> 0 merged after checkpoint. Boundary PR #20110 already in ledger."
   },
-  "last_run_id": "run-20261031T130136Z-ilab",
+  "last_run_id": "run-20261031T140122Z-ilab",
   "lock": {
     "holder": "run-20261031T140122Z-ilab",
     "acquired_at": "2026-10-31T14:01:30Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T14:04:38Z",
+    "status": "released"
   }
 }
