@@ -161,3 +161,48 @@ None.
 ## Durable state
 Checkpoint advanced to **2026-10-31T03:51:28Z**. State CAS-updated on the `automation-state` branch; lock
 acquired and released cleanly. Slack summary sent (1 new docs PR created + merged).
+
+---
+
+# Run run-20261031T050121Z-999 (2026-10-31 UTC, run 5)
+
+## Coverage
+Prior checkpoint: **2026-10-31T03:51:28Z**. Three independent inventories agree on exactly **1** merged PR strictly
+after the checkpoint:
+- GitHub search API (`repo:apache/pinot is:pr is:merged merged:>2026-10-31T03:51:28Z`) → 1 PR.
+- Pulls API (state=closed, sort=updated desc, filtered `merged_at > checkpoint`) → 1 PR.
+- apache/pinot commits API (sha=master) → merge commit `bfdb305e` (#20107) directly follows `df57b7372` (#19998,
+  the last processed pair). No gap.
+
+The local/fork checkout `origin/master` is stale (HEAD `910f9d5`); the apache/pinot REST API was used as the
+authoritative source for merge state and reconciliation.
+
+## Decision
+### #20107 — "Skip mailbox config scans for non-server membership changes" → NOT RELEVANT
+Merged 2026-10-31T04:30:53Z (merge commit `bfdb305e`). Files: 1 main source + 1 unit test (+275/-21), both under
+`pinot-server/.../helix/ServerMailboxChannelRefreshHandler{,.Test}.java`.
+
+Internal server-side Helix callback optimization: the handler skips rereading all server configs on the Helix
+callback thread when a coherent membership snapshot proves every child change involved non-servers (e.g. a
+`Minion_*` participant joining/leaving). It brackets the child-name read with matching parent stats and checks the
+parent generation and child-version advance; hidden server recreation, counter wrap, changing snapshots, and
+unavailable metadata still force a full scan. Verified from the merged diff: the only config references are internal
+Helix `InstanceConfig`/membership-metadata reads — there is **no** new or changed documented config key, default,
+query option, scalar/transform function, table-config field, SPI contract, or documentation page. No user-facing
+behavior change.
+
+Dedup: no existing pinot-docs PR mentions 20107; no prior automation comment on the upstream PR (only a Codecov bot
+comment).
+
+## Validation
+Not applicable — no docs change was produced this run.
+
+## Outcome
+No-op run. No docs PR created. No Slack notification (reserved for runs that create docs PRs).
+
+## Blockers
+None.
+
+## Durable state
+Checkpoint advanced to **2026-10-31T04:30:53Z** (through #20107). State CAS-updated on the `automation-state`
+branch; lease acquired and released cleanly.

@@ -1558,3 +1558,18 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   https://github.com/apache/pinot/pull/19998#issuecomment-6538800286
 - Checkpoint advanced to 2026-10-31T03:51:28Z. 1 new docs PR created+merged; Slack summary sent. Durable state
   CAS-updated on automation-state branch; lock acquired/released cleanly.
+
+## Run run-20261031T050121Z-999 (2026-10-31 UTC, run 5)
+- Prior checkpoint 2026-10-31T03:51:28Z. Coverage: search API (`is:merged merged:>2026-10-31T03:51:28Z`), pulls API
+  (closed, sorted updated desc), and apache/pinot commits API all agree on exactly 1 PR merged strictly after
+  checkpoint: #20107 (merged 2026-10-31T04:30:53Z, merge commit bfdb305e, directly follows #19998 df57b7372).
+  (Fork/local checkout origin/master is stale at 910f9d5; used apache/pinot API as authoritative source.)
+- #20107 "Skip mailbox config scans for non-server membership changes" (1 main source file + its unit test,
+  +275/-21) → **not_relevant**. Internal server-side Helix callback optimization in
+  `ServerMailboxChannelRefreshHandler`: skips redundant server-config scans when a coherent membership snapshot
+  proves all child changes involved non-servers (e.g. minion join/leave). Verified from merged diff: references only
+  internal Helix `InstanceConfig`/membership-metadata reads; no new/changed documented config key, default, query
+  option, function, table-config field, SPI, or doc page. No user-facing behavior change.
+- Dedup: no prior docs PR mentioning 20107; no prior automation upstream comment (only a Codecov bot comment).
+- No docs PR created (no-op run; no Slack notification). Checkpoint advanced to 2026-10-31T04:30:53Z. Durable state
+  CAS-updated on automation-state branch; lease acquired/released cleanly.

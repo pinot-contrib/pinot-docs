@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-31T03:51:28Z",
-  "last_successful_run": "2026-10-31T04:07:28Z",
+  "last_processed_merged_at": "2026-10-31T04:30:53Z",
+  "last_successful_run": "2026-10-31T05:02:51Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -316,13 +316,19 @@
       "upstream_comment": "https://github.com/apache/pinot/pull/19998#issuecomment-6538800286",
       "merged_at": "2026-10-31T03:51:28Z",
       "upstream_url": "https://github.com/apache/pinot/pull/19998"
+    },
+    "20107": {
+      "decision": "not_relevant",
+      "reason": "Internal server-side Helix callback optimization only: ServerMailboxChannelRefreshHandler skips redundant server-config scans when a coherent membership snapshot proves all child changes involved non-servers (e.g. minion join/leave). Changes one main source file + its unit test; references only internal Helix InstanceConfig/membership-metadata reads. No new or changed documented config key, default, query option, function, table-config field, SPI, or doc page. No user-facing behavior change.",
+      "merged_at": "2026-10-31T04:30:53Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20107"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_utc": "2026-10-31T03:02:59Z",
+    "run_utc": "2026-10-31T05:02:51Z",
     "outcome": "noop",
-    "summary": "1 new upstream PR merged strictly after prior checkpoint 2026-10-31T01:22:41Z (#20077). Classified not_relevant (internal broker instance-selector memory/perf optimization; internal Java-API breaking changes only; no new/changed documented config, query option, function, default, table-config, or doc page). No docs PR created. Coverage: search API + pulls API (3 pages) agree on exactly 1 PR, reconciled against apache/master (HEAD d226fb5). Checkpoint advanced to 2026-10-31T02:33:56Z.",
+    "summary": "1 new upstream PR merged strictly after prior checkpoint 2026-10-31T03:51:28Z (#20107, merged 2026-10-31T04:30:53Z, merge commit bfdb305e). Classified not_relevant: internal server-side Helix callback optimization (ServerMailboxChannelRefreshHandler skips redundant server-config scans on non-server membership changes); 1 main source file + its unit test; no new/changed documented config, default, query option, function, table-config field, SPI, or doc page. No docs PR created. Coverage: search API + pulls API + commits API all agree on exactly 1 PR; reconciled against apache/master (HEAD bfdb305e, directly follows #19998 df57b7372). Checkpoint advanced to 2026-10-31T04:30:53Z.",
     "new_docs_prs": 0,
     "checkpoint_unchanged": false,
     "preflight": {
@@ -336,6 +342,7 @@
   "lock": {
     "holder": "run-20261031T050121Z-999",
     "acquired_at": "2026-10-31T05:01:21Z",
-    "status": "active"
+    "released_at": "2026-10-31T05:02:51Z",
+    "status": "released"
   }
 }
