@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-10-31T14:04:38Z",
+  "last_successful_run": "2026-10-31T15:02:18Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -332,20 +332,20 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_id": "run-20261031T140122Z-ilab",
-    "finished_at": "2026-10-31T14:04:38Z",
+    "run_id": "run-20261031T150113Z-ilab",
+    "finished_at": "2026-10-31T15:02:18Z",
     "outcome": "no-op",
     "checkpoint_at_run": "2026-10-31T11:11:36Z",
     "new_prs_found": 0,
     "new_prs": [],
     "docs_prs_created": 0,
-    "coverage": "Inventoried apache/pinot merged PRs three agreeing ways: (1) search/issues is:merged merged:>=2026-10-31T11:00:00Z -> only #20110 (boundary, processed); (2) apache/master git log --since -> tip #20110 (e9be2ee) at 11:11:36Z == checkpoint; (3) pulls API state=closed sort=updated 2 pages -> 0 merged after checkpoint. Boundary PR #20110 already in ledger."
+    "coverage": "Inventoried apache/pinot merged PRs three agreeing ways after checkpoint 2026-10-31T11:11:36Z: (1) git log apache/master since checkpoint -> only boundary #20110 (e9be2ee), nothing strictly after; (2) search/issues is:merged merged:>=2026-10-31T11:11:00Z -> only #20110 at 11:11:36Z == checkpoint, already in ledger; (3) pulls API state=closed sort=updated 2 pages -> 0 merged after checkpoint. Boundary PR #20110 already processed (not_relevant, dependabot lock-file bump)."
   },
-  "last_run_id": "run-20261031T140122Z-ilab",
+  "last_run_id": "run-20261031T150113Z-ilab",
   "lock": {
     "holder": "run-20261031T150113Z-ilab",
     "acquired_at": "2026-10-31T15:01:20Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T15:02:18Z",
+    "status": "released"
   }
 }
