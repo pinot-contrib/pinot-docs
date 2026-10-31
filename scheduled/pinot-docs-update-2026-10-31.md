@@ -39,3 +39,36 @@ None.
 
 ## Durable state
 CAS-updated on the `automation-state` branch; lease acquired and released cleanly. Slack summary sent (1 new docs PR).
+
+---
+
+# Pinot Docs Update — 2026-10-31 (UTC) — Run 2
+
+**Run:** run-20261031T020141Z-1410
+**Prior checkpoint:** 2026-10-30T23:24:38Z → **New checkpoint:** 2026-10-31T01:22:41Z
+
+## Coverage
+Merged apache/pinot PRs strictly after the prior checkpoint, cross-verified by two independent methods plus master reconciliation:
+- GitHub search API (`is:merged merged:>=2026-10-30`, 10 PRs, exact `merged_at` filter)
+- Authoritative pulls API (`state=closed sort=updated`, 3 pages / 248 merged PRs, oldest in window 2025-08-11 so coverage is complete)
+- apache/master commit log reconciliation (#20068 present)
+
+Both methods agreed: exactly **1** PR merged strictly after 2026-10-30T23:24:38Z — **#20068** (merged 2026-10-31T01:22:41Z). All other merged PRs were already in the ledger or at/before the checkpoint. Coverage complete.
+
+## Decisions
+
+| PR | Title | Decision | Docs |
+| --- | --- | --- | --- |
+| [#20068](https://github.com/apache/pinot/pull/20068) | Add requiresFetch flag to a segment to for prefetch planning | not_relevant | — |
+
+### #20068 — not relevant
+Internal query-engine prefetch-planning optimization (merge commit `66eb74d6`, 8 files +402/-41). Adds a backward-compatible `default boolean requiresFetch() { return false; }` to the `@InterfaceAudience.Private` SPI interfaces `IndexSegment` and `SegmentDirectory`, consumed by `FetchPlanner` and `BloomFilterSegmentPruner` to decide whether a segment needs a fetch context during prefetch planning. Verified against merged code: private audience, default no-op method, changes confined to `pinot-core` query internals and `pinot-segment-spi` private interfaces plus tests (`InstancePlanMakerPrefetchTest`, `BloomFilterSegmentPrunerTest`). No user-facing config, table/query option, documented default, or wire/serialization change. Dedup: no prior docs PR or upstream comment references #20068.
+
+## Validation
+No docs changes created this run — no validation required.
+
+## Blockers
+None.
+
+## Durable state
+CAS-updated on the `automation-state` branch; lease acquired and released cleanly. No Slack summary (no-op run, zero new docs PRs).
