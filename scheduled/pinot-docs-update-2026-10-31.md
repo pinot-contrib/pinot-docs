@@ -542,3 +542,25 @@ Gap reconciliation over the window (2026-10-26T23:24:33Z, checkpoint]: **34** me
 **Blockers.** None.
 
 **Durable state.** Checkpoint unchanged at **2026-10-31T11:11:36Z**. Ledger remains 35 entries. `last_successful_run` → 2026-10-31T22:02:41Z.
+
+## Run run-20261031T230120Z-1005 (2026-10-31T23:02:46Z UTC) — no-op
+
+**Prior checkpoint:** 2026-10-31T11:11:36Z → **New checkpoint:** 2026-10-31T11:11:36Z (unchanged)
+
+**Coverage.** Merged apache/pinot PRs strictly after the checkpoint, cross-verified two independent ways:
+1. `git log upstream/master --since=2026-10-31T11:11:36Z` on a fresh fetch of real apache/pinot — only **#20110** at the inclusive boundary (HEAD `e9be2ee`), nothing beyond.
+2. pulls API (state=closed, sort=updated desc, per_page=100; 78 merged PRs examined) — **0** merged strictly after checkpoint; most-recent merged = #20110 @ exactly 2026-10-31T11:11:36Z, already in the 35-entry ledger as not_relevant.
+
+Gap reconciliation over the window (2026-10-26T23:24:33Z, checkpoint]: **34** merged PRs, all **34** present in ledger, **0** gaps / unprocessed / failed work.
+
+**Decisions.** None — no new PRs to triage.
+
+**Validation.** Not applicable — no docs change produced.
+
+**Outcome.** No docs PR created. No upstream comment. No Slack notification (reserved for runs creating docs PRs).
+
+**Environment preflight (this run).** gh auth OK as `xiangfu0` (GH_TOKEN); apache/pinot push+triage (comment-capable), pinot-contrib/pinot-docs ADMIN. Durable read of `automation-state.json` OK; writes via GitHub Contents API with CAS (blob-SHA precondition: 5c0990f→9f7e9a4 lock acquire, 9f7e9a4→d463a81 release); lease lock acquired (held) then released in-run. Local `/workspace/pinot` `origin`=fork `xiangfu0/pinot`, `upstream`=apache/pinot fetched for authoritative reconciliation. Benign `gh-tentrix-wrap` warnings on stderr; GH_TOKEN authenticates fully.
+
+**Blockers.** None.
+
+**Durable state.** Checkpoint unchanged at **2026-10-31T11:11:36Z**. Ledger remains 35 entries. `last_successful_run` → 2026-10-31T23:02:46Z.
