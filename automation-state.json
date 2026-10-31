@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-30T22:13:55Z",
-  "last_successful_run": "2026-10-30T23:05:43Z",
+  "last_processed_merged_at": "2026-10-30T23:24:38Z",
+  "last_successful_run": "2026-10-31T00:07:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 19838,
-    "upstream_url": "https://github.com/apache/pinot/pull/19838",
-    "docs_pr": 1157,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1157",
-    "docs_merged_at": "2026-10-30T15:04:37Z",
-    "upstream_comment": "https://github.com/apache/pinot/pull/19838#issuecomment-6525983348"
+    "upstream_pr": 20098,
+    "upstream_url": "https://github.com/apache/pinot/pull/20098",
+    "docs_pr": 1158,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1158",
+    "docs_merged_at": "2026-10-31T00:06:48Z",
+    "upstream_comment": "https://github.com/apache/pinot/pull/20098#issuecomment-6536227665"
   },
   "processed_prs": {
     "19862": {
@@ -264,15 +264,45 @@
       "upstream_comment": null,
       "processed_by_run": "run-20261030T230102Z-899",
       "processed_at": "2026-10-30T23:05:43Z"
+    },
+    "20084": {
+      "upstream_pr": 20084,
+      "upstream_url": "https://github.com/apache/pinot/pull/20084",
+      "title": "Reuse the shared hybrid cluster for tenant rebalance tests",
+      "author": "xiangfu0",
+      "decision": "not_relevant",
+      "reason": "Integration-test harness change only (labels: performance, testing; author states 'No production code changes'). Verified from merged commit eca9ea7a: 4 files, all under pinot-integration-tests/ (pom.xml, SharedHybridClusterIntegrationTestSuite.java, TenantRebalanceIntegrationTest.java, suites/SharedHybridSuite.java). Runs the four TenantRebalance dry-run integration tests inside the existing SharedHybridSuite (isolated table/topic scenario, existing cleanup barriers) instead of spinning up a separate cluster, saving ~85s/17.4% of the affected 32-test phase; test bodies unchanged; direct -Dtest=TenantRebalanceIntegrationTest still starts/closes its own fixture; removes unused H2/query-generator setup. No production code, config key, default, query option, SQL function, public API, or documented user-facing behavior change. Not docs-relevant.",
+      "upstream_merged_at": "2026-10-30T23:24:38Z",
+      "merged_at": "2026-10-30T23:24:38Z",
+      "docs_url": null,
+      "upstream_comment": null,
+      "processed_by_run": "run-20261031T000101Z-811",
+      "processed_at": "2026-10-31T00:07:30Z"
+    },
+    "20098": {
+      "upstream_pr": 20098,
+      "upstream_url": "https://github.com/apache/pinot/pull/20098",
+      "title": "Merge final results of array, raw sketch and other aggregation functions",
+      "author": "Jackie-Jiang",
+      "decision": "docs_created",
+      "docs_pr": 1158,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1158",
+      "docs_merged_at": "2026-10-31T00:06:48Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/20098#issuecomment-6536227665",
+      "upstream_merged_at": "2026-10-30T23:15:53Z",
+      "merged_at": "2026-10-30T23:15:53Z",
+      "summary": "Follow-up to #20074 implementing mergeFinalResult for aggregation functions whose final results are merged on the serverReturnFinalResult / is_leaf_return_final_result paths (HISTOGRAM, SUMARRAYLONG/DOUBLE, ARRAYAGG, LISTAGG, ANYVALUE, IDSET, STUNION, raw HLL/HLL+/CPC/ULL/Theta/tuple/t-digest/KLL/frequent sketches; fixes CPC/ULL/Theta ClassCastException; SUMPRECISION rounding; FUNNELCOUNT no-mutate; FUNNELSTEPDURATIONSTATS now rejects merge). Most of this is internal correctness with NO SQL-surface change. Two user-visible changes documented (ship in 1.7.0): (1) LISTAGG returns null instead of empty string when it aggregates no values in the multi-stage engine, distinguishing an empty group from a single empty-string value -> functions/aggregation/listagg.md; (2) DistinctCountRawULLAggregationFunction.getType() fixed from DISTINCTCOUNTULL to DISTINCTCOUNTRAWULL, so unaliased DISTINCTCOUNTRAWULL(col) now yields result column distinctcountrawull(col) instead of distinctcountull(col) -> functions/sketch/distinctcountrawull.md. Both verified against merged code at 96fe714, not just PR prose.",
+      "processed_by_run": "run-20261031T000101Z-811",
+      "processed_at": "2026-10-31T00:07:30Z"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "No-op (no docs changes). Inventory via authoritative apache/pinot pulls API + GitHub search API agreed: exactly ONE PR merged strictly after prior checkpoint 2026-10-30T19:59:40Z -> #20097 (merged 2026-10-30T22:13:55Z). Reconciled against apache/master commit log: the only new commit is 3117dbb (#20097), which is the master tip, so coverage is complete. Classified #20097 not_relevant (internal rebalance force-commit dedup fix; no config/default/API/doc-surface change). Checkpoint advanced to 2026-10-30T22:13:55Z. No docs PRs created, no upstream comments, no Slack.",
-  "last_run_id": "run-20261030T230102Z-899",
+  "last_run_result": "Processed 2 PRs merged strictly after prior checkpoint 2026-10-30T22:13:55Z. Inventory via GitHub search API + authoritative pulls API + apache/master commit log all agreed: exactly #20098 (merged 2026-10-30T23:15:53Z) and #20084 (merged 2026-10-30T23:24:38Z); #20097 merged AT checkpoint (already processed). Coverage complete (master tip eca9ea7a == #20084). #20084 -> not_relevant (integration-test harness only, no production code). #20098 -> docs_created: docs PR #1158 (merged 2026-10-31T00:06:48Z) documenting LISTAGG null-on-empty and DISTINCTCOUNTRAWULL result-column-name fix (1.7.0); upstream comment posted. validate-docs.py PASS (10 pre-existing broken-anchor warnings unchanged); git diff --check clean. Checkpoint advanced to 2026-10-30T23:24:38Z.",
+  "last_run_id": "run-20261031T000101Z-811",
   "lock": {
     "holder": "run-20261031T000101Z-811",
     "acquired_at": "2026-10-31T00:01:01Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T00:07:30Z",
+    "status": "released"
   }
 }
