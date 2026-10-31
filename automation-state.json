@@ -338,9 +338,9 @@
   },
   "last_run_id": "run-20261031T080304Z-ilab",
   "lock": {
-    "holder": "run-20261031T080304Z-ilab",
-    "acquired_at": "2026-10-31T08:03:04Z",
-    "released_at": "2026-10-31T08:06:30Z",
-    "status": "released"
+    "holder": "run-20261031T090126Z-ilab",
+    "acquired_at": "2026-10-31T09:01:26Z",
+    "released_at": null,
+    "status": "held"
   }
 }
