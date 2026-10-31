@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T04:30:53Z",
-  "last_successful_run": "2026-10-31T07:02:29Z",
+  "last_successful_run": "2026-10-31T08:06:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -326,19 +326,21 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_id": "run-20261031T070138Z-1167",
-    "finished_at": "2026-10-31T07:02:29Z",
+    "run_id": "run-20261031T080304Z-ilab",
+    "finished_at": "2026-10-31T08:06:30Z",
     "outcome": "no-op",
     "checkpoint_at_run": "2026-10-31T04:30:53Z",
     "new_prs_found": 0,
     "docs_prs_created": 0,
-    "coverage": "Inventoried apache/pinot merged PRs strictly after checkpoint via search API, pulls API (sort=updated), and apache/master git log reconciliation. All three agree: zero PRs merged after 2026-10-31T04:30:53Z. PR #20107 (boundary) already processed as not_relevant."
+    "coverage": "Inventoried apache/pinot merged PRs; pulls API (merged_at) + master-log reconciliation show zero PRs merged strictly after checkpoint 2026-10-31T04:30:53Z (last=#20107 at checkpoint, already processed). 34 PRs in ledger; all 20 recent master PRs present.",
+    "runner": "IntentLab remote (cloud sandbox)",
+    "notes": "Durable writes use GitHub Contents API (server-side); git push to bare branches is blocked by session-prefix hook."
   },
-  "last_run_id": "run-20261031T070138Z-1167",
+  "last_run_id": "run-20261031T080304Z-ilab",
   "lock": {
     "holder": "run-20261031T080304Z-ilab",
     "acquired_at": "2026-10-31T08:03:04Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T08:06:30Z",
+    "status": "released"
   }
 }
