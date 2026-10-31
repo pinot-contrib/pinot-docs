@@ -298,3 +298,31 @@ to bare branches blocked by session-prefix hook, so Contents API is used). Local
 
 **Durable state.** Checkpoint unchanged at **2026-10-31T04:30:53Z**. State CAS-updated on `automation-state`; lease
 acquired and released cleanly.
+
+## Run run-20261031T120116Z-ilab — 2026-10-31T12:04:56Z UTC (no-op; checkpoint advanced)
+
+**Coverage.** Prior checkpoint **2026-10-31T04:30:53Z**. Three independent inventories agree on **exactly 1** PR merged
+strictly after the checkpoint — **#20110**:
+- Pulls API (`state=closed base=master sort=updated direction=desc`, `--paginate` → 9046 unique merged PRs) → only
+  #20110 newer than checkpoint.
+- GitHub commits API (`sha=master since=<checkpoint>`) → #20110 (and #20107 at the boundary).
+- Local `upstream/master` first-parent log after fresh fetch (`upstream`=apache/pinot; `origin`=stale fork
+  xiangfu0/pinot) → HEAD #20110, then #20107 (already in ledger).
+
+**Decision.**
+- **#20110 → not_relevant.** Dependabot bump of transitive npm dependency `follow-redirects` 1.16.1→1.16.2 in
+  `pinot-controller/src/main/resources/package-lock.json` (controller web UI). Lock-file only (1 file, +3/−3). No
+  user-facing behavior, config, API, or documented-default change. No docs follow-up warranted.
+
+**Validation.** Not applicable — no docs change produced.
+
+**Outcome.** No docs PR created. No upstream comment. No Slack notification (reserved for runs creating docs PRs).
+
+**Environment preflight (this run).** gh auth OK as `xiangfu0`; apache/pinot WRITE, pinot-contrib/pinot-docs ADMIN.
+Durable read+write via GitHub Contents API + CAS (SHA precondition) + lease lock acquire/release. Local pinot `origin` =
+stale fork `xiangfu0/pinot`; `apache/pinot` added as `upstream` for authoritative reconciliation.
+
+**Blockers.** None.
+
+**Durable state.** Checkpoint **advanced** to **2026-10-31T11:11:36Z** (#20110 merged_at, fully triaged). Ledger now 35
+entries. State CAS-updated on `automation-state`; lease acquired and released cleanly.
