@@ -341,11 +341,11 @@
     "docs_prs_created": 0,
     "coverage": "Preflight OK (auth xiangfu0; apache/pinot=write, pinot-docs=admin; durable read+CAS write verified). Fetched apache/pinot via upstream remote; master HEAD e9be2ee=#20110 at checkpoint boundary 2026-10-31T11:11:36Z. Inventoried merged PRs strictly after checkpoint three agreeing ways: (A) GitHub search is:pr is:merged merged:>2026-10-31T11:11:36Z = 0 results; (B) git log upstream/master after checkpoint = 0 commits beyond #20110; (C) pulls API state=closed sort=updated desc = most-recent merged #20110 @ exactly checkpoint, all others at/before checkpoint and already in the 35-PR ledger (no gaps). 0 new PRs; no docs-relevant work. No Slack sent (no-op)."
   },
-  "last_run_id": "run-20261031T190104Z-829",
+  "last_run_id": "run-20261031T200110Z-1011",
   "lock": {
-    "holder": "run-20261031T190104Z-829",
-    "acquired_at": "2026-10-31T19:01:04Z",
-    "released_at": "2026-10-31T19:02:03Z",
-    "status": "released"
+    "holder": "run-20261031T200110Z-1011",
+    "acquired_at": "2026-10-31T20:02:18Z",
+    "released_at": null,
+    "status": "held"
   }
 }
