@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T04:30:53Z",
-  "last_successful_run": "2026-10-31T05:02:51Z",
+  "last_successful_run": "2026-10-31T06:02:26Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -326,11 +326,11 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_utc": "2026-10-31T05:02:51Z",
+    "run_utc": "2026-10-31T06:02:26Z",
     "outcome": "noop",
-    "summary": "1 new upstream PR merged strictly after prior checkpoint 2026-10-31T03:51:28Z (#20107, merged 2026-10-31T04:30:53Z, merge commit bfdb305e). Classified not_relevant: internal server-side Helix callback optimization (ServerMailboxChannelRefreshHandler skips redundant server-config scans on non-server membership changes); 1 main source file + its unit test; no new/changed documented config, default, query option, function, table-config field, SPI, or doc page. No docs PR created. Coverage: search API + pulls API + commits API all agree on exactly 1 PR; reconciled against apache/master (HEAD bfdb305e, directly follows #19998 df57b7372). Checkpoint advanced to 2026-10-31T04:30:53Z.",
+    "summary": "No upstream apache/pinot PR merged strictly after checkpoint 2026-10-31T04:30:53Z. apache/pinot master HEAD is bfdb305e (#20107), merged AT the checkpoint and already processed (not_relevant). Coverage cross-verified three ways: search API (merged:>=2026-10-31T04:30:53Z returns only #20107), pulls API (state=closed sort=updated desc; newest merged is #20107 at the checkpoint), and master commit log reconciliation (HEAD bfdb305e == #20107, directly follows df57b737 #19998). All recent master PRs present in ledger. No docs PR created. Checkpoint unchanged.",
     "new_docs_prs": 0,
-    "checkpoint_unchanged": false,
+    "checkpoint_unchanged": true,
     "preflight": {
       "auth": "xiangfu0",
       "apache_pinot": "WRITE",
@@ -338,11 +338,11 @@
       "durable_state": "ok"
     }
   },
-  "last_run_id": "run-20261031T050121Z-999",
+  "last_run_id": "run-20261031T060121Z-1154",
   "lock": {
     "holder": "run-20261031T060121Z-1154",
     "acquired_at": "2026-10-31T06:01:27Z",
-    "released_at": null,
-    "status": "active"
+    "released_at": "2026-10-31T06:02:26Z",
+    "status": "released"
   }
 }
