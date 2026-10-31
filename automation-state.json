@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-10-31T22:02:41Z",
+  "last_successful_run": "2026-10-31T23:02:25Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -332,20 +332,20 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_id": "run-20261031T220125Z-1165",
-    "finished_at": "2026-10-31T22:02:41Z",
+    "run_id": "run-20261031T230120Z-1005",
+    "finished_at": "2026-10-31T23:02:25Z",
     "outcome": "no-op",
     "checkpoint_at_run": "2026-10-31T11:11:36Z",
     "new_prs_found": 0,
     "new_prs": [],
     "docs_prs_created": 0,
-    "coverage": "Preflight OK (auth xiangfu0; apache/pinot WRITE, pinot-docs ADMIN; durable read + CAS lock acquire verified). Fetched upstream/master HEAD e9be2ee (#20110) merged exactly at checkpoint 2026-10-31T11:11:36Z. Inventoried merges strictly after checkpoint two agreeing ways: (B) git log upstream/master --since=checkpoint = only #20110 at inclusive boundary, nothing newer; (C) pulls API closed sort=updated desc per_page=100 (78 merged PRs examined) = 0 merged strictly after checkpoint, most-recent merge #20110 @ exactly checkpoint, already in ledger as not_relevant. Gap reconciliation over window (2026-10-26T23:24:33Z, checkpoint]: 34 merged PRs, all 34 in ledger, 0 gaps. 0 new PRs; no docs-relevant work. Checkpoint unchanged. No Slack (no-op)."
+    "coverage": "Preflight OK (auth xiangfu0; apache/pinot push+triage, pinot-docs ADMIN; durable read + CAS lock acquire verified, file SHA 5c0990f->9f7e9a4). Fetched upstream/master HEAD e9be2ee (#20110) merged exactly at checkpoint 2026-10-31T11:11:36Z. Inventoried merges strictly after checkpoint two agreeing ways: (B) git log upstream/master --since=checkpoint = only #20110 at inclusive boundary, nothing newer; (C) pulls API closed sort=updated desc per_page=100 (78 merged PRs examined) = 0 merged strictly after checkpoint, most-recent merge #20110 @ exactly checkpoint, already in ledger as not_relevant. Gap reconciliation over window (2026-10-26T23:24:33Z, checkpoint]: 34 merged PRs, all 34 in ledger, 0 gaps. 0 new PRs; no docs-relevant work. Checkpoint unchanged. No Slack (no-op)."
   },
-  "last_run_id": "run-20261031T220125Z-1165",
+  "last_run_id": "run-20261031T230120Z-1005",
   "lock": {
     "holder": "run-20261031T230120Z-1005",
     "acquired_at": "2026-10-31T23:01:31Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T23:02:25Z",
+    "status": "released"
   }
 }
