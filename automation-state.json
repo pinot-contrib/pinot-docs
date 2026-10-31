@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-31T02:33:56Z",
-  "last_successful_run": "2026-10-31T03:02:59Z",
+  "last_processed_merged_at": "2026-10-31T03:51:28Z",
+  "last_successful_run": "2026-10-31T04:07:28Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
-    "upstream_pr": 20098,
-    "upstream_url": "https://github.com/apache/pinot/pull/20098",
-    "docs_pr": 1158,
-    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1158",
-    "docs_merged_at": "2026-10-31T00:06:48Z",
-    "upstream_comment": "https://github.com/apache/pinot/pull/20098#issuecomment-6536227665"
+    "upstream_pr": 19998,
+    "upstream_url": "https://github.com/apache/pinot/pull/19998",
+    "docs_pr": 1159,
+    "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1159",
+    "docs_merged_at": "2026-10-31T04:07:00Z",
+    "upstream_comment": "https://github.com/apache/pinot/pull/19998#issuecomment-6538800286"
   },
   "processed_prs": {
     "19862": {
@@ -307,6 +307,15 @@
       "reason": "Internal broker instance-selector memory/performance optimization. Reindexes per-segment routing state by CandidateGroup (shared candidate list) instead of per segment; adds CandidateGroup/GroupRouting/SegmentGroups/SegmentGroupsBuilder/SelectionCollector and ImmutableSortedArrayMap.forEach; removes NewSegmentState/InstanceMapping. All 30 files under pinot-broker routing/instanceselector + 1 pinot-common map helper. Breaking changes are to INTERNAL Java APIs for custom instance selectors (InstanceSelector.select/SelectionResult, BaseInstanceSelector, SegmentStates, PriorityPoolInstanceSelector) — not documented plugin SPI or table config. 'Behavior changes' are internal routing mechanics (per-server segment ordering, atomic state publish, per-group log dedup, overflow-safe fixed-replica table-name hash). SINGLE_POOL_SEGMENTS is a BrokerMeter gated by pre-existing CONFIG_OF_BROKER_ENABLE_SINGLE_POOL_SEGMENTS_METRIC (default false, unchanged); PR only broadens which table types emit it when already enabled — not a documented user-facing config. Verified: no new config key, query option, function, default, or table-config field (QueryOptionKey refs in diff are existing options in test files). Docs grep confirms no page documents SINGLE_POOL_SEGMENTS/InstanceMapping/NewSegmentState/internal InstanceSelector API; RoutingConfig.instanceSelectorType values and selector semantics preserved. Not docs-relevant.",
       "merged_at": "2026-10-31T02:33:56Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20077"
+    },
+    "19998": {
+      "decision": "docs_created",
+      "docs_pr": 1159,
+      "docs_url": "https://github.com/pinot-contrib/pinot-docs/pull/1159",
+      "docs_merged_at": "2026-10-31T04:07:00Z",
+      "upstream_comment": "https://github.com/apache/pinot/pull/19998#issuecomment-6538800286",
+      "merged_at": "2026-10-31T03:51:28Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/19998"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
@@ -327,7 +336,7 @@
   "lock": {
     "holder": "run-20261031T040114Z-873",
     "acquired_at": "2026-10-31T04:01:21Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T04:07:28Z",
+    "status": "released"
   }
 }
