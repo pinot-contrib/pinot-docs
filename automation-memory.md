@@ -1534,3 +1534,27 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   semantics preserved. Dedup: no prior docs PR or upstream comment on #20077.
 - Checkpoint advanced to 2026-10-31T02:33:56Z. No-op run (0 new docs PRs); no Slack. Durable state CAS-updated on
   automation-state branch; lease acquired/released cleanly.
+
+## Run run-20261031T040114Z-873 (2026-10-31 UTC, run 4)
+- Prior checkpoint 2026-10-31T02:33:56Z. Coverage: search API (`is:merged merged:>=2026-10-31`, exact merged_at
+  filter) found 3 PRs today (#20068 @01:22:41Z, #20077 @02:33:56Z both already processed; #19998 @03:51:28Z new).
+  Exactly 1 PR merged strictly after checkpoint: #19998. (Fork origin checkout is stale; used apache/pinot API as
+  authoritative source.)
+- #19998 "Store sealed segment metadata in a mapped sidecar" (merge commit df57b73, 43 files +2972/-132) →
+  **docs_created** (docs#1159). Introduces user-facing server instance config
+  `pinot.server.instance.segment.metadata.mmap.enabled`. Verified from merged source:
+  `IndexLoadingConfig.MAPPED_SEGMENT_METADATA_ENABLED = "segment.metadata.mmap.enabled"` (Javadoc: relative to
+  `pinot.server.instance`), read via `instanceConfig.getProperty(MAPPED_SEGMENT_METADATA_ENABLED, false)` → default
+  **false** (disabled). When enabled, server loads sealed-segment metadata from a local file-backed
+  `segment_metadata.bin` sidecar instead of on-heap; `metadata.properties` stays canonical; sidecar is a disposable
+  cache rebuilt if missing/stale/corrupt, with fallback to eager on-heap metadata on open failure. The `loadMapped`
+  standalone API and on-disk sidecar format are internal/advanced; documented only the single instance config row.
+  Dedup: no prior docs PR (searched mmap/19998) and no prior upstream docs comment on #19998.
+- Docs PR #1159 → reference/configuration-reference/server.md, single row added after
+  `pinot.server.instance.reload.consumingSegment`. Validation: `git diff --check` clean;
+  `scripts/validate-docs.py --summary-only` PASS (638 files, 10 pre-existing broken anchors, identical to clean-latest
+  baseline — no new failures). Checks "Validate changed docs" + GitBook SUCCESS; informational full audit SUCCESS.
+  Squash-merged @2026-10-31T04:07:00Z (merge commit 39ea186). Upstream comment:
+  https://github.com/apache/pinot/pull/19998#issuecomment-6538800286
+- Checkpoint advanced to 2026-10-31T03:51:28Z. 1 new docs PR created+merged; Slack summary sent. Durable state
+  CAS-updated on automation-state branch; lock acquired/released cleanly.

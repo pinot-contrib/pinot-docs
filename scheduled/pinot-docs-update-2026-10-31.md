@@ -109,3 +109,55 @@ None.
 
 ## Durable state
 CAS-updated on the `automation-state` branch; lease acquired and released cleanly. No Slack summary (no-op run, zero new docs PRs).
+
+---
+
+# Run 4 — run-20261031T040114Z-873 (2026-10-31 UTC)
+
+## Coverage
+Merged apache/pinot PRs strictly after the prior checkpoint `2026-10-31T02:33:56Z`, via the GitHub search API
+(`is:merged merged:>=2026-10-31`) with exact `merged_at` filtering. (The local checkout's `origin` is the stale fork
+`xiangfu0/pinot`; the authoritative apache/pinot API was used for inventory and merged-code verification.)
+
+3 PRs merged on 2026-10-31: #20068 (01:22:41Z) and #20077 (02:33:56Z) were already processed in prior runs; **#19998**
+(03:51:28Z) is the only PR merged strictly after the checkpoint. Coverage complete.
+
+## Decisions
+
+| PR | Title | Decision | Docs |
+| --- | --- | --- | --- |
+| [#19998](https://github.com/apache/pinot/pull/19998) | Store sealed segment metadata in a mapped sidecar | docs_created | [pinot-docs#1159](https://github.com/pinot-contrib/pinot-docs/pull/1159) |
+
+### #19998 — docs created
+Introduces a new user-facing **server instance config** that lets a server load sealed-segment metadata from a local
+file-backed `segment_metadata.bin` sidecar instead of retaining it all on heap, substantially reducing heap on servers
+hosting many sealed segments.
+
+Verified against merged source (not PR prose):
+`IndexLoadingConfig.MAPPED_SEGMENT_METADATA_ENABLED = "segment.metadata.mmap.enabled"` (Javadoc: key relative to
+`pinot.server.instance`), read via `instanceConfig.getProperty(MAPPED_SEGMENT_METADATA_ENABLED, false)` → full property
+**`pinot.server.instance.segment.metadata.mmap.enabled`**, default **`false`** (disabled). `metadata.properties`
+remains canonical; the sidecar is a disposable local cache rebuilt if missing/stale/corrupt, with fallback to eager
+on-heap metadata on open failure.
+
+Scope kept minimal: documented only the single instance config row in
+`reference/configuration-reference/server.md`. The `SegmentMetadataImpl.loadMapped` standalone API and the on-disk
+sidecar binary format are internal/advanced and were not documented.
+
+## Validation
+- `git diff --check`: clean.
+- `scripts/validate-docs.py --summary-only`: **PASS** — 638 files, 3560 links, 10 broken anchors (all pre-existing;
+  identical to the clean-`latest` baseline), 0 orphans, 0 broken SUMMARY refs. No new failures introduced.
+- Docs PR checks: "Validate changed docs" SUCCESS, GitBook SUCCESS, "Full docs audit (informational)" SUCCESS.
+
+## Outcome
+Docs PR [#1159](https://github.com/pinot-contrib/pinot-docs/pull/1159) squash-merged at 2026-10-31T04:07:00Z
+(merge commit `39ea186`). Upstream comment:
+https://github.com/apache/pinot/pull/19998#issuecomment-6538800286
+
+## Blockers
+None.
+
+## Durable state
+Checkpoint advanced to **2026-10-31T03:51:28Z**. State CAS-updated on the `automation-state` branch; lock
+acquired and released cleanly. Slack summary sent (1 new docs PR created + merged).
