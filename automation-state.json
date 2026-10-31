@@ -300,9 +300,9 @@
   "last_run_result": "Processed 2 PRs merged strictly after prior checkpoint 2026-10-30T22:13:55Z. Inventory via GitHub search API + authoritative pulls API + apache/master commit log all agreed: exactly #20098 (merged 2026-10-30T23:15:53Z) and #20084 (merged 2026-10-30T23:24:38Z); #20097 merged AT checkpoint (already processed). Coverage complete (master tip eca9ea7a == #20084). #20084 -> not_relevant (integration-test harness only, no production code). #20098 -> docs_created: docs PR #1158 (merged 2026-10-31T00:06:48Z) documenting LISTAGG null-on-empty and DISTINCTCOUNTRAWULL result-column-name fix (1.7.0); upstream comment posted. validate-docs.py PASS (10 pre-existing broken-anchor warnings unchanged); git diff --check clean. Checkpoint advanced to 2026-10-30T23:24:38Z.",
   "last_run_id": "run-20261031T000101Z-811",
   "lock": {
-    "holder": "run-20261031T000101Z-811",
-    "acquired_at": "2026-10-31T00:01:01Z",
-    "released_at": "2026-10-31T00:07:30Z",
-    "status": "released"
+    "holder": "run-20261031T010119Z-1085",
+    "acquired_at": "2026-10-31T01:01:27Z",
+    "released_at": null,
+    "status": "held"
   }
 }
