@@ -1665,3 +1665,17 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   GitHub API default committer (Xiang Fu), confirming they used the same API path. Local lock commits created before a
   push attempt are discarded via `git reset --hard origin/automation-state` before API writes.
 - No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). last_successful_run -> 2026-10-31T20:03:40Z.
+
+## Run run-20261031T210133Z-1188 (2026-10-31T21:02:53Z UTC) — no-op
+- Checkpoint 2026-10-31T11:11:36Z unchanged. 35-entry ledger, no gaps. **0** PRs merged strictly after checkpoint
+  (gh search prs --merged --merged-at '>checkpoint' = 0; git log upstream/master --since=checkpoint = only #20110 at the
+  inclusive boundary; pulls API state=closed sort=updated desc per_page=100 = 0 merged strictly after checkpoint, newest
+  merge #20110 @ exactly checkpoint, already ledgered as not_relevant). upstream/master HEAD still e9be2ee (#20110).
+- Preflight: gh auth OK as xiangfu0 (GH_TOKEN); apache/pinot=push+triage, pinot-contrib/pinot-docs=admin. Durable read OK;
+  lock acquired+released via Contents API CAS (blob-SHA precondition). One expected 409 on the release write (local SHA
+  cache held the pre-lock blob SHA because the acquire response's SHA-capture was swallowed by a gh-tentrix-wrap stderr
+  line); re-fetched current SHA, re-verified lock ownership, retried successfully — CAS behaved correctly.
+- Reminder (persisted mechanics): persist state ONLY via GitHub Contents API PUT with current blob sha for CAS; direct
+  git push to automation-state is blocked by the session pre-push hook. After capturing a PUT response's new sha, parse
+  it independently of stderr to avoid stale-SHA 409s on the next write.
+- No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). last_successful_run -> 2026-10-31T21:02:53Z.
