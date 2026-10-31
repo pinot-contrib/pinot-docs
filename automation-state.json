@@ -270,9 +270,9 @@
   "last_run_result": "No-op (no docs changes). Inventory via authoritative apache/pinot pulls API + GitHub search API agreed: exactly ONE PR merged strictly after prior checkpoint 2026-10-30T19:59:40Z -> #20097 (merged 2026-10-30T22:13:55Z). Reconciled against apache/master commit log: the only new commit is 3117dbb (#20097), which is the master tip, so coverage is complete. Classified #20097 not_relevant (internal rebalance force-commit dedup fix; no config/default/API/doc-surface change). Checkpoint advanced to 2026-10-30T22:13:55Z. No docs PRs created, no upstream comments, no Slack.",
   "last_run_id": "run-20261030T230102Z-899",
   "lock": {
-    "holder": "run-20261030T230102Z-899",
-    "acquired_at": "2026-10-30T23:01:02Z",
-    "released_at": "2026-10-30T23:05:43Z",
-    "status": "released"
+    "holder": "run-20261031T000101Z-811",
+    "acquired_at": "2026-10-31T00:01:01Z",
+    "released_at": null,
+    "status": "held"
   }
 }
