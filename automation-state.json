@@ -336,11 +336,11 @@
     "runner": "IntentLab remote (cloud sandbox)",
     "notes": "Durable read+write verified via GitHub Contents API with CAS (SHA precondition) + lease lock. Preflight: gh auth OK (xiangfu0); apache/pinot pull/push/triage granted, pinot-docs admin. Local pinot origin=stale fork xiangfu0/pinot; added apache/pinot as upstream for authoritative reconciliation. No-op: nothing to create/merge/comment."
   },
-  "last_run_id": "run-20261031T110133Z-ilab",
+  "last_run_id": "run-20261031T120116Z-ilab",
   "lock": {
-    "holder": "run-20261031T110133Z-ilab",
-    "acquired_at": "2026-10-31T11:01:34Z",
-    "released_at": "2026-10-31T11:04:34Z",
-    "status": "released"
+    "holder": "run-20261031T120116Z-ilab",
+    "acquired_at": "2026-10-31T12:01:16Z",
+    "released_at": null,
+    "status": "held"
   }
 }
