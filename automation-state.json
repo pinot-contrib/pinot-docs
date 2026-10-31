@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-10-31T17:01:22Z",
+  "last_successful_run": "2026-10-31T18:02:30Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -332,20 +332,20 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_id": "run-20261031T170122Z-1044",
-    "finished_at": "2026-10-31T17:01:22Z",
+    "run_id": "run-20261031T180122Z-1171",
+    "finished_at": "2026-10-31T18:02:30Z",
     "outcome": "no-op",
     "checkpoint_at_run": "2026-10-31T11:11:36Z",
     "new_prs_found": 0,
     "new_prs": [],
     "docs_prs_created": 0,
-    "coverage": "Preflight OK (auth xiangfu0; apache/pinot=write, pinot-docs=admin; durable read/write verified via CAS). Inventoried apache/pinot merged PRs three agreeing ways after checkpoint 2026-10-31T11:11:36Z: (1) git log apache/master (fresh fetch) -> only boundary #20110 (e9be2ee), nothing strictly after; (2) search/issues is:pr is:merged merged:>=2026-10-31T11:11:00Z -> only #20110 at 11:11:36Z == checkpoint, already in ledger; (3) pulls API state=closed sort=updated desc -> 0 merged strictly after checkpoint. Reconciled #20110 merge_commit e9be2ee == master tip. 0 new PRs; boundary #20110 already processed (not_relevant, dependabot follow-redirects lock-file bump). No docs-relevant work."
+    "coverage": "Preflight OK (auth xiangfu0; apache/pinot=write, pinot-docs=admin; durable read/write via CAS). Fetched real apache/pinot master (upstream remote), HEAD e9be2ee=#20110 @ checkpoint boundary 2026-10-31T11:11:36Z. Inventoried merged PRs strictly after checkpoint three agreeing ways: (A) search is:pr is:merged merged:>2026-10-31T11:11:36Z = 0; (B) git log e9be2ee..upstream/master = 0 commits; (C) pulls API state=closed sort=updated desc -> most-recent merged #20110 @ exactly checkpoint, all below it (#20107,#19998,#20077,#20068,#20098,...) at/before checkpoint and already in ledger (35 PRs, no gaps). 0 new PRs; no docs-relevant work."
   },
-  "last_run_id": "run-20261031T170122Z-1044",
+  "last_run_id": "run-20261031T180122Z-1171",
   "lock": {
-    "holder": "run-20261031T170122Z-1044",
-    "acquired_at": "2026-10-31T17:01:22Z",
-    "released_at": "2026-10-31T17:01:22Z",
+    "holder": "run-20261031T180122Z-1171",
+    "acquired_at": "2026-10-31T18:02:30Z",
+    "released_at": "2026-10-31T18:02:30Z",
     "status": "released"
   }
 }

@@ -3,12 +3,12 @@
 Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 
 ## Checkpoint (current)
-- `last_processed_merged_at` = `2026-10-30T12:42:15Z` (advanced past #20102 and #20103, both dependabot pom bumps triaged not_relevant)
-- `last_successful_run` = `2026-10-30T13:02:33Z`
-- `last_run_id` = `run-20261030T130126Z-953`
-- Most recent completed docs pair (unchanged): apache/pinot#19988 -> pinot-docs#1156
-  (merged 2026-10-29T02:04:23Z), upstream comment
-  https://github.com/apache/pinot/pull/19988#issuecomment-6485861071
+- `last_processed_merged_at` = `2026-10-31T11:11:36Z` (boundary = #20110, dependabot follow-redirects lock-file bump, not_relevant)
+- `last_successful_run` = `2026-10-31T18:02:30Z`
+- `last_run_id` = `run-20261031T180122Z-1171`
+- Most recent completed docs pair: apache/pinot#19998 -> pinot-docs#1159
+  (merged 2026-10-31T04:07:00Z), upstream comment
+  https://github.com/apache/pinot/pull/19998#issuecomment-6538800286
 
 
 
@@ -1622,3 +1622,19 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   apache/pinot as `upstream` for authoritative reconciliation.
 - No docs PR created (no-op; no Slack; no upstream comment). Checkpoint unchanged. Durable state CAS-updated on
   automation-state; lease acquired/released cleanly.
+
+## Run run-20261031T180122Z-1171 (2026-10-31T18:02:30Z UTC, no-op)
+- Prior checkpoint 2026-10-31T11:11:36Z (unchanged). Three agreeing inventory methods strictly after checkpoint:
+  (A) search/issues `is:pr is:merged merged:>2026-10-31T11:11:36Z` = **0**; (B) `git log e9be2ee..upstream/master`
+  (fresh fetch of real apache/pinot) = **0 commits**, HEAD still `e9be2ee`=#20110; (C) pulls API (state=closed,
+  sort=updated desc) most-recent merged = #20110 @ exactly the checkpoint boundary, every PR below it
+  (#20107, #19998, #20077, #20068, #20098, ...) at/before checkpoint and already in the ledger. Ledger = 35 entries,
+  no gaps. **0** PRs merged strictly after checkpoint.
+- Preflight: gh auth OK as xiangfu0 (GH_TOKEN, rate_limit=15000); apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN.
+  Durable read of automation-state.json OK; write via Contents API + CAS (blob SHA 2994f68 precondition); lease
+  lock acquired+released in the same atomic state write (prior run released cleanly -> no concurrent run).
+- Local `/workspace/pinot` origin = fork xiangfu0/pinot (stale); added `upstream`=apache/pinot for authoritative
+  reconciliation. Benign `gh-tentrix-wrap` "no token minted / not in manifest" stderr warning; GH_TOKEN authenticates
+  with full read+write.
+- No docs-relevant work: no docs PR created/merged/commented; no Slack (no-op stays quiet). Checkpoint unchanged
+  (2026-10-31T11:11:36Z); last_successful_run -> 2026-10-31T18:02:30Z.
