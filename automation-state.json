@@ -340,9 +340,9 @@
   },
   "last_run_id": "run-20261031T050121Z-999",
   "lock": {
-    "holder": "run-20261031T050121Z-999",
-    "acquired_at": "2026-10-31T05:01:21Z",
-    "released_at": "2026-10-31T05:02:51Z",
-    "status": "released"
+    "holder": "run-20261031T060121Z-1154",
+    "acquired_at": "2026-10-31T06:01:27Z",
+    "released_at": null,
+    "status": "active"
   }
 }
