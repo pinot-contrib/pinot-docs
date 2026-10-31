@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T04:30:53Z",
-  "last_successful_run": "2026-10-31T06:02:26Z",
+  "last_successful_run": "2026-10-31T07:02:29Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -326,23 +326,19 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_utc": "2026-10-31T06:02:26Z",
-    "outcome": "noop",
-    "summary": "No upstream apache/pinot PR merged strictly after checkpoint 2026-10-31T04:30:53Z. apache/pinot master HEAD is bfdb305e (#20107), merged AT the checkpoint and already processed (not_relevant). Coverage cross-verified three ways: search API (merged:>=2026-10-31T04:30:53Z returns only #20107), pulls API (state=closed sort=updated desc; newest merged is #20107 at the checkpoint), and master commit log reconciliation (HEAD bfdb305e == #20107, directly follows df57b737 #19998). All recent master PRs present in ledger. No docs PR created. Checkpoint unchanged.",
-    "new_docs_prs": 0,
-    "checkpoint_unchanged": true,
-    "preflight": {
-      "auth": "xiangfu0",
-      "apache_pinot": "WRITE",
-      "pinot_docs": "ADMIN",
-      "durable_state": "ok"
-    }
+    "run_id": "run-20261031T070138Z-1167",
+    "finished_at": "2026-10-31T07:02:29Z",
+    "outcome": "no-op",
+    "checkpoint_at_run": "2026-10-31T04:30:53Z",
+    "new_prs_found": 0,
+    "docs_prs_created": 0,
+    "coverage": "Inventoried apache/pinot merged PRs strictly after checkpoint via search API, pulls API (sort=updated), and apache/master git log reconciliation. All three agree: zero PRs merged after 2026-10-31T04:30:53Z. PR #20107 (boundary) already processed as not_relevant."
   },
-  "last_run_id": "run-20261031T060121Z-1154",
+  "last_run_id": "run-20261031T070138Z-1167",
   "lock": {
     "holder": "run-20261031T070138Z-1167",
     "acquired_at": "2026-10-31T07:01:38Z",
-    "status": "held",
-    "released_at": null
+    "released_at": "2026-10-31T07:02:29Z",
+    "status": "released"
   }
 }
