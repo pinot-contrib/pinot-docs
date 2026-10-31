@@ -72,3 +72,40 @@ None.
 
 ## Durable state
 CAS-updated on the `automation-state` branch; lease acquired and released cleanly. No Slack summary (no-op run, zero new docs PRs).
+
+---
+
+# Pinot Docs Update — 2026-10-31 (UTC) — Run 3
+
+**Run:** run-20261031T030116Z-947
+**Prior checkpoint:** 2026-10-31T01:22:41Z → **New checkpoint:** 2026-10-31T02:33:56Z
+
+## Coverage
+Merged apache/pinot PRs strictly after the prior checkpoint, cross-verified by two independent methods plus master reconciliation:
+- GitHub search API (`is:merged merged:>=2026-10-31`, exact `merged_at` filter)
+- Authoritative pulls API (`state=closed sort=updated`, 3 pages)
+- apache/master commit log reconciliation (HEAD `d226fb5` == #20077; prior #20068 already processed)
+
+Both methods agreed: exactly **1** PR merged strictly after 2026-10-31T01:22:41Z — **#20077** (merged 2026-10-31T02:33:56Z). Coverage complete.
+
+## Decisions
+
+| PR | Title | Decision | Docs |
+| --- | --- | --- | --- |
+| [#20077](https://github.com/apache/pinot/pull/20077) | Reduce instance selector memory by grouping segments with the same candidates | not_relevant | — |
+
+### #20077 — not relevant
+Internal broker instance-selector memory/performance optimization (merge commit `d226fb5`, 30 files +4591/-1405, all under `pinot-broker/.../routing/instanceselector` plus one `pinot-common` map helper). Reindexes per-segment routing state by `CandidateGroup` (shared candidate list) instead of per segment; adds `CandidateGroup`/`GroupRouting`/`SegmentGroups`/`SegmentGroupsBuilder`/`SelectionCollector` and `ImmutableSortedArrayMap.forEach`; removes `NewSegmentState`/`InstanceMapping`.
+
+The PR's "backward incompatible changes" are to **internal Java APIs** used by custom instance selector implementations (`InstanceSelector.select`/`SelectionResult`, `BaseInstanceSelector`, `SegmentStates`, `PriorityPoolInstanceSelector`) — not documented plugin SPI or table configuration. The "behavior changes" are internal routing mechanics (per-server segment ordering follows queried-segment order, atomic routing-state + replica-health publish, per-group/per-server log deduplication, overflow-safe fixed-replica table-name hash). `SINGLE_POOL_SEGMENTS` is a `BrokerMeter` gated by the pre-existing config `pinot.broker.enable.single.pool.segments.metric` (default `false`, unchanged); the PR only broadens which table types emit it when the metric is already enabled.
+
+Verified against merged code: no new config key, query option, function, default, or table-config field (the `QueryOptionKey` references in the diff are existing options appearing in test files). Docs grep confirms no page documents `SINGLE_POOL_SEGMENTS`, `InstanceMapping`, `NewSegmentState`, or the internal `InstanceSelector` API; documented `RoutingConfig.instanceSelectorType` values and selector routing semantics are preserved. No user-facing documentation surface changes.
+
+## Validation
+No docs changes created this run — no validation required.
+
+## Blockers
+None.
+
+## Durable state
+CAS-updated on the `automation-state` branch; lease acquired and released cleanly. No Slack summary (no-op run, zero new docs PRs).

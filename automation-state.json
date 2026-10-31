@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-31T01:22:41Z",
-  "last_successful_run": "2026-10-31T02:03:17Z",
+  "last_processed_merged_at": "2026-10-31T02:33:56Z",
+  "last_successful_run": "2026-10-31T03:02:59Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -301,13 +301,19 @@
       "merged_at": "2026-10-31T01:22:41Z",
       "merge_commit_sha": "66eb74d69d185ae99772b5a41cb6acef2aa583b4",
       "upstream_url": "https://github.com/apache/pinot/pull/20068"
+    },
+    "20077": {
+      "decision": "not_relevant",
+      "reason": "Internal broker instance-selector memory/performance optimization. Reindexes per-segment routing state by CandidateGroup (shared candidate list) instead of per segment; adds CandidateGroup/GroupRouting/SegmentGroups/SegmentGroupsBuilder/SelectionCollector and ImmutableSortedArrayMap.forEach; removes NewSegmentState/InstanceMapping. All 30 files under pinot-broker routing/instanceselector + 1 pinot-common map helper. Breaking changes are to INTERNAL Java APIs for custom instance selectors (InstanceSelector.select/SelectionResult, BaseInstanceSelector, SegmentStates, PriorityPoolInstanceSelector) — not documented plugin SPI or table config. 'Behavior changes' are internal routing mechanics (per-server segment ordering, atomic state publish, per-group log dedup, overflow-safe fixed-replica table-name hash). SINGLE_POOL_SEGMENTS is a BrokerMeter gated by pre-existing CONFIG_OF_BROKER_ENABLE_SINGLE_POOL_SEGMENTS_METRIC (default false, unchanged); PR only broadens which table types emit it when already enabled — not a documented user-facing config. Verified: no new config key, query option, function, default, or table-config field (QueryOptionKey refs in diff are existing options in test files). Docs grep confirms no page documents SINGLE_POOL_SEGMENTS/InstanceMapping/NewSegmentState/internal InstanceSelector API; RoutingConfig.instanceSelectorType values and selector semantics preserved. Not docs-relevant.",
+      "merged_at": "2026-10-31T02:33:56Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20077"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_utc": "2026-10-31T02:03:17Z",
+    "run_utc": "2026-10-31T03:02:59Z",
     "outcome": "noop",
-    "summary": "1 new upstream PR merged strictly after prior checkpoint 2026-10-30T23:24:38Z (#20068). Classified not_relevant (internal prefetch-planning SPI optimization, backward-compatible default method, no documented user behavior change). No docs PR created. Coverage verified via pulls API (3 pages, 248 merged) and search API (10 PRs merged:>=2026-10-30), reconciled against apache/master. Checkpoint advanced to 2026-10-31T01:22:41Z.",
+    "summary": "1 new upstream PR merged strictly after prior checkpoint 2026-10-31T01:22:41Z (#20077). Classified not_relevant (internal broker instance-selector memory/perf optimization; internal Java-API breaking changes only; no new/changed documented config, query option, function, default, table-config, or doc page). No docs PR created. Coverage: search API + pulls API (3 pages) agree on exactly 1 PR, reconciled against apache/master (HEAD d226fb5). Checkpoint advanced to 2026-10-31T02:33:56Z.",
     "new_docs_prs": 0,
     "checkpoint_unchanged": false,
     "preflight": {
@@ -321,7 +327,7 @@
   "lock": {
     "holder": "run-20261031T030116Z-947",
     "acquired_at": "2026-10-31T03:01:25Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T03:02:59Z",
+    "status": "released"
   }
 }

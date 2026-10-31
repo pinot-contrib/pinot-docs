@@ -1515,3 +1515,22 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   upstream comment on #20068.
 - Checkpoint advanced to 2026-10-31T01:22:41Z. No-op run (0 new docs PRs); no Slack. Durable state CAS-updated on
   automation-state branch; lease acquired/released cleanly.
+
+## Run run-20261031T030116Z-947 (2026-10-31 UTC, run 3)
+- Prior checkpoint 2026-10-31T01:22:41Z. Coverage: search API + pulls API (3 pages) agree on exactly 1 PR merged
+  strictly after checkpoint: #20077. Reconciled against apache/master (HEAD d226fb5 == #20077).
+- #20077 "Reduce instance selector memory by grouping segments with the same candidates" (merge commit d226fb5,
+  30 files +4591/-1405) → **not_relevant**. Internal broker instance-selector memory/perf optimization: reindexes
+  per-segment routing state by CandidateGroup; adds CandidateGroup/GroupRouting/SegmentGroups/SegmentGroupsBuilder/
+  SelectionCollector + ImmutableSortedArrayMap.forEach; removes NewSegmentState/InstanceMapping. Breaking changes are
+  to INTERNAL Java APIs for custom instance selectors (InstanceSelector.select/SelectionResult, BaseInstanceSelector,
+  SegmentStates, PriorityPoolInstanceSelector) — not documented plugin SPI or table config. "Behavior changes" are
+  internal routing mechanics (per-server segment ordering, atomic state publish, per-group log dedup, overflow-safe
+  fixed-replica table-name hash). SINGLE_POOL_SEGMENTS is a BrokerMeter gated by pre-existing
+  CONFIG_OF_BROKER_ENABLE_SINGLE_POOL_SEGMENTS_METRIC (default false, unchanged); PR only broadens which table types
+  emit it when already enabled. Verified: no new config key/query option/function/default/table-config field
+  (QueryOptionKey refs in diff are existing options in test files). Docs grep: no page documents SINGLE_POOL_SEGMENTS/
+  InstanceMapping/NewSegmentState/internal InstanceSelector API; RoutingConfig.instanceSelectorType values + selector
+  semantics preserved. Dedup: no prior docs PR or upstream comment on #20077.
+- Checkpoint advanced to 2026-10-31T02:33:56Z. No-op run (0 new docs PRs); no Slack. Durable state CAS-updated on
+  automation-state branch; lease acquired/released cleanly.
