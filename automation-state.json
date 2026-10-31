@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-31T04:30:53Z",
-  "last_successful_run": "2026-10-31T11:04:34Z",
+  "last_processed_merged_at": "2026-10-31T11:11:36Z",
+  "last_successful_run": "2026-10-31T12:04:25Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -322,25 +322,37 @@
       "reason": "Internal server-side Helix callback optimization only: ServerMailboxChannelRefreshHandler skips redundant server-config scans when a coherent membership snapshot proves all child changes involved non-servers (e.g. minion join/leave). Changes one main source file + its unit test; references only internal Helix InstanceConfig/membership-metadata reads. No new or changed documented config key, default, query option, function, table-config field, SPI, or doc page. No user-facing behavior change.",
       "merged_at": "2026-10-31T04:30:53Z",
       "upstream_url": "https://github.com/apache/pinot/pull/20107"
+    },
+    "20110": {
+      "decision": "not_relevant",
+      "reason": "Dependabot bump of transitive npm dependency follow-redirects 1.16.1->1.16.2 in pinot-controller/src/main/resources/package-lock.json (controller web UI). Lock-file only (3+/3-, 1 file). No user-facing behavior, config, API, or documented default changes.",
+      "merged_at": "2026-10-31T11:11:36Z",
+      "upstream_url": "https://github.com/apache/pinot/pull/20110"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_id": "run-20261031T110133Z-ilab",
-    "finished_at": "2026-10-31T11:04:34Z",
+    "run_id": "run-20261031T120116Z-ilab",
+    "finished_at": "2026-10-31T12:04:25Z",
     "outcome": "no-op",
     "checkpoint_at_run": "2026-10-31T04:30:53Z",
-    "new_prs_found": 0,
+    "new_prs_found": 1,
+    "new_prs": [
+      20110
+    ],
     "docs_prs_created": 0,
-    "coverage": "Inventoried apache/pinot merged PRs three ways: GitHub pulls API (state=closed,base=master,sort=updated,2 pages), GitHub commits API (since=checkpoint), and local upstream/master first-parent log after fresh fetch. Zero PRs merged strictly after checkpoint 2026-10-31T04:30:53Z. upstream/master HEAD = #20107 (merged AT checkpoint, already in ledger as not_relevant). Recent master #20107,#19998,#20077,#20068,#20084 all present in ledger. 34 PRs in ledger.",
+    "coverage": "Inventoried apache/pinot merged PRs three ways agreeing exactly: (1) GitHub pulls API state=closed base=master sort=updated --paginate (9046 unique merged PRs, 1 after checkpoint); (2) GitHub commits API sha=master since=checkpoint; (3) local upstream/master first-parent log after fresh fetch (upstream=apache/pinot added; origin is stale fork xiangfu0/pinot). Exactly 1 PR merged strictly after checkpoint 2026-10-31T04:30:53Z: #20110. #20107 merged AT checkpoint, already in ledger.",
+    "decisions": {
+      "20110": "not_relevant (dependabot npm lockfile bump, controller web UI)"
+    },
     "runner": "IntentLab remote (cloud sandbox)",
-    "notes": "Durable read+write verified via GitHub Contents API with CAS (SHA precondition) + lease lock. Preflight: gh auth OK (xiangfu0); apache/pinot pull/push/triage granted, pinot-docs admin. Local pinot origin=stale fork xiangfu0/pinot; added apache/pinot as upstream for authoritative reconciliation. No-op: nothing to create/merge/comment."
+    "notes": "Durable read+write via GitHub Contents API with CAS (SHA precondition) + lease lock acquire/release. Preflight read-only: gh auth OK (xiangfu0); apache/pinot WRITE, pinot-docs ADMIN. No docs PR created/merged/commented. Checkpoint advanced to 20110 merged_at."
   },
   "last_run_id": "run-20261031T120116Z-ilab",
   "lock": {
     "holder": "run-20261031T120116Z-ilab",
     "acquired_at": "2026-10-31T12:01:16Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T12:04:25Z",
+    "status": "released"
   }
 }
