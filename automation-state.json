@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
-  "last_processed_merged_at": "2026-10-30T23:24:38Z",
-  "last_successful_run": "2026-10-31T01:02:34Z",
+  "last_processed_merged_at": "2026-10-31T01:22:41Z",
+  "last_successful_run": "2026-10-31T02:03:17Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -294,15 +294,22 @@
       "summary": "Follow-up to #20074 implementing mergeFinalResult for aggregation functions whose final results are merged on the serverReturnFinalResult / is_leaf_return_final_result paths (HISTOGRAM, SUMARRAYLONG/DOUBLE, ARRAYAGG, LISTAGG, ANYVALUE, IDSET, STUNION, raw HLL/HLL+/CPC/ULL/Theta/tuple/t-digest/KLL/frequent sketches; fixes CPC/ULL/Theta ClassCastException; SUMPRECISION rounding; FUNNELCOUNT no-mutate; FUNNELSTEPDURATIONSTATS now rejects merge). Most of this is internal correctness with NO SQL-surface change. Two user-visible changes documented (ship in 1.7.0): (1) LISTAGG returns null instead of empty string when it aggregates no values in the multi-stage engine, distinguishing an empty group from a single empty-string value -> functions/aggregation/listagg.md; (2) DistinctCountRawULLAggregationFunction.getType() fixed from DISTINCTCOUNTULL to DISTINCTCOUNTRAWULL, so unaliased DISTINCTCOUNTRAWULL(col) now yields result column distinctcountrawull(col) instead of distinctcountull(col) -> functions/sketch/distinctcountrawull.md. Both verified against merged code at 96fe714, not just PR prose.",
       "processed_by_run": "run-20261031T000101Z-811",
       "processed_at": "2026-10-31T00:07:30Z"
+    },
+    "20068": {
+      "decision": "not_relevant",
+      "reason": "Internal query-engine prefetch-planning optimization. Adds a backward-compatible default method requiresFetch() (returns false) to the @InterfaceAudience.Private SPI interfaces IndexSegment and SegmentDirectory, consumed by FetchPlanner/BloomFilterSegmentPruner to decide whether a segment needs a fetch context during prefetch planning. No user-facing config, table/query option, documented default, or wire/serialization change. Confined to pinot-core query internals and pinot-segment-spi private interfaces plus tests.",
+      "merged_at": "2026-10-31T01:22:41Z",
+      "merge_commit_sha": "66eb74d69d185ae99772b5a41cb6acef2aa583b4",
+      "upstream_url": "https://github.com/apache/pinot/pull/20068"
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": {
-    "run_utc": "2026-10-31T01:02:34Z",
+    "run_utc": "2026-10-31T02:03:17Z",
     "outcome": "noop",
-    "summary": "No merged upstream PRs with merged_at strictly after checkpoint 2026-10-30T23:24:38Z. Verified via pulls API (3 pages, updated desc) and search API (merged:>=2026-10-30, 9 PRs, all already in ledger). No docs changes.",
+    "summary": "1 new upstream PR merged strictly after prior checkpoint 2026-10-30T23:24:38Z (#20068). Classified not_relevant (internal prefetch-planning SPI optimization, backward-compatible default method, no documented user behavior change). No docs PR created. Coverage verified via pulls API (3 pages, 248 merged) and search API (10 PRs merged:>=2026-10-30), reconciled against apache/master. Checkpoint advanced to 2026-10-31T01:22:41Z.",
     "new_docs_prs": 0,
-    "checkpoint_unchanged": true,
+    "checkpoint_unchanged": false,
     "preflight": {
       "auth": "xiangfu0",
       "apache_pinot": "WRITE",
@@ -310,11 +317,11 @@
       "durable_state": "ok"
     }
   },
-  "last_run_id": "run-20261031T010119Z-1085",
+  "last_run_id": "run-20261031T020141Z-1410",
   "lock": {
     "holder": "run-20261031T020141Z-1410",
     "acquired_at": "2026-10-31T02:01:41Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T02:03:17Z",
+    "status": "released"
   }
 }
