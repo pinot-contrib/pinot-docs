@@ -14,6 +14,10 @@ Aggregates string values from rows into a single delimited string. An optional d
 >
 > LISTAGG(DISTINCT colName, delimiter)
 
+{% hint style="info" %}
+When no values are aggregated (for example, a group that contains only null values with null handling enabled), `LISTAGG` returns `null` rather than an empty string, so a group with no values can be told apart from one holding a single empty-string value. This applies to the multi-stage query engine from Apache Pinot 1.7.0 ([#20098](https://github.com/apache/pinot/pull/20098)); group-by already returned `null` for a group without values.
+{% endhint %}
+
 ### WITHIN GROUP clause
 
 Use the `WITHIN GROUP (ORDER BY ...)` clause to control the order of values in the concatenated result. Without this clause the order of values is undefined.
