@@ -1503,3 +1503,15 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
   (existing docs #620 is WITHIN GROUP, unrelated).
 - Checkpoint advanced to 2026-10-30T23:24:38Z. Slack summary sent (1 new docs PR). Durable state CAS-updated on
   automation-state branch; lease acquired/released cleanly.
+
+## Run run-20261031T020141Z-1410 (2026-10-31 UTC, run 2)
+- Prior checkpoint 2026-10-30T23:24:38Z. Coverage: pulls API 3 pages/248 merged (oldest 2025-08-11, complete) +
+  search API (10 PRs merged:>=2026-10-30) + master reconcile. Exactly 1 PR merged strictly after checkpoint: #20068.
+- #20068 "Add requiresFetch flag to a segment to for prefetch planning" (J-HowHuang, labels query/testing/
+  extension-point/feature) → **not_relevant**. Merge commit 66eb74d6, 8 files +402/-41. Adds backward-compatible
+  `default boolean requiresFetch(){return false;}` to @InterfaceAudience.Private SPI IndexSegment & SegmentDirectory,
+  used by FetchPlanner/BloomFilterSegmentPruner for prefetch planning. Internal pinot-core query path + private
+  pinot-segment-spi + tests only. No user config/option/documented-default/wire change. Dedup: no prior docs PR or
+  upstream comment on #20068.
+- Checkpoint advanced to 2026-10-31T01:22:41Z. No-op run (0 new docs PRs); no Slack. Durable state CAS-updated on
+  automation-state branch; lease acquired/released cleanly.
