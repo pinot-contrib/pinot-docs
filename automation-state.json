@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-30T23:24:38Z",
-  "last_successful_run": "2026-10-31T00:07:30Z",
+  "last_successful_run": "2026-10-31T01:02:34Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -297,12 +297,24 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "Processed 2 PRs merged strictly after prior checkpoint 2026-10-30T22:13:55Z. Inventory via GitHub search API + authoritative pulls API + apache/master commit log all agreed: exactly #20098 (merged 2026-10-30T23:15:53Z) and #20084 (merged 2026-10-30T23:24:38Z); #20097 merged AT checkpoint (already processed). Coverage complete (master tip eca9ea7a == #20084). #20084 -> not_relevant (integration-test harness only, no production code). #20098 -> docs_created: docs PR #1158 (merged 2026-10-31T00:06:48Z) documenting LISTAGG null-on-empty and DISTINCTCOUNTRAWULL result-column-name fix (1.7.0); upstream comment posted. validate-docs.py PASS (10 pre-existing broken-anchor warnings unchanged); git diff --check clean. Checkpoint advanced to 2026-10-30T23:24:38Z.",
-  "last_run_id": "run-20261031T000101Z-811",
+  "last_run_result": {
+    "run_utc": "2026-10-31T01:02:34Z",
+    "outcome": "noop",
+    "summary": "No merged upstream PRs with merged_at strictly after checkpoint 2026-10-30T23:24:38Z. Verified via pulls API (3 pages, updated desc) and search API (merged:>=2026-10-30, 9 PRs, all already in ledger). No docs changes.",
+    "new_docs_prs": 0,
+    "checkpoint_unchanged": true,
+    "preflight": {
+      "auth": "xiangfu0",
+      "apache_pinot": "WRITE",
+      "pinot_docs": "ADMIN",
+      "durable_state": "ok"
+    }
+  },
+  "last_run_id": "run-20261031T010119Z-1085",
   "lock": {
     "holder": "run-20261031T010119Z-1085",
     "acquired_at": "2026-10-31T01:01:27Z",
-    "released_at": null,
-    "status": "held"
+    "released_at": "2026-10-31T01:02:34Z",
+    "status": "released"
   }
 }
