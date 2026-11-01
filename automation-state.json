@@ -334,11 +334,11 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261101T110145Z-1380",
   "lock": {
-    "holder": "run-20261101T110145Z-1380",
-    "acquired_at": "2026-11-01T11:02:11Z",
-    "status": "released",
-    "prev_holder": "run-20261101T100117Z-930",
-    "released_at": "2026-11-01T11:03:39Z"
+    "holder": "run-20261101T120131Z-1112",
+    "acquired_at": "2026-11-01T12:01:51Z",
+    "status": "held",
+    "prev_holder": "run-20261101T110145Z-1380",
+    "prev_released_at": "2026-11-01T11:03:39Z"
   },
   "last_run_summary": "0 PRs merged after checkpoint 2026-10-31T11:11:36Z; checkpoint unchanged."
 }
