@@ -334,11 +334,11 @@
   "last_run_result": "no-op: 0 PRs merged strictly after checkpoint; coverage verified; checkpoint unchanged",
   "last_run_id": "run-20261101T050223Z-1509",
   "lock": {
-    "holder": "run-20261101T050223Z-1509",
-    "acquired_at": "2026-11-01T05:02:24Z",
-    "released_at": "2026-11-01T05:06:04Z",
-    "status": "released",
-    "prev_holder": "run-20261101T040123Z-1024"
+    "holder": "run-20261101T060202Z-1234",
+    "acquired_at": "2026-11-01T06:02:02Z",
+    "released_at": null,
+    "status": "held",
+    "prev_holder": "run-20261101T050223Z-1509"
   },
   "last_run_summary": {
     "run_id": "run-20261101T050223Z-1509",
