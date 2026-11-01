@@ -334,11 +334,10 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261101T070130Z-948",
   "lock": {
-    "holder": "run-20261101T070130Z-948",
-    "acquired_at": "2026-11-01T07:01:30Z",
-    "status": "released",
-    "prev_holder": "run-20261101T060202Z-1234",
-    "released_at": "2026-11-01T07:02:37Z"
+    "holder": "run-20261101T080159Z-1319",
+    "acquired_at": "2026-11-01T08:02:18Z",
+    "status": "held",
+    "prev_holder": "run-20261101T070130Z-948"
   },
   "last_run_summary": "No PRs merged strictly after checkpoint 2026-10-31T11:11:36Z. apache/pinot master HEAD = #20110 (merged at checkpoint, already processed as not_relevant). Full API inventory + reconciliation against upstream master HEAD both confirm zero new work. Checkpoint unchanged."
 }
