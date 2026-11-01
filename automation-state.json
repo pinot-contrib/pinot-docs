@@ -334,11 +334,10 @@
   "last_run_result": "no-op: 0 PRs merged strictly after checkpoint 2026-10-31T11:11:36Z; 5 recent candidates (20110,20107,20077,20068,19998) all already in ledger; reconciled against upstream/master HEAD e9be2ee (#20110). Checkpoint unchanged.",
   "last_run_id": "run-20261101T060202Z-1234",
   "lock": {
-    "holder": "run-20261101T060202Z-1234",
-    "acquired_at": "2026-11-01T06:02:02Z",
-    "released_at": "2026-11-01T06:03:03Z",
-    "status": "released",
-    "prev_holder": "run-20261101T050223Z-1509"
+    "holder": "run-20261101T070130Z-948",
+    "acquired_at": "2026-11-01T07:01:30Z",
+    "status": "held",
+    "prev_holder": "run-20261101T060202Z-1234"
   },
   "last_run_summary": {
     "run_id": "run-20261101T060202Z-1234",
