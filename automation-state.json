@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-11-01T12:02:55Z",
+  "last_successful_run": "2026-11-01T13:02:41Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -332,13 +332,13 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261101T120131Z-1112",
+  "last_run_id": "run-20261101T130132Z-974",
   "lock": {
-    "holder": "run-20261101T130132Z-974",
-    "status": "acquired",
-    "prev_holder": "run-20261101T120131Z-1112",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261101T130132Z-974",
     "acquired_at": "2026-11-01T13:01:41Z",
-    "released_at": null
+    "released_at": "2026-11-01T13:02:41Z"
   },
-  "last_run_summary": "0 PRs merged after checkpoint 2026-10-31T11:11:36Z (live apache/pinot master tip = #20110 @ 2026-10-31T11:11:36Z, == checkpoint). Reconciled against live REST pulls API + master commit log; all 15 most-recent master PRs already in ledger. Checkpoint unchanged; no docs PRs created."
+  "last_run_summary": "0 PRs merged after checkpoint 2026-10-31T11:11:36Z. Live apache/pinot master tip = #20110 @ 2026-10-31T11:11:36Z (== checkpoint, already in ledger as not_relevant). Reconciled via search/issues API (total_count=0 after checkpoint), pulls API (closed/merged sort=updated), and git master commit log; top 20 recent merged PRs all present in ledger. Checkpoint unchanged; no docs PRs created."
 }
