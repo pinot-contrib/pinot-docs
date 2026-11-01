@@ -1811,3 +1811,10 @@ Durable running memory for routine `rt_r0leJefO3D` (hourly). UTC timestamps.
 - Inventory: merged apache/pinot PRs strictly after checkpoint: **0** (three agreeing methods — pulls API state=closed sort=updated 500 PRs max(merged_at)==checkpoint; search/issues `merged:>checkpoint` total_count=0; commits/master HEAD==#20110 @ checkpoint). 0 gaps; 35-entry ledger current with master tip e9be2ee2 (#20110).
 - Reminder: local checkout origin = fork `xiangfu0/pinot` (stale HEAD #19809); always inventory via apache/pinot API.
 - No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). Checkpoint UNCHANGED. last_successful_run -> 2026-11-01T18:06:19Z.
+
+### 2026-11-01T21:04:30Z (run-20261101T210124Z-966 — scheduled triage run — no-op; IntentLab-Opus 4.8)
+- Preflight OK: gh auth as `xiangfu0` (GH_TOKEN). Permissions: apache/pinot=WRITE, pinot-contrib/pinot-docs=ADMIN (real perms despite the `gh-tentrix-wrap` "unauthenticated" stderr warning; Contents API PUT writes succeed via CAS). Durable `automation-state` read; checkpoint `2026-10-31T11:11:36Z`; no stale lock (prior run released).
+- Lease acquired via Contents API PUT create-if-absent (lock sha ace2fe96); released at end of run.
+- Inventory: merged apache/pinot PRs strictly after checkpoint: **0** (three agreeing methods — search/issues `merged:2026-10-31..2026-11-02` total_count=5, all ≤ checkpoint & ledgered; pulls API precise merged_at for the 5 boundary PRs all ≤ 2026-10-31T11:11:36Z; upstream/master HEAD == e9be2ee2 #20110 @ checkpoint). 0 gaps; 35-entry ledger current.
+- Reminder: local checkout origin = fork `xiangfu0/pinot` (stale); always inventory via apache/pinot API.
+- No docs-relevant work: no docs PR, no upstream comment, no Slack (no-op stays quiet). Checkpoint UNCHANGED. last_successful_run -> 2026-11-01T21:04:30Z.
