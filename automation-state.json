@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-11-01T05:06:04Z",
+  "last_successful_run": "2026-11-01T06:03:03Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -331,20 +331,21 @@
     }
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
-  "last_run_result": "no-op: 0 PRs merged strictly after checkpoint; coverage verified; checkpoint unchanged",
-  "last_run_id": "run-20261101T050223Z-1509",
+  "last_run_result": "no-op: 0 PRs merged strictly after checkpoint 2026-10-31T11:11:36Z; 5 recent candidates (20110,20107,20077,20068,19998) all already in ledger; reconciled against upstream/master HEAD e9be2ee (#20110). Checkpoint unchanged.",
+  "last_run_id": "run-20261101T060202Z-1234",
   "lock": {
     "holder": "run-20261101T060202Z-1234",
     "acquired_at": "2026-11-01T06:02:02Z",
-    "released_at": null,
-    "status": "held",
+    "released_at": "2026-11-01T06:03:03Z",
+    "status": "released",
     "prev_holder": "run-20261101T050223Z-1509"
   },
   "last_run_summary": {
-    "run_id": "run-20261101T050223Z-1509",
-    "at": "2026-11-01T05:06:04Z",
+    "run_id": "run-20261101T060202Z-1234",
+    "at": "2026-11-01T06:03:03Z",
     "new_docs_prs": 0,
     "checkpoint": "2026-10-31T11:11:36Z",
-    "decision": "no-op"
+    "decision": "no-op",
+    "candidates_after_checkpoint": 0
   }
 }
