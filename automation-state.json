@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-11-01T14:02:11Z",
+  "last_successful_run": "2026-11-01T15:02:19Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -334,11 +334,11 @@
   "last_run_result": "noop",
   "last_run_id": "run-20261101T150115Z-18694",
   "lock": {
-    "holder": "run-20261101T150115Z-18694",
-    "status": "acquired",
-    "prev_holder": "run-20261101T140115Z-846",
+    "holder": null,
+    "status": "released",
+    "prev_holder": "run-20261101T150115Z-18694",
     "acquired_at": "2026-11-01T15:01:15Z",
-    "released_at": null
+    "released_at": "2026-11-01T15:02:19Z"
   },
-  "last_run_summary": "0 PRs merged after checkpoint 2026-10-31T11:11:36Z. Authoritative apache/pinot master tip = e9be2ee2 = #20110 @ 2026-10-31T11:11:36Z (== checkpoint, already in ledger as not_relevant). Reconciled three ways: search/issues API (total_count=0 for merged:>checkpoint), pulls API (sort=updated desc, newest merged == #20110 @ checkpoint), and GitHub commits/master (tip commit date == checkpoint). All recent merged PRs present in ledger. Checkpoint unchanged; no docs PRs created; no Slack sent (no-op)."
+  "last_run_summary": "0 PRs merged after checkpoint 2026-10-31T11:11:36Z. Reconciled three ways: search/issues API (total_count=0 for merged:>checkpoint), pulls API (closed sort=updated desc; newest merged == #20110 @ checkpoint, already in ledger as not_relevant), and GitHub commits/master (tip e9be2ee2 == #20110 @ checkpoint; 'since'=checkpoint returns only the checkpoint commit itself). PRs #20111-20115 still open. Checkpoint unchanged; no docs PRs created; no Slack sent (no-op)."
 }
