@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "Durable state for the pinot-docs automation (routine rt_r0leJefO3D). Contains NO secrets (no tokens, no webhook). Checkpoint + processed-PR ledger only.",
   "last_processed_merged_at": "2026-10-31T11:11:36Z",
-  "last_successful_run": "2026-11-01T09:01:58Z",
+  "last_successful_run": "2026-11-01T10:01:53Z",
   "bootstrapped_from_migrated_checkpoint": true,
   "bootstrap_run_utc": "2026-10-27T00:20:00Z",
   "most_recent_completed_pair": {
@@ -332,13 +332,13 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261101T090158Z-1151",
+  "last_run_id": "run-20261101T100117Z-930",
   "lock": {
-    "holder": "run-20261101T090158Z-1151",
-    "acquired_at": "2026-11-01T09:01:58Z",
+    "holder": "run-20261101T100117Z-930",
+    "acquired_at": "2026-11-01T10:01:53Z",
     "status": "released",
-    "prev_holder": "run-20261101T080159Z-1319",
-    "released_at": "2026-11-01T09:01:58Z"
+    "prev_holder": "run-20261101T090158Z-1151",
+    "released_at": "2026-11-01T10:01:53Z"
   },
-  "last_run_summary": "No PRs merged strictly after checkpoint 2026-10-31T11:11:36Z. Confirmed by 3 methods: apache/pinot master tip = e9be2ee (#20110) committed at the checkpoint (already processed not_relevant); GitHub search merged:>checkpoint = 0 PRs (>=checkpoint = 1, #20110 itself); closed-PR listing by update shows nothing newer. Zero new work; checkpoint and ledger unchanged. Local /workspace/pinot origin/master is stale (HEAD #19809); reconciliation done against GitHub API as authoritative."
+  "last_run_summary": "No PRs merged strictly after checkpoint 2026-10-31T11:11:36Z. Verified by 3 methods: (1) GitHub search repo:apache/pinot is:pr is:merged merged:>checkpoint = 0; (2) direct closed-PR listing sorted by updated desc, newest merged = #20110 at the checkpoint timestamp (already processed not_relevant); (3) apache/pinot master tip = e9be2ee (#20110) at the checkpoint. Zero new work; checkpoint and ledger unchanged. Local /workspace/pinot origin is the xiangfu0/pinot fork and is stale; reconciliation done against apache/pinot via GitHub API as authoritative."
 }
