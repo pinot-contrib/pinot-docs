@@ -4,7 +4,7 @@ description: Step-by-step guide for pushing your own data into the Pinot cluster
 
 # Batch import example
 
-This example assumes you have set up your cluster using [Pinot in Docker](running-pinot-in-docker/).
+This example assumes you have set up your cluster using [Pinot in Docker](running-pinot-in-docker.md).
 
 ### Preparing your data
 
