@@ -7,6 +7,12 @@ description: >-
 
 # Introduction
 
+{% hint style="info" %}
+This is the documentation snapshot for Apache Pinot **1.5.0**. See the
+[version reference](basics/getting-started/pinot-versions.md) and
+[1.5.0 release notes](basics/releases/1.5.0.md).
+{% endhint %}
+
 Apache Pinot™ is a real-time distributed online analytical processing (OLAP) datastore. Use Pinot to ingest and immediately query data from streaming or batch data sources (including, Apache Kafka, Amazon Kinesis, Hadoop HDFS, Amazon S3, Azure ADLS, and Google Cloud Storage).
 
 {% hint style="info" %}
