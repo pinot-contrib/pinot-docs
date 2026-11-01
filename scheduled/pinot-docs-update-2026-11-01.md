@@ -78,3 +78,29 @@
 
 ### Notifications
 - No Slack (no-op run stays quiet).
+
+
+## Run run-20261101T040123Z-1024 — 2026-11-01T04:02:32Z UTC — no-op
+
+**Outcome:** No new docs-relevant upstream PRs. Checkpoint unchanged.
+
+### Coverage
+- Durable checkpoint read from automation-state branch: `last_processed_merged_at=2026-10-31T11:11:36Z`.
+- Inventory of apache/pinot merges strictly after checkpoint (three agreeing methods):
+  - **search API** `is:pr is:merged merged:>2026-10-31T11:11:36Z`: `total_count=0`.
+  - **pulls API** `state=closed&sort=created&direction=desc&per_page=100`: `max(merged_at)=2026-10-31T11:11:36Z` (= checkpoint), **0** merged strictly after.
+  - **pulls API** `state=closed&sort=updated&direction=desc&per_page=100`: **0** merged strictly after checkpoint.
+- Broader cross-check `merged:>=2026-10-30` returned 14 PRs (20110, 20107, 20104, 20103, 20102, 20101, 20098, 20097, 20084, 20077, 20068, 20057, 19998, 19838), **all already in the 35-entry ledger**. 0 gaps.
+
+### Decisions
+- New docs-relevant PRs: **0**. No docs PRs created, no upstream comments, no checkpoint advance.
+
+### Preflight
+- gh auth OK as `xiangfu0`. apache/pinot: WRITE (push+triage). pinot-contrib/pinot-docs: ADMIN. automation-state branch present.
+- Durable store read/write verified; lease acquired (run-20261101T040123Z-1024) and released via Contents API CAS (state SHA 8151cb48->a551687d->f705dacd).
+
+### Blockers
+- None.
+
+### Notifications
+- No Slack (no-op run stays quiet).
