@@ -332,13 +332,13 @@
   },
   "notes": "Historical ledger prior to the initial checkpoint lives on the source Mac (not available in this runner). Do not backfill before last_processed_merged_at. Never advance the checkpoint past unprocessed/failed work.",
   "last_run_result": "noop",
-  "last_run_id": "run-20261101T180256Z-2310",
+  "last_run_id": "run-20261101T190122Z-996",
   "lock": {
-    "holder": null,
-    "status": "released",
+    "holder": "run-20261101T190122Z-996",
+    "status": "held",
+    "acquired_at": "2026-11-01T19:01:28Z",
     "prev_holder": "run-20261101T180256Z-2310",
-    "acquired_at": "2026-11-01T18:03:49Z",
-    "released_at": "2026-11-01T18:05:16Z"
+    "released_at": null
   },
   "last_run_summary": {
     "run_id": "run-20261101T180256Z-2310",
