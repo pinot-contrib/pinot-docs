@@ -579,3 +579,32 @@
 
 ### Notifications
 - No Slack (no-op run stays quiet).
+
+## Run run-20261101T220112Z-890 — 2026-11-01T22:01:31Z UTC — no-op
+
+**Outcome:** No new docs-relevant upstream PRs. Checkpoint unchanged.
+
+### Coverage
+- Durable checkpoint read from automation-state branch: `last_processed_merged_at=2026-10-31T11:11:36Z` (lease acquired via Contents API blob-SHA CAS; state SHA 97c086d3 -> e13b0cf0 -> 0010345506).
+- apache/pinot master tip (live API `repos/apache/pinot/commits/master`): `e9be2ee2` (#20110), committed exactly at checkpoint `2026-10-31T11:11:36Z`; already ledgered as not_relevant.
+- Inventory of merges strictly after checkpoint (three agreeing methods):
+  - **search/issues API** `repo:apache/pinot is:pr is:merged merged:>2026-10-31T11:11:36Z`: `total_count=0`.
+  - **git log** on fetched apache/pinot master `--since=checkpoint`: 0 commits strictly after (HEAD == #20110 at the inclusive boundary).
+  - **pulls API** `state=closed&sort=updated&direction=desc&per_page=30`: newest merged PR is #20110 at exactly checkpoint; the next 13 (20107, 19998, 20077, 20068, 20098, 20084, 20097, 20104, 19838, 20102, 20103, 20101, 20074) are all at/before checkpoint and already in the ledger. 0 gaps.
+- Note: local `/workspace/pinot` origin is the `xiangfu0/pinot` fork (shallow, 1 commit, stale HEAD #19809); used live apache/pinot GitHub API as authoritative for inventory/reconciliation.
+
+### Decisions
+- New docs-relevant PRs: **0**. No docs PRs created, no upstream comments, no checkpoint advance.
+
+### Validation
+- N/A (no docs changes produced this run).
+
+### Preflight
+- gh auth OK as `xiangfu0` (GH_TOKEN). apache/pinot: WRITE (push=true); pinot-contrib/pinot-docs: ADMIN (admin=true, push=true). automation-state branch present. Read-only preflight (no test PRs/Slack).
+- Durable store read AND write verified end-to-end this run: lease acquire + release both committed via Contents API blob-SHA CAS (the `gh-tentrix-wrap: no GitHub token minted` notice is cosmetic — writes succeed via ambient GH_TOKEN).
+
+### Blockers
+- None.
+
+### Notifications
+- No Slack (no-op run stays quiet).
